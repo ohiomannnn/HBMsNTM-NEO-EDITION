@@ -1,0 +1,25 @@
+{
+  "muke_explosion": {
+    "subtitle": "sounds.hbmsntm.muke_explosion",
+    "sounds": [
+      {
+        "name": "hbmsntm:explosion/muke_explosion"
+      }
+    ]
+  },
+  "grenade_bounce": {
+    "subtitle": "sounds.hbmsntm.grenade_bounce",
+    "sounds": [
+      "hbmsntm:weapon/grenade_bounce1",
+      "hbmsntm:weapon/grenade_bounce2",
+      "hbmsntm:weapon/grenade_bounce3"
+    ]
+  },
+  "duck": {
+    "subtitle": "sounds.hbmsntm.duck",
+    "sounds": [
+      "hbmsntm:entity/ducc1",
+      "hbmsntm:entity/ducc2"
+    ]
+  }
+}

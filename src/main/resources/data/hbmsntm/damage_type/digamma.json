@@ -1,0 +1,7 @@
+{
+  "message_id": "digamma",
+  "scaling": "never",
+  "exhaustion": 10,
+  "effects": "hurt",
+  "death_message_type": "default"
+}

@@ -1,0 +1,34 @@
+{
+  "creativetab.hbmsntm.block_tab": "Ores and Blocks Tab",
+  "creativetab.hbmsntm.weapontab": "Weapons and Explosive",
+
+  "block.hbmsntm.brick_concrete": "Concrete Brick",
+  "block.hbmsntm.brick_concrete_mossy": "Mossy Concrete Brick",
+  "block.hbmsntm.brick_concrete_cracked": "Cracked Concrete Brick",
+  "block.hbmsntm.brick_concrete_broken": "Broken Concrete Brick",
+  "block.hbmsntm.brick_concrete_marked": "Marked Concrete Brick",
+
+  "block.hbmsntm.brick_concrete_stairs": "Concrete Brick Stairs",
+  "block.hbmsntm.brick_concrete_mossy_stairs": "Mossy Concrete Brick Stairs",
+  "block.hbmsntm.brick_concrete_cracked_stairs": "Cracked Concrete Brick Stairs",
+  "block.hbmsntm.brick_concrete_broken_stairs": "Broken Concrete Brick Stairs",
+
+  "block.hbmsntm.brick_concrete_slab": "Concrete Brick Slab",
+  "block.hbmsntm.brick_concrete_mossy_slab": "Mossy Concrete Brick Slab",
+  "block.hbmsntm.brick_concrete_cracked_slab": "Cracked Concrete Brick Slab",
+  "block.hbmsntm.brick_concrete_broken_slab": "Broken Concrete Brick Slab",
+
+  "block.hbmsntm.test_bomb": "Test Bomb",
+
+  "item.hbmsntm.grenade": "Grenade",
+  "entity.hbmsntm.duck": "Duck",
+
+  "sounds.hbmsntm.grenade_bounce": "Grenade bounces",
+  "sounds.hbmsntm.duck": "ducc",
+  "sounds.hbmsntm.muke_explosion": "Something exploded with force",
+
+  "death.attack.digamma": "%s stepped into the abyss.",
+  "death.attack.blacklung": "%s died from black lung disease.",
+  "death.attack.asbestos": "%s is now entitled to financial compensation."
+
+}

@@ -1,0 +1,64 @@
+package com.hbm.hazard.type;
+
+import com.hbm.hazard.modifier.HazardModifier;
+import com.hbm.util.ContaminationUtil;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.List;
+
+public class HazardTypeRadiation extends HazardTypeBase {
+
+    @Override
+    public void onUpdate(LivingEntity target, float level, ItemStack stack) {
+        boolean reacher = false;
+
+//        if (target instanceof Player player) {
+//            reacher = player.getInventory().contains(new ItemStack(ModItems.REACHER.get()));
+//        }
+
+        level *= stack.getCount();
+
+        if (level > 0) {
+            float rad = level / 20F;
+
+//            if (GeneralConfig.enable528 && reacher) {
+//                rad = (float) (rad / 49F);
+//            } else if (reacher) {
+//                rad = (float) BobMathUtil.squirt(rad);
+//            }
+
+            ContaminationUtil.contaminate(target, ContaminationUtil.HazardType.RADIATION, ContaminationUtil.ContaminationType.CREATIVE, rad);
+        }
+    }
+
+    @Override
+    public void updateEntity(ItemEntity item, float level) {}
+
+    @Override
+    public void addHazardInformation(Player player, List list, float level, ItemStack stack, List<HazardModifier> modifiers) {
+        level = HazardModifier.evalAllModifiers(stack, player, level, modifiers);
+
+        if (level < 1e-5) {
+            return;
+        }
+
+        @SuppressWarnings("unchecked") // no
+        List<Component> components = (List<Component>) list;
+
+        components.add(Component.literal("[" + Component.translatable("trait.radioactive").getString() + "]")
+                .withStyle(ChatFormatting.GREEN));
+
+        String rad = "" + (Math.floor(level * 1000) / 1000);
+        components.add(Component.literal(rad + " RAD/s").withStyle(ChatFormatting.YELLOW));
+
+        if (stack.getCount() > 1) {
+            double total = Math.floor(level * 1000 * stack.getCount()) / 1000;
+            components.add(Component.literal("Stack: " + total + " RAD/s").withStyle(ChatFormatting.YELLOW));
+        }
+    }
+}

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "hbmsntm:block/brick_concrete_mossy_slab"
+    },
+    "type=double": {
+      "model": "hbmsntm:block/brick_concrete_mossy"
+    },
+    "type=top": {
+      "model": "hbmsntm:block/brick_concrete_mossy_slab_top"
+    }
+  }
+}
