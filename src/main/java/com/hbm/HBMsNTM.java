@@ -8,6 +8,7 @@ import com.hbm.item.ModItems;
 import com.hbm.lib.ModAttachments;
 import com.hbm.lib.ModCommands;
 import com.hbm.lib.ModSounds;
+import com.hbm.potions.ModPotions;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -30,6 +31,7 @@ public class HBMsNTM {
         ModSounds.register(modEventBus);
         ModCreativeTabs.register(modEventBus);
         ModAttachments.register(modEventBus);
+        ModPotions.register(modEventBus);
 
         NeoForge.EVENT_BUS.register(this);
 

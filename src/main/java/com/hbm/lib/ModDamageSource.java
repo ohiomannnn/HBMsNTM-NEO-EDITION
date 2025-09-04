@@ -15,4 +15,8 @@ public class ModDamageSource {
             = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "blacklung"));
     public static final ResourceKey<DamageType> TAINT
             = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "taint"));
+    public static final ResourceKey<DamageType> BANG
+            = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "bang"));
+    public static final ResourceKey<DamageType> LEAD
+            = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "bang"));
 }
