@@ -21,28 +21,27 @@ public class TaintEffect extends MobEffect {
 
     @Override
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
-        if (entity.level().isClientSide()) return false;
+        if (!entity.level().isClientSide) {
 
-        // Наносит урон, если сущность не является определённым типом
-        // Замените EntityCreeperTainted и EntityTaintCrab на ваши новые классы
-        // if (!(entity instanceof EntityCreeperTainted) && !(entity instanceof EntityTaintCrab)) {
-        DamageSource src = new DamageSource(
-                entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(TAINT)
-        );
-        entity.hurt(src, (float)(amplifier + 1));
-        // }
+            // if (!(entity instanceof EntityCreeperTainted) && !(entity instanceof EntityTaintCrab)) {
+            DamageSource src = new DamageSource(
+                    entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(TAINT)
+            );
+            entity.hurt(src, (float) (amplifier + 1));
+            // }
 
-        if (ServerConfig.ENABLE_TAINT_TRAIL.getAsBoolean()) {
-            Level level = entity.level();
-            BlockPos posBelow = entity.blockPosition().below();
-            BlockState stateBelow = level.getBlockState(posBelow);
+            if (ServerConfig.ENABLE_TAINT_TRAIL.getAsBoolean()) {
+                Level level = entity.level();
+                BlockPos posBelow = entity.blockPosition().below();
+                BlockState stateBelow = level.getBlockState(posBelow);
 
-            if (posBelow.getY() > level.getMinBuildHeight() && stateBelow.isSolid() && !stateBelow.isAir()) {
-                // ModBlocks.TAINT.get() - получаем блок из RegistryObject
+                if (posBelow.getY() > level.getMinBuildHeight() && stateBelow.isSolid() && !stateBelow.isAir()) {
+                    // ModBlocks.TAINT.get()
 //                level.setBlock(posBelow, ModBlocks.TAINT.get().defaultBlockState(), 3);
+                }
             }
         }
-        return false;
+        return true;
     }
 
     @Override

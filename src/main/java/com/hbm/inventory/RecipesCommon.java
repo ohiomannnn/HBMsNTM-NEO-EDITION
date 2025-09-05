@@ -1,12 +1,18 @@
 package com.hbm.inventory;
 
 import com.hbm.item.ModItems;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class RecipesCommon {
     public static abstract class AStack implements Comparable<AStack> {
@@ -26,15 +32,8 @@ public class RecipesCommon {
             }
 
             if (this instanceof OreDictStack odStack) {
-                // В новых версиях вместо OreDictionary нужно использовать Tags
-                // Здесь пример через ForgeRegistries
-                List<ItemStack> ores = odStack.toStacks();
-
-                for (ItemStack stack : ores) {
-                    if (stack.getItem() == comp.item && stack.getDamageValue() == comp.meta) {
-                        return true;
-                    }
-                }
+                // просто проверяем через тег
+                return comp.toStack().is(odStack.getTag());
             }
 
             return false;
@@ -112,7 +111,7 @@ public class RecipesCommon {
 
         @Override
         public int hashCode() {
-            return Objects.hash(ForgeRegistries.ITEMS.getKey(item), meta, stackSize);
+            return Objects.hash(BuiltInRegistries.ITEM.getKey(item), meta, stackSize);
         }
 
         @Override
@@ -120,14 +119,14 @@ public class RecipesCommon {
             if (this == obj) return true;
             if (!(obj instanceof ComparableStack other)) return false;
             if (!Objects.equals(item, other.item)) return false;
-            if (meta != other.meta) return false; // WILDCARD можно будет отдельно прикрутить
+            if (meta != other.meta) return false;
             return stackSize == other.stackSize;
         }
 
         @Override
         public int compareTo(AStack stack) {
             if (stack instanceof ComparableStack comp) {
-                int cmp = ForgeRegistries.ITEMS.getKey(item).compareTo(ForgeRegistries.ITEMS.getKey(comp.item));
+                int cmp = BuiltInRegistries.ITEM.getKey(item).compareTo(BuiltInRegistries.ITEM.getKey(comp.item));
                 if (cmp != 0) return cmp;
                 return Integer.compare(meta, comp.meta);
             }
@@ -156,5 +155,55 @@ public class RecipesCommon {
             return ignoreSize || stack.getCount() >= this.stackSize;
         }
     }
+    public static class OreDictStack extends AStack {
+        private final TagKey<Item> tag;
 
+        public OreDictStack(ResourceLocation tagName, int stackSize) {
+            this.tag = TagKey.create(Registries.ITEM, tagName);
+            this.stackSize = stackSize;
+        }
+
+        public OreDictStack(ResourceLocation tagName) {
+            this(tagName, 1);
+        }
+
+        public TagKey<Item> getTag() {
+            return tag;
+        }
+
+        @Override
+        public boolean matchesRecipe(ItemStack stack, boolean ignoreSize) {
+            if (stack.isEmpty()) return false;
+            if (!stack.is(tag)) return false;
+
+            if (!ignoreSize && stack.getCount() < this.stackSize) return false;
+
+            return true;
+        }
+
+        @Override
+        public AStack copy() {
+            return new OreDictStack(tag.location(), stackSize);
+        }
+
+        @Override
+        public List<ItemStack> extractForDisplay() {
+            return List.of();
+        }
+
+        public List<ItemStack> extractForNEI() {
+            // Достаём все предметы из тега через BuiltInRegistries
+            return BuiltInRegistries.ITEM
+                    .stream()
+                    .filter(item -> item.builtInRegistryHolder().is(tag))
+                    .map(Item::getDefaultInstance)
+                    .peek(stack -> stack.setCount(stackSize))
+                    .collect(Collectors.toList());
+        }
+
+        @Override
+        public int compareTo(@NotNull RecipesCommon.AStack o) {
+            return 0;
+        }
+    }
 }

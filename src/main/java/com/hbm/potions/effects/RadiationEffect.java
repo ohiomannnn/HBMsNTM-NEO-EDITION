@@ -11,13 +11,20 @@ public class RadiationEffect extends MobEffect {
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
-        ContaminationUtil.contaminate(entity, ContaminationUtil.HazardType.RADIATION, ContaminationUtil.ContaminationType.CREATIVE, (amplifier + 1F) * 0.05F);
-        return false;
+    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
+        return true;
     }
 
     @Override
-    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
+    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+        if (!entity.level().isClientSide) {
+            ContaminationUtil.contaminate(
+                    entity,
+                    ContaminationUtil.HazardType.RADIATION,
+                    ContaminationUtil.ContaminationType.CREATIVE,
+                    (amplifier + 1F) * 0.05F
+            );
+        }
         return true;
     }
 }

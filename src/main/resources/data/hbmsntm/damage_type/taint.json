@@ -1,0 +1,7 @@
+{
+  "message_id": "taint",
+  "scaling": "never",
+  "exhaustion": 5,
+  "effects": "hurt",
+  "death_message_type": "default"
+}

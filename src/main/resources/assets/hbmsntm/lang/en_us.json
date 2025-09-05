@@ -31,15 +31,16 @@
   "death.attack.blacklung": "%s died from black lung disease.",
   "death.attack.asbestos": "%s is now entitled to financial compensation.",
 
-  "effect.hbm.taint": "Taint",
-  "effect.hbm.radiation": "Radiation",
-  "effect.hbm.bang": "Bang",
-  "effect.hbm.mutation": "Mutation",
-  "effect.hbm.radx": "Rad-X",
-  "effect.hbm.lead": "Lead Poisoning",
-  "effect.hbm.radaway": "RadAway",
-  "effect.hbm.phosphorus": "Phosphorus Burn",
-  "effect.hbm.stability": "Stability",
-  "effect.hbm.potionsickness": "Potion Sickness",
-  "effect.hbm.death": "Sudden Death"
+  "effect.hbmsntm.taint": "Taint",
+  "effect.hbmsntm.radiation": "Radiation",
+  "effect.hbmsntm.bang": "Bang",
+  "effect.hbmsntm.mutation": "Mutation",
+  "effect.hbmsntm.radx": "Rad-X",
+  "effect.hbmsntm.lead": "Lead Poisoning",
+  "effect.hbmsntm.radaway": "RadAway",
+  "effect.hbmsntm.phosphorus": "Phosphorus Burn",
+  "effect.hbmsntm.stability": "Stability",
+  "effect.hbmsntm.potionsickness": "Potion Sickness",
+  "effect.hbmsntm.death": "Sudden Death",
+  "trait.radioactive": "Radiation"
 }

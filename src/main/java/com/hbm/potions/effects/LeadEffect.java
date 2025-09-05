@@ -7,7 +7,6 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 
 import static com.hbm.lib.ModDamageSource.LEAD;
-import static com.hbm.lib.ModDamageSource.TAINT;
 
 public class LeadEffect extends MobEffect {
     public LeadEffect(MobEffectCategory category, int color) {

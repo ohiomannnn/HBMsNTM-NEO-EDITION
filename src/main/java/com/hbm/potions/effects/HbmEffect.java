@@ -4,19 +4,13 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 
-public class PhosphorusEffect extends MobEffect {
-    public PhosphorusEffect(MobEffectCategory category, int color) {
+public class HbmEffect extends MobEffect {
+    public HbmEffect(MobEffectCategory category, int color) {
         super(category, color);
     }
 
     @Override
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
-        entity.setRemainingFireTicks(amplifier);
         return false;
-    }
-
-    @Override
-    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
-        return true;
     }
 }

@@ -11,7 +11,6 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 
 import static com.hbm.lib.ModDamageSource.BANG;
-import static com.hbm.lib.ModDamageSource.TAINT;
 
 public class BangEffect extends MobEffect {
 
@@ -21,7 +20,7 @@ public class BangEffect extends MobEffect {
 
     @Override
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
-        if (entity.level().isClientSide()) return false;
+        if (entity.level().isClientSide) return false;
 
         DamageSource src = new DamageSource(
                 entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(BANG)
@@ -29,7 +28,6 @@ public class BangEffect extends MobEffect {
         entity.hurt(src, Float.MAX_VALUE);
         entity.kill();
 
-        // Воспроизводим звук и частицы (вам нужно будет зарегистрировать свой звук)
         // entity.level().playSound(null, entity.getX(), entity.getY(), entity.getZ(), ModSounds.LASER_BANG.get(), entity.getSoundSource(), 100.0F, 1.0F);
 //        ExplosionLarge.spawnParticles(entity.level(), entity.getX(), entity.getY(), entity.getZ(), 10);
 

@@ -9,8 +9,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.util.function.Supplier;
-
 public class ModPotions {
     public static final DeferredRegister<MobEffect> MOB_EFFECTS =
             DeferredRegister.create(BuiltInRegistries.MOB_EFFECT, HBMsNTM.MODID);
@@ -24,10 +22,10 @@ public class ModPotions {
     public static final DeferredHolder<MobEffect, BangEffect> BANG = MOB_EFFECTS.register("bang",
             () -> new BangEffect(MobEffectCategory.HARMFUL, 0x111111));
 
-    public static final Supplier<MobEffect> MUTATION = MOB_EFFECTS.register("mutation",
+    public static final DeferredHolder<MobEffect, HbmEffect> MUTATION = MOB_EFFECTS.register("mutation",
             () -> new HbmEffect(MobEffectCategory.BENEFICIAL, 0x800080));
 
-    public static final Supplier<MobEffect> RADX = MOB_EFFECTS.register("radx",
+    public static final DeferredHolder<MobEffect, HbmEffect> RADX = MOB_EFFECTS.register("radx",
             () -> new HbmEffect(MobEffectCategory.BENEFICIAL, 0xBB4B00));
 
     public static final DeferredHolder<MobEffect, LeadEffect> LEAD = MOB_EFFECTS.register("lead",
@@ -39,13 +37,13 @@ public class ModPotions {
     public static final DeferredHolder<MobEffect, PhosphorusEffect> PHOSPHORUS = MOB_EFFECTS.register("phosphorus",
             () -> new PhosphorusEffect(MobEffectCategory.HARMFUL, 0xFFFF00));
 
-    public static final Supplier<MobEffect> STABILITY = MOB_EFFECTS.register("stability",
+    public static final DeferredHolder<MobEffect, HbmEffect> STABILITY = MOB_EFFECTS.register("stability",
             () -> new HbmEffect(MobEffectCategory.BENEFICIAL, 0xD0D0D0));
 
-    public static final Supplier<MobEffect> POTIONSICKNESS = MOB_EFFECTS.register("potionsickness",
+    public static final DeferredHolder<MobEffect, HbmEffect> POTIONSICKNESS = MOB_EFFECTS.register("potionsickness",
             () -> new HbmEffect(MobEffectCategory.NEUTRAL, 0xff8080));
 
-    public static final Supplier<MobEffect> DEATH = MOB_EFFECTS.register("death",
+    public static final DeferredHolder<MobEffect, HbmEffect> DEATH = MOB_EFFECTS.register("death",
             () -> new HbmEffect(MobEffectCategory.HARMFUL, 0x111111));
 
 

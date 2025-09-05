@@ -124,21 +124,18 @@ public class HazardSystem {
     }
 
     public static void updatePlayerInventory(Player player) {
-        // Основной инвентарь
         for (ItemStack stack : player.getInventory().items) {
             if (!stack.isEmpty()) {
                 applyHazards(stack, player);
             }
         }
 
-        // Броня
         for (ItemStack stack : player.getInventory().armor) {
             if (!stack.isEmpty()) {
                 applyHazards(stack, player);
             }
         }
 
-        // Оффхенд
         for (ItemStack stack : player.getInventory().offhand) {
             if (!stack.isEmpty()) {
                 applyHazards(stack, player);
