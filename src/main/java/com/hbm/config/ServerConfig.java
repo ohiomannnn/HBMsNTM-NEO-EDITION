@@ -33,6 +33,10 @@ public class ServerConfig {
             .comment("Toggles the world radiation system (chunk radiation only, some blocks use an AoE!)")
             .translation("config.hbmsntm.enablerad")
             .define("enablerad", true);
+    public static final ModConfigSpec.BooleanValue ENABLE_PRISM_RAD = BUILDER
+            .comment("Toggles PRISM radiation system")
+            .translation("config.hbmsntm.enablerad")
+            .define("enableprismrad", true);
 
     static {
        BUILDER.pop();

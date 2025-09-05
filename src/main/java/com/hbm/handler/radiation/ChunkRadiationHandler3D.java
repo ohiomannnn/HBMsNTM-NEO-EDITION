@@ -8,7 +8,6 @@ import java.util.Set;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.chunk.ChunkSource;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.level.ChunkDataEvent;
@@ -117,7 +116,6 @@ public class ChunkRadiationHandler3D extends ChunkRadiationHandler {
         }
     }
 
-    // заменяем MathHelper.clamp_int
     private static int clamp(int value, int min, int max) {
         return Math.min(Math.max(value, min), max);
     }

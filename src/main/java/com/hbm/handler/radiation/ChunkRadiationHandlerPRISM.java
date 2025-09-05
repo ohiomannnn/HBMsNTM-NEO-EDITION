@@ -322,6 +322,7 @@ public class ChunkRadiationHandlerPRISM extends ChunkRadiationHandler {
 //        }
 
         public float getTransparency(Direction dir) {
+            if (level == null) return 0;
             int x = baseX + 8;
             int y = baseY + 8;
             int z = baseZ + 8;

@@ -22,11 +22,11 @@ public class ModPotions {
     public static final DeferredHolder<MobEffect, BangEffect> BANG = MOB_EFFECTS.register("bang",
             () -> new BangEffect(MobEffectCategory.HARMFUL, 0x111111));
 
-    public static final DeferredHolder<MobEffect, HbmEffect> MUTATION = MOB_EFFECTS.register("mutation",
-            () -> new HbmEffect(MobEffectCategory.BENEFICIAL, 0x800080));
+    public static final DeferredHolder<MobEffect, GenericEffect> MUTATION = MOB_EFFECTS.register("mutation",
+            () -> new GenericEffect(MobEffectCategory.BENEFICIAL, 0x800080));
 
-    public static final DeferredHolder<MobEffect, HbmEffect> RADX = MOB_EFFECTS.register("radx",
-            () -> new HbmEffect(MobEffectCategory.BENEFICIAL, 0xBB4B00));
+    public static final DeferredHolder<MobEffect, GenericEffect> RADX = MOB_EFFECTS.register("radx",
+            () -> new GenericEffect(MobEffectCategory.BENEFICIAL, 0xBB4B00));
 
     public static final DeferredHolder<MobEffect, LeadEffect> LEAD = MOB_EFFECTS.register("lead",
             () -> new LeadEffect(MobEffectCategory.HARMFUL, 0x767682));
@@ -37,14 +37,14 @@ public class ModPotions {
     public static final DeferredHolder<MobEffect, PhosphorusEffect> PHOSPHORUS = MOB_EFFECTS.register("phosphorus",
             () -> new PhosphorusEffect(MobEffectCategory.HARMFUL, 0xFFFF00));
 
-    public static final DeferredHolder<MobEffect, HbmEffect> STABILITY = MOB_EFFECTS.register("stability",
-            () -> new HbmEffect(MobEffectCategory.BENEFICIAL, 0xD0D0D0));
+    public static final DeferredHolder<MobEffect, GenericEffect> STABILITY = MOB_EFFECTS.register("stability",
+            () -> new GenericEffect(MobEffectCategory.BENEFICIAL, 0xD0D0D0));
 
-    public static final DeferredHolder<MobEffect, HbmEffect> POTIONSICKNESS = MOB_EFFECTS.register("potionsickness",
-            () -> new HbmEffect(MobEffectCategory.NEUTRAL, 0xff8080));
+    public static final DeferredHolder<MobEffect, GenericEffect> POTIONSICKNESS = MOB_EFFECTS.register("potionsickness",
+            () -> new GenericEffect(MobEffectCategory.NEUTRAL, 0xff8080));
 
-    public static final DeferredHolder<MobEffect, HbmEffect> DEATH = MOB_EFFECTS.register("death",
-            () -> new HbmEffect(MobEffectCategory.HARMFUL, 0x111111));
+    public static final DeferredHolder<MobEffect, GenericEffect> DEATH = MOB_EFFECTS.register("death",
+            () -> new GenericEffect(MobEffectCategory.HARMFUL, 0x111111));
 
 
     public static void register(IEventBus eventBus) {

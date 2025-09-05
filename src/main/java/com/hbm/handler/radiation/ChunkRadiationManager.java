@@ -1,5 +1,6 @@
 package com.hbm.handler.radiation;
 
+import com.hbm.HBMsNTM;
 import com.hbm.config.ServerConfig;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.level.ChunkDataEvent;
@@ -9,7 +10,17 @@ import net.neoforged.neoforge.event.tick.ServerTickEvent;
 
 public class ChunkRadiationManager {
 
-    public static ChunkRadiationHandler proxy = new ChunkRadiationHandlerSimple();
+    public static ChunkRadiationHandler proxy;
+
+    public static void initProxy() {
+        if (ServerConfig.ENABLE_PRISM_RAD.getAsBoolean()) {
+            proxy = new ChunkRadiationHandlerPRISM();
+            HBMsNTM.LOGGER.info("Using PRISM radiation system");
+        } else {
+            proxy = new ChunkRadiationHandlerSimple();
+            HBMsNTM.LOGGER.info("Using simple radiation system");
+        }
+    }
     private int eggTimer = 0;
 
     @SubscribeEvent

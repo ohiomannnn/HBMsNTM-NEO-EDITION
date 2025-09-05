@@ -10,6 +10,7 @@ import com.hbm.config.ServerConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
@@ -193,13 +194,16 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
                         BlockPos pos = new BlockPos(x, y, z);
                         BlockState state = level.getBlockState(pos);
 
+                        // заменяем только траву на waste_earth
                         if (state.is(Blocks.GRASS_BLOCK)) {
                             level.setBlock(pos, ModBlocks.WASTE_EARTH.get().defaultBlockState(), 3);
 
+                            // убираем высокую траву
                         } else if (state.is(Blocks.TALL_GRASS)) {
                             level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
 
-                        } else if (state.canBeReplaced() && !state.is(ModBlocks.WASTE_LEAVES)) {
+                            // заменяем только листья на waste_leaves
+                        } else if (state.is(BlockTags.LEAVES)) {
                             if (level.random.nextInt(7) <= 5) {
                                 level.setBlock(pos, ModBlocks.WASTE_LEAVES.get().defaultBlockState(), 3);
                             } else {
@@ -211,4 +215,5 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
             }
         }
     }
+
 }

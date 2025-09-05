@@ -51,5 +51,6 @@
 
   "geiger.title": "GEIGER COUNTER",
   "geiger.envRad": "Total environmental radiation:",
-  "geiger.playerRad": "Player contamination"
+  "geiger.playerRad": "Player contamination",
+  "geiger.chunkRad": "Current chunk radiation:"
 }

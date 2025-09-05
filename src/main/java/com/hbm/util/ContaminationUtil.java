@@ -3,6 +3,8 @@ package com.hbm.util;
 import api.hbm.entity.IRadiationImmune;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.extprop.HbmLivingProps;
+import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.potions.ModPotions;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -36,9 +38,9 @@ public class ContaminationUtil {
     public static HashSet<Class<?>> immuneEntities = new HashSet<>();
 
     public static boolean isRadImmune(Entity entity) {
-//        if (entity instanceof LivingEntity entity && entity.hasEffect(HbmPotion.mutation)) {
-//            return true;
-//        }
+        if (entity instanceof LivingEntity && ((LivingEntity) entity).hasEffect(ModPotions.MUTATION)) {
+            return true;
+        }
 
         if (immuneEntities.isEmpty()) {
 //            immuneEntities.add(EntityCreeperNuclear.class);
@@ -105,16 +107,16 @@ public class ContaminationUtil {
         Level world = player.level();
 
         float eRad = (float) ((HbmLivingProps.getData(player).serializeNBT().getFloat("hfr_radiation") * 10) / 10D);
-//        double rads = Math.floor(ChunkRadiationManager.proxy.getRadiation(world,
-//                player.blockPosition().getX(),
-//                player.blockPosition().getY(),
-//                player.blockPosition().getZ()) * 10) / 10D;
+        double rads = Math.floor(ChunkRadiationManager.proxy.getRadiation(world,
+                player.blockPosition().getX(),
+                player.blockPosition().getY(),
+                player.blockPosition().getZ()) * 10) / 10D;
         double env = Math.floor(HbmLivingProps.getRadBuf(player) * 10D) / 10D;
 
         double res = Math.floor((10000D - ContaminationUtil.calculateRadiationMod(player) * 10000D)) / 100D;
 //        double resCoefficient = Math.floor(HazmatRegistry.getResistance(player) * 100D) / 100D;
 
-//        String chunkPrefix = getPrefixFromRad(rads);
+        String chunkPrefix = getPrefixFromRad(rads);
         String envPrefix = getPrefixFromRad(env);
         String radPrefix = "";
 
@@ -132,11 +134,11 @@ public class ContaminationUtil {
                         .setStyle(Style.EMPTY.withColor(ChatFormatting.GOLD)),
                 false);
 
-//        player.displayClientMessage(
-//                Component.translatable("geiger.chunkRad")
-//                        .append(Component.literal(" " + chunkPrefix + rads + " RAD/s"))
-//                        .setStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)),
-//                false);
+        player.displayClientMessage(
+                Component.translatable("geiger.chunkRad")
+                        .append(Component.literal(" " + chunkPrefix + rads + " RAD/s"))
+                        .setStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)),
+                false);
 
         player.displayClientMessage(
                 Component.translatable("geiger.envRad")
@@ -181,10 +183,6 @@ public class ContaminationUtil {
         RAD_BYPASS,			//same as creative but will not apply radiation resistance calculation
         NONE				//not preventable
     }
-    /*
-     * This system is nice but the cont types are a bit confusing. Cont types should have much better names and multiple cont types should be applicable.
-     */
-    //instead of this does-everything-but-nothing-well solution, please use the ArmorRegistry to check for protection and the HBM Props for applying contamination. still good for regular radiation tho
     public static void contaminate(LivingEntity entity, HazardType hazard, ContaminationType cont, float amount) {
 
         if (hazard == HazardType.RADIATION) {
