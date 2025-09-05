@@ -18,6 +18,8 @@ public class ModSounds {
 
     public static final Supplier<SoundEvent> DUCK = registerSoundEvent("duck");
 
+    public static final Supplier<SoundEvent> TECH_BOOP = registerSoundEvent("tech_boop");
+
     private static Supplier<SoundEvent> registerSoundEvent(String name) {
         ResourceLocation id = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, name);
         return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(id));

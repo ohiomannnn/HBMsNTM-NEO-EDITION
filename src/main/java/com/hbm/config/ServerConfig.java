@@ -11,10 +11,28 @@ public class ServerConfig {
         BUILDER.push("radiation");
     }
 
+    public static final ModConfigSpec.IntValue FOG_RAD = BUILDER
+            .comment("Radiation in RADs required for fog to spawn")
+            .translation("config.hbmsntm.fograd")
+            .defineInRange("fograd", 20, 0, Integer.MAX_VALUE);
+    public static final ModConfigSpec.IntValue FOG_CHANCE = BUILDER
+            .comment("1:n chance of fog spawning every second")
+            .translation("config.hbmsntm.fogch")
+            .defineInRange("fogch", 100, 0, Integer.MAX_VALUE);
+    public static final ModConfigSpec.BooleanValue WORLD_RAD_EFFECTS = BUILDER
+            .comment("Whether high radiation levels should perform changes in the world")
+            .translation("config.hbmsntm.fogch")
+            .define("enablerad", true);
+
+
     public static final ModConfigSpec.BooleanValue ENABLE_CONTAMINATION = BUILDER
-            .comment("enables or disables contamination")
-            .translation("config.hbmsntm.enableRad")
-            .define("enableRad", true);
+            .comment("Toggles player contamination (and negative effects from radiation poisoning)")
+            .translation("config.hbmsntm.enablerad")
+            .define("enablerad", true);
+    public static final ModConfigSpec.BooleanValue ENABLE_CHUNK_RADS = BUILDER
+            .comment("Toggles the world radiation system (chunk radiation only, some blocks use an AoE!)")
+            .translation("config.hbmsntm.enablerad")
+            .define("enablerad", true);
 
     static {
        BUILDER.pop();

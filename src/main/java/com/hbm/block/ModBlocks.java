@@ -7,11 +7,9 @@ import com.hbm.block.withInteraction.ConcreteBrickMarked;
 import com.hbm.item.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -57,6 +55,24 @@ public class ModBlocks {
     public static final DeferredBlock<Block> TEST_BOMB = registerBlock("test_bomb",
             () -> new TestBomb(BlockBehaviour.Properties.of()
                     .sound(SoundType.METAL)));
+
+    public static final DeferredBlock<Block> WASTE_EARTH = registerBlock("waste_earth",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(0.6F)
+                    .sound(SoundType.GRASS)));
+    public static final DeferredBlock<Block> WASTE_LOG = registerBlock("waste_log",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.of()
+                    .strength(5.0F)
+                    .explosionResistance(2.5F)
+                    .sound(SoundType.WOOD)));
+    public static final DeferredBlock<Block> WASTE_LEAVES = registerBlock("waste_leaves",
+            () -> new LeavesBlock(BlockBehaviour.Properties.of()
+                    .strength(0.1F)
+                    .randomTicks()
+                    .noOcclusion()
+                    .isSuffocating((state, level, pos) -> false)
+                    .isViewBlocking((state, level, pos) -> false)
+                    .sound(SoundType.GRASS)));
     public static final DeferredBlock<Block> TAINT = registerBlock("taint",
             () -> new TaintBlock(BlockBehaviour.Properties.of()
                     .sound(SoundType.SLIME_BLOCK)));

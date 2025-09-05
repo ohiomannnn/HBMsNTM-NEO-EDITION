@@ -43,6 +43,7 @@ public class ModCreativeTabs {
                     .title(Component.translatable("creativetab.hbmsntm.weapontab"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.GRENADE);
+                        output.accept(ModItems.GEIGER_COUNTER);
                     }).build());
 
 

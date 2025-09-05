@@ -21,5 +21,11 @@
       "hbmsntm:entity/ducc1",
       "hbmsntm:entity/ducc2"
     ]
+  },
+  "techboop": {
+    "subtitle": "sounds.hbmsntm.techboop",
+    "sounds": [
+      "hbmsntm:tech/techboop"
+    ]
   }
 }

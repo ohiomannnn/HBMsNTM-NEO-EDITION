@@ -4,6 +4,7 @@ import com.hbm.block.ModBlocks;
 import com.hbm.config.ServerConfig;
 import com.hbm.creativetabs.ModCreativeTabs;
 import com.hbm.entity.ModEntities;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.item.ModItems;
 import com.hbm.lib.ModAttachments;
 import com.hbm.lib.ModCommands;
@@ -24,6 +25,8 @@ public class HBMsNTM {
     public static final String MODID = "hbmsntm";
     public static final Logger LOGGER = LoggerFactory.getLogger("hbmsntm");
 
+    public static final ChunkRadiationManager radiationManager = new ChunkRadiationManager();
+
     public HBMsNTM(IEventBus modEventBus, ModContainer modContainer) {
         ModBlocks.register(modEventBus);
         ModItems.register(modEventBus);
@@ -33,6 +36,7 @@ public class HBMsNTM {
         ModAttachments.register(modEventBus);
         ModPotions.register(modEventBus);
 
+        NeoForge.EVENT_BUS.register(radiationManager);
         NeoForge.EVENT_BUS.register(this);
 
         modContainer.registerConfig(ModConfig.Type.SERVER, ServerConfig.SPEC);
