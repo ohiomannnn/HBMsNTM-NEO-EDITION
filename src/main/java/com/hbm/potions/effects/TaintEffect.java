@@ -1,5 +1,6 @@
 package com.hbm.potions.effects;
 
+import com.hbm.block.ModBlocks;
 import com.hbm.config.ServerConfig;
 import com.hbm.lib.ModDamageSource;
 import net.minecraft.core.BlockPos;
@@ -35,9 +36,8 @@ public class TaintEffect extends MobEffect {
                 BlockPos posBelow = entity.blockPosition().below();
                 BlockState stateBelow = level.getBlockState(posBelow);
 
-                if (posBelow.getY() > level.getMinBuildHeight() && stateBelow.isSolid() && !stateBelow.isAir()) {
-                    // ModBlocks.TAINT.get()
-//                level.setBlock(posBelow, ModBlocks.TAINT.get().defaultBlockState(), 3);
+                if (posBelow.getY() > level.getMinBuildHeight() && stateBelow.canOcclude() && !stateBelow.isAir()) {
+                    level.setBlock(posBelow, ModBlocks.TAINT.get().defaultBlockState(), 3);
                 }
             }
         }

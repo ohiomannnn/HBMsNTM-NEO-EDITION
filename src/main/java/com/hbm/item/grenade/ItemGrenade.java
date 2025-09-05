@@ -15,8 +15,8 @@ import net.minecraft.world.level.Level;
 
 public class ItemGrenade extends Item {
 
-    public ItemGrenade() {
-        super(new Properties().stacksTo(16).rarity(Rarity.UNCOMMON));
+    public ItemGrenade(Properties properties) {
+        super(properties);
     }
 
     @Override

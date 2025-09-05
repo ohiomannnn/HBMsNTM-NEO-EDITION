@@ -21,6 +21,8 @@
   "block.hbmsntm.test_bomb": "Test Bomb",
 
   "item.hbmsntm.grenade": "Grenade",
+  "item.hbmsntm.nothing": "Nothing",
+
   "entity.hbmsntm.duck": "Duck",
 
   "sounds.hbmsntm.grenade_bounce": "Grenade bounces",
@@ -30,6 +32,8 @@
   "death.attack.digamma": "%s stepped into the abyss.",
   "death.attack.blacklung": "%s died from black lung disease.",
   "death.attack.asbestos": "%s is now entitled to financial compensation.",
+  "death.attack.taint": "%s died from flux tumors.",
+  "death.attack.radiation": "%s died from radiation poisoning.",
 
   "effect.hbmsntm.taint": "Taint",
   "effect.hbmsntm.radiation": "Radiation",
@@ -42,5 +46,9 @@
   "effect.hbmsntm.stability": "Stability",
   "effect.hbmsntm.potionsickness": "Potion Sickness",
   "effect.hbmsntm.death": "Sudden Death",
-  "trait.radioactive": "Radiation"
+
+  "trait.radioactive": "Radiation",
+  "geiger.title": "Geiger Counter",
+  "geiger.envRad": "Enviorment Radiation",
+  "geiger.playerRad": "Your Radiation"
 }

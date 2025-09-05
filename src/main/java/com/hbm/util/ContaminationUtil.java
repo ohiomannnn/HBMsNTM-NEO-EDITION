@@ -3,6 +3,9 @@ package com.hbm.util;
 import api.hbm.entity.IRadiationImmune;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.extprop.HbmLivingProps;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -10,6 +13,7 @@ import net.minecraft.world.entity.animal.MushroomCow;
 import net.minecraft.world.entity.animal.Ocelot;
 import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.level.Level;
 
 import java.util.HashSet;
 
@@ -97,70 +101,70 @@ public class ContaminationUtil {
     }
 
 
-//    public static void printGeigerData(ServerPlayer player) {
-//        Level world = player.level();
-//
-//        double eRad = (double) (HbmLivingProps.getRadiation(player) * 10) / 10D;
+    public static void printGeigerData(ServerPlayer player) {
+        Level world = player.level();
+
+        float eRad = (float) ((HbmLivingProps.getData(player).serializeNBT().getFloat("hfr_radiation") * 10) / 10D);
 //        double rads = Math.floor(ChunkRadiationManager.proxy.getRadiation(world,
 //                player.blockPosition().getX(),
 //                player.blockPosition().getY(),
 //                player.blockPosition().getZ()) * 10) / 10D;
-//        double env = Math.floor(HbmLivingProps.getRadBuf(player) * 10D) / 10D;
-//
-//        double res = Math.floor((10000D - ContaminationUtil.calculateRadiationMod(player) * 10000D)) / 100D;
+        double env = Math.floor(HbmLivingProps.getRadBuf(player) * 10D) / 10D;
+
+        double res = Math.floor((10000D - ContaminationUtil.calculateRadiationMod(player) * 10000D)) / 100D;
 //        double resCoefficient = Math.floor(HazmatRegistry.getResistance(player) * 100D) / 100D;
-//
+
 //        String chunkPrefix = getPrefixFromRad(rads);
-//        String envPrefix = getPrefixFromRad(env);
-//        String radPrefix = "";
-//
-//        if (eRad < 200) radPrefix += ChatFormatting.GREEN;
-//        else if (eRad < 400) radPrefix += ChatFormatting.YELLOW;
-//        else if (eRad < 600) radPrefix += ChatFormatting.GOLD;
-//        else if (eRad < 800) radPrefix += ChatFormatting.RED;
-//        else if (eRad < 1000) radPrefix += ChatFormatting.DARK_RED;
-//        else radPrefix += ChatFormatting.DARK_GRAY;
-//
-//        player.displayClientMessage(
-//                Component.literal("===== ☢ ")
-//                        .append(Component.translatable("geiger.title"))
-//                        .append(Component.literal(" ☢ ====="))
-//                        .setStyle(Style.EMPTY.withColor(ChatFormatting.GOLD)),
-//                false);
-//
+        String envPrefix = getPrefixFromRad(env);
+        String radPrefix = "";
+
+        if (eRad < 200) radPrefix += ChatFormatting.GREEN;
+        else if (eRad < 400) radPrefix += ChatFormatting.YELLOW;
+        else if (eRad < 600) radPrefix += ChatFormatting.GOLD;
+        else if (eRad < 800) radPrefix += ChatFormatting.RED;
+        else if (eRad < 1000) radPrefix += ChatFormatting.DARK_RED;
+        else radPrefix += ChatFormatting.DARK_GRAY;
+
+        player.displayClientMessage(
+                Component.literal("===== ☢ ")
+                        .append(Component.translatable("geiger.title"))
+                        .append(Component.literal(" ☢ ====="))
+                        .setStyle(Style.EMPTY.withColor(ChatFormatting.GOLD)),
+                false);
+
 //        player.displayClientMessage(
 //                Component.translatable("geiger.chunkRad")
 //                        .append(Component.literal(" " + chunkPrefix + rads + " RAD/s"))
 //                        .setStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)),
 //                false);
-//
-//        player.displayClientMessage(
-//                Component.translatable("geiger.envRad")
-//                        .append(Component.literal(" " + envPrefix + env + " RAD/s"))
-//                        .setStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)),
-//                false);
-//
-//        player.displayClientMessage(
-//                Component.translatable("geiger.playerRad")
-//                        .append(Component.literal(" " + radPrefix + eRad + " RAD"))
-//                        .setStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)),
-//                false);
-//
+
+        player.displayClientMessage(
+                Component.translatable("geiger.envRad")
+                        .append(Component.literal(" " + envPrefix + env + " RAD/s"))
+                        .setStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)),
+                false);
+
+        player.displayClientMessage(
+                Component.translatable("geiger.playerRad")
+                        .append(Component.literal(" " + radPrefix + eRad + " RAD"))
+                        .setStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)),
+                false);
+
 //        player.displayClientMessage(
 //                Component.translatable("geiger.playerRes")
 //                        .append(Component.literal(" " + ChatFormatting.GREEN + res + "% (" + resKoeff + ")"))
 //                        .setStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)),
 //                false);
-//    }
-//
-//    public static String getPrefixFromRad(double rads) {
-//        if (rads == 0) return ChatFormatting.GREEN.toString();
-//        else if (rads < 1) return ChatFormatting.YELLOW.toString();
-//        else if (rads < 10) return ChatFormatting.GOLD.toString();
-//        else if (rads < 100) return ChatFormatting.RED.toString();
-//        else if (rads < 1000) return ChatFormatting.DARK_RED.toString();
-//        else return ChatFormatting.DARK_GRAY.toString();
-//    }
+    }
+
+    public static String getPrefixFromRad(double rads) {
+        if (rads == 0) return ChatFormatting.GREEN.toString();
+        else if (rads < 1) return ChatFormatting.YELLOW.toString();
+        else if (rads < 10) return ChatFormatting.GOLD.toString();
+        else if (rads < 100) return ChatFormatting.RED.toString();
+        else if (rads < 1000) return ChatFormatting.DARK_RED.toString();
+        else return ChatFormatting.DARK_GRAY.toString();
+    }
 
     public enum HazardType {
         RADIATION,

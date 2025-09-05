@@ -96,7 +96,7 @@ public class RecipesCommon {
         }
 
         public ComparableStack(Block block) {
-            this(Item.byBlock(block));
+            this(block.asItem());
         }
 
         public ComparableStack(Item item, int stacksize, int meta) {
@@ -191,8 +191,7 @@ public class RecipesCommon {
             return List.of();
         }
 
-        public List<ItemStack> extractForNEI() {
-            // Достаём все предметы из тега через BuiltInRegistries
+        public List<ItemStack> extractForJEI() {
             return BuiltInRegistries.ITEM
                     .stream()
                     .filter(item -> item.builtInRegistryHolder().is(tag))

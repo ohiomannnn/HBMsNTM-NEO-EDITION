@@ -3,6 +3,7 @@
   "values": [
     "hbmsntm:digamma",
     "hbmsntm:blacklung",
-    "hbmsntm:asbestos"
+    "hbmsntm:asbestos",
+    "hbmsntm:taint"
   ]
 }

@@ -28,6 +28,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.BRICK_CONCRETE_CRACKED_STAIRS.get());
 
         dropSelf(ModBlocks.TEST_BOMB.get());
+        dropSelf(ModBlocks.TAINT.get());
 
         add(ModBlocks.BRICK_CONCRETE_SLAB.get(),
                 block -> createSlabItemTable(ModBlocks.BRICK_CONCRETE_SLAB.get()));

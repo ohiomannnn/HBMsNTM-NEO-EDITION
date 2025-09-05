@@ -2,6 +2,7 @@ package com.hbm.block;
 
 import com.hbm.HBMsNTM;
 import com.hbm.block.bomb.TestBomb;
+import com.hbm.block.taint.TaintBlock;
 import com.hbm.block.withInteraction.ConcreteBrickMarked;
 import com.hbm.item.ModItems;
 import net.minecraft.world.item.BlockItem;
@@ -56,6 +57,9 @@ public class ModBlocks {
     public static final DeferredBlock<Block> TEST_BOMB = registerBlock("test_bomb",
             () -> new TestBomb(BlockBehaviour.Properties.of()
                     .sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> TAINT = registerBlock("taint",
+            () -> new TaintBlock(BlockBehaviour.Properties.of()
+                    .sound(SoundType.SLIME_BLOCK)));
 
     // FOR STAIRS //
     public static final DeferredBlock<StairBlock> BRICK_CONCRETE_STAIRS = registerBlock("brick_concrete_stairs",
