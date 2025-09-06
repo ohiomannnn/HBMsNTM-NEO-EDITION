@@ -1,6 +1,9 @@
 package com.hbm.hazard.type;
 
+import com.hbm.config.ServerConfig;
 import com.hbm.hazard.modifier.HazardModifier;
+import com.hbm.item.ModItems;
+import com.hbm.util.MathUtil;
 import com.hbm.util.ContaminationUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -17,20 +20,20 @@ public class HazardTypeRadiation extends HazardTypeBase {
     public void onUpdate(LivingEntity target, float level, ItemStack stack) {
         boolean reacher = false;
 
-//        if (target instanceof Player player) {
-//            reacher = player.getInventory().contains(new ItemStack(ModItems.REACHER.get()));
-//        }
+        if (target instanceof Player player) {
+            reacher = player.getInventory().contains(new ItemStack(ModItems.REACHER.get()));
+        }
 
         level *= stack.getCount();
 
         if (level > 0) {
             float rad = level / 20F;
 
-//            if (GeneralConfig.enable528 && reacher) {
-//                rad = (float) (rad / 49F);
-//            } else if (reacher) {
-//                rad = (float) BobMathUtil.squirt(rad);
-//            }
+            if (ServerConfig.ENABLE_528.getAsBoolean() && reacher) {
+                rad = rad / 49F;
+            } else if (reacher) {
+                rad = (float) MathUtil.squirt(rad);
+            }
 
             ContaminationUtil.contaminate(target, ContaminationUtil.HazardType.RADIATION, ContaminationUtil.ContaminationType.CREATIVE, rad);
         }

@@ -19,6 +19,8 @@ public class ModItems {
             () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> GEIGER_COUNTER = ITEMS.register("geiger_counter",
             () -> new ItemGeigerCounter(new Item.Properties()));
+    public static final DeferredItem<Item> REACHER = ITEMS.register("reacher",
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
 
     public static void register(IEventBus eventBus) {

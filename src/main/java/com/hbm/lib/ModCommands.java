@@ -51,7 +51,7 @@ public class ModCommands {
 
                                                     String value;
                                                     switch (field.toLowerCase()) {
-                                                        case "radiation" -> value = String.valueOf(HbmLivingProps.getData(target).serializeNBT().getFloat("hfr_radiation"));
+                                                        case "radiation" -> value = String.valueOf(HbmLivingProps.getRadiation(target));
                                                         case "digamma" -> value = String.valueOf(HbmLivingProps.getDigamma(target));
                                                         case "asbestos" -> value = String.valueOf(HbmLivingProps.getAsbestos(target));
                                                         case "blacklung" -> value = String.valueOf(HbmLivingProps.getBlackLung(target));

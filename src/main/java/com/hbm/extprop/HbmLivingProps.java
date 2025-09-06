@@ -38,11 +38,10 @@ public class HbmLivingProps {
     private final List<ContaminationEffect> contamination = new ArrayList<>();
 
     public HbmLivingProps(IAttachmentHolder iAttachmentHolder) {
-        if (iAttachmentHolder instanceof LivingEntity e) {
-            this.entity = e;
+        if (iAttachmentHolder instanceof LivingEntity livingEntity) {
+            this.entity = livingEntity;
         }
     }
-
 
     public static HbmLivingProps getData(LivingEntity entity) {
         return entity.getData(ModAttachments.LIVING_PROPS);
@@ -50,7 +49,7 @@ public class HbmLivingProps {
 
     /// RADIATION ///
     public static float getRadiation(LivingEntity entity) {
-        if (ServerConfig.ENABLE_CONTAMINATION.getAsBoolean()) return 0;
+        if (!ServerConfig.ENABLE_CONTAMINATION.getAsBoolean()) return 0;
         return getData(entity).radiation;
     }
 
@@ -60,6 +59,7 @@ public class HbmLivingProps {
     }
 
     public static void incrementRadiation(LivingEntity entity, float rad) {
+        if (!ServerConfig.ENABLE_CONTAMINATION.getAsBoolean()) return;
         float radiation = getData(entity).radiation + rad;
 
         if (radiation > 2500)
@@ -111,15 +111,6 @@ public class HbmLivingProps {
             digamma = 0.0F;
 
         getData(entity).digamma = digamma;
-
-        if ((entity.getMaxHealth() <= 0 || digamma >= 10.0F) && entity.isAlive()) {
-            entity.setAbsorptionAmount(0);
-            DamageSource src = new DamageSource(
-                    entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DIGAMMA)
-            );
-            entity.hurt(src, Float.MAX_VALUE);
-            entity.setHealth(0);
-        }
     }
 
     public static void incrementDigamma(LivingEntity entity, float digamma) {
@@ -138,12 +129,12 @@ public class HbmLivingProps {
 
     /// ASBESTOS ///
     public static int getAsbestos(LivingEntity entity) {
-        if (ServerConfig.ENABLE_ASBESTOS.getAsBoolean()) return 0;
+        if (ServerConfig.DISABLE_ASBESTOS.getAsBoolean()) return 0;
         return getData(entity).asbestos;
     }
 
     public static void setAsbestos(LivingEntity entity, int asbestos) {
-        if (ServerConfig.ENABLE_ASBESTOS.getAsBoolean()) return;
+        if (ServerConfig.DISABLE_ASBESTOS.getAsBoolean()) return;
         getData(entity).asbestos = asbestos;
 
         if (asbestos >= maxAsbestos) {
@@ -156,18 +147,18 @@ public class HbmLivingProps {
     }
 
     public static void incrementAsbestos(LivingEntity entity, int asbestos) {
-        if (ServerConfig.ENABLE_ASBESTOS.getAsBoolean()) return;
+        if (ServerConfig.DISABLE_ASBESTOS.getAsBoolean()) return;
         setAsbestos(entity, getAsbestos(entity) + asbestos);
     }
 
     /// BLACK LUNG DISEASE ///
     public static int getBlackLung(LivingEntity entity) {
-        if (ServerConfig.ENABLE_BLACKLUNG.getAsBoolean()) return 0;
+        if (ServerConfig.DISABLE_COAL.getAsBoolean()) return 0;
         return getData(entity).blacklung;
     }
 
     public static void setBlackLung(LivingEntity entity, int blacklung) {
-        if (ServerConfig.ENABLE_BLACKLUNG.getAsBoolean()) return;
+        if (ServerConfig.DISABLE_COAL.getAsBoolean()) return;
         getData(entity).blacklung = blacklung;
 
         if (blacklung >= maxBlacklung) {
@@ -180,7 +171,7 @@ public class HbmLivingProps {
     }
 
     public static void incrementBlackLung(LivingEntity entity, int blacklung) {
-        if (ServerConfig.ENABLE_BLACKLUNG.getAsBoolean()) return;
+        if (ServerConfig.DISABLE_COAL.getAsBoolean()) return;
         setBlackLung(entity, getBlackLung(entity) + blacklung);
     }
 

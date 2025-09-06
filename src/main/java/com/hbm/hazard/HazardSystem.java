@@ -4,74 +4,128 @@ import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.hazard.transformer.HazardTransformerBase;
 import com.hbm.hazard.type.HazardTypeBase;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
-//import com.hbm.interfaces.Untested;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import java.util.*;
 
+
+/**
+ * Working fine
+ */
 public class HazardSystem {
 
-    public static final HashMap<String, HazardData> oreMap = new HashMap<>();
+    // --- ОБНОВЛЕННЫЕ КОЛЛЕКЦИИ ---
+    // String заменен на TagKey<Item> для работы с тегами вместо OreDictionary
+    public static final HashMap<TagKey<Item>, HazardData> tagMap = new HashMap<>();
     public static final HashMap<Item, HazardData> itemMap = new HashMap<>();
     public static final HashMap<ComparableStack, HazardData> stackMap = new HashMap<>();
+
     public static final HashSet<ComparableStack> stackBlacklist = new HashSet<>();
-    public static final HashSet<String> dictBlacklist = new HashSet<>();
+    // String заменен на TagKey<Item>
+    public static final HashSet<TagKey<Item>> tagBlacklist = new HashSet<>();
     public static final List<HazardTransformerBase> trafos = new ArrayList<>();
 
-    public static void register(Object o, HazardData data) {
-        if (o instanceof String s) {
-            oreMap.put(s, data);
-        }
-        if (o instanceof Item item) {
+    // --- ОБНОВЛЕННЫЕ МЕТОДЫ РЕГИСТРАЦИИ ---
+
+    /**
+     * Регистрирует данные об опасности для объекта.
+     * Вместо String теперь принимает TagKey<Item>.
+     */
+    public static void register(Object obj, HazardData data) {
+        if (obj instanceof TagKey<?> tagKey && tagKey.isFor(Registries.ITEM)) {
+            // Безопасное приведение типа после проверки
+            tagMap.put((TagKey<Item>) tagKey, data);
+        } else if (obj instanceof Item item) {
             itemMap.put(item, data);
-        }
-        if (o instanceof ItemStack stack) {
+        } else if (obj instanceof ItemStack stack) {
             stackMap.put(new ComparableStack(stack), data);
-        }
-        if (o instanceof ComparableStack comp) {
+        } else if (obj instanceof ComparableStack comp) {
             stackMap.put(comp, data);
         }
     }
 
-    public static void blacklist(Object o) {
-        if (o instanceof ItemStack stack) {
+    /**
+     * Вспомогательный метод для удобной регистрации тега по его ResourceLocation.
+     * Пример использования: register(ResourceLocation.fromNamespaceAndPath("c", "ores/iron"), myData);
+     */
+    public static void register(ResourceLocation tagLocation, HazardData data) {
+        register(TagKey.create(Registries.ITEM, tagLocation), data);
+    }
+
+    /**
+     * Добавляет объект в черный список.
+     * Вместо String теперь принимает TagKey<Item>.
+     */
+    public static void blacklist(Object obj) {
+        if (obj instanceof TagKey<?> tagKey && tagKey.isFor(Registries.ITEM)) {
+            tagBlacklist.add((TagKey<Item>) tagKey);
+        } else if (obj instanceof ItemStack stack) {
             stackBlacklist.add(new ComparableStack(stack).makeSingular());
-        } else if (o instanceof String s) {
-            dictBlacklist.add(s);
         }
     }
 
+    /**
+     * Вспомогательный метод для удобного добавления тега в черный список.
+     */
+    public static void blacklist(ResourceLocation tagLocation) {
+        blacklist(TagKey.create(Registries.ITEM, tagLocation));
+    }
+
+    // --- ОБНОВЛЕННАЯ ЛОГИКА ПРОВЕРКИ ---
+
+    /**
+     * Проверяет, находится ли предмет в черном списке (по стеку или по тегу).
+     */
     public static boolean isItemBlacklisted(ItemStack stack) {
+        if (stack.isEmpty()) return true;
+
+        // 1. Проверка по конкретному предмету (ComparableStack)
         ComparableStack comp = new ComparableStack(stack).makeSingular();
         if (stackBlacklist.contains(comp)) {
             return true;
         }
 
-        // TODO: OreDictionary заменён на Forge Tags
-        // Если используешь теги, надо будет проверять stack.is(tag)
-        return false;
+        // 2. Проверка по тегам
+        // stack.getTags() возвращает Stream<TagKey<Item>>
+        // anyMatch проверяет, есть ли хотя бы один тег предмета в нашем черном списке
+        return stack.getTags().anyMatch(tagBlacklist::contains);
     }
 
+    /**
+     * Основной метод получения опасностей. Исправлен и почищен.
+     */
     public static List<HazardEntry> getHazardsFromStack(ItemStack stack) {
-        if (isItemBlacklisted(stack)) {
+        if (isItemBlacklisted(stack)) { // isItemBlacklisted уже проверяет на stack.isEmpty()
             return new ArrayList<>();
         }
 
         List<HazardData> chronological = new ArrayList<>();
 
-        // TODO: заменить на Forge Tags
-        // пример: if (stack.is(Tags.Items.INGOTS_IRON)) { ... }
+        // 1. Поиск по ТЕГАМ
+        stack.getTags().forEach(tagKey -> {
+            if (tagMap.containsKey(tagKey)) {
+                chronological.add(tagMap.get(tagKey));
+            }
+        });
 
+        // 2. Поиск по ПРЕДМЕТУ (Item) - убрана дублирующая проверка
         if (itemMap.containsKey(stack.getItem())) {
             chronological.add(itemMap.get(stack.getItem()));
         }
 
+        // 3. Поиск по конкретному СТЕКУ (ItemStack)
         ComparableStack comp = new ComparableStack(stack).makeSingular();
         if (stackMap.containsKey(comp)) {
             chronological.add(stackMap.get(comp));
@@ -103,43 +157,39 @@ public class HazardSystem {
         return entries;
     }
 
+    // --- ОСТАЛЬНЫЕ МЕТОДЫ (НЕ ТРЕБУЮТ ИЗМЕНЕНИЙ) ---
+    // Вся логика ниже зависит от getHazardsFromStack, который мы исправили.
+    // Поэтому здесь ничего менять не нужно.
+
     public static float getHazardLevelFromStack(ItemStack stack, HazardTypeBase hazard) {
         List<HazardEntry> entries = getHazardsFromStack(stack);
 
         for (HazardEntry entry : entries) {
             if (entry.type == hazard) {
+                // Предполагается, что HazardModifier и HazardEntry обновлены
                 return HazardModifier.evalAllModifiers(stack, null, entry.baseLevel, entry.mods);
             }
         }
-
         return 0F;
     }
 
     public static void applyHazards(ItemStack stack, LivingEntity entity) {
         List<HazardEntry> hazards = getHazardsFromStack(stack);
-
         for (HazardEntry hazard : hazards) {
             hazard.applyHazard(stack, entity);
         }
     }
 
     public static void updatePlayerInventory(Player player) {
+        // Эта реализация все еще отлично работает
         for (ItemStack stack : player.getInventory().items) {
-            if (!stack.isEmpty()) {
-                applyHazards(stack, player);
-            }
+            if (!stack.isEmpty()) applyHazards(stack, player);
         }
-
         for (ItemStack stack : player.getInventory().armor) {
-            if (!stack.isEmpty()) {
-                applyHazards(stack, player);
-            }
+            if (!stack.isEmpty()) applyHazards(stack, player);
         }
-
         for (ItemStack stack : player.getInventory().offhand) {
-            if (!stack.isEmpty()) {
-                applyHazards(stack, player);
-            }
+            if (!stack.isEmpty()) applyHazards(stack, player);
         }
     }
 
@@ -153,9 +203,9 @@ public class HazardSystem {
     }
 
     public static void updateDroppedItem(ItemEntity entity) {
+        if (entity.isRemoved()) return;
         ItemStack stack = entity.getItem();
-
-        if (entity.isRemoved() || stack.isEmpty()) return;
+        if (stack.isEmpty()) return;
 
         List<HazardEntry> hazards = getHazardsFromStack(stack);
         for (HazardEntry entry : hazards) {
@@ -163,7 +213,10 @@ public class HazardSystem {
         }
     }
 
-    public static void addFullTooltip(ItemStack stack, Player player, List<Component> list) {
+    @OnlyIn(Dist.CLIENT)
+    public static void addFullTooltip(ItemStack stack, List<Component> list) {
+        // Получение игрока на клиенте
+        Player player = Minecraft.getInstance().player;
         List<HazardEntry> hazards = getHazardsFromStack(stack);
 
         for (HazardEntry hazard : hazards) {

@@ -16,5 +16,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.GRENADE.get());
         basicItem(ModItems.NOTHING.get());
         basicItem(ModItems.GEIGER_COUNTER.get());
+        basicItem(ModItems.REACHER.get());
     }
 }

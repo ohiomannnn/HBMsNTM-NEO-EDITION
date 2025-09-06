@@ -13,76 +13,97 @@ public class ServerConfig {
 
     public static final ModConfigSpec.IntValue FOG_RAD = BUILDER
             .comment("Radiation in RADs required for fog to spawn")
-            .translation("config.hbmsntm.fograd")
-            .defineInRange("fograd", 20, 0, Integer.MAX_VALUE);
+            .translation("config.hbmsntm.fogRad")
+            .defineInRange("fogRad", 20, 0, Integer.MAX_VALUE);
     public static final ModConfigSpec.IntValue FOG_CHANCE = BUILDER
             .comment("1:n chance of fog spawning every second")
-            .translation("config.hbmsntm.fogch")
-            .defineInRange("fogch", 100, 0, Integer.MAX_VALUE);
+            .translation("config.hbmsntm.fogCh")
+            .defineInRange("fogCh", 100, 0, Integer.MAX_VALUE);
     public static final ModConfigSpec.BooleanValue WORLD_RAD_EFFECTS = BUILDER
             .comment("Whether high radiation levels should perform changes in the world")
-            .translation("config.hbmsntm.fogch")
-            .define("enablerad", true);
+            .translation("config.hbmsntm.worldRadEffects")
+            .define("worldRadEffects", true);
 
 
     public static final ModConfigSpec.BooleanValue ENABLE_CONTAMINATION = BUILDER
             .comment("Toggles player contamination (and negative effects from radiation poisoning)")
-            .translation("config.hbmsntm.enablerad")
-            .define("enablerad", true);
+            .translation("config.hbmsntm.enableCont")
+            .define("enableCont", true);
     public static final ModConfigSpec.BooleanValue ENABLE_CHUNK_RADS = BUILDER
             .comment("Toggles the world radiation system (chunk radiation only, some blocks use an AoE!)")
-            .translation("config.hbmsntm.enablerad")
-            .define("enablerad", true);
+            .translation("config.hbmsntm.enableChuRads")
+            .define("enableChuRads", true);
     public static final ModConfigSpec.BooleanValue ENABLE_PRISM_RAD = BUILDER
             .comment("Toggles PRISM radiation system")
-            .translation("config.hbmsntm.enablerad")
-            .define("enableprismrad", true);
+            .translation("config.hbmsntm.enablePrismRad")
+            .define("enablePrismRad", false);
 
     static {
        BUILDER.pop();
     }
 
-    /// ASBESTOS ///
-    static {
-        BUILDER.push("asbestos");
-    }
-
-    public static final ModConfigSpec.BooleanValue ENABLE_ASBESTOS = BUILDER
-            .comment("enables or disables asbestos")
-            .translation("config.hbmsntm.enableAsbestos")
-            .define("enableAsbestos", true);
-
-    static {
-       BUILDER.pop();
-    }
-
-    /// BLACK LUNG ///
-    static {
-        BUILDER.push("blacklung");
-    }
-
-    public static final ModConfigSpec.BooleanValue ENABLE_BLACKLUNG = BUILDER
-            .comment("enables or disables asbestos")
-            .translation("config.hbmsntm.enableBlacklung")
-            .define("enableBlacklung", true);
-
-    static {
-        BUILDER.pop();
-    }
     /// TAINT ///
     static {
         BUILDER.push("taint");
     }
 
-    public static final ModConfigSpec.BooleanValue ENABLE_TAINT_TRAIL = BUILDER
+    public static final ModConfigSpec.BooleanValue ENABLE_TAINT_TRAILS = BUILDER
             .comment("enables or disables taint trails")
-            .translation("config.hbmsntm.enableBlacklung")
-            .define("enableBlacklung", true);
+            .translation("config.hbmsntm.enableTaintTrails")
+            .define("enableTaintTrails", true);
 
     static {
         BUILDER.pop();
     }
 
+    /// ============= HAZARDS ============= ///
+    static {
+        BUILDER.push("hazards");
+    }
+
+    public static final ModConfigSpec.BooleanValue DISABLE_ASBESTOS = BUILDER
+            .comment("When turned on, all asbestos hazards are disabled")
+            .translation("config.hbmsntm.disableAsbestos")
+            .define("HAZ_disableAsbestos", false);
+    public static final ModConfigSpec.BooleanValue DISABLE_COAL = BUILDER
+            .comment("When turned on, all coal dust hazards are disabled")
+            .translation("config.hbmsntm.enableCoalDust")
+            .define("disableCoalDust", false);
+    public static final ModConfigSpec.BooleanValue DISABLE_HOT = BUILDER
+            .comment("When turned on, all hot hazards are disabled")
+            .translation("config.hbmsntm.disableHot")
+            .define("disableHot", false);
+    public static final ModConfigSpec.BooleanValue DISABLE_EXPLOSIVE = BUILDER
+            .comment("When turned on, all explosive hazards are disabled")
+            .translation("config.hbmsntm.disableExplosive")
+            .define("disableExplosive", false);
+    public static final ModConfigSpec.BooleanValue DISABLE_HYDROACTIVE = BUILDER
+            .comment("When turned on, all hydroactive hazards are disabled")
+            .translation("config.hbmsntm.disableHydroactive")
+            .define("disableHydroactive", false);
+    public static final ModConfigSpec.BooleanValue DISABLE_BLINDING = BUILDER
+            .comment("When turned off, all blinding hazards are disabled")
+            .translation("config.hbmsntm.disableBlinding")
+            .define("disableBlinding", false);
+
+    static {
+        BUILDER.pop();
+    }
+
+    /// ============= 528 ============= ///
+    static {
+        BUILDER.push("528");
+    }
+
+    public static final ModConfigSpec.BooleanValue ENABLE_528 = BUILDER
+            .comment("528 use with caution")
+            .translation("config.hbmsntm.enable528")
+            .worldRestart()
+            .define("enable528", false);
+
+    static {
+        BUILDER.pop();
+    }
 
     public static final ModConfigSpec SPEC = BUILDER.build();
 }

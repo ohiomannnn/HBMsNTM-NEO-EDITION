@@ -18,6 +18,10 @@
   "block.hbmsntm.brick_concrete_cracked_slab": "Cracked Concrete Brick Slab",
   "block.hbmsntm.brick_concrete_broken_slab": "Broken Concrete Brick Slab",
 
+  "block.hbmsntm.waste_earth":"Dead Grass",
+  "block.hbmsntm.waste_leaves":"Dead Leaves",
+  "block.hbmsntm.waste_log":"Charred Log",
+
   "block.hbmsntm.test_bomb": "Test Bomb",
 
   "item.hbmsntm.grenade": "Grenade",
@@ -47,10 +51,17 @@
   "effect.hbmsntm.potionsickness": "Potion Sickness",
   "effect.hbmsntm.death": "Sudden Death",
 
-  "trait.radioactive": "Radiation",
-
   "geiger.title": "GEIGER COUNTER",
   "geiger.envRad": "Total environmental radiation:",
-  "geiger.playerRad": "Player contamination",
-  "geiger.chunkRad": "Current chunk radiation:"
+  "geiger.playerRad": "Player contamination:",
+  "geiger.chunkRad": "Current chunk radiation:",
+
+  "trait.radioactive": "Radiation",
+  "trait.hot": "Pyrophoric / Hot",
+  "trait.hydro": "Hydroreactive",
+  "trait.coal": "Coal Dust",
+  "trait.explosive": "Flammable / Explosive",
+  "trait.asbestos": "Asbestos",
+  "trait.digamma": "Digamma Radiation",
+  "trait.blinding": "Blinding"
 }
