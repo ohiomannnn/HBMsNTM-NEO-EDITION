@@ -14,9 +14,6 @@ public class HazardEntry {
     HazardTypeBase type;
     float baseLevel;
 
-    /*
-     * Modifiers are evaluated in the order they're being applied to the entry.
-     */
     List<HazardModifier> mods = new ArrayList<>();
 
     public HazardEntry(HazardTypeBase type) {

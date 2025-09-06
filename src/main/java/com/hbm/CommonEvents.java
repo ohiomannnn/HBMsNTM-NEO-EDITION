@@ -35,10 +35,10 @@ public class CommonEvents {
     }
 
     @SubscribeEvent
-    public static void onLivingTick(EntityTickEvent.Pre event) {
+    public static void onLivingTick(EntityTickEvent.Post event) {
         Entity entity = event.getEntity();
 
-        if (!entity.level().isClientSide) return;
+        if (entity.level().isClientSide) return;
 
         if (entity instanceof Player player) {
             HazardSystem.updatePlayerInventory(player);

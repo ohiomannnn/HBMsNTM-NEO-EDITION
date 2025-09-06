@@ -22,7 +22,7 @@ public class HazardTypeHydroactive extends HazardTypeBase {
 
         if(target.isInWaterOrRain() && stack.getCount() > 0) {
             stack.setCount(0);
-            target.level().explode(null, target.getX(), target.getY(2), target.getZ(), 1.0F,false, Level.ExplosionInteraction.NONE);
+            target.level().explode(null, target.getX(), target.getY() + 2, target.getZ(), level,false, Level.ExplosionInteraction.NONE);
         }
     }
 
@@ -34,7 +34,7 @@ public class HazardTypeHydroactive extends HazardTypeBase {
 
         if(item.isInWaterOrRain()) {
             item.discard();
-            item.level().explode(null, item.getX(), item.getY(2), item.getZ(), 1.0F,false, Level.ExplosionInteraction.NONE);
+            item.level().explode(null, item.getX(), item.getY(), item.getZ(), level,false, Level.ExplosionInteraction.NONE);
         }
     }
 

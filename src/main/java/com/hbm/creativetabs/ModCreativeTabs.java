@@ -18,7 +18,7 @@ public class ModCreativeTabs {
 
     public static final Supplier<CreativeModeTab> BLOCK_TAB = CREATIVE_MODE_TABS.register("block_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.BRICK_CONCRETE.get()))
-                    .title(Component.translatable("creativetab.hbmsntm.block_tab"))
+                    .title(Component.translatable("creative.hbmsntm.block_tab"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModBlocks.BRICK_CONCRETE);
                         output.accept(ModBlocks.BRICK_CONCRETE_MOSSY);
@@ -40,7 +40,7 @@ public class ModCreativeTabs {
                     }).build());
     public static final Supplier<CreativeModeTab> WEAPON_TAB = CREATIVE_MODE_TABS.register("weapon_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.GRENADE.get()))
-                    .title(Component.translatable("creativetab.hbmsntm.weapontab"))
+                    .title(Component.translatable("creative.hbmsntm.weapontab"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.GRENADE);
                         output.accept(ModItems.GEIGER_COUNTER);

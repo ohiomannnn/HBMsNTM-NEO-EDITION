@@ -96,7 +96,7 @@ public class ServerConfig {
     }
 
     public static final ModConfigSpec.BooleanValue ENABLE_528 = BUILDER
-            .comment("528 use with caution")
+            .comment("528 mode, use with caution!")
             .translation("config.hbmsntm.enable528")
             .worldRestart()
             .define("enable528", false);

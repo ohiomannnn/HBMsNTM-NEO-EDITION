@@ -27,7 +27,7 @@ public class HazardTypeHot extends HazardTypeBase {
             reacher = target.getMainHandItem().is(ModItems.REACHER.get());
 
         if(!reacher && !target.isInWaterOrRain() && level > 0)
-            target.setRemainingFireTicks((int) Math.ceil(level));
+            target.setRemainingFireTicks((int) Math.ceil(level) * 20);
     }
 
     @Override
