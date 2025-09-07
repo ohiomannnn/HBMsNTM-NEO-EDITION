@@ -24,7 +24,9 @@ public class HazardTypeHot extends HazardTypeBase {
         boolean reacher = false;
 
         if(target instanceof Player && !ServerConfig.ENABLE_528.getAsBoolean())
-            reacher = target.getMainHandItem().is(ModItems.REACHER.get());
+            if (target.getMainHandItem().is(ModItems.REACHER.get()) || target.getOffhandItem().is(ModItems.REACHER.get())) {
+                reacher = true;
+            }
 
         if(!reacher && !target.isInWaterOrRain() && level > 0)
             target.setRemainingFireTicks((int) Math.ceil(level) * 20);

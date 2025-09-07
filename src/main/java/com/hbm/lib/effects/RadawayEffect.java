@@ -1,4 +1,4 @@
-package com.hbm.potions.effects;
+package com.hbm.lib.effects;
 
 import com.hbm.extprop.HbmLivingProps;
 import net.minecraft.world.effect.MobEffect;
@@ -12,7 +12,9 @@ public class RadawayEffect extends MobEffect {
 
     @Override
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
-        HbmLivingProps.incrementRadiation(entity, -(amplifier + 1));
+        if (!entity.level().isClientSide) {
+            HbmLivingProps.incrementRadiation(entity, -(amplifier + 1));
+        }
         return true;
     }
     @Override

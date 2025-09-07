@@ -1,7 +1,7 @@
 
 package com.hbm.blocks.bomb;
 
-import com.hbm.potions.ModPotions;
+import com.hbm.lib.ModPotions;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;

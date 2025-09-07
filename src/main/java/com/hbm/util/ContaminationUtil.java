@@ -4,7 +4,7 @@ import api.hbm.entity.IRadiationImmune;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.radiation.ChunkRadiationManager;
-import com.hbm.potions.ModPotions;
+import com.hbm.lib.ModPotions;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;

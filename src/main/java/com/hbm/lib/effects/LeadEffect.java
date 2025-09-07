@@ -1,4 +1,4 @@
-package com.hbm.potions.effects;
+package com.hbm.lib.effects;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.damagesource.DamageSource;
@@ -19,6 +19,10 @@ public class LeadEffect extends MobEffect {
                 entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(LEAD)
         );
         entity.hurt(src, amplifier + 1);
-        return false;
+        return true;
+    }
+    @Override
+    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
+        return true;
     }
 }

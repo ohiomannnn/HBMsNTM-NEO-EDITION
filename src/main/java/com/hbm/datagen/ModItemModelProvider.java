@@ -13,9 +13,9 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        basicItem(ModItems.GRENADE.get());
         basicItem(ModItems.NOTHING.get());
         basicItem(ModItems.GEIGER_COUNTER.get());
         basicItem(ModItems.REACHER.get());
+        basicItem(ModItems.DUCK_SPAWN_EGG.get());
     }
 }

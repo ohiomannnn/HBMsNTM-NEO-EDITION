@@ -37,8 +37,6 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.BRICK_CONCRETE_CRACKED_SLAB);
                         output.accept(ModBlocks.BRICK_CONCRETE_BROKEN_SLAB);
 
-                        output.accept(ModBlocks.TEST_BOMB);
-
                         output.accept(ModBlocks.WASTE_EARTH);
                         output.accept(ModBlocks.WASTE_LOG);
                         output.accept(ModBlocks.WASTE_LEAVES);
@@ -50,7 +48,6 @@ public class ModCreativeTabs {
                     .title(Component.translatable("creativeTabs.hbmsntm.consumables_and_gear"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.GEIGER_COUNTER);
-                        output.accept(ModItems.GRENADE);
                         output.accept(ModItems.REACHER);
                     }).build());
 

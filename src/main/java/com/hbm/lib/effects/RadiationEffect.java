@@ -1,4 +1,4 @@
-package com.hbm.potions.effects;
+package com.hbm.lib.effects;
 
 import com.hbm.util.ContaminationUtil;
 import net.minecraft.world.effect.MobEffect;
@@ -13,8 +13,7 @@ public class RadiationEffect extends MobEffect {
     @Override
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide) {
-            ContaminationUtil.contaminate(entity, ContaminationUtil.HazardType.RADIATION, ContaminationUtil.ContaminationType.CREATIVE, (amplifier + 1F) * 0.05F
-            );
+            ContaminationUtil.contaminate(entity, ContaminationUtil.HazardType.RADIATION, ContaminationUtil.ContaminationType.CREATIVE, (amplifier + 1F) * 0.05F);
         }
         return true;
     }

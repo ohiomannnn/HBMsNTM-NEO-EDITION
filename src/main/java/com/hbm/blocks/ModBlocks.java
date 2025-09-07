@@ -2,8 +2,7 @@ package com.hbm.blocks;
 
 import com.hbm.HBMsNTM;
 import com.hbm.blocks.bomb.BlockTaint;
-import com.hbm.blocks.bomb.TestBomb;
-import com.hbm.blocks.withInteraction.ConcreteBrickMarked;
+import com.hbm.blocks.special.ConcreteBrickMarked;
 import com.hbm.items.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -51,10 +50,6 @@ public class ModBlocks {
                     .requiresCorrectToolForDrops()
                     .sound(SoundType.STONE)));
 
-    public static final DeferredBlock<Block> TEST_BOMB = registerBlock("test_bomb",
-            () -> new TestBomb(BlockBehaviour.Properties.of()
-                    .sound(SoundType.METAL)));
-
     public static final DeferredBlock<Block> WASTE_EARTH = registerBlock("waste_earth",
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(0.6F)
@@ -72,6 +67,65 @@ public class ModBlocks {
                     .isSuffocating((state, level, pos) -> false)
                     .isViewBlocking((state, level, pos) -> false)
                     .sound(SoundType.GRASS)));
+    public static final DeferredBlock<Block> WASTE_TRINITITE = registerBlock("waste_trinitite",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(0.5F)
+                    .explosionResistance(2.5F)
+                    .sound(SoundType.SAND)));
+    public static final DeferredBlock<Block> WASTE_TRINITITE_RED = registerBlock("waste_trinitite_red",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(0.5F)
+                    .explosionResistance(2.5F)
+                    .sound(SoundType.SAND)));
+    public static final DeferredBlock<Block> WASTE_MYCELIUM = registerBlock("waste_mycelium",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .lightLevel(value -> 1)
+                    .strength(0.6F)
+                    .sound(SoundType.GRASS)));
+    public static final DeferredBlock<Block> WASTE_PLANKS = registerBlock("waste_planks",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(0.5F)
+                    .explosionResistance(2.5F)
+                    .sound(SoundType.WOOD)));
+
+
+    public static final DeferredBlock<Block> ORE_OIL = registerBlock("ore_oil",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(5.0F)
+                    .explosionResistance(10.0F)
+                    .sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_URANIUM = registerBlock("ore_uranium",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(5.0F)
+                    .explosionResistance(10.0F)
+                    .sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_SCHRABIDIUM = registerBlock("ore_schrabidium",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(15.0F)
+                    .explosionResistance(600.0F)
+                    .sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_NETHER_URANIUM = registerBlock("ore_nether_uranium",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(0.4F)
+                    .explosionResistance(10.0F)
+                    .sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_NETHER_PLUTONIUM = registerBlock("ore_nether_plutonium",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(0.4F)
+                    .explosionResistance(10.0F)
+                    .sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_NETHER_SCHRABIDIUM = registerBlock("ore_nether_schrabidium",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(15.0F)
+                    .explosionResistance(600.0F)
+                    .sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_TIKITE = registerBlock("ore_tikite",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(5.0F)
+                    .explosionResistance(10.0F)
+                    .sound(SoundType.STONE)));
+
+
     public static final DeferredBlock<Block> TAINT = registerBlock("taint",
             () -> new BlockTaint(BlockBehaviour.Properties.of()
                     .strength(15.0F)

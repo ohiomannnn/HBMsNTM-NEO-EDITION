@@ -1,9 +1,9 @@
-package com.hbm.potions.effects;
+package com.hbm.lib.effects;
 
 //import com.hbm.explosion.ExplosionLarge; // Предполагается, что этот класс уже портирован
 //import com.hbm.item.ModItems; // Предполагается, что этот класс уже портирован
 //import com.hbm.lib.ModDamageSource; // Предполагается, что этот класс уже портирован
-import com.hbm.potions.ModPotions;
+import com.hbm.lib.ModPotions;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;

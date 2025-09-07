@@ -1,7 +1,7 @@
-package com.hbm.potions;
+package com.hbm.lib;
 
 import com.hbm.HBMsNTM;
-import com.hbm.potions.effects.*;
+import com.hbm.lib.effects.*;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;

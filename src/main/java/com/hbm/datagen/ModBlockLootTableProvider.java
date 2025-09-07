@@ -31,7 +31,6 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.WASTE_LOG.get());
         dropSelf(ModBlocks.WASTE_LEAVES.get());
 
-        dropSelf(ModBlocks.TEST_BOMB.get());
         dropSelf(ModBlocks.TAINT.get());
 
         add(ModBlocks.BRICK_CONCRETE_SLAB.get(),

@@ -1,4 +1,4 @@
-package com.hbm.potions.effects;
+package com.hbm.lib.effects;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.ServerConfig;
@@ -47,6 +47,6 @@ public class TaintEffect extends MobEffect {
 
     @Override
     public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
-        return duration % 2 == 0;
+        return true;
     }
 }

@@ -15,6 +15,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
@@ -34,6 +35,8 @@ public class HazardSystem {
             tagMap.put((TagKey<Item>) tagKey, data);
         } else if (obj instanceof Item item) {
             itemMap.put(item, data);
+        } else if (obj instanceof Block block) {
+            itemMap.put(Item.byBlock(block), data);
         } else if (obj instanceof ItemStack stack) {
             stackMap.put(new ComparableStack(stack), data);
         } else if (obj instanceof ComparableStack comp) {

@@ -3,7 +3,6 @@ package com.hbm;
 import com.hbm.entity.ModEntities;
 import com.hbm.entity.mob.rendrer.EntityDuckRenderer;
 import com.hbm.hazard.HazardSystem;
-import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -26,7 +25,6 @@ public class HBMsNTMClient {
     }
     @SubscribeEvent
     public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(ModEntities.GRENADE.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(ModEntities.DUCK.get(), EntityDuckRenderer::new);
     }
     @SubscribeEvent

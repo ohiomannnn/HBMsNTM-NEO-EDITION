@@ -71,7 +71,6 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockItem(ModBlocks.BRICK_CONCRETE_CRACKED_SLAB);
         blockItem(ModBlocks.BRICK_CONCRETE_BROKEN_SLAB);
 
-        simpleBlockWithItem(ModBlocks.TEST_BOMB.get(), cubeAll(ModBlocks.TEST_BOMB.get()));
         simpleBlockWithItem(ModBlocks.TAINT.get(), cubeAll(ModBlocks.TAINT.get()));
 
     }

@@ -24,15 +24,9 @@ public class HazardTypeExplosive extends HazardTypeBase {
         if (ServerConfig.DISABLE_EXPLOSIVE.getAsBoolean())
             return;
 
-        BlockPos pos = target.blockPosition();
-        BlockState state = target.level().getBlockState(pos);
-
-        if (!target.level().isClientSide
-                && (target.isOnFire() || target.isInLava() || state.is(Blocks.FIRE) || state.is(Blocks.SOUL_FIRE))
-                && stack.getCount() > 0) {
-
+        if (!target.level().isClientSide && (target.isOnFire() || target.isInLava()) && stack.getCount() > 0) {
             stack.setCount(0);
-            target.level().explode(null, target.getX(), target.getY() + 2, target.getZ(), level, Level.ExplosionInteraction.NONE);
+            target.level().explode(null, target.getX(), target.getY() + 2, target.getZ(), level, Level.ExplosionInteraction.TNT);
         }
     }
 
@@ -44,7 +38,7 @@ public class HazardTypeExplosive extends HazardTypeBase {
 
         if (item.isOnFire() || item.isInLava()) {
             item.discard();
-            item.level().explode(null, item.getX(), item.getY(), item.getZ(), level, Level.ExplosionInteraction.NONE);
+            item.level().explode(null, item.getX(), item.getY(), item.getZ(), level, Level.ExplosionInteraction.TNT);
         }
     }
 

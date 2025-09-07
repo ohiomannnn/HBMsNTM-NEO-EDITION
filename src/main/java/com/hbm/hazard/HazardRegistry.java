@@ -19,7 +19,9 @@ public class HazardRegistry {
         HazardSystem.register(Items.PUMPKIN_PIE, makeData(EXPLOSIVE, 1F));
         HazardSystem.register(Blocks.TNT, makeData(EXPLOSIVE, 4F));
 
-        HazardSystem.register(Items.COAL, makeData(HYDROACTIVE, 2F));
+        HazardSystem.register(Items.GOLD_INGOT, makeData(BLINDING, 4F));
+
+        HazardSystem.register(Items.BLAZE_POWDER, makeData(HOT, 4F));
     }
 
     private static HazardData makeData() { return new HazardData(); }

@@ -1,4 +1,4 @@
-package com.hbm.potions.effects;
+package com.hbm.lib.effects;
 
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
