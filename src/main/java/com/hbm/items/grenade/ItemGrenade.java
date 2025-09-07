@@ -1,6 +1,5 @@
-package com.hbm.item.grenade;
+package com.hbm.items.grenade;
 
-import com.hbm.HBMsNTM;
 import com.hbm.entity.ModEntities;
 import com.hbm.entity.grenade.EntityGrenadeGeneric;
 import net.minecraft.sounds.SoundEvents;
@@ -10,7 +9,6 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
 
 public class ItemGrenade extends Item {

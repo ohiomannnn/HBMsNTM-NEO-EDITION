@@ -1,4 +1,4 @@
-package com.hbm.block.withInteraction;
+package com.hbm.blocks.withInteraction;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;

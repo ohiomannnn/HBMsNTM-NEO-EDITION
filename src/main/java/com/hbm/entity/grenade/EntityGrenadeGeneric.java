@@ -1,7 +1,7 @@
 package com.hbm.entity.grenade;
 
 import com.hbm.explosion.vanillalike.ExplosionVNT;
-import com.hbm.item.ModItems;
+import com.hbm.items.ModItems;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -30,9 +30,8 @@ public class EntityGrenadeGeneric extends EntityGrenadeBouncyBase implements Ite
     public void explode() {
         if (!level().isClientSide) {
             this.discard();
-            //TODO: Make explosion kill mobs including players
             ExplosionVNT explosion = new ExplosionVNT(this.level(), this.getX(), this.getY(), this.getZ(), 15.0F);
-            explosion.makeStandard();
+            explosion.makeAmat();
             explosion.explode();
         }
     }

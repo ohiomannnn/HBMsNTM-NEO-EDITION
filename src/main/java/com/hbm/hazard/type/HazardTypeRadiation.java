@@ -2,7 +2,7 @@ package com.hbm.hazard.type;
 
 import com.hbm.config.ServerConfig;
 import com.hbm.hazard.modifier.HazardModifier;
-import com.hbm.item.ModItems;
+import com.hbm.items.ModItems;
 import com.hbm.util.MathUtil;
 import com.hbm.util.ContaminationUtil;
 import net.minecraft.ChatFormatting;

@@ -1,7 +1,7 @@
 package com.hbm.datagen;
 
 import com.hbm.HBMsNTM;
-import com.hbm.item.ModItems;
+import com.hbm.items.ModItems;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;

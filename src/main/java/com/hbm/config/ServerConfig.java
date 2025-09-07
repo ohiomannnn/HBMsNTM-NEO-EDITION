@@ -50,7 +50,7 @@ public class ServerConfig {
     public static final ModConfigSpec.BooleanValue ENABLE_TAINT_TRAILS = BUILDER
             .comment("enables or disables taint trails")
             .translation("config.hbmsntm.enableTaintTrails")
-            .define("enableTaintTrails", true);
+            .define("enableTaintTrails", false);
 
     static {
         BUILDER.pop();

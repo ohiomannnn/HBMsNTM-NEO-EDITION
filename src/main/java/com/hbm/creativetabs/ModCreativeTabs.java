@@ -1,9 +1,10 @@
 package com.hbm.creativetabs;
 
 import com.hbm.HBMsNTM;
-import com.hbm.block.ModBlocks;
-import com.hbm.item.ModItems;
+import com.hbm.blocks.ModBlocks;
+import com.hbm.items.ModItems;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
@@ -16,9 +17,9 @@ import static net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB;
 public class ModCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(CREATIVE_MODE_TAB, HBMsNTM.MODID);
 
-    public static final Supplier<CreativeModeTab> BLOCK_TAB = CREATIVE_MODE_TABS.register("block_tab",
+    public static final Supplier<CreativeModeTab> ORES_AND_BLOCKS = CREATIVE_MODE_TABS.register("ores_and_blocks",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.BRICK_CONCRETE.get()))
-                    .title(Component.translatable("creative.hbmsntm.block_tab"))
+                    .title(Component.translatable("creativeTabs.hbmsntm.block_tab"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModBlocks.BRICK_CONCRETE);
                         output.accept(ModBlocks.BRICK_CONCRETE_MOSSY);
@@ -37,13 +38,20 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.BRICK_CONCRETE_BROKEN_SLAB);
 
                         output.accept(ModBlocks.TEST_BOMB);
+
+                        output.accept(ModBlocks.WASTE_EARTH);
+                        output.accept(ModBlocks.WASTE_LOG);
+                        output.accept(ModBlocks.WASTE_LEAVES);
                     }).build());
-    public static final Supplier<CreativeModeTab> WEAPON_TAB = CREATIVE_MODE_TABS.register("weapon_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.GRENADE.get()))
-                    .title(Component.translatable("creative.hbmsntm.weapontab"))
+
+    public static final Supplier<CreativeModeTab> CONSUMABLES_AND_GEAR = CREATIVE_MODE_TABS.register("consumables_and_gear",
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.GEIGER_COUNTER.get()))
+                    .withTabsBefore(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "ores_and_blocks"))
+                    .title(Component.translatable("creativeTabs.hbmsntm.consumables_and_gear"))
                     .displayItems((itemDisplayParameters, output) -> {
-                        output.accept(ModItems.GRENADE);
                         output.accept(ModItems.GEIGER_COUNTER);
+                        output.accept(ModItems.GRENADE);
+                        output.accept(ModItems.REACHER);
                     }).build());
 
 

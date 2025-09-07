@@ -1,6 +1,6 @@
 package com.hbm.inventory;
 
-import com.hbm.item.ModItems;
+import com.hbm.items.ModItems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -50,7 +50,7 @@ public class RecipesCommon {
             cycle *= 50;
 
             if (list.isEmpty()) {
-                return new ItemStack(ModItems.NOTHING.get());
+                //return new ItemStack(ModItems.NOTHING.get());
             }
 
             int index = (int) ((System.currentTimeMillis() % ((long) cycle * list.size())) / cycle);

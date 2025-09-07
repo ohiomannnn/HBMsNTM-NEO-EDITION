@@ -22,10 +22,12 @@
       "hbmsntm:entity/ducc2"
     ]
   },
-  "techboop": {
+  "tech_boop": {
     "subtitle": "sounds.hbmsntm.techboop",
     "sounds": [
-      "hbmsntm:tech/techboop"
+      {
+        "name": "hbmsntm:tech/techboop"
+      }
     ]
   }
 }

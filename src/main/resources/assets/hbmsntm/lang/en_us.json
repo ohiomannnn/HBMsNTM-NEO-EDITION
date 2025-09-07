@@ -1,7 +1,4 @@
 {
-  "creative.hbmsntm.block_tab": "Ores and Blocks Tab",
-  "creative.hbmsntm.weapontab": "Weapons and Explosive",
-
   "block.hbmsntm.brick_concrete": "Concrete Brick",
   "block.hbmsntm.brick_concrete_mossy": "Mossy Concrete Brick",
   "block.hbmsntm.brick_concrete_cracked": "Cracked Concrete Brick",
@@ -18,14 +15,16 @@
   "block.hbmsntm.brick_concrete_cracked_slab": "Cracked Concrete Brick Slab",
   "block.hbmsntm.brick_concrete_broken_slab": "Broken Concrete Brick Slab",
 
-  "block.hbmsntm.waste_earth":"Dead Grass",
-  "block.hbmsntm.waste_leaves":"Dead Leaves",
-  "block.hbmsntm.waste_log":"Charred Log",
+  "block.hbmsntm.waste_earth": "Dead Grass",
+  "block.hbmsntm.waste_leaves": "Dead Leaves",
+  "block.hbmsntm.waste_log": "Charred Log",
 
   "block.hbmsntm.test_bomb": "Test Bomb",
+  "block.hbmsntm.taint": "Tainted",
 
   "item.hbmsntm.grenade": "Grenade",
   "item.hbmsntm.nothing": "Nothing",
+  "item.hbmsntm.geiger_counter": "Handheld Geiger Counter",
 
   "entity.hbmsntm.duck": "Duck",
 
@@ -39,7 +38,7 @@
   "death.attack.taint": "%s died from flux tumors.",
   "death.attack.radiation": "%s died from radiation poisoning.",
 
-  "effect.hbmsntm.taint": "Taint",
+  "effect.hbmsntm.taint": "Tainted",
   "effect.hbmsntm.radiation": "Radiation",
   "effect.hbmsntm.bang": "Bang",
   "effect.hbmsntm.mutation": "Mutation",
@@ -63,5 +62,8 @@
   "trait.explosive": "Flammable / Explosive",
   "trait.asbestos": "Asbestos",
   "trait.digamma": "Digamma Radiation",
-  "trait.blinding": "Blinding"
+  "trait.blinding": "Blinding",
+
+  "creativeTabs.hbmsntm.block_tab": "NTM Ores and Blocks",
+  "creativeTabs.hbmsntm.consumables_and_gear": "NTM Consumables and Gear"
 }

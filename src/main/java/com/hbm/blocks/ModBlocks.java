@@ -1,15 +1,14 @@
-package com.hbm.block;
+package com.hbm.blocks;
 
 import com.hbm.HBMsNTM;
-import com.hbm.block.bomb.TestBomb;
-import com.hbm.block.taint.TaintBlock;
-import com.hbm.block.withInteraction.ConcreteBrickMarked;
-import com.hbm.item.ModItems;
+import com.hbm.blocks.bomb.BlockTaint;
+import com.hbm.blocks.bomb.TestBomb;
+import com.hbm.blocks.withInteraction.ConcreteBrickMarked;
+import com.hbm.items.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -74,8 +73,10 @@ public class ModBlocks {
                     .isViewBlocking((state, level, pos) -> false)
                     .sound(SoundType.GRASS)));
     public static final DeferredBlock<Block> TAINT = registerBlock("taint",
-            () -> new TaintBlock(BlockBehaviour.Properties.of()
-                    .sound(SoundType.SLIME_BLOCK)));
+            () -> new BlockTaint(BlockBehaviour.Properties.of()
+                    .strength(15.0F)
+                    .explosionResistance(10.0F)
+                    .randomTicks()));
 
     // FOR STAIRS //
     public static final DeferredBlock<StairBlock> BRICK_CONCRETE_STAIRS = registerBlock("brick_concrete_stairs",
@@ -100,8 +101,6 @@ public class ModBlocks {
             () -> new SlabBlock(BlockBehaviour.Properties.of().strength(15.0F).requiresCorrectToolForDrops()));
     public static final DeferredBlock<SlabBlock> BRICK_CONCRETE_BROKEN_SLAB = registerBlock("brick_concrete_broken_slab",
             () -> new SlabBlock(BlockBehaviour.Properties.of().strength(15.0F).requiresCorrectToolForDrops()));
-
-
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> regBlock = BLOCKS.register(name, block);

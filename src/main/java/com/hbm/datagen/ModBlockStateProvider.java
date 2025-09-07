@@ -1,7 +1,7 @@
 package com.hbm.datagen;
 
 import com.hbm.HBMsNTM;
-import com.hbm.block.ModBlocks;
+import com.hbm.blocks.ModBlocks;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.RotatedPillarBlock;

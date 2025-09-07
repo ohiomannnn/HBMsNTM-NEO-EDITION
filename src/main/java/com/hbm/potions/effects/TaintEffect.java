@@ -1,6 +1,6 @@
 package com.hbm.potions.effects;
 
-import com.hbm.block.ModBlocks;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.config.ServerConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -24,10 +24,12 @@ public class TaintEffect extends MobEffect {
         if (!entity.level().isClientSide) {
 
             // if (!(entity instanceof EntityCreeperTainted) && !(entity instanceof EntityTaintCrab)) {
-            DamageSource src = new DamageSource(
-                    entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(TAINT)
-            );
-            entity.hurt(src, (float) (amplifier + 1));
+            if (entity.level().random.nextInt(40) == 0) {
+                DamageSource src = new DamageSource(
+                        entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(TAINT)
+                );
+                entity.hurt(src, (float) (amplifier + 1));
+            }
             // }
 
             if (ServerConfig.ENABLE_TAINT_TRAILS.getAsBoolean()) {

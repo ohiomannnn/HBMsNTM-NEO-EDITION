@@ -5,7 +5,7 @@ import java.util.List;
 import com.hbm.config.ServerConfig;
 import com.hbm.hazard.modifier.HazardModifier;
 
-import com.hbm.item.ModItems;
+import com.hbm.items.ModItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;

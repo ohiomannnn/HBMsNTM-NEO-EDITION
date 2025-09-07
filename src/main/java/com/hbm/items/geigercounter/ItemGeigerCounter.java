@@ -1,6 +1,5 @@
-package com.hbm.item.geigercounter;
+package com.hbm.items.geigercounter;
 
-import com.hbm.lib.ModSounds;
 import com.hbm.util.ContaminationUtil;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -22,7 +21,7 @@ public class ItemGeigerCounter extends Item {
         if (!level.isClientSide) {
             ContaminationUtil.printGeigerData((ServerPlayer) player);
         }
-        player.playSound(ModSounds.TECH_BOOP.get(), 1.0f, 1.0f);
+//        player.playSound(ModSounds.TECH_BOOP.get(), 1.0f, 1.0f);
 
         return InteractionResultHolder.pass(stack);
     }

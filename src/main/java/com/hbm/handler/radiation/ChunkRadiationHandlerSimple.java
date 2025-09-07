@@ -3,7 +3,7 @@ package com.hbm.handler.radiation;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import com.hbm.block.ModBlocks;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.config.ServerConfig;
 //import com.hbm.main.MainRegistry;
 

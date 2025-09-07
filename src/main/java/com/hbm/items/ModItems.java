@@ -1,8 +1,8 @@
-package com.hbm.item;
+package com.hbm.items;
 
 import com.hbm.HBMsNTM;
-import com.hbm.item.geigercounter.ItemGeigerCounter;
-import com.hbm.item.grenade.ItemGrenade;
+import com.hbm.items.geigercounter.ItemGeigerCounter;
+import com.hbm.items.grenade.ItemGrenade;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;

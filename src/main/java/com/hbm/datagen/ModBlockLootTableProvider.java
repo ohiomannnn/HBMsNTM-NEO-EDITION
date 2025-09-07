@@ -1,6 +1,6 @@
 package com.hbm.datagen;
 
-import com.hbm.block.ModBlocks;
+import com.hbm.blocks.ModBlocks;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.BlockLootSubProvider;

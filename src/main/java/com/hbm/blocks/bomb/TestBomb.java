@@ -1,7 +1,6 @@
-package com.hbm.block.bomb;
+package com.hbm.blocks.bomb;
 
 import com.hbm.explosion.vanillalike.ExplosionVNT;
-import com.hbm.handler.radiation.ChunkRadiationHandler;
 import com.hbm.handler.radiation.ChunkRadiationHandlerPRISM;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import net.minecraft.core.BlockPos;
