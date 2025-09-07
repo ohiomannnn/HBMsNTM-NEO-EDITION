@@ -4,6 +4,7 @@ import com.hbm.HBMsNTM;
 import com.hbm.blocks.bomb.BlockTaint;
 import com.hbm.blocks.special.ConcreteBrickMarked;
 import com.hbm.items.ModItems;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
@@ -49,6 +50,12 @@ public class ModBlocks {
                     .explosionResistance(160.0F)
                     .requiresCorrectToolForDrops()
                     .sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> BRICK_LIGHT = registerBlock("brick_light",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(5.0F)
+                    .explosionResistance(20.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     public static final DeferredBlock<Block> WASTE_EARTH = registerBlock("waste_earth",
             () -> new Block(BlockBehaviour.Properties.of()
@@ -88,6 +95,47 @@ public class ModBlocks {
                     .explosionResistance(2.5F)
                     .sound(SoundType.WOOD)));
 
+    public static final DeferredBlock<Block> BLOCK_SCRAP = registerBlock("block_scrap",
+            () -> new FallingBlock(BlockBehaviour.Properties.of()
+                    .strength(2.5F)
+                    .explosionResistance(5.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.GRAVEL)) {
+                    // ok... this is for falling blocks don't try to read lol
+                    @Override
+                    protected MapCodec<? extends FallingBlock> codec() {
+                        return simpleCodec(props -> new FallingBlock(props) {
+                            @Override
+                            protected MapCodec<? extends FallingBlock> codec() {
+                                return this.codec();
+                            }
+                        });
+                    }
+            });
+
+    public static final DeferredBlock<Block> BRICK_OBSIDIAN = registerBlock("brick_obsidian",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    //.setLightOpacity(15) idk what is it
+                    .strength(15.0F)
+                    .explosionResistance(120.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> GRAVEL_OBSIDIAN = registerBlock("gravel_obsidian",
+            () -> new FallingBlock(BlockBehaviour.Properties.of()
+                    .strength(15.0F)
+                    .explosionResistance(120.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)) {
+                    @Override
+                    protected MapCodec<? extends FallingBlock> codec() {
+                        return simpleCodec(props -> new FallingBlock(props) {
+                            @Override
+                            protected MapCodec<? extends FallingBlock> codec() {
+                                return this.codec();
+                            }
+                        });
+                    }
+            });
 
     public static final DeferredBlock<Block> ORE_OIL = registerBlock("ore_oil",
             () -> new Block(BlockBehaviour.Properties.of()
@@ -99,12 +147,22 @@ public class ModBlocks {
                     .strength(5.0F)
                     .explosionResistance(10.0F)
                     .sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_URANIUM_SCORCHED = registerBlock("ore_uranium_scorched",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(5.0F)
+                    .explosionResistance(10.0F)
+                    .sound(SoundType.STONE)));
     public static final DeferredBlock<Block> ORE_SCHRABIDIUM = registerBlock("ore_schrabidium",
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(15.0F)
                     .explosionResistance(600.0F)
                     .sound(SoundType.STONE)));
     public static final DeferredBlock<Block> ORE_NETHER_URANIUM = registerBlock("ore_nether_uranium",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(0.4F)
+                    .explosionResistance(10.0F)
+                    .sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_NETHER_URANIUM_SCORCHED = registerBlock("ore_nether_uranium_scorched",
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(0.4F)
                     .explosionResistance(10.0F)
@@ -122,6 +180,22 @@ public class ModBlocks {
     public static final DeferredBlock<Block> ORE_TIKITE = registerBlock("ore_tikite",
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F)
+                    .explosionResistance(10.0F)
+                    .sound(SoundType.STONE)));
+
+    public static final DeferredBlock<Block> ORE_GNEISS_URANIUM = registerBlock("ore_gneiss_uranium",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(1.5F)
+                    .explosionResistance(10.0F)
+                    .sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_GNEISS_URANIUM_SCORCHED = registerBlock("ore_gneiss_uranium_scorched",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(1.5F)
+                    .explosionResistance(10.0F)
+                    .sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_GNEISS_SCHRABIDIUM = registerBlock("ore_gneiss_schrabidium",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(1.5F)
                     .explosionResistance(10.0F)
                     .sound(SoundType.STONE)));
 

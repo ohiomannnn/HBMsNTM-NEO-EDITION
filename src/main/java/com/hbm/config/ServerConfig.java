@@ -98,8 +98,21 @@ public class ServerConfig {
     public static final ModConfigSpec.BooleanValue ENABLE_528 = BUILDER
             .comment("528 mode, use with caution!")
             .translation("config.hbmsntm.enable528")
-            .worldRestart()
             .define("enable528", false);
+
+    static {
+        BUILDER.pop();
+    }
+
+    /// ============= CHANCES ============= ///
+    static {
+        BUILDER.push("chances");
+    }
+
+    public static final ModConfigSpec.IntValue SCHRABIDIUM_FROM_URANIUM_CHANCE = BUILDER
+            .comment("chance for schrab from uranium")
+            .translation("config.hbmsntm.schrabFromUran")
+            .defineInRange("schrabFromUran", 20, 0, Integer.MAX_VALUE);
 
     static {
         BUILDER.pop();

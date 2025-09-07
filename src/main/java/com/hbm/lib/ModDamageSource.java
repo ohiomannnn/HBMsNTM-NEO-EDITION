@@ -19,4 +19,6 @@ public class ModDamageSource {
             = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "bang"));
     public static final ResourceKey<DamageType> LEAD
             = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "lead"));
+    public static final ResourceKey<DamageType> NUCLEAR_BLAST
+            = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "nuclear_blast"));
 }

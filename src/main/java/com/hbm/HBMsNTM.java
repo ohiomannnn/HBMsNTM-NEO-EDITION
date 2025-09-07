@@ -10,6 +10,7 @@ import com.hbm.lib.ModAttachments;
 import com.hbm.lib.ModCommands;
 import com.hbm.lib.ModPotions;
 import com.hbm.lib.ModSounds;
+import com.hbm.packet.PacketDispatcher;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -28,6 +29,8 @@ public class HBMsNTM {
     public static final ChunkRadiationManager radiationManager = new ChunkRadiationManager();
 
     public HBMsNTM (IEventBus modEventBus, ModContainer modContainer) {
+        modEventBus.addListener(PacketDispatcher::register);
+
         ModBlocks.register(modEventBus);
         ModItems.register(modEventBus);
         ModEntities.register(modEventBus);
