@@ -230,6 +230,29 @@ public class ModBlocks {
     public static final DeferredBlock<SlabBlock> BRICK_CONCRETE_BROKEN_SLAB = registerBlock("brick_concrete_broken_slab",
             () -> new SlabBlock(BlockBehaviour.Properties.of().strength(15.0F).requiresCorrectToolForDrops()));
 
+    public static final DeferredBlock<Block> VOLCANIC_LAVA_BLOCK = registerBlock("volcanic_lava_block",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .sound(SoundType.STONE)));
+
+    public static final DeferredBlock<Block> RAD_LAVA_BLOCK = registerBlock("rad_lava_block",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .sound(SoundType.STONE)));
+
+    public static final DeferredBlock<Block> ASH_DIGAMMA = registerBlock("ash_digamma",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> FIRE_DIGAMMA = registerBlock("fire_digamma",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> PRIBRIS_DIGAMMA = registerBlock("pribris_digamma",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> BALEFIRE = registerBlock("balefire",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .sound(SoundType.STONE)));
+
+
+
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> regBlock = BLOCKS.register(name, block);
         registerBlockItem(name, regBlock);

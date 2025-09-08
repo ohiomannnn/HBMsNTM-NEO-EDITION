@@ -18,7 +18,9 @@ public final class PacketDispatcher {
         );
     }
 
-    private static void handleParticleNT(final AuxParticlePacketNT msg, final IPayloadContext ctx) {
-        ctx.enqueueWork(() -> {});
+    private static void handleParticleNT(final AuxParticlePacketNT auxParticlePacketNT, final IPayloadContext context) {
+        context.enqueueWork(() -> {
+
+        });
     }
 }

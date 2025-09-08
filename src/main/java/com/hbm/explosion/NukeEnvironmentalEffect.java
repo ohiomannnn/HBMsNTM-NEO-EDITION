@@ -105,7 +105,6 @@ public class NukeEnvironmentalEffect {
 
         } else if (state.ignitedByLava() || state.isFlammable(level, pos, null)) {
             replacement = Blocks.FIRE;
-            chance = 100;
         }
 
         if (replacement != null && rand.nextInt(1000) < chance) {

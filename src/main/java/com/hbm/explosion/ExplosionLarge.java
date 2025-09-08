@@ -1,255 +1,238 @@
 package com.hbm.explosion;
 
-import java.util.List;
-import java.util.Random;
-
-import com.hbm.entity.projectile.EntityRubble;
-import com.hbm.entity.projectile.EntityShrapnel;
-import com.hbm.util.ParticleUtil;
-
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.phys.Vec3;
-
-public class ExplosionLarge {
-
-    private static final Random rand = new Random();
-
-    // ---------------- ЧАСТИЦЫ ---------------- //
-
-    public static void spawnParticles(Level level, double x, double y, double z, int count) {
-        if (!(level instanceof ServerLevel server)) return;
-        for (int i = 0; i < count; i++) {
-            double dx = (rand.nextDouble() - 0.5) * 2;
-            double dy = rand.nextDouble() * 0.5;
-            double dz = (rand.nextDouble() - 0.5) * 2;
-            server.sendParticles(ParticleTypes.SMOKE, x, y, z, 1, dx, dy, dz, 0.1);
-        }
-    }
-
-    public static void spawnParticlesRadial(Level level, double x, double y, double z, int count) {
-        if (!(level instanceof ServerLevel server)) return;
-        for (int i = 0; i < count; i++) {
-            double angle = rand.nextDouble() * Math.PI * 2;
-            double dx = Math.cos(angle) * 0.3;
-            double dz = Math.sin(angle) * 0.3;
-            server.sendParticles(ParticleTypes.SMOKE, x, y, z, 1, dx, 0.05, dz, 0.1);
-        }
-    }
-
-    public static void spawnFoam(Level level, double x, double y, double z, int count) {
-        if (!(level instanceof ServerLevel server)) return;
-        server.sendParticles(ParticleTypes.SPLASH, x, y, z, count, 0.3, 0.2, 0.3, 0.1);
-    }
-
-    public static void spawnShock(Level level, double x, double y, double z, int count, double strength) {
-        if (!(level instanceof ServerLevel server)) return;
-        server.sendParticles(ParticleTypes.EXPLOSION, x, y + 0.5, z, count, strength, strength * 0.2, strength, 0.1);
-    }
-
-    public static void spawnBurst(Level level, double x, double y, double z, int count, double strength) {
-        Vec3 vec = new Vec3(strength, 0, 0).yRot((float) Math.toRadians(rand.nextInt(360)));
-        for (int i = 0; i < count; i++) {
-            ParticleUtil.spawnGasFlame(level, x, y, z, vec.x, 0.0, vec.z);
-            vec = vec.yRot((float) Math.toRadians(360.0 / count));
-        }
-    }
-
-    // ---------------- ОБЛОМКИ ---------------- //
-
-    public static void spawnRubble(Level level, double x, double y, double z, int count) {
-        if (level.isClientSide) return;
-        for (int i = 0; i < count; i++) {
-            EntityRubble rubble = new EntityRubble(level);
-            rubble.setPos(x, y, z);
-            rubble.setDeltaMovement(
-                    rand.nextGaussian() * 0.75 * (1 + (count / 50.0)),
-                    0.75 * (1 + ((count + rand.nextInt(count * 5))) / 25.0),
-                    rand.nextGaussian() * 0.75 * (1 + (count / 50.0))
-            );
-            rubble.setMetaBasedOnBlock(Blocks.STONE.defaultBlockState());
-            level.addFreshEntity(rubble);
-        }
-    }
-
-    public static void spawnShrapnels(Level level, double x, double y, double z, int count) {
-        if (level.isClientSide) return;
-        for (int i = 0; i < count; i++) {
-            EntityShrapnel shrapnel = new EntityShrapnel(level);
-            shrapnel.setPos(x, y, z);
-            shrapnel.setDeltaMovement(
-                    rand.nextGaussian() * (1 + count / 50.0),
-                    ((rand.nextFloat() * 0.5) + 0.5) * (1 + (count / (15 + rand.nextInt(21)))) + (rand.nextFloat() / 50 * count),
-                    rand.nextGaussian() * (1 + count / 50.0)
-            );
-            shrapnel.setTrail(rand.nextInt(3) == 0);
-            level.addFreshEntity(shrapnel);
-        }
-    }
-
-    public static void spawnTracers(Level level, double x, double y, double z, int count) {
-        if (level.isClientSide) return;
-        for (int i = 0; i < count; i++) {
-            EntityShrapnel shrapnel = new EntityShrapnel(level);
-            shrapnel.setPos(x, y, z);
-            shrapnel.setDeltaMovement(
-                    rand.nextGaussian() * (1 + count / 50.0) * 0.25,
-                    (((rand.nextFloat() * 0.5) + 0.5) * (1 + (count / (15 + rand.nextInt(21))))) + (rand.nextFloat() / 50 * count) * 0.25,
-                    rand.nextGaussian() * (1 + count / 50.0) * 0.25
-            );
-            shrapnel.setTrail(true);
-            level.addFreshEntity(shrapnel);
-        }
-    }
-
-    public static void spawnShrapnelShower(Level level, double x, double y, double z,
-                                           double motionX, double motionY, double motionZ,
-                                           int count, double deviation) {
-        if (level.isClientSide) return;
-        for (int i = 0; i < count; i++) {
-            EntityShrapnel shrapnel = new EntityShrapnel(level);
-            shrapnel.setPos(x, y, z);
-            shrapnel.setDeltaMovement(
-                    motionX + rand.nextGaussian() * deviation,
-                    motionY + rand.nextGaussian() * deviation,
-                    motionZ + rand.nextGaussian() * deviation
-            );
-            shrapnel.setTrail(rand.nextInt(3) == 0);
-            level.addFreshEntity(shrapnel);
-        }
-    }
-
-    public static void spawnMissileDebris(Level level, double x, double y, double z,
-                                          double motionX, double motionY, double motionZ,
-                                          double deviation, List<ItemStack> debris, ItemStack rareDrop) {
-        if (level.isClientSide) return;
-
-        if (debris != null) {
-            for (ItemStack stack : debris) {
-                if (!stack.isEmpty()) {
-                    int k = rand.nextInt(stack.getCount() + 1);
-                    for (int j = 0; j < k; j++) {
-                        ItemEntity item = new ItemEntity(level, x, y, z, stack.copy());
-                        item.setDeltaMovement(
-                                (motionX + rand.nextGaussian() * deviation) * 0.85,
-                                (motionY + rand.nextGaussian() * deviation) * 0.85,
-                                (motionZ + rand.nextGaussian() * deviation) * 0.85
-                        );
-                        item.moveTo(item.getX() + item.getDeltaMovement().x * 2,
-                                item.getY() + item.getDeltaMovement().y * 2,
-                                item.getZ() + item.getDeltaMovement().z * 2);
-                        level.addFreshEntity(item);
-                    }
-                }
-            }
-        }
-
-        if (rareDrop != null && rand.nextInt(10) == 0) {
-            ItemEntity item = new ItemEntity(level, x, y, z, rareDrop.copy());
-            item.setDeltaMovement(
-                    motionX + rand.nextGaussian() * deviation * 0.1,
-                    motionY + rand.nextGaussian() * deviation * 0.1,
-                    motionZ + rand.nextGaussian() * deviation * 0.1
-            );
-            level.addFreshEntity(item);
-        }
-    }
-
-    // ---------------- ВЗРЫВЫ ---------------- //
-
-    public static void explode(Level level, double x, double y, double z,
-                               float strength, boolean cloud, boolean rubble, boolean shrapnel, Entity exploder) {
-        level.explode(exploder, x, y, z, strength, Level.ExplosionInteraction.BLOCK);
-        if (cloud) spawnParticles(level, x, y, z, cloudFunction((int) strength));
-        if (rubble) spawnRubble(level, x, y, z, rubbleFunction((int) strength));
-        if (shrapnel) spawnShrapnels(level, x, y, z, shrapnelFunction((int) strength));
-    }
-
-    public static void explode(Level level, double x, double y, double z,
-                               float strength, boolean cloud, boolean rubble, boolean shrapnel) {
-        explode(level, x, y, z, strength, cloud, rubble, shrapnel, null);
-    }
-
-    public static void explodeFire(Level level, double x, double y, double z,
-                                   float strength, boolean cloud, boolean rubble, boolean shrapnel) {
-        level.explode(null, x, y, z, strength, Level.ExplosionInteraction.TNT);
-        if (cloud) spawnParticles(level, x, y, z, cloudFunction((int) strength));
-        if (rubble) spawnRubble(level, x, y, z, rubbleFunction((int) strength));
-        if (shrapnel) spawnShrapnels(level, x, y, z, shrapnelFunction((int) strength));
-    }
-
-    public static void buster(Level level, double x, double y, double z, Vec3 vector, float strength, float depth) {
-        vector = vector.normalize();
-        for (int i = 0; i < depth; i += 2) {
-            level.explode(null,
-                    x + vector.x * i,
-                    y + vector.y * i,
-                    z + vector.z * i,
-                    strength,
-                    Level.ExplosionInteraction.BLOCK
-            );
-        }
-    }
-
-    public static void jolt(Level level, double posX, double posY, double posZ, double strength, int count, double vel) {
-        if (level.isClientSide) return;
-
-        for (int j = 0; j < count; j++) {
-            double phi = rand.nextDouble() * (Math.PI * 2);
-            double costheta = rand.nextDouble() * 2 - 1;
-            double theta = Math.acos(costheta);
-            double x = Math.sin(theta) * Math.cos(phi);
-            double y = Math.sin(theta) * Math.sin(phi);
-            double z = Math.cos(theta);
-
-            Vec3 vec = new Vec3(x, y, z);
-
-            for (int i = 0; i < strength; i++) {
-                int bx = (int) (posX + vec.x * i);
-                int by = (int) (posY + vec.y * i);
-                int bz = (int) (posZ + vec.z * i);
-                BlockPos bpos = new BlockPos(bx, by, bz);
-
-                if (level.getBlockState(bpos).getMaterial().isLiquid()) {
-                    level.setBlock(bpos, Blocks.AIR.defaultBlockState(), 3);
-                }
-
-                if (!level.isEmptyBlock(bpos)) {
-                    float resistance = level.getBlockState(bpos).getBlock().getExplosionResistance();
-                    if (resistance > 70) continue;
-
-                    EntityRubble rubble = new EntityRubble(level);
-                    rubble.setPos(bx + 0.5, by + 0.5, bz + 0.5);
-                    rubble.setMetaBasedOnBlock(level.getBlockState(bpos));
-
-                    Vec3 dir = new Vec3(posX - rubble.getX(), posY - rubble.getY(), posZ - rubble.getZ()).normalize();
-                    rubble.setDeltaMovement(dir.x * vel, dir.y * vel, dir.z * vel);
-
-                    level.addFreshEntity(rubble);
-                    level.setBlock(bpos, Blocks.AIR.defaultBlockState(), 3);
-                    break;
-                }
-            }
-        }
-    }
-
-    // ---------------- ВСПОМОГАТЕЛЬНЫЕ ---------------- //
-
-    public static int cloudFunction(int i) {
-        return (int) (850 * (1 - Math.pow(Math.E, -i / 15.0)) + 15);
-    }
-
-    public static int rubbleFunction(int i) {
-        return i / 10;
-    }
-
-    public static int shrapnelFunction(int i) {
-        return i / 3;
-    }
-}
+//public class ExplosionLarge {
+//
+//    private static final Random rand = new Random();
+//
+//    // ---------------- ЧАСТИЦЫ ---------------- //
+//
+//    public static void spawnParticles(Level level, double x, double y, double z, int count) {
+//        if (!(level instanceof ServerLevel server)) return;
+//        for (int i = 0; i < count; i++) {
+//            double dx = (rand.nextDouble() - 0.5) * 2;
+//            double dy = rand.nextDouble() * 0.5;
+//            double dz = (rand.nextDouble() - 0.5) * 2;
+//            server.sendParticles(ParticleTypes.SMOKE, x, y, z, 1, dx, dy, dz, 0.1);
+//        }
+//    }
+//
+//    public static void spawnParticlesRadial(Level level, double x, double y, double z, int count) {
+//        if (!(level instanceof ServerLevel server)) return;
+//        for (int i = 0; i < count; i++) {
+//            double angle = rand.nextDouble() * Math.PI * 2;
+//            double dx = Math.cos(angle) * 0.3;
+//            double dz = Math.sin(angle) * 0.3;
+//            server.sendParticles(ParticleTypes.SMOKE, x, y, z, 1, dx, 0.05, dz, 0.1);
+//        }
+//    }
+//
+//    public static void spawnFoam(Level level, double x, double y, double z, int count) {
+//        if (!(level instanceof ServerLevel server)) return;
+//        server.sendParticles(ParticleTypes.SPLASH, x, y, z, count, 0.3, 0.2, 0.3, 0.1);
+//    }
+//
+//    public static void spawnShock(Level level, double x, double y, double z, int count, double strength) {
+//        if (!(level instanceof ServerLevel server)) return;
+//        server.sendParticles(ParticleTypes.EXPLOSION, x, y + 0.5, z, count, strength, strength * 0.2, strength, 0.1);
+//    }
+//
+//    public static void spawnBurst(Level level, double x, double y, double z, int count, double strength) {
+//        Vec3 vec = new Vec3(strength, 0, 0).yRot((float) Math.toRadians(rand.nextInt(360)));
+//        for (int i = 0; i < count; i++) {
+//            ParticleUtil.spawnGasFlame(level, x, y, z, vec.x, 0.0, vec.z);
+//            vec = vec.yRot((float) Math.toRadians(360.0 / count));
+//        }
+//    }
+//
+//    // ---------------- ОБЛОМКИ ---------------- //
+//
+//    public static void spawnRubble(Level level, double x, double y, double z, int count) {
+//        if (level.isClientSide) return;
+//        for (int i = 0; i < count; i++) {
+//            EntityRubble rubble = new EntityRubble(level);
+//            rubble.setPos(x, y, z);
+//            rubble.setDeltaMovement(
+//                    rand.nextGaussian() * 0.75 * (1 + (count / 50.0)),
+//                    0.75 * (1 + ((count + rand.nextInt(count * 5))) / 25.0),
+//                    rand.nextGaussian() * 0.75 * (1 + (count / 50.0))
+//            );
+//            rubble.setMetaBasedOnBlock(Blocks.STONE.defaultBlockState());
+//            level.addFreshEntity(rubble);
+//        }
+//    }
+//
+//    public static void spawnShrapnels(Level level, double x, double y, double z, int count) {
+//        if (level.isClientSide) return;
+//        for (int i = 0; i < count; i++) {
+//            EntityShrapnel shrapnel = new EntityShrapnel(level);
+//            shrapnel.setPos(x, y, z);
+//            shrapnel.setDeltaMovement(
+//                    rand.nextGaussian() * (1 + count / 50.0),
+//                    ((rand.nextFloat() * 0.5) + 0.5) * (1 + (count / (15 + rand.nextInt(21)))) + (rand.nextFloat() / 50 * count),
+//                    rand.nextGaussian() * (1 + count / 50.0)
+//            );
+//            shrapnel.setTrail(rand.nextInt(3) == 0);
+//            level.addFreshEntity(shrapnel);
+//        }
+//    }
+//
+//    public static void spawnTracers(Level level, double x, double y, double z, int count) {
+//        if (level.isClientSide) return;
+//        for (int i = 0; i < count; i++) {
+//            EntityShrapnel shrapnel = new EntityShrapnel(level);
+//            shrapnel.setPos(x, y, z);
+//            shrapnel.setDeltaMovement(
+//                    rand.nextGaussian() * (1 + count / 50.0) * 0.25,
+//                    (((rand.nextFloat() * 0.5) + 0.5) * (1 + (count / (15 + rand.nextInt(21))))) + (rand.nextFloat() / 50 * count) * 0.25,
+//                    rand.nextGaussian() * (1 + count / 50.0) * 0.25
+//            );
+//            shrapnel.setTrail(true);
+//            level.addFreshEntity(shrapnel);
+//        }
+//    }
+//
+//    public static void spawnShrapnelShower(Level level, double x, double y, double z,
+//                                           double motionX, double motionY, double motionZ,
+//                                           int count, double deviation) {
+//        if (level.isClientSide) return;
+//        for (int i = 0; i < count; i++) {
+//            EntityShrapnel shrapnel = new EntityShrapnel(level);
+//            shrapnel.setPos(x, y, z);
+//            shrapnel.setDeltaMovement(
+//                    motionX + rand.nextGaussian() * deviation,
+//                    motionY + rand.nextGaussian() * deviation,
+//                    motionZ + rand.nextGaussian() * deviation
+//            );
+//            shrapnel.setTrail(rand.nextInt(3) == 0);
+//            level.addFreshEntity(shrapnel);
+//        }
+//    }
+//
+//    public static void spawnMissileDebris(Level level, double x, double y, double z,
+//                                          double motionX, double motionY, double motionZ,
+//                                          double deviation, List<ItemStack> debris, ItemStack rareDrop) {
+//        if (level.isClientSide) return;
+//
+//        if (debris != null) {
+//            for (ItemStack stack : debris) {
+//                if (!stack.isEmpty()) {
+//                    int k = rand.nextInt(stack.getCount() + 1);
+//                    for (int j = 0; j < k; j++) {
+//                        ItemEntity item = new ItemEntity(level, x, y, z, stack.copy());
+//                        item.setDeltaMovement(
+//                                (motionX + rand.nextGaussian() * deviation) * 0.85,
+//                                (motionY + rand.nextGaussian() * deviation) * 0.85,
+//                                (motionZ + rand.nextGaussian() * deviation) * 0.85
+//                        );
+//                        item.moveTo(item.getX() + item.getDeltaMovement().x * 2,
+//                                item.getY() + item.getDeltaMovement().y * 2,
+//                                item.getZ() + item.getDeltaMovement().z * 2);
+//                        level.addFreshEntity(item);
+//                    }
+//                }
+//            }
+//        }
+//
+//        if (rareDrop != null && rand.nextInt(10) == 0) {
+//            ItemEntity item = new ItemEntity(level, x, y, z, rareDrop.copy());
+//            item.setDeltaMovement(
+//                    motionX + rand.nextGaussian() * deviation * 0.1,
+//                    motionY + rand.nextGaussian() * deviation * 0.1,
+//                    motionZ + rand.nextGaussian() * deviation * 0.1
+//            );
+//            level.addFreshEntity(item);
+//        }
+//    }
+//
+//    // ---------------- ВЗРЫВЫ ---------------- //
+//
+//    public static void explode(Level level, double x, double y, double z,
+//                               float strength, boolean cloud, boolean rubble, boolean shrapnel, Entity exploder) {
+//        level.explode(exploder, x, y, z, strength, Level.ExplosionInteraction.BLOCK);
+//        if (cloud) spawnParticles(level, x, y, z, cloudFunction((int) strength));
+//        if (rubble) spawnRubble(level, x, y, z, rubbleFunction((int) strength));
+//        if (shrapnel) spawnShrapnels(level, x, y, z, shrapnelFunction((int) strength));
+//    }
+//
+//    public static void explode(Level level, double x, double y, double z,
+//                               float strength, boolean cloud, boolean rubble, boolean shrapnel) {
+//        explode(level, x, y, z, strength, cloud, rubble, shrapnel, null);
+//    }
+//
+//    public static void explodeFire(Level level, double x, double y, double z,
+//                                   float strength, boolean cloud, boolean rubble, boolean shrapnel) {
+//        level.explode(null, x, y, z, strength, Level.ExplosionInteraction.TNT);
+//        if (cloud) spawnParticles(level, x, y, z, cloudFunction((int) strength));
+//        if (rubble) spawnRubble(level, x, y, z, rubbleFunction((int) strength));
+//        if (shrapnel) spawnShrapnels(level, x, y, z, shrapnelFunction((int) strength));
+//    }
+//
+//    public static void buster(Level level, double x, double y, double z, Vec3 vector, float strength, float depth) {
+//        vector = vector.normalize();
+//        for (int i = 0; i < depth; i += 2) {
+//            level.explode(null,
+//                    x + vector.x * i,
+//                    y + vector.y * i,
+//                    z + vector.z * i,
+//                    strength,
+//                    Level.ExplosionInteraction.BLOCK
+//            );
+//        }
+//    }
+//
+//    public static void jolt(Level level, double posX, double posY, double posZ, double strength, int count, double vel) {
+//        if (level.isClientSide) return;
+//
+//        for (int j = 0; j < count; j++) {
+//            double phi = rand.nextDouble() * (Math.PI * 2);
+//            double costheta = rand.nextDouble() * 2 - 1;
+//            double theta = Math.acos(costheta);
+//            double x = Math.sin(theta) * Math.cos(phi);
+//            double y = Math.sin(theta) * Math.sin(phi);
+//            double z = Math.cos(theta);
+//
+//            Vec3 vec = new Vec3(x, y, z);
+//
+//            for (int i = 0; i < strength; i++) {
+//                int bx = (int) (posX + vec.x * i);
+//                int by = (int) (posY + vec.y * i);
+//                int bz = (int) (posZ + vec.z * i);
+//                BlockPos bpos = new BlockPos(bx, by, bz);
+//
+//                if (level.getBlockState(bpos).getMaterial().isLiquid()) {
+//                    level.setBlock(bpos, Blocks.AIR.defaultBlockState(), 3);
+//                }
+//
+//                if (!level.isEmptyBlock(bpos)) {
+//                    float resistance = level.getBlockState(bpos).getBlock().getExplosionResistance();
+//                    if (resistance > 70) continue;
+//
+//                    EntityRubble rubble = new EntityRubble(level);
+//                    rubble.setPos(bx + 0.5, by + 0.5, bz + 0.5);
+//                    rubble.setMetaBasedOnBlock(level.getBlockState(bpos));
+//
+//                    Vec3 dir = new Vec3(posX - rubble.getX(), posY - rubble.getY(), posZ - rubble.getZ()).normalize();
+//                    rubble.setDeltaMovement(dir.x * vel, dir.y * vel, dir.z * vel);
+//
+//                    level.addFreshEntity(rubble);
+//                    level.setBlock(bpos, Blocks.AIR.defaultBlockState(), 3);
+//                    break;
+//                }
+//            }
+//        }
+//    }
+//
+//    // ---------------- ВСПОМОГАТЕЛЬНЫЕ ---------------- //
+//
+//    public static int cloudFunction(int i) {
+//        return (int) (850 * (1 - Math.pow(Math.E, -i / 15.0)) + 15);
+//    }
+//
+//    public static int rubbleFunction(int i) {
+//        return i / 10;
+//    }
+//
+//    public static int shrapnelFunction(int i) {
+//        return i / 3;
+//    }
+//}
