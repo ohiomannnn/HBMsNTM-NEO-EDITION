@@ -25,7 +25,7 @@ import java.util.List;
 public class HBMsNTMClient {
     public HBMsNTMClient(IEventBus modBus, ModContainer container) {
         container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
-        ModParticles.PARTICLE_TYPES.register(modBus);
+        ModParticles.register(modBus);
         modBus.addListener(this::onClientSetup);
     }
     @SubscribeEvent

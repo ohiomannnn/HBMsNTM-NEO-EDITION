@@ -2,6 +2,7 @@ package com.hbm.items;
 
 import com.hbm.HBMsNTM;
 import com.hbm.items.special.ItemEntSpawner;
+import com.hbm.items.tools.ItemFlintAndBF;
 import com.hbm.items.tools.ItemGeigerCounter;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
@@ -20,6 +21,10 @@ public class ModItems {
 
     public static final DeferredItem<Item> DUCK_SPAWN_EGG = ITEMS.register("duck_spawn_egg",
             () -> new ItemEntSpawner(new Item.Properties().stacksTo(16)));
+    public static final DeferredItem<Item> FLINT_AND_BF = ITEMS.register("flint_and_bf",
+            () -> new ItemFlintAndBF(new Item.Properties()
+                    .stacksTo(1)
+                    .durability(256)));
 
 
     public static void register(IEventBus eventBus) {

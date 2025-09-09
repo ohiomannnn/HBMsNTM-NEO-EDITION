@@ -16,6 +16,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
     }
     @Override
     protected void registerStatesAndModels() {
+        simpleBlock(ModBlocks.GAS_COAL.get(), cubeAll(ModBlocks.GAS_COAL.get()));
         simpleBlockWithItem(ModBlocks.BRICK_CONCRETE.get(), cubeAll(ModBlocks.BRICK_CONCRETE.get()));
         simpleBlockWithItem(ModBlocks.BRICK_CONCRETE_MOSSY.get(), cubeAll(ModBlocks.BRICK_CONCRETE_MOSSY.get()));
         simpleBlockWithItem(ModBlocks.BRICK_CONCRETE_CRACKED.get(), cubeAll(ModBlocks.BRICK_CONCRETE_CRACKED.get()));

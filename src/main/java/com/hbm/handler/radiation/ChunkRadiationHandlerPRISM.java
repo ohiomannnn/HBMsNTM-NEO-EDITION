@@ -169,7 +169,6 @@ public class ChunkRadiationHandlerPRISM extends ChunkRadiationHandler {
 
             int rebuildAllowance = 25;
 
-            // сдвигаем radiation → prevRadiation и обнуляем radiation
             for (Entry<ChunkPos, SubChunk[]> chunk : system.radiation.entrySet()) {
                 ChunkPos coord = chunk.getKey();
 
@@ -181,7 +180,7 @@ public class ChunkRadiationHandlerPRISM extends ChunkRadiationHandler {
                         sub.prevRadiation = sub.radiation;
                         sub.radiation = 0;
 
-                        // перестраиваем некоторые сабчанки
+
                         if (rebuildAllowance > 0 && sub.needsRebuild) {
                             sub.rebuild(world, coord.x << 4, i << 4, coord.z << 4);
                             if (!sub.needsRebuild) {

@@ -19,7 +19,7 @@ import net.minecraft.world.level.Level;
 
 import java.util.HashSet;
 
-public class ContaminationUtil {
+public class  ContaminationUtil {
 
     public static float calculateRadiationMod(LivingEntity entity) {
         if (entity instanceof ServerPlayer player) {
@@ -104,10 +104,10 @@ public class ContaminationUtil {
 
 
     public static void printGeigerData(ServerPlayer player) {
-        Level world = player.level();
+        Level level = player.level();
 
         float eRad = (float) ((HbmLivingProps.getData(player).serializeNBT().getFloat("hfr_radiation") * 10) / 10D);
-        double rads = Math.floor(ChunkRadiationManager.proxy.getRadiation(world,
+        double rads = Math.floor(ChunkRadiationManager.proxy.getRadiation(level,
                 player.blockPosition().getX(),
                 player.blockPosition().getY(),
                 player.blockPosition().getZ()) * 10) / 10D;

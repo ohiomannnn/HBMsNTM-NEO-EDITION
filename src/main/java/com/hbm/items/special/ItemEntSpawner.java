@@ -54,11 +54,10 @@ public class ItemEntSpawner extends Item {
         ItemStack stack = player.getItemInHand(hand);
 
         if (!level.isClientSide) {
-            HitResult hit = getPlayerPOVHitResult(level, player, net.minecraft.world.level.ClipContext.Fluid.ANY);
+            BlockHitResult hit = getPlayerPOVHitResult(level, player, net.minecraft.world.level.ClipContext.Fluid.ANY);
 
             if (hit.getType() == HitResult.Type.BLOCK) {
-                BlockHitResult bhr = (BlockHitResult) hit;
-                BlockPos pos = bhr.getBlockPos();
+                BlockPos pos = hit.getBlockPos();
 
                 if (level.getFluidState(pos).isEmpty()) {
                     return InteractionResultHolder.pass(stack);

@@ -29,9 +29,4 @@ public class ItemGeigerCounter extends Item {
 
         return InteractionResultHolder.pass(stack);
     }
-    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
-        if (!level.isClientSide) {
-            ((ServerLevel) level).sendParticles(ModParticles.SOME_PART.get(), entity.getX(), entity.getY() + 1.5, entity.getZ(),1 , 0.0, 0.0, 0.0, 0);
-        }
-    }
 }

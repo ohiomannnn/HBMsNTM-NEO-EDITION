@@ -28,21 +28,20 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-
 import java.util.List;
 
-public class BlockTaint extends FallingBlock {
+public class TaintBlock extends FallingBlock {
 
     public static final IntegerProperty TAINT_LEVEL = IntegerProperty.create("taint_level", 0, 15);
 
     protected static final VoxelShape SHAPE = Block.box(0.0, 0.0, 0.0, 16.0, 12.0, 16.0);
 
-    public BlockTaint(Properties properties) {
+    public TaintBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(TAINT_LEVEL, 0));
     }
 
-    public static final MapCodec<BlockTaint> CODEC = simpleCodec(BlockTaint::new);
+    public static final MapCodec<TaintBlock> CODEC = simpleCodec(TaintBlock::new);
 
     @Override
     protected MapCodec<? extends FallingBlock> codec() {

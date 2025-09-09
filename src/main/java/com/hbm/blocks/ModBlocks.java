@@ -1,7 +1,9 @@
 package com.hbm.blocks;
 
 import com.hbm.HBMsNTM;
-import com.hbm.blocks.bomb.BlockTaint;
+import com.hbm.blocks.bomb.BalefireBlock;
+import com.hbm.blocks.bomb.TaintBlock;
+import com.hbm.blocks.gas.BlockGasCoal;
 import com.hbm.blocks.special.ConcreteBrickMarked;
 import com.hbm.items.ModItems;
 import com.mojang.serialization.MapCodec;
@@ -199,9 +201,14 @@ public class ModBlocks {
                     .explosionResistance(10.0F)
                     .sound(SoundType.STONE)));
 
+    public static final DeferredBlock<Block> GAS_COAL = registerBlock("gas_coal",
+            () -> new BlockGasCoal(BlockBehaviour.Properties.of()
+                    .noCollission()
+                    .noOcclusion()
+            ));
 
     public static final DeferredBlock<Block> TAINT = registerBlock("taint",
-            () -> new BlockTaint(BlockBehaviour.Properties.of()
+            () -> new TaintBlock(BlockBehaviour.Properties.of()
                     .strength(15.0F)
                     .explosionResistance(10.0F)
                     .randomTicks()));
@@ -247,11 +254,13 @@ public class ModBlocks {
     public static final DeferredBlock<Block> PRIBRIS_DIGAMMA = registerBlock("pribris_digamma",
             () -> new Block(BlockBehaviour.Properties.of()
                     .sound(SoundType.STONE)));
-    public static final DeferredBlock<Block> BALEFIRE = registerBlock("balefire",
-            () -> new Block(BlockBehaviour.Properties.of()
-                    .sound(SoundType.STONE)));
-
-
+    public static final DeferredBlock<Block> BALEFIRE = BLOCKS.register("balefire",
+            () -> new BalefireBlock(Block.Properties.of()
+                    .replaceable()
+                    .noCollission()
+                    .instabreak()
+                    .lightLevel(state -> 15)
+            ));
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> regBlock = BLOCKS.register(name, block);
