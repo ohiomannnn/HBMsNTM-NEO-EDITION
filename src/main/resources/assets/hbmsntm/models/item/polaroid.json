@@ -1,0 +1,113 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "hbmsntm:item/polaroid_1",
+      "predicate": {
+        "hbmsntm:polaroid_id": 1.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/polaroid_2",
+      "predicate": {
+        "hbmsntm:polaroid_id": 2.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/polaroid_3",
+      "predicate": {
+        "hbmsntm:polaroid_id": 3.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/polaroid_4",
+      "predicate": {
+        "hbmsntm:polaroid_id": 4.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/polaroid_5",
+      "predicate": {
+        "hbmsntm:polaroid_id": 5.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/polaroid_6",
+      "predicate": {
+        "hbmsntm:polaroid_id": 6.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/polaroid_7",
+      "predicate": {
+        "hbmsntm:polaroid_id": 7.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/polaroid_8",
+      "predicate": {
+        "hbmsntm:polaroid_id": 8.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/polaroid_9",
+      "predicate": {
+        "hbmsntm:polaroid_id": 9.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/polaroid_10",
+      "predicate": {
+        "hbmsntm:polaroid_id": 10.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/polaroid_11",
+      "predicate": {
+        "hbmsntm:polaroid_id": 11.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/polaroid_12",
+      "predicate": {
+        "hbmsntm:polaroid_id": 12.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/polaroid_13",
+      "predicate": {
+        "hbmsntm:polaroid_id": 13.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/polaroid_14",
+      "predicate": {
+        "hbmsntm:polaroid_id": 14.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/polaroid_15",
+      "predicate": {
+        "hbmsntm:polaroid_id": 15.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/polaroid_16",
+      "predicate": {
+        "hbmsntm:polaroid_id": 16.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/polaroid_17",
+      "predicate": {
+        "hbmsntm:polaroid_id": 17.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/polaroid_18",
+      "predicate": {
+        "hbmsntm:polaroid_id": 18.0
+      }
+    }
+  ]
+}

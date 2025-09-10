@@ -18,9 +18,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 
-public class ItemEntSpawner extends Item {
+public class EntitySpawnerItem extends Item {
 
-    public ItemEntSpawner(Properties props) {
+    public EntitySpawnerItem(Properties props) {
         super(props);
     }
 

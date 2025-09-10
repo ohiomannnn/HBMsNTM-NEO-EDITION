@@ -49,6 +49,8 @@ public class ModCreativeTabs {
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.GEIGER_COUNTER);
                         output.accept(ModItems.REACHER);
+                        output.accept(ModItems.FLINT_AND_BALEFIRE);
+                        output.accept(ModItems.POLAROID);
                     }).build());
 
 

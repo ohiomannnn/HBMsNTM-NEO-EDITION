@@ -11,7 +11,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.config.ModConfigEvent;
@@ -20,6 +19,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 import static com.hbm.extprop.HbmLivingProps.getData;
+import static com.hbm.items.ModItems.polaroidID;
 
 @EventBusSubscriber(modid = HBMsNTM.MODID)
 public class CommonEvents {
@@ -30,6 +30,7 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
+        HBMsNTM.LOGGER.info("pol = {}", polaroidID);
         var player = event.getEntity();
         var props = HbmLivingProps.getData(player);
 

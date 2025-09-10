@@ -1,5 +1,6 @@
 package com.hbm.items.tools;
 
+import com.hbm.HBMsNTM;
 import com.hbm.blocks.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
@@ -13,9 +14,9 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.player.Player;
 
-public class ItemFlintAndBF extends Item {
+public class BalefireAndSteelITem extends Item {
 
-    public ItemFlintAndBF(Properties properties) {
+    public BalefireAndSteelITem(Properties properties) {
         super(properties);
     }
 
@@ -30,8 +31,20 @@ public class ItemFlintAndBF extends Item {
             return InteractionResult.FAIL;
         }
 
-        if (level.isEmptyBlock(pos)) {
+        if (level.isEmptyBlock(pos) && !player.isCrouching()) {
+            HBMsNTM.LOGGER.info("set balefire at {}", pos);
             level.setBlock(pos, ModBlocks.BALEFIRE.get().defaultBlockState(), 3);
+            level.playSound(null,
+                    pos.getX() + 0.5D,
+                    pos.getY() + 0.5D,
+                    pos.getZ() + 0.5D,
+                    SoundEvents.FLINTANDSTEEL_USE,
+                    SoundSource.BLOCKS,
+                    1.0F,
+                    level.random.nextFloat() * 0.4F + 0.8F);
+        } else if (level.isEmptyBlock(pos) && player.isCrouching()) {
+            HBMsNTM.LOGGER.info("set digamma at {}", pos);
+            level.setBlock(pos, ModBlocks.FIRE_DIGAMMA.get().defaultBlockState(), 3);
             level.playSound(null,
                     pos.getX() + 0.5D,
                     pos.getY() + 0.5D,

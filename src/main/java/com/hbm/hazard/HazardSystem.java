@@ -36,7 +36,7 @@ public class HazardSystem {
         } else if (obj instanceof Item item) {
             itemMap.put(item, data);
         } else if (obj instanceof Block block) {
-            itemMap.put(Item.byBlock(block), data);
+            itemMap.put(block.asItem(), data);
         } else if (obj instanceof ItemStack stack) {
             stackMap.put(new ComparableStack(stack), data);
         } else if (obj instanceof ComparableStack comp) {

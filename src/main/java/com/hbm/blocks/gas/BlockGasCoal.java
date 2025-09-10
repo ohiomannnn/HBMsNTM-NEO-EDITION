@@ -12,7 +12,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class BlockGasCoal extends BlockGasBase {
+public class BlockGasCoal extends GasBase {
 
     public BlockGasCoal(Properties properties) {
         super(properties);

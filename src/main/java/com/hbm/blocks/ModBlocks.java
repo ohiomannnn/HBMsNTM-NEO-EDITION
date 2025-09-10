@@ -2,9 +2,10 @@ package com.hbm.blocks;
 
 import com.hbm.HBMsNTM;
 import com.hbm.blocks.bomb.BalefireBlock;
+import com.hbm.blocks.bomb.DigammaFlameBlock;
 import com.hbm.blocks.bomb.TaintBlock;
 import com.hbm.blocks.gas.BlockGasCoal;
-import com.hbm.blocks.special.ConcreteBrickMarked;
+import com.hbm.blocks.special.ConcreteBrickMBlock;
 import com.hbm.items.ModItems;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.world.item.BlockItem;
@@ -47,7 +48,7 @@ public class ModBlocks {
                     .requiresCorrectToolForDrops()
                     .sound(SoundType.STONE)));
     public static final DeferredBlock<Block> BRICK_CONCRETE_MARKED = registerBlock("brick_concrete_marked",
-            () -> new ConcreteBrickMarked(BlockBehaviour.Properties.of()
+            () -> new ConcreteBrickMBlock(BlockBehaviour.Properties.of()
                     .strength(15.0F)
                     .explosionResistance(160.0F)
                     .requiresCorrectToolForDrops()
@@ -58,6 +59,28 @@ public class ModBlocks {
                     .explosionResistance(20.0F)
                     .requiresCorrectToolForDrops()
                     .sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> BRICK_OBSIDIAN = registerBlock("brick_obsidian",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(15.0F)
+                    .explosionResistance(120.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> GRAVEL_OBSIDIAN = registerBlock("gravel_obsidian",
+            () -> new FallingBlock(BlockBehaviour.Properties.of()
+                    .strength(15.0F)
+                    .explosionResistance(120.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)) {
+                @Override
+                protected MapCodec<? extends FallingBlock> codec() {
+                    return simpleCodec(props -> new FallingBlock(props) {
+                        @Override
+                        protected MapCodec<? extends FallingBlock> codec() {
+                            return this.codec();
+                        }
+                    });
+                }
+            });
 
     public static final DeferredBlock<Block> WASTE_EARTH = registerBlock("waste_earth",
             () -> new Block(BlockBehaviour.Properties.of()
@@ -76,6 +99,11 @@ public class ModBlocks {
                     .isSuffocating((state, level, pos) -> false)
                     .isViewBlocking((state, level, pos) -> false)
                     .sound(SoundType.GRASS)));
+    public static final DeferredBlock<Block> WASTE_PLANKS = registerBlock("waste_planks",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(0.5F)
+                    .explosionResistance(2.5F)
+                    .sound(SoundType.WOOD)));
     public static final DeferredBlock<Block> WASTE_TRINITITE = registerBlock("waste_trinitite",
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(0.5F)
@@ -91,12 +119,6 @@ public class ModBlocks {
                     .lightLevel(value -> 1)
                     .strength(0.6F)
                     .sound(SoundType.GRASS)));
-    public static final DeferredBlock<Block> WASTE_PLANKS = registerBlock("waste_planks",
-            () -> new Block(BlockBehaviour.Properties.of()
-                    .strength(0.5F)
-                    .explosionResistance(2.5F)
-                    .sound(SoundType.WOOD)));
-
     public static final DeferredBlock<Block> BLOCK_SCRAP = registerBlock("block_scrap",
             () -> new FallingBlock(BlockBehaviour.Properties.of()
                     .strength(2.5F)
@@ -114,31 +136,6 @@ public class ModBlocks {
                         });
                     }
             });
-
-    public static final DeferredBlock<Block> BRICK_OBSIDIAN = registerBlock("brick_obsidian",
-            () -> new Block(BlockBehaviour.Properties.of()
-                    //.setLightOpacity(15) idk what is it
-                    .strength(15.0F)
-                    .explosionResistance(120.0F)
-                    .requiresCorrectToolForDrops()
-                    .sound(SoundType.STONE)));
-    public static final DeferredBlock<Block> GRAVEL_OBSIDIAN = registerBlock("gravel_obsidian",
-            () -> new FallingBlock(BlockBehaviour.Properties.of()
-                    .strength(15.0F)
-                    .explosionResistance(120.0F)
-                    .requiresCorrectToolForDrops()
-                    .sound(SoundType.STONE)) {
-                    @Override
-                    protected MapCodec<? extends FallingBlock> codec() {
-                        return simpleCodec(props -> new FallingBlock(props) {
-                            @Override
-                            protected MapCodec<? extends FallingBlock> codec() {
-                                return this.codec();
-                            }
-                        });
-                    }
-            });
-
     public static final DeferredBlock<Block> ORE_OIL = registerBlock("ore_oil",
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F)
@@ -184,7 +181,6 @@ public class ModBlocks {
                     .strength(5.0F)
                     .explosionResistance(10.0F)
                     .sound(SoundType.STONE)));
-
     public static final DeferredBlock<Block> ORE_GNEISS_URANIUM = registerBlock("ore_gneiss_uranium",
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(1.5F)
@@ -205,6 +201,7 @@ public class ModBlocks {
             () -> new BlockGasCoal(BlockBehaviour.Properties.of()
                     .noCollission()
                     .noOcclusion()
+                    .noLootTable()
             ));
 
     public static final DeferredBlock<Block> TAINT = registerBlock("taint",
@@ -213,7 +210,7 @@ public class ModBlocks {
                     .explosionResistance(10.0F)
                     .randomTicks()));
 
-    // FOR STAIRS //
+    //STAIRS
     public static final DeferredBlock<StairBlock> BRICK_CONCRETE_STAIRS = registerBlock("brick_concrete_stairs",
             () -> new StairBlock(ModBlocks.BRICK_CONCRETE.get().defaultBlockState(),
                     BlockBehaviour.Properties.of().strength(15.0F).requiresCorrectToolForDrops()));
@@ -227,7 +224,7 @@ public class ModBlocks {
             () -> new StairBlock(ModBlocks.BRICK_CONCRETE_BROKEN.get().defaultBlockState(),
                     BlockBehaviour.Properties.of().strength(15.0F).requiresCorrectToolForDrops()));
 
-    // FOR SLABS //
+    //SLABS
     public static final DeferredBlock<SlabBlock> BRICK_CONCRETE_SLAB = registerBlock("brick_concrete_slab",
             () -> new SlabBlock(BlockBehaviour.Properties.of().strength(15.0F).requiresCorrectToolForDrops()));
     public static final DeferredBlock<SlabBlock> BRICK_CONCRETE_MOSSY_SLAB = registerBlock("brick_concrete_mossy_slab",
@@ -237,30 +234,45 @@ public class ModBlocks {
     public static final DeferredBlock<SlabBlock> BRICK_CONCRETE_BROKEN_SLAB = registerBlock("brick_concrete_broken_slab",
             () -> new SlabBlock(BlockBehaviour.Properties.of().strength(15.0F).requiresCorrectToolForDrops()));
 
+    //whatever is this
     public static final DeferredBlock<Block> VOLCANIC_LAVA_BLOCK = registerBlock("volcanic_lava_block",
             () -> new Block(BlockBehaviour.Properties.of()
+                    .noLootTable()
                     .sound(SoundType.STONE)));
 
     public static final DeferredBlock<Block> RAD_LAVA_BLOCK = registerBlock("rad_lava_block",
             () -> new Block(BlockBehaviour.Properties.of()
+                    .noLootTable()
                     .sound(SoundType.STONE)));
 
     public static final DeferredBlock<Block> ASH_DIGAMMA = registerBlock("ash_digamma",
             () -> new Block(BlockBehaviour.Properties.of()
-                    .sound(SoundType.STONE)));
-    public static final DeferredBlock<Block> FIRE_DIGAMMA = registerBlock("fire_digamma",
-            () -> new Block(BlockBehaviour.Properties.of()
-                    .sound(SoundType.STONE)));
+                    .strength(0.5F)
+                    .explosionResistance(150.0F)
+                    .sound(SoundType.SAND)));
     public static final DeferredBlock<Block> PRIBRIS_DIGAMMA = registerBlock("pribris_digamma",
             () -> new Block(BlockBehaviour.Properties.of()
-                    .sound(SoundType.STONE)));
+                    .strength(50.0F)
+                    .explosionResistance(600.0F)
+                    .sound(SoundType.STONE)
+                    .noLootTable()));
+
+    //FIRE
     public static final DeferredBlock<Block> BALEFIRE = BLOCKS.register("balefire",
-            () -> new BalefireBlock(Block.Properties.of()
+            () -> new BalefireBlock(BlockBehaviour.Properties.of()
                     .replaceable()
                     .noCollission()
-                    .instabreak()
                     .lightLevel(state -> 15)
+                    .noLootTable()
             ));
+    public static final DeferredBlock<Block> FIRE_DIGAMMA = registerBlock("fire_digamma",
+            () -> new DigammaFlameBlock(BlockBehaviour.Properties.of()
+                    .noCollission()
+                    .noOcclusion()
+                    .lightLevel(state -> 10)
+                    .noLootTable()
+            ));
+
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> regBlock = BLOCKS.register(name, block);

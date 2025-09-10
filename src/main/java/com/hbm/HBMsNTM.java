@@ -24,7 +24,6 @@ import org.slf4j.LoggerFactory;
 public class HBMsNTM {
     public static final String MODID = "hbmsntm";
     public static final Logger LOGGER = LoggerFactory.getLogger("hbmsntm");
-
     public static final ChunkRadiationManager radiationManager = new ChunkRadiationManager();
 
     public HBMsNTM (IEventBus modEventBus, ModContainer modContainer) {

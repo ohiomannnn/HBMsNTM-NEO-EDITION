@@ -10,8 +10,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
-public class ConcreteBrickMarked extends Block {
-    public ConcreteBrickMarked(Properties properties) {
+public class ConcreteBrickMBlock extends Block {
+    public ConcreteBrickMBlock(Properties properties) {
         super(properties);
     }
     @Override

@@ -19,9 +19,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
 
-public abstract class BlockGasBase extends Block {
+public abstract class GasBase extends Block {
 
-    public BlockGasBase(Properties properties) {
+    public GasBase(Properties properties) {
         super(properties);
     }
 
@@ -102,8 +102,5 @@ public abstract class BlockGasBase extends Block {
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         super.animateTick(state, level, pos, random);
-        if (level.isClientSide) {
-            level.addParticle(ModParticles.SOME_PART.get(), pos.getX(), pos.getY(), pos.getZ(), 0.0, 0.0, 0.0);
-        }
     }
 }

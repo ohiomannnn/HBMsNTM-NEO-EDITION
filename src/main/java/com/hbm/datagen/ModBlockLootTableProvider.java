@@ -22,14 +22,36 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.BRICK_CONCRETE_CRACKED.get());
         dropSelf(ModBlocks.BRICK_CONCRETE_MARKED.get());
 
+        dropSelf(ModBlocks.BRICK_LIGHT.get());
+        dropSelf(ModBlocks.BRICK_OBSIDIAN.get());
+        dropSelf(ModBlocks.GRAVEL_OBSIDIAN.get());
+        dropSelf(ModBlocks.BLOCK_SCRAP.get());
+
         dropSelf(ModBlocks.BRICK_CONCRETE_STAIRS.get());
         dropSelf(ModBlocks.BRICK_CONCRETE_MOSSY_STAIRS.get());
         dropSelf(ModBlocks.BRICK_CONCRETE_BROKEN_STAIRS.get());
         dropSelf(ModBlocks.BRICK_CONCRETE_CRACKED_STAIRS.get());
 
+        dropSelf(ModBlocks.ORE_OIL.get());
+        dropSelf(ModBlocks.ORE_URANIUM.get());
+        dropSelf(ModBlocks.ORE_URANIUM_SCORCHED.get());
+        dropSelf(ModBlocks.ORE_SCHRABIDIUM.get());
+        dropSelf(ModBlocks.ORE_NETHER_URANIUM.get());
+        dropSelf(ModBlocks.ORE_NETHER_URANIUM_SCORCHED.get());
+        dropSelf(ModBlocks.ORE_NETHER_PLUTONIUM.get());
+        dropSelf(ModBlocks.ORE_NETHER_SCHRABIDIUM.get());
+        dropSelf(ModBlocks.ORE_TIKITE.get());
+        dropSelf(ModBlocks.ORE_GNEISS_URANIUM.get());
+        dropSelf(ModBlocks.ORE_GNEISS_URANIUM_SCORCHED.get());
+        dropSelf(ModBlocks.ORE_GNEISS_SCHRABIDIUM.get());
+
         dropSelf(ModBlocks.WASTE_EARTH.get());
         dropSelf(ModBlocks.WASTE_LOG.get());
         dropSelf(ModBlocks.WASTE_LEAVES.get());
+        dropSelf(ModBlocks.WASTE_PLANKS.get());
+        dropSelf(ModBlocks.WASTE_MYCELIUM.get());
+        dropSelf(ModBlocks.WASTE_TRINITITE_RED.get());
+        dropSelf(ModBlocks.WASTE_TRINITITE.get());
 
         dropSelf(ModBlocks.TAINT.get());
 
@@ -41,6 +63,8 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                 block -> createSlabItemTable(ModBlocks.BRICK_CONCRETE_SLAB.get()));
         add(ModBlocks.BRICK_CONCRETE_CRACKED_SLAB.get(),
                 block -> createSlabItemTable(ModBlocks.BRICK_CONCRETE_SLAB.get()));
+
+        dropSelf(ModBlocks.ASH_DIGAMMA.get());
     }
 
     @Override

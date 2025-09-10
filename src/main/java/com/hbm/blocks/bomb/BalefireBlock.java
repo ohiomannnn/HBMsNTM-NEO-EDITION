@@ -19,6 +19,9 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.awt.*;
 
@@ -36,6 +39,15 @@ public class BalefireBlock extends BaseFireBlock {
     @Override
     protected MapCodec<? extends BaseFireBlock> codec() {
         return CODEC;
+    }
+
+    @Override
+    protected VoxelShape getCollisionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+        return Shapes.empty();
+    }
+    @Override
+    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return Shapes.empty();
     }
 
     @Override
@@ -151,7 +163,7 @@ public class BalefireBlock extends BaseFireBlock {
     }
 
     @Override
-    public void entityInside(BlockState state, net.minecraft.world.level.Level level, BlockPos pos, Entity entity) {
+    protected void entityInside(BlockState state, net.minecraft.world.level.Level level, BlockPos pos, Entity entity) {
         entity.setRemainingFireTicks(10 * 20);
         if (entity instanceof LivingEntity living) {
             living.addEffect(new MobEffectInstance(ModPotions.RADIATION, 5 * 20, 9));

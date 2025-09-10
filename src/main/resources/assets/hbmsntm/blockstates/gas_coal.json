@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "hbmsntm:block/taint"
+      "model": "hbmsntm:block/gas_coal"
     }
   }
 }

@@ -5,7 +5,10 @@ import com.hbm.blocks.bomb.BalefireBlock;
 import com.hbm.entity.ModEntities;
 import com.hbm.entity.mob.rendrer.EntityDuckRenderer;
 import com.hbm.hazard.HazardSystem;
+import com.hbm.items.ModItems;
 import com.hbm.particle.*;
+import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -50,11 +53,14 @@ public class HBMsNTMClient {
         event.registerSpriteSet(ModParticles.EXPLOSION_SMALL.get(), ParticleExplosionSmall.Provider::new);
         event.registerSpriteSet(ModParticles.MUKE_WAVE.get(), ParticleMukeWave.Provider::new);
         event.registerSpriteSet(ModParticles.COOLING_TOWER.get(), ParticleCoolingTower.Provider::new);
+        ItemProperties.register(ModItems.POLAROID.get(),
+                ResourceLocation.fromNamespaceAndPath("hbm", "polaroid_id"),
+                (stack, level, entity, seed) -> ModItems.polaroidID);
     }
 
     @SubscribeEvent
     public static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
-        event.getBlockColors().register((state, level, pos, tintIndex) -> {
+        event.register((state, level, pos, tintIndex) -> {
             if (state.hasProperty(BalefireBlock.AGE)) {
                 int age = state.getValue(BalefireBlock.AGE);
                 return Color.HSBtoRGB(0F, 0F, 1F - age / 30F);
