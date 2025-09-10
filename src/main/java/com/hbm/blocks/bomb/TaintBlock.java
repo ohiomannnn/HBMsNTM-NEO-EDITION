@@ -1,7 +1,7 @@
 
 package com.hbm.blocks.bomb;
 
-import com.hbm.lib.ModPotions;
+import com.hbm.lib.ModEffect;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -111,7 +111,7 @@ public class TaintBlock extends FallingBlock {
         entity.setDeltaMovement(motion.x * 0.6, motion.y, motion.z * 0.6);
 
         if (entity instanceof LivingEntity livingEntity) {
-            MobEffectInstance effect = new MobEffectInstance(ModPotions.TAINT, 15 * 20, potionLevel);
+            MobEffectInstance effect = new MobEffectInstance(ModEffect.TAINT, 15 * 20, potionLevel);
 
             if (level.random.nextInt(50) == 0) {
                 livingEntity.addEffect(effect);

@@ -8,7 +8,7 @@ import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModAttachments;
 import com.hbm.lib.ModCommands;
-import com.hbm.lib.ModPotions;
+import com.hbm.lib.ModEffect;
 import com.hbm.lib.ModSounds;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -33,7 +33,7 @@ public class HBMsNTM {
         ModSounds.register(modEventBus);
         ModCreativeTabs.register(modEventBus);
         ModAttachments.register(modEventBus);
-        ModPotions.register(modEventBus);
+        ModEffect.register(modEventBus);
 
         NeoForge.EVENT_BUS.register(radiationManager);
         NeoForge.EVENT_BUS.register(this);

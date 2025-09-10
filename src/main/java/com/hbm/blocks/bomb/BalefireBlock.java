@@ -1,6 +1,6 @@
 package com.hbm.blocks.bomb;
 
-import com.hbm.lib.ModPotions;
+import com.hbm.lib.ModEffect;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -166,7 +166,7 @@ public class BalefireBlock extends BaseFireBlock {
     protected void entityInside(BlockState state, net.minecraft.world.level.Level level, BlockPos pos, Entity entity) {
         entity.setRemainingFireTicks(10 * 20);
         if (entity instanceof LivingEntity living) {
-            living.addEffect(new MobEffectInstance(ModPotions.RADIATION, 5 * 20, 9));
+            living.addEffect(new MobEffectInstance(ModEffect.RADIATION, 5 * 20, 9));
         }
     }
 

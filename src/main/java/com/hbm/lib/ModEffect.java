@@ -9,7 +9,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-public class ModPotions {
+public class ModEffect {
     public static final DeferredRegister<MobEffect> MOB_EFFECTS =
             DeferredRegister.create(BuiltInRegistries.MOB_EFFECT, HBMsNTM.MODID);
 

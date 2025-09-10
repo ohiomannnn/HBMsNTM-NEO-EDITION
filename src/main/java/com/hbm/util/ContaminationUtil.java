@@ -4,7 +4,7 @@ import api.hbm.entity.IRadiationImmune;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.extprop.HbmLivingProps;
 import com.hbm.handler.radiation.ChunkRadiationManager;
-import com.hbm.lib.ModPotions;
+import com.hbm.lib.ModEffect;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -38,7 +38,7 @@ public class  ContaminationUtil {
     public static HashSet<Class<?>> immuneEntities = new HashSet<>();
 
     public static boolean isRadImmune(Entity entity) {
-        if (entity instanceof LivingEntity && ((LivingEntity) entity).hasEffect(ModPotions.MUTATION)) {
+        if (entity instanceof LivingEntity && ((LivingEntity) entity).hasEffect(ModEffect.MUTATION)) {
             return true;
         }
 

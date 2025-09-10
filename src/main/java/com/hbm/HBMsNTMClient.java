@@ -54,7 +54,7 @@ public class HBMsNTMClient {
         event.registerSpriteSet(ModParticles.MUKE_WAVE.get(), ParticleMukeWave.Provider::new);
         event.registerSpriteSet(ModParticles.COOLING_TOWER.get(), ParticleCoolingTower.Provider::new);
         ItemProperties.register(ModItems.POLAROID.get(),
-                ResourceLocation.fromNamespaceAndPath("hbm", "polaroid_id"),
+                ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "polaroid_id"),
                 (stack, level, entity, seed) -> ModItems.polaroidID);
     }
 

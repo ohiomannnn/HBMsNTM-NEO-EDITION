@@ -11,7 +11,7 @@ public class PhosphorusEffect extends MobEffect {
 
     @Override
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
-        entity.setRemainingFireTicks(1);
+        entity.setRemainingFireTicks(20);
         return true;
     }
 

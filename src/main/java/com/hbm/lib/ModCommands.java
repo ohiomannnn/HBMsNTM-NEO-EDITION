@@ -77,7 +77,7 @@ public class ModCommands {
                                 )
                         )
                         /// ===== ADD ===== ///
-                        .then(Commands.literal("set")
+                        .then(Commands.literal("add")
                                 .then(Commands.argument("target", EntityArgument.entity())
                                         .then(Commands.argument("field", StringArgumentType.word())
                                                 .suggests(NTMEntityFields_SUGGESTION)

@@ -3,7 +3,7 @@ package com.hbm.lib.effects;
 //import com.hbm.explosion.ExplosionLarge; // Предполагается, что этот класс уже портирован
 //import com.hbm.item.ModItems; // Предполагается, что этот класс уже портирован
 //import com.hbm.lib.ModDamageSource; // Предполагается, что этот класс уже портирован
-import com.hbm.lib.ModPotions;
+import com.hbm.lib.ModEffect;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
@@ -36,7 +36,7 @@ public class BangEffect extends MobEffect {
 //            cow.spawnAtLocation(new ItemStack(ModItems.CHEESE.get(), toDrop));
 //        }
 
-        entity.removeEffect(ModPotions.BANG);
+        entity.removeEffect(ModEffect.BANG);
         return false;
     }
 
