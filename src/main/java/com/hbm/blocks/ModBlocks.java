@@ -1,9 +1,7 @@
 package com.hbm.blocks;
 
 import com.hbm.HBMsNTM;
-import com.hbm.blocks.bomb.BalefireBlock;
-import com.hbm.blocks.bomb.DigammaFlameBlock;
-import com.hbm.blocks.bomb.TaintBlock;
+import com.hbm.blocks.bomb.*;
 import com.hbm.blocks.gas.GasCoalBlock;
 import com.hbm.blocks.gas.GasMonoxideBlock;
 import com.hbm.blocks.special.ConcreteBrickMBlock;
@@ -263,6 +261,20 @@ public class ModBlocks {
                     .explosionResistance(600.0F)
                     .sound(SoundType.STONE)
                     .noLootTable()));
+    public static final DeferredBlock<Block> TEST_BOMB = registerBlock("test_bomb",
+            () -> new TestBomb(BlockBehaviour.Properties.of()
+                    .strength(50.0F)
+                    .explosionResistance(600.0F)
+                    .sound(SoundType.STONE)
+                    .noLootTable()));
+    public static final DeferredBlock<Block> TEST_RAD = registerBlock("test_rad",
+            () -> new TestRadBlock(BlockBehaviour.Properties.of()
+                    .strength(50.0F)
+                    .explosionResistance(600.0F)
+                    .sound(SoundType.STONE)
+                    .noLootTable()));
+
+
 
     //FIRE
     public static final DeferredBlock<Block> BALEFIRE = BLOCKS.register("balefire",

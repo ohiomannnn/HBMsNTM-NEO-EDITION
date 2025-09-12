@@ -1,6 +1,7 @@
 package com.hbm.handler.radiation;
 
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforge.event.level.ChunkDataEvent;
 import net.neoforged.neoforge.event.level.ChunkEvent;
@@ -23,4 +24,5 @@ public abstract class ChunkRadiationHandler {
     public void receiveChunkUnload(ChunkEvent.Unload event) {}
 
     public void handleWorldDestruction() {}
+    public void onChunkFullyLoaded(Level level, LevelChunk chunk) {}
 }

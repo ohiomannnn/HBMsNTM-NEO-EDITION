@@ -16,6 +16,8 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.config.ModConfigEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import org.slf4j.Logger;
@@ -39,12 +41,19 @@ public class HBMsNTM {
         NeoForge.EVENT_BUS.register(radiationManager);
         NeoForge.EVENT_BUS.register(this);
 
+        modEventBus.addListener(this::onConfigLoad);
+
         modContainer.registerConfig(ModConfig.Type.SERVER, ServerConfig.SPEC);
     }
 
     @SubscribeEvent
     public void registerCommands(RegisterCommandsEvent event) {
         ModCommands.registerCommandNTMEntityFields(event.getDispatcher());
+    }
+    private void onConfigLoad(final ModConfigEvent.Loading event) {
+        if (event.getConfig().getModId().equals("hbmsntm")) {
+            ChunkRadiationManager.initProxy();
+        }
     }
 }
 

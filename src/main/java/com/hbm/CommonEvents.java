@@ -15,6 +15,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 import static com.hbm.extprop.LivingProperties.getRadiation;
@@ -36,6 +37,11 @@ public class CommonEvents {
     }
 
     @SubscribeEvent
+    public static void onServerStarting(ServerStartingEvent event) {
+        HazardRegistry.registerItems();
+    }
+
+    @SubscribeEvent
     public static void onLivingTick(EntityTickEvent.Pre event) {
         Entity entity = event.getEntity();
 
@@ -50,10 +56,5 @@ public class CommonEvents {
         if (entity instanceof LivingEntity livingEntity) {
             HazardSystem.updateLivingInventory(livingEntity);
         }
-    }
-    @SubscribeEvent
-    public static void ConfigLoad(ModConfigEvent.Loading event) {
-        ChunkRadiationManager.initProxy();
-        HazardRegistry.registerItems();
     }
 }

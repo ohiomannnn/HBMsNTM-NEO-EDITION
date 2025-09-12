@@ -11,6 +11,7 @@ import net.neoforged.neoforge.event.tick.ServerTickEvent;
 public class ChunkRadiationManager {
 
     public static ChunkRadiationHandler proxy;
+    private int eggTimer = 0;
 
     public static void initProxy() {
         if (ServerConfig.ENABLE_PRISM_RAD.getAsBoolean()) {
@@ -21,49 +22,61 @@ public class ChunkRadiationManager {
             HBMsNTM.LOGGER.info("Using simple radiation system");
         }
     }
-    private int eggTimer = 0;
+
+    private void ensureProxy() {
+        if (proxy == null) {
+            initProxy();
+        }
+    }
 
     @SubscribeEvent
     public void onWorldLoad(LevelEvent.Load event) {
-        if (ServerConfig.ENABLE_CHUNK_RADS.getAsBoolean()) {
-            proxy.receiveWorldLoad(event);
-        }
+        if (!ServerConfig.ENABLE_CHUNK_RADS.getAsBoolean()) return;
+        if (event.getLevel().isClientSide()) return;
+        ensureProxy();
+        proxy.receiveWorldLoad(event);
     }
 
     @SubscribeEvent
     public void onWorldUnload(LevelEvent.Unload event) {
-        if (ServerConfig.ENABLE_CHUNK_RADS.getAsBoolean()) {
-            proxy.receiveWorldUnload(event);
-        }
+        if (!ServerConfig.ENABLE_CHUNK_RADS.getAsBoolean()) return;
+        if (event.getLevel().isClientSide()) return;
+        ensureProxy();
+        proxy.receiveWorldUnload(event);
     }
 
     @SubscribeEvent
-    public void onChunkLoad(ChunkDataEvent.Load event) {
-        if (ServerConfig.ENABLE_CHUNK_RADS.getAsBoolean()) {
-            proxy.receiveChunkLoad(event);
-        }
+    public void onChunkDataLoad(ChunkDataEvent.Load event) {
+        if (!ServerConfig.ENABLE_CHUNK_RADS.getAsBoolean()) return;
+        if (event.getLevel() == null) return;
+        if (event.getLevel().isClientSide()) return;
+        ensureProxy();
+        proxy.receiveChunkLoad(event);
     }
 
     @SubscribeEvent
     public void onChunkSave(ChunkDataEvent.Save event) {
-        if (ServerConfig.ENABLE_CHUNK_RADS.getAsBoolean()) {
-            proxy.receiveChunkSave(event);
-        }
+        if (!ServerConfig.ENABLE_CHUNK_RADS.getAsBoolean()) return;
+        if (event.getLevel() == null) return;
+        if (event.getLevel().isClientSide()) return;
+        ensureProxy();
+        proxy.receiveChunkSave(event);
     }
 
     @SubscribeEvent
     public void onChunkUnload(ChunkEvent.Unload event) {
-        if (ServerConfig.ENABLE_CHUNK_RADS.getAsBoolean()) {
-            proxy.receiveChunkUnload(event);
-        }
+        if (!ServerConfig.ENABLE_CHUNK_RADS.getAsBoolean()) return;
+        if (event.getLevel().isClientSide()) return;
+        ensureProxy();
+        proxy.receiveChunkUnload(event);
     }
 
     @SubscribeEvent
     public void onServerTick(ServerTickEvent.Post event) {
         if (!ServerConfig.ENABLE_CHUNK_RADS.getAsBoolean()) return;
+        ensureProxy();
 
         eggTimer++;
-
         if (eggTimer >= 20) {
             proxy.updateSystem();
             eggTimer = 0;

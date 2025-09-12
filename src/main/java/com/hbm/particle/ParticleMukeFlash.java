@@ -1,10 +1,13 @@
 package com.hbm.particle;
 
+import com.hbm.HBMsNTM;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.FastColor;
+import org.joml.Vector3f;
 
 import java.util.Random;
 
@@ -17,8 +20,8 @@ public class ParticleMukeFlash extends TextureSheetParticle {
         super(level, x, y, z);
         this.bf = bf;
         this.lifetime = 20;
-        this.setSize(99.0F, 99.0F);
         this.setSpriteFromAge(sprites);
+        HBMsNTM.LOGGER.info("Spawned MUKE_FLASH at " + x + " " + y + " " + z);
     }
 
     @Override
@@ -88,12 +91,60 @@ public class ParticleMukeFlash extends TextureSheetParticle {
         }
     }
 
-
     @Override
-    public void render(VertexConsumer buffer, Camera camera, float partialTicks) {
-        super.render(buffer, camera, partialTicks);
-    }
+    public void render(VertexConsumer vertexConsumer, Camera camera, float partialTicks) {
+        float px = (float)(xo + (this.x - xo) * partialTicks - camera.getPosition().x());
+        float py = (float)(yo + (this.y - yo) * partialTicks - camera.getPosition().y());
+        float pz = (float)(zo + (this.z - zo) * partialTicks - camera.getPosition().z());
 
+        float scale = (this.age + partialTicks) * 3.0F + 1.0F;
+        float alpha = 1.0F - ((this.age + partialTicks) / (float)this.lifetime);
+        if (alpha < 0) alpha = 0;
+        if (alpha > 1) alpha = 1;
+
+        int color = FastColor.ARGB32.color((int)(alpha * 255), 255, 230, 191);
+
+        float u0 = this.getU0();
+        float v0 = this.getV0();
+        float u1 = this.getU1();
+        float v1 = this.getV1();
+        int light = 0xF000F0;
+        int overlay = 0;
+
+        Vector3f left = camera.getLeftVector();
+        Vector3f up = camera.getUpVector();
+
+        float leftX = left.x() * scale;
+        float leftY = left.y() * scale;
+        float leftZ = left.z() * scale;
+        float upX = up.x() * scale;
+        float upY = up.y() * scale;
+        float upZ = up.z() * scale;
+
+        for (int i = 0; i < 10; i++) {
+
+            float x0 = px - leftX - upX;
+            float y0 = py - leftY - upY;
+            float z0 = pz - leftZ - upZ;
+
+            float x1 = px - leftX + upX;
+            float y1 = py - leftY + upY;
+            float z1 = pz - leftZ + upZ;
+
+            float x2 = px + leftX + upX;
+            float y2 = py + leftY + upY;
+            float z2 = pz + leftZ + upZ;
+
+            float x3 = px + leftX - upX;
+            float y3 = py + leftY - upY;
+            float z3 = pz + leftZ - upZ;
+
+            vertexConsumer.addVertex(x0, y0, z0, color, u1, v1, overlay, light, 0, 1, 0);
+            vertexConsumer.addVertex(x1, y1, z1, color, u1, v0, overlay, light, 0, 1, 0);
+            vertexConsumer.addVertex(x2, y2, z2, color, u0, v0, overlay, light, 0, 1, 0);
+            vertexConsumer.addVertex(x3, y3, z3, color, u0, v1, overlay, light, 0, 1, 0);
+        }
+    }
     @Override
     public ParticleRenderType getRenderType() {
         return CustomPartSheet.PARTICLE_SHEET_ADDITIVE;
