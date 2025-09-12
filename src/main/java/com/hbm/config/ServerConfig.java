@@ -117,6 +117,10 @@ public class ServerConfig {
             .comment("Allows all types of procedural explosions to keep the central chunk loaded and to generate new chunks.")
             .translation("config.hbmsntm.enableChunkLoading")
             .define("enableChunkLoading", true);
+    public static final ModConfigSpec.BooleanValue ENABLE_EXTENDED_LOGGING = BUILDER
+            .comment("Logs uses of the detonator, nuclear explosions, missile launches, grenades, etc.")
+            .translation("config.hbmsntm.enableExtendedLogging")
+            .define("enableExtendedLogging", true);
 
     static {
         BUILDER.pop();

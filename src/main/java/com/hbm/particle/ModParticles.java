@@ -18,6 +18,9 @@ public class ModParticles {
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> MUKE_CLOUD =
             PARTICLE_TYPES.register("muke_cloud",
                     () -> new SimpleParticleType(false));
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> MUKE_CLOUD_BF =
+            PARTICLE_TYPES.register("muke_cloud_bf",
+                    () -> new SimpleParticleType(false));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> MUKE_WAVE =
             PARTICLE_TYPES.register("muke_wave",
                     () -> new SimpleParticleType(false));
@@ -27,6 +30,13 @@ public class ModParticles {
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> COOLING_TOWER =
             PARTICLE_TYPES.register("cooling_tower",
                     () -> new SimpleParticleType(false));
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> GAS_FLAME =
+            PARTICLE_TYPES.register("gas_flame",
+                    () -> new SimpleParticleType(false));
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> MUKE_FLASH =
+            PARTICLE_TYPES.register("muke_flash",
+                    () -> new SimpleParticleType(false));
+
     public static void register(IEventBus eventBus) {
         PARTICLE_TYPES.register(eventBus);
     }

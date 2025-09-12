@@ -7,7 +7,7 @@ import com.hbm.entity.mob.rendrer.EntityDuckRenderer;
 import com.hbm.handler.gui.GeigerGUI;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.items.ModItems;
-import com.hbm.packets.PacketsClient;
+import com.hbm.packets.PacketsDispatcher;
 import com.hbm.particle.*;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
@@ -33,21 +33,18 @@ import java.util.List;
 @EventBusSubscriber(value = Dist.CLIENT)
 public class HBMsNTMClient {
     public HBMsNTMClient(IEventBus modBus, ModContainer modContainer) {
-        //config screen
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
-        //particles
         ModParticles.register(modBus);
-        //gui
         modBus.addListener(GeigerGUI::RegisterGuiLayers);
-
-        modBus.addListener(this::onClientSetup);
-//        modContainer.registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
-
-        modBus.addListener(PacketsClient::registerPackets);
+        modBus.addListener(this::registerParticles);
+        modBus.addListener(PacketsDispatcher::registerPackets);
     }
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.DUCK.get(), EntityDuckRenderer::new);
+        ItemProperties.register(ModItems.POLAROID.get(),
+                ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "polaroid_id"),
+                (stack, level, entity, seed) -> ModItems.polaroidID);
     }
     @SubscribeEvent
     public static void drawTooltip(ItemTooltipEvent event) {
@@ -56,15 +53,15 @@ public class HBMsNTMClient {
 
         HazardSystem.addFullTooltip(stack, list);
     }
-    private void onClientSetup(RegisterParticleProvidersEvent event) {
+    private void registerParticles(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(ModParticles.SOME_PART.get(), ParticleSomePart.Provider::new);
         event.registerSpriteSet(ModParticles.MUKE_CLOUD.get(), ParticleMukeCloud.Provider::new);
+        event.registerSpriteSet(ModParticles.MUKE_CLOUD_BF.get(), ParticleMukeCloud.Provider::new);
         event.registerSpriteSet(ModParticles.EXPLOSION_SMALL.get(), ParticleExplosionSmall.Provider::new);
         event.registerSpriteSet(ModParticles.MUKE_WAVE.get(), ParticleMukeWave.Provider::new);
         event.registerSpriteSet(ModParticles.COOLING_TOWER.get(), ParticleCoolingTower.Provider::new);
-        ItemProperties.register(ModItems.POLAROID.get(),
-                ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "polaroid_id"),
-                (stack, level, entity, seed) -> ModItems.polaroidID);
+        event.registerSpriteSet(ModParticles.GAS_FLAME.get(), ParticleGasFlame.Provider::new);
+        event.registerSpriteSet(ModParticles.MUKE_FLASH.get(), ParticleMukeFlash.Provider::new);
     }
 
     @SubscribeEvent

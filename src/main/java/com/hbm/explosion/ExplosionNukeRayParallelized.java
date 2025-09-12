@@ -22,6 +22,10 @@ import java.util.List;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.DoubleAdder;
 
+
+/**
+ * idk why did i port this class. for future ig
+ */
 public class ExplosionNukeRayParallelized implements IExplosionRay {
 
     private static final int WORLD_HEIGHT = 256;
@@ -199,7 +203,7 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
             try {
                 chunk = level.getChunk(cp.x, cp.z);
             } catch (Throwable t) {
-                chunk = level.getChunkSource().getChunkNow(cp);
+                chunk = level.getChunkSource().getChunkNow(cp.x, cp.z);
                 if (chunk == null) {
                     HBMsNTM.LOGGER.warn("Cannot access chunk {} for explosion destruction.", cp);
                     continue;
@@ -233,13 +237,10 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
 
                     BlockPos pos = new BlockPos(xGlobal, yGlobal, zGlobal);
 
-                    // Проверяем состояние блока через секцию/чанк
                     boolean notAir;
                     try {
-                        // В современных API: LevelChunk#getBlockState или section.getBlockState
                         notAir = !chunk.getBlockState(pos).isAir();
                     } catch (Throwable t) {
-                        // fallback: считаем, что блок есть — но это рисковано
                         notAir = true;
                     }
 
@@ -280,7 +281,8 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
                 try {
                     level.setBlocksDirty(
                             new BlockPos(cp.x << 4, 0, cp.z << 4),
-                            new BlockPos((cp.x << 4) + 15, level.getMaxBuildHeight() - 1, (cp.z << 4) + 15)
+                            Blocks.AIR.defaultBlockState(),
+                            Blocks.AIR.defaultBlockState()
                     );
                 } catch (Throwable ignored) {}
             }

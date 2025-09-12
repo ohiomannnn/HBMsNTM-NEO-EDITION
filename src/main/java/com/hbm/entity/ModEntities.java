@@ -21,6 +21,7 @@ public class ModEntities {
                     () -> EntityType.Builder.of(EntityDuck::new, MobCategory.CREATURE)
                             .sized(0.4F, 0.7F)
                             .build("duck"));
+
     public static final DeferredHolder<EntityType<?>, EntityType<EntityShrapnel>> SHRAPNEL =
             ENTITY_TYPES.register("shrapnel",
                     () -> EntityType.Builder.of(EntityShrapnel::new, MobCategory.MISC)

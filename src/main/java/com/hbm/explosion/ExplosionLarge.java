@@ -3,6 +3,7 @@ package com.hbm.explosion;
 import com.hbm.entity.ModEntities;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntityShrapnel;
+import com.hbm.particle.ModParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -50,13 +51,13 @@ public class ExplosionLarge {
         server.sendParticles(ParticleTypes.EXPLOSION, x, y + 0.5, z, count, strength, strength * 0.2, strength, 0.1);
     }
 
-//    public static void spawnBurst(Level level, double x, double y, double z, int count, double strength) {
-//        Vec3 vec = new Vec3(strength, 0, 0).yRot((float) Math.toRadians(rand.nextInt(360)));
-//        for (int i = 0; i < count; i++) {
-//            ParticleUtil.spawnGasFlame(level, x, y, z, vec.x, 0.0, vec.z);
-//            vec = vec.yRot((float) Math.toRadians(360.0 / count));
-//        }
-//    }
+    public static void spawnBurst(Level level, double x, double y, double z, int count, double strength) {
+        Vec3 vec = new Vec3(strength, 0, 0).yRot((float) Math.toRadians(rand.nextInt(360)));
+        for (int i = 0; i < count; i++) {
+            level.addParticle(ModParticles.GAS_FLAME.get(), x, y, z, vec.x, 0.0, vec.z);
+            vec = vec.yRot((float) Math.toRadians(360.0 / count));
+        }
+    }
 
     public static void spawnRubble(Level level, double x, double y, double z, int count) {
         if (level.isClientSide) return;
@@ -68,7 +69,7 @@ public class ExplosionLarge {
                     0.75 * (1 + ((count + rand.nextInt(count * 5))) / 25.0),
                     rand.nextGaussian() * 0.75 * (1 + (count / 50.0))
             );
-            rubble.setMetaBasedOnBlock(Blocks.STONE, 3);
+            rubble.setMetaBasedOnBlock(Blocks.STONE);
             level.addFreshEntity(rubble);
         }
     }
@@ -209,17 +210,17 @@ public class ExplosionLarge {
                 int bz = (int) (posZ + vec.z * i);
                 BlockPos bpos = new BlockPos(bx, by, bz);
 
-                if (level.getBlockState(bpos).liquid()) {
+                if (level.getBlockState(bpos).getFluidState().isEmpty()) {
                     level.setBlock(bpos, Blocks.AIR.defaultBlockState(), 3);
                 }
 
                 if (!level.isEmptyBlock(bpos)) {
-                    float resistance = level.getBlockState(bpos).getBlock().getExplosionResistance();
+                    float resistance = level.getBlockState(bpos).getBlock().getExplosionResistance(level.getBlockState(bpos), level, bpos, null);
                     if (resistance > 70) continue;
 
                     EntityRubble rubble = ModEntities.RUBBLE.get().create(level);
                     rubble.setPos(bx + 0.5, by + 0.5, bz + 0.5);
-                    rubble.setMetaBasedOnBlock(level.getBlockState(bpos).getBlock(), 3);
+                    rubble.setMetaBasedOnBlock(level.getBlockState(bpos).getBlock());
 
                     Vec3 dir = new Vec3(posX - rubble.getX(), posY - rubble.getY(), posZ - rubble.getZ()).normalize();
                     rubble.setDeltaMovement(dir.x * vel, dir.y * vel, dir.z * vel);

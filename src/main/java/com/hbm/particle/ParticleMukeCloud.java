@@ -67,6 +67,12 @@ public class ParticleMukeCloud extends TextureSheetParticle {
     public ParticleRenderType getRenderType() {
         return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
+
+    @Override
+    protected int getLightColor(float partialTick) {
+        return 0xF000F0;
+    }
+
     public static class Provider implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet sprites;
 
