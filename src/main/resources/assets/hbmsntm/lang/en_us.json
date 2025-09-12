@@ -30,16 +30,13 @@
 
   "entity.hbmsntm.duck": "Duck",
 
-  "sounds.hbmsntm.duck": "ducc",
-  "sounds.hbmsntm.muke_explosion": "Something exploded with force",
-  "sounds.hbmsntm.techboop": "Boop!",
-
   "death.attack.digamma": "%s stepped into the abyss.",
   "death.attack.blacklung": "%s died from black lung disease.",
   "death.attack.asbestos": "%s is now entitled to financial compensation.",
   "death.attack.taint": "%s died from flux tumors.",
   "death.attack.radiation": "%s died from radiation poisoning.",
   "death.attack.lead": "%s died from lead poisoning.",
+  "death.attack.nuclear_blast": "%s was blown away by a nuclear explosion.",
 
   "effect.hbmsntm.taint": "Tainted",
   "effect.hbmsntm.radiation": "Radiation",

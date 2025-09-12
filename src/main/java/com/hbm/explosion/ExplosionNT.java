@@ -19,10 +19,9 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.event.EventHooks;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+
 
 public class ExplosionNT extends Explosion {
 
@@ -167,7 +166,7 @@ public class ExplosionNT extends Explosion {
         }
     }
 
-    private @NotNull AABB getAabb(float exprad) {
+    private AABB getAabb(float exprad) {
         int minX = Mth.floor(this.getDirectSourceEntity().getX() - exprad - 1.0D);
         int minY = Mth.floor(this.getDirectSourceEntity().getY() - exprad - 1.0D);
         int minZ = Mth.floor(this.getDirectSourceEntity().getZ() - exprad - 1.0D);

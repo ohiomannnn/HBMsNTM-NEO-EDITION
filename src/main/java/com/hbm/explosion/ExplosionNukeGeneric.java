@@ -301,7 +301,7 @@ public class ExplosionNukeGeneric {
                 level.setBlock(blockPos, Blocks.DIRT.defaultBlockState(), 3);
                 return;
             }
-
+            // oof
             if ( state.is(Blocks.CACTUS)
                     || state.is(BlockTags.CORAL_BLOCKS) || state.is(BlockTags.CORALS) || state.is(BlockTags.WALL_CORALS)
                     || state.is(BlockTags.LEAVES)

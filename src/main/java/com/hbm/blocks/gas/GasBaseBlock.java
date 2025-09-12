@@ -1,6 +1,5 @@
 package com.hbm.blocks.gas;
 
-import com.hbm.particle.ModParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -19,9 +18,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
 
-public abstract class GasBase extends Block {
+public abstract class GasBaseBlock extends Block {
 
-    public GasBase(Properties properties) {
+    public GasBaseBlock(Properties properties) {
         super(properties);
     }
 

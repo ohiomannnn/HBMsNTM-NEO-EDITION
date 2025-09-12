@@ -2,7 +2,6 @@ package com.hbm;
 
 import com.hbm.entity.ModEntities;
 import com.hbm.entity.mob.EntityDuck;
-import com.hbm.extprop.HbmLivingProps;
 
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.hazard.HazardRegistry;
@@ -18,7 +17,7 @@ import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
-import static com.hbm.extprop.HbmLivingProps.getData;
+import static com.hbm.extprop.LivingProperties.getRadiation;
 import static com.hbm.items.ModItems.polaroidID;
 
 @EventBusSubscriber(modid = HBMsNTM.MODID)
@@ -30,12 +29,10 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-        HBMsNTM.LOGGER.info("pol = {}", polaroidID);
-        var player = event.getEntity();
-        var props = HbmLivingProps.getData(player);
+        Player player = event.getEntity();
 
-        getData(player);
-        HBMsNTM.LOGGER.info("[DEBUG] {}", props.serializeNBT());
+        HBMsNTM.LOGGER.debug("pol = {}", polaroidID);
+        HBMsNTM.LOGGER.debug("rad = {}", getRadiation(player));
     }
 
     @SubscribeEvent

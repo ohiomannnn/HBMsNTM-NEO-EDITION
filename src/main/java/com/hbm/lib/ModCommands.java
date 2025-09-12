@@ -1,6 +1,6 @@
 package com.hbm.lib;
 
-import com.hbm.extprop.HbmLivingProps;
+import com.hbm.extprop.LivingProperties;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
@@ -47,15 +47,15 @@ public class ModCommands {
                                                         return 0;
                                                     }
                                                     String field = StringArgumentType.getString(context, "field");
-                                                    HbmLivingProps data = HbmLivingProps.getData(target);
+                                                    LivingProperties data = LivingProperties.getData(target);
 
                                                     String value;
                                                     switch (field.toLowerCase()) {
-                                                        case "radiation" -> value = String.valueOf(HbmLivingProps.getRadiation(target));
-                                                        case "digamma" -> value = String.valueOf(HbmLivingProps.getDigamma(target));
-                                                        case "asbestos" -> value = String.valueOf(HbmLivingProps.getAsbestos(target));
-                                                        case "blacklung" -> value = String.valueOf(HbmLivingProps.getBlackLung(target));
-                                                        case "oil" -> value = String.valueOf(HbmLivingProps.getOil(target));
+                                                        case "radiation" -> value = String.valueOf(LivingProperties.getRadiation(target));
+                                                        case "digamma" -> value = String.valueOf(LivingProperties.getDigamma(target));
+                                                        case "asbestos" -> value = String.valueOf(LivingProperties.getAsbestos(target));
+                                                        case "blacklung" -> value = String.valueOf(LivingProperties.getBlackLung(target));
+                                                        case "oil" -> value = String.valueOf(LivingProperties.getOil(target));
                                                         case "fire" -> value = String.valueOf(data.fire);
                                                         case "phosphorus" -> value = String.valueOf(data.phosphorus);
                                                         case "balefire" -> value = String.valueOf(data.balefire);
@@ -93,14 +93,14 @@ public class ModCommands {
                                                             }
                                                             String field = StringArgumentType.getString(context, "field");
                                                             float delta = FloatArgumentType.getFloat(context, "delta");
-                                                            HbmLivingProps data = HbmLivingProps.getData(target);
+                                                            LivingProperties data = LivingProperties.getData(target);
 
                                                             switch (field.toLowerCase()) {
-                                                                case "radiation" -> HbmLivingProps.setRadiation(target, HbmLivingProps.getRadiation(target) + delta);
-                                                                case "digamma" -> HbmLivingProps.setDigamma(target, HbmLivingProps.getDigamma(target) + delta);
-                                                                case "asbestos" -> HbmLivingProps.setAsbestos(target, HbmLivingProps.getAsbestos(target) + (int) delta);
-                                                                case "blacklung" -> HbmLivingProps.setBlackLung(target, HbmLivingProps.getBlackLung(target) + (int) delta);
-                                                                case "oil" -> HbmLivingProps.setOil(target, HbmLivingProps.getOil(target) + (int) delta);
+                                                                case "radiation" -> LivingProperties.setRadiation(target, LivingProperties.getRadiation(target) + delta);
+                                                                case "digamma" -> LivingProperties.setDigamma(target, LivingProperties.getDigamma(target) + delta);
+                                                                case "asbestos" -> LivingProperties.setAsbestos(target, LivingProperties.getAsbestos(target) + (int) delta);
+                                                                case "blacklung" -> LivingProperties.setBlackLung(target, LivingProperties.getBlackLung(target) + (int) delta);
+                                                                case "oil" -> LivingProperties.setOil(target, LivingProperties.getOil(target) + (int) delta);
                                                                 case "fire" -> data.fire += (int) delta;
                                                                 case "phosphorus" -> data.phosphorus += (int) delta;
                                                                 case "balefire" -> data.balefire += (int) delta;

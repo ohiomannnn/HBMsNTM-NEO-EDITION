@@ -4,8 +4,10 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.BalefireBlock;
 import com.hbm.entity.ModEntities;
 import com.hbm.entity.mob.rendrer.EntityDuckRenderer;
+import com.hbm.handler.gui.GeigerGUI;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.items.ModItems;
+import com.hbm.packets.PacketsClient;
 import com.hbm.particle.*;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
@@ -30,13 +32,21 @@ import java.util.List;
 @Mod(value = HBMsNTM.MODID, dist = Dist.CLIENT)
 @EventBusSubscriber(value = Dist.CLIENT)
 public class HBMsNTMClient {
-    public HBMsNTMClient(IEventBus modBus, ModContainer container) {
-        container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+    public HBMsNTMClient(IEventBus modBus, ModContainer modContainer) {
+        //config screen
+        modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+        //particles
         ModParticles.register(modBus);
+        //gui
+        modBus.addListener(GeigerGUI::RegisterGuiLayers);
+
         modBus.addListener(this::onClientSetup);
+//        modContainer.registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
+
+        modBus.addListener(PacketsClient::registerPackets);
     }
     @SubscribeEvent
-    public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
+    public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.DUCK.get(), EntityDuckRenderer::new);
     }
     @SubscribeEvent
@@ -44,7 +54,6 @@ public class HBMsNTMClient {
         ItemStack stack = event.getItemStack();
         List<Component> list = event.getToolTip();
 
-        /// HAZARDS ///
         HazardSystem.addFullTooltip(stack, list);
     }
     private void onClientSetup(RegisterParticleProvidersEvent event) {

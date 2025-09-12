@@ -21,8 +21,9 @@ public class GeigerCounterItem extends Item {
 
         if (!level.isClientSide) {
             ContaminationUtil.printGeigerData((ServerPlayer) player);
+        } else {
+            player.playSound(ModSounds.TECH_BOOP.get(), 1.0f, 1.0f);
         }
-        player.playSound(ModSounds.TECH_BOOP.get(), 1.0f, 1.0f);
 
         return InteractionResultHolder.pass(stack);
     }

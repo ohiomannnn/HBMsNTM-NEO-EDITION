@@ -2,7 +2,7 @@ package com.hbm.util;
 
 import api.hbm.entity.IRadiationImmune;
 import com.hbm.entity.mob.EntityDuck;
-import com.hbm.extprop.HbmLivingProps;
+import com.hbm.extprop.LivingProperties;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.lib.ModEffect;
 import net.minecraft.ChatFormatting;
@@ -32,7 +32,7 @@ public class  ContaminationUtil {
     public static float getRads(Entity entity) {
         if (!(entity instanceof LivingEntity e)) return 0.0F;
         if (isRadImmune(entity)) return 0.0F;
-        return HbmLivingProps.getRadiation(e);
+        return LivingProperties.getRadiation(e);
     }
 
     public static HashSet<Class<?>> immuneEntities = new HashSet<>();
@@ -72,7 +72,7 @@ public class  ContaminationUtil {
         if (entity instanceof ServerPlayer player && player.tickCount < 200)
             return;
 
-        HbmLivingProps.incrementAsbestos(e, i);
+        LivingProperties.incrementAsbestos(e, i);
 //        if (ArmorRegistry.hasAllProtection(e, 3, HazardClass.PARTICLE_FINE))
 //            ArmorUtil.damageGasMaskFilter(e, i);
 //        else
@@ -94,7 +94,7 @@ public class  ContaminationUtil {
         if (entity instanceof ServerPlayer player && player.tickCount < 200)
             return;
 
-        HbmLivingProps.incrementDigamma(e, f);
+        LivingProperties.incrementDigamma(e, f);
 //        if(entity.isPotionActive(HbmPotion.stability.id))
 //            return;
 //
@@ -106,12 +106,12 @@ public class  ContaminationUtil {
     public static void printGeigerData(ServerPlayer player) {
         Level level = player.level();
 
-        float eRad = (float) ((HbmLivingProps.getData(player).serializeNBT().getFloat("hfr_radiation") * 10) / 10D);
+        float eRad = (float) ((LivingProperties.getData(player).serializeNBT().getFloat("hfr_radiation") * 10) / 10D);
         double rads = Math.floor(ChunkRadiationManager.proxy.getRadiation(level,
                 player.blockPosition().getX(),
                 player.blockPosition().getY(),
                 player.blockPosition().getZ()) * 10) / 10D;
-        double env = Math.floor(HbmLivingProps.getRadBuf(player) * 10D) / 10D;
+        double env = Math.floor(LivingProperties.getRadBuf(player) * 10D) / 10D;
 
         double res = Math.floor((10000D - ContaminationUtil.calculateRadiationMod(player) * 10000D)) / 100D;
 //        double resCoefficient = Math.floor(HazmatRegistry.getResistance(player) * 100D) / 100D;
@@ -176,7 +176,7 @@ public class  ContaminationUtil {
     public enum ContaminationType {
         FARADAY,			//preventable by metal armor
         HAZMAT,				//preventable by hazmat
-        HAZMAT2,			//preventable by heavy hazmat
+        HAZMAT_HEAVY,		//preventable by heavy hazmat
         DIGAMMA,			//preventable by fau armor or stability
         DIGAMMA_ROBE,		//preventable by robes
         CREATIVE,			//preventable by creative mode, for rad calculation armor piece bonuses still apply
@@ -186,8 +186,8 @@ public class  ContaminationUtil {
     public static void contaminate(LivingEntity entity, HazardType hazard, ContaminationType cont, float amount) {
 
         if (hazard == HazardType.RADIATION) {
-            float radEnv = HbmLivingProps.getRadEnv(entity);
-            HbmLivingProps.setRadEnv(entity, radEnv + amount);
+            float radEnv = LivingProperties.getRadEnv(entity);
+            LivingProperties.setRadEnv(entity, radEnv + amount);
         }
 
         if (entity instanceof ServerPlayer player) {
@@ -195,7 +195,7 @@ public class  ContaminationUtil {
 //            switch(cont) {
 //                case FARADAY:			if(ArmorUtil.checkForFaraday(player))	return; break;
 //                case HAZMAT:			if(ArmorUtil.checkForHazmat(player))	return; break;
-//                case HAZMAT2:			if(ArmorUtil.checkForHaz2(player))		return; break;
+//                case HAZMAT_HEAVY:			if(ArmorUtil.checkForHaz2(player))		return; break;
 //                case DIGAMMA:			if(ArmorUtil.checkForDigamma(player))	return; if(ArmorUtil.checkForDigamma2(player))	return; break;
 //                case DIGAMMA_ROBE:			if(ArmorUtil.checkForDigamma2(player))	return; break;
 //            }
@@ -213,8 +213,8 @@ public class  ContaminationUtil {
             return;
 
         switch(hazard) {
-            case RADIATION: HbmLivingProps.incrementRadiation(entity, amount * (cont == ContaminationType.RAD_BYPASS ? 1 : calculateRadiationMod(entity))); break;
-            case DIGAMMA: HbmLivingProps.incrementDigamma(entity, amount); break;
+            case RADIATION: LivingProperties.incrementRadiation(entity, amount * (cont == ContaminationType.RAD_BYPASS ? 1 : calculateRadiationMod(entity))); break;
+            case DIGAMMA: LivingProperties.incrementDigamma(entity, amount); break;
         }
     }
 }

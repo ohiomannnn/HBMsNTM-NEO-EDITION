@@ -3,7 +3,7 @@ package com.hbm.hazard.type;
 import java.util.List;
 
 import com.hbm.config.ServerConfig;
-import com.hbm.extprop.HbmLivingProps;
+import com.hbm.extprop.LivingProperties;
 import com.hbm.hazard.modifier.HazardModifier;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -27,7 +27,7 @@ public class HazardTypeCoal extends HazardTypeBase {
 //                ArmorUtil.damageGasMaskFilter(target, (int) level);
 //            }
 //        }
-        HbmLivingProps.incrementBlackLung(target, (int) Math.min(level * stack.getCount(), 10));
+        LivingProperties.incrementBlackLung(target, (int) Math.min(level * stack.getCount(), 10));
     }
 
     @Override

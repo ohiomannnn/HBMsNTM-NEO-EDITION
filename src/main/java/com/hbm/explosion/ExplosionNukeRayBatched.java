@@ -14,12 +14,12 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
 
     public Map<ChunkPos, List<FloatTriplet>> perChunk = new HashMap<>();
     public List<ChunkPos> orderedChunks = new ArrayList<>();
-    private CoordComparator comparator = new CoordComparator();
+    private final CoordComparator comparator = new CoordComparator();
 
     int posX;
     int posY;
     int posZ;
-    Level world;
+    Level level;
 
     int strength;
     int length;
@@ -31,8 +31,8 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
 
     public boolean isAusf3Complete = false;
 
-    public ExplosionNukeRayBatched(Level world, int x, int y, int z, int strength, int speed, int length) {
-        this.world = world;
+    public ExplosionNukeRayBatched(Level level, int x, int y, int z, int strength, int speed, int length) {
+        this.level = level;
         this.posX = x;
         this.posY = y;
         this.posZ = z;
@@ -74,7 +74,7 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
         while(this.gspNumMax >= this.gspNum){
             Vec3 vec = this.getSpherical2cartesian();
 
-            int length = (int)Math.ceil(strength);
+            int length = (int) (double) strength;
             float res = strength;
 
             FloatTriplet lastPos = null;
@@ -95,10 +95,10 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
                 double fac = 100 - ((double) i) / ((double) length) * 100;
                 fac *= 0.07D;
 
-                Block block = world.getBlockState(new net.minecraft.core.BlockPos(iX, iY, iZ)).getBlock();
+                Block block = level.getBlockState(new net.minecraft.core.BlockPos(iX, iY, iZ)).getBlock();
 
-                if(!block.defaultBlockState().liquid()) {
-                    res -= Math.pow(masqueradeResistance(block), 7.5D - fac);
+                if(!block.defaultBlockState().getFluidState().isEmpty()) {
+                    res -= (float) Math.pow(masqueradeResistance(block), 7.5D - fac);
                 }
 
                 if(res > 0 && block != Blocks.AIR) {
@@ -157,7 +157,7 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
     public void processChunk() {
         if(this.perChunk.isEmpty()) return;
 
-        ChunkPos coord = orderedChunks.get(0);
+        ChunkPos coord = orderedChunks.getFirst();
         List<FloatTriplet> list = perChunk.get(coord);
         Set<net.minecraft.core.BlockPos> toRem = new HashSet<>();
         Set<net.minecraft.core.BlockPos> toRemTips = new HashSet<>();
@@ -165,9 +165,9 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
         int chunkX = coord.x;
         int chunkZ = coord.z;
 
-        int enter = Math.max((int) (Math.min(
+        int enter = Math.max(Math.min(
                 Math.abs(posX - (chunkX << 4)),
-                Math.abs(posZ - (chunkZ << 4)))) - 16, 0);
+                Math.abs(posZ - (chunkZ << 4))) - 16, 0);
 
         for(FloatTriplet triplet : list) {
             float x = triplet.xCoord;
@@ -196,7 +196,7 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
 
                 inChunk = true;
 
-                if(!world.isEmptyBlock(new net.minecraft.core.BlockPos(x0, y0, z0))) {
+                if(!level.isEmptyBlock(new net.minecraft.core.BlockPos(x0, y0, z0))) {
                     net.minecraft.core.BlockPos pos = new net.minecraft.core.BlockPos(x0, y0, z0);
 
                     if(x0 == tipX && y0 == tipY && z0 == tipZ) {
@@ -211,16 +211,16 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
             if(toRemTips.contains(pos)) {
                 this.handleTip(pos.getX(), pos.getY(), pos.getZ());
             } else {
-                world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+                level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
             }
         }
 
         perChunk.remove(coord);
-        orderedChunks.remove(0);
+        orderedChunks.removeFirst();
     }
 
     protected void handleTip(int x, int y, int z) {
-        world.setBlock(new net.minecraft.core.BlockPos(x, y, z), Blocks.AIR.defaultBlockState(), 3);
+        level.setBlock(new net.minecraft.core.BlockPos(x, y, z), Blocks.AIR.defaultBlockState(), 3);
     }
 
     @Override
@@ -250,7 +250,7 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
         if (orderedChunks != null) orderedChunks.clear();
     }
 
-    public class FloatTriplet {
+    public static class FloatTriplet {
         public float xCoord;
         public float yCoord;
         public float zCoord;

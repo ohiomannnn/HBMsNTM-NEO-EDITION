@@ -4,7 +4,8 @@ import com.hbm.HBMsNTM;
 import com.hbm.blocks.bomb.BalefireBlock;
 import com.hbm.blocks.bomb.DigammaFlameBlock;
 import com.hbm.blocks.bomb.TaintBlock;
-import com.hbm.blocks.gas.BlockGasCoal;
+import com.hbm.blocks.gas.GasCoalBlock;
+import com.hbm.blocks.gas.GasMonoxideBlock;
 import com.hbm.blocks.special.ConcreteBrickMBlock;
 import com.hbm.items.ModItems;
 import com.mojang.serialization.MapCodec;
@@ -198,7 +199,13 @@ public class ModBlocks {
                     .sound(SoundType.STONE)));
 
     public static final DeferredBlock<Block> GAS_COAL = registerBlock("gas_coal",
-            () -> new BlockGasCoal(BlockBehaviour.Properties.of()
+            () -> new GasCoalBlock(BlockBehaviour.Properties.of()
+                    .noCollission()
+                    .noOcclusion()
+                    .noLootTable()
+            ));
+    public static final DeferredBlock<Block> GAS_MONOXIDE = registerBlock("gas_monoxide",
+            () -> new GasMonoxideBlock(BlockBehaviour.Properties.of()
                     .noCollission()
                     .noOcclusion()
                     .noLootTable()

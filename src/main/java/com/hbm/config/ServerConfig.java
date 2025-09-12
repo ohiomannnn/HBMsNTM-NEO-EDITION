@@ -104,6 +104,24 @@ public class ServerConfig {
         BUILDER.pop();
     }
 
+    /// ============= BOMB ============= ///
+    static {
+        BUILDER.push("bomb");
+    }
+
+    public static final ModConfigSpec.IntValue EXPLOSION_ALGORITHM = BUILDER
+            .comment("Configures the algorithm of mk5 explosion. \\n0 = Legacy, 1 = Threaded DDA, 2 = Threaded DDA with damage accumulation.")
+            .translation("config.hbmsntm.explosionAlgorithm")
+            .defineInRange("explosionAlgorithm", 2, 0, 2);
+    public static final ModConfigSpec.BooleanValue ENABLE_CHUNK_LOADING = BUILDER
+            .comment("Allows all types of procedural explosions to keep the central chunk loaded and to generate new chunks.")
+            .translation("config.hbmsntm.enableChunkLoading")
+            .define("enableChunkLoading", true);
+
+    static {
+        BUILDER.pop();
+    }
+
     /// ============= CHANCES ============= ///
     static {
         BUILDER.push("chances");

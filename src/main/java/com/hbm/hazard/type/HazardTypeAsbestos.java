@@ -3,7 +3,7 @@ package com.hbm.hazard.type;
 import java.util.List;
 
 import com.hbm.config.ServerConfig;
-import com.hbm.extprop.HbmLivingProps;
+import com.hbm.extprop.LivingProperties;
 import com.hbm.hazard.modifier.HazardModifier;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -25,7 +25,7 @@ public class HazardTypeAsbestos extends HazardTypeBase {
 //            HbmLivingProps.incrementAsbestos(target, (int) Math.min(level, 10));
 //        else
 //            ArmorUtil.damageGasMaskFilter(target, (int) level);
-        HbmLivingProps.incrementAsbestos(target, (int) Math.min(level, 10));
+        LivingProperties.incrementAsbestos(target, (int) Math.min(level, 10));
     }
 
     @Override

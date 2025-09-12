@@ -1,6 +1,7 @@
 package com.hbm;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.ClientConfig;
 import com.hbm.config.ServerConfig;
 import com.hbm.creativetabs.ModCreativeTabs;
 import com.hbm.entity.ModEntities;

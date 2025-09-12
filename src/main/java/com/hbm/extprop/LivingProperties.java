@@ -12,11 +12,10 @@ import net.neoforged.neoforge.attachment.IAttachmentHolder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static com.hbm.lib.ModDamageSource.*;
 
-public class HbmLivingProps {
+public class LivingProperties {
     public LivingEntity entity;
 
     /// VALS ///
@@ -37,13 +36,13 @@ public class HbmLivingProps {
     public int blackFire;
     private final List<ContaminationEffect> contamination = new ArrayList<>();
 
-    public HbmLivingProps(IAttachmentHolder iAttachmentHolder) {
+    public LivingProperties(IAttachmentHolder iAttachmentHolder) {
         if (iAttachmentHolder instanceof LivingEntity livingEntity) {
             this.entity = livingEntity;
         }
     }
 
-    public static HbmLivingProps getData(LivingEntity entity) {
+    public static LivingProperties getData(LivingEntity entity) {
         return entity.getData(ModAttachments.LIVING_PROPS);
     }
 
@@ -189,8 +188,8 @@ public class HbmLivingProps {
         return getData(entity).contagion;
     }
 
-    public static void setContagion(LivingEntity entity, int contageon) {
-        getData(entity).contagion = contageon;
+    public static void setContagion(LivingEntity entity, int contagion) {
+        getData(entity).contagion = contagion;
     }
 
     /// OIL ///
@@ -250,7 +249,6 @@ public class HbmLivingProps {
         }
     }
 
-    /// --- Вложенный класс ContaminationEffect --- ///
     public static class ContaminationEffect {
         public float maxRad;
         public int maxTime;

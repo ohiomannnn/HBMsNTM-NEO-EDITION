@@ -1,10 +1,11 @@
 {
   "replace": false,
   "values": [
-    "hbmsntm:digamma",
-    "hbmsntm:blacklung",
     "hbmsntm:asbestos",
-    "hbmsntm:taint",
-    "hbmsntm:lead"
+    "hbmsntm:bang",
+    "hbmsntm:blacklung",
+    "hbmsntm:digamma",
+    "hbmsntm:lead",
+    "hbmsntm:taint"
   ]
 }
