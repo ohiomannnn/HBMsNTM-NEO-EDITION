@@ -1,6 +1,6 @@
 # HBM's Nuclear Tech Mod for Minecraft 1.21.1
 
-This port of a not well known minecraft <a href="https://github.com/HbmMods/Hbm-s-Nuclear-Tech-GIT/">mod</a> made by The Bobcat that adds a ton of content to our blocky game.
+This port of a minecraft <a href="https://github.com/HbmMods/Hbm-s-Nuclear-Tech-GIT/">mod</a> made by The Bobcat that adds a ton of content to our blocky game.
 
 ### Contributing
 If you wanna contribute for this project: do it, i think whoever wants to do so already knows how to do it.
