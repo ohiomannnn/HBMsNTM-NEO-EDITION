@@ -1,12 +1,14 @@
 package com.hbm.packets;
 
 import com.hbm.HBMsNTM;
+import com.hbm.HBMsNTMClient;
 import com.hbm.extprop.LivingProperties;
 import com.hbm.handler.gui.GeigerGUI;
+import com.hbm.packets.toclient.AuxParticlePacket;
 import com.hbm.packets.toclient.ParticleBurstPacket;
+import com.hbm.packets.toclient.SendRadPacket;
 import com.hbm.packets.toserver.GetRadPacket;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -14,6 +16,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
@@ -26,15 +29,25 @@ public final class PacketsDispatcher {
         registrar.playToServer(
                 GetRadPacket.TYPE,
                 GetRadPacket.STREAM_CODEC,
-                PacketsDispatcher::getRad
+                PacketsDispatcher::handleGetRad
         );
         registrar.playToClient(
                 ParticleBurstPacket.TYPE,
                 ParticleBurstPacket.STREAM_CODEC,
-                PacketsDispatcher::handle
+                PacketsDispatcher::handleBurst
+        );
+        registrar.playToClient(
+                AuxParticlePacket.TYPE,
+                AuxParticlePacket.STREAM_CODEC,
+                PacketsDispatcher::handleAuxParticle
+        );
+        registrar.playToClient(
+                SendRadPacket.TYPE,
+                SendRadPacket.STREAM_CODEC,
+                PacketsDispatcher::handleSendRad
         );
     }
-    private static void getRad(GetRadPacket packet, IPayloadContext context) {
+    private static void handleGetRad(GetRadPacket packet, IPayloadContext context) {
         context.enqueueWork(() -> {
             if (!(context.player() instanceof ServerPlayer sender)) return;
 
@@ -45,18 +58,33 @@ public final class PacketsDispatcher {
                 var entity = level.getEntity(target);
                 if (entity instanceof LivingEntity living) {
                     float rad = LivingProperties.getRadiation(living);
-                    GeigerGUI.getRadFromServer(rad);
+
+                    PacketDistributor.sendToPlayer(sender, new SendRadPacket(rad));
                 }
             }
         });
     }
-    public static void handle(ParticleBurstPacket packet, IPayloadContext context) {
+    private static void handleSendRad(SendRadPacket packet, IPayloadContext context) {
+        context.enqueueWork(() -> GeigerGUI.getRadFromServer(packet.rad()));
+    }
+    public static void handleBurst(ParticleBurstPacket packet, IPayloadContext context) {
         context.enqueueWork(() -> {
             Block block = BuiltInRegistries.BLOCK.get(packet.blockId());
             BlockState state = block.defaultBlockState();
             try {
                 Minecraft.getInstance().particleEngine.destroy(packet.pos(), state);
             } catch (Exception ignored) { }
+        });
+    }
+    public static void handleAuxParticle(AuxParticlePacket packet, IPayloadContext context) {
+        context.enqueueWork(() -> {
+            Minecraft mc = Minecraft.getInstance();
+            packet.nbt().putDouble("posX", packet.x());
+            packet.nbt().putDouble("posY", packet.y());
+            packet.nbt().putDouble("posZ", packet.z());
+            if (mc.level != null) {
+                HBMsNTMClient.effectNT(packet.nbt());
+            }
         });
     }
 }

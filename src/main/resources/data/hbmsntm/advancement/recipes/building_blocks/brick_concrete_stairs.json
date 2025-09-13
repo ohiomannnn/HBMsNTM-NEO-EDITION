@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "can_craft_bricks": {
+      "conditions": {
+        "items": [
+          {
+            "items": "hbmsntm:brick_concrete"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbmsntm:brick_concrete_stairs"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "can_craft_bricks"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbmsntm:brick_concrete_stairs"
+    ]
+  }
+}

@@ -1,5 +1,6 @@
 package com.hbm.explosion;
 
+import com.hbm.CommonEvents;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModSounds;
@@ -17,7 +18,7 @@ public class ExplosionNukeSmall {
             data.putString("type", params.particle);
 
             if (params.particle.equals("muke") &&
-                    (ModItems.polaroidID == 11 || level.random.nextInt(100) == 0)) {
+                    (CommonEvents.polaroidID == 11 || level.random.nextInt(100) == 0)) {
                 data.putBoolean("balefire", true);
             }
 //

@@ -4,9 +4,11 @@ import com.hbm.HBMsNTM;
 import com.hbm.blocks.bomb.*;
 import com.hbm.blocks.gas.GasCoalBlock;
 import com.hbm.blocks.gas.GasMonoxideBlock;
+import com.hbm.blocks.generic.WasteLeavesBlock;
 import com.hbm.blocks.special.ConcreteBrickMBlock;
 import com.hbm.items.ModItems;
 import com.mojang.serialization.MapCodec;
+import net.minecraft.client.resources.model.Material;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
@@ -91,7 +93,7 @@ public class ModBlocks {
                     .explosionResistance(2.5F)
                     .sound(SoundType.WOOD)));
     public static final DeferredBlock<Block> WASTE_LEAVES = registerBlock("waste_leaves",
-            () -> new LeavesBlock(BlockBehaviour.Properties.of()
+            () -> new WasteLeavesBlock(BlockBehaviour.Properties.of()
                     .strength(0.1F)
                     .randomTicks()
                     .noOcclusion()
@@ -273,8 +275,13 @@ public class ModBlocks {
                     .explosionResistance(600.0F)
                     .sound(SoundType.STONE)
                     .noLootTable()));
-
-
+    public static final DeferredBlock<Block> TEST_TOWER = registerBlock("test_tower",
+            () -> new TestTower(BlockBehaviour.Properties.of()
+                    .strength(50.0F)
+                    .explosionResistance(600.0F)
+                    .sound(SoundType.STONE)
+                    .randomTicks()
+                    .noLootTable()));
 
     //FIRE
     public static final DeferredBlock<Block> BALEFIRE = BLOCKS.register("balefire",

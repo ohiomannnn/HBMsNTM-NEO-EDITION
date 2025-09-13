@@ -29,5 +29,23 @@
         "name": "hbmsntm:tech/techboop"
       }
     ]
+  },
+  "item.geiger1": {
+    "sounds": ["hbmsntm:tech/geiger1"]
+  },
+  "item.geiger2": {
+    "sounds": ["hbmsntm:tech/geiger2"]
+  },
+  "item.geiger3": {
+    "sounds": ["hbmsntm:tech/geiger3"]
+  },
+  "item.geiger4": {
+    "sounds": ["hbmsntm:tech/geiger4"]
+  },
+  "item.geiger5": {
+    "sounds": ["hbmsntm:tech/geiger5"]
+  },
+  "item.geiger6": {
+    "sounds": ["hbmsntm:tech/geiger6"]
   }
 }

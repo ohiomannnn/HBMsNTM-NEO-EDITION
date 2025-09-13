@@ -6,7 +6,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
 
 public record ParticleBurstPacket(BlockPos pos, ResourceLocation blockId) implements CustomPacketPayload {
 
@@ -17,7 +16,7 @@ public record ParticleBurstPacket(BlockPos pos, ResourceLocation blockId) implem
     public static final StreamCodec<FriendlyByteBuf, ParticleBurstPacket> STREAM_CODEC =
             new StreamCodec<>() {
                 @Override
-                public @NotNull ParticleBurstPacket decode(FriendlyByteBuf buf) {
+                public ParticleBurstPacket decode(FriendlyByteBuf buf) {
                     return new ParticleBurstPacket(
                             buf.readBlockPos(),
                             buf.readResourceLocation()

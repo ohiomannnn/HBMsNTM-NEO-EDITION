@@ -2,8 +2,7 @@ package com.hbm;
 
 import com.hbm.entity.ModEntities;
 import com.hbm.entity.mob.EntityDuck;
-
-import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.handler.EntityEffectHandler;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import net.minecraft.world.entity.Entity;
@@ -12,14 +11,11 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
-import static com.hbm.extprop.LivingProperties.getRadiation;
-import static com.hbm.items.ModItems.polaroidID;
+import java.util.Random;
 
 @EventBusSubscriber(modid = HBMsNTM.MODID)
 public class CommonEvents {
@@ -29,15 +25,8 @@ public class CommonEvents {
     }
 
     @SubscribeEvent
-    public static void onPlayerLogin(PlayerEvent.PlayerLoggedInEvent event) {
-        Player player = event.getEntity();
-
-        HBMsNTM.LOGGER.debug("pol = {}", polaroidID);
-        HBMsNTM.LOGGER.debug("rad = {}", getRadiation(player));
-    }
-
-    @SubscribeEvent
     public static void onServerStarting(ServerStartingEvent event) {
+        HBMsNTM.LOGGER.debug("pol = {}", polaroidID);
         HazardRegistry.registerItems();
     }
 
@@ -55,6 +44,19 @@ public class CommonEvents {
         }
         if (entity instanceof LivingEntity livingEntity) {
             HazardSystem.updateLivingInventory(livingEntity);
+            EntityEffectHandler.onUpdate(livingEntity);
+        }
+    }
+    public static int polaroidID = 1;
+    public static int generalOverride = 0;
+
+    public static void RerollPal() {
+        // Reroll Polaroid
+        if(generalOverride > 0 && generalOverride < 19) {
+            polaroidID = generalOverride;
+        } else {
+            do polaroidID = new Random().nextInt(18) + 1;
+            while (polaroidID == 4 || polaroidID == 9);
         }
     }
 }

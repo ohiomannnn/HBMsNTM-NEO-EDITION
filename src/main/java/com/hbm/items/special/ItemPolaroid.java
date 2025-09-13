@@ -1,5 +1,6 @@
 package com.hbm.items.special;
 
+import com.hbm.CommonEvents;
 import com.hbm.items.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -14,10 +15,10 @@ import net.minecraft.world.level.Level;
 import java.util.List;
 
 
-public class ItemPolariod extends Item {
-    public ItemPolariod(Properties properties) {
+public class ItemPolaroid extends Item {
+    public ItemPolaroid(Properties properties) {
         super(properties);
-        ModItems.RerollPal();
+        CommonEvents.RerollPal();
     }
 
     @Override
@@ -33,7 +34,7 @@ public class ItemPolariod extends Item {
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         tooltipComponents.add(Component.literal("Fate chosen"));
         tooltipComponents.add(Component.empty());
-        switch (ModItems.polaroidID) {
+        switch (CommonEvents.polaroidID) {
             case 1:
                 tooltipComponents.add(Component.literal("..."));
                 break;

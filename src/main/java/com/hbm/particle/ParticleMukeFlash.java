@@ -21,7 +21,6 @@ public class ParticleMukeFlash extends TextureSheetParticle {
         this.bf = bf;
         this.lifetime = 20;
         this.setSpriteFromAge(sprites);
-        HBMsNTM.LOGGER.info("Spawned MUKE_FLASH at " + x + " " + y + " " + z);
     }
 
     @Override

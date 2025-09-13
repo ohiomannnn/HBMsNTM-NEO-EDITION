@@ -22,6 +22,7 @@ public class ModItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
         basicItem(ModItems.NOTHING.get());
         basicItem(ModItems.GEIGER_COUNTER.get());
+        basicItem(ModItems.DOSIMETER.get());
         handheldItem(ModItems.REACHER.get());
         basicItem(ModItems.DUCK_SPAWN_EGG.get());
 

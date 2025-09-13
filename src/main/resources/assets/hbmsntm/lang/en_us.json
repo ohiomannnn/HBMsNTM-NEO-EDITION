@@ -23,6 +23,7 @@
 
   "item.hbmsntm.nothing": "Nothing",
   "item.hbmsntm.geiger_counter": "Handheld Geiger Counter",
+  "item.hbmsntm.dosimeter": "Dosimeter",
   "item.hbmsntm.reacher": "Tungsten Reacher",
   "item.hbmsntm.duck_spawn_egg": "Golden Egg",
   "item.hbmsntm.balefire_and_steel": "Balefire and Steel",
@@ -51,6 +52,7 @@
   "effect.hbmsntm.death": "Astolfization",
 
   "geiger.title": "GEIGER COUNTER",
+  "geiger.title.dosimeter": "DOSIMETER",
   "geiger.envRad": "Total environmental radiation:",
   "geiger.playerRad": "Player contamination:",
   "geiger.chunkRad": "Current chunk radiation:",

@@ -5,7 +5,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
@@ -17,7 +16,7 @@ public record GetRadPacket(UUID targetId) implements CustomPacketPayload {
     public static final StreamCodec<FriendlyByteBuf, GetRadPacket> STREAM_CODEC =
             new StreamCodec<>() {
                 @Override
-                public @NotNull GetRadPacket decode(FriendlyByteBuf buf) {
+                public GetRadPacket decode(FriendlyByteBuf buf) {
                     return new GetRadPacket(buf.readUUID());
                 }
 
@@ -28,7 +27,7 @@ public record GetRadPacket(UUID targetId) implements CustomPacketPayload {
             };
 
     @Override
-    public @NotNull Type<? extends CustomPacketPayload> type() {
+    public Type<? extends CustomPacketPayload> type() {
         return TYPE;
     }
 }

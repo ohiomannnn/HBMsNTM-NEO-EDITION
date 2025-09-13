@@ -18,6 +18,9 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
+        tag(BlockTags.MINEABLE_WITH_AXE)
+                .add(ModBlocks.WASTE_LOG.get());
+
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(ModBlocks.BRICK_CONCRETE.get())
                 .add(ModBlocks.BRICK_CONCRETE_MOSSY.get())

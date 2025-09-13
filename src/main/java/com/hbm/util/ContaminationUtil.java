@@ -15,6 +15,7 @@ import net.minecraft.world.entity.animal.MushroomCow;
 import net.minecraft.world.entity.animal.Ocelot;
 import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
 import java.util.HashSet;
@@ -103,7 +104,7 @@ public class  ContaminationUtil {
     }
 
 
-    public static void printGeigerData(ServerPlayer player) {
+    public static void printGeigerData(Player player) {
         Level level = player.level();
 
         float eRad = (float) ((LivingProperties.getData(player).serializeNBT().getFloat("hfr_radiation") * 10) / 10D);
@@ -157,6 +158,32 @@ public class  ContaminationUtil {
 //                        .append(Component.literal(" " + ChatFormatting.GREEN + res + "% (" + resKoeff + ")"))
 //                        .setStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)),
 //                false);
+    }
+
+    public static void printDosimeterData(Player player) {
+
+        double env = ((int)(LivingProperties.getRadBuf(player) * 10D)) / 10D;
+        boolean limit = false;
+
+        if(env > 3.6D) {
+            env = 3.6D;
+            limit = true;
+        }
+
+        String envPrefix = getPrefixFromRad(env);
+
+        player.displayClientMessage(
+                Component.literal("===== ☢ ")
+                        .append(Component.translatable("geiger.title.dosimeter"))
+                        .append(Component.literal(" ☢ ====="))
+                        .setStyle(Style.EMPTY.withColor(ChatFormatting.GOLD)),
+                false);
+
+        player.displayClientMessage(
+                Component.translatable("geiger.envRad")
+                        .append(Component.literal(" " + envPrefix + (limit ? ">" : "") + env + " RAD/s"))
+                        .setStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)),
+                false);
     }
 
     public static String getPrefixFromRad(double rads) {

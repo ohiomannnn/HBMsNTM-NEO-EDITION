@@ -1,11 +1,22 @@
 package com.hbm.datagen;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.items.ModItems;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.AlternativesEntry;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 import java.util.Set;
 
@@ -45,8 +56,21 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.ORE_GNEISS_URANIUM_SCORCHED.get());
         dropSelf(ModBlocks.ORE_GNEISS_SCHRABIDIUM.get());
 
-        dropSelf(ModBlocks.WASTE_EARTH.get());
-        dropSelf(ModBlocks.WASTE_LOG.get());
+        add(ModBlocks.WASTE_EARTH.get(),
+                block -> createSingleItemTable(Blocks.DIRT));
+        add(ModBlocks.WASTE_LOG.get(), block ->
+                LootTable.lootTable().withPool(
+                        LootPool.lootPool()
+                                .setRolls(ConstantValue.exactly(1))
+                                .add(AlternativesEntry.alternatives(
+                                        LootItem.lootTableItem(ModItems.BURNT_BARK.get())
+                                                .when(LootItemRandomChanceCondition.randomChance(0.001f))
+                                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 4))),
+                                        LootItem.lootTableItem(Items.COAL)
+                                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 4)))
+                                ))
+                )
+        );
         dropSelf(ModBlocks.WASTE_LEAVES.get());
         dropSelf(ModBlocks.WASTE_PLANKS.get());
         dropSelf(ModBlocks.WASTE_MYCELIUM.get());

@@ -9,7 +9,12 @@ import com.hbm.hazard.HazardSystem;
 import com.hbm.items.ModItems;
 import com.hbm.packets.PacketsDispatcher;
 import com.hbm.particle.*;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
@@ -20,7 +25,6 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
@@ -44,7 +48,7 @@ public class HBMsNTMClient {
         event.registerEntityRenderer(ModEntities.DUCK.get(), EntityDuckRenderer::new);
         ItemProperties.register(ModItems.POLAROID.get(),
                 ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "polaroid_id"),
-                (stack, level, entity, seed) -> ModItems.polaroidID);
+                (stack, level, entity, seed) -> CommonEvents.polaroidID);
     }
     @SubscribeEvent
     public static void drawTooltip(ItemTooltipEvent event) {
@@ -59,19 +63,77 @@ public class HBMsNTMClient {
         event.registerSpriteSet(ModParticles.MUKE_CLOUD_BF.get(), ParticleMukeCloud.Provider::new);
         event.registerSpriteSet(ModParticles.EXPLOSION_SMALL.get(), ParticleExplosionSmall.Provider::new);
         event.registerSpriteSet(ModParticles.MUKE_WAVE.get(), ParticleMukeWave.Provider::new);
-        event.registerSpriteSet(ModParticles.COOLING_TOWER.get(), ParticleCoolingTower.Provider::new);
+        event.registerSpriteSet(ModParticles.COOLING_TOWER.get(), sprites -> {
+            ModParticles.COOLING_TOWER_SPRITES = sprites;
+            return new ParticleCoolingTower.Provider(sprites);
+        });
         event.registerSpriteSet(ModParticles.GAS_FLAME.get(), ParticleGasFlame.Provider::new);
         event.registerSpriteSet(ModParticles.MUKE_FLASH.get(), ParticleMukeFlash.Provider::new);
+        event.registerSpriteSet(ModParticles.DEAD_LEAF.get(), ParticleDeadLeaf.Provider::new);
     }
 
-    @SubscribeEvent
-    public static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
-        event.register((state, level, pos, tintIndex) -> {
-            if (state.hasProperty(BalefireBlock.AGE)) {
-                int age = state.getValue(BalefireBlock.AGE);
-                return Color.HSBtoRGB(0F, 0F, 1F - age / 30F);
+    // for future
+    public static void effectNT(CompoundTag data) {
+        Minecraft mc = Minecraft.getInstance();
+        ClientLevel level = mc.level;
+
+        if (level == null) return;
+
+//        TextureManager man = mc.getTextureManager();
+//        LocalPlayer player = mc.player;
+//        int particleSetting = mc.options.particles().get().getId();
+
+        String type = data.getString("type");
+        double x = data.getDouble("posX");
+        double y = data.getDouble("posY");
+        double z = data.getDouble("posZ");
+
+//        if (ParticleCreators.particleCreators.containsKey(type)) {
+//            ParticleCreators.particleCreators.get(type).makeParticle(world, player, man, rand, x, y, z, data);
+//            return;
+//        }
+        if ("muke".contains(type)) {
+            level.addParticle(ModParticles.MUKE_FLASH.get(), x, y, z, 0.0, 0.0, 0.0);
+            level.addParticle(ModParticles.MUKE_WAVE.get(), x, y, z, 0.0, 0.0, 0.0);
+        }
+
+        if ("tower".equals(type)) {
+            float strafe = 0.0F;
+            boolean wind = true;
+            float alphaMod = 0.25F;
+
+            float lift = data.getFloat("lift");
+            float maxScale = data.getFloat("max");
+            float baseScale = data.getFloat("base");
+            int lifetime = data.getInt("life");
+
+            if (data.contains("noWind")) wind = !data.getBoolean("noWind");
+            if (data.contains("strafe")) strafe = data.getFloat("strafe");
+            if (data.contains("alpha")) alphaMod = data.getFloat("alpha");
+
+            ParticleCoolingTower fx = new ParticleCoolingTower(
+                    level,
+                    x, y, z,
+                    baseScale,
+                    maxScale,
+                    lift,
+                    strafe,
+                    wind,
+                    alphaMod,
+                    lifetime,
+                    ModParticles.COOLING_TOWER_SPRITES
+            );
+
+            if (data.contains("color")) {
+                int color = data.getInt("color");
+                fx.setColor(
+                        (color >> 16 & 255) / 255F,
+                        (color >> 8 & 255) / 255F,
+                        (color & 255) / 255F
+                );
             }
-            return 0xFFFFFF;
-        }, ModBlocks.BALEFIRE.get());
+
+            mc.particleEngine.add(fx);
+        }
     }
 }

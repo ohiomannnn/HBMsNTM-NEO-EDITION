@@ -22,7 +22,7 @@ public class HazardRegistry {
         HazardSystem.register(Items.GOLD_INGOT, makeData(BLINDING, 4F));
 
         HazardSystem.register(Items.BLAZE_POWDER, makeData(HOT, 4F));
-        HazardSystem.register(Blocks.GREEN_WOOL, makeData(RADIATION, 0.125F));
+        HazardSystem.register(Blocks.GREEN_WOOL, makeData(RADIATION, 0.03F));
     }
 
     private static HazardData makeData() { return new HazardData(); }

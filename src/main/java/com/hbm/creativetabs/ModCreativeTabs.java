@@ -48,6 +48,7 @@ public class ModCreativeTabs {
                     .title(Component.translatable("creativeTabs.hbmsntm.consumables_and_gear"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.GEIGER_COUNTER);
+                        output.accept(ModItems.DOSIMETER);
                         output.accept(ModItems.REACHER);
                         output.accept(ModItems.FLINT_AND_BALEFIRE);
                         output.accept(ModItems.POLAROID);

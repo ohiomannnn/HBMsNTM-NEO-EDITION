@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "hbmsntm:waste_earth"
+          "name": "minecraft:dirt"
         }
       ],
       "rolls": 1.0
