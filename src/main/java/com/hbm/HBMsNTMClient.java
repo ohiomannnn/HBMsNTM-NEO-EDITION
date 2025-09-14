@@ -1,7 +1,5 @@
 package com.hbm;
 
-import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.bomb.BalefireBlock;
 import com.hbm.entity.ModEntities;
 import com.hbm.entity.mob.rendrer.EntityDuckRenderer;
 import com.hbm.handler.gui.GeigerGUI;
@@ -13,7 +11,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -30,7 +27,6 @@ import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 
-import java.awt.*;
 import java.util.List;
 
 @Mod(value = HBMsNTM.MODID, dist = Dist.CLIENT)
@@ -67,8 +63,11 @@ public class HBMsNTMClient {
             ModParticles.COOLING_TOWER_SPRITES = sprites;
             return new ParticleCoolingTower.Provider(sprites);
         });
+        event.registerSpriteSet(ModParticles.MUKE_FLASH.get(), sprites -> {
+            ModParticles.MUKE_FLASH_SPRITES = sprites;
+            return new ParticleMukeFlash.Provider(sprites);
+        });
         event.registerSpriteSet(ModParticles.GAS_FLAME.get(), ParticleGasFlame.Provider::new);
-        event.registerSpriteSet(ModParticles.MUKE_FLASH.get(), ParticleMukeFlash.Provider::new);
         event.registerSpriteSet(ModParticles.DEAD_LEAF.get(), ParticleDeadLeaf.Provider::new);
     }
 
@@ -80,7 +79,7 @@ public class HBMsNTMClient {
         if (level == null) return;
 
 //        TextureManager man = mc.getTextureManager();
-//        LocalPlayer player = mc.player;
+        LocalPlayer player = mc.player;
 //        int particleSetting = mc.options.particles().get().getId();
 
         String type = data.getString("type");
@@ -92,9 +91,20 @@ public class HBMsNTMClient {
 //            ParticleCreators.particleCreators.get(type).makeParticle(world, player, man, rand, x, y, z, data);
 //            return;
 //        }
+
         if ("muke".contains(type)) {
-            level.addParticle(ModParticles.MUKE_FLASH.get(), x, y, z, 0.0, 0.0, 0.0);
+            ParticleMukeFlash fx = new ParticleMukeFlash(
+                    level,
+                    x, y, z,
+                    data.getBoolean("balefire"),
+                    ModParticles.MUKE_FLASH_SPRITES
+            );
             level.addParticle(ModParticles.MUKE_WAVE.get(), x, y, z, 0.0, 0.0, 0.0);
+
+            mc.particleEngine.add(fx);
+
+            player.hurtTime = 15;
+            player.hurtDuration = 15;
         }
 
         if ("tower".equals(type)) {

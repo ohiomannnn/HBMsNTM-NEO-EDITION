@@ -53,7 +53,7 @@ public class EntityRubble extends ThrowableProjectile {
 
             BlockPos pos = new BlockPos((int) getX(), (int) getY(), (int) getZ());
 
-            if (!level().isClientSide && level() instanceof ServerLevel serverLevel) {
+            if (!level().isClientSide && level() instanceof ServerLevel) {
                 ResourceLocation blockId = ResourceLocation.withDefaultNamespace(entityData.get(BLOCK_ID));
 
                 new ParticleBurstPacket(pos, blockId);

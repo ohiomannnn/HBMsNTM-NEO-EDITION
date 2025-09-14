@@ -1,10 +1,16 @@
 package com.hbm.hazard;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.hazard.type.*;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
 public class HazardRegistry {
+
+    static final float saf = 5.85F;
+
+    static final float block = 10.0F;
+
     public static final HazardTypeBase RADIATION = new HazardTypeRadiation();
     public static final HazardTypeBase DIGAMMA = new HazardTypeDigamma();
     public static final HazardTypeBase HOT = new HazardTypeHot();
@@ -23,6 +29,7 @@ public class HazardRegistry {
 
         HazardSystem.register(Items.BLAZE_POWDER, makeData(HOT, 4F));
         HazardSystem.register(Blocks.GREEN_WOOL, makeData(RADIATION, 0.03F));
+        HazardSystem.register(ModBlocks.TEST_RAD.get(), makeData(RADIATION, 150.0F));
     }
 
     private static HazardData makeData() { return new HazardData(); }

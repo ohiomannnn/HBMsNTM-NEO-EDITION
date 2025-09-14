@@ -44,8 +44,6 @@ public class GeigerGUI {
         guiGraphics.pose().pushPose();
         getRad(player.getUUID());
 
-        HBMsNTM.LOGGER.info("rad = {}", rad);
-
         long currentTick = Minecraft.getInstance().level.getGameTime();
 
         if (prevTick < 0) {

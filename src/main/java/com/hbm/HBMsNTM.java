@@ -1,7 +1,6 @@
 package com.hbm;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.config.ClientConfig;
 import com.hbm.config.ServerConfig;
 import com.hbm.creativetabs.ModCreativeTabs;
 import com.hbm.entity.ModEntities;
@@ -11,13 +10,13 @@ import com.hbm.lib.ModAttachments;
 import com.hbm.lib.ModCommands;
 import com.hbm.lib.ModEffect;
 import com.hbm.lib.ModSounds;
+import com.hbm.blockentity.ModBlockEntities;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.config.ModConfigEvent;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import org.slf4j.Logger;
@@ -37,6 +36,7 @@ public class HBMsNTM {
         ModCreativeTabs.register(modEventBus);
         ModAttachments.register(modEventBus);
         ModEffect.register(modEventBus);
+        ModBlockEntities.register(modEventBus);
 
         NeoForge.EVENT_BUS.register(radiationManager);
         NeoForge.EVENT_BUS.register(this);

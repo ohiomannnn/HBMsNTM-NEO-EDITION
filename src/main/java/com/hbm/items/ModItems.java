@@ -6,6 +6,7 @@ import com.hbm.items.special.ItemPolaroid;
 import com.hbm.items.tools.BalefireAndSteelITem;
 import com.hbm.items.tools.DosimeterItem;
 import com.hbm.items.tools.GeigerCounterItem;
+import com.hbm.items.tools.ItemKey;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -26,6 +27,20 @@ public class ModItems {
 
     public static final DeferredItem<Item> REACHER = ITEMS.register("reacher",
             () -> new Item(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> SCREWDRIVER = ITEMS.register("screwdriver",
+            () -> new Item(new Item.Properties().stacksTo(8)));
+    public static final DeferredItem<Item> SCREWDRIVER_DESH = ITEMS.register("screwdriver_desh",
+            () -> new Item(new Item.Properties().stacksTo(8)));
+
+    public static final DeferredItem<Item> PIN = ITEMS.register("pin",
+            () -> new Item(new Item.Properties().stacksTo(8)));
+    public static final DeferredItem<Item> KEY = ITEMS.register("key",
+            () -> new ItemKey(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> KEY_RED = ITEMS.register("key_red",
+            () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> KEY_FAKE = ITEMS.register("key_fake",
+            () -> new ItemKey(new Item.Properties().stacksTo(1)));
 
     public static final DeferredItem<Item> DUCK_SPAWN_EGG = ITEMS.register("duck_spawn_egg",
             () -> new EntitySpawnerItem(new Item.Properties().stacksTo(16)));

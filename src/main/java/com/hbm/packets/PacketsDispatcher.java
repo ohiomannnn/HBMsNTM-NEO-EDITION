@@ -2,9 +2,11 @@ package com.hbm.packets;
 
 import com.hbm.HBMsNTM;
 import com.hbm.HBMsNTMClient;
+import com.hbm.blockentity.IBufPacketReceiver;
 import com.hbm.extprop.LivingProperties;
 import com.hbm.handler.gui.GeigerGUI;
 import com.hbm.packets.toclient.AuxParticlePacket;
+import com.hbm.packets.toclient.BufPacket;
 import com.hbm.packets.toclient.ParticleBurstPacket;
 import com.hbm.packets.toclient.SendRadPacket;
 import com.hbm.packets.toserver.GetRadPacket;
@@ -15,6 +17,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -45,6 +48,11 @@ public final class PacketsDispatcher {
                 SendRadPacket.TYPE,
                 SendRadPacket.STREAM_CODEC,
                 PacketsDispatcher::handleSendRad
+        );
+        registrar.playToClient(
+                BufPacket.TYPE,
+                BufPacket.STREAM_CODEC,
+                PacketsDispatcher::handleBufPacket
         );
     }
     private static void handleGetRad(GetRadPacket packet, IPayloadContext context) {
@@ -84,6 +92,24 @@ public final class PacketsDispatcher {
             packet.nbt().putDouble("posZ", packet.z());
             if (mc.level != null) {
                 HBMsNTMClient.effectNT(packet.nbt());
+            }
+        });
+    }
+    public static void handleBufPacket(BufPacket packet, IPayloadContext context) {
+        context.enqueueWork(() -> {
+            var level = Minecraft.getInstance().level;
+            if (level == null) return;
+
+            BlockEntity be = level.getBlockEntity(packet.pos());
+            if (be instanceof IBufPacketReceiver receiver) {
+                try {
+                    receiver.deserialize(packet.payload());
+                } catch (Exception e) { // if im dumb
+                    HBMsNTM.LOGGER.warn("Error reading ByteBuf package: {}", e.getMessage());
+                    HBMsNTM.LOGGER.warn("Tile: {}", be.getBlockState().getBlock().getName().getString());
+                } finally {
+                    packet.payload().release();
+                }
             }
         });
     }

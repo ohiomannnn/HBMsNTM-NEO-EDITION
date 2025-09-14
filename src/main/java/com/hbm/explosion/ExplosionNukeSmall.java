@@ -4,35 +4,41 @@ import com.hbm.CommonEvents;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModSounds;
+import com.hbm.packets.toclient.AuxParticlePacket;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class ExplosionNukeSmall {
-
     public static void explode(Level level, double posX, double posY, double posZ, MukeParams params) {
 
         if (params.particle != null) {
-            CompoundTag data = new CompoundTag();
-            data.putString("type", params.particle);
+            CompoundTag nbt = new CompoundTag();
+            nbt.putString("type", params.particle);
 
             if (params.particle.equals("muke") &&
                     (CommonEvents.polaroidID == 11 || level.random.nextInt(100) == 0)) {
-                data.putBoolean("balefire", true);
+                nbt.putBoolean("balefire", true);
             }
-//
-//            PacketThreading.createAllAroundThreadedPacket(
-//                    new AuxParticlePacketNT(data, posX, posY + 0.5, posZ),
-//                    new PacketDistributor.TargetPoint(level.dimension(), posX, posY, posZ, 250)
-//            );
+
+            PacketDistributor.sendToPlayersNear(
+                    (ServerLevel) level,
+                    null,
+                    posX, posY, posZ,
+                    300,
+                    new AuxParticlePacket(nbt, posX, posY, posZ)
+            );
         }
 
+        // playing sound anyway
         level.playSound(null, posX, posY, posZ, ModSounds.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 15.0F, 1.0F);
 
-        if (params.shrapnelCount > 0) {
-            ExplosionLarge.spawnShrapnels(level, posX, posY, posZ, params.shrapnelCount);
-        }
+//        if (params.shrapnelCount > 0) {
+//            ExplosionLarge.spawnShrapnels(level, posX, posY, posZ, params.shrapnelCount);
+//        }
 
         if (params.miniNuke && !params.safe) {
             new ExplosionNT(level, null, posX, posY, posZ, params.blastRadius, false, Explosion.BlockInteraction.DESTROY)

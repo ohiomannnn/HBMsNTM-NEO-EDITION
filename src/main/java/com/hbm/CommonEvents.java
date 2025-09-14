@@ -44,7 +44,7 @@ public class CommonEvents {
         }
         if (entity instanceof LivingEntity livingEntity) {
             HazardSystem.updateLivingInventory(livingEntity);
-            EntityEffectHandler.onUpdate(livingEntity);
+            EntityEffectHandler.tick(livingEntity);
         }
     }
     public static int polaroidID = 1;

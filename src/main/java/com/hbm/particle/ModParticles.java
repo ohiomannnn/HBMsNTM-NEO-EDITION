@@ -45,6 +45,7 @@ public class ModParticles {
                     () -> new SimpleParticleType(false));
 
     public static SpriteSet COOLING_TOWER_SPRITES;
+    public static SpriteSet MUKE_FLASH_SPRITES;
 
     public static void register(IEventBus eventBus) {
         PARTICLE_TYPES.register(eventBus);

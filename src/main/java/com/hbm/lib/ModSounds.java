@@ -30,6 +30,9 @@ public class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER5 = registerSoundEvent("item.geiger5");
     public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER6 = registerSoundEvent("item.geiger6");
 
+    public static final DeferredHolder<SoundEvent, SoundEvent> LOCK_OPEN = registerSoundEvent("lock_open");
+    public static final DeferredHolder<SoundEvent, SoundEvent> PIN_UNLOCK = registerSoundEvent("pin_unlock");
+    public static final DeferredHolder<SoundEvent, SoundEvent> PIN_BREAK = registerSoundEvent("pin_break");
 
     private static DeferredHolder<SoundEvent, SoundEvent> registerSoundEvent(String name) {
         ResourceLocation id = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, name);

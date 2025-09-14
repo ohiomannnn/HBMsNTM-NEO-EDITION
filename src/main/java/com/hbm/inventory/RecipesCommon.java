@@ -8,7 +8,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
@@ -23,16 +22,12 @@ public class RecipesCommon {
             return isApplicable(new ComparableStack(stack));
         }
 
-        /**
-         * Проверяет, подходит ли предмет под сравнение (учитывая тип реализации).
-         */
         public boolean isApplicable(ComparableStack comp) {
             if (this instanceof ComparableStack cs) {
                 return cs.equals(comp);
             }
 
             if (this instanceof OreDictStack odStack) {
-                // просто проверяем через тег
                 return comp.toStack().is(odStack.getTag());
             }
 
@@ -50,7 +45,7 @@ public class RecipesCommon {
             cycle *= 50;
 
             if (list.isEmpty()) {
-                //return new ItemStack(ModItems.NOTHING.get());
+                return new ItemStack(ModItems.NOTHING.get());
             }
 
             int index = (int) ((System.currentTimeMillis() % ((long) cycle * list.size())) / cycle);
@@ -201,7 +196,7 @@ public class RecipesCommon {
         }
 
         @Override
-        public int compareTo(@NotNull RecipesCommon.AStack o) {
+        public int compareTo(RecipesCommon.AStack o) {
             return 0;
         }
     }

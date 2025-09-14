@@ -47,5 +47,14 @@
   },
   "item.geiger6": {
     "sounds": ["hbmsntm:tech/geiger6"]
+  },
+  "lock_open": {
+    "sounds": ["hbmsntm:block/lock_open"]
+  },
+  "pin_unlock": {
+    "sounds": ["hbmsntm:tool/pin_unlock"]
+  },
+  "pin_break": {
+    "sounds": ["hbmsntm:tool/pin_break"]
   }
 }

@@ -4,11 +4,11 @@ import com.hbm.HBMsNTM;
 import com.hbm.blocks.bomb.*;
 import com.hbm.blocks.gas.GasCoalBlock;
 import com.hbm.blocks.gas.GasMonoxideBlock;
+import com.hbm.blocks.generic.HazardBlock;
 import com.hbm.blocks.generic.WasteLeavesBlock;
 import com.hbm.blocks.special.ConcreteBrickMBlock;
 import com.hbm.items.ModItems;
 import com.mojang.serialization.MapCodec;
-import net.minecraft.client.resources.model.Material;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
@@ -18,7 +18,6 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
-
 
 public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(HBMsNTM.MODID);
@@ -270,7 +269,7 @@ public class ModBlocks {
                     .sound(SoundType.STONE)
                     .noLootTable()));
     public static final DeferredBlock<Block> TEST_RAD = registerBlock("test_rad",
-            () -> new TestRadBlock(BlockBehaviour.Properties.of()
+            () -> new HazardBlock(BlockBehaviour.Properties.of()
                     .strength(50.0F)
                     .explosionResistance(600.0F)
                     .sound(SoundType.STONE)
@@ -298,7 +297,6 @@ public class ModBlocks {
                     .lightLevel(state -> 10)
                     .noLootTable()
             ));
-
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> regBlock = BLOCKS.register(name, block);
