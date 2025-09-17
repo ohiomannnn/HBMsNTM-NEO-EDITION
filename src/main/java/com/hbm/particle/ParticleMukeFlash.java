@@ -1,6 +1,5 @@
 package com.hbm.particle;
 
-import com.hbm.HBMsNTM;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -120,7 +119,7 @@ public class ParticleMukeFlash extends TextureSheetParticle {
         float upY = up.y() * scale;
         float upZ = up.z() * scale;
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 24; i++) {
 
             float x0 = px - leftX - upX;
             float y0 = py - leftY - upY;
@@ -146,7 +145,7 @@ public class ParticleMukeFlash extends TextureSheetParticle {
     }
     @Override
     public ParticleRenderType getRenderType() {
-        return CustomPartSheet.PARTICLE_SHEET_ADDITIVE;
+        return CustomRenderType.PARTICLE_SHEET_ADDITIVE;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {

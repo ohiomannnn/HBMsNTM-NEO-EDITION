@@ -26,9 +26,14 @@ public class ModItemModelProvider extends ItemModelProvider {
         handheldItem(ModItems.REACHER.get());
         basicItem(ModItems.DUCK_SPAWN_EGG.get());
 
+        basicItem(ModItems.KEY.get());
+        basicItem(ModItems.KEY_RED.get());
+        basicItem(ModItems.KEY_KIT.get());
+        basicItem(ModItems.KEY_FAKE.get());
+        basicItem(ModItems.PIN.get());
+
         withExistingParent(ModBlocks.GAS_COAL.getId().getPath(), "item/generated")
                 .texture("layer0", modLoc("block/gas_coal"));
-
 
         ItemModelBuilder builder = getBuilder("polaroid")
                 .parent(getExistingFile(mcLoc("item/generated")));

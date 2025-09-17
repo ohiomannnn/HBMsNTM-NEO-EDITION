@@ -14,9 +14,7 @@ public class ParticleGasFlame extends SmokeParticle {
 
     private final float colorMod;
 
-    public ParticleGasFlame(ClientLevel level, double x, double y, double z,
-                            double vx, double vy, double vz,
-                            float scale, SpriteSet sprites) {
+    public ParticleGasFlame(ClientLevel level, double x, double y, double z, double vx, double vy, double vz, float scale, SpriteSet sprites) {
         super(level, x, y, z, vx, vy * 1.5, vz, scale, sprites);
         this.colorMod = 0.8F + RandomSource.create().nextFloat() * 0.2F;
         this.hasPhysics = false;
@@ -60,9 +58,7 @@ public class ParticleGasFlame extends SmokeParticle {
         }
 
         @Override
-        public Particle createParticle(SimpleParticleType type, ClientLevel level,
-                                       double x, double y, double z,
-                                       double vx, double vy, double vz) {
+        public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double vx, double vy, double vz) {
             return new ParticleGasFlame(level, x, y, z, vx, vy, vz, 1.0F, sprites);
         }
     }

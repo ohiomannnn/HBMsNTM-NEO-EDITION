@@ -16,7 +16,6 @@ public class ModParticles {
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SOME_PART =
             PARTICLE_TYPES.register("some_part",
                     () -> new SimpleParticleType(false));
-    /// Muke stuff
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> MUKE_CLOUD =
             PARTICLE_TYPES.register("muke_cloud",
                     () -> new SimpleParticleType(true));
@@ -26,11 +25,9 @@ public class ModParticles {
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> MUKE_WAVE =
             PARTICLE_TYPES.register("muke_wave",
                     () -> new SimpleParticleType(true));
-    /// Muke explosion itself
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> MUKE_FLASH =
             PARTICLE_TYPES.register("muke_flash",
                     () -> new SimpleParticleType(true));
-    /// end
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> EXPLOSION_SMALL =
             PARTICLE_TYPES.register("explosion_small",
                     () -> new SimpleParticleType(false));

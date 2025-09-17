@@ -3,7 +3,7 @@ package com.hbm.blockentity.machine;
 import com.hbm.HBMsNTM;
 import com.hbm.blockentity.LoadedBaseBlockEntity;
 import com.hbm.items.ModItems;
-import com.hbm.items.tools.ItemKey;
+import com.hbm.items.tools.KeyItem;
 import com.hbm.lib.ModSounds;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
@@ -73,7 +73,7 @@ public abstract class LockableBaseBlockEntity extends LoadedBaseBlockEntity {
 
         ItemStack stack = player.getMainHandItem();
 
-        if (!stack.isEmpty() && stack.getItem() instanceof ItemKey && ItemKey.getPins(stack) == this.lock) {
+        if (!stack.isEmpty() && stack.getItem() instanceof KeyItem && KeyItem.getPins(stack) == this.lock) {
             level.playSound(null, getBlockPos(), ModSounds.LOCK_OPEN.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
             return true;
         }

@@ -16,11 +16,7 @@ public class ParticleCoolingTower extends TextureSheetParticle {
     private final float alphaMod;
     private final SpriteSet sprites;
 
-    public ParticleCoolingTower(ClientLevel level, double x, double y, double z,
-                                float baseScale, float maxScale,
-                                float lift, float strafe,
-                                boolean windDir, float alphaMod,
-                                int lifetime, SpriteSet sprites) {
+    public ParticleCoolingTower(ClientLevel level, double x, double y, double z, float baseScale, float maxScale, float lift, float strafe, boolean windDir, float alphaMod, int lifetime, SpriteSet sprites) {
         super(level, x, y, z, 0, 0, 0);
         this.baseScale = baseScale;
         this.maxScale = maxScale;
@@ -102,7 +98,7 @@ public class ParticleCoolingTower extends TextureSheetParticle {
                                        double dx, double dy, double dz) {
             return new ParticleCoolingTower(level, x, y, z,
                     1.0F,    // baseScale
-                    2.0F,    // maxScale
+                    1.0F,    // maxScale
                     0.3F,    // lift
                     0.075F,  // strafe
                     true,    // windDir

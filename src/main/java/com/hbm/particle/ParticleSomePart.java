@@ -32,8 +32,7 @@ public class ParticleSomePart extends TextureSheetParticle {
             this.spriteSet = spriteSet;
         }
         @Override
-        public Particle createParticle(SimpleParticleType type, ClientLevel level,
-                                       double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new ParticleSomePart(level, x, y, z, spriteSet);
         }
     }

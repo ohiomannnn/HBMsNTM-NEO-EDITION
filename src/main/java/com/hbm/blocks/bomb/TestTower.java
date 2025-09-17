@@ -18,7 +18,7 @@ public class TestTower extends Block {
     @Override
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
         if (!level.isClientSide) {
-            level.scheduleTick(pos, this, 1);
+            level.scheduleTick(pos, this, 2);
         }
     }
 
@@ -35,10 +35,10 @@ public class TestTower extends Block {
                 level,
                 null,
                 pos.getX(), pos.getY(), pos.getZ(),
-                400,
-                new AuxParticlePacket(nbt, pos.getX() + 0.5, pos.getY() + 1.2, pos.getZ() + 0.5)
+                250,
+                new AuxParticlePacket(nbt, pos.getX() + 0.5, pos.getY() + 2, pos.getZ() + 0.5)
         );
 
-        level.scheduleTick(pos, this, 1);
+        level.scheduleTick(pos, this, 2);
     }
 }

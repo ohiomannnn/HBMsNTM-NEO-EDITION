@@ -25,6 +25,11 @@
   "item.hbmsntm.geiger_counter": "Handheld Geiger Counter",
   "item.hbmsntm.dosimeter": "Dosimeter",
   "item.hbmsntm.reacher": "Tungsten Reacher",
+  "item.hbmsntm.key": "Key",
+  "item.hbmsntm.key_red": "Red Key",
+  "item.hbmsntm.key_kit": "Key Imitation Kit",
+  "item.hbmsntm.key_fake": "Counterfeit Key",
+  "item.hbmsntm.pin": "Bobby Pin",
   "item.hbmsntm.duck_spawn_egg": "Golden Egg",
   "item.hbmsntm.balefire_and_steel": "Balefire and Steel",
   "item.hbmsntm.polaroid": "The Polaroid",
@@ -67,5 +72,6 @@
   "trait.blinding": "Blinding",
 
   "creativeTabs.hbmsntm.block_tab": "NTM Ores and Blocks",
-  "creativeTabs.hbmsntm.consumables_and_gear": "NTM Consumables and Gear"
+  "creativeTabs.hbmsntm.consumables_and_gear": "NTM Consumables and Gear",
+  "container.crateIron": "Iron Crate"
 }

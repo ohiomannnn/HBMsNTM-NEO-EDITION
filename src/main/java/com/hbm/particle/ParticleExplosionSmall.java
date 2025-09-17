@@ -14,10 +14,7 @@ public class ParticleExplosionSmall extends TextureSheetParticle {
     private final SpriteSet sprites;
     private final float hue;
 
-    protected ParticleExplosionSmall(ClientLevel level, double x, double y, double z,
-                                     double dx, double dy, double dz,
-                                     float scale, float speedMult,
-                                     SpriteSet sprites) {
+    protected ParticleExplosionSmall(ClientLevel level, double x, double y, double z, double dx, double dy, double dz, float scale, float speedMult, SpriteSet sprites) {
         super(level, x, y, z, dx, dy, dz);
         this.sprites = sprites;
 

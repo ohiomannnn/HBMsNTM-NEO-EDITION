@@ -5,6 +5,8 @@ import com.hbm.blocks.bomb.*;
 import com.hbm.blocks.gas.GasCoalBlock;
 import com.hbm.blocks.gas.GasMonoxideBlock;
 import com.hbm.blocks.generic.HazardBlock;
+//import com.hbm.blocks.generic.StorageCrateBlock;
+import com.hbm.blocks.generic.StorageCrateBlock;
 import com.hbm.blocks.generic.WasteLeavesBlock;
 import com.hbm.blocks.special.ConcreteBrickMBlock;
 import com.hbm.items.ModItems;
@@ -160,22 +162,22 @@ public class ModBlocks {
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(0.4F)
                     .explosionResistance(10.0F)
-                    .sound(SoundType.STONE)));
+                    .sound(SoundType.NETHER_ORE)));
     public static final DeferredBlock<Block> ORE_NETHER_URANIUM_SCORCHED = registerBlock("ore_nether_uranium_scorched",
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(0.4F)
                     .explosionResistance(10.0F)
-                    .sound(SoundType.STONE)));
+                    .sound(SoundType.NETHER_ORE)));
     public static final DeferredBlock<Block> ORE_NETHER_PLUTONIUM = registerBlock("ore_nether_plutonium",
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(0.4F)
                     .explosionResistance(10.0F)
-                    .sound(SoundType.STONE)));
+                    .sound(SoundType.NETHER_ORE)));
     public static final DeferredBlock<Block> ORE_NETHER_SCHRABIDIUM = registerBlock("ore_nether_schrabidium",
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(15.0F)
                     .explosionResistance(600.0F)
-                    .sound(SoundType.STONE)));
+                    .sound(SoundType.NETHER_ORE)));
     public static final DeferredBlock<Block> ORE_TIKITE = registerBlock("ore_tikite",
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F)
@@ -281,6 +283,11 @@ public class ModBlocks {
                     .sound(SoundType.STONE)
                     .randomTicks()
                     .noLootTable()));
+
+    public static final DeferredBlock<Block> IRON_CRATE = registerBlock("iron_crate",
+            () -> new StorageCrateBlock(BlockBehaviour.Properties.of()
+                    .sound(SoundType.STONE)
+                    .noLootTable(), false));
 
     //FIRE
     public static final DeferredBlock<Block> BALEFIRE = BLOCKS.register("balefire",

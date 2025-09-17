@@ -5,6 +5,7 @@ import com.hbm.config.ServerConfig;
 import com.hbm.creativetabs.ModCreativeTabs;
 import com.hbm.entity.ModEntities;
 import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.inventory.ModMenus;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModAttachments;
 import com.hbm.lib.ModCommands;
@@ -37,6 +38,7 @@ public class HBMsNTM {
         ModAttachments.register(modEventBus);
         ModEffect.register(modEventBus);
         ModBlockEntities.register(modEventBus);
+        ModMenus.register(modEventBus);
 
         NeoForge.EVENT_BUS.register(radiationManager);
         NeoForge.EVENT_BUS.register(this);

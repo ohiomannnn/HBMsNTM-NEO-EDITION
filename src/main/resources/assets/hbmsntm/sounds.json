@@ -1,14 +1,8 @@
 {
   "muke_explosion": {
-    "subtitle": "sounds.hbmsntm.muke_explosion",
-    "sounds": [
-      {
-        "name": "hbmsntm:explosion/muke_explosion"
-      }
-    ]
+    "sounds": ["hbmsntm:explosion/muke_explosion"]
   },
   "grenade_bounce": {
-    "subtitle": "sounds.hbmsntm.grenade_bounce",
     "sounds": [
       "hbmsntm:weapon/grenade_bounce1",
       "hbmsntm:weapon/grenade_bounce2",
@@ -16,37 +10,31 @@
     ]
   },
   "duck": {
-    "subtitle": "sounds.hbmsntm.duck",
     "sounds": [
       "hbmsntm:entity/ducc1",
       "hbmsntm:entity/ducc2"
     ]
   },
   "tech_boop": {
-    "subtitle": "sounds.hbmsntm.techboop",
-    "sounds": [
-      {
-        "name": "hbmsntm:tech/techboop"
-      }
-    ]
+    "sounds": ["hbmsntm:tech/tech_boop"]
   },
   "item.geiger1": {
-    "sounds": ["hbmsntm:tech/geiger1"]
+    "sounds": ["hbmsntm:tool/geiger1"]
   },
   "item.geiger2": {
-    "sounds": ["hbmsntm:tech/geiger2"]
+    "sounds": ["hbmsntm:tool/geiger2"]
   },
   "item.geiger3": {
-    "sounds": ["hbmsntm:tech/geiger3"]
+    "sounds": ["hbmsntm:tool/geiger3"]
   },
   "item.geiger4": {
-    "sounds": ["hbmsntm:tech/geiger4"]
+    "sounds": ["hbmsntm:tool/geiger4"]
   },
   "item.geiger5": {
-    "sounds": ["hbmsntm:tech/geiger5"]
+    "sounds": ["hbmsntm:tool/geiger5"]
   },
   "item.geiger6": {
-    "sounds": ["hbmsntm:tech/geiger6"]
+    "sounds": ["hbmsntm:tool/geiger6"]
   },
   "lock_open": {
     "sounds": ["hbmsntm:block/lock_open"]

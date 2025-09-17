@@ -100,6 +100,11 @@ public class ServerConfig {
             .translation("config.hbmsntm.enable528")
             .define("enable528", false);
 
+    public static final ModConfigSpec.BooleanValue CRATE_KEEP_CONTENTS = BUILDER
+            .comment("content")
+            .translation("config.hbmsntm.content")
+            .define("content", true);
+
     static {
         BUILDER.pop();
     }

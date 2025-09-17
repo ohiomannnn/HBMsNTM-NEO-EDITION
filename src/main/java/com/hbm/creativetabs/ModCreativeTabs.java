@@ -50,6 +50,10 @@ public class ModCreativeTabs {
                         output.accept(ModItems.GEIGER_COUNTER);
                         output.accept(ModItems.DOSIMETER);
                         output.accept(ModItems.REACHER);
+                        output.accept(ModItems.KEY);
+                        output.accept(ModItems.KEY_KIT);
+                        output.accept(ModItems.KEY_FAKE);
+                        output.accept(ModItems.PIN);
                         output.accept(ModItems.FLINT_AND_BALEFIRE);
                         output.accept(ModItems.POLAROID);
                     }).build());

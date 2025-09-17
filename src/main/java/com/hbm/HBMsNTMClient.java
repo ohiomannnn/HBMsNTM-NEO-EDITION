@@ -7,6 +7,8 @@ import com.hbm.hazard.HazardSystem;
 import com.hbm.items.ModItems;
 import com.hbm.packets.PacketsDispatcher;
 import com.hbm.particle.*;
+import com.hbm.util.i18n.I18nClient;
+import com.hbm.util.i18n.ITranslate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
@@ -28,10 +30,17 @@ import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 
 import java.util.List;
+import java.util.Random;
 
 @Mod(value = HBMsNTM.MODID, dist = Dist.CLIENT)
 @EventBusSubscriber(value = Dist.CLIENT)
 public class HBMsNTMClient {
+
+    private static Random rand = new Random();
+
+    private static final I18nClient I18N = new I18nClient();
+    public ITranslate getI18n() { return I18N; }
+
     public HBMsNTMClient(IEventBus modBus, ModContainer modContainer) {
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
         ModParticles.register(modBus);
@@ -71,27 +80,33 @@ public class HBMsNTMClient {
         event.registerSpriteSet(ModParticles.DEAD_LEAF.get(), ParticleDeadLeaf.Provider::new);
     }
 
-    // for future
+
+    /**
+     * Will get data and create particle from it.
+     * For dimension, range and other things u will need packets.
+     * @param data requires type, x, y, z to work
+     */
     public static void effectNT(CompoundTag data) {
         Minecraft mc = Minecraft.getInstance();
         ClientLevel level = mc.level;
 
         if (level == null) return;
 
-//        TextureManager man = mc.getTextureManager();
         LocalPlayer player = mc.player;
-//        int particleSetting = mc.options.particles().get().getId();
+        int particleSetting = mc.options.particles().get().getId();
 
         String type = data.getString("type");
         double x = data.getDouble("posX");
         double y = data.getDouble("posY");
         double z = data.getDouble("posZ");
 
+        // for future
 //        if (ParticleCreators.particleCreators.containsKey(type)) {
 //            ParticleCreators.particleCreators.get(type).makeParticle(world, player, man, rand, x, y, z, data);
 //            return;
 //        }
 
+        assert player != null; //shut up
         if ("muke".contains(type)) {
             ParticleMukeFlash fx = new ParticleMukeFlash(
                     level,
@@ -108,42 +123,44 @@ public class HBMsNTMClient {
         }
 
         if ("tower".equals(type)) {
-            float strafe = 0.0F;
-            boolean wind = true;
-            float alphaMod = 0.25F;
+            if (particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean())) {
+                float strafe = 0.075F;
+                boolean windDir  = true;
+                float alphaMod = 0.25F;
 
-            float lift = data.getFloat("lift");
-            float maxScale = data.getFloat("max");
-            float baseScale = data.getFloat("base");
-            int lifetime = data.getInt("life");
+                float lift = data.getFloat("lift");
+                float maxScale = data.getFloat("max");
+                float baseScale = data.getFloat("base");
+                int lifetime = data.getInt("life");
 
-            if (data.contains("noWind")) wind = !data.getBoolean("noWind");
-            if (data.contains("strafe")) strafe = data.getFloat("strafe");
-            if (data.contains("alpha")) alphaMod = data.getFloat("alpha");
+                if (data.contains("noWind")) windDir  = !data.getBoolean("noWind");
+                if (data.contains("strafe")) strafe = data.getFloat("strafe");
+                if (data.contains("alpha")) alphaMod = data.getFloat("alpha");
 
-            ParticleCoolingTower fx = new ParticleCoolingTower(
-                    level,
-                    x, y, z,
-                    baseScale,
-                    maxScale,
-                    lift,
-                    strafe,
-                    wind,
-                    alphaMod,
-                    lifetime,
-                    ModParticles.COOLING_TOWER_SPRITES
-            );
-
-            if (data.contains("color")) {
-                int color = data.getInt("color");
-                fx.setColor(
-                        (color >> 16 & 255) / 255F,
-                        (color >> 8 & 255) / 255F,
-                        (color & 255) / 255F
+                ParticleCoolingTower fx = new ParticleCoolingTower(
+                        level,
+                        x, y, z,
+                        baseScale,
+                        maxScale,
+                        lift,
+                        strafe,
+                        windDir,
+                        alphaMod,
+                        lifetime,
+                        ModParticles.COOLING_TOWER_SPRITES
                 );
-            }
 
-            mc.particleEngine.add(fx);
+                if (data.contains("color")) {
+                    int color = data.getInt("color");
+                    fx.setColor(
+                            (color >> 16 & 255) / 255F,
+                            (color >> 8 & 255) / 255F,
+                            (color & 255) / 255F
+                    );
+                }
+
+                mc.particleEngine.add(fx);
+            }
         }
     }
 }

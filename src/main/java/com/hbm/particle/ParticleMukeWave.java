@@ -86,7 +86,7 @@ public class ParticleMukeWave extends TextureSheetParticle {
 
     @Override
     public ParticleRenderType getRenderType() {
-        return CustomPartSheet.PARTICLE_SHEET_ADDITIVE;
+        return CustomRenderType.PARTICLE_SHEET_ADDITIVE;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
@@ -97,9 +97,7 @@ public class ParticleMukeWave extends TextureSheetParticle {
         }
 
         @Override
-        public Particle createParticle(SimpleParticleType type, ClientLevel level,
-                                       double x, double y, double z,
-                                       double dx, double dy, double dz) {
+        public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
             return new ParticleMukeWave(level, x, y, z, 45F, 25, sprites);
         }
     }

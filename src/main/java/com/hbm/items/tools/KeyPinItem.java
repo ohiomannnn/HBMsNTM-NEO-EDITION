@@ -1,7 +1,7 @@
 package com.hbm.items.tools;
 
-import com.hbm.HBMsNTM;
 import com.hbm.items.ModItems;
+import com.hbm.util.TagsUtil;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -12,8 +12,8 @@ import net.minecraft.world.item.component.CustomData;
 
 import java.util.List;
 
-public class ItemKeyPin extends Item {
-    public ItemKeyPin(Properties properties) {
+public class KeyPinItem extends Item {
+    public KeyPinItem(Properties properties) {
         super(properties);
     }
 
@@ -42,11 +42,11 @@ public class ItemKeyPin extends Item {
     }
 
     public static void setPins(ItemStack stack, int pins) {
-        CompoundTag tag = stack.get(DataComponents.CUSTOM_DATA).copyTag();
+        CompoundTag tag = TagsUtil.getOrCreateTag(stack);
         tag.putInt("pins", pins);
     }
 
-//    public boolean canTransfer() {
-//        return this != ModItems.key_fake;
-//    }
+    public boolean canTransfer() {
+        return this != ModItems.KEY_FAKE.get();
+    }
 }
