@@ -286,8 +286,7 @@ public class ModBlocks {
 
     public static final DeferredBlock<Block> IRON_CRATE = registerBlock("iron_crate",
             () -> new StorageCrateBlock(BlockBehaviour.Properties.of()
-                    .sound(SoundType.STONE)
-                    .noLootTable(), false));
+                    .sound(SoundType.STONE), false));
 
     //FIRE
     public static final DeferredBlock<Block> BALEFIRE = BLOCKS.register("balefire",

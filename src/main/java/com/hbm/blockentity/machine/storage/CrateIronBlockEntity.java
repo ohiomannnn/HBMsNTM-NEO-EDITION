@@ -16,13 +16,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 public class CrateIronBlockEntity extends CrateBaseBlockEntity implements MenuProvider {
+    public static int SIZE = 27;
+
     public CrateIronBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.IRON_CRATE.get(), pos, state, 27);
-    }
-
-    @Override
-    public void clearContent() {
-
+        super(ModBlockEntities.IRON_CRATE.get(), pos, state, SIZE);
     }
 
     @Override
@@ -34,4 +31,11 @@ public class CrateIronBlockEntity extends CrateBaseBlockEntity implements MenuPr
     public AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
         return new ContainerCrateIron(i, inventory, this);
     }
+    @Override
+    public int getContainerSize() {
+        return SIZE; // должно совпадать с количеством слотов в меню
+    }
+
+    @Override
+    public void clearContent() { }
 }

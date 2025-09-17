@@ -13,6 +13,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
@@ -35,7 +36,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 
-import javax.annotation.Nullable;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -78,8 +78,10 @@ public class StorageCrateBlock extends BaseEntityBlock {
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof CrateBaseBlockEntity crate) {
                 if (crate.canAccess(player)) {
-                    player.openMenu(crate);
-                    CrateBaseBlockEntity.spawnSpiders(player, level, crate);
+                    if (player instanceof ServerPlayer player1) {
+                        player1.openMenu(crate, pos);
+                        CrateBaseBlockEntity.spawnSpiders(player, level, crate);
+                    }
                 }
             }
         }
@@ -114,7 +116,6 @@ public class StorageCrateBlock extends BaseEntityBlock {
         BlockEntity blockEntity = level.getBlockEntity(pos);
 
         if (blockEntity instanceof CrateBaseBlockEntity lockable && !level.isClientSide && !player.isCreative()) {
-
             boolean keepContents = ServerConfig.CRATE_KEEP_CONTENTS.get();
             boolean isLocked = lockable.isLocked();
 

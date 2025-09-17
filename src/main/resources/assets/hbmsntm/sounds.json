@@ -44,5 +44,11 @@
   },
   "pin_break": {
     "sounds": ["hbmsntm:tool/pin_break"]
+  },
+  "crate_close": {
+    "sounds": ["hbmsntm:block/crate_close"]
+  },
+  "crate_open": {
+    "sounds": ["hbmsntm:block/crate_open"]
   }
 }

@@ -1,5 +1,6 @@
 package com.hbm.inventory.container;
 
+import com.hbm.HBMsNTM;
 import com.hbm.inventory.SlotNonRetarded;
 import com.hbm.items.block.ItemBlockStorageCrate;
 import net.minecraft.world.Container;
@@ -10,11 +11,23 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
+import java.util.List;
+
 public class ContainerCrateBase extends ContainerBase {
 
     public ContainerCrateBase(MenuType<?> menuType, int windowId, Inventory playerInv, Container crateInv) {
         super(menuType, windowId, playerInv, crateInv);
-        crateInv.startOpen(playerInv.player);
+        if (!playerInv.player.level().isClientSide) {
+            crateInv.startOpen(playerInv.player);
+        }
+    }
+
+    @Override
+    public void initializeContents(int stateId, List<ItemStack> stacks, ItemStack carried) {
+        if (stacks.size() != this.slots.size()) {
+            HBMsNTM.LOGGER.error("Mismatch: server sent {} slots, client has {}", stacks.size(), this.slots.size());
+        }
+        super.initializeContents(stateId, stacks, carried);
     }
 
     @Override
@@ -33,6 +46,9 @@ public class ContainerCrateBase extends ContainerBase {
             );
         }
     }
+
+
+
 
     @Override
     public void clicked(int slotId, int button, ClickType clickType, Player player) {

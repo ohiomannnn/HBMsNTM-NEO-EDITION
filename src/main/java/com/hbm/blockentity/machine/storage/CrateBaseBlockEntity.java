@@ -1,7 +1,9 @@
 package com.hbm.blockentity.machine.storage;
 
+import com.hbm.HBMsNTM;
 import com.hbm.blockentity.machine.LockableBaseBlockEntity;
 import com.hbm.inventory.container.ContainerCrateIron;
+import com.hbm.lib.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
@@ -58,11 +60,10 @@ public abstract class CrateBaseBlockEntity extends LockableBaseBlockEntity imple
         return this.items.stream().allMatch(ItemStack::isEmpty);
     }
 
-    @Override
-    public ItemStack getItem(int slot) {
-        return items.get(slot);
+    public ItemStack getItem(int index) {
+        if (index < 0 || index >= items.size()) return ItemStack.EMPTY;
+        return items.get(index);
     }
-
     @Override
     public ItemStack removeItem(int slot, int amount) {
         ItemStack result = ContainerHelper.removeItem(items, slot, amount);
@@ -78,15 +79,17 @@ public abstract class CrateBaseBlockEntity extends LockableBaseBlockEntity imple
         return result;
     }
 
-    @Override
     public void setItem(int slot, ItemStack stack) {
+        if (slot < 0 || slot >= items.size()) {
+            HBMsNTM.LOGGER.warn("setItem: invalid slot {} for {} (size {})", slot, this, items.size());
+            return;
+        }
         items.set(slot, stack);
         if (stack.getCount() > getMaxStackSize()) {
             stack.setCount(getMaxStackSize());
         }
         setChanged();
     }
-
     @Override
     public boolean stillValid(Player player) {
         if (level == null || level.getBlockEntity(worldPosition) != this) return false;
@@ -101,14 +104,14 @@ public abstract class CrateBaseBlockEntity extends LockableBaseBlockEntity imple
     @Override
     public void startOpen(Player player) {
         if (level != null) {
-            level.playSound(null, worldPosition, SoundEvents.CHEST_OPEN, SoundSource.BLOCKS, 1.0F, 1.0F);
+            level.playSound(null, worldPosition, ModSounds.CRATE_OPEN.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         }
     }
 
     @Override
     public void stopOpen(Player player) {
         if (level != null) {
-            level.playSound(null, worldPosition, SoundEvents.CHEST_CLOSE, SoundSource.BLOCKS, 1.0F, 1.0F);
+            level.playSound(null, worldPosition, ModSounds.CRATE_CLOSE.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         }
     }
 
