@@ -15,6 +15,9 @@
       "hbmsntm:entity/ducc2"
     ]
   },
+  "vomit": {
+    "sounds": ["hbmsntm:entity/vomit"]
+  },
   "tech_boop": {
     "sounds": ["hbmsntm:tech/tech_boop"]
   },

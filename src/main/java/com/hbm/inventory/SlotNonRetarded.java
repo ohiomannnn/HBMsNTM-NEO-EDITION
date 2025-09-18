@@ -5,10 +5,10 @@ import net.minecraft.world.Container;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
-
 /**
  * mojang fixed ts in newer versions
  * soo i had no reason to port this :(
+ * update: i don't know about this patched but whatever
  */
 @NotableComments
 public class SlotNonRetarded extends Slot {

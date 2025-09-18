@@ -1,6 +1,8 @@
 package com.hbm.items;
 
 import com.hbm.HBMsNTM;
+import com.hbm.blocks.ModBlocks;
+import com.hbm.items.block.ItemBlockStorageCrate;
 import com.hbm.items.special.EntitySpawnerItem;
 import com.hbm.items.special.ItemPolaroid;
 import com.hbm.items.tools.*;
@@ -38,6 +40,11 @@ public class ModItems {
             () -> new KeyItem(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> KEY_FAKE = ITEMS.register("key_fake",
             () -> new KeyItem(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> IRON_CRATE_IRON =
+            ITEMS.register("iron_crate",
+                    () -> new ItemBlockStorageCrate(ModBlocks.IRON_CRATE.get(),
+                            new Item.Properties()));
 
     public static final DeferredItem<Item> DUCK_SPAWN_EGG = ITEMS.register("duck_spawn_egg",
             () -> new EntitySpawnerItem(new Item.Properties().stacksTo(16)));

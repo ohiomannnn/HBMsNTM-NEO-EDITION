@@ -38,4 +38,12 @@ public class TagsUtil {
         CompoundTag root = getTag(stack);
         return root.contains(key) ? root.getCompound(key) : null;
     }
+
+    public static void removeTag(ItemStack stack, String key) {
+        CompoundTag tag = getTag(stack);
+        if (tag.contains(key)) {
+            tag.remove(key);
+            setTag(stack, tag);
+        }
+    }
 }

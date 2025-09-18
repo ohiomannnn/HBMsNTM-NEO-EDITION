@@ -8,6 +8,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
@@ -47,9 +48,6 @@ public class ContainerCrateBase extends ContainerBase {
         }
     }
 
-
-
-
     @Override
     public void clicked(int slotId, int button, ClickType clickType, Player player) {
         ItemStack held = player.getInventory().getItem(player.getInventory().selected);
@@ -74,7 +72,7 @@ public class ContainerCrateBase extends ContainerBase {
         tile.stopOpen(player);
     }
 
-    public static class SlotPlayerCrateLocked extends SlotNonRetarded {
+    public static class SlotPlayerCrateLocked extends Slot {
         public SlotPlayerCrateLocked(Container inventory, int index, int x, int y) {
             super(inventory, index, x, y);
         }

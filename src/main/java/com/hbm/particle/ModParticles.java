@@ -40,9 +40,17 @@ public class ModParticles {
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> DEAD_LEAF =
             PARTICLE_TYPES.register("dead_leaf",
                     () -> new SimpleParticleType(false));
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> AURA =
+            PARTICLE_TYPES.register("aura",
+                    () -> new SimpleParticleType(false));
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> VOMIT =
+            PARTICLE_TYPES.register("vomit",
+                    () -> new SimpleParticleType(false));
 
     public static SpriteSet COOLING_TOWER_SPRITES;
     public static SpriteSet MUKE_FLASH_SPRITES;
+    public static SpriteSet AURA_SPITES;
+    public static SpriteSet VOMIT_SPRITES;
 
     public static void register(IEventBus eventBus) {
         PARTICLE_TYPES.register(eventBus);

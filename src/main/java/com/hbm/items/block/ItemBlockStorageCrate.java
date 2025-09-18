@@ -1,8 +1,10 @@
 package com.hbm.items.block;
 
+import com.hbm.HBMsNTM;
 import com.hbm.blockentity.machine.storage.CrateBaseBlockEntity;
 import com.hbm.blockentity.machine.storage.CrateIronBlockEntity;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.ModMenus;
 import com.hbm.inventory.container.*;
 import com.hbm.items.ItemInventory;
 import com.hbm.items.tools.KeyItem;
@@ -10,6 +12,7 @@ import com.hbm.util.TagsUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
@@ -20,8 +23,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
-public class ItemBlockStorageCrate extends BlockItem {
+public class ItemBlockStorageCrate extends ItemBlockBase {
 
     public ItemBlockStorageCrate(Block block, Properties props) {
         super(block, props);
@@ -36,6 +40,7 @@ public class ItemBlockStorageCrate extends BlockItem {
 //        if(block == ModBlocks.mass_storage) return InteractionResultHolder.pass(stack);
 
         if(!level.isClientSide && stack.getCount() == 1) {
+            BlockPos pos = player.blockPosition();
             CompoundTag tag = TagsUtil.getTag(stack);
             if(tag.contains("lock")) {
                 for(ItemStack item : player.getInventory().items) {
@@ -44,25 +49,28 @@ public class ItemBlockStorageCrate extends BlockItem {
                     CompoundTag keyTag = TagsUtil.getTag(stack);
                     if(keyTag.getInt("pins") == tag.getInt("lock")) {
                         CrateBaseBlockEntity.spawnSpiders(player, level, stack);
-                        openGui(player, level, stack);
+                        openGui(player, level, pos);
                         break;
                     }
                 }
                 return InteractionResultHolder.success(stack);
             }
             CrateBaseBlockEntity.spawnSpiders(player, level, stack);
-            openGui(player, level, stack);
+            openGui(player, level, pos);
         }
 
         return InteractionResultHolder.success(stack);
     }
 
-    private void openGui(Player player, Level level, ItemStack stack) {
-//        NetworkHooks.openScreen((ServerPlayer) player,
-//                new SimpleMenuProvider((id, inv, p) -> createMenu(id, inv, stack),
-//                        Component.translatable("container.crate")),
-//                buf -> buf.writeItem(stack));
+    private void openGui(Player player, Level level, BlockPos pos) {
+        if (!level.isClientSide && player instanceof ServerPlayer sp) {
+            BlockEntity be = level.getBlockEntity(pos);
+            if (be instanceof CrateBaseBlockEntity crate && crate.canAccess(player)) {
+                //sp.openMenu(crate, pos);
+            }
+        }
     }
+
 
     private AbstractContainerMenu createMenu(int id, Inventory playerInv, ItemStack stack) {
         Block block = Block.byItem(stack.getItem());

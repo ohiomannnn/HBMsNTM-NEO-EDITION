@@ -20,6 +20,7 @@ public class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> GRENADE_BOUNCE = registerSoundEvent("grenade_bounce");
 
     public static final DeferredHolder<SoundEvent, SoundEvent> DUCK = registerSoundEvent("duck");
+    public static final DeferredHolder<SoundEvent, SoundEvent> VOMIT = registerSoundEvent("vomit");
 
     public static final DeferredHolder<SoundEvent, SoundEvent> TECH_BOOP = registerSoundEvent("tech_boop");
 
@@ -36,6 +37,7 @@ public class ModSounds {
 
     public static final DeferredHolder<SoundEvent, SoundEvent> CRATE_CLOSE = registerSoundEvent("crate_close");
     public static final DeferredHolder<SoundEvent, SoundEvent> CRATE_OPEN = registerSoundEvent("crate_open");
+
 
     private static DeferredHolder<SoundEvent, SoundEvent> registerSoundEvent(String name) {
         ResourceLocation id = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, name);

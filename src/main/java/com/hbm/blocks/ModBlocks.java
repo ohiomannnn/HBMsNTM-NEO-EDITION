@@ -266,27 +266,22 @@ public class ModBlocks {
                     .noLootTable()));
     public static final DeferredBlock<Block> TEST_BOMB = registerBlock("test_bomb",
             () -> new TestBomb(BlockBehaviour.Properties.of()
-                    .strength(50.0F)
-                    .explosionResistance(600.0F)
                     .sound(SoundType.STONE)
                     .noLootTable()));
     public static final DeferredBlock<Block> TEST_RAD = registerBlock("test_rad",
             () -> new HazardBlock(BlockBehaviour.Properties.of()
-                    .strength(50.0F)
-                    .explosionResistance(600.0F)
                     .sound(SoundType.STONE)
                     .noLootTable()));
     public static final DeferredBlock<Block> TEST_TOWER = registerBlock("test_tower",
             () -> new TestTower(BlockBehaviour.Properties.of()
-                    .strength(50.0F)
-                    .explosionResistance(600.0F)
                     .sound(SoundType.STONE)
                     .randomTicks()
                     .noLootTable()));
 
-    public static final DeferredBlock<Block> IRON_CRATE = registerBlock("iron_crate",
-            () -> new StorageCrateBlock(BlockBehaviour.Properties.of()
-                    .sound(SoundType.STONE), false));
+    public static final DeferredBlock<Block> IRON_CRATE =
+            BLOCKS.register("iron_crate",
+                    () -> new StorageCrateBlock(BlockBehaviour.Properties.of()
+                            .sound(SoundType.STONE), false));
 
     //FIRE
     public static final DeferredBlock<Block> BALEFIRE = BLOCKS.register("balefire",

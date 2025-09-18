@@ -13,6 +13,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.TooltipFlag;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ItemBlockBase extends BlockItem {
 
@@ -25,10 +26,7 @@ public class ItemBlockBase extends BlockItem {
         Block block = getBlock();
         if (block instanceof IBlockMulti multi) {
             String override = multi.getOverrideDisplayName(stack);
-            if (override != null) {
-                return Component.translatable(override);
-            }
-            return Component.translatable(multi.getUnlocalizedName(stack) + ".name");
+            return Component.translatable(Objects.requireNonNullElseGet(override, () -> multi.getUnlocalizedName(stack) + ".name"));
         }
         return super.getName(stack);
     }

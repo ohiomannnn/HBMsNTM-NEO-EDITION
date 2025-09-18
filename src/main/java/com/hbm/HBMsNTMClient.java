@@ -13,9 +13,19 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -36,7 +46,6 @@ import java.util.Random;
 @EventBusSubscriber(value = Dist.CLIENT)
 public class HBMsNTMClient {
 
-    private static Random rand = new Random();
 
     private static final I18nClient I18N = new I18nClient();
     public ITranslate getI18n() { return I18N; }
@@ -78,21 +87,23 @@ public class HBMsNTMClient {
         });
         event.registerSpriteSet(ModParticles.GAS_FLAME.get(), ParticleGasFlame.Provider::new);
         event.registerSpriteSet(ModParticles.DEAD_LEAF.get(), ParticleDeadLeaf.Provider::new);
+        event.registerSpriteSet(ModParticles.AURA.get(), sprites -> {
+            ModParticles.AURA_SPITES = sprites;
+            return new ParticleAura.Provider(sprites);
+        });
+        event.registerSpriteSet(ModParticles.VOMIT.get(), sprites -> {
+            ModParticles.VOMIT_SPRITES = sprites;
+            return new VomitPart.Provider(sprites);
+        });
     }
 
-
-    /**
-     * Will get data and create particle from it.
-     * For dimension, range and other things u will need packets.
-     * @param data requires type, x, y, z to work
-     */
     public static void effectNT(CompoundTag data) {
         Minecraft mc = Minecraft.getInstance();
         ClientLevel level = mc.level;
 
         if (level == null) return;
 
-        LocalPlayer player = mc.player;
+        Player  player = mc.player;
         int particleSetting = mc.options.particles().get().getId();
 
         String type = data.getString("type");
@@ -106,6 +117,7 @@ public class HBMsNTMClient {
 //            return;
 //        }
 
+        final Random rand = new Random();
         assert player != null; //shut up
         if ("muke".contains(type)) {
             ParticleMukeFlash fx = new ParticleMukeFlash(
@@ -160,6 +172,74 @@ public class HBMsNTMClient {
                 }
 
                 mc.particleEngine.add(fx);
+            }
+        }
+        if ("radiation".equals(type)) {
+            for (int i = 0; i < data.getInt("count"); i++) {
+                ParticleAura fx = new ParticleAura(
+                        level,
+                        player.getX() + rand.nextGaussian() * 4,
+                        player.getY() + rand.nextGaussian() * 2,
+                        player.getZ() + rand.nextGaussian() * 4,
+                        rand.nextGaussian(),
+                        rand.nextGaussian(),
+                        rand.nextGaussian(),
+                        0F,
+                        0.75F,
+                        1F,
+                        ModParticles.AURA_SPITES
+                );
+
+                mc.particleEngine.add(fx);
+            }
+        }
+        if ("vomit".equals(type)) {
+            Entity e = level.getEntity(data.getInt("entity"));
+            int count = data.getInt("count") / (particleSetting + 1);
+
+            if (e instanceof LivingEntity living) {
+                double ix = living.getX();
+                double iy = living.getY() + living.getEyeHeight();
+                double iz = living.getZ();
+
+                Vec3 vec = living.getLookAngle();
+
+                for (int i = 0; i < count; i++) {
+                    String mode = data.getString("mode");
+
+                    if ("normal".equals(mode)) {
+                        VomitPart fx = new VomitPart(level, ix, iy, iz,
+                                (vec.x + rand.nextGaussian() * 0.2) * 0.2,
+                                (vec.y + rand.nextGaussian() * 0.2) * 0.2,
+                                (vec.z + rand.nextGaussian() * 0.2) * 0.2,
+                                0.3F, 0.33F, 0.17F,
+                                ModParticles.VOMIT_SPRITES
+                        );
+                        mc.particleEngine.add(fx);
+                    }
+
+                    if ("blood".equals(mode)) {
+                        VomitPart fx = new VomitPart(level, ix, iy, iz,
+                                (vec.x + rand.nextGaussian() * 0.2) * 0.2,
+                                (vec.y + rand.nextGaussian() * 0.2) * 0.2,
+                                (vec.z + rand.nextGaussian() * 0.2) * 0.2,
+                                0.72F, 0.12F, 0F,
+                                ModParticles.VOMIT_SPRITES
+                        );
+                        mc.particleEngine.add(fx);
+                    }
+
+                    if ("smoke".equals(mode)) {
+
+                        level.addParticle(
+                                ParticleTypes.SMOKE,
+                                ix, iy, iz,
+                                (vec.x + rand.nextGaussian() * 0.1) * 0.05,
+                                (vec.y + rand.nextGaussian() * 0.1) * 0.05,
+                                (vec.z + rand.nextGaussian() * 0.1) * 0.05
+                        );
+                    }
+                }
             }
         }
     }

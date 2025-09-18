@@ -1,19 +1,14 @@
 package com.hbm.blockentity.machine.storage;
 
-import com.hbm.HBMsNTM;
 import com.hbm.blockentity.machine.LockableBaseBlockEntity;
-import com.hbm.inventory.container.ContainerCrateIron;
 import com.hbm.lib.ModSounds;
+import com.hbm.util.TagsUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.EntityType;
@@ -22,12 +17,13 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.core.Direction;
+
+import java.util.Random;
 
 public abstract class CrateBaseBlockEntity extends LockableBaseBlockEntity implements WorldlyContainer, MenuProvider {
 
@@ -47,7 +43,7 @@ public abstract class CrateBaseBlockEntity extends LockableBaseBlockEntity imple
 
     @Override
     public AbstractContainerMenu createMenu(int windowId, Inventory playerInv, Player player) {
-        return new ContainerCrateIron(windowId, playerInv, this);
+        return null;
     }
 
     @Override
@@ -61,7 +57,6 @@ public abstract class CrateBaseBlockEntity extends LockableBaseBlockEntity imple
     }
 
     public ItemStack getItem(int index) {
-        if (index < 0 || index >= items.size()) return ItemStack.EMPTY;
         return items.get(index);
     }
     @Override
@@ -80,16 +75,13 @@ public abstract class CrateBaseBlockEntity extends LockableBaseBlockEntity imple
     }
 
     public void setItem(int slot, ItemStack stack) {
-        if (slot < 0 || slot >= items.size()) {
-            HBMsNTM.LOGGER.warn("setItem: invalid slot {} for {} (size {})", slot, this, items.size());
-            return;
-        }
         items.set(slot, stack);
         if (stack.getCount() > getMaxStackSize()) {
             stack.setCount(getMaxStackSize());
         }
         setChanged();
     }
+
     @Override
     public boolean stillValid(Player player) {
         if (level == null || level.getBlockEntity(worldPosition) != this) return false;
@@ -162,15 +154,18 @@ public abstract class CrateBaseBlockEntity extends LockableBaseBlockEntity imple
         return !isLocked();
     }
 
+    // Spiders!!!
     public void fillWithSpiders() {
         this.hasSpiders = true;
     }
 
     private static final int NUM_SPIDERS = 3;
 
+    ///  For when opening from a BlockEntity
     public static void spawnSpiders(Player player, Level level, CrateBaseBlockEntity crate) {
-        if (crate.hasSpiders && level instanceof ServerLevel serverLevel) {
-            RandomSource random = serverLevel.getRandom();
+        if (crate.hasSpiders) {
+            Random random = new Random();
+
             for (int i = 0; i < NUM_SPIDERS; i++) {
                 CaveSpider spider = new CaveSpider(EntityType.CAVE_SPIDER, level);
                 spider.moveTo(crate.getBlockPos().getX() + random.nextGaussian() * 2,
@@ -178,31 +173,29 @@ public abstract class CrateBaseBlockEntity extends LockableBaseBlockEntity imple
                         crate.getBlockPos().getZ() + random.nextGaussian() * 2,
                         random.nextFloat(), 0);
                 spider.setTarget(player);
-                serverLevel.addFreshEntity(spider);
+                level.addFreshEntity(spider);
             }
             crate.hasSpiders = false;
             crate.setChanged();
         }
     }
 
-    public static void spawnSpiders(Player player, Level level, ItemStack crate) {
-        if (!(level instanceof ServerLevel serverLevel)) return;
+    /// For when opening from a player's inventory.
+    public static void spawnSpiders(Player player, Level level, ItemStack stack) {
+        if (TagsUtil.getTagElement(stack, "spiders") != null) {
+            Random random = new Random();
 
-        CustomData customData = crate.get(DataComponents.CUSTOM_DATA);
-        if (customData != null && customData.getUnsafe().getBoolean("Spiders")) {
-            RandomSource random = serverLevel.getRandom();
             for (int i = 0; i < NUM_SPIDERS; i++) {
+
                 CaveSpider spider = new CaveSpider(EntityType.CAVE_SPIDER, level);
                 spider.moveTo(player.getX() + random.nextGaussian() * 2,
                         player.getY() + 1,
                         player.getZ() + random.nextGaussian() * 2,
                         random.nextFloat(), 0);
                 spider.setTarget(player);
-                serverLevel.addFreshEntity(spider);
+                level.addFreshEntity(spider);
             }
-
-            customData.getUnsafe().remove("Spiders");
-            crate.set(DataComponents.CUSTOM_DATA, customData);
+            TagsUtil.removeTag(stack, "spiders");
         }
     }
 }

@@ -15,8 +15,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-public class CrateIronBlockEntity extends CrateBaseBlockEntity implements MenuProvider {
-    public static int SIZE = 27;
+public class CrateIronBlockEntity extends CrateBaseBlockEntity {
+    public static int SIZE = 36;
 
     public CrateIronBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.IRON_CRATE.get(), pos, state, SIZE);
@@ -33,7 +33,7 @@ public class CrateIronBlockEntity extends CrateBaseBlockEntity implements MenuPr
     }
     @Override
     public int getContainerSize() {
-        return SIZE; // должно совпадать с количеством слотов в меню
+        return SIZE;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.hbm.blocks.generic;
 
 import com.hbm.blockentity.machine.storage.CrateIronBlockEntity;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.config.ServerConfig;
 import com.hbm.blockentity.machine.storage.CrateBaseBlockEntity;
 import com.hbm.inventory.ModMenus;
@@ -69,7 +70,8 @@ public class StorageCrateBlock extends BaseEntityBlock {
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new CrateIronBlockEntity(pos, state);
+        if (this == ModBlocks.IRON_CRATE.get()) return new CrateIronBlockEntity(pos, state);
+        return null;
     }
 
     @Override
@@ -78,10 +80,8 @@ public class StorageCrateBlock extends BaseEntityBlock {
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof CrateBaseBlockEntity crate) {
                 if (crate.canAccess(player)) {
-                    if (player instanceof ServerPlayer player1) {
-                        player1.openMenu(crate, pos);
-                        CrateBaseBlockEntity.spawnSpiders(player, level, crate);
-                    }
+                    player.openMenu(crate, pos);
+                    CrateBaseBlockEntity.spawnSpiders(player, level, crate);
                 }
             }
         }
