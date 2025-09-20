@@ -4,6 +4,7 @@ import com.hbm.HBMsNTM;
 import com.hbm.blocks.bomb.*;
 import com.hbm.blocks.gas.GasCoalBlock;
 import com.hbm.blocks.gas.GasMonoxideBlock;
+import com.hbm.blocks.generic.BlockLayering;
 import com.hbm.blocks.generic.HazardBlock;
 //import com.hbm.blocks.generic.StorageCrateBlock;
 import com.hbm.blocks.generic.StorageCrateBlock;
@@ -95,6 +96,16 @@ public class ModBlocks {
                     .sound(SoundType.WOOD)));
     public static final DeferredBlock<Block> WASTE_LEAVES = registerBlock("waste_leaves",
             () -> new WasteLeavesBlock(BlockBehaviour.Properties.of()
+                    .noLootTable()
+                    .strength(0.1F)
+                    .randomTicks()
+                    .noOcclusion()
+                    .isSuffocating((state, level, pos) -> false)
+                    .isViewBlocking((state, level, pos) -> false)
+                    .sound(SoundType.GRASS)));
+    public static final DeferredBlock<Block> LEAVES_LAYER = registerBlock("leaves_layer",
+            () -> new BlockLayering(BlockBehaviour.Properties.of()
+                    .noLootTable()
                     .strength(0.1F)
                     .randomTicks()
                     .noOcclusion()
@@ -218,6 +229,13 @@ public class ModBlocks {
                     .explosionResistance(10.0F)
                     .randomTicks()));
 
+    public static final DeferredBlock<Block> DET_NUKE = registerBlock("det_nuke",
+            () -> new ExplosiveCharge(BlockBehaviour.Properties.of()
+                    .strength(0.1F)
+                    .explosionResistance(0.0F)
+                    .sound(SoundType.METAL)
+            ));
+
     //STAIRS
     public static final DeferredBlock<StairBlock> BRICK_CONCRETE_STAIRS = registerBlock("brick_concrete_stairs",
             () -> new StairBlock(ModBlocks.BRICK_CONCRETE.get().defaultBlockState(),
@@ -264,10 +282,6 @@ public class ModBlocks {
                     .explosionResistance(600.0F)
                     .sound(SoundType.STONE)
                     .noLootTable()));
-    public static final DeferredBlock<Block> TEST_BOMB = registerBlock("test_bomb",
-            () -> new TestBomb(BlockBehaviour.Properties.of()
-                    .sound(SoundType.STONE)
-                    .noLootTable()));
     public static final DeferredBlock<Block> TEST_RAD = registerBlock("test_rad",
             () -> new HazardBlock(BlockBehaviour.Properties.of()
                     .sound(SoundType.STONE)
@@ -281,6 +295,7 @@ public class ModBlocks {
     public static final DeferredBlock<Block> IRON_CRATE =
             BLOCKS.register("iron_crate",
                     () -> new StorageCrateBlock(BlockBehaviour.Properties.of()
+                            .noLootTable()
                             .sound(SoundType.STONE), false));
 
     //FIRE

@@ -11,6 +11,6 @@ public class TestRadBlock extends Block {
         super(properties);
     }
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
-        ChunkRadiationManager.proxy.setRadiation(level, pos.getX(), pos.getY(), pos.getZ(), 1000F);
+        ChunkRadiationManager.getProxy().setRadiation(level, pos.getX(), pos.getY(), pos.getZ(), 1000F);
     }
 }

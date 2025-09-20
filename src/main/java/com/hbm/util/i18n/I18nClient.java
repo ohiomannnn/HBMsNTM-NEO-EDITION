@@ -40,7 +40,6 @@ public class I18nClient implements ITranslate {
         Font font = (Font) o;
         List<String> result = new ArrayList<>();
 
-        // Разбиваем текст на слова
         String[] words = text.split(" ");
         if (words.length == 0) return result;
 

@@ -80,7 +80,6 @@ public class EntityEffectHandler {
         }
 
         if(eRad < 200 || ContaminationUtil.isRadImmune(entity)) return;
-        // tf we need another limiter for radiation???
         if(eRad > 2500) LivingProperties.setRadiation(entity, 2500);
 
         /// EFFECTS ///
@@ -119,7 +118,7 @@ public class EntityEffectHandler {
             int iy = Mth.floor(entity.getY());
             int iz = Mth.floor(entity.getZ());
 
-            float rad = ChunkRadiationManager.proxy.getRadiation(level, ix, iy, iz);
+            float rad = ChunkRadiationManager.getProxy().getRadiation(level, ix, iy, iz);
 
             if (level.dimension() == Level.NETHER)
                 rad = (float) 0.01;
@@ -128,31 +127,33 @@ public class EntityEffectHandler {
 
             if (entity instanceof Player player && player.getAbilities().instabuild) return;
 
-            Random rand = new Random();
+            Random rand = new Random(entity.getId());
 
             int r600 = rand.nextInt(600);
             int r1200 = rand.nextInt(1200);
 
             if (LivingProperties.getRadiation(entity) > 600 && (level.getGameTime() + r600) % 600 < 20 && canVomit(entity)) {
-                CompoundTag nbt = new CompoundTag();
-                nbt.putString("type", "vomit");
-                nbt.putString("mode", "blood");
-                nbt.putInt("count", 25);
-                nbt.putInt("entity", entity.getId());
-                HBMsNTMClient.effectNT(nbt);
+
+//                CompoundTag nbt = new CompoundTag();
+//                nbt.putString("type", "vomit");
+//                nbt.putString("mode", "blood");
+//                nbt.putInt("count", 25);
+//                nbt.putInt("entity", entity.getId());
+//                HBMsNTMClient.effectNT(nbt);
 
                 if((level.getGameTime() + r600) % 600 == 1) {
                     level.playSound(null, ix, iy, iz, ModSounds.VOMIT, SoundSource.PLAYERS, 1.0F, 1.0F);
                     entity.addEffect(new MobEffectInstance(MobEffects.HUNGER, 60, 19));
                 }
+
             } else if (LivingProperties.getRadiation(entity) > 200 && (level.getGameTime() + r1200) % 1200 < 20 && canVomit(entity)) {
 
-                CompoundTag nbt = new CompoundTag();
-                nbt.putString("type", "vomit");
-                nbt.putString("mode", "normal");
-                nbt.putInt("count", 15);
-                nbt.putInt("entity", entity.getId());
-                HBMsNTMClient.effectNT(nbt);
+//                CompoundTag nbt = new CompoundTag();
+//                nbt.putString("type", "vomit");
+//                nbt.putString("mode", "normal");
+//                nbt.putInt("count", 15);
+//                nbt.putInt("entity", entity.getId());
+//                HBMsNTMClient.effectNT(nbt);
 
                 if((level.getGameTime() + r1200) % 1200 == 1) {
                     level.playSound(null, ix, iy, iz, ModSounds.VOMIT, SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -161,12 +162,12 @@ public class EntityEffectHandler {
             } else {
                 float radiation = LivingProperties.getRadiation(entity);
 
-                if (entity instanceof Player && radiation > 600) {
-                    CompoundTag tag = new CompoundTag();
-                    tag.putString("type", "radiation");
-                    tag.putInt("count", radiation > 900 ? 4 : radiation > 800 ? 2 : 1);
-                    HBMsNTMClient.effectNT(tag);
-                }
+//                if (entity instanceof Player && radiation > 600) {
+//                    CompoundTag tag = new CompoundTag();
+//                    tag.putString("type", "radiation");
+//                    tag.putInt("count", radiation > 900 ? 4 : radiation > 800 ? 2 : 1);
+//                    HBMsNTMClient.effectNT(tag);
+//                }
             }
         }
     }

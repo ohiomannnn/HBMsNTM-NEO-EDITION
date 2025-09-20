@@ -2,11 +2,15 @@ package com.hbm.datagen;
 
 import com.hbm.HBMsNTM;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockLayering;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.client.model.generators.MultiPartBlockStateBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
 
@@ -30,6 +34,11 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 models().cubeColumn("iron_crate",
                         modLoc("block/iron_crate_side"),
                         modLoc("block/iron_crate_top")
+                ));
+        simpleBlockWithItem(ModBlocks.DET_NUKE.get(),
+                models().cubeColumn("det_nuke",
+                        modLoc("block/det_nuke_side"),
+                        modLoc("block/det_nuke_top")
                 ));
 
         simpleBlockWithItem(ModBlocks.BRICK_LIGHT.get(), cubeAll(ModBlocks.BRICK_LIGHT.get()));
@@ -55,8 +64,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
                         .face(Direction.EAST).uvs(0, 0, 16, 16).texture("#side").cullface(Direction.EAST).end()
                         .end()
         );
-        simpleBlockWithItem(
-                ModBlocks.WASTE_LEAVES.get(),
+        simpleBlockWithItem(ModBlocks.WASTE_LEAVES.get(),
                 models().cubeColumn("waste_leaves", modLoc("block/waste_leaves"), modLoc("block/waste_leaves"))
                         .renderType("cutout_mipped")
         );
@@ -129,7 +137,40 @@ public class ModBlockStateProvider extends BlockStateProvider {
                         .texture("cross", modLoc("block/fire_digamma"))
         );
         simpleBlockWithItem(ModBlocks.ASH_DIGAMMA.get(), cubeAll(ModBlocks.ASH_DIGAMMA.get()));
+        simpleBlockWithItem(ModBlocks.LEAVES_LAYER.get(),
+                models().cubeColumn("leaves_layer", modLoc("block/waste_leaves"), modLoc("block/waste_leaves"))
+                    .renderType("cutout_mipped"));
     }
+    private void generateLayeringBlock(Block block) {
+        ResourceLocation texture = modLoc("block/waste_leaves");
+
+        MultiPartBlockStateBuilder builder = getMultipartBuilder(block);
+
+        for (int i = 1; i <= 8; i++) {
+            float height = i * 2f / 16f;
+
+            ModelFile model = models().withExistingParent("layering_" + i, mcLoc("block/block"))
+                    .texture("all", texture)
+                    .renderType("cutout_mipped")
+                    .element()
+                    .from(0, 0, 0)
+                    .to(16, height * 16, 16)
+                    .face(Direction.UP).texture("#all").end()
+                    .face(Direction.DOWN).texture("#all").end()
+                    .face(Direction.NORTH).texture("#all").end()
+                    .face(Direction.SOUTH).texture("#all").end()
+                    .face(Direction.WEST).texture("#all").end()
+                    .face(Direction.EAST).texture("#all").end()
+                    .end();
+
+            builder.part()
+                    .modelFile(model)
+                    .addModel()
+                    .condition(BlockLayering.LAYERS, i)
+                    .end();
+        }
+    }
+
     private void blockItem(DeferredBlock<?> deferredBlock) {
         simpleBlockItem(deferredBlock.get(), new ModelFile.UncheckedModelFile("hbmsntm:block/" + deferredBlock.getId().getPath()));
     }

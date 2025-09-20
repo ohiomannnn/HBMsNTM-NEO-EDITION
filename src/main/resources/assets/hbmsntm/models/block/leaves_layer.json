@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "render_type": "minecraft:cutout_mipped",
+  "textures": {
+    "end": "hbmsntm:block/waste_leaves",
+    "side": "hbmsntm:block/waste_leaves"
+  }
+}

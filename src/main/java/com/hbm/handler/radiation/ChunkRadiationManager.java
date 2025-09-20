@@ -10,7 +10,12 @@ import net.neoforged.neoforge.event.tick.ServerTickEvent;
 
 public class ChunkRadiationManager {
 
-    public static ChunkRadiationHandler proxy;
+    private static ChunkRadiationHandler proxy;
+
+    public static ChunkRadiationHandler getProxy() {
+        return proxy;
+    }
+
     private int eggTimer = 0;
 
     public static void initProxy() {
@@ -72,7 +77,7 @@ public class ChunkRadiationManager {
     }
 
     @SubscribeEvent
-    public void onServerTick(ServerTickEvent.Post event) {
+    public void onServerTick(ServerTickEvent.Pre event) {
         if (!ServerConfig.ENABLE_CHUNK_RADS.getAsBoolean()) return;
         ensureProxy();
 

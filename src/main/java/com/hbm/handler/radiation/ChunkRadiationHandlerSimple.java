@@ -3,6 +3,7 @@ package com.hbm.handler.radiation;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import com.hbm.HBMsNTMClient;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.ServerConfig;
 import net.minecraft.core.BlockPos;
@@ -21,7 +22,7 @@ import net.neoforged.neoforge.event.level.LevelEvent;
 
 public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 
-    private HashMap<Level, SimpleRadiationPerWorld> perWorld = new HashMap<>();
+    private final HashMap<Level, SimpleRadiationPerWorld> perWorld = new HashMap<>();
     private static final float maxRad = 100_000F;
     private static final String NBT_KEY_CHUNK_RADIATION = "hfr_simple_radiation";
 
@@ -40,10 +41,12 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
     public void setRadiation(Level level, int x, int y, int z, float rad) {
         SimpleRadiationPerWorld radWorld = perWorld.get(level);
         if (radWorld != null) {
-            if (level.hasChunkAt(new BlockPos(x, 0, z))) {
-                ChunkPos coords = new ChunkPos(x >> 4, z >> 4);
+            int chunkX = x >> 4;
+            int chunkZ = z >> 4;
+            if (level.hasChunk(chunkX, chunkZ)) {
+                ChunkPos coords = new ChunkPos(chunkX, chunkZ);
                 radWorld.radiation.put(coords, Mth.clamp(rad, 0, maxRad));
-                level.getChunkAt(new BlockPos(x, 0, z)).setUnsaved(true);
+                level.getChunk(chunkX, chunkZ).setUnsaved(true);
             }
         }
     }
@@ -84,7 +87,7 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 
                         if (newRad > ServerConfig.FOG_RAD.getAsInt() &&
                                 level.random.nextInt(ServerConfig.FOG_CHANCE.getAsInt()) == 0 &&
-                                level.hasChunkAt(newCoord.getMiddleBlockPosition(0))) {
+                                level.hasChunk(newCoord.x, newCoord.z)) {
 
                             int x = newCoord.getMinBlockX() + level.random.nextInt(16);
                             int z = newCoord.getMinBlockZ() + level.random.nextInt(16);
@@ -95,7 +98,7 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
                             data.putDouble("posX", x);
                             data.putDouble("posY", y);
                             data.putDouble("posZ", z);
-//                            MainRegistry.proxy.effectNT(data);
+                            HBMsNTMClient.effectNT(data);
                         }
                     }
                 }

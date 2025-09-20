@@ -72,9 +72,7 @@ public class ParticleExplosionSmall extends TextureSheetParticle {
         }
 
         @Override
-        public Particle createParticle(SimpleParticleType type, ClientLevel level,
-                                       double x, double y, double z,
-                                       double dx, double dy, double dz) {
+        public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
             return new ParticleExplosionSmall(level, x, y, z, dx, dy, dz, 1.0F, 0.1F, sprites);
         }
     }

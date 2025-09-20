@@ -22,6 +22,8 @@
   "block.hbmsntm.taint": "Taint",
   "block.hbmsntm.iron_crate": "Iron Crate",
 
+  "block.hbmsntm.det_nuke": "Nuclear Charge",
+
   "item.hbmsntm.nothing": "Nothing",
   "item.hbmsntm.geiger_counter": "Handheld Geiger Counter",
   "item.hbmsntm.dosimeter": "Dosimeter",
@@ -34,6 +36,7 @@
   "item.hbmsntm.duck_spawn_egg": "Golden Egg",
   "item.hbmsntm.balefire_and_steel": "Balefire and Steel",
   "item.hbmsntm.polaroid": "The Polaroid",
+  "item.hbmsntm.detonator": "Detonator",
 
   "entity.hbmsntm.duck": "Duck",
 
@@ -57,6 +60,13 @@
   "effect.hbmsntm.potionsickness": "Potion Sickness",
   "effect.hbmsntm.death": "Astolfization",
 
+  "bomb.detonated": "Detonated successfully!",
+  "bomb.incompatible": "Device can not be triggered!",
+  "bomb.launched": "Launched successfully!",
+  "bomb.missingComponent": "Component missing!",
+  "bomb.nobomb": "Linked position incompatible or unloaded!",
+  "bomb.triggered": "Triggered successfully!",
+
   "geiger.title": "GEIGER COUNTER",
   "geiger.title.dosimeter": "DOSIMETER",
   "geiger.envRad": "Total environmental radiation:",
@@ -72,7 +82,9 @@
   "trait.digamma": "Digamma Radiation",
   "trait.blinding": "Blinding",
 
-  "creativeTabs.hbmsntm.block_tab": "NTM Ores and Blocks",
+  "creativeTabs.hbmsntm.ores_and_blocks": "NTM Ores and Blocks",
   "creativeTabs.hbmsntm.consumables_and_gear": "NTM Consumables and Gear",
+  "creativeTabs.hbmsntm.bombs": "NTM Bombs",
+
   "container.crateIron": "Iron Crate"
 }

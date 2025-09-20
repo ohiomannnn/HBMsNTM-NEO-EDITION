@@ -13,9 +13,6 @@ public class ModParticles {
     public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES =
             DeferredRegister.create(BuiltInRegistries.PARTICLE_TYPE, HBMsNTM.MODID);
 
-    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SOME_PART =
-            PARTICLE_TYPES.register("some_part",
-                    () -> new SimpleParticleType(false));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> MUKE_CLOUD =
             PARTICLE_TYPES.register("muke_cloud",
                     () -> new SimpleParticleType(true));
@@ -46,11 +43,15 @@ public class ModParticles {
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> VOMIT =
             PARTICLE_TYPES.register("vomit",
                     () -> new SimpleParticleType(false));
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> RAD_FOG =
+            PARTICLE_TYPES.register("rad_fog",
+                    () -> new SimpleParticleType(false));
 
     public static SpriteSet COOLING_TOWER_SPRITES;
     public static SpriteSet MUKE_FLASH_SPRITES;
     public static SpriteSet AURA_SPITES;
     public static SpriteSet VOMIT_SPRITES;
+    public static SpriteSet RAD_FOG_SPRITES;
 
     public static void register(IEventBus eventBus) {
         PARTICLE_TYPES.register(eventBus);

@@ -2,6 +2,9 @@
   "muke_explosion": {
     "sounds": ["hbmsntm:explosion/muke_explosion"]
   },
+  "nuclear_explosion": {
+    "sounds": ["hbmsntm:explosion/nuclear_explosion"]
+  },
   "grenade_bounce": {
     "sounds": [
       "hbmsntm:weapon/grenade_bounce1",
@@ -20,6 +23,9 @@
   },
   "tech_boop": {
     "sounds": ["hbmsntm:tech/tech_boop"]
+  },
+  "tech_bleep": {
+    "sounds": ["hbmsntm:tech/tech_bleep"]
   },
   "item.geiger1": {
     "sounds": ["hbmsntm:tool/geiger1"]

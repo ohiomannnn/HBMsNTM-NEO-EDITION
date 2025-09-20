@@ -18,8 +18,8 @@ public class ModCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(CREATIVE_MODE_TAB, HBMsNTM.MODID);
 
     public static final Supplier<CreativeModeTab> ORES_AND_BLOCKS = CREATIVE_MODE_TABS.register("ores_and_blocks",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.BRICK_CONCRETE.get()))
-                    .title(Component.translatable("creativeTabs.hbmsntm.block_tab"))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.ORE_URANIUM.get()))
+                    .title(Component.translatable("creativeTabs.hbmsntm.ores_and_blocks"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModBlocks.BRICK_CONCRETE);
                         output.accept(ModBlocks.BRICK_CONCRETE_MOSSY);
@@ -42,9 +42,19 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.WASTE_LEAVES);
                     }).build());
 
+    public static final Supplier<CreativeModeTab> BOMBS = CREATIVE_MODE_TABS.register("bombs",
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.DET_NUKE.get()))
+                    .withTabsBefore(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "ores_and_blocks"))
+                    .title(Component.translatable("creativeTabs.hbmsntm.bombs"))
+                    .backgroundTexture(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/gui/nuke_tab.png"))
+                    .displayItems((itemDisplayParameters, output) -> {
+                        output.accept(ModBlocks.DET_NUKE);
+                        output.accept(ModItems.DETONATOR);
+                    }).build());
+
     public static final Supplier<CreativeModeTab> CONSUMABLES_AND_GEAR = CREATIVE_MODE_TABS.register("consumables_and_gear",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.GEIGER_COUNTER.get()))
-                    .withTabsBefore(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "ores_and_blocks"))
+                    .withTabsBefore(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "bombs"))
                     .title(Component.translatable("creativeTabs.hbmsntm.consumables_and_gear"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.GEIGER_COUNTER);

@@ -56,7 +56,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.ORE_GNEISS_URANIUM_SCORCHED.get());
         dropSelf(ModBlocks.ORE_GNEISS_SCHRABIDIUM.get());
 
-        dropSelf(ModBlocks.IRON_CRATE.get());
+        dropSelf(ModBlocks.DET_NUKE.get());
 
         add(ModBlocks.WASTE_EARTH.get(),
                 block -> createSingleItemTable(Blocks.DIRT));
@@ -73,7 +73,6 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                                 ))
                 )
         );
-        dropSelf(ModBlocks.WASTE_LEAVES.get());
         dropSelf(ModBlocks.WASTE_PLANKS.get());
         dropSelf(ModBlocks.WASTE_MYCELIUM.get());
         dropSelf(ModBlocks.WASTE_TRINITITE_RED.get());

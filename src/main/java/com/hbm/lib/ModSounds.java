@@ -16,6 +16,7 @@ public class ModSounds {
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, HBMsNTM.MODID);
 
     public static final DeferredHolder<SoundEvent, SoundEvent> MUKE_EXPLOSION = registerSoundEvent("muke_explosion");
+    public static final DeferredHolder<SoundEvent, SoundEvent> NUCLEAR_EXPLOSION = registerSoundEvent("nuclear_explosion");
 
     public static final DeferredHolder<SoundEvent, SoundEvent> GRENADE_BOUNCE = registerSoundEvent("grenade_bounce");
 
@@ -23,6 +24,7 @@ public class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> VOMIT = registerSoundEvent("vomit");
 
     public static final DeferredHolder<SoundEvent, SoundEvent> TECH_BOOP = registerSoundEvent("tech_boop");
+    public static final DeferredHolder<SoundEvent, SoundEvent> TECH_BLEEP = registerSoundEvent("tech_bleep");
 
     public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER1 = registerSoundEvent("item.geiger1");
     public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER2 = registerSoundEvent("item.geiger2");

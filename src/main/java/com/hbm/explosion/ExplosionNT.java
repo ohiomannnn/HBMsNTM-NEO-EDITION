@@ -2,7 +2,6 @@ package com.hbm.explosion;
 
 import java.util.*;
 
-import com.hbm.HBMsNTM;
 import com.hbm.blocks.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -20,9 +19,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-
-import javax.annotation.Nullable;
-
 
 public class ExplosionNT extends Explosion {
 
@@ -43,7 +39,6 @@ public class ExplosionNT extends Explosion {
 
     public ExplosionNT(Level level, Entity exploder, double x, double y, double z, float strength, boolean fire, BlockInteraction interaction) {
         super(level, exploder, x, y, z, strength, fire, interaction);
-        HBMsNTM.LOGGER.info("Explosion created with radius: {}", this.radius());
         this.level = level;
         this.centerX = x;
         this.centerY = y;
@@ -53,9 +48,8 @@ public class ExplosionNT extends Explosion {
         }
     }
 
-    public ExplosionNT addAttrib(ExAttrib attrib) {
+    public void addAttrib(ExAttrib attrib) {
         atttributes.add(attrib);
-        return this;
     }
 
     public ExplosionNT addAllAttrib(List<ExAttrib> attrib) {
@@ -190,11 +184,10 @@ public class ExplosionNT extends Explosion {
         int maxY = Mth.floor(this.getDirectSourceEntity().getY() + exprad + 1.0D);
         int maxZ = Mth.floor(this.getDirectSourceEntity().getZ() + exprad + 1.0D);
 
-        AABB box = new AABB(minX, minY, minZ, maxX, maxY, maxZ);
-        return box;
+        return new AABB(minX, minY, minZ, maxX, maxY, maxZ);
     }
 
-    public static DamageSource setExplosionSource(Level level, @Nullable Explosion explosion) {
+    public static DamageSource setExplosionSource(Level level, Explosion explosion) {
         return explosion != null
                 ? level.damageSources().explosion(explosion)
                 : level.damageSources().explosion(null, null);
@@ -308,7 +301,6 @@ public class ExplosionNT extends Explosion {
         return this.affectedEntities;
     }
 
-    @Nullable
     public LivingEntity getExplosivePlacedBy() {
         Entity indirect = this.getIndirectSourceEntity();
         if (indirect instanceof LivingEntity living) {

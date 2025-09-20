@@ -2,6 +2,8 @@ package com.hbm;
 
 import com.hbm.entity.ModEntities;
 import com.hbm.entity.mob.rendrer.EntityDuckRenderer;
+import com.hbm.entity.renderer.EmptyRenderer;
+import com.hbm.entity.renderer.RenderTorex;
 import com.hbm.handler.gui.GeigerGUI;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.items.ModItems;
@@ -11,20 +13,14 @@ import com.hbm.util.i18n.I18nClient;
 import com.hbm.util.i18n.ITranslate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -60,6 +56,8 @@ public class HBMsNTMClient {
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.DUCK.get(), EntityDuckRenderer::new);
+        event.registerEntityRenderer(ModEntities.NUKE_MK5.get(), EmptyRenderer::new);
+        event.registerEntityRenderer(ModEntities.BIG_NUKE_TOREX.get(), RenderTorex::new);
         ItemProperties.register(ModItems.POLAROID.get(),
                 ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "polaroid_id"),
                 (stack, level, entity, seed) -> CommonEvents.polaroidID);
@@ -72,7 +70,6 @@ public class HBMsNTMClient {
         HazardSystem.addFullTooltip(stack, list);
     }
     private void registerParticles(RegisterParticleProvidersEvent event) {
-        event.registerSpriteSet(ModParticles.SOME_PART.get(), ParticleSomePart.Provider::new);
         event.registerSpriteSet(ModParticles.MUKE_CLOUD.get(), ParticleMukeCloud.Provider::new);
         event.registerSpriteSet(ModParticles.MUKE_CLOUD_BF.get(), ParticleMukeCloud.Provider::new);
         event.registerSpriteSet(ModParticles.EXPLOSION_SMALL.get(), ParticleExplosionSmall.Provider::new);
@@ -93,6 +90,10 @@ public class HBMsNTMClient {
         });
         event.registerSpriteSet(ModParticles.VOMIT.get(), sprites -> {
             ModParticles.VOMIT_SPRITES = sprites;
+            return new VomitPart.Provider(sprites);
+        });
+        event.registerSpriteSet(ModParticles.RAD_FOG.get(), sprites -> {
+            ModParticles.RAD_FOG_SPRITES = sprites;
             return new VomitPart.Provider(sprites);
         });
     }
@@ -118,7 +119,11 @@ public class HBMsNTMClient {
 //        }
 
         final Random rand = new Random();
-        assert player != null; //shut up
+
+        if("radFog".equals(type)) {
+            ParticleRadiationFog fx = new ParticleRadiationFog(level, x, y, z, 0.62F, 0.67F, 0.38F, 5F, ModParticles.RAD_FOG_SPRITES);
+            mc.particleEngine.add(fx);
+        }
         if ("muke".contains(type)) {
             ParticleMukeFlash fx = new ParticleMukeFlash(
                     level,
@@ -133,7 +138,6 @@ public class HBMsNTMClient {
             player.hurtTime = 15;
             player.hurtDuration = 15;
         }
-
         if ("tower".equals(type)) {
             if (particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean())) {
                 float strafe = 0.075F;
@@ -175,6 +179,7 @@ public class HBMsNTMClient {
             }
         }
         if ("radiation".equals(type)) {
+            if (player == null) return;
             for (int i = 0; i < data.getInt("count"); i++) {
                 ParticleAura fx = new ParticleAura(
                         level,

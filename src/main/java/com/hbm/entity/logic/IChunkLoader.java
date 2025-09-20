@@ -1,10 +1,7 @@
 package com.hbm.entity.logic;
 
-import net.minecraft.world.level.ChunkPos;
-import net.minecraft.server.level.TicketType;
+import net.minecraft.server.level.ServerLevel;
 
 public interface IChunkLoader {
-    void init();
-    void loadChunk(int x, int z);
-    void clearChunkLoader();
+    void init(ServerLevel serverLevel);
 }

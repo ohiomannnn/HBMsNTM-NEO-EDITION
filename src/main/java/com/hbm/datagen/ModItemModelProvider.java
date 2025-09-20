@@ -24,6 +24,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.GEIGER_COUNTER.get());
         basicItem(ModItems.DOSIMETER.get());
         handheldItem(ModItems.REACHER.get());
+        handheldItem(ModItems.DETONATOR.get());
         basicItem(ModItems.DUCK_SPAWN_EGG.get());
 
         basicItem(ModItems.KEY.get());
@@ -45,5 +46,7 @@ public class ModItemModelProvider extends ItemModelProvider {
                             .texture("layer0", modLoc("item/polaroids/polaroid_" + i)))
                     .end();
         }
+        withExistingParent("layering_block", modLoc("block/layering_1"))
+                .renderType("cutout_mipped");
     }
 }

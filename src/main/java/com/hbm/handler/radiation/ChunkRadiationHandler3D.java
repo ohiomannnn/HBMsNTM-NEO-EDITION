@@ -32,7 +32,6 @@ public class ChunkRadiationHandler3D extends ChunkRadiationHandler {
         }
     }
 
-
     private final HashMap<Level, ThreeDimRadiationPerWorld> perWorld = new HashMap<>();
 
     @Override
@@ -135,7 +134,7 @@ public class ChunkRadiationHandler3D extends ChunkRadiationHandler {
     @Override
     public void receiveWorldUnload(LevelEvent.Unload event) {
         if (!event.getLevel().isClientSide())
-            perWorld.remove(event.getLevel());
+            perWorld.remove((Level) event.getLevel());
     }
 
     private static final String NBT_KEY_CHUNK_RADIATION = "hfr_3d_radiation_";
@@ -143,7 +142,7 @@ public class ChunkRadiationHandler3D extends ChunkRadiationHandler {
     @Override
     public void receiveChunkLoad(ChunkDataEvent.Load event) {
         if (!event.getLevel().isClientSide()) {
-            ThreeDimRadiationPerWorld radWorld = perWorld.get(event.getLevel());
+            ThreeDimRadiationPerWorld radWorld = perWorld.remove((Level) event.getLevel());
             if (radWorld != null) {
                 Float[] vals = new Float[16];
                 CompoundTag data = event.getData();
@@ -156,7 +155,7 @@ public class ChunkRadiationHandler3D extends ChunkRadiationHandler {
     @Override
     public void receiveChunkSave(ChunkDataEvent.Save event) {
         if (!event.getLevel().isClientSide()) {
-            ThreeDimRadiationPerWorld radWorld = perWorld.get(event.getLevel());
+            ThreeDimRadiationPerWorld radWorld = perWorld.remove((Level) event.getLevel());
             if (radWorld != null) {
                 Float[] vals = radWorld.radiation.get(event.getChunk().getPos());
                 if (vals != null) {
@@ -173,7 +172,7 @@ public class ChunkRadiationHandler3D extends ChunkRadiationHandler {
     @Override
     public void receiveChunkUnload(ChunkEvent.Unload event) {
         if (!event.getLevel().isClientSide()) {
-            ThreeDimRadiationPerWorld radWorld = perWorld.get(event.getLevel());
+            ThreeDimRadiationPerWorld radWorld = perWorld.remove((Level) event.getLevel());
             if (radWorld != null) radWorld.radiation.remove(event.getChunk().getPos());
         }
     }

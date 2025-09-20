@@ -108,7 +108,7 @@ public class  ContaminationUtil {
         Level level = player.level();
 
         float eRad = (float) ((LivingProperties.getData(player).serializeNBT().getFloat("hfr_radiation") * 10) / 10D);
-        double rads = Math.floor(ChunkRadiationManager.proxy.getRadiation(level,
+        double rads = Math.floor(ChunkRadiationManager.getProxy().getRadiation(level,
                 player.blockPosition().getX(),
                 player.blockPosition().getY(),
                 player.blockPosition().getZ()) * 10) / 10D;

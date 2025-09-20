@@ -63,7 +63,7 @@ public class ExplosionNukeSmall {
             for (int i = -2; i <= 2; i++) {
                 for (int j = -2; j <= 2; j++) {
                     if (Math.abs(i) + Math.abs(j) < 4) {
-                        ChunkRadiationManager.proxy.incrementRad(
+                        ChunkRadiationManager.getProxy().incrementRad(
                                 level,
                                 (int) Math.floor(posX + i * 16),
                                 (int) Math.floor(posY),

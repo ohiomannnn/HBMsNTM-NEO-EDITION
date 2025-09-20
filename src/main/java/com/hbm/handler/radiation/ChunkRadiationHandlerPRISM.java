@@ -1,7 +1,6 @@
 package com.hbm.handler.radiation;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
@@ -35,8 +34,8 @@ public class ChunkRadiationHandlerPRISM extends ChunkRadiationHandler {
     private static final String NBT_KEY_CHUNK_EXISTS = "hfr_prism_exists_";
 
     @Override
-    public float getRadiation(Level world, int x, int y, int z) {
-        RadPerWorld system = perWorld.get(world);
+    public float getRadiation(Level level, int x, int y, int z) {
+        RadPerWorld system = perWorld.get(level);
         if(system != null) {
             ChunkPos coords = new ChunkPos(x >> 4, z >> 4);
             int yReg = Mth.clamp(y >> 4, 0, 15);
@@ -50,31 +49,27 @@ public class ChunkRadiationHandlerPRISM extends ChunkRadiationHandler {
     }
 
     @Override
-    public void setRadiation(Level world, int x, int y, int z, float rad) {
+    public void setRadiation(Level level, int x, int y, int z, float rad) {
         if(Float.isNaN(rad)) rad = 0;
-        RadPerWorld system = perWorld.get(world);
+        RadPerWorld system = perWorld.get(level);
         if(system != null) {
             ChunkPos coords = new ChunkPos(x >> 4, z >> 4);
             int yReg = Mth.clamp(y >> 4, 0, 15);
-            SubChunk[] subChunks = system.radiation.get(coords);
-            if(subChunks == null) {
-                subChunks = new SubChunk[16];
-                system.radiation.put(coords, subChunks);
-            }
-            if(subChunks[yReg] == null) subChunks[yReg] = new SubChunk().rebuild(world, x, y, z);
+            SubChunk[] subChunks = system.radiation.computeIfAbsent(coords, k -> new SubChunk[16]);
+            if(subChunks[yReg] == null) subChunks[yReg] = new SubChunk().rebuild(level, x, y, z);
             subChunks[yReg].radiation = Mth.clamp(rad, 0, MAX_RADIATION);
-            world.getChunk(coords.x, coords.z).setUnsaved(true);
+            level.getChunk(coords.x, coords.z).setUnsaved(true);
         }
     }
 
     @Override
-    public void incrementRad(Level world, int x, int y, int z, float rad) {
-        setRadiation(world, x, y, z, getRadiation(world, x, y, z) + rad);
+    public void incrementRad(Level level, int x, int y, int z, float rad) {
+        setRadiation(level, x, y, z, getRadiation(level, x, y, z) + rad);
     }
 
     @Override
-    public void decrementRad(Level world, int x, int y, int z, float rad) {
-        setRadiation(world, x, y, z, getRadiation(world, x, y, z) - rad);
+    public void decrementRad(Level level, int x, int y, int z, float rad) {
+        setRadiation(level, x, y, z, getRadiation(level, x, y, z) - rad);
     }
 
     @Override
@@ -218,16 +213,15 @@ public class ChunkRadiationHandlerPRISM extends ChunkRadiationHandler {
                 }
             }
 
-            Iterator<Entry<ChunkPos, SubChunk[]>> it = system.radiation.entrySet().iterator();
-            while (it.hasNext()) {
-                Entry<ChunkPos, SubChunk[]> chunk = it.next();
+            for (Entry<ChunkPos, SubChunk[]> chunk : system.radiation.entrySet()) {
                 if (getPrevChunkRadiation(chunk.getValue()) <= 0) continue;
 
                 for (int i = 0; i < 16; i++) {
                     SubChunk sub = chunk.getValue()[i];
 
                     if (sub != null) {
-                        if (sub.prevRadiation <= 0 || Float.isNaN(sub.prevRadiation) || Float.isInfinite(sub.prevRadiation)) continue;
+                        if (sub.prevRadiation <= 0 || Float.isNaN(sub.prevRadiation) || Float.isInfinite(sub.prevRadiation))
+                            continue;
 
                         float radSpread = 0;
                         for (Direction dir : Direction.values()) {
@@ -245,9 +239,7 @@ public class ChunkRadiationHandlerPRISM extends ChunkRadiationHandler {
             newAdditions.clear();
         }
     }
-    private float spreadRadiation(ServerLevel world, SubChunk sub, int subY, ChunkPos pos,
-                                  SubChunk[] chunkSubs, Map<ChunkPos, SubChunk[]> chunkMap, Direction dir) {
-        // соседние координаты чанка
+    private float spreadRadiation(ServerLevel world, SubChunk sub, int subY, ChunkPos pos, SubChunk[] chunkSubs, Map<ChunkPos, SubChunk[]> chunkMap, Direction dir) {
         int dx = dir.getStepX();
         int dy = dir.getStepY();
         int dz = dir.getStepZ();
@@ -255,20 +247,17 @@ public class ChunkRadiationHandlerPRISM extends ChunkRadiationHandler {
         int targetY = subY + dy;
         ChunkPos targetPos = new ChunkPos(pos.x + dx, pos.z + dz);
 
-        // ищем массив сабчанков соседа
         SubChunk[] targetSubs = (dx == 0 && dz == 0) ? chunkSubs : chunkMap.get(targetPos);
         if (targetSubs == null) return 0;
 
-        // проверка выхода за границы по Y
         if (targetY < 0 || targetY >= targetSubs.length) return 0;
 
         SubChunk target = targetSubs[targetY];
         if (target == null) return 0;
 
-        float available = sub.prevRadiation / 6F; // равномерно делим на направления
+        float available = sub.prevRadiation / 6F;
         if (available <= 0) return 0;
 
-        // коэффициент прозрачности: чем выше resistance, тем меньше проходит
         float resistance = (sub.getTransparency(dir) + target.getTransparency(dir.getOpposite())) / 2F;
         float spread = available * (1F - resistance);
 
@@ -314,11 +303,6 @@ public class ChunkRadiationHandlerPRISM extends ChunkRadiationHandler {
             needsRebuild = false;
             return this;
         }
-
-//        public float getResistanceValue(Library.Direction movement) {
-//            // TODO: заменить ForgeDirection на свой аналог
-//            return 0;
-//        }
 
         public float getTransparency(Direction dir) {
             if (level == null) return 0;

@@ -1,65 +1,73 @@
 package com.hbm.entity.logic;
 
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.Unit;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.TicketType;
+import net.minecraft.world.level.chunk.ChunkAccess;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class EntityExplosionChunkloading extends Entity implements IChunkLoader {
 
     private ChunkPos loadedChunk;
 
-    public EntityExplosionChunkloading(EntityType<?> entityType, Level level) {
-        super(entityType, level);
+    public static final TicketType<Integer> EXPLOSION_CHUNK =
+            TicketType.create("explosion_chunk", Integer::compare, 1);
+
+    public EntityExplosionChunkloading(EntityType<?> type, Level level) {
+        super(type, level);
     }
 
-    public void init() {
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {}
+
+    @Override
+    public void onAddedToLevel() {
+        super.onAddedToLevel();
         if (!level().isClientSide && level() instanceof ServerLevel serverLevel) {
-            ChunkPos chunkPos = new ChunkPos(blockPosition());
-            this.loadedChunk = chunkPos;
-            serverLevel.getChunkSource().addRegionTicket(
-                    TicketType.START,
-                    chunkPos,
-                    2,
-                    Unit.INSTANCE
-            );
+            init(serverLevel);
         }
     }
 
+    @Override
+    public void init(ServerLevel serverLevel) {
+        ChunkPos pos = new ChunkPos(this.blockPosition());
+        this.loadedChunk = pos;
+
+        serverLevel.getChunkSource().addRegionTicket(
+                EXPLOSION_CHUNK,
+                pos,
+                1,
+                this.getId()
+        );
+    }
+
     public void loadChunk(int x, int z) {
-        if (!level().isClientSide && level() instanceof ServerLevel serverLevel) {
-            ChunkPos chunkPos = new ChunkPos(x, z);
-            this.loadedChunk = chunkPos;
+        if (this.loadedChunk == null && level() instanceof ServerLevel serverLevel) {
+            this.loadedChunk = new ChunkPos(x, z);
+
             serverLevel.getChunkSource().addRegionTicket(
-                    TicketType.START,
-                    chunkPos,
-                    2,
-                    Unit.INSTANCE
+                    EXPLOSION_CHUNK,
+                    this.loadedChunk,
+                    1,
+                    this.getId()
             );
         }
     }
 
     public void clearChunkLoader() {
-        if (!level().isClientSide && level() instanceof ServerLevel serverLevel && this.loadedChunk != null) {
+        if (!level().isClientSide && loadedChunk != null && level() instanceof ServerLevel serverLevel) {
             serverLevel.getChunkSource().removeRegionTicket(
-                    TicketType.START,
-                    this.loadedChunk,
-                    2,
-                    Unit.INSTANCE
+                    EXPLOSION_CHUNK,
+                    loadedChunk,
+                    1,
+                    this.getId()
             );
             this.loadedChunk = null;
         }
     }
-
-    public abstract void onUpdate();
-
-    public abstract void setDead();
-
-    protected abstract void readEntityFromNBT(CompoundTag nbt);
-
-    protected abstract void writeEntityToNBT(CompoundTag nbt);
 }
