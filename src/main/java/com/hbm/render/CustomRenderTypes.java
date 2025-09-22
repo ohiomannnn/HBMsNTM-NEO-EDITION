@@ -1,4 +1,4 @@
-package com.hbm.entity.logic;
+package com.hbm.render;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -37,14 +37,19 @@ public class CustomRenderTypes extends RenderType {
             new RenderStateShard.TransparencyStateShard("additive_transparency",
                     () -> {
                         RenderSystem.enableBlend();
-                        RenderSystem.depthMask(true);
+                        RenderSystem.disableCull();
+                        RenderSystem.disableDepthTest();
                         RenderSystem.blendFunc(
                                 GlStateManager.SourceFactor.SRC_ALPHA,
                                 GlStateManager.DestFactor.ONE
                         );
                     },
                     () -> {
-                        RenderSystem.disableBlend();
-                        RenderSystem.defaultBlendFunc();
+                        RenderSystem.enableBlend();
+                        RenderSystem.disableCull();
+                        RenderSystem.blendFunc(
+                                GlStateManager.SourceFactor.SRC_ALPHA,
+                                GlStateManager.DestFactor.ONE
+                        );
                     });
 }

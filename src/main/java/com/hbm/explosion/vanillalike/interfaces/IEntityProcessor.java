@@ -7,7 +7,6 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.Map;
 
-@FunctionalInterface
 public interface IEntityProcessor {
     Map<Player, Vec3> processEntities(ExplosionVNT explosion, Level level, double x, double y, double z, float size);
 }

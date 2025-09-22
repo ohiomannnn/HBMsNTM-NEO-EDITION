@@ -7,7 +7,6 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.Map;
 
-@FunctionalInterface
 public interface IPlayerProcessor {
     void processPlayers(ExplosionVNT explosion, Level level, double x, double y, double z, Map<Player, Vec3> players);
 }

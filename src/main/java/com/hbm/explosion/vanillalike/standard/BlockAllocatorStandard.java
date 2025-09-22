@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.Set;
+import java.util.HashSet;
 
 public class BlockAllocatorStandard implements IBlockAllocator {
 
@@ -24,8 +24,8 @@ public class BlockAllocatorStandard implements IBlockAllocator {
     }
 
     @Override
-    public Set<BlockPos> allocate(ExplosionVNT explosion, Level level, double x, double y, double z, float size) {
-        Set<BlockPos> affectedBlocks = Sets.newHashSet();
+    public HashSet<BlockPos> allocate(ExplosionVNT explosion, Level level, double x, double y, double z, float size) {
+        HashSet<BlockPos> affectedBlocks = Sets.newHashSet();
 
         for (int i = 0; i < this.resolution; ++i) {
             for (int j = 0; j < this.resolution; ++j) {

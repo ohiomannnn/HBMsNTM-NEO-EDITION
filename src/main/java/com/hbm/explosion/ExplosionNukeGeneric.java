@@ -10,6 +10,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Ocelot;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -58,7 +59,7 @@ public class ExplosionNukeGeneric {
         dealDamage(world, x, y, z, radius, 250F);
     }
 
-    public static void dealDamage(Level level, double x, double y, double z, double radius, float damage) {
+    private static void dealDamage(Level level, double x, double y, double z, double radius, float damage) {
 
         BlockPos center = new BlockPos((int) x, (int) y, (int) z);
         AABB area = new AABB(center).inflate(radius);
@@ -70,6 +71,10 @@ public class ExplosionNukeGeneric {
                 living.hurt(src, damage);
                 Vec3 dir = living.position().subtract(Vec3.atCenterOf(center)).normalize();
                 living.setDeltaMovement(living.getDeltaMovement().add(dir.scale(1.5)));
+            }
+            //we do not need millions of items just laying around
+            if (entity instanceof ItemEntity itemEntity) {
+                itemEntity.discard();
             }
         }
     }

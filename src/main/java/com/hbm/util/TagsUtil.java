@@ -47,7 +47,6 @@ public class TagsUtil {
         }
     }
 
-
     public static void setInt(ItemStack stack, String key, int value) {
         CompoundTag tag = getOrCreateTag(stack);
         tag.putInt(key, value);
@@ -58,4 +57,16 @@ public class TagsUtil {
         CompoundTag tag = getTag(stack);
         return tag.contains(key) ? tag.getInt(key) : defaultValue;
     }
+
+    public static void setIntArray(ItemStack stack, String key, int[] values) {
+        CompoundTag tag = getOrCreateTag(stack);
+        tag.putIntArray(key, values);
+        setTag(stack, tag);
+    }
+
+    public static int[] getIntArray(ItemStack stack, String key) {
+        CompoundTag tag = getTag(stack);
+        return tag.contains(key) ? tag.getIntArray(key) : new int[0];
+    }
+
 }

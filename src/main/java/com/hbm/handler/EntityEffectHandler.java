@@ -134,12 +134,12 @@ public class EntityEffectHandler {
 
             if (LivingProperties.getRadiation(entity) > 600 && (level.getGameTime() + r600) % 600 < 20 && canVomit(entity)) {
 
-//                CompoundTag nbt = new CompoundTag();
-//                nbt.putString("type", "vomit");
-//                nbt.putString("mode", "blood");
-//                nbt.putInt("count", 25);
-//                nbt.putInt("entity", entity.getId());
-//                HBMsNTMClient.effectNT(nbt);
+                CompoundTag nbt = new CompoundTag();
+                nbt.putString("type", "vomit");
+                nbt.putString("mode", "blood");
+                nbt.putInt("count", 25);
+                nbt.putInt("entity", entity.getId());
+                HBMsNTMClient.effectNT(nbt);
 
                 if((level.getGameTime() + r600) % 600 == 1) {
                     level.playSound(null, ix, iy, iz, ModSounds.VOMIT, SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -148,12 +148,12 @@ public class EntityEffectHandler {
 
             } else if (LivingProperties.getRadiation(entity) > 200 && (level.getGameTime() + r1200) % 1200 < 20 && canVomit(entity)) {
 
-//                CompoundTag nbt = new CompoundTag();
-//                nbt.putString("type", "vomit");
-//                nbt.putString("mode", "normal");
-//                nbt.putInt("count", 15);
-//                nbt.putInt("entity", entity.getId());
-//                HBMsNTMClient.effectNT(nbt);
+                CompoundTag nbt = new CompoundTag();
+                nbt.putString("type", "vomit");
+                nbt.putString("mode", "normal");
+                nbt.putInt("count", 15);
+                nbt.putInt("entity", entity.getId());
+                HBMsNTMClient.effectNT(nbt);
 
                 if((level.getGameTime() + r1200) % 1200 == 1) {
                     level.playSound(null, ix, iy, iz, ModSounds.VOMIT, SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -162,12 +162,12 @@ public class EntityEffectHandler {
             } else {
                 float radiation = LivingProperties.getRadiation(entity);
 
-//                if (entity instanceof Player && radiation > 600) {
-//                    CompoundTag tag = new CompoundTag();
-//                    tag.putString("type", "radiation");
-//                    tag.putInt("count", radiation > 900 ? 4 : radiation > 800 ? 2 : 1);
-//                    HBMsNTMClient.effectNT(tag);
-//                }
+                if (entity instanceof Player && radiation > 600) {
+                    CompoundTag tag = new CompoundTag();
+                    tag.putString("type", "radiation");
+                    tag.putInt("count", radiation > 900 ? 4 : radiation > 800 ? 2 : 1);
+                    HBMsNTMClient.effectNT(tag);
+                }
             }
         }
     }

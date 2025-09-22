@@ -1,4 +1,4 @@
-package com.hbm.entity.mob.rendrer;
+package com.hbm.render.mob;
 
 import com.hbm.HBMsNTM;
 import net.minecraft.client.renderer.entity.ChickenRenderer;

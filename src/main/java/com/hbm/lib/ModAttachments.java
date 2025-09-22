@@ -18,7 +18,7 @@ public class ModAttachments {
             DeferredRegister.create(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, HBMsNTM.MODID);
 
     public static final Supplier<AttachmentType<LivingProperties>> LIVING_PROPS =
-            ATTACHMENTS.register("ntm_living_props",
+            ATTACHMENTS.register("ntm_living_properties",
                     () -> AttachmentType.builder(LivingProperties::new)
                             .serialize(new IAttachmentSerializer<CompoundTag, LivingProperties>() {
                                 @Override

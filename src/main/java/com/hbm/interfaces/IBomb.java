@@ -4,17 +4,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 
 public interface IBomb {
-    /////////////people
-    // who?
-
-
-    //Months later I found this joke again
-    //I'm not even sorry
-
     /**
      * Triggers the bomb and generates a return code. Since most bombs have a serverside inventory, the return code
      * should only be processed serverside, what's returned on the client should be ignored.
-     * Ofen invoked by onNeighborBlockChanged, so in any case make sure to check for world-remoteness.
+     * Often invoked by onNeighborBlockChanged, so in any case make sure to check for level-clientside.
      */
     BombReturnCode explode(Level level, int x, int y, int z);
 
@@ -27,8 +20,8 @@ public interface IBomb {
         ERROR_INCOMPATIBLE(false, Component.translatable("bomb.incompatible")),			//error for target being incompatible (but still implements IBomb for some reason), like locked blast doors
         ERROR_NO_BOMB(false, Component.translatable("bomb.nobomb"));						//not to be used by the bombs themselves, this is the generic error when trying to trigger no-bomb blocks
 
-        private Component unloc;
-        private boolean success;
+        private final Component unloc;
+        private final boolean success;
 
         BombReturnCode(boolean success, Component unloc) {
             this.unloc = unloc;

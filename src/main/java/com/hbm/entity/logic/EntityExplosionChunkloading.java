@@ -7,9 +7,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.TicketType;
-import net.minecraft.world.level.chunk.ChunkAccess;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public abstract class EntityExplosionChunkloading extends Entity implements IChunkLoader {
 

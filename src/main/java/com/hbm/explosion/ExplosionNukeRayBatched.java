@@ -11,13 +11,11 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.Tags;
 
 public class ExplosionNukeRayBatched implements IExplosionRay {
 
     public Map<ChunkPos, List<FloatTriplet>> perChunk = new HashMap<>();
-    public List<ChunkPos> orderedChunks = new ArrayList<>();
-    private final CoordComparator comparator = new CoordComparator();
+    public Deque<ChunkPos> orderedChunks = new ArrayDeque<>();
 
     int posX;
     int posY;
@@ -98,10 +96,12 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
                 double fac = 100 - ((double) i) / ((double) length) * 100;
                 fac *= 0.07D;
 
-                Block block = level.getBlockState(new BlockPos(iX, iY, iZ)).getBlock();
+                BlockPos pos = new BlockPos(iX, iY, iZ);
+                BlockState state = level.getBlockState(pos);
+                Block block = level.getBlockState(pos).getBlock();
 
-                if(!block.defaultBlockState().getFluidState().is(Tags.Fluids.WATER)) {
-                    res -= (float) Math.pow(masqueradeResistance(level, block, new BlockPos(iX, iY, iZ)), 7.5D - fac);
+                if (state.getFluidState().isEmpty()) {
+                    res -= (float) Math.pow(masqueradeResistance(level, state, pos), 7.5D - fac);
                 }
 
                 if(res > 0 && block != Blocks.AIR) {
@@ -128,29 +128,15 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
         }
 
         orderedChunks.addAll(perChunk.keySet());
-        orderedChunks.sort(comparator);
 
         isAusf3Complete = true;
     }
 
-    public static float masqueradeResistance(Level level, Block block, BlockPos pos) {
-        BlockState state = block.defaultBlockState();
+    public static float masqueradeResistance(Level level, BlockState state, BlockPos pos) {
+        Block block = level.getBlockState(pos).getBlock();
         if (block == Blocks.SANDSTONE) return Blocks.STONE.defaultBlockState().getExplosionResistance(level, pos, null);
         if (block == Blocks.OBSIDIAN) return Blocks.STONE.defaultBlockState().getExplosionResistance(level, pos, null) * 3;
         return state.getExplosionResistance(level, pos, null);
-    }
-
-    public class CoordComparator implements Comparator<ChunkPos> {
-        @Override
-        public int compare(ChunkPos o1, ChunkPos o2) {
-            int chunkX = ExplosionNukeRayBatched.this.posX >> 4;
-            int chunkZ = ExplosionNukeRayBatched.this.posZ >> 4;
-
-            int diff1 = Math.abs((chunkX - o1.x)) + Math.abs((chunkZ - o1.z));
-            int diff2 = Math.abs((chunkX - o2.x)) + Math.abs((chunkZ - o2.z));
-
-            return diff1 - diff2;
-        }
     }
 
     public void processChunk() {

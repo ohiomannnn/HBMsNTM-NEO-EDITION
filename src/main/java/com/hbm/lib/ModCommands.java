@@ -30,7 +30,7 @@ public class ModCommands {
 
     public static void registerCommandNTMEntityFields(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(
-                Commands.literal("NTMEntityFields")
+                Commands.literal("NTMLivingProperties")
                         .requires(src -> src.hasPermission(4))
                         /// ===== GET ===== ///
                         .then(Commands.literal("get")
@@ -77,11 +77,11 @@ public class ModCommands {
                                 )
                         )
                         /// ===== ADD ===== ///
-                        .then(Commands.literal("add")
+                        .then(Commands.literal("set")
                                 .then(Commands.argument("target", EntityArgument.entity())
                                         .then(Commands.argument("field", StringArgumentType.word())
                                                 .suggests(NTMEntityFields_SUGGESTION)
-                                                .then(Commands.argument("delta", FloatArgumentType.floatArg())
+                                                .then(Commands.argument("set", FloatArgumentType.floatArg())
                                                         .executes(context -> {
                                                             LivingEntity target;
                                                             Entity targetEntity = EntityArgument.getEntity(context, "target");
@@ -92,19 +92,19 @@ public class ModCommands {
                                                                 return 0;
                                                             }
                                                             String field = StringArgumentType.getString(context, "field");
-                                                            float delta = FloatArgumentType.getFloat(context, "delta");
+                                                            float set = FloatArgumentType.getFloat(context, "set");
                                                             LivingProperties data = LivingProperties.getData(target);
 
                                                             switch (field.toLowerCase()) {
-                                                                case "radiation" -> LivingProperties.setRadiation(target, LivingProperties.getRadiation(target) + delta);
-                                                                case "digamma" -> LivingProperties.setDigamma(target, LivingProperties.getDigamma(target) + delta);
-                                                                case "asbestos" -> LivingProperties.setAsbestos(target, LivingProperties.getAsbestos(target) + (int) delta);
-                                                                case "blacklung" -> LivingProperties.setBlackLung(target, LivingProperties.getBlackLung(target) + (int) delta);
-                                                                case "oil" -> LivingProperties.setOil(target, LivingProperties.getOil(target) + (int) delta);
-                                                                case "fire" -> data.fire += (int) delta;
-                                                                case "phosphorus" -> data.phosphorus += (int) delta;
-                                                                case "balefire" -> data.balefire += (int) delta;
-                                                                case "blackfire" -> data.blackFire += (int) delta;
+                                                                case "radiation" -> LivingProperties.setRadiation(target, set);
+                                                                case "digamma" -> LivingProperties.setDigamma(target, set);
+                                                                case "asbestos" -> LivingProperties.setAsbestos(target, (int) set);
+                                                                case "blacklung" -> LivingProperties.setBlackLung(target, (int) set);
+                                                                case "oil" -> LivingProperties.setOil(target, (int) set);
+                                                                case "fire" -> data.fire = (int) set;
+                                                                case "phosphorus" -> data.phosphorus = (int) set;
+                                                                case "balefire" -> data.balefire = (int) set;
+                                                                case "blackfire" -> data.blackFire = (int) set;
                                                                 default -> {
                                                                     context.getSource().sendFailure(Component.literal("Unknown field: " + field));
                                                                     return 0;
@@ -113,7 +113,7 @@ public class ModCommands {
 
                                                             context.getSource().sendSuccess(
                                                                     () -> Component.literal("Field '" + field + "' at " + target.getName().getString() +
-                                                                            " got changed by " + delta),
+                                                                            " got changed by " + set),
                                                                     true
                                                             );
                                                             return 1;

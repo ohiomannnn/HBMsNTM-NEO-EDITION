@@ -50,6 +50,9 @@ public class ModCreativeTabs {
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModBlocks.DET_NUKE);
                         output.accept(ModItems.DETONATOR);
+                        output.accept(ModItems.MULTI_DETONATOR);
+                        output.accept(ModItems.DETONATOR_DEADMAN);
+                        output.accept(ModItems.DETONATOR_DE);
                     }).build());
 
     public static final Supplier<CreativeModeTab> CONSUMABLES_AND_GEAR = CREATIVE_MODE_TABS.register("consumables_and_gear",

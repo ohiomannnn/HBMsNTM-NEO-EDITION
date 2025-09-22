@@ -8,6 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -54,7 +55,7 @@ public class ExplosionVNT {
         boolean processBlocks = blockAllocator != null && blockProcessor != null;
         boolean processEntities = entityProcessor != null && playerProcessor != null;
 
-        Set<BlockPos> affectedBlocks = null;
+        HashSet<BlockPos> affectedBlocks = null;
         Map<Player, Vec3> affectedPlayers = null;
 
         if (processBlocks) {

@@ -3,7 +3,7 @@ package com.hbm.entity;
 import com.hbm.HBMsNTM;
 import com.hbm.entity.item.EntityTNTPrimedBase;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
-import com.hbm.entity.logic.EntityNukeTorex;
+import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntityShrapnel;
@@ -20,10 +20,9 @@ public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
             DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, HBMsNTM.MODID);
 
-
     public static final DeferredHolder<EntityType<?>, EntityType<EntityNukeExplosionMK5>> NUKE_MK5 =
             ENTITY_TYPES.register("nuke_explosion_mk5",
-                    () -> EntityType.Builder.<EntityNukeExplosionMK5>of(EntityNukeExplosionMK5::new, MobCategory.MISC)
+                    () -> EntityType.Builder.of(EntityNukeExplosionMK5::new, MobCategory.MISC)
                             .setTrackingRange(1000)
                             .sized(1.0F, 1.0F)
                             .build("nuke_explosion_mk5"));
@@ -50,7 +49,6 @@ public class ModEntities {
                             .clientTrackingRange(10)
                             .updateInterval(10)
                             .build("tnt_primed_base"));
-
 
     public static final DeferredHolder<EntityType<?>, EntityType<EntityShrapnel>> SHRAPNEL =
             ENTITY_TYPES.register("shrapnel",

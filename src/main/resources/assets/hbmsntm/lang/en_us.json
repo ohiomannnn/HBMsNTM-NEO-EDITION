@@ -37,6 +37,9 @@
   "item.hbmsntm.balefire_and_steel": "Balefire and Steel",
   "item.hbmsntm.polaroid": "The Polaroid",
   "item.hbmsntm.detonator": "Detonator",
+  "item.hbmsntm.multi_detonator": "Multi Detonator",
+  "item.hbmsntm.detonator_de": "Dead Man's Explosive",
+  "item.hbmsntm.detonator_deadman": "Dead Man's Detonator",
 
   "entity.hbmsntm.duck": "Duck",
 
@@ -81,6 +84,7 @@
   "trait.asbestos": "Asbestos",
   "trait.digamma": "Digamma Radiation",
   "trait.blinding": "Blinding",
+  "trait.drop": "Dangerous Drop",
 
   "creativeTabs.hbmsntm.ores_and_blocks": "NTM Ores and Blocks",
   "creativeTabs.hbmsntm.consumables_and_gear": "NTM Consumables and Gear",

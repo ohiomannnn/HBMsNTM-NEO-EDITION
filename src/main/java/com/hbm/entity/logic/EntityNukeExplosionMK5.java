@@ -4,6 +4,7 @@ import com.hbm.HBMsNTM;
 import com.hbm.config.ServerConfig;
 import com.hbm.entity.ModEntities;
 import com.hbm.explosion.ExplosionNukeGeneric;
+import com.hbm.explosion.ExplosionNukeRayBalefire;
 import com.hbm.explosion.ExplosionNukeRayBatched;
 import com.hbm.interfaces.IExplosionRay;
 import com.hbm.util.ContaminationUtil;
@@ -22,24 +23,20 @@ import java.util.List;
 
 public class EntityNukeExplosionMK5 extends EntityExplosionChunkloading {
 
+    //Strength of the blast
     public int strength;
+    //How many rays are calculated per tick
     public int speed;
     public int length;
     private long explosionStart;
     public boolean fallout = true;
     private int falloutAdd = 0;
+    private boolean balefire = false;
 
     private IExplosionRay explosion;
 
     public EntityNukeExplosionMK5(EntityType<?> type, Level level) {
         super(type, level);
-    }
-
-    public EntityNukeExplosionMK5(Level level, int strength, int speed, int length) {
-        this(ModEntities.NUKE_MK5.get(), level);
-        this.strength = strength;
-        this.speed = speed;
-        this.length = length;
     }
 
     @Override
@@ -49,20 +46,11 @@ public class EntityNukeExplosionMK5 extends EntityExplosionChunkloading {
         if (strength == 0) {
             this.clearChunkLoader();
             this.discard();
-            return;
         }
 
-        if (!level().isClientSide) {
-            loadChunk((int) Math.floor(getX() / 16D), (int) Math.floor(getZ() / 16D));
-        }
+        if (!level().isClientSide) loadChunk((int) Math.floor(getX() / 16D), (int) Math.floor(getZ() / 16D));
 
-//        if (!level().isClientSide) {
-//            for (Player player : level().players()) {
-//                if (player instanceof ServerPlayer sp) {
-//                     sp.award(advancement, "criterion");
-//                }
-//            }
-//        }
+        //TODO: make advancement for this
 
         if (!level().isClientSide && fallout && explosion != null && this.tickCount < 10 && strength >= 75) {
             radiate(2_500_000F / (this.tickCount * 5 + 1), this.length * 2);
@@ -72,18 +60,24 @@ public class EntityNukeExplosionMK5 extends EntityExplosionChunkloading {
 
         if (explosion == null) {
             explosionStart = System.currentTimeMillis();
-            explosion = new ExplosionNukeRayBatched(level(), (int) getX(), (int) getY(), (int) getZ(), strength, speed, length);
+            if (!balefire) {
+                explosion = new ExplosionNukeRayBatched(level(), (int) getX(), (int) getY(), (int) getZ(), strength, speed, length);
+            } else {
+                explosion = new ExplosionNukeRayBalefire(level(), (int) getX(), (int) getY(), (int) getZ(), strength, speed, length);
+            }
         }
 
         if (!explosion.isComplete()) {
-//            explosion.cacheChunksTick(BombConfig.mk5);
-//            explosion.destructionTick(BombConfig.mk5);
-            explosion.cacheChunksTick(50);
-            explosion.destructionTick(50);
+            explosion.cacheChunksTick(ServerConfig.MK5_BLAST_TIME.getAsInt());
+            explosion.destructionTick(ServerConfig.MK5_BLAST_TIME.getAsInt());
         } else {
             if (ServerConfig.ENABLE_EXTENDED_LOGGING.getAsBoolean() && explosionStart != 0) {
                 HBMsNTM.LOGGER.info("[NUKE] Explosion complete. Time elapsed: {}ms", (System.currentTimeMillis() - explosionStart));
             }
+            if (fallout) {
+                HBMsNTM.LOGGER.info("We need to do fallout with falloutAdd = {}", falloutAdd);
+            }
+            // its going to be a long day
 //            if (fallout && level() instanceof ServerLevel serverLevel) {
 //                EntityFalloutRain fallout = new EntityFalloutRain(MainRegistry.FALLOUT_ENTITY_TYPE.get(), serverLevel);
 //                fallout.setPos(getX(), getY(), getZ());
@@ -107,19 +101,31 @@ public class EntityNukeExplosionMK5 extends EntityExplosionChunkloading {
             float res = 0;
 
             for (int i = 1; i < len; i++) {
-                BlockPos pos = new BlockPos((int) Math.floor(getX() + vec.x * i),
+                BlockPos pos = new BlockPos(
+                        (int) Math.floor(getX() + vec.x * i),
                         (int) Math.floor(getY() + vec.y * i),
-                        (int) Math.floor(getZ() + vec.z * i));
+                        (int) Math.floor(getZ() + vec.z * i)
+                );
                 BlockState state = level().getBlockState(pos);
                 res += state.getExplosionResistance(level(), pos, null);
             }
 
             if (res < 1) res = 1;
 
-            float eRads = rads / res / (float) (len * len);
+            float eRads = rads;
+            eRads /= res;
+            eRads /= (float)(len * len);
+
             ContaminationUtil.contaminate(e, HazardType.RADIATION, ContaminationType.RAD_BYPASS, eRads);
         }
     }
+
+    @Override
+    public void remove(RemovalReason reason) {
+        if (explosion != null) explosion.cancel();
+        super.remove(reason);
+    }
+
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
@@ -131,16 +137,16 @@ public class EntityNukeExplosionMK5 extends EntityExplosionChunkloading {
         tag.putInt("tickCount", this.tickCount);
     }
 
-    public static EntityNukeExplosionMK5 statFac(Level level, int r, double x, double y, double z) {
+    public static EntityNukeExplosionMK5 statFac(Level level, int strength, double x, double y, double z) {
         if (ServerConfig.ENABLE_EXTENDED_LOGGING.getAsBoolean() && !level.isClientSide) {
-            HBMsNTM.LOGGER.info("[NUKE] Initialized explosion at {} / {} / {} with strength {}!", x, y, z, r);
+            HBMsNTM.LOGGER.info("[NUKE] Initialized explosion at {} / {} / {} with strength {}!", x, y, z, strength);
         }
 
-        if (r == 0) r = 25;
-        r *= 2;
+        if (strength == 0) strength = 25;
+        strength *= 2;
 
         EntityNukeExplosionMK5 mk5 = new EntityNukeExplosionMK5(ModEntities.NUKE_MK5.get(), level);
-        mk5.strength = r;
+        mk5.strength = strength;
         mk5.speed = (int) Math.ceil(100000D / mk5.strength);
         mk5.setPos(x, y, z);
         mk5.length = mk5.strength / 2;
@@ -148,9 +154,16 @@ public class EntityNukeExplosionMK5 extends EntityExplosionChunkloading {
         return mk5;
     }
 
-    public static EntityNukeExplosionMK5 statFacNoRad(Level level, int r, double x, double y, double z) {
-        EntityNukeExplosionMK5 mk5 = statFac(level, r, x, y, z);
+    public static EntityNukeExplosionMK5 statFacNoRad(Level level, int strength, double x, double y, double z) {
+        EntityNukeExplosionMK5 mk5 = statFac(level, strength, x, y, z);
         mk5.fallout = false;
+        return mk5;
+    }
+
+    public static EntityNukeExplosionMK5 statFacBalefire(Level level, int strength, double x, double y, double z) {
+        EntityNukeExplosionMK5 mk5 = statFac(level, strength, x, y, z);
+        mk5.fallout = false;
+        mk5.balefire = true;
         return mk5;
     }
 

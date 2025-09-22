@@ -23,8 +23,11 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.NOTHING.get());
         basicItem(ModItems.GEIGER_COUNTER.get());
         basicItem(ModItems.DOSIMETER.get());
+        basicItem(ModItems.DETONATOR_DE.get());
+        basicItem(ModItems.DETONATOR_DEADMAN.get());
         handheldItem(ModItems.REACHER.get());
         handheldItem(ModItems.DETONATOR.get());
+        handheldItem(ModItems.MULTI_DETONATOR.get());
         basicItem(ModItems.DUCK_SPAWN_EGG.get());
 
         basicItem(ModItems.KEY.get());

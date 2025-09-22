@@ -3,6 +3,7 @@ package com.hbm.items;
 import com.hbm.HBMsNTM;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.block.ItemBlockStorageCrate;
+import com.hbm.items.special.DangerousDropItem;
 import com.hbm.items.special.EntitySpawnerItem;
 import com.hbm.items.special.ItemPolaroid;
 import com.hbm.items.tools.*;
@@ -19,6 +20,14 @@ public class ModItems {
 
     public static final DeferredItem<Item> DETONATOR = ITEMS.register("detonator",
             () -> new DetonatorItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> MULTI_DETONATOR = ITEMS.register("multi_detonator",
+            () -> new MultiDetonatorItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> DETONATOR_DEADMAN = ITEMS.register("detonator_deadman",
+            () -> new DangerousDropItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> DETONATOR_DE = ITEMS.register("detonator_de",
+            () -> new DangerousDropItem(new Item.Properties().stacksTo(1)));
+
+
 
     public static final DeferredItem<Item> GEIGER_COUNTER = ITEMS.register("geiger_counter",
             () -> new GeigerCounterItem(new Item.Properties().stacksTo(1)));

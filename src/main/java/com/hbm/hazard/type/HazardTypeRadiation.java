@@ -3,7 +3,7 @@ package com.hbm.hazard.type;
 import com.hbm.config.ServerConfig;
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.items.ModItems;
-import com.hbm.util.MathUtil;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.ContaminationUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -32,7 +32,7 @@ public class HazardTypeRadiation extends HazardTypeBase {
             if (ServerConfig.ENABLE_528.getAsBoolean() && reacher) {
                 rad = rad / 49F;
             } else if (reacher) {
-                rad = (float) MathUtil.squirt(rad);
+                rad = (float) BobMathUtil.squirt(rad);
             }
 
             ContaminationUtil.contaminate(target, ContaminationUtil.HazardType.RADIATION, ContaminationUtil.ContaminationType.CREATIVE, rad);

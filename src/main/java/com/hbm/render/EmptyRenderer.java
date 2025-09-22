@@ -1,4 +1,4 @@
-package com.hbm.entity.renderer;
+package com.hbm.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -8,16 +8,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 
 public class EmptyRenderer<T extends Entity> extends EntityRenderer<T> {
-    public EmptyRenderer(EntityRendererProvider.Context ctx) {
-        super(ctx);
-    }
+    public EmptyRenderer(EntityRendererProvider.Context context) { super(context); }
 
     @Override
-    public ResourceLocation getTextureLocation(T entity) {
-        return null;
-    }
+    public void render(T entity, float yaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {}
 
     @Override
-    public void render(T entity, float yaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-    }
+    public ResourceLocation getTextureLocation(T entity) { return null; }
 }

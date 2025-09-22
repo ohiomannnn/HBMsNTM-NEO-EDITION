@@ -113,12 +113,13 @@ public class ExplosionNukeRayParallelized implements IExplosionRay {
     }
 
     private static float getNukeResistance(Block b) {
-        try {
-            if (b.defaultBlockState().getFluidState().isEmpty()) return 0.1F;
-        } catch (Throwable ignored) {}
-        if (b == Blocks.SANDSTONE) return Blocks.STONE.getExplosionResistance();
-        if (b == Blocks.OBSIDIAN) return Blocks.STONE.getExplosionResistance() * 3.0F;
-        return b.getExplosionResistance();
+//        try {
+//            if (b.defaultBlockState().getFluidState().isEmpty()) return 0.1F;
+//        } catch (Throwable ignored) {}
+//        if (b == Blocks.SANDSTONE) return Blocks.STONE.getExplosionResistance();
+//        if (b == Blocks.OBSIDIAN) return Blocks.STONE.getExplosionResistance() * 3.0F;
+//        return b.getExplosionResistance();
+        return 1.0F;
     }
 
     private List<SubChunkKey> getAllSubChunks() {

@@ -1,22 +1,25 @@
 package com.hbm;
 
 import com.hbm.entity.ModEntities;
-import com.hbm.entity.mob.rendrer.EntityDuckRenderer;
-import com.hbm.entity.renderer.EmptyRenderer;
-import com.hbm.entity.renderer.RenderTorex;
+import com.hbm.render.effect.RenderTorex;
 import com.hbm.handler.gui.GeigerGUI;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.items.ModItems;
 import com.hbm.packets.PacketsDispatcher;
 import com.hbm.particle.*;
+import com.hbm.render.EmptyRenderer;
+import com.hbm.render.mob.EntityDuckRenderer;
 import com.hbm.util.i18n.I18nClient;
 import com.hbm.util.i18n.ITranslate;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -29,8 +32,7 @@ import net.minecraft.network.chat.Component;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
@@ -41,8 +43,6 @@ import java.util.Random;
 @Mod(value = HBMsNTM.MODID, dist = Dist.CLIENT)
 @EventBusSubscriber(value = Dist.CLIENT)
 public class HBMsNTMClient {
-
-
     private static final I18nClient I18N = new I18nClient();
     public ITranslate getI18n() { return I18N; }
 
@@ -53,6 +53,52 @@ public class HBMsNTMClient {
         modBus.addListener(this::registerParticles);
         modBus.addListener(PacketsDispatcher::registerPackets);
     }
+
+    public static final int flashDuration = 5_000;
+    public static long flashTimestamp;
+    public static final int shakeDuration = 1_500;
+    public static long shakeTimestamp;
+
+    public static boolean enableFlash = true;
+    public static boolean enableShake = true;
+
+    @SubscribeEvent
+    public static void onRenderGuiPre(RenderGuiEvent.Pre event) {
+        if (!enableShake) return;
+
+        long now = System.currentTimeMillis();
+        long end = shakeTimestamp + shakeDuration;
+
+        if (now < end) {
+            float mult = (end - now) / (float) shakeDuration * 2.0F;
+            double horizontal = Mth.clamp(Math.sin(now * 0.02), -0.7, 0.7) * 15;
+            double vertical   = Mth.clamp(Math.sin(now * 0.01 + 2), -0.7, 0.7) * 3;
+
+            GuiGraphics graphics = event.getGuiGraphics();
+            graphics.pose().translate(horizontal * mult, vertical * mult, 0);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onRenderGuiPost(RenderGuiEvent.Post event) {
+        if (!enableFlash) return;
+
+        long now = System.currentTimeMillis();
+        long end = flashTimestamp + flashDuration;
+
+        if (now < end) {
+            float brightness = (end - now) / (float) flashDuration;
+
+            GuiGraphics guiGraphics = event.getGuiGraphics();
+            Minecraft mc = Minecraft.getInstance();
+            int width = mc.getWindow().getGuiScaledWidth();
+            int height = mc.getWindow().getGuiScaledHeight();
+
+            guiGraphics.fill(0, 0, width, height,
+                    FastColor.ARGB32.color((int)(brightness * 255), 255, 255, 255));
+        }
+    }
+
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.DUCK.get(), EntityDuckRenderer::new);
@@ -111,12 +157,6 @@ public class HBMsNTMClient {
         double x = data.getDouble("posX");
         double y = data.getDouble("posY");
         double z = data.getDouble("posZ");
-
-        // for future
-//        if (ParticleCreators.particleCreators.containsKey(type)) {
-//            ParticleCreators.particleCreators.get(type).makeParticle(world, player, man, rand, x, y, z, data);
-//            return;
-//        }
 
         final Random rand = new Random();
 

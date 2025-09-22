@@ -2,7 +2,7 @@ package com.hbm.blocks.bomb;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
-import com.hbm.entity.logic.EntityNukeTorex;
+import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.interfaces.IBomb;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;

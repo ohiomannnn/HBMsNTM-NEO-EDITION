@@ -42,6 +42,19 @@ public class ServerConfig {
        BUILDER.pop();
     }
 
+    static {
+        BUILDER.push("bombs");
+    }
+
+    public static final ModConfigSpec.IntValue MK5_BLAST_TIME = BUILDER
+            .comment("Minimum amount of milliseconds per tick allocated for mk5 chunk processing")
+            .translation("config.hbmsntm.mk5BlastTime")
+            .defineInRange("mk5BlastTime", 50, 0, 1000);
+
+    static {
+        BUILDER.pop();
+    }
+
     /// TAINT ///
     static {
         BUILDER.push("taint");

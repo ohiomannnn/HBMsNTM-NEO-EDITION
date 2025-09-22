@@ -1,17 +1,19 @@
-package com.hbm.entity.logic;
+package com.hbm.entity.effect;
 
+import com.hbm.HBMsNTMClient;
 import com.hbm.entity.ModEntities;
 import com.hbm.lib.ModSounds;
-import com.hbm.util.MathUtil;
+import com.hbm.util.BobMathUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
@@ -43,6 +45,8 @@ public class EntityNukeTorex extends Entity {
 
     public EntityNukeTorex(EntityType<? extends EntityNukeTorex> type, Level level) {
         super(type, level);
+        this.noPhysics = true;
+        this.setInvulnerable(true);
         this.noCulling = true;
         this.setBoundingBox(new AABB(this.getX() - 0.5, this.getY(), this.getZ() - 0.5, this.getX() + 0.5, this.getY() + 50, this.getZ() + 0.5));
     }
@@ -71,11 +75,19 @@ public class EntityNukeTorex extends Entity {
 
         if (level().isClientSide) {
 
+            if (!this.isAlive()) return;
+
+            if (tickCount == 1) {
+                HBMsNTMClient.flashTimestamp = System.currentTimeMillis();
+            }
+
             if (this.tickCount == 1) setScale((float) s);
 
             if (lastSpawnY == -1) lastSpawnY = getY() - 3;
 
-            int groundY = level().getHeight(net.minecraft.world.level.levelgen.Heightmap.Types.WORLD_SURFACE, (int) getX(), (int) getZ()) - 3;
+            if (tickCount < 200) this.level().setSkyFlashTime(5);
+
+            int groundY = level().getHeight(Heightmap.Types.WORLD_SURFACE, (int) getX(), (int) getZ()) - 3;
             double moveSpeed = 0.5D;
 
             if (Math.abs(groundY - lastSpawnY) < moveSpeed) {
@@ -103,28 +115,33 @@ public class EntityNukeTorex extends Entity {
                 int cloudCount = tickCount * 5;
                 int shockLife = Math.max(300 - tickCount * 20, 50);
 
-                double distance = 0;
                 for (int i = 0; i < cloudCount; i++) {
-                    distance = (tickCount * 1.5 + random.nextDouble()) * 1.5;
+                    Vec3 vec = new Vec3((tickCount * 1.5 + random.nextDouble()) * 1.5, 0, 0);
                     float rot = (float) (Math.PI * 2 * random.nextDouble());
-                    double shockX = getX() + Math.cos(rot) * distance;
-                    double shockZ = getZ() + Math.sin(rot) * distance;
-                    double shockY = level().getHeight(Heightmap.Types.WORLD_SURFACE, (int) shockX, (int) shockZ);
-                    Cloudlet cloud = new Cloudlet(shockX, shockY, shockZ, rot, 0, shockLife, TorexType.SHOCK)
-                            .setScale(7F, 2F);
+                    vec = rotateAroundY(vec, rot);
+                    Cloudlet cloud = new Cloudlet(getX() + vec.x, level().getHeight(Heightmap.Types.WORLD_SURFACE, (int) (vec.x + getX()), (int) (vec.z + getZ())), getZ() + vec.z, rot, 0, shockLife, TorexType.SHOCK)
+                            .setScale(7F, 2F)
+                            .setMotion(tickCount > 15 ? 0.75 : 0);
                     cloudlets.add(cloud);
                 }
 
-                if (!didPlaySound && level().getNearestPlayer(this, distance) != null) {
-                    level().playLocalSound(getX(), getY(), getZ(), ModSounds.NUCLEAR_EXPLOSION.get(), SoundSource.AMBIENT, 10_000F, 1.0F, false);
-                    didPlaySound = true;
+                if (!didPlaySound) {
+                    Player player = Minecraft.getInstance().player;
+                    if (player != null) {
+                        double dist = player.distanceTo(this);
+                        double radius = (tickCount * 1.5 + 1) * 1.5;
+                        if (dist < radius) {
+                            level().playLocalSound(getX(), getY(), getZ(), ModSounds.NUCLEAR_EXPLOSION.get(), SoundSource.AMBIENT, 10_000F, 1F, false);
+                            didPlaySound = true;
+                        }
+                    }
                 }
             }
 
             // spawn ring clouds
             if (tickCount < 130 * s) {
                 lifetime *= s;
-                for (int i = 0; i < 2; i++) {
+                for(int i = 0; i < 4; i++) {
                     Cloudlet cloud = new Cloudlet(getX(), getY() + coreHeight, getZ(), (float)(random.nextDouble() * 2D * Math.PI), 0, lifetime, TorexType.RING);
                     cloud.setScale(1F + this.tickCount * 0.0025F * (float) (cs * cs), 3F * (float) (cs * cs));
                     cloudlets.add(cloud);
@@ -133,29 +150,30 @@ public class EntityNukeTorex extends Entity {
 
             // spawn condensation clouds
             if (tickCount > 130 * s && tickCount < 600 * s) {
+
                 for (int i = 0; i < 20; i++) {
                     for (int j = 0; j < 4; j++) {
                         float angle = (float) (Math.PI * 2 * random.nextDouble());
-                        double rad = torusWidth + rollerSize * (5 + random.nextDouble());
-                        double cx = getX() + Math.cos(angle) * rad;
-                        double cz = getZ() + Math.sin(angle) * rad;
-                        double cy = getY() + coreHeight - 5 + j * s;
-                        Cloudlet cloud = new Cloudlet(cx, cy, cz, angle, 0, (int) ((20 + (double) tickCount / 10) * (1 + random.nextDouble() * 0.1)), TorexType.CONDENSATION)
-                                .setScale(0.125F * (float) (cs), 3F * (float) (cs));
+                        Vec3 vec = new Vec3(torusWidth + rollerSize * (5 + random.nextDouble()), 0, 0);
+                        vec = rotateAroundZ(vec, (float) (Math.PI / 45 * j));
+                        vec = rotateAroundY(vec, angle);
+                        Cloudlet cloud = new Cloudlet(getX() + vec.x, getY() + coreHeight - 5 + j * s, getZ() + vec.z, angle, 0, (int) ((20 + tickCount / 10) * (1 + random.nextDouble() * 0.1)), TorexType.CONDENSATION);
+                        cloud.setScale(0.125F * (float) (cs), 3F * (float) (cs));
                         cloudlets.add(cloud);
                     }
                 }
             }
+
             if (tickCount > 200 * s && tickCount < 600 * s) {
+
                 for (int i = 0; i < 20; i++) {
                     for (int j = 0; j < 4; j++) {
                         float angle = (float) (Math.PI * 2 * random.nextDouble());
-                        double rad = torusWidth + rollerSize * (3 + random.nextDouble() * 0.5);
-                        double cx = getX() + Math.cos(angle) * rad;
-                        double cz = getZ() + Math.sin(angle) * rad;
-                        double cy = getY() + coreHeight + 25 + j * cs;
-                        Cloudlet cloud = new Cloudlet(cx, cy, cz, angle, 0, (int) ((20 + (double) tickCount / 10) * (1 + random.nextDouble() * 0.1)), TorexType.CONDENSATION)
-                                .setScale(0.125F * (float) (cs), 3F * (float) (cs));
+                        Vec3 vec = new Vec3(torusWidth + rollerSize * (3 + random.nextDouble() * 0.5), 0, 0);
+                        vec = rotateAroundZ(vec, (float) (Math.PI / 45 * j));
+                        vec = rotateAroundY(vec, angle);
+                        Cloudlet cloud = new Cloudlet(getX() + vec.x, getY() + coreHeight + 25 + j * cs, getZ() + vec.z, angle, 0, (int) ((20 + tickCount / 10) * (1 + random.nextDouble() * 0.1)), TorexType.CONDENSATION);
+                        cloud.setScale(0.125F * (float) (cs), 3F * (float) (cs));
                         cloudlets.add(cloud);
                     }
                 }
@@ -603,7 +621,7 @@ public class EntityNukeTorex extends Entity {
     }
 
     public static void statFac(Level level, double x, double y, double z, float scale, int type) {
-        EntityNukeTorex torex = new EntityNukeTorex(ModEntities.BIG_NUKE_TOREX.get(),level).setScale((float) Mth.clamp(MathUtil.squirt(scale * 0.01) * 1.5F, 0.5F, 5F));
+        EntityNukeTorex torex = new EntityNukeTorex(ModEntities.BIG_NUKE_TOREX.get(),level).setScale((float) Mth.clamp(BobMathUtil.squirt(scale * 0.01) * 1.5F, 0.5F, 5F));
         torex.setType(type);
         torex.moveTo(x, y, z);;
         level.addFreshEntity(torex);

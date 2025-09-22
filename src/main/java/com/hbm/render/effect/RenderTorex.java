@@ -1,9 +1,10 @@
-package com.hbm.entity.renderer;
+package com.hbm.render.effect;
 
 import com.hbm.HBMsNTM;
-import com.hbm.entity.logic.CustomRenderTypes;
-import com.hbm.entity.logic.EntityNukeTorex;
-import com.hbm.entity.logic.EntityNukeTorex.Cloudlet;
+import com.hbm.HBMsNTMClient;
+import com.hbm.render.CustomRenderTypes;
+import com.hbm.entity.effect.EntityNukeTorex;
+import com.hbm.entity.effect.EntityNukeTorex.Cloudlet;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -14,17 +15,15 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-import org.joml.Vector3f;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Random;
 
 public class RenderTorex extends EntityRenderer<EntityNukeTorex> {
 
-    private static final ResourceLocation CLOUDLET_TEX =
-            ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/cloudlet.png");
-    private static final ResourceLocation FLASH_TEX =
+    private static final ResourceLocation CLOUDLET =
+            ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/particle_base.png");
+    private static final ResourceLocation FLASH =
             ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/flare.png");
 
     public RenderTorex(EntityRendererProvider.Context context) {
@@ -33,45 +32,48 @@ public class RenderTorex extends EntityRenderer<EntityNukeTorex> {
 
     @Override
     public void render(EntityNukeTorex entity, float yaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+        long now = System.currentTimeMillis();
+        if (entity.didPlaySound && !entity.didShake && now - HBMsNTMClient.shakeTimestamp > 1000) {
+            HBMsNTMClient.shakeTimestamp = now;
+            entity.didShake = true;
 
-        renderCloudlets(entity, partialTicks, buffer);
+            Player player = Minecraft.getInstance().player;
+            if (player != null) {
+                player.hurtTime = 15;
+                player.hurtDuration = 15;
+            }
+        }
+        renderCloudlet(entity, partialTicks, buffer);
         if (entity.tickCount < 101) renderFlash(entity, partialTicks, buffer);
     }
 
-    private void renderCloudlets(EntityNukeTorex cloud, float partialTicks, MultiBufferSource buffer) {
-        ArrayList<Cloudlet> sorted = new ArrayList<>(cloud.cloudlets);
-        Player player = Minecraft.getInstance().player;
-        sorted.sort(Comparator.comparingDouble(c -> -player.distanceToSqr(c.posX, c.posY, c.posZ)));
+    private void renderCloudlet(EntityNukeTorex entity, float partialTicks, MultiBufferSource buffer) {
+        ArrayList<Cloudlet> sorted = new ArrayList<>(entity.cloudlets);
 
-        VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(CLOUDLET_TEX));
+        VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(CLOUDLET));
 
         for (Cloudlet cloudlet : sorted) {
             Vec3 pos = cloudlet.getInterpPos(partialTicks);
             Vec3 col = cloudlet.getInterpColor(partialTicks);
 
-            float r = (float) col.x;
-            float g = (float) col.y;
-            float b = (float) col.z;
+            float r = (float)Math.max(col.x, 0.25);
+            float g = (float)Math.max(col.y, 0.25);
+            float b = (float)Math.max(col.z, 0.25);
 
-            float brightness = (cloudlet.type == EntityNukeTorex.TorexType.CONDENSATION)
-                    ? 0.9f
-                    : 0.75f * cloudlet.colorMod;
+            float brightness = (cloudlet.type == EntityNukeTorex.TorexType.CONDENSATION) ? 0.9f : 0.75f * cloudlet.colorMod;
 
-            r *= brightness;
-            g *= brightness;
-            b *= brightness;
+            r = Math.min(r * brightness, 1.0f);
+            g = Math.min(g * brightness, 1.0f);
+            b = Math.min(b * brightness, 1.0f);
 
-            r = Math.min(r, 1.0f);
-            g = Math.min(g, 1.0f);
-            b = Math.min(b, 1.0f);
-
-            renderBillboardQuad(consumer, pos.x, pos.y, pos.z,
-                    cloudlet.getScale(), cloudlet.getAlpha(), r, g, b);
+            renderQuad(consumer, pos.x, pos.y, pos.z, cloudlet.getScale(), cloudlet.getAlpha(), r, g, b);
         }
     }
 
+
+
     private void renderFlash(EntityNukeTorex cloud, float partialTicks, MultiBufferSource buffer) {
-        VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.additive(FLASH_TEX));
+        VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.additive(FLASH));
 
         double age = Math.min(cloud.tickCount + partialTicks, 100);
         float alpha = (float) ((100D - age) / 100F);
@@ -81,17 +83,16 @@ public class RenderTorex extends EntityRenderer<EntityNukeTorex> {
         double baseY = cloud.getY();
         double baseZ = cloud.getZ();
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 3; i++) {
             double x = baseX + rand.nextGaussian() * 0.5F * cloud.rollerSize;
             double y = baseY + cloud.coreHeight + rand.nextGaussian() * 0.5F * cloud.rollerSize;
             double z = baseZ + rand.nextGaussian() * 0.5F * cloud.rollerSize;
 
-            renderBillboardQuad(consumer, x, y, z,
-                    (float) (25 * cloud.rollerSize), alpha, 1f, 1f, 1f);
+            renderQuad(consumer, x, y, z, (float) (25 * cloud.rollerSize), alpha, 1f, 1f, 1f);
         }
     }
 
-    private void renderBillboardQuad(VertexConsumer consumer, double x, double y, double z, float scale, float alpha, float r, float g, float b) {
+    private void renderQuad(VertexConsumer consumer, double x, double y, double z, float scale, float alpha, float r, float g, float b) {
 
         Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
         double cx = x - camera.getPosition().x;
@@ -105,7 +106,7 @@ public class RenderTorex extends EntityRenderer<EntityNukeTorex> {
 
         float half = scale * 0.5F;
 
-        int packedLight = 0xF000F0;
+        int packedLight = 15728880;
         int overlay = OverlayTexture.NO_OVERLAY;
 
         consumer.addVertex(pose, -half, -half, 0)

@@ -83,10 +83,10 @@ public class  ContaminationUtil {
     /// DIGAMMA ///
     public static void applyDigammaData(Entity entity, float f) {
 
-        if(!(entity instanceof LivingEntity e))
+        if (!(entity instanceof LivingEntity e))
             return;
 
-        if(entity instanceof EntityDuck || entity instanceof Ocelot)
+        if (entity instanceof EntityDuck || entity instanceof Ocelot)
             return;
 
         if (entity instanceof ServerPlayer player && player.isCreative())
@@ -107,7 +107,7 @@ public class  ContaminationUtil {
     public static void printGeigerData(Player player) {
         Level level = player.level();
 
-        float eRad = (float) ((LivingProperties.getData(player).serializeNBT().getFloat("hfr_radiation") * 10) / 10D);
+        float eRad = (float) ((LivingProperties.getRadiation(player) * 10) / 10D);
         double rads = Math.floor(ChunkRadiationManager.getProxy().getRadiation(level,
                 player.blockPosition().getX(),
                 player.blockPosition().getY(),

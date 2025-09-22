@@ -3,7 +3,6 @@ package com.hbm;
 import com.hbm.entity.ModEntities;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.handler.EntityEffectHandler;
-import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.inventory.ModMenus;

@@ -11,13 +11,14 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class BlockProcessorStandard implements IBlockProcessor {
     private boolean doDrops = true;
 
     @Override
-    public void processBlocks(ExplosionVNT explosion, Level level, double x, double y, double z, Set<BlockPos> blocks) {
+    public void processBlocks(ExplosionVNT explosion, Level level, double x, double y, double z, HashSet<BlockPos> blocks) {
         blocks.forEach(blockPos -> {
             BlockState blockState = level.getBlockState(blockPos);
             if (!blockState.isAir()) {
