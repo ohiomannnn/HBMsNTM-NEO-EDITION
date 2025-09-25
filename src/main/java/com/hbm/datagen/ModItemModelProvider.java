@@ -49,7 +49,5 @@ public class ModItemModelProvider extends ItemModelProvider {
                             .texture("layer0", modLoc("item/polaroids/polaroid_" + i)))
                     .end();
         }
-        withExistingParent("layering_block", modLoc("block/layering_1"))
-                .renderType("cutout_mipped");
     }
 }

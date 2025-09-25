@@ -30,7 +30,7 @@ public abstract class LockableBaseBlockEntity extends LoadedBaseBlockEntity {
     }
 
     public void lock() {
-        if(lock == 0) {
+        if (lock == 0) {
             HBMsNTM.LOGGER.error("A block has been set to locked state before setting pins, this should not happen and may cause errors! {}", this);
         }
         isLocked = true;

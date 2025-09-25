@@ -1,10 +1,12 @@
 package com.hbm.explosion;
 
 import com.hbm.CommonEvents;
+import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModSounds;
 import com.hbm.packets.toclient.AuxParticlePacket;
+import com.hbm.world.WorldUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -52,9 +54,9 @@ public class ExplosionNukeSmall {
         }
 
         if (!params.miniNuke) {
-//            WorldUtil.loadAndSpawnEntityInWorld(
-//                    EntityNukeExplosionMK5.statFac(level, (int) params.blastRadius, posX, posY, posZ)
-//            );
+            WorldUtil.loadAndSpawnEntityInWorld(
+                    EntityNukeExplosionMK5.statFac(level, (int) params.blastRadius, posX, posY, posZ)
+            );
         }
 
         if (params.miniNuke) {

@@ -1,0 +1,14 @@
+{
+  "type": "neoforge:add_biome_tags",
+  "biomes": [
+    "hbm:crater",
+    "hbm:crater_inner",
+    "hbm:crater_outer"
+  ],
+  "tags": [
+    "forge:is_dry",
+    "forge:is_dead",
+    "forge:is_wasteland",
+    "hbm:is_crater"
+  ]
+}

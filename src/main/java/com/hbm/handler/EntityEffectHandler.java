@@ -106,6 +106,7 @@ public class EntityEffectHandler {
             if (level.random.nextInt(500) == 0) entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 5 * 20, 0));
         }
     }
+
     /** Handles contamination from the chunk, the dimension as well as particle effects related to radiation sickness */
     private static void handleRadiationFX(LivingEntity entity) {
         Level level = entity.level();

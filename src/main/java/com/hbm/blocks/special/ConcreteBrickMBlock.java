@@ -15,11 +15,7 @@ public class ConcreteBrickMBlock extends Block {
         super(properties);
     }
     @Override
-    public InteractionResult useWithoutItem(BlockState state,
-                                            Level level,
-                                            BlockPos pos,
-                                            Player player,
-                                            BlockHitResult hit) {
+    public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         if (!level.isClientSide) {
             player.sendSystemMessage(Component.literal("You should not have come here.").withStyle(ChatFormatting.RED));
             player.sendSystemMessage(Component.literal("This is not a place of honor. No great deed is commemorated here.").withStyle(ChatFormatting.RED));

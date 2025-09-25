@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.util.ContaminationUtil;
 
+import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,20 +24,12 @@ public class HazardTypeDigamma extends HazardTypeBase {
     public void updateEntity(ItemEntity item, float level) { }
 
     @Override
-    public void addHazardInformation(Player player, List list, float level, ItemStack stack, List<HazardModifier> modifiers) {
+    public void addHazardInformation(Player player, List<Component> components, float level, ItemStack stack, List<HazardModifier> modifiers) {
         level = HazardModifier.evalAllModifiers(stack, player, level, modifiers);
 
-        if (level < 1e-5) {
-            return;
-        }
-
-        @SuppressWarnings("unchecked") // no
-        List<Component> components = (List<Component>) list;
-
-        components.add(Component.literal("[" + Component.translatable("trait.digamma").getString() + "]")
-                .withStyle(ChatFormatting.RED));
-        String dig = "" + (float)(Math.floor(level * 10000F)) / 10F;
-        components.add(Component.literal(dig + "mDRX/s").withStyle(ChatFormatting.RED));
+        float digamma = (float) (Math.floor(level * 10000F)) / 10F;
+        components.add(Component.literal("[" + I18nUtil.resolveKey("trait.digamma") + "]").withStyle(ChatFormatting.RED));
+        components.add(Component.literal(digamma + "mDRX/s"));
 
         if (stack.getCount() > 1) {
             components.add(Component.literal("Stack: " + ((Math.floor(level * 10000F * stack.getCount()) / 10F) + "mDRX/s")).withStyle(ChatFormatting.DARK_RED));

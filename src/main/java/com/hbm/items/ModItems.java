@@ -5,7 +5,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.items.block.ItemBlockStorageCrate;
 import com.hbm.items.special.DangerousDropItem;
 import com.hbm.items.special.EntitySpawnerItem;
-import com.hbm.items.special.ItemPolaroid;
+import com.hbm.items.special.PolaroidItem;
 import com.hbm.items.tools.*;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
@@ -68,9 +68,8 @@ public class ModItems {
                     .durability(256)));
 
     public static final DeferredItem<Item> POLAROID = ITEMS.register("polaroid",
-            () -> new ItemPolaroid(new Item.Properties()
-                    .stacksTo(1)
-                    .durability(256)));
+            () -> new PolaroidItem(new Item.Properties()
+                    .stacksTo(1)));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

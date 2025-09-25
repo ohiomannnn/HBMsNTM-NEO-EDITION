@@ -103,6 +103,7 @@ public class ModBlocks {
                     .isSuffocating((state, level, pos) -> false)
                     .isViewBlocking((state, level, pos) -> false)
                     .sound(SoundType.GRASS)));
+
     public static final DeferredBlock<Block> LEAVES_LAYER = registerBlock("leaves_layer",
             () -> new BlockLayering(BlockBehaviour.Properties.of()
                     .noLootTable()
@@ -112,6 +113,15 @@ public class ModBlocks {
                     .isSuffocating((state, level, pos) -> false)
                     .isViewBlocking((state, level, pos) -> false)
                     .sound(SoundType.GRASS)));
+    public static final DeferredBlock<Block> FALLOUT = registerBlock("fallout",
+            () -> new BlockLayering(BlockBehaviour.Properties.of()
+                    .noLootTable()
+                    .strength(0.1F)
+                    .randomTicks()
+                    .noOcclusion()
+                    .isSuffocating((state, level, pos) -> false)
+                    .isViewBlocking((state, level, pos) -> false)
+                    .sound(SoundType.SAND)));
     public static final DeferredBlock<Block> WASTE_PLANKS = registerBlock("waste_planks",
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(0.5F)

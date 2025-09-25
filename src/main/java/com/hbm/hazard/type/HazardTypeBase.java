@@ -1,6 +1,7 @@
 package com.hbm.hazard.type;
 
 import com.hbm.hazard.modifier.HazardModifier;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -16,5 +17,5 @@ public abstract class HazardTypeBase {
     public abstract void updateEntity(ItemEntity item, float level);
 
     @OnlyIn(Dist.CLIENT)
-    public abstract void addHazardInformation(Player player, List list, float level, ItemStack stack, List<HazardModifier> modifiers);
+    public abstract void addHazardInformation(Player player, List<Component> components, float level, ItemStack stack, List<HazardModifier> modifiers);
 }

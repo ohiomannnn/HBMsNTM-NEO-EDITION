@@ -43,13 +43,36 @@ public class ServerConfig {
     }
 
     static {
+        BUILDER.push("world");
+    }
+
+    public static final ModConfigSpec.BooleanValue ENABLE_CRATER_BIOMES = BUILDER
+            .comment("Enables the biome change caused by nuclear explosions")
+            .translation("config.hbmsntm.craterBiome")
+            .define("craterBiome", true);
+
+    static {
+        BUILDER.pop();
+    }
+
+    static {
         BUILDER.push("bombs");
     }
 
-    public static final ModConfigSpec.IntValue MK5_BLAST_TIME = BUILDER
+    public static final ModConfigSpec.IntValue MK5 = BUILDER
             .comment("Minimum amount of milliseconds per tick allocated for mk5 chunk processing")
             .translation("config.hbmsntm.mk5BlastTime")
             .defineInRange("mk5BlastTime", 50, 0, 1000);
+
+    public static final ModConfigSpec.IntValue FALLOUT_RANGE = BUILDER
+            .comment("Radius of fallout area (base radius * value in percent)")
+            .translation("config.hbmsntm.falloutRange")
+            .defineInRange("falloutRange", 100, 0, 1000);
+
+    public static final ModConfigSpec.IntValue F_DELAY = BUILDER
+            .comment("How many ticks to wait for the next fallout chunk computation")
+            .translation("config.hbmsntm.fDelay")
+            .defineInRange("fDelay", 4, 0, 1000);
 
     static {
         BUILDER.pop();

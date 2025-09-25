@@ -1,5 +1,6 @@
 package com.hbm.hazard;
 
+import com.hbm.HBMsNTM;
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.hazard.transformer.HazardTransformerBase;
 import com.hbm.hazard.type.HazardTypeBase;
@@ -31,21 +32,19 @@ public class HazardSystem {
     public static final List<HazardTransformerBase> trafos = new ArrayList<>();
 
     public static void register(Object obj, HazardData data) {
-        if (obj instanceof TagKey<?> tagKey && tagKey.isFor(Registries.ITEM)) {
-            tagMap.put((TagKey<Item>) tagKey, data);
-        } else if (obj instanceof Item item) {
+        if (obj instanceof Item item) {
             itemMap.put(item, data);
+            HBMsNTM.LOGGER.info("obj is item");
         } else if (obj instanceof Block block) {
             itemMap.put(block.asItem(), data);
+            HBMsNTM.LOGGER.info("obj is block");
         } else if (obj instanceof ItemStack stack) {
             stackMap.put(new ComparableStack(stack), data);
+            HBMsNTM.LOGGER.info("obj is stack");
         } else if (obj instanceof ComparableStack comp) {
             stackMap.put(comp, data);
+            HBMsNTM.LOGGER.info("obj is comp");
         }
-    }
-
-    public static void register(ResourceLocation tagLocation, HazardData data) {
-        register(TagKey.create(Registries.ITEM, tagLocation), data);
     }
 
     public static void blacklist(Object obj) {

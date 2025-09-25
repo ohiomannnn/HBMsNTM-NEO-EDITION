@@ -137,9 +137,9 @@ public class ModBlockStateProvider extends BlockStateProvider {
                         .texture("cross", modLoc("block/fire_digamma"))
         );
         simpleBlockWithItem(ModBlocks.ASH_DIGAMMA.get(), cubeAll(ModBlocks.ASH_DIGAMMA.get()));
-        simpleBlockWithItem(ModBlocks.LEAVES_LAYER.get(),
-                models().cubeColumn("leaves_layer", modLoc("block/waste_leaves"), modLoc("block/waste_leaves"))
-                    .renderType("cutout_mipped"));
+
+        generateLayeringBlock(ModBlocks.LEAVES_LAYER.get());
+        itemModels().withExistingParent("waste_leaves_layering", modLoc("block/layering_8"));
     }
     private void generateLayeringBlock(Block block) {
         ResourceLocation texture = modLoc("block/waste_leaves");
@@ -149,8 +149,10 @@ public class ModBlockStateProvider extends BlockStateProvider {
         for (int i = 1; i <= 8; i++) {
             float height = i * 2f / 16f;
 
-            ModelFile model = models().withExistingParent("layering_" + i, mcLoc("block/block"))
+            ModelFile model = models()
+                    .withExistingParent("layering_" + i, mcLoc("block/block"))
                     .texture("all", texture)
+                    .texture("particle", texture)
                     .renderType("cutout_mipped")
                     .element()
                     .from(0, 0, 0)
@@ -170,6 +172,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
                     .end();
         }
     }
+
 
     private void blockItem(DeferredBlock<?> deferredBlock) {
         simpleBlockItem(deferredBlock.get(), new ModelFile.UncheckedModelFile("hbmsntm:block/" + deferredBlock.getId().getPath()));

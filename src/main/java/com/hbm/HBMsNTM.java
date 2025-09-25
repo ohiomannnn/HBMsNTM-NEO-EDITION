@@ -12,14 +12,20 @@ import com.hbm.lib.ModCommands;
 import com.hbm.lib.ModEffect;
 import com.hbm.lib.ModSounds;
 import com.hbm.blockentity.ModBlockEntities;
+import com.hbm.world.biome.ModBiomes;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.world.level.biome.Biome;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.config.ModConfigEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.registries.NewRegistryEvent;
+import net.neoforged.neoforge.registries.RegisterEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +45,7 @@ public class HBMsNTM {
         ModEffect.register(modEventBus);
         ModBlockEntities.register(modEventBus);
         ModMenus.register(modEventBus);
+        ModBiomes.register(modEventBus);
 
         NeoForge.EVENT_BUS.register(radiationManager);
         NeoForge.EVENT_BUS.register(this);
@@ -50,12 +57,10 @@ public class HBMsNTM {
 
     @SubscribeEvent
     public void registerCommands(RegisterCommandsEvent event) {
-        ModCommands.registerCommandNTMEntityFields(event.getDispatcher());
+        ModCommands.registerCommandLivingProperties(event.getDispatcher());
     }
     private void onConfigLoad(final ModConfigEvent.Loading event) {
-        if (event.getConfig().getModId().equals("hbmsntm")) {
-            ChunkRadiationManager.initProxy();
-        }
+        ChunkRadiationManager.initProxy();
     }
 }
 

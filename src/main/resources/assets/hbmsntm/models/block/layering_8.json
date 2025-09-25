@@ -34,7 +34,9 @@
       ]
     }
   ],
+  "render_type": "minecraft:cutout_mipped",
   "textures": {
-    "all": "hbmsntm:block/waste_leaves"
+    "all": "hbmsntm:block/waste_leaves",
+    "particle": "hbmsntm:block/waste_leaves"
   }
 }

@@ -26,10 +26,6 @@ public class BobMathUtil {
         return ((num - min1) / (max1 - min1)) * (max2 - min2) + min2;
     }
 
-    public static float remap01(float num, float min1, float max1) {
-        return (num - min1) / (max1 - min1);
-    }
-
     public static float remap01_clamp(float num, float min1, float max1) {
         return Mth.clamp((num - min1) / (max1 - min1), 0.0f, 1.0f);
     }

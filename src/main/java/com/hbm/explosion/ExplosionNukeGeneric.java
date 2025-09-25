@@ -27,8 +27,6 @@ import java.util.List;
 import java.util.Random;
 
 import static com.hbm.lib.ModDamageSource.NUCLEAR_BLAST;
-import static com.hbm.world.WorldUtil.BROWN_MUSHROOM_META10;
-import static com.hbm.world.WorldUtil.RED_MUSHROOM_META10;
 
 public class ExplosionNukeGeneric {
 
@@ -78,6 +76,7 @@ public class ExplosionNukeGeneric {
             }
         }
     }
+
     private static boolean isExplosionExempt(Entity entity) {
         return entity instanceof Ocelot || entity instanceof Player player && !player.isCreative();
     }
@@ -224,21 +223,21 @@ public class ExplosionNukeGeneric {
                 level.setBlock(blockPos, ModBlocks.WASTE_LOG.get().defaultBlockState(), 3);
             }
 
-            else if (b == Blocks.BROWN_MUSHROOM_BLOCK) {
-                if (state.equals(BROWN_MUSHROOM_META10)) {
-                    level.setBlock(blockPos, ModBlocks.WASTE_LOG.get().defaultBlockState(), 3);
-                } else {
-                    level.setBlock(blockPos, Blocks.AIR.defaultBlockState() ,3);
-                }
-            }
-
-            else if (b == Blocks.RED_MUSHROOM_BLOCK) {
-                if (state.equals(RED_MUSHROOM_META10)) {
-                    level.setBlock(blockPos, ModBlocks.WASTE_LOG.get().defaultBlockState(), 3);
-                } else {
-                    level.setBlock(blockPos, Blocks.AIR.defaultBlockState() ,3);
-                }
-            }
+//            else if (b == Blocks.BROWN_MUSHROOM_BLOCK) {
+//                if (state.equals(BROWN_MUSHROOM_META10)) {
+//                    level.setBlock(blockPos, ModBlocks.WASTE_LOG.get().defaultBlockState(), 3);
+//                } else {
+//                    level.setBlock(blockPos, Blocks.AIR.defaultBlockState() ,3);
+//                }
+//            }
+//
+//            else if (b == Blocks.RED_MUSHROOM_BLOCK) {
+//                if (state.equals(RED_MUSHROOM_META10)) {
+//                    level.setBlock(blockPos, ModBlocks.WASTE_LOG.get().defaultBlockState(), 3);
+//                } else {
+//                    level.setBlock(blockPos, Blocks.AIR.defaultBlockState() ,3);
+//                }
+//            }
 
             if (state.is(BlockTags.PLANKS)
                     && state.isSolidRender(level, blockPos)

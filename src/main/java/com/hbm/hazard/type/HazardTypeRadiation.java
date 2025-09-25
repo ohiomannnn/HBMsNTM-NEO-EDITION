@@ -5,6 +5,7 @@ import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.items.ModItems;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.ContaminationUtil;
+import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
@@ -43,18 +44,10 @@ public class HazardTypeRadiation extends HazardTypeBase {
     public void updateEntity(ItemEntity item, float level) {}
 
     @Override
-    public void addHazardInformation(Player player, List list, float level, ItemStack stack, List<HazardModifier> modifiers) {
+    public void addHazardInformation(Player player, List<Component> components, float level, ItemStack stack, List<HazardModifier> modifiers) {
         level = HazardModifier.evalAllModifiers(stack, player, level, modifiers);
 
-        if (level < 1e-5) {
-            return;
-        }
-
-        @SuppressWarnings("unchecked") // no
-        List<Component> components = (List<Component>) list;
-
-        components.add(Component.literal("[" + Component.translatable("trait.radioactive").getString() + "]")
-                .withStyle(ChatFormatting.GREEN));
+        components.add(Component.literal("[" + I18nUtil.resolveKey("trait.radioactive") + "]").withStyle(ChatFormatting.GREEN));
 
         String rad = "" + (Math.floor(level * 1000) / 1000);
         components.add(Component.literal(rad + " RAD/s").withStyle(ChatFormatting.YELLOW));

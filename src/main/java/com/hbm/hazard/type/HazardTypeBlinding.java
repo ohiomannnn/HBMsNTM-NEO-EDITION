@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.config.ServerConfig;
 import com.hbm.hazard.modifier.HazardModifier;
 
+import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -32,11 +33,7 @@ public class HazardTypeBlinding extends HazardTypeBase {
     public void updateEntity(ItemEntity item, float level) { }
 
     @Override
-    public void addHazardInformation(Player player, List list, float level, ItemStack stack, List<HazardModifier> modifiers) {
-        @SuppressWarnings("unchecked") // no
-        List<Component> components = (List<Component>) list;
-
-        components.add(Component.literal("[" + Component.translatable("trait.blinding").getString() + "]")
-                .withStyle(ChatFormatting.DARK_AQUA));
+    public void addHazardInformation(Player player, List<Component> components, float level, ItemStack stack, List<HazardModifier> modifiers) {
+        components.add(Component.literal("[" + I18nUtil.resolveKey("trait.blinding") + "]").withStyle(ChatFormatting.DARK_AQUA));
     }
 }

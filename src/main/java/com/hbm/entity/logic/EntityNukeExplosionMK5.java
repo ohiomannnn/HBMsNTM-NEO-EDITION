@@ -3,6 +3,7 @@ package com.hbm.entity.logic;
 import com.hbm.HBMsNTM;
 import com.hbm.config.ServerConfig;
 import com.hbm.entity.ModEntities;
+import com.hbm.entity.effect.EntityFalloutRain;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeRayBalefire;
 import com.hbm.explosion.ExplosionNukeRayBatched;
@@ -68,22 +69,18 @@ public class EntityNukeExplosionMK5 extends EntityExplosionChunkloading {
         }
 
         if (!explosion.isComplete()) {
-            explosion.cacheChunksTick(ServerConfig.MK5_BLAST_TIME.getAsInt());
-            explosion.destructionTick(ServerConfig.MK5_BLAST_TIME.getAsInt());
+            explosion.cacheChunksTick(ServerConfig.MK5.getAsInt());
+            explosion.destructionTick(ServerConfig.MK5.getAsInt());
         } else {
             if (ServerConfig.ENABLE_EXTENDED_LOGGING.getAsBoolean() && explosionStart != 0) {
                 HBMsNTM.LOGGER.info("[NUKE] Explosion complete. Time elapsed: {}ms", (System.currentTimeMillis() - explosionStart));
             }
             if (fallout) {
-                HBMsNTM.LOGGER.info("We need to do fallout with falloutAdd = {}", falloutAdd);
+                EntityFalloutRain fallout = new EntityFalloutRain(ModEntities.FALLOUT_RAIN.get(), level());
+                fallout.setPos(getX(), getY(), getZ());
+                fallout.setScale((int) (this.length * 2.5 + falloutAdd) * ServerConfig.FALLOUT_RANGE.getAsInt() / 100);
+                level().addFreshEntity(fallout);
             }
-            // its going to be a long day
-//            if (fallout && level() instanceof ServerLevel serverLevel) {
-//                EntityFalloutRain fallout = new EntityFalloutRain(MainRegistry.FALLOUT_ENTITY_TYPE.get(), serverLevel);
-//                fallout.setPos(getX(), getY(), getZ());
-//                fallout.setScale((int) (this.length * 2.5 + falloutAdd) * BombConfig.falloutRange / 100);
-//                serverLevel.addFreshEntity(fallout);
-//            }
             this.clearChunkLoader();
             this.discard();
         }

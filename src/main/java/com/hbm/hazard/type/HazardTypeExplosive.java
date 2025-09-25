@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.config.ServerConfig;
 import com.hbm.hazard.modifier.HazardModifier;
 
+import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -43,11 +44,7 @@ public class HazardTypeExplosive extends HazardTypeBase {
     }
 
     @Override
-    public void addHazardInformation(Player player, List list, float level, ItemStack stack, List<HazardModifier> modifiers) {
-        @SuppressWarnings("unchecked") // no
-        List<Component> components = (List<Component>) list;
-
-        components.add(Component.literal("[" + Component.translatable("trait.explosive").getString() + "]")
-                .withStyle(ChatFormatting.RED));
+    public void addHazardInformation(Player player, List<Component> components, float level, ItemStack stack, List<HazardModifier> modifiers) {
+        components.add(Component.literal("[" + I18nUtil.resolveKey("trait.explosive") + "]").withStyle(ChatFormatting.RED));
     }
 }

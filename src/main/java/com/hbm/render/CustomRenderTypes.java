@@ -45,11 +45,9 @@ public class CustomRenderTypes extends RenderType {
                         );
                     },
                     () -> {
-                        RenderSystem.enableBlend();
-                        RenderSystem.disableCull();
-                        RenderSystem.blendFunc(
-                                GlStateManager.SourceFactor.SRC_ALPHA,
-                                GlStateManager.DestFactor.ONE
-                        );
+                        RenderSystem.disableBlend();
+                        RenderSystem.enableCull();
+                        RenderSystem.enableDepthTest();
+                        RenderSystem.defaultBlendFunc();
                     });
 }

@@ -1,7 +1,68 @@
 {
-  "variants": {
-    "": {
-      "model": "hbmsntm:block/leaves_layer"
+  "multipart": [
+    {
+      "apply": {
+        "model": "hbmsntm:block/layering_1"
+      },
+      "when": {
+        "layers": "1"
+      }
+    },
+    {
+      "apply": {
+        "model": "hbmsntm:block/layering_2"
+      },
+      "when": {
+        "layers": "2"
+      }
+    },
+    {
+      "apply": {
+        "model": "hbmsntm:block/layering_3"
+      },
+      "when": {
+        "layers": "3"
+      }
+    },
+    {
+      "apply": {
+        "model": "hbmsntm:block/layering_4"
+      },
+      "when": {
+        "layers": "4"
+      }
+    },
+    {
+      "apply": {
+        "model": "hbmsntm:block/layering_5"
+      },
+      "when": {
+        "layers": "5"
+      }
+    },
+    {
+      "apply": {
+        "model": "hbmsntm:block/layering_6"
+      },
+      "when": {
+        "layers": "6"
+      }
+    },
+    {
+      "apply": {
+        "model": "hbmsntm:block/layering_7"
+      },
+      "when": {
+        "layers": "7"
+      }
+    },
+    {
+      "apply": {
+        "model": "hbmsntm:block/layering_8"
+      },
+      "when": {
+        "layers": "8"
+      }
     }
-  }
+  ]
 }

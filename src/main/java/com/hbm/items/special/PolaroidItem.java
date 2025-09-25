@@ -1,7 +1,6 @@
 package com.hbm.items.special;
 
 import com.hbm.CommonEvents;
-import com.hbm.items.ModItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -15,8 +14,8 @@ import net.minecraft.world.level.Level;
 import java.util.List;
 
 
-public class ItemPolaroid extends Item {
-    public ItemPolaroid(Properties properties) {
+public class PolaroidItem extends Item {
+    public PolaroidItem(Properties properties) {
         super(properties);
         CommonEvents.RerollPal();
     }

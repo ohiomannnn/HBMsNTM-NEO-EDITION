@@ -6,6 +6,7 @@ import com.hbm.config.ServerConfig;
 import com.hbm.hazard.modifier.HazardModifier;
 
 import com.hbm.items.ModItems;
+import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
@@ -36,16 +37,11 @@ public class HazardTypeHot extends HazardTypeBase {
     public void updateEntity(ItemEntity item, float level) { }
 
     @Override
-    public void addHazardInformation(Player player, List list, float level, ItemStack stack, List<HazardModifier> modifiers) {
+    public void addHazardInformation(Player player, List<Component> components, float level, ItemStack stack, List<HazardModifier> modifiers) {
         level = HazardModifier.evalAllModifiers(stack, player, level, modifiers);
-        if (level < 1e-5) {
-            return;
+
+        if (level > 0) {
+            components.add(Component.literal("[" + I18nUtil.resolveKey("trait.hot") + "]").withStyle(ChatFormatting.GOLD));
         }
-
-        @SuppressWarnings("unchecked") // no
-        List<Component> components = (List<Component>) list;
-
-        components.add(Component.literal("[" + Component.translatable("trait.hot").getString() + "]")
-                .withStyle(ChatFormatting.GOLD));
     }
 }

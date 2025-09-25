@@ -5,6 +5,10 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
 
+/**
+ * Util for working with tags because mojang removed the "easy method"
+ * @Author ohiomannnn
+ */
 public class TagsUtil {
     public static boolean isValid(ItemStack stack) {
         return stack != null && !stack.isEmpty();
@@ -69,4 +73,7 @@ public class TagsUtil {
         return tag.contains(key) ? tag.getIntArray(key) : new int[0];
     }
 
+    public static boolean contains(ItemStack stack, String key) {
+        return getTag(stack).contains(key);
+    }
 }

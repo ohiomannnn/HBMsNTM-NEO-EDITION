@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hbm.config.ServerConfig;
 import com.hbm.hazard.modifier.HazardModifier;
+import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
@@ -34,17 +35,12 @@ public class HazardTypeHydroactive extends HazardTypeBase {
 
         if(item.isInWaterOrRain()) {
             item.discard();
-            item.level().explode(null, item.getX(), item.getY(), item.getZ(), level,false, Level.ExplosionInteraction.NONE);
+            item.level().explode(null, item.getX(), item.getY(), item.getZ(), level, false, Level.ExplosionInteraction.TNT);
         }
     }
 
     @Override
-    public void addHazardInformation(Player player, List list, float level, ItemStack stack, List<HazardModifier> modifiers) {
-
-        @SuppressWarnings("unchecked") // no
-        List<Component> components = (List<Component>) list;
-
-        components.add(Component.literal("[" + Component.translatable("trait.hydro").getString() + "]")
-                .withStyle(ChatFormatting.RED));
+    public void addHazardInformation(Player player, List<Component> components, float level, ItemStack stack, List<HazardModifier> modifiers) {
+        components.add(Component.literal("[" + I18nUtil.resolveKey("trait.hydro") + "]").withStyle(ChatFormatting.RED));
     }
 }

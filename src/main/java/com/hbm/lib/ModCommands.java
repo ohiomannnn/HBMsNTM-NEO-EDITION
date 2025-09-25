@@ -14,7 +14,7 @@ import net.minecraft.world.entity.LivingEntity;
 
 public class ModCommands {
 
-    private static final SuggestionProvider<CommandSourceStack> NTMEntityFields_SUGGESTION =
+    private static final SuggestionProvider<CommandSourceStack> LivingProperties_SUGGESTION =
             (context, builder) -> {
                 builder.suggest("radiation");
                 builder.suggest("digamma");
@@ -28,7 +28,7 @@ public class ModCommands {
                 return builder.buildFuture();
             };
 
-    public static void registerCommandNTMEntityFields(CommandDispatcher<CommandSourceStack> dispatcher) {
+    public static void registerCommandLivingProperties(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(
                 Commands.literal("NTMLivingProperties")
                         .requires(src -> src.hasPermission(4))
@@ -36,7 +36,7 @@ public class ModCommands {
                         .then(Commands.literal("get")
                                 .then(Commands.argument("target", EntityArgument.entity())
                                         .then(Commands.argument("field", StringArgumentType.word())
-                                                .suggests(NTMEntityFields_SUGGESTION)
+                                                .suggests(LivingProperties_SUGGESTION)
                                                 .executes(context -> {
                                                     LivingEntity target;
                                                     Entity targetEntity = EntityArgument.getEntity(context, "target");
@@ -80,7 +80,7 @@ public class ModCommands {
                         .then(Commands.literal("set")
                                 .then(Commands.argument("target", EntityArgument.entity())
                                         .then(Commands.argument("field", StringArgumentType.word())
-                                                .suggests(NTMEntityFields_SUGGESTION)
+                                                .suggests(LivingProperties_SUGGESTION)
                                                 .then(Commands.argument("set", FloatArgumentType.floatArg())
                                                         .executes(context -> {
                                                             LivingEntity target;

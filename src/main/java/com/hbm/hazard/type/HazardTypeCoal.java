@@ -5,6 +5,7 @@ import java.util.List;
 import com.hbm.config.ServerConfig;
 import com.hbm.extprop.LivingProperties;
 import com.hbm.hazard.modifier.HazardModifier;
+import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
@@ -34,11 +35,7 @@ public class HazardTypeCoal extends HazardTypeBase {
     public void updateEntity(ItemEntity item, float level) { }
 
     @Override
-    public void addHazardInformation(Player player, List list, float level, ItemStack stack, List<HazardModifier> modifiers) {
-        @SuppressWarnings("unchecked") // no
-        List<Component> components = (List<Component>) list;
-
-        components.add(Component.literal("[" + Component.translatable("trait.coal").getString() + "]")
-                .withStyle(ChatFormatting.DARK_GRAY));
+    public void addHazardInformation(Player player, List<Component> components, float level, ItemStack stack, List<HazardModifier> modifiers) {
+        components.add(Component.literal("[" + I18nUtil.resolveKey("trait.coal") + "]").withStyle(ChatFormatting.DARK_GRAY));
     }
 }

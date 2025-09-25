@@ -1,6 +1,7 @@
 package com.hbm.entity;
 
 import com.hbm.HBMsNTM;
+import com.hbm.entity.effect.EntityFalloutRain;
 import com.hbm.entity.item.EntityTNTPrimedBase;
 import com.hbm.entity.logic.EntityNukeExplosionMK5;
 import com.hbm.entity.effect.EntityNukeTorex;
@@ -23,16 +24,20 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<EntityNukeExplosionMK5>> NUKE_MK5 =
             ENTITY_TYPES.register("nuke_explosion_mk5",
                     () -> EntityType.Builder.of(EntityNukeExplosionMK5::new, MobCategory.MISC)
-                            .setTrackingRange(1000)
                             .sized(1.0F, 1.0F)
                             .build("nuke_explosion_mk5"));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityNukeTorex>> BIG_NUKE_TOREX =
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityNukeTorex>> NUKE_TOREX =
             ENTITY_TYPES.register("nuke_torex",
                     () -> EntityType.Builder.of(EntityNukeTorex::new, MobCategory.MISC)
                             .setTrackingRange(1000)
                             .sized(2.0F, 50.0F)
                             .build("nuke_torex"));
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityFalloutRain>> FALLOUT_RAIN =
+            ENTITY_TYPES.register("fallout_rain",
+                    () -> EntityType.Builder.of(EntityFalloutRain::new, MobCategory.MISC)
+                            .sized(2.0F, 20.0F)
+                            .build("fallout_rain"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<EntityDuck>> DUCK =
             ENTITY_TYPES.register("duck",

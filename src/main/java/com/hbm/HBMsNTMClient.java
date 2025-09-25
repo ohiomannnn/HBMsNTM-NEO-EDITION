@@ -1,14 +1,14 @@
 package com.hbm;
 
 import com.hbm.entity.ModEntities;
-import com.hbm.render.effect.RenderTorex;
+import com.hbm.render.entity.effect.RenderTorex;
 import com.hbm.handler.gui.GeigerGUI;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.items.ModItems;
 import com.hbm.packets.PacketsDispatcher;
 import com.hbm.particle.*;
 import com.hbm.render.EmptyRenderer;
-import com.hbm.render.mob.EntityDuckRenderer;
+import com.hbm.render.entity.mob.EntityDuckRenderer;
 import com.hbm.util.i18n.I18nClient;
 import com.hbm.util.i18n.ITranslate;
 import net.minecraft.client.Minecraft;
@@ -103,7 +103,8 @@ public class HBMsNTMClient {
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.DUCK.get(), EntityDuckRenderer::new);
         event.registerEntityRenderer(ModEntities.NUKE_MK5.get(), EmptyRenderer::new);
-        event.registerEntityRenderer(ModEntities.BIG_NUKE_TOREX.get(), RenderTorex::new);
+        event.registerEntityRenderer(ModEntities.NUKE_TOREX.get(), RenderTorex::new);
+        event.registerEntityRenderer(ModEntities.FALLOUT_RAIN.get(), EmptyRenderer::new);
         ItemProperties.register(ModItems.POLAROID.get(),
                 ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "polaroid_id"),
                 (stack, level, entity, seed) -> CommonEvents.polaroidID);
@@ -150,7 +151,7 @@ public class HBMsNTMClient {
 
         if (level == null) return;
 
-        Player  player = mc.player;
+        Player player = mc.player;
         int particleSetting = mc.options.particles().get().getId();
 
         String type = data.getString("type");
@@ -158,7 +159,7 @@ public class HBMsNTMClient {
         double y = data.getDouble("posY");
         double z = data.getDouble("posZ");
 
-        final Random rand = new Random();
+        Random rand = new Random();
 
         if("radFog".equals(type)) {
             ParticleRadiationFog fx = new ParticleRadiationFog(level, x, y, z, 0.62F, 0.67F, 0.38F, 5F, ModParticles.RAD_FOG_SPRITES);
@@ -257,7 +258,7 @@ public class HBMsNTMClient {
                                 (vec.x + rand.nextGaussian() * 0.2) * 0.2,
                                 (vec.y + rand.nextGaussian() * 0.2) * 0.2,
                                 (vec.z + rand.nextGaussian() * 0.2) * 0.2,
-                                0.3F, 0.33F, 0.17F,
+                                0.3F, 0.33F + rand.nextFloat(0.2F), 0.17F,
                                 ModParticles.VOMIT_SPRITES
                         );
                         mc.particleEngine.add(fx);
@@ -268,7 +269,7 @@ public class HBMsNTMClient {
                                 (vec.x + rand.nextGaussian() * 0.2) * 0.2,
                                 (vec.y + rand.nextGaussian() * 0.2) * 0.2,
                                 (vec.z + rand.nextGaussian() * 0.2) * 0.2,
-                                0.72F, 0.12F, 0F,
+                                0.72F + rand.nextFloat(0.3F), 0.12F, 0F,
                                 ModParticles.VOMIT_SPRITES
                         );
                         mc.particleEngine.add(fx);

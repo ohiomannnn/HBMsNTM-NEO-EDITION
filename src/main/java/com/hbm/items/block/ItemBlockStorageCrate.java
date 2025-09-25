@@ -66,7 +66,7 @@ public class ItemBlockStorageCrate extends ItemBlockBase {
         if (!level.isClientSide && player instanceof ServerPlayer sp) {
             BlockEntity be = level.getBlockEntity(pos);
             if (be instanceof CrateBaseBlockEntity crate && crate.canAccess(player)) {
-                //sp.openMenu(crate, pos);
+                sp.openMenu(crate, pos);
             }
         }
     }
