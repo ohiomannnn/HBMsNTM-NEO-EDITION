@@ -1,0 +1,7 @@
+{
+  "message_id": "monoxide",
+  "scaling": "never",
+  "exhaustion": 1,
+  "effects": "hurt",
+  "death_message_type": "default"
+}

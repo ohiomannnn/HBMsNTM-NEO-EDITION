@@ -25,7 +25,6 @@ public class ModBiomes {
     public static final ResourceKey<Biome> CRATER_OUTER =
             ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "crater_outer"));
 
-
     public static void register(IEventBus eventBus) {
         BIOMES.register(eventBus);
     }
@@ -41,19 +40,19 @@ public class ModBiomes {
 
     private static Biome makeCraterBiome(HolderGetter<PlacedFeature> placed, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
         return baseBuilder(placed, carvers)
-                .specialEffects(effects(0x505020, 0x606060, 0x6A7039, 0x525A52))
-                .build();
-    }
-
-    private static Biome makeCraterInnerBiome(HolderGetter<PlacedFeature> placed, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
-        return baseBuilder(placed, carvers)
-                .specialEffects(effects(0x505020, 0x303030, 0x6A7039, 0x424A42))
+                .specialEffects(effects(0x10161C, 0x606060, 0x6A7039, 0x525A52))
                 .build();
     }
 
     private static Biome makeCraterOuterBiome(HolderGetter<PlacedFeature> placed, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
         return baseBuilder(placed, carvers)
-                .specialEffects(effects(0x505020, 0x6F6752, 0x6A7039, 0x6B9189))
+                .specialEffects(effects(0x10161C, 0x6F6752, 0x6A7039, 0x6B9189))
+                .build();
+    }
+
+    private static Biome makeCraterInnerBiome(HolderGetter<PlacedFeature> placed, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
+        return baseBuilder(placed, carvers)
+                .specialEffects(effects(0x10161C, 0x303030, 0x6A7039, 0x424A42))
                 .build();
     }
 
@@ -72,7 +71,7 @@ public class ModBiomes {
     private static BiomeSpecialEffects effects(int waterColor, int grassColor, int foliageColor, int skyColor) {
         return new BiomeSpecialEffects.Builder()
                 .waterColor(waterColor)
-                .waterFogColor(0xE0FFAE)
+                .waterFogColor(0x03031C)
                 .grassColorOverride(grassColor)
                 .foliageColorOverride(foliageColor)
                 .skyColor(skyColor)

@@ -25,16 +25,6 @@ public abstract class GasBaseBlock extends Block {
     }
 
     @Override
-    public boolean canBeReplaced(BlockState pState, BlockPlaceContext pUseContext) {
-        return true;
-    }
-
-    @Override
-    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
-        return false;
-    }
-
-    @Override
     public VoxelShape getCollisionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         return Shapes.empty();
     }
@@ -49,16 +39,26 @@ public abstract class GasBaseBlock extends Block {
     }
 
     @Override
+    public boolean canBeReplaced(BlockState pState, BlockPlaceContext pUseContext) {
+        return true;
+    }
+
+    @Override
+    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
+        return false;
+    }
+
+    @Override
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
         if (!level.isClientSide()) {
-            level.scheduleTick(pos, this, getDelay(level));
+            level.scheduleTick(pos, this, 10);
         }
     }
 
     @Override
     public void neighborChanged(BlockState state, Level level, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean isMoving) {
         if (!level.isClientSide()) {
-            level.scheduleTick(pos, this, getDelay(level));
+            level.scheduleTick(pos, this, 10);
         }
     }
 

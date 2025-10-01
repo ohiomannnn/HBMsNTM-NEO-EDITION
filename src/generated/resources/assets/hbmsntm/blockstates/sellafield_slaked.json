@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "variant=0": {
+      "model": "hbmsntm:block/sellafield_slaked"
+    },
+    "variant=1": {
+      "model": "hbmsntm:block/sellafield_slaked_1"
+    },
+    "variant=2": {
+      "model": "hbmsntm:block/sellafield_slaked_2"
+    },
+    "variant=3": {
+      "model": "hbmsntm:block/sellafield_slaked_3"
+    }
+  }
+}

@@ -1,8 +1,9 @@
 package com.hbm.items;
 
+import com.hbm.lib.ModSounds;
 import com.hbm.util.TagsUtil;
 import com.hbm.util.ItemStackUtil;
-import net.minecraft.core.HolderLookup;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.network.chat.Component;
@@ -21,6 +22,7 @@ import java.util.Random;
 public abstract class ItemInventory extends SimpleContainer {
 
     protected Player player;
+    public NonNullList<ItemStack> slots;
     protected ItemStack target;
 
     public ItemInventory(Player player, ItemStack target, int size) {
@@ -38,7 +40,7 @@ public abstract class ItemInventory extends SimpleContainer {
             }
         }
 
-        ItemStackUtil.addStacksToNBT(target, (HolderLookup.Provider) this.getItems());
+        ItemStackUtil.addStacksToNBT(player.level().registryAccess(), target);
         TagsUtil.setTag(target, checkNBT(TagsUtil.getTag(target)));
     }
 
@@ -93,11 +95,66 @@ public abstract class ItemInventory extends SimpleContainer {
         return tag;
     }
 
-    public void openInventory() {
-        player.level().playSound(null, player.blockPosition(), SoundEvents.CHEST_OPEN, SoundSource.PLAYERS, 1.0F, 0.8F);
+    @Override
+    public ItemStack removeItem(int slot, int amount) {
+        ItemStack stack = getItem(slot);
+        if (!stack.isEmpty()) {
+            ItemStack result = stack.split(amount);
+            if (!result.isEmpty()) {
+                setChanged();
+                return result;
+            } else {
+                slots.set(slot, ItemStack.EMPTY);
+            }
+        }
+        return stack;
     }
 
-    public void closeInventory() {
-        player.level().playSound(null, player.blockPosition(), SoundEvents.CHEST_CLOSE, SoundSource.PLAYERS, 1.0F, 0.8F);
+    @Override
+    public void setItem(int slot, ItemStack stack) {
+        if (!stack.isEmpty()) {
+            if (stack.getCount() > getMaxStackSize()) {
+                stack.setCount(getMaxStackSize());
+            }
+        }
+        slots.set(slot, stack);
+        setChanged();
+    }
+
+    @Override
+    public ItemStack removeItemNoUpdate(int slot) {
+        ItemStack stack = getItem(slot);
+        slots.set(slot, ItemStack.EMPTY);
+        return stack;
+    }
+
+    @Override
+    public ItemStack getItem(int slot) {
+        return slots.get(slot);
+    }
+
+    @Override
+    public boolean stillValid(Player player) {
+        return true;
+    }
+
+    @Override
+    public boolean canPlaceItem(int slot, ItemStack stack) {
+        return true;
+    }
+
+    @Override
+    public int getMaxStackSize() {
+        return 64;
+    }
+
+    @Override
+    public void startOpen(Player player) {
+        player.level().playSound(null, player.blockPosition(), SoundEvents.CHEST_OPEN, SoundSource.BLOCKS, 1.0F, 0.8F);
+    }
+
+    @Override
+    public void stopOpen(Player player) {
+        player.level().playSound(null, player.blockPosition(), SoundEvents.CHEST_CLOSE, SoundSource.BLOCKS, 1.0F, 0.8F);
     }
 }

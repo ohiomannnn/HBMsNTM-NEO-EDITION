@@ -3,12 +3,14 @@ package com.hbm.datagen;
 import com.hbm.HBMsNTM;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.BlockLayering;
+import com.hbm.blocks.generic.BlockSellafieldSlaked;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
+import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.client.model.generators.MultiPartBlockStateBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -40,10 +42,37 @@ public class ModBlockStateProvider extends BlockStateProvider {
                         modLoc("block/det_nuke_side"),
                         modLoc("block/det_nuke_top")
                 ));
+        simpleBlockWithItem(ModBlocks.DET_CHARGE.get(), cubeAll(ModBlocks.DET_CHARGE.get()));
 
         simpleBlockWithItem(ModBlocks.BRICK_LIGHT.get(), cubeAll(ModBlocks.BRICK_LIGHT.get()));
         simpleBlockWithItem(ModBlocks.BRICK_OBSIDIAN.get(), cubeAll(ModBlocks.BRICK_OBSIDIAN.get()));
         simpleBlockWithItem(ModBlocks.GRAVEL_OBSIDIAN.get(), cubeAll(ModBlocks.GRAVEL_OBSIDIAN.get()));
+
+        var block = ModBlocks.SELLAFIELD_SLAKED.get();
+
+        getVariantBuilder(block).forAllStates(state -> {
+            int variant = state.getValue(BlockSellafieldSlaked.VARIANT);
+            String name = "sellafield_slaked" + (variant == 0 ? "" : "_" + variant);
+
+            return ConfiguredModel.builder()
+                    .modelFile(models().cubeAll(name, ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "block/" + name)))
+                    .build();
+        });
+
+        itemModels().simpleBlockItem(ModBlocks.SELLAFIELD_SLAKED.get());
+
+        var block2 = ModBlocks.SELLAFIELD_BEDROCK.get();
+
+        getVariantBuilder(block2).forAllStates(state -> {
+            int variant = state.getValue(BlockSellafieldSlaked.VARIANT);
+            String name = "sellafield_bedrock" + (variant == 0 ? "" : "_" + variant);
+
+            return ConfiguredModel.builder()
+                    .modelFile(models().cubeAll(name, ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "block/sellafield_slaked")))
+                    .build();
+        });
+
+        itemModels().simpleBlockItem(ModBlocks.SELLAFIELD_BEDROCK.get());
 
         logBlock((RotatedPillarBlock) ModBlocks.WASTE_LOG.get());
 
@@ -139,7 +168,28 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlockWithItem(ModBlocks.ASH_DIGAMMA.get(), cubeAll(ModBlocks.ASH_DIGAMMA.get()));
 
         generateLayeringBlock(ModBlocks.LEAVES_LAYER.get());
-        itemModels().withExistingParent("waste_leaves_layering", modLoc("block/layering_8"));
+
+        ResourceLocation texture = modLoc("block/ash");
+
+        ModelFile falloutModel = models()
+                .getBuilder("fallout")
+                .parent(new ModelFile.UncheckedModelFile("block/block"))
+                .texture("all", texture)
+                .texture("particle", texture)
+                .element()
+                .from(0, 0, 0)
+                .to(16, 2, 16)
+                .face(Direction.UP).texture("#all").end()
+                .face(Direction.DOWN).texture("#all").end()
+                .face(Direction.NORTH).texture("#all").end()
+                .face(Direction.SOUTH).texture("#all").end()
+                .face(Direction.WEST).texture("#all").end()
+                .face(Direction.EAST).texture("#all").end()
+                .end();
+
+        getVariantBuilder(ModBlocks.FALLOUT.get())
+                .partialState().setModels(new ConfiguredModel(falloutModel));
+
     }
     private void generateLayeringBlock(Block block) {
         ResourceLocation texture = modLoc("block/waste_leaves");

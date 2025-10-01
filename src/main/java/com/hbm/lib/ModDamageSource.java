@@ -9,6 +9,8 @@ import net.minecraft.world.damagesource.DamageType;
 public class ModDamageSource {
     public static final ResourceKey<DamageType> DIGAMMA
             = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "digamma"));
+    public static final ResourceKey<DamageType> RADIATION
+            = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "radiation"));
     public static final ResourceKey<DamageType> ASBESTOS
             = ResourceKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "asbestos"));
     public static final ResourceKey<DamageType> BLACKLUNG

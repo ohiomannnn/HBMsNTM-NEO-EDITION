@@ -82,8 +82,14 @@ public class GeigerCounterItem extends Item {
         ItemStack stack = player.getItemInHand(hand);
 
         if (!level.isClientSide) {
-            ContaminationUtil.printGeigerData(player);
-            level.playSound(null, player.blockPosition(), ModSounds.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0f, 1.0f);
+            if (!player.isCrouching()) {
+                ContaminationUtil.printGeigerData(player);
+                level.playSound(null, player.blockPosition(), ModSounds.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0f, 1.0f);
+            } else {
+                // TODO: make another item for this
+                ContaminationUtil.printDiagnosticData(player);
+                level.playSound(null, player.blockPosition(), ModSounds.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0f, 1.0f);
+            }
         }
 
         return InteractionResultHolder.pass(stack);

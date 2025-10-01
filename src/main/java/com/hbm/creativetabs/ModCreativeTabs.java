@@ -40,6 +40,7 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.WASTE_EARTH);
                         output.accept(ModBlocks.WASTE_LOG);
                         output.accept(ModBlocks.WASTE_LEAVES);
+                        output.accept(ModBlocks.LEAVES_LAYER);
                     }).build());
 
     public static final Supplier<CreativeModeTab> BOMBS = CREATIVE_MODE_TABS.register("bombs",
@@ -49,6 +50,7 @@ public class ModCreativeTabs {
                     .backgroundTexture(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/gui/nuke_tab.png"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModBlocks.DET_NUKE);
+                        output.accept(ModBlocks.DET_CHARGE);
                         output.accept(ModItems.DETONATOR);
                         output.accept(ModItems.MULTI_DETONATOR);
                         output.accept(ModItems.DETONATOR_DEADMAN);

@@ -5,6 +5,25 @@
   "nuclear_explosion": {
     "sounds": ["hbmsntm:explosion/nuclear_explosion"]
   },
+  "weapon.explosion_large_near": {
+    "sounds": ["hbmsntm:weapon/explosion_large_near"]
+  },
+  "weapon.explosion_large_far": {
+    "sounds": ["hbmsntm:weapon/explosion_large_far"]
+  },
+  "weapon.explosion_small_near": {
+    "sounds": [
+      "hbmsntm:weapon/explosion_small_near1",
+      "hbmsntm:weapon/explosion_small_near2",
+      "hbmsntm:weapon/explosion_small_near3"
+    ]
+  },
+  "weapon.explosion_small_far": {
+    "sounds": [
+      "hbmsntm:weapon/explosion_small_far1",
+      "hbmsntm:weapon/explosion_small_far2"
+    ]
+  },
   "grenade_bounce": {
     "sounds": [
       "hbmsntm:weapon/grenade_bounce1",

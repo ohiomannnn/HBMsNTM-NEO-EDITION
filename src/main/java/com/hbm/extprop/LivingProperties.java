@@ -1,14 +1,21 @@
 package com.hbm.extprop;
 
+import com.hbm.HBMsNTMClient;
 import com.hbm.config.ServerConfig;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.lib.ModAttachments;
+import com.hbm.packets.toclient.InformPlayerPacket;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -148,6 +155,13 @@ public class LivingProperties {
     public static void incrementAsbestos(LivingEntity entity, int asbestos) {
         if (ServerConfig.DISABLE_ASBESTOS.getAsBoolean()) return;
         setAsbestos(entity, getAsbestos(entity) + asbestos);
+
+        if (entity instanceof ServerPlayer player) {
+            Component comp = Component.translatable("info.asbestos")
+                    .withStyle(ChatFormatting.RED);
+            InformPlayerPacket packet = new InformPlayerPacket(true, null, comp, HBMsNTMClient.ID_GAS_HAZARD, 3000);
+            PacketDistributor.sendToPlayer(player, packet);
+        }
     }
 
     /// BLACK LUNG DISEASE ///
@@ -172,6 +186,13 @@ public class LivingProperties {
     public static void incrementBlackLung(LivingEntity entity, int blacklung) {
         if (ServerConfig.DISABLE_COAL.getAsBoolean()) return;
         setBlackLung(entity, getBlackLung(entity) + blacklung);
+
+        if (entity instanceof ServerPlayer player) {
+            Component comp = Component.translatable("info.coaldust")
+                    .withStyle(ChatFormatting.RED);
+            InformPlayerPacket packet = new InformPlayerPacket(true, null, comp, HBMsNTMClient.ID_GAS_HAZARD, 3000);
+            PacketDistributor.sendToPlayer(player, packet);
+        }
     }
 
     /// TIME BOMB ///

@@ -17,6 +17,10 @@ public class ModSounds {
 
     public static final DeferredHolder<SoundEvent, SoundEvent> MUKE_EXPLOSION = registerSoundEvent("muke_explosion");
     public static final DeferredHolder<SoundEvent, SoundEvent> NUCLEAR_EXPLOSION = registerSoundEvent("nuclear_explosion");
+    public static final DeferredHolder<SoundEvent, SoundEvent> EXPLOSION_LARGE_NEAR = registerSoundEvent("weapon.explosion_large_near");
+    public static final DeferredHolder<SoundEvent, SoundEvent> EXPLOSION_LARGE_FAR = registerSoundEvent("weapon.explosion_large_far");
+    public static final DeferredHolder<SoundEvent, SoundEvent> EXPLOSION_SMALL_NEAR = registerSoundEvent("weapon.explosion_small_near");
+    public static final DeferredHolder<SoundEvent, SoundEvent> EXPLOSION_SMALL_FAR = registerSoundEvent("weapon.explosion_small_far");
 
     public static final DeferredHolder<SoundEvent, SoundEvent> GRENADE_BOUNCE = registerSoundEvent("grenade_bounce");
 

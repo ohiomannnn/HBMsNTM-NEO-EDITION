@@ -2,10 +2,10 @@ package com.hbm.util;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
@@ -13,17 +13,17 @@ import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 public class ItemStackUtil {
 
     public static ItemStack carefulCopy(ItemStack stack) {
-        return stack.isEmpty() ? ItemStack.EMPTY : stack.copy();
+        if (stack == null) return null;
+        return stack.copy();
     }
 
     public static ItemStack carefulCopyWithSize(ItemStack stack, int size) {
-        if (stack.isEmpty()) return ItemStack.EMPTY;
+        if (stack == null) return null;
         ItemStack copy = stack.copy();
         copy.setCount(size);
         return copy;
@@ -35,6 +35,7 @@ public class ItemStackUtil {
 
     public static ItemStack[] carefulCopyArray(ItemStack[] array, int start, int end) {
         if (array == null) return null;
+
         ItemStack[] copy = new ItemStack[array.length];
         for (int i = start; i <= end; i++) {
             copy[i] = carefulCopy(array[i]);
@@ -44,6 +45,7 @@ public class ItemStackUtil {
 
     public static ItemStack[] carefulCopyArrayTruncate(ItemStack[] array, int start, int end) {
         if (array == null) return null;
+
         int length = end - start + 1;
         ItemStack[] copy = new ItemStack[length];
         for (int i = 0; i < length; i++) {
@@ -66,7 +68,7 @@ public class ItemStackUtil {
         return stack;
     }
 
-    public static void addStacksToNBT(ItemStack stack, HolderLookup.Provider provider, ItemStack... stacks) {
+    public static void addStacksToNBT(RegistryAccess registryAccess, ItemStack stack, ItemStack... stacks) {
         CompoundTag tag = TagsUtil.getOrCreateTag(stack);
         ListTag items = new ListTag();
 
@@ -74,12 +76,7 @@ public class ItemStackUtil {
             if (!stacks[i].isEmpty()) {
                 CompoundTag slotNBT = new CompoundTag();
                 slotNBT.putByte("slot", (byte) i);
-
-                Tag encoded = stacks[i].save(provider);
-                if (encoded instanceof CompoundTag stackTag) {
-                    stackTag.getAllKeys().forEach(key -> slotNBT.put(key, Objects.requireNonNull(stackTag.get(key))));
-                }
-
+                stacks[i].save(registryAccess, slotNBT);
                 items.add(slotNBT);
             }
         }

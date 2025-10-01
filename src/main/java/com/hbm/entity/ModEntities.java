@@ -3,8 +3,9 @@ package com.hbm.entity;
 import com.hbm.HBMsNTM;
 import com.hbm.entity.effect.EntityFalloutRain;
 import com.hbm.entity.item.EntityTNTPrimedBase;
-import com.hbm.entity.logic.EntityNukeExplosionMK5;
+import com.hbm.entity.logic.NukeExplosionMK5Entity;
 import com.hbm.entity.effect.EntityNukeTorex;
+import com.hbm.entity.mob.CreeperNuclear;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntityShrapnel;
@@ -21,9 +22,9 @@ public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
             DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, HBMsNTM.MODID);
 
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityNukeExplosionMK5>> NUKE_MK5 =
+    public static final DeferredHolder<EntityType<?>, EntityType<NukeExplosionMK5Entity>> NUKE_MK5 =
             ENTITY_TYPES.register("nuke_explosion_mk5",
-                    () -> EntityType.Builder.of(EntityNukeExplosionMK5::new, MobCategory.MISC)
+                    () -> EntityType.Builder.of(NukeExplosionMK5Entity::new, MobCategory.MISC)
                             .sized(1.0F, 1.0F)
                             .build("nuke_explosion_mk5"));
 
@@ -44,6 +45,11 @@ public class ModEntities {
                     () -> EntityType.Builder.of(EntityDuck::new, MobCategory.CREATURE)
                             .sized(0.4F, 0.7F)
                             .build("duck"));
+    public static final DeferredHolder<EntityType<?>, EntityType<CreeperNuclear>> CREEPER_NUCLEAR =
+            ENTITY_TYPES.register("creeper_nuclear",
+                    () -> EntityType.Builder.of(CreeperNuclear::new, MobCategory.MONSTER)
+                            .sized(0.6F, 1.7F)
+                            .build("creeper_nuclear"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<EntityTNTPrimedBase>> TNT_PRIMED_BASE =
             ENTITY_TYPES.register("tnt_primed_base",

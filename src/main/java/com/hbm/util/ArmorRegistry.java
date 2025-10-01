@@ -60,9 +60,6 @@ public class ArmorRegistry {
 
         List<HazardClass> list = getProtectionFromItem(stack, entity);
 
-        if(list == null)
-            return false;
-
         return list.contains(clazz);
     }
 

@@ -18,12 +18,4 @@ public class ModWorldgenData extends DatapackBuiltinEntriesProvider {
                 new RegistrySetBuilder().add(Registries.BIOME, ModBiomes::bootstrap),
                 Set.of(HBMsNTM.MODID));
     }
-
-//    public static void gatherData(GatherDataEvent event) {
-//        DataGenerator generator = event.getGenerator();
-//        PackOutput output = generator.getPackOutput();
-//        CompletableFuture<HolderLookup.Provider> lookup = event.getLookupProvider();
-//
-//        generator.addProvider(event.includeServer(), new ModWorldgenData(output, lookup));
-//    }
 }

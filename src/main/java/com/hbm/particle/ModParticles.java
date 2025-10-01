@@ -46,9 +46,20 @@ public class ModParticles {
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> RAD_FOG =
             PARTICLE_TYPES.register("rad_fog",
                     () -> new SimpleParticleType(false));
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> ROCKET_FLAME =
+            PARTICLE_TYPES.register("rocket_flame",
+                    () -> new SimpleParticleType(false));
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> DEBRIS =
+            PARTICLE_TYPES.register("debris", () -> new SimpleParticleType(true));
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> BLOCK_DUST =
+            PARTICLE_TYPES.register("block_dust", () -> new SimpleParticleType(true));
+
 
     public static SpriteSet COOLING_TOWER_SPRITES;
+    public static SpriteSet ROCKET_FLAME_SPRITES;
     public static SpriteSet MUKE_FLASH_SPRITES;
+    public static SpriteSet MUKE_WAVE_SPRITES;
+    public static SpriteSet EXPLOSION_SMALL_SPRITES;
     public static SpriteSet AURA_SPITES;
     public static SpriteSet VOMIT_SPRITES;
     public static SpriteSet RAD_FOG_SPRITES;

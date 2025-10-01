@@ -1,21 +1,23 @@
 package com.hbm;
 
+import com.hbm.config.FalloutConfigJSON;
 import com.hbm.entity.ModEntities;
+import com.hbm.entity.mob.CreeperNuclear;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.handler.EntityEffectHandler;
+import com.hbm.handler.HTTPHandler;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.inventory.ModMenus;
 import com.hbm.inventory.gui.GUICrateIron;
-import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.chunk.LevelChunk;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
@@ -25,15 +27,27 @@ import java.util.Random;
 
 @EventBusSubscriber(modid = HBMsNTM.MODID)
 public class CommonEvents {
+
+    @SubscribeEvent
+    public static void commonSetup(FMLCommonSetupEvent event) {
+
+        HBMsNTM.LOGGER.info("Let us celebrate the fact that the logger finally works again!");
+
+        HTTPHandler.loadStats();
+        FalloutConfigJSON.initDefault();
+        HazardRegistry.registerItems();
+
+    }
+
     @SubscribeEvent
     public static void onEntityAttributeCreation(EntityAttributeCreationEvent event) {
         event.put(ModEntities.DUCK.get(), EntityDuck.createAttributes().build());
+        event.put(ModEntities.CREEPER_NUCLEAR.get(), CreeperNuclear.createAttributes().build());
     }
 
     @SubscribeEvent
     public static void onServerStarting(ServerStartingEvent event) {
-        HBMsNTM.LOGGER.debug("pol = {}", polaroidID);
-        HazardRegistry.registerItems();
+        ChunkRadiationManager.initProxy();
     }
 
     @SubscribeEvent

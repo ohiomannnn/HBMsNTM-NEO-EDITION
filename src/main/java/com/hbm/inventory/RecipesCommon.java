@@ -1,6 +1,7 @@
 package com.hbm.inventory;
 
 import com.hbm.items.ModItems;
+import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -8,6 +9,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
 import java.util.Objects;
@@ -186,18 +188,32 @@ public class RecipesCommon {
             return List.of();
         }
 
-        public List<ItemStack> extractForJEI() {
-            return BuiltInRegistries.ITEM
-                    .stream()
-                    .filter(item -> item.builtInRegistryHolder().is(tag))
-                    .map(Item::getDefaultInstance)
-                    .peek(stack -> stack.setCount(stackSize))
-                    .collect(Collectors.toList());
-        }
-
         @Override
         public int compareTo(RecipesCommon.AStack o) {
             return 0;
+        }
+    }
+    public static class StateBlock {
+        public final BlockState state;
+
+        public StateBlock(BlockState state) {
+            this.state = state;
+        }
+
+        public StateBlock(Block block) {
+            this(block.defaultBlockState());
+        }
+
+        @Override
+        public int hashCode() {
+            return state.hashCode();
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) return true;
+            if (!(obj instanceof StateBlock other)) return false;
+            return state.equals(other.state);
         }
     }
 }

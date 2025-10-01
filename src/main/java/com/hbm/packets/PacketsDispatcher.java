@@ -3,15 +3,14 @@ package com.hbm.packets;
 import com.hbm.HBMsNTM;
 import com.hbm.HBMsNTMClient;
 import com.hbm.blockentity.IBufPacketReceiver;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
 import com.hbm.extprop.LivingProperties;
 import com.hbm.handler.gui.GeigerGUI;
-import com.hbm.packets.toclient.AuxParticlePacket;
-import com.hbm.packets.toclient.BufPacket;
-import com.hbm.packets.toclient.ParticleBurstPacket;
-import com.hbm.packets.toclient.SendRadPacket;
+import com.hbm.packets.toclient.*;
 import com.hbm.packets.toserver.GetRadPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -34,6 +33,16 @@ public final class PacketsDispatcher {
                 GetRadPacket.TYPE,
                 GetRadPacket.STREAM_CODEC,
                 PacketsDispatcher::handleGetRad
+        );
+        registrar.playToClient(
+                ExplosionVanillaNewTechnologyCompressedAffectedBlockPositionDataForClientEffectsAndParticleHandlingPacket.TYPE,
+                ExplosionVanillaNewTechnologyCompressedAffectedBlockPositionDataForClientEffectsAndParticleHandlingPacket.STREAM_CODEC,
+                PacketsDispatcher::handleBigNamePacket
+        );
+        registrar.playToClient(
+                InformPlayerPacket.TYPE,
+                InformPlayerPacket.STREAM_CODEC,
+                PacketsDispatcher::handleInform
         );
         registrar.playToClient(
                 ParticleBurstPacket.TYPE,
@@ -111,6 +120,32 @@ public final class PacketsDispatcher {
                 } finally {
                     packet.payload().release();
                 }
+            }
+        });
+    }
+    public static void handleInform(InformPlayerPacket packet, IPayloadContext context) {
+        context.enqueueWork(() -> {
+            try {
+                if (packet.fancy()) {
+                    HBMsNTMClient.displayTooltip(packet.component(), packet.millis(), packet.id());
+                } else {
+                    HBMsNTMClient.displayTooltip(Component.literal(packet.message()), packet.millis(), packet.id());
+                }
+            } catch (Exception ignored) {}
+        });
+    }
+    public static void handleBigNamePacket(ExplosionVanillaNewTechnologyCompressedAffectedBlockPositionDataForClientEffectsAndParticleHandlingPacket packet, IPayloadContext context) {
+        context.enqueueWork(() -> {
+            Minecraft mc = Minecraft.getInstance();
+            if (mc.level != null) {
+                ExplosionEffectStandard.performClient(
+                        mc.level,
+                        packet.posX(),
+                        packet.posY(),
+                        packet.posZ(),
+                        packet.size(),
+                        packet.affectedBlocks()
+                );
             }
         });
     }

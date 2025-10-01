@@ -2,14 +2,21 @@ package com.hbm.handler;
 
 import com.hbm.HBMsNTM;
 import com.hbm.HBMsNTMClient;
+import com.hbm.config.ServerConfig;
 import com.hbm.extprop.LivingProperties;
 import com.hbm.extprop.LivingProperties.ContaminationEffect;
 import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.ModSounds;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.*;
+import com.hbm.world.biome.ModBiomes;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -23,6 +30,7 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.biome.Biome;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,9 +43,23 @@ public class EntityEffectHandler {
             LivingProperties.setRadEnv(entity, 0);
         }
 
+        ResourceKey<Biome> biome = entity.level().getBiome(new BlockPos((int) entity.getX(), (int) entity.getY(), (int) entity.getZ())).getKey();
+        double radiation = 0;
+
+        if (biome == ModBiomes.CRATER_OUTER) radiation = ServerConfig.CRATER_OUTER_RAD.getAsDouble();
+        if (biome == ModBiomes.CRATER) radiation = ServerConfig.CRATE_RAD.getAsDouble();
+        if (biome == ModBiomes.CRATER_INNER) radiation = ServerConfig.CRATER_INNER_RAD.getAsDouble();
+
+        if(entity.isInWater()) radiation *= ServerConfig.CRATER_WATER_MULT.getAsDouble();
+
+        if (radiation > 0) {
+            ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE,(float) radiation / 20F);
+        }
+
         handleContamination(entity);
         handleRadiationEffect(entity);
         handleRadiationFX(entity);
+        handleDigamma(entity);
     }
 
 
@@ -61,7 +83,9 @@ public class EntityEffectHandler {
 
         if (!entity.isAlive()) return;
         if (entity.level().isClientSide) return;
-        if (entity instanceof Player player && player.getAbilities().instabuild) return;
+
+        if (entity instanceof Player player && player.isCreative()) return;
+        if (entity instanceof Player player && player.isSpectator()) return;
 
         Level level = entity.level();
 
@@ -79,12 +103,13 @@ public class EntityEffectHandler {
             entity.discard();
         }
 
-        if(eRad < 200 || ContaminationUtil.isRadImmune(entity)) return;
-        if(eRad > 2500) LivingProperties.setRadiation(entity, 2500);
+        if (eRad < 200 || ContaminationUtil.isRadImmune(entity)) return;
+        if (eRad > 2500) LivingProperties.setRadiation(entity, 2500);
 
         /// EFFECTS ///
-        if(eRad >= 1000) {
-            entity.setHealth(0.0F);
+        if (eRad >= 1000) {
+            DamageSource src = new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageSource.RADIATION));
+            entity.hurt(src, Float.MAX_VALUE);
             LivingProperties.setRadiation(entity, 0);
         } else if (eRad >= 800) {
             if (level.random.nextInt(300) == 0) entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 5 * 30, 0));
@@ -111,7 +136,7 @@ public class EntityEffectHandler {
     private static void handleRadiationFX(LivingEntity entity) {
         Level level = entity.level();
 
-        if (!level.isClientSide){
+        if (!level.isClientSide) {
 
             if (ContaminationUtil.isRadImmune(entity)) return;
 
@@ -126,7 +151,8 @@ public class EntityEffectHandler {
 
             if (rad > 0) ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, rad / 20F);
 
-            if (entity instanceof Player player && player.getAbilities().instabuild) return;
+            if (entity instanceof Player player && player.isCreative()) return;
+            if (entity instanceof Player player && player.isSpectator()) return;
 
             Random rand = new Random(entity.getId());
 
@@ -169,6 +195,22 @@ public class EntityEffectHandler {
                     tag.putInt("count", radiation > 900 ? 4 : radiation > 800 ? 2 : 1);
                     HBMsNTMClient.effectNT(tag);
                 }
+            }
+        }
+    }
+
+    private static void handleDigamma(LivingEntity entity) {
+        Level level = entity.level();
+
+        if (!level.isClientSide) {
+            float digamma = LivingProperties.getDigamma(entity);
+
+            if (digamma < 0.1F)
+                return;
+
+            if ((entity.getMaxHealth() <= 0 || digamma >= 10.0F) && entity.isAlive()) {
+                DamageSource src = new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageSource.DIGAMMA));
+                entity.hurt(src, Float.MAX_VALUE);
             }
         }
     }

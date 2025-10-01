@@ -5,7 +5,6 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 public class ServerConfig {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
 
-
     /// RADIATION ///
     static {
         BUILDER.push("radiation");
@@ -50,6 +49,24 @@ public class ServerConfig {
             .comment("Enables the biome change caused by nuclear explosions")
             .translation("config.hbmsntm.craterBiome")
             .define("craterBiome", true);
+
+    public static final ModConfigSpec.DoubleValue CRATE_RAD = BUILDER
+            .comment("RAD/s for the crater biome")
+            .translation("config.hbmsntm.craterBiomeRad")
+            .defineInRange("craterBiomeRad", 5D, 0D, Double.MAX_VALUE);
+    public static final ModConfigSpec.DoubleValue CRATER_INNER_RAD = BUILDER
+            .comment("RAD/s for the inner crater biome")
+            .translation("config.hbmsntm.craterBiomeInnerRad")
+            .defineInRange("craterBiomeInnerRad", 25D, 0D, Double.MAX_VALUE);
+    public static final ModConfigSpec.DoubleValue CRATER_OUTER_RAD = BUILDER
+            .comment("RAD/s for the outer crater biome")
+            .translation("config.hbmsntm.craterBiomeOuterRad")
+            .defineInRange("craterBiomeOuterRad", 0.5D, 0D, Double.MAX_VALUE);
+    public static final ModConfigSpec.DoubleValue CRATER_WATER_MULT = BUILDER
+            .comment("Multiplier for RAD/s in crater biomes when in water")
+            .translation("config.hbmsntm.craterBiomeWaterMultiplier")
+            .defineInRange("craterBiomeWaterMultiplier", 5D, 0D, Double.MAX_VALUE);
+
 
     static {
         BUILDER.pop();

@@ -141,7 +141,6 @@ public class ExplosionNT extends Explosion {
             AABB box = getAabb(exprad);
             List<Entity> list = level.getEntities(this.exploder, box);
 
-            // используем источник если есть, иначе центр взрыва
             Vec3 vec3 = new Vec3(sourceX, sourceY, sourceZ);
 
             for (Entity entity : list) {

@@ -1,6 +1,5 @@
 package com.hbm.blocks.generic;
 
-import com.hbm.HBMsNTM;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
@@ -36,5 +35,4 @@ public class HazardBlock extends Block {
             server.scheduleTick(pos, this, 20);
         }
     }
-
 }

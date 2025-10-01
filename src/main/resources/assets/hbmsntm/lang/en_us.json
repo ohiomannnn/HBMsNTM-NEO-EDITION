@@ -23,6 +23,7 @@
   "block.hbmsntm.iron_crate": "Iron Crate",
 
   "block.hbmsntm.det_nuke": "Nuclear Charge",
+  "block.hbmsntm.det_charge": "Explosive Charge",
   "block.hbmsntm.leaves_layer": "Fallen Leaves",
 
   "item.hbmsntm.nothing": "Nothing",
@@ -51,6 +52,7 @@
   "death.attack.radiation": "%s died from radiation poisoning.",
   "death.attack.lead": "%s died from lead poisoning.",
   "death.attack.nuclear_blast": "%s was blown away by a nuclear explosion.",
+  "death.attack.monoxide": "%s forgot to change the batteries in their carbon monoxide detector.",
 
   "effect.hbmsntm.taint": "Tainted",
   "effect.hbmsntm.radiation": "Radiation",
@@ -76,6 +78,14 @@
   "geiger.envRad": "Total environmental radiation:",
   "geiger.playerRad": "Player contamination:",
   "geiger.chunkRad": "Current chunk radiation:",
+
+  "digamma.title" : "DIGAMMA DIAGNOSTIC",
+  "digamma.playerDigamma" : "Digamma exposure:",
+  "digamma.playerHealth" : "Digamma influence:",
+  "digamma.playerRes" : "Digamma resistance:",
+
+  "info.asbestos": "My lungs are burning.",
+  "info.coaldust": "It's hard to breathe here.",
 
   "trait.radioactive": "Radiation",
   "trait.hot": "Pyrophoric / Hot",

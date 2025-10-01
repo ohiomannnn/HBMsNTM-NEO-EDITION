@@ -1,6 +1,7 @@
 package com.hbm.blocks.gas;
 
 import com.hbm.extprop.LivingProperties;
+import com.hbm.util.ArmorRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -30,9 +31,9 @@ public class GasCoalBlock extends GasBaseBlock {
     @Override
     public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
         if (entity instanceof LivingEntity livingEntity) {
-//            if(!ArmorRegistry.hasProtection(living, 3, HazardClass.PARTICLE_COARSE)) {
-            LivingProperties.incrementBlackLung(livingEntity, 10);
-//            }
+            if(!ArmorRegistry.hasProtection(livingEntity, 3, ArmorRegistry.HazardClass.PARTICLE_COARSE)) {
+                LivingProperties.incrementBlackLung(livingEntity, 10);
+            }
         }
     }
 

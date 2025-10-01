@@ -6,6 +6,8 @@
     "hbmsntm:blacklung",
     "hbmsntm:digamma",
     "hbmsntm:lead",
-    "hbmsntm:taint"
+    "hbmsntm:taint",
+    "hbmsntm:radiation",
+    "hbmsntm:monoxide"
   ]
 }

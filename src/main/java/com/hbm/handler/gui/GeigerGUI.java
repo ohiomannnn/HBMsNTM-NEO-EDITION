@@ -40,6 +40,7 @@ public class GeigerGUI {
     public static void renderRadCounter(GuiGraphics guiGraphics, Font font, Player player) {
         if (!checkForGeiger((LocalPlayer) player)) return;
         if (Minecraft.getInstance().level == null) return;
+        if (Minecraft.getInstance().options.hideGui) return;
 
         guiGraphics.pose().pushPose();
         getRad(player.getUUID());

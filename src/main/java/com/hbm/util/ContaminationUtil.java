@@ -62,7 +62,7 @@ public class  ContaminationUtil {
     }
 
     /// ASBESTOS ///
-    public static void applyAsbestos(Entity entity, int i) {
+    public static void applyAsbestos(Entity entity, int asb) {
 
         if (!(entity instanceof LivingEntity e))
             return;
@@ -73,7 +73,7 @@ public class  ContaminationUtil {
         if (entity instanceof ServerPlayer player && player.tickCount < 200)
             return;
 
-        LivingProperties.incrementAsbestos(e, i);
+        LivingProperties.incrementAsbestos(e, asb);
 //        if (ArmorRegistry.hasAllProtection(e, 3, HazardClass.PARTICLE_FINE))
 //            ArmorUtil.damageGasMaskFilter(e, i);
 //        else
@@ -81,7 +81,7 @@ public class  ContaminationUtil {
     }
 
     /// DIGAMMA ///
-    public static void applyDigammaData(Entity entity, float f) {
+    public static void applyDigammaData(Entity entity, float dig) {
 
         if (!(entity instanceof LivingEntity e))
             return;
@@ -95,7 +95,7 @@ public class  ContaminationUtil {
         if (entity instanceof ServerPlayer player && player.tickCount < 200)
             return;
 
-        LivingProperties.incrementDigamma(e, f);
+        LivingProperties.incrementDigamma(e, dig);
 //        if(entity.isPotionActive(HbmPotion.stability.id))
 //            return;
 //
@@ -195,6 +195,34 @@ public class  ContaminationUtil {
         else return ChatFormatting.DARK_GRAY.toString();
     }
 
+    public static void printDiagnosticData(Player player) {
+        double digamma = ((int)(LivingProperties.getDigamma(player) * 100)) / 100D;
+        double halflife = ((int)((1D - Math.pow(0.5, digamma)) * 10000)) / 100D;
+
+        player.displayClientMessage(
+                Component.literal("===== Ϝ ")
+                        .append(Component.translatable("digamma.title"))
+                        .append(Component.literal(" Ϝ ====="))
+                        .setStyle(Style.EMPTY.withColor(ChatFormatting.DARK_PURPLE)),
+                false);
+
+        player.displayClientMessage(
+                Component.translatable("digamma.playerDigamma").withStyle(ChatFormatting.LIGHT_PURPLE)
+                        .append(Component.literal(" " + digamma + " DRX").withStyle(ChatFormatting.RED)),
+                false);
+
+        player.displayClientMessage(
+                Component.translatable("digamma.playerHealth").withStyle(ChatFormatting.LIGHT_PURPLE)
+                        .append(Component.literal(" " + halflife + " %").withStyle(ChatFormatting.RED)),
+                false);
+
+        player.displayClientMessage(
+                Component.translatable("digamma.playerRes").withStyle(ChatFormatting.LIGHT_PURPLE)
+                        .append(Component.literal(" " + "N/A").withStyle(ChatFormatting.BLUE)),
+                false);
+    }
+
+
     public enum HazardType {
         RADIATION,
         DIGAMMA
@@ -227,7 +255,7 @@ public class  ContaminationUtil {
 //                case DIGAMMA_ROBE:			if(ArmorUtil.checkForDigamma2(player))	return; break;
 //            }
 
-            if (player.isCreative() && cont != ContaminationType.NONE && cont != ContaminationType.DIGAMMA_ROBE) {
+            if (player.isCreative() || player.isSpectator() && cont != ContaminationType.NONE && cont != ContaminationType.DIGAMMA_ROBE) {
                 return;
             }
 

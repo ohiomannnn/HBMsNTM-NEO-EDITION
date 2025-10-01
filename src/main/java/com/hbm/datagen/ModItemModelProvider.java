@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.Objects;
@@ -25,6 +26,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.DOSIMETER.get());
         basicItem(ModItems.DETONATOR_DE.get());
         basicItem(ModItems.DETONATOR_DEADMAN.get());
+        basicItem(ModItems.FLINT_AND_BALEFIRE.get());
         handheldItem(ModItems.REACHER.get());
         handheldItem(ModItems.DETONATOR.get());
         handheldItem(ModItems.MULTI_DETONATOR.get());
@@ -38,6 +40,14 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         withExistingParent(ModBlocks.GAS_COAL.getId().getPath(), "item/generated")
                 .texture("layer0", modLoc("block/gas_coal"));
+
+        getBuilder(ModBlocks.LEAVES_LAYER.getId().getPath())
+                .parent(new ModelFile.UncheckedModelFile(modLoc("block/layering_1")));
+        getBuilder(ModBlocks.FALLOUT.getId().getPath())
+                .parent(new ModelFile.UncheckedModelFile(modLoc("block/fallout")));
+
+        getBuilder(ModBlocks.WASTE_LOG.getId().getPath())
+                .parent(new ModelFile.UncheckedModelFile(modLoc("block/waste_log")));
 
         ItemModelBuilder builder = getBuilder("polaroid")
                 .parent(getExistingFile(mcLoc("item/generated")));

@@ -1,0 +1,4 @@
+// 1.21.1	2025-09-27T22:12:40.4285347	Tags for minecraft:block mod id hbmsntm
+722e3859307dfe91f6394dbdc2327443e608a167 data/minecraft/tags/block/mineable/axe.json
+66e13240e8c80fbe8142973677f5b0252664075c data/minecraft/tags/block/mineable/pickaxe.json
+66e13240e8c80fbe8142973677f5b0252664075c data/minecraft/tags/block/needs_iron_tool.json

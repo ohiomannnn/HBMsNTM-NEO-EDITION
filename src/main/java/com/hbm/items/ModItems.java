@@ -17,6 +17,8 @@ public class ModItems {
 
     public static final DeferredItem<Item> NOTHING = ITEMS.register("nothing",
             () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> PEWPEW = ITEMS.register("pewpew",
+            () -> new Pewpew(new Item.Properties()));
 
     public static final DeferredItem<Item> DETONATOR = ITEMS.register("detonator",
             () -> new DetonatorItem(new Item.Properties().stacksTo(1)));

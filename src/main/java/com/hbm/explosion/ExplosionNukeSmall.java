@@ -1,9 +1,8 @@
 package com.hbm.explosion;
 
 import com.hbm.CommonEvents;
-import com.hbm.entity.logic.EntityNukeExplosionMK5;
+import com.hbm.entity.logic.NukeExplosionMK5Entity;
 import com.hbm.handler.radiation.ChunkRadiationManager;
-import com.hbm.items.ModItems;
 import com.hbm.lib.ModSounds;
 import com.hbm.packets.toclient.AuxParticlePacket;
 import com.hbm.world.WorldUtil;
@@ -21,8 +20,7 @@ public class ExplosionNukeSmall {
             CompoundTag nbt = new CompoundTag();
             nbt.putString("type", params.particle);
 
-            if (params.particle.equals("muke") &&
-                    (CommonEvents.polaroidID == 11 || level.random.nextInt(100) == 0)) {
+            if (params.particle.equals("muke") && (CommonEvents.polaroidID == 11 || level.random.nextInt(100) == 0)) {
                 nbt.putBoolean("balefire", true);
             }
 
@@ -35,7 +33,6 @@ public class ExplosionNukeSmall {
             );
         }
 
-        // playing sound anyway
         level.playSound(null, posX, posY, posZ, ModSounds.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 15.0F, 1.0F);
 
 //        if (params.shrapnelCount > 0) {
@@ -55,7 +52,7 @@ public class ExplosionNukeSmall {
 
         if (!params.miniNuke) {
             WorldUtil.loadAndSpawnEntityInWorld(
-                    EntityNukeExplosionMK5.statFac(level, (int) params.blastRadius, posX, posY, posZ)
+                    NukeExplosionMK5Entity.statFac(level, (int) params.blastRadius, posX, posY, posZ)
             );
         }
 
@@ -101,6 +98,7 @@ public class ExplosionNukeSmall {
         killRadius = 55F;
         radiationLevel = 3;
     }};
+
     public static MukeParams PARAMS_HIGH = new MukeParams() {{
         miniNuke = false;
         blastRadius = 150; // change to BombConfig.fatmanRadius;

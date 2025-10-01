@@ -14,16 +14,18 @@ import net.minecraft.util.Mth;
 public class ParticleMukeWave extends TextureSheetParticle {
 
     private final SpriteSet sprites;
-    private final float waveScale;
+    private float waveScale;
 
-    protected ParticleMukeWave(ClientLevel level, double x, double y, double z,
-                               float waveScale, int maxAge, SpriteSet sprites) {
+    public ParticleMukeWave(ClientLevel level, double x, double y, double z, SpriteSet sprites) {
         super(level, x, y, z, 0, 0, 0);
         this.sprites = sprites;
-        this.waveScale = waveScale;
-        this.lifetime = maxAge;
         this.alpha = 1.0F;
         this.setSpriteFromAge(sprites);
+    }
+
+    public void setup(float scale, int maxAge) {
+        this.waveScale = scale;
+        this.lifetime = maxAge;
     }
 
     @Override
@@ -98,7 +100,7 @@ public class ParticleMukeWave extends TextureSheetParticle {
 
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
-            return new ParticleMukeWave(level, x, y, z, 45F, 25, sprites);
+            return new ParticleMukeWave(level, x, y, z, /*45F, 25*/ sprites);
         }
     }
 }

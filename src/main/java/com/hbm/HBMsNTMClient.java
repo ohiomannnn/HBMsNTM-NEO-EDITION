@@ -1,25 +1,39 @@
 package com.hbm;
 
+import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.BlockSellafieldSlaked;
+import com.hbm.config.ClientConfig;
 import com.hbm.entity.ModEntities;
-import com.hbm.render.entity.effect.RenderTorex;
+import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.gui.GeigerGUI;
 import com.hbm.hazard.HazardSystem;
+import com.hbm.inventory.gui.LoadingScreenRendererNT;
 import com.hbm.items.ModItems;
-import com.hbm.packets.PacketsDispatcher;
 import com.hbm.particle.*;
+import com.hbm.particle.ParticleDebris;
+import com.hbm.particle.helper.ParticleCreators;
 import com.hbm.render.EmptyRenderer;
+import com.hbm.render.entity.effect.RenderTorex;
 import com.hbm.render.entity.mob.EntityDuckRenderer;
-import com.hbm.util.i18n.I18nClient;
-import com.hbm.util.i18n.ITranslate;
+import com.hbm.render.util.RenderInfoSystem;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.LevelLoadingScreen;
+import net.minecraft.client.gui.screens.ReceivingLevelScreen;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.entity.CreeperRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -28,30 +42,90 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.minecraft.network.chat.Component;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
 import java.util.List;
-import java.util.Random;
 
 @Mod(value = HBMsNTM.MODID, dist = Dist.CLIENT)
 @EventBusSubscriber(value = Dist.CLIENT)
 public class HBMsNTMClient {
-    private static final I18nClient I18N = new I18nClient();
-    public ITranslate getI18n() { return I18N; }
-
-    public HBMsNTMClient(IEventBus modBus, ModContainer modContainer) {
+    public HBMsNTMClient(IEventBus modEventBus, ModContainer modContainer) {
+        ModParticles.register(modEventBus);
+        modEventBus.addListener(GeigerGUI::RegisterGuiLayers);
+        modEventBus.addListener(this::registerParticles);
+        modContainer.registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
-        ModParticles.register(modBus);
-        modBus.addListener(GeigerGUI::RegisterGuiLayers);
-        modBus.addListener(this::registerParticles);
-        modBus.addListener(PacketsDispatcher::registerPackets);
+    }
+
+    private static final LoadingScreenRendererNT LOADING_RENDERER = new LoadingScreenRendererNT(Minecraft.getInstance());
+
+    @SubscribeEvent
+    public static void onScreenRender(ScreenEvent.Render.Post event) {
+        Screen screen = event.getScreen();
+        if (screen instanceof LevelLoadingScreen || screen instanceof ReceivingLevelScreen) {
+            LOADING_RENDERER.render(event.getGuiGraphics(), -1);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onJoin(ClientPlayerNetworkEvent.LoggingOut event) {
+        LOADING_RENDERER.resetProgressAndMessage(" ");
+    }
+
+    public static final int ID_DUCK = 0;
+    public static final int ID_FILTER = 1;
+    public static final int ID_COMPASS = 2;
+    public static final int ID_CABLE = 3;
+    public static final int ID_DRONE = 4;
+    public static final int ID_JETPACK = 5;
+    public static final int ID_MAGNET = 6;
+    public static final int ID_HUD = 7;
+    public static final int ID_DETONATOR = 8;
+    public static final int ID_FLUID_ID = 9;
+    public static final int ID_FAN_MODE = 10;
+    public static final int ID_TOOLABILITY = 11;
+    public static final int ID_GAS_HAZARD = 12;
+
+    public static void displayTooltip(Component component, int time, int id) {
+        RenderInfoSystem.InfoEntry entry = new RenderInfoSystem.InfoEntry(component, time);
+        if (id != 0) {
+            RenderInfoSystem.push(entry, id);
+        } else {
+            RenderInfoSystem.push(entry);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
+        Player player = event.getEntity();
+
+        player.sendSystemMessage(Component.literal("Loaded world with Hbm's Nuclear Tech Mod " + HBMsNTM.VERSION + " for Minecraft 1.21.1!"));
+
+        if(HTTPHandler.newVersion) {
+            player.sendSystemMessage(
+                    Component.literal("New version " + HTTPHandler.versionNumber + " is available! Click ")
+                            .withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW))
+                            .append(
+                                    Component.literal("[here]")
+                                            .withStyle(Style.EMPTY
+                                                    .withColor(ChatFormatting.RED)
+                                                    .withUnderlined(true)
+                                                    .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL,
+                                                            "https://github.com/HbmMods/Hbm-s-Nuclear-Tech-GIT/releases"))
+                                            )
+                            )
+                            .append(Component.literal(" to download!")
+                                    .withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)))
+            );
+        }
     }
 
     public static final int flashDuration = 5_000;
@@ -59,12 +133,9 @@ public class HBMsNTMClient {
     public static final int shakeDuration = 1_500;
     public static long shakeTimestamp;
 
-    public static boolean enableFlash = true;
-    public static boolean enableShake = true;
-
     @SubscribeEvent
     public static void onRenderGuiPre(RenderGuiEvent.Pre event) {
-        if (!enableShake) return;
+        if (!ClientConfig.NUKE_HUD_SHAKE.getAsBoolean()) return;
 
         long now = System.currentTimeMillis();
         long end = shakeTimestamp + shakeDuration;
@@ -81,7 +152,7 @@ public class HBMsNTMClient {
 
     @SubscribeEvent
     public static void onRenderGuiPost(RenderGuiEvent.Post event) {
-        if (!enableFlash) return;
+        if (!ClientConfig.NUKE_HUD_FLASH.getAsBoolean()) return;
 
         long now = System.currentTimeMillis();
         long end = flashTimestamp + flashDuration;
@@ -100,8 +171,19 @@ public class HBMsNTMClient {
     }
 
     @SubscribeEvent
+    public static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
+        event.register(new BlockSellafieldSlaked.ColorHandler(), ModBlocks.SELLAFIELD_SLAKED.get());
+    }
+
+    @SubscribeEvent
+    public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
+        event.register((stack, tintIndex) -> 0xFFFFFF, ModBlocks.SELLAFIELD_SLAKED.get());
+    }
+
+    @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.DUCK.get(), EntityDuckRenderer::new);
+        event.registerEntityRenderer(ModEntities.CREEPER_NUCLEAR.get(), CreeperRenderer::new);
         event.registerEntityRenderer(ModEntities.NUKE_MK5.get(), EmptyRenderer::new);
         event.registerEntityRenderer(ModEntities.NUKE_TOREX.get(), RenderTorex::new);
         event.registerEntityRenderer(ModEntities.FALLOUT_RAIN.get(), EmptyRenderer::new);
@@ -118,9 +200,16 @@ public class HBMsNTMClient {
     }
     private void registerParticles(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(ModParticles.MUKE_CLOUD.get(), ParticleMukeCloud.Provider::new);
+        event.registerSpecial(ModParticles.DEBRIS.get(), new ParticleDebris.Provider());
         event.registerSpriteSet(ModParticles.MUKE_CLOUD_BF.get(), ParticleMukeCloud.Provider::new);
-        event.registerSpriteSet(ModParticles.EXPLOSION_SMALL.get(), ParticleExplosionSmall.Provider::new);
-        event.registerSpriteSet(ModParticles.MUKE_WAVE.get(), ParticleMukeWave.Provider::new);
+        event.registerSpriteSet(ModParticles.EXPLOSION_SMALL.get(), sprites -> {
+            ModParticles.EXPLOSION_SMALL_SPRITES = sprites;
+            return new ParticleExplosionSmall.Provider(sprites);
+        });
+        event.registerSpriteSet(ModParticles.MUKE_WAVE.get(), sprites -> {
+            ModParticles.MUKE_WAVE_SPRITES = sprites;
+            return new ParticleMukeWave.Provider(sprites);
+        });
         event.registerSpriteSet(ModParticles.COOLING_TOWER.get(), sprites -> {
             ModParticles.COOLING_TOWER_SPRITES = sprites;
             return new ParticleCoolingTower.Provider(sprites);
@@ -141,152 +230,176 @@ public class HBMsNTMClient {
         });
         event.registerSpriteSet(ModParticles.RAD_FOG.get(), sprites -> {
             ModParticles.RAD_FOG_SPRITES = sprites;
-            return new VomitPart.Provider(sprites);
+            return new ParticleRadiationFog.Provider(sprites);
+        });
+        event.registerSpriteSet(ModParticles.ROCKET_FLAME.get(), sprites -> {
+            ModParticles.ROCKET_FLAME_SPRITES = sprites;
+            return new ParticleRocketFlame.Provider(sprites);
         });
     }
 
     public static void effectNT(CompoundTag data) {
         Minecraft mc = Minecraft.getInstance();
-        ClientLevel level = mc.level;
 
-        if (level == null) return;
+        mc.execute(() -> {
+            Minecraft innerMc = Minecraft.getInstance();
+            ClientLevel level = innerMc.level;
+            if (level == null) return;
 
-        Player player = mc.player;
-        int particleSetting = mc.options.particles().get().getId();
+            Player player = innerMc.player;
+            int particleSetting = innerMc.options.particles().get().getId();
 
-        String type = data.getString("type");
-        double x = data.getDouble("posX");
-        double y = data.getDouble("posY");
-        double z = data.getDouble("posZ");
+            String type = data.getString("type");
+            double x = data.getDouble("posX");
+            double y = data.getDouble("posY");
+            double z = data.getDouble("posZ");
 
-        Random rand = new Random();
+            RandomSource rand = RandomSource.create();
 
-        if("radFog".equals(type)) {
-            ParticleRadiationFog fx = new ParticleRadiationFog(level, x, y, z, 0.62F, 0.67F, 0.38F, 5F, ModParticles.RAD_FOG_SPRITES);
-            mc.particleEngine.add(fx);
-        }
-        if ("muke".contains(type)) {
-            ParticleMukeFlash fx = new ParticleMukeFlash(
-                    level,
-                    x, y, z,
-                    data.getBoolean("balefire"),
-                    ModParticles.MUKE_FLASH_SPRITES
-            );
-            level.addParticle(ModParticles.MUKE_WAVE.get(), x, y, z, 0.0, 0.0, 0.0);
+            if(ParticleCreators.particleCreators.containsKey(type)) {
+                ParticleCreators.particleCreators.get(type).makeParticle(level, player, rand, x, y, z, data);
+                return;
+            }
 
-            mc.particleEngine.add(fx);
+            if ("radFog".equals(type)) {
+                ParticleRadiationFog fx = new ParticleRadiationFog(level, x, y, z, 0.62F, 0.67F, 0.38F, 5F, ModParticles.RAD_FOG_SPRITES);
+                innerMc.particleEngine.add(fx);
+            }
 
-            player.hurtTime = 15;
-            player.hurtDuration = 15;
-        }
-        if ("tower".equals(type)) {
-            if (particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean())) {
-                float strafe = 0.075F;
-                boolean windDir  = true;
-                float alphaMod = 0.25F;
-
-                float lift = data.getFloat("lift");
-                float maxScale = data.getFloat("max");
-                float baseScale = data.getFloat("base");
-                int lifetime = data.getInt("life");
-
-                if (data.contains("noWind")) windDir  = !data.getBoolean("noWind");
-                if (data.contains("strafe")) strafe = data.getFloat("strafe");
-                if (data.contains("alpha")) alphaMod = data.getFloat("alpha");
-
-                ParticleCoolingTower fx = new ParticleCoolingTower(
+            if ("muke".contains(type)) {
+                ParticleMukeFlash flash = new ParticleMukeFlash(
                         level,
                         x, y, z,
-                        baseScale,
-                        maxScale,
-                        lift,
-                        strafe,
-                        windDir,
-                        alphaMod,
-                        lifetime,
-                        ModParticles.COOLING_TOWER_SPRITES
+                        data.getBoolean("balefire"),
+                        ModParticles.MUKE_FLASH_SPRITES
                 );
-
-                if (data.contains("color")) {
-                    int color = data.getInt("color");
-                    fx.setColor(
-                            (color >> 16 & 255) / 255F,
-                            (color >> 8 & 255) / 255F,
-                            (color & 255) / 255F
-                    );
-                }
-
-                mc.particleEngine.add(fx);
-            }
-        }
-        if ("radiation".equals(type)) {
-            if (player == null) return;
-            for (int i = 0; i < data.getInt("count"); i++) {
-                ParticleAura fx = new ParticleAura(
+                ParticleMukeWave wave = new ParticleMukeWave(
                         level,
-                        player.getX() + rand.nextGaussian() * 4,
-                        player.getY() + rand.nextGaussian() * 2,
-                        player.getZ() + rand.nextGaussian() * 4,
-                        rand.nextGaussian(),
-                        rand.nextGaussian(),
-                        rand.nextGaussian(),
-                        0F,
-                        0.75F,
-                        1F,
-                        ModParticles.AURA_SPITES
+                        x, y, z,
+//                        45F, 25,
+                        ModParticles.MUKE_WAVE_SPRITES
                 );
 
-                mc.particleEngine.add(fx);
+                innerMc.particleEngine.add(flash);
+                innerMc.particleEngine.add(wave);
+
+                if (player != null) {
+                    player.hurtTime = 15;
+                    player.hurtDuration = 15;
+                }
             }
-        }
-        if ("vomit".equals(type)) {
-            Entity e = level.getEntity(data.getInt("entity"));
-            int count = data.getInt("count") / (particleSetting + 1);
 
-            if (e instanceof LivingEntity living) {
-                double ix = living.getX();
-                double iy = living.getY() + living.getEyeHeight();
-                double iz = living.getZ();
+            if ("tower".equals(type)) {
+                if (particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean())) {
+                    float strafe = 0.075F;
+                    boolean windDir  = true;
+                    float alphaMod = 0.25F;
 
-                Vec3 vec = living.getLookAngle();
+                    float lift = data.getFloat("lift");
+                    float maxScale = data.getFloat("max");
+                    float baseScale = data.getFloat("base");
+                    int lifetime = data.getInt("life");
 
-                for (int i = 0; i < count; i++) {
-                    String mode = data.getString("mode");
+                    if (data.contains("noWind")) windDir  = !data.getBoolean("noWind");
+                    if (data.contains("strafe")) strafe = data.getFloat("strafe");
+                    if (data.contains("alpha")) alphaMod = data.getFloat("alpha");
 
-                    if ("normal".equals(mode)) {
-                        VomitPart fx = new VomitPart(level, ix, iy, iz,
-                                (vec.x + rand.nextGaussian() * 0.2) * 0.2,
-                                (vec.y + rand.nextGaussian() * 0.2) * 0.2,
-                                (vec.z + rand.nextGaussian() * 0.2) * 0.2,
-                                0.3F, 0.33F + rand.nextFloat(0.2F), 0.17F,
-                                ModParticles.VOMIT_SPRITES
+                    ParticleCoolingTower fx = new ParticleCoolingTower(
+                            level,
+                            x, y, z,
+                            baseScale,
+                            maxScale,
+                            lift,
+                            strafe,
+                            windDir,
+                            alphaMod,
+                            lifetime,
+                            ModParticles.COOLING_TOWER_SPRITES
+                    );
+
+                    if (data.contains("color")) {
+                        int color = data.getInt("color");
+                        fx.setColor(
+                                (color >> 16 & 255) / 255F,
+                                (color >> 8 & 255) / 255F,
+                                (color & 255) / 255F
                         );
-                        mc.particleEngine.add(fx);
                     }
 
-                    if ("blood".equals(mode)) {
-                        VomitPart fx = new VomitPart(level, ix, iy, iz,
-                                (vec.x + rand.nextGaussian() * 0.2) * 0.2,
-                                (vec.y + rand.nextGaussian() * 0.2) * 0.2,
-                                (vec.z + rand.nextGaussian() * 0.2) * 0.2,
-                                0.72F + rand.nextFloat(0.3F), 0.12F, 0F,
-                                ModParticles.VOMIT_SPRITES
-                        );
-                        mc.particleEngine.add(fx);
-                    }
+                    innerMc.particleEngine.add(fx);
+                }
+            }
 
-                    if ("smoke".equals(mode)) {
+            if ("radiation".equals(type)) {
+                if (player == null) return;
+                for (int i = 0; i < data.getInt("count"); i++) {
+                    ParticleAura fx = new ParticleAura(
+                            level,
+                            player.getX() + rand.nextGaussian() * 4,
+                            player.getY() + rand.nextGaussian() * 2,
+                            player.getZ() + rand.nextGaussian() * 4,
+                            rand.nextGaussian(),
+                            rand.nextGaussian(),
+                            rand.nextGaussian(),
+                            0F,
+                            0.75F,
+                            1F,
+                            ModParticles.AURA_SPITES
+                    );
 
-                        level.addParticle(
-                                ParticleTypes.SMOKE,
-                                ix, iy, iz,
-                                (vec.x + rand.nextGaussian() * 0.1) * 0.05,
-                                (vec.y + rand.nextGaussian() * 0.1) * 0.05,
-                                (vec.z + rand.nextGaussian() * 0.1) * 0.05
-                        );
+                    innerMc.particleEngine.add(fx);
+                }
+            }
+
+            if ("vomit".equals(type)) {
+                Entity e = level.getEntity(data.getInt("entity"));
+                int count = data.getInt("count") / (particleSetting + 1);
+
+                if (e instanceof LivingEntity living) {
+                    double ix = living.getX();
+                    double iy = living.getY() + living.getEyeHeight();
+                    double iz = living.getZ();
+
+                    Vec3 vec = living.getLookAngle();
+
+                    for (int i = 0; i < count; i++) {
+                        String mode = data.getString("mode");
+
+                        if ("normal".equals(mode)) {
+                            VomitPart fx = new VomitPart(level, ix, iy, iz,
+                                    (vec.x + rand.nextGaussian() * 0.2) * 0.2,
+                                    (vec.y + rand.nextGaussian() * 0.2) * 0.2,
+                                    (vec.z + rand.nextGaussian() * 0.2) * 0.2,
+                                    0.3F, 0.33F + rand.nextFloat(), 0.17F,
+                                    ModParticles.VOMIT_SPRITES
+                            );
+                            innerMc.particleEngine.add(fx);
+                        }
+
+                        if ("blood".equals(mode)) {
+                            VomitPart fx = new VomitPart(level, ix, iy, iz,
+                                    (vec.x + rand.nextGaussian() * 0.2) * 0.2,
+                                    (vec.y + rand.nextGaussian() * 0.2) * 0.2,
+                                    (vec.z + rand.nextGaussian() * 0.2) * 0.2,
+                                    0.72F + rand.nextFloat(), 0.12F, 0F,
+                                    ModParticles.VOMIT_SPRITES
+                            );
+                            innerMc.particleEngine.add(fx);
+                        }
+
+                        if ("smoke".equals(mode)) {
+
+                            level.addParticle(
+                                    ParticleTypes.SMOKE,
+                                    ix, iy, iz,
+                                    (vec.x + rand.nextGaussian() * 0.1) * 0.05,
+                                    (vec.y + rand.nextGaussian() * 0.1) * 0.05,
+                                    (vec.z + rand.nextGaussian() * 0.1) * 0.05
+                            );
+                        }
                     }
                 }
             }
-        }
+        });
     }
 }

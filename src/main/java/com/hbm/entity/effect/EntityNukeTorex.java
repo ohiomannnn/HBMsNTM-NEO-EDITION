@@ -67,8 +67,6 @@ public class EntityNukeTorex extends Entity {
 
             if (this.tickCount == 1) setScale((float) s);
 
-            if (!this.isAlive()) return;
-
             if (lastSpawnY == -1) {
                 lastSpawnY = getY() - 3;
             }

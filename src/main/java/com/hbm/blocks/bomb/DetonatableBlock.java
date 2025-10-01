@@ -54,6 +54,6 @@ public abstract class DetonatableBlock extends BlockFlammable implements IFuckin
         if (!detonateOnShot) return;
 
         level.removeBlock(pos, false);
-        explodeEntity(level, pos.getX(), pos.getY(), pos.getZ(), null); // EXPLOSIONARCE<R(UCEWRKcl
+        explodeEntity(level, pos.getX(), pos.getY(), pos.getZ(), null);
     }
 }

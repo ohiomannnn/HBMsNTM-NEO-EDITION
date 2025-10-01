@@ -16,7 +16,7 @@ public class CustomRenderTypes extends RenderType {
 
     public static RenderType additive(ResourceLocation texture) {
         return create(
-                "additive_flash",
+                "additive",
                 DefaultVertexFormat.NEW_ENTITY,
                 VertexFormat.Mode.QUADS,
                 256,
@@ -34,7 +34,7 @@ public class CustomRenderTypes extends RenderType {
     }
 
     private static final RenderStateShard.TransparencyStateShard ADDITIVE_TRANSPARENCY =
-            new RenderStateShard.TransparencyStateShard("additive_transparency",
+            new RenderStateShard.TransparencyStateShard("additive",
                     () -> {
                         RenderSystem.enableBlend();
                         RenderSystem.disableCull();
