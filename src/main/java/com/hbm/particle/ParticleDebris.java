@@ -10,53 +10,72 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.model.data.ModelData;
+
+import java.util.Random;
 
 public class ParticleDebris extends TextureSheetParticle {
 
     private final BlockRenderDispatcher blockRenderer;
-    public WorldInAJar world;
+    private WorldInAJar world;
+    private static Random rng = new Random();
 
-    public ParticleDebris(ClientLevel level, double x, double y, double z) {
+    public ParticleDebris(ClientLevel level, double x, double y, double z, double mx, double my, double mz) {
         super(level, x, y, z);
+        double mult = 3;
+        this.xd = mx * mult;
+        this.yd = my * mult;
+        this.zd = mz * mult;
         this.blockRenderer = Minecraft.getInstance().getBlockRenderer();
         this.world = new WorldInAJar(4, 4, 4);
         this.lifetime = 100;
-        this.gravity = 0.05F;
+        this.gravity = 0.15F;
     }
 
-    public void setDeltaMovement(Vec3 deltaMovement) {
-        this.xd = deltaMovement.x;
-        this.yd = deltaMovement.y;
-        this.zd = deltaMovement.z;
+    public ParticleDebris setWorldInAJar(WorldInAJar world) {
+        this.world = world;
+        return this;
     }
 
     @Override
     public void tick() {
-        super.tick();
+        this.xo = this.x;
+        this.yo = this.y;
+        this.zo = this.z;
+
+        if (this.age > 5) this.hasPhysics = true;
+
+        rng.setSeed(this.hashCode());
+        this.oRoll = this.roll;
+        this.roll += rng.nextFloat() * 10 * (Mth.DEG_TO_RAD);
+
+        if (this.hashCode() % 3 == 0) {
+            ParticleRocketFlame fx = new ParticleRocketFlame(
+                    this.level,
+                    this.x, this.y, this.z,
+                    ModParticles.ROCKET_FLAME_SPRITES
+            );
+            fx.setScale(1F * Math.max(world.sizeY, 6) / 16F);
+            fx.resetPrevPos();
+            fx.setMaxAge(50);
+            Minecraft.getInstance().particleEngine.add(fx);
+        }
+
         this.yd -= gravity;
+
         this.move(this.xd, this.yd, this.zd);
 
-        if(this.age > 5) this.hasPhysics = false;
-
-        ParticleRocketFlame fx = new ParticleRocketFlame(
-                this.level,
-                this.x, this.y, this.z,
-                ModParticles.ROCKET_FLAME_SPRITES
-        );
-        fx.resetPrevPos();
-        fx.setMaxAge(50);
-        Minecraft.getInstance().particleEngine.add(fx);
-
-        if (this.onGround) {
-            this.remove();
-        }
+        this.age++;
+        if (this.onGround) this.remove();
     }
 
     @Override
@@ -66,6 +85,11 @@ public class ParticleDebris extends TextureSheetParticle {
         double camX = camera.getPosition().x;
         double camY = camera.getPosition().y;
         double camZ = camera.getPosition().z;
+
+        BlockPos pos = BlockPos.containing(this.x, this.y, this.z);
+        int blockLight = level.getBrightness(LightLayer.BLOCK, pos);
+        int skyLight   = level.getBrightness(LightLayer.SKY, pos);
+        int packedLight = LightTexture.pack(blockLight, skyLight);
 
         pose.pushPose();
         pose.translate(this.x - camX, this.y - camY, this.z - camZ);
@@ -91,7 +115,7 @@ public class ParticleDebris extends TextureSheetParticle {
                             state,
                             pose,
                             Minecraft.getInstance().renderBuffers().bufferSource(),
-                            240,
+                            packedLight,
                             OverlayTexture.NO_OVERLAY,
                             ModelData.EMPTY,
                             RenderType.TRANSLUCENT
@@ -113,8 +137,7 @@ public class ParticleDebris extends TextureSheetParticle {
 
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
-            return new ParticleDebris(level, x, y, z);
-
+            return new ParticleDebris(level, x, y, z, 0, 0, 0);
         }
     }
 }

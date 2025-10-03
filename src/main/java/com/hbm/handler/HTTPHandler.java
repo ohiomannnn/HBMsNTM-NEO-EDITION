@@ -19,7 +19,7 @@ public class HTTPHandler {
 
     public static void loadStats() {
 
-        Thread versionChecker = new Thread("NTM Version Checker") {
+        Thread versionChecker = new Thread("NTM-Version-Checker") {
 
             @Override
             public void run() {

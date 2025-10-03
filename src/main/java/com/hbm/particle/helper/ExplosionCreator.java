@@ -1,5 +1,6 @@
 package com.hbm.particle.helper;
 
+import com.hbm.HBMsNTM;
 import com.hbm.lib.ModSounds;
 import com.hbm.particle.ModParticles;
 import com.hbm.particle.ParticleDebris;
@@ -8,15 +9,22 @@ import com.hbm.particle.ParticleRocketFlame;
 import com.hbm.wiaj.WorldInAJar;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 public class ExplosionCreator implements IParticleCreator {
+
+    public static final double SPEED_OF_SOUND = (17.15D) * 0.5;
 
     public static void composeEffect(Level level, double x, double y, double z,
                                      int cloudCount, float cloudScale, float cloudSpeedMult, float waveScale,
@@ -55,6 +63,7 @@ public class ExplosionCreator implements IParticleCreator {
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public void makeParticle(ClientLevel level, Player player, RandomSource rand, double x, double y, double z, CompoundTag data) {
 
         int cloudCount = data.getByte("cloudCount");
@@ -69,22 +78,20 @@ public class ExplosionCreator implements IParticleCreator {
         float debrisVerticalOffset = data.getFloat("debrisVerticalOffset");
         float soundRange = data.getFloat("soundRange");
 
-        float dist = (float) player.distanceToSqr(x, y, z);
+        double distSq = player.distanceToSqr(x, y, z);
 
-        if (dist <= soundRange * soundRange) {
-            boolean near = dist <= (soundRange * soundRange * 0.16);
-            if (near) {
-                level.playLocalSound(x, y, z,
-                        ModSounds.EXPLOSION_LARGE_NEAR.get(),
-                        net.minecraft.sounds.SoundSource.BLOCKS,
-                        4.0F, 0.9F + rand.nextFloat() * 0.2F, false);
-            } else {
-                // this is not what original playDelayedSound but whatever
-                level.playLocalSound(x, y, z,
-                        ModSounds.EXPLOSION_LARGE_FAR.get(),
-                        net.minecraft.sounds.SoundSource.BLOCKS,
-                        4.0F, 0.9F + rand.nextFloat() * 0.2F, true);
-            }
+        if (distSq <= soundRange * soundRange) {
+            double dist = Math.sqrt(distSq);
+            SoundEvent sound = dist <= soundRange * 0.4 ? ModSounds.EXPLOSION_LARGE_NEAR.get() : ModSounds.EXPLOSION_LARGE_FAR.get();
+            SimpleSoundInstance instance = new SimpleSoundInstance(
+                    sound,
+                    SoundSource.BLOCKS,
+                    1000.0F,
+                    0.9F + rand.nextFloat() * 0.2F,
+                    rand,
+                    x, y, z
+            );
+            Minecraft.getInstance().getSoundManager().playDelayed(instance, (int) (dist / SPEED_OF_SOUND));
         }
 
         // WAVE
@@ -109,6 +116,7 @@ public class ExplosionCreator implements IParticleCreator {
 
         // DEBRIS
         for (int c = 0; c < debrisCount; c++) {
+
             double oX = rand.nextGaussian() * debrisHorizontalDeviation;
             double oY = debrisVerticalOffset;
             double oZ = rand.nextGaussian() * debrisHorizontalDeviation;
@@ -120,19 +128,14 @@ public class ExplosionCreator implements IParticleCreator {
             Vec3 motion = new Vec3(debrisVelocity, 0, 0);
             motion = motion.yRot((float) (rand.nextDouble() * Math.PI * 2));
             motion = motion.zRot((float) Math.toRadians(-(45 + rand.nextFloat() * 25)));
-
-            ParticleDebris particle = new ParticleDebris(level, x,y,z);
-            particle.setDeltaMovement(motion);
-
+            ParticleDebris particle = new ParticleDebris(level, x, y, z, motion.x, motion.y, motion.z);
             WorldInAJar wiaj = new WorldInAJar(debrisSize, debrisSize, debrisSize);
-            particle.world = wiaj;
+            particle.setWorldInAJar(wiaj);
 
             if (debrisSize > 0) {
                 int middle = debrisSize / 2 - 1;
 
-                for (int i = 0; i < 2; i++)
-                    for (int j = 0; j < 2; j++)
-                        for (int k = 0; k < 2; k++) {
+                for (int i = 0; i < 2; i++) for (int j = 0; j < 2; j++) for (int k = 0; k < 2; k++) {
                             BlockPos pos = new BlockPos(cX + i, cY + j, cZ + k);
                             wiaj.setBlock(middle + i, middle + j, middle + k, level.getBlockState(pos));
                         }
@@ -145,13 +148,10 @@ public class ExplosionCreator implements IParticleCreator {
 
                         BlockPos pos = new BlockPos(cX + jx, cY + jy, cZ + jz);
 
-                        // very scary
-                        if (!wiaj.getBlock(middle + jx + 1, middle + jy, middle + jz).isAir()
-                                || !wiaj.getBlock(middle + jx - 1, middle + jy, middle + jz).isAir()
-                                || !wiaj.getBlock(middle + jx, middle + jy + 1, middle + jz).isAir()
-                                || !wiaj.getBlock(middle + jx, middle + jy - 1, middle + jz).isAir()
-                                || !wiaj.getBlock(middle + jx, middle + jy, middle + jz + 1).isAir()
-                                || !wiaj.getBlock(middle + jx, middle + jy, middle + jz - 1).isAir()) {
+                        // very scary part
+                        if (!wiaj.getBlock(middle + jx + 1, middle + jy, middle + jz).isAir() || !wiaj.getBlock(middle + jx - 1, middle + jy, middle + jz).isAir()
+                                || !wiaj.getBlock(middle + jx, middle + jy + 1, middle + jz).isAir() || !wiaj.getBlock(middle + jx, middle + jy - 1, middle + jz).isAir()
+                                || !wiaj.getBlock(middle + jx, middle + jy, middle + jz + 1).isAir() || !wiaj.getBlock(middle + jx, middle + jy, middle + jz - 1).isAir()) {
 
                             wiaj.setBlock(middle + jx, middle + jy, middle + jz, level.getBlockState(pos));
                         }

@@ -128,21 +128,15 @@ public class EntityProcessorCross implements IEntityProcessor {
                         }
                     }
 
-//                    if (!(entity instanceof EntityBulletBaseMK4)) {
-//                        Vec3 motion = entity.getDeltaMovement().add(
-//                                deltaX * blastProtectionLevel * knockbackMult,
-//                                deltaY * blastProtectionLevel * knockbackMult,
-//                                deltaZ * blastProtectionLevel * knockbackMult
-//                        );
-//                        entity.setDeltaMovement(motion);
-//                    }
-
                     if (entity instanceof ServerPlayer player) {
-                        affectedPlayers.put(player, new Vec3(
-                                deltaX * knockback * knockbackMult,
-                                deltaY * knockback * knockbackMult,
-                                deltaZ * knockback * knockbackMult
-                        ));
+                        double protFactor = 1.0 - 0.15 * blastProtectionLevel;
+                        if (protFactor < 0.0) protFactor = 0.0;
+                        if (protFactor > 1.0) protFactor = 1.0;
+
+                        Vec3 push = new Vec3(deltaX, deltaY, deltaZ)
+                                .scale(knockback * knockbackMult * protFactor);
+
+                        affectedPlayers.put(player, push);
                     }
                 }
             }

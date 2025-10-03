@@ -51,6 +51,8 @@ public class EntityFalloutRain extends ChunkloadingEntity {
 
         if (!level().isClientSide) {
 
+            level.setRainLevel(1000);
+
             long start = System.currentTimeMillis();
 
             if (firstTick) {
@@ -278,6 +280,10 @@ public class EntityFalloutRain extends ChunkloadingEntity {
         return data;
     }
 
+    @Override
+    public boolean shouldRenderAtSqrDistance(double distance) {
+        return true;
+    }
 
     public void setScale(int i) {
         this.entityData.set(SCALE, i);

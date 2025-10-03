@@ -1,29 +1,34 @@
 package com.hbm.extprop;
 
+import com.hbm.HBMsNTM;
 import com.hbm.HBMsNTMClient;
 import com.hbm.config.ServerConfig;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.lib.ModAttachments;
+import com.hbm.lib.ModDamageSource;
 import com.hbm.packets.toclient.InformPlayerPacket;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.hbm.lib.ModDamageSource.*;
-
 public class LivingProperties {
     public LivingEntity entity;
+    private static final ResourceLocation DIGAMMA_MOD = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "digamma");
+
 
     /// VALS ///
     private float radiation;
@@ -117,6 +122,26 @@ public class LivingProperties {
             digamma = 0.0F;
 
         getData(entity).digamma = digamma;
+
+        float healthMod = (float) Math.pow(0.5, digamma) - 1F;
+
+        AttributeInstance attributeInstance = entity.getAttribute(Attributes.MAX_HEALTH);
+
+        if (attributeInstance != null) {
+            attributeInstance.removeModifier(DIGAMMA_MOD);
+
+            AttributeModifier modifier = new AttributeModifier(DIGAMMA_MOD, healthMod, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+
+            attributeInstance.addPermanentModifier(modifier);
+
+            if (entity.getHealth() > entity.getMaxHealth() && entity.getMaxHealth() > 0) {
+                entity.setHealth(entity.getMaxHealth());
+            }
+        }
+        if ((entity.getMaxHealth() <= 0 || digamma >= 10.0F) && entity.isAlive()) {
+            DamageSource src = new DamageSource(entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageSource.DIGAMMA));
+            entity.hurt(src, Float.MAX_VALUE);
+        }
     }
 
     public static void incrementDigamma(LivingEntity entity, float digamma) {
@@ -145,9 +170,7 @@ public class LivingProperties {
 
         if (asbestos >= maxAsbestos) {
             getData(entity).asbestos = 0;
-            DamageSource src = new DamageSource(
-                    entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ASBESTOS)
-            );
+            DamageSource src = new DamageSource(entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageSource.ASBESTOS));
             entity.hurt(src, Float.MAX_VALUE);
         }
     }
@@ -157,8 +180,7 @@ public class LivingProperties {
         setAsbestos(entity, getAsbestos(entity) + asbestos);
 
         if (entity instanceof ServerPlayer player) {
-            Component comp = Component.translatable("info.asbestos")
-                    .withStyle(ChatFormatting.RED);
+            Component comp = Component.translatable("info.asbestos").withStyle(ChatFormatting.RED);
             InformPlayerPacket packet = new InformPlayerPacket(true, null, comp, HBMsNTMClient.ID_GAS_HAZARD, 3000);
             PacketDistributor.sendToPlayer(player, packet);
         }
@@ -176,9 +198,7 @@ public class LivingProperties {
 
         if (blacklung >= maxBlacklung) {
             getData(entity).blacklung = 0;
-            DamageSource src = new DamageSource(
-                    entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(BLACKLUNG)
-            );
+            DamageSource src = new DamageSource(entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageSource.BLACKLUNG));
             entity.hurt(src, Float.MAX_VALUE);
         }
     }
@@ -188,8 +208,7 @@ public class LivingProperties {
         setBlackLung(entity, getBlackLung(entity) + blacklung);
 
         if (entity instanceof ServerPlayer player) {
-            Component comp = Component.translatable("info.coaldust")
-                    .withStyle(ChatFormatting.RED);
+            Component comp = Component.translatable("info.coaldust").withStyle(ChatFormatting.RED);
             InformPlayerPacket packet = new InformPlayerPacket(true, null, comp, HBMsNTMClient.ID_GAS_HAZARD, 3000);
             PacketDistributor.sendToPlayer(player, packet);
         }

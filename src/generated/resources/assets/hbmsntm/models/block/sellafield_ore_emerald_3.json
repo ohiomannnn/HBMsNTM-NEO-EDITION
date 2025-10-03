@@ -1,0 +1,81 @@
+{
+  "parent": "minecraft:block/cube",
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "texture": "#base",
+          "tintindex": 0
+        },
+        "east": {
+          "texture": "#base",
+          "tintindex": 0
+        },
+        "north": {
+          "texture": "#base",
+          "tintindex": 0
+        },
+        "south": {
+          "texture": "#base",
+          "tintindex": 0
+        },
+        "up": {
+          "texture": "#base",
+          "tintindex": 0
+        },
+        "west": {
+          "texture": "#base",
+          "tintindex": 0
+        }
+      },
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#overlay"
+        },
+        "east": {
+          "texture": "#overlay"
+        },
+        "north": {
+          "texture": "#overlay"
+        },
+        "south": {
+          "texture": "#overlay"
+        },
+        "up": {
+          "texture": "#overlay"
+        },
+        "west": {
+          "texture": "#overlay"
+        }
+      },
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ]
+    }
+  ],
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "base": "hbmsntm:block/sellafield_slaked_3",
+    "overlay": "hbmsntm:block/ore_emerald_overlay",
+    "particle": "hbmsntm:block/ore_emerald_overlay"
+  }
+}

@@ -101,7 +101,7 @@ public class ModBlocks {
                     .isViewBlocking((state, level, pos) -> false)
                     .sound(SoundType.GRASS)));
     public static final DeferredBlock<Block> LEAVES_LAYER = registerBlock("leaves_layer",
-            () -> new BlockLayering(BlockBehaviour.Properties.of()
+            () -> new LayeringBlock(BlockBehaviour.Properties.of()
                     .noLootTable()
                     .strength(0.1F)
                     .randomTicks()
@@ -116,15 +116,24 @@ public class ModBlocks {
                     .strength(0.1F)
                     .sound(SoundType.GRAVEL)));
     public static final DeferredBlock<Block> SELLAFIELD_SLAKED = registerBlock("sellafield_slaked",
-            () -> new BlockSellafieldSlaked(BlockBehaviour.Properties.of()
+            () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of()
                     .noLootTable()
-                    .strength(3.0F, 10.F)
+                    .strength(3.0F, 10.0F)
+                    .sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_SELLAFIELD_DIAMOND = registerBlock("ore_sellafield_diamond",
+            () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of()
+                    .noLootTable()
+                    .strength(3.0F, 10.0F)
+                    .sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_SELLAFIELD_EMERALD = registerBlock("ore_sellafield_emerald",
+            () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of()
+                    .noLootTable()
+                    .strength(3.0F, 10.0F)
                     .sound(SoundType.STONE)));
     public static final DeferredBlock<Block> SELLAFIELD_BEDROCK = registerBlock("sellafield_bedrock",
-            () -> new BlockSellafieldSlaked(BlockBehaviour.Properties.of()
+            () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of()
                     .noLootTable()
-                    .isValidSpawn(Blocks::never)
-                    .strength(-1.0F, 3600000.0F)
+                    .strength(-1.0F, 6000000.0F)
                     .sound(SoundType.STONE)));
     public static final DeferredBlock<Block> WASTE_PLANKS = registerBlock("waste_planks",
             () -> new Block(BlockBehaviour.Properties.of()
@@ -260,6 +269,7 @@ public class ModBlocks {
                     .strength(0.1F)
                     .explosionResistance(0.0F)
                     .sound(SoundType.METAL)
+                    .noLootTable()
             ));
 
     //STAIRS

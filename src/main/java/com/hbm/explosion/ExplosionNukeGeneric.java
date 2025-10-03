@@ -2,6 +2,7 @@ package com.hbm.explosion;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.ServerConfig;
+import com.hbm.lib.ModDamageSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
@@ -25,8 +26,6 @@ import net.neoforged.neoforge.energy.IEnergyStorage;
 
 import java.util.List;
 import java.util.Random;
-
-import static com.hbm.lib.ModDamageSource.NUCLEAR_BLAST;
 
 public class ExplosionNukeGeneric {
 
@@ -65,7 +64,7 @@ public class ExplosionNukeGeneric {
 
         for (Entity entity : entities) {
             if (entity instanceof LivingEntity living) {
-                DamageSource src = new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(NUCLEAR_BLAST));
+                DamageSource src = new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageSource.NUCLEAR_BLAST));
                 living.hurt(src, damage);
                 Vec3 dir = living.position().subtract(Vec3.atCenterOf(center)).normalize();
                 living.setDeltaMovement(living.getDeltaMovement().add(dir.scale(1.5)));

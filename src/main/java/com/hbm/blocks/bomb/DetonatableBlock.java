@@ -1,7 +1,7 @@
 package com.hbm.blocks.bomb;
 
 import api.hbm.block.IFuckingExplode;
-import com.hbm.blocks.generic.BlockFlammable;
+import com.hbm.blocks.generic.FlammableBlock;
 import com.hbm.entity.item.EntityTNTPrimedBase;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.function.BiConsumer;
 
-public abstract class DetonatableBlock extends BlockFlammable implements IFuckingExplode {
+public abstract class DetonatableBlock extends FlammableBlock implements IFuckingExplode {
 
     protected int popFuse; // A shorter fuse for when this explosive is dinked by another
     protected boolean detonateOnCollision;

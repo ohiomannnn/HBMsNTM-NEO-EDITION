@@ -5,11 +5,9 @@ import com.hbm.extprop.LivingProperties;
 import com.hbm.lib.ModEffect;
 import com.hbm.world.WorldUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -18,6 +16,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -88,13 +87,14 @@ public class FalloutBlock extends Block {
     }
 
     public static boolean canPlaceBlockAt(Level level, BlockPos pos) {
-        BlockPos below = new BlockPos(pos.getX(), pos.getY() - 1, pos.getZ()).below();
-        BlockState state = level.getBlockState(below);
+        BlockPos below = pos.below();
+        BlockState belowState = level.getBlockState(below);
 
-        if (WorldUtil.isPlant(state)) return false;
-        if (state.isAir()) return false;
+        if (WorldUtil.isPlant(belowState)) return false;
+        if (belowState.is(ModBlocks.FALLOUT.get())) return false;
+        if (belowState.isAir()) return false;
 
-        return state.isSolidRender(level, below);
+        return belowState.isSolidRender(level, below);
     }
 
     @Override

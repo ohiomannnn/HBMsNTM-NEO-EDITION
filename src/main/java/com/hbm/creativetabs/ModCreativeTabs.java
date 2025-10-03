@@ -41,6 +41,9 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.WASTE_LOG);
                         output.accept(ModBlocks.WASTE_LEAVES);
                         output.accept(ModBlocks.LEAVES_LAYER);
+
+                        output.accept(ModBlocks.SELLAFIELD_SLAKED);
+                        output.accept(ModBlocks.SELLAFIELD_BEDROCK);
                     }).build());
 
     public static final Supplier<CreativeModeTab> BOMBS = CREATIVE_MODE_TABS.register("bombs",

@@ -29,8 +29,8 @@ public class BalefireBlock extends BaseFireBlock {
 
     public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 15);
 
-    public BalefireBlock(Properties props) {
-        super(props, 1.0F);
+    public BalefireBlock(Properties properties) {
+        super(properties, 1.0F);
         this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0));
     }
 
@@ -59,6 +59,7 @@ public class BalefireBlock extends BaseFireBlock {
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(AGE);
     }
+
     @Override
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
         if (!oldState.is(state.getBlock())) {
@@ -163,7 +164,7 @@ public class BalefireBlock extends BaseFireBlock {
     }
 
     @Override
-    protected void entityInside(BlockState state, net.minecraft.world.level.Level level, BlockPos pos, Entity entity) {
+    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
         entity.setRemainingFireTicks(10 * 20);
         if (entity instanceof LivingEntity living) {
             living.addEffect(new MobEffectInstance(ModEffect.RADIATION, 5 * 20, 9));

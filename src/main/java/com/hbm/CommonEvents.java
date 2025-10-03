@@ -18,22 +18,36 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
+import java.io.File;
 import java.util.Random;
 
 @EventBusSubscriber(modid = HBMsNTM.MODID)
 public class CommonEvents {
 
+    public static File configDir;
+    public static File configHbmDir;
+
     @SubscribeEvent
     public static void commonSetup(FMLCommonSetupEvent event) {
+
+        configDir = FMLPaths.CONFIGDIR.get().toFile();
+
+        configHbmDir = new File(configDir, "hbmConfig");
+
+        if (!configHbmDir.exists()) {
+            configHbmDir.mkdirs();
+        }
 
         HBMsNTM.LOGGER.info("Let us celebrate the fact that the logger finally works again!");
 
         HTTPHandler.loadStats();
+        FalloutConfigJSON.initialize();
         FalloutConfigJSON.initDefault();
         HazardRegistry.registerItems();
 

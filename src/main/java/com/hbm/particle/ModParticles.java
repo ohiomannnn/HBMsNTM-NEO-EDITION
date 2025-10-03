@@ -14,46 +14,29 @@ public class ModParticles {
             DeferredRegister.create(BuiltInRegistries.PARTICLE_TYPE, HBMsNTM.MODID);
 
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> MUKE_CLOUD =
-            PARTICLE_TYPES.register("muke_cloud",
-                    () -> new SimpleParticleType(true));
+            PARTICLE_TYPES.register("muke_cloud", () -> new SimpleParticleType(false));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> MUKE_CLOUD_BF =
-            PARTICLE_TYPES.register("muke_cloud_bf",
-                    () -> new SimpleParticleType(true));
+            PARTICLE_TYPES.register("muke_cloud_bf", () -> new SimpleParticleType(false));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> MUKE_WAVE =
-            PARTICLE_TYPES.register("muke_wave",
-                    () -> new SimpleParticleType(true));
+            PARTICLE_TYPES.register("muke_wave", () -> new SimpleParticleType(false));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> MUKE_FLASH =
-            PARTICLE_TYPES.register("muke_flash",
-                    () -> new SimpleParticleType(true));
+            PARTICLE_TYPES.register("muke_flash", () -> new SimpleParticleType(false));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> EXPLOSION_SMALL =
-            PARTICLE_TYPES.register("explosion_small",
-                    () -> new SimpleParticleType(false));
+            PARTICLE_TYPES.register("explosion_small", () -> new SimpleParticleType(false));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> COOLING_TOWER =
-            PARTICLE_TYPES.register("cooling_tower",
-                    () -> new SimpleParticleType(false));
+            PARTICLE_TYPES.register("cooling_tower", () -> new SimpleParticleType(false));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> GAS_FLAME =
-            PARTICLE_TYPES.register("gas_flame",
-                    () -> new SimpleParticleType(false));
+            PARTICLE_TYPES.register("gas_flame", () -> new SimpleParticleType(false));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> DEAD_LEAF =
-            PARTICLE_TYPES.register("dead_leaf",
-                    () -> new SimpleParticleType(false));
+            PARTICLE_TYPES.register("dead_leaf", () -> new SimpleParticleType(false));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> AURA =
-            PARTICLE_TYPES.register("aura",
-                    () -> new SimpleParticleType(false));
-    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> VOMIT =
-            PARTICLE_TYPES.register("vomit",
-                    () -> new SimpleParticleType(false));
+            PARTICLE_TYPES.register("aura", () -> new SimpleParticleType(false));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> RAD_FOG =
-            PARTICLE_TYPES.register("rad_fog",
-                    () -> new SimpleParticleType(false));
+            PARTICLE_TYPES.register("rad_fog", () -> new SimpleParticleType(false));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> ROCKET_FLAME =
-            PARTICLE_TYPES.register("rocket_flame",
-                    () -> new SimpleParticleType(false));
+            PARTICLE_TYPES.register("rocket_flame", () -> new SimpleParticleType(false));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> DEBRIS =
-            PARTICLE_TYPES.register("debris", () -> new SimpleParticleType(true));
-    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> BLOCK_DUST =
-            PARTICLE_TYPES.register("block_dust", () -> new SimpleParticleType(true));
-
+            PARTICLE_TYPES.register("debris", () -> new SimpleParticleType(false));
 
     public static SpriteSet COOLING_TOWER_SPRITES;
     public static SpriteSet ROCKET_FLAME_SPRITES;
@@ -61,7 +44,6 @@ public class ModParticles {
     public static SpriteSet MUKE_WAVE_SPRITES;
     public static SpriteSet EXPLOSION_SMALL_SPRITES;
     public static SpriteSet AURA_SPITES;
-    public static SpriteSet VOMIT_SPRITES;
     public static SpriteSet RAD_FOG_SPRITES;
 
     public static void register(IEventBus eventBus) {

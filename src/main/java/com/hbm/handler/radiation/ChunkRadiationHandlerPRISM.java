@@ -283,8 +283,8 @@ public class ChunkRadiationHandlerPRISM extends ChunkRadiationHandler {
 
     public static class SubChunk {
 
-        public float prevRadiation;  // предыдущий тик
-        public float radiation;      // текущая радиация
+        public float prevRadiation;
+        public float radiation;
         public float[] xResist = new float[16];
         public float[] yResist = new float[16];
         public float[] zResist = new float[16];

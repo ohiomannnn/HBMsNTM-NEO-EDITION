@@ -26,6 +26,9 @@
   "block.hbmsntm.det_charge": "Explosive Charge",
   "block.hbmsntm.leaves_layer": "Fallen Leaves",
 
+  "block.hbmsntm.sellafield_slaked": "Slaked Sellafite",
+  "block.hbmsntm.sellafield_bedrock": "Bedrock Sellafite",
+
   "item.hbmsntm.nothing": "Nothing",
   "item.hbmsntm.geiger_counter": "Handheld Geiger Counter",
   "item.hbmsntm.dosimeter": "Dosimeter",

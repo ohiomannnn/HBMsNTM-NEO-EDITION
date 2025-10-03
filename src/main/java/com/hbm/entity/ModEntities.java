@@ -37,6 +37,7 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<EntityFalloutRain>> FALLOUT_RAIN =
             ENTITY_TYPES.register("fallout_rain",
                     () -> EntityType.Builder.of(EntityFalloutRain::new, MobCategory.MISC)
+                            .setTrackingRange(1000)
                             .sized(2.0F, 20.0F)
                             .build("fallout_rain"));
 

@@ -1,6 +1,52 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/cube",
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "texture": "#down",
+          "tintindex": 0
+        },
+        "east": {
+          "texture": "#east",
+          "tintindex": 0
+        },
+        "north": {
+          "texture": "#north",
+          "tintindex": 0
+        },
+        "south": {
+          "texture": "#south",
+          "tintindex": 0
+        },
+        "up": {
+          "texture": "#up",
+          "tintindex": 0
+        },
+        "west": {
+          "texture": "#west",
+          "tintindex": 0
+        }
+      },
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ]
+    }
+  ],
   "textures": {
-    "all": "hbmsntm:block/sellafield_slaked_2"
+    "down": "hbmsntm:block/sellafield_slaked_2",
+    "east": "hbmsntm:block/sellafield_slaked_2",
+    "north": "hbmsntm:block/sellafield_slaked_2",
+    "particle": "hbmsntm:block/sellafield_slaked_2",
+    "south": "hbmsntm:block/sellafield_slaked_2",
+    "up": "hbmsntm:block/sellafield_slaked_2",
+    "west": "hbmsntm:block/sellafield_slaked_2"
   }
 }

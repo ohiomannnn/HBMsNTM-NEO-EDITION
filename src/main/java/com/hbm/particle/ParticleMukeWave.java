@@ -14,7 +14,7 @@ import net.minecraft.util.Mth;
 public class ParticleMukeWave extends TextureSheetParticle {
 
     private final SpriteSet sprites;
-    private float waveScale;
+    private float waveScale = 45F;
 
     public ParticleMukeWave(ClientLevel level, double x, double y, double z, SpriteSet sprites) {
         super(level, x, y, z, 0, 0, 0);

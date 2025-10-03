@@ -14,6 +14,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 public class ExplosionNukeSmall {
+    @Deprecated
     public static void explode(Level level, double posX, double posY, double posZ, MukeParams params) {
 
         if (params.particle != null) {

@@ -82,7 +82,6 @@ public class EntityProcessorStandard implements IEntityProcessor {
                     DamageSource src = setExplosionSource(level, explosion.compat);
                     entity.hurt(src, calculateDamage(knockback, size));
 
-                    // why is this supposed to so hard???
                     Holder<Enchantment> blast = level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.BLAST_PROTECTION);
 
                     int blastProtectionLevel = 0;
@@ -92,11 +91,14 @@ public class EntityProcessorStandard implements IEntityProcessor {
                         }
                     }
 
-                    entity.setDeltaMovement(entity.getDeltaMovement().add(
-                            deltaX * blastProtectionLevel,
-                            deltaY * blastProtectionLevel,
-                            deltaZ * blastProtectionLevel
-                    ));
+                    float reduction = 1.0F - (0.15F * blastProtectionLevel);
+
+                    reduction = Math.max(reduction, 0.0F);
+
+                    Vec3 knockbackVec = new Vec3(deltaX * knockback, deltaY * knockback, deltaZ * knockback)
+                            .scale(reduction);
+
+                    entity.setDeltaMovement(entity.getDeltaMovement().add(knockbackVec));
 
                     if (entity instanceof Player player) {
                         affectedPlayers.put(player, new Vec3(deltaX * knockback, deltaY * knockback, deltaZ * knockback));

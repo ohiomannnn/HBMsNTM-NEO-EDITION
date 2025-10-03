@@ -9,19 +9,15 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-import net.minecraft.world.phys.Vec3;
 
 import java.util.*;
 
@@ -67,17 +63,16 @@ public class BlockProcessorStandard implements IBlockProcessor {
 
                     int dropFortune = fortune == null ? 0 : fortune.mutateFortune(explosion, block, pos.getX(), pos.getY(), pos.getZ());
 
-                    Holder<Enchantment> fortune = level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.FORTUNE);
-                    ItemStack fakeTool = new ItemStack(Items.AIR);
+                    Holder<Enchantment> fortuneEnchant = level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.FORTUNE);
+                    ItemStack toolWith = new ItemStack(Items.DIAMOND_PICKAXE);
                     if (dropFortune > 0) {
-                        fakeTool.enchant(fortune, dropFortune);
+                        toolWith.enchant(fortuneEnchant, dropFortune);
                     }
 
                     if (level instanceof ServerLevel serverLevel) {
                         LootParams.Builder builder = new LootParams.Builder(serverLevel)
                                 .withParameter(LootContextParams.ORIGIN, pos.getCenter())
-                                .withParameter(LootContextParams.TOOL, fakeTool)
-                                .withOptionalParameter(LootContextParams.BLOCK_ENTITY, level.getBlockEntity(pos));
+                                .withParameter(LootContextParams.TOOL, toolWith);
 
                         List<ItemStack> drops = state.getDrops(builder);
 

@@ -1,7 +1,7 @@
 package com.hbm;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.generic.BlockSellafieldSlaked;
+import com.hbm.blocks.generic.SellafieldSlakedBlock;
 import com.hbm.config.ClientConfig;
 import com.hbm.entity.ModEntities;
 import com.hbm.handler.HTTPHandler;
@@ -26,7 +26,9 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.entity.CreeperRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -37,7 +39,10 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -52,6 +57,7 @@ import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
+import java.awt.*;
 import java.util.List;
 
 @Mod(value = HBMsNTM.MODID, dist = Dist.CLIENT)
@@ -172,12 +178,30 @@ public class HBMsNTMClient {
 
     @SubscribeEvent
     public static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
-        event.register(new BlockSellafieldSlaked.ColorHandler(), ModBlocks.SELLAFIELD_SLAKED.get());
+        event.register(
+                (state, world, pos, tintIndex) -> {
+                    int variant = state.getValue(SellafieldSlakedBlock.COLOR_LEVEL);
+                    return Color.HSBtoRGB(0F, 0F, 1F - variant / 15F);
+                },
+                ModBlocks.SELLAFIELD_SLAKED.get(),
+                ModBlocks.SELLAFIELD_BEDROCK.get(),
+                ModBlocks.ORE_SELLAFIELD_DIAMOND.get(),
+                ModBlocks.ORE_SELLAFIELD_EMERALD.get()
+        );
     }
 
     @SubscribeEvent
     public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
-        event.register((stack, tintIndex) -> 0xFFFFFF, ModBlocks.SELLAFIELD_SLAKED.get());
+        event.register(
+                (stack, tintIndex) -> event.getBlockColors().getColor(
+                        ((BlockItem) stack.getItem()).getBlock().defaultBlockState(),
+                        null, null, tintIndex
+                ),
+                ModBlocks.SELLAFIELD_SLAKED.get(),
+                ModBlocks.SELLAFIELD_BEDROCK.get(),
+                ModBlocks.ORE_SELLAFIELD_DIAMOND.get(),
+                ModBlocks.ORE_SELLAFIELD_EMERALD.get()
+        );
     }
 
     @SubscribeEvent
@@ -187,6 +211,7 @@ public class HBMsNTMClient {
         event.registerEntityRenderer(ModEntities.NUKE_MK5.get(), EmptyRenderer::new);
         event.registerEntityRenderer(ModEntities.NUKE_TOREX.get(), RenderTorex::new);
         event.registerEntityRenderer(ModEntities.FALLOUT_RAIN.get(), EmptyRenderer::new);
+
         ItemProperties.register(ModItems.POLAROID.get(),
                 ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "polaroid_id"),
                 (stack, level, entity, seed) -> CommonEvents.polaroidID);
@@ -223,10 +248,6 @@ public class HBMsNTMClient {
         event.registerSpriteSet(ModParticles.AURA.get(), sprites -> {
             ModParticles.AURA_SPITES = sprites;
             return new ParticleAura.Provider(sprites);
-        });
-        event.registerSpriteSet(ModParticles.VOMIT.get(), sprites -> {
-            ModParticles.VOMIT_SPRITES = sprites;
-            return new VomitPart.Provider(sprites);
         });
         event.registerSpriteSet(ModParticles.RAD_FOG.get(), sprites -> {
             ModParticles.RAD_FOG_SPRITES = sprites;
@@ -276,7 +297,6 @@ public class HBMsNTMClient {
                 ParticleMukeWave wave = new ParticleMukeWave(
                         level,
                         x, y, z,
-//                        45F, 25,
                         ModParticles.MUKE_WAVE_SPRITES
                 );
 
@@ -291,66 +311,63 @@ public class HBMsNTMClient {
 
             if ("tower".equals(type)) {
                 if (particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean())) {
-                    float strafe = 0.075F;
-                    boolean windDir  = true;
-                    float alphaMod = 0.25F;
+                    ParticleCoolingTower particle = new ParticleCoolingTower(level, x, y, z, ModParticles.COOLING_TOWER_SPRITES);
 
-                    float lift = data.getFloat("lift");
-                    float maxScale = data.getFloat("max");
-                    float baseScale = data.getFloat("base");
-                    int lifetime = data.getInt("life");
-
-                    if (data.contains("noWind")) windDir  = !data.getBoolean("noWind");
-                    if (data.contains("strafe")) strafe = data.getFloat("strafe");
-                    if (data.contains("alpha")) alphaMod = data.getFloat("alpha");
-
-                    ParticleCoolingTower fx = new ParticleCoolingTower(
-                            level,
-                            x, y, z,
-                            baseScale,
-                            maxScale,
-                            lift,
-                            strafe,
-                            windDir,
-                            alphaMod,
-                            lifetime,
-                            ModParticles.COOLING_TOWER_SPRITES
-                    );
+                    particle.setLift(data.getFloat("lift"));
+                    particle.setBaseScale(data.getFloat("base"));
+                    particle.setMaxScale(data.getFloat("max"));
+                    particle.setLife(data.getInt("life") / (particleSetting + 1));
+                    if (data.contains("noWind")) particle.noWind();
+                    if (data.contains("strafe")) particle.setStrafe(data.getFloat("strafe"));
+                    if (data.contains("alpha")) particle.alphaMod(data.getFloat("alpha"));
 
                     if (data.contains("color")) {
                         int color = data.getInt("color");
-                        fx.setColor(
-                                (color >> 16 & 255) / 255F,
-                                (color >> 8 & 255) / 255F,
-                                (color & 255) / 255F
-                        );
+                        particle.setColor((color >> 16 & 255) / 255F, (color >> 8 & 255) / 255F, (color & 255) / 255F);
                     }
 
-                    innerMc.particleEngine.add(fx);
+                    innerMc.particleEngine.add(particle);
                 }
             }
 
             if ("radiation".equals(type)) {
                 if (player == null) return;
                 for (int i = 0; i < data.getInt("count"); i++) {
-                    ParticleAura fx = new ParticleAura(
+                    ParticleAura flash = new ParticleAura(
                             level,
                             player.getX() + rand.nextGaussian() * 4,
                             player.getY() + rand.nextGaussian() * 2,
                             player.getZ() + rand.nextGaussian() * 4,
-                            rand.nextGaussian(),
-                            rand.nextGaussian(),
-                            rand.nextGaussian(),
-                            0F,
-                            0.75F,
-                            1F,
+                            0, 0, 0,
                             ModParticles.AURA_SPITES
                     );
 
-                    innerMc.particleEngine.add(fx);
+                    flash.setColor(0F, 0.75F, 1F);
+                    flash.setParticleSpeed(rand.nextGaussian(), rand.nextGaussian(), rand.nextGaussian());
+                    innerMc.particleEngine.add(flash);
                 }
             }
+            if ("sweat".equals(type)) {
+                Entity entity = level.getEntity(data.getInt("entity"));
+                BlockState state = NbtUtils.readBlockState(level.holderLookup(Registries.BLOCK), data.getCompound("BlockState"));
+                int count = data.getInt("count");
 
+                if (entity instanceof LivingEntity) {
+                    for (int i = 0; i < count; i++) {
+                        double ix = entity.getBoundingBox().minX - 0.2 + (entity.getBoundingBox().maxX - entity.getBoundingBox().minX + 0.4) * rand.nextDouble();
+                        double iy = entity.getBoundingBox().minY + (entity.getBoundingBox().maxY - entity.getBoundingBox().minY + 0.2) * rand.nextDouble();
+                        double iz = entity.getBoundingBox().minZ - 0.2 + (entity.getBoundingBox().maxZ - entity.getBoundingBox().minZ + 0.4) * rand.nextDouble();
+
+                        ParticleDust fx = new ParticleDust(level, ix, iy, iz, 0, 0, 0, state);
+                        fx.setLifetime(150 + rand.nextInt(50));
+                        fx.setOriginalSize();
+
+                        HBMsNTM.LOGGER.info("rendering {}", fx);
+
+                        innerMc.particleEngine.add(fx);
+                    }
+                }
+            }
             if ("vomit".equals(type)) {
                 Entity e = level.getEntity(data.getInt("entity"));
                 int count = data.getInt("count") / (particleSetting + 1);
@@ -366,29 +383,30 @@ public class HBMsNTMClient {
                         String mode = data.getString("mode");
 
                         if ("normal".equals(mode)) {
-                            VomitPart fx = new VomitPart(level, ix, iy, iz,
+                            ParticleDust fx = new ParticleDust(level,
+                                    ix, iy, iz,
                                     (vec.x + rand.nextGaussian() * 0.2) * 0.2,
                                     (vec.y + rand.nextGaussian() * 0.2) * 0.2,
                                     (vec.z + rand.nextGaussian() * 0.2) * 0.2,
-                                    0.3F, 0.33F + rand.nextFloat(), 0.17F,
-                                    ModParticles.VOMIT_SPRITES
-                            );
+                                    rand.nextBoolean() ? Blocks.GREEN_TERRACOTTA.defaultBlockState() : Blocks.LIME_TERRACOTTA.defaultBlockState());
+                            fx.setLifetime(150 + rand.nextInt(50));
+                            fx.setOriginalSize();
                             innerMc.particleEngine.add(fx);
                         }
 
                         if ("blood".equals(mode)) {
-                            VomitPart fx = new VomitPart(level, ix, iy, iz,
+                            ParticleDust fx = new ParticleDust(level,
+                                    ix, iy, iz,
                                     (vec.x + rand.nextGaussian() * 0.2) * 0.2,
                                     (vec.y + rand.nextGaussian() * 0.2) * 0.2,
                                     (vec.z + rand.nextGaussian() * 0.2) * 0.2,
-                                    0.72F + rand.nextFloat(), 0.12F, 0F,
-                                    ModParticles.VOMIT_SPRITES
-                            );
+                                    Blocks.REDSTONE_BLOCK.defaultBlockState());
+                            fx.setLifetime(150 + rand.nextInt(50));
+                            fx.setOriginalSize();
                             innerMc.particleEngine.add(fx);
                         }
 
                         if ("smoke".equals(mode)) {
-
                             level.addParticle(
                                     ParticleTypes.SMOKE,
                                     ix, iy, iz,

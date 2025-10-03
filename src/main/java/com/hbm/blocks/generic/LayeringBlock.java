@@ -17,10 +17,10 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class BlockLayering extends Block {
+public class LayeringBlock extends Block {
     public static final IntegerProperty LAYERS = IntegerProperty.create("layers", 1, 8);
 
-    public BlockLayering(Properties properties) {
+    public LayeringBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, 1));
     }

@@ -17,10 +17,11 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 import java.util.Random;
 
-public class ExplosionLarge {
+public class  ExplosionLarge {
 
     private static final Random rand = new Random();
 
+    @Deprecated
     public static void spawnParticles(Level level, double x, double y, double z, int count) {
         if (!(level instanceof ServerLevel server)) return;
         for (int i = 0; i < count; i++) {
@@ -157,6 +158,7 @@ public class ExplosionLarge {
         }
     }
 
+    @Deprecated
     public static void explode(Level level, double x, double y, double z,
                                float strength, boolean cloud, boolean rubble, boolean shrapnel, Entity exploder) {
         level.explode(exploder, x, y, z, strength, Level.ExplosionInteraction.BLOCK);
@@ -165,11 +167,13 @@ public class ExplosionLarge {
         if (shrapnel) spawnShrapnels(level, x, y, z, shrapnelFunction((int) strength));
     }
 
+    @Deprecated
     public static void explode(Level level, double x, double y, double z,
                                float strength, boolean cloud, boolean rubble, boolean shrapnel) {
         explode(level, x, y, z, strength, cloud, rubble, shrapnel, null);
     }
 
+    @Deprecated
     public static void explodeFire(Level level, double x, double y, double z,
                                    float strength, boolean cloud, boolean rubble, boolean shrapnel) {
         level.explode(null, x, y, z, strength, Level.ExplosionInteraction.TNT);

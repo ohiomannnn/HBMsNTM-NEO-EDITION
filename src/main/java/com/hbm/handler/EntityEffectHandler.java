@@ -8,13 +8,16 @@ import com.hbm.extprop.LivingProperties.ContaminationEffect;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.ModSounds;
+import com.hbm.packets.toclient.AuxParticlePacket;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.*;
 import com.hbm.world.biome.ModBiomes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -31,6 +34,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Blocks;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -149,7 +154,8 @@ public class EntityEffectHandler {
             if (level.dimension() == Level.NETHER)
                 rad = (float) 0.01;
 
-            if (rad > 0) ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, rad / 20F);
+            if (rad > 0)
+                ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, rad / 20F);
 
             if (entity instanceof Player player && player.isCreative()) return;
             if (entity instanceof Player player && player.isSpectator()) return;
@@ -159,18 +165,26 @@ public class EntityEffectHandler {
             int r600 = rand.nextInt(600);
             int r1200 = rand.nextInt(1200);
 
-            if (LivingProperties.getRadiation(entity) > 600 && (level.getGameTime() + r600) % 600 < 20 && canVomit(entity)) {
+            if (LivingProperties.getRadiation(entity) > 600) {
 
-                CompoundTag nbt = new CompoundTag();
-                nbt.putString("type", "vomit");
-                nbt.putString("mode", "blood");
-                nbt.putInt("count", 25);
-                nbt.putInt("entity", entity.getId());
-                HBMsNTMClient.effectNT(nbt);
+                if ((level.getGameTime() + r600) % 600 < 20 && canVomit(entity)) {
+                    CompoundTag nbt = new CompoundTag();
+                    nbt.putString("type", "vomit");
+                    nbt.putString("mode", "blood");
+                    nbt.putInt("count", 25);
+                    nbt.putInt("entity", entity.getId());
+                    PacketDistributor.sendToPlayersNear(
+                            (ServerLevel) entity.level(),
+                            null,
+                            entity.getX(), entity.getY(), entity.getZ(),
+                            25,
+                            new AuxParticlePacket(nbt, entity.getX(), entity.getY(), entity.getZ())
+                    );
 
-                if((level.getGameTime() + r600) % 600 == 1) {
-                    level.playSound(null, ix, iy, iz, ModSounds.VOMIT, SoundSource.PLAYERS, 1.0F, 1.0F);
-                    entity.addEffect(new MobEffectInstance(MobEffects.HUNGER, 60, 19));
+                    if ((level.getGameTime() + r600) % 600 == 1) {
+                        level.playSound(null, ix, iy, iz, ModSounds.VOMIT, SoundSource.PLAYERS, 1.0F, 1.0F);
+                        entity.addEffect(new MobEffectInstance(MobEffects.HUNGER, 60, 19));
+                    }
                 }
 
             } else if (LivingProperties.getRadiation(entity) > 200 && (level.getGameTime() + r1200) % 1200 < 20 && canVomit(entity)) {
@@ -180,21 +194,30 @@ public class EntityEffectHandler {
                 nbt.putString("mode", "normal");
                 nbt.putInt("count", 15);
                 nbt.putInt("entity", entity.getId());
-                HBMsNTMClient.effectNT(nbt);
+                PacketDistributor.sendToPlayersNear((ServerLevel) entity.level(), null, entity.getX(), entity.getY(), entity.getZ(), 25, new AuxParticlePacket(nbt, entity.getX(), entity.getY(), entity.getZ()));
 
-                if((level.getGameTime() + r1200) % 1200 == 1) {
+                if ((level.getGameTime() + r1200) % 1200 == 1) {
                     level.playSound(null, ix, iy, iz, ModSounds.VOMIT, SoundSource.PLAYERS, 1.0F, 1.0F);
                     entity.addEffect(new MobEffectInstance(MobEffects.HUNGER, 60, 19));
                 }
-            } else {
-                float radiation = LivingProperties.getRadiation(entity);
+            }
 
-                if (entity instanceof Player && radiation > 600) {
-                    CompoundTag tag = new CompoundTag();
-                    tag.putString("type", "radiation");
-                    tag.putInt("count", radiation > 900 ? 4 : radiation > 800 ? 2 : 1);
-                    HBMsNTMClient.effectNT(tag);
-                }
+            if (LivingProperties.getRadiation(entity) > 900 && (level.getGameTime() + rand.nextInt(10)) % 10 == 0) {
+                CompoundTag nbt = new CompoundTag();
+                nbt.putString("type", "sweat");
+                nbt.putInt("count", 1);
+                nbt.put("BlockState", NbtUtils.writeBlockState(Blocks.REDSTONE_BLOCK.defaultBlockState()));
+                nbt.putInt("entity", entity.getId());
+                PacketDistributor.sendToPlayersNear((ServerLevel) entity.level(), null, entity.getX(), entity.getY(), entity.getZ(), 25, new AuxParticlePacket(nbt, entity.getX(), entity.getY(), entity.getZ()));
+            }
+        } else {
+            float radiation = LivingProperties.getRadiation(entity);
+
+            if (entity instanceof Player && radiation > 600) {
+                CompoundTag tag = new CompoundTag();
+                tag.putString("type", "radiation");
+                tag.putInt("count", radiation > 900 ? 4 : radiation > 800 ? 2 : 1);
+                HBMsNTMClient.effectNT(tag);
             }
         }
     }
@@ -208,9 +231,15 @@ public class EntityEffectHandler {
             if (digamma < 0.1F)
                 return;
 
-            if ((entity.getMaxHealth() <= 0 || digamma >= 10.0F) && entity.isAlive()) {
-                DamageSource src = new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageSource.DIGAMMA));
-                entity.hurt(src, Float.MAX_VALUE);
+            int chance = Math.max(10 - (int) (digamma), 1);
+
+            if (chance == 1 || entity.getRandom().nextInt(chance) == 0) {
+                CompoundTag nbt = new CompoundTag();
+                nbt.putString("type", "sweat");
+                nbt.putInt("count", 1);
+                nbt.put("BlockState", NbtUtils.writeBlockState(Blocks.SOUL_SAND.defaultBlockState()));
+                nbt.putInt("entity", entity.getId());
+                PacketDistributor.sendToPlayersNear((ServerLevel) entity.level(), null, entity.getX(), entity.getY(), entity.getZ(), 25, new AuxParticlePacket(nbt, entity.getX(), entity.getY(), entity.getZ()));
             }
         }
     }

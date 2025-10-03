@@ -1,31 +1,27 @@
 package com.hbm.blocks.generic;
 
-import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
-import java.awt.*;
-
-public class BlockSellafieldSlaked extends Block {
+public class SellafieldSlakedBlock extends Block {
 
     public static final IntegerProperty VARIANT = IntegerProperty.create("variant", 0, 3);
+    public static final IntegerProperty COLOR_LEVEL = IntegerProperty.create("color_level", 0, 10);
 
-    public BlockSellafieldSlaked(Properties properties) {
+    public SellafieldSlakedBlock(Properties properties) {
         super(properties);
 
-        this.registerDefaultState(this.stateDefinition.any().setValue(VARIANT, 0));
+        this.registerDefaultState(this.stateDefinition.any().setValue(VARIANT, 0).setValue(COLOR_LEVEL, 0));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(VARIANT);
+        builder.add(VARIANT, COLOR_LEVEL);
     }
 
     @Override
@@ -38,13 +34,14 @@ public class BlockSellafieldSlaked extends Block {
         return this.defaultBlockState().setValue(VARIANT, variant);
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public static class ColorHandler implements BlockColor {
+    @Override
+    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
+        if (!level.isClientSide) {
+            long l = (pos.getX() * 3129871L) ^ (long)pos.getY() * 116129781L ^ (long)pos.getZ();
+            l = l * l * 42317861L + l * 11L;
+            int textureVariant = (int)(Math.abs((l >> 16) & 3L));
 
-        @Override
-        public int getColor(BlockState blockState, BlockAndTintGetter blockAndTintGetter, BlockPos blockPos, int i) {
-            int variant = blockState.getValue(BlockSellafieldSlaked.VARIANT);
-            return Color.HSBtoRGB(0F, 0F, 1F - variant / 15F);
+            level.setBlock(pos, state.setValue(VARIANT, textureVariant), 2);
         }
     }
 }

@@ -17,8 +17,6 @@ public class ModItems {
 
     public static final DeferredItem<Item> NOTHING = ITEMS.register("nothing",
             () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> PEWPEW = ITEMS.register("pewpew",
-            () -> new Pewpew(new Item.Properties()));
 
     public static final DeferredItem<Item> DETONATOR = ITEMS.register("detonator",
             () -> new DetonatorItem(new Item.Properties().stacksTo(1)));
@@ -28,8 +26,6 @@ public class ModItems {
             () -> new DangerousDropItem(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> DETONATOR_DE = ITEMS.register("detonator_de",
             () -> new DangerousDropItem(new Item.Properties().stacksTo(1)));
-
-
 
     public static final DeferredItem<Item> GEIGER_COUNTER = ITEMS.register("geiger_counter",
             () -> new GeigerCounterItem(new Item.Properties().stacksTo(1)));
@@ -57,8 +53,7 @@ public class ModItems {
 
     public static final DeferredItem<Item> IRON_CRATE_IRON =
             ITEMS.register("iron_crate",
-                    () -> new ItemBlockStorageCrate(ModBlocks.IRON_CRATE.get(),
-                            new Item.Properties()));
+                    () -> new ItemBlockStorageCrate(ModBlocks.IRON_CRATE.get(), new Item.Properties()));
 
     public static final DeferredItem<Item> DUCK_SPAWN_EGG = ITEMS.register("duck_spawn_egg",
             () -> new EntitySpawnerItem(new Item.Properties().stacksTo(16)));
