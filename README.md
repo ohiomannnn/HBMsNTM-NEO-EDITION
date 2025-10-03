@@ -1,7 +1,11 @@
 # HBM's Nuclear Tech Mod for Minecraft 1.21.1
 
-This port of a minecraft <a href="https://github.com/HbmMods/Hbm-s-Nuclear-Tech-GIT/">mod</a> made by The Bobcat that adds a ton of content to our blocky game.
+This is a port of the minecraft <a href="https://github.com/HbmMods/Hbm-s-Nuclear-Tech-GIT/">mod</a> made by The Bobcat that adds a ton of content to our blocky game.
 
+## NOTE: 
+This mod contains a lot of features that unfinished, untested. So use this mod for fun and not in your worlds that you care!
+### Known Issues
+I think this mod is just full of various bugs, many ways to corrupt the world and etc.
 ### Contributing
 If you wanna contribute for this project: do it, i think whoever wants to do so already knows how to do it.
 Other thing is my coding probably sucks, so uhh yea.
