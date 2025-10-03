@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 @Mod(HBMsNTM.MODID)
 public class HBMsNTM {
     public static final String MODID = "hbmsntm";
-    public static final String VERSION = "0.0.1 ALPHA (1)";
+    public static final String VERSION = "0.0.8 ALPHA (b31)";
     public static final Logger LOGGER = LoggerFactory.getLogger("hbmsntm");
 
     public static final ChunkRadiationManager radiationManager = new ChunkRadiationManager();

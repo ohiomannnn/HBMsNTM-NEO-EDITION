@@ -114,6 +114,7 @@ public class HBMsNTMClient {
         Player player = event.getEntity();
 
         player.sendSystemMessage(Component.literal("Loaded world with Hbm's Nuclear Tech Mod " + HBMsNTM.VERSION + " for Minecraft 1.21.1!"));
+        player.sendSystemMessage(Component.literal("Ignore message below (its just for test)"));
 
         if(HTTPHandler.newVersion) {
             player.sendSystemMessage(
