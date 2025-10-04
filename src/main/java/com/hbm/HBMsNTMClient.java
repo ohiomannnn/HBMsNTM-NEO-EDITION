@@ -13,6 +13,7 @@ import com.hbm.particle.*;
 import com.hbm.particle.ParticleDebris;
 import com.hbm.particle.helper.ParticleCreators;
 import com.hbm.render.EmptyRenderer;
+import com.hbm.render.entity.effect.RenderFallout;
 import com.hbm.render.entity.effect.RenderTorex;
 import com.hbm.render.entity.mob.EntityDuckRenderer;
 import com.hbm.render.util.RenderInfoSystem;
@@ -211,7 +212,7 @@ public class HBMsNTMClient {
         event.registerEntityRenderer(ModEntities.CREEPER_NUCLEAR.get(), CreeperRenderer::new);
         event.registerEntityRenderer(ModEntities.NUKE_MK5.get(), EmptyRenderer::new);
         event.registerEntityRenderer(ModEntities.NUKE_TOREX.get(), RenderTorex::new);
-        event.registerEntityRenderer(ModEntities.FALLOUT_RAIN.get(), EmptyRenderer::new);
+        event.registerEntityRenderer(ModEntities.FALLOUT_RAIN.get(), RenderFallout::new);
 
         ItemProperties.register(ModItems.POLAROID.get(),
                 ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "polaroid_id"),

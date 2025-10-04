@@ -8,6 +8,7 @@ import com.hbm.render.CustomRenderTypes;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
+import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -83,7 +84,7 @@ public class RenderTorex extends EntityRenderer<EntityNukeTorex> {
             double x = vec.x - cloud.getX();
             double y = vec.y - cloud.getY();
             double z = vec.z - cloud.getZ();
-            tessellateCloudlet(consumer, pose, x, y, z, c, partialTicks);
+            renderCloudlet(consumer, pose, x, y, z, c, partialTicks);
         }
     }
 
@@ -98,11 +99,11 @@ public class RenderTorex extends EntityRenderer<EntityNukeTorex> {
             float x = (float) (rand.nextGaussian() * 0.5F * cloud.rollerSize);
             float y = (float) (rand.nextGaussian() * 0.5F * cloud.rollerSize);
             float z = (float) (rand.nextGaussian() * 0.5F * cloud.rollerSize);
-            tessellateFlash(consumer, pose, x, y + cloud.coreHeight, z, (float) (25 * cloud.rollerSize), alpha);
+            renderFlash(consumer, pose, x, y + cloud.coreHeight, z, (float) (25 * cloud.rollerSize), alpha);
         }
     }
 
-    private void tessellateCloudlet(VertexConsumer consumer, PoseStack pose, double px, double py, double pz, Cloudlet cloud, float partialTicks) {
+    private void renderCloudlet(VertexConsumer consumer, PoseStack pose, double px, double py, double pz, Cloudlet cloud, float partialTicks) {
         float alpha = cloud.getAlpha();
         float scale = cloud.getScale();
 
@@ -120,7 +121,7 @@ public class RenderTorex extends EntityRenderer<EntityNukeTorex> {
         drawBillboardQuad(consumer, pose, px, py, pz, scale, r, g, b, alpha);
     }
 
-    private void tessellateFlash(VertexConsumer consumer, PoseStack pose, double px, double py, double pz, float scale, float alpha) {
+    private void renderFlash(VertexConsumer consumer, PoseStack pose, double px, double py, double pz, float scale, float alpha) {
         drawBillboardQuad(consumer, pose, px, py, pz, scale, 1F, 1F, 1F, alpha);
     }
 
@@ -128,7 +129,7 @@ public class RenderTorex extends EntityRenderer<EntityNukeTorex> {
         PoseStack.Pose last = pose.last();
         Matrix4f matrix = last.pose();
 
-        var camera = Minecraft.getInstance().gameRenderer.getMainCamera();
+        Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
         Quaternionf camRot = camera.rotation();
         Matrix3f camMat = new Matrix3f();
         camRot.get(camMat);

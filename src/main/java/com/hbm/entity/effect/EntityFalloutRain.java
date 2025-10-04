@@ -51,8 +51,6 @@ public class EntityFalloutRain extends ChunkloadingEntity {
 
         if (!level().isClientSide) {
 
-            level.setRainLevel(1000);
-
             long start = System.currentTimeMillis();
 
             if (firstTick) {
@@ -143,10 +141,7 @@ public class EntityFalloutRain extends ChunkloadingEntity {
         for (int angle = 0; angle <= adjustedMaxAngle; angle++) {
             Vec3 vector = new Vec3(outerRange, 0, 0)
                     .yRot((float) (angle * Math.PI / 180.0 / (adjustedMaxAngle / 360.0)));
-            long chunkCoord = ChunkPos.asLong(
-                    (int) (this.getX() + vector.x) >> 4,
-                    (int) (this.getZ() + vector.z) >> 4
-            );
+            long chunkCoord = ChunkPos.asLong((int) (this.getX() + vector.x) >> 4, (int) (this.getZ() + vector.z) >> 4);
             outerChunks.add(chunkCoord);
         }
 
@@ -154,10 +149,7 @@ public class EntityFalloutRain extends ChunkloadingEntity {
             for (int angle = 0; angle <= adjustedMaxAngle; angle++) {
                 Vec3 vector = new Vec3(distance, 0, 0)
                         .yRot((float) (angle * Math.PI / 180.0 / (adjustedMaxAngle / 360.0)));
-                long chunkCoord = ChunkPos.asLong(
-                        (int) (this.getX() + vector.x) >> 4,
-                        (int) (this.getZ() + vector.z) >> 4
-                );
+                long chunkCoord = ChunkPos.asLong((int) (this.getX() + vector.x) >> 4, (int) (this.getZ() + vector.z) >> 4);
                 if (!outerChunks.contains(chunkCoord)) {
                     chunks.add(chunkCoord);
                 }

@@ -14,6 +14,14 @@
     "minecraft:andesite",
     "minecraft:diorite",
     "minecraft:deepslate",
+    "minecraft:tuff",
+    "minecraft:cobblestone",
+    "hbmsntm:brick_concrete",
+    "hbmsntm:brick_concrete_cracked",
+    "hbmsntm:brick_concrete_broken",
+    "hbmsntm:brick_concrete_mossy",
+    "hbmsntm:brick_concrete_marked",
+    "hbmsntm:brick_light",
     "minecraft:stone"
   ]
 }

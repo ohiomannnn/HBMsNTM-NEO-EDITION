@@ -37,6 +37,16 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(Blocks.ANDESITE)
                 .add(Blocks.DIORITE)
                 .add(Blocks.DEEPSLATE)
+                .add(Blocks.TUFF)
+                .add(Blocks.COBBLESTONE)
+
+                .add(ModBlocks.BRICK_CONCRETE.get())
+                .add(ModBlocks.BRICK_CONCRETE_CRACKED.get())
+                .add(ModBlocks.BRICK_CONCRETE_BROKEN.get())
+                .add(ModBlocks.BRICK_CONCRETE_MOSSY.get())
+                .add(ModBlocks.BRICK_CONCRETE_MARKED.get())
+                .add(ModBlocks.BRICK_LIGHT.get())
+
                 .add(Blocks.STONE);
 
         tag(ModTags.Blocks.GROUND)

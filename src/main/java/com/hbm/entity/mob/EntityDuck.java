@@ -47,4 +47,14 @@ public class EntityDuck extends Chicken {
         }
         super.die(damageSource);
     }
+
+    @Override
+    public boolean shouldRender(double camX, double camY, double camZ) {
+        return true;
+    }
+
+    @Override
+    public boolean shouldRenderAtSqrDistance(double distance) {
+        return true;
+    }
 }
