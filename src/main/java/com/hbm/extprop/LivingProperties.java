@@ -2,7 +2,7 @@ package com.hbm.extprop;
 
 import com.hbm.HBMsNTM;
 import com.hbm.HBMsNTMClient;
-import com.hbm.config.ServerConfig;
+import com.hbm.config.ModConfigs;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.lib.ModAttachments;
 import com.hbm.lib.ModDamageSource;
@@ -60,17 +60,17 @@ public class LivingProperties {
 
     /// RADIATION ///
     public static float getRadiation(LivingEntity entity) {
-        if (!ServerConfig.ENABLE_CONTAMINATION.getAsBoolean()) return 0;
+        if (!ModConfigs.COMMON.ENABLE_CONTAMINATION.get()) return 0;
         return getData(entity).radiation;
     }
 
     public static void setRadiation(LivingEntity entity, float rad) {
-        if (ServerConfig.ENABLE_CONTAMINATION.getAsBoolean())
+        if (ModConfigs.COMMON.ENABLE_CONTAMINATION.get())
             getData(entity).radiation = rad;
     }
 
     public static void incrementRadiation(LivingEntity entity, float rad) {
-        if (!ServerConfig.ENABLE_CONTAMINATION.getAsBoolean()) return;
+        if (!ModConfigs.COMMON.ENABLE_CONTAMINATION.get()) return;
         float radiation = getData(entity).radiation + rad;
 
         if (radiation > 2500)
@@ -160,12 +160,12 @@ public class LivingProperties {
 
     /// ASBESTOS ///
     public static int getAsbestos(LivingEntity entity) {
-        if (ServerConfig.DISABLE_ASBESTOS.getAsBoolean()) return 0;
+        if (ModConfigs.COMMON.DISABLE_ASBESTOS.get()) return 0;
         return getData(entity).asbestos;
     }
 
     public static void setAsbestos(LivingEntity entity, int asbestos) {
-        if (ServerConfig.DISABLE_ASBESTOS.getAsBoolean()) return;
+        if (ModConfigs.COMMON.DISABLE_ASBESTOS.get()) return;
         getData(entity).asbestos = asbestos;
 
         if (asbestos >= maxAsbestos) {
@@ -176,7 +176,7 @@ public class LivingProperties {
     }
 
     public static void incrementAsbestos(LivingEntity entity, int asbestos) {
-        if (ServerConfig.DISABLE_ASBESTOS.getAsBoolean()) return;
+        if (ModConfigs.COMMON.DISABLE_ASBESTOS.get()) return;
         setAsbestos(entity, getAsbestos(entity) + asbestos);
 
         if (entity instanceof ServerPlayer player) {
@@ -188,12 +188,12 @@ public class LivingProperties {
 
     /// BLACK LUNG DISEASE ///
     public static int getBlackLung(LivingEntity entity) {
-        if (ServerConfig.DISABLE_COAL.getAsBoolean()) return 0;
+        if (ModConfigs.COMMON.DISABLE_COAL.get()) return 0;
         return getData(entity).blacklung;
     }
 
     public static void setBlackLung(LivingEntity entity, int blacklung) {
-        if (ServerConfig.DISABLE_COAL.getAsBoolean()) return;
+        if (ModConfigs.COMMON.DISABLE_COAL.get()) return;
         getData(entity).blacklung = blacklung;
 
         if (blacklung >= maxBlacklung) {
@@ -204,7 +204,7 @@ public class LivingProperties {
     }
 
     public static void incrementBlackLung(LivingEntity entity, int blacklung) {
-        if (ServerConfig.DISABLE_COAL.getAsBoolean()) return;
+        if (ModConfigs.COMMON.DISABLE_COAL.get()) return;
         setBlackLung(entity, getBlackLung(entity) + blacklung);
 
         if (entity instanceof ServerPlayer player) {

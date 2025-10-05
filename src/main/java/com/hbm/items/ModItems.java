@@ -27,6 +27,9 @@ public class ModItems {
     public static final DeferredItem<Item> DETONATOR_DE = ITEMS.register("detonator_de",
             () -> new DangerousDropItem(new Item.Properties().stacksTo(1)));
 
+    public static final DeferredItem<Item> CELL_ANTIMATTER = ITEMS.register("cell_antimatter",
+            () -> new DangerousDropItem(new Item.Properties()));
+
     public static final DeferredItem<Item> GEIGER_COUNTER = ITEMS.register("geiger_counter",
             () -> new GeigerCounterItem(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> DOSIMETER = ITEMS.register("dosimeter",
@@ -60,13 +63,10 @@ public class ModItems {
     public static final DeferredItem<Item> BURNT_BARK = ITEMS.register("burnt_bark",
             () -> new EntitySpawnerItem(new Item.Properties()));
     public static final DeferredItem<Item> FLINT_AND_BALEFIRE = ITEMS.register("balefire_and_steel",
-            () -> new BalefireAndSteelITem(new Item.Properties()
-                    .stacksTo(1)
-                    .durability(256)));
+            () -> new BalefireAndSteelITem(new Item.Properties().stacksTo(1).durability(256)));
 
     public static final DeferredItem<Item> POLAROID = ITEMS.register("polaroid",
-            () -> new PolaroidItem(new Item.Properties()
-                    .stacksTo(1)));
+            () -> new PolaroidItem(new Item.Properties().stacksTo(1)));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

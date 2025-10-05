@@ -2,9 +2,8 @@ package com.hbm.blocks.generic;
 
 import com.hbm.blockentity.machine.storage.CrateIronBlockEntity;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.config.ServerConfig;
+import com.hbm.config.ModConfigs;
 import com.hbm.blockentity.machine.storage.CrateBaseBlockEntity;
-import com.hbm.inventory.ModMenus;
 import com.hbm.util.TagsUtil;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
@@ -14,10 +13,8 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -116,7 +113,7 @@ public class StorageCrateBlock extends BaseEntityBlock {
         BlockEntity blockEntity = level.getBlockEntity(pos);
 
         if (blockEntity instanceof CrateBaseBlockEntity lockable && !level.isClientSide && !player.isCreative()) {
-            boolean keepContents = ServerConfig.CRATE_KEEP_CONTENTS.get();
+            boolean keepContents = ModConfigs.SERVER.CRATE_KEEP_CONTENTS.get();
             boolean isLocked = lockable.isLocked();
 
             if (!keepContents && !isLocked) {
@@ -159,7 +156,7 @@ public class StorageCrateBlock extends BaseEntityBlock {
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof CrateBaseBlockEntity crate) {
 
-                boolean keepContents = ServerConfig.CRATE_KEEP_CONTENTS.get();
+                boolean keepContents = ModConfigs.SERVER.CRATE_KEEP_CONTENTS.get();
                 boolean isLocked = crate.isLocked();
 
                 if (!keepContents || isLocked) {

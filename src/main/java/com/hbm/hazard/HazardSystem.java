@@ -34,16 +34,12 @@ public class HazardSystem {
     public static void register(Object obj, HazardData data) {
         if (obj instanceof Item item) {
             itemMap.put(item, data);
-            HBMsNTM.LOGGER.info("obj is item");
         } else if (obj instanceof Block block) {
             itemMap.put(block.asItem(), data);
-            HBMsNTM.LOGGER.info("obj is block");
         } else if (obj instanceof ItemStack stack) {
             stackMap.put(new ComparableStack(stack), data);
-            HBMsNTM.LOGGER.info("obj is stack");
         } else if (obj instanceof ComparableStack comp) {
             stackMap.put(comp, data);
-            HBMsNTM.LOGGER.info("obj is comp");
         }
     }
 

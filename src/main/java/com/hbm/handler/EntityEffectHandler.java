@@ -1,8 +1,7 @@
 package com.hbm.handler;
 
-import com.hbm.HBMsNTM;
 import com.hbm.HBMsNTMClient;
-import com.hbm.config.ServerConfig;
+import com.hbm.config.ModConfigs;
 import com.hbm.extprop.LivingProperties;
 import com.hbm.extprop.LivingProperties.ContaminationEffect;
 import com.hbm.handler.radiation.ChunkRadiationManager;
@@ -51,11 +50,11 @@ public class EntityEffectHandler {
         ResourceKey<Biome> biome = entity.level().getBiome(new BlockPos((int) entity.getX(), (int) entity.getY(), (int) entity.getZ())).getKey();
         double radiation = 0;
 
-        if (biome == ModBiomes.CRATER_OUTER) radiation = ServerConfig.CRATER_OUTER_RAD.getAsDouble();
-        if (biome == ModBiomes.CRATER) radiation = ServerConfig.CRATE_RAD.getAsDouble();
-        if (biome == ModBiomes.CRATER_INNER) radiation = ServerConfig.CRATER_INNER_RAD.getAsDouble();
+        if (biome == ModBiomes.CRATER_OUTER) radiation = ModConfigs.COMMON.CRATER_OUTER_RAD.get();
+        if (biome == ModBiomes.CRATER) radiation = ModConfigs.COMMON.CRATER_RAD.get();
+        if (biome == ModBiomes.CRATER_INNER) radiation = ModConfigs.COMMON.CRATER_INNER_RAD.get();
 
-        if(entity.isInWater()) radiation *= ServerConfig.CRATER_WATER_MULT.getAsDouble();
+        if(entity.isInWater()) radiation *= ModConfigs.COMMON.CRATER_WATER_MULT.get();
 
         if (radiation > 0) {
             ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE,(float) radiation / 20F);
@@ -151,11 +150,10 @@ public class EntityEffectHandler {
 
             float rad = ChunkRadiationManager.getProxy().getRadiation(level, ix, iy, iz);
 
-            if (level.dimension() == Level.NETHER)
+            if (level.dimension() == Level.NETHER && ModConfigs.COMMON.HELL_RAD.get() > 0 && rad < ModConfigs.COMMON.HELL_RAD.get())
                 rad = (float) 0.01;
 
-            if (rad > 0)
-                ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, rad / 20F);
+            if (rad > 0) ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, rad / 20F);
 
             if (entity instanceof Player player && player.isCreative()) return;
             if (entity instanceof Player player && player.isSpectator()) return;
@@ -168,17 +166,17 @@ public class EntityEffectHandler {
             if (LivingProperties.getRadiation(entity) > 600) {
 
                 if ((level.getGameTime() + r600) % 600 < 20 && canVomit(entity)) {
-                    CompoundTag nbt = new CompoundTag();
-                    nbt.putString("type", "vomit");
-                    nbt.putString("mode", "blood");
-                    nbt.putInt("count", 25);
-                    nbt.putInt("entity", entity.getId());
+                    CompoundTag tag = new CompoundTag();
+                    tag.putString("type", "vomit");
+                    tag.putString("mode", "blood");
+                    tag.putInt("count", 25);
+                    tag.putInt("entity", entity.getId());
                     PacketDistributor.sendToPlayersNear(
-                            (ServerLevel) entity.level(),
+                            (ServerLevel) level,
                             null,
                             entity.getX(), entity.getY(), entity.getZ(),
                             25,
-                            new AuxParticlePacket(nbt, entity.getX(), entity.getY(), entity.getZ())
+                            new AuxParticlePacket(tag, entity.getX(), entity.getY(), entity.getZ())
                     );
 
                     if ((level.getGameTime() + r600) % 600 == 1) {
@@ -189,12 +187,12 @@ public class EntityEffectHandler {
 
             } else if (LivingProperties.getRadiation(entity) > 200 && (level.getGameTime() + r1200) % 1200 < 20 && canVomit(entity)) {
 
-                CompoundTag nbt = new CompoundTag();
-                nbt.putString("type", "vomit");
-                nbt.putString("mode", "normal");
-                nbt.putInt("count", 15);
-                nbt.putInt("entity", entity.getId());
-                PacketDistributor.sendToPlayersNear((ServerLevel) entity.level(), null, entity.getX(), entity.getY(), entity.getZ(), 25, new AuxParticlePacket(nbt, entity.getX(), entity.getY(), entity.getZ()));
+                CompoundTag tag = new CompoundTag();
+                tag.putString("type", "vomit");
+                tag.putString("mode", "normal");
+                tag.putInt("count", 15);
+                tag.putInt("entity", entity.getId());
+                PacketDistributor.sendToPlayersNear((ServerLevel) level, null, entity.getX(), entity.getY(), entity.getZ(), 25, new AuxParticlePacket(tag, entity.getX(), entity.getY(), entity.getZ()));
 
                 if ((level.getGameTime() + r1200) % 1200 == 1) {
                     level.playSound(null, ix, iy, iz, ModSounds.VOMIT, SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -203,16 +201,16 @@ public class EntityEffectHandler {
             }
 
             if (LivingProperties.getRadiation(entity) > 900 && (level.getGameTime() + rand.nextInt(10)) % 10 == 0) {
-                CompoundTag nbt = new CompoundTag();
-                nbt.putString("type", "sweat");
-                nbt.putInt("count", 1);
-                nbt.put("BlockState", NbtUtils.writeBlockState(Blocks.REDSTONE_BLOCK.defaultBlockState()));
-                nbt.putInt("entity", entity.getId());
-                PacketDistributor.sendToPlayersNear((ServerLevel) entity.level(), null, entity.getX(), entity.getY(), entity.getZ(), 25, new AuxParticlePacket(nbt, entity.getX(), entity.getY(), entity.getZ()));
+                CompoundTag tag = new CompoundTag();
+                tag.putString("type", "sweat");
+                tag.putInt("count", 1);
+                tag.put("BlockState", NbtUtils.writeBlockState(Blocks.REDSTONE_BLOCK.defaultBlockState()));
+                tag.putInt("entity", entity.getId());
+                PacketDistributor.sendToPlayersNear((ServerLevel) level, null, entity.getX(), entity.getY(), entity.getZ(), 25, new AuxParticlePacket(tag, entity.getX(), entity.getY(), entity.getZ()));
             }
-        } else {
-            float radiation = LivingProperties.getRadiation(entity);
 
+            float radiation = LivingProperties.getRadiation(entity);
+            // i mean its working
             if (entity instanceof Player && radiation > 600) {
                 CompoundTag tag = new CompoundTag();
                 tag.putString("type", "radiation");
@@ -239,8 +237,30 @@ public class EntityEffectHandler {
                 nbt.putInt("count", 1);
                 nbt.put("BlockState", NbtUtils.writeBlockState(Blocks.SOUL_SAND.defaultBlockState()));
                 nbt.putInt("entity", entity.getId());
-                PacketDistributor.sendToPlayersNear((ServerLevel) entity.level(), null, entity.getX(), entity.getY(), entity.getZ(), 25, new AuxParticlePacket(nbt, entity.getX(), entity.getY(), entity.getZ()));
+                PacketDistributor.sendToPlayersNear((ServerLevel) level, null, entity.getX(), entity.getY(), entity.getZ(), 25, new AuxParticlePacket(nbt, entity.getX(), entity.getY(), entity.getZ()));
             }
+        }
+    }
+
+    private static void handleLungDisease(LivingEntity entity) {
+        Level level = entity.level();
+
+        if (!level.isClientSide) {
+            if (entity instanceof Player player) {
+                if (player.isCreative() || player.isSpectator()) {
+                    LivingProperties.setBlackLung(entity, 0);
+                    LivingProperties.setAsbestos(entity, 0);
+                    return;
+                } else {
+                    int bl = LivingProperties.getBlackLung(entity);
+
+                    if (bl > 0 && bl < LivingProperties.maxBlacklung * 0.5) {
+                        LivingProperties.setBlackLung(entity, LivingProperties.getBlackLung(entity) - 1);
+                    }
+                }
+            }
+
+
         }
     }
 

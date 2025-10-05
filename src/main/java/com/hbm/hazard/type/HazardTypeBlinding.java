@@ -1,10 +1,8 @@
 package com.hbm.hazard.type;
 
-import java.util.List;
-
-import com.hbm.config.ServerConfig;
+import com.hbm.config.ModConfigs;
 import com.hbm.hazard.modifier.HazardModifier;
-
+import com.hbm.util.ArmorRegistry;
 import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -15,18 +13,18 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.List;
+
 public class HazardTypeBlinding extends HazardTypeBase {
 
     @Override
     public void onUpdate(LivingEntity target, float level, ItemStack stack) {
 
-        if(ServerConfig.DISABLE_BLINDING.getAsBoolean())
-            return;
+        if (ModConfigs.COMMON.DISABLE_BLINDING.get()) return;
 
-//        if(!ArmorRegistry.hasProtection(target, 3, HazardClass.LIGHT)) {
-//            target.addEffect(new PotionEffect(Potion.blindness.id, (int)Math.ceil(level), 0));
-//        }
-        target.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, (int)Math.ceil(level) * 20, 0, true, false));
+        if (!ArmorRegistry.hasProtection(target, 3, ArmorRegistry.HazardClass.LIGHT)) {
+            target.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, (int)Math.ceil(level) * 20, 0, true, false));
+        }
     }
 
     @Override

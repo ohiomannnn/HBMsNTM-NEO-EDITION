@@ -3,39 +3,37 @@ package com.hbm.config;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class ClientConfig {
+    public final ModConfigSpec.BooleanValue NUKE_HUD_FLASH;
+    public final ModConfigSpec.BooleanValue NUKE_HUD_SHAKE;
 
-    private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
+    public final ModConfigSpec.IntValue INFO_POSITION;
 
-    static {
-        BUILDER.push("hud");
+    public final ModConfigSpec.IntValue INFO_OFFSET_HORIZONTAL;
+    public final ModConfigSpec.IntValue INFO_OFFSET_VERTICAL;
+
+    ClientConfig(ModConfigSpec.Builder builder) {
+
+        NUKE_HUD_FLASH = builder
+                .comment("Toggles flash from nuke explosion.")
+                .translation("hbmsntm.configuration.nukeHudFlash")
+                .define("nukeHudFlash", true);
+        NUKE_HUD_SHAKE = builder
+                .comment("Toggles hud shake from nuke explosion.")
+                .translation("hbmsntm.configuration.nukeHudShake")
+                .define("nukeHudShake", true);
+
+        INFO_POSITION = builder
+                .comment("Info position: 0 - top left, 1 - top right, 2 - next to the crosshair.")
+                .translation("hbmsntm.configuration.infoPosition")
+                .defineInRange("infoPosition", 0, 0, 2);
+
+        INFO_OFFSET_HORIZONTAL = builder
+                .comment("Horizontal info offset.")
+                .translation("hbmsntm.configuration.infoOffsetHorizontal")
+                .defineInRange("infoOffsetHorizontal", 0, -Integer.MAX_VALUE, Integer.MAX_VALUE);
+        INFO_OFFSET_VERTICAL = builder
+                .comment("Vertical info offset.")
+                .translation("hbmsntm.configuration.infoOffsetVertical")
+                .defineInRange("infoOffsetVertical", 0, -Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
-
-    public static final ModConfigSpec.BooleanValue NUKE_HUD_FLASH = BUILDER
-            .comment("Enables flash from nuke explosion")
-            .translation("config.hbmsntm.nukeHudFlash")
-            .define("nukeHudFlash", true);
-    public static final ModConfigSpec.BooleanValue NUKE_HUD_SHAKE = BUILDER
-            .comment("Enables hud shake from nuke explosion")
-            .translation("config.hbmsntm.nukeHudShake")
-            .define("nukeHudShake", true);
-
-    public static final ModConfigSpec.IntValue INFO_POSITION = BUILDER
-            .comment("enables or disables taint trails")
-            .translation("config.hbmsntm.infoPosition")
-            .defineInRange("infoPosition", 0, 0, 2);
-
-    public static final ModConfigSpec.IntValue INFO_OFFSET_HORIZONTAL = BUILDER
-            .comment("enables or disables taint trails")
-            .translation("config.hbmsntm.infoOffsetHorizontal")
-            .defineInRange("infoOffsetHorizontal", 0, -Integer.MAX_VALUE, Integer.MAX_VALUE);
-    public static final ModConfigSpec.IntValue INFO_OFFSET_VERTICAL = BUILDER
-            .comment("enables or disables taint trails")
-            .translation("config.hbmsntm.infoOffsetVertical")
-            .defineInRange("infoOffsetVertical", 0, -Integer.MAX_VALUE, Integer.MAX_VALUE);
-
-    static {
-        BUILDER.pop();
-    }
-
-    public static final ModConfigSpec SPEC = BUILDER.build();
 }

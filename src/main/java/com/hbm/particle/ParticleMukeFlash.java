@@ -145,7 +145,7 @@ public class ParticleMukeFlash extends TextureSheetParticle {
     }
     @Override
     public ParticleRenderType getRenderType() {
-        return CustomRenderType.PARTICLE_SHEET_ADDITIVE;
+        return IParticleRenderType.PARTICLE_SHEET_ADDITIVE;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {

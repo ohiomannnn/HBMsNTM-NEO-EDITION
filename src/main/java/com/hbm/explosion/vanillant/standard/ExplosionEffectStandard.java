@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.interfaces.IExplosionSFX;
-import com.hbm.packets.PacketsDispatcher;
-import com.hbm.packets.toclient.AuxParticlePacket;
 import com.hbm.packets.toclient.ExplosionVanillaNewTechnologyCompressedAffectedBlockPositionDataForClientEffectsAndParticleHandlingPacket;
 
 import net.minecraft.core.BlockPos;

@@ -11,9 +11,15 @@
       "sound": "minecraft:ambient.cave",
       "tick_delay": 6000
     },
+    "particle": {
+      "options": {
+        "type": "hbmsntm:aura"
+      },
+      "probability": 0.0
+    },
     "sky_color": 7049609,
     "water_color": 1054236,
-    "water_fog_color": 197404
+    "water_fog_color": 1054236
   },
   "features": [],
   "has_precipitation": false,

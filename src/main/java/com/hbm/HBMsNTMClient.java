@@ -2,7 +2,7 @@ package com.hbm;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
-import com.hbm.config.ClientConfig;
+import com.hbm.config.ModConfigs;
 import com.hbm.entity.ModEntities;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.gui.GeigerGUI;
@@ -51,7 +51,6 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
@@ -68,7 +67,6 @@ public class HBMsNTMClient {
         ModParticles.register(modEventBus);
         modEventBus.addListener(GeigerGUI::RegisterGuiLayers);
         modEventBus.addListener(this::registerParticles);
-        modContainer.registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
     }
 
@@ -143,7 +141,7 @@ public class HBMsNTMClient {
 
     @SubscribeEvent
     public static void onRenderGuiPre(RenderGuiEvent.Pre event) {
-        if (!ClientConfig.NUKE_HUD_SHAKE.getAsBoolean()) return;
+        if (!ModConfigs.CLIENT.NUKE_HUD_SHAKE.get()) return;
 
         long now = System.currentTimeMillis();
         long end = shakeTimestamp + shakeDuration;
@@ -160,7 +158,7 @@ public class HBMsNTMClient {
 
     @SubscribeEvent
     public static void onRenderGuiPost(RenderGuiEvent.Post event) {
-        if (!ClientConfig.NUKE_HUD_FLASH.getAsBoolean()) return;
+        if (!ModConfigs.CLIENT.NUKE_HUD_FLASH.get()) return;
 
         long now = System.currentTimeMillis();
         long end = flashTimestamp + flashDuration;
@@ -228,6 +226,7 @@ public class HBMsNTMClient {
     private void registerParticles(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(ModParticles.MUKE_CLOUD.get(), ParticleMukeCloud.Provider::new);
         event.registerSpecial(ModParticles.DEBRIS.get(), new ParticleDebris.Provider());
+        event.registerSpecial(ModParticles.AMAT_FLASH.get(), new ParticleAmatFlash.Provider());
         event.registerSpriteSet(ModParticles.MUKE_CLOUD_BF.get(), ParticleMukeCloud.Provider::new);
         event.registerSpriteSet(ModParticles.EXPLOSION_SMALL.get(), sprites -> {
             ModParticles.EXPLOSION_SMALL_SPRITES = sprites;
@@ -284,10 +283,10 @@ public class HBMsNTMClient {
                 return;
             }
 
-            if ("radFog".equals(type)) {
-                ParticleRadiationFog fx = new ParticleRadiationFog(level, x, y, z, 0.62F, 0.67F, 0.38F, 5F, ModParticles.RAD_FOG_SPRITES);
-                innerMc.particleEngine.add(fx);
-            }
+//            if ("radFog".equals(type)) {
+//                ParticleRadiationFog fx = new ParticleRadiationFog(level, x, y, z, 0.62F, 0.67F, 0.38F, 5F, ModParticles.RAD_FOG_SPRITES);
+//                innerMc.particleEngine.add(fx);
+//            }
 
             if ("muke".contains(type)) {
                 ParticleMukeFlash flash = new ParticleMukeFlash(
@@ -330,6 +329,10 @@ public class HBMsNTMClient {
 
                     innerMc.particleEngine.add(particle);
                 }
+            }
+
+            if("amat".equals(type)) {
+                Minecraft.getInstance().particleEngine.add(new ParticleAmatFlash(level, x, y, z, data.getFloat("scale")));
             }
 
             if ("radiation".equals(type)) {

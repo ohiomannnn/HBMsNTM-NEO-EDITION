@@ -37,6 +37,8 @@ public class ModParticles {
             PARTICLE_TYPES.register("rocket_flame", () -> new SimpleParticleType(false));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> DEBRIS =
             PARTICLE_TYPES.register("debris", () -> new SimpleParticleType(false));
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> AMAT_FLASH =
+            PARTICLE_TYPES.register("amat_flash", () -> new SimpleParticleType(false));
 
     public static SpriteSet COOLING_TOWER_SPRITES;
     public static SpriteSet ROCKET_FLAME_SPRITES;

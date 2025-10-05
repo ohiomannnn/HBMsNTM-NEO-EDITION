@@ -78,5 +78,13 @@
   },
   "crate_open": {
     "sounds": ["hbmsntm:block/crate_open"]
+  },
+  "player.cough": {
+    "sounds": [
+      "hbmsntm:player/cough1",
+      "hbmsntm:player/cough2",
+      "hbmsntm:player/cough3",
+      "hbmsntm:player/cough4"
+    ]
   }
 }

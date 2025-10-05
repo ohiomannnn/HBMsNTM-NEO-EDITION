@@ -52,6 +52,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         tag(ModTags.Blocks.GROUND)
                 .add(Blocks.GRASS_BLOCK)
                 .add(Blocks.GRAVEL)
+                .add(Blocks.DIRT_PATH)
                 .add(Blocks.MYCELIUM)
                 .add(Blocks.SAND)
                 .add(Blocks.DIRT);

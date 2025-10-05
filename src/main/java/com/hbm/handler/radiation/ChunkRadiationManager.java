@@ -1,85 +1,63 @@
 package com.hbm.handler.radiation;
 
 import com.hbm.HBMsNTM;
-import com.hbm.config.ServerConfig;
+import com.hbm.config.ModConfigs;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.level.ChunkDataEvent;
 import net.neoforged.neoforge.event.level.ChunkEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 
+@EventBusSubscriber(modid = HBMsNTM.MODID)
 public class ChunkRadiationManager {
 
-    private static ChunkRadiationHandler proxy;
+    // for now its final TODO: make another handlers
+    private static final ChunkRadiationHandler proxy = new ChunkRadiationHandlerSimple();
+    public static ChunkRadiationHandler getProxy() { return proxy; }
 
-    public static ChunkRadiationHandler getProxy() {
-        return proxy;
-    }
-
-    private int eggTimer = 0;
-
-    public static void initProxy() {
-        if (ServerConfig.ENABLE_PRISM_RAD.getAsBoolean()) {
-            proxy = new ChunkRadiationHandlerPRISM();
-            HBMsNTM.LOGGER.info("Using PRISM radiation system");
-        } else {
-            proxy = new ChunkRadiationHandlerSimple();
-            HBMsNTM.LOGGER.info("Using simple radiation system");
-        }
-    }
-
-    private void ensureProxy() {
-        if (proxy == null) {
-            initProxy();
-        }
-    }
+    private static int eggTimer = 0;
 
     @SubscribeEvent
-    public void onWorldLoad(LevelEvent.Load event) {
-        if (!ServerConfig.ENABLE_CHUNK_RADS.getAsBoolean()) return;
+    public static void onWorldLoad(LevelEvent.Load event) {
         if (event.getLevel().isClientSide()) return;
-        ensureProxy();
+        if (!ModConfigs.COMMON.ENABLE_CHUNK_RADS.get()) return;
         proxy.receiveWorldLoad(event);
     }
 
     @SubscribeEvent
-    public void onWorldUnload(LevelEvent.Unload event) {
-        if (!ServerConfig.ENABLE_CHUNK_RADS.getAsBoolean()) return;
+    public static void onWorldUnload(LevelEvent.Unload event) {
         if (event.getLevel().isClientSide()) return;
-        ensureProxy();
+        if (!ModConfigs.COMMON.ENABLE_CHUNK_RADS.get()) return;
         proxy.receiveWorldUnload(event);
     }
 
     @SubscribeEvent
-    public void onChunkDataLoad(ChunkDataEvent.Load event) {
-        if (!ServerConfig.ENABLE_CHUNK_RADS.getAsBoolean()) return;
+    public static void onChunkDataLoad(ChunkDataEvent.Load event) {
         if (event.getLevel() == null) return;
         if (event.getLevel().isClientSide()) return;
-        ensureProxy();
+        if (!ModConfigs.COMMON.ENABLE_CHUNK_RADS.get()) return;
         proxy.receiveChunkLoad(event);
     }
 
     @SubscribeEvent
-    public void onChunkSave(ChunkDataEvent.Save event) {
-        if (!ServerConfig.ENABLE_CHUNK_RADS.getAsBoolean()) return;
+    public static void onChunkSave(ChunkDataEvent.Save event) {
         if (event.getLevel() == null) return;
         if (event.getLevel().isClientSide()) return;
-        ensureProxy();
+        if (!ModConfigs.COMMON.ENABLE_CHUNK_RADS.get()) return;
         proxy.receiveChunkSave(event);
     }
 
     @SubscribeEvent
-    public void onChunkUnload(ChunkEvent.Unload event) {
-        if (!ServerConfig.ENABLE_CHUNK_RADS.getAsBoolean()) return;
+    public static void onChunkUnload(ChunkEvent.Unload event) {
         if (event.getLevel().isClientSide()) return;
-        ensureProxy();
+        if (!ModConfigs.COMMON.ENABLE_CHUNK_RADS.get()) return;
         proxy.receiveChunkUnload(event);
     }
 
     @SubscribeEvent
-    public void onServerTick(ServerTickEvent.Pre event) {
-        if (!ServerConfig.ENABLE_CHUNK_RADS.getAsBoolean()) return;
-        ensureProxy();
+    public static void onServerTick(ServerTickEvent.Pre event) {
+        if (!ModConfigs.COMMON.ENABLE_CHUNK_RADS.get()) return;
 
         eggTimer++;
         if (eggTimer >= 20) {
@@ -87,7 +65,7 @@ public class ChunkRadiationManager {
             eggTimer = 0;
         }
 
-        if (ServerConfig.WORLD_RAD_EFFECTS.getAsBoolean()) {
+        if (ModConfigs.COMMON.WORLD_RAD_EFFECTS.get()) {
             proxy.handleWorldDestruction();
         }
 

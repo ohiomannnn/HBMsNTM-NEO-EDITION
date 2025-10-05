@@ -1,6 +1,6 @@
 package com.hbm.hazard.type;
 
-import com.hbm.config.ServerConfig;
+import com.hbm.config.ModConfigs;
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.items.ModItems;
 import com.hbm.util.BobMathUtil;
@@ -30,7 +30,7 @@ public class HazardTypeRadiation extends HazardTypeBase {
         if (level > 0) {
             float rad = level / 20F;
 
-            if (ServerConfig.ENABLE_528.getAsBoolean() && reacher) {
+            if (ModConfigs.COMMON.ENABLE_528.get() && reacher) {
                 rad = rad / 49F;
             } else if (reacher) {
                 rad = (float) BobMathUtil.squirt(rad);

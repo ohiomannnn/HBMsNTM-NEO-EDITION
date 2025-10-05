@@ -1,7 +1,6 @@
 package com.hbm.explosion;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.config.ServerConfig;
 import com.hbm.lib.ModDamageSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -245,32 +244,32 @@ public class ExplosionNukeGeneric {
                 level.setBlock(blockPos, ModBlocks.WASTE_PLANKS.get().defaultBlockState(), 3);
             }
 
-            else if (b == ModBlocks.ORE_URANIUM.get()) {
-                rand = random.nextInt(ServerConfig.SCHRABIDIUM_FROM_URANIUM_CHANCE.getAsInt());
-                if (rand == 1) {
-                    level.setBlock(blockPos, ModBlocks.ORE_SCHRABIDIUM.get().defaultBlockState(), 3);
-                } else {
-                    level.setBlock(blockPos, ModBlocks.ORE_URANIUM_SCORCHED.get().defaultBlockState(), 3);
-                }
-            }
-
-            else if (b == ModBlocks.ORE_URANIUM.get()) {
-                rand = random.nextInt(ServerConfig.SCHRABIDIUM_FROM_URANIUM_CHANCE.getAsInt());
-                if (rand == 1) {
-                    level.setBlock(blockPos, ModBlocks.ORE_NETHER_SCHRABIDIUM.get().defaultBlockState(), 3);
-                } else {
-                    level.setBlock(blockPos, ModBlocks.ORE_NETHER_URANIUM_SCORCHED.get().defaultBlockState(), 3);
-                }
-            }
-
-            else if (b == ModBlocks.ORE_GNEISS_URANIUM.get()) {
-                rand = random.nextInt(ServerConfig.SCHRABIDIUM_FROM_URANIUM_CHANCE.getAsInt());
-                if (rand == 1) {
-                    level.setBlock(blockPos, ModBlocks.ORE_GNEISS_SCHRABIDIUM.get().defaultBlockState(), 3);
-                } else {
-                    level.setBlock(blockPos, ModBlocks.ORE_GNEISS_SCHRABIDIUM.get().defaultBlockState(), 3);
-                }
-            }
+//            else if (b == ModBlocks.ORE_URANIUM.get()) {
+//                rand = random.nextInt(ServerConfigt.SCHRABIDIUM_FROM_URANIUM_CHANCE.getAsInt());
+//                if (rand == 1) {
+//                    level.setBlock(blockPos, ModBlocks.ORE_SCHRABIDIUM.get().defaultBlockState(), 3);
+//                } else {
+//                    level.setBlock(blockPos, ModBlocks.ORE_URANIUM_SCORCHED.get().defaultBlockState(), 3);
+//                }
+//            }
+//
+//            else if (b == ModBlocks.ORE_URANIUM.get()) {
+//                rand = random.nextInt(ServerConfigt.SCHRABIDIUM_FROM_URANIUM_CHANCE.getAsInt());
+//                if (rand == 1) {
+//                    level.setBlock(blockPos, ModBlocks.ORE_NETHER_SCHRABIDIUM.get().defaultBlockState(), 3);
+//                } else {
+//                    level.setBlock(blockPos, ModBlocks.ORE_NETHER_URANIUM_SCORCHED.get().defaultBlockState(), 3);
+//                }
+//            }
+//
+//            else if (b == ModBlocks.ORE_GNEISS_URANIUM.get()) {
+//                rand = random.nextInt(ServerConfigt.SCHRABIDIUM_FROM_URANIUM_CHANCE.getAsInt());
+//                if (rand == 1) {
+//                    level.setBlock(blockPos, ModBlocks.ORE_GNEISS_SCHRABIDIUM.get().defaultBlockState(), 3);
+//                } else {
+//                    level.setBlock(blockPos, ModBlocks.ORE_GNEISS_SCHRABIDIUM.get().defaultBlockState(), 3);
+//                }
+//            }
         }
     }
 

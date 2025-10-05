@@ -1,34 +1,40 @@
 package com.hbm.particle;
 
+import com.hbm.HBMsNTM;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.util.FastColor;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import java.util.Random;
 
 public class ParticleRadiationFog extends TextureSheetParticle {
 
-    private final Random rand = new Random();
+    private int age;
     private int maxAge;
 
     public ParticleRadiationFog(ClientLevel level, double x, double y, double z, SpriteSet sprites) {
         super(level, x, y, z);
-        this.maxAge = 100 + this.rand.nextInt(40);
-//        this.rCol = this.gCol = this.bCol = 0.0F;
+        this.maxAge = 100 + this.random.nextInt(40);
         this.quadSize = 7.5F;
+
+        this.rCol = this.gCol = this.bCol = 0;
         this.setSpriteFromAge(sprites);
     }
 
     public ParticleRadiationFog(ClientLevel level, double x, double y, double z, float red, float green, float blue, float scale, SpriteSet sprites) {
         super(level, x, y, z);
-        this.maxAge = 100 + this.rand.nextInt(40);
+        this.maxAge = 100 + this.random.nextInt(40);
+
         this.rCol = red;
         this.gCol = green;
         this.bCol = blue;
+
         this.quadSize = scale;
         this.setSpriteFromAge(sprites);
     }
@@ -44,82 +50,66 @@ public class ParticleRadiationFog extends TextureSheetParticle {
         }
 
         this.age++;
-
-        if (this.age >= maxAge) {
+        if (this.age >= this.maxAge) {
             this.remove();
         }
 
-        this.xd *= 0.96;
-        this.yd *= 0.96;
-        this.zd *= 0.96;
+        this.xd *= 0.9599999785423279D;
+        this.yd *= 0.9599999785423279D;
+        this.zd *= 0.9599999785423279D;
 
         if (this.onGround) {
-            this.xd *= 0.7;
-            this.zd *= 0.7;
+            this.xd *= 0.699999988079071D;
+            this.zd *= 0.699999988079071D;
         }
     }
 
     @Override
-    public void render(VertexConsumer vc, Camera camera, float partialTicks) {
-        float px = (float)(xo + (this.x - xo) * partialTicks - camera.getPosition().x());
-        float py = (float)(yo + (this.y - yo) * partialTicks - camera.getPosition().y());
-        float pz = (float)(zo + (this.z - zo) * partialTicks - camera.getPosition().z());
+    public void render(VertexConsumer buffer, Camera camera, float partialTicks) {
+        Quaternionf q = new Quaternionf(camera.rotation());
+        Vec3 camPos = camera.getPosition();
 
-        float alpha = (float)Math.sin((this.age + partialTicks) * Math.PI / 400F) * 0.125F;
-        if (alpha <= 0) return;
+        this.rCol = 0.85F;
+        this.gCol = 0.9F;
+        this.bCol = 0.5F;
+        float t = (float) this.age / 400F;
+        this.alpha = Math.max(0F, (float)Math.sin(t * Math.PI)) * 0.5F;
 
-        int color = FastColor.ARGB32.color((int)(alpha * 255), (int)(rCol * 255), (int)(gCol * 255), (int)(bCol * 255));
+        HBMsNTM.LOGGER.info("alpha = {}", this.alpha);
 
-        float size = this.quadSize;
-        int light = 0xF000F0;
-        int overlay = 0;
+        Random rand = new Random(50);
 
-        Vector3f left = camera.getLeftVector();
-        Vector3f up = camera.getUpVector();
+        for (int i = 0; i < 25; i++) {
 
-        float leftX = left.x() * size;
-        float leftY = left.y() * size;
-        float leftZ = left.z() * size;
-        float upX = up.x() * size;
-        float upY = up.y() * size;
-        float upZ = up.z() * size;
+            double dX = (rand.nextGaussian() - 1D) * 2.5D;
+            double dY = (rand.nextGaussian() - 1D) * 0.15D;
+            double dZ = (rand.nextGaussian() - 1D) * 2.5D;
+            double size = rand.nextDouble() * this.quadSize;
 
+            float px = (float)(Mth.lerp(partialTicks, this.xo, this.x) - camPos.x + dX);
+            float py = (float)(Mth.lerp(partialTicks, this.yo, this.y) - camPos.y + dY);
+            float pz = (float)(Mth.lerp(partialTicks, this.zo, this.z) - camPos.z + dZ);
+
+            renderQuadWithSize(buffer, q, px, py, pz, (float)size, 240);
+        }
+    }
+
+    private void renderQuadWithSize(VertexConsumer buffer, Quaternionf q, float x, float y, float z, float size, float partialTicks) {
         float u0 = this.getU0();
         float u1 = this.getU1();
         float v0 = this.getV0();
         float v1 = this.getV1();
+        int light = this.getLightColor(partialTicks);
 
-        rand.setSeed(50);
-        for (int i = 0; i < 25; i++) {
-            float dx = (float)((rand.nextGaussian() - 1D) * 2.5D);
-            float dy = (float)((rand.nextGaussian() - 1D) * 0.15D);
-            float dz = (float)((rand.nextGaussian() - 1D) * 2.5D);
+        renderVertex(buffer, q, x, y, z, 1.0F, -1.0F, size, u1, v1, light);
+        renderVertex(buffer, q, x, y, z, 1.0F,  1.0F, size, u1, v0, light);
+        renderVertex(buffer, q, x, y, z,-1.0F,  1.0F, size, u0, v0, light);
+        renderVertex(buffer, q, x, y, z,-1.0F, -1.0F, size, u0, v1, light);
+    }
 
-            float cx = px + dx;
-            float cy = py + dy;
-            float cz = pz + dz;
-
-            float x0 = cx - leftX - upX;
-            float y0 = cy - leftY - upY;
-            float z0 = cz - leftZ - upZ;
-
-            float x1 = cx - leftX + upX;
-            float y1 = cy - leftY + upY;
-            float z1 = cz - leftZ + upZ;
-
-            float x2 = cx + leftX + upX;
-            float y2 = cy + leftY + upY;
-            float z2 = cz + leftZ + upZ;
-
-            float x3 = cx + leftX - upX;
-            float y3 = cy + leftY - upY;
-            float z3 = cz + leftZ - upZ;
-
-            vc.addVertex(x0, y0, z0, color, u1, v1, overlay, light, 0, 1, 0);
-            vc.addVertex(x1, y1, z1, color, u1, v0, overlay, light, 0, 1, 0);
-            vc.addVertex(x2, y2, z2, color, u0, v0, overlay, light, 0, 1, 0);
-            vc.addVertex(x3, y3, z3, color, u0, v1, overlay, light, 0, 1, 0);
-        }
+    private void renderVertex(VertexConsumer buffer, Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float quadSize, float u, float v, int packedLight) {
+        Vector3f vector3f = (new Vector3f(xOffset, yOffset, 0.0F)).rotate(quaternion).mul(quadSize).add(x, y, z);
+        buffer.addVertex(vector3f.x(), vector3f.y(), vector3f.z()).setUv(u, v).setColor(this.rCol, this.gCol, this.bCol, this.alpha).setLight(packedLight);
     }
 
     @Override

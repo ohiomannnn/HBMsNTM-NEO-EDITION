@@ -1,10 +1,7 @@
 package com.hbm.hazard.type;
 
-import java.util.List;
-
-import com.hbm.config.ServerConfig;
+import com.hbm.config.ModConfigs;
 import com.hbm.hazard.modifier.HazardModifier;
-
 import com.hbm.items.ModItems;
 import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
@@ -14,17 +11,18 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.List;
+
 public class HazardTypeHot extends HazardTypeBase {
 
     @Override
     public void onUpdate(LivingEntity target, float level, ItemStack stack) {
 
-        if(ServerConfig.DISABLE_HOT.getAsBoolean())
-            return;
+        if (ModConfigs.COMMON.DISABLE_HOT.get()) return;
 
         boolean reacher = false;
 
-        if(target instanceof Player && !ServerConfig.ENABLE_528.getAsBoolean())
+        if(target instanceof Player && !ModConfigs.COMMON.ENABLE_528.get())
             if (target.getMainHandItem().is(ModItems.REACHER.get()) || target.getOffhandItem().is(ModItems.REACHER.get())) {
                 reacher = true;
             }

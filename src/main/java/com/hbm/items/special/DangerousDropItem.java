@@ -1,7 +1,8 @@
 package com.hbm.items.special;
 
 import com.hbm.HBMsNTM;
-import com.hbm.config.ServerConfig;
+import com.hbm.config.ModConfigs;
+import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.interfaces.IBomb;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModSounds;
@@ -29,39 +30,49 @@ public class DangerousDropItem extends Item {
     }
 
     @Override
-    public boolean onEntityItemUpdate(ItemStack stack, ItemEntity entity) {
-        Level level = entity.level();
+    public boolean onEntityItemUpdate(ItemStack stack, ItemEntity itemEntity) {
+        Level level = itemEntity.level();
 
         if (level.isClientSide) return false;
         int lifespan = stack.getEntityLifespan(level);
-        if (entity.getAge() >= lifespan - 1) return false;
+        if (itemEntity.getAge() >= lifespan - 1) return false;
 
-        if (entity.getAge() < 5) return false;
+        String throwerName = "";
+        if (TagsUtil.hasTag(stack)) throwerName = TagsUtil.getString(stack, "lastUser", "Somebody");
 
-        if (stack.is(ModItems.DETONATOR_DEADMAN.get())) {
-            if (TagsUtil.hasTag(stack)) {
-                int x = TagsUtil.getInt(stack, "x", 0);
-                int y = TagsUtil.getInt(stack, "y", 0);
-                int z = TagsUtil.getInt(stack, "z", 0);
+        if (itemEntity.getAge() < 5) {
+            if (stack.is(ModItems.DETONATOR_DEADMAN.get())) {
+                if (TagsUtil.hasTag(stack)) {
+                    int x = TagsUtil.getInt(stack, "x", 0);
+                    int y = TagsUtil.getInt(stack, "y", 0);
+                    int z = TagsUtil.getInt(stack, "z", 0);
 
-                Block block = level.getBlockState(new BlockPos(x, y, z)).getBlock();
-                if (block instanceof IBomb) {
-                    ((IBomb) block).explode(level, x, y, z);
+                    Block block = level.getBlockState(new BlockPos(x, y, z)).getBlock();
+                    if (block instanceof IBomb bomb) {
+                        bomb.explode(level, x, y, z);
 
-                    if (ServerConfig.ENABLE_EXTENDED_LOGGING.getAsBoolean())
-                        HBMsNTM.LOGGER.info("[DET] Tried to detonate block at " + x + " / " + y + " / " + z + " by dead man's switch!");
+                        if (ModConfigs.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
+                            HBMsNTM.LOGGER.info("[DEAD MAN'S DETONATOR] {} detonated {} at {} / {} / {}!", throwerName, block.getName().getString(), x, y, z);
+                        }
+                    }
                 }
+                level.explode(null, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), 0.0F, Level.ExplosionInteraction.NONE);
+                itemEntity.discard();
+                return true;
             }
-            level.explode(null, entity.getX(), entity.getY(), entity.getZ(), 0.0F, Level.ExplosionInteraction.NONE);
-            entity.discard();
-            return true;
+            if (stack.is(ModItems.DETONATOR_DE.get()) && ModConfigs.COMMON.DROP_DEAD_MANS_EXPLOSIVE.get()) {
+                level.explode(null, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), 15.0F, Level.ExplosionInteraction.TNT);
+                itemEntity.discard();
+                return true;
+            }
         }
-        if (stack.is(ModItems.DETONATOR_DE.get())) {
-            level.explode(null, entity.getX(), entity.getY(), entity.getZ(), 15.0F, Level.ExplosionInteraction.MOB);
 
-            if (ServerConfig.ENABLE_EXTENDED_LOGGING.getAsBoolean())
-                HBMsNTM.LOGGER.info("[DET] Detonated dead man's explosive at " + ((int) entity.getX()) + " / " + ((int) entity.getY()) + " / " + ((int) entity.getZ()) + "!");
-            return true;
+        if (itemEntity.onGround()) {
+            if (stack.is(ModItems.CELL_ANTIMATTER.get()) && ModConfigs.COMMON.DROP_CELL.get()) {
+                ExplosionVNT vnt = new ExplosionVNT(level, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), 5F);
+                vnt.makeAmat();
+                vnt.explode();
+            }
         }
 
         return false;
@@ -69,6 +80,10 @@ public class DangerousDropItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+        if (this == ModItems.CELL_ANTIMATTER.get()) {
+            tooltipComponents.add(Component.literal("Warning: Exposure to matter will"));
+            tooltipComponents.add(Component.literal("lead to violent annihilation!"));
+        }
         if (this == ModItems.DETONATOR_DEADMAN.get()) {
             tooltipComponents.add(Component.literal("Shift right-click to set position,"));
             tooltipComponents.add(Component.literal("drop to detonate!"));
@@ -100,6 +115,9 @@ public class DangerousDropItem extends Item {
             TagsUtil.setInt(stack, "x", context.getClickedPos().getX());
             TagsUtil.setInt(stack, "y", context.getClickedPos().getY());
             TagsUtil.setInt(stack, "z", context.getClickedPos().getZ());
+            
+            // funny part
+            TagsUtil.setString(stack, "lastUser", player.getName().getString());
 
             if (!context.getLevel().isClientSide) {
                 player.sendSystemMessage(Component.literal("Position set!"));

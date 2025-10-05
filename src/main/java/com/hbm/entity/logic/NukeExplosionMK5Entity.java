@@ -1,7 +1,7 @@
 package com.hbm.entity.logic;
 
 import com.hbm.HBMsNTM;
-import com.hbm.config.ServerConfig;
+import com.hbm.config.ModConfigs;
 import com.hbm.entity.ModEntities;
 import com.hbm.entity.effect.EntityFalloutRain;
 import com.hbm.explosion.ExplosionNukeGeneric;
@@ -76,16 +76,16 @@ public class NukeExplosionMK5Entity extends ChunkloadingEntity {
         }
 
         if (!explosion.isComplete()) {
-            explosion.cacheChunksTick(ServerConfig.MK5.getAsInt());
-            explosion.destructionTick(ServerConfig.MK5.getAsInt());
+            explosion.cacheChunksTick(ModConfigs.COMMON.MK5.get());
+            explosion.destructionTick(ModConfigs.COMMON.MK5.get());
         } else {
-            if (ServerConfig.ENABLE_EXTENDED_LOGGING.getAsBoolean() && explosionStart != 0) {
+            if (ModConfigs.COMMON.ENABLE_EXTENDED_LOGGING.get() && explosionStart != 0) {
                 HBMsNTM.LOGGER.info("[NUKE] Explosion complete. Time elapsed: {}ms", (System.currentTimeMillis() - explosionStart));
             }
             if (fallout) {
                 EntityFalloutRain fallout = new EntityFalloutRain(ModEntities.FALLOUT_RAIN.get(), level());
                 fallout.setPos(getX(), getY(), getZ());
-                fallout.setScale((int) (this.length * 2.5 + falloutAdd) * ServerConfig.FALLOUT_RANGE.getAsInt() / 100);
+                fallout.setScale((int) (this.length * 2.5 + falloutAdd) * ModConfigs.COMMON.FALLOUT_RANGE.get() / 100);
                 level().addFreshEntity(fallout);
             }
             this.discard();
@@ -141,7 +141,7 @@ public class NukeExplosionMK5Entity extends ChunkloadingEntity {
     }
 
     public static NukeExplosionMK5Entity statFac(Level level, int strength, double x, double y, double z) {
-        if (ServerConfig.ENABLE_EXTENDED_LOGGING.getAsBoolean() && !level.isClientSide) {
+        if (ModConfigs.COMMON.ENABLE_EXTENDED_LOGGING.get() && !level.isClientSide) {
             HBMsNTM.LOGGER.info("[NUKE] Initialized explosion at {} / {} / {} with strength {}!", x, y, z, strength);
         }
 

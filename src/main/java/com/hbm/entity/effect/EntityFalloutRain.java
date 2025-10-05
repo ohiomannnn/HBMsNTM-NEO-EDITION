@@ -3,7 +3,7 @@ package com.hbm.entity.effect;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.FalloutBlock;
 import com.hbm.config.FalloutConfigJSON;
-import com.hbm.config.ServerConfig;
+import com.hbm.config.ModConfigs;
 import com.hbm.entity.logic.ChunkloadingEntity;
 import com.hbm.world.WorldUtil;
 import com.hbm.world.biome.ModBiomes;
@@ -42,8 +42,8 @@ public class EntityFalloutRain extends ChunkloadingEntity {
         this.level = level;
     }
 
-    private int tickDelay = ServerConfig.F_DELAY.getAsInt();
-    private final int mk5 = ServerConfig.MK5.getAsInt();
+    private int tickDelay = ModConfigs.COMMON.FALLOUT_DELAY.get();
+    private final int mk5 = ModConfigs.COMMON.MK5.get();
 
     @Override
     public void tick() {
@@ -116,7 +116,7 @@ public class EntityFalloutRain extends ChunkloadingEntity {
 
 
     public static ResourceKey<Biome> getBiomeChange(double dist, int scale, ResourceKey<Biome> original) {
-        if (!ServerConfig.ENABLE_CRATER_BIOMES.getAsBoolean()) return null;
+        if (!ModConfigs.COMMON.ENABLE_CRATER_BIOMES.get()) return null;
 
         if (scale >= 150 && dist < 15) {
             return ModBiomes.CRATER_INNER;

@@ -1,7 +1,7 @@
 package com.hbm.items.tools;
 
 import com.hbm.HBMsNTM;
-import com.hbm.config.ServerConfig;
+import com.hbm.config.ModConfigs;
 import com.hbm.interfaces.IBomb;
 import com.hbm.lib.ModSounds;
 import com.hbm.util.TagsUtil;
@@ -67,12 +67,13 @@ public class DetonatorItem extends Item {
             Block block = level.getBlockState(pos).getBlock();
 
             if (!level.isClientSide) {
-                if (block instanceof IBomb) {
+                if (block instanceof IBomb bomb) {
                     level.playSound(null, player.blockPosition(), ModSounds.TECH_BLEEP.get(), SoundSource.PLAYERS, 2.0F, 1.0F);
-                    IBomb.BombReturnCode ret = (((IBomb) block).explode(level, x, y, z));
+                    IBomb.BombReturnCode ret = bomb.explode(level, x, y, z);
 
-                    if (ServerConfig.ENABLE_EXTENDED_LOGGING.getAsBoolean())
-                        HBMsNTM.LOGGER.info("[DET] Tried to detonate block at " + x + " / " + y + " / " + z + " by " + player.getName().getString() + "!");
+                    if (ModConfigs.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
+                        HBMsNTM.LOGGER.info("[DETONATOR] {} detonated {} at {} / {} / {}!", player.getName().getString(), block.getName().getString(), x, y, z);
+                    }
 
                     player.sendSystemMessage(
                             Component.literal("[Detonator] ")

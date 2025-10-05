@@ -5,7 +5,7 @@ import java.util.Map.Entry;
 
 import com.hbm.HBMsNTMClient;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.config.ServerConfig;
+import com.hbm.config.ModConfigs;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -20,6 +20,10 @@ import net.neoforged.neoforge.event.level.ChunkDataEvent;
 import net.neoforged.neoforge.event.level.ChunkEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 
+/**
+ * Most basic implementation of a chunk radiation system: Each chunk has a radiation value which spreads out to its neighbors.
+ * @author hbm
+ */
 public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 
     private final HashMap<Level, SimpleRadiationPerWorld> perWorld = new HashMap<>();
@@ -85,8 +89,8 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
                         newRad = Mth.clamp(newRad * 0.99F - 0.05F, 0F, maxRad);
                         radiation.put(newCoord, newRad);
 
-                        if (newRad > ServerConfig.FOG_RAD.getAsInt() &&
-                                level.random.nextInt(ServerConfig.FOG_CHANCE.getAsInt()) == 0 &&
+                        if (newRad > ModConfigs.COMMON.FOG_RAD.get() &&
+                                level.random.nextInt(ModConfigs.COMMON.FOG_RAD_CH.get()) == 0 &&
                                 level.hasChunk(newCoord.x, newCoord.z)) {
 
                             int x = newCoord.getMinBlockX() + level.random.nextInt(16);

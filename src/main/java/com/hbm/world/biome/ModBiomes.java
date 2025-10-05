@@ -1,6 +1,7 @@
 package com.hbm.world.biome;
 
 import com.hbm.HBMsNTM;
+import com.hbm.particle.ModParticles;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
@@ -40,19 +41,19 @@ public class ModBiomes {
 
     private static Biome makeCraterBiome(HolderGetter<PlacedFeature> placed, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
         return baseBuilder(placed, carvers)
-                .specialEffects(effects(0x10161C, 0x606060, 0x6A7039, 0x525A52))
+                .specialEffects(effects(0x10161C, 0x606060, 0x6A7039, 0x525A52, 0.01F))
                 .build();
     }
 
     private static Biome makeCraterOuterBiome(HolderGetter<PlacedFeature> placed, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
         return baseBuilder(placed, carvers)
-                .specialEffects(effects(0x10161C, 0x6F6752, 0x6A7039, 0x6B9189))
+                .specialEffects(effects(0x10161C, 0x6F6752, 0x6A7039, 0x6B9189, 0))
                 .build();
     }
 
     private static Biome makeCraterInnerBiome(HolderGetter<PlacedFeature> placed, HolderGetter<ConfiguredWorldCarver<?>> carvers) {
         return baseBuilder(placed, carvers)
-                .specialEffects(effects(0x10161C, 0x303030, 0x6A7039, 0x424A42))
+                .specialEffects(effects(0x10161C, 0x303030, 0x6A7039, 0x424A42, 0.01F))
                 .build();
     }
 
@@ -68,10 +69,11 @@ public class ModBiomes {
                 .generationSettings(generation.build());
     }
 
-    private static BiomeSpecialEffects effects(int waterColor, int grassColor, int foliageColor, int skyColor) {
+    private static BiomeSpecialEffects effects(int waterColor, int grassColor, int foliageColor, int skyColor, float particleCount) {
         return new BiomeSpecialEffects.Builder()
+                .ambientParticle(new AmbientParticleSettings(ModParticles.AURA.get(), particleCount))
                 .waterColor(waterColor)
-                .waterFogColor(0x03031C)
+                .waterFogColor(waterColor)
                 .grassColorOverride(grassColor)
                 .foliageColorOverride(foliageColor)
                 .skyColor(skyColor)

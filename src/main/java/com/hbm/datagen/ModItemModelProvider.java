@@ -32,6 +32,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         handheldItem(ModItems.MULTI_DETONATOR.get());
         basicItem(ModItems.DUCK_SPAWN_EGG.get());
 
+        basicItem(ModItems.CELL_ANTIMATTER.get());
+
         basicItem(ModItems.KEY.get());
         basicItem(ModItems.KEY_RED.get());
         basicItem(ModItems.KEY_KIT.get());

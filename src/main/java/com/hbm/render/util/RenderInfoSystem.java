@@ -1,6 +1,6 @@
 package com.hbm.render.util;
 
-import com.hbm.config.ClientConfig;
+import com.hbm.config.ModConfigs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -62,12 +62,12 @@ public class RenderInfoSystem {
                 longest = length;
         }
 
-        int mode = ClientConfig.INFO_POSITION.get();
+        int mode = ModConfigs.CLIENT.INFO_POSITION.get();
         int pX = mode == 0 ? 15 : mode == 1 ? (screenWidth - longest - 15) : mode == 2 ? (screenWidth / 2 + 7) : (screenWidth / 2 - longest - 6);
         int pZ = mode == 0 ? 15 : mode == 1 ? 15 : (screenHeight / 2 + 7);
 
-        pX += ClientConfig.INFO_OFFSET_HORIZONTAL.get();
-        pZ += ClientConfig.INFO_OFFSET_VERTICAL.get();
+        pX += ModConfigs.CLIENT.INFO_OFFSET_HORIZONTAL.get();
+        pZ += ModConfigs.CLIENT.INFO_OFFSET_VERTICAL.get();
 
         int side = pX + 5 + longest;
         int height = messages.size() * 10 + pZ + 2;

@@ -1,29 +1,24 @@
 package com.hbm.hazard.type;
 
-import java.util.List;
-
-import com.hbm.config.ServerConfig;
+import com.hbm.config.ModConfigs;
 import com.hbm.hazard.modifier.HazardModifier;
-
 import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
+
+import java.util.List;
 
 public class HazardTypeExplosive extends HazardTypeBase {
 
     @Override
     public void onUpdate(LivingEntity target, float level, ItemStack stack) {
 
-        if (ServerConfig.DISABLE_EXPLOSIVE.getAsBoolean())
-            return;
+        if (ModConfigs.COMMON.DISABLE_EXPLOSIVE.get()) return;
 
         if (!target.level().isClientSide && (target.isOnFire() || target.isInLava()) && stack.getCount() > 0) {
             stack.setCount(0);
@@ -34,8 +29,7 @@ public class HazardTypeExplosive extends HazardTypeBase {
     @Override
     public void updateEntity(ItemEntity item, float level) {
 
-        if (ServerConfig.DISABLE_EXPLOSIVE.getAsBoolean())
-            return;
+        if (ModConfigs.COMMON.DISABLE_EXPLOSIVE.get()) return;
 
         if (item.isOnFire() || item.isInLava()) {
             item.discard();

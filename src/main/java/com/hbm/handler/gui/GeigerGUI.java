@@ -21,7 +21,7 @@ public class GeigerGUI {
     private static long prevTick = -1;
     private static float prevRad = 0f;
     private static float smoothedRadiation = 0f;
-    private static float rad;
+    public static float rad;
 
     private static int getScaled(double cur, double max, double scale) {
         return (int) Math.min(cur / max * scale, scale);
@@ -105,6 +105,7 @@ public class GeigerGUI {
         }
         return false;
     }
+
     public static void getRadFromServer(float rad) {
         GeigerGUI.rad = rad;
     }

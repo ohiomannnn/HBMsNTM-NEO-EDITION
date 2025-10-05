@@ -1,8 +1,6 @@
 package com.hbm.hazard.type;
 
-import java.util.List;
-
-import com.hbm.config.ServerConfig;
+import com.hbm.config.ModConfigs;
 import com.hbm.extprop.LivingProperties;
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.util.i18n.I18nUtil;
@@ -13,14 +11,15 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.List;
+
 
 public class HazardTypeAsbestos extends HazardTypeBase {
 
     @Override
     public void onUpdate(LivingEntity target, float level, ItemStack stack) {
 
-        if(ServerConfig.DISABLE_ASBESTOS.getAsBoolean())
-            return;
+        if (ModConfigs.COMMON.DISABLE_ASBESTOS.get()) return;
 
 //        if(!ArmorRegistry.hasProtection(target, 3, HazardClass.PARTICLE_FINE))
 //            HbmLivingProps.incrementAsbestos(target, (int) Math.min(level, 10));

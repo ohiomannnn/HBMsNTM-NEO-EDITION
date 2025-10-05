@@ -1,4 +1,57 @@
 {
+  "hbmsntm.configuration.general": "General",
+  "hbmsntm.configuration.hazards": "Hazards",
+  "hbmsntm.configuration.radiation": "Radiation",
+  "hbmsntm.configuration.dangerous_drops": "Dangerous Drops",
+  "hbmsntm.configuration.biomes": "Biomes",
+  "hbmsntm.configuration.explosion": "Explosions",
+  "hbmsntm.configuration.528": "528",
+
+  "hbmsntm.configuration.enableMOTD": "Enable MOTD",
+  "hbmsntm.configuration.enableExtendedLogging": "Enable Extended Logging",
+
+  "hbmsntm.configuration.falloutDelay": "Fallout Delay",
+  "hbmsntm.configuration.mk5BlastTime": "MK5 Blast Time",
+  "hbmsntm.configuration.falloutRange": "Fallout Range",
+
+  "hbmsntm.configuration.fogRadChance": "Radiation Fog Chance",
+  "hbmsntm.configuration.enableContamination": "Enable Contamination",
+  "hbmsntm.configuration.fogRad": "Radiation Fog",
+  "hbmsntm.configuration.worldRadEffects": "World Radiation Effects",
+  "hbmsntm.configuration.hellRad": "Nether Radiation",
+  "hbmsntm.configuration.enableChunkRads": "Enable Chunk Radiation",
+
+  "hbmsntm.configuration.dropStar": "Drop Rigged Star Blaster",
+  "hbmsntm.configuration.dropCell": "Drop Antimatter Cell",
+  "hbmsntm.configuration.dropCrys": "Drop Xen Crystal",
+  "hbmsntm.configuration.dropDead": "Drop Dead Man's Explosive",
+  "hbmsntm.configuration.dropSing": "Drop Singularities and Black Holes",
+
+  "hbmsntm.configuration.disableHydroactive": "Disable Hydroactive Hazards",
+  "hbmsntm.configuration.disableHot": "Disable Hot Hazards",
+  "hbmsntm.configuration.disableAsbestos": "Disable Asbestos Hazards",
+  "hbmsntm.configuration.disableCoaldust": "Disable Coal Dust Hazards",
+  "hbmsntm.configuration.disableBlinding": "Disable Blinding Hazards",
+  "hbmsntm.configuration.disableExplosive": "Disable Explosive Hazards",
+
+  "hbmsntm.configuration.craterBiomeRad": "Radiation from Crater",
+  "hbmsntm.configuration.craterBiomeInnerRad": "Radiation from Inner Crater",
+  "hbmsntm.configuration.craterBiomeOuterRad": "Radiation from Outer Crater",
+  "hbmsntm.configuration.craterBiome": "Craters from Nuke Explosions",
+  "hbmsntm.configuration.craterBiomeWaterMultiplier": "Water Radiation Multiplier",
+
+  "hbmsntm.configuration.enable528": "Toggle 528",
+
+  "hbmsntm.configuration.infoOffsetVertical": "Info Offset Vertical",
+  "hbmsntm.configuration.infoOffsetHorizontal": "Info Offset Horizontal",
+  "hbmsntm.configuration.infoPosition": "Info Position",
+  "hbmsntm.configuration.nukeHudFlash": "Nuke Flash",
+  "hbmsntm.configuration.nukeHudShake": "Nuke Shake",
+
+  "hbmsntm.configuration.crate_keep_contents": "Keep Crate Contents",
+  "hbmsntm.configuration.taint_trails": "Taint trails",
+  "hbmsntm.configuration.crate_open_held": "Crate Open Held",
+
   "block.hbmsntm.brick_concrete": "Concrete Brick",
   "block.hbmsntm.brick_concrete_mossy": "Mossy Concrete Brick",
   "block.hbmsntm.brick_concrete_cracked": "Cracked Concrete Brick",
@@ -45,6 +98,8 @@
   "item.hbmsntm.multi_detonator": "Multi Detonator",
   "item.hbmsntm.detonator_de": "Dead Man's Explosive",
   "item.hbmsntm.detonator_deadman": "Dead Man's Detonator",
+
+  "item.hbmsntm.cell_antimatter": "Antimatter Cell",
 
   "entity.hbmsntm.duck": "Duck",
 

@@ -3,20 +3,20 @@ package com.hbm.explosion.vanillant.standard;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.interfaces.IExplosionSFX;
 import com.hbm.lib.ModSounds;
+import com.hbm.packets.toclient.AuxParticlePacket;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 
 public class ExplosionEffectAmat implements IExplosionSFX {
 
     @Override
     public void doEffect(ExplosionVNT explosion, Level level, double x, double y, double z, float size) {
-        if (level.isClientSide() || !(level instanceof ServerLevel serverLevel)) {
-            return;
-        }
 
         if (size < 15) {
             level.playSound(
@@ -38,14 +38,17 @@ public class ExplosionEffectAmat implements IExplosionSFX {
             );
         }
 
-        serverLevel.sendParticles(
-                ParticleTypes.EXPLOSION_EMITTER,
+        CompoundTag tag = new CompoundTag();
+        tag.putString("type", "amat");
+        tag.putFloat("scale", size);
+
+        PacketDistributor.sendToPlayersNear(
+                (ServerLevel) level,
+                null,
                 x, y, z,
-                2,
-                1.0D, 1.0D, 1.0D,
-                0.0D
+                200,
+                new AuxParticlePacket(tag, x, y, z)
         );
 
-        serverLevel.sendParticles(ParticleTypes.FLASH, x, y, z, 1, 0, 0, 0, 0);
     }
 }

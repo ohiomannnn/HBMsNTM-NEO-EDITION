@@ -1,5 +1,6 @@
 package com.hbm.blocks.generic;
 
+import com.hbm.HBMsNTM;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
@@ -13,7 +14,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class HazardBlock extends Block {
 
-    protected float rad = 0.0F;
+    protected float rad = 500.0F;
 
     public HazardBlock(Properties properties) {
         super(properties);
@@ -30,8 +31,9 @@ public class HazardBlock extends Block {
     @Override
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
         super.onPlace(state, level, pos, oldState, isMoving);
-        rad = HazardSystem.getHazardLevelFromStack(new ItemStack(this), HazardRegistry.RADIATION) * 0.1F;
-        if (this.rad > 0 && level instanceof ServerLevel server) {
+        //rad = HazardSystem.getHazardLevelFromStack(new ItemStack(this), HazardRegistry.RADIATION) * 0.1F;
+        HBMsNTM.LOGGER.info("chunkload at radiation man");
+        if (this.rad < 0 && level instanceof ServerLevel server) {
             server.scheduleTick(pos, this, 20);
         }
     }

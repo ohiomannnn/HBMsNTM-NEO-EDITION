@@ -60,15 +60,8 @@ public class CommonEvents {
     }
 
     @SubscribeEvent
-    public static void onServerStarting(ServerStartingEvent event) {
-        ChunkRadiationManager.initProxy();
-    }
-
-    @SubscribeEvent
     public static void onLivingTick(EntityTickEvent.Pre event) {
         Entity entity = event.getEntity();
-
-        if (entity.level().isClientSide) return;
 
         if (entity instanceof Player player) {
             HazardSystem.updatePlayerInventory(player);
