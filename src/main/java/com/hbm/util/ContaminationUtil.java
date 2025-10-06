@@ -1,6 +1,7 @@
 package com.hbm.util;
 
 import api.hbm.entity.IRadiationImmune;
+import com.hbm.entity.mob.CreeperNuclear;
 import com.hbm.entity.mob.EntityDuck;
 import com.hbm.extprop.LivingProperties;
 import com.hbm.handler.radiation.ChunkRadiationManager;
@@ -44,7 +45,7 @@ public class  ContaminationUtil {
         }
 
         if (immuneEntities.isEmpty()) {
-//            immuneEntities.add(EntityCreeperNuclear.class);
+            immuneEntities.add(CreeperNuclear.class);
             immuneEntities.add(MushroomCow.class);
             immuneEntities.add(Zombie.class);
             immuneEntities.add(Skeleton.class);
@@ -108,7 +109,7 @@ public class  ContaminationUtil {
         Level level = player.level();
 
         float eRad = (float) ((LivingProperties.getRadiation(player) * 10) / 10D);
-        double rads = Math.floor(ChunkRadiationManager.getProxy().getRadiation(level,
+        double rads = Math.floor(ChunkRadiationManager.proxy.getRadiation(level,
                 player.blockPosition().getX(),
                 player.blockPosition().getY(),
                 player.blockPosition().getZ()) * 10) / 10D;
@@ -238,7 +239,7 @@ public class  ContaminationUtil {
         RAD_BYPASS,			//same as creative but will not apply radiation resistance calculation
         NONE				//not preventable
     }
-    public static void contaminate(LivingEntity entity, HazardType hazard, ContaminationType cont, float amount) {
+    public static void contaminate(LivingEntity entity, HazardType hazard, ContaminationType type, float amount) {
 
         if (hazard == HazardType.RADIATION) {
             float radEnv = LivingProperties.getRadEnv(entity);
@@ -247,7 +248,7 @@ public class  ContaminationUtil {
 
         if (entity instanceof ServerPlayer player) {
 
-//            switch(cont) {
+//            switch(type) {
 //                case FARADAY:			if(ArmorUtil.checkForFaraday(player))	return; break;
 //                case HAZMAT:			if(ArmorUtil.checkForHazmat(player))	return; break;
 //                case HAZMAT_HEAVY:			if(ArmorUtil.checkForHaz2(player))		return; break;
@@ -255,7 +256,7 @@ public class  ContaminationUtil {
 //                case DIGAMMA_ROBE:			if(ArmorUtil.checkForDigamma2(player))	return; break;
 //            }
 
-            if (player.isCreative() || player.isSpectator() && cont != ContaminationType.NONE && cont != ContaminationType.DIGAMMA_ROBE) {
+            if (player.isCreative() || player.isSpectator() && type != ContaminationType.NONE && type != ContaminationType.DIGAMMA_ROBE) {
                 return;
             }
 
@@ -268,7 +269,7 @@ public class  ContaminationUtil {
             return;
 
         switch(hazard) {
-            case RADIATION: LivingProperties.incrementRadiation(entity, amount * (cont == ContaminationType.RAD_BYPASS ? 1 : calculateRadiationMod(entity))); break;
+            case RADIATION: LivingProperties.incrementRadiation(entity, amount * (type == ContaminationType.RAD_BYPASS ? 1 : calculateRadiationMod(entity))); break;
             case DIGAMMA: LivingProperties.incrementDigamma(entity, amount); break;
         }
     }

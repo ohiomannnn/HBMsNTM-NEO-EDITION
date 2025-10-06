@@ -28,29 +28,29 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 
     private final HashMap<Level, SimpleRadiationPerWorld> perWorld = new HashMap<>();
     private static final float maxRad = 100_000F;
-    private static final String NBT_KEY_CHUNK_RADIATION = "hfr_simple_radiation";
 
     @Override
     public float getRadiation(Level level, int x, int y, int z) {
         SimpleRadiationPerWorld radWorld = perWorld.get(level);
+
         if (radWorld != null) {
             ChunkPos coords = new ChunkPos(x >> 4, z >> 4);
             Float rad = radWorld.radiation.get(coords);
             return rad == null ? 0F : Mth.clamp(rad, 0, maxRad);
         }
+
         return 0;
     }
 
     @Override
     public void setRadiation(Level level, int x, int y, int z, float rad) {
         SimpleRadiationPerWorld radWorld = perWorld.get(level);
+
         if (radWorld != null) {
-            int chunkX = x >> 4;
-            int chunkZ = z >> 4;
-            if (level.hasChunk(chunkX, chunkZ)) {
-                ChunkPos coords = new ChunkPos(chunkX, chunkZ);
+            if (level.isLoaded(new BlockPos(x, y, z))) {
+                ChunkPos coords = new ChunkPos(x >> 4, z >> 4);
                 radWorld.radiation.put(coords, Mth.clamp(rad, 0, maxRad));
-                level.getChunk(chunkX, chunkZ).setUnsaved(true);
+                level.getChunk(x, z).setUnsaved(true);
             }
         }
     }
@@ -67,31 +67,39 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 
     @Override
     public void updateSystem() {
+
         for (Entry<Level, SimpleRadiationPerWorld> entry : perWorld.entrySet()) {
+
             HashMap<ChunkPos, Float> radiation = entry.getValue().radiation;
             HashMap<ChunkPos, Float> buff = new HashMap<>(radiation);
             radiation.clear();
             Level level = entry.getKey();
 
             for (Entry<ChunkPos, Float> chunk : buff.entrySet()) {
+
                 if (chunk.getValue() == 0) continue;
 
                 ChunkPos coord = chunk.getKey();
 
                 for (int i = -1; i <= 1; i++) {
                     for (int j = -1; j <= 1; j++) {
+
                         int type = Math.abs(i) + Math.abs(j);
                         float percent = type == 0 ? 0.6F : type == 1 ? 0.075F : 0.025F;
                         ChunkPos newCoord = new ChunkPos(coord.x + i, coord.z + j);
 
-                        float rad = radiation.getOrDefault(newCoord, 0F);
-                        float newRad = rad + chunk.getValue() * percent;
-                        newRad = Mth.clamp(newRad * 0.99F - 0.05F, 0F, maxRad);
-                        radiation.put(newCoord, newRad);
+                        if (buff.containsKey(newCoord)) {
+                            Float val = radiation.get(newCoord);
+                            float rad = val == null ? 0 : val;
+                            float newRad = rad + chunk.getValue() * percent;
+                            newRad = Mth.clamp(0F, newRad * 0.99F - 0.05F, maxRad);
+                            radiation.put(newCoord, newRad);
+                        } else {
+                            radiation.put(newCoord, chunk.getValue() * percent);
+                        }
 
-                        if (newRad > ModConfigs.COMMON.FOG_RAD.get() &&
-                                level.random.nextInt(ModConfigs.COMMON.FOG_RAD_CH.get()) == 0 &&
-                                level.hasChunk(newCoord.x, newCoord.z)) {
+                        float rad = radiation.get(newCoord);
+                        if (rad > ModConfigs.COMMON.FOG_RAD.get() && level != null && level.random.nextInt(ModConfigs.COMMON.FOG_RAD_CH.get()) == 0 && level.hasChunk(coord.x, coord.z)) {
 
                             int x = newCoord.getMinBlockX() + level.random.nextInt(16);
                             int z = newCoord.getMinBlockZ() + level.random.nextInt(16);
@@ -113,6 +121,7 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
     @Override
     public void clearSystem(Level level) {
         SimpleRadiationPerWorld radWorld = perWorld.get(level);
+
         if (radWorld != null) {
             radWorld.radiation.clear();
         }
@@ -132,10 +141,14 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
         }
     }
 
+    private static final String NBT_KEY_CHUNK_RADIATION = "hfr_simple_radiation";
+
     @Override
     public void receiveChunkLoad(ChunkDataEvent.Load event) {
         Level level = (Level) event.getLevel();
+        if (level.isClientSide) return;
         SimpleRadiationPerWorld radWorld = perWorld.get(level);
+
         if (radWorld != null) {
             radWorld.radiation.put(event.getChunk().getPos(), event.getData().getFloat(NBT_KEY_CHUNK_RADIATION));
         }
@@ -144,7 +157,9 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
     @Override
     public void receiveChunkSave(ChunkDataEvent.Save event) {
         Level level = (Level) event.getLevel();
+        if (level.isClientSide) return;
         SimpleRadiationPerWorld radWorld = perWorld.get(level);
+
         if (radWorld != null) {
             Float val = radWorld.radiation.get(event.getChunk().getPos());
             float rad = val == null ? 0F : val;
@@ -155,7 +170,9 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
     @Override
     public void receiveChunkUnload(ChunkEvent.Unload event) {
         Level level = (Level) event.getLevel();
+        if (level.isClientSide) return;
         SimpleRadiationPerWorld radWorld = perWorld.get(level);
+
         if (radWorld != null) {
             radWorld.radiation.remove(event.getChunk().getPos());
         }
@@ -167,49 +184,57 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 
     @Override
     public void handleWorldDestruction() {
+
+        int count = 10;
         int threshold = 10;
         int chunks = 5;
 
         for (Entry<Level, SimpleRadiationPerWorld> per : perWorld.entrySet()) {
-            Level level = per.getKey();
-            if (!(level instanceof ServerLevel serverLevel)) continue;
 
+            Level level = per.getKey();
             SimpleRadiationPerWorld list = per.getValue();
+
             Object[] entries = list.radiation.entrySet().toArray();
             if (entries.length == 0) continue;
 
             for (int c = 0; c < chunks; c++) {
-                @SuppressWarnings("unchecked")
-                Entry<ChunkPos, Float> randEnt =
-                        (Entry<ChunkPos, Float>) entries[level.random.nextInt(entries.length)];
 
-                if (randEnt == null || randEnt.getValue() < threshold) continue;
+                Entry<ChunkPos, Float> randEnt = (Entry<ChunkPos, Float>) entries[level.random.nextInt(entries.length)];
+
                 ChunkPos coords = randEnt.getKey();
+                ServerLevel serverLevel = (ServerLevel) level;
 
-                if (!serverLevel.hasChunk(coords.x, coords.z)) continue;
+                //choose this many random locations within the chunk
+                for (int i = 0; i < count; i++) {
 
-                for (int a = 0; a < 16; a++) {
-                    for (int b = 0; b < 16; b++) {
-                        if (level.random.nextInt(3) != 0) continue;
+                    if(randEnt == null || randEnt.getValue() < threshold) continue;
 
-                        int x = coords.getMinBlockX() + a;
-                        int z = coords.getMinBlockZ() + b;
-                        int y = level.getHeight(Heightmap.Types.WORLD_SURFACE, x, z) - level.random.nextInt(2);
+                    if (!serverLevel.hasChunk(coords.x, coords.z)) {
 
-                        BlockPos pos = new BlockPos(x, y, z);
-                        BlockState state = level.getBlockState(pos);
+                        for (int a = 0; a < 16; a++) {
+                            for (int b = 0; b < 16; b++) {
+                                if (level.random.nextInt(3) != 0) continue;
 
-                        if (state.is(Blocks.GRASS_BLOCK)) {
-                            level.setBlock(pos, ModBlocks.WASTE_EARTH.get().defaultBlockState(), 3);
+                                int x = coords.getMinBlockX() + a;
+                                int z = coords.getMinBlockZ() + b;
+                                int y = level.getHeight(Heightmap.Types.WORLD_SURFACE, x, z) - level.random.nextInt(2);
 
-                        } else if (state.is(Blocks.TALL_GRASS)) {
-                            level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+                                BlockPos pos = new BlockPos(x, y, z);
+                                BlockState state = level.getBlockState(pos);
 
-                        } else if (state.is(BlockTags.LEAVES)) {
-                            if (level.random.nextInt(7) <= 5) {
-                                level.setBlock(pos, ModBlocks.WASTE_LEAVES.get().defaultBlockState(), 3);
-                            } else {
-                                level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+                                if (state.is(Blocks.GRASS_BLOCK)) {
+                                    level.setBlock(pos, ModBlocks.WASTE_EARTH.get().defaultBlockState(), 3);
+
+                                } else if (state.is(Blocks.TALL_GRASS)) {
+                                    level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+
+                                } else if (state.is(BlockTags.LEAVES)) {
+                                    if (level.random.nextInt(7) <= 5) {
+                                        level.setBlock(pos, ModBlocks.WASTE_LEAVES.get().defaultBlockState(), 3);
+                                    } else {
+                                        level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+                                    }
+                                }
                             }
                         }
                     }

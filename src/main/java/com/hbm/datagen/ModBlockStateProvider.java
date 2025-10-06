@@ -168,6 +168,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
                         .renderType("minecraft:cutout_mipped")
                         .texture("cross", modLoc("block/fire_digamma"))
         );
+
         simpleBlockWithItem(ModBlocks.ASH_DIGAMMA.get(), cubeAll(ModBlocks.ASH_DIGAMMA.get()));
 
         generateLayeringBlock(ModBlocks.LEAVES_LAYER.get());
@@ -283,7 +284,6 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
         itemModels().withExistingParent(BuiltInRegistries.BLOCK.getKey(block).getPath(), modLoc("block/" + baseName));
     }
-
 
     private void blockItem(DeferredBlock<?> deferredBlock) {
         simpleBlockItem(deferredBlock.get(), new ModelFile.UncheckedModelFile("hbmsntm:block/" + deferredBlock.getId().getPath()));

@@ -148,7 +148,7 @@ public class EntityEffectHandler {
             int iy = Mth.floor(entity.getY());
             int iz = Mth.floor(entity.getZ());
 
-            float rad = ChunkRadiationManager.getProxy().getRadiation(level, ix, iy, iz);
+            float rad = ChunkRadiationManager.proxy.getRadiation(level, ix, iy, iz);
 
             if (level.dimension() == Level.NETHER && ModConfigs.COMMON.HELL_RAD.get() > 0 && rad < ModConfigs.COMMON.HELL_RAD.get())
                 rad = (float) 0.01;

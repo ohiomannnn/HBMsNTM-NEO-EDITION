@@ -1,5 +1,6 @@
 package com.hbm.blocks.gas;
 
+import com.hbm.lib.ModDamageSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
@@ -12,8 +13,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
-import static com.hbm.lib.ModDamageSource.MONOXIDE;
-
 public class GasMonoxideBlock extends GasBaseBlock {
 
     public GasMonoxideBlock(Properties properties) {
@@ -24,7 +23,7 @@ public class GasMonoxideBlock extends GasBaseBlock {
     public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
         if (entity instanceof LivingEntity livingEntity) {
             DamageSource src = new DamageSource(
-                    livingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(MONOXIDE)
+                    livingEntity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageSource.MONOXIDE)
             );
             livingEntity.hurt(src, 1);
         }

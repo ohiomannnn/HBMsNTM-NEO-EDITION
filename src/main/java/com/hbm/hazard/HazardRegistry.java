@@ -27,7 +27,7 @@ public class HazardRegistry {
         HazardSystem.register(Blocks.GREEN_WOOL, makeData(RADIATION, 0.03F));
         HazardSystem.register(Blocks.WHITE_WOOL, makeData(ASBESTOS, 5F));
         HazardSystem.register(Items.COAL, makeData(COAL, 1F));
-        HazardSystem.register(ModBlocks.TEST_RAD.get(), makeData().addEntry(RADIATION, 500.0F).addEntry(BLINDING, 5));
+        HazardSystem.register(ModBlocks.TEST_RAD.get(), makeData().addEntry(RADIATION, 500.0F));
     }
 
     private static HazardData makeData() { return new HazardData(); }

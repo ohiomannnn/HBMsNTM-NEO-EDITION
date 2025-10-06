@@ -319,7 +319,7 @@ public class ModBlocks {
                     .sound(SoundType.STONE)
                     .noLootTable()));
     public static final DeferredBlock<Block> TEST_RAD = registerBlock("test_rad",
-            () -> new TestRadBlock(BlockBehaviour.Properties.of()
+            () -> new HazardBlock(BlockBehaviour.Properties.of()
                     .sound(SoundType.STONE)
                     .noLootTable()));
     public static final DeferredBlock<Block> TEST_TOWER = registerBlock("test_tower",

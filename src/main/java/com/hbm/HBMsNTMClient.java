@@ -110,27 +110,28 @@ public class HBMsNTMClient {
 
     @SubscribeEvent
     public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
-        Player player = event.getEntity();
+        if (ModConfigs.COMMON.ENABLE_MOTD.get()) {
+            Player player = event.getEntity();
 
-        player.sendSystemMessage(Component.literal("Loaded world with Hbm's Nuclear Tech Mod " + HBMsNTM.VERSION + " for Minecraft 1.21.1!"));
-        player.sendSystemMessage(Component.literal("Ignore message below (its just for test)"));
+            player.sendSystemMessage(Component.literal("Loaded world with Hbm's Nuclear Tech Mod " + HBMsNTM.VERSION + " for Minecraft 1.21.1!"));
 
-        if(HTTPHandler.newVersion) {
-            player.sendSystemMessage(
-                    Component.literal("New version " + HTTPHandler.versionNumber + " is available! Click ")
-                            .withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW))
-                            .append(
-                                    Component.literal("[here]")
-                                            .withStyle(Style.EMPTY
-                                                    .withColor(ChatFormatting.RED)
-                                                    .withUnderlined(true)
-                                                    .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL,
-                                                            "https://github.com/HbmMods/Hbm-s-Nuclear-Tech-GIT/releases"))
-                                            )
-                            )
-                            .append(Component.literal(" to download!")
-                                    .withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)))
-            );
+            if (HTTPHandler.newVersion) {
+                player.sendSystemMessage(
+                        Component.literal("New version " + HTTPHandler.versionNumber + " is available! Click ")
+                                .withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW))
+                                .append(
+                                        Component.literal("[here]")
+                                                .withStyle(Style.EMPTY
+                                                        .withColor(ChatFormatting.RED)
+                                                        .withUnderlined(true)
+                                                        .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL,
+                                                                "https://github.com/HbmMods/Hbm-s-Nuclear-Tech-GIT/releases"))
+                                                )
+                                )
+                                .append(Component.literal(" to download!")
+                                        .withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)))
+                );
+            }
         }
     }
 

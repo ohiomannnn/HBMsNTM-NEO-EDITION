@@ -19,17 +19,11 @@ public class TestBomb extends DetonatableBlock implements IBomb {
         if (!level.isClientSide) {
             level.setBlock(new BlockPos(x, y, z), Blocks.AIR.defaultBlockState(), 3);
 
-//            ExplosionVNT xnt = new ExplosionVNT(level, x + 0.5, y + 0.5, z + 0.5, 10F);
-////            xnt.setBlockAllocator(new BlockAllocatorStandard(24));
-////            xnt.setBlockProcessor(new BlockProcessorStandard().setNoDrop());
-////            xnt.setEntityProcessor(new EntityProcessorCross(5D).withRangeMod(1.5F));
-////            xnt.setPlayerProcessor(new PlayerProcessorStandard());
-//            xnt.setSFX(new ExplosionEffectWeapon(5, 1F, 0.3F));
-//            xnt.explode();
-
-            ExplosionVNT vnt =  new ExplosionVNT(level, x, y, z, 3F);
-            vnt.makeAmat();
-            vnt.explode();
+            ExplosionVNT xnt = new ExplosionVNT(level, x + 0.5, y + 0.5, z + 0.5, 10F);
+            xnt.setEntityProcessor(new EntityProcessorCross(2D));
+            xnt.setPlayerProcessor(new PlayerProcessorStandard());
+            xnt.setSFX(new ExplosionEffectWeapon(5, 1F, 0.3F));
+            xnt.explode();
 
             return BombReturnCode.DETONATED;
         }
