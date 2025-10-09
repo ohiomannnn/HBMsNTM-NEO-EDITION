@@ -3,6 +3,7 @@ package com.hbm.particle;
 import com.hbm.wiaj.WorldInAJar;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -35,10 +36,11 @@ public class ParticleDebris extends TextureSheetParticle {
         this.xd = mx * mult;
         this.yd = my * mult;
         this.zd = mz * mult;
-        this.blockRenderer = Minecraft.getInstance().getBlockRenderer();
-        this.world = new WorldInAJar(4, 4, 4);
         this.lifetime = 100;
         this.gravity = 0.15F;
+        this.hasPhysics = false;
+        this.blockRenderer = Minecraft.getInstance().getBlockRenderer();
+        this.world = new WorldInAJar(4, 4, 4);
     }
 
     public ParticleDebris setWorldInAJar(WorldInAJar world) {
@@ -56,7 +58,7 @@ public class ParticleDebris extends TextureSheetParticle {
 
         rng.setSeed(this.hashCode());
         this.oRoll = this.roll;
-        this.roll += rng.nextFloat() * 10 * (Mth.DEG_TO_RAD);
+        this.roll += rng.nextFloat() * 10;
 
         if (this.hashCode() % 3 == 0) {
             ParticleRocketFlame fx = new ParticleRocketFlame(
@@ -95,8 +97,8 @@ public class ParticleDebris extends TextureSheetParticle {
         pose.translate(this.x - camX, this.y - camY, this.z - camZ);
 
         float angle = (this.age + partialTicks) * 10f;
-        pose.mulPose(com.mojang.math.Axis.YP.rotationDegrees(angle));
-        pose.mulPose(com.mojang.math.Axis.XP.rotationDegrees(angle * 0.5f));
+        pose.mulPose(Axis.YP.rotationDegrees(angle));
+        pose.mulPose(Axis.XP.rotationDegrees(angle * 0.5f));
 
         for (int x = 0; x < world.sizeX; x++) {
             for (int y = 0; y < world.sizeY; y++) {
@@ -118,7 +120,7 @@ public class ParticleDebris extends TextureSheetParticle {
                             packedLight,
                             OverlayTexture.NO_OVERLAY,
                             ModelData.EMPTY,
-                            RenderType.TRANSLUCENT
+                            RenderType.cutout()
                     );
 
                     pose.popPose();

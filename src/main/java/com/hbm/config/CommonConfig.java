@@ -56,7 +56,7 @@ public class CommonConfig {
         ENABLE_MOTD = builder
                 .comment("If enabled, shows the 'Loaded mod!' chat message as well as update notifications when joining a world.")
                 .translation("hbmsntm.configuration.enableMOTD")
-                .define("enableMOTD", false);
+                .define("enableMOTD", true);
         ENABLE_EXTENDED_LOGGING = builder
                 .comment("Logs uses of the detonator, nuclear explosions, missile launches, grenades, etc.")
                 .translation("hbmsntm.configuration.enableExtendedLogging")

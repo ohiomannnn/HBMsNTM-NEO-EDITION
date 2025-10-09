@@ -9,6 +9,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.function.BiConsumer;
@@ -19,8 +20,13 @@ public abstract class DetonatableBlock extends FlammableBlock implements IFuckin
     protected boolean detonateOnCollision;
     protected boolean detonateOnShot;
 
-    public DetonatableBlock(Properties properties, int en, int flam, int popFuse, boolean detonateOnCollision, boolean detonateOnShot) {
-        super(properties, en, flam);
+    public DetonatableBlock(Properties properties,
+                            int encouragement,
+                            int flammability,
+                            int popFuse,
+                            boolean detonateOnCollision,
+                            boolean detonateOnShot) {
+        super(properties, encouragement, flammability);
         this.popFuse = popFuse;
         this.detonateOnCollision = detonateOnCollision;
         this.detonateOnShot = detonateOnShot;
@@ -30,10 +36,10 @@ public abstract class DetonatableBlock extends FlammableBlock implements IFuckin
     @Override
     protected void onExplosionHit(BlockState state, Level level, BlockPos pos, Explosion explosion, BiConsumer<ItemStack, BlockPos> dropConsumer) {
         if (!level.isClientSide) {
-            EntityTNTPrimedBase tnt = new EntityTNTPrimedBase(level, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, explosion.getIndirectSourceEntity(), this);
-            tnt.fuse = popFuse <= 0 ? 0 : level.random.nextInt(popFuse) + popFuse / 2;
-            tnt.detonateOnCollision = detonateOnCollision;
-            level.addFreshEntity(tnt);
+            EntityTNTPrimedBase tntPrimed = new EntityTNTPrimedBase(level, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, explosion.getIndirectSourceEntity(), this);
+            tntPrimed.fuse = popFuse <= 0 ? 0 : level.random.nextInt(popFuse) + popFuse / 2;
+            tntPrimed.detonateOnCollision = detonateOnCollision;
+            level.addFreshEntity(tntPrimed);
         }
     }
 
@@ -45,7 +51,7 @@ public abstract class DetonatableBlock extends FlammableBlock implements IFuckin
     @Override
     protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
         if (!level.isClientSide && shouldIgnite(level, pos)) {
-            level.removeBlock(pos, false);
+            level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
             wasExploded(level, pos, null);
         }
     }
@@ -53,7 +59,7 @@ public abstract class DetonatableBlock extends FlammableBlock implements IFuckin
     public void onShot(Level level, BlockPos pos) {
         if (!detonateOnShot) return;
 
-        level.removeBlock(pos, false);
-        explodeEntity(level, pos.getX(), pos.getY(), pos.getZ(), null);
+        level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+        explodeEntity(level, pos.getX(), pos.getY(), pos.getZ(), null); // insta-explod
     }
 }

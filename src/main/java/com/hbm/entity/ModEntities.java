@@ -3,6 +3,7 @@ package com.hbm.entity;
 import com.hbm.HBMsNTM;
 import com.hbm.entity.effect.EntityFalloutRain;
 import com.hbm.entity.item.EntityTNTPrimedBase;
+import com.hbm.entity.logic.NukeExplosionBalefireEntity;
 import com.hbm.entity.logic.NukeExplosionMK5Entity;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.mob.CreeperNuclear;
@@ -27,6 +28,12 @@ public class ModEntities {
                     () -> EntityType.Builder.of(NukeExplosionMK5Entity::new, MobCategory.MISC)
                             .sized(1.0F, 1.0F)
                             .build("nuke_explosion_mk5"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<NukeExplosionBalefireEntity>> NUKE_BALEFIRE =
+            ENTITY_TYPES.register("nuke_balefire",
+                    () -> EntityType.Builder.of(NukeExplosionBalefireEntity::new, MobCategory.MISC)
+                            .sized(1.0F, 1.0F)
+                            .build("nuke_balefire"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<EntityNukeTorex>> NUKE_TOREX =
             ENTITY_TYPES.register("nuke_torex",

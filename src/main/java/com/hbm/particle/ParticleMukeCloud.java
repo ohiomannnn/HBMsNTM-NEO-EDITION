@@ -9,8 +9,7 @@ public class ParticleMukeCloud extends TextureSheetParticle {
     private final SpriteSet sprites;
     private final float friction;
 
-    public ParticleMukeCloud(ClientLevel world, double x, double y, double z,
-                             double mx, double my, double mz, SpriteSet sprites) {
+    public ParticleMukeCloud(ClientLevel world, double x, double y, double z, double mx, double my, double mz, SpriteSet sprites) {
         super(world, x, y, z, mx, my, mz);
         this.sprites = sprites;
         this.xd = mx;

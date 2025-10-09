@@ -31,7 +31,7 @@ public class HBMsNTM {
     //V -> next release version
     //T -> build type
     //X -> days since 10/10/2010
-    public static final String VERSION = "0.0.2 ALPHA (5475)";
+    public static final String VERSION = "0.0.2 ALPHA (5478)";
     public static final Logger LOGGER = LoggerFactory.getLogger("hbmsntm");
 
     public static final ChunkRadiationManager radiationManager = new ChunkRadiationManager();

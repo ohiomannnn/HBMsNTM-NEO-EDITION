@@ -75,8 +75,6 @@ public class ParticleRadiationFog extends TextureSheetParticle {
         float t = (float) this.age / 400F;
         this.alpha = Math.max(0F, (float)Math.sin(t * Math.PI)) * 0.5F;
 
-        HBMsNTM.LOGGER.info("alpha = {}", this.alpha);
-
         Random rand = new Random(50);
 
         for (int i = 0; i < 25; i++) {

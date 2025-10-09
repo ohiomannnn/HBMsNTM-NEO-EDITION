@@ -40,7 +40,7 @@ public class DangerousDropItem extends Item {
         String throwerName = "";
         if (TagsUtil.hasTag(stack)) throwerName = TagsUtil.getString(stack, "lastUser", "Somebody");
 
-        if (itemEntity.getAge() < 5) {
+        if (itemEntity.getAge() > 5) {
             if (stack.is(ModItems.DETONATOR_DEADMAN.get())) {
                 if (TagsUtil.hasTag(stack)) {
                     int x = TagsUtil.getInt(stack, "x", 0);

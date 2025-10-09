@@ -13,10 +13,10 @@ public class FlammableBlock extends Block {
     public int encouragement;
     public int flammability;
 
-    public FlammableBlock(Properties properties, int en, int flam) {
+    public FlammableBlock(Properties properties, int encouragement, int flammability) {
         super(properties);
-        this.encouragement = en;
-        this.flammability = flam;
+        this.encouragement = encouragement;
+        this.flammability = flammability;
     }
 
     @Override

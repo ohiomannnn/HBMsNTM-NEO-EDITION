@@ -2,6 +2,7 @@ package com.hbm.items.tools;
 
 import com.hbm.HBMsNTM;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.bomb.BalefireBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -32,7 +33,6 @@ public class BalefireAndSteelITem extends Item {
         }
 
         if (level.isEmptyBlock(pos) && !player.isCrouching()) {
-            HBMsNTM.LOGGER.info("set balefire at {}", pos);
             level.setBlock(pos, ModBlocks.BALEFIRE.get().defaultBlockState(), 3);
             level.playSound(null,
                     pos.getX() + 0.5D,
@@ -43,7 +43,6 @@ public class BalefireAndSteelITem extends Item {
                     1.0F,
                     level.random.nextFloat() * 0.4F + 0.8F);
         } else if (level.isEmptyBlock(pos) && player.isCrouching()) {
-            HBMsNTM.LOGGER.info("set digamma at {}", pos);
             level.setBlock(pos, ModBlocks.FIRE_DIGAMMA.get().defaultBlockState(), 3);
             level.playSound(null,
                     pos.getX() + 0.5D,

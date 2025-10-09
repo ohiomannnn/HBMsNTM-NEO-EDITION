@@ -1,5 +1,6 @@
 package com.hbm.blocks.bomb;
 
+import com.hbm.HBMsNTM;
 import com.hbm.lib.ModEffect;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -22,8 +23,6 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-
-import java.awt.*;
 
 public class BalefireBlock extends BaseFireBlock {
 
@@ -169,10 +168,5 @@ public class BalefireBlock extends BaseFireBlock {
         if (entity instanceof LivingEntity living) {
             living.addEffect(new MobEffectInstance(ModEffect.RADIATION, 5 * 20, 9));
         }
-    }
-
-    public int getColor(BlockState state, BlockGetter getter, BlockPos pos) {
-        int age = state.getValue(AGE);
-        return Color.HSBtoRGB(0F, 0F, 1F - age / 30F);
     }
 }

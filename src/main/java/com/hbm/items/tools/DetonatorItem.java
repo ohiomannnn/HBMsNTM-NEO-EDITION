@@ -91,9 +91,7 @@ public class DetonatorItem extends Item {
                 }
             }
         }
-
-
-        return InteractionResultHolder.success(player.getItemInHand(usedHand));
+        return InteractionResultHolder.pass(player.getItemInHand(usedHand));
     }
 
     @Override

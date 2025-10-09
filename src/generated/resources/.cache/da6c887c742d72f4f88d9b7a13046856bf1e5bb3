@@ -1,6 +1,6 @@
-// 1.21.1	2025-10-04T13:39:51.4209615	Tags for minecraft:block mod id hbmsntm
-2b9d712c67f655f13ff304aedf2175f949662511 data/hbmsntm/tags/block/actually_stone.json
-93878a8458a22b5b6ba22997eb35a4ae5b47a6df data/hbmsntm/tags/block/ground.json
+// 1.21.1	2025-10-09T13:08:02.4532427	Tags for minecraft:block mod id hbmsntm
+f6a9e53a48138b7904c458c232bd094f01ae931b data/hbmsntm/tags/block/actually_stone.json
+56c90b03d015c731cda937a5cb494816c5e3888c data/hbmsntm/tags/block/ground.json
 722e3859307dfe91f6394dbdc2327443e608a167 data/minecraft/tags/block/mineable/axe.json
 66e13240e8c80fbe8142973677f5b0252664075c data/minecraft/tags/block/mineable/pickaxe.json
 66e13240e8c80fbe8142973677f5b0252664075c data/minecraft/tags/block/needs_iron_tool.json

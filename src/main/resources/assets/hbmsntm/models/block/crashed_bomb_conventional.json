@@ -1,0 +1,11 @@
+{
+  "loader": "neoforge:obj",
+  "model": "hbmsntm:models/obj/bomb/dud_conventional.obj",
+  "flip_v": true,
+  "automatic_culling": true,
+  "shade_quads": true,
+  "emissive_ambient": false,
+  "textures": {
+    "particle": "hbmsntm:block/block_rust"
+  }
+}

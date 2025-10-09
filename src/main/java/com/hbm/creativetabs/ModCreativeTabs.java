@@ -52,6 +52,10 @@ public class ModCreativeTabs {
                     .title(Component.translatable("creativeTabs.hbmsntm.bombs"))
                     .backgroundTexture(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/gui/nuke_tab.png"))
                     .displayItems((itemDisplayParameters, output) -> {
+                        output.accept(ModBlocks.CRASHED_BOMB_BALEFIRE);
+                        output.accept(ModBlocks.CRASHED_BOMB_CONVENTIONAL);
+                        output.accept(ModBlocks.CRASHED_BOMB_NUKE);
+                        output.accept(ModBlocks.CRASHED_BOMB_SALTED);
                         output.accept(ModBlocks.DET_NUKE);
                         output.accept(ModBlocks.DET_CHARGE);
                         output.accept(ModItems.DETONATOR);
@@ -75,7 +79,6 @@ public class ModCreativeTabs {
                         output.accept(ModItems.FLINT_AND_BALEFIRE);
                         output.accept(ModItems.POLAROID);
                     }).build());
-
 
     public static void register(IEventBus eventBus) {
         CREATIVE_MODE_TABS.register(eventBus);

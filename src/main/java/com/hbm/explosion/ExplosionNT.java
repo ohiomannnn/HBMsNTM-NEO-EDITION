@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
+//TODO: ts is NOT working at all!! DESTROY IT, NOW!!!
 @Deprecated
 public class ExplosionNT extends Explosion {
 
@@ -177,6 +178,7 @@ public class ExplosionNT extends Explosion {
 
     private AABB getAabb(float exprad) {
         assert this.getDirectSourceEntity() != null;
+        // the part there everything dies
         int minX = Mth.floor(this.getDirectSourceEntity().getX() - exprad - 1.0D);
         int minY = Mth.floor(this.getDirectSourceEntity().getY() - exprad - 1.0D);
         int minZ = Mth.floor(this.getDirectSourceEntity().getZ() - exprad - 1.0D);

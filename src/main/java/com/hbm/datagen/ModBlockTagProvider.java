@@ -39,6 +39,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(Blocks.DEEPSLATE)
                 .add(Blocks.TUFF)
                 .add(Blocks.COBBLESTONE)
+                .add(Blocks.SANDSTONE)
 
                 .add(ModBlocks.BRICK_CONCRETE.get())
                 .add(ModBlocks.BRICK_CONCRETE_CRACKED.get())
@@ -51,6 +52,9 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
         tag(ModTags.Blocks.GROUND)
                 .add(Blocks.GRASS_BLOCK)
+                .add(Blocks.MUD)
+                .add(Blocks.MUDDY_MANGROVE_ROOTS)
+                .add(Blocks.MANGROVE_ROOTS)
                 .add(Blocks.GRAVEL)
                 .add(Blocks.DIRT_PATH)
                 .add(Blocks.MYCELIUM)

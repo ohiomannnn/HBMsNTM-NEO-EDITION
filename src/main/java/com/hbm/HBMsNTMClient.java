@@ -1,6 +1,8 @@
 package com.hbm;
 
+import com.hbm.blockentity.ModBlockEntities;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.bomb.BalefireBlock;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
 import com.hbm.config.ModConfigs;
 import com.hbm.entity.ModEntities;
@@ -10,9 +12,9 @@ import com.hbm.hazard.HazardSystem;
 import com.hbm.inventory.gui.LoadingScreenRendererNT;
 import com.hbm.items.ModItems;
 import com.hbm.particle.*;
-import com.hbm.particle.ParticleDebris;
 import com.hbm.particle.helper.ParticleCreators;
 import com.hbm.render.EmptyRenderer;
+import com.hbm.render.blockentity.RenderCrashedBomb;
 import com.hbm.render.entity.effect.RenderFallout;
 import com.hbm.render.entity.effect.RenderTorex;
 import com.hbm.render.entity.mob.EntityDuckRenderer;
@@ -115,23 +117,23 @@ public class HBMsNTMClient {
 
             player.sendSystemMessage(Component.literal("Loaded world with Hbm's Nuclear Tech Mod " + HBMsNTM.VERSION + " for Minecraft 1.21.1!"));
 
-            if (HTTPHandler.newVersion) {
-                player.sendSystemMessage(
-                        Component.literal("New version " + HTTPHandler.versionNumber + " is available! Click ")
-                                .withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW))
-                                .append(
-                                        Component.literal("[here]")
-                                                .withStyle(Style.EMPTY
-                                                        .withColor(ChatFormatting.RED)
-                                                        .withUnderlined(true)
-                                                        .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL,
-                                                                "https://github.com/HbmMods/Hbm-s-Nuclear-Tech-GIT/releases"))
-                                                )
-                                )
-                                .append(Component.literal(" to download!")
-                                        .withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)))
-                );
-            }
+//            if (HTTPHandler.newVersion) {
+//                player.sendSystemMessage(
+//                        Component.literal("New version " + HTTPHandler.versionNumber + " is available! Click ")
+//                                .withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW))
+//                                .append(
+//                                        Component.literal("[here]")
+//                                                .withStyle(Style.EMPTY
+//                                                        .withColor(ChatFormatting.RED)
+//                                                        .withUnderlined(true)
+//                                                        .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL,
+//                                                                "https://github.com/HbmMods/Hbm-s-Nuclear-Tech-GIT/releases"))
+//                                                )
+//                                )
+//                                .append(Component.literal(" to download!")
+//                                        .withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)))
+//                );
+//            }
         }
     }
 
@@ -189,6 +191,13 @@ public class HBMsNTMClient {
                 ModBlocks.ORE_SELLAFIELD_DIAMOND.get(),
                 ModBlocks.ORE_SELLAFIELD_EMERALD.get()
         );
+        event.register(
+                (state, world, pos, tintIndex) -> {
+                    int age = state.getValue(BalefireBlock.AGE);
+                    return  Color.HSBtoRGB(0F, 0F, 1F - age / 30F);
+                },
+                ModBlocks.BALEFIRE.get()
+        );
     }
 
     @SubscribeEvent
@@ -210,12 +219,17 @@ public class HBMsNTMClient {
         event.registerEntityRenderer(ModEntities.DUCK.get(), EntityDuckRenderer::new);
         event.registerEntityRenderer(ModEntities.CREEPER_NUCLEAR.get(), CreeperRenderer::new);
         event.registerEntityRenderer(ModEntities.NUKE_MK5.get(), EmptyRenderer::new);
+        event.registerEntityRenderer(ModEntities.NUKE_BALEFIRE.get(), EmptyRenderer::new);
         event.registerEntityRenderer(ModEntities.NUKE_TOREX.get(), RenderTorex::new);
         event.registerEntityRenderer(ModEntities.FALLOUT_RAIN.get(), RenderFallout::new);
 
         ItemProperties.register(ModItems.POLAROID.get(),
                 ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "polaroid_id"),
                 (stack, level, entity, seed) -> CommonEvents.polaroidID);
+        event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_BALEFIRE.get(), RenderCrashedBomb::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_CONVENTIONAL.get(), RenderCrashedBomb::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_NUKE.get(), RenderCrashedBomb::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_SALTED.get(), RenderCrashedBomb::new);
     }
     @SubscribeEvent
     public static void drawTooltip(ItemTooltipEvent event) {
@@ -225,10 +239,16 @@ public class HBMsNTMClient {
         HazardSystem.addFullTooltip(stack, list);
     }
     private void registerParticles(RegisterParticleProvidersEvent event) {
-        event.registerSpriteSet(ModParticles.MUKE_CLOUD.get(), ParticleMukeCloud.Provider::new);
+        event.registerSpriteSet(ModParticles.MUKE_CLOUD.get(), sprites -> {
+            ModParticles.MUKE_CLOUD_SPRITES = sprites;
+            return new ParticleMukeCloud.Provider(sprites);
+        });
+        event.registerSpriteSet(ModParticles.MUKE_CLOUD_BF.get(), sprites -> {
+            ModParticles.MUKE_CLOUD_BF_SPRITES = sprites;
+            return new ParticleMukeCloud.Provider(sprites);
+        });
         event.registerSpecial(ModParticles.DEBRIS.get(), new ParticleDebris.Provider());
         event.registerSpecial(ModParticles.AMAT_FLASH.get(), new ParticleAmatFlash.Provider());
-        event.registerSpriteSet(ModParticles.MUKE_CLOUD_BF.get(), ParticleMukeCloud.Provider::new);
         event.registerSpriteSet(ModParticles.EXPLOSION_SMALL.get(), sprites -> {
             ModParticles.EXPLOSION_SMALL_SPRITES = sprites;
             return new ParticleExplosionSmall.Provider(sprites);

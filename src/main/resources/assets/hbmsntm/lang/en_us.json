@@ -77,6 +77,10 @@
 
   "block.hbmsntm.det_nuke": "Nuclear Charge",
   "block.hbmsntm.det_charge": "Explosive Charge",
+  "block.hbmsntm.crashed_bomb_balefire": "Dud",
+  "block.hbmsntm.crashed_bomb_conventional": "Dud",
+  "block.hbmsntm.crashed_bomb_nuke": "Dud",
+  "block.hbmsntm.crashed_bomb_salted": "Dud",
   "block.hbmsntm.leaves_layer": "Fallen Leaves",
 
   "block.hbmsntm.sellafield_slaked": "Slaked Sellafite",

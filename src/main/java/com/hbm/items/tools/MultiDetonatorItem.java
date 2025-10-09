@@ -71,8 +71,8 @@ public class MultiDetonatorItem extends Item {
                     BlockPos pos = new BlockPos(x,y,z);
                     Block block = level.getBlockState(pos).getBlock();
 
-                    if (block instanceof IBomb) {
-                        IBomb.BombReturnCode ret = (((IBomb) block).explode(level, x, y, z));
+                    if (block instanceof IBomb bomb) {
+                        IBomb.BombReturnCode ret = bomb.explode(level, x, y, z);
 
                         if (ret.wasSuccessful()) success++;
 
@@ -102,7 +102,7 @@ public class MultiDetonatorItem extends Item {
             }
         }
 
-        return InteractionResultHolder.success(player.getItemInHand(usedHand));
+        return InteractionResultHolder.pass(player.getItemInHand(usedHand));
     }
 
     @Override

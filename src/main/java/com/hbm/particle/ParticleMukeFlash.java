@@ -2,6 +2,7 @@ package com.hbm.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -37,14 +38,17 @@ public class ParticleMukeFlash extends TextureSheetParticle {
     }
 
     private void spawnClouds() {
+        ParticleEngine engine = Minecraft.getInstance().particleEngine;
         // Stem
         for (double d = 0.0D; d <= 1.8D; d += 0.1) {
-            level.addParticle(ModParticles.MUKE_CLOUD.get(), x, y, z, rand.nextGaussian() * 0.05, d + rand.nextGaussian() * 0.02, rand.nextGaussian() * 0.05);
+            ParticleMukeCloud fx = new ParticleMukeCloud(level, x, y, z, rand.nextGaussian() * 0.05, d + rand.nextGaussian() * 0.02, rand.nextGaussian() * 0.05,  ModParticles.MUKE_CLOUD_SPRITES);
+            engine.add(fx);
         }
 
         // Ground
         for (int i = 0; i < 100; i++) {
-            level.addParticle(ModParticles.MUKE_CLOUD.get(), x, y + 0.5, z, rand.nextGaussian() * 0.5, rand.nextInt(5) == 0 ? 0.02 : 0, rand.nextGaussian() * 0.5);
+            ParticleMukeCloud fx = new ParticleMukeCloud(level, x, y + 0.5, z, rand.nextGaussian() * 0.5, rand.nextInt(5) == 0 ? 0.02 : 0, rand.nextGaussian() * 0.5,  ModParticles.MUKE_CLOUD_SPRITES);
+            engine.add(fx);
         }
 
         // Mush
@@ -59,18 +63,22 @@ public class ParticleMukeFlash extends TextureSheetParticle {
 
             double dy = 1.8 + (rand.nextDouble() * 3 - 1.5) * (0.75 - (dx * dx + dz * dz)) * 0.5;
 
-            level.addParticle(ModParticles.MUKE_CLOUD.get(), x, y, z, dx, dy + rand.nextGaussian() * 0.02, dz);
+            ParticleMukeCloud fx = new ParticleMukeCloud(level, x, y, z, dx, dy + rand.nextGaussian() * 0.02, dz,  ModParticles.MUKE_CLOUD_SPRITES);
+            engine.add(fx);
         }
     }
     private void spawnCloudsBF() {
+        ParticleEngine engine = Minecraft.getInstance().particleEngine;
         // Stem
         for (double d = 0.0D; d <= 1.8D; d += 0.1) {
-            level.addParticle(ModParticles.MUKE_CLOUD_BF.get(), x, y, z, rand.nextGaussian() * 0.05, d + rand.nextGaussian() * 0.02, rand.nextGaussian() * 0.05);
+            ParticleMukeCloud fx = new ParticleMukeCloud(level, x, y, z, rand.nextGaussian() * 0.05, d + rand.nextGaussian() * 0.02, rand.nextGaussian() * 0.05,  ModParticles.MUKE_CLOUD_BF_SPRITES);
+            engine.add(fx);
         }
 
         // Ground
         for (int i = 0; i < 100; i++) {
-            level.addParticle(ModParticles.MUKE_CLOUD_BF.get(), x, y + 0.5, z, rand.nextGaussian() * 0.5, rand.nextInt(5) == 0 ? 0.02 : 0, rand.nextGaussian() * 0.5);
+            ParticleMukeCloud fx = new ParticleMukeCloud(level, x, y + 0.5, z, rand.nextGaussian() * 0.5, rand.nextInt(5) == 0 ? 0.02 : 0, rand.nextGaussian() * 0.5,  ModParticles.MUKE_CLOUD_BF_SPRITES);
+            engine.add(fx);
         }
 
         // Mush
@@ -85,7 +93,8 @@ public class ParticleMukeFlash extends TextureSheetParticle {
 
             double dy = 1.8 + (rand.nextDouble() * 3 - 1.5) * (0.75 - (dx * dx + dz * dz)) * 0.5;
 
-            level.addParticle(ModParticles.MUKE_CLOUD_BF.get(), x, y, z, dx, dy + rand.nextGaussian() * 0.02, dz);
+            ParticleMukeCloud fx = new ParticleMukeCloud(level, x, y, z, dx, dy + rand.nextGaussian() * 0.02, dz,  ModParticles.MUKE_CLOUD_BF_SPRITES);
+            engine.add(fx);
         }
     }
 

@@ -5,7 +5,6 @@ import com.hbm.config.ModConfigs;
 import com.hbm.entity.ModEntities;
 import com.hbm.entity.effect.EntityFalloutRain;
 import com.hbm.explosion.ExplosionNukeGeneric;
-import com.hbm.explosion.ExplosionNukeRayBalefire;
 import com.hbm.explosion.ExplosionNukeRayBatched;
 import com.hbm.interfaces.IExplosionRay;
 import com.hbm.util.ContaminationUtil;
@@ -33,7 +32,6 @@ public class NukeExplosionMK5Entity extends ChunkloadingEntity {
     private long explosionStart;
     public boolean fallout = true;
     private int falloutAdd = 0;
-    private boolean balefire = false;
 
     private IExplosionRay explosion;
 
@@ -41,10 +39,7 @@ public class NukeExplosionMK5Entity extends ChunkloadingEntity {
         super(type, level);
     }
 
-    @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-
-    }
+    @Override protected void defineSynchedData(SynchedEntityData.Builder builder) {}
 
     @Override
     public void tick() {
@@ -68,11 +63,7 @@ public class NukeExplosionMK5Entity extends ChunkloadingEntity {
 
         if (explosion == null) {
             explosionStart = System.currentTimeMillis();
-            if (!balefire) {
-                explosion = new ExplosionNukeRayBatched(level(), (int) getX(), (int) getY(), (int) getZ(), strength, speed, length);
-            } else {
-                explosion = new ExplosionNukeRayBalefire(level(), (int) getX(), (int) getY(), (int) getZ(), strength, speed, length);
-            }
+            explosion = new ExplosionNukeRayBatched(level(), (int) getX(), (int) getY(), (int) getZ(), strength, speed, length);
         }
 
         if (!explosion.isComplete()) {
@@ -159,13 +150,6 @@ public class NukeExplosionMK5Entity extends ChunkloadingEntity {
     public static NukeExplosionMK5Entity statFacNoRad(Level level, int strength, double x, double y, double z) {
         NukeExplosionMK5Entity mk5 = statFac(level, strength, x, y, z);
         mk5.fallout = false;
-        return mk5;
-    }
-
-    public static NukeExplosionMK5Entity statFacBalefire(Level level, int strength, double x, double y, double z) {
-        NukeExplosionMK5Entity mk5 = statFac(level, strength, x, y, z);
-        mk5.fallout = false;
-        mk5.balefire = true;
         return mk5;
     }
 

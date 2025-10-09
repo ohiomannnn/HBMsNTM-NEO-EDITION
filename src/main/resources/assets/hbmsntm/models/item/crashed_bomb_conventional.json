@@ -1,0 +1,25 @@
+{
+  "parent": "hbmsntm:block/crashed_bomb_conventional",
+  "display": {
+    "gui": {
+      "rotation": [-90, 0, 0],
+      "translation": [1, 1, 0],
+      "scale": [0.13, 0.13, 0.13]
+    },
+    "firstperson_righthand": {
+      "rotation": [0, -90, 0],
+      "translation": [0, 0, -0.5],
+      "scale": [0.2, 0.2, 0.2]
+    },
+    "firstperson_lefthand": {
+      "rotation": [0, -20, 0],
+      "translation": [0, 0, -0.5],
+      "scale": [0.2, 0.2, 0.2]
+    },
+    "thirdperson_righthand": {
+      "rotation": [0, -90, 0],
+      "translation": [0, 0, -0.5],
+      "scale": [0.2, 0.2, 0.2]
+    }
+  }
+}

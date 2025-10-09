@@ -264,13 +264,36 @@ public class ModBlocks {
                     .explosionResistance(0.0F)
                     .sound(SoundType.METAL)
             ));
-    public static final DeferredBlock<Block> TEST_BOMB = registerBlock("test_bomb",
-            () -> new TestBomb(BlockBehaviour.Properties.of()
-                    .strength(0.1F)
-                    .explosionResistance(0.0F)
-                    .sound(SoundType.METAL)
+
+    public static final DeferredBlock<Block> CRASHED_BOMB_BALEFIRE = registerBlock("crashed_bomb_balefire",
+            () -> new CrashedBombBlock(BlockBehaviour.Properties.of()
                     .noLootTable()
+                    .noOcclusion()
+                    .strength(6000.0F)
+                    .sound(SoundType.METAL)
             ));
+    public static final DeferredBlock<Block> CRASHED_BOMB_CONVENTIONAL = registerBlock("crashed_bomb_conventional",
+            () -> new CrashedBombBlock(BlockBehaviour.Properties.of()
+                    .noLootTable()
+                    .noOcclusion()
+                    .strength(6000.0F)
+                    .sound(SoundType.METAL)
+            ));
+    public static final DeferredBlock<Block> CRASHED_BOMB_NUKE = registerBlock("crashed_bomb_nuke",
+            () -> new CrashedBombBlock(BlockBehaviour.Properties.of()
+                    .noLootTable()
+                    .noOcclusion()
+                    .strength(6000.0F)
+                    .sound(SoundType.METAL)
+            ));
+    public static final DeferredBlock<Block> CRASHED_BOMB_SALTED = registerBlock("crashed_bomb_salted",
+            () -> new CrashedBombBlock(BlockBehaviour.Properties.of()
+                    .noLootTable()
+                    .noOcclusion()
+                    .strength(6000.0F)
+                    .sound(SoundType.METAL)
+            ));
+
 
     //STAIRS
     public static final DeferredBlock<StairBlock> BRICK_CONCRETE_STAIRS = registerBlock("brick_concrete_stairs",
@@ -317,15 +340,6 @@ public class ModBlocks {
                     .strength(50.0F)
                     .explosionResistance(600.0F)
                     .sound(SoundType.STONE)
-                    .noLootTable()));
-    public static final DeferredBlock<Block> TEST_RAD = registerBlock("test_rad",
-            () -> new HazardBlock(BlockBehaviour.Properties.of()
-                    .sound(SoundType.STONE)
-                    .noLootTable()));
-    public static final DeferredBlock<Block> TEST_TOWER = registerBlock("test_tower",
-            () -> new TestTower(BlockBehaviour.Properties.of()
-                    .sound(SoundType.STONE)
-                    .randomTicks()
                     .noLootTable()));
 
     public static final DeferredBlock<Block> IRON_CRATE =
