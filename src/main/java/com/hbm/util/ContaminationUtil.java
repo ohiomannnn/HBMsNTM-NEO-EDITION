@@ -2,7 +2,7 @@ package com.hbm.util;
 
 import api.hbm.entity.IRadiationImmune;
 import com.hbm.entity.mob.CreeperNuclear;
-import com.hbm.entity.mob.EntityDuck;
+import com.hbm.entity.mob.Duck;
 import com.hbm.extprop.LivingProperties;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.lib.ModEffect;
@@ -87,7 +87,7 @@ public class  ContaminationUtil {
         if (!(entity instanceof LivingEntity e))
             return;
 
-        if (entity instanceof EntityDuck || entity instanceof Ocelot)
+        if (entity instanceof Duck || entity instanceof Ocelot)
             return;
 
         if (entity instanceof ServerPlayer player && player.isCreative())

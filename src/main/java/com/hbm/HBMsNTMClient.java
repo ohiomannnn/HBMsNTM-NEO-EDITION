@@ -6,7 +6,6 @@ import com.hbm.blocks.bomb.BalefireBlock;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
 import com.hbm.config.ModConfigs;
 import com.hbm.entity.ModEntities;
-import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.gui.GeigerGUI;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.inventory.gui.LoadingScreenRendererNT;
@@ -19,7 +18,6 @@ import com.hbm.render.entity.effect.RenderFallout;
 import com.hbm.render.entity.effect.RenderTorex;
 import com.hbm.render.entity.mob.EntityDuckRenderer;
 import com.hbm.render.util.RenderInfoSystem;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.LevelLoadingScreen;
@@ -32,9 +30,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
@@ -57,7 +53,6 @@ import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 
 import java.awt.*;
 import java.util.List;
@@ -107,33 +102,6 @@ public class HBMsNTMClient {
             RenderInfoSystem.push(entry, id);
         } else {
             RenderInfoSystem.push(entry);
-        }
-    }
-
-    @SubscribeEvent
-    public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
-        if (ModConfigs.COMMON.ENABLE_MOTD.get()) {
-            Player player = event.getEntity();
-
-            player.sendSystemMessage(Component.literal("Loaded world with Hbm's Nuclear Tech Mod " + HBMsNTM.VERSION + " for Minecraft 1.21.1!"));
-
-//            if (HTTPHandler.newVersion) {
-//                player.sendSystemMessage(
-//                        Component.literal("New version " + HTTPHandler.versionNumber + " is available! Click ")
-//                                .withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW))
-//                                .append(
-//                                        Component.literal("[here]")
-//                                                .withStyle(Style.EMPTY
-//                                                        .withColor(ChatFormatting.RED)
-//                                                        .withUnderlined(true)
-//                                                        .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL,
-//                                                                "https://github.com/HbmMods/Hbm-s-Nuclear-Tech-GIT/releases"))
-//                                                )
-//                                )
-//                                .append(Component.literal(" to download!")
-//                                        .withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)))
-//                );
-//            }
         }
     }
 
@@ -248,6 +216,9 @@ public class HBMsNTMClient {
             return new ParticleMukeCloud.Provider(sprites);
         });
         event.registerSpecial(ModParticles.DEBRIS.get(), new ParticleDebris.Provider());
+        event.registerSpecial(ModParticles.EX_SMOKE.get(), new ParticleExSmoke.Provider());
+        event.registerSpecial(ModParticles.FOAM.get(), new ParticleFoam.Provider());
+        event.registerSpecial(ModParticles.ASHES.get(), new ParticleAshes.Provider());
         event.registerSpecial(ModParticles.AMAT_FLASH.get(), new ParticleAmatFlash.Provider());
         event.registerSpriteSet(ModParticles.EXPLOSION_SMALL.get(), sprites -> {
             ModParticles.EXPLOSION_SMALL_SPRITES = sprites;
@@ -299,7 +270,7 @@ public class HBMsNTMClient {
 
             RandomSource rand = RandomSource.create();
 
-            if(ParticleCreators.particleCreators.containsKey(type)) {
+            if (ParticleCreators.particleCreators.containsKey(type)) {
                 ParticleCreators.particleCreators.get(type).makeParticle(level, player, rand, x, y, z, data);
                 return;
             }
@@ -308,6 +279,132 @@ public class HBMsNTMClient {
 //                ParticleRadiationFog fx = new ParticleRadiationFog(level, x, y, z, 0.62F, 0.67F, 0.38F, 5F, ModParticles.RAD_FOG_SPRITES);
 //                innerMc.particleEngine.add(fx);
 //            }
+
+            if("smoke".equals(type)) {
+
+                String mode = data.getString("mode");
+                int count = Math.max(1, data.getInt("count"));
+
+                if("cloud".equals(mode)) {
+
+                    for(int i = 0; i < count; i++) {
+                        ParticleExSmoke particle = new ParticleExSmoke(level, x, y, z);
+                        particle.setMotionX(rand.nextGaussian() * (1 + (count / 150)));
+                        particle.setMotionY(rand.nextGaussian() * (1 + (count / 100)));
+                        particle.setMotionZ(rand.nextGaussian() * (1 + (count / 150)));
+                        if(rand.nextBoolean()) particle.setMotionX(Math.abs(particle.getMotionY()));
+                        Minecraft.getInstance().particleEngine.add(particle);
+                    }
+                }
+
+                if("radial".equals(mode)) {
+
+                    for(int i = 0; i < count; i++) {
+                        ParticleExSmoke particle = new ParticleExSmoke(level, x, y, z);
+                        particle.setMotionX(rand.nextGaussian() * (1 + (count / 50)));
+                        particle.setMotionY(rand.nextGaussian() * (1 + (count / 50)));
+                        particle.setMotionZ(rand.nextGaussian() * (1 + (count / 50)));
+                        Minecraft.getInstance().particleEngine.add(particle);
+                    }
+                }
+//
+//                if("radialDigamma".equals(mode)) {
+//
+//                    Vec3 vec = Vec3.createVectorHelper(2, 0, 0);
+//                    vec.rotateAroundY(rand.nextFloat() * (float)Math.PI * 2F);
+//
+//                    for(int i = 0; i < count; i++) {
+//                        ParticleDigammaSmoke fx = new ParticleDigammaSmoke(man, world, x, y, z);
+//                        fx.motionY = 0;
+//                        fx.motionX = vec.xCoord;
+//                        fx.motionZ = vec.zCoord;
+//                        Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+//
+//                        vec.rotateAroundY((float)Math.PI * 2F / (float)count);
+//                    }
+//                }
+//
+                if("shock".equals(mode)) {
+
+                    double strength = data.getDouble("strength");
+
+                    Vec3 vec = new Vec3(strength, 0, 0);
+                    vec = vec.xRot(rand.nextInt(360));
+
+                    for(int i = 0; i < count; i++) {
+                        ParticleExSmoke particle = new ParticleExSmoke(level, x, y, z);
+                        particle.setMotionX(vec.x);
+                        particle.setMotionY(0);
+                        particle.setMotionZ(vec.z);
+                        Minecraft.getInstance().particleEngine.add(particle);
+
+                        vec = vec.xRot((float)Math.PI * 2F / (float)count);
+                    }
+                }
+
+//                if("shockRand".equals(mode)) {
+//
+//                    double strength = data.getDouble("strength");
+//
+//                    Vec3 vec = Vec3.createVectorHelper(strength, 0, 0);
+//                    vec.rotateAroundY(rand.nextInt(360));
+//                    double r;
+//
+//                    for(int i = 0; i < count; i++) {
+//                        r = rand.nextDouble();
+//                        ParticleExSmoke fx = new ParticleExSmoke(man, world, x, y, z);
+//                        fx.motionY = 0;
+//                        fx.motionX = vec.xCoord * r;
+//                        fx.motionZ = vec.zCoord * r;
+//                        Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+//
+//                        vec.rotateAroundY(360 / count);
+//                    }
+//                }
+//
+//                if("wave".equals(mode)) {
+//
+//                    double strength = data.getDouble("range");
+//
+//                    Vec3 vec = Vec3.createVectorHelper(strength, 0, 0);
+//
+//                    for(int i = 0; i < count; i++) {
+//
+//                        vec.rotateAroundY((float) Math.toRadians(rand.nextFloat() * 360F));
+//
+//                        ParticleExSmoke fx = new ParticleExSmoke(man, world, x + vec.xCoord, y, z + vec.zCoord);
+//                        fx.maxAge = 50;
+//                        fx.motionY = 0;
+//                        fx.motionX = 0;
+//                        fx.motionZ = 0;
+//                        Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+//
+//                        vec.rotateAroundY(360 / count);
+//                    }
+//                }
+//
+//                if("foamSplash".equals(mode)) {
+//
+//                    double strength = data.getDouble("range");
+//
+//                    Vec3 vec = Vec3.createVectorHelper(strength, 0, 0);
+//
+//                    for(int i = 0; i < count; i++) {
+//
+//                        vec.rotateAroundY((float) Math.toRadians(rand.nextFloat() * 360F));
+//
+//                        ParticleFoam fx = new ParticleFoam(man, world, x + vec.xCoord, y, z + vec.zCoord);
+//                        fx.maxAge = 50;
+//                        fx.motionY = 0;
+//                        fx.motionX = 0;
+//                        fx.motionZ = 0;
+//                        Minecraft.getMinecraft().effectRenderer.addEffect(fx);
+//
+//                        vec.rotateAroundY(360 / count);
+//                    }
+//                }
+            }
+
 
             if ("muke".contains(type)) {
                 ParticleMukeFlash flash = new ParticleMukeFlash(

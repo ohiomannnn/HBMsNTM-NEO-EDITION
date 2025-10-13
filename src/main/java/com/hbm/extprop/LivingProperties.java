@@ -3,7 +3,7 @@ package com.hbm.extprop;
 import com.hbm.HBMsNTM;
 import com.hbm.HBMsNTMClient;
 import com.hbm.config.ModConfigs;
-import com.hbm.entity.mob.EntityDuck;
+import com.hbm.entity.mob.Duck;
 import com.hbm.lib.ModAttachments;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.packets.toclient.InformPlayerPacket;
@@ -118,7 +118,7 @@ public class LivingProperties {
         if (entity.level().isClientSide)
             return;
 
-        if (entity instanceof EntityDuck)
+        if (entity instanceof Duck)
             digamma = 0.0F;
 
         getData(entity).digamma = digamma;
@@ -145,7 +145,7 @@ public class LivingProperties {
     }
 
     public static void incrementDigamma(LivingEntity entity, float digamma) {
-        if (entity instanceof EntityDuck)
+        if (entity instanceof Duck)
             digamma = 0.0F;
 
         float dRad = getDigamma(entity) + digamma;

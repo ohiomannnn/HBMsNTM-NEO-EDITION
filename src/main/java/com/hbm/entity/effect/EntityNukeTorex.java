@@ -22,13 +22,15 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * Toroidial Convection Simulation Explosion Effect
+ * Tor                             Ex
+ */
 public class EntityNukeTorex extends Entity {
 
-    private static final EntityDataAccessor<Float> SCALE =
-            SynchedEntityData.defineId(EntityNukeTorex.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> SCALE = SynchedEntityData.defineId(EntityNukeTorex.class, EntityDataSerializers.FLOAT);
     // balefire or not
-    private static final EntityDataAccessor<Integer> TYPE =
-            SynchedEntityData.defineId(EntityNukeTorex.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> TYPE = SynchedEntityData.defineId(EntityNukeTorex.class, EntityDataSerializers.INT);
 
     public double coreHeight = 3;
     public double convectionHeight = 3;
@@ -358,26 +360,35 @@ public class EntityNukeTorex extends Entity {
                 return new Vec3(0, 0, 0);
             }
 
+            /* the position of the torus' outer ring center */
             Vec3 torusPos = new Vec3(
                     EntityNukeTorex.this.getX() + torusWidth,
                     EntityNukeTorex.this.getY() + coreHeight * 0.5,
                     EntityNukeTorex.this.getZ()
             );
 
+            /* the difference between the cloudlet and the torus' ring center */
             Vec3 delta = new Vec3(
                     torusPos.x - simPosX,
                     torusPos.y - this.posY,
                     torusPos.z - simPosZ
             );
 
+            /* the distance this cloudlet wants to achieve to the torus' ring center */
             double roller = EntityNukeTorex.this.rollerSize * this.rangeMod * 0.25;
+            /* the distance between this cloudlet and the torus' outer ring perimeter */
             double dist = delta.length() / roller - 1.0;
 
-            double func = 1D - Math.pow(Math.E, -dist);
-            float angle = (float) (func * Math.PI * 0.5D);
+            /* euler function based on how far the cloudlet is away from the perimeter */
+            double func = 1D - Math.pow(Math.E, -dist); // [0;1]
+            /* just an approximation, but it's good enough */
+            float angle = (float) (func * Math.PI * 0.5D); // [0;90°]
 
+            /* vector going from the ring center in the direction of the cloudlet, stopping at the perimeter */
+            /* rotate by the approximate angle */
             Vec3 rot = new Vec3(-delta.x / dist, -delta.y / dist, -delta.z / dist).zRot(angle);
 
+            /* the direction from the cloudlet to the target position on the perimeter */
             Vec3 motion = new Vec3(
                     torusPos.x + rot.x - simPosX,
                     torusPos.y + rot.y - this.posY,
@@ -392,27 +403,38 @@ public class EntityNukeTorex extends Entity {
             return motion;
         }
 
+        /* simulated on a 2D-plane along the X/Y axis */
         private Vec3 getConvectionMotion(double simPosX, double simPosZ) {
+
+            /* the position of the torus' outer ring center */
             Vec3 torusPos = new Vec3(
                     EntityNukeTorex.this.getX() + torusWidth,
                     EntityNukeTorex.this.getY() + coreHeight,
                     EntityNukeTorex.this.getZ()
             );
 
+            /* the difference between the cloudlet and the torus' ring center */
             Vec3 delta = new Vec3(
                     torusPos.x - simPosX,
                     torusPos.y - this.posY,
                     torusPos.z - simPosZ
             );
 
+            /* the distance this cloudlet wants to achieve to the torus' ring center */
             double roller = EntityNukeTorex.this.rollerSize * this.rangeMod;
+            /* the distance between this cloudlet and the torus' outer ring perimeter */
             double dist = delta.length() / roller - 1D;
 
-            double func = 1.0 - Math.pow(Math.E, -dist);
-            float angle = (float) (func * Math.PI * 0.5D);
+            /* euler function based on how far the cloudlet is away from the perimeter */
+            double func = 1.0 - Math.pow(Math.E, -dist); // [0;1]
+            /* just an approximation, but it's good enough */
+            float angle = (float) (func * Math.PI * 0.5D); // [0;90°]
 
+            /* vector going from the ring center in the direction of the cloudlet, stopping at the perimeter */
+            /* rotate by the approximate angle */
             Vec3 rot = new Vec3(-delta.x / dist, -delta.y / dist, -delta.z / dist).zRot(angle);
 
+            /* the direction from the cloudlet to the target position on the perimeter */
             Vec3 motion = new Vec3(
                     torusPos.x + rot.x - simPosX,
                     torusPos.y + rot.y - this.posY,
@@ -496,7 +518,7 @@ public class EntityNukeTorex extends Entity {
                     prevPosZ + (posZ - prevPosZ) * interp
             );
 
-            if (this.type != TorexType.SHOCK) {
+            if (this.type != TorexType.SHOCK) {  //no rescale for the shockwave as this messes with the positions
                 double x = (base.x - EntityNukeTorex.this.getX()) * scale + EntityNukeTorex.this.getX();
                 double y = (base.y - EntityNukeTorex.this.getY()) * scale + EntityNukeTorex.this.getY();
                 double z = (base.z - EntityNukeTorex.this.getZ()) * scale + EntityNukeTorex.this.getZ();
@@ -560,11 +582,11 @@ public class EntityNukeTorex extends Entity {
         CONDENSATION
     }
 
-    @Override
-    protected void readAdditionalSaveData(CompoundTag compoundTag) {this.discard();}
-
-    @Override
-    protected void addAdditionalSaveData(CompoundTag compoundTag) {}
+    @Override protected void addAdditionalSaveData(CompoundTag compoundTag) {}
+    // i think this is the part where everything breaks
+    // entity deletion only happening on the server side and the client does nothing
+    // TODO: fix entity removing
+    @Override protected void readAdditionalSaveData(CompoundTag compoundTag) { this.discard(); }
 
     @Override
     public boolean shouldRenderAtSqrDistance(double distance) {
@@ -580,7 +602,7 @@ public class EntityNukeTorex extends Entity {
     }
 
     public static void statFac(Level level, double x, double y, double z, float scale, int type) {
-        EntityNukeTorex torex = new EntityNukeTorex(ModEntities.NUKE_TOREX.get(),level).setScale((float) Mth.clamp(BobMathUtil.squirt(scale * 0.01) * 1.5F, 0.5F, 5F));
+        EntityNukeTorex torex = new EntityNukeTorex(ModEntities.NUKE_TOREX.get(),level).setScale(Mth.clamp((float) BobMathUtil.squirt(scale * 0.01) * 1.5F, 0.5F, 5F));
         torex.setType(type);
         torex.moveTo(x, y, z);;
         level.addFreshEntity(torex);

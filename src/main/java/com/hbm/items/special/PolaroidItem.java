@@ -1,7 +1,10 @@
 package com.hbm.items.special;
 
 import com.hbm.CommonEvents;
+import com.hbm.explosion.ExplosionLarge;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -18,6 +21,16 @@ public class PolaroidItem extends Item {
     public PolaroidItem(Properties properties) {
         super(properties);
         CommonEvents.RerollPal();
+    }
+
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
+
+        if (!level.isClientSide) {
+            ExplosionLarge.spawnParticles(level, player.getX(), player.getY(), player.getZ(), 23);
+        }
+
+        return InteractionResultHolder.pass(player.getItemInHand(usedHand));
     }
 
     @Override

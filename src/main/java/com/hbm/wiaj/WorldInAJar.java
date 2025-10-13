@@ -1,29 +1,21 @@
 package com.hbm.wiaj;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.ColorResolver;
 import net.minecraft.world.level.LightLayer;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.lighting.LevelLightEngine;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.core.Direction;
 
 public class WorldInAJar implements BlockAndTintGetter {
 
@@ -31,8 +23,8 @@ public class WorldInAJar implements BlockAndTintGetter {
     public final int sizeY;
     public final int sizeZ;
 
-    private final BlockState[][][] blocks;
-    private final BlockEntity[][][] be;
+    private BlockState[][][] blocks;
+    private BlockEntity[][][] be;
 
     public WorldInAJar(int x, int y, int z) {
         this.sizeX = x;
@@ -44,29 +36,26 @@ public class WorldInAJar implements BlockAndTintGetter {
     }
 
     public void nuke() {
-        for (int i = 0; i < sizeX; i++)
-            for (int j = 0; j < sizeY; j++)
-                for (int k = 0; k < sizeZ; k++) {
-                    blocks[i][j][k] = null;
-                    be[i][j][k] = null;
-                }
+        this.blocks = new BlockState[sizeX][sizeY][sizeZ];
+        this.be = new BlockEntity[sizeX][sizeY][sizeZ];
     }
 
     public BlockState getBlock(int x, int y, int z) {
         if (x < 0 || x >= sizeX || y < 0 || y >= sizeY || z < 0 || z >= sizeZ)
             return Blocks.AIR.defaultBlockState();
+
         return blocks[x][y][z] != null ? blocks[x][y][z] : Blocks.AIR.defaultBlockState();
     }
 
     public void setBlock(int x, int y, int z, BlockState state) {
         if (x < 0 || x >= sizeX || y < 0 || y >= sizeY || z < 0 || z >= sizeZ)
             return;
+
         this.blocks[x][y][z] = state;
     }
 
-    public void setTileEntity(int x, int y, int z, BlockEntity blockEntity) {
-        if (x < 0 || x >= sizeX || y < 0 || y >= sizeY || z < 0 || z >= sizeZ)
-            return;
+    public void setBlockEntity(int x, int y, int z, BlockEntity blockEntity) {
+        if (x < 0 || x >= sizeX || y < 0 || y >= sizeY || z < 0 || z >= sizeZ) return;
         this.be[x][y][z] = blockEntity;
     }
 
@@ -76,10 +65,9 @@ public class WorldInAJar implements BlockAndTintGetter {
     }
 
     @Override
-    public @Nullable BlockEntity getBlockEntity(BlockPos pos) {
+    public BlockEntity getBlockEntity(BlockPos pos) {
         int x = pos.getX(), y = pos.getY(), z = pos.getZ();
-        if (x < 0 || x >= sizeX || y < 0 || y >= sizeY || z < 0 || z >= sizeZ)
-            return null;
+        if (x < 0 || x >= sizeX || y < 0 || y >= sizeY || z < 0 || z >= sizeZ) return null;
         return be[x][y][z];
     }
 
@@ -90,15 +78,16 @@ public class WorldInAJar implements BlockAndTintGetter {
 
     @Override
     public int getBrightness(LightLayer type, BlockPos pos) {
-        ClientLevel lvl = Minecraft.getInstance().level;
-        return lvl == null ? 0 : lvl.getBrightness(type, pos);
+        return 15;
     }
 
     @Override
     public int getRawBrightness(BlockPos pos, int ambientDarkening) {
-        ClientLevel level = Minecraft.getInstance().level;
-        if (level == null) return 0;
-        return level.getRawBrightness(pos, ambientDarkening);
+        return 15;
+    }
+
+    public boolean isAirBlock(int x, int y, int z) {
+        return getBlock(x, y, z).isAir();
     }
 
     @Override

@@ -7,7 +7,7 @@ import com.hbm.entity.logic.NukeExplosionBalefireEntity;
 import com.hbm.entity.logic.NukeExplosionMK5Entity;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.entity.mob.CreeperNuclear;
-import com.hbm.entity.mob.EntityDuck;
+import com.hbm.entity.mob.Duck;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntityShrapnel;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -48,9 +48,9 @@ public class ModEntities {
                             .sized(2.0F, 20.0F)
                             .build("fallout_rain"));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityDuck>> DUCK =
+    public static final DeferredHolder<EntityType<?>, EntityType<Duck>> DUCK =
             ENTITY_TYPES.register("duck",
-                    () -> EntityType.Builder.of(EntityDuck::new, MobCategory.CREATURE)
+                    () -> EntityType.Builder.of(Duck::new, MobCategory.CREATURE)
                             .sized(0.4F, 0.7F)
                             .build("duck"));
     public static final DeferredHolder<EntityType<?>, EntityType<CreeperNuclear>> CREEPER_NUCLEAR =

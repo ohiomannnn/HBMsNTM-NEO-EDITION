@@ -1,7 +1,6 @@
 package com.hbm.entity.mob;
 
 import com.hbm.lib.ModSounds;
-import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundEvent;
@@ -11,9 +10,9 @@ import net.minecraft.world.entity.ai.attributes.*;
 import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.level.Level;
 
-public class EntityDuck extends Chicken {
+public class Duck extends Chicken {
 
-    public EntityDuck(EntityType<? extends Chicken> type, Level level) {
+    public Duck(EntityType<? extends Chicken> type, Level level) {
         super(type, level);
     }
 

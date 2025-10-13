@@ -19,36 +19,14 @@ public class ExplosionEffectAmat implements IExplosionSFX {
     public void doEffect(ExplosionVNT explosion, Level level, double x, double y, double z, float size) {
 
         if (size < 15) {
-            level.playSound(
-                    null,
-                    x, y, z,
-                    SoundEvents.GENERIC_EXPLODE,
-                    SoundSource.BLOCKS,
-                    4.0F,
-                    (1.4F + (level.random.nextFloat() - level.random.nextFloat()) * 0.2F) * 0.7F
-            );
+            level.playSound(null, x, y, z, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 4.0F, (1.4F + (level.random.nextFloat() - level.random.nextFloat()) * 0.2F) * 0.7F);
         } else {
-            level.playSound(
-                    null,
-                    x, y, z,
-                    ModSounds.MUKE_EXPLOSION.get(),
-                    SoundSource.BLOCKS,
-                    15.0F,
-                    1.0F
-            );
+            level.playSound(null, x, y, z, ModSounds.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 15.0F, 1.0F);
         }
 
         CompoundTag tag = new CompoundTag();
         tag.putString("type", "amat");
         tag.putFloat("scale", size);
-
-        PacketDistributor.sendToPlayersNear(
-                (ServerLevel) level,
-                null,
-                x, y, z,
-                200,
-                new AuxParticlePacket(tag, x, y, z)
-        );
-
+        PacketDistributor.sendToPlayersNear((ServerLevel) level, null, x, y, z, 200, new AuxParticlePacket(tag, x, y, z));
     }
 }

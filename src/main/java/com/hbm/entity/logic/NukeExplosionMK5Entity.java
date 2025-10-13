@@ -120,7 +120,6 @@ public class NukeExplosionMK5Entity extends ChunkloadingEntity {
         super.remove(reason);
     }
 
-
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         this.tickCount = tag.getInt("tickCount");

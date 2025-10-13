@@ -1,6 +1,5 @@
 package com.hbm.blocks.bomb;
 
-import com.hbm.HBMsNTM;
 import com.hbm.lib.ModEffect;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -44,6 +43,7 @@ public class BalefireBlock extends BaseFireBlock {
     protected VoxelShape getCollisionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         return Shapes.empty();
     }
+
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return Shapes.empty();

@@ -3,6 +3,7 @@ package com.hbm.blocks.bomb;
 import com.hbm.CommonEvents;
 import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.ModConfigs;
 import com.hbm.entity.ModEntities;
 import com.hbm.entity.item.EntityTNTPrimedBase;
 import com.hbm.entity.logic.NukeExplosionBalefireEntity;
@@ -21,6 +22,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
@@ -30,10 +32,10 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-public class CrashedBombBlock extends DetonatableBlock implements IBomb, EntityBlock {
+public class CrashedBombBlock extends Block implements IBomb, EntityBlock {
 
     public CrashedBombBlock(Properties properties) {
-        super(properties, 0, 0, 0, false, false);
+        super(properties);
     }
 
     @Override
@@ -49,8 +51,7 @@ public class CrashedBombBlock extends DetonatableBlock implements IBomb, EntityB
             if (this == ModBlocks.CRASHED_BOMB_BALEFIRE.get()) {
                 NukeExplosionBalefireEntity bf = new NukeExplosionBalefireEntity(ModEntities.NUKE_BALEFIRE.get(), level);
                 bf.setPos(x, y, z);
-                // TODO: BombConfig.fatmanRadius here
-                bf.destructionRange = (int) (35 * 1.25);
+                bf.destructionRange = (int) (ModConfigs.COMMON.FATMAN_RADIUS.get() * 1.25);
                 level.addFreshEntity(bf);
                 spawnMush(level, x, y, z, true);
             }
@@ -73,11 +74,6 @@ public class CrashedBombBlock extends DetonatableBlock implements IBomb, EntityB
             }
         }
         return IBomb.BombReturnCode.DETONATED;
-    }
-
-    @Override
-    public void explodeEntity(Level level, double x, double y, double z, EntityTNTPrimedBase entity) {
-        explode(level, (int) x, (int) y, (int) z);
     }
 
     @Override

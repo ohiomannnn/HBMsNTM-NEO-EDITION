@@ -69,9 +69,7 @@ public class DangerousDropItem extends Item {
 
         if (itemEntity.onGround()) {
             if (stack.is(ModItems.CELL_ANTIMATTER.get()) && ModConfigs.COMMON.DROP_CELL.get()) {
-                ExplosionVNT vnt = new ExplosionVNT(level, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), 5F);
-                vnt.makeAmat();
-                vnt.explode();
+                new ExplosionVNT(level, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), 5F).makeAmat().explode();
             }
         }
 

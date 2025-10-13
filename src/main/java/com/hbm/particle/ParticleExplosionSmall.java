@@ -3,27 +3,26 @@ package com.hbm.particle;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.*;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 
 import java.awt.*;
 
-public class ParticleExplosionSmall extends RotatingParticle {
+public class ParticleExplosionSmall extends ParticleRotating {
 
     private final float hue;
-    private float gravity;
 
     public ParticleExplosionSmall(ClientLevel level, double x, double y, double z, float scale, float speedMult, SpriteSet sprites) {
-        super(level, x, y, z, sprites);
-
+        super(level, x, y, z);
+        this.setSpriteFromAge(sprites);
         this.lifetime = 25 + this.random.nextInt(10);
-
         this.quadSize = scale * 0.9F + this.random.nextFloat() * 0.2F;
 
         this.xd = this.random.nextGaussian() * speedMult;
         this.zd = this.random.nextGaussian() * speedMult;
-        this.yd = 0.0;
 
         this.gravity = this.random.nextFloat() * -0.01F;
 
@@ -42,50 +41,38 @@ public class ParticleExplosionSmall extends RotatingParticle {
         this.yo = this.y;
         this.zo = this.z;
 
-        if (++this.age >= this.lifetime) {
+        this.age++;
+
+        if (this.age >= this.lifetime) {
             this.remove();
-            return;
         }
 
-        this.yd -= this.gravity;
-        float ageScaled = (float) this.age / (float) this.lifetime;
+        this.xd -= gravity;
         this.oRoll = this.roll;
-        float parity = ((this.hashCode() % 2) == 0) ? -0.5F : 0.5F;
-        float deltaDeg = (1 - ageScaled) * 5F * parity;
-        this.roll += (float) Math.toRadians(deltaDeg);
+
+        float ageScaled = (float) this.age / (float) this.lifetime;
+        this.roll += (float) ((1 - ageScaled) * 5 * ((this.hashCode() % 2) - 0.5));
 
         this.xd *= 0.65D;
         this.zd *= 0.65D;
 
         this.move(this.xd, this.yd, this.zd);
-
-        this.sprite = sprites.get(this.age, this.lifetime);
     }
 
     @Override
-    public void render(VertexConsumer buffer, Camera camera, float partialTicks) {
+    public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
+
         double ageScaled = (double) (this.age + partialTicks) / (double) this.lifetime;
 
-        Color color = Color.getHSBColor(
-                hue / 255F,
-                Math.max(1F - (float) ageScaled * 2F, 0F),
-                Mth.clamp(1.25F - (float) ageScaled * 2F, hue * 0.01F - 0.1F, 1F)
-        );
-
+        Color color = Color.getHSBColor(hue / 255F, Math.max(1F - (float) ageScaled * 2F, 0), Mth.clamp(1.25F - (float) ageScaled * 2F, hue * 0.01F - 0.1F, 1F));
         this.rCol = color.getRed() / 255F;
         this.gCol = color.getGreen() / 255F;
         this.bCol = color.getBlue() / 255F;
 
-        this.alpha = 0.5F * (float) Math.pow(1 - Math.min(ageScaled, 1.0), 0.25);
+        this.alpha = (float) Math.pow(1 - Math.min(ageScaled, 1), 0.25);
 
-        super.render(buffer, camera, partialTicks);
-    }
-
-    @Override
-    public float getQuadSize(float partialTicks) {
-        double ageScaled = (double) (this.age + partialTicks) / (double) this.lifetime;
         double scale = (0.25 + 1 - Math.pow(1 - ageScaled, 4) + (this.age + partialTicks) * 0.02) * this.quadSize;
-        return (float) scale;
+        renderParticleRotated(consumer, camera, this.rCol, this.gCol, this.bCol, this.alpha * 0.5F, scale, partialTicks);
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {

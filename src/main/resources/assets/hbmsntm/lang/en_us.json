@@ -1,5 +1,6 @@
 {
   "hbmsntm.configuration.general": "General",
+  "hbmsntm.configuration.nukes": "Nukes",
   "hbmsntm.configuration.hazards": "Hazards",
   "hbmsntm.configuration.radiation": "Radiation",
   "hbmsntm.configuration.dangerous_drops": "Dangerous Drops",
@@ -9,6 +10,21 @@
 
   "hbmsntm.configuration.enableMOTD": "Enable MOTD",
   "hbmsntm.configuration.enableExtendedLogging": "Enable Extended Logging",
+
+  "hbmsntm.configuration.boyRadius": "Little Boy Radius",
+  "hbmsntm.configuration.fatmanRadius": "Fatman Launcher Radius",
+  "hbmsntm.configuration.nukaRadius": "Nuka Grenade Radius",
+  "hbmsntm.configuration.gadgetRadius": "Gadget Radius",
+  "hbmsntm.configuration.n2Radius": "N2 Mine Radius",
+  "hbmsntm.configuration.missileRadius": "Missile Radius",
+  "hbmsntm.configuration.aSchrabRadius": "Anti Schrabidium Radius",
+  "hbmsntm.configuration.mirvRadius": "MIRV Radius",
+  "hbmsntm.configuration.soliniumRadius": "Blue Rinse Radius",
+  "hbmsntm.configuration.mikeRadius": "Ivy Mike Radius",
+  "hbmsntm.configuration.prototypeRadius": "The Prototype Radius",
+  "hbmsntm.configuration.fleijaRadius": "F.L.E.I.J.A. Radius",
+  "hbmsntm.configuration.manRadius": "Fat Man Radius",
+  "hbmsntm.configuration.tsarRadius": "Tsar Bomba Radius",
 
   "hbmsntm.configuration.falloutDelay": "Fallout Delay",
   "hbmsntm.configuration.mk5BlastTime": "MK5 Blast Time",
@@ -159,9 +175,9 @@
   "trait.blinding": "Blinding",
   "trait.drop": "Dangerous Drop",
 
-  "creativeTabs.hbmsntm.ores_and_blocks": "NTM Ores and Blocks",
-  "creativeTabs.hbmsntm.consumables_and_gear": "NTM Consumables and Gear",
-  "creativeTabs.hbmsntm.bombs": "NTM Bombs",
+  "creative_tab.hbmsntm.ores_and_blocks": "NTM Ores and Blocks",
+  "creative_tab.hbmsntm.consumables_and_gear": "NTM Consumables and Gear",
+  "creative_tab.hbmsntm.bombs": "NTM Bombs",
 
   "container.crateIron": "Iron Crate"
 }

@@ -3,9 +3,11 @@ package com.hbm.explosion;
 import com.hbm.entity.ModEntities;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntityShrapnel;
+import com.hbm.packets.toclient.AuxParticlePacket;
 import com.hbm.particle.ModParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -13,43 +15,47 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.List;
 import java.util.Random;
 
-public class  ExplosionLarge {
+public class ExplosionLarge {
 
     private static final Random rand = new Random();
 
     @Deprecated
     public static void spawnParticles(Level level, double x, double y, double z, int count) {
-        if (!(level instanceof ServerLevel server)) return;
-        for (int i = 0; i < count; i++) {
-            double dx = (rand.nextDouble() - 0.5) * 2;
-            double dy = rand.nextDouble() * 0.5;
-            double dz = (rand.nextDouble() - 0.5) * 2;
-            server.sendParticles(ParticleTypes.SMOKE, x, y, z, 1, dx, dy, dz, 0.1);
-        }
+        CompoundTag tag = new CompoundTag();
+        tag.putString("type", "smoke");
+        tag.putString("mode", "cloud");
+        tag.putInt("count", count);
+        PacketDistributor.sendToPlayersNear((ServerLevel) level, null, x, y, z, 250, new AuxParticlePacket(tag, x, y, z));
     }
 
     public static void spawnParticlesRadial(Level level, double x, double y, double z, int count) {
-        if (!(level instanceof ServerLevel server)) return;
-        for (int i = 0; i < count; i++) {
-            double angle = rand.nextDouble() * Math.PI * 2;
-            double dx = Math.cos(angle) * 0.3;
-            double dz = Math.sin(angle) * 0.3;
-            server.sendParticles(ParticleTypes.SMOKE, x, y, z, 1, dx, 0.05, dz, 0.1);
-        }
+        CompoundTag tag = new CompoundTag();
+        tag.putString("type", "smoke");
+        tag.putString("mode", "radial");
+        tag.putInt("count", count);
+        PacketDistributor.sendToPlayersNear((ServerLevel) level, null, x, y, z, 250, new AuxParticlePacket(tag, x, y, z));
     }
 
     public static void spawnFoam(Level level, double x, double y, double z, int count) {
-        if (!(level instanceof ServerLevel server)) return;
-        server.sendParticles(ParticleTypes.SPLASH, x, y, z, count, 0.3, 0.2, 0.3, 0.1);
+        CompoundTag tag = new CompoundTag();
+        tag.putString("type", "smoke");
+        tag.putString("mode", "foamSplash");
+        tag.putInt("count", count);
+        PacketDistributor.sendToPlayersNear((ServerLevel) level, null, x, y, z, 250, new AuxParticlePacket(tag, x, y, z));
     }
 
     public static void spawnShock(Level level, double x, double y, double z, int count, double strength) {
-        if (!(level instanceof ServerLevel server)) return;
-        server.sendParticles(ParticleTypes.EXPLOSION, x, y + 0.5, z, count, strength, strength * 0.2, strength, 0.1);
+        CompoundTag tag = new CompoundTag();
+        tag.putString("type", "smoke");
+        tag.putString("mode", "shock");
+        tag.putInt("count", count);
+        tag.putDouble("strength", strength);
+        PacketDistributor.sendToPlayersNear((ServerLevel) level, null, x, y, z, 250, new AuxParticlePacket(tag, x, y, z));
     }
 
     public static void spawnBurst(Level level, double x, double y, double z, int count, double strength) {

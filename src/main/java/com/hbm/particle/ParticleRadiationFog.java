@@ -1,6 +1,5 @@
 package com.hbm.particle;
 
-import com.hbm.HBMsNTM;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -65,44 +64,38 @@ public class ParticleRadiationFog extends TextureSheetParticle {
     }
 
     @Override
-    public void render(VertexConsumer buffer, Camera camera, float partialTicks) {
-        Quaternionf q = new Quaternionf(camera.rotation());
+    public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
+        Quaternionf quaternionf = new Quaternionf(camera.rotation());
         Vec3 camPos = camera.getPosition();
 
         this.rCol = 0.85F;
         this.gCol = 0.9F;
         this.bCol = 0.5F;
-        float t = (float) this.age / 400F;
-        this.alpha = Math.max(0F, (float)Math.sin(t * Math.PI)) * 0.5F;
+        this.alpha = (float) Math.sin(age * Math.PI / (400F)) * 0.125F;
 
-        Random rand = new Random(50);
+        Random urandom = new Random(50);
 
         for (int i = 0; i < 25; i++) {
 
-            double dX = (rand.nextGaussian() - 1D) * 2.5D;
-            double dY = (rand.nextGaussian() - 1D) * 0.15D;
-            double dZ = (rand.nextGaussian() - 1D) * 2.5D;
-            double size = rand.nextDouble() * this.quadSize;
+            double dX = (urandom.nextGaussian() - 1D) * 2.5D;
+            double dY = (urandom.nextGaussian() - 1D) * 0.15D;
+            double dZ = (urandom.nextGaussian() - 1D) * 2.5D;
 
-            float px = (float)(Mth.lerp(partialTicks, this.xo, this.x) - camPos.x + dX);
-            float py = (float)(Mth.lerp(partialTicks, this.yo, this.y) - camPos.y + dY);
-            float pz = (float)(Mth.lerp(partialTicks, this.zo, this.z) - camPos.z + dZ);
+            float pX = (float)(Mth.lerp(partialTicks, this.xo, this.x) - camPos.x + dX + urandom.nextGaussian() * 0.5);
+            float pY = (float)(Mth.lerp(partialTicks, this.yo, this.y) - camPos.y + dY + urandom.nextGaussian() * 0.5);
+            float pZ = (float)(Mth.lerp(partialTicks, this.zo, this.z) - camPos.z + dZ + urandom.nextGaussian() * 0.5);
 
-            renderQuadWithSize(buffer, q, px, py, pz, (float)size, 240);
+            double size = urandom.nextDouble() * this.quadSize;
+            float U0 = this.getU0();
+            float U1 = this.getU1();
+            float V0 = this.getV0();
+            float V1 = this.getV1();
+            int color = this.getLightColor(240);
+            this.renderVertex(consumer, quaternionf, pX, pY, pZ, 1.0F, -1.0F, (float) size, U1, V1, color);
+            this.renderVertex(consumer, quaternionf, pX, pY, pZ, 1.0F, 1.0F, (float) size, U1, V0, color);
+            this.renderVertex(consumer, quaternionf, pX, pY, pZ, -1.0F, 1.0F, (float) size, U0, V0, color);
+            this.renderVertex(consumer, quaternionf, pX, pY, pZ, -1.0F, -1.0F, (float) size, U0, V1, color);
         }
-    }
-
-    private void renderQuadWithSize(VertexConsumer buffer, Quaternionf q, float x, float y, float z, float size, float partialTicks) {
-        float u0 = this.getU0();
-        float u1 = this.getU1();
-        float v0 = this.getV0();
-        float v1 = this.getV1();
-        int light = this.getLightColor(partialTicks);
-
-        renderVertex(buffer, q, x, y, z, 1.0F, -1.0F, size, u1, v1, light);
-        renderVertex(buffer, q, x, y, z, 1.0F,  1.0F, size, u1, v0, light);
-        renderVertex(buffer, q, x, y, z,-1.0F,  1.0F, size, u0, v0, light);
-        renderVertex(buffer, q, x, y, z,-1.0F, -1.0F, size, u0, v1, light);
     }
 
     private void renderVertex(VertexConsumer buffer, Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float quadSize, float u, float v, int packedLight) {

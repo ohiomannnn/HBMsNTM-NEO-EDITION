@@ -8,6 +8,7 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 import java.util.Random;
 
@@ -52,15 +53,10 @@ public class ParticleRocketFlame extends TextureSheetParticle {
     }
 
     @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
-    }
-
-    @Override
-    public void render(VertexConsumer buffer, Camera camera, float partialTicks) {
+    public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
+        Quaternionf quaternionf = camera.rotation();
+        Vec3 cameraPosition = camera.getPosition();
         Random urandom = new Random(this.hashCode());
-        Quaternionf q = camera.rotation();
-        Vec3 camPos = camera.getPosition();
 
         for (int i = 0; i < 10; i++) {
             float add = urandom.nextFloat() * 0.3F;
@@ -77,21 +73,25 @@ public class ParticleRocketFlame extends TextureSheetParticle {
 
             float scale = (urandom.nextFloat() * 0.5F + 0.1F + ((float) (age) / (float) maxAge) * 2F) * quadSize;
 
-            double baseX = Mth.lerp(partialTicks, this.xo, this.x);
-            double baseY = Mth.lerp(partialTicks, this.yo, this.y);
-            double baseZ = Mth.lerp(partialTicks, this.zo, this.z);
+            float pX = (float)(Mth.lerp(partialTicks, this.xo, this.x) - cameraPosition.x() + (urandom.nextGaussian() - 1D) * 0.2F * spread);
+            float pY = (float)(Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y() + (urandom.nextGaussian() - 1D) * 0.2F * spread);
+            float pZ = (float)(Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z() + (urandom.nextGaussian() - 1D) * 0.2F * spread);
 
-            float pX = (float)(baseX - camPos.x + (urandom.nextGaussian() - 1D) * 0.2F * spread);
-            float pY = (float)(baseY - camPos.y + (urandom.nextGaussian() - 1D) * 0.5F * spread);
-            float pZ = (float)(baseZ - camPos.z + (urandom.nextGaussian() - 1D) * 0.2F * spread);
+            float u0 = sprite.getU0();
+            float u1 = sprite.getU1();
+            float v0 = sprite.getV0();
+            float v1 = sprite.getV1();
 
-            float oldSize = this.quadSize;
-            this.quadSize = scale;
-
-            this.renderRotatedQuad(buffer, q, pX, pY, pZ, partialTicks);
-
-            this.quadSize = oldSize;
+            renderVertex(consumer, quaternionf, pX, pY, pZ, 1.0F, -1.0F, scale, u1, v1, 240, this.rCol, this.gCol, this.bCol, alpha * 0.75F);
+            renderVertex(consumer, quaternionf, pX, pY, pZ, 1.0F,  1.0F, scale, u1, v0, 240, this.rCol, this.gCol, this.bCol, alpha * 0.75F);
+            renderVertex(consumer, quaternionf, pX, pY, pZ, -1.0F, 1.0F, scale, u0, v0, 240, this.rCol, this.gCol, this.bCol, alpha * 0.75F);
+            renderVertex(consumer, quaternionf, pX, pY, pZ, -1.0F, -1.0F, scale, u0, v1, 240, this.rCol, this.gCol, this.bCol, alpha * 0.75F);
         }
+    }
+
+    private void renderVertex(VertexConsumer buffer, Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float quadSize, float u, float v, int packedLight, float r, float g, float b, float alpha) {
+        Vector3f vec = new Vector3f(xOffset, yOffset, 0.0F).rotate(quaternion).mul(quadSize).add(x, y, z);
+        buffer.addVertex(vec.x(), vec.y(), vec.z()).setUv(u, v).setColor(r, g, b, alpha).setLight(packedLight);
     }
 
     public ParticleRocketFlame resetPrevPos() {
@@ -101,31 +101,16 @@ public class ParticleRocketFlame extends TextureSheetParticle {
         return this;
     }
 
-    public ParticleRocketFlame setGravity(float gravity) {
-        this.gravity = gravity;
-        return this;
-    }
-
-    public ParticleRocketFlame maxAge(int gravity) {
-        this.lifetime = gravity;
-        return this;
-    }
-
-    public ParticleRocketFlame setPhysics(boolean physics) {
-        this.hasPhysics = physics;
-        return this;
-    }
-
-    public ParticleRocketFlame setSize(float size) {
-        this.quadSize = size;
-        return this;
-    }
-
     public ParticleRocketFlame setMotion(double mx, double my, double mz) {
         this.xd = mx;
         this.yd = my;
         this.zd = mz;
         return this;
+    }
+
+    @Override
+    public ParticleRenderType getRenderType() {
+        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {

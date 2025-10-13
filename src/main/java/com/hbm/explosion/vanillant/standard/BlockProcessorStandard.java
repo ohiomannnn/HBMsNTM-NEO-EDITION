@@ -118,7 +118,12 @@ public class BlockProcessorStandard implements IBlockProcessor {
     }
 
     public BlockProcessorStandard setFortune(int fortune) {
-        this.fortune = (explosion, block, x, y, z) -> fortune;
+        this.fortune = new IFortuneMutator() { //no standard class because we only have one case thus far
+            @Override
+            public int mutateFortune(ExplosionVNT explosion, Block block, int x, int y, int z) {
+                return fortune;
+            }
+        };
         return this;
     }
 }

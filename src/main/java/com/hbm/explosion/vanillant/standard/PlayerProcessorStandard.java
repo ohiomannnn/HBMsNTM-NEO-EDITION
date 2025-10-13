@@ -15,15 +15,7 @@ public class PlayerProcessorStandard implements IPlayerProcessor {
     public void processPlayers(ExplosionVNT explosion, Level level, double x, double y, double z, Map<Player, Vec3> players) {
         for (Map.Entry<Player, Vec3> entry : players.entrySet()) {
             if (entry.getKey() instanceof ServerPlayer serverPlayer) {
-
-                Vec3 playerPos = serverPlayer.position();
-                Vec3 knockback = playerPos.subtract(x, y, z);
-
-                if (knockback.lengthSqr() < 1.0E-6) continue;
-
-                knockback = knockback.normalize().scale(1.5);
-
-                serverPlayer.push(knockback.x, knockback.y, knockback.z);
+                serverPlayer.push(entry.getValue());
                 serverPlayer.hurtMarked = true;
             }
         }

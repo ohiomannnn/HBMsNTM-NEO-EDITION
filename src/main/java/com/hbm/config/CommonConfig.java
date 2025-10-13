@@ -9,6 +9,22 @@ public class CommonConfig {
     public final ModConfigSpec.BooleanValue ENABLE_MOTD;
     public final ModConfigSpec.BooleanValue ENABLE_EXTENDED_LOGGING;
 
+    // NUKES (03)
+    public final ModConfigSpec.IntValue GADGET_RADIUS;
+    public final ModConfigSpec.IntValue BOY_RADIUS;
+    public final ModConfigSpec.IntValue MAN_RADIUS;
+    public final ModConfigSpec.IntValue MIKE_RADIUS;
+    public final ModConfigSpec.IntValue TSAR_RADIUS;
+    public final ModConfigSpec.IntValue PROTOTYPE_RADIUS;
+    public final ModConfigSpec.IntValue FLEIJA_RADIUS;
+    public final ModConfigSpec.IntValue SOLINIUM_RADIUS;
+    public final ModConfigSpec.IntValue N2_RADIUS;
+    public final ModConfigSpec.IntValue MISSLE_RADIUS;
+    public final ModConfigSpec.IntValue MIRV_RADIUS;
+    public final ModConfigSpec.IntValue FATMAN_RADIUS;
+    public final ModConfigSpec.IntValue NUKA_RADIUS;
+    public final ModConfigSpec.IntValue ASCHRAB_RADIUS;
+
     // EXPLOSIONS (06)
     public final ModConfigSpec.IntValue MK5;
     public final ModConfigSpec.IntValue FALLOUT_RANGE;
@@ -61,6 +77,68 @@ public class CommonConfig {
                 .comment("Logs uses of the detonator, nuclear explosions, missile launches, grenades, etc.")
                 .translation("hbmsntm.configuration.enableExtendedLogging")
                 .define("enableExtendedLogging", true);
+
+        builder.pop();
+
+        /// NUKES ///
+        builder.push("nukes");
+
+        GADGET_RADIUS = builder
+                .comment("Radius of the Gadget.")
+                .translation("hbmsntm.configuration.gadgetRadius")
+                .defineInRange("gadgetRadius", 150, 0, Integer.MAX_VALUE);
+        BOY_RADIUS = builder
+                .comment("Radius of Little Boy.")
+                .translation("hbmsntm.configuration.boyRadius")
+                .defineInRange("boyRadius", 120, 0, Integer.MAX_VALUE);
+        MAN_RADIUS = builder
+                .comment("Radius of Fat Man.")
+                .translation("hbmsntm.configuration.manRadius")
+                .defineInRange("manRadius", 175, 0, Integer.MAX_VALUE);
+        MIKE_RADIUS = builder
+                .comment("Radius of Ivy Mike.")
+                .translation("hbmsntm.configuration.mikeRadius")
+                .defineInRange("mikeRadius", 250, 0, Integer.MAX_VALUE);
+        TSAR_RADIUS = builder
+                .comment("Radius of Tsar Bomba.")
+                .translation("hbmsntm.configuration.tsarRadius")
+                .defineInRange("tsarRadius", 500, 0, Integer.MAX_VALUE);
+        PROTOTYPE_RADIUS = builder
+                .comment("Radius of the Prototype.")
+                .translation("hbmsntm.configuration.prototypeRadius")
+                .defineInRange("prototypeRadius", 150, 0, Integer.MAX_VALUE);
+        FLEIJA_RADIUS = builder
+                .comment("Radius of F.L.E.I.J.A.")
+                .translation("hbmsntm.configuration.fleijaRadius")
+                .defineInRange("fleijaRadius", 50, 0, Integer.MAX_VALUE);
+        SOLINIUM_RADIUS = builder
+                .comment("Radius of the blue rinse.")
+                .translation("hbmsntm.configuration.soliniumRadius")
+                .defineInRange("soliniumRadius", 150, 0, Integer.MAX_VALUE);
+        N2_RADIUS = builder
+                .comment("Radius of the N2 mine.")
+                .translation("hbmsntm.configuration.n2Radius")
+                .defineInRange("n2Radius", 200, 0, Integer.MAX_VALUE);
+        MISSLE_RADIUS = builder
+                .comment("Radius of the nuclear missile")
+                .translation("hbmsntm.configuration.missileRadius")
+                .defineInRange("missileRadius", 100, 0, Integer.MAX_VALUE);
+        MIRV_RADIUS = builder
+                .comment("Radius of a MIRV.")
+                .translation("hbmsntm.configuration.mirvRadius")
+                .defineInRange("mirvRadius", 100, 0, Integer.MAX_VALUE);
+        FATMAN_RADIUS = builder
+                .comment("Radius of the Fatman Launcher.")
+                .translation("hbmsntm.configuration.fatmanRadius")
+                .defineInRange("fatmanRadius", 35, 0, Integer.MAX_VALUE);
+        NUKA_RADIUS = builder
+                .comment("Radius of the nuka grenade.")
+                .translation("hbmsntm.configuration.nukaRadius")
+                .defineInRange("nukaRadius", 25, 0, Integer.MAX_VALUE);
+        ASCHRAB_RADIUS = builder
+                .comment("Radius of dropped anti schrabidium.")
+                .translation("hbmsntm.configuration.aSchrabRadius")
+                .defineInRange("aSchrabRadius", 20, 0, Integer.MAX_VALUE);
 
         builder.pop();
 

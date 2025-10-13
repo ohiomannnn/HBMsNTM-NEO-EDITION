@@ -19,7 +19,7 @@ public class ModCreativeTabs {
 
     public static final Supplier<CreativeModeTab> ORES_AND_BLOCKS = CREATIVE_MODE_TABS.register("ores_and_blocks",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.ORE_URANIUM.get()))
-                    .title(Component.translatable("creativeTabs.hbmsntm.ores_and_blocks"))
+                    .title(Component.translatable("creative_tab.hbmsntm.ores_and_blocks"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModBlocks.BRICK_CONCRETE);
                         output.accept(ModBlocks.BRICK_CONCRETE_MOSSY);
@@ -49,7 +49,7 @@ public class ModCreativeTabs {
     public static final Supplier<CreativeModeTab> BOMBS = CREATIVE_MODE_TABS.register("bombs",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.DET_NUKE.get()))
                     .withTabsBefore(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "ores_and_blocks"))
-                    .title(Component.translatable("creativeTabs.hbmsntm.bombs"))
+                    .title(Component.translatable("creative_tab.hbmsntm.bombs"))
                     .backgroundTexture(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/gui/nuke_tab.png"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModBlocks.CRASHED_BOMB_BALEFIRE);
@@ -67,7 +67,7 @@ public class ModCreativeTabs {
     public static final Supplier<CreativeModeTab> CONSUMABLES_AND_GEAR = CREATIVE_MODE_TABS.register("consumables_and_gear",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.GEIGER_COUNTER.get()))
                     .withTabsBefore(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "bombs"))
-                    .title(Component.translatable("creativeTabs.hbmsntm.consumables_and_gear"))
+                    .title(Component.translatable("creative_tab.hbmsntm.consumables_and_gear"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.GEIGER_COUNTER);
                         output.accept(ModItems.DOSIMETER);

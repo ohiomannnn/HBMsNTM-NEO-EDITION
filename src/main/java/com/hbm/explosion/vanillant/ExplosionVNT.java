@@ -30,10 +30,11 @@ public class ExplosionVNT {
     public float size;
     public Entity exploder;
 
-    private final Map<Player, Vec3> hitPlayers = new HashMap<>();
-    public Explosion compat;
-    public Entity source;
-    public float radius;
+    // things for compatibility with vanilla
+    private final Map<Player, Vec3> hitPlayers = new HashMap<>(); // original "compatPlayers"
+    public Explosion compat; // explosion itself
+    public Entity source; // source entity (exploder)
+    public float radius; // radius (size)
 
     public ExplosionVNT(Level level, double x, double y, double z, float size) {
         this(level, x, y, z, size, null);
@@ -47,7 +48,7 @@ public class ExplosionVNT {
         this.size = size;
         this.exploder = exploder;
 
-        this.compat = new Explosion(level, exploder, x, y, z, size, false, Explosion.BlockInteraction.DESTROY_WITH_DECAY) {
+        this.compat = new Explosion(level, exploder, x, y, z, size, false, Explosion.BlockInteraction.DESTROY) {
 
             @Override
             public Map<Player, Vec3> getHitPlayers() {
@@ -79,7 +80,10 @@ public class ExplosionVNT {
 
         //allocation
         if (processBlocks) affectedBlocks = blockAllocator.allocate(this, level, posX, posY, posZ, size);
+        if (processBlocks) this.compat.getToBlow().addAll(affectedBlocks);
         if (processEntities) affectedPlayers = entityProcessor.processEntities(this, level, posX, posY, posZ, size);
+        // technically not necessary, as the affected entity list is a separate parameter during the Detonate event
+        if (processEntities) this.hitPlayers.putAll(affectedPlayers);
 
         //serverside processing
         if (processBlocks) blockProcessor.process(this, level, posX, posY, posZ, affectedBlocks);
@@ -92,35 +96,41 @@ public class ExplosionVNT {
         }
     }
 
-    public void setBlockAllocator(IBlockAllocator blockAllocator) {
+    public ExplosionVNT setBlockAllocator(IBlockAllocator blockAllocator) {
         this.blockAllocator = blockAllocator;
+        return this;
     }
 
-    public void setEntityProcessor(IEntityProcessor entityProcessor) {
+    public ExplosionVNT setEntityProcessor(IEntityProcessor entityProcessor) {
         this.entityProcessor = entityProcessor;
+        return this;
     }
 
-    public void setBlockProcessor(IBlockProcessor blockProcessor) {
+    public ExplosionVNT setBlockProcessor(IBlockProcessor blockProcessor) {
         this.blockProcessor = blockProcessor;
+        return this;
     }
 
-    public void setPlayerProcessor(IPlayerProcessor playerProcessor) {
+    public ExplosionVNT setPlayerProcessor(IPlayerProcessor playerProcessor) {
         this.playerProcessor = playerProcessor;
+        return this;
     }
 
-    public void setSFX(IExplosionSFX... sfx) {
+    public ExplosionVNT setSFX(IExplosionSFX... sfx) {
         this.sfx = sfx;
+        return this;
     }
 
-    public void makeStandard() {
+    public ExplosionVNT makeStandard() {
         this.setBlockAllocator(new BlockAllocatorStandard());
         this.setBlockProcessor(new BlockProcessorStandard());
         this.setEntityProcessor(new EntityProcessorStandard());
         this.setPlayerProcessor(new PlayerProcessorStandard());
         this.setSFX(new ExplosionEffectStandard());
+        return this;
     }
 
-    public void makeAmat() {
+    public ExplosionVNT makeAmat() {
         this.setBlockAllocator(new BlockAllocatorStandard(this.size < 15 ? 16 : 32));
         this.setBlockProcessor(new BlockProcessorStandard()
                 .setNoDrop());
@@ -129,5 +139,6 @@ public class ExplosionVNT {
                 .withDamageMod(new CustomDamageHandlerAmat(50.0F)));
         this.setPlayerProcessor(new PlayerProcessorStandard());
         this.setSFX(new ExplosionEffectAmat());
+        return this;
     }
 }

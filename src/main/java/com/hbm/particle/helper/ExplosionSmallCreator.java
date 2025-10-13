@@ -22,6 +22,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 public class ExplosionSmallCreator implements IParticleCreator{
 
@@ -29,18 +31,19 @@ public class ExplosionSmallCreator implements IParticleCreator{
 
     public static void composeEffect(Level level, double x, double y, double z, int cloudCount, float cloudScale, float cloudSpeedMult) {
 
-        CompoundTag data = new CompoundTag();
-        data.putString("type", "explosionSmall");
-        data.putInt("cloudCount", cloudCount);
-        data.putFloat("cloudScale", cloudScale);
-        data.putFloat("cloudSpeedMult", cloudSpeedMult);
-        data.putInt("debris", 15);
+        CompoundTag tag = new CompoundTag();
+        tag.putString("type", "explosionSmall");
+        tag.putInt("cloudCount", cloudCount);
+        tag.putFloat("cloudScale", cloudScale);
+        tag.putFloat("cloudSpeedMult", cloudSpeedMult);
+        tag.putInt("debris", 15);
         if (level instanceof ServerLevel serverLevel) {
-            IParticleCreator.sendPacket(serverLevel, x, y, z, 200, data);
+            IParticleCreator.sendPacket(serverLevel, x, y, z, 200, tag);
         }
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public void makeParticle(ClientLevel level, Player player, RandomSource rand, double x, double y, double z, CompoundTag tag) {
 
         int cloudCount = tag.getInt("cloudCount");

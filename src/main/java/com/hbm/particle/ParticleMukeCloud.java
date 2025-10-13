@@ -9,21 +9,21 @@ public class ParticleMukeCloud extends TextureSheetParticle {
     private final SpriteSet sprites;
     private final float friction;
 
-    public ParticleMukeCloud(ClientLevel world, double x, double y, double z, double mx, double my, double mz, SpriteSet sprites) {
-        super(world, x, y, z, mx, my, mz);
+    public ParticleMukeCloud(ClientLevel level, double x, double y, double z, double mx, double my, double mz, SpriteSet sprites) {
+        super(level, x, y, z);
         this.sprites = sprites;
         this.xd = mx;
         this.yd = my;
         this.zd = mz;
 
-        if (my > 0) {
+        if (yd > 0) {
             this.friction = 0.9F;
-            if (my > 0.1) {
-                this.lifetime = 92 + random.nextInt(11) + (int)(my * 20);
+            if (yd > 0.1) {
+                this.lifetime = 92 + random.nextInt(11) + (int)(yd * 20);
             } else {
                 this.lifetime = 72 + random.nextInt(11);
             }
-        } else if (my == 0) {
+        } else if (yd == 0) {
             this.friction = 0.95F;
             this.lifetime = 52 + random.nextInt(11);
         } else {
@@ -38,14 +38,14 @@ public class ParticleMukeCloud extends TextureSheetParticle {
 
     @Override
     public void tick() {
+
+        this.hasPhysics = this.age >= 2;
+
         this.xo = this.x;
         this.yo = this.y;
         this.zo = this.z;
 
-        if (this.age++ >= this.lifetime) {
-            this.remove();
-            return;
-        }
+        if (this.age++ >= this.lifetime) this.remove();
 
         this.yd -= 0.04D * this.gravity;
         this.move(this.xd, this.yd, this.zd);

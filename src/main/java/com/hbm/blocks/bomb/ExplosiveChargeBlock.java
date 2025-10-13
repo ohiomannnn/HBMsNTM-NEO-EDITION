@@ -1,15 +1,13 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.ModConfigs;
 import com.hbm.entity.item.EntityTNTPrimedBase;
 import com.hbm.entity.logic.NukeExplosionMK5Entity;
 import com.hbm.entity.effect.EntityNukeTorex;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.vanillant.ExplosionVNT;
-import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
-import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
-import com.hbm.explosion.vanillant.standard.EntityProcessorStandard;
-import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
+import com.hbm.explosion.vanillant.standard.*;
 import com.hbm.interfaces.IBomb;
 import com.hbm.particle.helper.ExplosionCreator;
 import net.minecraft.core.BlockPos;
@@ -38,8 +36,8 @@ public class ExplosiveChargeBlock extends DetonatableBlock implements IBomb {
                 ExplosionCreator.composeEffectStandard(level, x + 0.5, y + 1, z + 0.5);
             }
             if (this == ModBlocks.DET_NUKE.get()) {
-                level.addFreshEntity(NukeExplosionMK5Entity.statFac(level, 100, x + 0.5, y + 0.5, z + 0.5));
-                EntityNukeTorex.statFacStandard(level, x + 0.5, y + 0.5, z + 0.5, 100);
+                level.addFreshEntity(NukeExplosionMK5Entity.statFac(level, ModConfigs.COMMON.MISSLE_RADIUS.get(), x + 0.5, y + 0.5, z + 0.5));
+                EntityNukeTorex.statFacStandard(level, x + 0.5, y + 0.5, z + 0.5, ModConfigs.COMMON.MISSLE_RADIUS.get());
             }
         }
         return BombReturnCode.DETONATED;

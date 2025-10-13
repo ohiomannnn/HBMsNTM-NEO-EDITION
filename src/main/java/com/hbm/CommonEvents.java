@@ -1,16 +1,17 @@
 package com.hbm;
 
 import com.hbm.config.FalloutConfigJSON;
+import com.hbm.config.ModConfigs;
 import com.hbm.entity.ModEntities;
 import com.hbm.entity.mob.CreeperNuclear;
-import com.hbm.entity.mob.EntityDuck;
+import com.hbm.entity.mob.Duck;
 import com.hbm.handler.EntityEffectHandler;
 import com.hbm.handler.HTTPHandler;
-import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.inventory.ModMenus;
 import com.hbm.inventory.gui.GUICrateIron;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -21,7 +22,7 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
-import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 import java.io.File;
@@ -54,8 +55,34 @@ public class CommonEvents {
     }
 
     @SubscribeEvent
+    public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
+        if (!event.getEntity().level().isClientSide) {
+            if (ModConfigs.COMMON.ENABLE_MOTD.get()) {
+                Player player = event.getEntity();
+
+                player.sendSystemMessage(Component.literal("Loaded world with Hbm's Nuclear Tech Mod " + HBMsNTM.VERSION + " for Minecraft 1.21.1!"));
+
+//                if (HTTPHandler.newVersion) {
+//                    player.sendSystemMessage(
+//                            Component.literal("New version " + HTTPHandler.versionNumber + " is available! Click ")
+//                                    .withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW))
+//                                    .append(
+//                                            Component.literal("[here]")
+//                                                    .withStyle(Style.EMPTY
+//                                                            .withColor(ChatFormatting.RED)
+//                                                            .withUnderlined(true)
+//                                                            .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/HbmMods/Hbm-s-Nuclear-Tech-GIT/releases"))
+//                                                    )
+//                                    ).append(Component.literal(" to download!").withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)))
+//                    );
+//                }
+            }
+        }
+    }
+
+    @SubscribeEvent
     public static void onEntityAttributeCreation(EntityAttributeCreationEvent event) {
-        event.put(ModEntities.DUCK.get(), EntityDuck.createAttributes().build());
+        event.put(ModEntities.DUCK.get(), Duck.createAttributes().build());
         event.put(ModEntities.CREEPER_NUCLEAR.get(), CreeperNuclear.createAttributes().build());
     }
 

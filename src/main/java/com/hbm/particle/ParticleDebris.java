@@ -12,6 +12,7 @@ import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -28,7 +29,7 @@ public class ParticleDebris extends TextureSheetParticle {
 
     private final BlockRenderDispatcher blockRenderer;
     private WorldInAJar world;
-    private static Random rng = new Random();
+    private static final Random rng = new Random();
 
     public ParticleDebris(ClientLevel level, double x, double y, double z, double mx, double my, double mz) {
         super(level, x, y, z);
@@ -90,43 +91,47 @@ public class ParticleDebris extends TextureSheetParticle {
 
         BlockPos pos = BlockPos.containing(this.x, this.y, this.z);
         int blockLight = level.getBrightness(LightLayer.BLOCK, pos);
-        int skyLight   = level.getBrightness(LightLayer.SKY, pos);
+        int skyLight = level.getBrightness(LightLayer.SKY, pos);
         int packedLight = LightTexture.pack(blockLight, skyLight);
 
-        pose.pushPose();
-        pose.translate(this.x - camX, this.y - camY, this.z - camZ);
+        double interpX = Mth.lerp(partialTicks, this.xo, this.x);
+        double interpY = Mth.lerp(partialTicks, this.yo, this.y);
+        double interpZ = Mth.lerp(partialTicks, this.zo, this.z);
 
-        float angle = (this.age + partialTicks) * 10f;
+        pose.pushPose();
+        pose.translate(interpX - camX, interpY - camY, interpZ - camZ);
+
+        pose.translate(world.sizeX / -2.0D, world.sizeY / -2.0D, world.sizeZ / -2.0D);
+
+        float angle = (this.oRoll + (this.roll - this.oRoll) * partialTicks);
+        pose.translate(world.sizeX / 2.0D, world.sizeY / 2.0D, world.sizeZ / 2.0D);
         pose.mulPose(Axis.YP.rotationDegrees(angle));
         pose.mulPose(Axis.XP.rotationDegrees(angle * 0.5f));
+        pose.translate(-world.sizeX / 2.0D, -world.sizeY / 2.0D, -world.sizeZ / 2.0D);
+        MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
 
-        for (int x = 0; x < world.sizeX; x++) {
-            for (int y = 0; y < world.sizeY; y++) {
-                for (int z = 0; z < world.sizeZ; z++) {
-                    BlockState state = world.getBlock(x, y, z);
-                    if (state.isAir()) continue;
-
-                    pose.pushPose();
-                    pose.translate(
-                            x - world.sizeX / 2.0 + 1.5,
-                            y - world.sizeY / 2.0 + 1.25,
-                            z - world.sizeZ / 2.0 + 1.5
-                    );
-
-                    blockRenderer.renderSingleBlock(
-                            state,
-                            pose,
-                            Minecraft.getInstance().renderBuffers().bufferSource(),
-                            packedLight,
-                            OverlayTexture.NO_OVERLAY,
-                            ModelData.EMPTY,
-                            RenderType.cutout()
-                    );
-
-                    pose.popPose();
+        for (int ix = 0; ix < world.sizeX; ix++) {
+            for (int iy = 0; iy < world.sizeY; iy++) {
+                for (int iz = 0; iz < world.sizeZ; iz++) {
+                    BlockState state = world.getBlock(ix, iy, iz);
+                    if (!state.isAir()) {
+                        pose.pushPose();
+                        pose.translate(ix, iy, iz);
+                        blockRenderer.renderSingleBlock(
+                                state,
+                                pose,
+                                bufferSource,
+                                packedLight,
+                                OverlayTexture.NO_OVERLAY,
+                                ModelData.EMPTY,
+                                RenderType.cutout()
+                        );
+                        pose.popPose();
+                    }
                 }
             }
         }
+
         pose.popPose();
     }
 

@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/** The amount of good decisions in NTM is few and far between, but the VNT explosion surely is one of them. */
 public class EntityProcessorCross implements IEntityProcessor {
 
     protected double nodeDist = 2D;
@@ -166,10 +167,6 @@ public class EntityProcessorCross implements IEntityProcessor {
     }
 
     public float calculateDamage(double distanceScaled, double density, double knockback, float size) {
-        return (float) ((int) ((knockback * knockback + knockback) / 2.0D * 8.0D * size + 1.0D));
-    }
-
-    public float calculateDamage(double knockback, float size) {
         return (float) ((int) ((knockback * knockback + knockback) / 2.0D * 8.0D * size + 1.0D));
     }
 
