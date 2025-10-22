@@ -16,14 +16,23 @@ import com.hbm.render.EmptyRenderer;
 import com.hbm.render.blockentity.RenderCrashedBomb;
 import com.hbm.render.entity.effect.RenderFallout;
 import com.hbm.render.entity.effect.RenderTorex;
+import com.hbm.render.entity.item.RenderTNTPrimedBase;
 import com.hbm.render.entity.mob.EntityDuckRenderer;
 import com.hbm.render.util.RenderInfoSystem;
+import com.hbm.util.Clock;
+import com.hbm.util.DamageResistanceHandler;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.SplashRenderer;
 import net.minecraft.client.gui.screens.LevelLoadingScreen;
 import net.minecraft.client.gui.screens.ReceivingLevelScreen;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.CreeperRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.particles.ParticleTypes;
@@ -32,7 +41,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -44,6 +52,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -53,8 +62,10 @@ import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
+import java.lang.reflect.Field;
 import java.util.List;
 
 @Mod(value = HBMsNTM.MODID, dist = Dist.CLIENT)
@@ -96,6 +107,10 @@ public class HBMsNTMClient {
     public static final int ID_TOOLABILITY = 11;
     public static final int ID_GAS_HAZARD = 12;
 
+    public static void displayTooltip(Component component, int id) {
+        displayTooltip(component, 1000, id);
+    }
+
     public static void displayTooltip(Component component, int time, int id) {
         RenderInfoSystem.InfoEntry entry = new RenderInfoSystem.InfoEntry(component, time);
         if (id != 0) {
@@ -110,7 +125,7 @@ public class HBMsNTMClient {
     public static final int shakeDuration = 1_500;
     public static long shakeTimestamp;
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onRenderGuiPre(RenderGuiEvent.Pre event) {
         if (!ModConfigs.CLIENT.NUKE_HUD_SHAKE.get()) return;
 
@@ -128,22 +143,76 @@ public class HBMsNTMClient {
     }
 
     @SubscribeEvent
+    public static void onOpenGUI(ScreenEvent.Opening  event) {
+        if (event.getScreen() instanceof TitleScreen main && ModConfigs.CLIENT.MAIN_MENU_WACKY_SPLASHES.get()) {
+            String text;
+            int rand = (int) (Math.random() * 150);
+            text = switch (rand) {
+                case 0 -> "Floppenheimer!";
+                case 1 -> "i should dip my balls in sulfuric acid";
+                case 2 -> "All answers are popbob!";
+                case 3 -> "None may enter The Orb!";
+                case 4 -> "Wacarb was here";
+                case 5 -> "SpongeBoy me Bob I am overdosing on keramine agagagagaga";
+                case 6 -> ChatFormatting.RED + "I know where you live, " + System.getProperty("user.name");
+                case 7 -> "Nice toes, now hand them over.";
+                case 8 -> "I smell burnt toast!";
+                case 9 -> "There are bugs under your skin!";
+                case 10 -> "Fentanyl!";
+                case 11 -> "Do drugs!";
+                case 12 -> "Imagine being scared by splash texts!";
+                default -> " ";
+            };
+
+            double d = Math.random();
+            if (d < 0.1) text = "Redditors aren't people!";
+            else if (d < 0.2) text = "Can someone tell me what corrosive fumes the people on Reddit are huffing so I can avoid those more effectively?";
+
+            if (text.equals(" ")) return;
+
+            try {
+                Field splashField = TitleScreen.class.getDeclaredField("splash");
+                splashField.setAccessible(true);
+
+                splashField.set(main, new SplashRenderer(text));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @SubscribeEvent
     public static void onRenderGuiPost(RenderGuiEvent.Post event) {
-        if (!ModConfigs.CLIENT.NUKE_HUD_FLASH.get()) return;
 
-        long now = System.currentTimeMillis();
-        long end = flashTimestamp + flashDuration;
-
-        if (now < end) {
-            float brightness = (end - now) / (float) flashDuration;
-
-            GuiGraphics guiGraphics = event.getGuiGraphics();
+        /// NUKE FLASH ///
+        if (ModConfigs.CLIENT.NUKE_HUD_FLASH.get() && (flashTimestamp + flashDuration - Clock.getMs()) > 0) {
+            float brightness = (flashTimestamp + flashDuration - Clock.getMs()) / (float) flashDuration;
             Minecraft mc = Minecraft.getInstance();
             int width = mc.getWindow().getGuiScaledWidth();
             int height = mc.getWindow().getGuiScaledHeight();
 
-            guiGraphics.fill(0, 0, width, height,
-                    FastColor.ARGB32.color((int)(brightness * 255), 255, 255, 255));
+            // finally!
+            RenderSystem.enableBlend();
+            RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+            RenderSystem.disableDepthTest();
+            RenderSystem.depthMask(false);
+
+            RenderSystem.setShader(GameRenderer::getPositionColorShader);
+
+            Tesselator tess = Tesselator.getInstance();
+            BufferBuilder buf = tess.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+
+            int alpha = (int)(brightness * 255.0F);
+            buf.addVertex(width, 0, 0).setColor(255, 255, 255, alpha);
+            buf.addVertex(0, 0, 0).setColor(255, 255, 255, alpha);
+            buf.addVertex(0, height, 0).setColor(255, 255, 255, alpha);
+            buf.addVertex(width, height, 0).setColor(255, 255, 255, alpha);
+
+            BufferUploader.drawWithShader(buf.buildOrThrow());
+
+            RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            RenderSystem.enableDepthTest();
+            RenderSystem.depthMask(true);
         }
     }
 
@@ -183,8 +252,16 @@ public class HBMsNTMClient {
     }
 
     @SubscribeEvent
+    public static void onRenderWorldLast(RenderLevelStageEvent event) {
+        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS) {
+            Clock.update();
+        }
+    }
+
+    @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.DUCK.get(), EntityDuckRenderer::new);
+        event.registerEntityRenderer(ModEntities.TNT_PRIMED_BASE.get(), RenderTNTPrimedBase::new);
         event.registerEntityRenderer(ModEntities.CREEPER_NUCLEAR.get(), CreeperRenderer::new);
         event.registerEntityRenderer(ModEntities.NUKE_MK5.get(), EmptyRenderer::new);
         event.registerEntityRenderer(ModEntities.NUKE_BALEFIRE.get(), EmptyRenderer::new);
@@ -203,6 +280,8 @@ public class HBMsNTMClient {
     public static void drawTooltip(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();
         List<Component> list = event.getToolTip();
+
+        DamageResistanceHandler.addInfo(stack, list);
 
         HazardSystem.addFullTooltip(stack, list);
     }

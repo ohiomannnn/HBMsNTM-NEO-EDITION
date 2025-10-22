@@ -1,6 +1,6 @@
 package com.hbm.entity.mob;
 
-import com.hbm.entity.logic.NukeExplosionMK5Entity;
+import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.lib.ModSounds;
@@ -90,7 +90,7 @@ public class CreeperNuclear extends Creeper {
                 this.level().playSound(null, this.blockPosition(), ModSounds.MUKE_EXPLOSION.get(), SoundSource.HOSTILE, 15.0F, 1.0F);
 
                 if (mobGriefing) {
-                    this.level().addFreshEntity(NukeExplosionMK5Entity.statFac(this.level(), 50, this.getX(), this.getY(), this.getZ()));
+                    this.level().addFreshEntity(NukeExplosionMK5.statFac(this.level(), 50, this.getX(), this.getY(), this.getZ()));
                 } else {
                     ExplosionNukeGeneric.dealDamage(this.level(), this.getX(), this.getY() + 0.5, this.getZ(), 100);
                 }

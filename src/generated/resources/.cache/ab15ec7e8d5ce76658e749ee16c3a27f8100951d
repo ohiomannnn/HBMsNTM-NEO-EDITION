@@ -1,4 +1,4 @@
-// 1.21.1	2025-10-03T20:43:15.9082889	Block States: hbmsntm
+// 1.21.1	2025-10-14T19:44:02.378431	Block States: hbmsntm
 e8340ddc239ba0ae184061ecba8c3f2e670052e2 assets/hbmsntm/blockstates/ash_digamma.json
 97af216562dddba4cd988781ea2758891f1b351c assets/hbmsntm/blockstates/balefire.json
 207543ff4de229b11233bb7880e59ac944437acd assets/hbmsntm/blockstates/block_scrap.json
@@ -18,6 +18,7 @@ f7de92855db3fc43cd86f243dd9ee311617b9194 assets/hbmsntm/blockstates/brick_concre
 16dabb057f090773f3dccfc8530971ad5444b928 assets/hbmsntm/blockstates/brick_light.json
 0c75f135180d3edf11ec02c98a150d6f728a86ff assets/hbmsntm/blockstates/brick_obsidian.json
 53f027d7042f2b8253fefdfd6fb83a7edd054b9d assets/hbmsntm/blockstates/det_charge.json
+7aad041f7d1ed8d2b193dbf3852fc44b85736acb assets/hbmsntm/blockstates/det_miner.json
 8043745dad9844259c00643ffca7f3e813880f3e assets/hbmsntm/blockstates/det_nuke.json
 974603165a9ccc46a121002e22e07b4dc1457327 assets/hbmsntm/blockstates/fallout.json
 86a7ed995f5f6c2b3c905a5600190e9dc3674af5 assets/hbmsntm/blockstates/fire_digamma.json
@@ -80,6 +81,7 @@ dca5ee60c29b98dba72e101879033179ccaf1e89 assets/hbmsntm/models/block/brick_concr
 5f42f6a62d630a787d008b94367668c9d9d8328a assets/hbmsntm/models/block/brick_light.json
 985f680e097dab2b6a68438f2103dfcea50ac544 assets/hbmsntm/models/block/brick_obsidian.json
 ce6e04c09adb56ed1f166105eac5f7c5ccd1c364 assets/hbmsntm/models/block/det_charge.json
+96d3b591d5dca732891ea4d886a33641f0f57153 assets/hbmsntm/models/block/det_miner.json
 49fd0c2d8243b09ba7e51c992946bafbea6cb2e8 assets/hbmsntm/models/block/det_nuke.json
 dcc91bb9e5ef166db64efea541ef02c0c061caa0 assets/hbmsntm/models/block/fallout.json
 d61376e81dae7784d306c534a506a1b9b90ba26c assets/hbmsntm/models/block/fire_digamma.json
@@ -150,6 +152,7 @@ fdc5f928686c935ce6d0ffc4b755869db2fb5f69 assets/hbmsntm/models/item/brick_concre
 d97904e058e4ab80df4efbe99a8b40150f9129ce assets/hbmsntm/models/item/brick_light.json
 a83e20c03c4848b47825402d698d77c636c17c61 assets/hbmsntm/models/item/brick_obsidian.json
 5fb670d120a00cb7a7e8a604c0c96e3dbf8988db assets/hbmsntm/models/item/det_charge.json
+c2fb78c956b61bdab320f1d73a43f93d70c68918 assets/hbmsntm/models/item/det_miner.json
 8539331ab631f3a489308bcf166f548cfac56521 assets/hbmsntm/models/item/det_nuke.json
 845c87079ccf9c44ddabd4ecddcf10664b8fe1cf assets/hbmsntm/models/item/fire_digamma.json
 ef2f43343b116f925943cb924708be1a63b2919f assets/hbmsntm/models/item/gravel_obsidian.json

@@ -5,9 +5,8 @@ import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.ModConfigs;
 import com.hbm.entity.ModEntities;
-import com.hbm.entity.item.EntityTNTPrimedBase;
-import com.hbm.entity.logic.NukeExplosionBalefireEntity;
-import com.hbm.entity.logic.NukeExplosionMK5Entity;
+import com.hbm.entity.logic.NukeExplosionBalefire;
+import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
@@ -49,7 +48,7 @@ public class CrashedBombBlock extends Block implements IBomb, EntityBlock {
             level.setBlock(new BlockPos(x, y, z), Blocks.AIR.defaultBlockState(), 3);
 
             if (this == ModBlocks.CRASHED_BOMB_BALEFIRE.get()) {
-                NukeExplosionBalefireEntity bf = new NukeExplosionBalefireEntity(ModEntities.NUKE_BALEFIRE.get(), level);
+                NukeExplosionBalefire bf = new NukeExplosionBalefire(ModEntities.NUKE_BALEFIRE.get(), level);
                 bf.setPos(x, y, z);
                 bf.destructionRange = (int) (ModConfigs.COMMON.FATMAN_RADIUS.get() * 1.25);
                 level.addFreshEntity(bf);
@@ -65,11 +64,11 @@ public class CrashedBombBlock extends Block implements IBomb, EntityBlock {
                 ExplosionCreator.composeEffectLarge(level, x + 0.5, y + 0.5, z + 0.5);
             }
             if (this == ModBlocks.CRASHED_BOMB_NUKE.get()) {
-                level.addFreshEntity(NukeExplosionMK5Entity.statFac(level, 35, x + 0.5, y + 0.5, z + 0.5));
+                level.addFreshEntity(NukeExplosionMK5.statFac(level, 35, x + 0.5, y + 0.5, z + 0.5));
                 spawnMush(level, x, y, z, CommonEvents.polaroidID == 11 || level.random.nextInt(100) == 0);
             }
             if (this == ModBlocks.CRASHED_BOMB_SALTED.get()) {
-                level.addFreshEntity(NukeExplosionMK5Entity.statFac(level, 25, x + 0.5, y + 0.5, z + 0.5).moreFallout(25));
+                level.addFreshEntity(NukeExplosionMK5.statFac(level, 25, x + 0.5, y + 0.5, z + 0.5).moreFallout(25));
                 spawnMush(level, x, y, z, CommonEvents.polaroidID == 11 || level.random.nextInt(100) == 0);
             }
         }

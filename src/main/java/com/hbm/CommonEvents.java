@@ -11,7 +11,12 @@ import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.inventory.ModMenus;
 import com.hbm.inventory.gui.GUICrateIron;
+import com.hbm.lib.ModCommands;
+import com.hbm.util.DamageResistanceHandler;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -21,6 +26,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
@@ -38,20 +44,17 @@ public class CommonEvents {
     public static void commonSetup(FMLCommonSetupEvent event) {
 
         configDir = FMLPaths.CONFIGDIR.get().toFile();
-
         configHbmDir = new File(configDir, "hbmConfig");
 
-        if (!configHbmDir.exists()) {
-            configHbmDir.mkdirs();
-        }
+        if (!configHbmDir.exists()) configHbmDir.mkdirs();
 
         HBMsNTM.LOGGER.info("Let us celebrate the fact that the logger finally works again!");
 
         HTTPHandler.loadStats();
         FalloutConfigJSON.initialize();
         FalloutConfigJSON.initDefault();
+        DamageResistanceHandler.init();
         HazardRegistry.registerItems();
-
     }
 
     @SubscribeEvent
@@ -62,20 +65,20 @@ public class CommonEvents {
 
                 player.sendSystemMessage(Component.literal("Loaded world with Hbm's Nuclear Tech Mod " + HBMsNTM.VERSION + " for Minecraft 1.21.1!"));
 
-//                if (HTTPHandler.newVersion) {
-//                    player.sendSystemMessage(
-//                            Component.literal("New version " + HTTPHandler.versionNumber + " is available! Click ")
-//                                    .withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW))
-//                                    .append(
-//                                            Component.literal("[here]")
-//                                                    .withStyle(Style.EMPTY
-//                                                            .withColor(ChatFormatting.RED)
-//                                                            .withUnderlined(true)
-//                                                            .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/HbmMods/Hbm-s-Nuclear-Tech-GIT/releases"))
-//                                                    )
-//                                    ).append(Component.literal(" to download!").withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)))
-//                    );
-//                }
+                if (HTTPHandler.newVersion) {
+                    player.sendSystemMessage(
+                            Component.literal("New version " + HTTPHandler.versionNumber + " is available! Click ")
+                                    .withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW))
+                                    .append(
+                                            Component.literal("[here]")
+                                                    .withStyle(Style.EMPTY
+                                                            .withColor(ChatFormatting.RED)
+                                                            .withUnderlined(true)
+                                                            .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/ohiomannnn/HBMsNTM-NEO-EDITION/releases"))
+                                                    )
+                                    ).append(Component.literal(" to download!").withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)))
+                    );
+                }
             }
         }
     }
@@ -101,6 +104,7 @@ public class CommonEvents {
             EntityEffectHandler.tick(livingEntity);
         }
     }
+
     public static int polaroidID = 1;
     public static int generalOverride = 0;
 
@@ -116,5 +120,10 @@ public class CommonEvents {
     @SubscribeEvent
     public static void registerScreens(RegisterMenuScreensEvent event) {
         event.register(ModMenus.IRON_CRATE.get(), GUICrateIron::new);
+    }
+
+    @SubscribeEvent
+    public static void registerCommands(RegisterCommandsEvent event) {
+        ModCommands.registerCommandLivingProperties(event.getDispatcher());
     }
 }

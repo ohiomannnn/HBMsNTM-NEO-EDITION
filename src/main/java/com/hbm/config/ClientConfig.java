@@ -11,6 +11,8 @@ public class ClientConfig {
     public final ModConfigSpec.IntValue INFO_OFFSET_HORIZONTAL;
     public final ModConfigSpec.IntValue INFO_OFFSET_VERTICAL;
 
+    public final ModConfigSpec.BooleanValue MAIN_MENU_WACKY_SPLASHES;
+
     ClientConfig(ModConfigSpec.Builder builder) {
 
         NUKE_HUD_FLASH = builder
@@ -35,5 +37,10 @@ public class ClientConfig {
                 .comment("Vertical info offset.")
                 .translation("hbmsntm.configuration.infoOffsetVertical")
                 .defineInRange("infoOffsetVertical", 0, -Integer.MAX_VALUE, Integer.MAX_VALUE);
+
+        MAIN_MENU_WACKY_SPLASHES = builder
+                .comment("Toggles wacky splashes in the main menu.")
+                .translation("hbmsntm.configuration.mainMenuWackySplashes")
+                .define("mainMenuWackySplashes", true);
     }
 }

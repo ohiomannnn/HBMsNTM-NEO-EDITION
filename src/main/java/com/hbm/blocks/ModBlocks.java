@@ -256,15 +256,23 @@ public class ModBlocks {
             () -> new ExplosiveChargeBlock(BlockBehaviour.Properties.of()
                     .strength(0.1F)
                     .explosionResistance(0.0F)
+                    .noLootTable()
                     .sound(SoundType.METAL)
             ));
     public static final DeferredBlock<Block> DET_NUKE = registerBlock("det_nuke",
             () -> new ExplosiveChargeBlock(BlockBehaviour.Properties.of()
                     .strength(0.1F)
                     .explosionResistance(0.0F)
+                    .noLootTable()
                     .sound(SoundType.METAL)
             ));
-
+    public static final DeferredBlock<Block> DET_MINER = registerBlock("det_miner",
+            () -> new DetMinerBlock(BlockBehaviour.Properties.of()
+                    .strength(0.1F)
+                    .explosionResistance(0.0F)
+                    .noLootTable()
+                    .sound(SoundType.METAL)
+            ));
     public static final DeferredBlock<Block> CRASHED_BOMB_BALEFIRE = registerBlock("crashed_bomb_balefire",
             () -> new CrashedBombBlock(BlockBehaviour.Properties.of()
                     .noLootTable()
@@ -292,6 +300,16 @@ public class ModBlocks {
                     .noOcclusion()
                     .strength(6000.0F)
                     .sound(SoundType.METAL)
+            ));
+
+    public static final DeferredBlock<Block> RED_BARREL = registerBlock("red_barrel",
+            () -> new RedBarrelBlock(BlockBehaviour.Properties.of()
+                    .noOcclusion()
+                    .noLootTable()
+                    .strength(0.1F)
+                    .explosionResistance(2.5F)
+                    .sound(SoundType.METAL),
+                    true
             ));
 
 

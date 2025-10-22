@@ -1,4 +1,4 @@
-// 1.21.1	2025-09-30T20:23:48.4313988	Loot Tables
+// 1.21.1	2025-10-14T19:44:02.3851054	Loot Tables
 eac8a22bbbe46547e5766382333e7b0da2210cc9 data/hbmsntm/loot_table/blocks/ash_digamma.json
 44f58b205fd65042e1dd5cff6d97a3a633b276c8 data/hbmsntm/loot_table/blocks/block_scrap.json
 c1aaf32a287ab64726324810389b645df0c72de9 data/hbmsntm/loot_table/blocks/brick_concrete.json
@@ -16,8 +16,6 @@ dbcd020ca2298196bfb1cee4f82f2bac59a088b1 data/hbmsntm/loot_table/blocks/brick_co
 adf18cd89a4528553264ba0a33035cb267198101 data/hbmsntm/loot_table/blocks/brick_concrete_stairs.json
 d763aa84d0c1af7ac651ab127ffb9d3778c2acac data/hbmsntm/loot_table/blocks/brick_light.json
 6303f66f42b07ec8248898b5294280b98e916f94 data/hbmsntm/loot_table/blocks/brick_obsidian.json
-5125b2f4feb18b31f27dc51026f3f65a8978c56b data/hbmsntm/loot_table/blocks/det_charge.json
-57b2d1929b2116f6717919e316f39b204eb23be6 data/hbmsntm/loot_table/blocks/det_nuke.json
 21673d1c94963fa3fea8750931698805941952ce data/hbmsntm/loot_table/blocks/gravel_obsidian.json
 0479680fc9040a16b6f62afaecba57de47969da2 data/hbmsntm/loot_table/blocks/ore_gneiss_schrabidium.json
 d64f51cec98b0fc22c518af2c0ffd5caa2d93da4 data/hbmsntm/loot_table/blocks/ore_gneiss_uranium.json

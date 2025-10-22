@@ -1,35 +1,39 @@
 package com.hbm.handler.radiation;
 
+import com.hbm.HBMsNTM;
 import com.hbm.config.ModConfigs;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.level.ChunkDataEvent;
 import net.neoforged.neoforge.event.level.ChunkEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 
+@EventBusSubscriber(modid = HBMsNTM.MODID)
 public class ChunkRadiationManager {
 
-    // for now its final TODO: make another handlers
+    // for now its final
+    // TODO: make another handlers
     public static final ChunkRadiationHandler proxy = new ChunkRadiationHandlerSimple();
 
     private static int eggTimer = 0;
 
     @SubscribeEvent
-    public void onWorldLoad(LevelEvent.Load event) {
+    public static void onWorldLoad(LevelEvent.Load event) {
         if (event.getLevel().isClientSide()) return;
         if (!ModConfigs.COMMON.ENABLE_CHUNK_RADS.get()) return;
         proxy.receiveWorldLoad(event);
     }
 
     @SubscribeEvent
-    public void onWorldUnload(LevelEvent.Unload event) {
+    public static void onWorldUnload(LevelEvent.Unload event) {
         if (event.getLevel().isClientSide()) return;
         if (!ModConfigs.COMMON.ENABLE_CHUNK_RADS.get()) return;
         proxy.receiveWorldUnload(event);
     }
 
     @SubscribeEvent
-    public void onChunkDataLoad(ChunkDataEvent.Load event) {
+    public static void onChunkDataLoad(ChunkDataEvent.Load event) {
         if (event.getLevel() == null) return;
         if (event.getLevel().isClientSide()) return;
         if (!ModConfigs.COMMON.ENABLE_CHUNK_RADS.get()) return;
@@ -37,7 +41,7 @@ public class ChunkRadiationManager {
     }
 
     @SubscribeEvent
-    public void onChunkSave(ChunkDataEvent.Save event) {
+    public static void onChunkSave(ChunkDataEvent.Save event) {
         if (event.getLevel() == null) return;
         if (event.getLevel().isClientSide()) return;
         if (!ModConfigs.COMMON.ENABLE_CHUNK_RADS.get()) return;
@@ -45,14 +49,14 @@ public class ChunkRadiationManager {
     }
 
     @SubscribeEvent
-    public void onChunkUnload(ChunkEvent.Unload event) {
+    public static void onChunkUnload(ChunkEvent.Unload event) {
         if (event.getLevel().isClientSide()) return;
         if (!ModConfigs.COMMON.ENABLE_CHUNK_RADS.get()) return;
         proxy.receiveChunkUnload(event);
     }
 
     @SubscribeEvent
-    public void onServerTick(ServerTickEvent.Pre event) {
+    public static void onServerTick(ServerTickEvent.Pre event) {
         if (!ModConfigs.COMMON.ENABLE_CHUNK_RADS.get()) return;
 
         eggTimer++;

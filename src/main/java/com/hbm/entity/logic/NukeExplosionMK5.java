@@ -3,7 +3,7 @@ package com.hbm.entity.logic;
 import com.hbm.HBMsNTM;
 import com.hbm.config.ModConfigs;
 import com.hbm.entity.ModEntities;
-import com.hbm.entity.effect.EntityFalloutRain;
+import com.hbm.entity.effect.FalloutRain;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeRayBatched;
 import com.hbm.interfaces.IExplosionRay;
@@ -22,7 +22,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-public class NukeExplosionMK5Entity extends ChunkloadingEntity {
+public class NukeExplosionMK5 extends ChunkloadingEntity {
 
     //Strength of the blast
     public int strength;
@@ -35,7 +35,7 @@ public class NukeExplosionMK5Entity extends ChunkloadingEntity {
 
     private IExplosionRay explosion;
 
-    public NukeExplosionMK5Entity(EntityType<?> type, Level level) {
+    public NukeExplosionMK5(EntityType<?> type, Level level) {
         super(type, level);
     }
 
@@ -74,7 +74,7 @@ public class NukeExplosionMK5Entity extends ChunkloadingEntity {
                 HBMsNTM.LOGGER.info("[NUKE] Explosion complete. Time elapsed: {}ms", (System.currentTimeMillis() - explosionStart));
             }
             if (fallout) {
-                EntityFalloutRain fallout = new EntityFalloutRain(ModEntities.FALLOUT_RAIN.get(), level());
+                FalloutRain fallout = new FalloutRain(ModEntities.FALLOUT_RAIN.get(), level());
                 fallout.setPos(getX(), getY(), getZ());
                 fallout.setScale((int) (this.length * 2.5 + falloutAdd) * ModConfigs.COMMON.FALLOUT_RANGE.get() / 100);
                 level().addFreshEntity(fallout);
@@ -130,7 +130,7 @@ public class NukeExplosionMK5Entity extends ChunkloadingEntity {
         tag.putInt("tickCount", this.tickCount);
     }
 
-    public static NukeExplosionMK5Entity statFac(Level level, int strength, double x, double y, double z) {
+    public static NukeExplosionMK5 statFac(Level level, int strength, double x, double y, double z) {
         if (ModConfigs.COMMON.ENABLE_EXTENDED_LOGGING.get() && !level.isClientSide) {
             HBMsNTM.LOGGER.info("[NUKE] Initialized explosion at {} / {} / {} with strength {}!", x, y, z, strength);
         }
@@ -138,7 +138,7 @@ public class NukeExplosionMK5Entity extends ChunkloadingEntity {
         if (strength == 0) strength = 25;
         strength *= 2;
 
-        NukeExplosionMK5Entity mk5 = new NukeExplosionMK5Entity(ModEntities.NUKE_MK5.get(), level);
+        NukeExplosionMK5 mk5 = new NukeExplosionMK5(ModEntities.NUKE_MK5.get(), level);
         mk5.strength = strength;
         mk5.speed = (int) Math.ceil(100000D / mk5.strength);
         mk5.setPos(x, y, z);
@@ -146,13 +146,13 @@ public class NukeExplosionMK5Entity extends ChunkloadingEntity {
         return mk5;
     }
 
-    public static NukeExplosionMK5Entity statFacNoRad(Level level, int strength, double x, double y, double z) {
-        NukeExplosionMK5Entity mk5 = statFac(level, strength, x, y, z);
+    public static NukeExplosionMK5 statFacNoRad(Level level, int strength, double x, double y, double z) {
+        NukeExplosionMK5 mk5 = statFac(level, strength, x, y, z);
         mk5.fallout = false;
         return mk5;
     }
 
-    public NukeExplosionMK5Entity moreFallout(int fallout) {
+    public NukeExplosionMK5 moreFallout(int fallout) {
         falloutAdd = fallout;
         return this;
     }

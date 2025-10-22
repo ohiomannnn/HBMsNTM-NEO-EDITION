@@ -2,8 +2,8 @@ package com.hbm.render.entity.effect;
 
 import com.hbm.HBMsNTM;
 import com.hbm.HBMsNTMClient;
-import com.hbm.entity.effect.EntityNukeTorex;
-import com.hbm.entity.effect.EntityNukeTorex.Cloudlet;
+import com.hbm.entity.effect.NukeTorex;
+import com.hbm.entity.effect.NukeTorex.Cloudlet;
 import com.hbm.render.CustomRenderTypes;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix3f;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
 
-public class RenderTorex extends EntityRenderer<EntityNukeTorex> {
+public class RenderTorex extends EntityRenderer<NukeTorex> {
 
     private static final ResourceLocation CLOUDLET = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/particle_base.png");
     private static final ResourceLocation FLASH = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/flare.png");
@@ -38,20 +39,14 @@ public class RenderTorex extends EntityRenderer<EntityNukeTorex> {
     }
 
     @Override
-    public void render(EntityNukeTorex entity, float yaw, float partialTicks, PoseStack pose, MultiBufferSource buffers, int packedLight) {
+    public void render(NukeTorex entity, float yaw, float partialTicks, PoseStack pose, MultiBufferSource buffers, int packedLight) {
+
         pose.pushPose();
         pose.translate(0, 0, 0);
-
         cloudletWrapper(entity, partialTicks, pose, buffers);
-        if (entity.tickCount < 101) {
-            flashWrapper(entity, partialTicks, pose, buffers);
-        }
-
-        if (entity.tickCount < 10 && System.currentTimeMillis() - HBMsNTMClient.flashTimestamp > 1000) {
-            HBMsNTMClient.flashTimestamp = System.currentTimeMillis();
-        }
-
-        if (entity.didPlaySound && !entity.didShake && System.currentTimeMillis() - HBMsNTMClient.shakeTimestamp > 1000) {
+        if (entity.tickCount < 101) flashWrapper(entity, partialTicks, pose, buffers);
+        if (entity.tickCount < 10 && System.currentTimeMillis() - HBMsNTMClient.flashTimestamp > 1_000) HBMsNTMClient.flashTimestamp = System.currentTimeMillis();
+        if (entity.didPlaySound && !entity.didShake && System.currentTimeMillis() - HBMsNTMClient.shakeTimestamp > 1_000) {
             HBMsNTMClient.shakeTimestamp = System.currentTimeMillis();
             entity.didShake = true;
             Player player = Minecraft.getInstance().player;
@@ -62,7 +57,6 @@ public class RenderTorex extends EntityRenderer<EntityNukeTorex> {
         }
 
         pose.popPose();
-        super.render(entity, yaw, partialTicks, pose, buffers, packedLight);
     }
 
     private final Comparator<Cloudlet> cloudSorter = (a, b) -> {
@@ -73,22 +67,22 @@ public class RenderTorex extends EntityRenderer<EntityNukeTorex> {
         return Double.compare(d2, d1);
     };
 
-    private void cloudletWrapper(EntityNukeTorex cloud, float partialTicks, PoseStack pose, MultiBufferSource buffers) {
+    private void cloudletWrapper(NukeTorex cloud, float partialTicks, PoseStack pose, MultiBufferSource buffers) {
         VertexConsumer consumer = buffers.getBuffer(RenderType.entityTranslucent(CLOUDLET));
 
         ArrayList<Cloudlet> cloudlets = new ArrayList<>(cloud.cloudlets);
         cloudlets.sort(cloudSorter);
 
-        for (Cloudlet c : cloudlets) {
-            Vec3 vec = c.getInterpPos(partialTicks);
+        for (Cloudlet cloudlet : cloudlets) {
+            Vec3 vec = cloudlet.getInterpPos(partialTicks);
             double x = vec.x - cloud.getX();
             double y = vec.y - cloud.getY();
             double z = vec.z - cloud.getZ();
-            renderCloudlet(consumer, pose, x, y, z, c, partialTicks);
+            renderCloudlet(consumer, pose, x, y, z, cloudlet, partialTicks);
         }
     }
 
-    private void flashWrapper(EntityNukeTorex cloud, float partialTicks, PoseStack pose, MultiBufferSource buffers) {
+    private void flashWrapper(NukeTorex cloud, float partialTicks, PoseStack pose, MultiBufferSource buffers) {
         VertexConsumer consumer = buffers.getBuffer(CustomRenderTypes.additive(FLASH));
 
         double age = Math.min(cloud.tickCount + partialTicks, 100);
@@ -104,19 +98,16 @@ public class RenderTorex extends EntityRenderer<EntityNukeTorex> {
     }
 
     private void renderCloudlet(VertexConsumer consumer, PoseStack pose, double px, double py, double pz, Cloudlet cloud, float partialTicks) {
+
         float alpha = cloud.getAlpha();
         float scale = cloud.getScale();
 
-        float brightness = cloud.type == EntityNukeTorex.TorexType.CONDENSATION ? 0.9F : 0.75F * cloud.colorMod;
+        float brightness = cloud.type == NukeTorex.TorexType.CONDENSATION ? 0.9F : 0.75F * cloud.colorMod;
         Vec3 color = cloud.getInterpColor(partialTicks);
 
-        float r = (float)Math.max(color.x, 0.25);
-        float g = (float)Math.max(color.y, 0.25);
-        float b = (float)Math.max(color.z, 0.25);
-
-        r = Math.min(r * brightness, 1.0f);
-        g = Math.min(g * brightness, 1.0f);
-        b = Math.min(b * brightness, 1.0f);
+        float r = (float) Mth.clamp((color.x * brightness), 0.0F, 1.0F);
+        float g = (float) Mth.clamp((color.y * brightness), 0.0F, 1.0F);
+        float b = (float) Mth.clamp((color.z * brightness), 0.0F, 1.0F);
 
         drawBillboardQuad(consumer, pose, px, py, pz, scale, r, g, b, alpha);
     }
@@ -164,7 +155,7 @@ public class RenderTorex extends EntityRenderer<EntityNukeTorex> {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(EntityNukeTorex entity) {
+    public ResourceLocation getTextureLocation(NukeTorex entity) {
         return null;
     }
 }

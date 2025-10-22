@@ -63,6 +63,7 @@
   "hbmsntm.configuration.infoPosition": "Info Position",
   "hbmsntm.configuration.nukeHudFlash": "Nuke Flash",
   "hbmsntm.configuration.nukeHudShake": "Nuke Shake",
+  "hbmsntm.configuration.mainMenuWackySplashes": "Main Menu Wacky Splashes",
 
   "hbmsntm.configuration.crate_keep_contents": "Keep Crate Contents",
   "hbmsntm.configuration.taint_trails": "Taint trails",
@@ -150,6 +151,18 @@
   "bomb.missingComponent": "Component missing!",
   "bomb.nobomb": "Linked position incompatible or unloaded!",
   "bomb.triggered": "Triggered successfully!",
+
+  "damage.inset": "Resistances when worn in set:",
+  "damage.item": "Resistances when worn:",
+  "damage.category.EXPLOSION": "Explosion",
+  "damage.category.FIRE": "Fire",
+  "damage.category.PHYSICAL": "Physical",
+  "damage.category.ENERGY": "Energy",
+  "damage.exact.minecraft:drown": "Drowning",
+  "damage.exact.minecraft:fall": "Fall damage",
+  "damage.exact.LASER": "Laser",
+  "damage.exact.minecraft:on_fire": "Afterburn",
+  "damage.other": "Other",
 
   "geiger.title": "GEIGER COUNTER",
   "geiger.title.dosimeter": "DOSIMETER",

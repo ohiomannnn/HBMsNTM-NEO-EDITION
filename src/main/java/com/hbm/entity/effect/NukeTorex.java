@@ -26,11 +26,11 @@ import java.util.List;
  * Toroidial Convection Simulation Explosion Effect
  * Tor                             Ex
  */
-public class EntityNukeTorex extends Entity {
+public class NukeTorex extends Entity {
 
-    private static final EntityDataAccessor<Float> SCALE = SynchedEntityData.defineId(EntityNukeTorex.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> SCALE = SynchedEntityData.defineId(NukeTorex.class, EntityDataSerializers.FLOAT);
     // balefire or not
-    private static final EntityDataAccessor<Integer> TYPE = SynchedEntityData.defineId(EntityNukeTorex.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> TYPE = SynchedEntityData.defineId(NukeTorex.class, EntityDataSerializers.INT);
 
     public double coreHeight = 3;
     public double convectionHeight = 3;
@@ -43,7 +43,7 @@ public class EntityNukeTorex extends Entity {
     public boolean didPlaySound = false;
     public boolean didShake = false;
 
-    public EntityNukeTorex(EntityType<? extends EntityNukeTorex> type, Level level) {
+    public NukeTorex(EntityType<? extends NukeTorex> type, Level level) {
         super(type, level);
         this.noPhysics = true;
         this.setInvulnerable(true);
@@ -186,7 +186,7 @@ public class EntityNukeTorex extends Entity {
         }
     }
 
-    public EntityNukeTorex setScale(float scale) {
+    public NukeTorex setScale(float scale) {
         if (!level().isClientSide) this.entityData.set(SCALE, scale);
         this.coreHeight = this.coreHeight / 1.5D * scale;
         this.convectionHeight = this.convectionHeight / 1.5D * scale;
@@ -195,7 +195,7 @@ public class EntityNukeTorex extends Entity {
         return this;
     }
 
-    public EntityNukeTorex setType(int type) {
+    public NukeTorex setType(int type) {
         this.entityData.set(TYPE, type);
         return this;
     }
@@ -205,7 +205,7 @@ public class EntityNukeTorex extends Entity {
         int lifetime = getMaxAge();
         int simSlow = lifetime / 4;
         int simStop = lifetime / 2;
-        int life = EntityNukeTorex.this.tickCount;
+        int life = NukeTorex.this.tickCount;
 
         if (life > simStop) {
             return 0D;
@@ -237,7 +237,7 @@ public class EntityNukeTorex extends Entity {
 
         int lifetime = getMaxAge();
         int fadeOut = lifetime * 3 / 4;
-        int life = EntityNukeTorex.this.tickCount;
+        int life = NukeTorex.this.tickCount;
 
         if(life > fadeOut) {
             float fac = (float)(life - fadeOut) / (float)(lifetime - fadeOut);
@@ -277,8 +277,8 @@ public class EntityNukeTorex extends Entity {
             this.age = age;
             this.cloudletLife = maxAge;
             this.angle = angle;
-            this.rangeMod = 0.3F + EntityNukeTorex.this.random.nextFloat() * 0.7F;
-            this.colorMod = 0.8F + EntityNukeTorex.this.random.nextFloat() * 0.2F;
+            this.rangeMod = 0.3F + NukeTorex.this.random.nextFloat() * 0.7F;
+            this.colorMod = 0.8F + NukeTorex.this.random.nextFloat() * 0.2F;
             this.type = type;
 
             this.updateColor();
@@ -296,20 +296,20 @@ public class EntityNukeTorex extends Entity {
             this.prevPosZ = this.posZ;
 
             Vec3 simPos = new Vec3(
-                    EntityNukeTorex.this.getX() - this.posX,
+                    NukeTorex.this.getX() - this.posX,
                     0,
-                    EntityNukeTorex.this.getZ() - this.posZ
+                    NukeTorex.this.getZ() - this.posZ
             );
 
-            double simPosX = EntityNukeTorex.this.getX() + simPos.length();
-            double simPosZ = EntityNukeTorex.this.getZ();
+            double simPosX = NukeTorex.this.getX() + simPos.length();
+            double simPosZ = NukeTorex.this.getZ();
 
             if (this.type == TorexType.STANDARD) {
                 Vec3 convection = getConvectionMotion(simPosX, simPosZ);
                 Vec3 lift = getLiftMotion(simPosX);
 
                 double factor = Mth.clamp(
-                        (this.posY - EntityNukeTorex.this.getY()) / EntityNukeTorex.this.coreHeight,
+                        (this.posY - NukeTorex.this.getY()) / NukeTorex.this.coreHeight,
                         0.0, 1.0
                 );
 
@@ -318,7 +318,7 @@ public class EntityNukeTorex extends Entity {
                 this.motionZ = convection.z * factor + lift.z * (1.0 - factor);
 
             } else if (this.type == TorexType.SHOCK) {
-                double factor = Mth.clamp((this.posY - EntityNukeTorex.this.getY()) / EntityNukeTorex.this.coreHeight, 0, 1);
+                double factor = Mth.clamp((this.posY - NukeTorex.this.getY()) / NukeTorex.this.coreHeight, 0, 1);
 
                 Vec3 motion = new Vec3(1, 0, 0).yRot(this.angle);
 
@@ -349,22 +349,22 @@ public class EntityNukeTorex extends Entity {
         }
 
         private Vec3 getCondensationMotion() {
-            Vec3 delta = new Vec3(posX - EntityNukeTorex.this.getX(), 0, posZ - EntityNukeTorex.this.getZ());
-            double speed = 0.00002 * EntityNukeTorex.this.tickCount;
+            Vec3 delta = new Vec3(posX - NukeTorex.this.getX(), 0, posZ - NukeTorex.this.getZ());
+            double speed = 0.00002 * NukeTorex.this.tickCount;
 
             return new Vec3(delta.x * speed, 0, delta.z * speed);
         }
 
         private Vec3 getRingMotion(double simPosX, double simPosZ) {
-            if (simPosX > EntityNukeTorex.this.getX() + torusWidth * 2) {
+            if (simPosX > NukeTorex.this.getX() + torusWidth * 2) {
                 return new Vec3(0, 0, 0);
             }
 
             /* the position of the torus' outer ring center */
             Vec3 torusPos = new Vec3(
-                    EntityNukeTorex.this.getX() + torusWidth,
-                    EntityNukeTorex.this.getY() + coreHeight * 0.5,
-                    EntityNukeTorex.this.getZ()
+                    NukeTorex.this.getX() + torusWidth,
+                    NukeTorex.this.getY() + coreHeight * 0.5,
+                    NukeTorex.this.getZ()
             );
 
             /* the difference between the cloudlet and the torus' ring center */
@@ -375,7 +375,7 @@ public class EntityNukeTorex extends Entity {
             );
 
             /* the distance this cloudlet wants to achieve to the torus' ring center */
-            double roller = EntityNukeTorex.this.rollerSize * this.rangeMod * 0.25;
+            double roller = NukeTorex.this.rollerSize * this.rangeMod * 0.25;
             /* the distance between this cloudlet and the torus' outer ring perimeter */
             double dist = delta.length() / roller - 1.0;
 
@@ -408,9 +408,9 @@ public class EntityNukeTorex extends Entity {
 
             /* the position of the torus' outer ring center */
             Vec3 torusPos = new Vec3(
-                    EntityNukeTorex.this.getX() + torusWidth,
-                    EntityNukeTorex.this.getY() + coreHeight,
-                    EntityNukeTorex.this.getZ()
+                    NukeTorex.this.getX() + torusWidth,
+                    NukeTorex.this.getY() + coreHeight,
+                    NukeTorex.this.getZ()
             );
 
             /* the difference between the cloudlet and the torus' ring center */
@@ -421,7 +421,7 @@ public class EntityNukeTorex extends Entity {
             );
 
             /* the distance this cloudlet wants to achieve to the torus' ring center */
-            double roller = EntityNukeTorex.this.rollerSize * this.rangeMod;
+            double roller = NukeTorex.this.rollerSize * this.rangeMod;
             /* the distance between this cloudlet and the torus' outer ring perimeter */
             double dist = delta.length() / roller - 1D;
 
@@ -447,12 +447,12 @@ public class EntityNukeTorex extends Entity {
         }
 
         private Vec3 getLiftMotion(double simPosX) {
-            double scale = Mth.clamp(1D - (simPosX - (EntityNukeTorex.this.getX() + torusWidth)), 0, 1);
+            double scale = Mth.clamp(1D - (simPosX - (NukeTorex.this.getX() + torusWidth)), 0, 1);
 
             Vec3 motion = new Vec3(
-                    EntityNukeTorex.this.getX() - this.posX,
-                    (EntityNukeTorex.this.getY() + convectionHeight) - this.posY,
-                    EntityNukeTorex.this.getZ() - this.posZ
+                    NukeTorex.this.getX() - this.posX,
+                    (NukeTorex.this.getY() + convectionHeight) - this.posY,
+                    NukeTorex.this.getZ() - this.posZ
             );
 
             motion = motion.normalize();
@@ -465,9 +465,9 @@ public class EntityNukeTorex extends Entity {
         private void updateColor() {
             this.prevColor = this.color;
 
-            double exX = EntityNukeTorex.this.getX();
-            double exY = EntityNukeTorex.this.getY() + EntityNukeTorex.this.coreHeight;
-            double exZ = EntityNukeTorex.this.getZ();
+            double exX = NukeTorex.this.getX();
+            double exY = NukeTorex.this.getY() + NukeTorex.this.coreHeight;
+            double exZ = NukeTorex.this.getZ();
 
             double distX = exX - posX;
             double distY = exY - posY;
@@ -475,13 +475,13 @@ public class EntityNukeTorex extends Entity {
 
 
             double distSq = distX * distX + distY * distY + distZ * distZ;
-            distSq /= EntityNukeTorex.this.heat;
+            distSq /= NukeTorex.this.heat;
             double dist = Math.sqrt(distSq);
 
             dist = Math.max(dist, 1);
             double col = 2.0 / dist;
 
-            int type = EntityNukeTorex.this.entityData.get(EntityNukeTorex.TYPE);
+            int type = NukeTorex.this.entityData.get(NukeTorex.TYPE);
 
             if (type == 1) {
                 this.color = new Vec3(
@@ -510,7 +510,7 @@ public class EntityNukeTorex extends Entity {
         }
 
         public Vec3 getInterpPos(float interp) {
-            float scale = (float) EntityNukeTorex.this.getScale();
+            float scale = (float) NukeTorex.this.getScale();
 
             Vec3 base = new Vec3(
                     prevPosX + (posX - prevPosX) * interp,
@@ -519,9 +519,9 @@ public class EntityNukeTorex extends Entity {
             );
 
             if (this.type != TorexType.SHOCK) {  //no rescale for the shockwave as this messes with the positions
-                double x = (base.x - EntityNukeTorex.this.getX()) * scale + EntityNukeTorex.this.getX();
-                double y = (base.y - EntityNukeTorex.this.getY()) * scale + EntityNukeTorex.this.getY();
-                double z = (base.z - EntityNukeTorex.this.getZ()) * scale + EntityNukeTorex.this.getZ();
+                double x = (base.x - NukeTorex.this.getX()) * scale + NukeTorex.this.getX();
+                double y = (base.y - NukeTorex.this.getY()) * scale + NukeTorex.this.getY();
+                double z = (base.z - NukeTorex.this.getZ()) * scale + NukeTorex.this.getZ();
                 base = new Vec3(x, y, z);
             }
 
@@ -533,7 +533,7 @@ public class EntityNukeTorex extends Entity {
                 return new Vec3(1F, 1F, 1F);
             }
 
-            double greying = EntityNukeTorex.this.getGreying();
+            double greying = NukeTorex.this.getGreying();
 
             if (this.type == TorexType.RING) {
                 greying += 1;
@@ -547,7 +547,7 @@ public class EntityNukeTorex extends Entity {
         }
 
         public float getAlpha() {
-            float alpha = (1F - ((float) age / (float) cloudletLife)) * EntityNukeTorex.this.getAlpha();
+            float alpha = (1F - ((float) age / (float) cloudletLife)) * NukeTorex.this.getAlpha();
             if (this.type == TorexType.CONDENSATION) alpha *= 0.25;
             return alpha;
         }
@@ -557,7 +557,7 @@ public class EntityNukeTorex extends Entity {
 
         public float getScale() {
             float base = startingScale + ((float) age / (float) cloudletLife) * growingScale;
-            if (this.type != TorexType.SHOCK) base *= (float) EntityNukeTorex.this.getScale();
+            if (this.type != TorexType.SHOCK) base *= (float) NukeTorex.this.getScale();
             return base;
         }
 
@@ -586,7 +586,7 @@ public class EntityNukeTorex extends Entity {
     // i think this is the part where everything breaks
     // entity deletion only happening on the server side and the client does nothing
     // TODO: fix entity removing
-    @Override protected void readAdditionalSaveData(CompoundTag compoundTag) { this.discard(); }
+    @Override protected void readAdditionalSaveData(CompoundTag compoundTag) {}
 
     @Override
     public boolean shouldRenderAtSqrDistance(double distance) {
@@ -602,7 +602,7 @@ public class EntityNukeTorex extends Entity {
     }
 
     public static void statFac(Level level, double x, double y, double z, float scale, int type) {
-        EntityNukeTorex torex = new EntityNukeTorex(ModEntities.NUKE_TOREX.get(),level).setScale(Mth.clamp((float) BobMathUtil.squirt(scale * 0.01) * 1.5F, 0.5F, 5F));
+        NukeTorex torex = new NukeTorex(ModEntities.NUKE_TOREX.get(),level).setScale(Mth.clamp((float) BobMathUtil.squirt(scale * 0.01) * 1.5F, 0.5F, 5F));
         torex.setType(type);
         torex.moveTo(x, y, z);;
         level.addFreshEntity(torex);

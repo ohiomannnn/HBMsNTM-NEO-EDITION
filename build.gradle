@@ -134,8 +134,6 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 }
 
-// This block of code expands all declared replace properties in the specified resource targets.
-// A missing property will result in an error. Properties are expanded using ${} Groovy notation.
 tasks.withType(ProcessResources).configureEach {
     var replaceProperties = [
             minecraft_version       : minecraft_version,
@@ -160,7 +158,6 @@ tasks.withType(ProcessResources).configureEach {
     }
 }
 
-// Example configuration to allow publishing using the maven-publish plugin
 publishing {
     publications {
         register('mavenJava', MavenPublication) {

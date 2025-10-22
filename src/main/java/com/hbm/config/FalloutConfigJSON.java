@@ -10,7 +10,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
 import com.hbm.inventory.RecipesCommon.StateBlock;
 import com.hbm.util.ModTags;
-import com.hbm.util.Tuple.Triplet;
+import com.hbm.util.Tuple.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -21,14 +21,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.Property;
-import net.neoforged.neoforge.registries.DeferredBlock;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class FalloutConfigJSON {
 
@@ -61,38 +61,118 @@ public class FalloutConfigJSON {
 
         double woodEffectRange = 65D;
 
-        entries.add(new FalloutEntry()	.mT(BlockTags.LOGS)					   .prim(new Triplet(ModBlocks.WASTE_LOG.get().defaultBlockState(), 0, 1))	    .max(woodEffectRange));
-        entries.add(new FalloutEntry()	.mB(Blocks.SNOW)					   .prim(new Triplet(Blocks.AIR.defaultBlockState(), 0, 1))			            .max(woodEffectRange));
+        entries.add(new FalloutEntry()
+                .mT(BlockTags.LOGS)
+                .prim(new Pair(ModBlocks.WASTE_LOG.get().defaultBlockState(), 1))
+                .max(woodEffectRange));
+        entries.add(new FalloutEntry()
+                .mBS(Blocks.MUSHROOM_STEM.defaultBlockState())
+                .prim(new Pair(ModBlocks.WASTE_LOG.get().defaultBlockState(), 1))
+                .max(woodEffectRange));
+        entries.add(new FalloutEntry()
+                .mBS(Blocks.BROWN_MUSHROOM_BLOCK.defaultBlockState())
+                .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))
+                .max(woodEffectRange));
+        entries.add(new FalloutEntry()
+                .mBS(Blocks.RED_MUSHROOM_BLOCK.defaultBlockState())
+                .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))
+                .max(woodEffectRange));
 
-        entries.add(new FalloutEntry()	.mB(Blocks.MUSHROOM_STEM)		       .prim(new Triplet(ModBlocks.WASTE_LOG.get().defaultBlockState(), 0, 1))	    .max(woodEffectRange));
-        entries.add(new FalloutEntry()	.mB(Blocks.BROWN_MUSHROOM_BLOCK)	   .prim(new Triplet(Blocks.AIR.defaultBlockState(), 0, 1))			            .max(woodEffectRange));
-        entries.add(new FalloutEntry()	.mB(Blocks.RED_MUSHROOM_BLOCK)		   .prim(new Triplet(Blocks.AIR.defaultBlockState(), 0, 1))			            .max(woodEffectRange));
+        entries.add(new FalloutEntry()
+                .mBS(Blocks.SNOW.defaultBlockState())
+                .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))
+                .max(woodEffectRange));
 
-        entries.add(new FalloutEntry()	.mT(BlockTags.PLANKS)				   .prim(new Triplet(ModBlocks.WASTE_PLANKS.get().defaultBlockState(), 0, 1))     .max(woodEffectRange));
-        entries.add(new FalloutEntry()	.mT(BlockTags.LEAVES)		           .prim(new Triplet(Blocks.AIR.defaultBlockState(), 0, 1))				        .max(woodEffectRange));
-        entries.add(new FalloutEntry()	.mB(ModBlocks.WASTE_LEAVES.get())	   .prim(new Triplet(Blocks.AIR.defaultBlockState(), 0, 1))				        .max(woodEffectRange));
-        entries.add(new FalloutEntry()	.mT(BlockTags.CROPS)		           .prim(new Triplet(Blocks.AIR.defaultBlockState(), 0, 1))	                    .max(woodEffectRange));
-        entries.add(new FalloutEntry()	.mT(BlockTags.FLOWERS)		           .prim(new Triplet(Blocks.AIR.defaultBlockState(), 0, 1))	                    .max(woodEffectRange));
-        entries.add(new FalloutEntry()	.mT(BlockTags.SAPLINGS)		           .prim(new Triplet(Blocks.AIR.defaultBlockState(), 0, 1))	                    .max(woodEffectRange));
-        entries.add(new FalloutEntry()	.mT(BlockTags.LEAVES)		           .prim(new Triplet(ModBlocks.WASTE_PLANKS.get().defaultBlockState(), 0, 1))     .max(woodEffectRange - 5D));
+        entries.add(new FalloutEntry()
+                .mT(BlockTags.PLANKS)
+                .prim(new Pair(ModBlocks.WASTE_PLANKS.get().defaultBlockState(), 1))
+                .max(woodEffectRange));
+        entries.add(new FalloutEntry()
+                .mT(ModTags.Blocks.LEAVES)
+                .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))
+                .max(woodEffectRange));
+        entries.add(new FalloutEntry()
+                .mBS(ModBlocks.WASTE_LEAVES.get().defaultBlockState())
+                .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))
+                .max(woodEffectRange));
+        entries.add(new FalloutEntry()
+                .mT(BlockTags.CROPS)
+                .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))
+                .max(woodEffectRange));
+        entries.add(new FalloutEntry()
+                .mT(BlockTags.FLOWERS)
+                .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))
+                .max(woodEffectRange));
+        entries.add(new FalloutEntry()
+                .mT(BlockTags.SAPLINGS)
+                .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))
+                .max(woodEffectRange));
+        entries.add(new FalloutEntry()
+                .mT(ModTags.Blocks.LEAVES)
+                .prim(new Pair(ModBlocks.WASTE_LEAVES.get().defaultBlockState(), 1))
+                .max(woodEffectRange - 5D));
 
-        entries.add(new FalloutEntry()  .mB(Blocks.MOSSY_COBBLESTONE)          .prim(new Triplet(Blocks.COAL_ORE.defaultBlockState(), 0, 1)));
-        entries.add(new FalloutEntry()  .mB(ModBlocks.ORE_NETHER_URANIUM.get()).prim(new Triplet(ModBlocks.ORE_NETHER_SCHRABIDIUM.get().defaultBlockState(), 0, 1), new Triplet(ModBlocks.ORE_NETHER_URANIUM_SCORCHED.get(), 0, 99)));
+        entries.add(new FalloutEntry()
+                .mBS(Blocks.MOSSY_COBBLESTONE.defaultBlockState())
+                .prim(new Pair(Blocks.COAL_ORE.defaultBlockState(), 1)));
+        entries.add(new FalloutEntry()
+                .mBS(ModBlocks.ORE_NETHER_URANIUM.get().defaultBlockState())
+                .prim(
+                        new Pair(ModBlocks.ORE_NETHER_SCHRABIDIUM.get().defaultBlockState(), 1),
+                        new Pair(ModBlocks.ORE_NETHER_URANIUM_SCORCHED.get().defaultBlockState(), 99)
+                ));
 
         for (int i = 1; i <= 10; i++) {
             int m = 10 - i;
-            entries.add(new FalloutEntry().prim(new Triplet(ModBlocks.ORE_SELLAFIELD_DIAMOND.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), m, 3),		new Triplet(ModBlocks.ORE_SELLAFIELD_EMERALD.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), m, 2))			.c(0.5)		.max(i * 5).sol(true).mB(Blocks.COAL_ORE));
-            entries.add(new FalloutEntry()							.prim(new Triplet(ModBlocks.SELLAFIELD_BEDROCK.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), m, 1)).max(i * 5).sol(true).mB(Blocks.BEDROCK));
-            entries.add(new FalloutEntry()							.prim(new Triplet(ModBlocks.SELLAFIELD_BEDROCK.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), m, 1)).max(i * 5).sol(true).mB(ModBlocks.SELLAFIELD_BEDROCK.get()));
-            entries.add(new FalloutEntry()	                        .prim(new Triplet(ModBlocks.SELLAFIELD_SLAKED.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), m, 1)).max(i * 5).sol(true).mT(ModTags.Blocks.ACTUALLY_STONE));
-            entries.add(new FalloutEntry()	                        .prim(new Triplet(ModBlocks.SELLAFIELD_SLAKED.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), m, 1)).max(i * 5).sol(true).mT(ModTags.Blocks.GROUND));
-            if(i <= 9) entries.add(new FalloutEntry()				.prim(new Triplet(ModBlocks.SELLAFIELD_SLAKED.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), m, 1)).max(i * 5).sol(true).mB(Blocks.GRASS_BLOCK));
+            entries.add(new FalloutEntry()
+                    .prim(
+                            new Pair(ModBlocks.ORE_SELLAFIELD_DIAMOND.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), 3),
+                            new Pair(ModBlocks.ORE_SELLAFIELD_EMERALD.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), 2)
+                    )
+                    .c(0.5)
+                    .max(i * 5)
+                    .sol(true)
+                    .mBS(Blocks.COAL_ORE.defaultBlockState()));
+            entries.add(new FalloutEntry()
+                    .prim(new Pair(ModBlocks.SELLAFIELD_BEDROCK.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), 1))
+                    .max(i * 5)
+                    .sol(true)
+                    .mBS(Blocks.BEDROCK.defaultBlockState()));
+            entries.add(new FalloutEntry()
+                    .prim(new Pair(ModBlocks.SELLAFIELD_BEDROCK.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), 1))
+                    .max(i * 5)
+                    .sol(true)
+                    .mBS(ModBlocks.SELLAFIELD_BEDROCK.get().defaultBlockState()));
+            entries.add(new FalloutEntry()
+                    .prim(new Pair(ModBlocks.SELLAFIELD_SLAKED.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), 1))
+                    .max(i * 5)
+                    .sol(true)
+                    .mT(ModTags.Blocks.ACTUALLY_STONE));
+            entries.add(new FalloutEntry()
+                    .prim(new Pair(ModBlocks.SELLAFIELD_SLAKED.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), 1))
+                    .max(i * 5)
+                    .sol(true)
+                    .mT(ModTags.Blocks.GROUND));
+            if (i <= 9) entries.add(new FalloutEntry()
+                    .prim(new Pair(ModBlocks.SELLAFIELD_SLAKED.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), 1))
+                    .max(i * 5).sol(true)
+                    .mBS(Blocks.GRASS_BLOCK.defaultBlockState()));
         }
 
-        entries.add(new FalloutEntry()  .mB(Blocks.MYCELIUM)                   .prim(new Triplet(ModBlocks.WASTE_MYCELIUM.get().defaultBlockState(), 0, 1)));
-        entries.add(new FalloutEntry()  .mB(Blocks.SAND)                       .prim(new Triplet(ModBlocks.WASTE_TRINITITE.get().defaultBlockState(), 0, 1)).c(0.05));
-        entries.add(new FalloutEntry()  .mB(Blocks.RED_SAND)                   .prim(new Triplet(ModBlocks.WASTE_TRINITITE_RED.get().defaultBlockState(), 0, 1)).c(0.05));
-        entries.add(new FalloutEntry()  .mB(Blocks.CLAY)                       .prim(new Triplet(Blocks.TERRACOTTA.defaultBlockState(), 0, 1)));
+        entries.add(new FalloutEntry()
+                .mBS(Blocks.MYCELIUM.defaultBlockState())
+                .prim(new Pair(ModBlocks.WASTE_MYCELIUM.get().defaultBlockState(), 1)));
+        entries.add(new FalloutEntry()
+                .mBS(Blocks.SAND.defaultBlockState())
+                .prim(new Pair(ModBlocks.WASTE_TRINITITE.get().defaultBlockState(), 1))
+                .c(0.05));
+        entries.add(new FalloutEntry()
+                .mBS(Blocks.RED_SAND.defaultBlockState())
+                .prim(new Pair(ModBlocks.WASTE_TRINITITE_RED.get().defaultBlockState(), 1))
+                .c(0.05));
+        entries.add(new FalloutEntry()
+                .mBS(Blocks.CLAY.defaultBlockState())
+                .prim(new Pair(Blocks.TERRACOTTA.defaultBlockState(), 1)));
 
     }
 
@@ -139,22 +219,25 @@ public class FalloutConfigJSON {
 
 
     public static class FalloutEntry {
-        private Block matchesBlock = null;
+        private BlockState matchesBlockState = null;
         private TagKey<Block> matchesTag = null;
         private boolean matchesOpaque = false;
 
-        private Triplet<BlockState, Integer, Integer>[] primaryBlocks = null;
-        private Triplet<BlockState, Integer, Integer>[] secondaryBlocks = null;
+        // using Pair because there is no more meta system
+        //           BlockState / Weight
+        private Pair<BlockState, Integer>[] primaryBlocks = null;
+        private Pair<BlockState, Integer>[] secondaryBlocks = null;
         private double primaryChance = 1.0D;
         private double minDist = 0.0D;
         private double maxDist = 100.0D;
         private double falloffStart = 0.9D;
 
+        /** Whether the depth value should be decremented when this block is converted */
         private boolean isSolid = false;
 
         public FalloutEntry clone() {
             FalloutEntry entry = new FalloutEntry();
-            entry.mB(matchesBlock);
+            entry.mBS(matchesBlockState);
             entry.mT(matchesTag);
             entry.mO(matchesOpaque);
             entry.prim(primaryBlocks);
@@ -167,12 +250,12 @@ public class FalloutConfigJSON {
             return entry;
         }
 
-        public FalloutEntry mB(Block block) { this.matchesBlock = block; return this; }
+        public FalloutEntry mBS(BlockState state) { this.matchesBlockState = state; return this; }
         public FalloutEntry mT(TagKey<Block> tag) { this.matchesTag = tag; return this; }
         public FalloutEntry mO(boolean opaque) { this.matchesOpaque = opaque; return this; }
 
-        public FalloutEntry prim(Triplet<BlockState, Integer, Integer>... blocks) { this.primaryBlocks = blocks; return this; }
-        public FalloutEntry sec(Triplet<BlockState, Integer, Integer>... blocks) { this.secondaryBlocks = blocks; return this; }
+        public FalloutEntry prim(Pair<BlockState, Integer>... blocks) { this.primaryBlocks = blocks; return this; }
+        public FalloutEntry sec(Pair<BlockState, Integer>... blocks) { this.secondaryBlocks = blocks; return this; }
         public FalloutEntry c(double chance) { this.primaryChance = chance; return this; }
         public FalloutEntry min(double min) { this.minDist = min; return this; }
         public FalloutEntry max(double max) { this.maxDist = max; return this; }
@@ -180,48 +263,46 @@ public class FalloutConfigJSON {
         public FalloutEntry sol(boolean solid) { this.isSolid = solid; return this; }
 
         public boolean eval(Level level, BlockPos pos, BlockState state, double dist) {
+
             if (dist > maxDist || dist < minDist) return false;
-            if (matchesBlock != null && !state.is(matchesBlock)) return false;
+            if (matchesBlockState != null && state != matchesBlockState) return false;
             if (matchesTag != null && !state.is(matchesTag)) return false;
             if (matchesOpaque && !state.isSolidRender(level, pos)) return false;
-
             if (dist > maxDist * falloffStart && Math.abs(level.random.nextGaussian()) < Math.pow((dist - maxDist * falloffStart) / (maxDist - maxDist * falloffStart), 2D) * 3D) return false;
 
-            StateBlock conversion = chooseRandomOutcome((primaryChance == 1D || level.random.nextDouble() < primaryChance) ? primaryBlocks : secondaryBlocks);
+            StateBlock conversion = chooseRandomOutcome((primaryChance == 1D || rand.nextDouble() < primaryChance) ? primaryBlocks : secondaryBlocks);
+
             if (conversion != null) {
+                if (conversion.state == ModBlocks.SELLAFIELD_SLAKED.get().defaultBlockState() && state == ModBlocks.SELLAFIELD_SLAKED.get().defaultBlockState()) return false;
+                if (conversion.state == ModBlocks.SELLAFIELD_BEDROCK.get().defaultBlockState() && state == ModBlocks.SELLAFIELD_BEDROCK.get().defaultBlockState()) return false;
+                if (state == ModBlocks.SELLAFIELD_BEDROCK.get().defaultBlockState() && conversion.state != ModBlocks.SELLAFIELD_BEDROCK.get().defaultBlockState()) return false;
+                if (pos.getY() == 0 && conversion.state != ModBlocks.SELLAFIELD_BEDROCK.get().defaultBlockState()) return false;
                 level.setBlock(pos, conversion.state, 3);
                 return true;
             }
+
             return false;
         }
 
-        private <T> StateBlock chooseRandomOutcome(Triplet<T, Integer, Integer>[] blocks) {
+        private StateBlock chooseRandomOutcome(Pair<BlockState, Integer>[] blocks) {
             if (blocks == null) return null;
 
             int weight = 0;
-            for (Triplet<T, Integer, Integer> choice : blocks) {
-                weight += choice.getZ();
+
+            for (Pair<BlockState, Integer> choice : blocks) {
+                weight += choice.getValue();
             }
 
             int r = rand.nextInt(weight);
-            for (Triplet<T, Integer, Integer> choice : blocks) {
-                r -= choice.getZ();
+
+            for (Pair<BlockState, Integer> choice : blocks) {
+                r -= choice.getValue();
+
                 if (r <= 0) {
-                    return new StateBlock(resolveState(choice.getX()));
+                    return new StateBlock(choice.getKey());
                 }
             }
-            return new StateBlock(resolveState(blocks[0].getX()));
-        }
-
-        private static BlockState resolveState(Object obj) {
-            if (obj instanceof BlockState state) {
-                return state;
-            } else if (obj instanceof Block block) {
-                return block.defaultBlockState();
-            } else if (obj instanceof DeferredBlock<?> def) {
-                return def.get().defaultBlockState();
-            }
-            throw new IllegalArgumentException("Unsupported type: " + obj.getClass());
+            return new StateBlock(blocks[0].getKey());
         }
 
         public boolean isSolid() {
@@ -229,13 +310,13 @@ public class FalloutConfigJSON {
         }
 
         public void write(JsonWriter writer) throws IOException {
-            if (matchesBlock != null) writer.name("matchesBlock").value(BuiltInRegistries.BLOCK.getKey(matchesBlock).toString());
+            if (matchesBlockState != null) writer.name("matchesBlockState").value(BuiltInRegistries.BLOCK.getKey(matchesBlockState.getBlock()).toString());
             if (matchesTag != null) writer.name("matchesTag").value(matchesTag.location().toString());
             if (matchesOpaque) writer.name("mustBeOpaque").value(true);
             if (isSolid) writer.name("restrictDepth").value(true);
 
-            if (primaryBlocks != null) { writer.name("primarySubstitution"); writeArray(writer, primaryBlocks); }
-            if (secondaryBlocks != null) { writer.name("secondarySubstitutions"); writeArray(writer, secondaryBlocks); }
+            if (primaryBlocks != null) { writer.name("primarySubstitution"); writeBlockStateArray(writer, primaryBlocks); }
+            if (secondaryBlocks != null) { writer.name("secondarySubstitutions"); writeBlockStateArray(writer, secondaryBlocks); }
 
             if (primaryChance != 1D) writer.name("chance").value(primaryChance);
 
@@ -244,69 +325,19 @@ public class FalloutConfigJSON {
             if (falloffStart != 0.9D) writer.name("falloffStartFactor").value(falloffStart);
         }
 
-        private static void writeArray(JsonWriter writer, Triplet<BlockState, Integer, Integer>[] array) throws IOException {
-            writer.beginArray();
-            writer.setIndent("");
-
-            for (Triplet<BlockState, Integer, Integer> meta : array) {
-                writer.beginArray();
-
-                BlockState state = resolveState(meta.getX());
-                Block block = state.getBlock();
-                ResourceLocation key = BuiltInRegistries.BLOCK.getKey(block);
-
-                writer.value(key.toString());
-
-                writer.beginObject();
-                for (var entry : state.getValues().entrySet()) {
-                    writer.name(entry.getKey().getName()).value(entry.getValue().toString());
-                }
-                writer.endObject();
-
-                writer.value(meta.getY());
-                writer.value(meta.getZ());
-
-                writer.endArray();
-            }
-
-            writer.endArray();
-            writer.setIndent("  ");
-        }
-
         private static FalloutEntry readEntry(JsonElement recipe) {
             FalloutEntry entry = new FalloutEntry();
             if(!recipe.isJsonObject()) return null;
 
             JsonObject obj = recipe.getAsJsonObject();
 
-            if (obj.has("matchesBlock") || obj.has("block")) {
-                String keyName = obj.has("matchesBlock") ? "matchesBlock" : "block";
-                String idStr = obj.get(keyName).getAsString();
-                ResourceLocation id = ResourceLocation.tryParse(idStr);
-                if (id != null) {
-                    Block block = BuiltInRegistries.BLOCK.getOptional(id).orElse(null);
-                    if (block != null) {
-                        entry.mB(block);
-                    } else {
-                        throw new IllegalArgumentException("hbmFallout.json: Unknown block id: " + idStr);
-                    }
-                } else {
-                    throw new IllegalArgumentException("hbmFallout.json: Invalid resource location: " + idStr);
-                }
-            }
+            if (obj.has("matchesBlock")) entry.mBS(BuiltInRegistries.BLOCK.getOptional(ResourceLocation.tryParse(obj.get("matchesBlock").getAsString())).get().defaultBlockState());
+            if (obj.has("matchesTag")) entry.mT(TagKey.create(Registries.BLOCK, ResourceLocation.parse(obj.get("matchesTag").getAsString())));
+            if (obj.has("mustBeOpaque")) entry.mO(obj.get("mustBeOpaque").getAsBoolean());
+            if (obj.has("restrictDepth")) entry.sol(obj.get("restrictDepth").getAsBoolean());
 
-            if (obj.has("matchesTag")) {
-                ResourceLocation id = ResourceLocation.tryParse(obj.get("matchesTag").getAsString());
-                if (id != null) {
-                    TagKey<Block> tagKey = TagKey.create(Registries.BLOCK, id);
-                    entry.mT(tagKey);
-                }
-            }
-            if(obj.has("mustBeOpaque")) entry.mO(obj.get("mustBeOpaque").getAsBoolean());
-            if(obj.has("restrictDepth")) entry.sol(obj.get("restrictDepth").getAsBoolean());
-
-            if(obj.has("primarySubstitution")) entry.prim(readArray(obj.get("primarySubstitution")));
-            if(obj.has("secondarySubstitutions")) entry.sec(readArray(obj.get("secondarySubstitutions")));
+            if (obj.has("primarySubstitution")) entry.prim(readBlockStateArray(obj.get("primarySubstitution")));
+            if (obj.has("secondarySubstitutions")) entry.sec(readBlockStateArray(obj.get("secondarySubstitutions")));
 
             if (obj.has("chance")) entry.c(obj.get("chance").getAsDouble());
 
@@ -317,67 +348,41 @@ public class FalloutConfigJSON {
             return entry;
         }
 
-        private static Triplet<BlockState, Integer, Integer>[] readArray(JsonElement jsonElement) {
+        private static void writeBlockStateArray(JsonWriter writer, Pair<BlockState, Integer>[] array) throws IOException {
+            writer.beginArray();
+            writer.setIndent("");
+
+            for (Pair<BlockState, Integer> blockState : array) {
+                writer.beginArray();
+                writer.value(String.valueOf(BuiltInRegistries.BLOCK.getKey(blockState.getKey().getBlock())));
+                writer.value(blockState.getValue());
+                writer.endArray();
+            }
+
+            writer.endArray();
+            writer.setIndent("  ");
+        }
+
+        private static Pair<BlockState, Integer>[] readBlockStateArray(JsonElement jsonElement) {
+
             if (!jsonElement.isJsonArray()) return null;
 
             JsonArray array = jsonElement.getAsJsonArray();
-            List<Triplet<BlockState, Integer, Integer>> tmp = new ArrayList<>();
+            Pair<BlockState, Integer>[] blockStateArray = new Pair[array.size()];
 
-            for (int i = 0; i < array.size(); i++) {
-                JsonElement metaBlock = array.get(i);
-                if (!metaBlock.isJsonArray()) {
-                    throw new IllegalArgumentException("hbmFallout.json: Expected array item to be array, got: " + metaBlock);
+            for (int i = 0; i < blockStateArray.length; i++) {
+                JsonElement stateBlock = array.get(i);
+
+                if (!stateBlock.isJsonArray()) {
+                    throw new IllegalStateException("Could not read block " + stateBlock);
                 }
 
-                JsonArray mBArray = metaBlock.getAsJsonArray();
-                if (mBArray.size() < 3) {
-                    throw new IllegalArgumentException("hbmFallout.json: Meta entry too short: " + mBArray);
-                }
+                JsonArray mBArray = stateBlock.getAsJsonArray();
 
-                String blockId = mBArray.get(0).getAsString();
-                ResourceLocation id = ResourceLocation.tryParse(blockId);
-                Block block = null;
-                if (id != null) {
-                    block = BuiltInRegistries.BLOCK.getOptional(id).orElse(null);
-                }
-
-                if (block == null) {
-                    throw new IllegalArgumentException("hbmFallout.json: Unknown block id in substitution: " + blockId);
-                }
-
-                BlockState state = block.defaultBlockState();
-
-                if (mBArray.size() > 3 && mBArray.get(1).isJsonObject()) {
-                    JsonObject props = mBArray.get(1).getAsJsonObject();
-                    for (Map.Entry<String, JsonElement> e : props.entrySet()) {
-                        String propName = e.getKey();
-                        String propValue = e.getValue().getAsString();
-
-                        Property<?> property = block.getStateDefinition().getProperty(propName);
-                        if (property != null) {
-                            state = applyProperty(state, property, propValue);
-                        } else {
-                            throw new IllegalArgumentException("hbmFallout.json: Unknown property '" + propName + "' for block " + blockId);
-                        }
-                    }
-                }
-
-                int y = mBArray.get(mBArray.size() - 2).getAsInt();
-                int z = mBArray.get(mBArray.size() - 1).getAsInt();
-
-                tmp.add(new Triplet<>(state, y, z));
+                blockStateArray[i] = new Pair(BuiltInRegistries.BLOCK.get(ResourceLocation.parse(mBArray.get(0).getAsString())), mBArray.get(1).getAsInt());
             }
 
-            Triplet<BlockState, Integer, Integer>[] metaArray = new Triplet[tmp.size()];
-            return tmp.toArray(metaArray);
-        }
-
-        private static <T extends Comparable<T>> BlockState applyProperty(BlockState state, Property<T> property, String valueStr) {
-            Optional<T> value = property.getValue(valueStr);
-            if (value.isPresent()) {
-                return state.setValue(property, value.get());
-            }
-            return state;
+            return blockStateArray;
         }
     }
 }

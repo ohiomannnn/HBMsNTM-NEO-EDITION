@@ -1,5 +1,8 @@
 package com.hbm.particle;
 
+import com.hbm.HBMsNTM;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -14,27 +17,12 @@ import java.util.Random;
 
 public class ParticleRadiationFog extends TextureSheetParticle {
 
-    private int age;
-    private int maxAge;
-
     public ParticleRadiationFog(ClientLevel level, double x, double y, double z, SpriteSet sprites) {
         super(level, x, y, z);
-        this.maxAge = 100 + this.random.nextInt(40);
+        this.lifetime = 100 + this.random.nextInt(40);
         this.quadSize = 7.5F;
 
         this.rCol = this.gCol = this.bCol = 0;
-        this.setSpriteFromAge(sprites);
-    }
-
-    public ParticleRadiationFog(ClientLevel level, double x, double y, double z, float red, float green, float blue, float scale, SpriteSet sprites) {
-        super(level, x, y, z);
-        this.maxAge = 100 + this.random.nextInt(40);
-
-        this.rCol = red;
-        this.gCol = green;
-        this.bCol = blue;
-
-        this.quadSize = scale;
         this.setSpriteFromAge(sprites);
     }
 
@@ -44,22 +32,22 @@ public class ParticleRadiationFog extends TextureSheetParticle {
         this.yo = this.y;
         this.zo = this.z;
 
-        if (maxAge < 400) {
-            maxAge = 400;
+        if (lifetime < 400) {
+            lifetime = 400;
         }
 
         this.age++;
-        if (this.age >= this.maxAge) {
+        if (this.age >= this.lifetime) {
             this.remove();
         }
 
-        this.xd *= 0.9599999785423279D;
-        this.yd *= 0.9599999785423279D;
-        this.zd *= 0.9599999785423279D;
+        this.xd *= 0.96D;
+        this.yd *= 0.96D;
+        this.zd *= 0.96D;
 
         if (this.onGround) {
-            this.xd *= 0.699999988079071D;
-            this.zd *= 0.699999988079071D;
+            this.xd *= 0.7D;
+            this.zd *= 0.7D;
         }
     }
 
@@ -71,32 +59,38 @@ public class ParticleRadiationFog extends TextureSheetParticle {
         this.rCol = 0.85F;
         this.gCol = 0.9F;
         this.bCol = 0.5F;
-        this.alpha = (float) Math.sin(age * Math.PI / (400F)) * 0.125F;
+
+        float interpAge = this.age + partialTicks;
+        this.alpha = (float) Math.sin(interpAge * Math.PI / 400f) * 0.125f;
 
         Random urandom = new Random(50);
 
+        float baseX = (float) (Mth.lerp(partialTicks, this.xo, this.x) - camPos.x());
+        float baseY = (float) (Mth.lerp(partialTicks, this.yo, this.y) - camPos.y());
+        float baseZ = (float) (Mth.lerp(partialTicks, this.zo, this.z) - camPos.z());
+
         for (int i = 0; i < 25; i++) {
-
-            double dX = (urandom.nextGaussian() - 1D) * 2.5D;
-            double dY = (urandom.nextGaussian() - 1D) * 0.15D;
-            double dZ = (urandom.nextGaussian() - 1D) * 2.5D;
-
-            float pX = (float)(Mth.lerp(partialTicks, this.xo, this.x) - camPos.x + dX + urandom.nextGaussian() * 0.5);
-            float pY = (float)(Mth.lerp(partialTicks, this.yo, this.y) - camPos.y + dY + urandom.nextGaussian() * 0.5);
-            float pZ = (float)(Mth.lerp(partialTicks, this.zo, this.z) - camPos.z + dZ + urandom.nextGaussian() * 0.5);
-
+            double dX = (urandom.nextGaussian() - 1.0) * 2.5;
+            double dY = (urandom.nextGaussian() - 1.0) * 0.15;
+            double dZ = (urandom.nextGaussian() - 1.0) * 2.5;
             double size = urandom.nextDouble() * this.quadSize;
+
+            float pX = baseX + (float) dX + (float) (urandom.nextGaussian() * 0.5);
+            float pY = baseY + (float) dY + (float) (urandom.nextGaussian() * 0.5);
+            float pZ = baseZ + (float) dZ + (float) (urandom.nextGaussian() * 0.5);
+
             float U0 = this.getU0();
             float U1 = this.getU1();
             float V0 = this.getV0();
             float V1 = this.getV1();
-            int color = this.getLightColor(240);
-            this.renderVertex(consumer, quaternionf, pX, pY, pZ, 1.0F, -1.0F, (float) size, U1, V1, color);
-            this.renderVertex(consumer, quaternionf, pX, pY, pZ, 1.0F, 1.0F, (float) size, U1, V0, color);
-            this.renderVertex(consumer, quaternionf, pX, pY, pZ, -1.0F, 1.0F, (float) size, U0, V0, color);
-            this.renderVertex(consumer, quaternionf, pX, pY, pZ, -1.0F, -1.0F, (float) size, U0, V1, color);
+
+            this.renderVertex(consumer, quaternionf, pX, pY, pZ,  1.0F, -1.0F, (float)size, U1, V1, 240);
+            this.renderVertex(consumer, quaternionf, pX, pY, pZ,  1.0F,  1.0F, (float)size, U1, V0, 240);
+            this.renderVertex(consumer, quaternionf, pX, pY, pZ, -1.0F,  1.0F, (float)size, U0, V0, 240);
+            this.renderVertex(consumer, quaternionf, pX, pY, pZ, -1.0F, -1.0F, (float)size, U0, V1, 240);
         }
     }
+
 
     private void renderVertex(VertexConsumer buffer, Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float quadSize, float u, float v, int packedLight) {
         Vector3f vector3f = (new Vector3f(xOffset, yOffset, 0.0F)).rotate(quaternion).mul(quadSize).add(x, y, z);

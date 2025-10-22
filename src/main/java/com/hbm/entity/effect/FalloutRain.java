@@ -29,21 +29,20 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.*;
 
-public class EntityFalloutRain extends ChunkloadingEntity {
+public class FalloutRain extends ChunkloadingEntity {
 
     private boolean firstTick = true;
     private final Level level;
 
-    private static final EntityDataAccessor<Integer> SCALE =
-            SynchedEntityData.defineId(EntityFalloutRain.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> SCALE = SynchedEntityData.defineId(FalloutRain.class, EntityDataSerializers.INT);
 
-    public EntityFalloutRain(EntityType<?> type, Level level) {
+    public FalloutRain(EntityType<?> type, Level level) {
         super(type, level);
         this.level = level;
     }
 
     private int tickDelay = ModConfigs.COMMON.FALLOUT_DELAY.get();
-    private final int mk5 = ModConfigs.COMMON.MK5.get();
+    private int mk5 = ModConfigs.COMMON.MK5.get();
 
     @Override
     public void tick() {
@@ -59,7 +58,7 @@ public class EntityFalloutRain extends ChunkloadingEntity {
             }
 
             if (tickDelay == 0) {
-                tickDelay = 4;
+                tickDelay = ModConfigs.COMMON.FALLOUT_DELAY.get();;
 
                 while (System.currentTimeMillis() < start + mk5) {
                     if (!chunksToProcess.isEmpty()) {
@@ -105,7 +104,6 @@ public class EntityFalloutRain extends ChunkloadingEntity {
                         WorldUtil.flushChunk((ServerLevel) level, chunk);
                     } else {
                         this.discard();
-                        break;
                     }
                 }
             }
@@ -113,7 +111,6 @@ public class EntityFalloutRain extends ChunkloadingEntity {
             tickDelay--;
         }
     }
-
 
     public static ResourceKey<Biome> getBiomeChange(double dist, int scale, ResourceKey<Biome> original) {
         if (!ModConfigs.COMMON.ENABLE_CRATER_BIOMES.get()) return null;
@@ -133,16 +130,18 @@ public class EntityFalloutRain extends ChunkloadingEntity {
     private final List<Long> chunksToProcess = new ArrayList<>();
     private final List<Long> outerChunksToProcess = new ArrayList<>();
 
+    // Is it worth the effort to split this into a method that can be called over multiple ticks? I'd say it's fast enough anyway...
     private void gatherChunks() {
-        Set<Long> chunks = new LinkedHashSet<>();
+        Set<Long> chunks = new LinkedHashSet<>(); // LinkedHashSet preserves insertion order
         Set<Long> outerChunks = new LinkedHashSet<>();
         int outerRange = getScale();
-        int adjustedMaxAngle = 20 * outerRange / 32;
+        // Basically defines something like the step size, but as indirect proportion. The actual angle used for rotation will always end up at 360° for angle == adjustedMaxAngle
+        // So yea, I mathematically worked out that 20 is a good value for this, with the minimum possible being 18 in order to reach all chunks
+        int adjustedMaxAngle = 20 * outerRange / 32; // step size = 20 * chunks / 2
         for (int angle = 0; angle <= adjustedMaxAngle; angle++) {
             Vec3 vector = new Vec3(outerRange, 0, 0)
-                    .yRot((float) (angle * Math.PI / 180.0 / (adjustedMaxAngle / 360.0)));
-            long chunkCoord = ChunkPos.asLong((int) (this.getX() + vector.x) >> 4, (int) (this.getZ() + vector.z) >> 4);
-            outerChunks.add(chunkCoord);
+                    .yRot((float) (angle * Math.PI / 180.0 / (adjustedMaxAngle / 360.0))); // Ugh, mutable data classes (also, ugh, radians; it uses degrees in 1.18; took me two hours to debug)
+            outerChunks.add(ChunkPos.asLong((int) (this.getX() + vector.x) >> 4, (int) (this.getZ() + vector.z) >> 4));
         }
 
         for (int distance = 0; distance <= outerRange; distance += 8) {
@@ -150,15 +149,13 @@ public class EntityFalloutRain extends ChunkloadingEntity {
                 Vec3 vector = new Vec3(distance, 0, 0)
                         .yRot((float) (angle * Math.PI / 180.0 / (adjustedMaxAngle / 360.0)));
                 long chunkCoord = ChunkPos.asLong((int) (this.getX() + vector.x) >> 4, (int) (this.getZ() + vector.z) >> 4);
-                if (!outerChunks.contains(chunkCoord)) {
-                    chunks.add(chunkCoord);
-                }
+                if (!outerChunks.contains(chunkCoord)) chunks.add(chunkCoord);
             }
         }
 
         chunksToProcess.addAll(chunks);
         outerChunksToProcess.addAll(outerChunks);
-        Collections.reverse(chunksToProcess);
+        Collections.reverse(chunksToProcess); // So it starts nicely from the middle
         Collections.reverse(outerChunksToProcess);
     }
 
@@ -166,7 +163,7 @@ public class EntityFalloutRain extends ChunkloadingEntity {
 
         int depth = 0;
 
-        for (int y = level.getMaxBuildHeight() - 1; y >= level.getMinBuildHeight(); y--) {
+        for (int y = 320; y >= -64; y--) {
 
             if (depth >= 3) return;
 
@@ -201,6 +198,7 @@ public class EntityFalloutRain extends ChunkloadingEntity {
             }
 
             boolean eval = false;
+
             for (FalloutConfigJSON.FalloutEntry entry : FalloutConfigJSON.entries) {
                 if (entry.eval(level, pos, state, dist)) {
                     if (entry.isSolid()) depth++;
@@ -208,24 +206,21 @@ public class EntityFalloutRain extends ChunkloadingEntity {
                     break;
                 }
             }
-
-            float hardness = state.getDestroySpeed(level, pos);
-            if (y > level.getMinBuildHeight() && dist < 65 &&
-                    hardness <= Blocks.STONE_BRICKS.getExplosionResistance(state, level, pos, null) && hardness >= 0) {
-
-                BlockPos below = pos.below();
-                if (level.getBlockState(below).isAir()) {
-                    for (int i = 0; i <= depth; i++) {
-                        BlockPos fallingPos = pos.offset(0, i, 0);
-                        BlockState fallingState = level.getBlockState(fallingPos);
-                        float h = fallingState.getDestroySpeed(level, fallingPos);
-                        if (h <= Blocks.STONE_BRICKS.getExplosionResistance(state, level, pos, null) && h >= 0) {
-                            FallingBlockEntity leaves = FallingBlockEntity.fall(level, pos, fallingState);
-                            leaves.dropItem = false;
-                        }
-                    }
-                }
-            }
+//            float hardness = state.getDestroySpeed(level, pos);
+//            if (y > -64 && dist < 65 && hardness <= Blocks.STONE_BRICKS.getExplosionResistance(state, level, pos, null) && hardness >= 0) {
+//
+//                if (level.getBlockState(pos.below()).isAir()) {
+//                    for (int i = 0; i <= depth; i++) {
+//                        BlockPos fallingPos = pos.offset(0, i, 0);
+//                        BlockState fallingState = level.getBlockState(fallingPos);
+//                        float h = fallingState.getDestroySpeed(level, fallingPos);
+//                        if (h <= Blocks.STONE_BRICKS.getExplosionResistance(state, level, pos, null) && h >= 0) {
+//                            FallingBlockEntity fallingBlockEntity = FallingBlockEntity.fall(level, pos, fallingState);
+//                            fallingBlockEntity.dropItem = false;
+//                        }
+//                    }
+//                }
+//            }
 
             if (!eval && state.isSolidRender(level, pos)) {
                 depth++;

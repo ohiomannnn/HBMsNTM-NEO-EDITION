@@ -1,7 +1,7 @@
 package com.hbm.render.entity.effect;
 
 import com.hbm.HBMsNTM;
-import com.hbm.entity.effect.EntityFalloutRain;
+import com.hbm.entity.effect.FalloutRain;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.GraphicsStatus;
@@ -21,7 +21,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 
 import java.util.Random;
 
-public class RenderFallout extends EntityRenderer<EntityFalloutRain> {
+public class RenderFallout extends EntityRenderer<FalloutRain> {
 
     private static final ResourceLocation FALLOUT_TEXTURE = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/entity/fallout.png");
 
@@ -35,12 +35,12 @@ public class RenderFallout extends EntityRenderer<EntityFalloutRain> {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(EntityFalloutRain entity) {
+    public ResourceLocation getTextureLocation(FalloutRain entity) {
         return FALLOUT_TEXTURE;
     }
 
     @Override
-    public void render(EntityFalloutRain entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+    public void render(FalloutRain entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
         Minecraft mc = Minecraft.getInstance();
         LivingEntity camera = mc.player;
         ClientLevel world = mc.level;
@@ -55,7 +55,7 @@ public class RenderFallout extends EntityRenderer<EntityFalloutRain> {
     }
 
     @Override
-    public boolean shouldRender(EntityFalloutRain livingEntity, Frustum camera, double camX, double camY, double camZ) {
+    public boolean shouldRender(FalloutRain livingEntity, Frustum camera, double camX, double camY, double camZ) {
         return true;
     }
 

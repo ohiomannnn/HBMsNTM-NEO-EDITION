@@ -61,6 +61,18 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(Blocks.SAND)
                 .add(Blocks.DIRT);
 
+        tag(ModTags.Blocks.LEAVES)
+                .add(Blocks.ACACIA_LEAVES)
+                .add(Blocks.AZALEA_LEAVES)
+                .add(Blocks.BIRCH_LEAVES)
+                .add(Blocks.CHERRY_LEAVES)
+                .add(Blocks.DARK_OAK_LEAVES)
+                .add(Blocks.JUNGLE_LEAVES)
+                .add(Blocks.FLOWERING_AZALEA_LEAVES)
+                .add(Blocks.MANGROVE_LEAVES)
+                .add(Blocks.OAK_LEAVES)
+                .add(Blocks.SPRUCE_LEAVES);
+
         tag(BlockTags.MINEABLE_WITH_AXE)
                 .add(ModBlocks.WASTE_LOG.get());
 

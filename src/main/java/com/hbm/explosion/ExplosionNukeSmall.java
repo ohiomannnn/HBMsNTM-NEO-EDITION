@@ -1,7 +1,8 @@
 package com.hbm.explosion;
 
 import com.hbm.CommonEvents;
-import com.hbm.entity.logic.NukeExplosionMK5Entity;
+import com.hbm.config.ModConfigs;
+import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.lib.ModSounds;
 import com.hbm.packets.toclient.AuxParticlePacket;
@@ -53,7 +54,7 @@ public class ExplosionNukeSmall {
 
         if (!params.miniNuke) {
             WorldUtil.loadAndSpawnEntityInWorld(
-                    NukeExplosionMK5Entity.statFac(level, (int) params.blastRadius, posX, posY, posZ)
+                    NukeExplosionMK5.statFac(level, (int) params.blastRadius, posX, posY, posZ)
             );
         }
 
@@ -102,7 +103,7 @@ public class ExplosionNukeSmall {
 
     public static MukeParams PARAMS_HIGH = new MukeParams() {{
         miniNuke = false;
-        blastRadius = 150; // change to BombConfig.fatmanRadius;
+        blastRadius = ModConfigs.COMMON.FATMAN_RADIUS.get();
         shrapnelCount = 0;
     }};
 

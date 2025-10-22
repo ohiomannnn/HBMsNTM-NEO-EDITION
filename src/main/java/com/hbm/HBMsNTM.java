@@ -5,21 +5,16 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.ModConfigs;
 import com.hbm.creativetabs.ModCreativeTabs;
 import com.hbm.entity.ModEntities;
-import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.inventory.ModMenus;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModAttachments;
-import com.hbm.lib.ModCommands;
 import com.hbm.lib.ModEffect;
 import com.hbm.lib.ModSounds;
-import com.hbm.packets.PacketsDispatcher;
+import com.hbm.packets.PacketDispatcher;
 import com.hbm.world.biome.ModBiomes;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,12 +26,10 @@ public class HBMsNTM {
     //V -> next release version
     //T -> build type
     //X -> days since 10/10/2010
-    public static final String VERSION = "0.0.3 ALPHA (5482)";
-    public static final Logger LOGGER = LoggerFactory.getLogger("hbmsntm");
+    public static final String VERSION = "0.0.4 ALPHA (5489)";
+    public static final Logger LOGGER = LoggerFactory.getLogger("Hbm's NTM");
 
-    public static final ChunkRadiationManager radiationManager = new ChunkRadiationManager();
-
-    public HBMsNTM (IEventBus modEventBus, ModContainer modContainer) {
+    public HBMsNTM(IEventBus modEventBus, ModContainer modContainer) {
         ModBlocks.register(modEventBus);
         ModItems.register(modEventBus);
         ModEntities.register(modEventBus);
@@ -47,17 +40,9 @@ public class HBMsNTM {
         ModBlockEntities.register(modEventBus);
         ModMenus.register(modEventBus);
         ModBiomes.register(modEventBus);
-        modEventBus.addListener(PacketsDispatcher::registerPackets);
-
-        NeoForge.EVENT_BUS.register(radiationManager);
-        NeoForge.EVENT_BUS.register(this);
+        modEventBus.addListener(PacketDispatcher::registerPackets);
 
         ModConfigs.register(modContainer);
-    }
-
-    @SubscribeEvent
-    public void registerCommands(RegisterCommandsEvent event) {
-        ModCommands.registerCommandLivingProperties(event.getDispatcher());
     }
 }
 

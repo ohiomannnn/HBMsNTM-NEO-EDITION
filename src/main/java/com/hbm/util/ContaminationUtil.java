@@ -23,20 +23,6 @@ import java.util.HashSet;
 
 public class  ContaminationUtil {
 
-    public static float calculateRadiationMod(LivingEntity entity) {
-        if (entity instanceof ServerPlayer player) {
-            float coefficient = 10.0F;
-            //return (float) Math.pow(coefficient, -HazmatRegistry.getResistance(player));
-        }
-        return 1;
-    }
-
-    public static float getRads(Entity entity) {
-        if (!(entity instanceof LivingEntity e)) return 0.0F;
-        if (isRadImmune(entity)) return 0.0F;
-        return LivingProperties.getRadiation(e);
-    }
-
     public static HashSet<Class<?>> immuneEntities = new HashSet<>();
 
     public static boolean isRadImmune(Entity entity) {
@@ -62,25 +48,6 @@ public class  ContaminationUtil {
         return false;
     }
 
-    /// ASBESTOS ///
-    public static void applyAsbestos(Entity entity, int asb) {
-
-        if (!(entity instanceof LivingEntity e))
-            return;
-
-        if (entity instanceof ServerPlayer player && player.isCreative())
-            return;
-
-        if (entity instanceof ServerPlayer player && player.tickCount < 200)
-            return;
-
-        LivingProperties.incrementAsbestos(e, asb);
-//        if (ArmorRegistry.hasAllProtection(e, 3, HazardClass.PARTICLE_FINE))
-//            ArmorUtil.damageGasMaskFilter(e, i);
-//        else
-//            HbmLivingProps.incrementAsbestos(e, i);
-    }
-
     /// DIGAMMA ///
     public static void applyDigammaData(Entity entity, float dig) {
 
@@ -102,6 +69,14 @@ public class  ContaminationUtil {
 //
 //        if(!(entity instanceof EntityPlayer && ArmorUtil.checkForDigamma((EntityPlayer) e)))
 //            HbmLivingProps.incrementDigamma(e, f);
+    }
+
+    public static float calculateRadiationMod(LivingEntity entity) {
+        if (entity instanceof ServerPlayer player) {
+            float coefficient = 10.0F;
+            //return (float) Math.pow(coefficient, -HazmatRegistry.getResistance(player));
+        }
+        return 1;
     }
 
 

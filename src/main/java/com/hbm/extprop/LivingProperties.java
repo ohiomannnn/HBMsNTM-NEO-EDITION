@@ -19,6 +19,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.network.PacketDistributor;
 
@@ -28,7 +29,6 @@ import java.util.List;
 public class LivingProperties {
     public LivingEntity entity;
     private static final ResourceLocation DIGAMMA_MOD = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "digamma");
-
 
     /// VALS ///
     private float radiation;
@@ -241,6 +241,12 @@ public class LivingProperties {
         getData(entity).oil = oil;
     }
 
+    private static boolean isCreative(LivingEntity entity) {
+        if (!(entity instanceof Player player)) return false;
+        if (player.isSpectator()) return true;
+        return player.isCreative();
+    }
+
     /// ---- Serializing ---- ///
     public CompoundTag serializeNBT() {
         CompoundTag props = new CompoundTag();
@@ -303,23 +309,6 @@ public class LivingProperties {
 
         public float getRad() {
             return maxRad * ((float) time / (float) maxTime);
-        }
-
-        public void serialize(ByteBuf buf) {
-            buf.writeFloat(this.maxRad);
-            buf.writeInt(this.maxTime);
-            buf.writeInt(this.time);
-            buf.writeBoolean(ignoreArmor);
-        }
-
-        public static ContaminationEffect deserialize(ByteBuf buf) {
-            float maxRad = buf.readFloat();
-            int maxTime = buf.readInt();
-            int time = buf.readInt();
-            boolean ignoreArmor = buf.readBoolean();
-            ContaminationEffect effect = new ContaminationEffect(maxRad, maxTime, ignoreArmor);
-            effect.time = time;
-            return effect;
         }
 
         public void save(CompoundTag nbt, int index) {

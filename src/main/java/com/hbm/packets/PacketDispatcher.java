@@ -5,16 +5,18 @@ import com.hbm.HBMsNTMClient;
 import com.hbm.blockentity.IBufPacketReceiver;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
 import com.hbm.extprop.LivingProperties;
+import com.hbm.handler.HbmKeybinds;
+import com.hbm.handler.HbmKeybindsServer;
 import com.hbm.handler.gui.GeigerGUI;
 import com.hbm.packets.toclient.*;
 import com.hbm.packets.toserver.GetRadPacket;
+import com.hbm.packets.toserver.KeybindPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -25,44 +27,49 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import java.util.UUID;
 
-public final class PacketsDispatcher {
+public final class PacketDispatcher {
     public static void registerPackets(RegisterPayloadHandlersEvent event) {
         var registrar = event.registrar(HBMsNTM.MODID);
 
         registrar.playToServer(
                 GetRadPacket.TYPE,
                 GetRadPacket.STREAM_CODEC,
-                PacketsDispatcher::handleGetRad
+                PacketDispatcher::handleGetRad
+        );
+        registrar.playToServer(
+                KeybindPacket.TYPE,
+                KeybindPacket.STREAM_CODEC,
+                PacketDispatcher::handleKeybind
         );
         registrar.playToClient(
                 ExplosionVanillaNewTechnologyCompressedAffectedBlockPositionDataForClientEffectsAndParticleHandlingPacket.TYPE,
                 ExplosionVanillaNewTechnologyCompressedAffectedBlockPositionDataForClientEffectsAndParticleHandlingPacket.STREAM_CODEC,
-                PacketsDispatcher::handleBigNamePacket
+                PacketDispatcher::handleBigNamePacket
         );
         registrar.playToClient(
                 InformPlayerPacket.TYPE,
                 InformPlayerPacket.STREAM_CODEC,
-                PacketsDispatcher::handleInform
+                PacketDispatcher::handleInform
         );
         registrar.playToClient(
                 ParticleBurstPacket.TYPE,
                 ParticleBurstPacket.STREAM_CODEC,
-                PacketsDispatcher::handleBurst
+                PacketDispatcher::handleBurst
         );
         registrar.playToClient(
                 AuxParticlePacket.TYPE,
                 AuxParticlePacket.STREAM_CODEC,
-                PacketsDispatcher::handleAuxParticle
+                PacketDispatcher::handleAuxParticle
         );
         registrar.playToClient(
                 SendRadPacket.TYPE,
                 SendRadPacket.STREAM_CODEC,
-                PacketsDispatcher::handleSendRad
+                PacketDispatcher::handleSendRad
         );
         registrar.playToClient(
                 BufPacket.TYPE,
                 BufPacket.STREAM_CODEC,
-                PacketsDispatcher::handleBufPacket
+                PacketDispatcher::handleBufPacket
         );
     }
     private static void handleGetRad(GetRadPacket packet, IPayloadContext context) {
@@ -80,6 +87,12 @@ public final class PacketsDispatcher {
                     PacketDistributor.sendToPlayer(sender, new SendRadPacket(rad));
                 }
             }
+        });
+    }
+    private static void handleKeybind(KeybindPacket packet, IPayloadContext context) {
+        context.enqueueWork(() -> {
+            if (!(context.player() instanceof ServerPlayer sender)) return;
+            HbmKeybindsServer.onPressedServer(sender, HbmKeybinds.EnumKeybind.values()[packet.key().ordinal()], packet.pressed());
         });
     }
     private static void handleSendRad(SendRadPacket packet, IPayloadContext context) {

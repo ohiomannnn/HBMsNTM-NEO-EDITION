@@ -47,6 +47,12 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 ));
         simpleBlockWithItem(ModBlocks.DET_CHARGE.get(), cubeAll(ModBlocks.DET_CHARGE.get()));
 
+        simpleBlockWithItem(ModBlocks.DET_MINER.get(),
+                models().cubeColumn("det_miner",
+                        modLoc("block/det_miner_side"),
+                        modLoc("block/det_miner_top")
+                ));
+
         simpleBlockWithItem(ModBlocks.BRICK_LIGHT.get(), cubeAll(ModBlocks.BRICK_LIGHT.get()));
         simpleBlockWithItem(ModBlocks.BRICK_OBSIDIAN.get(), cubeAll(ModBlocks.BRICK_OBSIDIAN.get()));
         simpleBlockWithItem(ModBlocks.GRAVEL_OBSIDIAN.get(), cubeAll(ModBlocks.GRAVEL_OBSIDIAN.get()));

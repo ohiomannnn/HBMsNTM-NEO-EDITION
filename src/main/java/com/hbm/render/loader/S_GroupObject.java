@@ -1,9 +1,6 @@
 package com.hbm.render.loader;
 
-import com.mojang.blaze3d.vertex.ByteBufferBuilder;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.Minecraft;
+import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 
@@ -33,6 +30,7 @@ public class S_GroupObject {
             MultiBufferSource.BufferSource bufferSource = MultiBufferSource.immediate(builder);
             VertexConsumer consumer = bufferSource.getBuffer(this.renderType);
             render(consumer);
+            BufferUploader.drawWithShader( (MeshData) consumer);
         }
     }
 

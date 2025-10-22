@@ -1,11 +1,11 @@
 package com.hbm.entity;
 
 import com.hbm.HBMsNTM;
-import com.hbm.entity.effect.EntityFalloutRain;
+import com.hbm.entity.effect.FalloutRain;
 import com.hbm.entity.item.EntityTNTPrimedBase;
-import com.hbm.entity.logic.NukeExplosionBalefireEntity;
-import com.hbm.entity.logic.NukeExplosionMK5Entity;
-import com.hbm.entity.effect.EntityNukeTorex;
+import com.hbm.entity.logic.NukeExplosionBalefire;
+import com.hbm.entity.logic.NukeExplosionMK5;
+import com.hbm.entity.effect.NukeTorex;
 import com.hbm.entity.mob.CreeperNuclear;
 import com.hbm.entity.mob.Duck;
 import com.hbm.entity.projectile.EntityRubble;
@@ -23,27 +23,27 @@ public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
             DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, HBMsNTM.MODID);
 
-    public static final DeferredHolder<EntityType<?>, EntityType<NukeExplosionMK5Entity>> NUKE_MK5 =
+    public static final DeferredHolder<EntityType<?>, EntityType<NukeExplosionMK5>> NUKE_MK5 =
             ENTITY_TYPES.register("nuke_explosion_mk5",
-                    () -> EntityType.Builder.of(NukeExplosionMK5Entity::new, MobCategory.MISC)
+                    () -> EntityType.Builder.of(NukeExplosionMK5::new, MobCategory.MISC)
                             .sized(1.0F, 1.0F)
                             .build("nuke_explosion_mk5"));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<NukeExplosionBalefireEntity>> NUKE_BALEFIRE =
+    public static final DeferredHolder<EntityType<?>, EntityType<NukeExplosionBalefire>> NUKE_BALEFIRE =
             ENTITY_TYPES.register("nuke_balefire",
-                    () -> EntityType.Builder.of(NukeExplosionBalefireEntity::new, MobCategory.MISC)
+                    () -> EntityType.Builder.of(NukeExplosionBalefire::new, MobCategory.MISC)
                             .sized(1.0F, 1.0F)
                             .build("nuke_balefire"));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityNukeTorex>> NUKE_TOREX =
+    public static final DeferredHolder<EntityType<?>, EntityType<NukeTorex>> NUKE_TOREX =
             ENTITY_TYPES.register("nuke_torex",
-                    () -> EntityType.Builder.of(EntityNukeTorex::new, MobCategory.MISC)
+                    () -> EntityType.Builder.of(NukeTorex::new, MobCategory.MISC)
                             .setTrackingRange(1000)
                             .sized(2.0F, 50.0F)
                             .build("nuke_torex"));
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityFalloutRain>> FALLOUT_RAIN =
+    public static final DeferredHolder<EntityType<?>, EntityType<FalloutRain>> FALLOUT_RAIN =
             ENTITY_TYPES.register("fallout_rain",
-                    () -> EntityType.Builder.of(EntityFalloutRain::new, MobCategory.MISC)
+                    () -> EntityType.Builder.of(FalloutRain::new, MobCategory.MISC)
                             .setTrackingRange(1000)
                             .sized(2.0F, 20.0F)
                             .build("fallout_rain"));
