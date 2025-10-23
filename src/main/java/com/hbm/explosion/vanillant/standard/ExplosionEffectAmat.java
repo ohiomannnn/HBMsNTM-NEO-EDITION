@@ -3,8 +3,7 @@ package com.hbm.explosion.vanillant.standard;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.interfaces.IExplosionSFX;
 import com.hbm.lib.ModSounds;
-import com.hbm.packets.toclient.AuxParticlePacket;
-import net.minecraft.core.particles.ParticleTypes;
+import com.hbm.network.toclient.AuxParticle;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -27,6 +26,6 @@ public class ExplosionEffectAmat implements IExplosionSFX {
         CompoundTag tag = new CompoundTag();
         tag.putString("type", "amat");
         tag.putFloat("scale", size);
-        PacketDistributor.sendToPlayersNear((ServerLevel) level, null, x, y, z, 200, new AuxParticlePacket(tag, x, y, z));
+        PacketDistributor.sendToPlayersNear((ServerLevel) level, null, x, y, z, 200, new AuxParticle(tag, x, y, z));
     }
 }

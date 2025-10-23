@@ -72,7 +72,6 @@ import java.util.List;
 @EventBusSubscriber(value = Dist.CLIENT)
 public class HBMsNTMClient {
     public HBMsNTMClient(IEventBus modEventBus, ModContainer modContainer) {
-        ModParticles.register(modEventBus);
         modEventBus.addListener(GeigerGUI::RegisterGuiLayers);
         modEventBus.addListener(this::registerParticles);
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
@@ -354,12 +353,11 @@ public class HBMsNTMClient {
                 return;
             }
 
-//            if ("radFog".equals(type)) {
-//                ParticleRadiationFog fx = new ParticleRadiationFog(level, x, y, z, 0.62F, 0.67F, 0.38F, 5F, ModParticles.RAD_FOG_SPRITES);
-//                innerMc.particleEngine.add(fx);
-//            }
-
-            if("smoke".equals(type)) {
+            if ("radFog".equals(type)) {
+                ParticleRadiationFog fx = new ParticleRadiationFog(level, x, y, z, ModParticles.RAD_FOG_SPRITES);
+                innerMc.particleEngine.add(fx);
+            }
+            if ("smoke".equals(type)) {
 
                 String mode = data.getString("mode");
                 int count = Math.max(1, data.getInt("count"));

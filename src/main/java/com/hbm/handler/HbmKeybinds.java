@@ -3,7 +3,7 @@ package com.hbm.handler;
 import com.hbm.HBMsNTM;
 import com.hbm.extprop.PlayerProperties;
 import com.hbm.items.IKeybindReceiver;
-import com.hbm.packets.toserver.KeybindPacket;
+import com.hbm.network.toserver.KeybindPacket;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;

@@ -50,7 +50,7 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
             if (level.isLoaded(new BlockPos(x, y, z))) {
                 ChunkPos coords = new ChunkPos(x >> 4, z >> 4);
                 radWorld.radiation.put(coords, Mth.clamp(rad, 0, maxRad));
-                level.getChunk(x, z).setUnsaved(true);
+                level.getChunk(coords.x, coords.z).setUnsaved(true);
             }
         }
     }
@@ -209,7 +209,7 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
 
                     if(randEnt == null || randEnt.getValue() < threshold) continue;
 
-                    if (!serverLevel.hasChunk(coords.x, coords.z)) {
+                    if (serverLevel.hasChunk(coords.x, coords.z)) {
 
                         for (int a = 0; a < 16; a++) {
                             for (int b = 0; b < 16; b++) {

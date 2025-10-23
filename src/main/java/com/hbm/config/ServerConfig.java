@@ -3,12 +3,19 @@ package com.hbm.config;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class ServerConfig {
+    public final ModConfigSpec.BooleanValue DAMAGE_COMPATIBILITY_MODE;
+
     public final ModConfigSpec.BooleanValue TAINT_TRAILS;
 
     public final ModConfigSpec.BooleanValue CRATE_OPEN_HELD;
     public final ModConfigSpec.BooleanValue CRATE_KEEP_CONTENTS;
 
     ServerConfig(ModConfigSpec.Builder builder) {
+
+        DAMAGE_COMPATIBILITY_MODE = builder
+                .comment("???")
+                .translation("hbmsntm.configuration.damage_compatibility_mode")
+                .define("damage_compatibility_mode", false);
 
         TAINT_TRAILS = builder
                 .comment("When turned on, taint effect will make trail.")

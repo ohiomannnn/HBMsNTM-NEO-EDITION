@@ -2,6 +2,7 @@ package com.hbm.entity.effect;
 
 import com.hbm.entity.ModEntities;
 import com.hbm.lib.ModSounds;
+import com.hbm.render.entity.effect.RenderTorex;
 import com.hbm.util.BobMathUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
@@ -113,15 +114,7 @@ public class NukeTorex extends Entity {
                 }
 
                 if (!didPlaySound) {
-                    Player player = Minecraft.getInstance().player;
-                    if (player != null) {
-                        double dist = player.distanceTo(this);
-                        double radius = (tickCount * 1.5 + 1) * 1.5;
-                        if (dist < radius) {
-                            level().playLocalSound(getX(), getY(), getZ(), ModSounds.NUCLEAR_EXPLOSION.get(), SoundSource.AMBIENT, 10_000F, 1F, false);
-                            didPlaySound = true;
-                        }
-                    }
+                    RenderTorex.handleExplosionEffect(this, tickCount);
                 }
             }
 

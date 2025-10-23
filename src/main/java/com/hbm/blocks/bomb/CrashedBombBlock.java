@@ -14,7 +14,7 @@ import com.hbm.explosion.vanillant.standard.EntityProcessorCross;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.interfaces.IBomb;
 import com.hbm.lib.ModSounds;
-import com.hbm.packets.toclient.AuxParticlePacket;
+import com.hbm.network.toclient.AuxParticle;
 import com.hbm.particle.helper.ExplosionCreator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -103,7 +103,7 @@ public class CrashedBombBlock extends Block implements IBomb, EntityBlock {
                 null,
                 x + 0.5, y + 0.5, z + 0.5,
                 250,
-                new AuxParticlePacket(tag, x + 0.5, y + 0.5, z + 0.5)
+                new AuxParticle(tag, x + 0.5, y + 0.5, z + 0.5)
         );
     }
 }

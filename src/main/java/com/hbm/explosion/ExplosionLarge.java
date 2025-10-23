@@ -3,10 +3,9 @@ package com.hbm.explosion;
 import com.hbm.entity.ModEntities;
 import com.hbm.entity.projectile.EntityRubble;
 import com.hbm.entity.projectile.EntityShrapnel;
-import com.hbm.packets.toclient.AuxParticlePacket;
+import com.hbm.network.toclient.AuxParticle;
 import com.hbm.particle.ModParticles;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -30,7 +29,7 @@ public class ExplosionLarge {
         tag.putString("type", "smoke");
         tag.putString("mode", "cloud");
         tag.putInt("count", count);
-        PacketDistributor.sendToPlayersNear((ServerLevel) level, null, x, y, z, 250, new AuxParticlePacket(tag, x, y, z));
+        PacketDistributor.sendToPlayersNear((ServerLevel) level, null, x, y, z, 250, new AuxParticle(tag, x, y, z));
     }
 
     public static void spawnParticlesRadial(Level level, double x, double y, double z, int count) {
@@ -38,7 +37,7 @@ public class ExplosionLarge {
         tag.putString("type", "smoke");
         tag.putString("mode", "radial");
         tag.putInt("count", count);
-        PacketDistributor.sendToPlayersNear((ServerLevel) level, null, x, y, z, 250, new AuxParticlePacket(tag, x, y, z));
+        PacketDistributor.sendToPlayersNear((ServerLevel) level, null, x, y, z, 250, new AuxParticle(tag, x, y, z));
     }
 
     public static void spawnFoam(Level level, double x, double y, double z, int count) {
@@ -46,7 +45,7 @@ public class ExplosionLarge {
         tag.putString("type", "smoke");
         tag.putString("mode", "foamSplash");
         tag.putInt("count", count);
-        PacketDistributor.sendToPlayersNear((ServerLevel) level, null, x, y, z, 250, new AuxParticlePacket(tag, x, y, z));
+        PacketDistributor.sendToPlayersNear((ServerLevel) level, null, x, y, z, 250, new AuxParticle(tag, x, y, z));
     }
 
     public static void spawnShock(Level level, double x, double y, double z, int count, double strength) {
@@ -55,7 +54,7 @@ public class ExplosionLarge {
         tag.putString("mode", "shock");
         tag.putInt("count", count);
         tag.putDouble("strength", strength);
-        PacketDistributor.sendToPlayersNear((ServerLevel) level, null, x, y, z, 250, new AuxParticlePacket(tag, x, y, z));
+        PacketDistributor.sendToPlayersNear((ServerLevel) level, null, x, y, z, 250, new AuxParticle(tag, x, y, z));
     }
 
     public static void spawnBurst(Level level, double x, double y, double z, int count, double strength) {

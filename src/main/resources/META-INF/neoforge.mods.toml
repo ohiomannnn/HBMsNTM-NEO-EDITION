@@ -5,7 +5,7 @@ loaderVersion="${loader_version_range}"
 
 license="${mod_license}"
 
-issueTrackerURL="https://github.com/ohiomannnn/HBMsNTM/issues"
+issueTrackerURL="https://github.com/ohiomannnn/HBMsNTM-NEO-EDITION/issues"
 
 [[mods]]
 modId="${mod_id}"
@@ -14,9 +14,10 @@ version="${mod_version}"
 
 displayName="${mod_name}"
 
+# haha, kill yourself
 #updateJSONURL="https://change.me.example.invalid/updates.json"
 
-displayURL="https://github.com/ohiomannnn/HBMsNTM"
+displayURL="https://github.com/ohiomannnn/HBMsNTM-NEO-EDITION"
 
 logoFile= "logo.png"
 

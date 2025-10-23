@@ -4,6 +4,7 @@ import com.hbm.HBMsNTM;
 import com.hbm.HBMsNTMClient;
 import com.hbm.entity.effect.NukeTorex;
 import com.hbm.entity.effect.NukeTorex.Cloudlet;
+import com.hbm.lib.ModSounds;
 import com.hbm.render.CustomRenderTypes;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -16,6 +17,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
@@ -57,6 +59,23 @@ public class RenderTorex extends EntityRenderer<NukeTorex> {
         }
 
         pose.popPose();
+    }
+
+    public static void handleExplosionEffect(NukeTorex entity, int tickCount) {
+        Player player = Minecraft.getInstance().player;
+        if (player != null) {
+            double dist = player.distanceTo(entity);
+            double radius = (tickCount * 1.5 + 1) * 1.5;
+            if (dist < radius) {
+                entity.level().playLocalSound(
+                        entity.getX(), entity.getY(), entity.getZ(),
+                        ModSounds.NUCLEAR_EXPLOSION.get(),
+                        SoundSource.AMBIENT,
+                        10_000F, 1F, false
+                );
+                entity.didPlaySound = true;
+            }
+        }
     }
 
     private final Comparator<Cloudlet> cloudSorter = (a, b) -> {

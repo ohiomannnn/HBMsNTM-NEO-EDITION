@@ -24,9 +24,11 @@ public class HazardRegistry {
         HazardSystem.register(Items.GOLD_INGOT, makeData(BLINDING, 4F));
 
         HazardSystem.register(Items.BLAZE_POWDER, makeData(HOT, 4F));
-        HazardSystem.register(Blocks.GREEN_WOOL, makeData(RADIATION, 0.03F));
+        HazardSystem.register(Blocks.GREEN_WOOL, makeData(RADIATION, 150F));
         HazardSystem.register(Blocks.WHITE_WOOL, makeData(ASBESTOS, 5F));
         HazardSystem.register(Items.COAL, makeData(COAL, 1F));
+
+        HazardSystem.register(ModBlocks.URANIUM_BLOCK.get(), makeData(RADIATION, 160F));
     }
 
     private static HazardData makeData() { return new HazardData(); }

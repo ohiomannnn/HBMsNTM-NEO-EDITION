@@ -35,10 +35,10 @@ public class EntityProcessorCrossSmooth extends EntityProcessorCross {
 
     @Override
     public void attackEntity(Entity entity, ExplosionVNT source, float amount) {
-        if(!entity.isAlive()) return;
-        if(source.exploder == entity) amount *= 0.5F;
+        if (!entity.isAlive()) return;
+        if (source.exploder == entity) amount *= 0.5F;
         DamageSource dmg = new DamageSource(entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypes.ON_FIRE));//BulletConfig.getDamage(null, source.exploder instanceof EntityLivingBase ? (EntityLivingBase) source.exploder : null, clazz);
-        if(!(entity instanceof LivingEntity)) {
+        if (!(entity instanceof LivingEntity)) {
             entity.hurt(dmg, amount);
         } else {
             //EntityDamageUtil.attackEntityFromNT((LivingEntity) entity, dmg, amount, true, false, 0F, pierceDT, pierceDR);

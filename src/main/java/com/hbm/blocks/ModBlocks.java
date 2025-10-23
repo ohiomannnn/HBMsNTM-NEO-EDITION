@@ -312,6 +312,12 @@ public class ModBlocks {
                     true
             ));
 
+    public static final DeferredBlock<Block> URANIUM_BLOCK = registerBlock("uranium_block",
+            () -> new HazardBlock(BlockBehaviour.Properties.of()
+                    .strength(5.0F)
+                    .explosionResistance(50.0F)
+                    .requiresCorrectToolForDrops()
+                    .sound(SoundType.STONE)));
 
     //STAIRS
     public static final DeferredBlock<StairBlock> BRICK_CONCRETE_STAIRS = registerBlock("brick_concrete_stairs",

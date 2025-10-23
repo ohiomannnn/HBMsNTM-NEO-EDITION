@@ -23,6 +23,7 @@ public class BlockAllocatorStandard implements IBlockAllocator {
 
     @Override
     public HashSet<BlockPos> allocate(ExplosionVNT explosion, Level level, double x, double y, double z, float size) {
+
         HashSet<BlockPos> affectedBlocks = new HashSet<>();
 
         for (int i = 0; i < this.resolution; ++i) {
@@ -45,7 +46,7 @@ public class BlockAllocatorStandard implements IBlockAllocator {
                         double currentY = y;
                         double currentZ = z;
 
-                        for(float stepSize = 0.3F; powerRemaining > 0.0F; powerRemaining -= stepSize * 0.75F) {
+                        for (float stepSize = 0.3F; powerRemaining > 0.0F; powerRemaining -= stepSize * 0.75F) {
 
                             int blockX = Mth.floor(currentX);
                             int blockY = Mth.floor(currentY);

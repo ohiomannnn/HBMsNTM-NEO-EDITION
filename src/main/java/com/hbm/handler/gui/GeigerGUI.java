@@ -2,7 +2,7 @@ package com.hbm.handler.gui;
 
 import com.hbm.HBMsNTM;
 import com.hbm.items.tools.GeigerCounterItem;
-import com.hbm.packets.toserver.GetRadPacket;
+import com.hbm.network.toserver.GetRadPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;

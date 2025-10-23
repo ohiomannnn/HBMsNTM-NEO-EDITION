@@ -7,7 +7,7 @@ import com.hbm.extprop.LivingProperties.ContaminationEffect;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.ModSounds;
-import com.hbm.packets.toclient.AuxParticlePacket;
+import com.hbm.network.toclient.AuxParticle;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.*;
 import com.hbm.world.biome.ModBiomes;
@@ -176,7 +176,7 @@ public class EntityEffectHandler {
                             null,
                             entity.getX(), entity.getY(), entity.getZ(),
                             25,
-                            new AuxParticlePacket(tag, entity.getX(), entity.getY(), entity.getZ())
+                            new AuxParticle(tag, entity.getX(), entity.getY(), entity.getZ())
                     );
 
                     if ((level.getGameTime() + r600) % 600 == 1) {
@@ -192,7 +192,7 @@ public class EntityEffectHandler {
                 tag.putString("mode", "normal");
                 tag.putInt("count", 15);
                 tag.putInt("entity", entity.getId());
-                PacketDistributor.sendToPlayersNear((ServerLevel) level, null, entity.getX(), entity.getY(), entity.getZ(), 25, new AuxParticlePacket(tag, entity.getX(), entity.getY(), entity.getZ()));
+                PacketDistributor.sendToPlayersNear((ServerLevel) level, null, entity.getX(), entity.getY(), entity.getZ(), 25, new AuxParticle(tag, entity.getX(), entity.getY(), entity.getZ()));
 
                 if ((level.getGameTime() + r1200) % 1200 == 1) {
                     level.playSound(null, ix, iy, iz, ModSounds.VOMIT, SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -206,7 +206,7 @@ public class EntityEffectHandler {
                 tag.putInt("count", 1);
                 tag.put("BlockState", NbtUtils.writeBlockState(Blocks.REDSTONE_BLOCK.defaultBlockState()));
                 tag.putInt("entity", entity.getId());
-                PacketDistributor.sendToPlayersNear((ServerLevel) level, null, entity.getX(), entity.getY(), entity.getZ(), 25, new AuxParticlePacket(tag, entity.getX(), entity.getY(), entity.getZ()));
+                PacketDistributor.sendToPlayersNear((ServerLevel) level, null, entity.getX(), entity.getY(), entity.getZ(), 25, new AuxParticle(tag, entity.getX(), entity.getY(), entity.getZ()));
             }
 
             float radiation = LivingProperties.getRadiation(entity);
@@ -237,7 +237,7 @@ public class EntityEffectHandler {
                 nbt.putInt("count", 1);
                 nbt.put("BlockState", NbtUtils.writeBlockState(Blocks.SOUL_SAND.defaultBlockState()));
                 nbt.putInt("entity", entity.getId());
-                PacketDistributor.sendToPlayersNear((ServerLevel) level, null, entity.getX(), entity.getY(), entity.getZ(), 25, new AuxParticlePacket(nbt, entity.getX(), entity.getY(), entity.getZ()));
+                PacketDistributor.sendToPlayersNear((ServerLevel) level, null, entity.getX(), entity.getY(), entity.getZ(), 25, new AuxParticle(nbt, entity.getX(), entity.getY(), entity.getZ()));
             }
         }
     }

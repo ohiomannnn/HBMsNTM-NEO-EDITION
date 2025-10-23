@@ -5,7 +5,7 @@ import com.hbm.config.ModConfigs;
 import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.lib.ModSounds;
-import com.hbm.packets.toclient.AuxParticlePacket;
+import com.hbm.network.toclient.AuxParticle;
 import com.hbm.world.WorldUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -31,7 +31,7 @@ public class ExplosionNukeSmall {
                     null,
                     posX, posY, posZ,
                     300,
-                    new AuxParticlePacket(nbt, posX, posY, posZ)
+                    new AuxParticle(nbt, posX, posY, posZ)
             );
         }
 

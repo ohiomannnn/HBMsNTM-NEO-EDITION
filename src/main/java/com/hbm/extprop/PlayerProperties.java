@@ -3,7 +3,7 @@ package com.hbm.extprop;
 import com.hbm.HBMsNTMClient;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.lib.ModAttachments;
-import com.hbm.packets.toclient.InformPlayerPacket;
+import com.hbm.network.toclient.InformPlayerPacket;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;

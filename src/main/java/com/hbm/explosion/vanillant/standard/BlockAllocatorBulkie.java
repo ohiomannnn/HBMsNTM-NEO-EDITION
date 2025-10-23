@@ -31,7 +31,9 @@ public class BlockAllocatorBulkie implements IBlockAllocator {
         for (int i = 0; i < this.resolution; ++i) {
             for (int j = 0; j < this.resolution; ++j) {
                 for (int k = 0; k < this.resolution; ++k) {
+
                     if (i == 0 || i == this.resolution - 1 || j == 0 || j == this.resolution - 1 || k == 0 || k == this.resolution - 1) {
+
                         double d0 = (float) i / ((float) this.resolution - 1.0F) * 2.0F - 1.0F;
                         double d1 = (float) j / ((float) this.resolution - 1.0F) * 2.0F - 1.0F;
                         double d2 = (float) k / ((float) this.resolution - 1.0F) * 2.0F - 1.0F;

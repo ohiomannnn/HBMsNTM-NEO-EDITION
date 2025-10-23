@@ -4,7 +4,7 @@ import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.lib.ModSounds;
-import com.hbm.packets.toclient.AuxParticlePacket;
+import com.hbm.network.toclient.AuxParticle;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
@@ -84,7 +84,7 @@ public class CreeperNuclear extends Creeper {
                         null,
                         this.getX(), this.getY(), this.getZ(),
                         1000,
-                        new AuxParticlePacket(data, this.getX(), this.getY(), this.getZ())
+                        new AuxParticle(data, this.getX(), this.getY(), this.getZ())
                 );
 
                 this.level().playSound(null, this.blockPosition(), ModSounds.MUKE_EXPLOSION.get(), SoundSource.HOSTILE, 15.0F, 1.0F);

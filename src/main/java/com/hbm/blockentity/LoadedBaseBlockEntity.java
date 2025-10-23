@@ -1,7 +1,7 @@
 package com.hbm.blockentity;
 
 import api.hbm.tile.ILoadedTile;
-import com.hbm.packets.toclient.BufPacket;
+import com.hbm.network.toclient.BufNT;
 import com.hbm.sound.AudioWrapper;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -78,7 +78,7 @@ public class LoadedBaseBlockEntity extends BlockEntity implements ILoadedTile, I
         FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
         this.serialize(buf);
 
-        BufPacket packet = new BufPacket(worldPosition, buf);
+        BufNT packet = new BufNT(worldPosition, buf);
 
         if (buf.equals(lastPackedBuf) && level.getGameTime() % 20 != 0) return;
         lastPackedBuf = new FriendlyByteBuf(buf.copy());
