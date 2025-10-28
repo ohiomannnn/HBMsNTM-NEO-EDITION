@@ -30,7 +30,7 @@ public class HazardBlock extends Block {
     @Override
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
         rad = HazardSystem.getHazardLevelFromStack(new ItemStack(this), HazardRegistry.RADIATION) * 0.1F;
-        if (this.rad < 0 && level instanceof ServerLevel server) {
+        if (this.rad > 0 && level instanceof ServerLevel server) {
             server.scheduleTick(pos, this, 20);
         }
     }

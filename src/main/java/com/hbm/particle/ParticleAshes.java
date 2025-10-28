@@ -1,14 +1,18 @@
 package com.hbm.particle;
 
+import com.hbm.util.Vec3NT;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Vector3f;
 
 public class ParticleAshes extends ParticleRotating {
     public ParticleAshes(ClientLevel level, double x, double y, double z, float scale) {
@@ -55,8 +59,11 @@ public class ParticleAshes extends ParticleRotating {
 
     @Override
     public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
-        Vec3 camPos = camera.getPosition();
+        Vec3 cameraPosition = camera.getPosition();
         float timeLeft = this.lifetime - (this.age + partialTicks);
+
+        Vector3f up = new Vector3f(camera.getUpVector());
+        Vector3f left = new Vector3f(camera.getLeftVector());
 
         if (timeLeft < 40) {
             this.alpha = timeLeft / 40F;
@@ -65,45 +72,51 @@ public class ParticleAshes extends ParticleRotating {
         }
 
         if (this.onGround) {
-            float pX = (float)(Mth.lerp(partialTicks, this.xo, this.x) - camPos.x());
-            float pY = (float)(Mth.lerp(partialTicks, this.yo, this.y) - camPos.y());
-            float pZ = (float)(Mth.lerp(partialTicks, this.zo, this.z) - camPos.z());
+            float pX = (float)(Mth.lerp(partialTicks, this.xo, this.x) - cameraPosition.x);
+            float pY = (float)(Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y);
+            float pZ = (float)(Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z);
 
-            float f = this.getQuadSize(partialTicks);
-            float u0 = this.getU0();
-            float u1 = this.getU1();
-            float v0 = this.getV0();
-            float v1 = this.getV1();
-            float y = pY + 0.01F;
-            float angle = (float) Math.toRadians(this.roll);
-            float sin = Mth.sin(angle);
-            float cos = Mth.cos(angle);
-            float half = f / 2.0F;
+            Vec3NT vec = new Vec3NT(quadSize, 0, quadSize).rotateAroundYDeg(this.roll);
 
-            float x0 = -half * cos - -half * sin;
-            float z0 = -half * sin + -half * cos;
-            float x1 = -half * cos - half * sin;
-            float z1 = -half * sin + half * cos;
-            float x2 = half * cos - half * sin;
-            float z2 = half * sin + half * cos;
-            float x3 = half * cos - -half * sin;
-            float z3 = half * sin + -half * cos;
+            float u0 = sprite.getU0();
+            float u1 = sprite.getU1();
+            float v0 = sprite.getV0();
+            float v1 = sprite.getV1();
 
             int light = this.getLightColor(partialTicks);
-            consumer.addVertex(pX + x0, y, pZ + z0).setUv(u1, v1).setColor(rCol, gCol, bCol, alpha).setLight(light);
-            consumer.addVertex(pX + x1, y, pZ + z1).setUv(u1, v0).setColor(rCol, gCol, bCol, alpha).setLight(light);
-            consumer.addVertex(pX + x2, y, pZ + z2).setUv(u0, v0).setColor(rCol, gCol, bCol, alpha).setLight(light);
-            consumer.addVertex(pX + x3, y, pZ + z3).setUv(u0, v1).setColor(rCol, gCol, bCol, alpha).setLight(light);
 
+            consumer.addVertex((float) (pX + vec.xCoord), (pY + 0.25F), (float) (pZ + vec.zCoord))
+                    .setUv(u1, v1)
+                    .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
+                    .setNormal(0.0F, 1.0F, 0.0F)
+                    .setLight(light);
+            vec.rotateAroundYDeg(90);
+            consumer.addVertex((float) (pX + vec.xCoord), (pY + 0.25F), (float) (pZ + vec.zCoord))
+                    .setUv(u1, v0)
+                    .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
+                    .setNormal(0.0F, 1.0F, 0.0F)
+                    .setLight(light);
+            vec.rotateAroundYDeg(90);
+            consumer.addVertex((float) (pX + vec.xCoord), (pY + 0.25F), (float) (pZ + vec.zCoord))
+                    .setUv(u0, v0)
+                    .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
+                    .setNormal(0.0F, 1.0F, 0.0F)
+                    .setLight(light);
+            vec.rotateAroundYDeg(90);
+            consumer.addVertex((float) (pX + vec.xCoord), (pY + 0.25F), (float) (pZ + vec.zCoord))
+                    .setUv(u0, v1)
+                    .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
+                    .setNormal(0.0F, 1.0F, 0.0F)
+                    .setLight(light);
         } else {
-            renderParticleRotated(consumer, camera, this.rCol, this.gCol, this.bCol, this.alpha, this.quadSize, partialTicks);
+            renderParticleRotated(consumer, camera, up, left, this.rCol, this.gCol, this.bCol, this.alpha, this.quadSize, partialTicks, this.getLightColor(partialTicks));
         }
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
         @Override
         public TextureSheetParticle createParticle(SimpleParticleType type, ClientLevel world, double x, double y, double z, double dx, double dy, double dz) {
-            return new ParticleAshes(world, x, y, z, 0.5F);
+            return new ParticleAshes(world, x, y, z, 0.125F);
         }
     }
 }

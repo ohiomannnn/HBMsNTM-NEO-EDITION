@@ -15,12 +15,16 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.client.model.data.ModelData;
 
 import java.util.Random;
@@ -117,15 +121,21 @@ public class ParticleDebris extends TextureSheetParticle {
                     if (!state.isAir()) {
                         pose.pushPose();
                         pose.translate(ix, iy, iz);
-                        blockRenderer.renderSingleBlock(
+                        blockRenderer.getModelRenderer().tesselateBlock(
+                                level,
+                                blockRenderer.getBlockModel(state),
                                 state,
+                                pos.offset(ix, iy, iz),
                                 pose,
-                                bufferSource,
+                                bufferSource.getBuffer(RenderType.cutout()),
+                                false,
+                                level.random,
+                                42L,
                                 packedLight,
-                                OverlayTexture.NO_OVERLAY,
                                 ModelData.EMPTY,
                                 RenderType.cutout()
                         );
+
                         pose.popPose();
                     }
                 }

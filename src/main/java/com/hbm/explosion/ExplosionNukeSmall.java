@@ -1,7 +1,7 @@
 package com.hbm.explosion;
 
 import com.hbm.CommonEvents;
-import com.hbm.config.ModConfigs;
+import com.hbm.config.MainConfig;
 import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.lib.ModSounds;
@@ -103,7 +103,7 @@ public class ExplosionNukeSmall {
 
     public static MukeParams PARAMS_HIGH = new MukeParams() {{
         miniNuke = false;
-        blastRadius = ModConfigs.COMMON.FATMAN_RADIUS.get();
+        blastRadius = MainConfig.COMMON.FATMAN_RADIUS.get();
         shrapnelCount = 0;
     }};
 

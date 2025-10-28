@@ -1,6 +1,6 @@
 package com.hbm.hazard.type;
 
-import com.hbm.config.ModConfigs;
+import com.hbm.config.MainConfig;
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
@@ -18,7 +18,7 @@ public class HazardTypeExplosive extends HazardTypeBase {
     @Override
     public void onUpdate(LivingEntity target, float level, ItemStack stack) {
 
-        if (ModConfigs.COMMON.DISABLE_EXPLOSIVE.get()) return;
+        if (MainConfig.COMMON.DISABLE_EXPLOSIVE.get()) return;
 
         if (!target.level().isClientSide && (target.isOnFire() || target.isInLava()) && stack.getCount() > 0) {
             stack.setCount(0);
@@ -29,7 +29,7 @@ public class HazardTypeExplosive extends HazardTypeBase {
     @Override
     public void updateEntity(ItemEntity item, float level) {
 
-        if (ModConfigs.COMMON.DISABLE_EXPLOSIVE.get()) return;
+        if (MainConfig.COMMON.DISABLE_EXPLOSIVE.get()) return;
 
         if (item.isOnFire() || item.isInLava()) {
             item.discard();

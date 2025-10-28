@@ -4,7 +4,7 @@ import com.hbm.blockentity.ModBlockEntities;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.BalefireBlock;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
-import com.hbm.config.ModConfigs;
+import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntities;
 import com.hbm.handler.gui.GeigerGUI;
 import com.hbm.hazard.HazardSystem;
@@ -126,7 +126,7 @@ public class HBMsNTMClient {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onRenderGuiPre(RenderGuiEvent.Pre event) {
-        if (!ModConfigs.CLIENT.NUKE_HUD_SHAKE.get()) return;
+        if (!MainConfig.CLIENT.NUKE_HUD_SHAKE.get()) return;
 
         long now = System.currentTimeMillis();
         long end = shakeTimestamp + shakeDuration;
@@ -142,8 +142,8 @@ public class HBMsNTMClient {
     }
 
     @SubscribeEvent
-    public static void onOpenGUI(ScreenEvent.Opening  event) {
-        if (event.getScreen() instanceof TitleScreen main && ModConfigs.CLIENT.MAIN_MENU_WACKY_SPLASHES.get()) {
+    public static void onOpenGUI(ScreenEvent.Opening event) {
+        if (event.getScreen() instanceof TitleScreen main && MainConfig.CLIENT.MAIN_MENU_WACKY_SPLASHES.get()) {
             String text;
             int rand = (int) (Math.random() * 150);
             text = switch (rand) {
@@ -184,7 +184,7 @@ public class HBMsNTMClient {
     public static void onRenderGuiPost(RenderGuiEvent.Post event) {
 
         /// NUKE FLASH ///
-        if (ModConfigs.CLIENT.NUKE_HUD_FLASH.get() && (flashTimestamp + flashDuration - Clock.getMs()) > 0) {
+        if (MainConfig.CLIENT.NUKE_HUD_FLASH.get() && (flashTimestamp + flashDuration - Clock.getMs()) > 0) {
             float brightness = (flashTimestamp + flashDuration - Clock.getMs()) / (float) flashDuration;
             Minecraft mc = Minecraft.getInstance();
             int width = mc.getWindow().getGuiScaledWidth();
@@ -294,6 +294,10 @@ public class HBMsNTMClient {
             return new ParticleMukeCloud.Provider(sprites);
         });
         event.registerSpecial(ModParticles.DEBRIS.get(), new ParticleDebris.Provider());
+        event.registerSpriteSet(ModParticles.GIBLET.get(), sprites -> {
+            ModParticles.GIBLET_SPRITES = sprites;
+            return new ParticleMukeFlash.Provider(sprites);
+        });
         event.registerSpecial(ModParticles.EX_SMOKE.get(), new ParticleExSmoke.Provider());
         event.registerSpecial(ModParticles.FOAM.get(), new ParticleFoam.Provider());
         event.registerSpecial(ModParticles.ASHES.get(), new ParticleAshes.Provider());
@@ -315,7 +319,10 @@ public class HBMsNTMClient {
             return new ParticleMukeFlash.Provider(sprites);
         });
         event.registerSpriteSet(ModParticles.GAS_FLAME.get(), ParticleGasFlame.Provider::new);
-        event.registerSpriteSet(ModParticles.DEAD_LEAF.get(), ParticleDeadLeaf.Provider::new);
+        event.registerSpriteSet(ModParticles.DEAD_LEAF.get(), sprites -> {
+            ModParticles.DEAD_LEAVES_SPRITES = sprites;
+            return new ParticleAura.Provider(sprites);
+        });
         event.registerSpriteSet(ModParticles.AURA.get(), sprites -> {
             ModParticles.AURA_SPITES = sprites;
             return new ParticleAura.Provider(sprites);
@@ -460,26 +467,24 @@ public class HBMsNTMClient {
 //                    }
 //                }
 //
-//                if("foamSplash".equals(mode)) {
-//
-//                    double strength = data.getDouble("range");
-//
-//                    Vec3 vec = Vec3.createVectorHelper(strength, 0, 0);
-//
-//                    for(int i = 0; i < count; i++) {
-//
-//                        vec.rotateAroundY((float) Math.toRadians(rand.nextFloat() * 360F));
-//
-//                        ParticleFoam fx = new ParticleFoam(man, world, x + vec.xCoord, y, z + vec.zCoord);
-//                        fx.maxAge = 50;
-//                        fx.motionY = 0;
-//                        fx.motionX = 0;
-//                        fx.motionZ = 0;
-//                        Minecraft.getMinecraft().effectRenderer.addEffect(fx);
-//
-//                        vec.rotateAroundY(360 / count);
-//                    }
-//                }
+                if ("foamSplash".equals(mode)) {
+
+                    double strength = data.getDouble("range");
+
+                    Vec3 vec = new Vec3(strength, 0, 0);
+
+                    for (int i = 0; i < count; i++) {
+
+                        vec = vec.yRot((float) Math.toRadians(rand.nextFloat() * 360F));
+
+                        ParticleFoam particle = new ParticleFoam(level, x + vec.x, y, z + vec.z);
+                        particle.setLifetime(50);
+                        particle.resetMotion();
+                        innerMc.particleEngine.add(particle);
+
+                        vec = vec.yRot(360 / count);
+                    }
+                }
             }
 
 
@@ -524,6 +529,11 @@ public class HBMsNTMClient {
 
                     innerMc.particleEngine.add(particle);
                 }
+            }
+
+            if("deadleaf".equals(type)) {
+                if(particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean()))
+                    innerMc.particleEngine.add(new ParticleDeadLeaf(level, x, y, z, ModParticles.DEAD_LEAVES_SPRITES));
             }
 
             if("amat".equals(type)) {
@@ -616,6 +626,33 @@ public class HBMsNTMClient {
                             );
                         }
                     }
+                }
+            }
+            if ("giblets".equals(type)) {
+                int ent = data.getInt("ent");
+                Entity e = level.getEntity(ent);
+
+                if (e == null) return;
+
+                e.remove(Entity.RemovalReason.DISCARDED);
+
+                float width = e.getBbWidth();
+                float height = e.getBbHeight();
+                int gW = (int)(width / 0.25F);
+                int gH = (int)(height / 0.25F);
+
+                int count = (int) (gW * 1.5 * gH);
+
+                if (data.contains("cDiv")) count = (int) Math.ceil(count / (double)data.getInt("cDiv"));
+
+                boolean blowMeIntoTheGodDamnStratosphere = rand.nextInt(15) == 0;
+                double mult = 1D;
+
+                if (blowMeIntoTheGodDamnStratosphere)
+                    mult *= 10;
+
+                for (int i = 0; i < count; i++) {
+                    innerMc.particleEngine.add(new ParticleGiblet(level, x, y, z, rand.nextGaussian() * 0.25 * mult, rand.nextDouble() * mult, rand.nextGaussian() * 0.25 * mult, ModParticles.GIBLET_SPRITES));
                 }
             }
         });

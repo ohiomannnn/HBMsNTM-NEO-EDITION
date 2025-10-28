@@ -1,7 +1,7 @@
 package com.hbm;
 
 import com.hbm.config.FalloutConfigJSON;
-import com.hbm.config.ModConfigs;
+import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntities;
 import com.hbm.entity.mob.CreeperNuclear;
 import com.hbm.entity.mob.Duck;
@@ -60,7 +60,7 @@ public class CommonEvents {
     @SubscribeEvent
     public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
         if (!event.getEntity().level().isClientSide) {
-            if (ModConfigs.COMMON.ENABLE_MOTD.get()) {
+            if (MainConfig.COMMON.ENABLE_MOTD.get()) {
                 Player player = event.getEntity();
 
                 player.sendSystemMessage(Component.literal("Loaded world with Hbm's Nuclear Tech Mod " + HBMsNTM.VERSION + " for Minecraft 1.21.1!"));

@@ -1,8 +1,11 @@
 package com.hbm.render.util;
 
-import com.hbm.config.ModConfigs;
+import com.hbm.config.MainConfig;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.neoforged.api.distmarker.Dist;
@@ -49,11 +52,14 @@ public class RenderInfoSystem {
         Minecraft mc = Minecraft.getInstance();
         if (mc.options.hideGui) return;
         GuiGraphics graphics = event.getGuiGraphics();
-        int screenWidth = mc.getWindow().getGuiScaledWidth();
-        int screenHeight = mc.getWindow().getGuiScaledHeight();
+        int width = mc.getWindow().getGuiScaledWidth();
+        int height = mc.getWindow().getGuiScaledHeight();
 
         List<InfoEntry> entries = new ArrayList<>(messages.values());
         Collections.sort(entries);
+
+        RenderSystem.enableBlend();
+        RenderSystem.blendFuncSeparate(770, 771, 1, 0);
 
         int longest = 0;
         for (InfoEntry entry : messages.values()) {
@@ -62,24 +68,35 @@ public class RenderInfoSystem {
                 longest = length;
         }
 
-        int mode = ModConfigs.CLIENT.INFO_POSITION.get();
-        int pX = mode == 0 ? 15 : mode == 1 ? (screenWidth - longest - 15) : mode == 2 ? (screenWidth / 2 + 7) : (screenWidth / 2 - longest - 6);
-        int pZ = mode == 0 ? 15 : mode == 1 ? 15 : (screenHeight / 2 + 7);
+        int mode = MainConfig.CLIENT.INFO_POSITION.get();
+        int pX = mode == 0 ? 15 : mode == 1 ? (width - longest - 15) : mode == 2 ? (width / 2 + 7) : (width / 2 - longest - 6);
+        int pZ = mode == 0 ? 15 : mode == 1 ? 15 : (height / 2 + 7);
 
-        pX += ModConfigs.CLIENT.INFO_OFFSET_HORIZONTAL.get();
-        pZ += ModConfigs.CLIENT.INFO_OFFSET_VERTICAL.get();
+        pX += MainConfig.CLIENT.INFO_OFFSET_HORIZONTAL.get();
+        pZ += MainConfig.CLIENT.INFO_OFFSET_VERTICAL.get();
 
         int side = pX + 5 + longest;
-        int height = messages.size() * 10 + pZ + 2;
+        int infoHeight = messages.size() * 10 + pZ + 2;
+        int z = 0;
 
-        graphics.fill(pX - 5, pZ - 5, side, height, 0x80000000);
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+
+        Tesselator tess = Tesselator.getInstance();
+        BufferBuilder buf = tess.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+
+        buf.addVertex(pX - 5, pZ - 5, z).setColor(0.25F, 0.25F, 0.25F, 0.5F);
+        buf.addVertex(pX - 5, infoHeight, z).setColor(0.25F, 0.25F, 0.25F, 0.5F);
+        buf.addVertex(side, infoHeight, z).setColor(0.25F, 0.25F, 0.25F, 0.5F);
+        buf.addVertex(side, pZ - 5, z).setColor(0.25F, 0.25F, 0.25F, 0.5F);
+
+        BufferUploader.drawWithShader(buf.buildOrThrow());
 
         int off = 0;
         long now = System.currentTimeMillis();
 
         for (InfoEntry entry : messages.values()) {
             int elapsed = (int) (now - entry.start);
-            int alpha = Mth.clamp(510 * (entry.millis - elapsed) / entry.millis, 5, 255);
+            int alpha = Math.max(Math.min(510 * (entry.millis - elapsed) / entry.millis, 255), 5);
 
             graphics.drawString(mc.font, entry.component, pX, pZ + off, 0xFFFFFF | (alpha << 24));
             off += 10;

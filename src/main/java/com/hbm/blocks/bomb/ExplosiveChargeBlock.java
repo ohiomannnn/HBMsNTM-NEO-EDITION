@@ -1,7 +1,7 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.config.ModConfigs;
+import com.hbm.config.MainConfig;
 import com.hbm.entity.item.EntityTNTPrimedBase;
 import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.entity.effect.NukeTorex;
@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class ExplosiveChargeBlock extends DetonatableBlock implements IBomb {
+
     public ExplosiveChargeBlock(Properties properties) {
         super(properties, 0, 0, 0, false, false);
     }
@@ -35,8 +36,8 @@ public class ExplosiveChargeBlock extends DetonatableBlock implements IBomb {
                 ExplosionCreator.composeEffectStandard(level, x + 0.5, y + 1, z + 0.5);
             }
             if (this == ModBlocks.DET_NUKE.get()) {
-                level.addFreshEntity(NukeExplosionMK5.statFac(level, ModConfigs.COMMON.MISSLE_RADIUS.get(), x + 0.5, y + 0.5, z + 0.5));
-                NukeTorex.statFacStandard(level, x + 0.5, y + 0.5, z + 0.5, ModConfigs.COMMON.MISSLE_RADIUS.get());
+                level.addFreshEntity(NukeExplosionMK5.statFac(level, MainConfig.COMMON.MISSLE_RADIUS.get(), x + 0.5, y + 0.5, z + 0.5));
+                NukeTorex.statFacStandard(level, x + 0.5, y + 0.5, z + 0.5, MainConfig.COMMON.MISSLE_RADIUS.get());
             }
         }
         return BombReturnCode.DETONATED;

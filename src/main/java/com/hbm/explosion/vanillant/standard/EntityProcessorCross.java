@@ -7,7 +7,6 @@ import com.hbm.explosion.vanillant.interfaces.IEntityRangeMutator;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageSources;
@@ -22,15 +21,16 @@ import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.event.EventHooks;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Map.Entry;
 
 /** The amount of good decisions in NTM is few and far between, but the VNT explosion surely is one of them. */
 public class EntityProcessorCross implements IEntityProcessor {
 
-    protected double nodeDist = 2D;
+    protected double nodeDist;
     protected IEntityRangeMutator range;
     protected ICustomDamageHandler damage;
     protected double knockbackMult = 1D;
@@ -51,9 +51,9 @@ public class EntityProcessorCross implements IEntityProcessor {
     }
 
     @Override
-    public Map<Player, Vec3> processEntities(ExplosionVNT explosion, Level level, double x, double y, double z, float size) {
+    public HashMap<Player, Vec3> processEntities(ExplosionVNT explosion, Level level, double x, double y, double z, float size) {
 
-        Map<Player, Vec3> affectedPlayers = new HashMap<>();
+        HashMap<Player, Vec3> affectedPlayers = new HashMap<>();
 
         size *= 2.0F;
 
@@ -61,48 +61,45 @@ public class EntityProcessorCross implements IEntityProcessor {
             size = range.mutateRange(explosion, size);
         }
 
-        double minX = x - size - 1.0D;
-        double maxX = x + size + 1.0D;
-        double minY = y - size - 1.0D;
-        double maxY = y + size + 1.0D;
-        double minZ = z - size - 1.0D;
-        double maxZ = z + size + 1.0D;
+        double minX = x - (double) size - 1.0D;
+        double maxX = x + (double) size + 1.0D;
+        double minY = y - (double) size - 1.0D;
+        double maxY = y + (double) size + 1.0D;
+        double minZ = z - (double) size - 1.0D;
+        double maxZ = z + (double) size + 1.0D;
 
-        AABB bounds = new AABB(minX, minY, minZ, maxX, maxY, maxZ);
-
-        List<Entity> entities = level.getEntities(explosion.exploder, bounds);
-
-        net.neoforged.neoforge.event.EventHooks.onExplosionDetonate(level, explosion.compat, entities, size);
+        List<Entity> list = level.getEntities(allowSelfDamage ? null : explosion.exploder, new AABB(minX, minY, minZ, maxX, maxY, maxZ));
+        EventHooks.onExplosionDetonate(level, explosion.compat, list, size);
 
         Vec3[] nodes = new Vec3[7];
+
         for (int i = 0; i < 7; i++) {
             Direction dir = Direction.from3DDataValue(i);
-            nodes[i] = new Vec3(
-                    x + dir.getStepX() * nodeDist,
-                    y + dir.getStepY() * nodeDist,
-                    z + dir.getStepZ() * nodeDist
-            );
+            nodes[i] = new Vec3(x + dir.getStepX() * nodeDist, y + dir.getStepY() * nodeDist, z + dir.getStepZ() * nodeDist);
         }
 
-        Map<Entity, Float> damageMap = new HashMap<>();
+        HashMap<Entity, Float> damageMap = new HashMap<>();
 
-        for (Entity entity : entities) {
-            AABB bb = entity.getBoundingBox();
+        for (int index = 0; index < list.size(); ++index) {
 
-            double xDist = (bb.minX <= x && bb.maxX >= x) ? 0 : Math.min(Math.abs(bb.minX - x), Math.abs(bb.maxX - x));
-            double yDist = (bb.minY <= y && bb.maxY >= y) ? 0 : Math.min(Math.abs(bb.minY - y), Math.abs(bb.maxY - y));
-            double zDist = (bb.minZ <= z && bb.maxZ >= z) ? 0 : Math.min(Math.abs(bb.minZ - z), Math.abs(bb.maxZ - z));
+            Entity entity = list.get(index);
 
+            AABB entityBoundingBox = entity.getBoundingBox();
+            double xDist = (entityBoundingBox.minX <= x && entityBoundingBox.maxX >= x) ? 0 : Math.min(Math.abs(entityBoundingBox.minX - x), Math.abs(entityBoundingBox.maxX - x));
+            double yDist = (entityBoundingBox.minY <= y && entityBoundingBox.maxY >= y) ? 0 : Math.min(Math.abs(entityBoundingBox.minY - y), Math.abs(entityBoundingBox.maxY - y));
+            double zDist = (entityBoundingBox.minZ <= z && entityBoundingBox.maxZ >= z) ? 0 : Math.min(Math.abs(entityBoundingBox.minZ - z), Math.abs(entityBoundingBox.maxZ - z));
             double dist = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist);
             double distanceScaled = dist / size;
 
+
             if (distanceScaled <= 1.0D) {
                 double deltaX = entity.getX() - x;
-                double deltaY = entity.getEyeY() - y;
+                double deltaY = entity.getY() + entity.getEyeHeight() - y;
                 double deltaZ = entity.getZ() - z;
                 double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
 
                 if (distance != 0.0D) {
+
                     deltaX /= distance;
                     deltaY /= distance;
                     deltaZ /= distance;
@@ -118,40 +115,27 @@ public class EntityProcessorCross implements IEntityProcessor {
                     double knockback = (1.0D - distanceScaled) * density;
 
                     float dmg = calculateDamage(distanceScaled, density, knockback, size);
-                    damageMap.merge(entity, dmg, Math::max);
+                    if (!damageMap.containsKey(entity) || damageMap.get(entity) < dmg) damageMap.put(entity, dmg);
 
-                    Holder<Enchantment> blast = level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.BLAST_PROTECTION);
+                    // TODO: add proper knockback handling
 
-                    int blastProtectionLevel = 0;
-                    if (entity instanceof LivingEntity living) {
-                        for (ItemStack stack : living.getArmorSlots()) {
-                            blastProtectionLevel += EnchantmentHelper.getTagEnchantmentLevel(blast, stack);
-                        }
-                    }
-
-                    if (entity instanceof ServerPlayer player) {
-                        double protFactor = 1.0 - 0.15 * blastProtectionLevel;
-                        if (protFactor < 0.0) protFactor = 0.0;
-                        if (protFactor > 1.0) protFactor = 1.0;
-
-                        Vec3 push = new Vec3(deltaX, deltaY, deltaZ)
-                                .scale(knockback * knockbackMult * protFactor);
-
-                        affectedPlayers.put(player, push);
+                    if (entity instanceof Player player) {
+                        affectedPlayers.put(player, new Vec3(deltaX * knockback * knockbackMult, deltaY * knockback * knockbackMult, deltaZ * knockback * knockbackMult));
                     }
                 }
             }
         }
 
-        for (Map.Entry<Entity, Float> entry : damageMap.entrySet()) {
+        for (Entry<Entity, Float> entry : damageMap.entrySet()) {
+
             Entity entity = entry.getKey();
             attackEntity(entity, explosion, entry.getValue());
 
             if (damage != null) {
-                AABB bb = entity.getBoundingBox();
-                double xDist = (bb.minX <= x && bb.maxX >= x) ? 0 : Math.min(Math.abs(bb.minX - x), Math.abs(bb.maxX - x));
-                double yDist = (bb.minY <= y && bb.maxY >= y) ? 0 : Math.min(Math.abs(bb.minY - y), Math.abs(bb.maxY - y));
-                double zDist = (bb.minZ <= z && bb.maxZ >= z) ? 0 : Math.min(Math.abs(bb.minZ - z), Math.abs(bb.maxZ - z));
+                AABB entityBoundingBox = entity.getBoundingBox();
+                double xDist = (entityBoundingBox.minX <= x && entityBoundingBox.maxX >= x) ? 0 : Math.min(Math.abs(entityBoundingBox.minX - x), Math.abs(entityBoundingBox.maxX - x));
+                double yDist = (entityBoundingBox.minY <= y && entityBoundingBox.maxY >= y) ? 0 : Math.min(Math.abs(entityBoundingBox.minY - y), Math.abs(entityBoundingBox.maxY - y));
+                double zDist = (entityBoundingBox.minZ <= z && entityBoundingBox.maxZ >= z) ? 0 : Math.min(Math.abs(entityBoundingBox.minZ - z), Math.abs(entityBoundingBox.maxZ - z));
                 double dist = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist);
                 double distanceScaled = dist / size;
                 damage.handleAttack(explosion, entity, distanceScaled);
@@ -163,20 +147,19 @@ public class EntityProcessorCross implements IEntityProcessor {
 
 
     public void attackEntity(Entity entity, ExplosionVNT source, float amount) {
-        entity.hurt(setExplosionSource((ServerLevel) entity.level(), source.compat), amount);
+        entity.hurt(setExplosionSource(entity.level(), source.compat), amount);
     }
 
     public float calculateDamage(double distanceScaled, double density, double knockback, float size) {
         return (float) ((int) ((knockback * knockback + knockback) / 2.0D * 8.0D * size + 1.0D));
     }
 
-    public static DamageSource setExplosionSource(ServerLevel level, Explosion explosion) {
+    public static DamageSource setExplosionSource(Level level, Explosion explosion) {
         DamageSources sources = level.damageSources();
         Entity causing = explosion.getIndirectSourceEntity();
-        Entity direct  = explosion.getDirectSourceEntity();
+        Entity direct = explosion.getDirectSourceEntity();
         return sources.explosion(causing, direct);
     }
-
 
     public EntityProcessorCross withRangeMod(float mod) {
         range = new IEntityRangeMutator() {

@@ -312,6 +312,15 @@ public class ModBlocks {
                     true
             ));
 
+    public static final DeferredBlock<Block> LANDMINE = registerBlock("landmine",
+            () -> new LandmineBlock(BlockBehaviour.Properties.of()
+                    .noOcclusion()
+                    .noLootTable()
+                    .strength(0.1F)
+                    .explosionResistance(2.5F)
+                    .sound(SoundType.METAL), 1, 1
+            ));
+
     public static final DeferredBlock<Block> URANIUM_BLOCK = registerBlock("uranium_block",
             () -> new HazardBlock(BlockBehaviour.Properties.of()
                     .strength(5.0F)
@@ -372,7 +381,7 @@ public class ModBlocks {
                             .noLootTable()
                             .sound(SoundType.STONE), false));
 
-    //FIRE
+    //IN_FIRE
     public static final DeferredBlock<Block> BALEFIRE = BLOCKS.register("balefire",
             () -> new BalefireBlock(BlockBehaviour.Properties.of()
                     .replaceable()

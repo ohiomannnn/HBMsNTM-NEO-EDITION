@@ -1,7 +1,7 @@
 package com.hbm.items.tools;
 
 import com.hbm.HBMsNTM;
-import com.hbm.config.ModConfigs;
+import com.hbm.config.MainConfig;
 import com.hbm.interfaces.IBomb;
 import com.hbm.lib.ModSounds;
 import com.hbm.util.TagsUtil;
@@ -76,7 +76,7 @@ public class MultiDetonatorItem extends Item {
 
                         if (ret.wasSuccessful()) success++;
 
-                        if (ModConfigs.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
+                        if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
                             HBMsNTM.LOGGER.info("[MULTI DETONATOR] {} detonated {} at {} / {} / {}!", player.getName().getString(), block.getName().getString(), x, y, z);
                         }
                     }

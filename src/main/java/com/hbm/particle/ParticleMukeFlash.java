@@ -7,6 +7,9 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.FastColor;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import java.util.Random;
@@ -99,59 +102,67 @@ public class ParticleMukeFlash extends TextureSheetParticle {
     }
 
     @Override
-    public void render(VertexConsumer vertexConsumer, Camera camera, float partialTicks) {
-        float px = (float)(xo + (this.x - xo) * partialTicks - camera.getPosition().x());
-        float py = (float)(yo + (this.y - yo) * partialTicks - camera.getPosition().y());
-        float pz = (float)(zo + (this.z - zo) * partialTicks - camera.getPosition().z());
+    public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
+        Vec3 cameraPosition = camera.getPosition();
 
-        float scale = (this.age + partialTicks) * 3.0F + 1.0F;
-        float alpha = 1.0F - ((this.age + partialTicks) / (float)this.lifetime);
-        if (alpha < 0) alpha = 0;
-        if (alpha > 1) alpha = 1;
+        float dX = (float) (Mth.lerp(partialTicks, this.xo, this.x) - cameraPosition.x);
+        float dY = (float) (Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y);
+        float dZ = (float) (Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z);
 
-        int color = FastColor.ARGB32.color((int)(alpha * 255), 255, 230, 191);
+        this.alpha = Mth.clamp(1 - ((this.age + partialTicks) / (float)this.lifetime), 0.0F, 1.0F);
+        this.alpha = this.alpha * 0.5F;
+        float scale = (this.age + partialTicks) * 3F + 1F;
 
-        float u0 = this.getU0();
-        float v0 = this.getV0();
-        float u1 = this.getU1();
-        float v1 = this.getV1();
-        int light = 0xF000F0;
-        int overlay = 0;
+        this.rCol = 1.0F; this.gCol = 0.9F; this.bCol = 0.75F;
 
-        Vector3f left = camera.getLeftVector();
-        Vector3f up = camera.getUpVector();
+        Vector3f up = new Vector3f(camera.getUpVector());
+        Vector3f left = new Vector3f(camera.getLeftVector());
 
-        float leftX = left.x() * scale;
-        float leftY = left.y() * scale;
-        float leftZ = left.z() * scale;
-        float upX = up.x() * scale;
-        float upY = up.y() * scale;
-        float upZ = up.z() * scale;
+        Random rand = new Random();
 
         for (int i = 0; i < 24; i++) {
+            rand.setSeed(i * 31 + 1);
 
-            float x0 = px - leftX - upX;
-            float y0 = py - leftY - upY;
-            float z0 = pz - leftZ - upZ;
+            float pX = (float) (dX + rand.nextDouble() * 15 - 7.5);
+            float pY = (float) (dY + rand.nextDouble() * 7.5 - 3.75);
+            float pZ = (float) (dZ + rand.nextDouble() * 15 - 7.5);
 
-            float x1 = px - leftX + upX;
-            float y1 = py - leftY + upY;
-            float z1 = pz - leftZ + upZ;
-
-            float x2 = px + leftX + upX;
-            float y2 = py + leftY + upY;
-            float z2 = pz + leftZ + upZ;
-
-            float x3 = px + leftX - upX;
-            float y3 = py + leftY - upY;
-            float z3 = pz + leftZ - upZ;
-
-            vertexConsumer.addVertex(x0, y0, z0, color, u1, v1, overlay, light, 0, 1, 0);
-            vertexConsumer.addVertex(x1, y1, z1, color, u1, v0, overlay, light, 0, 1, 0);
-            vertexConsumer.addVertex(x2, y2, z2, color, u0, v0, overlay, light, 0, 1, 0);
-            vertexConsumer.addVertex(x3, y3, z3, color, u0, v1, overlay, light, 0, 1, 0);
+            addBillboardQuad(consumer, pX, pY, pZ, left, up, scale);
         }
     }
+
+    private void addBillboardQuad(VertexConsumer consumer, float cx, float cy, float cz, Vector3f left, Vector3f up, float scale) {
+
+        float u0 = sprite.getU0();
+        float u1 = sprite.getU1();
+        float v0 = sprite.getV0();
+        float v1 = sprite.getV1();
+
+        Vector3f l = new Vector3f(left).mul(scale);
+        Vector3f u = new Vector3f(up).mul(scale);
+
+        consumer.addVertex(cx - l.x - u.x, cy - l.y - u.y, cz - l.z - u.z)
+                .setUv(u1, v1)
+                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
+                .setNormal(0.0F, 1.0F, 0.0F)
+                .setLight(240);
+        consumer.addVertex(cx - l.x + u.x, cy - l.y + u.y, cz - l.z + u.z)
+                .setUv(u1, v0)
+                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
+                .setNormal(0.0F, 1.0F, 0.0F)
+                .setLight(240);
+        consumer.addVertex(cx + l.x + u.x, cy + l.y + u.y, cz + l.z + u.z)
+                .setUv(u0, v0)
+                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
+                .setNormal(0.0F, 1.0F, 0.0F)
+                .setLight(240);
+        consumer.addVertex(cx + l.x - u.x, cy + l.y - u.y, cz + l.z - u.z)
+                .setUv(u0, v1)
+                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
+                .setNormal(0.0F, 1.0F, 0.0F)
+                .setLight(240);
+    }
+
     @Override
     public ParticleRenderType getRenderType() {
         return IParticleRenderType.PARTICLE_SHEET_ADDITIVE;

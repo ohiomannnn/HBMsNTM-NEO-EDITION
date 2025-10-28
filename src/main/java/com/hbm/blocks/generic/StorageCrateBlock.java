@@ -2,7 +2,7 @@ package com.hbm.blocks.generic;
 
 import com.hbm.blockentity.machine.storage.CrateIronBlockEntity;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.config.ModConfigs;
+import com.hbm.config.MainConfig;
 import com.hbm.blockentity.machine.storage.CrateBaseBlockEntity;
 import com.hbm.util.TagsUtil;
 import com.mojang.serialization.MapCodec;
@@ -113,7 +113,7 @@ public class StorageCrateBlock extends BaseEntityBlock {
         BlockEntity blockEntity = level.getBlockEntity(pos);
 
         if (blockEntity instanceof CrateBaseBlockEntity lockable && !level.isClientSide && !player.isCreative()) {
-            boolean keepContents = ModConfigs.SERVER.CRATE_KEEP_CONTENTS.get();
+            boolean keepContents = MainConfig.SERVER.CRATE_KEEP_CONTENTS.get();
             boolean isLocked = lockable.isLocked();
 
             if (!keepContents && !isLocked) {
@@ -156,7 +156,7 @@ public class StorageCrateBlock extends BaseEntityBlock {
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof CrateBaseBlockEntity crate) {
 
-                boolean keepContents = ModConfigs.SERVER.CRATE_KEEP_CONTENTS.get();
+                boolean keepContents = MainConfig.SERVER.CRATE_KEEP_CONTENTS.get();
                 boolean isLocked = crate.isLocked();
 
                 if (!keepContents || isLocked) {

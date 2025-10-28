@@ -37,9 +37,9 @@ public class ParticleExSmoke extends TextureSheetParticle {
             this.remove();
         }
 
-        this.xd *= 0.7599999785423279D;
-        this.yd *= 0.7599999785423279D;
-        this.zd *= 0.7599999785423279D;
+        this.xd *= 0.76D;
+        this.yd *= 0.76D;
+        this.zd *= 0.76D;
 
         this.move(this.xd, this.yd, this.zd);
     }

@@ -1,12 +1,12 @@
 package com.hbm.render;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 public class CustomRenderTypes extends RenderType {
 
@@ -24,7 +24,7 @@ public class CustomRenderTypes extends RenderType {
                 true,
                 RenderType.CompositeState.builder()
                         .setShaderState(RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
-                        .setTextureState(new RenderStateShard.TextureStateShard(texture, false, true))
+                        .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
                         .setTransparencyState(ADDITIVE_TRANSPARENCY)
                         .setCullState(NO_CULL)
                         .setLightmapState(LIGHTMAP)
@@ -37,17 +37,11 @@ public class CustomRenderTypes extends RenderType {
             new RenderStateShard.TransparencyStateShard("additive",
                     () -> {
                         RenderSystem.enableBlend();
-                        RenderSystem.disableCull();
-                        RenderSystem.disableDepthTest();
-                        RenderSystem.blendFunc(
-                                GlStateManager.SourceFactor.SRC_ALPHA,
-                                GlStateManager.DestFactor.ONE
-                        );
+                        RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+                        RenderSystem.depthMask(false);
                     },
                     () -> {
+                        RenderSystem.depthMask(true);
                         RenderSystem.disableBlend();
-                        RenderSystem.enableCull();
-                        RenderSystem.enableDepthTest();
-                        RenderSystem.defaultBlendFunc();
                     });
 }

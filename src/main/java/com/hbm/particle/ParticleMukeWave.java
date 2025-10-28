@@ -3,24 +3,20 @@ package com.hbm.particle;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
 
 public class ParticleMukeWave extends TextureSheetParticle {
 
-    private final SpriteSet sprites;
     private float waveScale = 45F;
 
     public ParticleMukeWave(ClientLevel level, double x, double y, double z, SpriteSet sprites) {
-        super(level, x, y, z, 0, 0, 0);
-        this.sprites = sprites;
-        this.alpha = 1.0F;
+        super(level, x, y, z);
         this.setSpriteFromAge(sprites);
+        this.lifetime = 25;
+        this.rCol = this.gCol = this.bCol = 1.0F;
     }
 
     public void setup(float scale, int maxAge) {
@@ -29,60 +25,46 @@ public class ParticleMukeWave extends TextureSheetParticle {
     }
 
     @Override
-    public void tick() {
-        this.xo = this.x;
-        this.yo = this.y;
-        this.zo = this.z;
+    public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
+        Vec3 camPos = camera.getPosition();
 
-        if (this.age++ >= this.lifetime) {
-            this.remove();
-        }
+        float pX = (float) (Mth.lerp(partialTicks, this.xo, this.x) - camPos.x);
+        float pY = (float) (Mth.lerp(partialTicks, this.yo, this.y) - camPos.y);
+        float pZ = (float) (Mth.lerp(partialTicks, this.zo, this.z) - camPos.z);
 
-        float t = (float) this.age / (float) this.lifetime;
-        this.alpha = 1.0F - t;
-        this.quadSize = (1.0F - (float) Math.exp(-(this.age) * 0.125F)) * waveScale;
-        this.setSpriteFromAge(this.sprites);
+        this.alpha = Mth.clamp(1 - ((this.age + partialTicks) / (float)this.lifetime), 0.0F, 1.0F);
+        float scale = (1 - (float)Math.pow(Math.E, (this.age + partialTicks) * -0.125)) * waveScale;
+
+        renderQuad(consumer, pX, pY, pZ, scale, 240);
     }
 
-    @Override
-    public void render(VertexConsumer buffer, Camera camera, float partialTicks) {
+    private void renderQuad(VertexConsumer consumer, float cx, float cy, float cz, float scale, int brightness) {
 
-        float cx = (float) (Mth.lerp(partialTicks, this.xo, this.x) - camera.getPosition().x);
-        float cy = (float) (Mth.lerp(partialTicks, this.yo, this.y) - camera.getPosition().y);
-        float cz = (float) (Mth.lerp(partialTicks, this.zo, this.z) - camera.getPosition().z);
+        float u0 = sprite.getU0();
+        float u1 = sprite.getU1();
+        float v0 = sprite.getV0();
+        float v1 = sprite.getV1();
 
-        float half = this.quadSize;
-        float u0 = this.getU0();
-        float u1 = this.getU1();
-        float v0 = this.getV0();
-        float v1 = this.getV1();
-
-        int lightU = 0xF0;
-        int lightV = 0xF0;
-
-        buffer.addVertex(cx - half, cy, cz - half)
+        consumer.addVertex((cx - 1 * scale), (cy - 0.25F), (cz - 1 * scale))
                 .setUv(u1, v1)
-                .setColor(1.0F, 1.0F, 1.0F, alpha)
-                .setUv2(lightU, lightV)
-                .setNormal(0, 1, 0);
-
-        buffer.addVertex(cx - half, cy, cz + half)
+                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
+                .setNormal(0.0F, 1.0F, 0.0F)
+                .setLight(brightness);
+        consumer.addVertex((cx - 1 * scale), (cy - 0.25F), (cz + 1 * scale))
                 .setUv(u1, v0)
-                .setColor(1.0F, 1.0F, 1.0F, alpha)
-                .setUv2(lightU, lightV)
-                .setNormal(0, 1, 0);
-
-        buffer.addVertex(cx + half, cy, cz + half)
+                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
+                .setNormal(0.0F, 1.0F, 0.0F)
+                .setLight(brightness);
+        consumer.addVertex((cx + 1 * scale),(cy - 0.25F), (cz + 1 * scale))
                 .setUv(u0, v0)
-                .setColor(1.0F, 1.0F, 1.0F, alpha)
-                .setUv2(lightU, lightV)
-                .setNormal(0, 1, 0);
-
-        buffer.addVertex(cx + half, cy, cz - half)
+                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
+                .setNormal(0.0F, 1.0F, 0.0F)
+                .setLight(brightness);
+        consumer.addVertex((cx + 1 * scale), (cy - 0.25F), (cz - 1 * scale))
                 .setUv(u0, v1)
-                .setColor(1.0F, 1.0F, 1.0F, alpha)
-                .setUv2(lightU, lightV)
-                .setNormal(0, 1, 0);
+                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
+                .setNormal(0.0F, 1.0F, 0.0F)
+                .setLight(brightness);
     }
 
     @Override
@@ -99,7 +81,7 @@ public class ParticleMukeWave extends TextureSheetParticle {
 
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
-            return new ParticleMukeWave(level, x, y, z, /*45F, 25*/ sprites);
+            return new ParticleMukeWave(level, x, y, z, sprites);
         }
     }
 }

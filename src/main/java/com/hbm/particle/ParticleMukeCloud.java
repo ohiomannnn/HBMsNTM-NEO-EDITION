@@ -64,12 +64,12 @@ public class ParticleMukeCloud extends TextureSheetParticle {
 
     @Override
     public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+        return IParticleRenderType.MUKE_CLOUD;
     }
 
     @Override
     protected int getLightColor(float partialTick) {
-        return 0xF000F0;
+        return 240;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {

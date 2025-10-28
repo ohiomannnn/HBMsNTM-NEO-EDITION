@@ -1,7 +1,7 @@
 package com.hbm.handler;
 
 import com.hbm.HBMsNTMClient;
-import com.hbm.config.ModConfigs;
+import com.hbm.config.MainConfig;
 import com.hbm.extprop.LivingProperties;
 import com.hbm.extprop.LivingProperties.ContaminationEffect;
 import com.hbm.handler.radiation.ChunkRadiationManager;
@@ -50,11 +50,11 @@ public class EntityEffectHandler {
         ResourceKey<Biome> biome = entity.level().getBiome(new BlockPos((int) entity.getX(), (int) entity.getY(), (int) entity.getZ())).getKey();
         double radiation = 0;
 
-        if (biome == ModBiomes.CRATER_OUTER) radiation = ModConfigs.COMMON.CRATER_OUTER_RAD.get();
-        if (biome == ModBiomes.CRATER) radiation = ModConfigs.COMMON.CRATER_RAD.get();
-        if (biome == ModBiomes.CRATER_INNER) radiation = ModConfigs.COMMON.CRATER_INNER_RAD.get();
+        if (biome == ModBiomes.CRATER_OUTER) radiation = MainConfig.COMMON.CRATER_OUTER_RAD.get();
+        if (biome == ModBiomes.CRATER) radiation = MainConfig.COMMON.CRATER_RAD.get();
+        if (biome == ModBiomes.CRATER_INNER) radiation = MainConfig.COMMON.CRATER_INNER_RAD.get();
 
-        if(entity.isInWater()) radiation *= ModConfigs.COMMON.CRATER_WATER_MULT.get();
+        if (entity.isInWater()) radiation *= MainConfig.COMMON.CRATER_WATER_MULT.get();
 
         if (radiation > 0) {
             ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE,(float) radiation / 20F);
@@ -150,7 +150,7 @@ public class EntityEffectHandler {
 
             float rad = ChunkRadiationManager.proxy.getRadiation(level, ix, iy, iz);
 
-            if (level.dimension() == Level.NETHER && ModConfigs.COMMON.HELL_RAD.get() > 0 && rad < ModConfigs.COMMON.HELL_RAD.get())
+            if (level.dimension() == Level.NETHER && MainConfig.COMMON.HELL_RAD.get() > 0 && rad < MainConfig.COMMON.HELL_RAD.get())
                 rad = (float) 0.01;
 
             if (rad > 0) ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, rad / 20F);

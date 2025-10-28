@@ -7,5 +7,5 @@ import net.minecraft.world.level.Level;
 import java.util.HashSet;
 
 public interface IBlockProcessor {
-    void process(ExplosionVNT explosion, Level level, double x, double y, double z, HashSet<BlockPos> blocks);
+    void process(ExplosionVNT explosion, Level level, double x, double y, double z, HashSet<BlockPos> affectedBlocks);
 }

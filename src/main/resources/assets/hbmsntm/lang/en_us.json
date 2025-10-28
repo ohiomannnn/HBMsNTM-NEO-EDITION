@@ -69,6 +69,11 @@
   "hbmsntm.configuration.taint_trails": "Taint trails",
   "hbmsntm.configuration.crate_open_held": "Crate Open Held",
 
+  "hbmsntm.keys": "NTM Hotkeys",
+  "hbmsntm.keys.toggleBack": "Toggle Jetpack",
+  "hbmsntm.keys.toggleHUD": "Toggle HUD",
+  "hbmsntm.keys.toggleMagnet": "Toggle Magnet",
+
   "block.hbmsntm.brick_concrete": "Concrete Brick",
   "block.hbmsntm.brick_concrete_mossy": "Mossy Concrete Brick",
   "block.hbmsntm.brick_concrete_cracked": "Cracked Concrete Brick",

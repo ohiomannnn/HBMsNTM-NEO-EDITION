@@ -2,7 +2,7 @@ package com.hbm;
 
 import com.hbm.blockentity.ModBlockEntities;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.config.ModConfigs;
+import com.hbm.config.MainConfig;
 import com.hbm.creativetabs.ModCreativeTabs;
 import com.hbm.entity.ModEntities;
 import com.hbm.inventory.ModMenus;
@@ -10,7 +10,7 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.ModAttachments;
 import com.hbm.lib.ModEffect;
 import com.hbm.lib.ModSounds;
-import com.hbm.network.PacketDispatcher;
+import com.hbm.network.NTMNetwork;
 import com.hbm.particle.ModParticles;
 import com.hbm.world.biome.ModBiomes;
 import net.neoforged.bus.api.IEventBus;
@@ -27,7 +27,7 @@ public class HBMsNTM {
     // V -> next release version
     // T -> build type
     // X -> days since 10/10/2010
-    public static final String VERSION = "0.0.4 ALPHA (5492)";
+    public static final String VERSION = "0.0.4 ALPHA (5493)";
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
     public HBMsNTM(IEventBus modEventBus, ModContainer modContainer) {
@@ -42,9 +42,9 @@ public class HBMsNTM {
         ModMenus.register(modEventBus);
         ModBiomes.register(modEventBus);
         ModParticles.register(modEventBus);
-        modEventBus.addListener(PacketDispatcher::registerPackets);
+        modEventBus.addListener(NTMNetwork::registerPackets);
 
-        ModConfigs.register(modContainer);
+        MainConfig.register(modContainer);
     }
 }
 

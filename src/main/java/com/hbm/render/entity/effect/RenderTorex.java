@@ -6,6 +6,7 @@ import com.hbm.entity.effect.NukeTorex;
 import com.hbm.entity.effect.NukeTorex.Cloudlet;
 import com.hbm.lib.ModSounds;
 import com.hbm.render.CustomRenderTypes;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
@@ -87,7 +88,11 @@ public class RenderTorex extends EntityRenderer<NukeTorex> {
     };
 
     private void cloudletWrapper(NukeTorex cloud, float partialTicks, PoseStack pose, MultiBufferSource buffers) {
-        VertexConsumer consumer = buffers.getBuffer(RenderType.entityTranslucent(CLOUDLET));
+        VertexConsumer consumer = buffers.getBuffer(CustomRenderTypes.entityTranslucent(CLOUDLET));
+
+        RenderSystem.enableBlend();
+        RenderSystem.blendFuncSeparate(770, 771, 1, 0);
+        RenderSystem.depthMask(false);
 
         ArrayList<Cloudlet> cloudlets = new ArrayList<>(cloud.cloudlets);
         cloudlets.sort(cloudSorter);
@@ -99,6 +104,9 @@ public class RenderTorex extends EntityRenderer<NukeTorex> {
             double z = vec.z - cloud.getZ();
             renderCloudlet(consumer, pose, x, y, z, cloudlet, partialTicks);
         }
+
+        RenderSystem.depthMask(true);
+        RenderSystem.disableBlend();
     }
 
     private void flashWrapper(NukeTorex cloud, float partialTicks, PoseStack pose, MultiBufferSource buffers) {
@@ -150,7 +158,7 @@ public class RenderTorex extends EntityRenderer<NukeTorex> {
         Vector3f normal = last.normal().transform(new Vector3f(0, 1, 0));
 
         int color = FastColor.ARGB32.color((int)(a * 255), (int)(r * 255), (int)(g * 255), (int)(b * 255));
-        int light = 15728880;
+        int light = 240;
         int overlay = OverlayTexture.NO_OVERLAY;
 
         float u0 = 0, v0 = 0;

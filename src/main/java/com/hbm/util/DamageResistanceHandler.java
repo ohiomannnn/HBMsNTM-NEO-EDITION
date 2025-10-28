@@ -54,7 +54,7 @@ public class DamageResistanceHandler {
     public static float currentPDR = 0F;
 
     public static final String CATEGORY_EXPLOSION = "EXPLOSION";
-    public static final String CATEGORY_FIRE = "FIRE";
+    public static final String CATEGORY_FIRE = "IN_FIRE";
     public static final String CATEGORY_PHYSICAL = "PHYSICAL";
     public static final String CATEGORY_ENERGY = "ENERGY";
 
@@ -319,8 +319,8 @@ public class DamageResistanceHandler {
 
     public enum DamageClass {
         PHYSICAL,
-        FIRE,
-        EXPLOSIVE,
+        IN_FIRE,
+        EXPLOSION,
         ELECTRIC,
         LASER,
         MICROWAVE,

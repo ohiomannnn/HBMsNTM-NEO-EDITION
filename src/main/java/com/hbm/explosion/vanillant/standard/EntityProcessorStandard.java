@@ -5,12 +5,9 @@ import com.hbm.explosion.vanillant.interfaces.ICustomDamageHandler;
 import com.hbm.explosion.vanillant.interfaces.IEntityProcessor;
 import com.hbm.explosion.vanillant.interfaces.IEntityRangeMutator;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageSources;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -22,10 +19,10 @@ import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.event.EventHooks;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class EntityProcessorStandard implements IEntityProcessor {
 
@@ -34,7 +31,8 @@ public class EntityProcessorStandard implements IEntityProcessor {
     protected boolean allowSelfDamage = false;
 
     @Override
-    public Map<Player, Vec3> processEntities(ExplosionVNT explosion, Level level, double x, double y, double z, float size) {
+    public HashMap<Player, Vec3> processEntities(ExplosionVNT explosion, Level level, double x, double y, double z, float size) {
+
         HashMap<Player, Vec3> affectedPlayers = new HashMap<>();
 
         size *= 2.0F;
@@ -50,55 +48,34 @@ public class EntityProcessorStandard implements IEntityProcessor {
         double minZ = z - (double) size - 1.0D;
         double maxZ = z + (double) size + 1.0D;
 
-        AABB bound = new AABB(minX, minY, minZ, maxX, maxY, maxZ);
+        List<Entity> list = level.getEntities(allowSelfDamage ? null : explosion.exploder, new AABB(minX, minY, minZ, maxX, maxY, maxZ));
+        EventHooks.onExplosionDetonate(level, explosion.compat, list, size);
+        Vec3 vec3 = new Vec3(x, y, z);
 
+        for (int index = 0; index < list.size(); ++index) {
 
-        List<Entity> list = level.getEntities(
-                (Entity) null,
-                bound,
-                entity -> allowSelfDamage || entity != explosion.exploder
-        );
-
-        Vec3 explosionPos = new Vec3(x, y, z);
-
-        for (Entity entity : list) {
-            double distanceScaled = entity.distanceToSqr(x, y, z);
-            distanceScaled = Math.sqrt(distanceScaled) / size;
+            Entity entity = list.get(index);
+            double distanceScaled = entity.distanceToSqr(x, y, z) / size;
 
             if (distanceScaled <= 1.0D) {
+
                 double deltaX = entity.getX() - x;
-                double deltaY = entity.getEyeY() - y;
+                double deltaY = entity.getY() + entity.getEyeHeight() - y;
                 double deltaZ = entity.getZ() - z;
                 double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
 
                 if (distance != 0.0D) {
+
                     deltaX /= distance;
                     deltaY /= distance;
                     deltaZ /= distance;
 
-                    double density = Explosion.getSeenPercent(explosionPos, entity);
+                    double density = Explosion.getSeenPercent(vec3, entity);
                     double knockback = (1.0D - distanceScaled) * density;
 
-                    DamageSource src = setExplosionSource(level, explosion.compat);
-                    entity.hurt(src, calculateDamage(knockback, size));
+                    entity.hurt(setExplosionSource(level, explosion.compat), calculateDamage(distanceScaled, density, knockback, size));
 
-                    Holder<Enchantment> blast = level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.BLAST_PROTECTION);
-
-                    int blastProtectionLevel = 0;
-                    if (entity instanceof LivingEntity living) {
-                        for (ItemStack stack : living.getArmorSlots()) {
-                            blastProtectionLevel += EnchantmentHelper.getTagEnchantmentLevel(blast, stack);
-                        }
-                    }
-
-                    float reduction = 1.0F - (0.15F * blastProtectionLevel);
-
-                    reduction = Math.max(reduction, 0.0F);
-
-                    Vec3 knockbackVec = new Vec3(deltaX * knockback, deltaY * knockback, deltaZ * knockback)
-                            .scale(reduction);
-
-                    entity.setDeltaMovement(entity.getDeltaMovement().add(knockbackVec));
+                    // TODO: add proper knockback handling
 
                     if (entity instanceof Player player) {
                         affectedPlayers.put(player, new Vec3(deltaX * knockback, deltaY * knockback, deltaZ * knockback));
@@ -114,7 +91,7 @@ public class EntityProcessorStandard implements IEntityProcessor {
         return affectedPlayers;
     }
 
-    public float calculateDamage(double knockback, float size) {
+    public float calculateDamage(double distanceScaled, double density, double knockback, float size) {
         return (float) ((int) ((knockback * knockback + knockback) / 2.0D * 8.0D * size + 1.0D));
     }
 

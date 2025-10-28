@@ -1,6 +1,6 @@
 package com.hbm.hazard.type;
 
-import com.hbm.config.ModConfigs;
+import com.hbm.config.MainConfig;
 import com.hbm.extprop.LivingProperties;
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.util.i18n.I18nUtil;
@@ -19,7 +19,7 @@ public class HazardTypeAsbestos extends HazardTypeBase {
     @Override
     public void onUpdate(LivingEntity target, float level, ItemStack stack) {
 
-        if (ModConfigs.COMMON.DISABLE_ASBESTOS.get()) return;
+        if (MainConfig.COMMON.DISABLE_ASBESTOS.get()) return;
 
 //        if(!ArmorRegistry.hasProtection(target, 3, HazardClass.PARTICLE_FINE))
 //            HbmLivingProps.incrementAsbestos(target, (int) Math.min(level, 10));

@@ -76,7 +76,7 @@ public class ExplosionVNT {
         boolean processEntities = entityProcessor != null && playerProcessor != null;
 
         HashSet<BlockPos> affectedBlocks = null;
-        Map<Player, Vec3> affectedPlayers = null;
+        HashMap<Player, Vec3> affectedPlayers = null;
 
         //allocation
         if (processBlocks) affectedBlocks = blockAllocator.allocate(this, level, posX, posY, posZ, size);

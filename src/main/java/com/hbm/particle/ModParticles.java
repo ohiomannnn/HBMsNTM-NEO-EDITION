@@ -45,11 +45,15 @@ public class ModParticles {
             PARTICLE_TYPES.register("foam", () -> new SimpleParticleType(false));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> ASHES =
             PARTICLE_TYPES.register("ashes", () -> new SimpleParticleType(false));
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> GIBLET =
+            PARTICLE_TYPES.register("giblet", () -> new SimpleParticleType(false));
 
 
     public static SpriteSet COOLING_TOWER_SPRITES;
     public static SpriteSet ROCKET_FLAME_SPRITES;
     public static SpriteSet MUKE_FLASH_SPRITES;
+    public static SpriteSet GIBLET_SPRITES;
+    public static SpriteSet DEAD_LEAVES_SPRITES;
     public static SpriteSet MUKE_WAVE_SPRITES;
     public static SpriteSet EXPLOSION_SMALL_SPRITES;
     public static SpriteSet AURA_SPITES;

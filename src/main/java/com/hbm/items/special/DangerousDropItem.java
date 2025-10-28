@@ -1,7 +1,7 @@
 package com.hbm.items.special;
 
 import com.hbm.HBMsNTM;
-import com.hbm.config.ModConfigs;
+import com.hbm.config.MainConfig;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.interfaces.IBomb;
 import com.hbm.items.ModItems;
@@ -25,6 +25,7 @@ import net.minecraft.world.level.block.Block;
 import java.util.List;
 
 public class DangerousDropItem extends Item {
+
     public DangerousDropItem(Properties properties) {
         super(properties);
     }
@@ -51,7 +52,7 @@ public class DangerousDropItem extends Item {
                     if (block instanceof IBomb bomb) {
                         bomb.explode(level, x, y, z);
 
-                        if (ModConfigs.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
+                        if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
                             HBMsNTM.LOGGER.info("[DEAD MAN'S DETONATOR] {} detonated {} at {} / {} / {}!", throwerName, block.getName().getString(), x, y, z);
                         }
                     }
@@ -60,7 +61,7 @@ public class DangerousDropItem extends Item {
                 itemEntity.discard();
                 return true;
             }
-            if (stack.is(ModItems.DETONATOR_DE.get()) && ModConfigs.COMMON.DROP_DEAD_MANS_EXPLOSIVE.get()) {
+            if (stack.is(ModItems.DETONATOR_DE.get()) && MainConfig.COMMON.DROP_DEAD_MANS_EXPLOSIVE.get()) {
                 level.explode(null, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), 15.0F, Level.ExplosionInteraction.TNT);
                 itemEntity.discard();
                 return true;
@@ -68,7 +69,7 @@ public class DangerousDropItem extends Item {
         }
 
         if (itemEntity.onGround()) {
-            if (stack.is(ModItems.CELL_ANTIMATTER.get()) && ModConfigs.COMMON.DROP_CELL.get()) {
+            if (stack.is(ModItems.CELL_ANTIMATTER.get()) && MainConfig.COMMON.DROP_CELL.get()) {
                 new ExplosionVNT(level, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), 5F).makeAmat().explode();
             }
         }

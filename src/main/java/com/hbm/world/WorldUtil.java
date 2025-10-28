@@ -34,31 +34,30 @@ public class WorldUtil {
         }
     }
 
-    public static void setBiomeColumn(ServerLevel level, int blockX, int blockZ, ResourceKey<Biome> biomeKey) {
-        Registry<Biome> biomeRegistry = level.registryAccess().registryOrThrow(Registries.BIOME);
-        Holder<Biome> biome = biomeRegistry.getHolderOrThrow(biomeKey);
-
+    public static void setBiomeColumn(ServerLevel level, int blockX, int blockZ, Holder<Biome> biome) {
         LevelChunk chunk = level.getChunk(blockX >> 4, blockZ >> 4);
         int localX = (blockX & 15) >> 2;
         int localZ = (blockZ & 15) >> 2;
 
         int minQuartY = level.getMinBuildHeight() >> 2;
         int maxQuartY = level.getMaxBuildHeight() >> 2;
+        int minSection = level.getMinSection();
+        int sectionsCount = chunk.getSectionsCount();
 
         for (int quartY = minQuartY; quartY < maxQuartY; quartY++) {
-            int blockY = quartY << 2;
-            int sectionIndex = (blockY >> 4) - level.getMinSection();
-            if (sectionIndex < 0 || sectionIndex >= chunk.getSectionsCount()) continue;
+            int sectionIndex = (quartY >> 2) - minSection;
+            if (sectionIndex < 0 || sectionIndex >= sectionsCount) continue;
 
             LevelChunkSection section = chunk.getSection(sectionIndex);
             int localY = quartY & 3;
 
-            PalettedContainer<Holder<Biome>> biomes = (PalettedContainer<Holder<Biome>>) section.getBiomes();
-
-            biomes.getAndSetUnchecked(localX, localY, localZ, biome);
+            ((PalettedContainer<Holder<Biome>>) section.getBiomes())
+                    .getAndSetUnchecked(localX, localY, localZ, biome);
         }
+
         chunk.setUnsaved(true);
     }
+
 
     public static void flushChunk(ServerLevel level, LevelChunk chunk) {
         level.getChunkSource().chunkMap.resendBiomesForChunks(List.of(chunk));

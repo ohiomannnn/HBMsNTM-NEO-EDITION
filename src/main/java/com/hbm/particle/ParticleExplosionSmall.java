@@ -8,6 +8,7 @@ import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
+import org.joml.Vector3f;
 
 import java.awt.*;
 
@@ -62,6 +63,9 @@ public class ParticleExplosionSmall extends ParticleRotating {
     @Override
     public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
 
+        Vector3f up = new Vector3f(camera.getUpVector());
+        Vector3f left = new Vector3f(camera.getLeftVector());
+
         double ageScaled = (double) (this.age + partialTicks) / (double) this.lifetime;
 
         Color color = Color.getHSBColor(hue / 255F, Math.max(1F - (float) ageScaled * 2F, 0), Mth.clamp(1.25F - (float) ageScaled * 2F, hue * 0.01F - 0.1F, 1F));
@@ -71,8 +75,8 @@ public class ParticleExplosionSmall extends ParticleRotating {
 
         this.alpha = (float) Math.pow(1 - Math.min(ageScaled, 1), 0.25);
 
-        double scale = (0.25 + 1 - Math.pow(1 - ageScaled, 4) + (this.age + partialTicks) * 0.02) * this.quadSize;
-        renderParticleRotated(consumer, camera, this.rCol, this.gCol, this.bCol, this.alpha * 0.5F, scale, partialTicks);
+        float scale = (float) ((0.25 + 1 - Math.pow(1 - ageScaled, 4) + (this.age + partialTicks) * 0.02) * this.quadSize);
+        renderParticleRotated(consumer, camera, up, left, this.rCol, this.gCol, this.bCol, this.alpha * 0.5F, scale, partialTicks, 240);
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {

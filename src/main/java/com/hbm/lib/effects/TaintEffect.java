@@ -1,7 +1,7 @@
 package com.hbm.lib.effects;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.config.ModConfigs;
+import com.hbm.config.MainConfig;
 import com.hbm.lib.ModDamageSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -31,7 +31,7 @@ public class TaintEffect extends MobEffect {
             }
             // }
 
-            if (ModConfigs.SERVER.TAINT_TRAILS.get()) {
+            if (MainConfig.SERVER.TAINT_TRAILS.get()) {
                 Level level = entity.level();
                 BlockPos posBelow = entity.blockPosition().below();
                 BlockState stateBelow = level.getBlockState(posBelow);

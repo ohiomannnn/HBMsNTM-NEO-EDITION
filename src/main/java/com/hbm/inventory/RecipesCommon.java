@@ -16,6 +16,35 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class RecipesCommon {
+
+    public static ItemStack[] copyStackArray(ItemStack[] array) {
+
+        if (array == null) return null;
+
+        ItemStack[] clone = new ItemStack[array.length];
+
+        for (int i = 0; i < array.length; i++) {
+
+            if (array[i] != null) clone[i] = array[i].copy();
+        }
+
+        return clone;
+    }
+
+    public static ItemStack[] objectToStackArray(Object[] array) {
+
+        if (array == null) return null;
+
+        ItemStack[] clone = new ItemStack[array.length];
+
+        for (int i = 0; i < array.length; i++) {
+
+            if (array[i] instanceof ItemStack) clone[i] = (ItemStack)array[i];
+        }
+
+        return clone;
+    }
+
     public static abstract class AStack implements Comparable<AStack> {
 
         protected int stackSize;
@@ -62,7 +91,6 @@ public class RecipesCommon {
             this.stackSize = size;
         }
     }
-
 
     public static class ComparableStack extends AStack {
 

@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
 
 import java.util.HashSet;
 
@@ -54,10 +55,12 @@ public class BlockAllocatorStandard implements IBlockAllocator {
 
                             BlockPos pos = new BlockPos(blockX, blockY, blockZ);
                             BlockState state = level.getBlockState(pos);
+                            FluidState fluid = level.getFluidState(pos);
+                            if (!level.isInWorldBounds(pos)) { break; }
 
                             if (!state.isAir()) {
                                 float blockResistance = explosion.exploder != null
-                                        ? explosion.exploder.getBlockExplosionResistance(explosion.compat, level, pos, state, state.getFluidState(), explosion.size)
+                                        ? explosion.exploder.getBlockExplosionResistance(explosion.compat, level, pos, state, fluid, explosion.size)
                                         : state.getExplosionResistance(level, pos, explosion.compat);
                                 powerRemaining -= (blockResistance + 0.3F) * stepSize;
                             }

@@ -64,7 +64,6 @@ public class ParticleCoolingTower extends TextureSheetParticle {
         this.xd *= 0.925;
         this.yd *= 0.925;
         this.zd *= 0.925;
-
     }
 
     @Override

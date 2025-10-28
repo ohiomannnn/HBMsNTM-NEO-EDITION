@@ -54,9 +54,12 @@ public class ParticleRocketFlame extends TextureSheetParticle {
 
     @Override
     public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
-        Quaternionf quaternionf = camera.rotation();
         Vec3 cameraPosition = camera.getPosition();
+
         Random urandom = new Random(this.hashCode());
+
+        Vector3f up = new Vector3f(camera.getUpVector());
+        Vector3f left = new Vector3f(camera.getLeftVector());
 
         for (int i = 0; i < 10; i++) {
             float add = urandom.nextFloat() * 0.3F;
@@ -66,7 +69,7 @@ public class ParticleRocketFlame extends TextureSheetParticle {
             this.gCol = Mth.clamp(0.6F * dark + add, 0.0F, 1.0F);
             this.bCol = Mth.clamp(0 + add, 0.0F, 1.0F);
 
-            this.alpha = (float) Math.pow(1 - Math.min(((float) (age) / (float) (maxAge)), 1), 0.5);
+            this.alpha = (float) (Math.pow(1 - Math.min(((float) (age) / (float) (maxAge)), 1), 0.5)) * 0.75F;
 
             float spread = (float) Math.pow(((float) (age) / (float) maxAge) * 4F, 1.5) + 1F;
             spread *= this.quadSize;
@@ -77,21 +80,40 @@ public class ParticleRocketFlame extends TextureSheetParticle {
             float pY = (float)(Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y() + (urandom.nextGaussian() - 1D) * 0.2F * spread);
             float pZ = (float)(Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z() + (urandom.nextGaussian() - 1D) * 0.2F * spread);
 
-            float u0 = sprite.getU0();
-            float u1 = sprite.getU1();
-            float v0 = sprite.getV0();
-            float v1 = sprite.getV1();
-
-            renderVertex(consumer, quaternionf, pX, pY, pZ, 1.0F, -1.0F, scale, u1, v1, 240, this.rCol, this.gCol, this.bCol, alpha * 0.75F);
-            renderVertex(consumer, quaternionf, pX, pY, pZ, 1.0F,  1.0F, scale, u1, v0, 240, this.rCol, this.gCol, this.bCol, alpha * 0.75F);
-            renderVertex(consumer, quaternionf, pX, pY, pZ, -1.0F, 1.0F, scale, u0, v0, 240, this.rCol, this.gCol, this.bCol, alpha * 0.75F);
-            renderVertex(consumer, quaternionf, pX, pY, pZ, -1.0F, -1.0F, scale, u0, v1, 240, this.rCol, this.gCol, this.bCol, alpha * 0.75F);
+            renderQuad(consumer, pX, pY, pZ, up, left, scale, 240);
         }
     }
 
-    private void renderVertex(VertexConsumer buffer, Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float quadSize, float u, float v, int packedLight, float r, float g, float b, float alpha) {
-        Vector3f vec = new Vector3f(xOffset, yOffset, 0.0F).rotate(quaternion).mul(quadSize).add(x, y, z);
-        buffer.addVertex(vec.x(), vec.y(), vec.z()).setUv(u, v).setColor(r, g, b, alpha).setLight(packedLight);
+    private void renderQuad(VertexConsumer consumer, float cx, float cy, float cz, Vector3f up, Vector3f left, float scale, int brightness) {
+
+        float u0 = sprite.getU0();
+        float u1 = sprite.getU1();
+        float v0 = sprite.getV0();
+        float v1 = sprite.getV1();
+
+        Vector3f l = new Vector3f(left).mul(scale);
+        Vector3f u = new Vector3f(up).mul(scale);
+
+        consumer.addVertex(cx - l.x - u.x, cy - l.y - u.y, cz - l.z - u.z)
+                .setUv(u1, v1)
+                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
+                .setNormal(0.0F, 1.0F, 0.0F)
+                .setLight(brightness);
+        consumer.addVertex(cx - l.x + u.x, cy - l.y + u.y, cz - l.z + u.z)
+                .setUv(u1, v0)
+                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
+                .setNormal(0.0F, 1.0F, 0.0F)
+                .setLight(brightness);
+        consumer.addVertex(cx + l.x + u.x, cy + l.y + u.y, cz + l.z + u.z)
+                .setUv(u0, v0)
+                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
+                .setNormal(0.0F, 1.0F, 0.0F)
+                .setLight(brightness);
+        consumer.addVertex(cx + l.x - u.x, cy + l.y - u.y, cz + l.z - u.z)
+                .setUv(u0, v1)
+                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
+                .setNormal(0.0F, 1.0F, 0.0F)
+                .setLight(brightness);
     }
 
     public ParticleRocketFlame resetPrevPos() {

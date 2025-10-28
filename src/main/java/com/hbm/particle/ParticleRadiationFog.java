@@ -1,8 +1,5 @@
 package com.hbm.particle;
 
-import com.hbm.HBMsNTM;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -53,53 +50,69 @@ public class ParticleRadiationFog extends TextureSheetParticle {
 
     @Override
     public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
-        Quaternionf quaternionf = new Quaternionf(camera.rotation());
-        Vec3 camPos = camera.getPosition();
+        Vec3 cameraPosition = camera.getPosition();
 
         this.rCol = 0.85F;
         this.gCol = 0.9F;
         this.bCol = 0.5F;
 
-        float interpAge = this.age + partialTicks;
-        this.alpha = (float) Math.sin(interpAge * Math.PI / 400f) * 0.125f;
+        this.alpha = (float) Math.sin(age * Math.PI / (400F)) * 0.225F;
 
-        Random urandom = new Random(50);
+        Random rand = new Random(50);
 
-        float baseX = (float) (Mth.lerp(partialTicks, this.xo, this.x) - camPos.x());
-        float baseY = (float) (Mth.lerp(partialTicks, this.yo, this.y) - camPos.y());
-        float baseZ = (float) (Mth.lerp(partialTicks, this.zo, this.z) - camPos.z());
+        Vector3f up = new Vector3f(camera.getUpVector());
+        Vector3f left = new Vector3f(camera.getLeftVector());
 
         for (int i = 0; i < 25; i++) {
-            double dX = (urandom.nextGaussian() - 1.0) * 2.5;
-            double dY = (urandom.nextGaussian() - 1.0) * 0.15;
-            double dZ = (urandom.nextGaussian() - 1.0) * 2.5;
-            double size = urandom.nextDouble() * this.quadSize;
 
-            float pX = baseX + (float) dX + (float) (urandom.nextGaussian() * 0.5);
-            float pY = baseY + (float) dY + (float) (urandom.nextGaussian() * 0.5);
-            float pZ = baseZ + (float) dZ + (float) (urandom.nextGaussian() * 0.5);
+            float dX = (float) ((rand.nextGaussian() - 1F) * 2.5F);
+            float dY = (float) ((rand.nextGaussian() - 1F) * 0.15F);
+            float dZ = (float) ((rand.nextGaussian() - 1F) * 2.5F);
+            float size = rand.nextFloat() * quadSize;
 
-            float U0 = this.getU0();
-            float U1 = this.getU1();
-            float V0 = this.getV0();
-            float V1 = this.getV1();
+            float pX = (float) ((float) (Mth.lerp(partialTicks, this.xo, this.x) - cameraPosition.x) + dX + rand.nextGaussian() * 0.5);
+            float pY = (float) ((float) (Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y) + dY + rand.nextGaussian() * 0.5);
+            float pZ = (float) ((float) (Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z) + dZ + rand.nextGaussian() * 0.5);
 
-            this.renderVertex(consumer, quaternionf, pX, pY, pZ,  1.0F, -1.0F, (float)size, U1, V1, 240);
-            this.renderVertex(consumer, quaternionf, pX, pY, pZ,  1.0F,  1.0F, (float)size, U1, V0, 240);
-            this.renderVertex(consumer, quaternionf, pX, pY, pZ, -1.0F,  1.0F, (float)size, U0, V0, 240);
-            this.renderVertex(consumer, quaternionf, pX, pY, pZ, -1.0F, -1.0F, (float)size, U0, V1, 240);
+            renderQuad(consumer, pX, pY, pZ, up, left, size, 240);
         }
     }
 
+    private void renderQuad(VertexConsumer consumer, float cx, float cy, float cz, Vector3f up, Vector3f left, float scale, int brightness) {
 
-    private void renderVertex(VertexConsumer buffer, Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float quadSize, float u, float v, int packedLight) {
-        Vector3f vector3f = (new Vector3f(xOffset, yOffset, 0.0F)).rotate(quaternion).mul(quadSize).add(x, y, z);
-        buffer.addVertex(vector3f.x(), vector3f.y(), vector3f.z()).setUv(u, v).setColor(this.rCol, this.gCol, this.bCol, this.alpha).setLight(packedLight);
+        float u0 = sprite.getU0();
+        float u1 = sprite.getU1();
+        float v0 = sprite.getV0();
+        float v1 = sprite.getV1();
+
+        Vector3f l = new Vector3f(left).mul(scale);
+        Vector3f u = new Vector3f(up).mul(scale);
+
+        consumer.addVertex(cx - l.x - u.x, cy - l.y - u.y, cz - l.z - u.z)
+                .setUv(u1, v1)
+                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
+                .setNormal(0.0F, 1.0F, 0.0F)
+                .setLight(brightness);
+        consumer.addVertex(cx - l.x + u.x, cy - l.y + u.y, cz - l.z + u.z)
+                .setUv(u1, v0)
+                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
+                .setNormal(0.0F, 1.0F, 0.0F)
+                .setLight(brightness);
+        consumer.addVertex(cx + l.x + u.x, cy + l.y + u.y, cz + l.z + u.z)
+                .setUv(u0, v0)
+                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
+                .setNormal(0.0F, 1.0F, 0.0F)
+                .setLight(brightness);
+        consumer.addVertex(cx + l.x - u.x, cy + l.y - u.y, cz + l.z - u.z)
+                .setUv(u0, v1)
+                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
+                .setNormal(0.0F, 1.0F, 0.0F)
+                .setLight(brightness);
     }
 
     @Override
     public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+        return IParticleRenderType.FOG;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {

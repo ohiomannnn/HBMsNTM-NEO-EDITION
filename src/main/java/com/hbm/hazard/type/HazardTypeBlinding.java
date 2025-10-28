@@ -1,6 +1,6 @@
 package com.hbm.hazard.type;
 
-import com.hbm.config.ModConfigs;
+import com.hbm.config.MainConfig;
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.i18n.I18nUtil;
@@ -20,7 +20,7 @@ public class HazardTypeBlinding extends HazardTypeBase {
     @Override
     public void onUpdate(LivingEntity target, float level, ItemStack stack) {
 
-        if (ModConfigs.COMMON.DISABLE_BLINDING.get()) return;
+        if (MainConfig.COMMON.DISABLE_BLINDING.get()) return;
 
         if (!ArmorRegistry.hasProtection(target, 3, ArmorRegistry.HazardClass.LIGHT)) {
             target.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, (int)Math.ceil(level) * 20, 0, true, false));

@@ -5,7 +5,7 @@ import java.util.Map.Entry;
 
 import com.hbm.HBMsNTMClient;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.config.ModConfigs;
+import com.hbm.config.MainConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -99,7 +99,7 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
                         }
 
                         float rad = radiation.get(newCoord);
-                        if (rad > ModConfigs.COMMON.FOG_RAD.get() && level != null && level.random.nextInt(ModConfigs.COMMON.FOG_RAD_CH.get()) == 0 && level.hasChunk(coord.x, coord.z)) {
+                        if (rad > MainConfig.COMMON.FOG_RAD.get() && level != null && level.random.nextInt(MainConfig.COMMON.FOG_RAD_CH.get()) == 0 && level.hasChunk(coord.x, coord.z)) {
 
                             int x = newCoord.getMinBlockX() + level.random.nextInt(16);
                             int z = newCoord.getMinBlockZ() + level.random.nextInt(16);

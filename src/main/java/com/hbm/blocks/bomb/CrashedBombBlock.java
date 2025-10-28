@@ -3,15 +3,14 @@ package com.hbm.blocks.bomb;
 import com.hbm.CommonEvents;
 import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.config.ModConfigs;
+import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntities;
 import com.hbm.entity.logic.NukeExplosionBalefire;
 import com.hbm.entity.logic.NukeExplosionMK5;
+import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.vanillant.ExplosionVNT;
-import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
-import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
-import com.hbm.explosion.vanillant.standard.EntityProcessorCross;
-import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
+import com.hbm.explosion.vanillant.standard.*;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.interfaces.IBomb;
 import com.hbm.lib.ModSounds;
 import com.hbm.network.toclient.AuxParticle;
@@ -50,17 +49,17 @@ public class CrashedBombBlock extends Block implements IBomb, EntityBlock {
             if (this == ModBlocks.CRASHED_BOMB_BALEFIRE.get()) {
                 NukeExplosionBalefire bf = new NukeExplosionBalefire(ModEntities.NUKE_BALEFIRE.get(), level);
                 bf.setPos(x, y, z);
-                bf.destructionRange = (int) (ModConfigs.COMMON.FATMAN_RADIUS.get() * 1.25);
+                bf.destructionRange = (int) (MainConfig.COMMON.FATMAN_RADIUS.get() * 1.25);
                 level.addFreshEntity(bf);
                 spawnMush(level, x, y, z, true);
             }
             if (this == ModBlocks.CRASHED_BOMB_CONVENTIONAL.get()) {
-                ExplosionVNT xnt = new ExplosionVNT(level, x + 0.5, y + 0.5, z + 0.5, 35F);
-                xnt.setBlockAllocator(new BlockAllocatorStandard(24));
-                xnt.setBlockProcessor(new BlockProcessorStandard().setNoDrop());
-                xnt.setEntityProcessor(new EntityProcessorCross(5D).withRangeMod(1.5F));
-                xnt.setPlayerProcessor(new PlayerProcessorStandard());
-                xnt.explode();
+                ExplosionVNT vnt = new ExplosionVNT(level, x + 0.5, y + 0.5, z + 0.5, 35F);
+                vnt.setBlockAllocator(new BlockAllocatorStandard(24));
+                vnt.setBlockProcessor(new BlockProcessorStandard().setNoDrop());
+                vnt.setEntityProcessor(new EntityProcessorCross(5D).withRangeMod(1.5F));
+                vnt.setPlayerProcessor(new PlayerProcessorStandard());
+                vnt.explode();
                 ExplosionCreator.composeEffectLarge(level, x + 0.5, y + 0.5, z + 0.5);
             }
             if (this == ModBlocks.CRASHED_BOMB_NUKE.get()) {

@@ -1,11 +1,10 @@
 package com.hbm.entity.projectile;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.entity.ModEntities;
 import com.hbm.explosion.ExplosionNT;
 import com.hbm.explosion.ExplosionNT.ExAttrib;
-import com.hbm.lib.ModDamageSource;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -21,7 +20,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraft.core.particles.ParticleTypes;
 
 import static com.hbm.lib.ModDamageSource.SHRAPNEL;
 

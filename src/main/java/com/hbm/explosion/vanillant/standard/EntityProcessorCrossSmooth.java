@@ -1,20 +1,21 @@
 package com.hbm.explosion.vanillant.standard;
 
 import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.items.weapon.sedna.DamageSourceSednaNoAttacker;
+import com.hbm.items.weapon.sedna.DamageSourceSednaWithAttacker;
 import com.hbm.items.weapon.sedna.factory.ConfettiUtil;
 import com.hbm.util.DamageResistanceHandler.DamageClass;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageTypes;
+import com.hbm.util.EntityDamageUtil;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 
 public class EntityProcessorCrossSmooth extends EntityProcessorCross {
 
     protected float fixedDamage;
     protected float pierceDT = 0;
     protected float pierceDR = 0;
-    protected DamageClass clazz = DamageClass.EXPLOSIVE;
+    protected DamageClass clazz = DamageClass.EXPLOSION;
 
     public EntityProcessorCrossSmooth(double nodeDist, float fixedDamage) {
         super(nodeDist);
@@ -37,13 +38,12 @@ public class EntityProcessorCrossSmooth extends EntityProcessorCross {
     public void attackEntity(Entity entity, ExplosionVNT source, float amount) {
         if (!entity.isAlive()) return;
         if (source.exploder == entity) amount *= 0.5F;
-        DamageSource dmg = new DamageSource(entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypes.ON_FIRE));//BulletConfig.getDamage(null, source.exploder instanceof EntityLivingBase ? (EntityLivingBase) source.exploder : null, clazz);
-        if (!(entity instanceof LivingEntity)) {
-            entity.hurt(dmg, amount);
+        DamageSourceSednaNoAttacker dmg = getDamage(entity.level(), null, source.exploder instanceof LivingEntity ? (LivingEntity) source.exploder : null, clazz);
+        if (entity instanceof LivingEntity livingEntity) {
+            EntityDamageUtil.hurtNT(livingEntity, dmg, amount, true, false, 0F, pierceDT, pierceDR);
+            if(!entity.isAlive()) ConfettiUtil.decideConfetti(livingEntity, dmg);
         } else {
-            //EntityDamageUtil.attackEntityFromNT((LivingEntity) entity, dmg, amount, true, false, 0F, pierceDT, pierceDR);
             entity.hurt(dmg, amount);
-            if(!entity.isAlive()) ConfettiUtil.decideConfetti((LivingEntity) entity, dmg);
         }
     }
 
@@ -51,5 +51,22 @@ public class EntityProcessorCrossSmooth extends EntityProcessorCross {
     public float calculateDamage(double distanceScaled, double density, double knockback, float size) {
         if (density < 0.125) return 0; //shitty hack
         return (float) (fixedDamage * (1 - distanceScaled));
+    }
+
+    public static DamageSourceSednaNoAttacker getDamage(Level level, Entity projectile, LivingEntity shooter, DamageClass dmgClass) {
+
+        DamageSourceSednaNoAttacker dmg;
+
+        if (shooter != null) dmg = new DamageSourceSednaWithAttacker(dmgClass.name(), projectile, shooter);
+        else dmg = new DamageSourceSednaNoAttacker(level, dmgClass.name());
+
+        switch(dmgClass) {
+            case PHYSICAL: dmg.setProjectile(); break;
+            case IN_FIRE: dmg.setFireDamage(); break;
+            case EXPLOSION: dmg.setExplosion(); break;
+            case ELECTRIC, LASER, SUBATOMIC: break;
+        }
+
+        return dmg;
     }
 }

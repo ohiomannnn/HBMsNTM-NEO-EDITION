@@ -3,12 +3,14 @@ package com.hbm.entity.effect;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.FalloutBlock;
 import com.hbm.config.FalloutConfigJSON;
-import com.hbm.config.ModConfigs;
+import com.hbm.config.MainConfig;
 import com.hbm.entity.logic.ChunkloadingEntity;
 import com.hbm.world.WorldUtil;
 import com.hbm.world.biome.ModBiomes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -16,7 +18,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
@@ -41,8 +42,15 @@ public class FalloutRain extends ChunkloadingEntity {
         this.level = level;
     }
 
-    private int tickDelay = ModConfigs.COMMON.FALLOUT_DELAY.get();
-    private int mk5 = ModConfigs.COMMON.MK5.get();
+    private final Map<ResourceKey<Biome>, Holder<Biome>> biomeCache = new HashMap<>();
+
+    private Holder<Biome> getCachedHolder(ResourceKey<Biome> key) {
+        return biomeCache.computeIfAbsent(key, k -> level.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(k));
+    }
+
+
+    private int tickDelay = MainConfig.COMMON.FALLOUT_DELAY.get();
+    private int mk5 = MainConfig.COMMON.MK5.get();
 
     @Override
     public void tick() {
@@ -54,11 +62,18 @@ public class FalloutRain extends ChunkloadingEntity {
 
             if (firstTick) {
                 if (chunksToProcess.isEmpty() && outerChunksToProcess.isEmpty()) gatherChunks();
+
+                if (MainConfig.COMMON.ENABLE_CRATER_BIOMES.get()) {
+                    biomeCache.put(ModBiomes.CRATER_INNER, getCachedHolder(ModBiomes.CRATER_INNER));
+                    biomeCache.put(ModBiomes.CRATER, getCachedHolder(ModBiomes.CRATER));
+                    biomeCache.put(ModBiomes.CRATER_OUTER, getCachedHolder(ModBiomes.CRATER_OUTER));
+                }
+
                 firstTick = false;
             }
 
             if (tickDelay == 0) {
-                tickDelay = ModConfigs.COMMON.FALLOUT_DELAY.get();;
+                tickDelay = MainConfig.COMMON.FALLOUT_DELAY.get();;
 
                 while (System.currentTimeMillis() < start + mk5) {
                     if (!chunksToProcess.isEmpty()) {
@@ -70,12 +85,14 @@ public class FalloutRain extends ChunkloadingEntity {
 
                         for (int x = chunkPosX << 4; x < (chunkPosX << 4) + 16; x++) {
                             for (int z = chunkPosZ << 4; z < (chunkPosZ << 4) + 16; z++) {
-                                BlockPos pos = new BlockPos(x, level.getHeight(Heightmap.Types.WORLD_SURFACE, x, z), z);
                                 double percent = Math.hypot(x - this.getX(), z - this.getZ()) * 100 / getScale();
                                 stomp(x, z, percent);
-                                ResourceKey<Biome> biome = getBiomeChange(percent, getScale(), level.getBiome(pos).getKey());
-                                if (biome != null) {
-                                    WorldUtil.setBiomeColumn((ServerLevel) level, x, z, biome);
+                                ResourceKey<Biome> biomeKey = getBiomeChange(percent, getScale(), level.getBiome(new BlockPos(x, 64, z)).getKey());
+                                if (biomeKey != null) {
+                                    Holder<Biome> biomeHolder = biomeCache.get(biomeKey);
+                                    if (biomeHolder != null) {
+                                        WorldUtil.setBiomeColumn((ServerLevel) level, x, z, biomeHolder);
+                                    }
                                 }
                             }
                         }
@@ -89,14 +106,16 @@ public class FalloutRain extends ChunkloadingEntity {
 
                         for (int x = chunkPosX << 4; x < (chunkPosX << 4) + 16; x++) {
                             for (int z = chunkPosZ << 4; z < (chunkPosZ << 4) + 16; z++) {
-                                BlockPos pos = new BlockPos(x, level.getHeight(Heightmap.Types.WORLD_SURFACE, x, z), z);
                                 double distance = Math.hypot(x - this.getX(), z - this.getZ());
                                 if (distance <= getScale()) {
                                     double percent = distance * 100 / getScale();
                                     stomp(x, z, percent);
-                                    ResourceKey<Biome> biome = getBiomeChange(percent, getScale(), level.getBiome(pos).getKey());
-                                    if (biome != null) {
-                                        WorldUtil.setBiomeColumn((ServerLevel) level, x, z, biome);
+                                    ResourceKey<Biome> biomeKey = getBiomeChange(percent, getScale(), level.getBiome(new BlockPos(x, 64, z)).getKey());
+                                    if (biomeKey != null) {
+                                        Holder<Biome> biomeHolder = biomeCache.get(biomeKey);
+                                        if (biomeHolder != null) {
+                                            WorldUtil.setBiomeColumn((ServerLevel) level, x, z, biomeHolder);
+                                        }
                                     }
                                 }
                             }
@@ -113,7 +132,7 @@ public class FalloutRain extends ChunkloadingEntity {
     }
 
     public static ResourceKey<Biome> getBiomeChange(double dist, int scale, ResourceKey<Biome> original) {
-        if (!ModConfigs.COMMON.ENABLE_CRATER_BIOMES.get()) return null;
+        if (!MainConfig.COMMON.ENABLE_CRATER_BIOMES.get()) return null;
 
         if (scale >= 150 && dist < 15) {
             return ModBiomes.CRATER_INNER;
