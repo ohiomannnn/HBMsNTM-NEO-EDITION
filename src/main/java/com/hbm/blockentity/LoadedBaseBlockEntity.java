@@ -31,7 +31,6 @@ public class LoadedBaseBlockEntity extends BlockEntity implements ILoadedTile, I
 
     @Override
     public void onChunkUnloaded() {
-        super.onChunkUnloaded();
         this.isLoaded = false;
     }
 

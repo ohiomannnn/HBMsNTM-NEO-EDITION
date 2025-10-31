@@ -1,6 +1,5 @@
 package com.hbm.explosion;
 
-import com.hbm.HBMsNTM;
 import com.hbm.blocks.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -124,8 +123,9 @@ public class ExplosionBalefire {
             }
 
             for (int i = depth; i > depth - 5; i--) {
-                if (level.getBlockState(new BlockPos(pX, i, pZ)).is(Blocks.STONE))
+                if (level.getBlockState(new BlockPos(pX, i, pZ)).is(Blocks.STONE)) {
                     level.setBlock(new BlockPos(pX, i, pZ), ModBlocks.SELLAFIELD_SLAKED.get().defaultBlockState(), 3);
+                }
             }
         }
     }

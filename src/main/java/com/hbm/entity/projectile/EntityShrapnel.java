@@ -1,8 +1,11 @@
 package com.hbm.entity.projectile;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.explosion.ExplosionNT;
-import com.hbm.explosion.ExplosionNT.ExAttrib;
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
+import com.hbm.explosion.vanillant.standard.BlockMutatorDebris;
+import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
@@ -15,7 +18,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
-import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -104,13 +106,11 @@ public class EntityShrapnel extends ThrowableProjectile {
 
                     if (getDeltaMovement().y > 0 && result instanceof BlockHitResult bhr) {
                         BlockPos pos = bhr.getBlockPos();
-                        ExplosionNT explosion = new ExplosionNT(level(), null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 7, false, Explosion.BlockInteraction.DESTROY);
-                        explosion.addAttrib(ExAttrib.NODROP);
-                        explosion.addAttrib(b == 2 ? ExAttrib.LAVA_V : ExAttrib.LAVA_R);
-                        explosion.addAttrib(ExAttrib.NOSOUND);
-                        explosion.addAttrib(ExAttrib.ALLMOD);
-                        explosion.addAttrib(ExAttrib.NOHURT);
-                        explosion.explode();
+                        ExplosionVNT vnt = new ExplosionVNT(level(), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 7);
+                        vnt.setBlockAllocator(new BlockAllocatorStandard());
+                        vnt.setBlockProcessor(new BlockProcessorStandard().setNoDrop().withBlockEffect(new BlockMutatorDebris(b == 2 ? ModBlocks.VOLCANIC_LAVA_BLOCK.get() : ModBlocks.RAD_LAVA_BLOCK.get())));
+                        vnt.setSFX(new ExplosionEffectStandard());
+                        vnt.explode();
                     }
                 }
             } else if (b == 3 && result instanceof BlockHitResult bhr) {

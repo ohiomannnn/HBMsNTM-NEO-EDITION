@@ -22,7 +22,13 @@ public class ExplosionEffectStandard implements IExplosionSFX {
 
         level.playSound(null, x, y, z, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 4.0F, (1.0F + (level.random.nextFloat() - level.random.nextFloat()) * 0.2F) * 0.7F);
 
-        PacketDistributor.sendToPlayersNear((ServerLevel) level, null, x, y, z, 250, new ExplosionVanillaNewTechnologyCompressedAffectedBlockPositionDataForClientEffectsAndParticleHandlingPacket(x, y, z, explosion.size, explosion.compat.getToBlow()));
+        if (size >= 2.0F) {
+            level.addParticle(ParticleTypes.EXPLOSION_EMITTER, x, y, z, 1.0D, 0.0D, 0.0D);
+        } else {
+            level.addParticle(ParticleTypes.EXPLOSION, x, y, z, 1.0D, 0.0D, 0.0D);
+        }
+
+        //PacketDistributor.sendToPlayersNear((ServerLevel) level, null, x, y, z, 250, new ExplosionVanillaNewTechnologyCompressedAffectedBlockPositionDataForClientEffectsAndParticleHandlingPacket(x, y, z, explosion.size, explosion.compat.getToBlow()));
     }
 
     public static void performClient(Level level, double x, double y, double z, float size, List<BlockPos> affectedBlocks) {

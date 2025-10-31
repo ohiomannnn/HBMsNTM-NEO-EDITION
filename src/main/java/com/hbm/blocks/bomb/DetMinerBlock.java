@@ -8,6 +8,7 @@ import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.interfaces.IBomb;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -38,7 +39,7 @@ public class DetMinerBlock extends Block implements IBomb, IFuckingExplode {
             vnt.setBlockProcessor(new BlockProcessorStandard().setAllDrop());
             vnt.explode();
 
-            ExplosionLarge.spawnParticles(level, x + 0.5, y + 0.5, z + 0.5, 30);
+            ExplosionLarge.spawnParticles((ServerLevel) level, x + 0.5, y + 0.5, z + 0.5, 30);
             level.playSound(null, x, y, z, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 4.0F, (1.0F + (level.random.nextFloat() - level.random.nextFloat()) * 0.2F) * 0.7F);
         }
         return BombReturnCode.DETONATED;

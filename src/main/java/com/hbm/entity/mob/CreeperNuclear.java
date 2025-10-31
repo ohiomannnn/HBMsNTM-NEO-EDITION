@@ -2,18 +2,17 @@ package com.hbm.entity.mob;
 
 import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.explosion.ExplosionNukeGeneric;
-import com.hbm.explosion.ExplosionNukeSmall;
 import com.hbm.lib.ModSounds;
 import com.hbm.network.toclient.AuxParticle;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Creeper;
@@ -95,11 +94,12 @@ public class CreeperNuclear extends Creeper {
                     ExplosionNukeGeneric.dealDamage(this.level(), this.getX(), this.getY() + 0.5, this.getZ(), 100);
                 }
             } else {
-                if (mobGriefing) {
-                    ExplosionNukeSmall.explode(this.level(), this.getX(), this.getY() + 0.5, this.getZ(), ExplosionNukeSmall.PARAMS_MEDIUM);
-                } else {
-                    ExplosionNukeSmall.explode(this.level(), this.getX(), this.getY() + 0.5, this.getZ(), ExplosionNukeSmall.PARAMS_SAFE);
-                }
+                // TODO: no more shitty explode method, only vnt!!!
+//                if (mobGriefing) {
+//                    ExplosionNukeSmall.explode(this.level(), this.getX(), this.getY() + 0.5, this.getZ(), ExplosionNukeSmall.PARAMS_MEDIUM);
+//                } else {
+//                    ExplosionNukeSmall.explode(this.level(), this.getX(), this.getY() + 0.5, this.getZ(), ExplosionNukeSmall.PARAMS_SAFE);
+//                }
             }
         }
     }

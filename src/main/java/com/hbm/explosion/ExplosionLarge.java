@@ -24,37 +24,37 @@ public class ExplosionLarge {
     private static final Random rand = new Random();
 
     @Deprecated
-    public static void spawnParticles(Level level, double x, double y, double z, int count) {
+    public static void spawnParticles(ServerLevel level, double x, double y, double z, int count) {
         CompoundTag tag = new CompoundTag();
         tag.putString("type", "smoke");
         tag.putString("mode", "cloud");
         tag.putInt("count", count);
-        PacketDistributor.sendToPlayersNear((ServerLevel) level, null, x, y, z, 250, new AuxParticle(tag, x, y, z));
+        PacketDistributor.sendToPlayersNear(level, null, x, y, z, 250, new AuxParticle(tag, x, y, z));
     }
 
-    public static void spawnParticlesRadial(Level level, double x, double y, double z, int count) {
+    public static void spawnParticlesRadial(ServerLevel level, double x, double y, double z, int count) {
         CompoundTag tag = new CompoundTag();
         tag.putString("type", "smoke");
         tag.putString("mode", "radial");
         tag.putInt("count", count);
-        PacketDistributor.sendToPlayersNear((ServerLevel) level, null, x, y, z, 250, new AuxParticle(tag, x, y, z));
+        PacketDistributor.sendToPlayersNear(level, null, x, y, z, 250, new AuxParticle(tag, x, y, z));
     }
 
-    public static void spawnFoam(Level level, double x, double y, double z, int count) {
+    public static void spawnFoam(ServerLevel level, double x, double y, double z, int count) {
         CompoundTag tag = new CompoundTag();
         tag.putString("type", "smoke");
         tag.putString("mode", "foamSplash");
         tag.putInt("count", count);
-        PacketDistributor.sendToPlayersNear((ServerLevel) level, null, x, y, z, 250, new AuxParticle(tag, x, y, z));
+        PacketDistributor.sendToPlayersNear(level, null, x, y, z, 250, new AuxParticle(tag, x, y, z));
     }
 
-    public static void spawnShock(Level level, double x, double y, double z, int count, double strength) {
+    public static void spawnShock(ServerLevel level, double x, double y, double z, int count, double strength) {
         CompoundTag tag = new CompoundTag();
         tag.putString("type", "smoke");
         tag.putString("mode", "shock");
         tag.putInt("count", count);
         tag.putDouble("strength", strength);
-        PacketDistributor.sendToPlayersNear((ServerLevel) level, null, x, y, z, 250, new AuxParticle(tag, x, y, z));
+        PacketDistributor.sendToPlayersNear(level, null, x, y, z, 250, new AuxParticle(tag, x, y, z));
     }
 
     public static void spawnBurst(Level level, double x, double y, double z, int count, double strength) {
@@ -110,9 +110,7 @@ public class ExplosionLarge {
         }
     }
 
-    public static void spawnShrapnelShower(Level level, double x, double y, double z,
-                                           double motionX, double motionY, double motionZ,
-                                           int count, double deviation) {
+    public static void spawnShrapnelShower(Level level, double x, double y, double z, double motionX, double motionY, double motionZ, int count, double deviation) {
         if (level.isClientSide) return;
         for (int i = 0; i < count; i++) {
             EntityShrapnel shrapnel = ModEntities.SHRAPNEL.get().create(level);
@@ -127,9 +125,7 @@ public class ExplosionLarge {
         }
     }
 
-    public static void spawnMissileDebris(Level level, double x, double y, double z,
-                                          double motionX, double motionY, double motionZ,
-                                          double deviation, List<ItemStack> debris, ItemStack rareDrop) {
+    public static void spawnMissileDebris(Level level, double x, double y, double z, double motionX, double motionY, double motionZ, double deviation, List<ItemStack> debris, ItemStack rareDrop) {
         if (level.isClientSide) return;
 
         if (debris != null) {
@@ -164,25 +160,22 @@ public class ExplosionLarge {
     }
 
     @Deprecated
-    public static void explode(Level level, double x, double y, double z,
-                               float strength, boolean cloud, boolean rubble, boolean shrapnel, Entity exploder) {
+    public static void explode(Level level, double x, double y, double z, float strength, boolean cloud, boolean rubble, boolean shrapnel, Entity exploder) {
         level.explode(exploder, x, y, z, strength, Level.ExplosionInteraction.BLOCK);
-        if (cloud) spawnParticles(level, x, y, z, cloudFunction((int) strength));
+        if (cloud) spawnParticles((ServerLevel) level, x, y, z, cloudFunction((int) strength));
         if (rubble) spawnRubble(level, x, y, z, rubbleFunction((int) strength));
         if (shrapnel) spawnShrapnels(level, x, y, z, shrapnelFunction((int) strength));
     }
 
     @Deprecated
-    public static void explode(Level level, double x, double y, double z,
-                               float strength, boolean cloud, boolean rubble, boolean shrapnel) {
+    public static void explode(Level level, double x, double y, double z, float strength, boolean cloud, boolean rubble, boolean shrapnel) {
         explode(level, x, y, z, strength, cloud, rubble, shrapnel, null);
     }
 
     @Deprecated
-    public static void explodeFire(Level level, double x, double y, double z,
-                                   float strength, boolean cloud, boolean rubble, boolean shrapnel) {
+    public static void explodeFire(Level level, double x, double y, double z, float strength, boolean cloud, boolean rubble, boolean shrapnel) {
         level.explode(null, x, y, z, strength, Level.ExplosionInteraction.TNT);
-        if (cloud) spawnParticles(level, x, y, z, cloudFunction((int) strength));
+        if (cloud) spawnParticles((ServerLevel) level, x, y, z, cloudFunction((int) strength));
         if (rubble) spawnRubble(level, x, y, z, rubbleFunction((int) strength));
         if (shrapnel) spawnShrapnels(level, x, y, z, shrapnelFunction((int) strength));
     }

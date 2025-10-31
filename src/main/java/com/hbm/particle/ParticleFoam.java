@@ -64,13 +64,6 @@ public class ParticleFoam extends TextureSheetParticle {
     public void setTrailLength(int length) { this.trailLength = length; }
     public void setBuoyancy(float buoyancy) { this.buoyancy = buoyancy; }
 
-    public ParticleFoam resetMotion() {
-        this.xd = 0;
-        this.yd = 0;
-        this.zd = 0;
-        return this;
-    }
-
     @Override
     public void tick() {
         this.xo = this.x;
@@ -135,7 +128,7 @@ public class ParticleFoam extends TextureSheetParticle {
 
     @Override
     public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
-        renderFoamBubbles(consumer, camera, x, y, z, quadSize, alpha, partialTicks);
+        renderFoamBubbles(consumer, camera, this.x, this.y, this.z, this.quadSize, this.alpha, partialTicks);
 
         for (int i = 1; i < trail.size(); i++) {
             TrailPoint point = trail.get(i);
@@ -157,7 +150,6 @@ public class ParticleFoam extends TextureSheetParticle {
             float whiteness = 0.9F + urandom.nextFloat() * 0.1F;
 
             this.rCol = this.bCol = this.gCol = whiteness;
-            this.alpha = alpha;
 
             float bubbleScale = scale * (urandom.nextFloat() * 0.5F + 0.75F);
             float offset = explosionPhase == 0 ? 0.4F : (explosionPhase == 1 ? 0.6F : 0.9F);
@@ -169,11 +161,12 @@ public class ParticleFoam extends TextureSheetParticle {
             Vector3f up = new Vector3f(camera.getUpVector());
             Vector3f left = new Vector3f(camera.getLeftVector());
 
-            renderQuad(consumer, pX, pY, pZ, up, left, bubbleScale, this.getLightColor(partialTicks));
+            renderQuad(consumer, pX, pY, pZ, up, left, bubbleScale, alpha, this.getLightColor(partialTicks));
         }
     }
 
-    private void renderQuad(VertexConsumer consumer, float cx, float cy, float cz, Vector3f up, Vector3f left, float scale, int brightness) {
+
+    private void renderQuad(VertexConsumer consumer, float cx, float cy, float cz, Vector3f up, Vector3f left, float scale, float alpha, int brightness) {
 
         float u0 = sprite.getU0();
         float u1 = sprite.getU1();
@@ -185,22 +178,22 @@ public class ParticleFoam extends TextureSheetParticle {
 
         consumer.addVertex(cx - l.x - u.x, cy - l.y - u.y, cz - l.z - u.z)
                 .setUv(u1, v1)
-                .setColor(this.rCol, this.bCol, this.gCol, this.alpha)
+                .setColor(this.rCol, this.bCol, this.gCol, alpha)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(brightness);
         consumer.addVertex(cx - l.x + u.x, cy - l.y + u.y, cz - l.z + u.z)
                 .setUv(u1, v0)
-                .setColor(this.rCol, this.bCol, this.gCol, this.alpha)
+                .setColor(this.rCol, this.bCol, this.gCol, alpha)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(brightness);
         consumer.addVertex(cx + l.x + u.x, cy + l.y + u.y, cz + l.z + u.z)
                 .setUv(u0, v0)
-                .setColor(this.rCol, this.bCol, this.gCol, this.alpha)
+                .setColor(this.rCol, this.bCol, this.gCol, alpha)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(brightness);
         consumer.addVertex(cx + l.x - u.x, cy + l.y - u.y, cz + l.z - u.z)
                 .setUv(u0, v1)
-                .setColor(this.rCol, this.bCol, this.gCol, this.alpha)
+                .setColor(this.rCol, this.bCol, this.gCol, alpha)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(brightness);
     }

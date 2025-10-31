@@ -1,6 +1,7 @@
 package com.hbm.explosion;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.lib.ModDamageSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -12,6 +13,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Ocelot;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -19,7 +21,9 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.CollisionContext;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 
@@ -51,33 +55,64 @@ public class ExplosionNukeGeneric {
         }
     }
 
-    public static void dealDamage(Level world, double x, double y, double z, double radius) {
-        dealDamage(world, x, y, z, radius, 250F);
-    }
-
-    private static void dealDamage(Level level, double x, double y, double z, double radius, float damage) {
-
-        BlockPos center = new BlockPos((int) x, (int) y, (int) z);
-        AABB area = new AABB(center).inflate(radius);
-        List<Entity> entities = level.getEntities(null, area);
-
-        for (Entity entity : entities) {
-            if (entity instanceof LivingEntity living) {
-                DamageSource src = new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageSource.NUCLEAR_BLAST));
-                living.hurt(src, damage);
-                Vec3 dir = living.position().subtract(Vec3.atCenterOf(center)).normalize();
-                living.setDeltaMovement(living.getDeltaMovement().add(dir.scale(1.5)));
-            }
-            //we do not need millions of items just laying around
-            if (entity instanceof ItemEntity itemEntity) {
-                itemEntity.discard();
+    public static void incrementRad(Level level, double posX, double posY, double posZ, float mult) {
+        for (int i = -2; i <= 2; i++) {
+            for (int j = -2; j <= 2; j++) {
+                if (Math.abs(i) + Math.abs(j) < 4) {
+                    ChunkRadiationManager.proxy.incrementRad(level, (int) Math.floor(posX + i * 16), (int) Math.floor(posY), (int) Math.floor(posZ + j * 16), 50F / (Math.abs(i) + Math.abs(j) + 1) * mult);
+                }
             }
         }
     }
 
-    private static boolean isExplosionExempt(Entity entity) {
-        return entity instanceof Ocelot || entity instanceof Player player && !player.isCreative();
+    public static void dealDamage(Level level, double x, double y, double z, double radius) {
+        dealDamage(level, x, y, z, radius, 250F);
     }
+
+    private static void dealDamage(Level level, double x, double y, double z, double radius, float maxDamage) {
+        List<Entity> entities = level.getEntities(null, new AABB(x, y, z, x, y, z).inflate(radius));
+
+        double radiusSq = radius * radius;
+
+        for (Entity entity : entities) {
+            double distSq = entity.distanceToSqr(x, y, z);
+            if (distSq <= radiusSq) {
+                double entX = entity.getX();
+                double entY = entity.getY() + entity.getEyeHeight();
+                double entZ = entity.getZ();
+
+                if (!isExplosionExempt(entity) && !isObstructed(level, x, y, z, entX, entY, entZ)) {
+                    double dist = Math.sqrt(distSq);
+                    double damage = maxDamage * (radius - dist) / radius;
+                    DamageSource src = new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageSource.NUCLEAR_BLAST));
+                    entity.hurt(src, (float) damage);
+                    entity.setRemainingFireTicks(100);
+
+                    double knockX = entX - x;
+                    double knockY = (entity.getY() + entity.getEyeHeight()) - y;
+                    double knockZ = entZ - z;
+
+                    Vec3 knock = new Vec3(knockX, knockY, knockZ).normalize().scale(1.5D);
+                    entity.setDeltaMovement(entity.getDeltaMovement().add(knock));
+                }
+            }
+        }
+    }
+
+
+    public static boolean isObstructed(Level level, double x, double y, double z, double a, double b, double c) {
+        HitResult hit = level.clip(new ClipContext(new Vec3(x, y, z), new Vec3(a, b, c), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, CollisionContext.empty()));
+        return hit.getType() != HitResult.Type.MISS;
+    }
+
+    private static boolean isExplosionExempt(Entity entity) {
+        if (entity instanceof Ocelot) return true;
+
+        if (entity instanceof Player && ((Player) entity).isCreative()) return true;
+
+        return false;
+    }
+
     public static int destruction(Level level, int x, int y, int z) {
         int rand;
         if (!level.isClientSide) {

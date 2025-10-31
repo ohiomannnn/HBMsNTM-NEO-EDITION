@@ -136,6 +136,7 @@
   "death.attack.radiation": "%s died from radiation poisoning.",
   "death.attack.lead": "%s died from lead poisoning.",
   "death.attack.nuclear_blast": "%s was blown away by a nuclear explosion.",
+  "death.attack.shrapnel": "%s was ragged by a shrapnel.",
   "death.attack.monoxide": "%s forgot to change the batteries in their carbon monoxide detector.",
 
   "effect.hbmsntm.taint": "Tainted",

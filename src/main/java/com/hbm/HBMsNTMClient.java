@@ -18,9 +18,12 @@ import com.hbm.render.entity.effect.RenderFallout;
 import com.hbm.render.entity.effect.RenderTorex;
 import com.hbm.render.entity.item.RenderTNTPrimedBase;
 import com.hbm.render.entity.mob.EntityDuckRenderer;
+import com.hbm.render.entity.projectile.ModelShrapnel;
+import com.hbm.render.entity.projectile.RenderShrapnel;
 import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.util.Clock;
 import com.hbm.util.DamageResistanceHandler;
+import com.hbm.util.Vec3NT;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.ChatFormatting;
@@ -62,6 +65,7 @@ import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
+import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -258,6 +262,11 @@ public class HBMsNTMClient {
     }
 
     @SubscribeEvent
+    public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(ModelShrapnel.LAYER_LOCATION, ModelShrapnel::createBodyLayer);
+    }
+
+    @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.DUCK.get(), EntityDuckRenderer::new);
         event.registerEntityRenderer(ModEntities.TNT_PRIMED_BASE.get(), RenderTNTPrimedBase::new);
@@ -266,10 +275,12 @@ public class HBMsNTMClient {
         event.registerEntityRenderer(ModEntities.NUKE_BALEFIRE.get(), EmptyRenderer::new);
         event.registerEntityRenderer(ModEntities.NUKE_TOREX.get(), RenderTorex::new);
         event.registerEntityRenderer(ModEntities.FALLOUT_RAIN.get(), RenderFallout::new);
+        event.registerEntityRenderer(ModEntities.SHRAPNEL.get(), RenderShrapnel::new);
 
         ItemProperties.register(ModItems.POLAROID.get(),
                 ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "polaroid_id"),
                 (stack, level, entity, seed) -> CommonEvents.polaroidID);
+
         event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_BALEFIRE.get(), RenderCrashedBomb::new);
         event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_CONVENTIONAL.get(), RenderCrashedBomb::new);
         event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_NUKE.get(), RenderCrashedBomb::new);
@@ -364,26 +375,27 @@ public class HBMsNTMClient {
                 ParticleRadiationFog fx = new ParticleRadiationFog(level, x, y, z, ModParticles.RAD_FOG_SPRITES);
                 innerMc.particleEngine.add(fx);
             }
+
             if ("smoke".equals(type)) {
 
                 String mode = data.getString("mode");
                 int count = Math.max(1, data.getInt("count"));
 
-                if("cloud".equals(mode)) {
+                if ("cloud".equals(mode)) {
 
-                    for(int i = 0; i < count; i++) {
+                    for (int i = 0; i < count; i++) {
                         ParticleExSmoke particle = new ParticleExSmoke(level, x, y, z);
                         particle.setMotionX(rand.nextGaussian() * (1 + (count / 150)));
                         particle.setMotionY(rand.nextGaussian() * (1 + (count / 100)));
                         particle.setMotionZ(rand.nextGaussian() * (1 + (count / 150)));
-                        if(rand.nextBoolean()) particle.setMotionX(Math.abs(particle.getMotionY()));
+                        if (rand.nextBoolean()) particle.setMotionX(Math.abs(particle.getMotionY()));
                         Minecraft.getInstance().particleEngine.add(particle);
                     }
                 }
 
-                if("radial".equals(mode)) {
+                if ("radial".equals(mode)) {
 
-                    for(int i = 0; i < count; i++) {
+                    for (int i = 0; i < count; i++) {
                         ParticleExSmoke particle = new ParticleExSmoke(level, x, y, z);
                         particle.setMotionX(rand.nextGaussian() * (1 + (count / 50)));
                         particle.setMotionY(rand.nextGaussian() * (1 + (count / 50)));
@@ -408,101 +420,89 @@ public class HBMsNTMClient {
 //                    }
 //                }
 //
-                if("shock".equals(mode)) {
+                if ("shock".equals(mode)) {
 
                     double strength = data.getDouble("strength");
 
-                    Vec3 vec = new Vec3(strength, 0, 0);
-                    vec = vec.xRot(rand.nextInt(360));
+                    Vec3NT vec = new Vec3NT(strength, 0, 0);
+                    vec.rotateAroundYRad(rand.nextInt(360));
 
-                    for(int i = 0; i < count; i++) {
+                    for (int i = 0; i < count; i++) {
                         ParticleExSmoke particle = new ParticleExSmoke(level, x, y, z);
-                        particle.setMotionX(vec.x);
-                        particle.setMotionY(0);
-                        particle.setMotionZ(vec.z);
-                        Minecraft.getInstance().particleEngine.add(particle);
+                        particle.setParticleSpeed(vec.xCoord, 0, vec.zCoord);
+                        innerMc.particleEngine.add(particle);
 
-                        vec = vec.xRot((float)Math.PI * 2F / (float)count);
+                        vec.rotateAroundXRad((float)Math.PI * 2F / (float)count);
                     }
                 }
 
-//                if("shockRand".equals(mode)) {
-//
-//                    double strength = data.getDouble("strength");
-//
-//                    Vec3 vec = Vec3.createVectorHelper(strength, 0, 0);
-//                    vec.rotateAroundY(rand.nextInt(360));
-//                    double r;
-//
-//                    for(int i = 0; i < count; i++) {
-//                        r = rand.nextDouble();
-//                        ParticleExSmoke fx = new ParticleExSmoke(man, world, x, y, z);
-//                        fx.motionY = 0;
-//                        fx.motionX = vec.xCoord * r;
-//                        fx.motionZ = vec.zCoord * r;
-//                        Minecraft.getMinecraft().effectRenderer.addEffect(fx);
-//
-//                        vec.rotateAroundY(360 / count);
-//                    }
-//                }
-//
-//                if("wave".equals(mode)) {
-//
-//                    double strength = data.getDouble("range");
-//
-//                    Vec3 vec = Vec3.createVectorHelper(strength, 0, 0);
-//
-//                    for(int i = 0; i < count; i++) {
-//
-//                        vec.rotateAroundY((float) Math.toRadians(rand.nextFloat() * 360F));
-//
-//                        ParticleExSmoke fx = new ParticleExSmoke(man, world, x + vec.xCoord, y, z + vec.zCoord);
-//                        fx.maxAge = 50;
-//                        fx.motionY = 0;
-//                        fx.motionX = 0;
-//                        fx.motionZ = 0;
-//                        Minecraft.getMinecraft().effectRenderer.addEffect(fx);
-//
-//                        vec.rotateAroundY(360 / count);
-//                    }
-//                }
-//
+                if ("shockRand".equals(mode)) {
+
+                    double strength = data.getDouble("strength");
+
+                    Vec3NT vec = new Vec3NT(strength, 0, 0);
+                    vec.rotateAroundYRad(rand.nextInt(360));
+                    double r;
+
+                    for (int i = 0; i < count; i++) {
+                        r = rand.nextDouble();
+                        ParticleExSmoke particle = new ParticleExSmoke(level, x, y, z);
+                        particle.setParticleSpeed(vec.xCoord * r, 0, vec.zCoord * r);
+                        innerMc.particleEngine.add(particle);
+
+                        vec.rotateAroundYRad(360 / count);
+                    }
+                }
+
+                if ("wave".equals(mode)) {
+
+                    double strength = data.getDouble("range");
+
+                    Vec3NT vec = new Vec3NT(strength, 0, 0);
+
+                    for (int i = 0; i < count; i++) {
+
+                        vec.rotateAroundYRad((float) Math.toRadians(rand.nextFloat() * 360F));
+
+                        ParticleExSmoke particle = new ParticleExSmoke(level, x + vec.xCoord, y, z + vec.zCoord);
+                        particle.maxAge = 50;
+                        particle.setParticleSpeed(0, 0, 0);
+                        innerMc.particleEngine.add(particle);
+
+                        vec.rotateAroundYRad(360 / count);
+                    }
+                }
+
                 if ("foamSplash".equals(mode)) {
 
                     double strength = data.getDouble("range");
 
-                    Vec3 vec = new Vec3(strength, 0, 0);
+                    Vec3NT vec = new Vec3NT(strength, 0, 0);
 
                     for (int i = 0; i < count; i++) {
 
-                        vec = vec.yRot((float) Math.toRadians(rand.nextFloat() * 360F));
+                        vec.rotateAroundYRad((float) Math.toRadians(rand.nextFloat() * 360F));
 
-                        ParticleFoam particle = new ParticleFoam(level, x + vec.x, y, z + vec.z);
+                        ParticleFoam particle = new ParticleFoam(level, x + vec.xCoord, y, z + vec.zCoord);
                         particle.setLifetime(50);
-                        particle.resetMotion();
+                        particle.setParticleSpeed(0, 0, 0);
                         innerMc.particleEngine.add(particle);
 
-                        vec = vec.yRot(360 / count);
+                        vec.rotateAroundYRad(360 / count);
                     }
                 }
             }
 
 
             if ("muke".contains(type)) {
-                ParticleMukeFlash flash = new ParticleMukeFlash(
-                        level,
-                        x, y, z,
-                        data.getBoolean("balefire"),
-                        ModParticles.MUKE_FLASH_SPRITES
-                );
-                ParticleMukeWave wave = new ParticleMukeWave(
-                        level,
-                        x, y, z,
-                        ModParticles.MUKE_WAVE_SPRITES
-                );
+                ParticleMukeFlash flash = new ParticleMukeFlash(level, x, y, z, data.getBoolean("balefire"), ModParticles.MUKE_FLASH_SPRITES);
+                ParticleMukeWave wave = new ParticleMukeWave(level, x, y, z, ModParticles.MUKE_WAVE_SPRITES);
 
                 innerMc.particleEngine.add(flash);
                 innerMc.particleEngine.add(wave);
+
+                //single swing: 			HT 15,  MHT 15
+                //double swing: 			HT 60,  MHT 50
 
                 if (player != null) {
                     player.hurtTime = 15;
@@ -531,12 +531,13 @@ public class HBMsNTMClient {
                 }
             }
 
-            if("deadleaf".equals(type)) {
-                if(particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean()))
+            if ("deadleaf".equals(type)) {
+                if (particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean())) {
                     innerMc.particleEngine.add(new ParticleDeadLeaf(level, x, y, z, ModParticles.DEAD_LEAVES_SPRITES));
+                }
             }
 
-            if("amat".equals(type)) {
+            if ("amat".equals(type)) {
                 Minecraft.getInstance().particleEngine.add(new ParticleAmatFlash(level, x, y, z, data.getFloat("scale")));
             }
 
@@ -557,6 +558,7 @@ public class HBMsNTMClient {
                     innerMc.particleEngine.add(flash);
                 }
             }
+
             if ("sweat".equals(type)) {
                 Entity entity = level.getEntity(data.getInt("entity"));
                 BlockState state = NbtUtils.readBlockState(level.holderLookup(Registries.BLOCK), data.getCompound("BlockState"));
@@ -578,6 +580,7 @@ public class HBMsNTMClient {
                     }
                 }
             }
+
             if ("vomit".equals(type)) {
                 Entity e = level.getEntity(data.getInt("entity"));
                 int count = data.getInt("count") / (particleSetting + 1);
@@ -628,6 +631,7 @@ public class HBMsNTMClient {
                     }
                 }
             }
+
             if ("giblets".equals(type)) {
                 int ent = data.getInt("ent");
                 Entity e = level.getEntity(ent);

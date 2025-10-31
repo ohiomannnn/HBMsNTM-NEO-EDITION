@@ -102,13 +102,12 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
 
                 BlockPos pos = new BlockPos(iX, iY, iZ);
                 BlockState state = level.getBlockState(pos);
-                Block block = level.getBlockState(pos).getBlock();
 
                 if (state.getFluidState().isEmpty()) {
                     res -= (float) Math.pow(masqueradeResistance(level, state, pos), 7.5D - fac);
                 }
 
-                if (res > 0 && block != Blocks.AIR) {
+                if (res > 0 && !state.isAir()) {
                     lastPos = new FloatTriplet(x0, y0, z0);
                     //all-air chunks don't need to be buffered at all
                     ChunkPos chunkPos = new ChunkPos(iX >> 4, iZ >> 4);
@@ -199,12 +198,16 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
             int tipZ = (int) Math.floor(z);
 
             boolean inChunk = false;
+            BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
             for (int i = enter; i < vec.length(); i++) {
                 int x0 = (int) Math.floor(posX + pX * i);
                 int y0 = (int) Math.floor(posY + pY * i);
                 int z0 = (int) Math.floor(posZ + pZ * i);
 
-                if(x0 >> 4 != chunkX || z0 >> 4 != chunkZ) {
+                mutablePos.set(x0, y0, z0);
+                BlockState state = level.getBlockState(mutablePos);
+
+                if (x0 >> 4 != chunkX || z0 >> 4 != chunkZ) {
                     if (inChunk) {
                         break;
                     } else {
@@ -214,7 +217,7 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
 
                 inChunk = true;
 
-                if (!level.getBlockState(new BlockPos(x0, y0, z0)).isAir()) {
+                if (!state.isAir()) {
                     BlockPos pos = new BlockPos(x0, y0, z0);
 
                     if (x0 == tipX && y0 == tipY && z0 == tipZ) {
