@@ -28,5 +28,5 @@ public class BlockMutatorBulkie implements IBlockMutator {
         }
     }
 
-    @Override public void mutatePost(ExplosionVNT explosion, BlockPos pos) {}
+    @Override public void mutatePost(ExplosionVNT explosion, BlockPos pos) { }
 }

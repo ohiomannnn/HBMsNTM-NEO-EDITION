@@ -1,5 +1,6 @@
 package com.hbm.particle;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
@@ -9,7 +10,6 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureManager;
-import org.lwjgl.opengl.GL11;
 
 public interface IParticleRenderType {
 
@@ -20,7 +20,7 @@ public interface IParticleRenderType {
             RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
             RenderSystem.enableBlend();
             RenderSystem.depthMask(false);
-            RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+            RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
             RenderSystem.disableCull();
             return tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
         }

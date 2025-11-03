@@ -65,7 +65,6 @@ import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
-import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -130,57 +129,13 @@ public class HBMsNTMClient {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onRenderGuiPre(RenderGuiEvent.Pre event) {
-        if (!MainConfig.CLIENT.NUKE_HUD_SHAKE.get()) return;
 
-        long now = System.currentTimeMillis();
-        long end = shakeTimestamp + shakeDuration;
-
-        if (now < end) {
-            float mult = (end - now) / (float) shakeDuration * 2.0F;
-            double horizontal = Mth.clamp(Math.sin(now * 0.02), -0.7, 0.7) * 15;
-            double vertical   = Mth.clamp(Math.sin(now * 0.01 + 2), -0.7, 0.7) * 3;
-
-            GuiGraphics graphics = event.getGuiGraphics();
-            graphics.pose().translate(horizontal * mult, vertical * mult, 0);
-        }
-    }
-
-    @SubscribeEvent
-    public static void onOpenGUI(ScreenEvent.Opening event) {
-        if (event.getScreen() instanceof TitleScreen main && MainConfig.CLIENT.MAIN_MENU_WACKY_SPLASHES.get()) {
-            String text;
-            int rand = (int) (Math.random() * 150);
-            text = switch (rand) {
-                case 0 -> "Floppenheimer!";
-                case 1 -> "i should dip my balls in sulfuric acid";
-                case 2 -> "All answers are popbob!";
-                case 3 -> "None may enter The Orb!";
-                case 4 -> "Wacarb was here";
-                case 5 -> "SpongeBoy me Bob I am overdosing on keramine agagagagaga";
-                case 6 -> ChatFormatting.RED + "I know where you live, " + System.getProperty("user.name");
-                case 7 -> "Nice toes, now hand them over.";
-                case 8 -> "I smell burnt toast!";
-                case 9 -> "There are bugs under your skin!";
-                case 10 -> "Fentanyl!";
-                case 11 -> "Do drugs!";
-                case 12 -> "Imagine being scared by splash texts!";
-                default -> " ";
-            };
-
-            double d = Math.random();
-            if (d < 0.1) text = "Redditors aren't people!";
-            else if (d < 0.2) text = "Can someone tell me what corrosive fumes the people on Reddit are huffing so I can avoid those more effectively?";
-
-            if (text.equals(" ")) return;
-
-            try {
-                Field splashField = TitleScreen.class.getDeclaredField("splash");
-                splashField.setAccessible(true);
-
-                splashField.set(main, new SplashRenderer(text));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        /// NUKE SHAKE ///
+        if ((shakeTimestamp + shakeDuration - System.currentTimeMillis()) > 0 && MainConfig.CLIENT.NUKE_HUD_SHAKE.get()) {
+            double mult = (shakeTimestamp + shakeDuration - System.currentTimeMillis()) / (double) shakeDuration * 2;
+            double horizontal = Mth.clamp(Math.sin(System.currentTimeMillis() * 0.02), -0.7, 0.7) * 15;
+            double vertical = Mth.clamp(Math.sin(System.currentTimeMillis() * 0.01 + 2), -0.7, 0.7) * 3;
+            event.getGuiGraphics().pose().translate(horizontal * mult, vertical * mult, 0);
         }
     }
 
@@ -216,6 +171,45 @@ public class HBMsNTMClient {
             RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
             RenderSystem.enableDepthTest();
             RenderSystem.depthMask(true);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onOpenGUI(ScreenEvent.Opening event) {
+        if (event.getScreen() instanceof TitleScreen main && MainConfig.CLIENT.MAIN_MENU_WACKY_SPLASHES.get()) {
+            String text;
+            int rand = (int) (Math.random() * 150);
+            text = switch (rand) {
+                case 0 -> "Floppenheimer!";
+                case 1 -> "i should dip my balls in sulfuric acid";
+                case 2 -> "All answers are popbob!";
+                case 3 -> "None may enter The Orb!";
+                case 4 -> "Wacarb was here";
+                case 5 -> "SpongeBoy me Bob I am overdosing on keramine agagagagaga";
+                case 6 -> ChatFormatting.RED + "I know where you live, " + System.getProperty("user.name");
+                case 7 -> "Nice toes, now hand them over.";
+                case 8 -> "I smell burnt toast!";
+                case 9 -> "There are bugs under your skin!";
+                case 10 -> "Fentanyl!";
+                case 11 -> "Do drugs!";
+                case 12 -> "Imagine being scared by splash texts!";
+                default -> "nothing";
+            };
+
+            double d = Math.random();
+            if (d < 0.1) text = "Redditors aren't people!";
+            else if (d < 0.2) text = "Can someone tell me what corrosive fumes the people on Reddit are huffing so I can avoid those more effectively?";
+
+            if (text.equals("nothing")) return;
+
+            try {
+                Field splashField = TitleScreen.class.getDeclaredField("splash");
+                splashField.setAccessible(true);
+
+                splashField.set(main, new SplashRenderer(text));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -274,7 +268,7 @@ public class HBMsNTMClient {
         event.registerEntityRenderer(ModEntities.NUKE_MK5.get(), EmptyRenderer::new);
         event.registerEntityRenderer(ModEntities.NUKE_BALEFIRE.get(), EmptyRenderer::new);
         event.registerEntityRenderer(ModEntities.NUKE_TOREX.get(), RenderTorex::new);
-        event.registerEntityRenderer(ModEntities.FALLOUT_RAIN.get(), RenderFallout::new);
+        event.registerEntityRenderer(ModEntities.NUKE_FALLOUT_RAIN.get(), RenderFallout::new);
         event.registerEntityRenderer(ModEntities.SHRAPNEL.get(), RenderShrapnel::new);
 
         ItemProperties.register(ModItems.POLAROID.get(),
@@ -574,8 +568,6 @@ public class HBMsNTMClient {
                         fx.setLifetime(150 + rand.nextInt(50));
                         fx.setOriginalSize();
 
-                        HBMsNTM.LOGGER.info("rendering {}", fx);
-
                         innerMc.particleEngine.add(fx);
                     }
                 }
@@ -652,8 +644,7 @@ public class HBMsNTMClient {
                 boolean blowMeIntoTheGodDamnStratosphere = rand.nextInt(15) == 0;
                 double mult = 1D;
 
-                if (blowMeIntoTheGodDamnStratosphere)
-                    mult *= 10;
+                if (blowMeIntoTheGodDamnStratosphere) mult *= 10;
 
                 for (int i = 0; i < count; i++) {
                     innerMc.particleEngine.add(new ParticleGiblet(level, x, y, z, rand.nextGaussian() * 0.25 * mult, rand.nextDouble() * mult, rand.nextGaussian() * 0.25 * mult, ModParticles.GIBLET_SPRITES));

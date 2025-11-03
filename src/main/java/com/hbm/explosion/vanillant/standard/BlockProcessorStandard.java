@@ -5,23 +5,24 @@ import com.hbm.explosion.vanillant.interfaces.IBlockMutator;
 import com.hbm.explosion.vanillant.interfaces.IBlockProcessor;
 import com.hbm.explosion.vanillant.interfaces.IDropChanceMutator;
 import com.hbm.explosion.vanillant.interfaces.IFortuneMutator;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.GrassBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -91,10 +92,7 @@ public class BlockProcessorStandard implements IBlockProcessor {
                     }
                 }
 
-                // if there is BushBlock above exploded block,
-                // bush plays break sound and if there is a lot of bushes, they all playing sound and sound handler freaks out
-                // how i can fix this u may ask? i dont know
-                state.onBlockExploded(level, pos, explosion.compat);
+                state.onExplosionHit(level, pos, explosion.compat, (itemStack, blockPos) -> addOrAppendStack(new ArrayList<>(), itemStack, blockPos));
 
                 if (this.convert != null) {
                     this.convert.mutatePre(explosion, state, pos);
@@ -116,6 +114,21 @@ public class BlockProcessorStandard implements IBlockProcessor {
                 }
             }
         }
+    }
+
+    private static void addOrAppendStack(List<Pair<ItemStack, BlockPos>> drops, ItemStack stack, BlockPos pos) {
+        for (int i = 0; i < drops.size(); ++i) {
+            Pair<ItemStack, BlockPos> pair = drops.get(i);
+            ItemStack itemstack = pair.getFirst();
+            if (ItemEntity.areMergable(itemstack, stack)) {
+                drops.set(i, Pair.of(ItemEntity.merge(itemstack, stack, 16), pair.getSecond()));
+                if (stack.isEmpty()) {
+                    return;
+                }
+            }
+        }
+
+        drops.add(Pair.of(stack, pos));
     }
 
     public BlockProcessorStandard setNoDrop() {

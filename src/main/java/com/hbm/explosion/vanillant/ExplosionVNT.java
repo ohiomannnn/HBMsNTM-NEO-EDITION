@@ -9,6 +9,7 @@ import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -40,7 +41,7 @@ public class ExplosionVNT {
         this(level, x, y, z, size, null);
     }
 
-    public ExplosionVNT(Level level, double x, double y, double z, float size, Entity exploder) {
+    public ExplosionVNT(Level level, double x, double y, double z, float size, @Nullable Entity exploder) {
         this.level = level;
         this.posX = x;
         this.posY = y;
@@ -48,7 +49,7 @@ public class ExplosionVNT {
         this.size = size;
         this.exploder = exploder;
 
-        this.compat = new Explosion(level, exploder, x, y, z, size, false, Explosion.BlockInteraction.DESTROY) {
+        this.compat = new Explosion(level, exploder, x, y, z, size, false, null) {
 
             @Override
             public Map<Player, Vec3> getHitPlayers() {

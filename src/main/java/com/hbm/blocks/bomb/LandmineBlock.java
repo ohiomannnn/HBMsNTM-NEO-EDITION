@@ -12,6 +12,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
@@ -21,6 +22,8 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class LandmineBlock extends BaseEntityBlock implements IBomb {
@@ -62,15 +65,15 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
         return level.isClientSide ? null : BaseEntityBlock.createTickerHelper(type, ModBlockEntities.LANDMINE.get(), LandMineBlockEntity::serverTick);
     }
 
-//    @Override
-//    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext ctx) {
-//        return SHAPE_SHRAP;
-//    }
-//
-//    @Override
-//    public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext ctx) {
-//        return getShape(state, level, pos, ctx);
-//    }
+    @Override
+    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return Shapes.block();
+    }
+
+    @Override
+    protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return getShape(state, level, pos, context);
+    }
 
     @Override
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
@@ -160,8 +163,7 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
     public boolean isWaterAbove(Level level, int x, int y, int z) {
         for (int xo = -1; xo <= 1; xo++) {
             for (int zo = -1; zo <= 1; zo++) {
-                FluidState blockAbove = level.getFluidState(new BlockPos(x + xo, y + 1, z + zo));
-                if (blockAbove.is(FluidTags.WATER)) {
+                if (level.getFluidState(new BlockPos(x + xo, y + 1, z + zo)).is(FluidTags.WATER)) {
                     return true;
                 }
             }

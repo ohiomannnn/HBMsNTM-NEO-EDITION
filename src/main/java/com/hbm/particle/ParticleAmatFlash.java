@@ -7,18 +7,17 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.core.particles.SimpleParticleType;
 
 import java.util.Random;
 
-public class ParticleAmatFlash extends Particle {
-
-    private final float initialScale;
+public class ParticleAmatFlash extends TextureSheetParticle {
 
     public ParticleAmatFlash(ClientLevel level, double x, double y, double z, float scale) {
         super(level, x, y, z);
         this.lifetime = 10;
-        this.initialScale = scale;
+        this.quadSize = scale;
     }
 
     private static float[] rotX(float x, float y, float z, float deg) {
@@ -53,7 +52,7 @@ public class ParticleAmatFlash extends Particle {
 
         poseStack.pushPose();
         poseStack.translate(px, py, pz);
-        float globalScale = 0.2F * this.initialScale;
+        float globalScale = 0.2F * this.quadSize;
         poseStack.scale(globalScale, globalScale, globalScale);
 
         float intensity = (this.age + partialTicks) / (float) this.lifetime;
@@ -144,7 +143,6 @@ public class ParticleAmatFlash extends Particle {
 
         poseStack.popPose();
     }
-
 
     @Override
     public ParticleRenderType getRenderType() {

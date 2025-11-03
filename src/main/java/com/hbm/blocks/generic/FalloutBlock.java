@@ -90,11 +90,15 @@ public class FalloutBlock extends Block {
         BlockPos below = pos.below();
         BlockState belowState = level.getBlockState(below);
 
-        if (WorldUtil.isPlant(belowState)) return false;
+        if (isPlant(belowState)) return false;
         if (belowState.is(ModBlocks.FALLOUT.get())) return false;
         if (belowState.isAir()) return false;
 
         return belowState.isSolidRender(level, below);
+    }
+
+    public static boolean isPlant(BlockState state) {
+        return state.is(BlockTags.CROPS) || state.is(BlockTags.FLOWERS) || state.is(BlockTags.LEAVES) || state.is(BlockTags.SAPLINGS);
     }
 
     @Override

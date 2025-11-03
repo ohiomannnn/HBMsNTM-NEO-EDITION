@@ -72,11 +72,11 @@ public class ExplosionNukeGeneric {
     private static void dealDamage(Level level, double x, double y, double z, double radius, float maxDamage) {
         List<Entity> entities = level.getEntities(null, new AABB(x, y, z, x, y, z).inflate(radius));
 
-        double radiusSq = radius * radius;
-
         for (Entity entity : entities) {
+
             double distSq = entity.distanceToSqr(x, y, z);
-            if (distSq <= radiusSq) {
+            if (distSq <= radius * radius) {
+
                 double entX = entity.getX();
                 double entY = entity.getY() + entity.getEyeHeight();
                 double entZ = entity.getZ();
@@ -338,18 +338,8 @@ public class ExplosionNukeGeneric {
                 level.setBlock(blockPos, Blocks.DIRT.defaultBlockState(), 3);
                 return;
             }
-            // oof
-            if ( state.is(Blocks.CACTUS)
-                    || state.is(BlockTags.CORAL_BLOCKS) || state.is(BlockTags.CORALS) || state.is(BlockTags.WALL_CORALS)
-                    || state.is(BlockTags.LEAVES)
-                    || state.is(BlockTags.SMALL_FLOWERS) || state.is(BlockTags.TALL_FLOWERS) || state.is(BlockTags.SAPLINGS) || state.is(BlockTags.CROPS) // растения
-                    || state.is(Blocks.SPONGE) || state.is(Blocks.WET_SPONGE)
-                    || state.is(Blocks.VINE) || state.is(Blocks.GLOW_LICHEN)
-                    || state.is(Blocks.MELON) || state.is(Blocks.PUMPKIN) || state.is(Blocks.CARVED_PUMPKIN) || state.is(Blocks.JACK_O_LANTERN)
-                    || state.is(BlockTags.LOGS) || state.is(BlockTags.PLANKS) ) {
 
-                level.setBlock(blockPos, Blocks.AIR.defaultBlockState(), 3);
-            }
+            level.setBlock(blockPos, Blocks.AIR.defaultBlockState(), 3);
         }
     }
 }

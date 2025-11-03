@@ -18,7 +18,7 @@ public class ParticleRocketFlame extends TextureSheetParticle {
     private int maxAge;
 
     public ParticleRocketFlame(ClientLevel level, double x, double y, double z, SpriteSet sprites) {
-        super(level, x, y, z, 0, 0, 0);
+        super(level, x, y, z);
         this.maxAge = 300 + this.random.nextInt(50);
         this.quadSize = 1.0F;
         this.setSpriteFromAge(sprites);
@@ -31,6 +31,11 @@ public class ParticleRocketFlame extends TextureSheetParticle {
 
     public ParticleRocketFlame setMaxAge(int maxAge) {
         this.maxAge = maxAge;
+        return this;
+    }
+
+    public ParticleRocketFlame setNoClip() {
+        this.hasPhysics = false;
         return this;
     }
 

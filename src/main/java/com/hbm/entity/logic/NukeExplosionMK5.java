@@ -74,7 +74,7 @@ public class NukeExplosionMK5 extends ChunkloadingEntity {
                 HBMsNTM.LOGGER.info("[NUKE] Explosion complete. Time elapsed: {}ms", (System.currentTimeMillis() - explosionStart));
             }
             if (fallout) {
-                FalloutRain fallout = new FalloutRain(ModEntities.FALLOUT_RAIN.get(), level());
+                FalloutRain fallout = new FalloutRain(ModEntities.NUKE_FALLOUT_RAIN.get(), level());
                 fallout.setPos(getX(), getY(), getZ());
                 fallout.setScale((int) (this.length * 2.5 + falloutAdd) * MainConfig.COMMON.FALLOUT_RANGE.get() / 100);
                 level().addFreshEntity(fallout);

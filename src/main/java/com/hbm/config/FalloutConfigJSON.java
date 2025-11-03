@@ -110,7 +110,7 @@ public class FalloutConfigJSON {
         entries.add(new FalloutEntry()
                 .mT(ModTags.Blocks.LEAVES)
                 .prim(new Pair(ModBlocks.WASTE_LEAVES.get().defaultBlockState(), 1))
-                .max(woodEffectRange - 5D));
+                .max(woodEffectRange + 100D));
 
         entries.add(new FalloutEntry()
                 .mBS(Blocks.MOSSY_COBBLESTONE.defaultBlockState())
@@ -327,11 +327,11 @@ public class FalloutConfigJSON {
 
         private static FalloutEntry readEntry(JsonElement recipe) {
             FalloutEntry entry = new FalloutEntry();
-            if(!recipe.isJsonObject()) return null;
+            if (!recipe.isJsonObject()) return null;
 
             JsonObject obj = recipe.getAsJsonObject();
 
-            if (obj.has("matchesBlock")) entry.mBS(BuiltInRegistries.BLOCK.getOptional(ResourceLocation.tryParse(obj.get("matchesBlock").getAsString())).get().defaultBlockState());
+            if (obj.has("matchesBlock")) entry.mBS(BuiltInRegistries.BLOCK.getOptional(ResourceLocation.parse(obj.get("matchesBlock").getAsString())).get().defaultBlockState());
             if (obj.has("matchesTag")) entry.mT(TagKey.create(Registries.BLOCK, ResourceLocation.parse(obj.get("matchesTag").getAsString())));
             if (obj.has("mustBeOpaque")) entry.mO(obj.get("mustBeOpaque").getAsBoolean());
             if (obj.has("restrictDepth")) entry.sol(obj.get("restrictDepth").getAsBoolean());

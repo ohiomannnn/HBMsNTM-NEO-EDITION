@@ -1,6 +1,8 @@
 package com.hbm.blockentity.bomb;
 
 import com.hbm.blockentity.ModBlockEntities;
+import com.hbm.blocks.bomb.CrashedBombBlock;
+import com.hbm.blocks.bomb.LandmineBlock;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.HazardType;
 import com.hbm.util.ContaminationUtil.ContaminationType;
@@ -48,10 +50,10 @@ public class CrashedBombBlockEntity extends BlockEntity {
         return dudType;
     }
 
-    public static void tick(Level level, BlockPos pos, BlockState state, CrashedBombBlockEntity be) {
-        if (level.isClientSide) return;
+    public static void serverTick(Level level, BlockPos pos, BlockState state, CrashedBombBlockEntity be) {
+        if (!(state.getBlock() instanceof CrashedBombBlock)) return;
 
-        if (level.getGameTime() % 2L == 0L) {
+        if (level.getGameTime() % 2 == 0) {
 
             EnumDudType type = be.dudType;
 
@@ -70,8 +72,7 @@ public class CrashedBombBlockEntity extends BlockEntity {
     }
 
     private void affectEntities(Level level, BlockPos pos, BiConsumer<LivingEntity, Float> effect, double range) {
-        AABB box = new AABB(pos).inflate(range);
-        List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, box);
+        List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, new AABB(pos).inflate(range));
 
         for (LivingEntity entity : entities) {
             double dx = entity.getX() - (pos.getX() + 0.5);

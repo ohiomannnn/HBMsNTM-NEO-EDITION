@@ -124,15 +124,15 @@ public class BalefireBlock extends BaseFireBlock {
         }
     }
 
-    private void tryCatchFire(ServerLevel level, BlockPos pos, int chance, RandomSource rand, int fireAge, Direction face) {
-        BlockState target = level.getBlockState(pos);
-        int flammability = target.getFlammability(level, pos, face);
-
-        if (rand.nextInt(chance) < flammability) {
-            boolean isTnt = target.is(Blocks.TNT);
-            level.setBlock(pos, this.defaultBlockState().setValue(AGE, Math.min(15, fireAge + 1)), 3);
-            if (isTnt) {
-                Blocks.TNT.onCaughtFire(target, level, pos, null, null);
+    private void tryCatchFire(Level level, BlockPos pos, int chance, RandomSource random, int age, Direction face) {
+        int i = level.getBlockState(pos).getFlammability(level, pos, face);
+        if (random.nextInt(chance) < i) {
+            BlockState blockstate = level.getBlockState(pos);
+            blockstate.onCaughtFire(level, pos, face, null);
+            if (random.nextInt(age + 10) < 5 && !level.isRainingAt(pos)) {
+                level.setBlock(pos, this.defaultBlockState().setValue(AGE, Math.min(15, age + 1)), 3);
+            } else {
+                level.removeBlock(pos, false);
             }
         }
     }

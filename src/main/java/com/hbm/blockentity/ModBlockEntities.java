@@ -17,46 +17,46 @@ public class ModBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> REGISTER = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, HBMsNTM.MODID);
 
     public static final Supplier<BlockEntityType<CrateIronBlockEntity>> IRON_CRATE = REGISTER.register(
-            "iron_crate", () -> BlockEntityType.Builder.of(
+            "iron_crate",
+            () -> BlockEntityType.Builder.of(
                             CrateIronBlockEntity::new,
                             ModBlocks.IRON_CRATE.get())
-                    .build(null)
-    );
+                    .build(null));
 
     public static final Supplier<BlockEntityType<LandMineBlockEntity>> LANDMINE = REGISTER.register(
-            "landmine", () -> BlockEntityType.Builder.of(
+            "landmine",
+            () -> BlockEntityType.Builder.of(
                             LandMineBlockEntity::new,
                             ModBlocks.LANDMINE.get())
-                    .build(null)
-    );
+                    .build(null));
 
     public static final Supplier<BlockEntityType<CrashedBombBlockEntity>> CRASHED_BOMB_BALEFIRE = REGISTER.register(
-            "crashed_bomb_balefire", () -> BlockEntityType.Builder.of(
+            "crashed_bomb_balefire",
+            () -> BlockEntityType.Builder.of(
                             CrashedBombBlockEntity::balefire,
                             ModBlocks.CRASHED_BOMB_BALEFIRE.get())
-                    .build(null)
-    );
+                    .build(null));
 
     public static final Supplier<BlockEntityType<CrashedBombBlockEntity>> CRASHED_BOMB_CONVENTIONAL = REGISTER.register(
-            "crashed_bomb_conventional", () -> BlockEntityType.Builder.of(
+            "crashed_bomb_conventional",
+            () -> BlockEntityType.Builder.of(
                             CrashedBombBlockEntity::conventional,
                             ModBlocks.CRASHED_BOMB_CONVENTIONAL.get())
-                    .build(null)
-    );
+                    .build(null));
 
     public static final Supplier<BlockEntityType<CrashedBombBlockEntity>> CRASHED_BOMB_NUKE = REGISTER.register(
-            "crashed_bomb_nuke", () -> BlockEntityType.Builder.of(
+            "crashed_bomb_nuke",
+            () -> BlockEntityType.Builder.of(
                             CrashedBombBlockEntity::nuke,
                             ModBlocks.CRASHED_BOMB_NUKE.get())
-                    .build(null)
-    );
+                    .build(null));
 
     public static final Supplier<BlockEntityType<CrashedBombBlockEntity>> CRASHED_BOMB_SALTED = REGISTER.register(
-            "crashed_bomb_salted", () -> BlockEntityType.Builder.of(
+            "crashed_bomb_salted",
+            () -> BlockEntityType.Builder.of(
                             CrashedBombBlockEntity::salted,
                             ModBlocks.CRASHED_BOMB_SALTED.get())
-                    .build(null)
-    );
+                    .build(null));
 
     public static void register(IEventBus eventBus) {
         REGISTER.register(eventBus);

@@ -29,13 +29,13 @@ public class ExplosionSmallCreator implements IParticleCreator{
 
     public static final double SPEED_OF_SOUND = (17.15D) * 0.5;
 
-    public static void composeEffect(Level level, double x, double y, double z, int cloudCount, float cloudScale, float cloudSpeedMult) {
+    public static void composeEffect(Level level, double x, double y, double z, int cloudCount, float cloudScale, float cloudSpeedMultiplier) {
 
         CompoundTag tag = new CompoundTag();
         tag.putString("type", "explosionSmall");
         tag.putInt("cloudCount", cloudCount);
         tag.putFloat("cloudScale", cloudScale);
-        tag.putFloat("cloudSpeedMult", cloudSpeedMult);
+        tag.putFloat("cloudSpeedMultiplier", cloudSpeedMultiplier);
         tag.putInt("debris", 15);
         if (level instanceof ServerLevel serverLevel) {
             IParticleCreator.sendPacket(serverLevel, x, y, z, 200, tag);
@@ -48,7 +48,7 @@ public class ExplosionSmallCreator implements IParticleCreator{
 
         int cloudCount = tag.getInt("cloudCount");
         float cloudScale = tag.getFloat("cloudScale");
-        float cloudSpeedMult = tag.getFloat("cloudSpeedMult");
+        float cloudSpeedMultiplier = tag.getFloat("cloudSpeedMultiplier");
         int debris = tag.getInt("debris");
 
         double distSq = player.distanceToSqr(x, y, z);
@@ -57,20 +57,12 @@ public class ExplosionSmallCreator implements IParticleCreator{
         if (distSq <= soundRange * soundRange) {
             double dist = Math.sqrt(distSq);
             SoundEvent sound = dist <= soundRange * 0.4 ? ModSounds.EXPLOSION_SMALL_NEAR.get() : ModSounds.EXPLOSION_SMALL_FAR.get();
-            SimpleSoundInstance instance = new SimpleSoundInstance(
-                    sound,
-                    SoundSource.BLOCKS,
-                    100.0F,
-                    0.9F + rand.nextFloat() * 0.2F,
-                    rand,
-                    x,y,z
-            );
+            SimpleSoundInstance instance = new SimpleSoundInstance(sound, SoundSource.BLOCKS, 100.0F, 0.9F + rand.nextFloat() * 0.2F, rand, x,y,z);
             Minecraft.getInstance().getSoundManager().playDelayed(instance, (int) (dist / SPEED_OF_SOUND));
         }
 
-
         for (int i = 0; i < cloudCount; i++) {
-            ParticleExplosionSmall particle = new ParticleExplosionSmall(level, x, y, z, cloudScale, cloudSpeedMult, ModParticles.EXPLOSION_SMALL_SPRITES);
+            ParticleExplosionSmall particle = new ParticleExplosionSmall(level, x, y, z, cloudScale, cloudSpeedMultiplier, ModParticles.EXPLOSION_SMALL_SPRITES);
             Minecraft.getInstance().particleEngine.add(particle);
         }
 
@@ -88,15 +80,9 @@ public class ExplosionSmallCreator implements IParticleCreator{
 
         if (!state.isAir()) {
             for (int i = 0; i < debris; i++) {
-                ParticleDust fx = new ParticleDust(level,
-                        x, y + 0.1, z,
-                        rand.nextGaussian() * 0.2,
-                        0.5F + rand.nextDouble() * 0.7,
-                        rand.nextGaussian() * 0.2,
-                        state
-                );
-                fx.setLifetime(50 + rand.nextInt(20));
-                Minecraft.getInstance().particleEngine.add(fx);
+                ParticleDust particle = new ParticleDust(level, x, y + 0.1, z, rand.nextGaussian() * 0.2, 0.5F + rand.nextDouble() * 0.7, rand.nextGaussian() * 0.2, state);
+                particle.setLifetime(50 + rand.nextInt(20));
+                Minecraft.getInstance().particleEngine.add(particle);
             }
         }
     }
