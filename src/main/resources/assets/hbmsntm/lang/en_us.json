@@ -161,7 +161,7 @@
   "damage.inset": "Resistances when worn in set:",
   "damage.item": "Resistances when worn:",
   "damage.category.EXPLOSION": "Explosion",
-  "damage.category.FIRE": "Fire",
+  "damage.category.IN_FIRE": "Fire",
   "damage.category.PHYSICAL": "Physical",
   "damage.category.ENERGY": "Energy",
   "damage.exact.minecraft:drown": "Drowning",
