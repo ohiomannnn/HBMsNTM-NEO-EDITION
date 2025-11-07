@@ -61,7 +61,7 @@ public class LandMineBlockEntity extends BlockEntity {
                 if (entity instanceof LivingEntity) {
                     if (blockEntity.isPrimed) {
                         //the explosion is part of the mine block so that the IBomb interface works, i remember now
-                        landmine.explode(level, pos.getX(), pos.getY(), pos.getZ());
+                        landmine.explode(level, pos);
                     }
                     return;
                 }
@@ -73,7 +73,7 @@ public class LandMineBlockEntity extends BlockEntity {
         // The mine will prime itself only after all entities have left its trigger radius * 2
         // I'm leaving this note because I made a dumb assumption on what this was meant to do
         if (!blockEntity.isPrimed && !blockEntity.waitingForPlayer) {
-            //level.playSound(null, pos, ModSounds.FSTBMB_START.get(), SoundSource.BLOCKS, 3.0F, 1.0F);
+            level.playSound(null, pos, ModSounds.FSTBMB_START.get(), SoundSource.BLOCKS, 3.0F, 1.0F);
             blockEntity.isPrimed = true;
         }
     }

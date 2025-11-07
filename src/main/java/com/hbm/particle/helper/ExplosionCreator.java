@@ -1,7 +1,6 @@
 package com.hbm.particle.helper;
 
 import com.hbm.lib.ModSounds;
-import com.hbm.particle.ModParticles;
 import com.hbm.particle.ParticleDebris;
 import com.hbm.particle.ParticleMukeWave;
 import com.hbm.particle.ParticleRocketFlame;
@@ -90,13 +89,13 @@ public class ExplosionCreator implements IParticleCreator {
         }
 
         // WAVE
-        ParticleMukeWave wave = new ParticleMukeWave(level, x, y + 2, z, ModParticles.MUKE_WAVE_SPRITES);
+        ParticleMukeWave wave = new ParticleMukeWave(level, x, y + 2, z);
         wave.setup(waveScale, (int) (25F * waveScale / 45));
         Minecraft.getInstance().particleEngine.add(wave);
 
         // SMOKE PLUME
         for (int i = 0; i < cloudCount; i++) {
-            ParticleRocketFlame particle = new ParticleRocketFlame(level, x, y, z, ModParticles.ROCKET_FLAME_SPRITES).setScale(cloudScale);
+            ParticleRocketFlame particle = new ParticleRocketFlame(level, x, y, z).setScale(cloudScale);
             particle.resetPrevPos();
             particle.setParticleSpeed(
                     rand.nextGaussian() * 0.5 * cloudSpeedMultiplier,

@@ -3,6 +3,7 @@ package com.hbm.items.tools;
 import com.hbm.HBMsNTM;
 import com.hbm.config.MainConfig;
 import com.hbm.interfaces.IBomb;
+import com.hbm.interfaces.IBomb.BombReturnCode;
 import com.hbm.lib.ModSounds;
 import com.hbm.util.TagsUtil;
 import net.minecraft.ChatFormatting;
@@ -69,25 +70,15 @@ public class DetonatorItem extends Item {
             if (!level.isClientSide) {
                 if (block instanceof IBomb bomb) {
                     level.playSound(null, player.blockPosition(), ModSounds.TECH_BLEEP.get(), SoundSource.PLAYERS, 2.0F, 1.0F);
-                    IBomb.BombReturnCode ret = bomb.explode(level, x, y, z);
+                    BombReturnCode ret = bomb.explode(level, pos);
 
                     if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
                         HBMsNTM.LOGGER.info("[DETONATOR] {} detonated {} at {} / {} / {}!", player.getName().getString(), block.getName().getString(), x, y, z);
                     }
 
-                    player.sendSystemMessage(
-                            Component.literal("[Detonator] ")
-                                    .withStyle(ChatFormatting.DARK_AQUA)
-                                    .append(Component.literal(ret.getUnlocalizedMessage().getString())
-                                            .withStyle(ret.wasSuccessful() ? ChatFormatting.YELLOW : ChatFormatting.RED))
-                    );
+                    player.sendSystemMessage(Component.literal("[Detonator] ").withStyle(ChatFormatting.DARK_AQUA).append(Component.literal(ret.getUnlocalizedMessage().getString()).withStyle(ret.wasSuccessful() ? ChatFormatting.YELLOW : ChatFormatting.RED)));
                 } else {
-                    player.sendSystemMessage(
-                            Component.literal("[Detonator] ")
-                                    .withStyle(ChatFormatting.DARK_AQUA)
-                                    .append(Component.literal(IBomb.BombReturnCode.ERROR_NO_BOMB.getUnlocalizedMessage().getString())
-                                            .withStyle(ChatFormatting.RED))
-                    );
+                    player.sendSystemMessage(Component.literal("[Detonator] ").withStyle(ChatFormatting.DARK_AQUA).append(Component.literal(BombReturnCode.ERROR_NO_BOMB.getUnlocalizedMessage().getString()).withStyle(ChatFormatting.RED)));
                 }
             }
         }

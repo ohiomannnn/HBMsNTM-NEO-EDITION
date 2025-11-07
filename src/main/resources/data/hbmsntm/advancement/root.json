@@ -1,0 +1,27 @@
+{
+  "criteria": {
+    "root": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "hbmsntm:textures/block/ore_oil.png",
+    "description": "",
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "hbmsntm:crashed_bomb_conventional"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "test"
+    }
+  },
+  "requirements": [
+    [
+      "root"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

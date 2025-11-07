@@ -30,17 +30,17 @@ public class DetMinerBlock extends Block implements IBomb, IFuckingExplode {
     }
 
     @Override
-    public BombReturnCode explode(Level level, int x, int y, int z) {
+    public BombReturnCode explode(Level level, BlockPos pos) {
         if (!level.isClientSide) {
-            level.setBlock(new BlockPos(x, y, z), Blocks.AIR.defaultBlockState(), 3);
+            level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
 
-            ExplosionVNT vnt = new ExplosionVNT(level, x + 0.5, y + 0.5, z + 0.5, 4);
+            ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 4);
             vnt.setBlockAllocator(new BlockAllocatorStandard());
             vnt.setBlockProcessor(new BlockProcessorStandard().setAllDrop());
             vnt.explode();
 
-            ExplosionLarge.spawnParticles((ServerLevel) level, x + 0.5, y + 0.5, z + 0.5, 30);
-            level.playSound(null, x, y, z, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 4.0F, (1.0F + (level.random.nextFloat() - level.random.nextFloat()) * 0.2F) * 0.7F);
+            ExplosionLarge.spawnParticles((ServerLevel) level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 30);
+            level.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 4.0F, (1.0F + (level.random.nextFloat() - level.random.nextFloat()) * 0.2F) * 0.7F);
         }
         return BombReturnCode.DETONATED;
     }
@@ -59,12 +59,12 @@ public class DetMinerBlock extends Block implements IBomb, IFuckingExplode {
     @Override
     protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
         if (!level.isClientSide && level.hasNeighborSignal(pos)) {
-            this.explode(level, pos.getX(), pos.getY(), pos.getZ());
+            this.explode(level, pos);
         }
     }
 
     @Override
     public void explodeEntity(Level level, double x, double y, double z, EntityTNTPrimedBase entity) {
-        explode(level, Mth.floor(x), Mth.floor(y), Mth.floor(z));
+        explode(level, BlockPos.containing(x, y, z));
     }
 }

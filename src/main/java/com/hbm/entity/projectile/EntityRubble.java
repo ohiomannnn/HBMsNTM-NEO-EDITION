@@ -24,8 +24,7 @@ import static com.hbm.lib.ModDamageSource.RUBBLE;
 
 public class EntityRubble extends ThrowableProjectile {
 
-    private static final EntityDataAccessor<String> BLOCK_ID =
-            SynchedEntityData.defineId(EntityRubble.class, EntityDataSerializers.STRING);
+    private static final EntityDataAccessor<String> BLOCK_ID = SynchedEntityData.defineId(EntityRubble.class, EntityDataSerializers.STRING);
 
     public EntityRubble(EntityType<? extends EntityRubble> type, Level level) {
         super(type, level);
@@ -41,15 +40,14 @@ public class EntityRubble extends ThrowableProjectile {
         super.onHit(result);
 
         if (result instanceof EntityHitResult ehr) {
-            DamageSource src = new DamageSource( ehr.getEntity().level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(RUBBLE) );
+            DamageSource src = new DamageSource( ehr.getEntity().level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(RUBBLE));
             ehr.getEntity().hurt(src, 15);
         }
 
         if (this.tickCount > 2) {
             this.discard();
 
-            level().playSound(null, getX(), getY(), getZ(),
-                    SoundEvents.STONE_BREAK, SoundSource.BLOCKS, 1.5F, 1.0F);
+            level().playSound(null, getX(), getY(), getZ(), SoundEvents.STONE_BREAK, SoundSource.BLOCKS, 1.5F, 1.0F);
 
             BlockPos pos = new BlockPos((int) getX(), (int) getY(), (int) getZ());
 

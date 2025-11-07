@@ -24,6 +24,15 @@
       "hbmsntm:weapon/explosion_small_far2"
     ]
   },
+  "weapon.explosion_tiny": {
+    "sounds": [
+      "hbmsntm:weapon/explosion_tiny1",
+      "hbmsntm:weapon/explosion_tiny2"
+    ]
+  },
+  "weapon.fstbmb_start": {
+    "sounds": ["hbmsntm:weapon/fstbmb_start"]
+  },
   "grenade_bounce": {
     "sounds": [
       "hbmsntm:weapon/grenade_bounce1",
@@ -45,9 +54,6 @@
   },
   "tech_bleep": {
     "sounds": ["hbmsntm:tech/tech_bleep"]
-  },
-  "fstbmb_start": {
-    "sounds": ["hbmsntm:weapon/fstbmb_start"]
   },
   "item.geiger1": {
     "sounds": ["hbmsntm:tool/geiger1"]

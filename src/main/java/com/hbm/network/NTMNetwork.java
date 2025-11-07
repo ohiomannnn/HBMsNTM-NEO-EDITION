@@ -13,11 +13,7 @@ public class NTMNetwork {
 
         registrar.playToServer(GetRadPacket.TYPE, GetRadPacket.STREAM_CODEC, GetRadPacket::handleServer);
         registrar.playToServer(KeybindReceiver.TYPE, KeybindReceiver.STREAM_CODEC, KeybindReceiver::handleServer);
-//        registrar.playToClient( // fuck you
-//                ExplosionVanillaNewTechnologyCompressedAffectedBlockPositionDataForClientEffectsAndParticleHandlingPacket.TYPE,
-//                ExplosionVanillaNewTechnologyCompressedAffectedBlockPositionDataForClientEffectsAndParticleHandlingPacket.STREAM_CODEC,
-//                ExplosionVanillaNewTechnologyCompressedAffectedBlockPositionDataForClientEffectsAndParticleHandlingPacket::handleClient
-//        );
+        registrar.playToClient(VanillaExplosionLike.TYPE, VanillaExplosionLike.STREAM_CODEC, VanillaExplosionLike::handleClient);
         registrar.playToClient(InformPlayerPacket.TYPE, InformPlayerPacket.STREAM_CODEC, InformPlayerPacket::handleClient);
         registrar.playToClient(ParticleBurstPacket.TYPE, ParticleBurstPacket.STREAM_CODEC, ParticleBurstPacket::handleClient);
         registrar.playToClient(AuxParticle.TYPE, AuxParticle.STREAM_CODEC, AuxParticle::handleClient);

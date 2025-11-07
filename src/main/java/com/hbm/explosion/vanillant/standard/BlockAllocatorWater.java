@@ -54,15 +54,11 @@ public class BlockAllocatorWater implements IBlockAllocator {
                             FluidState fluid = level.getFluidState(pos);
                             if (!level.isInWorldBounds(pos)) { break; }
 
-                            // im braindead and copy code 🧃🐱‍👤
                             if (!state.isAir() && fluid.isEmpty()) {
-                                float blockResistance = explosion.exploder != null
-                                        ? explosion.exploder.getBlockExplosionResistance(explosion.compat, level, pos, state, fluid, explosion.size)
-                                        : state.getExplosionResistance(level, pos, explosion.compat);
-                                powerRemaining -= (blockResistance + 0.3F) * stepSize;
+                                powerRemaining -= (state.getExplosionResistance(level, pos, explosion.compat) + 0.3F) * stepSize;
                             }
 
-                            if (powerRemaining > 0.0F && (explosion.exploder == null || explosion.exploder.shouldBlockExplode(explosion.compat, level, pos, state, powerRemaining)) && fluid.isEmpty()) {
+                            if (powerRemaining > 0.0F && fluid.isEmpty()) {
                                 affectedBlocks.add(pos);
                             }
 

@@ -33,26 +33,6 @@ public class EntityShrapnel extends ThrowableProjectile {
         super(entityType, level);
     }
 
-//    public EntityShrapnel(EntityType<? extends EntityShrapnel> type, Level level) {
-//        super(type, level);
-//        this.setInvulnerable(true);
-//    }
-//    public EntityShrapnel(EntityType<? extends ThrowableProjectile> type, Level level) {
-//        super(type, level);
-//    }
-
-//    public EntityShrapnel(Level level,@Nullable LivingEntity shooter) {
-//        super(ModEntities.SHRAPNEL.get(), shooter, level);
-//    }
-//
-//    public EntityShrapnel(Level level, double x, double y, double z) {
-//        super(ModEntities.SHRAPNEL.get(), x, y, z, level);
-//    }
-//
-//    public EntityShrapnel(EntityType<? extends EntityShrapnel> entityType, Level level) {
-//        super(entityType, level);
-//    }
-
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         builder.define(TYPE, (byte) 0);
@@ -153,6 +133,5 @@ public class EntityShrapnel extends ThrowableProjectile {
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         this.entityData.set(TYPE, tag.getByte("Type"));
-        this.discard();
     }
 }

@@ -87,12 +87,12 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
     protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
         if (!level.isClientSide) {
             if (level.hasNeighborSignal(pos)) {
-                this.explode(level, pos.getX(), pos.getY(), pos.getZ());
+                this.explode(level, pos);
             }
             BlockPos below = pos.below();
             if (!level.getBlockState(below).isFaceSturdy(level, below, Direction.UP)) {
                 if (!safeMode) {
-                    this.explode(level, pos.getX(), pos.getY(), pos.getZ());
+                    this.explode(level, pos);
                 } else {
                     level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
                 }
@@ -104,20 +104,20 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
     public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
 
         if (!safeMode) {
-            this.explode(level, pos.getX(), pos.getY(), pos.getZ());
+            this.explode(level, pos);
         }
 
         return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
     }
 
     @Override
-    public BombReturnCode explode(Level level, int x, int y, int z) {
-
-        LandmineBlock.safeMode = true;
-        level.setBlock(new BlockPos(x, y, z), Blocks.AIR.defaultBlockState(), 3);
-        LandmineBlock.safeMode = false;
+    public BombReturnCode explode(Level level, BlockPos pos) {
 
         if (!level.isClientSide) {
+            LandmineBlock.safeMode = true;
+            level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+            LandmineBlock.safeMode = false;
+
 //            ExplosionVNT vnt = new ExplosionVNT(level, x + 0.5, y + 0.5, z + 0.5, 10);
 //            vnt.setBlockAllocator(new BlockAllocatorStandard(64));
 //            vnt.setBlockProcessor(new BlockProcessorStandard());
@@ -140,7 +140,7 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
 //            ExplosionLarge.spawnShrapnelShower(level, x + 0.5, y + 0.5, z + 0.5, 0, 1D, 0, 45, 0.2D);
 //            ExplosionLarge.spawnShrapnels(level, x + 0.5, y + 0.5, z + 0.5, 5);
 
-            ExplosionVNT vnt = new ExplosionVNT(level, x + 5, y + 5, z + 5, 25F);
+            ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 5, pos.getY() + 5, pos.getZ() + 5, 25F);
             vnt.setBlockAllocator(new BlockAllocatorWater(32));
             vnt.setBlockProcessor(new BlockProcessorStandard());
             vnt.setEntityProcessor(new EntityProcessorCrossSmooth(0.5, 75F).setupPiercing(5F, 0.2F));
@@ -148,22 +148,22 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
             vnt.setSFX(new ExplosionEffectWeapon(10, 1F, 0.5F));
             vnt.explode();
 
-            ExplosionLarge.spawnParticlesRadial((ServerLevel) level, x + 0.5, y + 2, z + 0.5, 30);
+            ExplosionLarge.spawnParticlesRadial((ServerLevel) level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 30);
             //ExplosionLarge.spawnRubble(level,x + 0.5, y + 0.5, z + 0.5, 5 );
 
             // Only spawn water effects if there's water above the mine
-            if (isWaterAbove(level, x, y, z)) {
-                ExplosionLarge.spawnFoam((ServerLevel) level, x + 0.5, y + 0.5, z + 0.5, 60);
+            if (isWaterAbove(level, pos)) {
+                ExplosionLarge.spawnFoam((ServerLevel) level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 60);
             }
         }
 
         return BombReturnCode.DETONATED;
     }
 
-    public boolean isWaterAbove(Level level, int x, int y, int z) {
+    public boolean isWaterAbove(Level level, BlockPos pos) {
         for (int xo = -1; xo <= 1; xo++) {
             for (int zo = -1; zo <= 1; zo++) {
-                if (level.getFluidState(new BlockPos(x + xo, y + 1, z + zo)).is(FluidTags.WATER)) {
+                if (level.getFluidState(new BlockPos(pos.getX() + xo, pos.getY() + 1, pos.getZ() + zo)).is(FluidTags.WATER)) {
                     return true;
                 }
             }

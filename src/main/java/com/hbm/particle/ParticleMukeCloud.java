@@ -6,15 +6,15 @@ import net.minecraft.core.particles.SimpleParticleType;
 
 public class ParticleMukeCloud extends TextureSheetParticle {
 
-    private final SpriteSet sprites;
+    private final boolean bf;
     private final float friction;
 
-    public ParticleMukeCloud(ClientLevel level, double x, double y, double z, double mx, double my, double mz, SpriteSet sprites) {
+    public ParticleMukeCloud(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, boolean bf) {
         super(level, x, y, z);
-        this.sprites = sprites;
-        this.xd = mx;
-        this.yd = my;
-        this.zd = mz;
+        this.bf = bf;
+        this.xd = xSpeed;
+        this.yd = ySpeed;
+        this.zd = zSpeed;
 
         if (yd > 0) {
             this.friction = 0.9F;
@@ -31,8 +31,11 @@ public class ParticleMukeCloud extends TextureSheetParticle {
             this.lifetime = 122 + random.nextInt(31);
             this.age = 80;
         }
-
-        this.setSpriteFromAge(sprites);
+        if (bf) {
+            this.setSpriteFromAge(ModParticles.MUKE_CLOUD_SPRITES);
+        } else {
+            this.setSpriteFromAge(ModParticles.MUKE_CLOUD_BF_SPRITES);
+        }
         this.quadSize = 3.0F;
     }
 
@@ -59,7 +62,11 @@ public class ParticleMukeCloud extends TextureSheetParticle {
             this.zd *= 0.7D;
         }
 
-        this.setSpriteFromAge(this.sprites);
+        if (bf) {
+            this.setSpriteFromAge(ModParticles.MUKE_CLOUD_SPRITES);
+        } else {
+            this.setSpriteFromAge(ModParticles.MUKE_CLOUD_BF_SPRITES);
+        }
     }
 
     @Override
@@ -73,15 +80,10 @@ public class ParticleMukeCloud extends TextureSheetParticle {
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet sprites;
-
-        public Provider(SpriteSet sprites) {
-            this.sprites = sprites;
-        }
 
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new ParticleMukeCloud(level, x, y, z, xSpeed, ySpeed, zSpeed, sprites);
+            return new ParticleMukeCloud(level, x, y, z, xSpeed, ySpeed, zSpeed, false);
         }
     }
 }

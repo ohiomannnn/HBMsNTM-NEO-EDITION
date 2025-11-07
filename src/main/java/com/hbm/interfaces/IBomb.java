@@ -1,5 +1,6 @@
 package com.hbm.interfaces;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 
@@ -9,7 +10,7 @@ public interface IBomb {
      * should only be processed serverside, what's returned on the client should be ignored.
      * Often invoked by onNeighborBlockChanged, so in any case make sure to check for level-clientside.
      */
-    BombReturnCode explode(Level level, int x, int y, int z);
+    BombReturnCode explode(Level level, BlockPos pos);
 
     enum BombReturnCode {
         UNDEFINED(false, Component.empty()),				                                    //non-null type for passing to clients that don't process the return code

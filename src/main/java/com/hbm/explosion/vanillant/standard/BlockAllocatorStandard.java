@@ -3,10 +3,8 @@ package com.hbm.explosion.vanillant.standard;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.interfaces.IBlockAllocator;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.FluidState;
 
 import java.util.HashSet;
 
@@ -49,23 +47,14 @@ public class BlockAllocatorStandard implements IBlockAllocator {
 
                         for (float stepSize = 0.3F; powerRemaining > 0.0F; powerRemaining -= stepSize * 0.75F) {
 
-                            int blockX = Mth.floor(currentX);
-                            int blockY = Mth.floor(currentY);
-                            int blockZ = Mth.floor(currentZ);
-
-                            BlockPos pos = new BlockPos(blockX, blockY, blockZ);
+                            BlockPos pos = BlockPos.containing(currentX, currentY, currentZ);
                             BlockState state = level.getBlockState(pos);
-                            FluidState fluid = level.getFluidState(pos);
-                            if (!level.isInWorldBounds(pos)) { break; }
 
                             if (!state.isAir()) {
-                                float blockResistance = explosion.exploder != null
-                                        ? explosion.exploder.getBlockExplosionResistance(explosion.compat, level, pos, state, fluid, explosion.size)
-                                        : state.getExplosionResistance(level, pos, explosion.compat);
-                                powerRemaining -= (blockResistance + 0.3F) * stepSize;
+                                powerRemaining -= (state.getExplosionResistance(level, pos, explosion.compat) + 0.3F) * stepSize;
                             }
 
-                            if (powerRemaining > 0.0F && (explosion.exploder == null || explosion.exploder.shouldBlockExplode(explosion.compat, level, pos, state, powerRemaining))) {
+                            if (powerRemaining > 0.0F) {
                                 affectedBlocks.add(pos);
                             }
 
@@ -73,7 +62,6 @@ public class BlockAllocatorStandard implements IBlockAllocator {
                             currentY += d1 * (double) stepSize;
                             currentZ += d2 * (double) stepSize;
                         }
-
                     }
                 }
             }

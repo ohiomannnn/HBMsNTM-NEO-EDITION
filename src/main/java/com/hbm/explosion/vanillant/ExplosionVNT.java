@@ -1,5 +1,6 @@
 package com.hbm.explosion.vanillant;
 
+import com.hbm.HBMsNTM;
 import com.hbm.explosion.vanillant.interfaces.*;
 import com.hbm.explosion.vanillant.standard.*;
 import net.minecraft.core.BlockPos;

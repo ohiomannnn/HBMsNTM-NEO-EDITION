@@ -23,9 +23,11 @@ public class ExplosionEffectAmat implements IExplosionSFX {
             level.playSound(null, x, y, z, ModSounds.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 15.0F, 1.0F);
         }
 
-        CompoundTag tag = new CompoundTag();
-        tag.putString("type", "amat");
-        tag.putFloat("scale", size);
-        PacketDistributor.sendToPlayersNear((ServerLevel) level, null, x, y, z, 200, new AuxParticle(tag, x, y, z));
+        if (level instanceof ServerLevel serverLevel) {
+            CompoundTag tag = new CompoundTag();
+            tag.putString("type", "amat");
+            tag.putFloat("scale", size);
+            PacketDistributor.sendToPlayersNear(serverLevel, null, x, y, z, 250, new AuxParticle(tag, x, y, z));
+        }
     }
 }

@@ -15,6 +15,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -77,7 +78,7 @@ public class NukeExplosionMK5 extends ChunkloadingEntity {
                 FalloutRain fallout = new FalloutRain(ModEntities.NUKE_FALLOUT_RAIN.get(), level());
                 fallout.setPos(getX(), getY(), getZ());
                 fallout.setScale((int) (this.length * 2.5 + falloutAdd) * MainConfig.COMMON.FALLOUT_RANGE.get() / 100);
-                level().addFreshEntity(fallout);
+                this.level().addFreshEntity(fallout);
             }
             this.discard();
         }
@@ -85,7 +86,7 @@ public class NukeExplosionMK5 extends ChunkloadingEntity {
 
     private void radiate(float rads, double range) {
         AABB box = new AABB(getX(), getY(), getZ(), getX(), getY(), getZ()).inflate(range);
-        List<LivingEntity> entities = level().getEntitiesOfClass(LivingEntity.class, box);
+        List<LivingEntity> entities = this.level().getEntitiesOfClass(LivingEntity.class, box);
 
         for (LivingEntity e : entities) {
             Vec3 vec = new Vec3(e.getX() - getX(), (e.getEyeY()) - getY(), e.getZ() - getZ());
@@ -138,22 +139,22 @@ public class NukeExplosionMK5 extends ChunkloadingEntity {
         if (strength == 0) strength = 25;
         strength *= 2;
 
-        NukeExplosionMK5 mk5 = new NukeExplosionMK5(ModEntities.NUKE_MK5.get(), level);
-        mk5.strength = strength;
-        mk5.speed = (int) Math.ceil(100000D / mk5.strength);
-        mk5.setPos(x, y, z);
-        mk5.length = mk5.strength / 2;
-        return mk5;
+        NukeExplosionMK5 explosionMK5 = new NukeExplosionMK5(ModEntities.NUKE_MK5.get(), level);
+        explosionMK5.strength = strength;
+        explosionMK5.speed = (int) Math.ceil(100000D / explosionMK5.strength);
+        explosionMK5.setPos(x, y, z);
+        explosionMK5.length = explosionMK5.strength / 2;
+        level.addFreshEntity(explosionMK5);
+        return explosionMK5;
     }
 
-    public static NukeExplosionMK5 statFacNoRad(Level level, int strength, double x, double y, double z) {
-        NukeExplosionMK5 mk5 = statFac(level, strength, x, y, z);
-        mk5.fallout = false;
-        return mk5;
+    public NukeExplosionMK5 noRad() {
+        fallout = false;
+        return this;
     }
 
-    public NukeExplosionMK5 moreFallout(int fallout) {
-        falloutAdd = fallout;
+    public NukeExplosionMK5 moreFallout(int toAdd) {
+        falloutAdd = toAdd;
         return this;
     }
 }

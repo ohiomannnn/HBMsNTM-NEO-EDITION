@@ -1,5 +1,6 @@
 package com.hbm.particle;
 
+import com.hbm.util.old.TessColorUtil;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -12,11 +13,10 @@ public class ParticleMukeWave extends TextureSheetParticle {
 
     private float waveScale = 45F;
 
-    public ParticleMukeWave(ClientLevel level, double x, double y, double z, SpriteSet sprites) {
+    public ParticleMukeWave(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
-        this.setSpriteFromAge(sprites);
+        this.setSpriteFromAge(ModParticles.MUKE_WAVE_SPRITES);
         this.lifetime = 25;
-        this.rCol = this.gCol = this.bCol = 1.0F;
     }
 
     public void setup(float scale, int maxAge) {
@@ -32,39 +32,35 @@ public class ParticleMukeWave extends TextureSheetParticle {
         float pY = (float) (Mth.lerp(partialTicks, this.yo, this.y) - camPos.y);
         float pZ = (float) (Mth.lerp(partialTicks, this.zo, this.z) - camPos.z);
 
-        this.alpha = Mth.clamp(1 - ((this.age + partialTicks) / (float)this.lifetime), 0.0F, 1.0F);
-        float scale = (1 - (float)Math.pow(Math.E, (this.age + partialTicks) * -0.125)) * waveScale;
+        this.alpha = 1 - ((this.age + partialTicks) / (float)this.lifetime); if (this.alpha < 0) this.alpha = 0;
+        this.quadSize = (1 - (float)Math.pow(Math.E, (this.age + partialTicks) * -0.125)) * waveScale;
 
-        renderQuad(consumer, pX, pY, pZ, scale, 240);
+        renderQuad(consumer, pX, pY, pZ, this.quadSize);
     }
 
-    private void renderQuad(VertexConsumer consumer, float cx, float cy, float cz, float scale, int brightness) {
+    private void renderQuad(VertexConsumer consumer, float pX, float pY, float pZ, float scale) {
 
         float u0 = sprite.getU0();
         float u1 = sprite.getU1();
         float v0 = sprite.getV0();
         float v1 = sprite.getV1();
 
-        consumer.addVertex((cx - 1 * scale), (cy - 0.25F), (cz - 1 * scale))
+        consumer.addVertex(pX - 1 * scale, pY - 0.25F, pZ - 1 * scale)
                 .setUv(u1, v1)
-                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
-                .setNormal(0.0F, 1.0F, 0.0F)
-                .setLight(brightness);
-        consumer.addVertex((cx - 1 * scale), (cy - 0.25F), (cz + 1 * scale))
+                .setColor(1.0F, 1.0F, 1.0F, this.alpha)
+                .setLight(240);
+        consumer.addVertex(pX - 1 * scale, pY - 0.25F, pZ + 1 * scale)
                 .setUv(u1, v0)
-                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
-                .setNormal(0.0F, 1.0F, 0.0F)
-                .setLight(brightness);
-        consumer.addVertex((cx + 1 * scale),(cy - 0.25F), (cz + 1 * scale))
+                .setColor(1.0F, 1.0F, 1.0F, this.alpha)
+                .setLight(240);
+        consumer.addVertex(pX + 1 * scale, pY - 0.25F, pZ + 1 * scale)
                 .setUv(u0, v0)
-                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
-                .setNormal(0.0F, 1.0F, 0.0F)
-                .setLight(brightness);
-        consumer.addVertex((cx + 1 * scale), (cy - 0.25F), (cz - 1 * scale))
+                .setColor(1.0F, 1.0F, 1.0F, this.alpha)
+                .setLight(240);
+        consumer.addVertex(pX + 1 * scale, pY - 0.25F, pZ - 1 * scale)
                 .setUv(u0, v1)
-                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
-                .setNormal(0.0F, 1.0F, 0.0F)
-                .setLight(brightness);
+                .setColor(1.0F, 1.0F, 1.0F, this.alpha)
+                .setLight(240);
     }
 
     @Override
@@ -73,15 +69,14 @@ public class ParticleMukeWave extends TextureSheetParticle {
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet sprites;
 
         public Provider(SpriteSet sprites) {
-            this.sprites = sprites;
+            ModParticles.MUKE_WAVE_SPRITES = sprites;
         }
 
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
-            return new ParticleMukeWave(level, x, y, z, sprites);
+            return new ParticleMukeWave(level, x, y, z);
         }
     }
 }

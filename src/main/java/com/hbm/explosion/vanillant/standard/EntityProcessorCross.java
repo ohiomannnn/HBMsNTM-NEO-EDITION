@@ -120,7 +120,9 @@ public class EntityProcessorCross implements IEntityProcessor {
                     // TODO: add proper knockback handling
 
                     if (entity instanceof Player player) {
-                        affectedPlayers.put(player, new Vec3(deltaX * knockback * knockbackMult, deltaY * knockback * knockbackMult, deltaZ * knockback * knockbackMult));
+                        if (!player.isSpectator() && (!player.isCreative() || !player.getAbilities().flying)) {
+                            affectedPlayers.put(player, new Vec3(deltaX * knockback * knockbackMult, deltaY * knockback * knockbackMult, deltaZ * knockback * knockbackMult));
+                        }
                     }
                 }
             }

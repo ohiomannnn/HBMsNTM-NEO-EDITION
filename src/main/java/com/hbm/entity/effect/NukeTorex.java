@@ -1,22 +1,17 @@
 package com.hbm.entity.effect;
 
 import com.hbm.entity.ModEntities;
-import com.hbm.lib.ModSounds;
 import com.hbm.render.entity.effect.RenderTorex;
 import com.hbm.util.BobMathUtil;
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import java.awt.*;
@@ -49,7 +44,6 @@ public class NukeTorex extends Entity {
         this.noPhysics = true;
         this.setInvulnerable(true);
         this.noCulling = true;
-        this.setBoundingBox(new AABB(this.getX() - 0.5, this.getY(), this.getZ() - 0.5, this.getX() + 0.5, this.getY() + 50, this.getZ() + 0.5));
     }
 
     @Override
@@ -174,7 +168,7 @@ public class NukeTorex extends Entity {
             cloudlets.removeIf(x -> x.isDead);
         }
 
-        if (!level().isClientSide && this.tickCount > maxAge) {
+        if (this.tickCount > maxAge) {
             discard();
         }
     }
@@ -576,9 +570,6 @@ public class NukeTorex extends Entity {
     }
 
     @Override protected void addAdditionalSaveData(CompoundTag compoundTag) {}
-    // i think this is the part where everything breaks
-    // entity deletion only happening on the server side and the client does nothing
-    // TODO: fix entity removing
     @Override protected void readAdditionalSaveData(CompoundTag compoundTag) {}
 
     @Override

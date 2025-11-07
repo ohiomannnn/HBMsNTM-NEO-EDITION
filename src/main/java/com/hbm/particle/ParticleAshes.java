@@ -17,7 +17,7 @@ import org.joml.Vector3f;
 public class ParticleAshes extends ParticleRotating {
     public ParticleAshes(ClientLevel level, double x, double y, double z, float scale) {
         super(level, x, y, z);
-        this.setSpriteFromAge(ModParticles.ROCKET_FLAME_SPRITES);
+        this.setSpriteFromAge(ModParticles.BASE_PARTICLE_SPRITES);
 
         this.lifetime = 1200 + random.nextInt(20);
         this.quadSize = scale * 0.9F + random.nextFloat() * 0.2F;

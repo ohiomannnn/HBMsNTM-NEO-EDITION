@@ -15,13 +15,13 @@ import org.joml.Vector3f;
 
 public class ParticleDeadLeaf extends TextureSheetParticle {
 
-    public ParticleDeadLeaf(ClientLevel level, double x, double y, double z, SpriteSet sprites) {
+    public ParticleDeadLeaf(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
         this.rCol =  this.gCol = this.bCol = 1F - level.random.nextFloat() * 0.2F;
         this.quadSize = 0.1F;
         this.lifetime = 200 + level.random.nextInt(50);
         this.gravity = 0.2F;
-        this.setSpriteFromAge(sprites);
+        this.setSpriteFromAge(ModParticles.DEAD_LEAVES_SPRITES);
     }
 
     @Override
@@ -99,15 +99,14 @@ public class ParticleDeadLeaf extends TextureSheetParticle {
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet sprites;
 
         public Provider(SpriteSet sprites) {
-            this.sprites = sprites;
+            ModParticles.DEAD_LEAVES_SPRITES = sprites;
         }
 
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new ParticleDeadLeaf(level, x, y, z, sprites);
+            return new ParticleDeadLeaf(level, x, y, z);
         }
     }
 }

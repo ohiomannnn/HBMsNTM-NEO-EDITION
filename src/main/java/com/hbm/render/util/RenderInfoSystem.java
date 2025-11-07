@@ -7,7 +7,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.Mth;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -64,8 +63,7 @@ public class RenderInfoSystem {
         int longest = 0;
         for (InfoEntry entry : messages.values()) {
             int length = mc.font.width(entry.component);
-            if (length > longest)
-                longest = length;
+            if (length > longest) longest = length;
         }
 
         int mode = MainConfig.CLIENT.INFO_POSITION.get();
@@ -89,7 +87,7 @@ public class RenderInfoSystem {
         buf.addVertex(side, infoHeight, z).setColor(0.25F, 0.25F, 0.25F, 0.5F);
         buf.addVertex(side, pZ - 5, z).setColor(0.25F, 0.25F, 0.25F, 0.5F);
 
-        BufferUploader.drawWithShader(buf.buildOrThrow());
+        BufferUploader.drawWithShader(buf.build());
 
         int off = 0;
         long now = System.currentTimeMillis();

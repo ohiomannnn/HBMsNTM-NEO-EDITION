@@ -207,7 +207,7 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
                 //choose this many random locations within the chunk
                 for (int i = 0; i < count; i++) {
 
-                    if(randEnt == null || randEnt.getValue() < threshold) continue;
+                    if (randEnt == null || randEnt.getValue() < threshold) continue;
 
                     if (serverLevel.hasChunk(coords.x, coords.z)) {
 

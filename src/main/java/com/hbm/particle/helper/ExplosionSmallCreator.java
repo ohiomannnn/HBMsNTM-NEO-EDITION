@@ -1,16 +1,14 @@
 package com.hbm.particle.helper;
 
 import com.hbm.lib.ModSounds;
-import com.hbm.particle.*;
+import com.hbm.particle.ModParticles;
+import com.hbm.particle.ParticleDust;
+import com.hbm.particle.ParticleExplosionSmall;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.TerrainParticle;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -21,7 +19,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.MapColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
@@ -62,7 +59,7 @@ public class ExplosionSmallCreator implements IParticleCreator{
         }
 
         for (int i = 0; i < cloudCount; i++) {
-            ParticleExplosionSmall particle = new ParticleExplosionSmall(level, x, y, z, cloudScale, cloudSpeedMultiplier, ModParticles.EXPLOSION_SMALL_SPRITES);
+            ParticleExplosionSmall particle = new ParticleExplosionSmall(level, x, y, z, cloudScale, cloudSpeedMultiplier);
             Minecraft.getInstance().particleEngine.add(particle);
         }
 

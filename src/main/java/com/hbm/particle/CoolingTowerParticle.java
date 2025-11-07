@@ -4,7 +4,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
 
-public class ParticleCoolingTower extends TextureSheetParticle {
+public class CoolingTowerParticle extends TextureSheetParticle {
 
     private float baseScale = 1.0F;
     private float maxScale = 1.0F;
@@ -13,11 +13,11 @@ public class ParticleCoolingTower extends TextureSheetParticle {
     private boolean windDir = true;
     private float alphaMod = 0.25F;
 
-    public ParticleCoolingTower(ClientLevel level, double x, double y, double z, SpriteSet sprites) {
+    public CoolingTowerParticle(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
         this.rCol = this.gCol = this.bCol = 0.9F + level.random.nextFloat() * 0.05F;
         this.hasPhysics = false;
-        this.setSpriteFromAge(sprites);
+        this.setSpriteFromAge(ModParticles.BASE_PARTICLE_SPRITES);
     }
 
     public void setBaseScale(float f) { this.baseScale = f; }
@@ -72,15 +72,9 @@ public class ParticleCoolingTower extends TextureSheetParticle {
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet sprites;
-
-        public Provider(SpriteSet sprites) {
-            this.sprites = sprites;
-        }
-
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
-            return new ParticleCoolingTower(level, x, y, z, sprites);
+            return new CoolingTowerParticle(level, x, y, z);
         }
     }
 }

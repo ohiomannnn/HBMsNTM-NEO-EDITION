@@ -16,14 +16,14 @@ public class ParticleExplosionSmall extends ParticleRotating {
 
     private final float hue;
 
-    public ParticleExplosionSmall(ClientLevel level, double x, double y, double z, float scale, float speedMult, SpriteSet sprites) {
+    public ParticleExplosionSmall(ClientLevel level, double x, double y, double z, float scale, float speedMultiplier) {
         super(level, x, y, z);
-        this.setSpriteFromAge(sprites);
+        this.setSpriteFromAge(ModParticles.BASE_PARTICLE_SPRITES);
         this.lifetime = 25 + this.random.nextInt(10);
         this.quadSize = scale * 0.9F + this.random.nextFloat() * 0.2F;
 
-        this.xd = this.random.nextGaussian() * speedMult;
-        this.zd = this.random.nextGaussian() * speedMult;
+        this.xd = this.random.nextGaussian() * speedMultiplier;
+        this.zd = this.random.nextGaussian() * speedMultiplier;
 
         this.gravity = this.random.nextFloat() * -0.01F;
 
@@ -80,15 +80,9 @@ public class ParticleExplosionSmall extends ParticleRotating {
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet sprites;
-
-        public Provider(SpriteSet sprites) {
-            this.sprites = sprites;
-        }
-
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
-            return new ParticleExplosionSmall(level, x, y, z, 1.0F, 0.1F, sprites);
+            return new ParticleExplosionSmall(level, x, y, z, 1.0F, 0.1F);
         }
     }
 }

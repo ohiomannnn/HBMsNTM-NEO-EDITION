@@ -3,6 +3,7 @@ package com.hbm.items.tools;
 import com.hbm.HBMsNTM;
 import com.hbm.config.MainConfig;
 import com.hbm.interfaces.IBomb;
+import com.hbm.interfaces.IBomb.BombReturnCode;
 import com.hbm.lib.ModSounds;
 import com.hbm.util.TagsUtil;
 import net.minecraft.ChatFormatting;
@@ -72,7 +73,7 @@ public class MultiDetonatorItem extends Item {
                     Block block = level.getBlockState(pos).getBlock();
 
                     if (block instanceof IBomb bomb) {
-                        IBomb.BombReturnCode ret = bomb.explode(level, x, y, z);
+                        BombReturnCode ret = bomb.explode(level, pos);
 
                         if (ret.wasSuccessful()) success++;
 
@@ -138,7 +139,7 @@ public class MultiDetonatorItem extends Item {
         int[] ys = TagsUtil.getIntArray(stack, "yValues");
         int[] zs = TagsUtil.getIntArray(stack, "zValues");
 
-        if(xs.length == 0 || ys.length == 0 || zs.length == 0) {
+        if (xs.length == 0 || ys.length == 0 || zs.length == 0) {
             return null;
         }
 

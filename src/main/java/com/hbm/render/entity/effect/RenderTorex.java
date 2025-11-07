@@ -9,11 +9,9 @@ import com.hbm.render.CustomRenderTypes;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -34,7 +32,7 @@ import java.util.Random;
 
 public class RenderTorex extends EntityRenderer<NukeTorex> {
 
-    private static final ResourceLocation CLOUDLET = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/particle_base.png");
+    private static final ResourceLocation CLOUDLET = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/base_particle.png");
     private static final ResourceLocation FLASH = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/flare.png");
 
     public RenderTorex(EntityRendererProvider.Context context) {
@@ -68,12 +66,7 @@ public class RenderTorex extends EntityRenderer<NukeTorex> {
             double dist = player.distanceTo(entity);
             double radius = (tickCount * 1.5 + 1) * 1.5;
             if (dist < radius) {
-                entity.level().playLocalSound(
-                        entity.getX(), entity.getY(), entity.getZ(),
-                        ModSounds.NUCLEAR_EXPLOSION.get(),
-                        SoundSource.AMBIENT,
-                        10_000F, 1F, false
-                );
+                entity.level().playLocalSound(entity.getX(), entity.getY(), entity.getZ(), ModSounds.NUCLEAR_EXPLOSION.get(), SoundSource.AMBIENT, 10_000F, 1F, false);
                 entity.didPlaySound = true;
             }
         }

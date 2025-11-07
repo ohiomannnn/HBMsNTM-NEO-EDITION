@@ -18,12 +18,13 @@ public interface IParticleRenderType {
         public BufferBuilder begin(Tesselator tesselator, TextureManager textureManager) {
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
-            RenderSystem.enableBlend();
             RenderSystem.depthMask(false);
+            RenderSystem.enableBlend();
             RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
             RenderSystem.disableCull();
             return tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
         }
+
         @Override
         public String toString() {
             return "PARTICLE_SHEET_ADDITIVE";
@@ -70,7 +71,7 @@ public interface IParticleRenderType {
             RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
             RenderSystem.enableBlend();
             RenderSystem.blendFuncSeparate(770, 771, 1, 0);
-            RenderSystem.depthMask(true);
+            RenderSystem.depthMask(false);
             return tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
         }
 

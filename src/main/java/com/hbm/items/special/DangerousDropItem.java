@@ -48,9 +48,10 @@ public class DangerousDropItem extends Item {
                     int y = TagsUtil.getInt(stack, "y", 0);
                     int z = TagsUtil.getInt(stack, "z", 0);
 
-                    Block block = level.getBlockState(new BlockPos(x, y, z)).getBlock();
+                    BlockPos pos = new BlockPos(x, y, z);
+                    Block block = level.getBlockState(pos).getBlock();
                     if (block instanceof IBomb bomb) {
-                        bomb.explode(level, x, y, z);
+                        bomb.explode(level, pos);
 
                         if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
                             HBMsNTM.LOGGER.info("[DEAD MAN'S DETONATOR] {} detonated {} at {} / {} / {}!", throwerName, block.getName().getString(), x, y, z);

@@ -40,8 +40,8 @@ public class ParticleFoam extends TextureSheetParticle {
     }
 
     public ParticleFoam(ClientLevel level, double x, double y, double z) {
-        super(level, x, y, z, 0, 0, 0);
-        this.setSpriteFromAge(ModParticles.ROCKET_FLAME_SPRITES);
+        super(level, x, y, z);
+        this.setSpriteFromAge(ModParticles.BASE_PARTICLE_SPRITES);
 
         lifetime = 60 + random.nextInt(60);
         gravity = 0.005F + random.nextFloat() * 0.015F;

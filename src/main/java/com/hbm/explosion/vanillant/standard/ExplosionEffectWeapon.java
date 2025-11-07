@@ -19,8 +19,6 @@ public class ExplosionEffectWeapon implements IExplosionSFX {
 
     @Override
     public void doEffect(ExplosionVNT explosion, Level level, double x, double y, double z, float size) {
-        if (level.isClientSide) return;
-
         ExplosionSmallCreator.composeEffect(level, x, y, z, cloudCount, cloudScale, cloudSpeedMult);
     }
 }

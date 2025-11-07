@@ -110,7 +110,7 @@ public class CommonEvents {
 
     public static void RerollPal() {
         // Reroll Polaroid
-        if(generalOverride > 0 && generalOverride < 19) {
+        if (generalOverride > 0 && generalOverride < 19) {
             polaroidID = generalOverride;
         } else {
             do polaroidID = new Random().nextInt(18) + 1;

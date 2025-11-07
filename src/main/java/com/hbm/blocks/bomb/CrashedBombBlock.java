@@ -8,7 +8,10 @@ import com.hbm.entity.ModEntities;
 import com.hbm.entity.logic.NukeExplosionBalefire;
 import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.explosion.vanillant.ExplosionVNT;
-import com.hbm.explosion.vanillant.standard.*;
+import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
+import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
+import com.hbm.explosion.vanillant.standard.EntityProcessorCross;
+import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.interfaces.IBomb;
 import com.hbm.lib.ModSounds;
 import com.hbm.network.toclient.AuxParticle;
@@ -63,49 +66,43 @@ public class CrashedBombBlock extends BaseEntityBlock implements IBomb {
     }
 
     @Override
-    public BombReturnCode explode(Level level, int x, int y, int z) {
+    public BombReturnCode explode(Level level, BlockPos pos) {
         if (!level.isClientSide) {
-            level.setBlock(new BlockPos(x, y, z), Blocks.AIR.defaultBlockState(), 3);
+            level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
 
             if (this == ModBlocks.CRASHED_BOMB_BALEFIRE.get()) {
                 NukeExplosionBalefire balefire = new NukeExplosionBalefire(ModEntities.NUKE_BALEFIRE.get(), level);
-                balefire.setPos(x, y, z);
+                balefire.setPos(pos.getX(), pos.getY(), pos.getZ());
                 balefire.destructionRange = (int) (MainConfig.COMMON.FATMAN_RADIUS.get() * 1.25);
                 level.addFreshEntity(balefire);
-                spawnMush(level, x, y, z, true);
+                spawnMush(level, pos, true);
             }
             if (this == ModBlocks.CRASHED_BOMB_CONVENTIONAL.get()) {
-                ExplosionVNT vnt = new ExplosionVNT(level, x + 0.5, y + 0.5, z + 0.5, 35F);
+                ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 35F);
                 vnt.setBlockAllocator(new BlockAllocatorStandard(24));
                 vnt.setBlockProcessor(new BlockProcessorStandard().setNoDrop());
                 vnt.setEntityProcessor(new EntityProcessorCross(5D).withRangeMod(1.5F));
                 vnt.setPlayerProcessor(new PlayerProcessorStandard());
                 vnt.explode();
-                ExplosionCreator.composeEffectLarge(level, x + 0.5, y + 0.5, z + 0.5);
+                ExplosionCreator.composeEffectLarge(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
             }
             if (this == ModBlocks.CRASHED_BOMB_NUKE.get()) {
-                level.addFreshEntity(NukeExplosionMK5.statFac(level, 35, x + 0.5, y + 0.5, z + 0.5));
-                spawnMush(level, x, y, z, CommonEvents.polaroidID == 11 || level.random.nextInt(100) == 0);
+                NukeExplosionMK5.statFac(level, 35, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+                spawnMush(level, pos, CommonEvents.polaroidID == 11 || level.random.nextInt(100) == 0);
             }
             if (this == ModBlocks.CRASHED_BOMB_SALTED.get()) {
-                level.addFreshEntity(NukeExplosionMK5.statFac(level, 25, x + 0.5, y + 0.5, z + 0.5).moreFallout(25));
-                spawnMush(level, x, y, z, CommonEvents.polaroidID == 11 || level.random.nextInt(100) == 0);
+                NukeExplosionMK5.statFac(level, 25, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5).moreFallout(25);
+                spawnMush(level, pos, CommonEvents.polaroidID == 11 || level.random.nextInt(100) == 0);
             }
         }
         return BombReturnCode.DETONATED;
     }
 
-    public static void spawnMush(Level level, int x, int y, int z, boolean balefire) {
-        level.playSound(null,x + 0.5, y + 0.5, z + 0.5, ModSounds.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 15.0F, 1.0F);
+    public static void spawnMush(Level level, BlockPos pos, boolean balefire) {
+        level.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, ModSounds.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 15.0F, 1.0F);
         CompoundTag tag = new CompoundTag();
         tag.putString("type", "muke");
         tag.putBoolean("balefire", balefire);
-        PacketDistributor.sendToPlayersNear(
-                (ServerLevel) level,
-                null,
-                x + 0.5, y + 0.5, z + 0.5,
-                250,
-                new AuxParticle(tag, x + 0.5, y + 0.5, z + 0.5)
-        );
+        PacketDistributor.sendToPlayersNear((ServerLevel) level, null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 250, new AuxParticle(tag, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5));
     }
 }

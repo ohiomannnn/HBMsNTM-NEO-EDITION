@@ -78,7 +78,9 @@ public class EntityProcessorStandard implements IEntityProcessor {
                     // TODO: add proper knockback handling
 
                     if (entity instanceof Player player) {
-                        affectedPlayers.put(player, new Vec3(deltaX * knockback, deltaY * knockback, deltaZ * knockback));
+                        if (!player.isSpectator() && (!player.isCreative() || !player.getAbilities().flying)) {
+                            affectedPlayers.put(player, new Vec3(deltaX * knockback, deltaY * knockback, deltaZ * knockback));
+                        }
                     }
 
                     if (damage != null) {

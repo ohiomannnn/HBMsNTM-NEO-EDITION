@@ -17,11 +17,11 @@ public class ParticleRocketFlame extends TextureSheetParticle {
     private int age;
     private int maxAge;
 
-    public ParticleRocketFlame(ClientLevel level, double x, double y, double z, SpriteSet sprites) {
+    public ParticleRocketFlame(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
         this.maxAge = 300 + this.random.nextInt(50);
         this.quadSize = 1.0F;
-        this.setSpriteFromAge(sprites);
+        this.setSpriteFromAge(ModParticles.BASE_PARTICLE_SPRITES);
     }
 
     public ParticleRocketFlame setScale(float scale) {
@@ -128,28 +128,15 @@ public class ParticleRocketFlame extends TextureSheetParticle {
         return this;
     }
 
-    public ParticleRocketFlame setMotion(double mx, double my, double mz) {
-        this.xd = mx;
-        this.yd = my;
-        this.zd = mz;
-        return this;
-    }
-
     @Override
     public ParticleRenderType getRenderType() {
         return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet sprites;
-
-        public Provider(SpriteSet sprites) {
-            this.sprites = sprites;
-        }
-
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
-            return new ParticleRocketFlame(level, x, y, z, this.sprites);
+            return new ParticleRocketFlame(level, x, y, z);
         }
     }
 }

@@ -20,7 +20,7 @@ public class ParticleExSmoke extends TextureSheetParticle {
     public ParticleExSmoke(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
         maxAge = 100 + random.nextInt(40);
-        this.setSpriteFromAge(ModParticles.ROCKET_FLAME_SPRITES);
+        this.setSpriteFromAge(ModParticles.BASE_PARTICLE_SPRITES);
     }
 
     @Override

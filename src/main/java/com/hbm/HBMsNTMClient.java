@@ -24,11 +24,11 @@ import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.util.Clock;
 import com.hbm.util.DamageResistanceHandler;
 import com.hbm.util.Vec3NT;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.SplashRenderer;
 import net.minecraft.client.gui.screens.LevelLoadingScreen;
 import net.minecraft.client.gui.screens.ReceivingLevelScreen;
@@ -65,7 +65,6 @@ import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
-import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.lang.reflect.Field;
@@ -151,7 +150,7 @@ public class HBMsNTMClient {
 
             // finally!
             RenderSystem.enableBlend();
-            RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+            RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
             RenderSystem.disableDepthTest();
             RenderSystem.depthMask(false);
 
@@ -166,9 +165,9 @@ public class HBMsNTMClient {
             buf.addVertex(0, height, 0).setColor(255, 255, 255, alpha);
             buf.addVertex(width, height, 0).setColor(255, 255, 255, alpha);
 
-            BufferUploader.drawWithShader(buf.buildOrThrow());
+            BufferUploader.drawWithShader(buf.build());
 
-            RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             RenderSystem.enableDepthTest();
             RenderSystem.depthMask(true);
         }
@@ -286,17 +285,19 @@ public class HBMsNTMClient {
         List<Component> list = event.getToolTip();
 
         DamageResistanceHandler.addInfo(stack, list);
-
         HazardSystem.addFullTooltip(stack, list);
     }
     private void registerParticles(RegisterParticleProvidersEvent event) {
+        event.registerSpriteSet(ModParticles.BASE_PARTICLE.get(), BaseParticle.Provider::new);
+        event.registerSpecial(ModParticles.COOLING_TOWER.get(), new CoolingTowerParticle.Provider());
+        event.registerSpecial(ModParticles.DIGAMMA_SMOKE.get(), new DigammaSmokeParticle.Provider());
         event.registerSpriteSet(ModParticles.MUKE_CLOUD.get(), sprites -> {
             ModParticles.MUKE_CLOUD_SPRITES = sprites;
-            return new ParticleMukeCloud.Provider(sprites);
+            return new ParticleMukeCloud.Provider();
         });
         event.registerSpriteSet(ModParticles.MUKE_CLOUD_BF.get(), sprites -> {
             ModParticles.MUKE_CLOUD_BF_SPRITES = sprites;
-            return new ParticleMukeCloud.Provider(sprites);
+            return new ParticleMukeCloud.Provider();
         });
         event.registerSpecial(ModParticles.DEBRIS.get(), new ParticleDebris.Provider());
         event.registerSpriteSet(ModParticles.GIBLET.get(), sprites -> {
@@ -307,17 +308,10 @@ public class HBMsNTMClient {
         event.registerSpecial(ModParticles.FOAM.get(), new ParticleFoam.Provider());
         event.registerSpecial(ModParticles.ASHES.get(), new ParticleAshes.Provider());
         event.registerSpecial(ModParticles.AMAT_FLASH.get(), new ParticleAmatFlash.Provider());
-        event.registerSpriteSet(ModParticles.EXPLOSION_SMALL.get(), sprites -> {
-            ModParticles.EXPLOSION_SMALL_SPRITES = sprites;
-            return new ParticleExplosionSmall.Provider(sprites);
-        });
+        event.registerSpecial(ModParticles.EXPLOSION_SMALL.get(), new ParticleExplosionSmall.Provider());
         event.registerSpriteSet(ModParticles.MUKE_WAVE.get(), sprites -> {
             ModParticles.MUKE_WAVE_SPRITES = sprites;
             return new ParticleMukeWave.Provider(sprites);
-        });
-        event.registerSpriteSet(ModParticles.COOLING_TOWER.get(), sprites -> {
-            ModParticles.COOLING_TOWER_SPRITES = sprites;
-            return new ParticleCoolingTower.Provider(sprites);
         });
         event.registerSpriteSet(ModParticles.MUKE_FLASH.get(), sprites -> {
             ModParticles.MUKE_FLASH_SPRITES = sprites;
@@ -336,9 +330,10 @@ public class HBMsNTMClient {
             ModParticles.RAD_FOG_SPRITES = sprites;
             return new ParticleRadiationFog.Provider(sprites);
         });
-        event.registerSpriteSet(ModParticles.ROCKET_FLAME.get(), sprites -> {
-            ModParticles.ROCKET_FLAME_SPRITES = sprites;
-            return new ParticleRocketFlame.Provider(sprites);
+        event.registerSpecial(ModParticles.ROCKET_FLAME.get(), new ParticleRocketFlame.Provider());
+        event.registerSpriteSet(ModParticles.HADRON.get(), sprites -> {
+            ModParticles.HADRON_SPITES = sprites;
+            return new ParticleHadron.Provider(sprites);
         });
     }
 
@@ -397,23 +392,21 @@ public class HBMsNTMClient {
                         Minecraft.getInstance().particleEngine.add(particle);
                     }
                 }
-//
-//                if("radialDigamma".equals(mode)) {
-//
-//                    Vec3 vec = Vec3.createVectorHelper(2, 0, 0);
-//                    vec.rotateAroundY(rand.nextFloat() * (float)Math.PI * 2F);
-//
-//                    for(int i = 0; i < count; i++) {
-//                        ParticleDigammaSmoke fx = new ParticleDigammaSmoke(man, world, x, y, z);
-//                        fx.motionY = 0;
-//                        fx.motionX = vec.xCoord;
-//                        fx.motionZ = vec.zCoord;
-//                        Minecraft.getMinecraft().effectRenderer.addEffect(fx);
-//
-//                        vec.rotateAroundY((float)Math.PI * 2F / (float)count);
-//                    }
-//                }
-//
+
+                if ("radialDigamma".equals(mode)) {
+
+                    Vec3NT vec = new Vec3NT(2, 0, 0);
+                    vec.rotateAroundYRad(rand.nextFloat() * (float)Math.PI * 2F);
+
+                    for (int i = 0; i < count; i++) {
+                        DigammaSmokeParticle particle = new DigammaSmokeParticle(level, x, y, z);
+                        particle.setParticleSpeed(vec.xCoord, 0, vec.zCoord);
+                        innerMc.particleEngine.add(particle);
+
+                        vec.rotateAroundYRad((float)Math.PI * 2F / (float)count);
+                    }
+                }
+
                 if ("shock".equals(mode)) {
 
                     double strength = data.getDouble("strength");
@@ -487,10 +480,9 @@ public class HBMsNTMClient {
                 }
             }
 
-
             if ("muke".contains(type)) {
-                ParticleMukeFlash flash = new ParticleMukeFlash(level, x, y, z, data.getBoolean("balefire"), ModParticles.MUKE_FLASH_SPRITES);
-                ParticleMukeWave wave = new ParticleMukeWave(level, x, y, z, ModParticles.MUKE_WAVE_SPRITES);
+                ParticleMukeFlash flash = new ParticleMukeFlash(level, x, y, z, data.getBoolean("balefire"));
+                ParticleMukeWave wave = new ParticleMukeWave(level, x, y, z);
 
                 innerMc.particleEngine.add(flash);
                 innerMc.particleEngine.add(wave);
@@ -506,7 +498,7 @@ public class HBMsNTMClient {
 
             if ("tower".equals(type)) {
                 if (particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean())) {
-                    ParticleCoolingTower particle = new ParticleCoolingTower(level, x, y, z, ModParticles.COOLING_TOWER_SPRITES);
+                    CoolingTowerParticle particle = new CoolingTowerParticle(level, x, y, z);
 
                     particle.setLift(data.getFloat("lift"));
                     particle.setBaseScale(data.getFloat("base"));
@@ -527,7 +519,7 @@ public class HBMsNTMClient {
 
             if ("deadleaf".equals(type)) {
                 if (particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean())) {
-                    innerMc.particleEngine.add(new ParticleDeadLeaf(level, x, y, z, ModParticles.DEAD_LEAVES_SPRITES));
+                    innerMc.particleEngine.add(new ParticleDeadLeaf(level, x, y, z));
                 }
             }
 

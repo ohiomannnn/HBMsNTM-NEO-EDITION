@@ -48,6 +48,6 @@ public class BlockProcessorNoDamage implements IBlockProcessor {
             }
         }
 
-        affectedBlocks.clear(); //tricks the standard SFX to not do the block damage particles
+        explosion.compat.getToBlow().clear(); //tricks the standard SFX to not do the block damage particles
     }
 }

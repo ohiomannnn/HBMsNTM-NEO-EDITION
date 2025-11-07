@@ -15,16 +15,11 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
-import net.minecraft.client.renderer.block.ModelBlockRenderer;
-import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.neoforged.neoforge.client.model.data.ModelData;
 
 import java.util.Random;
@@ -66,15 +61,11 @@ public class ParticleDebris extends TextureSheetParticle {
         this.roll += rng.nextFloat() * 10;
 
         if (this.hashCode() % 3 == 0) {
-            ParticleRocketFlame fx = new ParticleRocketFlame(
-                    this.level,
-                    this.x, this.y, this.z,
-                    ModParticles.ROCKET_FLAME_SPRITES
-            );
-            fx.setScale(1F * Math.max(world.sizeY, 6) / 16F);
-            fx.resetPrevPos();
-            fx.setMaxAge(50);
-            Minecraft.getInstance().particleEngine.add(fx);
+            ParticleRocketFlame particle = new ParticleRocketFlame(this.level, this.x, this.y, this.z);
+            particle.setScale(1F * Math.max(world.sizeY, 6) / 16F);
+            particle.resetPrevPos();
+            particle.setMaxAge(50);
+            Minecraft.getInstance().particleEngine.add(particle);
         }
 
         this.yd -= gravity;
