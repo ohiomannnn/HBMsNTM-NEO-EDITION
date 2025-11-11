@@ -14,6 +14,10 @@ public class ModParticles {
 
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> BASE_PARTICLE = REGISTER.register(
             "base_particle", () -> new SimpleParticleType(true));
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> RBMK_MUSH = REGISTER.register(
+            "rbmkmush", () -> new SimpleParticleType(false));
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> HAZE = REGISTER.register(
+            "haze", () -> new SimpleParticleType(false));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> MUKE_CLOUD = REGISTER.register(
             "muke_cloud", () -> new SimpleParticleType(false));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> MUKE_CLOUD_BF = REGISTER.register(
@@ -54,12 +58,13 @@ public class ModParticles {
             "digamma_smoke", () -> new SimpleParticleType(true));
 
     public static SpriteSet BASE_PARTICLE_SPRITES;
+    public static SpriteSet RBMK_MUSH_SPRITES;
+    public static SpriteSet HAZE_SPRITES;
     public static SpriteSet MUKE_FLASH_SPRITES;
     public static SpriteSet GIBLET_SPRITES;
     public static SpriteSet HADRON_SPITES;
     public static SpriteSet DEAD_LEAVES_SPRITES;
     public static SpriteSet MUKE_WAVE_SPRITES;
-    public static SpriteSet EXPLOSION_SMALL_SPRITES;
     public static SpriteSet AURA_SPITES;
     public static SpriteSet RAD_FOG_SPRITES;
     public static SpriteSet MUKE_CLOUD_SPRITES;

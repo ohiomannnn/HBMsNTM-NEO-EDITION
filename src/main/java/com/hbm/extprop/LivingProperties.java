@@ -179,9 +179,7 @@ public class LivingProperties {
         setAsbestos(entity, getAsbestos(entity) + asbestos);
 
         if (entity instanceof ServerPlayer player) {
-            Component comp = Component.translatable("info.asbestos").withStyle(ChatFormatting.RED);
-            InformPlayerPacket packet = new InformPlayerPacket(true, null, comp, HBMsNTMClient.ID_GAS_HAZARD, 3000);
-            PacketDistributor.sendToPlayer(player, packet);
+            PacketDistributor.sendToPlayer(player, new InformPlayerPacket(Component.translatable("info.asbestos").withStyle(ChatFormatting.RED), HBMsNTMClient.ID_GAS_HAZARD, 3000));
         }
     }
 
@@ -207,9 +205,7 @@ public class LivingProperties {
         setBlackLung(entity, getBlackLung(entity) + blacklung);
 
         if (entity instanceof ServerPlayer player) {
-            Component comp = Component.translatable("info.coaldust").withStyle(ChatFormatting.RED);
-            InformPlayerPacket packet = new InformPlayerPacket(true, null, comp, HBMsNTMClient.ID_GAS_HAZARD, 3000);
-            PacketDistributor.sendToPlayer(player, packet);
+            PacketDistributor.sendToPlayer(player, new InformPlayerPacket(Component.translatable("info.coaldust").withStyle(ChatFormatting.RED), HBMsNTMClient.ID_GAS_HAZARD, 3000));
         }
     }
 

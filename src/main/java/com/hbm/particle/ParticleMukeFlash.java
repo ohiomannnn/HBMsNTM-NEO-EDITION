@@ -1,6 +1,5 @@
 package com.hbm.particle;
 
-import com.hbm.util.old.TessColorUtil;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -33,14 +32,12 @@ public class ParticleMukeFlash extends TextureSheetParticle {
             ParticleEngine engine = Minecraft.getInstance().particleEngine;
             // Stem
             for (double d = 0.0D; d <= 1.8D; d += 0.1) {
-                ParticleMukeCloud fx = getCloud(level, x, y, z, rand.nextGaussian() * 0.05, d + rand.nextGaussian() * 0.02, rand.nextGaussian() * 0.05);
-                engine.add(fx);
+                engine.add(getCloud(level, x, y, z, rand.nextGaussian() * 0.05, d + rand.nextGaussian() * 0.02, rand.nextGaussian() * 0.05));
             }
 
             // Ground
             for (int i = 0; i < 100; i++) {
-                ParticleMukeCloud fx = getCloud(level, x, y + 0.5, z, rand.nextGaussian() * 0.5, rand.nextInt(5) == 0 ? 0.02 : 0, rand.nextGaussian() * 0.5);
-                engine.add(fx);
+                engine.add(getCloud(level, x, y + 0.5, z, rand.nextGaussian() * 0.5, rand.nextInt(5) == 0 ? 0.02 : 0, rand.nextGaussian() * 0.5));
             }
 
             // Mush
@@ -55,8 +52,7 @@ public class ParticleMukeFlash extends TextureSheetParticle {
 
                 double dy = 1.8 + (rand.nextDouble() * 3 - 1.5) * (0.75 - (dx * dx + dz * dz)) * 0.5;
 
-                ParticleMukeCloud fx = getCloud(level, x, y, z, dx, dy + rand.nextGaussian() * 0.02, dz);
-                engine.add(fx);
+                engine.add(getCloud(level, x, y, z, dx, dy + rand.nextGaussian() * 0.02, dz));
             }
         }
     }
@@ -78,7 +74,7 @@ public class ParticleMukeFlash extends TextureSheetParticle {
         float dY = (float) (Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y);
         float dZ = (float) (Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z);
 
-        this.alpha = 1 - ((this.age + partialTicks) / (float)this.lifetime); if (this.alpha < 0) this.alpha = 0;
+        this.alpha = Math.clamp(1 - ((this.age + partialTicks) / (float)this.lifetime), 0.0F, 1.0F);
         this.quadSize = (this.age + partialTicks) * 3F + 1F;
 
         Random rand = new Random();
@@ -129,7 +125,7 @@ public class ParticleMukeFlash extends TextureSheetParticle {
 
     @Override
     public ParticleRenderType getRenderType() {
-        return IParticleRenderType.PARTICLE_SHEET_ADDITIVE;
+        return CustomRenderType.PARTICLE_SHEET_ADDITIVE;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {

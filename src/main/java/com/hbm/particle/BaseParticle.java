@@ -1,14 +1,73 @@
 package com.hbm.particle;
 
+import com.hbm.util.old.TessColorUtil;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
+import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
+import org.joml.Vector3f;
 
 public class BaseParticle extends TextureSheetParticle {
 
     public BaseParticle(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
         this.setSpriteFromAge(ModParticles.BASE_PARTICLE_SPRITES);
+        this.lifetime = 100;
+    }
+
+    @Override
+    public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
+        Vec3 cameraPosition = camera.getPosition();
+
+        float pX = (float) (Mth.lerp(partialTicks, this.xo, this.x) - cameraPosition.x);
+        float pY = (float) (Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y);
+        float pZ = (float) (Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z);
+
+        RenderSystem.depthMask(false);
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.setShader(GameRenderer::getParticleShader);
+        RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
+
+        Tesselator tess = Tesselator.getInstance();
+        BufferBuilder buffer = tess.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+        this.alpha = Math.clamp(1 - ((this.age + partialTicks) / (float)this.lifetime), 0.0F, 1.0F);
+        int color = TessColorUtil.getColorRGBA_F(1.0F, 1.0F, 1.0F, alpha);
+
+        float u0 = sprite.getU0();
+        float u1 = sprite.getU1();
+        float v0 = sprite.getV0();
+        float v1 = sprite.getV1();
+
+        Vector3f l = new Vector3f(camera.getLeftVector()).mul(this.quadSize);
+        Vector3f u = new Vector3f(camera.getUpVector()).mul(this.quadSize);
+
+        buffer.addVertex(pX - l.x - u.x, pY - l.y - u.y, pZ - l.z - u.z)
+                .setColor(color)
+                .setUv(u1, v1)
+                .setNormal(0.0F, 1.0F, 0.0F)
+                .setLight(240);
+        buffer.addVertex(pX - l.x + u.x, pY - l.y + u.y, pZ - l.z + u.z)
+                .setColor(color)
+                .setUv(u1, v0)
+                .setNormal(0.0F, 1.0F, 0.0F)
+                .setLight(240);
+        buffer.addVertex(pX + l.x + u.x, pY + l.y + u.y, pZ + l.z + u.z)
+                .setColor(color)
+                .setUv(u0, v0)
+                .setNormal(0.0F, 1.0F, 0.0F)
+                .setLight(240);
+        buffer.addVertex(pX + l.x - u.x, pY + l.y - u.y, pZ + l.z - u.z)
+                .setColor(color)
+                .setUv(u0, v1)
+                .setNormal(0.0F, 1.0F, 0.0F)
+                .setLight(240);
     }
 
     @Override

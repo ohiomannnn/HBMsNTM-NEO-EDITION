@@ -146,7 +146,7 @@ public class ParticleAmatFlash extends TextureSheetParticle {
 
     @Override
     public ParticleRenderType getRenderType() {
-        return IParticleRenderType.AMAT_FLASH;
+        return CustomRenderType.AMAT_FLASH;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {

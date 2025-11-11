@@ -32,9 +32,9 @@ public class ParticleMukeCloud extends TextureSheetParticle {
             this.age = 80;
         }
         if (bf) {
-            this.setSpriteFromAge(ModParticles.MUKE_CLOUD_SPRITES);
-        } else {
             this.setSpriteFromAge(ModParticles.MUKE_CLOUD_BF_SPRITES);
+        } else {
+            this.setSpriteFromAge(ModParticles.MUKE_CLOUD_SPRITES);
         }
         this.quadSize = 3.0F;
     }
@@ -63,15 +63,15 @@ public class ParticleMukeCloud extends TextureSheetParticle {
         }
 
         if (bf) {
-            this.setSpriteFromAge(ModParticles.MUKE_CLOUD_SPRITES);
-        } else {
             this.setSpriteFromAge(ModParticles.MUKE_CLOUD_BF_SPRITES);
+        } else {
+            this.setSpriteFromAge(ModParticles.MUKE_CLOUD_SPRITES);
         }
     }
 
     @Override
     public ParticleRenderType getRenderType() {
-        return IParticleRenderType.MUKE_CLOUD;
+        return CustomRenderType.MUKE_CLOUD;
     }
 
     @Override

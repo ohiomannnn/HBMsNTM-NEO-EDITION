@@ -1,6 +1,5 @@
 package com.hbm.particle;
 
-import com.hbm.util.old.TessColorUtil;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -32,7 +31,7 @@ public class ParticleMukeWave extends TextureSheetParticle {
         float pY = (float) (Mth.lerp(partialTicks, this.yo, this.y) - camPos.y);
         float pZ = (float) (Mth.lerp(partialTicks, this.zo, this.z) - camPos.z);
 
-        this.alpha = 1 - ((this.age + partialTicks) / (float)this.lifetime); if (this.alpha < 0) this.alpha = 0;
+        this.alpha = Math.clamp(1 - ((this.age + partialTicks) / (float)this.lifetime), 0.0F, 1.0F);
         this.quadSize = (1 - (float)Math.pow(Math.E, (this.age + partialTicks) * -0.125)) * waveScale;
 
         renderQuad(consumer, pX, pY, pZ, this.quadSize);
@@ -65,7 +64,7 @@ public class ParticleMukeWave extends TextureSheetParticle {
 
     @Override
     public ParticleRenderType getRenderType() {
-        return IParticleRenderType.PARTICLE_SHEET_ADDITIVE;
+        return CustomRenderType.PARTICLE_SHEET_ADDITIVE;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {

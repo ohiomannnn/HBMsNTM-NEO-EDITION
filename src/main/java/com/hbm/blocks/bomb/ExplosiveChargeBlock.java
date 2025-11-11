@@ -2,15 +2,13 @@ package com.hbm.blocks.bomb;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MainConfig;
+import com.hbm.entity.effect.NukeTorex;
 import com.hbm.entity.item.EntityTNTPrimedBase;
 import com.hbm.entity.logic.NukeExplosionMK5;
-import com.hbm.entity.effect.NukeTorex;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.*;
 import com.hbm.interfaces.IBomb;
-import com.hbm.particle.helper.ExplosionCreator;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -27,13 +25,17 @@ public class ExplosiveChargeBlock extends DetonatableBlock implements IBomb {
         if (!level.isClientSide) {
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
             if (this == ModBlocks.DET_CHARGE.get()) {
-                ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 15F);
-                vnt.setBlockAllocator(new BlockAllocatorStandard(64));
-                vnt.setBlockProcessor(new BlockProcessorStandard());
-                vnt.setEntityProcessor(new EntityProcessorStandard());
+                ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 7);
+                vnt.setEntityProcessor(new EntityProcessorCross(7.5D).withRangeMod(0));
                 vnt.setPlayerProcessor(new PlayerProcessorStandard());
                 vnt.explode();
-                ExplosionCreator.composeEffectStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+//                ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 15F);
+//                vnt.setBlockAllocator(new BlockAllocatorStandard(64));
+//                vnt.setBlockProcessor(new BlockProcessorStandard());
+//                vnt.setEntityProcessor(new EntityProcessorStandard());
+//                vnt.setPlayerProcessor(new PlayerProcessorStandard());
+//                vnt.explode();
+//                ExplosionCreator.composeEffectStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
             }
             if (this == ModBlocks.DET_NUKE.get()) {
                 level.addFreshEntity(NukeExplosionMK5.statFac(level, MainConfig.COMMON.MISSLE_RADIUS.get(), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5));

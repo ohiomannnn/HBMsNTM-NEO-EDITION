@@ -46,6 +46,21 @@ public class CommonConfig {
     public final ModConfigSpec.BooleanValue DROP_CRYSTAL;
     public final ModConfigSpec.BooleanValue DROP_DEAD_MANS_EXPLOSIVE;
 
+    // TOOLS (11)
+    public final ModConfigSpec.IntValue RECURSION_DEPTH;
+    public final ModConfigSpec.BooleanValue RECURSION_STONE;
+    public final ModConfigSpec.BooleanValue RECURSION_NETHERRACK;
+    public final ModConfigSpec.BooleanValue ABILITY_HAMMER;
+    public final ModConfigSpec.BooleanValue ABILITY_VEIN;
+    public final ModConfigSpec.BooleanValue ABILITY_LUCK;
+    public final ModConfigSpec.BooleanValue ABILITY_SILK;
+    public final ModConfigSpec.BooleanValue ABILITY_FURNACE;
+    public final ModConfigSpec.BooleanValue ABILITY_SHREDDER;
+    public final ModConfigSpec.BooleanValue ABILITY_CENTRIFUGE;
+    public final ModConfigSpec.BooleanValue ABILITY_CRYSTALLIZER;
+    public final ModConfigSpec.BooleanValue ABILITY_MERCURY;
+    public final ModConfigSpec.BooleanValue ABILITY_EXPLOSION;
+
     // HAZARDS (14)
     public final ModConfigSpec.BooleanValue DISABLE_ASBESTOS;
     public final ModConfigSpec.BooleanValue DISABLE_COAL;
@@ -214,6 +229,64 @@ public class CommonConfig {
                 .comment("Whether dead man's explosives should explode when dropped.")
                 .translation("hbmsntm.configuration.dropDead")
                 .define("dropDead", true);
+
+        builder.pop();
+
+        /// TOOLS ///
+        builder.push("tools");
+
+        RECURSION_DEPTH = builder
+                .comment("Limits veinminer's recursive function")
+                .translation("hbmsntm.configuration.recursionDepth")
+                .defineInRange("recursionDepth", 1000, 0, Integer.MAX_VALUE);
+        RECURSION_STONE = builder
+                .comment("Determines whether veinminer can break stone")
+                .translation("hbmsntm.configuration.recursionStone")
+                .define("recursionStone", false);
+        RECURSION_NETHERRACK = builder
+                .comment("Determines whether veinminer can break netherrack")
+                .translation("hbmsntm.configuration.recursionNetherrack")
+                .define("recursionNetherrack", false);
+        ABILITY_HAMMER = builder
+                .comment("Allows AoE ability")
+                .translation("hbmsntm.configuration.hammerAbility")
+                .define("hammerAbility", true);
+        ABILITY_VEIN = builder
+                .comment("Allows veinminer ability")
+                .translation("hbmsntm.configuration.abilityVein")
+                .define("abilityVein", true);
+        ABILITY_LUCK = builder
+                .comment("Allow luck (fortune) ability")
+                .translation("hbmsntm.configuration.abilityLuck")
+                .define("abilityLuck", true);
+        ABILITY_SILK = builder
+                .comment("Allow silk touch ability")
+                .translation("hbmsntm.configuration.abilitySilk")
+                .define("abilitySilk", true);
+        ABILITY_FURNACE = builder
+                .comment("Allow auto-smelter ability")
+                .translation("hbmsntm.configuration.abilityFurnace")
+                .define("abilityFurnace", true);
+        ABILITY_SHREDDER = builder
+                .comment("Allow auto-shredder ability")
+                .translation("hbmsntm.configuration.abilityShredder")
+                .define("abilityShredder", true);
+        ABILITY_CENTRIFUGE = builder
+                .comment("Allow auto-centrifuge ability")
+                .translation("hbmsntm.configuration.abilityCentrifuge")
+                .define("abilityCentrifuge", true);
+        ABILITY_CRYSTALLIZER = builder
+                .comment("Allow auto-crystallizer ability")
+                .translation("hbmsntm.configuration.abilityCrystallizer")
+                .define("abilityCrystallizer", true);
+        ABILITY_MERCURY = builder
+                .comment("Allow mercury touch ability (digging redstone gives mercury)")
+                .translation("hbmsntm.configuration.abilityMercury")
+                .define("abilityMercury", true);
+        ABILITY_EXPLOSION = builder
+                .comment("Allow explosion ability")
+                .translation("hbmsntm.configuration.abilityExplosion")
+                .define("abilityExplosion", true);
 
         builder.pop();
 

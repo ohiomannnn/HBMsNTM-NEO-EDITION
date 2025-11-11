@@ -1,7 +1,7 @@
 package com.hbm.extprop;
 
 import com.hbm.HBMsNTMClient;
-import com.hbm.handler.Keybinds.EnumKeybind;
+import com.hbm.handler.KeyHandler.EnumKeybind;
 import com.hbm.lib.ModAttachments;
 import com.hbm.network.toclient.InformPlayerPacket;
 import net.minecraft.ChatFormatting;
@@ -73,9 +73,9 @@ public class PlayerProperties {
                     this.enableBackpack = !this.enableBackpack;
 
                     if (this.enableBackpack) {
-                        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayerPacket(true, null, Component.literal("Jetpack ON").withStyle(ChatFormatting.GREEN), HBMsNTMClient.ID_JETPACK, 1000));
+                        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayerPacket(Component.literal("Jetpack ON").withStyle(ChatFormatting.GREEN), HBMsNTMClient.ID_JETPACK, 1000));
                     } else {
-                        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayerPacket(true, null, Component.literal("Jetpack OFF").withStyle(ChatFormatting.RED), HBMsNTMClient.ID_JETPACK, 1000));
+                        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayerPacket(Component.literal("Jetpack OFF").withStyle(ChatFormatting.RED), HBMsNTMClient.ID_JETPACK, 1000));
                     }
                 }
             }
@@ -84,9 +84,9 @@ public class PlayerProperties {
                     this.enableMagnet = !this.enableMagnet;
 
                     if (this.enableMagnet) {
-                        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayerPacket(true, null, Component.literal("Magnet ON").withStyle(ChatFormatting.GREEN), HBMsNTMClient.ID_MAGNET, 1000));
+                        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayerPacket(Component.literal("Magnet ON").withStyle(ChatFormatting.GREEN), HBMsNTMClient.ID_MAGNET, 1000));
                     } else {
-                        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayerPacket(true, null, Component.literal("Magnet OFF").withStyle(ChatFormatting.RED), HBMsNTMClient.ID_MAGNET, 1000));
+                        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayerPacket(Component.literal("Magnet OFF").withStyle(ChatFormatting.RED), HBMsNTMClient.ID_MAGNET, 1000));
                     }
                 }
             }
@@ -96,9 +96,9 @@ public class PlayerProperties {
                     this.enableHUD = !this.enableHUD;
 
                     if (this.enableHUD) {
-                        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayerPacket(true, null, Component.literal("HUD ON").withStyle(ChatFormatting.GREEN), HBMsNTMClient.ID_HUD, 1000));
+                        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayerPacket(Component.literal("HUD ON").withStyle(ChatFormatting.GREEN), HBMsNTMClient.ID_HUD, 1000));
                     } else {
-                        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayerPacket(true, null, Component.literal("HUD OFF").withStyle(ChatFormatting.RED), HBMsNTMClient.ID_HUD, 1000));
+                        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayerPacket(Component.literal("HUD OFF").withStyle(ChatFormatting.RED), HBMsNTMClient.ID_HUD, 1000));
                     }
                 }
             }

@@ -6,6 +6,8 @@ import com.hbm.blocks.bomb.BalefireBlock;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntities;
+import com.hbm.handler.abilities.AvailableAbilities;
+import com.hbm.handler.abilities.ToolPreset;
 import com.hbm.handler.gui.GeigerGUI;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.inventory.gui.LoadingScreenRendererNT;
@@ -18,7 +20,9 @@ import com.hbm.render.entity.effect.RenderFallout;
 import com.hbm.render.entity.effect.RenderTorex;
 import com.hbm.render.entity.item.RenderTNTPrimedBase;
 import com.hbm.render.entity.mob.EntityDuckRenderer;
+import com.hbm.render.entity.projectile.ModelRubble;
 import com.hbm.render.entity.projectile.ModelShrapnel;
+import com.hbm.render.entity.projectile.RenderRubble;
 import com.hbm.render.entity.projectile.RenderShrapnel;
 import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.util.Clock;
@@ -61,6 +65,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
@@ -75,7 +80,6 @@ import java.util.List;
 public class HBMsNTMClient {
     public HBMsNTMClient(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(GeigerGUI::RegisterGuiLayers);
-        modEventBus.addListener(this::registerParticles);
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
     }
 
@@ -165,7 +169,7 @@ public class HBMsNTMClient {
             buf.addVertex(0, height, 0).setColor(255, 255, 255, alpha);
             buf.addVertex(width, height, 0).setColor(255, 255, 255, alpha);
 
-            BufferUploader.drawWithShader(buf.build());
+            BufferUploader.drawWithShader(buf.buildOrThrow());
 
             RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             RenderSystem.enableDepthTest();
@@ -257,6 +261,7 @@ public class HBMsNTMClient {
     @SubscribeEvent
     public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ModelShrapnel.LAYER_LOCATION, ModelShrapnel::createBodyLayer);
+        event.registerLayerDefinition(ModelRubble.LAYER_LOCATION, ModelRubble::createBodyLayer);
     }
 
     @SubscribeEvent
@@ -269,6 +274,7 @@ public class HBMsNTMClient {
         event.registerEntityRenderer(ModEntities.NUKE_TOREX.get(), RenderTorex::new);
         event.registerEntityRenderer(ModEntities.NUKE_FALLOUT_RAIN.get(), RenderFallout::new);
         event.registerEntityRenderer(ModEntities.SHRAPNEL.get(), RenderShrapnel::new);
+        event.registerEntityRenderer(ModEntities.RUBBLE.get(), RenderRubble::new);
 
         ItemProperties.register(ModItems.POLAROID.get(),
                 ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "polaroid_id"),
@@ -287,7 +293,8 @@ public class HBMsNTMClient {
         DamageResistanceHandler.addInfo(stack, list);
         HazardSystem.addFullTooltip(stack, list);
     }
-    private void registerParticles(RegisterParticleProvidersEvent event) {
+    @SubscribeEvent
+    public static void registerParticles(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(ModParticles.BASE_PARTICLE.get(), BaseParticle.Provider::new);
         event.registerSpecial(ModParticles.COOLING_TOWER.get(), new CoolingTowerParticle.Provider());
         event.registerSpecial(ModParticles.DIGAMMA_SMOKE.get(), new DigammaSmokeParticle.Provider());
@@ -299,6 +306,8 @@ public class HBMsNTMClient {
             ModParticles.MUKE_CLOUD_BF_SPRITES = sprites;
             return new ParticleMukeCloud.Provider();
         });
+        event.registerSpriteSet(ModParticles.RBMK_MUSH.get(), RBMKMushParticle.Provider::new);
+        event.registerSpriteSet(ModParticles.HAZE.get(), HazeParticle.Provider::new);
         event.registerSpecial(ModParticles.DEBRIS.get(), new ParticleDebris.Provider());
         event.registerSpriteSet(ModParticles.GIBLET.get(), sprites -> {
             ModParticles.GIBLET_SPRITES = sprites;
@@ -481,14 +490,44 @@ public class HBMsNTMClient {
             }
 
             if ("muke".contains(type)) {
-                ParticleMukeFlash flash = new ParticleMukeFlash(level, x, y, z, data.getBoolean("balefire"));
-                ParticleMukeWave wave = new ParticleMukeWave(level, x, y, z);
 
-                innerMc.particleEngine.add(flash);
-                innerMc.particleEngine.add(wave);
+                innerMc.particleEngine.add(new ParticleMukeFlash(level, x, y, z, data.getBoolean("balefire")));
+                innerMc.particleEngine.add(new ParticleMukeWave(level, x, y, z));
 
                 //single swing: 			HT 15,  MHT 15
                 //double swing: 			HT 60,  MHT 50
+
+                if (player != null) {
+                    player.hurtTime = 15;
+                    player.hurtDuration = 15;
+                }
+            }
+
+            if ("tinytot".contains(type)) {
+                innerMc.particleEngine.add(new ParticleMukeWave(level, x, y, z));
+
+                for (double d = 0.0D; d <= 1.6D; d += 0.1) {
+                    ParticleMukeCloud cloud = new ParticleMukeCloud(level, x, y, z, rand.nextGaussian() * 0.05, d + rand.nextGaussian() * 0.02, rand.nextGaussian() * 0.05, false);
+                    innerMc.particleEngine.add(cloud);
+                }
+                for (int i = 0; i < 50; i++) {
+                    ParticleMukeCloud cloud = new ParticleMukeCloud(level, x, y + 0.5, z, rand.nextGaussian() * 0.5, rand.nextInt(5) == 0 ? 0.02 : 0, rand.nextGaussian() * 0.5, false);
+                    innerMc.particleEngine.add(cloud);
+                }
+                for( int i = 0; i < 15; i++) {
+                    double ix = rand.nextGaussian() * 0.2;
+                    double iz = rand.nextGaussian() * 0.2;
+
+                    if(ix * ix + iz * iz > 0.75) {
+                        ix *= 0.5;
+                        iz *= 0.5;
+                    }
+
+                    double iy = 1.6 + (rand.nextDouble() * 2 - 1) * (0.75 - (ix * ix + iz * iz)) * 0.5;
+
+                    ParticleMukeCloud cloud = new ParticleMukeCloud(level, x, y, z, ix, iy + rand.nextGaussian() * 0.02, iz, false);
+                    innerMc.particleEngine.add(cloud);
+                }
 
                 if (player != null) {
                     player.hurtTime = 15;

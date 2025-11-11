@@ -1,26 +1,18 @@
 package com.hbm.network.toserver;
 
 import com.hbm.HBMsNTM;
-import com.hbm.extprop.LivingProperties;
 import com.hbm.extprop.PlayerProperties;
-import com.hbm.handler.Keybinds;
+import com.hbm.handler.KeyHandler;
 import com.hbm.items.IKeybindReceiver;
-import com.hbm.network.toclient.SendRadPacket;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-import java.util.UUID;
-
-public record KeybindReceiver(Keybinds.EnumKeybind keybind, boolean state, boolean property) implements CustomPacketPayload {
+public record KeybindReceiver(KeyHandler.EnumKeybind keybind, boolean state, boolean property) implements CustomPacketPayload {
 
     public static final Type<KeybindReceiver> TYPE =
             new Type<>(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "keybind"));
@@ -29,7 +21,7 @@ public record KeybindReceiver(Keybinds.EnumKeybind keybind, boolean state, boole
             new StreamCodec<>() {
                 @Override
                 public KeybindReceiver decode(FriendlyByteBuf buf) {
-                    Keybinds.EnumKeybind key = buf.readEnum(Keybinds.EnumKeybind.class);
+                    KeyHandler.EnumKeybind key = buf.readEnum(KeyHandler.EnumKeybind.class);
                     boolean state = buf.readBoolean();
                     boolean property = buf.readBoolean();
                     return new KeybindReceiver(key, state, property);

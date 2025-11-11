@@ -1,5 +1,6 @@
 package com.hbm.particle;
 
+import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -7,7 +8,6 @@ import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
-import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import java.util.Random;
@@ -56,8 +56,7 @@ public class ParticleRadiationFog extends TextureSheetParticle {
         this.gCol = 0.9F;
         this.bCol = 0.5F;
 
-        this.alpha = (float) Math.sin(age * Math.PI / (400F)) * 0.225F;
-
+        this.alpha = Math.clamp((float) Math.sin(age * Math.PI / (400F)) * 0.25F, 0.0F, 1.0F);
         Random rand = new Random(50);
 
         Vector3f up = new Vector3f(camera.getUpVector());
@@ -74,11 +73,11 @@ public class ParticleRadiationFog extends TextureSheetParticle {
             float pY = (float) ((float) (Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y) + dY + rand.nextGaussian() * 0.5);
             float pZ = (float) ((float) (Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z) + dZ + rand.nextGaussian() * 0.5);
 
-            renderQuad(consumer, pX, pY, pZ, up, left, size, 240);
+            renderQuad(consumer, pX, pY, pZ, up, left, size);
         }
     }
 
-    private void renderQuad(VertexConsumer consumer, float cx, float cy, float cz, Vector3f up, Vector3f left, float scale, int brightness) {
+    private void renderQuad(VertexConsumer consumer, float cx, float cy, float cz, Vector3f up, Vector3f left, float scale) {
 
         float u0 = sprite.getU0();
         float u1 = sprite.getU1();
@@ -92,27 +91,27 @@ public class ParticleRadiationFog extends TextureSheetParticle {
                 .setUv(u1, v1)
                 .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
                 .setNormal(0.0F, 1.0F, 0.0F)
-                .setLight(brightness);
+                .setLight(240);
         consumer.addVertex(cx - l.x + u.x, cy - l.y + u.y, cz - l.z + u.z)
                 .setUv(u1, v0)
                 .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
                 .setNormal(0.0F, 1.0F, 0.0F)
-                .setLight(brightness);
+                .setLight(240);
         consumer.addVertex(cx + l.x + u.x, cy + l.y + u.y, cz + l.z + u.z)
                 .setUv(u0, v0)
                 .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
                 .setNormal(0.0F, 1.0F, 0.0F)
-                .setLight(brightness);
+                .setLight(240);
         consumer.addVertex(cx + l.x - u.x, cy + l.y - u.y, cz + l.z - u.z)
                 .setUv(u0, v1)
                 .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
                 .setNormal(0.0F, 1.0F, 0.0F)
-                .setLight(brightness);
+                .setLight(240);
     }
 
     @Override
     public ParticleRenderType getRenderType() {
-        return IParticleRenderType.FOG;
+        return CustomRenderType.FOG;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {

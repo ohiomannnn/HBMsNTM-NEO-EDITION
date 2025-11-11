@@ -1,18 +1,17 @@
 package com.hbm.network.toclient;
 
 import com.hbm.HBMsNTM;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public record VanillaExplosionLike(double x, double y, double z, float size, List<BlockPos> affectedBlocks) implements CustomPacketPayload {
@@ -22,25 +21,26 @@ public record VanillaExplosionLike(double x, double y, double z, float size, Lis
 
                 @Override
                 public VanillaExplosionLike decode(FriendlyByteBuf buf) {
-                    double x = buf.readFloat();
-                    double y = buf.readFloat();
-                    double z = buf.readFloat();
+                    double posX = buf.readFloat();
+                    double posY = buf.readFloat();
+                    double posZ = buf.readFloat();
                     float size = buf.readFloat();
 
-                    int count = buf.readInt();
-                    List<BlockPos> list = new ArrayList<>(count);
+                    int i = buf.readInt();
+                    List<BlockPos> affectedBlocks = new ArrayList<>(i);
 
-                    int baseX = (int) x;
-                    int baseY = (int) y;
-                    int baseZ = (int) z;
+                    int j = (int) posX;
+                    int k = (int) posY;
+                    int l = (int) posZ;
 
-                    for (int i = 0; i < count; i++) {
-                        int dx = buf.readByte();
-                        int dy = buf.readByte();
-                        int dz = buf.readByte();
-                        list.add(new BlockPos(baseX + dx, baseY + dy, baseZ + dz));
+                    for (int i1 = 0; i1 < i; ++i1) {
+                        int j1 = buf.readByte() + j;
+                        int k1 = buf.readByte() + k;
+                        int l1 = buf.readByte() + l;
+                        affectedBlocks.add(new BlockPos(j1, k1, l1));
                     }
-                    return new VanillaExplosionLike(x, y, z, size, list);
+
+                    return new VanillaExplosionLike(posX, posY, posZ, size, affectedBlocks);
                 }
 
                 @Override
@@ -50,57 +50,25 @@ public record VanillaExplosionLike(double x, double y, double z, float size, Lis
                     buf.writeFloat((float) packet.z);
                     buf.writeFloat(packet.size);
                     buf.writeInt(packet.affectedBlocks.size());
+                    int i = (int) packet.x;
+                    int j = (int) packet.y;
+                    int k = (int) packet.z;
+                    Iterator iterator = packet.affectedBlocks.iterator();
 
-                    int baseX = (int) packet.x;
-                    int baseY = (int) packet.y;
-                    int baseZ = (int) packet.z;
-
-                    for (BlockPos pos : packet.affectedBlocks) {
-                        buf.writeByte(pos.getX() - baseX);
-                        buf.writeByte(pos.getY() - baseY);
-                        buf.writeByte(pos.getZ() - baseZ);
+                    while (iterator.hasNext()) {
+                        BlockPos blockPos = (BlockPos) iterator.next();
+                        int l = blockPos.getX() - i;
+                        int i1 = blockPos.getY() - j;
+                        int j1 = blockPos.getZ() - k;
+                        buf.writeByte(l);
+                        buf.writeByte(i1);
+                        buf.writeByte(j1);
                     }
                 }
             };
 
     public static void handleClient(VanillaExplosionLike packet, IPayloadContext context) {
-        context.enqueueWork(() -> {
-            ClientLevel level = Minecraft.getInstance().level;
-
-            if (packet.size >= 2.0F) {
-                level.addParticle(ParticleTypes.EXPLOSION_EMITTER, packet.x, packet.y, packet.z, 1.0D, 0.0D, 0.0D);
-            } else {
-                level.addParticle(ParticleTypes.EXPLOSION, packet.x, packet.y, packet.z, 1.0D, 0.0D, 0.0D);
-            }
-
-            int count = packet.affectedBlocks.size();
-
-            for (int i = 0; i < count; i++) {
-
-                BlockPos pos = packet.affectedBlocks.get(i);
-                int pX = pos.getX();
-                int pY = pos.getY();
-                int pZ = pos.getZ();
-
-                double oX = ((float) pX + level.random.nextFloat());
-                double oY = ((float) pY + level.random.nextFloat());
-                double oZ = ((float) pZ + level.random.nextFloat());
-                double dX = oX - packet.x;
-                double dY = oY - packet.y;
-                double dZ = oZ - packet.z;
-                double delta = Mth.sqrt((float) (dX * dX + dY * dY + dZ * dZ)) / 1D /* hehehe */;
-                dX /= delta;
-                dY /= delta;
-                dZ /= delta;
-                double mod = 0.5D / (delta / (double) packet.size + 0.1D);
-                mod *= (level.random.nextFloat() * level.random.nextFloat() + 0.3F);
-                dX *= mod;
-                dY *= mod;
-                dZ *= mod;
-                level.addParticle(ParticleTypes.CLOUD, (oX + packet.x * 1.0D) / 2.0D, (oY + packet.y * 1.0D) / 2.0D, (oZ + packet.z * 1.0D) / 2.0D, dX, dY, dZ);
-                level.addParticle(ParticleTypes.SMOKE, oX, oY, oZ, dX, dY, dZ);
-            }
-        });
+        context.enqueueWork(() -> ExplosionEffectStandard.performClient( Minecraft.getInstance().level, packet.x,  packet.y, packet.z, packet.size, packet.affectedBlocks));
     }
 
     @Override

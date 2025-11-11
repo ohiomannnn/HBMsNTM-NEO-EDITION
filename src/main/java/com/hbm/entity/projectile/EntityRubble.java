@@ -16,6 +16,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -52,12 +53,19 @@ public class EntityRubble extends ThrowableProjectile {
             BlockPos pos = new BlockPos((int) getX(), (int) getY(), (int) getZ());
 
             if (!level().isClientSide && level() instanceof ServerLevel) {
-                ResourceLocation blockId = ResourceLocation.withDefaultNamespace(entityData.get(BLOCK_ID));
+                //ResourceLocation blockId = ResourceLocation.withDefaultNamespace(entityData.get(BLOCK_ID));
 
-                new ParticleBurstPacket(pos, blockId);
+                //new ParticleBurstPacket(pos, blockId);
             }
         }
     }
+
+    public BlockState getBlockState() {
+        ResourceLocation id = ResourceLocation.tryParse(entityData.get(BLOCK_ID));
+        Block block = BuiltInRegistries.BLOCK.get(id);
+        return block.defaultBlockState();
+    }
+
 
     public void setMetaBasedOnBlock(Block block) {
         ResourceLocation id = BuiltInRegistries.BLOCK.getKey(block);

@@ -149,7 +149,7 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
             vnt.explode();
 
             ExplosionLarge.spawnParticlesRadial((ServerLevel) level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 30);
-            //ExplosionLarge.spawnRubble(level,x + 0.5, y + 0.5, z + 0.5, 5 );
+            ExplosionLarge.spawnRubble(level ,pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 5);
 
             // Only spawn water effects if there's water above the mine
             if (isWaterAbove(level, pos)) {

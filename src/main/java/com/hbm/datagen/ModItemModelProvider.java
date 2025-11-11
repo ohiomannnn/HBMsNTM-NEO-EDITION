@@ -30,6 +30,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         handheldItem(ModItems.REACHER.get());
         handheldItem(ModItems.DETONATOR.get());
         handheldItem(ModItems.MULTI_DETONATOR.get());
+        handheldItem(ModItems.SCHRAB_PICKAXE.get());
         basicItem(ModItems.DUCK_SPAWN_EGG.get());
 
         basicItem(ModItems.CELL_ANTIMATTER.get());

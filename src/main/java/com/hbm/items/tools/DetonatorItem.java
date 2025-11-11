@@ -38,8 +38,7 @@ public class DetonatorItem extends Item {
             TagsUtil.setInt(stack, "z", context.getClickedPos().getZ());
 
             if (!context.getLevel().isClientSide) {
-                player.sendSystemMessage(Component.literal("[Detonator]").withStyle(ChatFormatting.DARK_AQUA)
-                        .append(Component.literal(" Position set!").withStyle(ChatFormatting.GREEN)));
+                player.sendSystemMessage(Component.literal("[Detonator] ").withStyle(ChatFormatting.DARK_AQUA).append(Component.literal("Position set!").withStyle(ChatFormatting.GREEN)));
             }
 
             context.getLevel().playSound(null, player.blockPosition(), ModSounds.TECH_BOOP.get(), SoundSource.PLAYERS, 2.0F, 1.0F);
@@ -56,8 +55,7 @@ public class DetonatorItem extends Item {
 
         if (!TagsUtil.hasTag(stack)) {
             if (!level.isClientSide) {
-                player.sendSystemMessage(Component.literal("[Detonator]").withStyle(ChatFormatting.DARK_AQUA)
-                        .append(Component.literal(" No position set!").withStyle(ChatFormatting.RED)));
+                player.sendSystemMessage(Component.literal("[Detonator] ").withStyle(ChatFormatting.DARK_AQUA).append(Component.literal("No position set!").withStyle(ChatFormatting.RED)));
             }
         } else {
             int x = TagsUtil.getInt(stack, "x", 0);

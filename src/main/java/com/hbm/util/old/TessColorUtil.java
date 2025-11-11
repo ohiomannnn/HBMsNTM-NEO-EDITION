@@ -3,7 +3,7 @@ package com.hbm.util.old;
 public class TessColorUtil {
 
     public static int getColorRGBA_F(float r, float g, float b, float a) {
-        return pack((int)(r * 255.0F), (int)(g * 255.0F), (int)(b * 255.0F), (int)(a * 255.0F));
+        return pack((int)(r * 255), (int)(g * 255), (int)(b * 255), (int)(a * 255));
     }
 
     // packs color with clamping for ARGB use
@@ -40,6 +40,6 @@ public class TessColorUtil {
             a = 0;
         }
 
-        return (a << 24) | (r << 16) | (g << 8) | b;
+        return a << 24 | r << 16 | g << 8 | b;
     }
 }

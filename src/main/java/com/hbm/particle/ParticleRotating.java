@@ -69,23 +69,23 @@ public class ParticleRotating extends TextureSheetParticle {
         float v1 = sprite.getV1();
 
         consumer.addVertex(pX + x01, pY + y01, pZ + z01)
-                .setUv(u1, v1)
                 .setColor(r, g, b, alpha)
+                .setUv(u1, v1)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(brightness);
         consumer.addVertex(pX + x02, pY + y02, pZ + z02)
-                .setUv(u1, v0)
                 .setColor(r, g, b, alpha)
+                .setUv(u1, v0)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(brightness);
         consumer.addVertex(pX + x03, pY + y03, pZ + z03)
-                .setUv(u0, v0)
                 .setColor(r, g, b, alpha)
+                .setUv(u0, v0)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(brightness);
         consumer.addVertex(pX + x04, pY + y04, pZ + z04)
-                .setUv(u0, v1)
                 .setColor(r, g, b, alpha)
+                .setUv(u0, v1)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(brightness);
     }

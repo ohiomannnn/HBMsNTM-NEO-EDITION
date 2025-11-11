@@ -20,15 +20,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-// a little idiotic implementation but whatever
 @EventBusSubscriber(modid = HBMsNTM.MODID, value = Dist.CLIENT)
-public class Keybinds {
+public class KeyHandler {
 
     private static final String category = "hbmsntm.keys";
 
-    public static final KeyMapping JETPACK = new KeyMapping(category + ".toggleBack", InputConstants.Type.KEYSYM, InputConstants.KEY_V, category);
+    public static final KeyMapping JETPACK = new KeyMapping(category + ".toggleBack", InputConstants.Type.KEYSYM, InputConstants.KEY_C, category);
     public static final KeyMapping MAGNET = new KeyMapping(category + ".toggleMagnet", InputConstants.Type.KEYSYM, InputConstants.KEY_Z, category);
-    public static final KeyMapping HUD = new KeyMapping(category + ".toggleHUD", InputConstants.Type.KEYSYM, InputConstants.KEY_X, category);
+    public static final KeyMapping HUD = new KeyMapping(category + ".toggleHUD", InputConstants.Type.KEYSYM, InputConstants.KEY_V, category);
 
     public static final KeyMapping ABILITY_CYCLE = new KeyMapping(category + ".ability", InputConstants.Type.MOUSE, InputConstants.MOUSE_BUTTON_RIGHT, category);
     public static final KeyMapping ABILITY_ALT = new KeyMapping(category + ".abilityAlt", InputConstants.Type.KEYSYM, InputConstants.KEY_LALT, category);
@@ -54,7 +53,25 @@ public class Keybinds {
     }
 
     @SubscribeEvent
+    public static void onMouseInput(InputEvent.MouseButton.Pre event) {
+        if (Minecraft.getInstance().player == null || Minecraft.getInstance().screen != null) return;
+        for (Entry<KeyMapping, EnumKeybind> entry : CONNECTED_BINDS.entrySet()) {
+            KeyMapping mapping = entry.getKey();
+            EnumKeybind enumKeybind = entry.getValue();
+
+            if (mapping.matches(event.getButton(), event.getAction())) {
+                if (event.getAction() == GLFW.GLFW_PRESS || event.getAction() == GLFW.GLFW_RELEASE) {
+                    boolean isPressed = event.getAction() == GLFW.GLFW_PRESS;
+                    PacketDistributor.sendToServer(new KeybindReceiver(enumKeybind, isPressed, true));
+                    handleKeybindReceiver(Minecraft.getInstance().player, enumKeybind, isPressed);
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
     public static void onKeyInput(InputEvent.Key event) {
+        if (Minecraft.getInstance().player == null || Minecraft.getInstance().screen != null) return;
         for (Entry<KeyMapping, EnumKeybind> entry : CONNECTED_BINDS.entrySet()) {
             KeyMapping mapping = entry.getKey();
             EnumKeybind enumKeybind = entry.getValue();
@@ -70,8 +87,6 @@ public class Keybinds {
     }
 
     private static void handleKeybindReceiver(Player player, EnumKeybind key, boolean state) {
-        if (player == null) return;
-
         for (ItemStack stack : new ItemStack[]{player.getMainHandItem(), player.getOffhandItem()}) {
             if (stack.getItem() instanceof IKeybindReceiver receiver) {
                 if (receiver.canHandleKeybind(player, stack, key)) {

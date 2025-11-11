@@ -14,6 +14,7 @@ public class ParticleHadron extends TextureSheetParticle {
     public ParticleHadron(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
         this.setSpriteFromAge(ModParticles.HADRON_SPITES);
+
         this.lifetime = 10;
     }
 
@@ -26,49 +27,46 @@ public class ParticleHadron extends TextureSheetParticle {
         float pZ = (float) (Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z);
 
         this.alpha = Mth.clamp(1 - ((this.age + partialTicks) / (float)this.lifetime), 0.0F, 1.0F);
-        float scale = (this.age + partialTicks) * 0.15F;
+        this.quadSize = (this.age + partialTicks) * 0.15F;
 
-        Vector3f up = new Vector3f(camera.getUpVector());
-        Vector3f left = new Vector3f(camera.getLeftVector());
-
-        renderQuad(consumer, pX, pY, pZ, up, left, scale, 240);
+        renderQuad(consumer, camera, pX, pY, pZ);
     }
 
-    private void renderQuad(VertexConsumer consumer, float pX, float pY, float pZ, Vector3f up, Vector3f left, float scale, int brightness) {
+    private void renderQuad(VertexConsumer consumer, Camera camera, float pX, float pY, float pZ) {
 
         float u0 = sprite.getU0();
         float u1 = sprite.getU1();
         float v0 = sprite.getV0();
         float v1 = sprite.getV1();
 
-        Vector3f l = new Vector3f(left).mul(scale);
-        Vector3f u = new Vector3f(up).mul(scale);
+        Vector3f l = new Vector3f(camera.getLeftVector()).mul(this.quadSize);
+        Vector3f u = new Vector3f(camera.getUpVector()).mul(this.quadSize);
 
         consumer.addVertex(pX - l.x - u.x, pY - l.y - u.y, pZ - l.z - u.z)
+                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
                 .setUv(u1, v1)
-                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
                 .setNormal(0.0F, 1.0F, 0.0F)
-                .setLight(brightness);
+                .setLight(240);
         consumer.addVertex(pX - l.x + u.x, pY - l.y + u.y, pZ - l.z + u.z)
+                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
                 .setUv(u1, v0)
-                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
                 .setNormal(0.0F, 1.0F, 0.0F)
-                .setLight(brightness);
+                .setLight(240);
         consumer.addVertex(pX + l.x + u.x, pY + l.y + u.y, pZ + l.z + u.z)
+                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
                 .setUv(u0, v0)
-                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
                 .setNormal(0.0F, 1.0F, 0.0F)
-                .setLight(brightness);
+                .setLight(240);
         consumer.addVertex(pX + l.x - u.x, pY + l.y - u.y, pZ + l.z - u.z)
-                .setUv(u0, v1)
                 .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
+                .setUv(u0, v1)
                 .setNormal(0.0F, 1.0F, 0.0F)
-                .setLight(brightness);
+                .setLight(240);
     }
 
     @Override
     public ParticleRenderType getRenderType() {
-        return IParticleRenderType.PARTICLE_SHEET_ADDITIVE;
+        return CustomRenderType.PARTICLE_SHEET_ADDITIVE;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {

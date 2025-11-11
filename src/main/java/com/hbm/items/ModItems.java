@@ -2,12 +2,15 @@ package com.hbm.items;
 
 import com.hbm.HBMsNTM;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.handler.abilities.IToolAreaAbility;
+import com.hbm.handler.abilities.IWeaponAbility;
 import com.hbm.items.block.ItemBlockStorageCrate;
 import com.hbm.items.special.DangerousDropItem;
 import com.hbm.items.special.EntitySpawnerItem;
 import com.hbm.items.special.PolaroidItem;
 import com.hbm.items.tools.*;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Tiers;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -54,9 +57,12 @@ public class ModItems {
     public static final DeferredItem<Item> KEY_FAKE = ITEMS.register("key_fake",
             () -> new KeyItem(new Item.Properties().stacksTo(1)));
 
-    public static final DeferredItem<Item> IRON_CRATE_IRON =
-            ITEMS.register("iron_crate",
-                    () -> new ItemBlockStorageCrate(ModBlocks.IRON_CRATE.get(), new Item.Properties()));
+    public static final DeferredItem<Item> SCHRAB_PICKAXE = ITEMS.register(
+            "schrab_pickaxe",
+            () -> new ToolAbilityItem(Tiers.NETHERITE, new Item.Properties().stacksTo(1), ToolAbilityItem.EnumToolType.PICKAXE)
+                    .addAbility(IWeaponAbility.RADIATION, 10000)
+                    .addAbility(IToolAreaAbility.EXPLOSION, 3)
+                    .addAbility(IToolAreaAbility.RECURSION, 6));
 
     public static final DeferredItem<Item> DUCK_SPAWN_EGG = ITEMS.register("duck_spawn_egg",
             () -> new EntitySpawnerItem(new Item.Properties().stacksTo(16)));

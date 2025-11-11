@@ -1,6 +1,5 @@
 package com.hbm.explosion.vanillant;
 
-import com.hbm.HBMsNTM;
 import com.hbm.explosion.vanillant.interfaces.*;
 import com.hbm.explosion.vanillant.standard.*;
 import net.minecraft.core.BlockPos;
@@ -30,7 +29,7 @@ public class ExplosionVNT {
     public double posY;
     public double posZ;
     public float size;
-    public Entity exploder;
+    @Nullable public Entity exploder;
 
     // things for compatibility with vanilla
     private final Map<Player, Vec3> hitPlayers = new HashMap<>(); // original "compatPlayers"

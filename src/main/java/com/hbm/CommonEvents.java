@@ -23,6 +23,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
@@ -55,6 +56,13 @@ public class CommonEvents {
         FalloutConfigJSON.initDefault();
         DamageResistanceHandler.init();
         HazardRegistry.registerItems();
+    }
+
+    public static boolean isConfigLoaded = false;
+
+    @SubscribeEvent
+    public static void onConfigLoad(ModConfigEvent.Loading event) {
+        isConfigLoaded = true;
     }
 
     @SubscribeEvent
