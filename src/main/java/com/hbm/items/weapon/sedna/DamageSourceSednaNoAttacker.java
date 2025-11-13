@@ -49,6 +49,6 @@ public class DamageSourceSednaNoAttacker extends DamageSource {
 
     @Override
     public Component getLocalizedDeathMessage(LivingEntity livingEntity) {
-        return Component.translatable("death.senda" + this.type(), livingEntity.getDisplayName());
+        return Component.translatable("death.senda." + this.type(), livingEntity.getDisplayName());
     }
 }

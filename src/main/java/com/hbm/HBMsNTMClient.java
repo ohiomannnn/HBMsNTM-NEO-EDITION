@@ -6,8 +6,6 @@ import com.hbm.blocks.bomb.BalefireBlock;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntities;
-import com.hbm.handler.abilities.AvailableAbilities;
-import com.hbm.handler.abilities.ToolPreset;
 import com.hbm.handler.gui.GeigerGUI;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.inventory.gui.LoadingScreenRendererNT;
@@ -40,6 +38,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.client.renderer.entity.CreeperRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.particles.ParticleTypes;
@@ -65,7 +64,6 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
@@ -89,13 +87,13 @@ public class HBMsNTMClient {
     public static void onScreenRender(ScreenEvent.Render.Post event) {
         Screen screen = event.getScreen();
         if (screen instanceof LevelLoadingScreen || screen instanceof ReceivingLevelScreen) {
-            LOADING_RENDERER.render(event.getGuiGraphics(), -1);
+            LOADING_RENDERER.render(event.getGuiGraphics());
         }
     }
 
     @SubscribeEvent
     public static void onJoin(ClientPlayerNetworkEvent.LoggingOut event) {
-        LOADING_RENDERER.resetProgressAndMessage(" ");
+        LOADING_RENDERER.resetMessage();
     }
 
     public static final int ID_DUCK = 0;
@@ -111,10 +109,6 @@ public class HBMsNTMClient {
     public static final int ID_FAN_MODE = 10;
     public static final int ID_TOOLABILITY = 11;
     public static final int ID_GAS_HAZARD = 12;
-
-    public static void displayTooltip(Component component, int id) {
-        displayTooltip(component, 1000, id);
-    }
 
     public static void displayTooltip(Component component, int time, int id) {
         RenderInfoSystem.InfoEntry entry = new RenderInfoSystem.InfoEntry(component, time);
@@ -276,8 +270,7 @@ public class HBMsNTMClient {
         event.registerEntityRenderer(ModEntities.SHRAPNEL.get(), RenderShrapnel::new);
         event.registerEntityRenderer(ModEntities.RUBBLE.get(), RenderRubble::new);
 
-        ItemProperties.register(ModItems.POLAROID.get(),
-                ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "polaroid_id"),
+        ItemProperties.register(ModItems.POLAROID.get(), ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "polaroid_id"),
                 (stack, level, entity, seed) -> CommonEvents.polaroidID);
 
         event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_BALEFIRE.get(), RenderCrashedBomb::new);
@@ -308,11 +301,8 @@ public class HBMsNTMClient {
         });
         event.registerSpriteSet(ModParticles.RBMK_MUSH.get(), RBMKMushParticle.Provider::new);
         event.registerSpriteSet(ModParticles.HAZE.get(), HazeParticle.Provider::new);
+        event.registerSpriteSet(ModParticles.GIBLET.get(), ParticleGiblet.Provider::new);
         event.registerSpecial(ModParticles.DEBRIS.get(), new ParticleDebris.Provider());
-        event.registerSpriteSet(ModParticles.GIBLET.get(), sprites -> {
-            ModParticles.GIBLET_SPRITES = sprites;
-            return new ParticleMukeFlash.Provider(sprites);
-        });
         event.registerSpecial(ModParticles.EX_SMOKE.get(), new ParticleExSmoke.Provider());
         event.registerSpecial(ModParticles.FOAM.get(), new ParticleFoam.Provider());
         event.registerSpecial(ModParticles.ASHES.get(), new ParticleAshes.Provider());
@@ -678,7 +668,7 @@ public class HBMsNTMClient {
                 if (blowMeIntoTheGodDamnStratosphere) mult *= 10;
 
                 for (int i = 0; i < count; i++) {
-                    innerMc.particleEngine.add(new ParticleGiblet(level, x, y, z, rand.nextGaussian() * 0.25 * mult, rand.nextDouble() * mult, rand.nextGaussian() * 0.25 * mult, ModParticles.GIBLET_SPRITES));
+                    innerMc.particleEngine.add(new ParticleGiblet(level, x, y, z, rand.nextGaussian() * 0.25 * mult, rand.nextDouble() * mult, rand.nextGaussian() * 0.25 * mult));
                 }
             }
         });

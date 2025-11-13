@@ -2,15 +2,12 @@ package com.hbm.items.tools;
 
 import com.google.common.collect.Sets;
 import com.hbm.HBMsNTMClient;
-import com.hbm.handler.KeyHandler.EnumKeybind;
 import com.hbm.handler.abilities.*;
 import com.hbm.items.IDepthRockTool;
-import com.hbm.items.IKeybindReceiver;
 import com.hbm.network.toclient.InformPlayerPacket;
 import com.hbm.util.TagsUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -36,7 +33,6 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
-import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -52,25 +48,27 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
-public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IKeybindReceiver {
+public class ToolAbilityItem extends TieredItem implements IDepthRockTool {
 
     protected EnumToolType toolType;
     protected AvailableAbilities availableAbilities = new AvailableAbilities().addToolAbilities();
     private boolean rockBreaker;
     private boolean isShears;
 
-    @Override
-    public ItemAttributeModifiers getDefaultAttributeModifiers(ItemStack stack) {
+    public static ItemAttributeModifiers createAttributes(Tier tier, int attackDamage, float attackSpeed) {
+        return createAttributes(tier, (float)attackDamage, attackSpeed);
+    }
 
+    public static ItemAttributeModifiers createAttributes(Tier tier, float damage, float attackSpeed) {
         return ItemAttributeModifiers.builder()
                 .add(
                         Attributes.ATTACK_DAMAGE,
-                        new AttributeModifier(BASE_ATTACK_DAMAGE_ID, (5 + getTier().getAttackDamageBonus()), AttributeModifier.Operation.ADD_VALUE),
+                        new AttributeModifier(BASE_ATTACK_DAMAGE_ID, (damage + tier.getAttackDamageBonus()), AttributeModifier.Operation.ADD_VALUE),
                         EquipmentSlotGroup.MAINHAND
                 )
                 .add(
                         Attributes.ATTACK_SPEED,
-                        new AttributeModifier(BASE_ATTACK_SPEED_ID, 5, AttributeModifier.Operation.ADD_VALUE),
+                        new AttributeModifier(BASE_ATTACK_SPEED_ID, attackSpeed, AttributeModifier.Operation.ADD_VALUE),
                         EquipmentSlotGroup.MAINHAND
                 )
                 .build();
@@ -81,7 +79,7 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IKeyb
         return this;
     }
 
-    public ToolAbilityItem(Tier tier, Properties properties, EnumToolType type) {
+    public ToolAbilityItem(Tier tier, EnumToolType type, Properties properties) {
         super(tier, properties);
         this.toolType = type;
     }
@@ -201,6 +199,21 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IKeyb
         return canOperate(tool) && this.rockBreaker;
     }
 
+    @Override
+    public boolean isFoil(ItemStack stack) {
+        return super.isFoil(stack) || !getConfiguration(stack).getActivePreset().isNone();
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+        availableAbilities.addInformation(tooltipComponents);
+
+        if (rockBreaker) {
+            tooltipComponents.add(Component.empty());
+            tooltipComponents.add(Component.literal("Can break depth rock!").withStyle(ChatFormatting.RED));
+        }
+    }
+
     public void breakExtraBlock(Level level, BlockPos pos, ServerPlayer player, BlockPos refPos) {
         if (level.isEmptyBlock(pos)) return;
 
@@ -209,9 +222,7 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IKeyb
 
         BlockState state = level.getBlockState(pos);
 
-        if (!(canHarvest(stack, state, player, level, pos)
-                || canShearBlock(state, stack, level, pos))
-                || (state.getDestroySpeed(level, pos) == -1.0F && state.getDestroyProgress(player, level, pos) == 0.0F)) {
+        if (!(canHarvest(stack, state, player, level, pos) || canShearBlock(state, stack, level, pos)) || (state.getDestroySpeed(level, pos) == -1.0F && state.getDestroyProgress(player, level, pos) == 0.0F)) {
             return;
         }
 
@@ -220,9 +231,7 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IKeyb
         float refStrength = EventHooks.getBreakSpeed(player, refState, refState.getDestroySpeed(level, refPos), refPos);
         float strength = EventHooks.getBreakSpeed(player, state, state.getDestroySpeed(level, pos), pos);
 
-        if (!EventHooks.doPlayerHarvestCheck(player, state, level, pos)
-                || refStrength / strength > 10f
-                || refState.getDestroyProgress(player, level, refPos) < 0) {
+        if (!EventHooks.doPlayerHarvestCheck(player, state, level, pos) || refStrength / strength > 10f || refState.getDestroyProgress(player, level, refPos) < 0) {
             return;
         }
 
@@ -303,21 +312,6 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IKeyb
     }
 
     @Override
-    public boolean isFoil(ItemStack stack) {
-        return stack.isEnchanted() || !getConfiguration(stack).getActivePreset().isNone();
-    }
-
-    @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        availableAbilities.addInformation(tooltipComponents);
-
-        if (rockBreaker) {
-            tooltipComponents.add(Component.empty());
-            tooltipComponents.add(Component.literal("Can break depth rock!").withStyle(ChatFormatting.RED));
-        }
-    }
-
-    @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         if (!canOperate(player.getMainHandItem())) return InteractionResultHolder.pass(player.getItemInHand(usedHand));
 
@@ -331,37 +325,10 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IKeyb
         }
 
         setConfiguration(player.getMainHandItem(), config);
-        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayerPacket(config.getActivePreset().getMessage(), HBMsNTMClient.ID_TOOLABILITY, 0));
+        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayerPacket(config.getActivePreset().getMessage(), HBMsNTMClient.ID_TOOLABILITY, 1000));
         level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 0.25F, config.getActivePreset().isNone() ? 0.75F : 1.25F);
 
         return InteractionResultHolder.pass(player.getItemInHand(usedHand));
-    }
-
-    @Override
-    public boolean canHandleKeybind(Player player, ItemStack stack, EnumKeybind keybind) {
-        if (player.level().isClientSide) return keybind == EnumKeybind.ABILITY_ALT;
-        return keybind == EnumKeybind.ABILITY_CYCLE;
-    }
-
-    @Override
-    public void handleKeybind(Player player, ItemStack stack, EnumKeybind keybind, boolean state) {
-        if (keybind == EnumKeybind.ABILITY_CYCLE && state) {
-            Level level = player.level();
-            if (!canOperate(stack)) return;
-
-            Configuration config = getConfiguration(stack);
-            if (config.presets.size() < 2 || level.isClientSide) return;
-
-            if (player.isCrouching()) {
-                config.currentPreset = 0;
-            } else {
-                config.currentPreset = (config.currentPreset + 1) % config.presets.size();
-            }
-
-            setConfiguration(stack, config);
-            PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayerPacket(config.getActivePreset().getMessage(), HBMsNTMClient.ID_TOOLABILITY, 1000));
-            level.playSound(player, player.getX(), player.getY(), player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS,0.25F, config.getActivePreset().isNone() ? 0.75F : 1.25F);
-        }
     }
 
     public static class Configuration {
@@ -449,7 +416,7 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IKeyb
     public Configuration getConfiguration(ItemStack stack) {
         Configuration config = new Configuration();
 
-        if (stack == null || !TagsUtil.hasTag(stack) || !TagsUtil.contains(stack, "ability") || !TagsUtil.contains(stack, "abilityPresets")) {
+        if (stack.isEmpty() || !TagsUtil.hasTag(stack) || !TagsUtil.contains(stack, "ability") || !TagsUtil.contains(stack, "abilityPresets")) {
             config.reset(availableAbilities);
             return config;
         }
@@ -460,7 +427,7 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IKeyb
     }
 
     public void setConfiguration(ItemStack stack, Configuration config) {
-        if (stack == null) {
+        if (stack.isEmpty()) {
             return;
         }
 

@@ -32,10 +32,8 @@ public class ExplosionVNT {
     @Nullable public Entity exploder;
 
     // things for compatibility with vanilla
-    private final Map<Player, Vec3> hitPlayers = new HashMap<>(); // original "compatPlayers"
-    public Explosion compat; // explosion itself
-    public Entity source; // source entity (exploder)
-    public float radius; // radius (size)
+    private final Map<Player, Vec3> compatPlayers = new HashMap<>();
+    public Explosion compat;
 
     public ExplosionVNT(Level level, double x, double y, double z, float size) {
         this(level, x, y, z, size, null);
@@ -53,25 +51,22 @@ public class ExplosionVNT {
 
             @Override
             public Map<Player, Vec3> getHitPlayers() {
-                return ExplosionVNT.this.hitPlayers;
+                return ExplosionVNT.this.compatPlayers;
             }
 
             @Override
             public Entity getDirectSourceEntity() {
-                return ExplosionVNT.this.source;
+                return ExplosionVNT.this.exploder;
             }
 
             @Override
             public float radius() {
-                return ExplosionVNT.this.radius;
+                return ExplosionVNT.this.size;
             }
         };
     }
 
     public void explode() {
-
-        this.source = this.exploder;
-        this.radius = this.size;
 
         boolean processBlocks = blockAllocator != null && blockProcessor != null;
         boolean processEntities = entityProcessor != null && playerProcessor != null;
@@ -84,17 +79,19 @@ public class ExplosionVNT {
         if (processBlocks) this.compat.getToBlow().addAll(affectedBlocks);
         if (processEntities) affectedPlayers = entityProcessor.processEntities(this, level, posX, posY, posZ, size);
         // technically not necessary, as the affected entity list is a separate parameter during the Detonate event
-        if (processEntities) this.hitPlayers.putAll(affectedPlayers);
+        if (processEntities) this.compat.getHitPlayers().putAll(affectedPlayers);
 
         //serverside processing
         if (processBlocks) blockProcessor.process(this, level, posX, posY, posZ, affectedBlocks);
         if (processEntities) playerProcessor.processPlayers(this, level, posX, posY, posZ, affectedPlayers);
 
+        //from server to client
         if (sfx != null) {
             for (IExplosionSFX fx : sfx) {
                 fx.doEffect(this, level, posX, posY, posZ, size);
             }
         }
+
     }
 
     public ExplosionVNT setBlockAllocator(IBlockAllocator blockAllocator) {

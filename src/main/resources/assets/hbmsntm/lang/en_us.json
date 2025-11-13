@@ -95,7 +95,6 @@
   "block.hbmsntm.waste_log": "Charred Log",
 
   "block.hbmsntm.taint": "Taint",
-  "block.hbmsntm.iron_crate": "Iron Crate",
 
   "block.hbmsntm.det_nuke": "Nuclear Charge",
   "block.hbmsntm.det_charge": "Explosive Charge",
@@ -126,6 +125,7 @@
   "item.hbmsntm.detonator_deadman": "Dead Man's Detonator",
 
   "item.hbmsntm.cell_antimatter": "Antimatter Cell",
+  "item.hbmsntm.schrabidium_pickaxe": "Schrabidium Pickaxe",
 
   "entity.hbmsntm.duck": "Duck",
 
@@ -194,9 +194,27 @@
   "trait.blinding": "Blinding",
   "trait.drop": "Dangerous Drop",
 
+  "weapon.ability.chainsaw": "Painsaw",
+  "weapon.ability.fire": "Flaming",
+  "weapon.ability.radiation": "Radioactive Blade",
+  "weapon.ability.phosphorus": "Phosphorus Tip",
+  "weapon.ability.stun": "Stunning",
+  "weapon.ability.vampire": "Vampire",
+
+  "tool.ability.centrifuge": "Auto-Centrifuge",
+  "tool.ability.crystallizer": "Auto-Crystallizer",
+  "tool.ability.explosion": "Explosion",
+  "tool.ability.hammer": "AoE",
+  "tool.ability.hammer_flat": "Flat AoE",
+  "tool.ability.luck": "Fortune",
+  "tool.ability.mercury": "Mercury Touch",
+  "tool.ability.midas": "Midas Touch",
+  "tool.ability.recursion": "Vein Miner",
+  "tool.ability.shredder": "Auto-Shredder",
+  "tool.ability.silktouch": "Silk Touch",
+  "tool.ability.smelter": "Auto-Smelter",
+
   "creative_tab.hbmsntm.ores_and_blocks": "NTM Ores and Blocks",
   "creative_tab.hbmsntm.consumables_and_gear": "NTM Consumables and Gear",
-  "creative_tab.hbmsntm.bombs": "NTM Bombs",
-
-  "container.crateIron": "Iron Crate"
+  "creative_tab.hbmsntm.bombs": "NTM Bombs"
 }

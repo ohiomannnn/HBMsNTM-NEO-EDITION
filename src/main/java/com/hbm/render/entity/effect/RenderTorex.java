@@ -81,11 +81,7 @@ public class RenderTorex extends EntityRenderer<NukeTorex> {
     };
 
     private void cloudletWrapper(NukeTorex cloud, float partialTicks, PoseStack pose, MultiBufferSource buffers) {
-        VertexConsumer consumer = buffers.getBuffer(CustomRenderTypes.entityTranslucent(CLOUDLET));
-
-        RenderSystem.enableBlend();
-        RenderSystem.blendFuncSeparate(770, 771, 1, 0);
-        RenderSystem.depthMask(false);
+        VertexConsumer consumer = buffers.getBuffer(CustomRenderTypes.entitySmoth(CLOUDLET, false));
 
         ArrayList<Cloudlet> cloudlets = new ArrayList<>(cloud.cloudlets);
         cloudlets.sort(cloudSorter);
@@ -97,9 +93,6 @@ public class RenderTorex extends EntityRenderer<NukeTorex> {
             double z = vec.z - cloud.getZ();
             renderCloudlet(consumer, pose, x, y, z, cloudlet, partialTicks);
         }
-
-        RenderSystem.depthMask(true);
-        RenderSystem.disableBlend();
     }
 
     private void flashWrapper(NukeTorex cloud, float partialTicks, PoseStack pose, MultiBufferSource buffers) {

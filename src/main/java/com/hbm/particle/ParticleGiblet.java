@@ -13,7 +13,7 @@ import org.joml.Vector3f;
 
 public class ParticleGiblet extends TextureSheetParticle {
 
-    public ParticleGiblet(ClientLevel level, double x, double y, double z, double mX, double mY, double mZ, SpriteSet spriteSet) {
+    public ParticleGiblet(ClientLevel level, double x, double y, double z, double mX, double mY, double mZ) {
         super(level, x, y, z);
         this.xd = mX;
         this.yd = mY;
@@ -21,7 +21,7 @@ public class ParticleGiblet extends TextureSheetParticle {
         this.lifetime = 140 + random.nextInt(20);
         this.gravity = 2F;
 
-        this.setSpriteFromAge(spriteSet);
+        this.setSpriteFromAge(ModParticles.GIBLET_SPRITES);
     }
 
     @Override
@@ -91,15 +91,13 @@ public class ParticleGiblet extends TextureSheetParticle {
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
 
-        private final SpriteSet sprites;
-
         public Provider(SpriteSet sprites) {
-            this.sprites = sprites;
+            ModParticles.GIBLET_SPRITES = sprites;
         }
 
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double vx, double vy, double vz) {
-            return new ParticleGiblet(level, x, y, z, 0, 0, 0, sprites);
+            return new ParticleGiblet(level, x, y, z, 0, 0, 0);
         }
     }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "hbmsntm:item/schrab_pickaxe"
+    "layer0": "hbmsntm:item/schrabidium_pickaxe"
   }
 }

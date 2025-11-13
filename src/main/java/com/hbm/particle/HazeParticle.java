@@ -1,16 +1,18 @@
 package com.hbm.particle;
 
 import com.hbm.HBMsNTM;
+import com.hbm.render.CustomRenderTypes;
 import com.hbm.util.old.TessColorUtil;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
@@ -19,6 +21,8 @@ import org.joml.Vector3f;
 import java.util.Random;
 
 public class HazeParticle extends TextureSheetParticle {
+
+    private static final ResourceLocation HAZE = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/haze.png");
 
     public HazeParticle(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
@@ -53,17 +57,21 @@ public class HazeParticle extends TextureSheetParticle {
 
         int x = (int)Math.floor(this.x) + random.nextInt(15) - 7;
         int z = (int)Math.floor(this.y) + random.nextInt(15) - 7;
-        int y = level.getHeight(Heightmap.Types.WORLD_SURFACE, x, z);
+        int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
         level.addParticle(ParticleTypes.LAVA, x + random.nextDouble(), y + 0.1, z + random.nextDouble(), 0.0, 0.0, 0.0);
     }
 
     @Override
-    public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
+    public void render(VertexConsumer ignored, Camera camera, float partialTicks) {
         Vec3 cameraPosition = camera.getPosition();
 
-        this.alpha = (float) Math.sin(age * Math.PI / (400F)) * 0.25F;
+        float alpha = 0;
 
-        int color = TessColorUtil.getColorRGBA_F(1.0F, 1.0F, 1.0F, alpha * 0.12F);
+        alpha = (float) Math.sin(age * Math.PI / (400F)) * 0.50F;
+
+        int color = TessColorUtil.getColorRGBA_F(1.0F, 1.0F, 1.0F, alpha * 0.1F);
+        MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
+        VertexConsumer consumer = bufferSource.getBuffer(CustomRenderTypes.entitySmoth(HAZE, false));
 
         Random rand = new Random(50);
 
@@ -85,34 +93,36 @@ public class HazeParticle extends TextureSheetParticle {
         }
     }
 
-    private void renderQuad(VertexConsumer consumer, float cx, float cy, float cz, Vector3f up, Vector3f left, float scale, int color) {
+    private void renderQuad(VertexConsumer consumer, float pX, float pY, float pZ, Vector3f up, Vector3f left, float scale, int color) {
 
-        float u0 = sprite.getU0();
-        float u1 = sprite.getU1();
-        float v0 = sprite.getV0();
-        float v1 = sprite.getV1();
+        float u0 = 0, v0 = 0;
+        float u1 = 1, v1 = 1;
 
         Vector3f l = new Vector3f(left).mul(scale);
         Vector3f u = new Vector3f(up).mul(scale);
 
-        consumer.addVertex(cx - l.x - u.x, cy - l.y - u.y, cz - l.z - u.z)
+        consumer.addVertex(pX - l.x - u.x, pY - l.y - u.y, pZ - l.z - u.z)
+                .setColor(color)
                 .setUv(u1, v1)
-                .setColor(color)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
-        consumer.addVertex(cx - l.x + u.x, cy - l.y + u.y, cz - l.z + u.z)
+        consumer.addVertex(pX - l.x + u.x, pY - l.y + u.y, pZ - l.z + u.z)
+                .setColor(color)
                 .setUv(u1, v0)
-                .setColor(color)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
-        consumer.addVertex(cx + l.x + u.x, cy + l.y + u.y, cz + l.z + u.z)
+        consumer.addVertex(pX + l.x + u.x, pY + l.y + u.y, pZ + l.z + u.z)
+                .setColor(color)
                 .setUv(u0, v0)
-                .setColor(color)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
-        consumer.addVertex(cx + l.x - u.x, cy + l.y - u.y, cz + l.z - u.z)
-                .setUv(u0, v1)
+        consumer.addVertex(pX + l.x - u.x, pY + l.y - u.y, pZ + l.z - u.z)
                 .setColor(color)
+                .setUv(u0, v1)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
     }

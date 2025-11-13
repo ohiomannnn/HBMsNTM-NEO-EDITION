@@ -11,7 +11,7 @@ public class ToolPreset {
     public IToolHarvestAbility harvestAbility = IToolHarvestAbility.NONE;
     public int harvestAbilityLevel = 0;
 
-    public ToolPreset() { }
+    public ToolPreset() {}
 
     public ToolPreset(IToolAreaAbility areaAbility, IToolHarvestAbility harvestAbility) {
         this.areaAbility = areaAbility;
@@ -24,7 +24,6 @@ public class ToolPreset {
         this.harvestAbility = harvestAbility;
         this.harvestAbilityLevel = harvestAbilityLevel;
     }
-
 
     public Component getMessage() {
         if (isNone()) {
@@ -41,11 +40,11 @@ public class ToolPreset {
             builder.next(areaAbility.getExtension(areaAbilityLevel));
         }
 
-        if(hasArea && hasHarvest) {
+        if (hasArea && hasHarvest) {
             builder.next(" + ");
         }
 
-        if(hasHarvest) {
+        if (hasHarvest) {
             builder.nextTranslation(harvestAbility.getName());
             builder.next(harvestAbility.getExtension(harvestAbilityLevel));
         }

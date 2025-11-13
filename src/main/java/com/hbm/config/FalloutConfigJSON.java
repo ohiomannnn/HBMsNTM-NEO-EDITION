@@ -45,12 +45,12 @@ public class FalloutConfigJSON {
 
         initDefault();
 
-        if(!config.exists()) {
+        if (!config.exists()) {
             writeDefault(template);
         } else {
             List<FalloutEntry> conf = readConfig(config);
 
-            if(conf != null) {
+            if (conf != null) {
                 entries.clear();
                 entries.addAll(conf);
             }
@@ -223,7 +223,6 @@ public class FalloutConfigJSON {
         private TagKey<Block> matchesTag = null;
         private boolean matchesOpaque = false;
 
-        // using Pair because there is no more meta system
         //           BlockState / Weight
         private Pair<BlockState, Integer>[] primaryBlocks = null;
         private Pair<BlockState, Integer>[] secondaryBlocks = null;

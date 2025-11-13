@@ -19,7 +19,6 @@ public record InformPlayerPacket(Component component, int id, int millis) implem
         public InformPlayerPacket decode(RegistryFriendlyByteBuf buf) {
             int id = buf.readInt();
             int millis = buf.readInt();
-
             return new InformPlayerPacket(ComponentSerialization.STREAM_CODEC.decode(buf), id, millis);
         }
 

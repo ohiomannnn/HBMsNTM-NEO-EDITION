@@ -26,7 +26,7 @@ public interface IToolHarvestAbility extends IBaseAbility {
             // Emulate the block breaking without drops
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
             ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
-            player.getItemInHand(InteractionHand.MAIN_HAND).setDamageValue(stack.getDamageValue() - 1);
+            if (!stack.isEmpty()) stack.setDamageValue(stack.getDamageValue() - 1);
         } else if (player instanceof ServerPlayer serverPlayer) {
             // Break the block conventionally
             ToolAbilityItem.standardDigPost(level, pos, serverPlayer);

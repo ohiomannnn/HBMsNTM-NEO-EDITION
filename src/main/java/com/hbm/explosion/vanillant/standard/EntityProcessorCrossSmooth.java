@@ -41,7 +41,7 @@ public class EntityProcessorCrossSmooth extends EntityProcessorCross {
         DamageSourceSednaNoAttacker dmg = getDamage(entity.level(), null, source.exploder instanceof LivingEntity ? (LivingEntity) source.exploder : null, clazz);
         if (entity instanceof LivingEntity livingEntity) {
             EntityDamageUtil.hurtNT(livingEntity, dmg, amount, true, false, 0F, pierceDT, pierceDR);
-            if(!entity.isAlive()) ConfettiUtil.decideConfetti(livingEntity, dmg);
+            if (!entity.isAlive()) ConfettiUtil.decideConfetti(livingEntity, dmg);
         } else {
             entity.hurt(dmg, amount);
         }

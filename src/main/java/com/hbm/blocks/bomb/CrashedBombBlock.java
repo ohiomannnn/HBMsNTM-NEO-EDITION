@@ -78,11 +78,11 @@ public class CrashedBombBlock extends BaseEntityBlock implements IBomb {
                 spawnMush(level, pos, true);
             }
             if (this == ModBlocks.CRASHED_BOMB_CONVENTIONAL.get()) {
-                ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 35F);
-                vnt.setBlockAllocator(new BlockAllocatorStandard(24));
-                vnt.setBlockProcessor(new BlockProcessorStandard().setNoDrop());
-                vnt.setEntityProcessor(new EntityProcessorCross(5D).withRangeMod(1.5F));
-                vnt.setPlayerProcessor(new PlayerProcessorStandard());
+                ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 35F)
+                        .setBlockAllocator(new BlockAllocatorStandard(24))
+                        .setBlockProcessor(new BlockProcessorStandard().setNoDrop())
+                        .setEntityProcessor(new EntityProcessorCross(5D).withRangeMod(1.5F))
+                        .setPlayerProcessor(new PlayerProcessorStandard());
                 vnt.explode();
                 ExplosionCreator.composeEffectLarge(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
             }

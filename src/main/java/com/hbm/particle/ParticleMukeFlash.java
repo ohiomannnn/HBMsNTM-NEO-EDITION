@@ -1,11 +1,21 @@
 package com.hbm.particle;
 
+import com.hbm.HBMsNTM;
+import com.hbm.render.CustomRenderTypes;
+import com.hbm.util.old.TessColorUtil;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
@@ -13,6 +23,8 @@ import org.joml.Vector3f;
 import java.util.Random;
 
 public class ParticleMukeFlash extends TextureSheetParticle {
+
+    private static final ResourceLocation FLARE = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/flare.png");
 
     private final boolean bf;
     private final Random rand = new Random();
@@ -67,17 +79,25 @@ public class ParticleMukeFlash extends TextureSheetParticle {
     }
 
     @Override
-    public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
+    public void render(VertexConsumer ignored, Camera camera, float partialTicks) {
         Vec3 cameraPosition = camera.getPosition();
 
         float dX = (float) (Mth.lerp(partialTicks, this.xo, this.x) - cameraPosition.x);
         float dY = (float) (Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y);
         float dZ = (float) (Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z);
 
-        this.alpha = Math.clamp(1 - ((this.age + partialTicks) / (float)this.lifetime), 0.0F, 1.0F);
+        MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
+        VertexConsumer consumer = bufferSource.getBuffer(CustomRenderTypes.additive(FLARE));
+
+        this.alpha = 1 - ((this.age + partialTicks) / (float)this.lifetime);
+        int color = TessColorUtil.getColorRGBA_F(1.0F, 0.9F, 0.75F, alpha * 0.5F);
         this.quadSize = (this.age + partialTicks) * 3F + 1F;
 
-        Random rand = new Random();
+        float u0 = 0, v0 = 0;
+        float u1 = 1, v1 = 1;
+
+        Vector3f l = new Vector3f(camera.getLeftVector()).mul(this.quadSize);
+        Vector3f u = new Vector3f(camera.getUpVector()).mul(this.quadSize);
 
         for (int i = 0; i < 24; i++) {
 
@@ -87,40 +107,31 @@ public class ParticleMukeFlash extends TextureSheetParticle {
             float pY = (float) (dY + rand.nextDouble() * 7.5 - 3.75);
             float pZ = (float) (dZ + rand.nextDouble() * 15 - 7.5);
 
-            renderQuad(consumer, camera, pX, pY, pZ, this.quadSize);
+            consumer.addVertex(pX - l.x - u.x, pY - l.y - u.y, pZ - l.z - u.z)
+                    .setColor(color)
+                    .setUv(u1, v1)
+                    .setOverlay(OverlayTexture.NO_OVERLAY)
+                    .setNormal(0.0F, 1.0F, 0.0F)
+                    .setLight(240);
+            consumer.addVertex(pX - l.x + u.x, pY - l.y + u.y, pZ - l.z + u.z)
+                    .setColor(color)
+                    .setUv(u1, v0)
+                    .setOverlay(OverlayTexture.NO_OVERLAY)
+                    .setNormal(0.0F, 1.0F, 0.0F)
+                    .setLight(240);
+            consumer.addVertex(pX + l.x + u.x, pY + l.y + u.y, pZ + l.z + u.z)
+                    .setColor(color)
+                    .setUv(u0, v0)
+                    .setOverlay(OverlayTexture.NO_OVERLAY)
+                    .setNormal(0.0F, 1.0F, 0.0F)
+                    .setLight(240);
+            consumer.addVertex(pX + l.x - u.x, pY + l.y - u.y, pZ + l.z - u.z)
+                    .setColor(color)
+                    .setUv(u0, v1)
+                    .setOverlay(OverlayTexture.NO_OVERLAY)
+                    .setNormal(0.0F, 1.0F, 0.0F)
+                    .setLight(240);
         }
-    }
-
-    private void renderQuad(VertexConsumer consumer, Camera camera, float pX, float pY, float pZ, float scale) {
-
-        float u0 = sprite.getU0();
-        float u1 = sprite.getU1();
-        float v0 = sprite.getV0();
-        float v1 = sprite.getV1();
-
-        Vector3f up = new Vector3f(camera.getUpVector());
-        Vector3f left = new Vector3f(camera.getLeftVector());
-
-        consumer.addVertex(pX - left.x * scale - up.x * scale, pY - left.y * scale - up.y * scale, pZ - left.z * scale - up.z * scale)
-                .setUv(u1, v1)
-                .setColor(1.0F, 0.9F, 0.75F, this.alpha * 0.5F)
-                .setNormal(0.0F, 1.0F, 0.0F)
-                .setLight(240);
-        consumer.addVertex(pX - left.x * scale + up.x * scale, pY - left.y * scale + up.y * scale, pZ - left.z * scale + up.z * scale)
-                .setUv(u1, v0)
-                .setColor(1.0F, 0.9F, 0.75F, this.alpha * 0.5F)
-                .setNormal(0.0F, 1.0F, 0.0F)
-                .setLight(240);
-        consumer.addVertex(pX + left.x * scale + up.x * scale, pY + left.y * scale + up.y * scale, pZ + left.z * scale + up.z * scale)
-                .setUv(u0, v0)
-                .setColor(1.0F, 0.9F, 0.75F, this.alpha * 0.5F)
-                .setNormal(0.0F, 1.0F, 0.0F)
-                .setLight(240);
-        consumer.addVertex(pX + left.x * scale - up.x * scale, pY + left.y * scale - up.y * scale, pZ + left.z * scale - up.z * scale)
-                .setUv(u0, v1)
-                .setColor(1.0F, 0.9F, 0.75F, this.alpha * 0.5F)
-                .setNormal(0.0F, 1.0F, 0.0F)
-                .setLight(240);
     }
 
     @Override

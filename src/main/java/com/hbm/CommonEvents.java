@@ -58,13 +58,6 @@ public class CommonEvents {
         HazardRegistry.registerItems();
     }
 
-    public static boolean isConfigLoaded = false;
-
-    @SubscribeEvent
-    public static void onConfigLoad(ModConfigEvent.Loading event) {
-        isConfigLoaded = true;
-    }
-
     @SubscribeEvent
     public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
         if (!event.getEntity().level().isClientSide) {

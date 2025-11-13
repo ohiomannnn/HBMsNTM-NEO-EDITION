@@ -96,7 +96,8 @@ public class AvailableAbilities {
             list.add(Component.literal("Alt-click to open customization GUI!"));
         }
 
-        List<Map.Entry<IBaseAbility, Integer>> weaponAbilities = abilities.entrySet().stream().filter(entry -> (entry.getKey() instanceof IWeaponAbility && entry.getKey() != IWeaponAbility.NONE))
+        List<Map.Entry<IBaseAbility, Integer>> weaponAbilities = abilities.entrySet().stream()
+                .filter(entry -> (entry.getKey() instanceof IWeaponAbility && entry.getKey() != IWeaponAbility.NONE))
                 .sorted(Comparator.comparing(Map.Entry<IBaseAbility, Integer>::getKey).thenComparing(Map.Entry::getValue)).toList();
 
         if (!weaponAbilities.isEmpty()) {
