@@ -1,4 +1,4 @@
-package com.hbm.creativetabs;
+package com.hbm.inventory;
 
 import com.hbm.HBMsNTM;
 import com.hbm.blocks.ModBlocks;
@@ -17,7 +17,8 @@ import static net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB;
 public class ModCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(CREATIVE_MODE_TAB, HBMsNTM.MODID);
 
-    public static final Supplier<CreativeModeTab> ORES_AND_BLOCKS = CREATIVE_MODE_TABS.register("ores_and_blocks",
+    public static final Supplier<CreativeModeTab> ORES_AND_BLOCKS = CREATIVE_MODE_TABS.register(
+            "ores_and_blocks",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.ORE_URANIUM.get()))
                     .title(Component.translatable("creative_tab.hbmsntm.ores_and_blocks"))
                     .displayItems((itemDisplayParameters, output) -> {
@@ -46,8 +47,9 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.SELLAFIELD_BEDROCK);
                     }).build());
 
-    public static final Supplier<CreativeModeTab> BOMBS = CREATIVE_MODE_TABS.register("bombs",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.DET_NUKE.get()))
+    public static final Supplier<CreativeModeTab> BOMBS = CREATIVE_MODE_TABS.register(
+            "bombs",
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.NUKE_FATMAN.get()))
                     .withTabsBefore(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "ores_and_blocks"))
                     .title(Component.translatable("creative_tab.hbmsntm.bombs"))
                     .backgroundTexture(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/gui/nuke_tab.png"))
@@ -58,14 +60,16 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.CRASHED_BOMB_SALTED);
                         output.accept(ModBlocks.DET_NUKE);
                         output.accept(ModBlocks.DET_CHARGE);
+                        output.accept(ModBlocks.DET_MINER);
                         output.accept(ModItems.DETONATOR);
                         output.accept(ModItems.MULTI_DETONATOR);
                         output.accept(ModItems.DETONATOR_DEADMAN);
                         output.accept(ModItems.DETONATOR_DE);
                     }).build());
 
-    public static final Supplier<CreativeModeTab> CONSUMABLES_AND_GEAR = CREATIVE_MODE_TABS.register("consumables_and_gear",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.GEIGER_COUNTER.get()))
+    public static final Supplier<CreativeModeTab> CONSUMABLES_AND_GEAR = CREATIVE_MODE_TABS.register(
+            "consumables_and_gear",
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.BOTTLE_NUKA.get()))
                     .withTabsBefore(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "bombs"))
                     .title(Component.translatable("creative_tab.hbmsntm.consumables_and_gear"))
                     .displayItems((itemDisplayParameters, output) -> {
@@ -78,6 +82,16 @@ public class ModCreativeTabs {
                         output.accept(ModItems.PIN);
                         output.accept(ModItems.FLINT_AND_BALEFIRE);
                         output.accept(ModItems.POLAROID);
+
+                        output.accept(ModItems.BOTTLE_EMPTY);
+                        output.accept(ModItems.BOTTLE_OPENER);
+                        output.accept(ModItems.CAP_NUKA);
+                        output.accept(ModItems.BOTTLE_NUKA);
+                        output.accept(ModItems.BOTTLE_CHERRY);
+                        output.accept(ModItems.CAP_QUANTUM);
+                        output.accept(ModItems.BOTTLE_QUANTUM);
+                        output.accept(ModItems.CAP_SPARKLE);
+                        output.accept(ModItems.BOTTLE_SPARKLE);
                     }).build());
 
     public static void register(IEventBus eventBus) {

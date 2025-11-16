@@ -252,55 +252,64 @@ public class ModBlocks {
                     .explosionResistance(10.0F)
                     .randomTicks()));
 
-    public static final DeferredBlock<Block> DET_CHARGE = registerBlock("det_charge",
+    public static final DeferredBlock<Block> NUKE_FATMAN = registerBlock("nuke_fatman",
+            () -> new NukeManBlock(BlockBehaviour.Properties.of()
+                    .strength(5.0F)
+                    .explosionResistance(200.0F)
+                    .noOcclusion()
+                    .sound(SoundType.METAL)
+            ));
+
+    public static final DeferredBlock<Block> DET_CHARGE = registerBlock(
+            "det_charge",
             () -> new ExplosiveChargeBlock(BlockBehaviour.Properties.of()
                     .strength(0.1F)
                     .explosionResistance(0.0F)
                     .noLootTable()
-                    .sound(SoundType.METAL)
-            ));
-    public static final DeferredBlock<Block> DET_NUKE = registerBlock("det_nuke",
+                    .sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> DET_NUKE = registerBlock(
+            "det_nuke",
             () -> new ExplosiveChargeBlock(BlockBehaviour.Properties.of()
                     .strength(0.1F)
                     .explosionResistance(0.0F)
                     .noLootTable()
-                    .sound(SoundType.METAL)
-            ));
-    public static final DeferredBlock<Block> DET_MINER = registerBlock("det_miner",
+                    .sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> DET_MINER = registerBlock(
+            "det_miner",
             () -> new DetMinerBlock(BlockBehaviour.Properties.of()
                     .strength(0.1F)
                     .explosionResistance(0.0F)
                     .noLootTable()
-                    .sound(SoundType.METAL)
-            ));
-    public static final DeferredBlock<Block> CRASHED_BOMB_BALEFIRE = registerBlock("crashed_bomb_balefire",
+                    .sound(SoundType.METAL)));
+
+    public static final DeferredBlock<Block> CRASHED_BOMB_BALEFIRE = registerBlock(
+            "crashed_bomb_balefire",
             () -> new CrashedBombBlock(BlockBehaviour.Properties.of()
                     .noLootTable()
                     .noOcclusion()
                     .strength(6000.0F)
-                    .sound(SoundType.METAL)
-            ));
-    public static final DeferredBlock<Block> CRASHED_BOMB_CONVENTIONAL = registerBlock("crashed_bomb_conventional",
+                    .sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> CRASHED_BOMB_CONVENTIONAL = registerBlock(
+            "crashed_bomb_conventional",
             () -> new CrashedBombBlock(BlockBehaviour.Properties.of()
                     .noLootTable()
                     .noOcclusion()
                     .strength(6000.0F)
-                    .sound(SoundType.METAL)
-            ));
-    public static final DeferredBlock<Block> CRASHED_BOMB_NUKE = registerBlock("crashed_bomb_nuke",
+                    .sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> CRASHED_BOMB_NUKE = registerBlock(
+            "crashed_bomb_nuke",
             () -> new CrashedBombBlock(BlockBehaviour.Properties.of()
                     .noLootTable()
                     .noOcclusion()
                     .strength(6000.0F)
-                    .sound(SoundType.METAL)
-            ));
-    public static final DeferredBlock<Block> CRASHED_BOMB_SALTED = registerBlock("crashed_bomb_salted",
+                    .sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> CRASHED_BOMB_SALTED = registerBlock(
+            "crashed_bomb_salted",
             () -> new CrashedBombBlock(BlockBehaviour.Properties.of()
                     .noLootTable()
                     .noOcclusion()
                     .strength(6000.0F)
-                    .sound(SoundType.METAL)
-            ));
+                    .sound(SoundType.METAL)));
 
     public static final DeferredBlock<Block> RED_BARREL = registerBlock("red_barrel",
             () -> new RedBarrelBlock(BlockBehaviour.Properties.of()
@@ -318,7 +327,7 @@ public class ModBlocks {
                     .noLootTable()
                     .strength(0.1F)
                     .explosionResistance(2.5F)
-                    .sound(SoundType.METAL), 1, 1
+                    .sound(SoundType.METAL), 2.5D, 1
             ));
 
     public static final DeferredBlock<Block> URANIUM_BLOCK = registerBlock("uranium_block",
@@ -328,31 +337,48 @@ public class ModBlocks {
                     .requiresCorrectToolForDrops()
                     .sound(SoundType.STONE)));
 
-    //STAIRS
-    public static final DeferredBlock<StairBlock> BRICK_CONCRETE_STAIRS = registerBlock("brick_concrete_stairs",
-            () -> new StairBlock(ModBlocks.BRICK_CONCRETE.get().defaultBlockState(),
-                    BlockBehaviour.Properties.of().strength(15.0F).requiresCorrectToolForDrops()));
-    public static final DeferredBlock<StairBlock> BRICK_CONCRETE_MOSSY_STAIRS = registerBlock("brick_concrete_mossy_stairs",
-            () -> new StairBlock(ModBlocks.BRICK_CONCRETE_MOSSY.get().defaultBlockState(),
-                    BlockBehaviour.Properties.of().strength(15.0F).requiresCorrectToolForDrops()));
-    public static final DeferredBlock<StairBlock> BRICK_CONCRETE_CRACKED_STAIRS = registerBlock("brick_concrete_cracked_stairs",
-            () -> new StairBlock(ModBlocks.BRICK_CONCRETE_CRACKED.get().defaultBlockState(),
-                    BlockBehaviour.Properties.of().strength(15.0F).requiresCorrectToolForDrops()));
-    public static final DeferredBlock<StairBlock> BRICK_CONCRETE_BROKEN_STAIRS = registerBlock("brick_concrete_broken_stairs",
-            () -> new StairBlock(ModBlocks.BRICK_CONCRETE_BROKEN.get().defaultBlockState(),
-                    BlockBehaviour.Properties.of().strength(15.0F).requiresCorrectToolForDrops()));
+    public static final DeferredBlock<StairBlock> BRICK_CONCRETE_STAIRS = registerBlock(
+            "brick_concrete_stairs",
+            () -> new StairBlock(ModBlocks.BRICK_CONCRETE.get().defaultBlockState(), BlockBehaviour.Properties.of()
+                    .strength(15.0F)
+                    .requiresCorrectToolForDrops()));
+    public static final DeferredBlock<StairBlock> BRICK_CONCRETE_MOSSY_STAIRS = registerBlock(
+            "brick_concrete_mossy_stairs",
+            () -> new StairBlock(ModBlocks.BRICK_CONCRETE_MOSSY.get().defaultBlockState(), BlockBehaviour.Properties.of()
+                    .strength(15.0F)
+                    .requiresCorrectToolForDrops()));
+    public static final DeferredBlock<StairBlock> BRICK_CONCRETE_CRACKED_STAIRS = registerBlock(
+            "brick_concrete_cracked_stairs",
+            () -> new StairBlock(ModBlocks.BRICK_CONCRETE_CRACKED.get().defaultBlockState(), BlockBehaviour.Properties.of()
+                    .strength(15.0F)
+                    .requiresCorrectToolForDrops()));
+    public static final DeferredBlock<StairBlock> BRICK_CONCRETE_BROKEN_STAIRS = registerBlock(
+            "brick_concrete_broken_stairs",
+            () -> new StairBlock(ModBlocks.BRICK_CONCRETE_BROKEN.get().defaultBlockState(), BlockBehaviour.Properties.of()
+                    .strength(15.0F)
+                    .requiresCorrectToolForDrops()));
 
-    //SLABS
-    public static final DeferredBlock<SlabBlock> BRICK_CONCRETE_SLAB = registerBlock("brick_concrete_slab",
-            () -> new SlabBlock(BlockBehaviour.Properties.of().strength(15.0F).requiresCorrectToolForDrops()));
-    public static final DeferredBlock<SlabBlock> BRICK_CONCRETE_MOSSY_SLAB = registerBlock("brick_concrete_mossy_slab",
-            () -> new SlabBlock(BlockBehaviour.Properties.of().strength(15.0F).requiresCorrectToolForDrops()));
-    public static final DeferredBlock<SlabBlock> BRICK_CONCRETE_CRACKED_SLAB = registerBlock("brick_concrete_cracked_slab",
-            () -> new SlabBlock(BlockBehaviour.Properties.of().strength(15.0F).requiresCorrectToolForDrops()));
-    public static final DeferredBlock<SlabBlock> BRICK_CONCRETE_BROKEN_SLAB = registerBlock("brick_concrete_broken_slab",
-            () -> new SlabBlock(BlockBehaviour.Properties.of().strength(15.0F).requiresCorrectToolForDrops()));
+    public static final DeferredBlock<SlabBlock> BRICK_CONCRETE_SLAB = registerBlock(
+            "brick_concrete_slab",
+            () -> new SlabBlock(BlockBehaviour.Properties.of()
+                    .strength(15.0F)
+                    .requiresCorrectToolForDrops()));
+    public static final DeferredBlock<SlabBlock> BRICK_CONCRETE_MOSSY_SLAB = registerBlock(
+            "brick_concrete_mossy_slab",
+            () -> new SlabBlock(BlockBehaviour.Properties.of()
+                    .strength(15.0F)
+                    .requiresCorrectToolForDrops()));
+    public static final DeferredBlock<SlabBlock> BRICK_CONCRETE_CRACKED_SLAB = registerBlock(
+            "brick_concrete_cracked_slab",
+            () -> new SlabBlock(BlockBehaviour.Properties.of()
+                    .strength(15.0F)
+                    .requiresCorrectToolForDrops()));
+    public static final DeferredBlock<SlabBlock> BRICK_CONCRETE_BROKEN_SLAB = registerBlock(
+            "brick_concrete_broken_slab",
+            () -> new SlabBlock(BlockBehaviour.Properties.of()
+                    .strength(15.0F)
+                    .requiresCorrectToolForDrops()));
 
-    //whatever is this
     public static final DeferredBlock<Block> VOLCANIC_LAVA_BLOCK = registerBlock("volcanic_lava_block",
             () -> new Block(BlockBehaviour.Properties.of()
                     .noLootTable()
@@ -381,21 +407,21 @@ public class ModBlocks {
                             .noLootTable()
                             .sound(SoundType.STONE), false));
 
-    //IN_FIRE
-    public static final DeferredBlock<Block> BALEFIRE = BLOCKS.register("balefire",
+    public static final DeferredBlock<Block> BALEFIRE = BLOCKS.register(
+            "balefire",
             () -> new BalefireBlock(BlockBehaviour.Properties.of()
                     .replaceable()
                     .noCollission()
                     .lightLevel(state -> 15)
-                    .noLootTable()
-            ));
-    public static final DeferredBlock<Block> FIRE_DIGAMMA = registerBlock("fire_digamma",
+                    .noLootTable()));
+
+    public static final DeferredBlock<Block> FIRE_DIGAMMA = registerBlock(
+            "fire_digamma",
             () -> new DigammaFlameBlock(BlockBehaviour.Properties.of()
                     .noCollission()
                     .noOcclusion()
                     .lightLevel(state -> 10)
-                    .noLootTable()
-            ));
+                    .noLootTable()));
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> regBlock = BLOCKS.register(name, block);

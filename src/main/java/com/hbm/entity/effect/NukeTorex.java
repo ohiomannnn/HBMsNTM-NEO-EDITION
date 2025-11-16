@@ -108,7 +108,7 @@ public class NukeTorex extends Entity {
                 }
 
                 if (!didPlaySound) {
-                    RenderTorex.handleExplosionEffect(this, tickCount);
+                    RenderTorex.handleSound(this, tickCount);
                 }
             }
 
@@ -168,9 +168,7 @@ public class NukeTorex extends Entity {
             cloudlets.removeIf(x -> x.isDead);
         }
 
-        if (this.tickCount > maxAge) {
-            discard();
-        }
+        if (this.tickCount > maxAge) this.discard();
     }
 
     public NukeTorex setScale(float scale) {
@@ -496,13 +494,13 @@ public class NukeTorex extends Entity {
             }
         }
 
-        public Vec3 getInterpPos(float interp) {
+        public Vec3 getInterpPos(float partialTicks) {
             float scale = (float) NukeTorex.this.getScale();
 
             Vec3 base = new Vec3(
-                    prevPosX + (posX - prevPosX) * interp,
-                    prevPosY + (posY - prevPosY) * interp,
-                    prevPosZ + (posZ - prevPosZ) * interp
+                    prevPosX + (posX - prevPosX) * partialTicks,
+                    prevPosY + (posY - prevPosY) * partialTicks,
+                    prevPosZ + (posZ - prevPosZ) * partialTicks
             );
 
             if (this.type != TorexType.SHOCK) {  //no rescale for the shockwave as this messes with the positions
@@ -515,7 +513,7 @@ public class NukeTorex extends Entity {
             return base;
         }
 
-        public Vec3 getInterpColor(float interp) {
+        public Vec3 getInterpColor(float partialTicks) {
             if (this.type == TorexType.CONDENSATION) {
                 return new Vec3(1F, 1F, 1F);
             }
@@ -527,9 +525,9 @@ public class NukeTorex extends Entity {
             }
 
             return new Vec3(
-                    (prevColor.x + (color.x - prevColor.x) * interp) * greying,
-                    (prevColor.y + (color.y - prevColor.y) * interp) * greying,
-                    (prevColor.z + (color.z - prevColor.z) * interp) * greying
+                    (prevColor.x + (color.x - prevColor.x) * partialTicks) * greying,
+                    (prevColor.y + (color.y - prevColor.y) * partialTicks) * greying,
+                    (prevColor.z + (color.z - prevColor.z) * partialTicks) * greying
             );
         }
 
@@ -586,8 +584,8 @@ public class NukeTorex extends Entity {
     }
 
     public static void statFac(Level level, double x, double y, double z, float scale, int type) {
-        NukeTorex torex = new NukeTorex(ModEntities.NUKE_TOREX.get(),level).setScale(Mth.clamp((float) BobMathUtil.squirt(scale * 0.01) * 1.5F, 0.5F, 5F));
-        torex.setType(type);
+        NukeTorex torex = new NukeTorex(ModEntities.NUKE_TOREX.get(), level).setScale(Mth.clamp((float) BobMathUtil.squirt(scale * 0.01) * 1.5F, 0.5F, 5F));
+        if (type == 1 || type == 0) torex.setType(type);
         torex.moveTo(x, y, z);;
         level.addFreshEntity(torex);
     }

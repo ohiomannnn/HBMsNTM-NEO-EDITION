@@ -161,7 +161,7 @@ public class ExplosionLarge {
 
     @Deprecated
     public static void explode(Level level, double x, double y, double z, float strength, boolean cloud, boolean rubble, boolean shrapnel, Entity exploder) {
-        level.explode(exploder, x, y, z, strength, Level.ExplosionInteraction.BLOCK);
+        level.explode(exploder, x, y, z, strength, Level.ExplosionInteraction.TNT);
         if (cloud) spawnParticles((ServerLevel) level, x, y, z, cloudFunction((int) strength));
         if (rubble) spawnRubble(level, x, y, z, rubbleFunction((int) strength));
         if (shrapnel) spawnShrapnels(level, x, y, z, shrapnelFunction((int) strength));
@@ -174,7 +174,7 @@ public class ExplosionLarge {
 
     @Deprecated
     public static void explodeFire(Level level, double x, double y, double z, float strength, boolean cloud, boolean rubble, boolean shrapnel) {
-        level.explode(null, x, y, z, strength, Level.ExplosionInteraction.TNT);
+        level.explode(null, x, y, z, strength, true, Level.ExplosionInteraction.TNT);
         if (cloud) spawnParticles((ServerLevel) level, x, y, z, cloudFunction((int) strength));
         if (rubble) spawnRubble(level, x, y, z, rubbleFunction((int) strength));
         if (shrapnel) spawnShrapnels(level, x, y, z, shrapnelFunction((int) strength));

@@ -1,4 +1,4 @@
-package com.hbm.inventory.tiers;
+package com.hbm.inventory;
 
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Items;

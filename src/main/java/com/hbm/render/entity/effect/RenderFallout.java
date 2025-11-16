@@ -2,41 +2,42 @@ package com.hbm.render.entity.effect;
 
 import com.hbm.HBMsNTM;
 import com.hbm.entity.effect.FalloutRain;
+import com.hbm.render.CustomRenderTypes;
+import com.hbm.util.old.TessColorUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.GraphicsStatus;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import java.util.Random;
 
+@OnlyIn(Dist.CLIENT)
 public class RenderFallout extends EntityRenderer<FalloutRain> {
 
-    private static final ResourceLocation FALLOUT_TEXTURE = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/entity/fallout.png");
+    private static final ResourceLocation FALLOUT = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/entity/fallout.png");
 
     private final Random random = new Random();
     private float[] rainXCoords;
     private float[] rainYCoords;
     private long lastTime = System.nanoTime();
 
-    public RenderFallout(EntityRendererProvider.Context ctx) {
-        super(ctx);
-    }
-
-    @Override
-    public ResourceLocation getTextureLocation(FalloutRain entity) {
-        return FALLOUT_TEXTURE;
+    public RenderFallout(EntityRendererProvider.Context context) {
+        super(context);
     }
 
     @Override
@@ -55,15 +56,19 @@ public class RenderFallout extends EntityRenderer<FalloutRain> {
     }
 
     @Override
+    public ResourceLocation getTextureLocation(FalloutRain falloutRain) {
+        return FALLOUT;
+    }
+
+    @Override
     public boolean shouldRender(FalloutRain livingEntity, Frustum camera, double camX, double camY, double camZ) {
         return true;
     }
 
-    public void renderRainSnow(float interp, PoseStack pose, MultiBufferSource buffers, ClientLevel world, LivingEntity camera) {
+    public void renderRainSnow(float interp, PoseStack pose, MultiBufferSource buffers, ClientLevel level, LivingEntity camera) {
 
         int timer = camera.tickCount;
         float intensity = 1.0F;
-        if (intensity <= 0.0F) return;
 
         if (this.rainXCoords == null) {
             this.rainXCoords = new float[1024];
@@ -94,9 +99,8 @@ public class RenderFallout extends EntityRenderer<FalloutRain> {
         pose.pushPose();
         pose.translate(-camX, -camY, -camZ);
 
-        VertexConsumer consumer = buffers.getBuffer(RenderType.entityTranslucent(FALLOUT_TEXTURE));
+        VertexConsumer consumer = buffers.getBuffer(CustomRenderTypes.entitySmoth(FALLOUT));
         int overlay = OverlayTexture.NO_OVERLAY;
-        int maxLight = 15728880;
 
         for (int layerZ = playerZ - renderLayerCount; layerZ <= playerZ + renderLayerCount; ++layerZ) {
             for (int layerX = playerX - renderLayerCount; layerX <= playerX + renderLayerCount; ++layerX) {
@@ -105,7 +109,7 @@ public class RenderFallout extends EntityRenderer<FalloutRain> {
                 float rainCoordX = this.rainXCoords[rainCoord] * 0.5F;
                 float rainCoordY = this.rainYCoords[rainCoord] * 0.5F;
 
-                int rainHeight = world.getHeight(Heightmap.Types.MOTION_BLOCKING, layerX, layerZ);
+                int rainHeight = level.getHeight(Heightmap.Types.MOTION_BLOCKING, layerX, layerZ);
                 int minHeight = playerY - renderLayerCount;
                 int maxHeight = playerY + renderLayerCount;
                 if (minHeight < rainHeight) minHeight = rainHeight;
@@ -123,30 +127,54 @@ public class RenderFallout extends EntityRenderer<FalloutRain> {
                 float intensityMod = Mth.sqrt((float) (distX * distX + distZ * distZ)) / renderLayerCount;
 
                 float alpha = ((1.0F - intensityMod * intensityMod) * 0.3F + 0.5F) * intensity;
+                float colorMod = 1.0F;
 
                 float u0 = 0.0F + fallVariation;
                 float u1 = 1.0F + fallVariation;
                 float vMin = minHeight / 4.0F + swayLoop + swayVariation;
                 float vMax = maxHeight / 4.0F + swayLoop + swayVariation;
 
-                int argb = FastColor.ARGB32.color((int) (alpha * 255), 255, 255, 255);
+                int color = TessColorUtil.getColorRGBA_F(colorMod, colorMod, colorMod, alpha);
 
                 float vx0 = (float) (layerX - rainCoordX + 0.5D);
                 float vz0 = (float) (layerZ - rainCoordY + 0.5D);
                 float vx1 = (float) (layerX + rainCoordX + 0.5D);
                 float vz1 = (float) (layerZ + rainCoordY + 0.5D);
 
+                int light = getLightColor(level, vx0, minHeight, vz0);
+
                 consumer.addVertex(pose.last().pose(), vx0, minHeight, vz0)
-                        .setColor(argb).setUv(u0, vMin).setOverlay(overlay).setLight(maxLight).setNormal(0, 1, 0);
+                        .setColor(color)
+                        .setUv(u0, vMin)
+                        .setOverlay(overlay)
+                        .setLight(light)
+                        .setNormal(0, 1, 0);
                 consumer.addVertex(pose.last().pose(), vx1, minHeight, vz1)
-                        .setColor(argb).setUv(u1, vMin).setOverlay(overlay).setLight(maxLight).setNormal(0, 1, 0);
+                        .setColor(color)
+                        .setUv(u1, vMin)
+                        .setOverlay(overlay)
+                        .setLight(light)
+                        .setNormal(0, 1, 0);
                 consumer.addVertex(pose.last().pose(), vx1, maxHeight, vz1)
-                        .setColor(argb).setUv(u1, vMax).setOverlay(overlay).setLight(maxLight).setNormal(0, 1, 0);
+                        .setColor(color)
+                        .setUv(u1, vMax)
+                        .setOverlay(overlay)
+                        .setLight(light)
+                        .setNormal(0, 1, 0);
                 consumer.addVertex(pose.last().pose(), vx0, maxHeight, vz0)
-                        .setColor(argb).setUv(u0, vMax).setOverlay(overlay).setLight(maxLight).setNormal(0, 1, 0);
+                        .setColor(color)
+                        .setUv(u0, vMax)
+                        .setOverlay(overlay)
+                        .setLight(light)
+                        .setNormal(0, 1, 0);
             }
         }
 
         pose.popPose();
+    }
+
+    protected int getLightColor(Level level, double x, double y, double z) {
+        BlockPos blockpos = BlockPos.containing(x, y, z);
+        return level.hasChunkAt(blockpos) ? LevelRenderer.getLightColor(level, blockpos) : 0;
     }
 }

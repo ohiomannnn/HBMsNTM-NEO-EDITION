@@ -43,6 +43,10 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.BRICK_CONCRETE_BROKEN_STAIRS.get());
         dropSelf(ModBlocks.BRICK_CONCRETE_CRACKED_STAIRS.get());
 
+        dropSelf(ModBlocks.NUKE_FATMAN.get());
+
+        dropSelf(ModBlocks.URANIUM_BLOCK.get());
+
         dropSelf(ModBlocks.ORE_OIL.get());
         dropSelf(ModBlocks.ORE_URANIUM.get());
         dropSelf(ModBlocks.ORE_URANIUM_SCORCHED.get());
@@ -78,14 +82,10 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         dropSelf(ModBlocks.TAINT.get());
 
-        add(ModBlocks.BRICK_CONCRETE_SLAB.get(),
-                block -> createSlabItemTable(ModBlocks.BRICK_CONCRETE_SLAB.get()));
-        add(ModBlocks.BRICK_CONCRETE_MOSSY_SLAB.get(),
-                block -> createSlabItemTable(ModBlocks.BRICK_CONCRETE_SLAB.get()));
-        add(ModBlocks.BRICK_CONCRETE_BROKEN_SLAB.get(),
-                block -> createSlabItemTable(ModBlocks.BRICK_CONCRETE_SLAB.get()));
-        add(ModBlocks.BRICK_CONCRETE_CRACKED_SLAB.get(),
-                block -> createSlabItemTable(ModBlocks.BRICK_CONCRETE_SLAB.get()));
+        add(ModBlocks.BRICK_CONCRETE_SLAB.get(), block -> createSlabItemTable(ModBlocks.BRICK_CONCRETE_SLAB.get()));
+        add(ModBlocks.BRICK_CONCRETE_MOSSY_SLAB.get(), block -> createSlabItemTable(ModBlocks.BRICK_CONCRETE_SLAB.get()));
+        add(ModBlocks.BRICK_CONCRETE_BROKEN_SLAB.get(), block -> createSlabItemTable(ModBlocks.BRICK_CONCRETE_SLAB.get()));
+        add(ModBlocks.BRICK_CONCRETE_CRACKED_SLAB.get(), block -> createSlabItemTable(ModBlocks.BRICK_CONCRETE_SLAB.get()));
 
         dropSelf(ModBlocks.ASH_DIGAMMA.get());
     }

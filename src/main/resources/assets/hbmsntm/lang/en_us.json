@@ -96,8 +96,9 @@
 
   "block.hbmsntm.taint": "Taint",
 
-  "block.hbmsntm.det_nuke": "Nuclear Charge",
   "block.hbmsntm.det_charge": "Explosive Charge",
+  "block.hbmsntm.det_nuke": "Nuclear Charge",
+  "block.hbmsntm.det_miner": "Mining Charge",
   "block.hbmsntm.crashed_bomb_balefire": "Dud",
   "block.hbmsntm.crashed_bomb_conventional": "Dud",
   "block.hbmsntm.crashed_bomb_nuke": "Dud",
@@ -123,6 +124,16 @@
   "item.hbmsntm.multi_detonator": "Multi Detonator",
   "item.hbmsntm.detonator_de": "Dead Man's Explosive",
   "item.hbmsntm.detonator_deadman": "Dead Man's Detonator",
+
+  "item.hbmsntm.bottle_empty": "Empty Bomb-Shaped Bottle",
+  "item.hbmsntm.bottle_opener": "Hbm's Own Self-Made Bottle Opener",
+  "item.hbmsntm.cap_nuka": "Nuka Cola Bottle Cap",
+  "item.hbmsntm.bottle_nuka": "Bottle of Nuka Cola",
+  "item.hbmsntm.bottle_cherry": "Bottle of Nuka Cherry",
+  "item.hbmsntm.cap_quantum": "Nuka Cola Quantum Bottle Cap",
+  "item.hbmsntm.bottle_quantum": "Bottle of Nuka Cola Quantum",
+  "item.hbmsntm.cap_sparkle": "S~Cola Bottle Cap",
+  "item.hbmsntm.bottle_sparkle": "Bottle of S~Cola",
 
   "item.hbmsntm.cell_antimatter": "Antimatter Cell",
   "item.hbmsntm.schrabidium_pickaxe": "Schrabidium Pickaxe",

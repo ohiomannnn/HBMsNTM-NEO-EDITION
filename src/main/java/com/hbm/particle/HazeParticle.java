@@ -67,11 +67,11 @@ public class HazeParticle extends TextureSheetParticle {
 
         float alpha = 0;
 
-        alpha = (float) Math.sin(age * Math.PI / (400F)) * 0.50F;
+        alpha = (float) Math.sin(age * Math.PI / (400F)) * 0.25F;
 
         int color = TessColorUtil.getColorRGBA_F(1.0F, 1.0F, 1.0F, alpha * 0.1F);
         MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
-        VertexConsumer consumer = bufferSource.getBuffer(CustomRenderTypes.entitySmoth(HAZE, false));
+        VertexConsumer consumer = bufferSource.getBuffer(CustomRenderTypes.entitySmoth(HAZE));
 
         Random rand = new Random(50);
 

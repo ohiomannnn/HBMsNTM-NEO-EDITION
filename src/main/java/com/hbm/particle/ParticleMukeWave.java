@@ -41,7 +41,7 @@ public class ParticleMukeWave extends TextureSheetParticle {
         float pZ = (float) (Mth.lerp(partialTicks, this.zo, this.z) - camPos.z);
 
         MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
-        VertexConsumer consumer = bufferSource.getBuffer(CustomRenderTypes.additive(SHOCKWAVE));
+        VertexConsumer consumer = bufferSource.getBuffer(CustomRenderTypes.entityAdditive(SHOCKWAVE));
 
         this.alpha = 1 - ((this.age + partialTicks) / (float)this.lifetime);
         int color = TessColorUtil.getColorRGBA_F(1.0F, 1.0F, 1.0F, alpha);

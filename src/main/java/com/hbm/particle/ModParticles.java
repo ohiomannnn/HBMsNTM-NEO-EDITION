@@ -5,6 +5,7 @@ import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -56,6 +57,8 @@ public class ModParticles {
             "hadron", () -> new SimpleParticleType(false));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> DIGAMMA_SMOKE = REGISTER.register(
             "digamma_smoke", () -> new SimpleParticleType(true));
+
+    public static final ResourceLocation BASE = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/base_particle.png");
 
     public static SpriteSet BASE_PARTICLE_SPRITES;
     public static SpriteSet RBMK_MUSH_SPRITES;

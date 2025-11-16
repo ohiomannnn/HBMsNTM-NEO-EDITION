@@ -130,11 +130,8 @@ public class ExplosionVNT {
 
     public ExplosionVNT makeAmat() {
         this.setBlockAllocator(new BlockAllocatorStandard(this.size < 15 ? 16 : 32));
-        this.setBlockProcessor(new BlockProcessorStandard()
-                .setNoDrop());
-        this.setEntityProcessor(new EntityProcessorStandard()
-                .withRangeMod(2.0F)
-                .withDamageMod(new CustomDamageHandlerAmat(50.0F)));
+        this.setBlockProcessor(new BlockProcessorStandard().setNoDrop());
+        this.setEntityProcessor(new EntityProcessorStandard().withRangeMod(2.0F).withDamageMod(new CustomDamageHandlerRadiation(50.0F)));
         this.setPlayerProcessor(new PlayerProcessorStandard());
         this.setSFX(new ExplosionEffectAmat());
         return this;

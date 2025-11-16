@@ -1,0 +1,25 @@
+{
+  "parent": "hbmsntm:block/nuke_fatman",
+  "display": {
+    "gui": {
+      "rotation": [30, -45, -200],
+      "translation": [0, 0, 0],
+      "scale": [0.25, 0.25, 0.25]
+    },
+    "ground": {
+      "rotation": [0, 90, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.375, 0.375, 0.375]
+    },
+    "thirdperson_righthand": {
+      "rotation": [0, 0, 0],
+      "translation": [8, 4, 0],
+      "scale": [0.25, 0.25, 0.25]
+    },
+    "firstperson_righthand": {
+      "rotation": [0, 0, 0],
+      "translation": [8, 4, 0],
+      "scale": [0.25, 0.25, 0.25]
+    }
+  }
+}

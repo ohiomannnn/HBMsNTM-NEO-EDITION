@@ -32,9 +32,8 @@ public abstract class DetonatableBlock extends FlammableBlock implements IFuckin
         this.detonateOnShot = detonateOnShot;
     }
 
-
     @Override
-    protected void onExplosionHit(BlockState state, Level level, BlockPos pos, Explosion explosion, BiConsumer<ItemStack, BlockPos> dropConsumer) {
+    public void wasExploded(Level level, BlockPos pos, Explosion explosion) {
         if (!level.isClientSide) {
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
             EntityTNTPrimedBase tntPrimed = new EntityTNTPrimedBase(level, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, explosion.getIndirectSourceEntity(), this);

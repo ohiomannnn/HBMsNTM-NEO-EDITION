@@ -47,6 +47,7 @@ public class TaintBlock extends FallingBlock {
     protected MapCodec<? extends FallingBlock> codec() {
         return CODEC;
     }
+
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(TAINT_LEVEL);

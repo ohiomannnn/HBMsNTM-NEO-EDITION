@@ -45,8 +45,7 @@ public class RenderInfoSystem {
     @SubscribeEvent
     public static void onOverlayRender(RenderGuiEvent.Pre event) {
 
-        if (messages.isEmpty())
-            return;
+        if (messages.isEmpty()) return;
 
         Minecraft mc = Minecraft.getInstance();
         if (mc.options.hideGui) return;
@@ -87,7 +86,7 @@ public class RenderInfoSystem {
         buf.addVertex(side, infoHeight, z).setColor(0.25F, 0.25F, 0.25F, 0.5F);
         buf.addVertex(side, pZ - 5, z).setColor(0.25F, 0.25F, 0.25F, 0.5F);
 
-        BufferUploader.drawWithShader(buf.build());
+        BufferUploader.drawWithShader(buf.buildOrThrow());
 
         int off = 0;
         long now = System.currentTimeMillis();
@@ -100,6 +99,7 @@ public class RenderInfoSystem {
             off += 10;
         }
     }
+
     public static void push(InfoEntry entry) {
         push(entry, nextID++);
     }

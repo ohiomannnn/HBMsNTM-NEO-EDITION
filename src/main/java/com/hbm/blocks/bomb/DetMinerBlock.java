@@ -30,9 +30,9 @@ public class DetMinerBlock extends Block implements IBomb, IFuckingExplode {
         if (!level.isClientSide) {
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
 
-            ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 4)
+            ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 4F)
                     .setBlockAllocator(new BlockAllocatorStandard())
-                    .setBlockProcessor(new BlockProcessorStandard());
+                    .setBlockProcessor(new BlockProcessorStandard().setAllDrop());
             vnt.explode();
 
             if (level instanceof ServerLevel serverLevel) {
@@ -44,7 +44,7 @@ public class DetMinerBlock extends Block implements IBomb, IFuckingExplode {
     }
 
     @Override
-    protected void onExplosionHit(BlockState state, Level level, BlockPos pos, Explosion explosion, BiConsumer<ItemStack, BlockPos> dropConsumer) {
+    public void wasExploded(Level level, BlockPos pos, Explosion explosion) {
         if (!level.isClientSide) {
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
             EntityTNTPrimedBase tntPrimed = new EntityTNTPrimedBase(level, pos.getX() + 0.5D, pos.getY()  + 0.5D, pos.getZ()  + 0.5D, explosion.getIndirectSourceEntity(), this);

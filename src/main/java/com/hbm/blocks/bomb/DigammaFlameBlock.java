@@ -58,9 +58,4 @@ public class DigammaFlameBlock extends Block {
             level.removeBlock(pos, false);
         }
     }
-
-    @Override
-    public List<ItemStack> getDrops(BlockState state, net.minecraft.world.level.storage.loot.LootParams.Builder builder) {
-        return Collections.emptyList();
-    }
 }

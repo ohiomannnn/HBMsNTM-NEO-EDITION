@@ -12,8 +12,9 @@ import com.hbm.inventory.gui.LoadingScreenRendererNT;
 import com.hbm.items.ModItems;
 import com.hbm.particle.*;
 import com.hbm.particle.helper.ParticleCreators;
-import com.hbm.render.EmptyRenderer;
 import com.hbm.render.blockentity.RenderCrashedBomb;
+import com.hbm.render.blockentity.RenderNukeFatMan;
+import com.hbm.render.entity.EmptyRenderer;
 import com.hbm.render.entity.effect.RenderFallout;
 import com.hbm.render.entity.effect.RenderTorex;
 import com.hbm.render.entity.item.RenderTNTPrimedBase;
@@ -38,7 +39,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.client.renderer.entity.CreeperRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.particles.ParticleTypes;
@@ -272,6 +272,8 @@ public class HBMsNTMClient {
 
         ItemProperties.register(ModItems.POLAROID.get(), ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "polaroid_id"),
                 (stack, level, entity, seed) -> CommonEvents.polaroidID);
+
+        event.registerBlockEntityRenderer(ModBlockEntities.NUKE_FATMAN.get(), RenderNukeFatMan::new);
 
         event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_BALEFIRE.get(), RenderCrashedBomb::new);
         event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_CONVENTIONAL.get(), RenderCrashedBomb::new);

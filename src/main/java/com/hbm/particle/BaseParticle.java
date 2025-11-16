@@ -1,27 +1,20 @@
 package com.hbm.particle;
 
-import com.hbm.HBMsNTM;
 import com.hbm.render.CustomRenderTypes;
 import com.hbm.util.old.TessColorUtil;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
 public class BaseParticle extends TextureSheetParticle {
-
-    private static final ResourceLocation CLOUDLET = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/base_particle.png");
 
     public BaseParticle(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
@@ -37,14 +30,8 @@ public class BaseParticle extends TextureSheetParticle {
         float pY = (float) (Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y);
         float pZ = (float) (Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z);
 
-        RenderSystem.depthMask(false);
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(GameRenderer::getParticleShader);
-        RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
-
         MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
-        VertexConsumer consumer = bufferSource.getBuffer(CustomRenderTypes.entitySmoth(CLOUDLET, false));
+        VertexConsumer consumer = bufferSource.getBuffer(CustomRenderTypes.entitySmoth(ModParticles.BASE));
 
         this.alpha = 1 - ((this.age + partialTicks) / (float)this.lifetime);
         int color = TessColorUtil.getColorRGBA_F(1.0F, 1.0F, 1.0F, alpha);

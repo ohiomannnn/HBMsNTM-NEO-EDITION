@@ -20,7 +20,10 @@ import java.util.function.BiConsumer;
 public class CrashedBombBlockEntity extends BlockEntity {
 
     public enum EnumDudType {
-        BALEFIRE, CONVENTIONAL, NUKE, SALTED
+        BALEFIRE,
+        CONVENTIONAL,
+        NUKE,
+        SALTED
     }
 
     protected final EnumDudType dudType;

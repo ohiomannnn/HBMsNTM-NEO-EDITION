@@ -3,16 +3,19 @@ package com.hbm.items;
 import com.hbm.HBMsNTM;
 import com.hbm.handler.abilities.IToolAreaAbility;
 import com.hbm.handler.abilities.IWeaponAbility;
-import com.hbm.inventory.tiers.ModTiers;
+import com.hbm.inventory.ModTiers;
+import com.hbm.items.food.ItemEnergy;
 import com.hbm.items.special.DangerousDropItem;
 import com.hbm.items.special.EntitySpawnerItem;
 import com.hbm.items.special.PolaroidItem;
 import com.hbm.items.tools.*;
 import com.hbm.items.tools.ToolAbilityItem.EnumToolType;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -63,6 +66,50 @@ public class ModItems {
     public static final DeferredItem<Item> KEY_FAKE = ITEMS.register(
             "key_fake",
             () -> new KeyItem(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> BOTTLE_OPENER = ITEMS.register(
+            "bottle_opener",
+            () -> new Item(new Item.Properties().stacksTo(1))
+    );
+
+    public static final DeferredItem<Item> CAP_NUKA = ITEMS.register(
+            "cap_nuka",
+            () -> new Item(new Item.Properties())
+    );
+    public static final DeferredItem<Item> CAP_QUANTUM = ITEMS.register(
+            "cap_quantum",
+            () -> new Item(new Item.Properties())
+    );
+    public static final DeferredItem<Item> CAP_SPARKLE = ITEMS.register(
+            "cap_sparkle",
+            () -> new Item(new Item.Properties())
+    );
+
+    public static final DeferredItem<Item> BOTTLE_EMPTY = ITEMS.register(
+            "bottle_empty",
+            () -> new Item(new Item.Properties())
+    );
+
+    public static final DeferredItem<Item> BOTTLE_NUKA = ITEMS.register(
+            "bottle_nuka",
+            () -> new ItemEnergy(new Item.Properties()).makeBottle(BOTTLE_EMPTY.get(), CAP_NUKA.get())
+    );
+    public static final DeferredItem<Item> BOTTLE_CHERRY = ITEMS.register(
+            "bottle_cherry",
+            () -> new ItemEnergy(new Item.Properties()).makeBottle(BOTTLE_EMPTY.get(), CAP_NUKA.get())
+    );
+    public static final DeferredItem<Item> BOTTLE_QUANTUM = ITEMS.register(
+            "bottle_quantum",
+            () -> new ItemEnergy(new Item.Properties()).makeBottle(BOTTLE_EMPTY.get(), CAP_QUANTUM.get())
+    );
+    public static final DeferredItem<Item> BOTTLE_SPARKLE = ITEMS.register(
+            "bottle_sparkle",
+            () -> new ItemEnergy(new Item.Properties()).makeBottle(BOTTLE_EMPTY.get(), CAP_SPARKLE.get())
+    );
+    public static final DeferredItem<Item> CHOCOLATE_MILK = ITEMS.register(
+            "chocolate_milk",
+            () -> new ItemEnergy(new Item.Properties())
+    );
 
     public static final DeferredItem<Item> ALLOY_SWORD = ITEMS.register(
             "alloy_sword",

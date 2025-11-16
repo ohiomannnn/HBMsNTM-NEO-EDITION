@@ -8,11 +8,11 @@ import com.hbm.util.ContaminationUtil.HazardType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 
-public class CustomDamageHandlerAmat implements ICustomDamageHandler {
+public class CustomDamageHandlerRadiation implements ICustomDamageHandler {
 
     protected float radiation;
 
-    public CustomDamageHandlerAmat(float radiation) {
+    public CustomDamageHandlerRadiation(float radiation) {
         this.radiation = radiation;
     }
 

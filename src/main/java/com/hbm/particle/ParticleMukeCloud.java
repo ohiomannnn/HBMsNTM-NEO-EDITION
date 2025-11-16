@@ -71,7 +71,7 @@ public class ParticleMukeCloud extends TextureSheetParticle {
 
     @Override
     public ParticleRenderType getRenderType() {
-        return CustomRenderType.MUKE_CLOUD;
+        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 
     @Override

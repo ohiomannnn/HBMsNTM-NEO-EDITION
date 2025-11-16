@@ -87,7 +87,7 @@ public class ParticleMukeFlash extends TextureSheetParticle {
         float dZ = (float) (Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z);
 
         MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
-        VertexConsumer consumer = bufferSource.getBuffer(CustomRenderTypes.additive(FLARE));
+        VertexConsumer consumer = bufferSource.getBuffer(CustomRenderTypes.entityAdditive(FLARE));
 
         this.alpha = 1 - ((this.age + partialTicks) / (float)this.lifetime);
         int color = TessColorUtil.getColorRGBA_F(1.0F, 0.9F, 0.75F, alpha * 0.5F);

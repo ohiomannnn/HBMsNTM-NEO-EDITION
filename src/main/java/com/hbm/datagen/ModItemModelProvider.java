@@ -35,6 +35,18 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         basicItem(ModItems.CELL_ANTIMATTER.get());
 
+        basicItem(ModItems.BOTTLE_OPENER.get());
+
+        basicItem(ModItems.CAP_NUKA.get());
+        basicItem(ModItems.CAP_QUANTUM.get());
+        basicItem(ModItems.CAP_SPARKLE.get());
+
+        basicItem(ModItems.BOTTLE_EMPTY.get());
+        basicItem(ModItems.BOTTLE_NUKA.get());
+        basicItem(ModItems.BOTTLE_CHERRY.get());
+        basicItem(ModItems.BOTTLE_QUANTUM.get());
+        basicItem(ModItems.BOTTLE_SPARKLE.get());
+
         basicItem(ModItems.KEY.get());
         basicItem(ModItems.KEY_RED.get());
         basicItem(ModItems.KEY_KIT.get());

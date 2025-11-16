@@ -3,6 +3,7 @@ package com.hbm.blockentity;
 import com.hbm.HBMsNTM;
 import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blockentity.bomb.LandMineBlockEntity;
+import com.hbm.blockentity.bomb.NukeFatManBlockEntity;
 import com.hbm.blockentity.machine.storage.CrateIronBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -21,6 +22,13 @@ public class ModBlockEntities {
             () -> BlockEntityType.Builder.of(
                             CrateIronBlockEntity::new,
                             ModBlocks.IRON_CRATE.get())
+                    .build(null));
+
+    public static final Supplier<BlockEntityType<NukeFatManBlockEntity>> NUKE_FATMAN = REGISTER.register(
+            "nuke_fatman",
+            () -> BlockEntityType.Builder.of(
+                            NukeFatManBlockEntity::new,
+                            ModBlocks.NUKE_FATMAN.get())
                     .build(null));
 
     public static final Supplier<BlockEntityType<LandMineBlockEntity>> LANDMINE = REGISTER.register(
