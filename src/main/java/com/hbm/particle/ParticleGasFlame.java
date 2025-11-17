@@ -14,8 +14,8 @@ public class ParticleGasFlame extends SmokeParticle {
 
     private final float colorMod;
 
-    public ParticleGasFlame(ClientLevel level, double x, double y, double z, double vx, double vy, double vz, float scale, SpriteSet sprites) {
-        super(level, x, y, z, vx, vy * 1.5, vz, scale, sprites);
+    public ParticleGasFlame(ClientLevel level, double x, double y, double z, double vx, double vy, double vz, float scale) {
+        super(level, x, y, z, vx, vy * 1.5, vz, scale, ModParticles.GAS_FLAME_PARTICLES);
         this.colorMod = 0.8F + RandomSource.create().nextFloat() * 0.2F;
         this.hasPhysics = false;
         this.lifetime = 30 + RandomSource.create().nextInt(13);
@@ -46,20 +46,17 @@ public class ParticleGasFlame extends SmokeParticle {
 
     @Override
     public int getLightColor(float partialTick) {
-        return 15728880;
+        return 240;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
-
-        private final SpriteSet sprites;
-
         public Provider(SpriteSet sprites) {
-            this.sprites = sprites;
+            ModParticles.GAS_FLAME_PARTICLES = sprites;
         }
 
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double vx, double vy, double vz) {
-            return new ParticleGasFlame(level, x, y, z, vx, vy, vz, 1.0F, sprites);
+            return new ParticleGasFlame(level, x, y, z, vx, vy, vz, 1.0F);
         }
     }
 }

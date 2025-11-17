@@ -15,7 +15,7 @@ public class PlayerProcessorStandard implements IPlayerProcessor {
     public void processPlayers(ExplosionVNT explosion, Level level, double x, double y, double z, HashMap<Player, Vec3> affectedPlayers) {
         for (Entry<Player, Vec3> entry : affectedPlayers.entrySet()) {
             if (entry.getKey() instanceof Player player) {
-                player.setDeltaMovement(entry.getValue());
+                player.setDeltaMovement(player.getDeltaMovement().add(entry.getValue()));
                 player.hurtMarked = true;
             }
         }

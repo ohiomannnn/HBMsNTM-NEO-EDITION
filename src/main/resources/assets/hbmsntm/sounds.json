@@ -88,6 +88,13 @@
   "crate_open": {
     "sounds": ["hbmsntm:block/crate_open"]
   },
+  "block.debris": {
+    "sounds": [
+      "hbmsntm:block/debris1",
+      "hbmsntm:block/debris2",
+      "hbmsntm:block/debris3"
+    ]
+  },
   "player.cough": {
     "sounds": [
       "hbmsntm:player/cough1",

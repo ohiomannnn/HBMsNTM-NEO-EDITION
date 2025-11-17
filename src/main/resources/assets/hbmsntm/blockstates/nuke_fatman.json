@@ -1,19 +1,7 @@
 {
   "variants": {
-    "facing=east": {
-      "model": "hbmsntm:block/nuke_fatman",
-      "y": 90
-    },
-    "facing=north": {
+    "": {
       "model": "hbmsntm:block/nuke_fatman"
-    },
-    "facing=south": {
-      "model": "hbmsntm:block/nuke_fatman",
-      "y": 180
-    },
-    "facing=west": {
-      "model": "hbmsntm:block/nuke_fatman",
-      "y": 270
     }
   }
 }

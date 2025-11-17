@@ -10,6 +10,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -48,19 +50,18 @@ public class EntityProcessorStandard implements IEntityProcessor {
         double minZ = z - (double) size - 1.0D;
         double maxZ = z + (double) size + 1.0D;
 
-        List<Entity> list = level.getEntities(allowSelfDamage ? null : explosion.exploder, new AABB(minX, minY, minZ, maxX, maxY, maxZ));
-        EventHooks.onExplosionDetonate(level, explosion.compat, list, size);
+        List<Entity> entities = level.getEntities(allowSelfDamage ? null : explosion.exploder, new AABB(minX, minY, minZ, maxX, maxY, maxZ));
+        EventHooks.onExplosionDetonate(level, explosion.compat, entities, size);
         Vec3 vec3 = new Vec3(x, y, z);
 
-        for (int index = 0; index < list.size(); ++index) {
+        for (Entity entity : entities) {
 
-            Entity entity = list.get(index);
             double distanceScaled = entity.distanceToSqr(x, y, z) / size;
 
             if (distanceScaled <= 1.0D) {
 
                 double deltaX = entity.getX() - x;
-                double deltaY = entity.getY() + entity.getEyeHeight() - y;
+                double deltaY = entity.getEyeY() - y;
                 double deltaZ = entity.getZ() - z;
                 double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
 
@@ -71,15 +72,25 @@ public class EntityProcessorStandard implements IEntityProcessor {
                     deltaZ /= distance;
 
                     double density = Explosion.getSeenPercent(vec3, entity);
-                    double knockback = (1.0D - distanceScaled) * density;
+                    double knockback;
+
+                    if (entity instanceof LivingEntity livingEntity) {
+                        knockback = density * (1D - livingEntity.getAttributeValue(Attributes.EXPLOSION_KNOCKBACK_RESISTANCE));
+                    } else {
+                        knockback = density;
+                    }
 
                     entity.hurt(setExplosionSource(level, explosion.compat), calculateDamage(distanceScaled, density, knockback, size));
 
-                    // TODO: add proper knockback handling
+                    deltaX *= knockback;
+                    deltaY *= knockback;
+                    deltaZ *= knockback;
+
+                    Vec3 velocity = new Vec3(deltaX, deltaY, deltaZ);
 
                     if (entity instanceof Player player) {
                         if (!player.isSpectator() && (!player.isCreative() || !player.getAbilities().flying)) {
-                            affectedPlayers.put(player, new Vec3(deltaX * knockback, deltaY * knockback, deltaZ * knockback));
+                            affectedPlayers.put(player, velocity);
                         }
                     }
 

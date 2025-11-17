@@ -8,6 +8,7 @@ import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
@@ -59,7 +60,9 @@ public class ItemEnergy extends PotionItem {
 
         if (!level.isClientSide) {
             if (this == ModItems.CHOCOLATE_MILK.get()) {
-                ExplosionLarge.explode(level, drinker.getX(), drinker.getY(), drinker.getZ(), 50, true, false, false);
+                if (level instanceof ServerLevel serverLevel) {
+                    ExplosionLarge.explode(serverLevel, drinker.getX(), drinker.getY(), drinker.getZ(), 50, true, false, false, drinker);
+                }
             }
             if (this == ModItems.BOTTLE_NUKA.get()) {
                 drinker.heal(4F);

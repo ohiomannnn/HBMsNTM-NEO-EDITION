@@ -69,14 +69,14 @@ public class ModEntities {
                             .updateInterval(10)
                             .build("tnt_primed_base"));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityShrapnel>> SHRAPNEL =
-            REGISTER.register("shrapnel",
-                    () -> EntityType.Builder.of(EntityShrapnel::new, MobCategory.MISC)
-                            .build("shrapnel"));
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityRubble>> RUBBLE =
-            REGISTER.register("rubble",
-                    () -> EntityType.Builder.of(EntityRubble::new, MobCategory.MISC)
-                            .build("rubble"));
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityShrapnel>> SHRAPNEL = REGISTER.register(
+            "shrapnel",
+            () -> EntityType.Builder.of(EntityShrapnel::new, MobCategory.MISC)
+                    .build("shrapnel"));
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityRubble>> RUBBLE = REGISTER.register(
+            "rubble",
+            () -> EntityType.Builder.of(EntityRubble::new, MobCategory.MISC)
+                    .build("rubble"));
 
     public static void register(IEventBus eventBus) {
         REGISTER.register(eventBus);

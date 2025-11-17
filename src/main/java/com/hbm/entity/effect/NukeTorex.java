@@ -583,7 +583,7 @@ public class NukeTorex extends Entity {
         statFac(level, x, y, z, scale, 1);
     }
 
-    public static void statFac(Level level, double x, double y, double z, float scale, int type) {
+    private static void statFac(Level level, double x, double y, double z, float scale, int type) {
         NukeTorex torex = new NukeTorex(ModEntities.NUKE_TOREX.get(), level).setScale(Mth.clamp((float) BobMathUtil.squirt(scale * 0.01) * 1.5F, 0.5F, 5F));
         if (type == 1 || type == 0) torex.setType(type);
         torex.moveTo(x, y, z);;

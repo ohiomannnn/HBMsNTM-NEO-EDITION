@@ -93,7 +93,7 @@ public class BlockProcessorStandard implements IBlockProcessor {
                 }
 
 
-                state.onExplosionHit(level, pos, explosion.compat, (itemStack, blockPos) -> addOrAppendStack(new ArrayList<>(), itemStack, blockPos));
+                state.onBlockExploded(level, pos, explosion.compat);
 
                 if (this.convert != null) {
                     this.convert.mutatePre(explosion, state, pos);

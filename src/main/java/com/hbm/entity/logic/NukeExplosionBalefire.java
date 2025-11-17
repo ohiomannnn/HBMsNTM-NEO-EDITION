@@ -51,8 +51,8 @@ public class NukeExplosionBalefire extends ChunkloadingEntity {
     public void tick() {
         super.tick();
 
-        if(!this.did) {
-            if(MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get() && !level().isClientSide)
+        if (!this.did) {
+            if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get() && !level().isClientSide)
                 HBMsNTM.LOGGER.info("[NUKE] Initialized BF explosion at {} / {} / {} with strength {}!", getX(), getY(), getZ(), destructionRange);
 
             exp = new ExplosionBalefire((int) this.getX(), (int) this.getY(), (int) this.getZ(), this.level(), this.destructionRange);

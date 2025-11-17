@@ -11,14 +11,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-
-import java.util.function.BiConsumer;
 
 public class DetMinerBlock extends Block implements IBomb, IFuckingExplode {
     public DetMinerBlock(Properties properties) {
@@ -40,6 +37,7 @@ public class DetMinerBlock extends Block implements IBomb, IFuckingExplode {
                 level.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 4.0F, (1.0F + (level.random.nextFloat() - level.random.nextFloat()) * 0.2F) * 0.7F);
             }
         }
+
         return BombReturnCode.DETONATED;
     }
 

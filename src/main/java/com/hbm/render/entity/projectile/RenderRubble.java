@@ -1,6 +1,7 @@
 package com.hbm.render.entity.projectile;
 
 import com.hbm.entity.projectile.EntityRubble;
+import com.hbm.render.util.AtlasSpriteVertexConsumer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -12,10 +13,9 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.client.model.data.ModelData;
+import net.minecraft.world.level.block.Block;
 
 public class RenderRubble extends EntityRenderer<EntityRubble> {
 
@@ -30,8 +30,6 @@ public class RenderRubble extends EntityRenderer<EntityRubble> {
     public void render(EntityRubble entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         poseStack.pushPose();
 
-        poseStack.translate(0.0D, 0.0D, 0.0D);
-
         poseStack.scale(1.0F, 1.0F, 1.0F);
 
         poseStack.mulPose(Axis.XP.rotationDegrees(180));
@@ -39,21 +37,26 @@ public class RenderRubble extends EntityRenderer<EntityRubble> {
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
         poseStack.mulPose(Axis.ZP.rotationDegrees(rot));
 
-        BlockState state = entity.getBlockState();
-        TextureAtlasSprite atlas = Minecraft.getInstance()
-                .getBlockRenderer()
-                .getBlockModelShaper()
-                .getTexture(state, entity.level(), entity.blockPosition());
+        Block block = entity.getBlock();
 
-        VertexConsumer vc = buffer.getBuffer(RenderType.entityCutout(atlas.atlasLocation()));
+        ResourceLocation blockId = BuiltInRegistries.BLOCK.getKey(block);
+        ResourceLocation tex = ResourceLocation.fromNamespaceAndPath(blockId.getNamespace(), "block/" + blockId.getPath());
+
+        TextureAtlasSprite sprite = Minecraft.getInstance()
+                .getModelManager()
+                .getAtlas(TextureAtlas.LOCATION_BLOCKS)
+                .getSprite(tex);
+
+        VertexConsumer base = buffer.getBuffer(RenderType.entityCutout(TextureAtlas.LOCATION_BLOCKS));
+
+        VertexConsumer vc = (sprite == null) ? base : new AtlasSpriteVertexConsumer(base, sprite);
         model.renderToBuffer(poseStack, vc, packedLight, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF);
 
         poseStack.popPose();
-        super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
     }
 
     @Override
     public ResourceLocation getTextureLocation(EntityRubble entityShrapnel) {
-        return TextureAtlas.LOCATION_BLOCKS;
+        return null;
     }
 }

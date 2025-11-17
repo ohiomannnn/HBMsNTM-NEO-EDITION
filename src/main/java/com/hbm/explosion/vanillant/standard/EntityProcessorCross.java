@@ -12,6 +12,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -80,9 +81,7 @@ public class EntityProcessorCross implements IEntityProcessor {
 
         HashMap<Entity, Float> damageMap = new HashMap<>();
 
-        for (int index = 0; index < list.size(); ++index) {
-
-            Entity entity = list.get(index);
+        for (Entity entity : list) {
 
             AABB entityBoundingBox = entity.getBoundingBox();
             double xDist = (entityBoundingBox.minX <= x && entityBoundingBox.maxX >= x) ? 0 : Math.min(Math.abs(entityBoundingBox.minX - x), Math.abs(entityBoundingBox.maxX - x));
@@ -112,16 +111,26 @@ public class EntityProcessorCross implements IEntityProcessor {
                         }
                     }
 
-                    double knockback = (1.0D - distanceScaled) * density;
+                    double knockback = density * (1.0D - distanceScaled);
 
                     float dmg = calculateDamage(distanceScaled, density, knockback, size);
                     if (!damageMap.containsKey(entity) || damageMap.get(entity) < dmg) damageMap.put(entity, dmg);
 
-                    // TODO: add proper knockback handling
+                    if (entity instanceof LivingEntity livingEntity) {
+                        knockback = density * (1D - livingEntity.getAttributeValue(Attributes.EXPLOSION_KNOCKBACK_RESISTANCE));
+                    } else {
+                        knockback = density;
+                    }
+
+                    deltaX *= knockback * knockbackMult;
+                    deltaY *= knockback * knockbackMult;
+                    deltaZ *= knockback * knockbackMult;
+
+                    Vec3 velocity = new Vec3(deltaX, deltaY, deltaZ);
 
                     if (entity instanceof Player player) {
                         if (!player.isSpectator() && (!player.isCreative() || !player.getAbilities().flying)) {
-                            affectedPlayers.put(player, new Vec3(deltaX * knockback * knockbackMult, deltaY * knockback * knockbackMult, deltaZ * knockback * knockbackMult));
+                            affectedPlayers.put(player, velocity);
                         }
                     }
                 }

@@ -25,6 +25,8 @@ public class ModSounds {
 
     public static final DeferredHolder<SoundEvent, SoundEvent> FSTBMB_START = registerSoundEvent("weapon.fstbmb_start");
 
+    public static final DeferredHolder<SoundEvent, SoundEvent> DEBRIS = registerSoundEvent("block.debris");
+
     public static final DeferredHolder<SoundEvent, SoundEvent> GRENADE_BOUNCE = registerSoundEvent("grenade_bounce");
 
     public static final DeferredHolder<SoundEvent, SoundEvent> DUCK = registerSoundEvent("duck");

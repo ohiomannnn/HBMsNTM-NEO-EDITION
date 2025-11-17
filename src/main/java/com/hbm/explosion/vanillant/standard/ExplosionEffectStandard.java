@@ -27,18 +27,15 @@ public class ExplosionEffectStandard implements IExplosionSFX {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static void performClient(ClientLevel level, double x, double y, double z, float size, List affectedBlocks) {
+    public static void performClient(ClientLevel level, double x, double y, double z, float size, List<BlockPos> affectedBlocks) {
         if (size >= 2.0F) {
             level.addParticle(ParticleTypes.EXPLOSION_EMITTER, x, y, z, 1.0D, 0.0D, 0.0D);
         } else {
             level.addParticle(ParticleTypes.EXPLOSION, x, y, z, 1.0D, 0.0D, 0.0D);
         }
 
-        int count = affectedBlocks.size();
+        for (BlockPos pos : affectedBlocks) {
 
-        for (int i = 0; i < count; i++) {
-
-            BlockPos pos = (BlockPos) affectedBlocks.get(i);
             int pX = pos.getX();
             int pY = pos.getY();
             int pZ = pos.getZ();
@@ -49,7 +46,7 @@ public class ExplosionEffectStandard implements IExplosionSFX {
             double dX = oX - x;
             double dY = oY - y;
             double dZ = oZ - z;
-            double delta = Math.sqrt(dX * dX + dY * dY + dZ * dZ);
+            double delta = Math.sqrt(dX * dX + dY * dY + dZ * dZ) / 1D /*hehe*/;
             dX /= delta;
             dY /= delta;
             dZ /= delta;

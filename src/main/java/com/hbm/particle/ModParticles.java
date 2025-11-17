@@ -72,6 +72,7 @@ public class ModParticles {
     public static SpriteSet RAD_FOG_SPRITES;
     public static SpriteSet MUKE_CLOUD_SPRITES;
     public static SpriteSet MUKE_CLOUD_BF_SPRITES;
+    public static SpriteSet GAS_FLAME_PARTICLES;
 
     public static void register(IEventBus eventBus) {
         REGISTER.register(eventBus);

@@ -1,27 +1,24 @@
 package com.hbm.entity.projectile;
 
-import com.hbm.network.toclient.ParticleBurstPacket;
-import net.minecraft.core.BlockPos;
+import com.hbm.HBMsNTM;
+import com.hbm.lib.ModDamageSource;
+import com.hbm.lib.ModSounds;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraft.core.registries.BuiltInRegistries;
-
-import static com.hbm.lib.ModDamageSource.RUBBLE;
 
 public class EntityRubble extends ThrowableProjectile {
 
@@ -32,53 +29,37 @@ public class EntityRubble extends ThrowableProjectile {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        builder.define(BLOCK_ID, "minecraft:stone");
-    }
-
-    @Override
     protected void onHit(HitResult result) {
         super.onHit(result);
+        HBMsNTM.LOGGER.info("{}", BuiltInRegistries.BLOCK.get(ResourceLocation.parse(entityData.get(BLOCK_ID))));
+        HBMsNTM.LOGGER.info("{}", BuiltInRegistries.BLOCK.getKey(Blocks.STONE));
 
-        if (result instanceof EntityHitResult ehr) {
-            DamageSource src = new DamageSource( ehr.getEntity().level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(RUBBLE));
-            ehr.getEntity().hurt(src, 15);
+        if (result instanceof EntityHitResult entityHitResult) {
+            entityHitResult.getEntity().hurt(new DamageSource(entityHitResult.getEntity().level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageSource.RUBBLE)), 15);
         }
 
         if (this.tickCount > 2) {
             this.discard();
 
-            level().playSound(null, getX(), getY(), getZ(), SoundEvents.STONE_BREAK, SoundSource.BLOCKS, 1.5F, 1.0F);
-
-            BlockPos pos = new BlockPos((int) getX(), (int) getY(), (int) getZ());
-
-            if (!level().isClientSide && level() instanceof ServerLevel) {
-                //ResourceLocation blockId = ResourceLocation.withDefaultNamespace(entityData.get(BLOCK_ID));
-
-                //new ParticleBurstPacket(pos, blockId);
-            }
+            this.level().playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.DEBRIS, SoundSource.BLOCKS, 1.5F, 1.0F);
         }
     }
 
-    public BlockState getBlockState() {
-        ResourceLocation id = ResourceLocation.tryParse(entityData.get(BLOCK_ID));
-        Block block = BuiltInRegistries.BLOCK.get(id);
-        return block.defaultBlockState();
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        builder.define(BLOCK_ID, "minecraft:stone");
     }
 
-
-    public void setMetaBasedOnBlock(Block block) {
-        ResourceLocation id = BuiltInRegistries.BLOCK.getKey(block);
-        entityData.set(BLOCK_ID, id.toString());
-    }
+    public Block getBlock() { return BuiltInRegistries.BLOCK.get(ResourceLocation.parse(entityData.get(BLOCK_ID))); }
+    public void setBlock(Block block) { entityData.set(BLOCK_ID, BuiltInRegistries.BLOCK.getKey(block).toString()); }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
-        tag.putString("block", entityData.get(BLOCK_ID));
+        tag.putString("Block", entityData.get(BLOCK_ID));
     }
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
-        entityData.set(BLOCK_ID, tag.getString("block"));
+        entityData.set(BLOCK_ID, tag.getString("Block"));
     }
 }

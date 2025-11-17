@@ -43,7 +43,7 @@ public class NukeManBlock extends BaseEntityBlock implements IBomb {
         builder.add(FACING);
     }
 
-    public static final MapCodec<LandmineBlock> CODEC = simpleCodec(LandmineBlock::new);
+    public static final MapCodec<NukeManBlock> CODEC = simpleCodec(NukeManBlock::new);
 
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {

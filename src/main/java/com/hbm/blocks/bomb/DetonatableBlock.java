@@ -4,15 +4,12 @@ import api.hbm.block.IFuckingExplode;
 import com.hbm.blocks.generic.FlammableBlock;
 import com.hbm.entity.item.EntityTNTPrimedBase;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-
-import java.util.function.BiConsumer;
 
 public abstract class DetonatableBlock extends FlammableBlock implements IFuckingExplode {
 

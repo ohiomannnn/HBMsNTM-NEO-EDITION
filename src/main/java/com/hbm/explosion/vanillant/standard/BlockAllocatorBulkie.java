@@ -64,17 +64,12 @@ public class BlockAllocatorBulkie implements IBlockAllocator {
                             BlockState state = level.getBlockState(pos);
 
                             if (!state.isAir()) {
-                                float blockResistance = explosion.exploder != null
-                                        ? explosion.exploder.getBlockExplosionResistance(explosion.compat, level, pos, state, state.getFluidState(), explosion.size)
-                                        : state.getExplosionResistance(level, pos, explosion.compat);
-                                if (this.maximum < blockResistance) {
+                                if (this.maximum < state.getExplosionResistance(level, pos, explosion.compat)) {
                                     break;
                                 }
                             }
 
-                            if (explosion.exploder == null || explosion.exploder.shouldBlockExplode(explosion.compat, level, pos, state, explosion.size)) {
-                                affectedBlocks.add(pos);
-                            }
+                            affectedBlocks.add(pos);
 
                             currentX += d0 * (double) stepSize;
                             currentY += d1 * (double) stepSize;

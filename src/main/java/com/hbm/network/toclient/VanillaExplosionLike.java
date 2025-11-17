@@ -11,7 +11,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public record VanillaExplosionLike(double x, double y, double z, float size, List<BlockPos> affectedBlocks) implements CustomPacketPayload {
@@ -53,10 +52,8 @@ public record VanillaExplosionLike(double x, double y, double z, float size, Lis
                     int i = (int) packet.x;
                     int j = (int) packet.y;
                     int k = (int) packet.z;
-                    Iterator iterator = packet.affectedBlocks.iterator();
 
-                    while (iterator.hasNext()) {
-                        BlockPos blockPos = (BlockPos) iterator.next();
+                    for (BlockPos blockPos : packet.affectedBlocks) {
                         int l = blockPos.getX() - i;
                         int i1 = blockPos.getY() - j;
                         int j1 = blockPos.getZ() - k;
@@ -68,7 +65,7 @@ public record VanillaExplosionLike(double x, double y, double z, float size, Lis
             };
 
     public static void handleClient(VanillaExplosionLike packet, IPayloadContext context) {
-        context.enqueueWork(() -> ExplosionEffectStandard.performClient( Minecraft.getInstance().level, packet.x,  packet.y, packet.z, packet.size, packet.affectedBlocks));
+        context.enqueueWork(() -> ExplosionEffectStandard.performClient(Minecraft.getInstance().level, packet.x,  packet.y, packet.z, packet.size, packet.affectedBlocks));
     }
 
     @Override

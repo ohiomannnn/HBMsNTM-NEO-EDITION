@@ -26,7 +26,7 @@ public class S_Face {
             this.faceNormal = calculateFaceNormal();
         }
 
-        if(!this.smoothing) {
+        if (!this.smoothing) {
             consumer.setNormal(this.faceNormal.x, this.faceNormal.y, this.faceNormal.z);
         }
 
@@ -35,29 +35,29 @@ public class S_Face {
 
         if ((this.textureCoordinates != null) && (this.textureCoordinates.length > 0)) {
 
-            for (int i = 0; i < this.textureCoordinates.length; i++) {
-                averageU += this.textureCoordinates[i].u;
-                averageV += this.textureCoordinates[i].v;
+            for (TextureCoordinate textureCoordinate : this.textureCoordinates) {
+                averageU += textureCoordinate.u;
+                averageV += textureCoordinate.v;
             }
 
             averageU /= this.textureCoordinates.length;
             averageV /= this.textureCoordinates.length;
         }
 
-        for(int i = 0; i < this.vertices.length; i++) {
+        for (int i = 0; i < this.vertices.length; i++) {
 
-            if((this.textureCoordinates != null) && (this.textureCoordinates.length > 0)) {
+            if ((this.textureCoordinates != null) && (this.textureCoordinates.length > 0)) {
 
                 float offsetU = textureOffset;
                 float offsetV = textureOffset;
 
-                if(this.textureCoordinates[i].u > averageU) {
+                if (this.textureCoordinates[i].u > averageU) {
                     offsetU = -offsetU;
                 }
-                if(this.textureCoordinates[i].v > averageV) {
+                if (this.textureCoordinates[i].v > averageV) {
                     offsetV = -offsetV;
                 }
-                if(this.smoothing && (this.vertexNormals != null) && (i < this.vertexNormals.length)) {
+                if (this.smoothing && (this.vertexNormals != null) && (i < this.vertexNormals.length)) {
                     consumer.setNormal(this.vertexNormals[i].x, this.vertexNormals[i].y, this.vertexNormals[i].z);
                 }
 

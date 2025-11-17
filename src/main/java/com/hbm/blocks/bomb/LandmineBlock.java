@@ -140,20 +140,22 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
 //            ExplosionLarge.spawnShrapnelShower(level, x + 0.5, y + 0.5, z + 0.5, 0, 1D, 0, 45, 0.2D);
 //            ExplosionLarge.spawnShrapnels(level, x + 0.5, y + 0.5, z + 0.5, 5);
 
-            ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 5, pos.getY() + 5, pos.getZ() + 5, 25F);
-            vnt.setBlockAllocator(new BlockAllocatorWater(32));
-            vnt.setBlockProcessor(new BlockProcessorStandard());
-            vnt.setEntityProcessor(new EntityProcessorCrossSmooth(0.5, 75F).setupPiercing(5F, 0.2F));
-            vnt.setPlayerProcessor(new PlayerProcessorStandard());
-            vnt.setSFX(new ExplosionEffectWeapon(10, 1F, 0.5F));
+            ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 5, pos.getY() + 5, pos.getZ() + 5, 25F)
+                    .setBlockAllocator(new BlockAllocatorWater(32))
+                    .setBlockProcessor(new BlockProcessorStandard())
+                    .setEntityProcessor(new EntityProcessorCrossSmooth(0.5, 75F).setupPiercing(5F, 0.2F))
+                    .setPlayerProcessor(new PlayerProcessorStandard())
+                    .setSFX(new ExplosionEffectWeapon(10, 1F, 0.5F));
             vnt.explode();
 
-            ExplosionLarge.spawnParticlesRadial((ServerLevel) level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 30);
-            ExplosionLarge.spawnRubble(level ,pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 5);
+            if (level instanceof ServerLevel serverLevel) {
+                ExplosionLarge.spawnParticlesRadial(serverLevel, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 30);
+                ExplosionLarge.spawnRubble(serverLevel, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 5);
 
-            // Only spawn water effects if there's water above the mine
-            if (isWaterAbove(level, pos)) {
-                ExplosionLarge.spawnFoam((ServerLevel) level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 60);
+                // Only spawn water effects if there's water above the mine
+                if (isWaterAbove(level, pos)) {
+                    ExplosionLarge.spawnFoam(serverLevel, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 60);
+                }
             }
         }
 

@@ -10,7 +10,7 @@ import java.util.HashSet;
 
 public class BlockAllocatorStandard implements IBlockAllocator {
 
-    private final int resolution;
+    protected int resolution;
 
     public BlockAllocatorStandard() {
         this(16);

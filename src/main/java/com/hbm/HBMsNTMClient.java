@@ -548,6 +548,15 @@ public class HBMsNTMClient {
                 }
             }
 
+            if ("radFog".equals(type)) {
+                double mX = data.getDouble("mX");
+                double mY = data.getDouble("mY");
+                double mZ = data.getDouble("mZ");
+                float scale = data.getFloat("scale");
+                ParticleGasFlame fx = new ParticleGasFlame(level, x, y, z, mX, mY, mZ, scale > 0 ? scale : 6.5F);
+                innerMc.particleEngine.add(fx);
+            }
+
             if ("deadleaf".equals(type)) {
                 if (particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean())) {
                     innerMc.particleEngine.add(new ParticleDeadLeaf(level, x, y, z));
@@ -555,7 +564,7 @@ public class HBMsNTMClient {
             }
 
             if ("amat".equals(type)) {
-                Minecraft.getInstance().particleEngine.add(new ParticleAmatFlash(level, x, y, z, data.getFloat("scale")));
+                innerMc.particleEngine.add(new ParticleAmatFlash(level, x, y, z, data.getFloat("scale")));
             }
 
             if ("radiation".equals(type)) {
