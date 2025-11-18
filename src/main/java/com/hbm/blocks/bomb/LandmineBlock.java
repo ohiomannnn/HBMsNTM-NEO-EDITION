@@ -1,15 +1,23 @@
 package com.hbm.blocks.bomb;
 
+import com.hbm.CommonEvents;
 import com.hbm.blockentity.ModBlockEntities;
 import com.hbm.blockentity.bomb.LandMineBlockEntity;
+import com.hbm.blocks.ModBlocks;
+import com.hbm.config.MainConfig;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.*;
 import com.hbm.interfaces.IBomb;
+import com.hbm.lib.ModSounds;
+import com.hbm.network.toclient.AuxParticle;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
@@ -25,6 +33,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class LandmineBlock extends BaseEntityBlock implements IBomb {
 
@@ -67,6 +76,10 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
 
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        if (this == ModBlocks.MINE_AP.get()) return SHAPE_AP;
+        if (this == ModBlocks.MINE_HE.get()) return SHAPE_HE;
+        if (this == ModBlocks.MINE_SHRAP.get()) return SHAPE_SHRAP;
+        if (this == ModBlocks.MINE_FAT.get()) return SHAPE_FAT;
         return Shapes.block();
     }
 
@@ -118,43 +131,72 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
             LandmineBlock.safeMode = false;
 
-//            ExplosionVNT vnt = new ExplosionVNT(level, x + 0.5, y + 0.5, z + 0.5, 10);
-//            vnt.setBlockAllocator(new BlockAllocatorStandard(64));
-//            vnt.setBlockProcessor(new BlockProcessorStandard());
-//            vnt.setEntityProcessor(new EntityProcessorCrossSmooth(2, 100F).withRangeMod(1.5F));
-//            vnt.setPlayerProcessor(new PlayerProcessorStandard());
-//            vnt.setSFX(new ExplosionEffectWeapon(10, 5F, 0.5F));
-//            vnt.explode();
+            if (this == ModBlocks.MINE_AP.get()) {
+                ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3F)
+                        .setEntityProcessor(new EntityProcessorCrossSmooth(0.5, (float) MainConfig.SERVER.MINE_AP_DAMAGE.getAsDouble()).setupPiercing(5F, 0.2F))
+                        .setPlayerProcessor(new PlayerProcessorStandard())
+                        .setSFX(new ExplosionEffectWeapon(5, 1F, 0.5F));
+                vnt.explode();
+            }
 
-            //ExplosionNukeGeneric.incrementRad(level, x, y, z, 1.5F);
+            if (this == ModBlocks.MINE_HE.get()) {
+                ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 4F)
+                        .setBlockAllocator(new BlockAllocatorStandard())
+                        .setBlockProcessor(new BlockProcessorStandard())
+                        .setEntityProcessor(new EntityProcessorCrossSmooth(1, (float) MainConfig.SERVER.MINE_HE_DAMAGE.getAsDouble()).setupPiercing(15F, 0.2F))
+                        .setPlayerProcessor(new PlayerProcessorStandard())
+                        .setSFX(new ExplosionEffectWeapon(15, 3.5F, 1.25F));
+                vnt.explode();
+            }
 
-            //spawnMush(level, x, y, z, CommonEvents.polaroidID == 11 || level.random.nextInt(100) == 0);
+            if (this == ModBlocks.MINE_SHRAP.get()) {
+                ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3F)
+                        .setEntityProcessor(new EntityProcessorCrossSmooth(0.5, (float) MainConfig.SERVER.MINE_SHRAP_DAMAGE.getAsDouble()))
+                        .setPlayerProcessor(new PlayerProcessorStandard())
+                        .setSFX(new ExplosionEffectWeapon(5, 1F, 0.5F));
+                vnt.explode();
 
-//            ExplosionVNT vnt = new ExplosionVNT(level, x + 0.5, y + 0.5, z + 0.5, 3F);
-//            vnt.setEntityProcessor(new EntityProcessorCrossSmooth(0.5, 7.5F));
-//            vnt.setPlayerProcessor(new PlayerProcessorStandard());
-//            vnt.setSFX(new ExplosionEffectWeapon(5, 1F, 0.5F));
-//            vnt.explode();
-//
-//
-//            ExplosionLarge.spawnShrapnelShower(level, x + 0.5, y + 0.5, z + 0.5, 0, 1D, 0, 45, 0.2D);
-//            ExplosionLarge.spawnShrapnels(level, x + 0.5, y + 0.5, z + 0.5, 5);
+                if (level instanceof ServerLevel serverLevel) {
+                    ExplosionLarge.spawnShrapnelShower(serverLevel, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0, 1D, 0, 45, 0.2D);
+                    ExplosionLarge.spawnShrapnels(serverLevel, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 5);
+                }
+            }
 
-            ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 5, pos.getY() + 5, pos.getZ() + 5, 25F)
-                    .setBlockAllocator(new BlockAllocatorWater(32))
-                    .setBlockProcessor(new BlockProcessorStandard())
-                    .setEntityProcessor(new EntityProcessorCrossSmooth(0.5, 75F).setupPiercing(5F, 0.2F))
-                    .setPlayerProcessor(new PlayerProcessorStandard())
-                    .setSFX(new ExplosionEffectWeapon(10, 1F, 0.5F));
-            vnt.explode();
+            if (this == ModBlocks.MINE_FAT.get()) {
+                ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 10)
+                        .setBlockAllocator(new BlockAllocatorStandard(64))
+                        .setBlockProcessor(new BlockProcessorStandard())
+                        .setEntityProcessor(new EntityProcessorCrossSmooth(2, (float) MainConfig.SERVER.MINE_NUKE_DAMAGE.getAsDouble()).withRangeMod(1.5F))
+                        .setPlayerProcessor(new PlayerProcessorStandard());
+                vnt.explode();
 
-            if (level instanceof ServerLevel serverLevel) {
-                ExplosionLarge.spawnParticlesRadial(serverLevel, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 30);
-                ExplosionLarge.spawnRubble(serverLevel, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 5);
+                ExplosionNukeGeneric.incrementRad(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 1.5F);
 
-                // Only spawn water effects if there's water above the mine
-                if (isWaterAbove(level, pos)) {
-                    ExplosionLarge.spawnFoam(serverLevel, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 60);
+                // this has to be the single worst solution ever
+                level.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, ModSounds.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 25.0F, 0.9F);
+                CompoundTag tag = new CompoundTag();
+                tag.putString("type", "muke");
+                tag.putBoolean("balefire", CommonEvents.polaroidID == 11 || level.random.nextInt(100) == 0);
+                PacketDistributor.sendToPlayersNear((ServerLevel) level, null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 250, new AuxParticle(tag, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5));
+            }
+
+            if (this == ModBlocks.MINE_NAVAL.get()) {
+                ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 5, pos.getY() + 5, pos.getZ() + 5, 25F)
+                        .setBlockAllocator(new BlockAllocatorWater(32))
+                        .setBlockProcessor(new BlockProcessorStandard())
+                        .setEntityProcessor(new EntityProcessorCrossSmooth(0.5, (float) MainConfig.SERVER.MINE_NAVAL_DAMAGE.getAsDouble()).setupPiercing(5F, 0.2F))
+                        .setPlayerProcessor(new PlayerProcessorStandard())
+                        .setSFX(new ExplosionEffectWeapon(10, 1F, 0.5F));
+                vnt.explode();
+
+                if (level instanceof ServerLevel serverLevel) {
+                    ExplosionLarge.spawnParticlesRadial(serverLevel, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 30);
+                    ExplosionLarge.spawnRubble(serverLevel, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 5);
+
+                    // Only spawn water effects if there's water above the mine
+                    if (isWaterAbove(level, pos)) {
+                        ExplosionLarge.spawnFoam(serverLevel, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 60);
+                    }
                 }
             }
         }

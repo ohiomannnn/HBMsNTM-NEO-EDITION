@@ -282,6 +282,46 @@ public class ModBlocks {
                     .noLootTable()
                     .sound(SoundType.METAL)));
 
+    public static final DeferredBlock<Block> MINE_AP = registerBlock(
+            "mine_ap",
+            () -> new LandmineBlock(BlockBehaviour.Properties.of()
+                    .noOcclusion()
+                    .noLootTable()
+                    .strength(1.0F)
+                    .sound(SoundType.METAL), 1.5D, 1D));
+
+    public static final DeferredBlock<Block> MINE_HE = registerBlock(
+            "mine_he",
+            () -> new LandmineBlock(BlockBehaviour.Properties.of()
+                    .noOcclusion()
+                    .noLootTable()
+                    .strength(1.0F)
+                    .sound(SoundType.METAL), 2D, 5D));
+
+    public static final DeferredBlock<Block> MINE_SHRAP = registerBlock(
+            "mine_shrap",
+            () -> new LandmineBlock(BlockBehaviour.Properties.of()
+                    .noOcclusion()
+                    .noLootTable()
+                    .strength(1.0F)
+                    .sound(SoundType.METAL), 1.5D, 1D));
+
+    public static final DeferredBlock<Block> MINE_FAT = registerBlock(
+            "mine_fat",
+            () -> new LandmineBlock(BlockBehaviour.Properties.of()
+                    .noOcclusion()
+                    .noLootTable()
+                    .strength(1.0F)
+                    .sound(SoundType.METAL), 2.5D, 1D));
+
+    public static final DeferredBlock<Block> MINE_NAVAL = registerBlock(
+            "mine_naval",
+            () -> new LandmineBlock(BlockBehaviour.Properties.of()
+                    .noOcclusion()
+                    .noLootTable()
+                    .strength(1.0F)
+                    .sound(SoundType.METAL), 2.5D, 1D));
+
     public static final DeferredBlock<Block> CRASHED_BOMB_BALEFIRE = registerBlock(
             "crashed_bomb_balefire",
             () -> new CrashedBombBlock(BlockBehaviour.Properties.of()
@@ -319,15 +359,6 @@ public class ModBlocks {
                     .explosionResistance(2.5F)
                     .sound(SoundType.METAL),
                     true
-            ));
-
-    public static final DeferredBlock<Block> LANDMINE = registerBlock("landmine",
-            () -> new LandmineBlock(BlockBehaviour.Properties.of()
-                    .noOcclusion()
-                    .noLootTable()
-                    .strength(0.1F)
-                    .explosionResistance(2.5F)
-                    .sound(SoundType.METAL), 2.5D, 1
             ));
 
     public static final DeferredBlock<Block> URANIUM_BLOCK = registerBlock("uranium_block",

@@ -4,7 +4,7 @@ import com.google.common.collect.Sets;
 import com.hbm.HBMsNTMClient;
 import com.hbm.handler.abilities.*;
 import com.hbm.items.IDepthRockTool;
-import com.hbm.network.toclient.InformPlayerPacket;
+import com.hbm.network.toclient.InformPlayer;
 import com.hbm.util.TagsUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -325,7 +325,7 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool {
         }
 
         setConfiguration(player.getMainHandItem(), config);
-        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayerPacket(config.getActivePreset().getMessage(), HBMsNTMClient.ID_TOOLABILITY, 1000));
+        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayer(config.getActivePreset().getMessage(), HBMsNTMClient.ID_TOOLABILITY, 1000));
         level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 0.25F, config.getActivePreset().isNone() ? 0.75F : 1.25F);
 
         return InteractionResultHolder.pass(player.getItemInHand(usedHand));

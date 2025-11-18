@@ -14,8 +14,8 @@ public class NTMNetwork {
         registrar.playToServer(GetRadPacket.TYPE, GetRadPacket.STREAM_CODEC, GetRadPacket::handleServer);
         registrar.playToServer(KeybindReceiver.TYPE, KeybindReceiver.STREAM_CODEC, KeybindReceiver::handleServer);
         registrar.playToClient(VanillaExplosionLike.TYPE, VanillaExplosionLike.STREAM_CODEC, VanillaExplosionLike::handleClient);
-        registrar.playToClient(InformPlayerPacket.TYPE, InformPlayerPacket.STREAM_CODEC, InformPlayerPacket::handleClient);
-        registrar.playToClient(ParticleBurstPacket.TYPE, ParticleBurstPacket.STREAM_CODEC, ParticleBurstPacket::handleClient);
+        registrar.playToClient(InformPlayer.TYPE, InformPlayer.STREAM_CODEC, InformPlayer::handleClient);
+        registrar.playToClient(ParticleBurst.TYPE, ParticleBurst.STREAM_CODEC, ParticleBurst::handleClient);
         registrar.playToClient(AuxParticle.TYPE, AuxParticle.STREAM_CODEC, AuxParticle::handleClient);
         registrar.playToClient(SendRadPacket.TYPE, SendRadPacket.STREAM_CODEC, SendRadPacket::handleClient);
         registrar.playToClient(BufNT.TYPE, BufNT.STREAM_CODEC, BufNT::handleClient);

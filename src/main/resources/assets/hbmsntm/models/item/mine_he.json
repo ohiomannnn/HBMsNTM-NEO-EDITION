@@ -1,0 +1,35 @@
+{
+  "parent": "hbmsntm:block/mine_he",
+  "display": {
+    "gui": {
+      "rotation": [45, 0, 45],
+      "translation": [1, 1, 0],
+      "scale": [1, 1, 1]
+    },
+    "ground": {
+      "rotation": [0, 90, 0],
+      "translation": [0, 0, 0],
+      "scale": [1, 1, 1]
+    },
+    "firstperson_righthand": {
+      "rotation": [0, 0, 0],
+      "translation": [0, 0, 0],
+      "scale": [1, 1, 1]
+    },
+    "firstperson_lefthand": {
+      "rotation": [0, 0, 0],
+      "translation": [0, 0, 0],
+      "scale": [1, 1, 1]
+    },
+    "thirdperson_righthand": {
+      "rotation": [0, 0, 0],
+      "translation": [0, 0, 0],
+      "scale": [1, 1, 1]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [0, 0, 0],
+      "translation": [0, 0, 0],
+      "scale": [1, 1, 1]
+    }
+  }
+}

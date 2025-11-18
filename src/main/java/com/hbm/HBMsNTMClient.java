@@ -13,6 +13,7 @@ import com.hbm.items.ModItems;
 import com.hbm.particle.*;
 import com.hbm.particle.helper.ParticleCreators;
 import com.hbm.render.blockentity.RenderCrashedBomb;
+import com.hbm.render.blockentity.RenderLandMine;
 import com.hbm.render.blockentity.RenderNukeFatMan;
 import com.hbm.render.entity.EmptyRenderer;
 import com.hbm.render.entity.effect.RenderFallout;
@@ -274,6 +275,8 @@ public class HBMsNTMClient {
                 (stack, level, entity, seed) -> CommonEvents.polaroidID);
 
         event.registerBlockEntityRenderer(ModBlockEntities.NUKE_FATMAN.get(), RenderNukeFatMan::new);
+
+        event.registerBlockEntityRenderer(ModBlockEntities.LANDMINE.get(), RenderLandMine::new);
 
         event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_BALEFIRE.get(), RenderCrashedBomb::new);
         event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_CONVENTIONAL.get(), RenderCrashedBomb::new);

@@ -54,6 +54,11 @@ public class ModCreativeTabs {
                     .title(Component.translatable("creative_tab.hbmsntm.bombs"))
                     .backgroundTexture(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/gui/nuke_tab.png"))
                     .displayItems((itemDisplayParameters, output) -> {
+                        output.accept(ModBlocks.MINE_AP);
+                        output.accept(ModBlocks.MINE_SHRAP);
+                        output.accept(ModBlocks.MINE_HE);
+                        output.accept(ModBlocks.MINE_FAT);
+                        output.accept(ModBlocks.MINE_NAVAL);
                         output.accept(ModBlocks.CRASHED_BOMB_BALEFIRE);
                         output.accept(ModBlocks.CRASHED_BOMB_CONVENTIONAL);
                         output.accept(ModBlocks.CRASHED_BOMB_NUKE);

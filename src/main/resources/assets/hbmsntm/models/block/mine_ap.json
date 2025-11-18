@@ -1,11 +1,11 @@
 {
   "loader": "neoforge:obj",
-  "model": "hbmsntm:models/obj/bomb/nuke_fatman.obj",
+  "model": "hbmsntm:models/obj/bomb/mine_ap.obj",
   "flip_v": true,
   "automatic_culling": false,
   "shade_quads": true,
   "emissive_ambient": true,
   "textures": {
-    "particle": "hbmsntm:block/block_fatman"
+    "particle": "hbmsntm:block/mine_ap"
   }
 }

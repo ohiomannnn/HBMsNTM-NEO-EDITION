@@ -34,8 +34,12 @@ public class ModBlockEntities {
     public static final Supplier<BlockEntityType<LandMineBlockEntity>> LANDMINE = REGISTER.register(
             "landmine",
             () -> BlockEntityType.Builder.of(
-                            LandMineBlockEntity::new,
-                            ModBlocks.LANDMINE.get())
+                    LandMineBlockEntity::new,
+                            ModBlocks.MINE_AP.get(),
+                            ModBlocks.MINE_HE.get(),
+                            ModBlocks.MINE_SHRAP.get(),
+                            ModBlocks.MINE_FAT.get(),
+                            ModBlocks.MINE_NAVAL.get())
                     .build(null));
 
     public static final Supplier<BlockEntityType<CrashedBombBlockEntity>> CRASHED_BOMB_BALEFIRE = REGISTER.register(

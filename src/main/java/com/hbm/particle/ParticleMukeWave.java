@@ -48,6 +48,8 @@ public class ParticleMukeWave extends TextureSheetParticle {
         this.quadSize = (1 - (float)Math.pow(Math.E, (this.age + partialTicks) * -0.125)) * waveScale;
 
         renderQuad(consumer, pX, pY, pZ, this.quadSize, color);
+
+        bufferSource.endBatch();
     }
 
     private void renderQuad(VertexConsumer consumer, float pX, float pY, float pZ, float scale, int color) {

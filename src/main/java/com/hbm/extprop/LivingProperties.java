@@ -6,7 +6,7 @@ import com.hbm.config.MainConfig;
 import com.hbm.entity.mob.Duck;
 import com.hbm.lib.ModAttachments;
 import com.hbm.lib.ModDamageSource;
-import com.hbm.network.toclient.InformPlayerPacket;
+import com.hbm.network.toclient.InformPlayer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -179,7 +179,7 @@ public class LivingProperties {
         setAsbestos(entity, getAsbestos(entity) + asbestos);
 
         if (entity instanceof ServerPlayer player) {
-            PacketDistributor.sendToPlayer(player, new InformPlayerPacket(Component.translatable("info.asbestos").withStyle(ChatFormatting.RED), HBMsNTMClient.ID_GAS_HAZARD, 3000));
+            PacketDistributor.sendToPlayer(player, new InformPlayer(Component.translatable("info.asbestos").withStyle(ChatFormatting.RED), HBMsNTMClient.ID_GAS_HAZARD, 3000));
         }
     }
 
@@ -205,7 +205,7 @@ public class LivingProperties {
         setBlackLung(entity, getBlackLung(entity) + blacklung);
 
         if (entity instanceof ServerPlayer player) {
-            PacketDistributor.sendToPlayer(player, new InformPlayerPacket(Component.translatable("info.coaldust").withStyle(ChatFormatting.RED), HBMsNTMClient.ID_GAS_HAZARD, 3000));
+            PacketDistributor.sendToPlayer(player, new InformPlayer(Component.translatable("info.coaldust").withStyle(ChatFormatting.RED), HBMsNTMClient.ID_GAS_HAZARD, 3000));
         }
     }
 
