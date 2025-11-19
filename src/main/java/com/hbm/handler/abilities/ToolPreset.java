@@ -49,7 +49,7 @@ public class ToolPreset {
             builder.next(harvestAbility.getExtension(harvestAbilityLevel));
         }
 
-        return builder.colorAll(ChatFormatting.YELLOW).flush();
+        return builder.next("]").colorAll(ChatFormatting.YELLOW).flush();
     }
 
 

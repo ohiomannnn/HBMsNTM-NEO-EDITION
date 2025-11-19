@@ -313,14 +313,8 @@ public class HBMsNTMClient {
         event.registerSpecial(ModParticles.ASHES.get(), new ParticleAshes.Provider());
         event.registerSpecial(ModParticles.AMAT_FLASH.get(), new ParticleAmatFlash.Provider());
         event.registerSpecial(ModParticles.EXPLOSION_SMALL.get(), new ParticleExplosionSmall.Provider());
-        event.registerSpriteSet(ModParticles.MUKE_WAVE.get(), sprites -> {
-            ModParticles.MUKE_WAVE_SPRITES = sprites;
-            return new ParticleMukeWave.Provider(sprites);
-        });
-        event.registerSpriteSet(ModParticles.MUKE_FLASH.get(), sprites -> {
-            ModParticles.MUKE_FLASH_SPRITES = sprites;
-            return new ParticleMukeFlash.Provider(sprites);
-        });
+        event.registerSpriteSet(ModParticles.MUKE_WAVE.get(), ParticleMukeWave.Provider::new);
+        event.registerSpriteSet(ModParticles.MUKE_FLASH.get(), ParticleMukeFlash.Provider::new);
         event.registerSpriteSet(ModParticles.GAS_FLAME.get(), ParticleGasFlame.Provider::new);
         event.registerSpriteSet(ModParticles.DEAD_LEAF.get(), sprites -> {
             ModParticles.DEAD_LEAVES_SPRITES = sprites;
@@ -330,15 +324,9 @@ public class HBMsNTMClient {
             ModParticles.AURA_SPITES = sprites;
             return new ParticleAura.Provider(sprites);
         });
-        event.registerSpriteSet(ModParticles.RAD_FOG.get(), sprites -> {
-            ModParticles.RAD_FOG_SPRITES = sprites;
-            return new ParticleRadiationFog.Provider(sprites);
-        });
+        event.registerSpriteSet(ModParticles.RAD_FOG.get(), ParticleRadiationFog.Provider::new);
         event.registerSpecial(ModParticles.ROCKET_FLAME.get(), new ParticleRocketFlame.Provider());
-        event.registerSpriteSet(ModParticles.HADRON.get(), sprites -> {
-            ModParticles.HADRON_SPITES = sprites;
-            return new ParticleHadron.Provider(sprites);
-        });
+        event.registerSpriteSet(ModParticles.HADRON.get(), ParticleHadron.Provider::new);
     }
 
     public static void effectNT(CompoundTag data) {
@@ -365,7 +353,7 @@ public class HBMsNTMClient {
             }
 
             if ("radFog".equals(type)) {
-                ParticleRadiationFog fx = new ParticleRadiationFog(level, x, y, z, ModParticles.RAD_FOG_SPRITES);
+                ParticleRadiationFog fx = new ParticleRadiationFog(level, x, y, z);
                 innerMc.particleEngine.add(fx);
             }
 

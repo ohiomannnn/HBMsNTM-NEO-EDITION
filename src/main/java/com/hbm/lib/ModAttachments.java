@@ -15,11 +15,10 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import java.util.function.Supplier;
 
 public class ModAttachments {
-    public static final DeferredRegister<AttachmentType<?>> ATTACHMENTS =
-            DeferredRegister.create(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, HBMsNTM.MODID);
+    public static final DeferredRegister<AttachmentType<?>> ATTACHMENTS = DeferredRegister.create(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, HBMsNTM.MODID);
 
-    public static final Supplier<AttachmentType<LivingProperties>> LIVING_PROPS =
-            ATTACHMENTS.register("ntm_living_properties",
+    public static final Supplier<AttachmentType<LivingProperties>> LIVING_PROPS = ATTACHMENTS.register(
+            "ntm_living_properties",
                     () -> AttachmentType.builder(LivingProperties::new)
                             .serialize(new IAttachmentSerializer<CompoundTag, LivingProperties>() {
                                 @Override
@@ -36,23 +35,23 @@ public class ModAttachments {
                             }).build()
             );
 
-    public static final Supplier<AttachmentType<PlayerProperties>> PLAYER_PROPS =
-            ATTACHMENTS.register("ntm_player_properties",
-                    () -> AttachmentType.builder(PlayerProperties::new)
-                            .serialize(new IAttachmentSerializer<CompoundTag, PlayerProperties>() {
-                                @Override
-                                public PlayerProperties read(IAttachmentHolder holder, CompoundTag tag, HolderLookup.Provider provider) {
-                                    PlayerProperties props = new PlayerProperties(holder);
-                                    props.deserializeNBT(tag);
-                                    return props;
-                                }
+    public static final Supplier<AttachmentType<PlayerProperties>> PLAYER_PROPS = ATTACHMENTS.register(
+            "ntm_player_properties",
+            () -> AttachmentType.builder(PlayerProperties::new)
+                    .serialize(new IAttachmentSerializer<CompoundTag, PlayerProperties>() {
+                        @Override
+                        public PlayerProperties read(IAttachmentHolder holder, CompoundTag tag, HolderLookup.Provider provider) {
+                            PlayerProperties props = new PlayerProperties(holder);
+                            props.deserializeNBT(tag);
+                            return props;
+                        }
 
-                                @Override
-                                public CompoundTag write(PlayerProperties attachment, HolderLookup.Provider provider) {
-                                    return attachment.serializeNBT();
-                                }
-                            }).build()
-            );
+                        @Override
+                        public CompoundTag write(PlayerProperties attachment, HolderLookup.Provider provider) {
+                            return attachment.serializeNBT();
+                        }
+                    }).build()
+    );
 
     public static void register(IEventBus eventBus) {
         ATTACHMENTS.register(eventBus);

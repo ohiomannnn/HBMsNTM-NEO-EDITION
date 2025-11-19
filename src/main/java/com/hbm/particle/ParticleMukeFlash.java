@@ -1,21 +1,11 @@
 package com.hbm.particle;
 
-import com.hbm.HBMsNTM;
-import com.hbm.render.CustomRenderTypes;
-import com.hbm.util.old.TessColorUtil;
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
@@ -23,8 +13,6 @@ import org.joml.Vector3f;
 import java.util.Random;
 
 public class ParticleMukeFlash extends TextureSheetParticle {
-
-    private static final ResourceLocation FLARE = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/flare.png");
 
     private final boolean bf;
     private final Random rand = new Random();
@@ -79,22 +67,20 @@ public class ParticleMukeFlash extends TextureSheetParticle {
     }
 
     @Override
-    public void render(VertexConsumer ignored, Camera camera, float partialTicks) {
+    public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
         Vec3 cameraPosition = camera.getPosition();
 
         float dX = (float) (Mth.lerp(partialTicks, this.xo, this.x) - cameraPosition.x);
         float dY = (float) (Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y);
         float dZ = (float) (Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z);
 
-        MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
-        VertexConsumer consumer = bufferSource.getBuffer(CustomRenderTypes.entityAdditive(FLARE));
-
-        this.alpha = 1 - ((this.age + partialTicks) / (float)this.lifetime);
-        int color = TessColorUtil.getColorRGBA_F(1.0F, 0.9F, 0.75F, alpha * 0.5F);
+        this.alpha = Math.clamp(1 - ((this.age + partialTicks) / (float)this.lifetime), 0.0F, 1.0F);
         this.quadSize = (this.age + partialTicks) * 3F + 1F;
 
-        float u0 = 0, v0 = 0;
-        float u1 = 1, v1 = 1;
+        float u0 = sprite.getU0();
+        float u1 = sprite.getU1();
+        float v0 = sprite.getV0();
+        float v1 = sprite.getV1();
 
         Vector3f l = new Vector3f(camera.getLeftVector()).mul(this.quadSize);
         Vector3f u = new Vector3f(camera.getUpVector()).mul(this.quadSize);
@@ -108,27 +94,23 @@ public class ParticleMukeFlash extends TextureSheetParticle {
             float pZ = (float) (dZ + rand.nextDouble() * 15 - 7.5);
 
             consumer.addVertex(pX - l.x - u.x, pY - l.y - u.y, pZ - l.z - u.z)
-                    .setColor(color)
+                    .setColor(1.0F, 0.9F, 0.75F, alpha * 0.5F)
                     .setUv(u1, v1)
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
                     .setNormal(0.0F, 1.0F, 0.0F)
                     .setLight(240);
             consumer.addVertex(pX - l.x + u.x, pY - l.y + u.y, pZ - l.z + u.z)
-                    .setColor(color)
+                    .setColor(1.0F, 0.9F, 0.75F, alpha * 0.5F)
                     .setUv(u1, v0)
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
                     .setNormal(0.0F, 1.0F, 0.0F)
                     .setLight(240);
             consumer.addVertex(pX + l.x + u.x, pY + l.y + u.y, pZ + l.z + u.z)
-                    .setColor(color)
+                    .setColor(1.0F, 0.9F, 0.75F, alpha * 0.5F)
                     .setUv(u0, v0)
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
                     .setNormal(0.0F, 1.0F, 0.0F)
                     .setLight(240);
             consumer.addVertex(pX + l.x - u.x, pY + l.y - u.y, pZ + l.z - u.z)
-                    .setColor(color)
+                    .setColor(1.0F, 0.9F, 0.75F, alpha * 0.5F)
                     .setUv(u0, v1)
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
                     .setNormal(0.0F, 1.0F, 0.0F)
                     .setLight(240);
         }

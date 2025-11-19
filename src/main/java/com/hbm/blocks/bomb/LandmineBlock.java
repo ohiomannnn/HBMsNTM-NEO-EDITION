@@ -175,7 +175,7 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
                 // this has to be the single worst solution ever
                 level.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, ModSounds.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 25.0F, 0.9F);
                 CompoundTag tag = new CompoundTag();
-                tag.putString("type", "muke");
+                tag.putString("type", "tinytot");
                 tag.putBoolean("balefire", CommonEvents.polaroidID == 11 || level.random.nextInt(100) == 0);
                 PacketDistributor.sendToPlayersNear((ServerLevel) level, null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 250, new AuxParticle(tag, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5));
             }

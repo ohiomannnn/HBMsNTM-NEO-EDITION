@@ -105,6 +105,12 @@
   "block.hbmsntm.crashed_bomb_salted": "Dud",
   "block.hbmsntm.leaves_layer": "Fallen Leaves",
 
+  "block.hbmsntm.mine_ap": "Anti-Personell Mine",
+  "block.hbmsntm.mine_fat": "Fat Mine",
+  "block.hbmsntm.mine_naval": "Naval Mine",
+  "block.hbmsntm.mine_he": "Anti-Tank Mine",
+  "block.hbmsntm.mine_shrap": "Shrapnel Mine",
+
   "block.hbmsntm.sellafield_slaked": "Slaked Sellafite",
   "block.hbmsntm.sellafield_bedrock": "Bedrock Sellafite",
 

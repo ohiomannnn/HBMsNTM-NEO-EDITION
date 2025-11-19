@@ -18,7 +18,7 @@ public class RenderCrashedBomb implements BlockEntityRenderer<CrashedBombBlockEn
     private final BlockRenderDispatcher renderDispatcher;
 
     public RenderCrashedBomb(BlockEntityRendererProvider.Context context) {
-        this.renderDispatcher = Minecraft.getInstance().getBlockRenderer();
+        this.renderDispatcher = context.getBlockRenderDispatcher();
     }
 
     @Override

@@ -19,7 +19,7 @@ public class RenderNukeFatMan implements BlockEntityRenderer<NukeFatManBlockEnti
     private final BlockRenderDispatcher renderDispatcher;
 
     public RenderNukeFatMan(BlockEntityRendererProvider.Context context) {
-        this.renderDispatcher = Minecraft.getInstance().getBlockRenderer();
+        this.renderDispatcher = context.getBlockRenderDispatcher();
     }
 
     @Override

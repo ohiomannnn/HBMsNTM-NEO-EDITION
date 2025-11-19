@@ -49,7 +49,7 @@ public class RenderRubble extends EntityRenderer<EntityRubble> {
 
         VertexConsumer base = buffer.getBuffer(RenderType.entityCutout(TextureAtlas.LOCATION_BLOCKS));
 
-        VertexConsumer vc = (sprite == null) ? base : new AtlasSpriteVertexConsumer(base, sprite);
+        VertexConsumer vc = new AtlasSpriteVertexConsumer(base, sprite);
         model.renderToBuffer(poseStack, vc, packedLight, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF);
 
         poseStack.popPose();

@@ -1,5 +1,5 @@
 {
-  "parent": "hbmsntm:block/mine_ap",
+  "parent": "hbmsntm:block/mine_shrap",
   "display": {
     "gui": {
       "rotation": [45, 0, 45],

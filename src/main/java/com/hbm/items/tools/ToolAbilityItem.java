@@ -55,10 +55,6 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool {
     private boolean rockBreaker;
     private boolean isShears;
 
-    public static ItemAttributeModifiers createAttributes(Tier tier, int attackDamage, float attackSpeed) {
-        return createAttributes(tier, (float)attackDamage, attackSpeed);
-    }
-
     public static ItemAttributeModifiers createAttributes(Tier tier, float damage, float attackSpeed) {
         return ItemAttributeModifiers.builder()
                 .add(
@@ -134,7 +130,8 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool {
          * The consequence was that the server would fail to break keyholes since breakExtraBlock is supposed to exclude
          * them, while the client happily removes the block, causing a desync.
          */
-        if (!level.isClientSide && miningEntity instanceof Player player && (canHarvest(stack, state, player, level, pos) || canShearBlock(state, stack, level, pos)) && canOperate(stack)) {
+        //if (!level.isClientSide && miningEntity instanceof Player player && (canHarvest(stack, state, player, level, pos) || canShearBlock(state, stack, level, pos)) && canOperate(stack)) {
+        if (!level.isClientSide && miningEntity instanceof Player player && canOperate(stack)) {
             Configuration config = getConfiguration(stack);
             ToolPreset preset = config.getActivePreset();
 
@@ -242,41 +239,6 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool {
         ToolPreset preset = config.getActivePreset();
 
         preset.harvestAbility.onHarvestBlock(preset.harvestAbilityLevel, level, pos, player, state);
-    }
-
-    public static void shearBlock(Level level, BlockPos pos, ServerPlayer player) {
-        ItemStack held = player.getMainHandItem();
-
-        BlockState state = level.getBlockState(pos);
-        if (!(state.getBlock() instanceof IShearable shearable)) return;
-
-        if (shearable.isShearable(null, held, level, pos)) {
-            List<ItemStack> drops = shearable.onSheared(null, held, level, pos);
-            RandomSource rand = level.random;
-
-            for (ItemStack stack : drops) {
-                float f = 0.7F;
-                double dx = rand.nextFloat() * f + (1.0F - f) * 0.5D;
-                double dy = rand.nextFloat() * f + (1.0F - f) * 0.5D;
-                double dz = rand.nextFloat() * f + (1.0F - f) * 0.5D;
-
-                ItemEntity entity = new ItemEntity(level,
-                        pos.getX() + dx,
-                        pos.getY() + dy,
-                        pos.getZ() + dz,
-                        stack);
-                entity.setPickUpDelay(10);
-                level.addFreshEntity(entity);
-            }
-
-            held.hurtAndBreak(1, player, getSlotForHand(InteractionHand.MAIN_HAND));
-
-            player.awardStat(Stats.BLOCK_MINED.get(state.getBlock()));
-        }
-    }
-
-    public static EquipmentSlot getSlotForHand(InteractionHand hand) {
-        return hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
     }
 
     public static void standardDigPost(Level level, BlockPos pos, ServerPlayer player) {

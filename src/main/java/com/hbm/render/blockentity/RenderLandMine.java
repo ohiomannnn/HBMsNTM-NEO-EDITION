@@ -18,7 +18,7 @@ public class RenderLandMine implements BlockEntityRenderer<LandMineBlockEntity> 
     private final BlockRenderDispatcher renderDispatcher;
 
     public RenderLandMine(BlockEntityRendererProvider.Context context) {
-        this.renderDispatcher = Minecraft.getInstance().getBlockRenderer();
+        this.renderDispatcher = context.getBlockRenderDispatcher();
     }
 
     @Override
@@ -57,6 +57,46 @@ public class RenderLandMine implements BlockEntityRenderer<LandMineBlockEntity> 
             );
         }
 
+        if (state.getBlock() == ModBlocks.MINE_SHRAP.get()) {
+            poseStack.scale(0.375F, 0.375F, 0.375F);
+            poseStack.translate(0, -0.0625F * 3.5F, 0);
+            renderDispatcher.getModelRenderer().renderModel(
+                    poseStack.last(),
+                    buffer.getBuffer(RenderType.cutout()),
+                    state,
+                    model,
+                    1.0f, 1.0f, 1.0f,
+                    packedLight,
+                    packedOverlay
+            );
+        }
+
+        if (state.getBlock() == ModBlocks.MINE_FAT.get()) {
+            poseStack.scale(0.25F, 0.25F, 0.25F);
+            renderDispatcher.getModelRenderer().renderModel(
+                    poseStack.last(),
+                    buffer.getBuffer(RenderType.cutout()),
+                    state,
+                    model,
+                    1.0f, 1.0f, 1.0f,
+                    packedLight,
+                    packedOverlay
+            );
+        }
+
+        if (state.getBlock() == ModBlocks.MINE_NAVAL.get()) {
+            poseStack.scale(1F, 1F, 1F);
+            poseStack.translate(0, 0.5F, 0);
+            renderDispatcher.getModelRenderer().renderModel(
+                    poseStack.last(),
+                    buffer.getBuffer(RenderType.cutout()),
+                    state,
+                    model,
+                    1.0f, 1.0f, 1.0f,
+                    packedLight,
+                    packedOverlay
+            );
+        }
 
         poseStack.popPose();
     }

@@ -119,10 +119,10 @@ public class ModItems {
             "schrabidium_pickaxe",
             () -> new ToolAbilityItem(Tiers.NETHERITE, EnumToolType.PICKAXE, new Item.Properties()
                     .stacksTo(1)
-                    .attributes(ToolAbilityItem.createAttributes(Tiers.NETHERITE, 20, -2.8F))
+                    .attributes(ToolAbilityItem.createAttributes(Tiers.NETHERITE, 20F, -2.8F))
                     .rarity(Rarity.RARE))
-                    .addAbility(IWeaponAbility.RADIATION, 250).addAbility(IToolAreaAbility.EXPLOSION, 3)
-                    .addAbility(IToolAreaAbility.RECURSION, 6));
+                    .addAbility(IWeaponAbility.RADIATION, 250)
+                    .addAbility(IToolAreaAbility.EXPLOSION, 3));
 
     public static final DeferredItem<Item> DUCK_SPAWN_EGG = ITEMS.register(
             "duck_spawn_egg",

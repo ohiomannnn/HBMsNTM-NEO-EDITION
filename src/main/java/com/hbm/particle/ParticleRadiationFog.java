@@ -22,13 +22,13 @@ public class ParticleRadiationFog extends TextureSheetParticle {
 
     private static final ResourceLocation RAD = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/rad_fog.png");
 
-    public ParticleRadiationFog(ClientLevel level, double x, double y, double z, SpriteSet sprites) {
+    public ParticleRadiationFog(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
         this.lifetime = 100 + this.random.nextInt(40);
         this.quadSize = 7.5F;
 
         this.rCol = this.gCol = this.bCol = 0;
-        this.setSpriteFromAge(sprites);
+        this.setSpriteFromAge(ModParticles.RAD_FOG_SPRITES);
     }
 
     @Override
@@ -124,15 +124,14 @@ public class ParticleRadiationFog extends TextureSheetParticle {
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet spriteSet;
 
         public Provider(SpriteSet spriteSet) {
-            this.spriteSet = spriteSet;
+            ModParticles.RAD_FOG_SPRITES = spriteSet;
         }
 
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new ParticleRadiationFog(level, x, y, z, spriteSet);
+            return new ParticleRadiationFog(level, x, y, z);
         }
     }
 }

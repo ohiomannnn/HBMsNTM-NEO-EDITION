@@ -35,7 +35,7 @@ public class EntityShrapnel extends ThrowableProjectile {
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        builder.define(TYPE, (byte) 0);
+        builder.define(TYPE, Byte.valueOf((byte) 0));
     }
 
     @Override
@@ -107,6 +107,10 @@ public class EntityShrapnel extends ThrowableProjectile {
 
             level().playSound(null, getX(), getY(), getZ(), SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
         }
+    }
+
+    public byte getShrapnelType() {
+       return this.entityData.get(TYPE);
     }
 
     public void setTrail(boolean b) {

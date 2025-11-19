@@ -64,6 +64,7 @@ public class LivingProperties {
     }
 
     public static void setRadiation(LivingEntity entity, float rad) {
+        if (isCreative(entity)) return;
         if (MainConfig.COMMON.ENABLE_CONTAMINATION.get())
             getData(entity).radiation = rad;
     }
@@ -113,6 +114,8 @@ public class LivingProperties {
     }
 
     public static void setDigamma(LivingEntity entity, float digamma) {
+
+        if (isCreative(entity)) return;
 
         if (entity.level().isClientSide)
             return;
@@ -164,6 +167,7 @@ public class LivingProperties {
     }
 
     public static void setAsbestos(LivingEntity entity, int asbestos) {
+        if (isCreative(entity)) return;
         if (MainConfig.COMMON.DISABLE_ASBESTOS.get()) return;
         getData(entity).asbestos = asbestos;
 
@@ -190,6 +194,7 @@ public class LivingProperties {
     }
 
     public static void setBlackLung(LivingEntity entity, int blacklung) {
+        if (isCreative(entity)) return;
         if (MainConfig.COMMON.DISABLE_COAL.get()) return;
         getData(entity).blacklung = blacklung;
 
@@ -239,7 +244,8 @@ public class LivingProperties {
     private static boolean isCreative(LivingEntity entity) {
         if (!(entity instanceof Player player)) return false;
         if (player.isSpectator()) return true;
-        return player.isCreative();
+        if (player.isCreative()) return true;
+        return false;
     }
 
     /// ---- Serializing ---- ///

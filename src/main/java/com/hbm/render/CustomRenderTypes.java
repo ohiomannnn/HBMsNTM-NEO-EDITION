@@ -28,10 +28,13 @@ public class CustomRenderTypes {
     private static final TransparencyStateShard ADDITIVE_BLEND = new TransparencyStateShard(
             "additive",
             () -> {
+                RenderSystem.enableDepthTest();
                 RenderSystem.enableBlend();
                 RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+                RenderSystem.depthMask(false);
             },
             () -> {
+                RenderSystem.depthMask(true);
                 RenderSystem.disableBlend();
                 RenderSystem.defaultBlendFunc();
             });

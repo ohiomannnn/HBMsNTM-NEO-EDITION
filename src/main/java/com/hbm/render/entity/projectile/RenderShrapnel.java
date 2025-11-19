@@ -13,8 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class RenderShrapnel extends EntityRenderer<EntityShrapnel> {
 
-    private static final ResourceLocation SHRAPNEL =
-            ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/entity/shrapnel.png");
+    private static final ResourceLocation SHRAPNEL = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/entity/shrapnel.png");
 
     private final ModelShrapnel<EntityShrapnel> model;
 
@@ -26,7 +25,7 @@ public class RenderShrapnel extends EntityRenderer<EntityShrapnel> {
     @Override
     public void render(EntityShrapnel entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         poseStack.pushPose();
-
+        poseStack.scale(1.0F, 1.0F, 1.0F);
         poseStack.mulPose(Axis.XP.rotationDegrees(180.0F));
 
         float rotation = (entity.tickCount % 360) * 10 + partialTicks;
@@ -34,13 +33,14 @@ public class RenderShrapnel extends EntityRenderer<EntityShrapnel> {
         poseStack.mulPose(Axis.YP.rotationDegrees(rotation));
         poseStack.mulPose(Axis.ZP.rotationDegrees(rotation));
 
-        // TODO: Add scale check
+        if (entity.getShrapnelType() >= 2) { //scale up lava blobs
+            poseStack.scale(3F, 3F, 3F);
+        }
 
         VertexConsumer vertexconsumer = buffer.getBuffer(model.renderType(getTextureLocation(entity)));
         model.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY);
 
         poseStack.popPose();
-        super.render(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
     }
 
     @Override

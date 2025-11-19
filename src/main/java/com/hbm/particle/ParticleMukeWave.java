@@ -17,13 +17,12 @@ import net.minecraft.world.phys.Vec3;
 
 public class ParticleMukeWave extends TextureSheetParticle {
 
-    private static final ResourceLocation SHOCKWAVE = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/shockwave.png");
-
     private float waveScale = 45F;
 
     public ParticleMukeWave(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
         this.setSpriteFromAge(ModParticles.MUKE_WAVE_SPRITES);
+
         this.lifetime = 25;
     }
 
@@ -33,52 +32,39 @@ public class ParticleMukeWave extends TextureSheetParticle {
     }
 
     @Override
-    public void render(VertexConsumer ignored, Camera camera, float partialTicks) {
+    public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
         Vec3 camPos = camera.getPosition();
 
         float pX = (float) (Mth.lerp(partialTicks, this.xo, this.x) - camPos.x);
         float pY = (float) (Mth.lerp(partialTicks, this.yo, this.y) - camPos.y);
         float pZ = (float) (Mth.lerp(partialTicks, this.zo, this.z) - camPos.z);
 
-        MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
-        VertexConsumer consumer = bufferSource.getBuffer(CustomRenderTypes.entityAdditive(SHOCKWAVE));
-
-        this.alpha = 1 - ((this.age + partialTicks) / (float)this.lifetime);
-        int color = TessColorUtil.getColorRGBA_F(1.0F, 1.0F, 1.0F, alpha);
+        this.alpha = Math.clamp(1 - ((this.age + partialTicks) / (float)this.lifetime), 0.0F, 1.0F);
         this.quadSize = (1 - (float)Math.pow(Math.E, (this.age + partialTicks) * -0.125)) * waveScale;
 
-        renderQuad(consumer, pX, pY, pZ, this.quadSize, color);
+        float u0 = sprite.getU0();
+        float u1 = sprite.getU1();
+        float v0 = sprite.getV0();
+        float v1 = sprite.getV1();
 
-        bufferSource.endBatch();
-    }
-
-    private void renderQuad(VertexConsumer consumer, float pX, float pY, float pZ, float scale, int color) {
-
-        float u0 = 0, v0 = 0;
-        float u1 = 1, v1 = 1;
-
-        consumer.addVertex(pX - 1 * scale, pY - 0.25F, pZ - 1 * scale)
+        consumer.addVertex(pX - 1 * this.quadSize, pY - 0.25F, pZ - 1 * this.quadSize)
                 .setUv(u1, v1)
-                .setColor(color)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setColor(1.0F, 1.0F, 1.0F, alpha)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
-        consumer.addVertex(pX - 1 * scale, pY - 0.25F, pZ + 1 * scale)
+        consumer.addVertex(pX - 1 * this.quadSize, pY - 0.25F, pZ + 1 * this.quadSize)
                 .setUv(u1, v0)
-                .setColor(color)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setColor(1.0F, 1.0F, 1.0F, alpha)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
-        consumer.addVertex(pX + 1 * scale, pY - 0.25F, pZ + 1 * scale)
+        consumer.addVertex(pX + 1 * this.quadSize, pY - 0.25F, pZ + 1 * this.quadSize)
                 .setUv(u0, v0)
-                .setColor(color)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setColor(1.0F, 1.0F, 1.0F, alpha)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
-        consumer.addVertex(pX + 1 * scale, pY - 0.25F, pZ - 1 * scale)
+        consumer.addVertex(pX + 1 * this.quadSize, pY - 0.25F, pZ - 1 * this.quadSize)
                 .setUv(u0, v1)
-                .setColor(color)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setColor(1.0F, 1.0F, 1.0F, alpha)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
     }

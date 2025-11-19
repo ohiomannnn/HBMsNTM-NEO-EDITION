@@ -1,10 +1,10 @@
 {
-  "parent": "hbmsntm:block/mine_ap",
+  "parent": "hbmsntm:block/mine_fat",
   "display": {
     "gui": {
-      "rotation": [45, 0, 45],
-      "translation": [1, 0, 0],
-      "scale": [0.5, 0.5, 0.5]
+      "rotation": [0, -90, 0],
+      "translation": [-3, 0, 0],
+      "scale": [0.375, 0.375, 0.375]
     },
     "ground": {
       "rotation": [0, 0, 0],
@@ -12,23 +12,23 @@
       "scale": [0.375, 0.375, 0.375]
     },
     "firstperson_righthand": {
-      "rotation": [0, 0, 0],
+      "rotation": [0, -90, 0],
       "translation": [4, 2, 0],
       "scale": [0.375, 0.375, 0.375]
     },
     "firstperson_lefthand": {
-      "rotation": [0, 0, 0],
+      "rotation": [0, -90, 0],
       "translation": [0, 2, 0],
       "scale": [0.375, 0.375, 0.375]
     },
     "thirdperson_righthand": {
-      "rotation": [-100, 0, 0],
-      "translation": [3, 5, -2],
+      "rotation": [-90, -90, 0],
+      "translation": [-3, 4, 0],
       "scale": [0.375, 0.375, 0.375]
     },
     "thirdperson_lefthand": {
-      "rotation": [-100, 0, 0],
-      "translation": [-3, 5, -2],
+      "rotation": [-90, -90, 0],
+      "translation": [3, 4, 0],
       "scale": [0.375, 0.375, 0.375]
     }
   }
