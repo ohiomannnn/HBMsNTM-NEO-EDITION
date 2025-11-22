@@ -81,6 +81,14 @@ public class ParticleMukeCloud extends TextureSheetParticle {
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
 
+        public Provider(SpriteSet sprites, boolean bf) {
+            if (bf) {
+                ModParticles.MUKE_CLOUD_BF_SPRITES = sprites;
+            } else {
+                ModParticles.MUKE_CLOUD_SPRITES = sprites;
+            }
+        }
+
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new ParticleMukeCloud(level, x, y, z, xSpeed, ySpeed, zSpeed, false);

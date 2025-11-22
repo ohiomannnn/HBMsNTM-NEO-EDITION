@@ -76,7 +76,7 @@ public class AvailableAbilities {
         return abilities.isEmpty();
     }
 
-    public void addInformation(List<Component> list) {
+    public void appendHoverText(List<Component> list) {
         List<Map.Entry<IBaseAbility, Integer>> toolAbilities = abilities.entrySet().stream()
                 .filter(entry -> (entry.getKey() instanceof IToolAreaAbility && entry.getKey() != IToolAreaAbility.NONE) || (entry.getKey() instanceof IToolHarvestAbility && entry.getKey() != IToolHarvestAbility.NONE))
                 .sorted(Comparator.comparing(Map.Entry<IBaseAbility, Integer>::getKey).thenComparing(Map.Entry::getValue)).toList();

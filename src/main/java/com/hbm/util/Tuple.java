@@ -1,6 +1,8 @@
 package com.hbm.util;
 
-//i made this like a week ago and it's already eye-bleeding, what the fuck happened?!
+import com.hbm.interfaces.Spaghetti;
+
+@Spaghetti("alreay??") //i made this like a week ago and it's already eye-bleeding, what the fuck happened?!
 public class Tuple {
 
     /*

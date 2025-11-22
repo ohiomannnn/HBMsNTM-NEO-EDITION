@@ -13,6 +13,9 @@ public class ClientConfig {
 
     public final ModConfigSpec.BooleanValue MAIN_MENU_WACKY_SPLASHES;
 
+    public final ModConfigSpec.IntValue TOOL_HUD_INDICATOR_X;
+    public final ModConfigSpec.IntValue TOOL_HUD_INDICATOR_Y;
+
     ClientConfig(ModConfigSpec.Builder builder) {
 
         NUKE_HUD_FLASH = builder
@@ -42,5 +45,14 @@ public class ClientConfig {
                 .comment("Toggles wacky splashes in the main menu.")
                 .translation("hbmsntm.configuration.mainMenuWackySplashes")
                 .define("mainMenuWackySplashes", true);
+
+        TOOL_HUD_INDICATOR_X = builder
+                .comment("Tool hud indicator x offset.")
+                .translation("hbmsntm.configuration.toolHudIndicatorX")
+                .defineInRange("toolHudIndicatorX", 0, -Integer.MAX_VALUE, Integer.MAX_VALUE);
+        TOOL_HUD_INDICATOR_Y = builder
+                .comment("Tool hud indicator x offset.")
+                .translation("hbmsntm.configuration.toolHudIndicatorY")
+                .defineInRange("toolHudIndicatorY", 0, -Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
 }

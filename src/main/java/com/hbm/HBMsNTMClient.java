@@ -8,6 +8,7 @@ import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntities;
 import com.hbm.handler.gui.GeigerGUI;
 import com.hbm.hazard.HazardSystem;
+import com.hbm.interfaces.IItemHUD;
 import com.hbm.inventory.gui.LoadingScreenRendererNT;
 import com.hbm.items.ModItems;
 import com.hbm.particle.*;
@@ -39,6 +40,7 @@ import net.minecraft.client.gui.screens.ReceivingLevelScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.CreeperRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -128,12 +130,18 @@ public class HBMsNTMClient {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onRenderGuiPre(RenderGuiEvent.Pre event) {
 
+        LocalPlayer player = Minecraft.getInstance().player;
+
         /// NUKE SHAKE ///
         if ((shakeTimestamp + shakeDuration - System.currentTimeMillis()) > 0 && MainConfig.CLIENT.NUKE_HUD_SHAKE.get()) {
             double mult = (shakeTimestamp + shakeDuration - System.currentTimeMillis()) / (double) shakeDuration * 2;
             double horizontal = Mth.clamp(Math.sin(System.currentTimeMillis() * 0.02), -0.7, 0.7) * 15;
             double vertical = Mth.clamp(Math.sin(System.currentTimeMillis() * 0.01 + 2), -0.7, 0.7) * 3;
             event.getGuiGraphics().pose().translate(horizontal * mult, vertical * mult, 0);
+        }
+
+        if (!player.getMainHandItem().isEmpty() && player.getMainHandItem().getItem() instanceof IItemHUD hudProvider) {
+            hudProvider.renderHUD(event, player, player.getMainHandItem());
         }
     }
 
@@ -296,14 +304,8 @@ public class HBMsNTMClient {
         event.registerSpriteSet(ModParticles.BASE_PARTICLE.get(), BaseParticle.Provider::new);
         event.registerSpecial(ModParticles.COOLING_TOWER.get(), new CoolingTowerParticle.Provider());
         event.registerSpecial(ModParticles.DIGAMMA_SMOKE.get(), new DigammaSmokeParticle.Provider());
-        event.registerSpriteSet(ModParticles.MUKE_CLOUD.get(), sprites -> {
-            ModParticles.MUKE_CLOUD_SPRITES = sprites;
-            return new ParticleMukeCloud.Provider();
-        });
-        event.registerSpriteSet(ModParticles.MUKE_CLOUD_BF.get(), sprites -> {
-            ModParticles.MUKE_CLOUD_BF_SPRITES = sprites;
-            return new ParticleMukeCloud.Provider();
-        });
+        event.registerSpriteSet(ModParticles.MUKE_CLOUD.get(), sprites -> new ParticleMukeCloud.Provider(sprites, false));
+        event.registerSpriteSet(ModParticles.MUKE_CLOUD_BF.get(), sprites -> new ParticleMukeCloud.Provider(sprites, true));
         event.registerSpriteSet(ModParticles.RBMK_MUSH.get(), RBMKMushParticle.Provider::new);
         event.registerSpriteSet(ModParticles.HAZE.get(), HazeParticle.Provider::new);
         event.registerSpriteSet(ModParticles.GIBLET.get(), ParticleGiblet.Provider::new);
@@ -316,14 +318,8 @@ public class HBMsNTMClient {
         event.registerSpriteSet(ModParticles.MUKE_WAVE.get(), ParticleMukeWave.Provider::new);
         event.registerSpriteSet(ModParticles.MUKE_FLASH.get(), ParticleMukeFlash.Provider::new);
         event.registerSpriteSet(ModParticles.GAS_FLAME.get(), ParticleGasFlame.Provider::new);
-        event.registerSpriteSet(ModParticles.DEAD_LEAF.get(), sprites -> {
-            ModParticles.DEAD_LEAVES_SPRITES = sprites;
-            return new ParticleAura.Provider(sprites);
-        });
-        event.registerSpriteSet(ModParticles.AURA.get(), sprites -> {
-            ModParticles.AURA_SPITES = sprites;
-            return new ParticleAura.Provider(sprites);
-        });
+        event.registerSpriteSet(ModParticles.DEAD_LEAF.get(), DeadLeafParticle.Provider::new);
+        event.registerSpriteSet(ModParticles.AURA.get(), ParticleAura.Provider::new);
         event.registerSpriteSet(ModParticles.RAD_FOG.get(), ParticleRadiationFog.Provider::new);
         event.registerSpecial(ModParticles.ROCKET_FLAME.get(), new ParticleRocketFlame.Provider());
         event.registerSpriteSet(ModParticles.HADRON.get(), ParticleHadron.Provider::new);
@@ -550,7 +546,7 @@ public class HBMsNTMClient {
 
             if ("deadleaf".equals(type)) {
                 if (particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean())) {
-                    innerMc.particleEngine.add(new ParticleDeadLeaf(level, x, y, z));
+                    innerMc.particleEngine.add(new DeadLeafParticle(level, x, y, z));
                 }
             }
 
@@ -566,8 +562,7 @@ public class HBMsNTMClient {
                             player.getX() + rand.nextGaussian() * 4,
                             player.getY() + rand.nextGaussian() * 2,
                             player.getZ() + rand.nextGaussian() * 4,
-                            0, 0, 0,
-                            ModParticles.AURA_SPITES
+                            0, 0, 0
                     );
 
                     flash.setColor(0F, 0.75F, 1F);

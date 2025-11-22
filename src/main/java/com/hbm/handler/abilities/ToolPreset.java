@@ -1,6 +1,7 @@
 package com.hbm.handler.abilities;
 
 import com.hbm.util.ChatBuilder;
+import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -23,6 +24,17 @@ public class ToolPreset {
         this.areaAbilityLevel = areaAbilityLevel;
         this.harvestAbility = harvestAbility;
         this.harvestAbilityLevel = harvestAbilityLevel;
+    }
+
+    // so i can actually debug this thingy
+    @Override
+    public String toString() {
+        return "ToolPreset {" +
+                "areaAbility=" + I18nUtil.resolveKey(areaAbility.getName()) +
+                ", areaAbilityLevel=" + areaAbilityLevel +
+                ", harvestAbility=" + I18nUtil.resolveKey(harvestAbility.getName()) +
+                ", harvestAbilityLevel=" + harvestAbilityLevel +
+                '}';
     }
 
     public Component getMessage() {

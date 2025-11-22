@@ -31,7 +31,7 @@ public interface IBaseAbility extends Comparable<IBaseAbility> {
     }
 
     @Override
-    default int compareTo(IBaseAbility o) {
-        return sortOrder() - o.sortOrder();
+    default int compareTo(IBaseAbility ability) {
+        return sortOrder() - ability.sortOrder();
     }
 }

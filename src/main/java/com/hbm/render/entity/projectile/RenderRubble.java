@@ -1,6 +1,6 @@
 package com.hbm.render.entity.projectile;
 
-import com.hbm.entity.projectile.EntityRubble;
+import com.hbm.entity.projectile.Rubble;
 import com.hbm.render.util.AtlasSpriteVertexConsumer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -17,9 +17,9 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 
-public class RenderRubble extends EntityRenderer<EntityRubble> {
+public class RenderRubble extends EntityRenderer<Rubble> {
 
-    private final ModelRubble<EntityRubble> model;
+    private final ModelRubble<Rubble> model;
 
     public RenderRubble(EntityRendererProvider.Context context) {
         super(context);
@@ -27,7 +27,7 @@ public class RenderRubble extends EntityRenderer<EntityRubble> {
     }
 
     @Override
-    public void render(EntityRubble entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+    public void render(Rubble entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         poseStack.pushPose();
 
         poseStack.scale(1.0F, 1.0F, 1.0F);
@@ -56,7 +56,7 @@ public class RenderRubble extends EntityRenderer<EntityRubble> {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(EntityRubble entityShrapnel) {
+    public ResourceLocation getTextureLocation(Rubble entityShrapnel) {
         return null;
     }
 }

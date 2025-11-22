@@ -25,17 +25,17 @@ import net.minecraft.world.phys.HitResult;
 
 import static com.hbm.lib.ModDamageSource.SHRAPNEL;
 
-public class EntityShrapnel extends ThrowableProjectile {
+public class Shrapnel extends ThrowableProjectile {
 
-    private static final EntityDataAccessor<Byte> TYPE = SynchedEntityData.defineId(EntityShrapnel.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> TYPE = SynchedEntityData.defineId(Shrapnel.class, EntityDataSerializers.BYTE);
 
-    public EntityShrapnel(EntityType<? extends ThrowableProjectile> entityType, Level level) {
+    public Shrapnel(EntityType<? extends ThrowableProjectile> entityType, Level level) {
         super(entityType, level);
     }
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        builder.define(TYPE, Byte.valueOf((byte) 0));
+        builder.define(TYPE, (byte) 0);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class EntityShrapnel extends ThrowableProjectile {
         super.tick();
 
         if (level().isClientSide && this.entityData.get(TYPE) == 1) {
-            level().addParticle(ParticleTypes.FLAME, getX(), getY(), getZ(), 0.0, 0.0, 0.0);
+            level().addAlwaysVisibleParticle(ParticleTypes.FLAME, true, getX(), getY(), getZ(), 0.0, 0.0, 0.0);
         }
     }
 
@@ -101,7 +101,7 @@ public class EntityShrapnel extends ThrowableProjectile {
                 }
             } else {
                 for (int i = 0; i < 5; i++) {
-                    level().addParticle(ParticleTypes.LAVA, getX(), getY(), getZ(), 0.0, 0.0, 0.0);
+                    level().addAlwaysVisibleParticle(ParticleTypes.LAVA, true, getX(), getY(), getZ(), 0.0, 0.0, 0.0);
                 }
             }
 

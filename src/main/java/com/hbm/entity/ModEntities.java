@@ -8,8 +8,8 @@ import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.entity.effect.NukeTorex;
 import com.hbm.entity.mob.CreeperNuclear;
 import com.hbm.entity.mob.Duck;
-import com.hbm.entity.projectile.EntityRubble;
-import com.hbm.entity.projectile.EntityShrapnel;
+import com.hbm.entity.projectile.Rubble;
+import com.hbm.entity.projectile.Shrapnel;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -69,13 +69,13 @@ public class ModEntities {
                             .updateInterval(10)
                             .build("tnt_primed_base"));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityShrapnel>> SHRAPNEL = REGISTER.register(
+    public static final DeferredHolder<EntityType<?>, EntityType<Shrapnel>> SHRAPNEL = REGISTER.register(
             "shrapnel",
-            () -> EntityType.Builder.of(EntityShrapnel::new, MobCategory.MISC)
+            () -> EntityType.Builder.of(Shrapnel::new, MobCategory.MISC)
                     .build("shrapnel"));
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityRubble>> RUBBLE = REGISTER.register(
+    public static final DeferredHolder<EntityType<?>, EntityType<Rubble>> RUBBLE = REGISTER.register(
             "rubble",
-            () -> EntityType.Builder.of(EntityRubble::new, MobCategory.MISC)
+            () -> EntityType.Builder.of(Rubble::new, MobCategory.MISC)
                     .build("rubble"));
 
     public static void register(IEventBus eventBus) {

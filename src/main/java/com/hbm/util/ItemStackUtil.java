@@ -18,12 +18,12 @@ import java.util.Random;
 public class ItemStackUtil {
 
     public static ItemStack carefulCopy(ItemStack stack) {
-        if (stack == null) return null;
+        if (stack.isEmpty()) return ItemStack.EMPTY;
         return stack.copy();
     }
 
     public static ItemStack carefulCopyWithSize(ItemStack stack, int size) {
-        if (stack == null) return null;
+        if (stack.isEmpty()) return ItemStack.EMPTY;
         ItemStack copy = stack.copy();
         copy.setCount(size);
         return copy;

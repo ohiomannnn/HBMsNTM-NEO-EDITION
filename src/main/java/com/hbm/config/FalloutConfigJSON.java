@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.CommonEvents;
+import com.hbm.HBMsNTM;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
 import com.hbm.inventory.RecipesCommon.StateBlock;
@@ -177,6 +178,8 @@ public class FalloutConfigJSON {
     }
 
     private static void writeDefault(File file) {
+
+        HBMsNTM.LOGGER.info("No fallout config file found, registering defaults for {}", file.getName());
 
         try {
             JsonWriter writer = new JsonWriter(new FileWriter(file));

@@ -6,13 +6,13 @@ import net.minecraft.core.particles.SimpleParticleType;
 
 public class ParticleAura extends TextureSheetParticle {
 
-    public ParticleAura(ClientLevel level, double x, double y, double z, double vx, double vy, double vz, SpriteSet sprites) {
+    public ParticleAura(ClientLevel level, double x, double y, double z, double vx, double vy, double vz) {
         super(level, x, y, z, vx, vy, vz);
         float f = this.random.nextFloat() * 0.1F + 0.2F;
         this.rCol = f;
         this.gCol = f;
         this.bCol = f;
-        this.setSpriteFromAge(sprites);
+        this.setSpriteFromAge(ModParticles.AURA_SPITES);
         this.setSize(0.02F, 0.02F);
         this.xd *= 0.019999999552965164D;
         this.yd *= 0.019999999552965164D;
@@ -42,15 +42,13 @@ public class ParticleAura extends TextureSheetParticle {
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
 
-        private final SpriteSet sprite;
-
         public Provider(SpriteSet sprite) {
-            this.sprite = sprite;
+            ModParticles.AURA_SPITES = sprite;
         }
 
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double vx, double vy, double vz) {
-            return new ParticleAura(level, x, y, z, vx, vy, vz, this.sprite);
+            return new ParticleAura(level, x, y, z, vx, vy, vz);
         }
     }
 }

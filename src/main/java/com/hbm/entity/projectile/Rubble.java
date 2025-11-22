@@ -22,11 +22,11 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-public class EntityRubble extends ThrowableProjectile {
+public class Rubble extends ThrowableProjectile {
 
-    private static final EntityDataAccessor<String> BLOCK_ID = SynchedEntityData.defineId(EntityRubble.class, EntityDataSerializers.STRING);
+    private static final EntityDataAccessor<String> BLOCK_ID = SynchedEntityData.defineId(Rubble.class, EntityDataSerializers.STRING);
 
-    public EntityRubble(EntityType<? extends EntityRubble> type, Level level) {
+    public Rubble(EntityType<? extends Rubble> type, Level level) {
         super(type, level);
     }
 

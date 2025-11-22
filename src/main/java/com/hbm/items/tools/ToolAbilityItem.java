@@ -1,24 +1,37 @@
 package com.hbm.items.tools;
 
 import com.google.common.collect.Sets;
+import com.hbm.HBMsNTM;
 import com.hbm.HBMsNTMClient;
+import com.hbm.config.MainConfig;
+import com.hbm.handler.KeyHandler.EnumKeybind;
 import com.hbm.handler.abilities.*;
+import com.hbm.interfaces.IItemHUD;
 import com.hbm.items.IDepthRockTool;
+import com.hbm.items.IItemControlReceiver;
+import com.hbm.items.IKeybindReceiver;
 import com.hbm.network.toclient.InformPlayer;
 import com.hbm.util.TagsUtil;
+import com.hbm.util.Tuple.Pair;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.Options;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.stats.Stats;
-import net.minecraft.util.RandomSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -26,29 +39,29 @@ import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.common.IShearable;
+import net.neoforged.neoforge.common.ItemAbilities;
+import net.neoforged.neoforge.common.ItemAbility;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-public class ToolAbilityItem extends TieredItem implements IDepthRockTool {
+public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IKeybindReceiver, IItemControlReceiver, IItemHUD {
 
     protected EnumToolType toolType;
     protected AvailableAbilities availableAbilities = new AvailableAbilities().addToolAbilities();
@@ -76,17 +89,17 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool {
     }
 
     public ToolAbilityItem(Tier tier, EnumToolType type, Properties properties) {
-        super(tier, properties);
+        super(tier, properties.component(DataComponents.TOOL, tier.createToolProperties(BlockTags.MINEABLE_WITH_PICKAXE)));
         this.toolType = type;
     }
 
     public enum EnumToolType {
 
         SHOVEL(
-                Sets.newHashSet(new Block[] { Blocks.SAND, Blocks.RED_SAND })
+                Sets.newHashSet(new Block[]{Blocks.SAND, Blocks.RED_SAND})
         ),
         PICKAXE(
-                Sets.newHashSet(new Block[] { Blocks.IRON_ORE, Blocks.DIAMOND_ORE, Blocks.GOLD_ORE })
+                Sets.newHashSet(new Block[]{Blocks.IRON_ORE, Blocks.DIAMOND_ORE, Blocks.GOLD_ORE})
         );
 
         EnumToolType(Set<Block> blocks) {
@@ -121,34 +134,32 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool {
     }
 
     @Override
+    public boolean canPerformAction(ItemStack stack, ItemAbility itemAbility) {
+        return ItemAbilities.DEFAULT_PICKAXE_ACTIONS.contains(itemAbility);
+    }
+
+    @Override
     public boolean mineBlock(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity miningEntity) {
-        /*
-         * The original implementation of this always returned FALSE which uses the vanilla block break code.
-         * This one now returns TRUE when an ability applies and instead relies on breakExtraBlock, which has the minor
-         * issue of only running on the sever, while the client uses the vanilla implementation. breakExtraBlock was only
-         * meant to be used for AoE or vein miner and not for the block that's being mined, hence break EXTRA block.
-         * The consequence was that the server would fail to break keyholes since breakExtraBlock is supposed to exclude
-         * them, while the client happily removes the block, causing a desync.
-         */
-        //if (!level.isClientSide && miningEntity instanceof Player player && (canHarvest(stack, state, player, level, pos) || canShearBlock(state, stack, level, pos)) && canOperate(stack)) {
-        if (!level.isClientSide && miningEntity instanceof Player player && canOperate(stack)) {
+        if (!level.isClientSide && miningEntity instanceof Player player && (canHarvest(stack, state, player, level, pos) || canShearBlock(state, stack, level, pos)) && canOperate(stack)) {
             Configuration config = getConfiguration(stack);
             ToolPreset preset = config.getActivePreset();
+            boolean harvestAllowed = preset.harvestAbility.isAllowed();
+            boolean areaAllowed = preset.areaAbility.isAllowed();
 
-            preset.harvestAbility.preHarvestAll(preset.harvestAbilityLevel, level, player);
+            if (harvestAllowed) preset.harvestAbility.preHarvestAll(preset.harvestAbilityLevel, level, player, stack);
 
-            boolean skipRef = preset.areaAbility.onDig(preset.areaAbilityLevel, level, pos, player, this);
+            if (areaAllowed) {
+                boolean skipRef = preset.areaAbility.onDig(preset.areaAbilityLevel, level, pos, player, this);
 
-            if (!skipRef) {
-                breakExtraBlock(level, pos, (ServerPlayer) player, pos);
+                if (!skipRef) {
+                    breakExtraBlock(level, pos, player, pos);
+                }
             }
 
-            preset.harvestAbility.postHarvestAll(preset.harvestAbilityLevel, level, player);
-
-            return true;
+            if (harvestAllowed) preset.harvestAbility.postHarvestAll(preset.harvestAbilityLevel, level, player, stack);
         }
 
-        return false;
+        return super.mineBlock(stack, level, state, pos, miningEntity);
     }
 
     @Override
@@ -203,7 +214,7 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        availableAbilities.addInformation(tooltipComponents);
+        availableAbilities.appendHoverText(tooltipComponents);
 
         if (rockBreaker) {
             tooltipComponents.add(Component.empty());
@@ -211,34 +222,48 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool {
         }
     }
 
-    public void breakExtraBlock(Level level, BlockPos pos, ServerPlayer player, BlockPos refPos) {
-        if (level.isEmptyBlock(pos)) return;
-
-        ItemStack stack = player.getMainHandItem();
-        if (stack.isEmpty()) return;
-
+    public void breakExtraBlock(Level level, BlockPos pos, Player player, BlockPos refPos) {
         BlockState state = level.getBlockState(pos);
-
-        if (!(canHarvest(stack, state, player, level, pos) || canShearBlock(state, stack, level, pos)) || (state.getDestroySpeed(level, pos) == -1.0F && state.getDestroyProgress(player, level, pos) == 0.0F)) {
-            return;
-        }
-
         BlockState refState = level.getBlockState(refPos);
 
-        float refStrength = EventHooks.getBreakSpeed(player, refState, refState.getDestroySpeed(level, refPos), refPos);
-        float strength = EventHooks.getBreakSpeed(player, state, state.getDestroySpeed(level, pos), pos);
-
-        if (!EventHooks.doPlayerHarvestCheck(player, state, level, pos) || refStrength / strength > 10f || refState.getDestroyProgress(player, level, refPos) < 0) {
-            return;
+        if (state.is(refState.getBlock())) {
+            Block.dropResources(state, level, pos, level.getBlockEntity(pos), player, player.getMainHandItem());
+            level.removeBlock(pos, false);
+            player.getMainHandItem().hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
         }
 
-        BlockEvent.BreakEvent event = CommonHooks.fireBlockBreak(level, player.gameMode.getGameModeForPlayer(), player, pos, state);
-        if (event.isCanceled()) return;
-
-        Configuration config = getConfiguration(stack);
-        ToolPreset preset = config.getActivePreset();
-
-        preset.harvestAbility.onHarvestBlock(preset.harvestAbilityLevel, level, pos, player, state);
+//        if (level.isEmptyBlock(pos)) return;
+//
+//        if (!(player instanceof ServerPlayer serverPlayer)) return;
+//
+//        ItemStack stack = serverPlayer.getMainHandItem();
+//        if (stack.isEmpty()) return;
+//
+//        BlockState state = level.getBlockState(pos);
+//
+//        if (!(canHarvest(stack, state, serverPlayer, level, pos) ||
+//                canShearBlock(state, stack, level, pos)) ||
+//                (state.getDestroySpeed(level, pos) == -1.0F && state.getDestroyProgress(serverPlayer, level, pos) == 0.0F)
+//        ) return;
+//
+//        BlockState refState = level.getBlockState(refPos);
+//
+//        float refStrength = EventHooks.getBreakSpeed(serverPlayer, refState, refState.getDestroySpeed(level, refPos), refPos);
+//        float strength = EventHooks.getBreakSpeed(serverPlayer, state, state.getDestroySpeed(level, pos), pos);
+//
+//        if (
+//                !EventHooks.doPlayerHarvestCheck(serverPlayer, state, level, pos) ||
+//                        refStrength / strength > 10f ||
+//                        refState.getDestroyProgress(serverPlayer, level, refPos) < 0
+//        ) return;
+//
+//        BlockEvent.BreakEvent event = CommonHooks.fireBlockBreak(level, serverPlayer.gameMode.getGameModeForPlayer(), serverPlayer, pos, state);
+//        if (event.isCanceled()) return;
+//
+//        Configuration config = this.getConfiguration(stack);
+//        ToolPreset preset = config.getActivePreset();
+//
+//        preset.harvestAbility.onHarvestBlock(preset.harvestAbilityLevel, level, pos, serverPlayer, state);
     }
 
     public static void standardDigPost(Level level, BlockPos pos, ServerPlayer player) {
@@ -292,6 +317,41 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool {
 
         return InteractionResultHolder.pass(player.getItemInHand(usedHand));
     }
+
+    @Override
+    public boolean canHandleKeybind(Player player, ItemStack stack, EnumKeybind keybind) {
+        if (player.level().isClientSide) return keybind == EnumKeybind.ABILITY_ALT;
+        return keybind == EnumKeybind.ABILITY_CYCLE;
+    }
+
+    @Override
+    public void handleKeybindClient(Player player, ItemStack stack, EnumKeybind keybind, boolean state) {
+        if (state) HBMsNTM.LOGGER.info("hello from client");
+    }
+
+    @Override
+    public void handleKeybind(Player player, ItemStack stack, EnumKeybind keybind, boolean state) {
+        if (keybind == EnumKeybind.ABILITY_CYCLE && state) {
+            Level level = player.level();
+            if (!canOperate(stack)) return;
+
+            Configuration config = this.getConfiguration(stack);
+            if (config.presets.size() < 2 || level.isClientSide) return;
+
+            if (player.isCrouching()) {
+                config.currentPreset = 0;
+            } else {
+                config.currentPreset = (config.currentPreset + 1) % config.presets.size();
+            }
+
+            this.setConfiguration(stack, config);
+            if (player instanceof ServerPlayer serverPlayer) {
+                PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(config.getActivePreset().getMessage(), HBMsNTMClient.ID_TOOLABILITY, 1000));
+            }
+            level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 0.25F, config.getActivePreset().isNone() ? 0.75F : 1.25F);
+        }
+    }
+
 
     public static class Configuration {
         public List<ToolPreset> presets;
@@ -389,10 +449,70 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool {
     }
 
     public void setConfiguration(ItemStack stack, Configuration config) {
-        if (stack.isEmpty()) {
-            return;
-        }
+        if (!TagsUtil.isValid(stack)) return;
 
-        config.writeToNBT(TagsUtil.getTag(stack));
+        CompoundTag tag = TagsUtil.getOrCreateTag(stack);
+        config.writeToNBT(tag);
+        TagsUtil.setTag(stack, tag);
+    }
+
+    @Override
+    public void receiveControl(ItemStack stack, CompoundTag tag) {
+        Configuration config = new Configuration();
+        config.readFromNBT(tag);
+        config.restrictTo(availableAbilities);
+        this.setConfiguration(stack, config);
+    }
+
+    private static final ResourceLocation tex = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/gui/tool/gui_tool_ability.png");
+
+    private static final Map<IBaseAbility, Pair<Integer, Integer>> abilityGui = new HashMap<>();
+
+    static {
+        abilityGui.put(IToolAreaAbility.RECURSION, new Pair<>(48, 138));
+        abilityGui.put(IToolAreaAbility.HAMMER, new Pair<>(80, 138));
+        abilityGui.put(IToolAreaAbility.HAMMER_FLAT, new Pair<>(112, 138));
+        abilityGui.put(IToolAreaAbility.EXPLOSION, new Pair<>(144, 138));
+    }
+
+
+    @Override
+    public void renderHUD(RenderGuiEvent.Pre event, Player player, ItemStack stack) {
+        Minecraft mc = Minecraft.getInstance();
+
+        Options options = mc.options;
+        if (!options.getCameraType().isFirstPerson()) return;
+        if (options.hideGui) return;
+        if (mc.gameMode.getPlayerMode() == GameType.SPECTATOR) return;
+
+        Configuration config = this.getConfiguration(stack);
+        ToolPreset preset = config.getActivePreset();
+        Pair<Integer, Integer> uv = abilityGui.get(preset.areaAbility);
+        if (uv == null) return;
+
+        GuiGraphics guiGraphics = event.getGuiGraphics();
+        int size = 16;
+        int ox = MainConfig.CLIENT.TOOL_HUD_INDICATOR_X.get();
+        int oy = MainConfig.CLIENT.TOOL_HUD_INDICATOR_Y.get();
+
+        RenderSystem.enableBlend();
+        RenderSystem.blendFuncSeparate(
+                GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR,
+                GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR,
+                GlStateManager.SourceFactor.ONE,
+                GlStateManager.DestFactor.ZERO
+        );
+
+        guiGraphics.blit(tex,
+                mc.getWindow().getGuiScaledWidth() / 2 - size - 8 + ox, mc.getWindow().getGuiScaledHeight() / 2 + 8 + oy,
+                size, size,
+                uv.key, uv.value,
+                size, size,
+                256, 256
+        );
+
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.disableBlend();
     }
 }
+

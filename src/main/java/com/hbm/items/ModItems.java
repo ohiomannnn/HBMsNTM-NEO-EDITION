@@ -2,6 +2,7 @@ package com.hbm.items;
 
 import com.hbm.HBMsNTM;
 import com.hbm.handler.abilities.IToolAreaAbility;
+import com.hbm.handler.abilities.IToolHarvestAbility;
 import com.hbm.handler.abilities.IWeaponAbility;
 import com.hbm.inventory.ModTiers;
 import com.hbm.items.food.ItemEnergy;
@@ -121,8 +122,13 @@ public class ModItems {
                     .stacksTo(1)
                     .attributes(ToolAbilityItem.createAttributes(Tiers.NETHERITE, 20F, -2.8F))
                     .rarity(Rarity.RARE))
-                    .addAbility(IWeaponAbility.RADIATION, 250)
-                    .addAbility(IToolAreaAbility.EXPLOSION, 3));
+                    .addAbility(IWeaponAbility.RADIATION, 3)
+                    .addAbility(IWeaponAbility.STUN, 3)
+                    .addAbility(IToolHarvestAbility.SILK, 1)
+                    .addAbility(IToolAreaAbility.EXPLOSION, 2)
+                    .addAbility(IToolAreaAbility.HAMMER, 2)
+                    .addAbility(IToolAreaAbility.HAMMER_FLAT, 2)
+                    .addAbility(IToolAreaAbility.RECURSION, 5));
 
     public static final DeferredItem<Item> DUCK_SPAWN_EGG = ITEMS.register(
             "duck_spawn_egg",
