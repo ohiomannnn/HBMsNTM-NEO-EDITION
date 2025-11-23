@@ -7,6 +7,7 @@ import com.hbm.config.MainConfig;
 import com.hbm.handler.KeyHandler.EnumKeybind;
 import com.hbm.handler.abilities.*;
 import com.hbm.interfaces.IItemHUD;
+import com.hbm.inventory.gui.ToolAbilityScreen;
 import com.hbm.items.IDepthRockTool;
 import com.hbm.items.IItemControlReceiver;
 import com.hbm.items.IKeybindReceiver;
@@ -141,22 +142,22 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IKeyb
     @Override
     public boolean mineBlock(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity miningEntity) {
         if (!level.isClientSide && miningEntity instanceof Player player && (canHarvest(stack, state, player, level, pos) || canShearBlock(state, stack, level, pos)) && canOperate(stack)) {
-            Configuration config = getConfiguration(stack);
+            Configuration config = this.getConfiguration(stack);
             ToolPreset preset = config.getActivePreset();
             boolean harvestAllowed = preset.harvestAbility.isAllowed();
             boolean areaAllowed = preset.areaAbility.isAllowed();
 
-            if (harvestAllowed) preset.harvestAbility.preHarvestAll(preset.harvestAbilityLevel, level, player, stack);
-
-            if (areaAllowed) {
-                boolean skipRef = preset.areaAbility.onDig(preset.areaAbilityLevel, level, pos, player, this);
-
-                if (!skipRef) {
-                    breakExtraBlock(level, pos, player, pos);
-                }
+            if (harvestAllowed) {
+                preset.harvestAbility.preHarvestAll(preset.harvestAbilityLevel, level, player, stack);
             }
 
-            if (harvestAllowed) preset.harvestAbility.postHarvestAll(preset.harvestAbilityLevel, level, player, stack);
+            if (areaAllowed) {
+                preset.areaAbility.onDig(preset.areaAbilityLevel, level, pos, player, this);
+            }
+
+            if (harvestAllowed) {
+                preset.harvestAbility.postHarvestAll(preset.harvestAbilityLevel, level, player, stack);
+            }
         }
 
         return super.mineBlock(stack, level, state, pos, miningEntity);
@@ -223,79 +224,10 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IKeyb
     }
 
     public void breakExtraBlock(Level level, BlockPos pos, Player player, BlockPos refPos) {
-        BlockState state = level.getBlockState(pos);
-        BlockState refState = level.getBlockState(refPos);
+        Configuration config = this.getConfiguration(player.getMainHandItem());
+        ToolPreset preset = config.getActivePreset();
 
-        if (state.is(refState.getBlock())) {
-            Block.dropResources(state, level, pos, level.getBlockEntity(pos), player, player.getMainHandItem());
-            level.removeBlock(pos, false);
-            player.getMainHandItem().hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
-        }
-
-//        if (level.isEmptyBlock(pos)) return;
-//
-//        if (!(player instanceof ServerPlayer serverPlayer)) return;
-//
-//        ItemStack stack = serverPlayer.getMainHandItem();
-//        if (stack.isEmpty()) return;
-//
-//        BlockState state = level.getBlockState(pos);
-//
-//        if (!(canHarvest(stack, state, serverPlayer, level, pos) ||
-//                canShearBlock(state, stack, level, pos)) ||
-//                (state.getDestroySpeed(level, pos) == -1.0F && state.getDestroyProgress(serverPlayer, level, pos) == 0.0F)
-//        ) return;
-//
-//        BlockState refState = level.getBlockState(refPos);
-//
-//        float refStrength = EventHooks.getBreakSpeed(serverPlayer, refState, refState.getDestroySpeed(level, refPos), refPos);
-//        float strength = EventHooks.getBreakSpeed(serverPlayer, state, state.getDestroySpeed(level, pos), pos);
-//
-//        if (
-//                !EventHooks.doPlayerHarvestCheck(serverPlayer, state, level, pos) ||
-//                        refStrength / strength > 10f ||
-//                        refState.getDestroyProgress(serverPlayer, level, refPos) < 0
-//        ) return;
-//
-//        BlockEvent.BreakEvent event = CommonHooks.fireBlockBreak(level, serverPlayer.gameMode.getGameModeForPlayer(), serverPlayer, pos, state);
-//        if (event.isCanceled()) return;
-//
-//        Configuration config = this.getConfiguration(stack);
-//        ToolPreset preset = config.getActivePreset();
-//
-//        preset.harvestAbility.onHarvestBlock(preset.harvestAbilityLevel, level, pos, serverPlayer, state);
-    }
-
-    public static void standardDigPost(Level level, BlockPos pos, ServerPlayer player) {
-        BlockState state = level.getBlockState(pos);
-
-        level.levelEvent(player, 2001, pos, Block.getId(state));
-
-        boolean removedByPlayer;
-
-        if (player.isCreative()) {
-            level.destroyBlock(pos, false, player);
-            player.connection.send(new ClientboundBlockUpdatePacket(pos, level.getBlockState(pos)));
-        } else {
-            ItemStack held = player.getMainHandItem();
-            boolean canHarvest = player.hasCorrectToolForDrops(state, level, pos);
-
-            removedByPlayer = level.destroyBlock(pos, canHarvest, player);
-
-            if (!held.isEmpty()) {
-                held.mineBlock(level, state, pos, player);
-                if (held.isEmpty()) {
-                    player.getInventory().removeItem(held);
-                }
-            }
-
-            if (removedByPlayer && canHarvest) {
-                List<ItemStack> drops = Block.getDrops(state, (ServerLevel) level, pos, level.getBlockEntity(pos), player, held);
-                for (ItemStack drop : drops) {
-                    Block.popResource(level, pos, drop);
-                }
-            }
-        }
+        preset.harvestAbility.onHarvestBlock(level, pos, player, refPos);
     }
 
     @Override
@@ -322,11 +254,6 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IKeyb
     public boolean canHandleKeybind(Player player, ItemStack stack, EnumKeybind keybind) {
         if (player.level().isClientSide) return keybind == EnumKeybind.ABILITY_ALT;
         return keybind == EnumKeybind.ABILITY_CYCLE;
-    }
-
-    @Override
-    public void handleKeybindClient(Player player, ItemStack stack, EnumKeybind keybind, boolean state) {
-        if (state) HBMsNTM.LOGGER.info("hello from client");
     }
 
     @Override

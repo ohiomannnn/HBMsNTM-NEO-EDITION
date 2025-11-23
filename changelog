@@ -1,5 +1,16 @@
 ## Added
+* All landmines types!
+    * Still not spawning in the world
+* Added a ton of entities, items.
+* Fat man nuke
+    * Currently no gui
+* Tools with ability (not full)
 
 ## Changed
+* Nuke rendering code
 
 ## Fixed
+* Fixed particle things (i really hate it)
+* Keybind crash
+
+yes i know a little update. it's been three weeks, but since i don't have documentation on Mojang's code, i just tested a lot of things, and some of them actually worked

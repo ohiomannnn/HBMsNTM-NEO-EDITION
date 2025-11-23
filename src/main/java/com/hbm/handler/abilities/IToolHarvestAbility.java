@@ -14,6 +14,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -21,21 +22,15 @@ public interface IToolHarvestAbility extends IBaseAbility {
     default void preHarvestAll(int lvl, Level level, Player player, ItemStack tool) { }
     default void postHarvestAll(int lvl, Level level, Player player, ItemStack tool) { }
 
-    // You must call harvestBlock to actually break the block.
-    // If you don't, visual glitches ensue
-    default void onHarvestBlock(int lvl, Level level, BlockPos pos, Player player, BlockState state) {
-        harvestBlock(false, level, pos, player);
-    }
+    default void onHarvestBlock(Level level, BlockPos pos, Player player, BlockPos refPos) {
+        BlockState state = level.getBlockState(pos);
+        BlockState refState = level.getBlockState(refPos);
 
-    static void harvestBlock(boolean skipDefaultDrops, Level level, BlockPos pos, Player player) {
-        if (skipDefaultDrops) {
-            // Emulate the block breaking without drops
-            level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
-            ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
-            if (!stack.isEmpty()) stack.hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
-        } else if (player instanceof ServerPlayer serverPlayer) {
-            // Break the block conventionally
-            ToolAbilityItem.standardDigPost(level, pos, serverPlayer);
+        if (state.is(refState.getBlock())) {
+            Block.dropResources(state, level, pos, level.getBlockEntity(pos), player, player.getMainHandItem());
+            level.removeBlock(pos, false);
+
+            player.getMainHandItem().hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
         }
     }
 
@@ -87,7 +82,118 @@ public interface IToolHarvestAbility extends IBaseAbility {
         }
     };
 
-    IToolHarvestAbility[] abilities = { NONE, SILK, /*LUCK, SMELTER, SHREDDER, CENTRIFUGE, CRYSTALLIZER, MERCURY*/ };
+    IToolHarvestAbility LUCK = new IToolHarvestAbility() {
+        @Override
+        public String getName() {
+            return "tool.ability.luck";
+        }
+
+        @Override
+        public boolean isAllowed() {
+            return MainConfig.COMMON.ABILITY_LUCK.get();
+        }
+
+        public final int[] powerAtLevel = { 1, 2, 3, 4, 5, 9 };
+
+        @Override
+        public int levels() {
+            return powerAtLevel.length;
+        }
+
+        @Override
+        public String getExtension(int level) {
+            return " (" + powerAtLevel[level] + ")";
+        }
+
+        @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 2;
+        }
+
+        @Override
+        public void preHarvestAll(int lvl, Level level, Player player, ItemStack tool) {
+            Holder<Enchantment> fortune = level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.FORTUNE);
+            if (!tool.isEmpty()) {
+                EnchantmentHelper.updateEnchantments(tool, mutable -> mutable.set(fortune, 1));
+            }
+        }
+
+        @Override
+        public void postHarvestAll(int lvl, Level level, Player player, ItemStack tool) {
+            Holder<Enchantment> fortune = level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.FORTUNE);
+            if (!tool.isEmpty()) {
+                EnchantmentHelper.updateEnchantments(tool, mutable -> mutable.set(fortune, 0));
+            }
+        }
+    };
+
+    IToolHarvestAbility SMELTER = new IToolHarvestAbility() {
+
+        @Override
+        public String getName() {
+            return "tool.ability.smelter";
+        }
+
+        @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 3;
+        }
+    };
+
+    IToolHarvestAbility SHREDDER = new IToolHarvestAbility() {
+
+        @Override
+        public String getName() {
+            return "tool.ability.shredder";
+        }
+
+        @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 4;
+        }
+    };
+
+    IToolHarvestAbility CENTRIFUGE = new IToolHarvestAbility() {
+
+        @Override
+        public String getName() {
+            return "tool.ability.centrifuge";
+        }
+
+        @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 5;
+        }
+    };
+
+    IToolHarvestAbility CRYSTALLIZER = new IToolHarvestAbility() {
+
+        @Override
+        public String getName() {
+            return "tool.ability.crystallizer";
+        }
+
+        @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 6;
+        }
+    };
+
+    IToolHarvestAbility MERCURY = new IToolHarvestAbility() {
+
+        @Override
+        public String getName() {
+            return "tool.ability.mercury";
+        }
+
+        @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 7;
+        }
+    };
+    // endregion handlers
+
+    IToolHarvestAbility[] abilities = { NONE, SILK, LUCK, SMELTER, SHREDDER, CENTRIFUGE, CRYSTALLIZER, MERCURY };
 
     static IToolHarvestAbility getByName(String name) {
         for (IToolHarvestAbility ability : abilities) {

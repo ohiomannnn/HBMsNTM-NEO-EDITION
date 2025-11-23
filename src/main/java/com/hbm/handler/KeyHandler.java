@@ -29,10 +29,10 @@ public class KeyHandler {
     public static final KeyMapping MAGNET = new KeyMapping(category + ".toggleMagnet", InputConstants.Type.KEYSYM, InputConstants.KEY_Z, category);
     public static final KeyMapping HUD = new KeyMapping(category + ".toggleHUD", InputConstants.Type.KEYSYM, InputConstants.KEY_V, category);
 
-    public static final KeyMapping ABILITY_CYCLE = new KeyMapping(category + ".ability", InputConstants.Type.MOUSE, InputConstants.MOUSE_BUTTON_RIGHT, category);
+    public static final KeyMapping ABILITY_CYCLE = new KeyMapping(category + ".ability", InputConstants.Type.KEYSYM, InputConstants.KEY_I, category);
     public static final KeyMapping ABILITY_ALT = new KeyMapping(category + ".abilityAlt", InputConstants.Type.KEYSYM, InputConstants.KEY_LALT, category);
     public static final KeyMapping COPY_TOOL_ALT = new KeyMapping(category + ".copyToolAlt", InputConstants.Type.KEYSYM, InputConstants.KEY_LALT, category);
-    public static final KeyMapping COPY_TOOL_CTRL = new KeyMapping(category + ".copyToolCtrl", InputConstants.Type.KEYSYM, InputConstants.KEY_LCONTROL, category);
+    public static final KeyMapping COPY_TOOL_CTRL = new KeyMapping(category + ".copyToolCtrl", InputConstants.Type.KEYSYM, InputConstants.KEY_U, category);
 
     private static final Map<KeyMapping, EnumKeybind> CONNECTED_BINDS = new HashMap<>();
 

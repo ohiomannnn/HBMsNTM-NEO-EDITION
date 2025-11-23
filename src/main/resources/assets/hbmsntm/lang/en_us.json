@@ -50,6 +50,21 @@
   "hbmsntm.configuration.disableBlinding": "Disable Blinding Hazards",
   "hbmsntm.configuration.disableExplosive": "Disable Explosive Hazards",
 
+  "hbmsntm.configuration.abilityFurnace": "Furnace ability",
+  "hbmsntm.configuration.hammerAbility": "Hammer ability",
+  "hbmsntm.configuration.abilitySilk": "Silk ability",
+  "hbmsntm.configuration.abilityCrystallizer": "Crystallizer ability",
+  "hbmsntm.configuration.abilityExplosion": "Explosion ability",
+  "hbmsntm.configuration.recursionStone": "Recursion stone",
+  "hbmsntm.configuration.recursionNetherrack": "Recursion netherrack",
+  "hbmsntm.configuration.abilityMercury": "Mercury touch ability",
+  "hbmsntm.configuration.recursionDepth": "Recursion depth",
+  "hbmsntm.configuration.abilityCentrifuge": "Centrifuge ability",
+  "hbmsntm.configuration.abilityVein": "Vein ability",
+  "hbmsntm.configuration.abilityShredder": "Shredder ability",
+  "hbmsntm.configuration.abilityLuck": "Fortune ability",
+  "hbmsntm.configuration.tools": "Tools",
+
   "hbmsntm.configuration.craterBiomeRad": "Radiation from Crater",
   "hbmsntm.configuration.craterBiomeInnerRad": "Radiation from Inner Crater",
   "hbmsntm.configuration.craterBiomeOuterRad": "Radiation from Outer Crater",
@@ -64,6 +79,8 @@
   "hbmsntm.configuration.nukeHudFlash": "Nuke Flash",
   "hbmsntm.configuration.nukeHudShake": "Nuke Shake",
   "hbmsntm.configuration.mainMenuWackySplashes": "Main Menu Wacky Splashes",
+  "hbmsntm.configuration.toolHudIndicatorX": "Tool x offset",
+  "hbmsntm.configuration.toolHudIndicatorY": "Tool y offset",
 
   "hbmsntm.configuration.crate_keep_contents": "Keep Crate Contents",
   "hbmsntm.configuration.taint_trails": "Taint trails",
@@ -143,6 +160,7 @@
 
   "item.hbmsntm.cell_antimatter": "Antimatter Cell",
   "item.hbmsntm.schrabidium_pickaxe": "Schrabidium Pickaxe",
+  "item.hbmsntm.alloy_sword": "Advanced Alloy sword",
 
   "entity.hbmsntm.duck": "Duck",
 
