@@ -8,7 +8,7 @@ import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntities;
 import com.hbm.handler.gui.GeigerGUI;
 import com.hbm.hazard.HazardSystem;
-import com.hbm.interfaces.IItemHUD;
+import com.hbm.items.IItemHUD;
 import com.hbm.inventory.gui.LoadingScreenRendererNT;
 import com.hbm.items.ModItems;
 import com.hbm.particle.*;
@@ -29,6 +29,8 @@ import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.util.Clock;
 import com.hbm.util.DamageResistanceHandler;
 import com.hbm.util.Vec3NT;
+import com.hbm.util.i18n.I18nClient;
+import com.hbm.util.i18n.ITranslate;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -83,6 +85,9 @@ public class HBMsNTMClient {
         modEventBus.addListener(GeigerGUI::RegisterGuiLayers);
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
     }
+
+    private static final I18nClient I18N = new I18nClient();
+    public static ITranslate getI18n() { return I18N; }
 
     private static final LoadingScreenRendererNT LOADING_RENDERER = new LoadingScreenRendererNT(Minecraft.getInstance());
 

@@ -3,6 +3,4 @@ package com.hbm.interfaces;
 //Universal annotation for shitty code
 //I know TODO
 //is a thing, but it's nice to hover over a class and see wtf is wrong with it
-public @interface Spaghetti {
-    String value();
-}
+public @interface Spaghetti { String value(); }

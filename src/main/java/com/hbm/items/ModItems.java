@@ -2,7 +2,6 @@ package com.hbm.items;
 
 import com.hbm.HBMsNTM;
 import com.hbm.handler.abilities.IToolAreaAbility;
-import com.hbm.handler.abilities.IToolHarvestAbility;
 import com.hbm.handler.abilities.IWeaponAbility;
 import com.hbm.inventory.ModTiers;
 import com.hbm.items.food.ItemEnergy;
@@ -10,13 +9,10 @@ import com.hbm.items.special.DangerousDropItem;
 import com.hbm.items.special.EntitySpawnerItem;
 import com.hbm.items.special.PolaroidItem;
 import com.hbm.items.tools.*;
-import com.hbm.items.tools.ToolAbilityItem.EnumToolType;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tiers;
-import net.minecraft.world.item.alchemy.PotionContents;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -114,11 +110,13 @@ public class ModItems {
 
     public static final DeferredItem<Item> ALLOY_SWORD = ITEMS.register(
             "alloy_sword",
-            () -> new SwordItem(ModTiers.ALLOY, new Item.Properties().stacksTo(1).attributes(SwordItem.createAttributes(ModTiers.ALLOY, 8, -2.4F))));
+            () -> new SwordAbilityItem(new Item.Properties().stacksTo(1), ModTiers.ALLOY, 8F, -2.4F)
+                    .addAbility(IWeaponAbility.BEHEADER, 0)
+    );
 
     public static final DeferredItem<Item> SCHRAB_PICKAXE = ITEMS.register(
             "schrabidium_pickaxe",
-            () -> new ToolAbilityItem(Tiers.NETHERITE, EnumToolType.PICKAXE, new Item.Properties()
+            () -> new ToolAbilityItem(Tiers.NETHERITE, new Item.Properties()
                     .stacksTo(1)
                     .attributes(ToolAbilityItem.createAttributes(Tiers.NETHERITE, 20F, -2.8F))
                     .rarity(Rarity.RARE))

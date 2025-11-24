@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 // All abilities available on a given tool
 public class AvailableAbilities {
     // Insertion order matters
-    public static HashMap<IBaseAbility, Integer> abilities = new HashMap<>();
+    private HashMap<IBaseAbility, Integer> abilities = new HashMap<>();
 
     public AvailableAbilities() { }
 
@@ -82,7 +82,7 @@ public class AvailableAbilities {
                 .sorted(Comparator.comparing(Map.Entry<IBaseAbility, Integer>::getKey).thenComparing(Map.Entry::getValue)).toList();
 
         if (!toolAbilities.isEmpty()) {
-            list.add(Component.literal("Abilities: "));
+            list.add(Component.translatable("tool.ability.msg"));
 
             toolAbilities.forEach(entry -> {
                 IBaseAbility ability = entry.getKey();
@@ -91,9 +91,9 @@ public class AvailableAbilities {
                 list.add(Component.literal("  " + ability.getFullName(level)).withStyle(ChatFormatting.GOLD));
             });
 
-            list.add(Component.literal("Right click to cycle through presets!"));
-            list.add(Component.literal("Sneak-click to go to first preset!"));
-            list.add(Component.literal("Alt-click to open customization GUI!"));
+            list.add(Component.translatable("tool.ability.msg.cycle"));
+            list.add(Component.translatable("tool.ability.msg.sneak"));
+            list.add(Component.translatable("tool.ability.msg.gui"));
         }
 
         List<Map.Entry<IBaseAbility, Integer>> weaponAbilities = abilities.entrySet().stream()
@@ -101,7 +101,7 @@ public class AvailableAbilities {
                 .sorted(Comparator.comparing(Map.Entry<IBaseAbility, Integer>::getKey).thenComparing(Map.Entry::getValue)).toList();
 
         if (!weaponAbilities.isEmpty()) {
-            list.add(Component.literal("Weapon modifiers: "));
+            list.add(Component.translatable("tool.ability.msg.weapon"));
 
             weaponAbilities.forEach(entry -> {
                 IBaseAbility ability = entry.getKey();

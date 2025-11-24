@@ -14,16 +14,19 @@ import java.util.List;
 public class I18nClient implements ITranslate {
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public String resolveKey(String s, Object... args) {
         return I18n.get(s, args);
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public String[] resolveKeyArray(String s, Object... args) {
         return resolveKey(s, args).split("\\$");
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public List<String> autoBreakWithParagraphs(Object fontRenderer, String text, int width) {
         String[] paragraphs = text.split("\\$");
         List<String> lines = new ArrayList<>();
@@ -36,38 +39,34 @@ public class I18nClient implements ITranslate {
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public List<String> autoBreak(Object o, String text, int width) {
-        Font font = (Font) o;
-        List<String> result = new ArrayList<>();
-
+        Font fontRenderer = (Font) o;
+        List<String> lines = new ArrayList<>();
+        //split the text by all spaces
         String[] words = text.split(" ");
-        if (words.length == 0) return result;
 
-        StringBuilder currentLine = new StringBuilder(words[0]);
-        int indent = font.width(Component.literal(words[0]));
+        //add the first word to the first line, no matter what
+        lines.add(words[0]);
+        //starting indent is the width of the first word
+        int indent = fontRenderer.width(words[0]);
 
         for (int w = 1; w < words.length; w++) {
-            int wordWidth = font.width(Component.literal(" " + words[w]));
-            if (indent + wordWidth <= width) {
-                currentLine.append(" ").append(words[w]);
-                indent += wordWidth;
+            //increment the indent by the width of the next word + leading space
+            indent += fontRenderer.width(" " + words[w]);
+
+            //if the indent is within bounds
+            if (indent <= width) {
+                //add the next word to the last line (i.e. the one in question)
+                String last = lines.getLast();
+                lines.set(lines.size() - 1, last + (" " + words[w]));
             } else {
-                result.add(currentLine.toString());
-                currentLine = new StringBuilder(words[w]);
-                indent = font.width(Component.literal(words[w]));
+                //otherwise, start a new line and reset the indent
+                lines.add(words[w]);
+                indent = fontRenderer.width(words[w]);
             }
         }
-        result.add(currentLine.toString());
 
-        return result;
-    }
-
-    private static String sequenceToString(FormattedCharSequence seq) {
-        StringBuilder sb = new StringBuilder();
-        seq.accept((index, style, codePoint) -> {
-            sb.appendCodePoint(codePoint);
-            return true;
-        });
-        return sb.toString();
+        return lines;
     }
 }

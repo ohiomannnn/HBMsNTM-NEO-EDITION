@@ -1,6 +1,7 @@
 package com.hbm.handler.abilities;
 
 import com.hbm.util.ContaminationUtil;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -8,8 +9,12 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 
 public interface IWeaponAbility extends IBaseAbility {
@@ -136,7 +141,48 @@ public interface IWeaponAbility extends IBaseAbility {
         }
     };
 
-    IWeaponAbility[] abilities = { NONE, RADIATION, VAMPIRE, STUN, /*PHOSPHORUS, FIRE, CHAINSAW, BEHEADER, BOBBLE*/ };
+    IWeaponAbility BEHEADER = new IWeaponAbility() {
+        @Override
+        public String getName() {
+            return "weapon.ability.beheader";
+        }
+
+        @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 8;
+        }
+
+        @Override
+        public void onHit(int level, Level world, Player player, Entity victim, Item tool) {
+            if (victim instanceof LivingEntity living && living.getHealth() <= 0.0F) {
+                switch (living) {
+                    case Skeleton ignored -> living.spawnAtLocation(new ItemStack(Items.SKELETON_SKULL), 0.0F);
+                    case WitherSkeleton ignored -> {
+                        if (world.random.nextInt(20) == 0) {
+                            living.spawnAtLocation(new ItemStack(Items.WITHER_SKELETON_SKULL), 0.0F);
+                        } else {
+                            living.spawnAtLocation(new ItemStack(Items.COAL, 3), 0.0F);
+                        }
+                    }
+                    case Zombie ignored -> living.spawnAtLocation(new ItemStack(Items.ZOMBIE_HEAD), 0.0F);
+                    case Creeper ignored -> living.spawnAtLocation(new ItemStack(Items.CREEPER_HEAD), 0.0F);
+                    case MagmaCube ignored -> living.spawnAtLocation(new ItemStack(Items.MAGMA_CREAM, 3), 0.0F);
+                    case Slime ignored -> living.spawnAtLocation(new ItemStack(Items.SLIME_BALL, 3), 0.0F);
+                    case Player targetPlayer -> {
+                        ItemStack head = new ItemStack(Items.PLAYER_HEAD);
+                        head.set(DataComponents.PROFILE, new ResolvableProfile(targetPlayer.getGameProfile()));
+                        living.spawnAtLocation(head, 0.0F);
+                    }
+                    default -> {
+                        living.spawnAtLocation(new ItemStack(Items.ROTTEN_FLESH, 3), 0.0F);
+                        living.spawnAtLocation(new ItemStack(Items.BONE, 2), 0.0F);
+                    }
+                }
+            }
+        }
+    };
+
+    IWeaponAbility[] abilities = { NONE, RADIATION, VAMPIRE, STUN, /*PHOSPHORUS, FIRE, CHAINSAW,*/ BEHEADER, /*BOBBLE*/ };
 
     static IWeaponAbility getByName(String name) {
         for(IWeaponAbility ability : abilities) {

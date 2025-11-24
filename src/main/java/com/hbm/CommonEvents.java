@@ -21,6 +21,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.config.ModConfigEvent;
@@ -53,33 +54,29 @@ public class CommonEvents {
 
         HTTPHandler.loadStats();
         FalloutConfigJSON.initialize();
-        FalloutConfigJSON.initDefault();
         DamageResistanceHandler.init();
         HazardRegistry.registerItems();
     }
 
     @SubscribeEvent
     public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
-        if (!event.getEntity().level().isClientSide) {
-            if (MainConfig.COMMON.ENABLE_MOTD.get()) {
-                Player player = event.getEntity();
+        if (MainConfig.COMMON.ENABLE_MOTD.get()) {
+            Player player = event.getEntity();
 
-                player.sendSystemMessage(Component.literal("Loaded world with Hbm's Nuclear Tech Mod " + HBMsNTM.VERSION + " for Minecraft 1.21.1!"));
+            player.sendSystemMessage(Component.literal("Loaded world with Hbm's Nuclear Tech Mod " + HBMsNTM.VERSION + " for Minecraft 1.21.1!"));
 
-                if (HTTPHandler.newVersion) {
-                    player.sendSystemMessage(
-                            Component.literal("New version " + HTTPHandler.versionNumber + " is available! Click ")
-                                    .withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW))
-                                    .append(
-                                            Component.literal("[here]")
-                                                    .withStyle(Style.EMPTY
-                                                            .withColor(ChatFormatting.RED)
-                                                            .withUnderlined(true)
-                                                            .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/ohiomannnn/HBMsNTM-NEO-EDITION/releases"))
-                                                    )
-                                    ).append(Component.literal(" to download!").withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)))
-                    );
-                }
+            if (HTTPHandler.newVersion) {
+                player.sendSystemMessage(
+                        Component.literal("New version " + HTTPHandler.versionNumber + " is available! Click ")
+                                .withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW))
+                                .append(Component.literal("[here]")
+                                        .withStyle(Style.EMPTY
+                                                        .withColor(ChatFormatting.RED)
+                                                        .withUnderlined(true)
+                                                        .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/ohiomannnn/HBMsNTM-NEO-EDITION/releases"))
+                                        )
+                                ).append(Component.literal(" to download!").withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)))
+                );
             }
         }
     }

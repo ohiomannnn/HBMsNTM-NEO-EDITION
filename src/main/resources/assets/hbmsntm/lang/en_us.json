@@ -250,6 +250,12 @@
   "tool.ability.silktouch": "Silk Touch",
   "tool.ability.smelter": "Auto-Smelter",
 
+  "tool.ability.msg": "Abilities: ",
+  "tool.ability.msg.cycle": "Right click to cycle through presets!",
+  "tool.ability.msg.sneak": "Sneak-click to go to first preset!",
+  "tool.ability.msg.gui": "Alt-click to open customization GUI!",
+  "tool.ability.msg.weapon": "Weapon modifiers: ",
+
   "creative_tab.hbmsntm.ores_and_blocks": "NTM Ores and Blocks",
   "creative_tab.hbmsntm.consumables_and_gear": "NTM Consumables and Gear",
   "creative_tab.hbmsntm.bombs": "NTM Bombs"

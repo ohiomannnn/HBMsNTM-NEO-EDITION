@@ -1,6 +1,7 @@
 package com.hbm.inventory.gui;
 
 import com.hbm.handler.HTTPHandler;
+import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -27,7 +28,7 @@ public class LoadingScreenRendererNT {
         int width = mc.getWindow().getGuiScaledWidth();
         int height = mc.getWindow().getGuiScaledHeight();
 
-        String[] frags = this.tipOfTheDay.split("\\$");
+        String[] frags = I18nUtil.resolveKeyArray(tipOfTheDay);
         int y = (height / 2) / 3;
         for (int i = 0; i < frags.length; i++) {
             String frag = frags[i];
