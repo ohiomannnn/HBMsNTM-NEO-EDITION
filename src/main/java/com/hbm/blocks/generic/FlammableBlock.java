@@ -10,8 +10,8 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class FlammableBlock extends Block {
 
-    public int encouragement;
-    public int flammability;
+    protected int encouragement;
+    protected int flammability;
 
     public FlammableBlock(Properties properties, int encouragement, int flammability) {
         super(properties);

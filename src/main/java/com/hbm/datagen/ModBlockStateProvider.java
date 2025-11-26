@@ -35,11 +35,6 @@ public class ModBlockStateProvider extends BlockStateProvider {
                         modLoc("block/brick_concrete_marked"),
                         modLoc("block/brick_concrete")
         ));
-        simpleBlockWithItem(ModBlocks.IRON_CRATE.get(),
-                models().cubeColumn("iron_crate",
-                        modLoc("block/iron_crate_side"),
-                        modLoc("block/iron_crate_top")
-                ));
         simpleBlockWithItem(ModBlocks.DET_NUKE.get(),
                 models().cubeColumn("det_nuke",
                         modLoc("block/det_nuke_side"),

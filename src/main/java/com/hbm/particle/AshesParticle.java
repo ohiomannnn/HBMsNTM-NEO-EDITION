@@ -6,16 +6,14 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.TextureSheetParticle;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
-public class ParticleAshes extends ParticleRotating {
-    public ParticleAshes(ClientLevel level, double x, double y, double z, float scale) {
+public class AshesParticle extends RotatingParticle {
+    public AshesParticle(ClientLevel level, double x, double y, double z, float scale) {
         super(level, x, y, z);
         this.setSpriteFromAge(ModParticles.BASE_PARTICLE_SPRITES);
 
@@ -62,9 +60,6 @@ public class ParticleAshes extends ParticleRotating {
         Vec3 cameraPosition = camera.getPosition();
         float timeLeft = this.lifetime - (this.age + partialTicks);
 
-        Vector3f up = new Vector3f(camera.getUpVector());
-        Vector3f left = new Vector3f(camera.getLeftVector());
-
         if (timeLeft < 40) {
             this.alpha = timeLeft / 40F;
         } else {
@@ -109,14 +104,14 @@ public class ParticleAshes extends ParticleRotating {
                     .setNormal(0.0F, 1.0F, 0.0F)
                     .setLight(light);
         } else {
-            renderParticleRotated(consumer, camera, up, left, this.rCol, this.gCol, this.bCol, this.alpha, this.quadSize, partialTicks, this.getLightColor(partialTicks));
+            renderParticleRotated(consumer, camera, this.rCol, this.gCol, this.bCol, this.alpha, this.quadSize, partialTicks, this.getLightColor(partialTicks));
         }
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
         @Override
         public TextureSheetParticle createParticle(SimpleParticleType type, ClientLevel world, double x, double y, double z, double dx, double dy, double dz) {
-            return new ParticleAshes(world, x, y, z, 0.125F);
+            return new AshesParticle(world, x, y, z, 0.125F);
         }
     }
 }

@@ -5,7 +5,6 @@ import com.hbm.blocks.bomb.*;
 import com.hbm.blocks.gas.GasCoalBlock;
 import com.hbm.blocks.gas.GasMonoxideBlock;
 import com.hbm.blocks.generic.*;
-//import com.hbm.blocks.generic.StorageCrateBlock;
 import com.hbm.blocks.special.ConcreteBrickMBlock;
 import com.hbm.items.ModItems;
 import com.mojang.serialization.MapCodec;
@@ -431,12 +430,6 @@ public class ModBlocks {
                     .explosionResistance(600.0F)
                     .sound(SoundType.STONE)
                     .noLootTable()));
-
-    public static final DeferredBlock<Block> IRON_CRATE =
-            BLOCKS.register("iron_crate",
-                    () -> new StorageCrateBlock(BlockBehaviour.Properties.of()
-                            .noLootTable()
-                            .sound(SoundType.STONE), false));
 
     public static final DeferredBlock<Block> BALEFIRE = BLOCKS.register(
             "balefire",

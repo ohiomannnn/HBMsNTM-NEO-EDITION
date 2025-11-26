@@ -1,9 +1,8 @@
 package com.hbm.particle.helper;
 
 import com.hbm.lib.ModSounds;
-import com.hbm.particle.ModParticles;
+import com.hbm.particle.ExplosionSmallParticle;
 import com.hbm.particle.ParticleDust;
-import com.hbm.particle.ParticleExplosionSmall;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -13,7 +12,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -22,7 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
-public class ExplosionSmallCreator implements IParticleCreator{
+public class ExplosionSmallCreator implements IParticleCreator {
 
     public static final double SPEED_OF_SOUND = (17.15D) * 0.5;
 
@@ -59,11 +57,11 @@ public class ExplosionSmallCreator implements IParticleCreator{
         }
 
         for (int i = 0; i < cloudCount; i++) {
-            ParticleExplosionSmall particle = new ParticleExplosionSmall(level, x, y, z, cloudScale, cloudSpeedMultiplier);
+            ExplosionSmallParticle particle = new ExplosionSmallParticle(level, x, y, z, cloudScale, cloudSpeedMultiplier);
             Minecraft.getInstance().particleEngine.add(particle);
         }
 
-        BlockPos base = new BlockPos(Mth.floor(x), Mth.floor(y), Mth.floor(z));
+        BlockPos base = BlockPos.containing(x, y, z);
         BlockState state = Blocks.AIR.defaultBlockState();
         BlockPos.MutableBlockPos cursor = base.mutable();
         for (Direction dir : Direction.values()) {

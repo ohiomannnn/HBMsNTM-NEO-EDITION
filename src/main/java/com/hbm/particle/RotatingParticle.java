@@ -9,21 +9,21 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
-public class ParticleRotating extends TextureSheetParticle {
+public class RotatingParticle extends TextureSheetParticle {
 
-    public ParticleRotating(ClientLevel level, double x, double y, double z) {
+    public RotatingParticle(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
     }
 
-    public void renderParticleRotated(VertexConsumer consumer, Camera camera, Vector3f up, Vector3f left, float r, float g, float b, float alpha, float scale, float partialTicks, int brightness) {
+    public void renderParticleRotated(VertexConsumer consumer, Camera camera, float r, float g, float b, float alpha, float scale, float partialTicks, int brightness) {
         Vec3 camPos = camera.getPosition();
         float pX = (float)(Mth.lerp(partialTicks, this.xo, this.x) - camPos.x);
         float pY = (float)(Mth.lerp(partialTicks, this.yo, this.y) - camPos.y);
         float pZ = (float)(Mth.lerp(partialTicks, this.zo, this.z) - camPos.z);
         float rotation  = this.oRoll + (this.roll - this.oRoll) * partialTicks;
 
-        Vector3f l = new Vector3f(left).mul(scale);
-        Vector3f u = new Vector3f(up).mul(scale);
+        Vector3f l = new Vector3f(camera.getLeftVector()).mul(scale);
+        Vector3f u = new Vector3f(camera.getUpVector()).mul(scale);
 
         double x1 = 0 - l.x - u.x;
         double y1 = 0 - l.y - u.y;

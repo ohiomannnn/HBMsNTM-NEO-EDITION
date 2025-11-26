@@ -1,6 +1,6 @@
 package com.hbm.particle.helper;
 
-import com.hbm.particle.ParticleAshes;
+import com.hbm.particle.AshesParticle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.particles.ParticleTypes;
@@ -40,7 +40,7 @@ public class AshesCreator implements IParticleCreator {
         float scale = tag.getFloat("ashesScale");
 
         for(int i = 0; i < amount; i++) {
-            ParticleAshes particle = new ParticleAshes(level,
+            AshesParticle particle = new AshesParticle(level,
                     entity.getX() + (entity.getBbWidth() + scale * 2) * (level.random.nextDouble() - 0.5),
                     entity.getY() + entity.getBbHeight() * level.random.nextDouble(),
                     entity.getZ() + (entity.getBbWidth() + scale * 2) * (level.random.nextDouble() - 0.5),

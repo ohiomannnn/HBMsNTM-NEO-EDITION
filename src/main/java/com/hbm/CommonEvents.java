@@ -9,8 +9,6 @@ import com.hbm.handler.EntityEffectHandler;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
-import com.hbm.inventory.ModMenus;
-import com.hbm.inventory.gui.GUICrateIron;
 import com.hbm.lib.ModCommands;
 import com.hbm.util.DamageResistanceHandler;
 import net.minecraft.ChatFormatting;
@@ -21,13 +19,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLPaths;
-import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
@@ -114,10 +109,6 @@ public class CommonEvents {
             do polaroidID = new Random().nextInt(18) + 1;
             while (polaroidID == 4 || polaroidID == 9);
         }
-    }
-    @SubscribeEvent
-    public static void registerScreens(RegisterMenuScreensEvent event) {
-        event.register(ModMenus.IRON_CRATE.get(), GUICrateIron::new);
     }
 
     @SubscribeEvent

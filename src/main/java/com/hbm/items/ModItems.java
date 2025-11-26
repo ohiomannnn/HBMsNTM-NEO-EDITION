@@ -11,7 +11,6 @@ import com.hbm.items.special.PolaroidItem;
 import com.hbm.items.tools.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tiers;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -111,21 +110,24 @@ public class ModItems {
     public static final DeferredItem<Item> ALLOY_SWORD = ITEMS.register(
             "alloy_sword",
             () -> new SwordAbilityItem(new Item.Properties().stacksTo(1), ModTiers.ALLOY, 8F, -2.4F)
-                    .addAbility(IWeaponAbility.BEHEADER, 0)
+                    .addAbility(IWeaponAbility.STUN, 0)
+    );
+    public static final DeferredItem<Item> ALLOY_PICKAXE = ITEMS.register(
+            "alloy_pickaxe",
+            () -> new ToolAbilityItem(new Item.Properties().stacksTo(1), ModTiers.ALLOY, 5F, -2.8F)
+                    .addAbility(IToolAreaAbility.RECURSION, 0)
     );
 
-    public static final DeferredItem<Item> SCHRAB_PICKAXE = ITEMS.register(
+    public static final DeferredItem<Item> SCHRABIDIUM_PICKAXE = ITEMS.register(
             "schrabidium_pickaxe",
-            () -> new ToolAbilityItem(Tiers.NETHERITE, new Item.Properties()
-                    .stacksTo(1)
-                    .attributes(ToolAbilityItem.createAttributes(Tiers.NETHERITE, 20F, -2.8F))
-                    .rarity(Rarity.RARE))
+            () -> new ToolAbilityItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE), Tiers.NETHERITE,20F, -2.8F)
                     .addAbility(IWeaponAbility.RADIATION, 1)
                     .addAbility(IWeaponAbility.STUN, 3)
                     .addAbility(IToolAreaAbility.EXPLOSION, 2)
                     .addAbility(IToolAreaAbility.HAMMER, 2)
                     .addAbility(IToolAreaAbility.HAMMER_FLAT, 2)
-                    .addAbility(IToolAreaAbility.RECURSION, 5));
+                    .addAbility(IToolAreaAbility.RECURSION, 5)
+    );
 
     public static final DeferredItem<Item> DUCK_SPAWN_EGG = ITEMS.register(
             "duck_spawn_egg",

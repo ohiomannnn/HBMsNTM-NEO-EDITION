@@ -296,7 +296,7 @@ public class HBMsNTMClient {
         event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_NUKE.get(), RenderCrashedBomb::new);
         event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_SALTED.get(), RenderCrashedBomb::new);
     }
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void drawTooltip(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();
         List<Component> list = event.getToolTip();
@@ -317,9 +317,9 @@ public class HBMsNTMClient {
         event.registerSpecial(ModParticles.DEBRIS.get(), new ParticleDebris.Provider());
         event.registerSpecial(ModParticles.EX_SMOKE.get(), new ParticleExSmoke.Provider());
         event.registerSpecial(ModParticles.FOAM.get(), new ParticleFoam.Provider());
-        event.registerSpecial(ModParticles.ASHES.get(), new ParticleAshes.Provider());
+        event.registerSpecial(ModParticles.ASHES.get(), new AshesParticle.Provider());
         event.registerSpecial(ModParticles.AMAT_FLASH.get(), new ParticleAmatFlash.Provider());
-        event.registerSpecial(ModParticles.EXPLOSION_SMALL.get(), new ParticleExplosionSmall.Provider());
+        event.registerSpecial(ModParticles.EXPLOSION_SMALL.get(), new ExplosionSmallParticle.Provider());
         event.registerSpriteSet(ModParticles.MUKE_WAVE.get(), ParticleMukeWave.Provider::new);
         event.registerSpriteSet(ModParticles.MUKE_FLASH.get(), ParticleMukeFlash.Provider::new);
         event.registerSpriteSet(ModParticles.GAS_FLAME.get(), ParticleGasFlame.Provider::new);

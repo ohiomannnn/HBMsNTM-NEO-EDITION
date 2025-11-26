@@ -99,7 +99,7 @@ public class ModCreativeTabs {
                         output.accept(ModItems.BOTTLE_SPARKLE);
 
                         output.accept(ModItems.ALLOY_SWORD);
-                        output.accept(ModItems.SCHRAB_PICKAXE);
+                        output.accept(ModItems.SCHRABIDIUM_PICKAXE);
                     }).build());
 
     public static void register(IEventBus eventBus) {

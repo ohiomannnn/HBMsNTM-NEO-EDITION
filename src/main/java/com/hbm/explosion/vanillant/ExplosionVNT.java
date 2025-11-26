@@ -25,9 +25,9 @@ public class ExplosionVNT {
     private IExplosionSFX[] sfx;
 
     public Level level;
-    public double posX;
-    public double posY;
-    public double posZ;
+    public double x;
+    public double y;
+    public double z;
     public float size;
     @Nullable public Entity exploder;
 
@@ -41,9 +41,9 @@ public class ExplosionVNT {
 
     public ExplosionVNT(Level level, double x, double y, double z, float size, @Nullable Entity exploder) {
         this.level = level;
-        this.posX = x;
-        this.posY = y;
-        this.posZ = z;
+        this.x = x;
+        this.y = y;
+        this.z = z;
         this.size = size;
         this.exploder = exploder;
 
@@ -75,20 +75,20 @@ public class ExplosionVNT {
         HashMap<Player, Vec3> affectedPlayers = null;
 
         //allocation
-        if (processBlocks) affectedBlocks = blockAllocator.allocate(this, level, posX, posY, posZ, size);
+        if (processBlocks) affectedBlocks = blockAllocator.allocate(this, level, x, y, z, size);
         if (processBlocks) this.compat.getToBlow().addAll(affectedBlocks);
-        if (processEntities) affectedPlayers = entityProcessor.processEntities(this, level, posX, posY, posZ, size);
+        if (processEntities) affectedPlayers = entityProcessor.processEntities(this, level, x, y, z, size);
         // technically not necessary, as the affected entity list is a separate parameter during the Detonate event
         if (processEntities) this.compat.getHitPlayers().putAll(affectedPlayers);
 
         //serverside processing
-        if (processBlocks) blockProcessor.process(this, level, posX, posY, posZ, affectedBlocks);
-        if (processEntities) playerProcessor.processPlayers(this, level, posX, posY, posZ, affectedPlayers);
+        if (processBlocks) blockProcessor.process(this, level, x, y, z, affectedBlocks);
+        if (processEntities) playerProcessor.processPlayers(this, level, x, y, z, affectedPlayers);
 
         //from server to client
         if (sfx != null) {
             for (IExplosionSFX fx : sfx) {
-                fx.doEffect(this, level, posX, posY, posZ, size);
+                fx.doEffect(this, level, x, y, z, size);
             }
         }
 

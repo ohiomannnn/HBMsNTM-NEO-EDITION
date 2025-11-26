@@ -5,18 +5,20 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
 
 import java.awt.*;
 
-public class ParticleExplosionSmall extends ParticleRotating {
+@OnlyIn(Dist.CLIENT)
+public class ExplosionSmallParticle extends RotatingParticle {
 
     private final float hue;
 
-    public ParticleExplosionSmall(ClientLevel level, double x, double y, double z, float scale, float speedMultiplier) {
+    public ExplosionSmallParticle(ClientLevel level, double x, double y, double z, float scale, float speedMultiplier) {
         super(level, x, y, z);
         this.setSpriteFromAge(ModParticles.BASE_PARTICLE_SPRITES);
         this.lifetime = 25 + this.random.nextInt(10);
@@ -48,7 +50,7 @@ public class ParticleExplosionSmall extends ParticleRotating {
             this.remove();
         }
 
-        this.xd -= gravity;
+        this.yd -= gravity;
         this.oRoll = this.roll;
 
         float ageScaled = (float) this.age / (float) this.lifetime;
@@ -63,12 +65,9 @@ public class ParticleExplosionSmall extends ParticleRotating {
     @Override
     public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
 
-        Vector3f up = new Vector3f(camera.getUpVector());
-        Vector3f left = new Vector3f(camera.getLeftVector());
+        float ageScaled = (this.age + partialTicks) / this.lifetime;
 
-        double ageScaled = (double) (this.age + partialTicks) / (double) this.lifetime;
-
-        Color color = Color.getHSBColor(hue / 255F, Math.max(1F - (float) ageScaled * 2F, 0), Mth.clamp(1.25F - (float) ageScaled * 2F, hue * 0.01F - 0.1F, 1F));
+        Color color = Color.getHSBColor(hue / 255F, Math.max(1F - ageScaled * 2F, 0), Mth.clamp(1.25F - ageScaled * 2F, hue * 0.01F - 0.1F, 1F));
         this.rCol = color.getRed() / 255F;
         this.gCol = color.getGreen() / 255F;
         this.bCol = color.getBlue() / 255F;
@@ -76,13 +75,13 @@ public class ParticleExplosionSmall extends ParticleRotating {
         this.alpha = (float) Math.pow(1 - Math.min(ageScaled, 1), 0.25);
 
         float scale = (float) ((0.25 + 1 - Math.pow(1 - ageScaled, 4) + (this.age + partialTicks) * 0.02) * this.quadSize);
-        renderParticleRotated(consumer, camera, up, left, this.rCol, this.gCol, this.bCol, this.alpha * 0.5F, scale, partialTicks, 240);
+        this.renderParticleRotated(consumer, camera, this.rCol, this.gCol, this.bCol, this.alpha * 0.5F, scale, partialTicks, 240);
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
-            return new ParticleExplosionSmall(level, x, y, z, 1.0F, 0.1F);
+            return new ExplosionSmallParticle(level, x, y, z, 1.0F, 0.1F);
         }
     }
 }

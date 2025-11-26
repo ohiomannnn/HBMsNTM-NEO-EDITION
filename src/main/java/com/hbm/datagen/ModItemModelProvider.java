@@ -3,16 +3,12 @@ package com.hbm.datagen;
 import com.hbm.HBMsNTM;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
-
-import java.util.Objects;
 
 public class ModItemModelProvider extends ItemModelProvider {
     public ModItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
@@ -30,7 +26,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         handheldItem(ModItems.REACHER.get());
         handheldItem(ModItems.DETONATOR.get());
         handheldItem(ModItems.MULTI_DETONATOR.get());
-        handheldItem(ModItems.SCHRAB_PICKAXE.get());
+        handheldItem(ModItems.SCHRABIDIUM_PICKAXE.get());
         basicItem(ModItems.DUCK_SPAWN_EGG.get());
 
         basicItem(ModItems.CELL_ANTIMATTER.get());

@@ -24,29 +24,12 @@ public abstract class GasBaseBlock extends Block {
         super(properties);
     }
 
-    @Override
-    public VoxelShape getCollisionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return Shapes.empty();
-    }
-    @Override
-    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return Shapes.empty();
-    }
+    @Override public VoxelShape getCollisionShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) { return Shapes.empty(); }
+    @Override public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) { return Shapes.empty(); }
 
-    @Override
-    public RenderShape getRenderShape(BlockState pState) {
-        return RenderShape.INVISIBLE;
-    }
+    @Override public RenderShape getRenderShape(BlockState state) { return RenderShape.INVISIBLE; }
 
-    @Override
-    public boolean canBeReplaced(BlockState pState, BlockPlaceContext pUseContext) {
-        return true;
-    }
-
-    @Override
-    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
-        return false;
-    }
+    @Override public boolean canBeReplaced(BlockState state, BlockPlaceContext context) { return true; }
 
     @Override
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
@@ -96,10 +79,5 @@ public abstract class GasBaseBlock extends Block {
 
     public Direction randomHorizontal(RandomSource random) {
         return Direction.Plane.HORIZONTAL.getRandomDirection(random);
-    }
-
-    @Override
-    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
-        super.animateTick(state, level, pos, random);
     }
 }

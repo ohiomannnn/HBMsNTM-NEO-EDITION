@@ -117,21 +117,6 @@ public class BlockProcessorStandard implements IBlockProcessor {
         }
     }
 
-    private static void addOrAppendStack(List<Pair<ItemStack, BlockPos>> drops, ItemStack stack, BlockPos pos) {
-        for (int i = 0; i < drops.size(); ++i) {
-            Pair<ItemStack, BlockPos> pair = drops.get(i);
-            ItemStack itemstack = pair.getFirst();
-            if (ItemEntity.areMergable(itemstack, stack)) {
-                drops.set(i, Pair.of(ItemEntity.merge(itemstack, stack, 16), pair.getSecond()));
-                if (stack.isEmpty()) {
-                    return;
-                }
-            }
-        }
-
-        drops.add(Pair.of(stack, pos));
-    }
-
     public BlockProcessorStandard setNoDrop() {
         this.chance = new DropChanceMutatorStandard(0F);
         return this;

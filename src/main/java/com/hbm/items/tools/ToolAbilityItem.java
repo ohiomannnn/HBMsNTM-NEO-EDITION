@@ -57,28 +57,28 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItem
     private boolean rockBreaker;
     private boolean isShears;
 
-    public static ItemAttributeModifiers createAttributes(Tier tier, float damage, float attackSpeed) {
-        return ItemAttributeModifiers.builder()
-                .add(
-                        Attributes.ATTACK_DAMAGE,
-                        new AttributeModifier(BASE_ATTACK_DAMAGE_ID, (damage + tier.getAttackDamageBonus()), AttributeModifier.Operation.ADD_VALUE),
-                        EquipmentSlotGroup.MAINHAND
-                )
-                .add(
-                        Attributes.ATTACK_SPEED,
-                        new AttributeModifier(BASE_ATTACK_SPEED_ID, attackSpeed, AttributeModifier.Operation.ADD_VALUE),
-                        EquipmentSlotGroup.MAINHAND
-                )
-                .build();
-    }
-
     public ToolAbilityItem setShears() {
         this.isShears = true;
         return this;
     }
 
-    public ToolAbilityItem(Tier tier, Properties properties) {
-        super(tier, properties.component(DataComponents.TOOL, tier.createToolProperties(BlockTags.MINEABLE_WITH_PICKAXE)));
+    public ToolAbilityItem(Properties properties, Tier tier, float damage, float attackSpeed) {
+        super(tier, properties
+                .component(DataComponents.TOOL, tier.createToolProperties(BlockTags.MINEABLE_WITH_PICKAXE))
+                .attributes(ItemAttributeModifiers.builder()
+                                .add(
+                                        Attributes.ATTACK_DAMAGE,
+                                        new AttributeModifier(BASE_ATTACK_DAMAGE_ID, (damage + tier.getAttackDamageBonus()), AttributeModifier.Operation.ADD_VALUE),
+                                        EquipmentSlotGroup.MAINHAND
+                                )
+                                .add(
+                                        Attributes.ATTACK_SPEED,
+                                        new AttributeModifier(BASE_ATTACK_SPEED_ID, attackSpeed, AttributeModifier.Operation.ADD_VALUE),
+                                        EquipmentSlotGroup.MAINHAND
+                                )
+                                .build()
+                )
+        );
     }
 
     public ToolAbilityItem addAbility(IBaseAbility ability, int level) {
