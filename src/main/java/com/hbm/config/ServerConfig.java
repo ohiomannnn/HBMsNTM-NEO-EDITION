@@ -3,7 +3,6 @@ package com.hbm.config;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class ServerConfig {
-    public final ModConfigSpec.BooleanValue DAMAGE_COMPATIBILITY_MODE;
 
     public final ModConfigSpec.DoubleValue MINE_AP_DAMAGE;
     public final ModConfigSpec.DoubleValue MINE_HE_DAMAGE;
@@ -18,17 +17,12 @@ public class ServerConfig {
 
     ServerConfig(ModConfigSpec.Builder builder) {
 
-        DAMAGE_COMPATIBILITY_MODE = builder
-                .comment("???")
-                .translation("hbmsntm.configuration.damage_compatibility_mode")
-                .define("damage_compatibility_mode", false);
-
         MINE_AP_DAMAGE = builder
-                .comment("Damage for AP landmine.")
+                .comment("Damage for anti-personell landmine.")
                 .translation("hbmsntm.configuration.mine_ap_damage")
                 .defineInRange("mine_ap_damage", 10F, 0, Double.MAX_VALUE);
         MINE_HE_DAMAGE = builder
-                .comment("Damage for HE landmine.")
+                .comment("Damage for anti-tank landmine.")
                 .translation("hbmsntm.configuration.mine_he_damage")
                 .defineInRange("mine_he_damage", 35F, 0, Double.MAX_VALUE);
         MINE_SHRAP_DAMAGE = builder

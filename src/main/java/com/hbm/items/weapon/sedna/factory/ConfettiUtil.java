@@ -1,21 +1,17 @@
 package com.hbm.items.weapon.sedna.factory;
 
-import com.hbm.items.weapon.sedna.DamageSourceSednaNoAttacker;
+import com.hbm.lib.ModSounds;
 import com.hbm.network.toclient.AuxParticle;
 import com.hbm.particle.helper.AshesCreator;
+import com.hbm.particle.helper.SkeletonCreator;
 import com.hbm.util.DamageResistanceHandler.DamageClass;
 import com.hbm.util.DamageSourceNT;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.monster.Slime;
 import net.neoforged.neoforge.network.PacketDistributor;
 
@@ -33,22 +29,21 @@ public class ConfettiUtil {
     public static void pulverize(LivingEntity entity) {
         int amount = Mth.clamp((int) (entity.getBbWidth() * entity.getBbHeight() * entity.getBbWidth() * 25), 5, 50);
         AshesCreator.composeEffect(entity.level(), entity, amount, 0.125F);
-        //SkeletonCreator.composeEffect(entity.worldObj, entity, 1F);
-        //entity.worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, "hbm:weapon.fire.disintegration", 2.0F, 0.9F + entity.getRNG().nextFloat() * 0.2F);
+        SkeletonCreator.composeEffect(entity.level(), entity, 1F);
+        entity.level().playSound(null, entity.getX(), entity.getY(), entity.getZ(), ModSounds.FIRE_DISINTEGRATION, SoundSource.AMBIENT, 2.0F, 0.9F + entity.getRandom().nextFloat() * 0.2F);
     }
 
     public static void cremate(LivingEntity entity) {
         int amount = Mth.clamp((int) (entity.getBbWidth() * entity.getBbHeight() * entity.getBbWidth() * 25), 5, 50);
         AshesCreator.composeEffect(entity.level(), entity, amount, 0.125F);
-        //SkeletonCreator.composeEffect(entity.worldObj, entity, 0.25F);
-        //entity.worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, "hbm:weapon.fire.disintegration", 2.0F, 0.9F + entity.getRNG().nextFloat() * 0.2F);
+        SkeletonCreator.composeEffect(entity.level(), entity, 0.25F);
+        entity.level().playSound(null, entity.getX(), entity.getY(), entity.getZ(), ModSounds.FIRE_DISINTEGRATION, SoundSource.AMBIENT, 2.0F, 0.9F + entity.getRandom().nextFloat() * 0.2F);
     }
 
     public static void gib(LivingEntity entity) {
-        if (entity instanceof Skeleton) return;
         if (entity instanceof Slime) return;
 
-//        SkeletonCreator.composeEffectGib(entity.worldObj, entity, 0.25F);
+        SkeletonCreator.composeEffectGib(entity.level(), entity, 0.25F);
 
         CompoundTag tag = new CompoundTag();
         tag.putString("type", "giblets");

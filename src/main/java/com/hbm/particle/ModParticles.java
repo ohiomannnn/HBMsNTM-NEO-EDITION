@@ -57,6 +57,8 @@ public class ModParticles {
             "hadron", () -> new SimpleParticleType(false));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> DIGAMMA_SMOKE = REGISTER.register(
             "digamma_smoke", () -> new SimpleParticleType(true));
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SKELETON = REGISTER.register(
+            "skeleton", () -> new SimpleParticleType(true));
 
     public static final ResourceLocation BASE = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/base_particle.png");
 

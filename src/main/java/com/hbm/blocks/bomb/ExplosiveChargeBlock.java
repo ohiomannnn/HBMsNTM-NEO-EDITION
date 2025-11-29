@@ -9,6 +9,7 @@ import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.*;
 import com.hbm.interfaces.IBomb;
 import com.hbm.particle.helper.ExplosionCreator;
+import com.hbm.util.DamageResistanceHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -28,11 +29,11 @@ public class ExplosiveChargeBlock extends DetonatableBlock implements IBomb {
             if (this == ModBlocks.DET_CHARGE.get()) {
                 ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 15F)
                         .setBlockAllocator(new BlockAllocatorStandard(64))
-                        .setBlockProcessor(new BlockProcessorStandard())
-                        .setEntityProcessor(new EntityProcessorStandard())
+                        .setBlockProcessor(new BlockProcessorNoDamage())
+                        .setEntityProcessor(new EntityProcessorCrossSmooth(2.0, 1000).setDamageClass(DamageResistanceHandler.DamageClass.IN_FIRE))
                         .setPlayerProcessor(new PlayerProcessorStandard());
                 vnt.explode();
-                ExplosionCreator.composeEffectStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+                //ExplosionCreator.composeEffectStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
             }
             if (this == ModBlocks.DET_NUKE.get()) {
                 NukeExplosionMK5.statFac(level, MainConfig.COMMON.MISSLE_RADIUS.get(), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);

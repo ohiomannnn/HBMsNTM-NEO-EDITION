@@ -85,6 +85,12 @@
   "hbmsntm.configuration.crate_keep_contents": "Keep Crate Contents",
   "hbmsntm.configuration.taint_trails": "Taint trails",
   "hbmsntm.configuration.crate_open_held": "Crate Open Held",
+  "hbmsntm.configuration.mine_naval_damage": "Naval Mine Damage",
+  "hbmsntm.configuration.damage_compatibility_mode": "Super",
+  "hbmsntm.configuration.mine_ap_damage": "AP Mine Damage",
+  "hbmsntm.configuration.mine_he_damage": "HE Mine Damage",
+  "hbmsntm.configuration.mine_shrap_damage": "Shrapnel Mine Damage",
+  "hbmsntm.configuration.mine_nuke_damage": "Fat Mine Damage",
 
   "hbmsntm.keys": "NTM Hotkeys",
   "hbmsntm.keys.toggleBack": "Toggle Jetpack",

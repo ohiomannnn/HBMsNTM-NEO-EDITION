@@ -8,8 +8,8 @@ import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntities;
 import com.hbm.handler.gui.GeigerGUI;
 import com.hbm.hazard.HazardSystem;
-import com.hbm.items.IItemHUD;
 import com.hbm.inventory.gui.LoadingScreenRendererNT;
+import com.hbm.items.IItemHUD;
 import com.hbm.items.ModItems;
 import com.hbm.particle.*;
 import com.hbm.particle.helper.ParticleCreators;
@@ -38,6 +38,7 @@ import net.minecraft.client.gui.screens.LevelLoadingScreen;
 import net.minecraft.client.gui.screens.ReceivingLevelScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
@@ -73,6 +74,7 @@ import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 
 import java.awt.*;
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.List;
 
 @Mod(value = HBMsNTM.MODID, dist = Dist.CLIENT)
@@ -263,6 +265,23 @@ public class HBMsNTMClient {
         }
     }
 
+    private static HashMap<Integer, Long> vanished = new HashMap<>();
+    public static void vanish(int ent) { vanished.put(ent, System.currentTimeMillis() + 2000); }
+    public static void vanish(int ent, int duration) { vanished.put(ent, System.currentTimeMillis() + duration); }
+
+    public static boolean isVanished(Entity e) {
+        if(e == null) return false;
+        if(!vanished.containsKey(e.getId())) return false;
+        return vanished.get(e.getId()) > System.currentTimeMillis();
+    }
+
+
+    @SubscribeEvent
+    public static void onRenderWorldLast(RenderLivingEvent.Pre<? extends LivingEntity, ? extends EntityModel<?>> event) {
+        if (isVanished(event.getEntity())) event.setCanceled(true);
+    }
+
+
     @SubscribeEvent
     public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ModelShrapnel.LAYER_LOCATION, ModelShrapnel::createBodyLayer);
@@ -326,6 +345,7 @@ public class HBMsNTMClient {
         event.registerSpriteSet(ModParticles.AURA.get(), ParticleAura.Provider::new);
         event.registerSpriteSet(ModParticles.RAD_FOG.get(), ParticleRadiationFog.Provider::new);
         event.registerSpecial(ModParticles.ROCKET_FLAME.get(), new ParticleRocketFlame.Provider());
+        event.registerSpecial(ModParticles.SKELETON.get(), new SkeletonParticle.Provider());
         event.registerSpriteSet(ModParticles.HADRON.get(), ParticleHadron.Provider::new);
     }
 
@@ -667,7 +687,7 @@ public class HBMsNTMClient {
 
                 if (e == null) return;
 
-                e.remove(Entity.RemovalReason.DISCARDED);
+                vanish(e.getId());
 
                 float width = e.getBbWidth();
                 float height = e.getBbHeight();

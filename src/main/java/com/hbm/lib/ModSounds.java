@@ -23,6 +23,8 @@ public class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> EXPLOSION_SMALL_FAR = registerSoundEvent("weapon.explosion_small_far");
     public static final DeferredHolder<SoundEvent, SoundEvent> EXPLOSION_TINY = registerSoundEvent("weapon.explosion_tiny");
 
+    public static final DeferredHolder<SoundEvent, SoundEvent> FIRE_DISINTEGRATION = registerSoundEvent("weapon.fire.disintegration");
+
     public static final DeferredHolder<SoundEvent, SoundEvent> FSTBMB_START = registerSoundEvent("weapon.fstbmb_start");
 
     public static final DeferredHolder<SoundEvent, SoundEvent> DEBRIS = registerSoundEvent("block.debris");

@@ -15,10 +15,10 @@ tasks.named('wrapper', Wrapper).configure {
 }
 
 version = mod_version
-group = mod_group_id
+group = mod_group
 
 repositories {
-    // Add here additional repositories if required by some of the dependencies below.
+    maven { /* JEI */ url "https://maven.blamejared.com" }
 }
 
 base {
@@ -132,6 +132,9 @@ dependencies {
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
+
+    compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
+    runtimeOnly "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
 }
 
 tasks.withType(ProcessResources).configureEach {

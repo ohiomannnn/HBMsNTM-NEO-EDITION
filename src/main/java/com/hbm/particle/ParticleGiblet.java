@@ -7,9 +7,12 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
+
+import java.util.List;
 
 public class ParticleGiblet extends TextureSheetParticle {
 
@@ -22,6 +25,38 @@ public class ParticleGiblet extends TextureSheetParticle {
         this.gravity = 2F;
 
         this.setSpriteFromAge(ModParticles.GIBLET_SPRITES);
+    }
+
+    private static final double MAXIMUM_COLLISION_VELOCITY_SQUARED = Mth.square((double)100.0F);
+
+    @Override
+    public void move(double x, double y, double z) {
+        double d0 = x;
+        double d1 = y;
+        double d2 = z;
+
+        if (this.hasPhysics && (x != 0.0 || y != 0.0 || z != 0.0) && x * x + y * y + z * z < MAXIMUM_COLLISION_VELOCITY_SQUARED) {
+            Vec3 vec3 = Entity.collideBoundingBox(null, new Vec3(x, y, z), this.getBoundingBox(), this.level, List.of());
+            x = vec3.x;
+            y = vec3.y;
+            z = vec3.z;
+        }
+
+        if (x != 0.0 || y != 0.0 || z != 0.0) {
+            this.setBoundingBox(this.getBoundingBox().move(x, y, z));
+            this.setLocationFromBoundingbox();
+        }
+
+        this.onGround = d1 != y && d1 < 0.0;
+
+        if (this.onGround) {
+            this.xd = 0.0;
+            this.yd = 0.0;
+            this.zd = 0.0;
+        } else {
+            if (d0 != x) this.xd = 0.0;
+            if (d2 != z) this.zd = 0.0;
+        }
     }
 
     @Override
