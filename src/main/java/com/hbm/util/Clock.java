@@ -1,13 +1,13 @@
 package com.hbm.util;
 
 public class Clock {
-    private static long timeMs;
+    private static long time_ms;
 
     public static void update() {
-        timeMs = System.currentTimeMillis();
+        time_ms = System.currentTimeMillis();
     }
 
-    public static long getMs() {
-        return timeMs;
+    public static long get_ms() {
+        return time_ms;
     }
 }

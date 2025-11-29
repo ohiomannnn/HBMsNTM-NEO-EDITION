@@ -8,6 +8,7 @@ public class CommonConfig {
     // GENERAL (01)
     public final ModConfigSpec.BooleanValue ENABLE_MOTD;
     public final ModConfigSpec.BooleanValue ENABLE_EXTENDED_LOGGING;
+    public final ModConfigSpec.BooleanValue ENABLE_SILENT_COMPSTACK_ERRORS;
 
     // NUKES (03)
     public final ModConfigSpec.IntValue GADGET_RADIUS;
@@ -92,6 +93,10 @@ public class CommonConfig {
                 .comment("Logs uses of the detonator, nuclear explosions, missile launches, grenades, etc.")
                 .translation("hbmsntm.configuration.enableExtendedLogging")
                 .define("enableExtendedLogging", true);
+        ENABLE_SILENT_COMPSTACK_ERRORS = builder
+                .comment("Enabling this will disable log spam created by unregistered items in ComparableStack instances.")
+                .translation("hbmsntm.configuration.enableSilentCompStackErrors")
+                .define("enableSilentCompStackErrors", false);
 
         builder.pop();
 

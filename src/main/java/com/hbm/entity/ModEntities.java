@@ -6,11 +6,13 @@ import com.hbm.entity.item.EntityTNTPrimedBase;
 import com.hbm.entity.logic.NukeExplosionBalefire;
 import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.entity.effect.NukeTorex;
+import com.hbm.entity.missile.MissileTier1.MissileGeneric;
 import com.hbm.entity.mob.CreeperNuclear;
 import com.hbm.entity.mob.Duck;
 import com.hbm.entity.projectile.Rubble;
 import com.hbm.entity.projectile.Shrapnel;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.Level;
@@ -77,6 +79,12 @@ public class ModEntities {
             "rubble",
             () -> EntityType.Builder.of(Rubble::new, MobCategory.MISC)
                     .build("rubble"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<Entity>> MISSILE_HE = REGISTER.register(
+            "missile_he",
+            () -> EntityType.Builder.of(MissileGeneric::new, MobCategory.MISC)
+                    .sized(1.5F, 1.5F)
+                    .build("missile_he"));
 
     public static void register(IEventBus eventBus) {
         REGISTER.register(eventBus);

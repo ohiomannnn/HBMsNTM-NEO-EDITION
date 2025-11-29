@@ -21,10 +21,7 @@ import com.hbm.render.entity.effect.RenderFallout;
 import com.hbm.render.entity.effect.RenderTorex;
 import com.hbm.render.entity.item.RenderTNTPrimedBase;
 import com.hbm.render.entity.mob.EntityDuckRenderer;
-import com.hbm.render.entity.projectile.ModelRubble;
-import com.hbm.render.entity.projectile.ModelShrapnel;
-import com.hbm.render.entity.projectile.RenderRubble;
-import com.hbm.render.entity.projectile.RenderShrapnel;
+import com.hbm.render.entity.projectile.*;
 import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.util.Clock;
 import com.hbm.util.DamageResistanceHandler;
@@ -154,8 +151,8 @@ public class HBMsNTMClient {
     public static void onRenderGuiPost(RenderGuiEvent.Post event) {
 
         /// NUKE FLASH ///
-        if (MainConfig.CLIENT.NUKE_HUD_FLASH.get() && (flashTimestamp + flashDuration - Clock.getMs()) > 0) {
-            float brightness = (flashTimestamp + flashDuration - Clock.getMs()) / (float) flashDuration;
+        if (MainConfig.CLIENT.NUKE_HUD_FLASH.get() && (flashTimestamp + flashDuration - Clock.get_ms()) > 0) {
+            float brightness = (flashTimestamp + flashDuration - Clock.get_ms()) / (float) flashDuration;
             Minecraft mc = Minecraft.getInstance();
             int width = mc.getWindow().getGuiScaledWidth();
             int height = mc.getWindow().getGuiScaledHeight();
@@ -284,6 +281,8 @@ public class HBMsNTMClient {
         event.registerEntityRenderer(ModEntities.SHRAPNEL.get(), RenderShrapnel::new);
         event.registerEntityRenderer(ModEntities.RUBBLE.get(), RenderRubble::new);
 
+        event.registerEntityRenderer(ModEntities.MISSILE_HE.get(), RenderMissileTEST::new);
+
         ItemProperties.register(ModItems.POLAROID.get(), ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "polaroid_id"),
                 (stack, level, entity, seed) -> CommonEvents.polaroidID);
 
@@ -356,6 +355,21 @@ public class HBMsNTMClient {
             if ("radFog".equals(type)) {
                 ParticleRadiationFog fx = new ParticleRadiationFog(level, x, y, z);
                 innerMc.particleEngine.add(fx);
+            }
+
+            if ("missileContrail".equals(type)) {
+
+                if (new Vec3(player.getX() - x, player.getY() - y, player.getZ() - z).length() > 350) return;
+
+                float scale = data.contains("scale") ? data.getFloat("scale") : 1F;
+                double mX = data.getDouble("moX");
+                double mY = data.getDouble("moY");
+                double mZ = data.getDouble("moZ");
+
+                ParticleRocketFlame particle = new ParticleRocketFlame(level, x, y, z).setScale(scale);
+                particle.setParticleSpeed(mX, mY, mZ);
+                if (data.contains("maxAge")) particle.setMaxAge(data.getInt("maxAge"));
+                innerMc.particleEngine.add(particle);
             }
 
             if ("smoke".equals(type)) {

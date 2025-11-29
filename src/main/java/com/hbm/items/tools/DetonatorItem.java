@@ -2,6 +2,8 @@ package com.hbm.items.tools;
 
 import com.hbm.HBMsNTM;
 import com.hbm.config.MainConfig;
+import com.hbm.entity.ModEntities;
+import com.hbm.entity.missile.MissileTier1;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IBomb.BombReturnCode;
 import com.hbm.lib.ModSounds;
@@ -66,6 +68,8 @@ public class DetonatorItem extends Item {
             Block block = level.getBlockState(pos).getBlock();
 
             if (!level.isClientSide) {
+                level.addFreshEntity(new MissileTier1.MissileGeneric(ModEntities.MISSILE_HE.get(), level, (float) player.getX(), (float) player.getY(), (float) player.getZ(), pos.getX(), pos.getZ()));
+
                 if (block instanceof IBomb bomb) {
                     level.playSound(null, player.blockPosition(), ModSounds.TECH_BLEEP.get(), SoundSource.PLAYERS, 2.0F, 1.0F);
                     BombReturnCode ret = bomb.explode(level, pos);
