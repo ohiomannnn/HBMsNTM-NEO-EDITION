@@ -4,7 +4,7 @@ import com.hbm.HBMsNTMClient;
 import com.hbm.config.MainConfig;
 import com.hbm.handler.abilities.*;
 import com.hbm.inventory.gui.ToolAbilityScreen;
-import com.hbm.items.IDepthRockTool;
+import api.hbm.item.IDepthRockTool;
 import com.hbm.items.IItemControlReceiver;
 import com.hbm.items.IItemHUD;
 import com.hbm.network.toclient.InformPlayer;

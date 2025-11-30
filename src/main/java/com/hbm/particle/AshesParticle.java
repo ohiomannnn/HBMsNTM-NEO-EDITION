@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -116,25 +117,25 @@ public class AshesParticle extends RotatingParticle {
 
             int light = this.getLightColor(partialTicks);
 
-            consumer.addVertex((float) (pX + vec.xCoord), (pY + 0.25F), (float) (pZ + vec.zCoord))
+            consumer.addVertex((float) (pX + vec.xCoord), pY + 0.15F, (float) (pZ + vec.zCoord))
                     .setUv(u1, v1)
                     .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
                     .setNormal(0.0F, 1.0F, 0.0F)
                     .setLight(light);
             vec.rotateAroundYDeg(90);
-            consumer.addVertex((float) (pX + vec.xCoord), (pY + 0.25F), (float) (pZ + vec.zCoord))
+            consumer.addVertex((float) (pX + vec.xCoord), pY + 0.15F, (float) (pZ + vec.zCoord))
                     .setUv(u1, v0)
                     .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
                     .setNormal(0.0F, 1.0F, 0.0F)
                     .setLight(light);
             vec.rotateAroundYDeg(90);
-            consumer.addVertex((float) (pX + vec.xCoord), (pY + 0.25F), (float) (pZ + vec.zCoord))
+            consumer.addVertex((float) (pX + vec.xCoord), pY + 0.15F, (float) (pZ + vec.zCoord))
                     .setUv(u0, v0)
                     .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
                     .setNormal(0.0F, 1.0F, 0.0F)
                     .setLight(light);
             vec.rotateAroundYDeg(90);
-            consumer.addVertex((float) (pX + vec.xCoord), (pY + 0.25F), (float) (pZ + vec.zCoord))
+            consumer.addVertex((float) (pX + vec.xCoord), pY + 0.15F, (float) (pZ + vec.zCoord))
                     .setUv(u0, v1)
                     .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
                     .setNormal(0.0F, 1.0F, 0.0F)
@@ -142,6 +143,12 @@ public class AshesParticle extends RotatingParticle {
         } else {
             renderParticleRotated(consumer, camera, this.rCol, this.gCol, this.bCol, this.alpha, this.quadSize, partialTicks, this.getLightColor(partialTicks));
         }
+    }
+
+
+    @Override
+    public ParticleRenderType getRenderType() {
+        return CustomRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {

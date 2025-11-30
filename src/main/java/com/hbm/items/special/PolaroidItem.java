@@ -1,6 +1,8 @@
 package com.hbm.items.special;
 
 import com.hbm.CommonEvents;
+import com.hbm.util.i18n.I18nUtil;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -12,12 +14,29 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
+import java.util.Random;
 
 public class PolaroidItem extends Item {
 
+    public static int polaroidID = 1;
+    public static int generalOverride = 0;
+
+    public static void RerollPal() {
+        // Reroll Polaroid
+        if (generalOverride > 0 && generalOverride < 19) {
+            polaroidID = generalOverride;
+        } else {
+            polaroidID = rand.nextInt(18) + 1;
+            while (polaroidID == 4 || polaroidID == 9)
+                polaroidID = rand.nextInt(18) + 1;
+        }
+    }
+
+    private static Random rand = new Random();
+
     public PolaroidItem(Properties properties) {
         super(properties);
-        CommonEvents.RerollPal();
+        RerollPal();
     }
 
     @Override
@@ -31,66 +50,10 @@ public class PolaroidItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        tooltipComponents.add(Component.literal("Fate chosen"));
+        tooltipComponents.add(Component.translatable("item.hbmsntm.polaroid.fate").withStyle(ChatFormatting.GRAY));
         tooltipComponents.add(Component.empty());
-        switch (CommonEvents.polaroidID) {
-            case 1:
-                tooltipComponents.add(Component.literal("..."));
-                break;
-            case 2:
-                tooltipComponents.add(Component.literal("Clear as glass."));
-                break;
-            case 3:
-                tooltipComponents.add(Component.literal("'M"));
-                break;
-            case 4:
-                tooltipComponents.add(Component.literal("It's about time."));
-                break;
-            case 5:
-                tooltipComponents.add(Component.literal("If you stare long into the abyss, the abyss stares back."));
-                break;
-            case 6:
-                tooltipComponents.add(Component.literal("public Party celebration = new Party();"));
-                break;
-            case 7:
-                tooltipComponents.add(Component.literal("V urnerq lbh yvxr EBG13!"));
-                break;
-            case 8:
-                tooltipComponents.add(Component.literal("11011100"));
-                break;
-            case 9:
-                tooltipComponents.add(Component.literal("Vg'f nobhg gvzr."));
-                break;
-            case 10:
-                tooltipComponents.add(Component.literal("Schrabidium dislikes the breeding reactor."));
-                break;
-            case 11:
-                tooltipComponents.add(Component.literal("yss stares back.6public Party cel"));
-                break;
-            case 12:
-                tooltipComponents.add(Component.literal("Red streaks."));
-                break;
-            case 13:
-                tooltipComponents.add(Component.literal("Q1"));
-                break;
-            case 14:
-                tooltipComponents.add(Component.literal("Q2"));
-                break;
-            case 15:
-                tooltipComponents.add(Component.literal("Q3"));
-                break;
-            case 16:
-                tooltipComponents.add(Component.literal("Q4"));
-                break;
-            case 17:
-                tooltipComponents.add(Component.literal("Two friends before christmas."));
-                break;
-            case 18:
-                tooltipComponents.add(Component.literal("Duchess of the boxcars."));
-                tooltipComponents.add(Component.empty());
-                tooltipComponents.add(Component.literal("\"P.S.: Thirty-one.\""));
-                tooltipComponents.add(Component.literal("\"Huh, what does thirty-one mean?\""));
-                break;
+        for (String s : I18nUtil.resolveKeyArray("item.hbmsntm.polaroid.fate" + PolaroidItem.polaroidID)) {
+            tooltipComponents.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
         }
     }
 }

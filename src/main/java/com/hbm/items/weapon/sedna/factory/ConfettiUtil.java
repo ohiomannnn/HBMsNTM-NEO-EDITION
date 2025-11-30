@@ -4,7 +4,6 @@ import com.hbm.lib.ModSounds;
 import com.hbm.network.toclient.AuxParticle;
 import com.hbm.particle.helper.AshesCreator;
 import com.hbm.particle.helper.SkeletonCreator;
-import com.hbm.util.DamageResistanceHandler.DamageClass;
 import com.hbm.util.DamageSourceNT;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -15,13 +14,11 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Slime;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-import java.util.Locale;
-
 public class ConfettiUtil {
     public static void decideConfetti(LivingEntity entity, DamageSourceNT source) {
         if (entity.isAlive()) return;
-        if (source.type().equals(DamageClass.LASER.name().toLowerCase(Locale.US))) pulverize(entity);
-        if (source.type().equals(DamageClass.ELECTRIC.name().toLowerCase(Locale.US))) pulverize(entity);
+//        if (source.type().equals(DamageClass.LASER.name().toLowerCase(Locale.US))) pulverize(entity);
+//        if (source.type().equals(DamageClass.ELECTRIC.name().toLowerCase(Locale.US))) pulverize(entity);
         if (source.isExplosion()) gib(entity);
         if (source.isFireDamage()) cremate(entity);
     }

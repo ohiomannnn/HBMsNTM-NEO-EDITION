@@ -1,4 +1,4 @@
-package api.hbm.item;
+package api.hbm.block;
 
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import net.minecraft.core.BlockPos;

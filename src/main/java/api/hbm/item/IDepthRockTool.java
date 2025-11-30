@@ -1,4 +1,4 @@
-package com.hbm.items;
+package api.hbm.item;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;

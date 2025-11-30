@@ -98,19 +98,6 @@ public class CommonEvents {
         }
     }
 
-    public static int polaroidID = 1;
-    public static int generalOverride = 0;
-
-    public static void RerollPal() {
-        // Reroll Polaroid
-        if (generalOverride > 0 && generalOverride < 19) {
-            polaroidID = generalOverride;
-        } else {
-            do polaroidID = new Random().nextInt(18) + 1;
-            while (polaroidID == 4 || polaroidID == 9);
-        }
-    }
-
     @SubscribeEvent
     public static void registerCommands(RegisterCommandsEvent event) {
         ModCommands.registerCommandLivingProperties(event.getDispatcher());

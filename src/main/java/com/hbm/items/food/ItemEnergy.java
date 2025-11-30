@@ -6,6 +6,7 @@ import com.hbm.items.ModItems;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
+import com.hbm.util.DescriptionUtil;
 import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -128,21 +129,8 @@ public class ItemEnergy extends PotionItem {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        if (this == ModItems.BOTTLE_NUKA.get()) {
-            tooltipComponents.add(Component.literal("Contains about 210 kcal and 1500 mSv.").withStyle(ChatFormatting.GRAY));
-        }
-        if (this == ModItems.BOTTLE_CHERRY.get()) {
-            tooltipComponents.add(Component.literal("Now with severe radiation poisoning in every seventh bottle!").withStyle(ChatFormatting.GRAY));
-        }
-        if (this == ModItems.BOTTLE_QUANTUM.get()) {
-            tooltipComponents.add(Component.literal("Comes with a colorful mix of over 70 isotopes!").withStyle(ChatFormatting.GRAY));
-        }
-        if (this == ModItems.BOTTLE_SPARKLE.get()) {
-            if (CommonEvents.polaroidID == 11) {
-                tooltipComponents.add(Component.literal("Contains trace amounts of taint.").withStyle(ChatFormatting.GRAY));
-            } else {
-                tooltipComponents.add(Component.literal("The most delicious beverage in the wasteland!").withStyle(ChatFormatting.GRAY));
-            }
+        for (String s : DescriptionUtil.getDescriptionWithP11(this.getDescriptionId())) {
+            tooltipComponents.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
         }
     }
 }

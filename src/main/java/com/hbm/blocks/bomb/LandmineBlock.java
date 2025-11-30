@@ -10,6 +10,7 @@ import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.*;
 import com.hbm.interfaces.IBomb;
+import com.hbm.items.special.PolaroidItem;
 import com.hbm.lib.ModSounds;
 import com.hbm.network.toclient.AuxParticle;
 import com.mojang.serialization.MapCodec;
@@ -176,7 +177,7 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
                 level.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, ModSounds.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 25.0F, 0.9F);
                 CompoundTag tag = new CompoundTag();
                 tag.putString("type", "muke");
-                tag.putBoolean("balefire", CommonEvents.polaroidID == 11 || level.random.nextInt(100) == 0);
+                tag.putBoolean("balefire", PolaroidItem.polaroidID == 11 || level.random.nextInt(100) == 0);
                 if (level instanceof ServerLevel serverLevel) {
                     PacketDistributor.sendToPlayersNear(serverLevel, null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 250, new AuxParticle(tag, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5));
                 }

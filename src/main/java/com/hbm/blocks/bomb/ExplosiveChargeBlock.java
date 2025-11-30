@@ -29,11 +29,11 @@ public class ExplosiveChargeBlock extends DetonatableBlock implements IBomb {
             if (this == ModBlocks.DET_CHARGE.get()) {
                 ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 15F)
                         .setBlockAllocator(new BlockAllocatorStandard(64))
-                        .setBlockProcessor(new BlockProcessorNoDamage())
-                        .setEntityProcessor(new EntityProcessorCrossSmooth(2.0, 1000).setDamageClass(DamageResistanceHandler.DamageClass.IN_FIRE))
+                        .setBlockProcessor(new BlockProcessorStandard())
+                        .setEntityProcessor(new EntityProcessorStandard())
                         .setPlayerProcessor(new PlayerProcessorStandard());
                 vnt.explode();
-                //ExplosionCreator.composeEffectStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+                ExplosionCreator.composeEffectStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
             }
             if (this == ModBlocks.DET_NUKE.get()) {
                 NukeExplosionMK5.statFac(level, MainConfig.COMMON.MISSLE_RADIUS.get(), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);

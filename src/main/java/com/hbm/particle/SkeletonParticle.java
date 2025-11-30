@@ -1,7 +1,9 @@
 package com.hbm.particle;
 
+import com.hbm.HBMsNTM;
 import com.hbm.particle.helper.SkeletonCreator.EnumSkeletonType;
-import net.minecraft.client.Minecraft;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
@@ -18,12 +20,14 @@ import java.util.List;
 
 public class SkeletonParticle extends TextureSheetParticle {
 
+    public static final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/skeleton.png");
+    public static final ResourceLocation texture_ext = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/skoilet.png");
+    public static final ResourceLocation texture_blood = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/skeleton_blood.png");
+    public static final ResourceLocation texture_blood_ext = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/skoilet_blood.png");
     protected EnumSkeletonType type;
 
     public ResourceLocation useTexture;
     public ResourceLocation useTextureExt;
-
-    private static final double MAXIMUM_COLLISION_VELOCITY_SQUARED = Mth.square((double)100.0F);
 
     private float momentumYaw;
     private float momentumPitch;
@@ -51,18 +55,20 @@ public class SkeletonParticle extends TextureSheetParticle {
         this.momentumPitch = random.nextFloat() * 5 * (random.nextBoolean() ? 1 : -1);
         this.momentumYaw = random.nextFloat() * 5 * (random.nextBoolean() ? 1 : -1);
 
-        //this.useTexture = texture;
-        //this.useTextureExt = texture_ext;
+        this.useTexture = texture;
+        this.useTextureExt = texture_ext;
     }
 
     public SkeletonParticle makeGib() {
         this.initialDelay = -2; // skip post delay motion randomization
-        //this.useTexture = texture_blood;
-        //this.useTextureExt = texture_blood_ext;
+        this.useTexture = texture_blood;
+        this.useTextureExt = texture_blood_ext;
         this.gravity = 0.04F;
         this.lifetime = 600 + random.nextInt(20);
         return this;
     }
+
+    private static final double MAXIMUM_COLLISION_VELOCITY_SQUARED = Mth.square((double)100.0F);
 
     @Override
     public void move(double x, double y, double z) {
@@ -130,9 +136,34 @@ public class SkeletonParticle extends TextureSheetParticle {
             this.zd = 0;
 
             if (!wasOnGround) {
-                level.playSound(null, x, y, z, SoundEvents.SKELETON_HURT, SoundSource.AMBIENT, 0.25F, 0.8F + random.nextFloat() * 0.4F);
+                level.playLocalSound(x, y, z, SoundEvents.SKELETON_HURT, SoundSource.AMBIENT, 0.25F, 0.8F + random.nextFloat() * 0.4F, false);
             }
         }
+    }
+
+    @Override
+    public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
+        Vec3 cameraPosition = camera.getPosition();
+
+        float pX = (float) (Mth.lerp(partialTicks, this.xo, this.x) - cameraPosition.x);
+        float pY = (float) (Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y) + this.quadSize;
+        float pZ = (float) (Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z);
+
+        float timeLeft = this.lifetime - (this.age + partialTicks);
+        if (timeLeft < 40) {
+            this.alpha = Math.clamp(timeLeft / 40F, 0.0F, 1.0F);
+        } else {
+            this.alpha = 1F;
+        }
+//
+//        switch(type) {
+//            case SKULL -> HBMsNTM.LOGGER.info("render_skull");
+//            case TORSO -> HBMsNTM.LOGGER.info("render_torso");
+//            case LIMB -> HBMsNTM.LOGGER.info("render_limb");
+//            case SKULL_VILLAGER -> HBMsNTM.LOGGER.info("render_skull_villager");
+//        }
+//
+        super.render(consumer, camera, partialTicks);
     }
 
     @Override

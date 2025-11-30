@@ -64,6 +64,19 @@ public interface CustomRenderType {
         }
     };
 
+    ParticleRenderType PARTICLE_SHEET_TRANSLUCENT = new ParticleRenderType() {
+        public BufferBuilder begin(Tesselator tesselator, TextureManager textureManager) {
+            RenderSystem.depthMask(true);
+            RenderSystem.disableCull();
+            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
+            return tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+        }
+
+        public String toString() {
+            return "PARTICLE_SHEET_TRANSLUCENT";
+        }
+    };
+
     ParticleRenderType MUKE_CLOUD = new ParticleRenderType() {
         @Override
         public BufferBuilder begin(Tesselator tesselator, TextureManager textureManager) {

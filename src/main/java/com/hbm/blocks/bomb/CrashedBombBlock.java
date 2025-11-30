@@ -13,6 +13,7 @@ import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCross;
 import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.interfaces.IBomb;
+import com.hbm.items.special.PolaroidItem;
 import com.hbm.lib.ModSounds;
 import com.hbm.network.toclient.AuxParticle;
 import com.hbm.particle.helper.ExplosionCreator;
@@ -88,11 +89,11 @@ public class CrashedBombBlock extends BaseEntityBlock implements IBomb {
             }
             if (this == ModBlocks.CRASHED_BOMB_NUKE.get()) {
                 NukeExplosionMK5.statFac(level, 35, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-                spawnMush(level, pos, CommonEvents.polaroidID == 11 || level.random.nextInt(100) == 0);
+                spawnMush(level, pos, PolaroidItem.polaroidID == 11 || level.random.nextInt(100) == 0);
             }
             if (this == ModBlocks.CRASHED_BOMB_SALTED.get()) {
                 NukeExplosionMK5.statFac(level, 25, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5).moreFallout(25);
-                spawnMush(level, pos, CommonEvents.polaroidID == 11 || level.random.nextInt(100) == 0);
+                spawnMush(level, pos, PolaroidItem.polaroidID == 11 || level.random.nextInt(100) == 0);
             }
         }
         return BombReturnCode.DETONATED;

@@ -33,7 +33,7 @@
   "weapon.fstbmb_start": {
     "sounds": ["hbmsntm:weapon/fstbmb_start"]
   },
-  "weapon.weapon.fire.disintegration": {
+  "weapon.fire.disintegration": {
     "sounds": ["hbmsntm:weapon/fire/disintegration"]
   },
   "grenade_bounce": {

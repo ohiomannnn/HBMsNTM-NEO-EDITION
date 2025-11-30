@@ -1,5 +1,6 @@
 package com.hbm.particle.helper;
 
+import com.hbm.HBMsNTMClient;
 import com.hbm.particle.AshesParticle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -34,7 +35,7 @@ public class AshesCreator implements IParticleCreator {
         Entity entity = level.getEntity(entityID);
         if (entity == null) return;
 
-        entity.remove(Entity.RemovalReason.DISCARDED);
+        HBMsNTMClient.vanish(entityID);
 
         int amount = tag.getInt("ashesCount");
         float scale = tag.getFloat("ashesScale");
@@ -44,9 +45,10 @@ public class AshesCreator implements IParticleCreator {
                     entity.getX() + (entity.getBbWidth() + scale * 2) * (level.random.nextDouble() - 0.5),
                     entity.getY() + entity.getBbHeight() * level.random.nextDouble(),
                     entity.getZ() + (entity.getBbWidth() + scale * 2) * (level.random.nextDouble() - 0.5),
-                    scale);
+                    scale
+            );
             Minecraft.getInstance().particleEngine.add(particle);
-            level.addParticle(ParticleTypes.FLAME, particle.getPos().x, particle.getPos().y, particle.getPos().z, 0.0, 0.0, 0.0);
+            Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, particle.getPos().x, particle.getPos().y, particle.getPos().z, 0.0, 0.0, 0.0);
         }
     }
 }

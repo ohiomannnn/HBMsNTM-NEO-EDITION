@@ -1,7 +1,7 @@
 package com.hbm.items.tools;
 
-import api.hbm.item.IToolable;
-import api.hbm.item.IToolable.ToolType;
+import api.hbm.block.IToolable;
+import api.hbm.block.IToolable.ToolType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionResult;

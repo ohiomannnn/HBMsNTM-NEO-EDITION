@@ -11,6 +11,7 @@ import com.hbm.hazard.HazardSystem;
 import com.hbm.inventory.gui.LoadingScreenRendererNT;
 import com.hbm.items.IItemHUD;
 import com.hbm.items.ModItems;
+import com.hbm.items.special.PolaroidItem;
 import com.hbm.particle.*;
 import com.hbm.particle.helper.ParticleCreators;
 import com.hbm.render.blockentity.RenderCrashedBomb;
@@ -74,6 +75,7 @@ import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 
 import java.awt.*;
 import java.lang.reflect.Field;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 
@@ -275,12 +277,10 @@ public class HBMsNTMClient {
         return vanished.get(e.getId()) > System.currentTimeMillis();
     }
 
-
     @SubscribeEvent
     public static void onRenderWorldLast(RenderLivingEvent.Pre<? extends LivingEntity, ? extends EntityModel<?>> event) {
         if (isVanished(event.getEntity())) event.setCanceled(true);
     }
-
 
     @SubscribeEvent
     public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
@@ -303,7 +303,7 @@ public class HBMsNTMClient {
         event.registerEntityRenderer(ModEntities.MISSILE_HE.get(), RenderMissileTEST::new);
 
         ItemProperties.register(ModItems.POLAROID.get(), ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "polaroid_id"),
-                (stack, level, entity, seed) -> CommonEvents.polaroidID);
+                (stack, level, entity, seed) -> PolaroidItem.polaroidID);
 
         event.registerBlockEntityRenderer(ModBlockEntities.NUKE_FATMAN.get(), RenderNukeFatMan::new);
 

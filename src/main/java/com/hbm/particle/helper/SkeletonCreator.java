@@ -5,10 +5,8 @@ import com.hbm.particle.SkeletonParticle;
 import com.hbm.util.Vec3NT;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -54,6 +52,7 @@ public class SkeletonCreator implements IParticleCreator {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void makeParticle(ClientLevel level, Player player, RandomSource rand, double x, double y, double z, CompoundTag tag) {
+
         if (skullanizer.isEmpty()) init();
 
         boolean gib = tag.getBoolean("gib");
@@ -61,7 +60,7 @@ public class SkeletonCreator implements IParticleCreator {
         int entityID = tag.getInt("entityID");
         Entity entity = level.getEntity(entityID);
         boolean skel = entity instanceof Skeleton;
-        if (!(entity instanceof LivingEntity livingEntity)) return;
+        if (!(entity instanceof LivingEntity living)) return;
 
         HBMsNTMClient.vanish(entityID);
 
@@ -70,7 +69,7 @@ public class SkeletonCreator implements IParticleCreator {
         Function<LivingEntity, BoneDefinition[]> bonealizer = skullanizer.get(entity.getClass().getSimpleName());
 
         if(bonealizer != null) {
-            BoneDefinition[] bones = bonealizer.apply(livingEntity);
+            BoneDefinition[] bones = bonealizer.apply(living);
             for (BoneDefinition bone : bones) {
                 if (gib && rand.nextBoolean() && !skel) continue;
                 SkeletonParticle skeleton = new SkeletonParticle(level, bone.x, bone.y, bone.z, brightness, brightness, brightness, bone.type);
@@ -109,7 +108,10 @@ public class SkeletonCreator implements IParticleCreator {
     }
 
     public enum EnumSkeletonType {
-        SKULL, TORSO, LIMB, SKULL_VILLAGER
+        SKULL,
+        TORSO,
+        LIMB,
+        SKULL_VILLAGER
     }
 
     public static Function<LivingEntity, BoneDefinition[]> BONES_BIPED = (entity) -> {
@@ -153,22 +155,20 @@ public class SkeletonCreator implements IParticleCreator {
         };
     };
 
-//    public static Function<LivingEntity, BoneDefinition[]> BONES_DUMMY = (entity) -> {
-//        Vec3NT leftarm = new Vec3NT(0.375, 0, 0).rotateAroundYDeg(-entity.yBodyRot);
-//        Vec3NT leftleg = new Vec3NT(0.125, 0, 0).rotateAroundYDeg(-entity.yBodyRot);
-//        return new BoneDefinition[] {
-//                new BoneDefinition(EnumSkeletonType.SKULL, -entity.yHeadRot, entity.getXRot(), entity.getX(), entity.getY() + 1.75, entity.getZ()),
-//                new BoneDefinition(EnumSkeletonType.TORSO, -entity.yBodyRot, 0, entity.getX(), entity.getY() + 1.125, entity.getZ()),
-//                new BoneDefinition(EnumSkeletonType.LIMB, -entity.yBodyRot, 0, entity.getX() + leftarm.xCoord, entity.getY() + 1.125, entity.getZ() + leftarm.zCoord),
-//                new BoneDefinition(EnumSkeletonType.LIMB, -entity.yBodyRot, 0, entity.getX() - leftarm.xCoord, entity.getY() + 1.125, entity.getZ() - leftarm.zCoord),
-//                new BoneDefinition(EnumSkeletonType.LIMB, -entity.yBodyRot, 0, entity.getX() + leftleg.xCoord, entity.getY() + 0.375, entity.getZ() + leftleg.zCoord),
-//                new BoneDefinition(EnumSkeletonType.LIMB, -entity.yBodyRot, 0, entity.getX() - leftleg.xCoord, entity.getY() + 0.375, entity.getZ() - leftleg.zCoord),
-//        };
-//    };
+    public static Function<LivingEntity, BoneDefinition[]> BONES_DUMMY = (entity) -> {
+        Vec3NT leftarm = new Vec3NT(0.375, 0, 0).rotateAroundYDeg(-entity.yBodyRot);
+        Vec3NT leftleg = new Vec3NT(0.125, 0, 0).rotateAroundYDeg(-entity.yBodyRot);
+        return new BoneDefinition[] {
+                new BoneDefinition(EnumSkeletonType.SKULL, -entity.yHeadRot, entity.getXRot(), entity.getX(), entity.getY() + 1.75, entity.getZ()),
+                new BoneDefinition(EnumSkeletonType.TORSO, -entity.yBodyRot, 0, entity.getX(), entity.getY() + 1.125, entity.getZ()),
+                new BoneDefinition(EnumSkeletonType.LIMB, -entity.yBodyRot, 0, entity.getX() + leftarm.xCoord, entity.getY() + 1.125, entity.getZ() + leftarm.zCoord),
+                new BoneDefinition(EnumSkeletonType.LIMB, -entity.yBodyRot, 0, entity.getX() - leftarm.xCoord, entity.getY() + 1.125, entity.getZ() - leftarm.zCoord),
+                new BoneDefinition(EnumSkeletonType.LIMB, -entity.yBodyRot, 0, entity.getX() + leftleg.xCoord, entity.getY() + 0.375, entity.getZ() + leftleg.zCoord),
+                new BoneDefinition(EnumSkeletonType.LIMB, -entity.yBodyRot, 0, entity.getX() - leftleg.xCoord, entity.getY() + 0.375, entity.getZ() - leftleg.zCoord),
+        };
+    };
 
     public static void init() {
-        skullanizer.put(ServerPlayer.class.getSimpleName(), BONES_BIPED);
-        skullanizer.put(LocalPlayer.class.getSimpleName(), BONES_BIPED);
         skullanizer.put(Player.class.getSimpleName(), BONES_BIPED);
 
         skullanizer.put(Zombie.class.getSimpleName(), BONES_ZOMBIE);
