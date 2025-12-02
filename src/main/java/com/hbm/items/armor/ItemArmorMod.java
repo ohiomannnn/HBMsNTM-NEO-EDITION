@@ -1,10 +1,6 @@
 package com.hbm.items.armor;
 
-import com.google.common.collect.Multimap;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.event.entity.living.ArmorHurtEvent;
 
 public class ItemArmorMod extends Item {
 
@@ -22,11 +18,4 @@ public class ItemArmorMod extends Item {
         this.leggings = leggings;
         this.boots = boots;
     }
-
-    public void modUpdate(LivingEntity entity, ItemStack armor) { }
-
-    public void modDamage(ArmorHurtEvent event, ItemStack armor) { }
-
-    public Multimap getModifiers(ItemStack armor) { return null; }
-
 }

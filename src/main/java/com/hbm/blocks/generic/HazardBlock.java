@@ -25,7 +25,7 @@ public class HazardBlock extends Block {
     @Override
     public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (this.rad > 0) {
-            ChunkRadiationManager.proxy.incrementRad(level, pos.getX(), pos.getY(), pos.getZ(), rad);
+            ChunkRadiationManager.proxy.incrementRad(level, pos, rad);
             level.scheduleTick(pos, this, 20);
         }
     }

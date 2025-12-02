@@ -9,6 +9,7 @@ import com.hbm.handler.EntityEffectHandler;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
+import com.hbm.items.special.PolaroidItem;
 import com.hbm.lib.ModCommands;
 import com.hbm.util.DamageResistanceHandler;
 import net.minecraft.ChatFormatting;
@@ -51,6 +52,8 @@ public class CommonEvents {
         FalloutConfigJSON.initialize();
         DamageResistanceHandler.init();
         HazardRegistry.registerItems();
+
+        HBMsNTM.LOGGER.info("Polaroid id = {}", PolaroidItem.polaroidID);
     }
 
     @SubscribeEvent
@@ -58,19 +61,22 @@ public class CommonEvents {
         if (MainConfig.COMMON.ENABLE_MOTD.get()) {
             Player player = event.getEntity();
 
-            player.sendSystemMessage(Component.literal("Loaded world with Hbm's Nuclear Tech Mod " + HBMsNTM.VERSION + " for Minecraft 1.21.1!"));
+            player.sendSystemMessage(Component.translatable("message.hbmsntm.loaded", HBMsNTM.VERSION));
 
             if (HTTPHandler.newVersion) {
                 player.sendSystemMessage(
-                        Component.literal("New version " + HTTPHandler.versionNumber + " is available! Click ")
+                        Component.translatable("message.hbmsntm.new_version", HTTPHandler.versionNumber)
                                 .withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW))
-                                .append(Component.literal("[here]")
+                                .append(Component.translatable("message.hbmsntm.click_here")
                                         .withStyle(Style.EMPTY
-                                                        .withColor(ChatFormatting.RED)
-                                                        .withUnderlined(true)
-                                                        .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/ohiomannnn/HBMsNTM-NEO-EDITION/releases"))
-                                        )
-                                ).append(Component.literal(" to download!").withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)))
+                                                .withColor(ChatFormatting.RED)
+                                                .withUnderlined(true)
+                                                .withClickEvent(new ClickEvent(
+                                                        ClickEvent.Action.OPEN_URL,
+                                                        "https://github.com/ohiomannnn/HBMsNTM-NEO-EDITION/releases"
+                                                ))
+                                ))
+                                .append(Component.translatable("message.hbmsntm.to_download").withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)))
                 );
             }
         }

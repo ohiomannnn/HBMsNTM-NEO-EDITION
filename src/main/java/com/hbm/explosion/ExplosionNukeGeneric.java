@@ -2,6 +2,7 @@ package com.hbm.explosion;
 
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.lib.ModDamageSource;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -22,7 +23,7 @@ public class ExplosionNukeGeneric {
         for (int i = -2; i <= 2; i++) {
             for (int j = -2; j <= 2; j++) {
                 if (Math.abs(i) + Math.abs(j) < 4) {
-                    ChunkRadiationManager.proxy.incrementRad(level, (int) Math.floor(posX + i * 16), (int) Math.floor(posY), (int) Math.floor(posZ + j * 16), 50F / (Math.abs(i) + Math.abs(j) + 1) * mult);
+                    ChunkRadiationManager.proxy.incrementRad(level, new BlockPos((int) Math.floor(posX + i * 16), (int) Math.floor(posY), (int) Math.floor(posZ + j * 16)), 50F / (Math.abs(i) + Math.abs(j) + 1) * mult);
                 }
             }
         }

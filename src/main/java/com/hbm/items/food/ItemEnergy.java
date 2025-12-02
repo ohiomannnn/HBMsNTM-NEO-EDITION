@@ -1,13 +1,11 @@
 package com.hbm.items.food;
 
-import com.hbm.CommonEvents;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.ModItems;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
-import com.hbm.util.DescriptionUtil;
-import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.network.chat.Component;
@@ -129,7 +127,7 @@ public class ItemEnergy extends PotionItem {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        for (String s : DescriptionUtil.getDescriptionWithP11(this.getDescriptionId())) {
+        for (String s : ITooltipProvider.getDescriptionWithP11(this.getDescriptionId())) {
             tooltipComponents.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
         }
     }

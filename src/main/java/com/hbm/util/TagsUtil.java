@@ -7,7 +7,7 @@ import net.minecraft.world.item.component.CustomData;
 
 /**
  * Util for working with tags because mojang removed the "easy method"
- * @Author ohiomannnn
+ * @author ohiomannnn
  */
 public class TagsUtil {
     public static boolean isValid(ItemStack stack) {

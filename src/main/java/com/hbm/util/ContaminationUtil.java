@@ -4,12 +4,13 @@ import api.hbm.entity.IRadiationImmune;
 import com.hbm.entity.mob.CreeperNuclear;
 import com.hbm.entity.mob.Duck;
 import com.hbm.extprop.LivingProperties;
+import com.hbm.handler.HazmatRegistry;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.lib.ModEffect;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.MushroomCow;
@@ -17,11 +18,11 @@ import net.minecraft.world.entity.animal.Ocelot;
 import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
 
 import java.util.HashSet;
+import java.util.Locale;
 
-public class  ContaminationUtil {
+public class ContaminationUtil {
 
     public static HashSet<Class<?>> immuneEntities = new HashSet<>();
 
@@ -51,115 +52,69 @@ public class  ContaminationUtil {
     /// DIGAMMA ///
     public static void applyDigammaData(Entity entity, float dig) {
 
-        if (!(entity instanceof LivingEntity e))
-            return;
+        if (!(entity instanceof LivingEntity living)) return;
+        if (entity instanceof Duck || entity instanceof Ocelot) return;
+        if (entity instanceof Player player && player.isCreative()) return;
+        if (entity instanceof Player player && player.tickCount < 200) return;
+        if (living.hasEffect(ModEffect.STABILITY)) return;
 
-        if (entity instanceof Duck || entity instanceof Ocelot)
-            return;
-
-        if (entity instanceof ServerPlayer player && player.isCreative())
-            return;
-
-        if (entity instanceof ServerPlayer player && player.tickCount < 200)
-            return;
-
-        LivingProperties.incrementDigamma(e, dig);
-//        if(entity.isPotionActive(HbmPotion.stability.id))
-//            return;
-//
 //        if(!(entity instanceof EntityPlayer && ArmorUtil.checkForDigamma((EntityPlayer) e)))
 //            HbmLivingProps.incrementDigamma(e, f);
+
+        LivingProperties.incrementDigamma(living, dig);
     }
 
     public static float calculateRadiationMod(LivingEntity entity) {
-        if (entity instanceof ServerPlayer player) {
+        if (entity instanceof Player player) {
             float coefficient = 10.0F;
-            //return (float) Math.pow(coefficient, -HazmatRegistry.getResistance(player));
+            return (float) Math.pow(coefficient, -HazmatRegistry.getResistance(player));
         }
         return 1;
     }
 
 
     public static void printGeigerData(Player player) {
-        Level level = player.level();
+        float playerRad = (LivingProperties.getRadiation(player) * 10F) / 10F;
+        float chunkRad = Mth.floor(ChunkRadiationManager.proxy.getRadiation(player.level(), player.blockPosition()) * 10F) / 10F;
+        float envRad = Mth.floor(LivingProperties.getRadBuf(player) * 10F) / 10F;
+        float res = Mth.floor((10000F - ContaminationUtil.calculateRadiationMod(player) * 10000F)) / 100F;
+        float resCoefficient = Mth.floor(HazmatRegistry.getResistance(player) * 100F) / 100F;
 
-        float eRad = (float) ((LivingProperties.getRadiation(player) * 10) / 10D);
-        double rads = Math.floor(ChunkRadiationManager.proxy.getRadiation(level,
-                player.blockPosition().getX(),
-                player.blockPosition().getY(),
-                player.blockPosition().getZ()) * 10) / 10D;
-        double env = Math.floor(LivingProperties.getRadBuf(player) * 10D) / 10D;
+        String playerRadPrefix = getPrefixFromRadPlayer(playerRad);
+        String chunkPrefix = getPrefixFromRad(chunkRad);
+        String envPrefix = getPrefixFromRad(envRad);
+        String resPrefix = getPrefixFromRadResistance(0.0);
 
-        double res = Math.floor((10000D - ContaminationUtil.calculateRadiationMod(player) * 10000D)) / 100D;
-//        double resCoefficient = Math.floor(HazmatRegistry.getResistance(player) * 100D) / 100D;
-
-        String chunkPrefix = getPrefixFromRad(rads);
-        String envPrefix = getPrefixFromRad(env);
-        String radPrefix = "";
-
-        if (eRad < 200) radPrefix += ChatFormatting.GREEN;
-        else if (eRad < 400) radPrefix += ChatFormatting.YELLOW;
-        else if (eRad < 600) radPrefix += ChatFormatting.GOLD;
-        else if (eRad < 800) radPrefix += ChatFormatting.RED;
-        else if (eRad < 1000) radPrefix += ChatFormatting.DARK_RED;
-        else radPrefix += ChatFormatting.DARK_GRAY;
-
-        player.displayClientMessage(
-                Component.literal("===== ☢ ")
-                        .append(Component.translatable("geiger.title"))
-                        .append(Component.literal(" ☢ ====="))
-                        .setStyle(Style.EMPTY.withColor(ChatFormatting.GOLD)),
-                false);
-
-        player.displayClientMessage(
-                Component.translatable("geiger.chunkRad")
-                        .append(Component.literal(" " + chunkPrefix + rads + " RAD/s"))
-                        .setStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)),
-                false);
-
-        player.displayClientMessage(
-                Component.translatable("geiger.envRad")
-                        .append(Component.literal(" " + envPrefix + env + " RAD/s"))
-                        .setStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)),
-                false);
-
-        player.displayClientMessage(
-                Component.translatable("geiger.playerRad")
-                        .append(Component.literal(" " + radPrefix + eRad + " RAD"))
-                        .setStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)),
-                false);
-
-//        player.displayClientMessage(
-//                Component.translatable("geiger.playerRes")
-//                        .append(Component.literal(" " + ChatFormatting.GREEN + res + "% (" + resKoeff + ")"))
-//                        .setStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)),
-//                false);
+        player.displayClientMessage(Component.translatable("geiger.title").withStyle(ChatFormatting.GOLD), false);
+        player.displayClientMessage(Component.translatable("geiger.chunkRad", chunkPrefix + (String.format(Locale.US, "%.1f", chunkRad) + " RAD/s")).withStyle(ChatFormatting.YELLOW), false);
+        player.displayClientMessage(Component.translatable("geiger.envRad", envPrefix + (String.format(Locale.US, "%.1f", envRad) + " RAD/s")).withStyle(ChatFormatting.YELLOW), false);
+        player.displayClientMessage(Component.translatable("geiger.playerRad", playerRadPrefix + (String.format(Locale.US, "%.1f", playerRad) + " RAD")).withStyle(ChatFormatting.YELLOW), false);
+        player.displayClientMessage(Component.translatable("geiger.playerRes", resPrefix + res + "% (" + resCoefficient + ")").withStyle(ChatFormatting.YELLOW), false);
     }
 
     public static void printDosimeterData(Player player) {
-
-        double env = ((int)(LivingProperties.getRadBuf(player) * 10D)) / 10D;
+        double env = (LivingProperties.getRadBuf(player) * 10D) / 10D;
         boolean limit = false;
 
-        if(env > 3.6D) {
+        if (env > 3.6D) {
             env = 3.6D;
             limit = true;
         }
 
         String envPrefix = getPrefixFromRad(env);
 
-        player.displayClientMessage(
-                Component.literal("===== ☢ ")
-                        .append(Component.translatable("geiger.title.dosimeter"))
-                        .append(Component.literal(" ☢ ====="))
-                        .setStyle(Style.EMPTY.withColor(ChatFormatting.GOLD)),
-                false);
+        player.displayClientMessage(Component.translatable("geiger.title.dosimeter").withStyle(ChatFormatting.GOLD), false);
+        player.displayClientMessage(Component.translatable("geiger.envRad", envPrefix + (limit ? ">" : "") + env + " RAD/s").withStyle(ChatFormatting.YELLOW), false);
+    }
 
-        player.displayClientMessage(
-                Component.translatable("geiger.envRad")
-                        .append(Component.literal(" " + envPrefix + (limit ? ">" : "") + env + " RAD/s"))
-                        .setStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)),
-                false);
+    public static void printDiagnosticData(Player player) {
+        double digamma = (LivingProperties.getDigamma(player) * 100) / 100D;
+        double halfLife = ((1D - Math.pow(0.5, digamma)) * 10000) / 100D; // hl 3 confirmed??
+
+        player.displayClientMessage(Component.translatable("digamma.title").withStyle(ChatFormatting.DARK_PURPLE), false);
+        player.displayClientMessage(Component.translatable("digamma.playerDigamma", ChatFormatting.RED + String.format(Locale.US, "%.1f", digamma) + " DRX").withStyle(ChatFormatting.LIGHT_PURPLE), false);
+        player.displayClientMessage(Component.translatable("digamma.playerHealth", ChatFormatting.RED + String.format(Locale.US, "%.1f", halfLife) + " %").withStyle(ChatFormatting.LIGHT_PURPLE), false);
+        player.displayClientMessage(Component.translatable("digamma.playerRes", ChatFormatting.BLUE + "N/A").withStyle(ChatFormatting.LIGHT_PURPLE), false);
     }
 
     public static String getPrefixFromRad(double rads) {
@@ -171,33 +126,18 @@ public class  ContaminationUtil {
         else return ChatFormatting.DARK_GRAY.toString();
     }
 
-    public static void printDiagnosticData(Player player) {
-        double digamma = ((int)(LivingProperties.getDigamma(player) * 100)) / 100D;
-        double halflife = ((int)((1D - Math.pow(0.5, digamma)) * 10000)) / 100D;
-
-        player.displayClientMessage(
-                Component.literal("===== Ϝ ")
-                        .append(Component.translatable("digamma.title"))
-                        .append(Component.literal(" Ϝ ====="))
-                        .setStyle(Style.EMPTY.withColor(ChatFormatting.DARK_PURPLE)),
-                false);
-
-        player.displayClientMessage(
-                Component.translatable("digamma.playerDigamma").withStyle(ChatFormatting.LIGHT_PURPLE)
-                        .append(Component.literal(" " + digamma + " DRX").withStyle(ChatFormatting.RED)),
-                false);
-
-        player.displayClientMessage(
-                Component.translatable("digamma.playerHealth").withStyle(ChatFormatting.LIGHT_PURPLE)
-                        .append(Component.literal(" " + halflife + " %").withStyle(ChatFormatting.RED)),
-                false);
-
-        player.displayClientMessage(
-                Component.translatable("digamma.playerRes").withStyle(ChatFormatting.LIGHT_PURPLE)
-                        .append(Component.literal(" " + "N/A").withStyle(ChatFormatting.BLUE)),
-                false);
+    public static String getPrefixFromRadPlayer(double rads) {
+        if (rads < 200) return ChatFormatting.GREEN.toString();
+        else if (rads < 400) return ChatFormatting.YELLOW.toString();
+        else if (rads < 600) return ChatFormatting.GOLD.toString();
+        else if (rads < 800) return ChatFormatting.RED.toString();
+        else if (rads < 1000) return ChatFormatting.DARK_RED.toString();
+        else return ChatFormatting.DARK_GRAY.toString();
     }
-
+    public static String getPrefixFromRadResistance(double koeff) {
+        if (koeff > 0) return ChatFormatting.GREEN.toString();
+        else return ChatFormatting.WHITE.toString();
+    }
 
     public enum HazardType {
         RADIATION,
@@ -221,7 +161,7 @@ public class  ContaminationUtil {
             LivingProperties.setRadEnv(entity, radEnv + amount);
         }
 
-        if (entity instanceof ServerPlayer player) {
+        if (entity instanceof Player player) {
 
 //            switch(type) {
 //                case FARADAY:			if(ArmorUtil.checkForFaraday(player))	return; break;
@@ -231,17 +171,11 @@ public class  ContaminationUtil {
 //                case DIGAMMA_ROBE:			if(ArmorUtil.checkForDigamma2(player))	return; break;
 //            }
 
-            if (player.isCreative() || player.isSpectator() && type != ContaminationType.NONE && type != ContaminationType.DIGAMMA_ROBE) {
-                return;
-            }
-
-            if (player.tickCount < 200) {
-                return;
-            }
+            if (player.isCreative() || player.isSpectator() && type != ContaminationType.NONE && type != ContaminationType.DIGAMMA_ROBE) return;
+            if (player.tickCount < 200) return;
         }
 
-        if(hazard == HazardType.RADIATION && isRadImmune(entity))
-            return;
+        if (hazard == HazardType.RADIATION && isRadImmune(entity)) return;
 
         switch(hazard) {
             case RADIATION: LivingProperties.incrementRadiation(entity, amount * (type == ContaminationType.RAD_BYPASS ? 1 : calculateRadiationMod(entity))); break;

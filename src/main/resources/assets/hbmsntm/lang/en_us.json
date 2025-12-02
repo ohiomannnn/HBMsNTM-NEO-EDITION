@@ -237,16 +237,16 @@
   "damage.exact.minecraft:on_fire": "Afterburn",
   "damage.other": "Other",
 
-  "geiger.title": "GEIGER COUNTER",
-  "geiger.title.dosimeter": "DOSIMETER",
-  "geiger.envRad": "Total environmental radiation:",
-  "geiger.playerRad": "Player contamination:",
-  "geiger.chunkRad": "Current chunk radiation:",
-
-  "digamma.title" : "DIGAMMA DIAGNOSTIC",
-  "digamma.playerDigamma" : "Digamma exposure:",
-  "digamma.playerHealth" : "Digamma influence:",
-  "digamma.playerRes" : "Digamma resistance:",
+  "geiger.title": "===== ☢ GEIGER COUNTER ☢ =====",
+  "geiger.title.dosimeter": "===== ☢ DOSIMETER ☢ =====",
+  "geiger.chunkRad": "Current chunk radiation: %s",
+  "geiger.envRad": "Total environmental radiation: %s",
+  "geiger.playerRad": "Player contamination: %s",
+  "geiger.playerRes": "Player resistance: %s",
+  "digamma.title" : "===== Ϝ DIGAMMA DIAGNOSTIC Ϝ =====",
+  "digamma.playerDigamma" : "Digamma exposure: %s",
+  "digamma.playerHealth" : "Digamma influence: %s",
+  "digamma.playerRes" : "Digamma resistance: %s",
 
   "info.asbestos": "My lungs are burning.",
   "info.coaldust": "It's hard to breathe here.",
@@ -291,5 +291,10 @@
 
   "creative_tab.hbmsntm.ores_and_blocks": "NTM Ores and Blocks",
   "creative_tab.hbmsntm.consumables_and_gear": "NTM Consumables and Gear",
-  "creative_tab.hbmsntm.bombs": "NTM Bombs"
+  "creative_tab.hbmsntm.bombs": "NTM Bombs",
+
+  "message.hbmsntm.loaded": "Loaded world with Hbm's Nuclear Tech Mod %s for Minecraft 1.21.1!",
+  "message.hbmsntm.new_version": "New version %s is available! Click ",
+  "message.hbmsntm.click_here": "[here]",
+  "message.hbmsntm.to_download": " to download!"
 }

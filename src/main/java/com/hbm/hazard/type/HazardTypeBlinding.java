@@ -22,9 +22,9 @@ public class HazardTypeBlinding extends HazardTypeBase {
 
         if (MainConfig.COMMON.DISABLE_BLINDING.get()) return;
 
-        if (!ArmorRegistry.hasProtection(target, 3, ArmorRegistry.HazardClass.LIGHT)) {
+       // if (!ArmorRegistry.hasProtection(target, 3, ArmorRegistry.HazardClass.LIGHT)) {
             target.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, (int)Math.ceil(level) * 20, 0, true, false));
-        }
+      //  }
     }
 
     @Override

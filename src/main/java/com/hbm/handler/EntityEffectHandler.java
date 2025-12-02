@@ -144,11 +144,7 @@ public class EntityEffectHandler {
 
             if (ContaminationUtil.isRadImmune(entity)) return;
 
-            int ix = Mth.floor(entity.getX());
-            int iy = Mth.floor(entity.getY());
-            int iz = Mth.floor(entity.getZ());
-
-            float rad = ChunkRadiationManager.proxy.getRadiation(level, ix, iy, iz);
+            float rad = ChunkRadiationManager.proxy.getRadiation(level, entity.blockPosition());
 
             if (level.dimension() == Level.NETHER && MainConfig.COMMON.HELL_RAD.get() > 0 && rad < MainConfig.COMMON.HELL_RAD.get())
                 rad = (float) 0.01;
@@ -180,7 +176,7 @@ public class EntityEffectHandler {
                     );
 
                     if ((level.getGameTime() + r600) % 600 == 1) {
-                        level.playSound(null, ix, iy, iz, ModSounds.VOMIT, SoundSource.PLAYERS, 1.0F, 1.0F);
+                        level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), ModSounds.VOMIT, SoundSource.PLAYERS, 1.0F, 1.0F);
                         entity.addEffect(new MobEffectInstance(MobEffects.HUNGER, 60, 19));
                     }
                 }
@@ -195,7 +191,7 @@ public class EntityEffectHandler {
                 PacketDistributor.sendToPlayersNear((ServerLevel) level, null, entity.getX(), entity.getY(), entity.getZ(), 25, new AuxParticle(tag, entity.getX(), entity.getY(), entity.getZ()));
 
                 if ((level.getGameTime() + r1200) % 1200 == 1) {
-                    level.playSound(null, ix, iy, iz, ModSounds.VOMIT, SoundSource.PLAYERS, 1.0F, 1.0F);
+                    level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), ModSounds.VOMIT, SoundSource.PLAYERS, 1.0F, 1.0F);
                     entity.addEffect(new MobEffectInstance(MobEffects.HUNGER, 60, 19));
                 }
             }
@@ -210,12 +206,11 @@ public class EntityEffectHandler {
             }
 
             float radiation = LivingProperties.getRadiation(entity);
-            // i mean its working
             if (entity instanceof Player && radiation > 600) {
                 CompoundTag tag = new CompoundTag();
                 tag.putString("type", "radiation");
                 tag.putInt("count", radiation > 900 ? 4 : radiation > 800 ? 2 : 1);
-                HBMsNTMClient.effectNT(tag);
+                PacketDistributor.sendToPlayersNear((ServerLevel) level, null, entity.getX(), entity.getY(), entity.getZ(), 25, new AuxParticle(tag, entity.getX(), entity.getY(), entity.getZ()));
             }
         }
     }

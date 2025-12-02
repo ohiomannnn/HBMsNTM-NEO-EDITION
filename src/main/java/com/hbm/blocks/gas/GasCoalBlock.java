@@ -31,9 +31,9 @@ public class GasCoalBlock extends GasBaseBlock {
     @Override
     public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
         if (entity instanceof LivingEntity livingEntity) {
-            if(!ArmorRegistry.hasProtection(livingEntity, 3, ArmorRegistry.HazardClass.PARTICLE_COARSE)) {
+            //if(!ArmorRegistry.hasProtection(livingEntity, 3, ArmorRegistry.HazardClass.PARTICLE_COARSE)) {
                 LivingProperties.incrementBlackLung(livingEntity, 10);
-            }
+           // }
         }
     }
 

@@ -30,10 +30,12 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
     private static final float maxRad = 100_000F;
 
     @Override
-    public float getRadiation(Level level, int x, int y, int z) {
+    public float getRadiation(Level level, BlockPos pos) {
         SimpleRadiationPerWorld radWorld = perWorld.get(level);
 
         if (radWorld != null) {
+            int x = pos.getX();
+            int z = pos.getZ();
             ChunkPos coords = new ChunkPos(x >> 4, z >> 4);
             Float rad = radWorld.radiation.get(coords);
             return rad == null ? 0F : Mth.clamp(rad, 0, maxRad);
@@ -43,11 +45,13 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
     }
 
     @Override
-    public void setRadiation(Level level, int x, int y, int z, float rad) {
+    public void setRadiation(Level level, BlockPos pos, float rad) {
         SimpleRadiationPerWorld radWorld = perWorld.get(level);
 
         if (radWorld != null) {
-            if (level.isLoaded(new BlockPos(x, y, z))) {
+            if (level.isLoaded(pos)) {
+                int x = pos.getX();
+                int z = pos.getZ();
                 ChunkPos coords = new ChunkPos(x >> 4, z >> 4);
                 radWorld.radiation.put(coords, Mth.clamp(rad, 0, maxRad));
                 level.getChunk(coords.x, coords.z).setUnsaved(true);
@@ -56,13 +60,13 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
     }
 
     @Override
-    public void incrementRad(Level level, int x, int y, int z, float rad) {
-        setRadiation(level, x, y, z, getRadiation(level, x, y, z) + rad);
+    public void incrementRad(Level level, BlockPos pos, float rad) {
+        setRadiation(level, pos, getRadiation(level, pos) + rad);
     }
 
     @Override
-    public void decrementRad(Level level, int x, int y, int z, float rad) {
-        setRadiation(level, x, y, z, Math.max(getRadiation(level, x, y, z) - rad, 0));
+    public void decrementRad(Level level, BlockPos pos, float rad) {
+        setRadiation(level, pos, Math.max(getRadiation(level, pos) - rad, 0));
     }
 
     @Override
