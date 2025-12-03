@@ -8,7 +8,7 @@ import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntities;
 import com.hbm.handler.gui.GeigerGUI;
 import com.hbm.hazard.HazardSystem;
-import com.hbm.inventory.gui.LoadingScreenRendererNT;
+import com.hbm.inventory.screen.LoadingScreenRendererNT;
 import com.hbm.items.IItemHUD;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.PolaroidItem;
@@ -75,7 +75,6 @@ import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 
 import java.awt.*;
 import java.lang.reflect.Field;
-import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 

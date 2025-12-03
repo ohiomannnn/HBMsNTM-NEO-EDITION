@@ -1,7 +1,7 @@
 package com.hbm.items.tools;
 
-import com.hbm.handler.abilities.AvailableAbilities;
-import com.hbm.handler.abilities.IWeaponAbility;
+import com.hbm.handler.ability.AvailableAbilities;
+import com.hbm.handler.ability.IWeaponAbility;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;

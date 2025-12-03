@@ -1,8 +1,9 @@
 package com.hbm.items;
 
 import com.hbm.HBMsNTM;
-import com.hbm.handler.abilities.IToolAreaAbility;
-import com.hbm.handler.abilities.IWeaponAbility;
+import com.hbm.handler.ability.IToolAreaAbility;
+import com.hbm.handler.ability.IToolHarvestAbility;
+import com.hbm.handler.ability.IWeaponAbility;
 import com.hbm.inventory.ModTiers;
 import com.hbm.items.food.ItemEnergy;
 import com.hbm.items.special.DangerousDropItem;
@@ -121,12 +122,11 @@ public class ModItems {
     public static final DeferredItem<Item> SCHRABIDIUM_PICKAXE = ITEMS.register(
             "schrabidium_pickaxe",
             () -> new ToolAbilityItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE), Tiers.NETHERITE,20F, -2.8F)
-                    .addAbility(IWeaponAbility.RADIATION, 1)
-                    .addAbility(IWeaponAbility.STUN, 3)
-                    .addAbility(IToolAreaAbility.EXPLOSION, 2)
+                    .addAbility(IWeaponAbility.RADIATION, 0)
                     .addAbility(IToolAreaAbility.HAMMER, 2)
                     .addAbility(IToolAreaAbility.HAMMER_FLAT, 2)
                     .addAbility(IToolAreaAbility.RECURSION, 5)
+                    .addAbility(IToolHarvestAbility.LUCK, 5)
     );
 
     public static final DeferredItem<Item> DUCK_SPAWN_EGG = ITEMS.register(

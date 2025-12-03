@@ -1,4 +1,4 @@
-package com.hbm.handler.abilities;
+package com.hbm.handler.ability;
 
 import com.hbm.util.ChatBuilder;
 import com.hbm.util.i18n.I18nUtil;

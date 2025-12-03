@@ -1,4 +1,4 @@
-package com.hbm.handler.abilities;
+package com.hbm.handler.ability;
 
 import com.hbm.HBMsNTM;
 import net.minecraft.ChatFormatting;

@@ -3,10 +3,11 @@ package com.hbm.handler;
 import com.hbm.HBMsNTM;
 import com.hbm.items.IKeybindReceiver;
 import com.hbm.network.toserver.KeybindReceiver;
+import com.hbm.util.ConflictingKeys;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -86,7 +87,7 @@ public class KeyHandler {
         }
     }
 
-    private static void handleKeybindReceiver(Player player, EnumKeybind key, boolean state) {
+    private static void handleKeybindReceiver(LocalPlayer player, EnumKeybind key, boolean state) {
         for (ItemStack stack : new ItemStack[]{player.getMainHandItem(), player.getOffhandItem()}) {
             if (stack.getItem() instanceof IKeybindReceiver receiver) {
                 if (receiver.canHandleKeybind(player, stack, key)) {

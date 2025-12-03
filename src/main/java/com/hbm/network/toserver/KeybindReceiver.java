@@ -10,6 +10,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record KeybindReceiver(KeyHandler.EnumKeybind keybind, boolean state, boolean property) implements CustomPacketPayload {
@@ -38,23 +39,18 @@ public record KeybindReceiver(KeyHandler.EnumKeybind keybind, boolean state, boo
     public static void handleServer(KeybindReceiver packet, IPayloadContext context) {
         context.enqueueWork(() -> {
             if (!(context.player() instanceof ServerPlayer player)) return;
+
             if (packet.property) {
                 PlayerProperties props = PlayerProperties.getData(player);
                 props.setKeyPressed(packet.keybind(), packet.state());
             }
 
             if (!packet.property) {
-                ItemStack stack = player.getMainHandItem();
-                if (stack.getItem() instanceof IKeybindReceiver receiver) {
-                    if (receiver.canHandleKeybind(player, stack, packet.keybind())) {
-                        receiver.handleKeybind(player, stack, packet.keybind(), packet.state());
-                    }
-                }
-
-                ItemStack off = player.getOffhandItem();
-                if (off.getItem() instanceof IKeybindReceiver receiver) {
-                    if (receiver.canHandleKeybind(player, off, packet.keybind())) {
-                        receiver.handleKeybind(player, off, packet.keybind(), packet.state());
+                for (ItemStack stack : new ItemStack[]{player.getMainHandItem(), player.getOffhandItem()}) {
+                    if (stack.getItem() instanceof IKeybindReceiver receiver) {
+                        if (receiver.canHandleKeybind(player, stack, packet.keybind())) {
+                            receiver.handleKeybind(player, stack, packet.keybind(), packet.state());
+                        }
                     }
                 }
             }

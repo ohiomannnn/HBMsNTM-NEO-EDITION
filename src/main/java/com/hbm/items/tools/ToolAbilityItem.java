@@ -1,12 +1,14 @@
 package com.hbm.items.tools;
 
+import api.hbm.item.IDepthRockTool;
 import com.hbm.HBMsNTMClient;
 import com.hbm.config.MainConfig;
-import com.hbm.handler.abilities.*;
-import com.hbm.inventory.gui.ToolAbilityScreen;
-import api.hbm.item.IDepthRockTool;
+import com.hbm.handler.KeyHandler.EnumKeybind;
+import com.hbm.handler.ability.*;
+import com.hbm.inventory.screen.ToolAbilityScreen;
 import com.hbm.items.IItemControlReceiver;
 import com.hbm.items.IItemHUD;
+import com.hbm.items.IKeybindReceiver;
 import com.hbm.network.toclient.InformPlayer;
 import com.hbm.util.TagsUtil;
 import com.hbm.util.Tuple.Pair;
@@ -16,6 +18,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
@@ -51,7 +54,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.*;
 
-public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItemControlReceiver, IItemHUD {
+public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItemControlReceiver, IItemHUD, IKeybindReceiver {
 
     protected AvailableAbilities availableAbilities = new AvailableAbilities().addToolAbilities();
     private boolean rockBreaker;
@@ -214,6 +217,40 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItem
         return InteractionResultHolder.pass(player.getItemInHand(usedHand));
     }
 
+    @Override
+    public boolean canHandleKeybind(Player player, ItemStack stack, EnumKeybind keybind) {
+        return keybind == EnumKeybind.ABILITY_CYCLE || keybind == EnumKeybind.ABILITY_ALT;
+    }
+
+    @Override
+    public void handleKeybind(Player player, ItemStack stack, EnumKeybind keybind, boolean state) {
+        if (keybind == EnumKeybind.ABILITY_CYCLE && state) {
+            if (!canOperate(stack)) return;
+
+            Configuration config = this.getConfiguration(stack);
+            if (config.presets.size() < 2) return;
+
+            if (player.isCrouching()) {
+                config.currentPreset = 0;
+            } else {
+                config.currentPreset = (config.currentPreset + 1) % config.presets.size();
+            }
+
+            this.setConfiguration(stack, config);
+            if (player instanceof ServerPlayer serverPlayer) {
+                PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(config.getActivePreset().getMessage(), HBMsNTMClient.ID_TOOLABILITY, 1000));
+            }
+            player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 0.25F, config.getActivePreset().isNone() ? 0.75F : 1.25F);
+        }
+    }
+
+    @Override
+    public void handleKeybindClient(LocalPlayer player, ItemStack stack, EnumKeybind keybind, boolean state) {
+        if (keybind == EnumKeybind.ABILITY_ALT && state) {
+            Minecraft.getInstance().setScreen(new ToolAbilityScreen(availableAbilities));
+        }
+    }
+
     public static class Configuration {
         public List<ToolPreset> presets;
         public int currentPreset;
@@ -361,7 +398,7 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItem
         );
 
         guiGraphics.blit(
-                ToolAbilityScreen.texture,
+                ToolAbilityScreen.TEXTURE,
                 mc.getWindow().getGuiScaledWidth() / 2 - size - 8 + ox, mc.getWindow().getGuiScaledHeight() / 2 + 8 + oy,
                 size, size,
                 uv.key, uv.value,

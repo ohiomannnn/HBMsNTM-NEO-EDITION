@@ -19,20 +19,19 @@ public class ModAttachments {
 
     public static final Supplier<AttachmentType<LivingProperties>> LIVING_PROPS = ATTACHMENTS.register(
             "ntm_living_properties",
-                    () -> AttachmentType.builder(LivingProperties::new)
-                            .serialize(new IAttachmentSerializer<CompoundTag, LivingProperties>() {
-                                @Override
-                                public LivingProperties read(IAttachmentHolder holder, CompoundTag tag, HolderLookup.Provider provider) {
-                                    LivingProperties props = new LivingProperties(holder);
-                                    props.deserializeNBT(tag);
-                                    return props;
-                                }
-
-                                @Override
-                                public CompoundTag write(LivingProperties attachment, HolderLookup.Provider provider) {
-                                    return attachment.serializeNBT();
-                                }
-                            }).build()
+            () -> AttachmentType.builder(LivingProperties::new)
+                    .serialize(new IAttachmentSerializer<CompoundTag, LivingProperties>() {
+                        @Override
+                        public LivingProperties read(IAttachmentHolder holder, CompoundTag tag, HolderLookup.Provider provider) {
+                            LivingProperties props = new LivingProperties(holder);
+                            props.deserializeNBT(tag);
+                            return props;
+                        }
+                        @Override
+                        public CompoundTag write(LivingProperties attachment, HolderLookup.Provider provider) {
+                            return attachment.serializeNBT();
+                        }
+                    }).build()
             );
 
     public static final Supplier<AttachmentType<PlayerProperties>> PLAYER_PROPS = ATTACHMENTS.register(
@@ -45,7 +44,6 @@ public class ModAttachments {
                             props.deserializeNBT(tag);
                             return props;
                         }
-
                         @Override
                         public CompoundTag write(PlayerProperties attachment, HolderLookup.Provider provider) {
                             return attachment.serializeNBT();

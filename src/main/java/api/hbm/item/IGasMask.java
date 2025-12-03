@@ -16,7 +16,7 @@ public interface IGasMask {
 
     /**
      * Returns the loaded filter, if there is any
-     * @return ItemStack.EMPTY if no filter is installed
+     * @return {@link ItemStack#EMPTY} if no filter is installed
      */
     ItemStack getFilter(ItemStack stack, LivingEntity entity);
 

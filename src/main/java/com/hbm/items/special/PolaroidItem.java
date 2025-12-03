@@ -1,6 +1,5 @@
 package com.hbm.items.special;
 
-import com.hbm.CommonEvents;
 import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;

@@ -1,4 +1,4 @@
-package com.hbm.handler.abilities;
+package com.hbm.handler.ability;
 
 import com.hbm.util.ContaminationUtil;
 import net.minecraft.core.component.DataComponents;
