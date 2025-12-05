@@ -6,6 +6,7 @@ import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IBomb.BombReturnCode;
 import com.hbm.lib.ModSounds;
 import com.hbm.util.TagsUtil;
+import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -45,6 +46,7 @@ public class MultiDetonatorItem extends Item {
 
             return InteractionResult.SUCCESS;
         }
+
         return InteractionResult.FAIL;
     }
 
@@ -54,7 +56,7 @@ public class MultiDetonatorItem extends Item {
 
         if (!TagsUtil.hasTag(stack) || getLocations(stack) == null) {
             if (!level.isClientSide) {
-                player.sendSystemMessage(Component.literal("[Multi Detonator] ").withStyle(ChatFormatting.DARK_AQUA).append(Component.literal("No position set!").withStyle(ChatFormatting.RED)));
+                player.sendSystemMessage(Component.literal("[Multi Detonator] ").withStyle(ChatFormatting.DARK_AQUA).append(Component.translatable("detonator.nopos").withStyle(ChatFormatting.RED)));
             }
         } else {
             if (!player.isCrouching()) {
@@ -94,7 +96,7 @@ public class MultiDetonatorItem extends Item {
                 level.playSound(null, player.blockPosition(), ModSounds.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 
                 if (!level.isClientSide) {
-                    player.sendSystemMessage(Component.literal("[Multi Detonator] ").withStyle(ChatFormatting.DARK_AQUA).append(Component.literal("Locations cleared!").withStyle(ChatFormatting.RED)));
+                    player.sendSystemMessage(Component.literal("[Multi Detonator] ").withStyle(ChatFormatting.DARK_AQUA).append(Component.literal("Positions cleared!").withStyle(ChatFormatting.RED)));
                 }
             }
         }
@@ -104,15 +106,14 @@ public class MultiDetonatorItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        tooltipComponents.add(Component.literal("Shift right-click block to add position,"));
-        tooltipComponents.add(Component.literal("right-click to detonate!"));
-        tooltipComponents.add(Component.literal("Shift right-click in the air to clear positions."));
-
+        for (String s : I18nUtil.resolveKeyArray(this.getDescriptionId() + ".desc")) {
+            tooltipComponents.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
+        }
         if (!TagsUtil.hasTag(stack) || getLocations(stack) == null) {
-            tooltipComponents.add(Component.literal("No positions set!").withStyle(ChatFormatting.RED));
+            tooltipComponents.add(Component.translatable("detonator.nopos.multi").withStyle(ChatFormatting.RED));
         } else {
+            tooltipComponents.add(Component.translatable("detonator.setto.multi").withStyle(ChatFormatting.YELLOW));
             int[][] locs = getLocations(stack);
-
             for (int i = 0; i < locs[0].length; i++) {
                 tooltipComponents.add(Component.literal(locs[0][i] + " / " + locs[1][i] + " / " + locs[2][i]).withStyle(ChatFormatting.YELLOW));
             }

@@ -13,6 +13,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.monster.Witch;
 import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.monster.ZombieVillager;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -57,31 +58,29 @@ public class SkeletonCreator implements IParticleCreator {
 
         boolean gib = tag.getBoolean("gib");
         float force = tag.getFloat("force");
+        float brightness = tag.getFloat("brightness");
         int entityID = tag.getInt("entityID");
         Entity entity = level.getEntity(entityID);
-        boolean skel = entity instanceof Skeleton;
         if (!(entity instanceof LivingEntity living)) return;
+        boolean isSkeleton = entity instanceof Skeleton;
 
         HBMsNTMClient.vanish(entityID);
-
-        float brightness = tag.getFloat("brightness");
 
         Function<LivingEntity, BoneDefinition[]> bonealizer = skullanizer.get(entity.getClass().getSimpleName());
 
         if(bonealizer != null) {
             BoneDefinition[] bones = bonealizer.apply(living);
             for (BoneDefinition bone : bones) {
-                if (gib && rand.nextBoolean() && !skel) continue;
+                if (gib && rand.nextBoolean() && !isSkeleton) continue;
                 SkeletonParticle skeleton = new SkeletonParticle(level, bone.x, bone.y, bone.z, brightness, brightness, brightness, bone.type);
                 skeleton.prevRotationYaw = skeleton.rotationYaw = bone.yRot;
                 skeleton.prevRotationPitch = skeleton.rotationPitch = bone.xRot;
                 if (gib) {
                     skeleton.makeGib();
-//                    if(skel) {
-//                        skeleton.useTexture = skeleton.texture;
-//                        skeleton.useTextureExt = skeleton.texture_ext;
-//                    }
-
+                    if (isSkeleton) {
+                        skeleton.useTexture = SkeletonParticle.TEXTURE;
+                        skeleton.useTextureExt = SkeletonParticle.TEXTURE_EXT;
+                    }
                     skeleton.setParticleSpeed(rand.nextGaussian() * force, (rand.nextGaussian() + 1) * force, rand.nextGaussian() * force);
                 }
                 Minecraft.getInstance().particleEngine.add(skeleton);
@@ -175,6 +174,7 @@ public class SkeletonCreator implements IParticleCreator {
         skullanizer.put(Skeleton.class.getSimpleName(), BONES_ZOMBIE);
 
         skullanizer.put(Villager.class.getSimpleName(), BONES_VILLAGER);
+        skullanizer.put(ZombieVillager.class.getSimpleName(), BONES_VILLAGER);
         skullanizer.put(Witch.class.getSimpleName(), BONES_VILLAGER);
     }
 }

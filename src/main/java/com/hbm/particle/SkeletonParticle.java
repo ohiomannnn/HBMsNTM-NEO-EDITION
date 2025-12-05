@@ -2,12 +2,21 @@ package com.hbm.particle;
 
 import com.hbm.HBMsNTM;
 import com.hbm.particle.helper.SkeletonCreator.EnumSkeletonType;
+import com.hbm.render.entity.effect.SkeletonModel;
+import com.hbm.util.old.TessColorUtil;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -20,10 +29,10 @@ import java.util.List;
 
 public class SkeletonParticle extends TextureSheetParticle {
 
-    public static final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/skeleton.png");
-    public static final ResourceLocation texture_ext = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/skoilet.png");
-    public static final ResourceLocation texture_blood = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/skeleton_blood.png");
-    public static final ResourceLocation texture_blood_ext = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/skoilet_blood.png");
+    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/skeleton.png");
+    public static final ResourceLocation TEXTURE_EXT = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/skoilet.png");
+    public static final ResourceLocation TEXTURE_BLOOD = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/skeleton_blood.png");
+    public static final ResourceLocation TEXTURE_BLOOD_EXT = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/skoilet_blood.png");
     protected EnumSkeletonType type;
 
     public ResourceLocation useTexture;
@@ -38,6 +47,7 @@ public class SkeletonParticle extends TextureSheetParticle {
     public double rotationPitch;
     public double rotationYaw;
 
+    private SkeletonModel model;
 
     public SkeletonParticle(ClientLevel level, double x, double y, double z, float r, float g, float b, EnumSkeletonType type) {
         super(level, x, y, z);
@@ -55,20 +65,22 @@ public class SkeletonParticle extends TextureSheetParticle {
         this.momentumPitch = random.nextFloat() * 5 * (random.nextBoolean() ? 1 : -1);
         this.momentumYaw = random.nextFloat() * 5 * (random.nextBoolean() ? 1 : -1);
 
-        this.useTexture = texture;
-        this.useTextureExt = texture_ext;
+        this.useTexture = TEXTURE;
+        this.useTextureExt = TEXTURE_EXT;
+
+        this.model = new SkeletonModel(Minecraft.getInstance().getEntityModels().bakeLayer(SkeletonModel.SKELETON_PART_LAYER));
     }
 
     public SkeletonParticle makeGib() {
         this.initialDelay = -2; // skip post delay motion randomization
-        this.useTexture = texture_blood;
-        this.useTextureExt = texture_blood_ext;
+        this.useTexture = TEXTURE_BLOOD;
+        this.useTextureExt = TEXTURE_BLOOD_EXT;
         this.gravity = 0.04F;
         this.lifetime = 600 + random.nextInt(20);
         return this;
     }
 
-    private static final double MAXIMUM_COLLISION_VELOCITY_SQUARED = Mth.square((double)100.0F);
+    private static final double MAXIMUM_COLLISION_VELOCITY_SQUARED = Mth.square(100);
 
     @Override
     public void move(double x, double y, double z) {
@@ -142,39 +154,68 @@ public class SkeletonParticle extends TextureSheetParticle {
     }
 
     @Override
-    public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
-        Vec3 cameraPosition = camera.getPosition();
+    public void render(VertexConsumer ignored, Camera camera, float partialTicks) {
+        PoseStack poseStack = new PoseStack();
 
-        float pX = (float) (Mth.lerp(partialTicks, this.xo, this.x) - cameraPosition.x);
-        float pY = (float) (Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y) + this.quadSize;
-        float pZ = (float) (Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z);
+        Vec3 camPos = camera.getPosition();
+        float pX = (float)(Mth.lerp(partialTicks, this.xo, this.x) - camPos.x);
+        float pY = (float)(Mth.lerp(partialTicks, this.yo, this.y) - camPos.y);
+        float pZ = (float)(Mth.lerp(partialTicks, this.zo, this.z) - camPos.z);
+        poseStack.pushPose();
+        poseStack.translate(pX, pY, pZ);
+
+        poseStack.mulPose(Axis.YP.rotationDegrees((float) Mth.lerp(partialTicks, this.prevRotationYaw, this.rotationYaw)));
+        poseStack.mulPose(Axis.XP.rotationDegrees((float) Mth.lerp(partialTicks, this.prevRotationPitch, this.rotationPitch)));
+        poseStack.mulPose(Axis.ZN.rotationDegrees(180));
+
+        ResourceLocation textureToUse = getTexture(type);
+
+        MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+        VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(textureToUse));
+
+        RenderSystem.setShaderTexture(0, textureToUse);
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
 
         float timeLeft = this.lifetime - (this.age + partialTicks);
         if (timeLeft < 40) {
-            this.alpha = Math.clamp(timeLeft / 40F, 0.0F, 1.0F);
+            this.alpha = timeLeft / 40F;
         } else {
             this.alpha = 1F;
         }
-//
-//        switch(type) {
-//            case SKULL -> HBMsNTM.LOGGER.info("render_skull");
-//            case TORSO -> HBMsNTM.LOGGER.info("render_torso");
-//            case LIMB -> HBMsNTM.LOGGER.info("render_limb");
-//            case SKULL_VILLAGER -> HBMsNTM.LOGGER.info("render_skull_villager");
-//        }
-//
-        super.render(consumer, camera, partialTicks);
+
+        int color = TessColorUtil.getColorRGBA_F(rCol, gCol, bCol, alpha);
+
+        model.render(poseStack, consumer, this.getLightColor(partialTicks), OverlayTexture.NO_OVERLAY, color, this.type);
+
+        RenderSystem.disableBlend();
+        poseStack.popPose();
+    }
+
+    private ResourceLocation getTexture(EnumSkeletonType type) {
+        boolean usingNormal = useTexture.equals(TEXTURE);
+        boolean usingNormalVill = useTextureExt.equals(TEXTURE_EXT);
+        if (type == EnumSkeletonType.SKULL_VILLAGER) return usingNormalVill ? TEXTURE_EXT : TEXTURE_BLOOD_EXT;
+        return usingNormal ? TEXTURE : TEXTURE_BLOOD;
     }
 
     @Override
     public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+        return CustomRenderType.NONE;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
         @Override
-        public TextureSheetParticle createParticle(SimpleParticleType type, ClientLevel world, double x, double y, double z, double dx, double dy, double dz) {
-            return new SkeletonParticle(world, x, y, z, 1F, 1F ,1F, EnumSkeletonType.SKULL);
+        public TextureSheetParticle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
+            int use = level.random.nextInt(4);
+            EnumSkeletonType skeletonType = switch (use) {
+                case 0 -> EnumSkeletonType.LIMB;
+                case 1 -> EnumSkeletonType.SKULL;
+                case 2 -> EnumSkeletonType.TORSO;
+                case 3 -> EnumSkeletonType.SKULL_VILLAGER;
+                default -> throw new IllegalStateException("Unexpected value: " + use);
+            };
+            return new SkeletonParticle(level, x, y, z, 1F, 1F ,1F, skeletonType);
         }
     }
 }

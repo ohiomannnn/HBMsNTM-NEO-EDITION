@@ -13,28 +13,23 @@ public interface IBomb {
     BombReturnCode explode(Level level, BlockPos pos);
 
     enum BombReturnCode {
-        UNDEFINED(false, Component.empty()),				                                    //non-null type for passing to clients that don't process the return code
-        DETONATED(true, Component.translatable("bomb.detonated")),						    //success for blowing up bombs
-        TRIGGERED(true, Component.translatable("bomb.triggered")),						    //success for triggering other things
-        LAUNCHED(true, Component.translatable("bomb.launched")),							//success for launching missiles
-        ERROR_MISSING_COMPONENT(false, Component.translatable("bomb.missingComponent")),	//error for bomb parts missing
-        ERROR_INCOMPATIBLE(false, Component.translatable("bomb.incompatible")),			//error for target being incompatible (but still implements IBomb for some reason), like locked blast doors
-        ERROR_NO_BOMB(false, Component.translatable("bomb.nobomb"));						//not to be used by the bombs themselves, this is the generic error when trying to trigger no-bomb blocks
+        UNDEFINED(false, ""),				                        //non-null type for passing to clients that don't process the return code
+        DETONATED(true,"bomb.detonated"),						    //success for blowing up bombs
+        TRIGGERED(true,"bomb.triggered"),						    //success for triggering other things
+        LAUNCHED(true, "bomb.launched"),							//success for launching missiles
+        ERROR_MISSING_COMPONENT(false, "bomb.missingComponent"),	//error for bomb parts missing
+        ERROR_INCOMPATIBLE(false, "bomb.incompatible"),			//error for target being incompatible (but still implements IBomb for some reason), like locked blast doors
+        ERROR_NO_BOMB(false, "bomb.nobomb");						//not to be used by the bombs themselves, this is the generic error when trying to trigger no-bomb blocks
 
-        private final Component unloc;
+        private final String unlocalizedMessage;
         private final boolean success;
 
-        BombReturnCode(boolean success, Component unloc) {
-            this.unloc = unloc;
+        BombReturnCode(boolean success, String unlocalizedMessage) {
+            this.unlocalizedMessage = unlocalizedMessage;
             this.success = success;
         }
 
-        public Component getUnlocalizedMessage() {
-            return this.unloc;
-        }
-
-        public boolean wasSuccessful() {
-            return this.success;
-        }
+        public String getUnlocalizedMessage() { return this.unlocalizedMessage; }
+        public boolean wasSuccessful() { return this.success; }
     }
 }

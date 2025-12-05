@@ -80,25 +80,19 @@ public class DangerousDropItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        if (this == ModItems.CELL_ANTIMATTER.get()) {
-            tooltipComponents.add(Component.literal("Warning: Exposure to matter will"));
-            tooltipComponents.add(Component.literal("lead to violent annihilation!"));
+        for (String s : I18nUtil.resolveKeyArray(this.getDescriptionId() + ".desc")) {
+            tooltipComponents.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
         }
         if (this == ModItems.DETONATOR_DEADMAN.get()) {
-            tooltipComponents.add(Component.literal("Shift right-click to set position,"));
-            tooltipComponents.add(Component.literal("drop to detonate!"));
             if (!TagsUtil.hasTag(stack)) {
-                tooltipComponents.add(Component.literal("No position set!"));
+                tooltipComponents.add(Component.translatable("detonator.nopos"));
             } else {
-                tooltipComponents.add(Component.literal("Set position to "
+                tooltipComponents.add(Component.literal(I18nUtil.resolveKey("detonator.setto")
                                 + TagsUtil.getInt(stack, "x", 0) + ", "
                                 + TagsUtil.getInt(stack, "y", 0) + ", "
                                 + TagsUtil.getInt(stack, "z", 0)
                 ));
             }
-        }
-        if (this == ModItems.DETONATOR_DE.get()) {
-            tooltipComponents.add(Component.literal("Explodes when dropped!"));
         }
 
         tooltipComponents.add(Component.literal("[" + I18nUtil.resolveKey("trait.drop") + "]").withStyle(ChatFormatting.RED));
@@ -118,10 +112,6 @@ public class DangerousDropItem extends Item {
             
             // funny part
             TagsUtil.setString(stack, "lastUser", player.getName().getString());
-
-            if (!context.getLevel().isClientSide) {
-                player.sendSystemMessage(Component.literal("Position set!"));
-            }
 
             context.getLevel().playSound(null, player.blockPosition(), ModSounds.TECH_BOOP.get(), SoundSource.PLAYERS, 2.0F, 1.0F);
 

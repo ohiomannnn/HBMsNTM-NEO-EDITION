@@ -20,6 +20,9 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
+/**
+ * i think this effect should be called before explode, so it actually grabs blocks
+ */
 public class ExplosionCreator implements IParticleCreator {
 
     public static final double SPEED_OF_SOUND = (17.15D) * 0.5;

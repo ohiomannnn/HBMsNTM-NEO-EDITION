@@ -12,13 +12,13 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
-import org.joml.Vector3f;
 
 import java.util.List;
 
 public class AshesParticle extends RotatingParticle {
 
-    private static final double MAXIMUM_COLLISION_VELOCITY_SQUARED = Mth.square((double)100.0F);
+    protected double prevRotationPitch;
+    protected double rotationPitch;
 
     public AshesParticle(ClientLevel level, double x, double y, double z, float scale) {
         super(level, x, y, z);
@@ -31,6 +31,8 @@ public class AshesParticle extends RotatingParticle {
 
         this.rCol = this.gCol = this.bCol = this.random.nextFloat() * 0.1F + 0.1F;
     }
+
+    private static final double MAXIMUM_COLLISION_VELOCITY_SQUARED = Mth.square((double)100.0F);
 
     @Override
     public void move(double x, double y, double z) {
@@ -75,9 +77,9 @@ public class AshesParticle extends RotatingParticle {
         }
 
         this.yd -= gravity;
-        this.oRoll = this.roll;
+        this.prevRotationPitch = this.rotationPitch;
 
-        if(!this.onGround) this.roll += (float) (2 * ((this.hashCode() % 2) - 0.5));
+        if (!this.onGround) this.rotationPitch += (float) (2 * ((this.hashCode() % 2) - 0.5));
 
         this.xd *= 0.95D;
         this.yd *= 0.99D;
@@ -85,7 +87,7 @@ public class AshesParticle extends RotatingParticle {
 
         boolean wasOnGround = this.onGround;
         this.move(this.xd, this.yd, this.zd);
-        if (!wasOnGround && this.onGround) this.roll = random.nextFloat() * 360F;
+        if (!wasOnGround && this.onGround) this.rotationPitch = random.nextFloat() * 360F;
 
         if (this.hashCode() % 5 == 0 && this.onGround && random.nextInt(15) == 0) {
             level.addParticle(ParticleTypes.SMOKE, x, y + 0.125, z, 0, 0.05, 0);
@@ -108,7 +110,7 @@ public class AshesParticle extends RotatingParticle {
             float pY = (float)(Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y);
             float pZ = (float)(Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z);
 
-            Vec3NT vec = new Vec3NT(quadSize, 0, quadSize).rotateAroundYDeg(this.roll);
+            Vec3NT vec = new Vec3NT(quadSize, 0, quadSize).rotateAroundYDeg(this.rotationPitch);
 
             float u0 = sprite.getU0();
             float u1 = sprite.getU1();
@@ -141,14 +143,14 @@ public class AshesParticle extends RotatingParticle {
                     .setNormal(0.0F, 1.0F, 0.0F)
                     .setLight(light);
         } else {
-            renderParticleRotated(consumer, camera, this.rCol, this.gCol, this.bCol, this.alpha, this.quadSize, partialTicks, this.getLightColor(partialTicks));
+            this.renderParticleRotated(consumer, camera, this.rCol, this.gCol, this.bCol, this.alpha, this.quadSize, partialTicks, this.getLightColor(partialTicks));
         }
     }
 
 
     @Override
     public ParticleRenderType getRenderType() {
-        return CustomRenderType.PARTICLE_SHEET_TRANSLUCENT;
+        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {

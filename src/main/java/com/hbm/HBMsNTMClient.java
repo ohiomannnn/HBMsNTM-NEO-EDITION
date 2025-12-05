@@ -6,6 +6,7 @@ import com.hbm.blocks.bomb.BalefireBlock;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntities;
+import com.hbm.handler.HazmatRegistry;
 import com.hbm.handler.gui.GeigerGUI;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.inventory.screen.LoadingScreenRendererNT;
@@ -20,6 +21,7 @@ import com.hbm.render.blockentity.RenderNukeFatMan;
 import com.hbm.render.entity.EmptyRenderer;
 import com.hbm.render.entity.effect.RenderFallout;
 import com.hbm.render.entity.effect.RenderTorex;
+import com.hbm.render.entity.effect.SkeletonModel;
 import com.hbm.render.entity.item.RenderTNTPrimedBase;
 import com.hbm.render.entity.mob.EntityDuckRenderer;
 import com.hbm.render.entity.projectile.*;
@@ -57,6 +59,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -271,13 +274,13 @@ public class HBMsNTMClient {
     public static void vanish(int ent, int duration) { vanished.put(ent, System.currentTimeMillis() + duration); }
 
     public static boolean isVanished(Entity e) {
-        if(e == null) return false;
-        if(!vanished.containsKey(e.getId())) return false;
+        if (e == null) return false;
+        if (!vanished.containsKey(e.getId())) return false;
         return vanished.get(e.getId()) > System.currentTimeMillis();
     }
 
     @SubscribeEvent
-    public static void onRenderWorldLast(RenderLivingEvent.Pre<? extends LivingEntity, ? extends EntityModel<?>> event) {
+    public static void onRenderLiving(RenderLivingEvent.Pre<? extends LivingEntity, ? extends EntityModel<?>> event) {
         if (isVanished(event.getEntity())) event.setCanceled(true);
     }
 
@@ -285,6 +288,8 @@ public class HBMsNTMClient {
     public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ModelShrapnel.LAYER_LOCATION, ModelShrapnel::createBodyLayer);
         event.registerLayerDefinition(ModelRubble.LAYER_LOCATION, ModelRubble::createBodyLayer);
+
+        event.registerLayerDefinition(SkeletonModel.SKELETON_PART_LAYER, SkeletonModel::createLayer);
     }
 
     @SubscribeEvent
@@ -317,9 +322,11 @@ public class HBMsNTMClient {
     public static void drawTooltip(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();
         List<Component> list = event.getToolTip();
+        Item.TooltipContext context = event.getContext();
 
         DamageResistanceHandler.addInfo(stack, list);
         HazardSystem.addFullTooltip(stack, list);
+        HazmatRegistry.addInfo(list, context.level(), stack);
     }
     @SubscribeEvent
     public static void registerParticles(RegisterParticleProvidersEvent event) {

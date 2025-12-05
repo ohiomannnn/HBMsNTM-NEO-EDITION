@@ -1,9 +1,9 @@
 package com.hbm.handler;
 
 import com.hbm.HBMsNTM;
+import com.hbm.inventory.screen.CalculatorScreen;
 import com.hbm.items.IKeybindReceiver;
 import com.hbm.network.toserver.KeybindReceiver;
-import com.hbm.util.ConflictingKeys;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -12,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -29,11 +30,10 @@ public class KeyHandler {
     public static final KeyMapping JETPACK = new KeyMapping(category + ".toggleBack", InputConstants.Type.KEYSYM, InputConstants.KEY_C, category);
     public static final KeyMapping MAGNET = new KeyMapping(category + ".toggleMagnet", InputConstants.Type.KEYSYM, InputConstants.KEY_Z, category);
     public static final KeyMapping HUD = new KeyMapping(category + ".toggleHUD", InputConstants.Type.KEYSYM, InputConstants.KEY_V, category);
+    public static final KeyMapping CALCULATOR = new KeyMapping(category + ".calc", InputConstants.Type.KEYSYM, InputConstants.KEY_N, category);
 
     public static final KeyMapping ABILITY_CYCLE = new KeyMapping(category + ".ability", InputConstants.Type.KEYSYM, InputConstants.KEY_I, category);
     public static final KeyMapping ABILITY_ALT = new KeyMapping(category + ".abilityAlt", InputConstants.Type.KEYSYM, InputConstants.KEY_LALT, category);
-    public static final KeyMapping COPY_TOOL_ALT = new KeyMapping(category + ".copyToolAlt", InputConstants.Type.KEYSYM, InputConstants.KEY_LALT, category);
-    public static final KeyMapping COPY_TOOL_CTRL = new KeyMapping(category + ".copyToolCtrl", InputConstants.Type.KEYSYM, InputConstants.KEY_U, category);
 
     private static final Map<KeyMapping, EnumKeybind> CONNECTED_BINDS = new HashMap<>();
 
@@ -44,8 +44,6 @@ public class KeyHandler {
         register(event, HUD, EnumKeybind.TOGGLE_HEAD);
         register(event, ABILITY_CYCLE, EnumKeybind.ABILITY_CYCLE);
         register(event, ABILITY_ALT, EnumKeybind.ABILITY_ALT);
-        register(event, COPY_TOOL_ALT, EnumKeybind.TOOL_ALT);
-        register(event, COPY_TOOL_CTRL, EnumKeybind.TOOL_CTRL);
     }
 
     private static void register(RegisterKeyMappingsEvent event, KeyMapping mapping, EnumKeybind logical) {
@@ -84,6 +82,16 @@ public class KeyHandler {
                     handleKeybindReceiver(Minecraft.getInstance().player, enumKeybind, isPressed);
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onClientTick(ClientTickEvent.Post event) {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player == null || mc.screen != null) return;
+
+        while (CALCULATOR.consumeClick()) {
+            mc.setScreen(new CalculatorScreen());
         }
     }
 

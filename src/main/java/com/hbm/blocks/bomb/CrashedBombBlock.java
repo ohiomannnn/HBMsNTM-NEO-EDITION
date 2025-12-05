@@ -1,6 +1,5 @@
 package com.hbm.blocks.bomb;
 
-import com.hbm.CommonEvents;
 import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MainConfig;
@@ -84,8 +83,8 @@ public class CrashedBombBlock extends BaseEntityBlock implements IBomb {
                         .setBlockProcessor(new BlockProcessorStandard().setNoDrop())
                         .setEntityProcessor(new EntityProcessorCross(5D).withRangeMod(1.5F))
                         .setPlayerProcessor(new PlayerProcessorStandard());
-                vnt.explode();
                 ExplosionCreator.composeEffectLarge(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+                vnt.explode();
             }
             if (this == ModBlocks.CRASHED_BOMB_NUKE.get()) {
                 NukeExplosionMK5.statFac(level, 35, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);

@@ -7,6 +7,7 @@ import com.hbm.entity.mob.CreeperNuclear;
 import com.hbm.entity.mob.Duck;
 import com.hbm.handler.EntityEffectHandler;
 import com.hbm.handler.HTTPHandler;
+import com.hbm.handler.HazmatRegistry;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.items.special.PolaroidItem;
@@ -52,6 +53,7 @@ public class CommonEvents {
         FalloutConfigJSON.initialize();
         DamageResistanceHandler.init();
         HazardRegistry.registerItems();
+        HazmatRegistry.registerHazmats();
 
         HBMsNTM.LOGGER.info("Polaroid id = {}", PolaroidItem.polaroidID);
     }

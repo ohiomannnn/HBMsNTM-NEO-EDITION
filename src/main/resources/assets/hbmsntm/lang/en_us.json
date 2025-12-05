@@ -149,10 +149,20 @@
   "item.hbmsntm.pin": "Bobby Pin",
   "item.hbmsntm.duck_spawn_egg": "Golden Egg",
   "item.hbmsntm.balefire_and_steel": "Balefire and Steel",
+
   "item.hbmsntm.detonator": "Detonator",
+  "item.hbmsntm.detonator.desc": "Shift right-click to set position, right-click to detonate!",
   "item.hbmsntm.multi_detonator": "Multi Detonator",
+  "item.hbmsntm.multi_detonator.desc": "Shift right-click block to add position, right-click to detonate!$Shift right-click in the air to clear positions.",
   "item.hbmsntm.detonator_de": "Dead Man's Explosive",
+  "item.hbmsntm.detonator_de.desc": "Explodes when dropped!",
   "item.hbmsntm.detonator_deadman": "Dead Man's Detonator",
+  "item.hbmsntm.detonator_deadman.desc": "Shift right-click to set position, drop to detonate!",
+
+  "detonator.nopos": "No position set!",
+  "detonator.nopos.multi": "No positions set!",
+  "detonator.setto": "Linked to ",
+  "detonator.setto.multi": "Positions: ",
 
   "item.hbmsntm.polaroid": "The Polaroid",
   "item.hbmsntm.polaroid.fate": "Fate chosen",
@@ -191,6 +201,7 @@
   "item.hbmsntm.bottle_sparkle.desc.P11": "Contains trace amounts of taint.",
 
   "item.hbmsntm.cell_antimatter": "Antimatter Cell",
+  "item.hbmsntm.cell_antimatter.desc": "Warning: Exposure to matter will lead to violent annihilation!",
   "item.hbmsntm.schrabidium_pickaxe": "Schrabidium Pickaxe",
   "item.hbmsntm.alloy_sword": "Advanced Alloy sword",
 
@@ -237,6 +248,8 @@
   "damage.exact.minecraft:on_fire": "Afterburn",
   "damage.other": "Other",
 
+  "armorMod.radRes": "+%s rad-resistance",
+
   "geiger.title": "===== ☢ GEIGER COUNTER ☢ =====",
   "geiger.title.dosimeter": "===== ☢ DOSIMETER ☢ =====",
   "geiger.chunkRad": "Current chunk radiation: %s",
@@ -260,6 +273,25 @@
   "trait.digamma": "Digamma Radiation",
   "trait.blinding": "Blinding",
   "trait.drop": "Dangerous Drop",
+  "trait.radResistance": "Radiation resistance: %s",
+
+  "armorMod.all": "All",
+  "armorMod.applicableTo": "Applicable To:",
+  "armorMod.boots": "Boots",
+  "armorMod.chestplates": "Chestplates",
+  "armorMod.helmets": "Helmets",
+  "armorMod.insertHere": "Insert armor to modify...",
+  "armorMod.slot": "Slot:",
+  "armorMod.leggings": "Leggings",
+  "armorMod.type.battery": "Battery",
+  "armorMod.type.boots": "Boots",
+  "armorMod.type.chestplate": "Chestplate",
+  "armorMod.type.cladding": "Cladding",
+  "armorMod.type.helmet": "Helmet",
+  "armorMod.type.insert": "Insert",
+  "armorMod.type.leggings": "Leggings",
+  "armorMod.type.servo": "Servos",
+  "armorMod.type.special": "Special",
 
   "weapon.ability.beheader": "Decapitator",
   "weapon.ability.bobble": "Luck of the Collector",

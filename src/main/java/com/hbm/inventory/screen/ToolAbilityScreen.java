@@ -8,9 +8,11 @@ import com.hbm.lib.ModSounds;
 import com.hbm.network.toserver.CompoundTagItemControl;
 import com.hbm.util.TagsUtil;
 import com.hbm.util.Tuple.Pair;
+import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
@@ -98,8 +100,8 @@ public class ToolAbilityScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partial) {
-        this.renderBackground(guiGraphics, mouseX, mouseY, partial);
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+        guiGraphics.fillGradient(0, 0, this.width, this.height, -1072689136, -804253680);
 
         // Draw window background
         blitStretched(guiGraphics, guiLeft, guiTop, 0, 0, xSize, xSize - insetWidth, ySize, 74, 87);
@@ -319,6 +321,17 @@ public class ToolAbilityScreen extends Screen {
         }
 
         return new Pair<>(selectedAbility, selectedLevel);
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        InputConstants.Key mouseKey = InputConstants.getKey(keyCode, scanCode);
+        if (keyCode == 256 && this.minecraft.options.keyInventory.isActiveAndMatches(mouseKey)) {
+            this.onClose();
+            return true;
+        }
+
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override

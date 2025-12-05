@@ -19,10 +19,12 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -90,14 +92,6 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
     }
 
     @Override
-    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
-        BlockPos below = pos.below();
-        if (!level.getBlockState(below).isFaceSturdy(level, below, Direction.UP)) {
-            Block.dropResources(level.getBlockState(pos), level, pos);
-        }
-    }
-
-    @Override
     protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
         if (!level.isClientSide) {
             if (level.hasNeighborSignal(pos)) {
@@ -115,10 +109,21 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
     }
 
     @Override
+    protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+        BlockPos below = pos.below();
+        if (level.getBlockState(below).is(BlockTags.LEAVES)) return false;
+        if (level.getBlockState(below).getBlock() instanceof LandmineBlock) return false;
+        if (!level.getBlockState(below).isFaceSturdy(level, below, Direction.UP)) return false;
+        return true;
+    }
+
+    @Override
     public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
 
         if (!safeMode) {
             this.explode(level, pos);
+        } else {
+            Block.dropResources(state, level, pos);
         }
 
         return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);

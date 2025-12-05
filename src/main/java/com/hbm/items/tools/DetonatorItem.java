@@ -8,6 +8,7 @@ import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IBomb.BombReturnCode;
 import com.hbm.lib.ModSounds;
 import com.hbm.util.TagsUtil;
+import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -76,9 +77,9 @@ public class DetonatorItem extends Item {
                         HBMsNTM.LOGGER.info("[DETONATOR] {} detonated {} at {} / {} / {}!", player.getName().getString(), block.getName().getString(), x, y, z);
                     }
 
-                    player.sendSystemMessage(Component.literal("[Detonator] ").withStyle(ChatFormatting.DARK_AQUA).append(Component.literal(ret.getUnlocalizedMessage().getString()).withStyle(ret.wasSuccessful() ? ChatFormatting.YELLOW : ChatFormatting.RED)));
+                    player.sendSystemMessage(Component.literal("[Detonator] ").withStyle(ChatFormatting.DARK_AQUA).append(Component.translatable(ret.getUnlocalizedMessage()).withStyle(ret.wasSuccessful() ? ChatFormatting.YELLOW : ChatFormatting.RED)));
                 } else {
-                    player.sendSystemMessage(Component.literal("[Detonator] ").withStyle(ChatFormatting.DARK_AQUA).append(Component.literal(BombReturnCode.ERROR_NO_BOMB.getUnlocalizedMessage().getString()).withStyle(ChatFormatting.RED)));
+                    player.sendSystemMessage(Component.literal("[Detonator] ").withStyle(ChatFormatting.DARK_AQUA).append(Component.translatable(BombReturnCode.ERROR_NO_BOMB.getUnlocalizedMessage()).withStyle(ChatFormatting.RED)));
                 }
             }
         }
@@ -87,12 +88,17 @@ public class DetonatorItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        tooltipComponents.add(Component.literal("Shift right-click to set position,"));
-        tooltipComponents.add(Component.literal("right-click to detonate!"));
+        for (String s : I18nUtil.resolveKeyArray(this.getDescriptionId() + ".desc")) {
+            tooltipComponents.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
+        }
         if (TagsUtil.hasTag(stack)) {
-            tooltipComponents.add(Component.literal("Linked to " + TagsUtil.getInt(stack, "x", 0) + ", " + TagsUtil.getInt(stack, "y", 0) + ", " + TagsUtil.getInt(stack, "z", 0)).withStyle(ChatFormatting.YELLOW));
+            tooltipComponents.add(Component.literal(I18nUtil.resolveKey("detonator.setto")
+                    + TagsUtil.getInt(stack, "x", 0) + ", "
+                    + TagsUtil.getInt(stack, "y", 0) + ", "
+                    + TagsUtil.getInt(stack, "z", 0)
+            ).withStyle(ChatFormatting.YELLOW));
         } else {
-            tooltipComponents.add(Component.literal("No position set").withStyle(ChatFormatting.RED));
+            tooltipComponents.add(Component.translatable("detonator.nopos").withStyle(ChatFormatting.RED));
         }
     }
 }

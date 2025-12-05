@@ -4,6 +4,7 @@ import com.hbm.HBMsNTM;
 import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blockentity.bomb.LandMineBlockEntity;
 import com.hbm.blockentity.bomb.NukeFatManBlockEntity;
+import com.hbm.blockentity.machine.GeigerBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -21,6 +22,13 @@ public class ModBlockEntities {
             () -> BlockEntityType.Builder.of(
                             NukeFatManBlockEntity::new,
                             ModBlocks.NUKE_FATMAN.get())
+                    .build(null));
+
+    public static final Supplier<BlockEntityType<GeigerBlockEntity>> GEIGER_COUNTER = REGISTER.register(
+            "geiger_counter",
+            () -> BlockEntityType.Builder.of(
+                            GeigerBlockEntity::new,
+                            ModBlocks.GEIGER.get())
                     .build(null));
 
     public static final Supplier<BlockEntityType<LandMineBlockEntity>> LANDMINE = REGISTER.register(

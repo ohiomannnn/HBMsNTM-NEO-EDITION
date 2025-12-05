@@ -5,6 +5,7 @@ import com.hbm.blocks.bomb.*;
 import com.hbm.blocks.gas.GasCoalBlock;
 import com.hbm.blocks.gas.GasMonoxideBlock;
 import com.hbm.blocks.generic.*;
+import com.hbm.blocks.machine.GeigerCounterBlock;
 import com.hbm.blocks.special.ConcreteBrickMBlock;
 import com.hbm.items.ModItems;
 import com.mojang.serialization.MapCodec;
@@ -259,26 +260,30 @@ public class ModBlocks {
                     .sound(SoundType.METAL)
             ));
 
+    public static final DeferredBlock<Block> GEIGER = registerBlock(
+            "geiger",
+            () -> new GeigerCounterBlock(BlockBehaviour.Properties.of()
+                    .strength(15.0F)
+                    .explosionResistance(0.25F)
+                    .sound(SoundType.METAL)));
+
     public static final DeferredBlock<Block> DET_CHARGE = registerBlock(
             "det_charge",
             () -> new ExplosiveChargeBlock(BlockBehaviour.Properties.of()
                     .strength(0.1F)
                     .explosionResistance(0.0F)
-                    .noLootTable()
                     .sound(SoundType.METAL)));
     public static final DeferredBlock<Block> DET_NUKE = registerBlock(
             "det_nuke",
             () -> new ExplosiveChargeBlock(BlockBehaviour.Properties.of()
                     .strength(0.1F)
                     .explosionResistance(0.0F)
-                    .noLootTable()
                     .sound(SoundType.METAL)));
     public static final DeferredBlock<Block> DET_MINER = registerBlock(
             "det_miner",
             () -> new DetMinerBlock(BlockBehaviour.Properties.of()
                     .strength(0.1F)
                     .explosionResistance(0.0F)
-                    .noLootTable()
                     .sound(SoundType.METAL)));
 
     public static final DeferredBlock<Block> MINE_AP = registerBlock(
