@@ -13,7 +13,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.SmokeParticle;
 import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -152,7 +151,6 @@ public class SkeletonParticle extends TextureSheetParticle {
                 level.playLocalSound(x, y, z, SoundEvents.SKELETON_HURT, SoundSource.AMBIENT, 0.25F, 0.8F + random.nextFloat() * 0.4F, false);
             }
         }
-        SmokeParticle
     }
 
     @Override
