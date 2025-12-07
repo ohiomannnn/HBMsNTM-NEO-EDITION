@@ -1,10 +1,13 @@
 package com.hbm.particle;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
@@ -68,6 +71,14 @@ public class ParticleMukeFlash extends TextureSheetParticle {
 
     @Override
     public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
+
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
+        RenderSystem.depthMask(false);
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+        RenderSystem.disableCull();
+
         Vec3 cameraPosition = camera.getPosition();
 
         float dX = (float) (Mth.lerp(partialTicks, this.xo, this.x) - cameraPosition.x);
@@ -114,11 +125,12 @@ public class ParticleMukeFlash extends TextureSheetParticle {
                     .setNormal(0.0F, 1.0F, 0.0F)
                     .setLight(240);
         }
+        RenderSystem.enableCull();
     }
 
     @Override
     public ParticleRenderType getRenderType() {
-        return CustomRenderType.PARTICLE_SHEET_ADDITIVE;
+        return CustomRenderType.NONE;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {

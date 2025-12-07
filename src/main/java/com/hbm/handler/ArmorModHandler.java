@@ -1,7 +1,7 @@
 package com.hbm.handler;
 
 import com.hbm.items.armor.ItemArmorMod;
-import com.hbm.util.TagsUtil;
+import com.hbm.util.TagsUtilDegradation;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorItem.Type;
@@ -50,9 +50,7 @@ public class ArmorModHandler {
      * Will override present mods so make sure to only use unmodded armor pieces
      */
     public static void applyMod(Level level, ItemStack armor, ItemStack mod) {
-
-        if (!TagsUtil.hasTag(armor)) TagsUtil.setTag(armor, new CompoundTag());
-        CompoundTag tag = TagsUtil.getTag(armor);
+        CompoundTag tag = TagsUtilDegradation.getTag(armor);
 
         if (!tag.contains(MOD_COMPOUND_KEY)) tag.put(MOD_COMPOUND_KEY, new CompoundTag());
 
@@ -62,22 +60,20 @@ public class ArmorModHandler {
         int slot = aMod.type;
 
         CompoundTag cmp = new CompoundTag();
-        // REGISTRY ACCESS REGISTRY ACCESS REGISTRY ACCESS REGISTRY ACCESSREGISTRY ACCESS REGISTRY ACCESSREGISTRY ACCESS REGISTRY ACCESS
         mod.save(level.registryAccess(), cmp);
 
         mods.put(MOD_SLOT_KEY + slot, cmp);
+
+        TagsUtilDegradation.putTag(armor, tag);
     }
 
     /**
      * Removes the mod from the given slot
      */
     public static void removeMod(ItemStack armor, int slot) {
-
         if (armor.isEmpty()) return;
 
-        if (!TagsUtil.hasTag(armor)) TagsUtil.setTag(armor, new CompoundTag());
-
-        CompoundTag tag = TagsUtil.getTag(armor);
+        CompoundTag tag = TagsUtilDegradation.getTag(armor);
 
         if (!tag.contains(MOD_COMPOUND_KEY)) tag.put(MOD_COMPOUND_KEY, new CompoundTag());
 
@@ -85,6 +81,8 @@ public class ArmorModHandler {
         mods.remove(MOD_SLOT_KEY + slot);
 
         if (mods.isEmpty()) clearMods(armor);
+
+        TagsUtilDegradation.putTag(armor, mods);
     }
 
     /**
@@ -93,10 +91,11 @@ public class ArmorModHandler {
      */
     public static void clearMods(ItemStack armor) {
 
-        if (!TagsUtil.hasTag(armor)) return;
+        if (!TagsUtilDegradation.containsAnyTag(armor)) return;
 
-        CompoundTag nbt = TagsUtil.getTag(armor);
-        nbt.remove(MOD_COMPOUND_KEY);
+        CompoundTag tag = TagsUtilDegradation.getTag(armor);
+        tag.remove(MOD_COMPOUND_KEY);
+        TagsUtilDegradation.putTag(armor, tag);
     }
 
     /**
@@ -104,10 +103,10 @@ public class ArmorModHandler {
      */
     public static boolean hasMods(ItemStack armor) {
 
-        if (!TagsUtil.hasTag(armor)) return false;
+        if (!TagsUtilDegradation.containsAnyTag(armor)) return false;
 
-        CompoundTag nbt = TagsUtil.getTag(armor);
-        return nbt.contains(MOD_COMPOUND_KEY);
+        CompoundTag tag = TagsUtilDegradation.getTag(armor);
+        return tag.contains(MOD_COMPOUND_KEY);
     }
 
     /**
@@ -119,7 +118,7 @@ public class ArmorModHandler {
 
         if (!hasMods(armor)) return slots;
 
-        CompoundTag tag = TagsUtil.getTag(armor);
+        CompoundTag tag = TagsUtilDegradation.getTag(armor);
         CompoundTag mods = tag.getCompound(MOD_COMPOUND_KEY);
 
         for (int i = 0; i < MOD_SLOTS; i++) {
@@ -143,7 +142,7 @@ public class ArmorModHandler {
 
         if (!hasMods(armor)) return ItemStack.EMPTY;
 
-        CompoundTag nbt = TagsUtil.getTag(armor);
+        CompoundTag nbt = TagsUtilDegradation.getTag(armor);
         CompoundTag mods = nbt.getCompound(MOD_COMPOUND_KEY);
         CompoundTag cmp = mods.getCompound(MOD_SLOT_KEY + slot);
         Optional<ItemStack> stack = ItemStack.parse(level.registryAccess(), cmp);

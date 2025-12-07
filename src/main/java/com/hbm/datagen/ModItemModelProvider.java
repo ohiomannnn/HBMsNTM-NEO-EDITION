@@ -49,6 +49,11 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.KEY_FAKE.get());
         basicItem(ModItems.PIN.get());
 
+        basicItem(ModItems.ALLOY_HELMET.get());
+        basicItem(ModItems.ALLOY_CHESTPLATE.get());
+        basicItem(ModItems.ALLOY_LEGGINGS.get());
+        basicItem(ModItems.ALLOY_BOOTS.get());
+
         withExistingParent(ModBlocks.GAS_COAL.getId().getPath(), "item/generated")
                 .texture("layer0", modLoc("block/gas_coal"));
 

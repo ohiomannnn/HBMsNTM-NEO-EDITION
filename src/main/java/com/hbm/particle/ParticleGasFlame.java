@@ -1,21 +1,19 @@
 package com.hbm.particle;
 
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.particle.SmokeParticle;
+import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.RandomSource;
 
 import java.awt.Color;
 
-public class ParticleGasFlame extends SmokeParticle {
+public class ParticleGasFlame extends TextureSheetParticle {
 
     private final float colorMod;
 
     public ParticleGasFlame(ClientLevel level, double x, double y, double z, double vx, double vy, double vz, float scale) {
-        super(level, x, y, z, vx, vy * 1.5, vz, scale, ModParticles.GAS_FLAME_PARTICLES);
+        super(level, x, y, z, vx, vy * 1.5, vz);
+        this.setSpriteFromAge(ModParticles.GAS_FLAME_PARTICLES);
         this.colorMod = 0.8F + RandomSource.create().nextFloat() * 0.2F;
         this.hasPhysics = false;
         this.lifetime = 30 + RandomSource.create().nextInt(13);
@@ -33,6 +31,11 @@ public class ParticleGasFlame extends SmokeParticle {
         this.xd *= 0.75;
         this.yd += 0.005;
         this.zd *= 0.75;
+    }
+
+    @Override
+    public ParticleRenderType getRenderType() {
+        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 
     private void updateColor() {

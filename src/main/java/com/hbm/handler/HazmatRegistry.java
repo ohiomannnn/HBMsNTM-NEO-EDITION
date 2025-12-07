@@ -6,11 +6,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.CommonEvents;
-import com.hbm.HBMsNTM;
+import com.hbm.items.ModItems;
 import com.hbm.items.armor.ItemModCladding;
 import com.hbm.lib.ModEffect;
 import com.hbm.util.ShadyUtil;
-import com.hbm.util.TagsUtil;
+import com.hbm.util.TagsUtilDegradation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -41,23 +41,35 @@ public class HazmatRegistry {
         double legs = 0.3D;
         double boots = 0.1D;
 
+        double iron = 0.0225D; // 5%
         double gold = 0.0225D; // 5%
+
+        double alloy = 0.07D; // 15%
 
         HazmatRegistry.registerHazmat(Items.GOLDEN_HELMET, gold * helmet);
         HazmatRegistry.registerHazmat(Items.GOLDEN_CHESTPLATE, gold * chest);
         HazmatRegistry.registerHazmat(Items.GOLDEN_LEGGINGS, gold * legs);
         HazmatRegistry.registerHazmat(Items.GOLDEN_BOOTS, gold * boots);
+
+        HazmatRegistry.registerHazmat(Items.IRON_HELMET, iron * helmet);
+        HazmatRegistry.registerHazmat(Items.IRON_CHESTPLATE, iron * chest);
+        HazmatRegistry.registerHazmat(Items.IRON_LEGGINGS, iron * legs);
+        HazmatRegistry.registerHazmat(Items.IRON_BOOTS, iron * boots);
+
+        HazmatRegistry.registerHazmat(ModItems.ALLOY_HELMET.get(), alloy * helmet);
+        HazmatRegistry.registerHazmat(ModItems.ALLOY_CHESTPLATE.get(), alloy * chest);
+        HazmatRegistry.registerHazmat(ModItems.ALLOY_LEGGINGS.get(), alloy * legs);
+        HazmatRegistry.registerHazmat(ModItems.ALLOY_BOOTS.get(), alloy * boots);
     }
 
     private static final HashMap<Item, Double> ENTRIES = new HashMap<>();
 
-    public static void registerHazmat(Item item, double resistance) {
+    private static void registerHazmat(Item item, double resistance) {
         ENTRIES.put(item, resistance);
     }
 
     public static void addInfo(List<Component> components, Level level, ItemStack stack) {
-        double rad = HazmatRegistry.getResistance(level, stack);
-        rad = ((int)(rad * 1000)) / 1000D;
+        double rad = ((int)(HazmatRegistry.getResistance(level, stack) * 1000)) / 1000D;
         if (rad > 0) components.add(Component.translatable("trait.radResistance", rad).withStyle(ChatFormatting.YELLOW));
     }
 
@@ -77,8 +89,10 @@ public class HazmatRegistry {
 
     public static double getCladding(Level level, ItemStack stack) {
 
-        if (TagsUtil.getTag(stack).getFloat("hfr_cladding") > 0)
-            return TagsUtil.getTag(stack).getFloat("hfr_cladding");
+        float claddingRes = TagsUtilDegradation.getTag(stack).getFloat("hfr_cladding");
+
+        if (claddingRes > 0)
+            return claddingRes;
 
         if (ArmorModHandler.hasMods(stack)) {
 

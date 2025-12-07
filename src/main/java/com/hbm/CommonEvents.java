@@ -10,8 +10,11 @@ import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
+import com.hbm.items.ModItems;
 import com.hbm.items.special.PolaroidItem;
 import com.hbm.lib.ModCommands;
+import com.hbm.util.ArmorRegistry;
+import com.hbm.util.ArmorUtil;
 import com.hbm.util.DamageResistanceHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.ClickEvent;
@@ -21,17 +24,18 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLPaths;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 import java.io.File;
-import java.util.Random;
 
 @EventBusSubscriber(modid = HBMsNTM.MODID)
 public class CommonEvents {
@@ -54,6 +58,7 @@ public class CommonEvents {
         DamageResistanceHandler.init();
         HazardRegistry.registerItems();
         HazmatRegistry.registerHazmats();
+        ArmorUtil.register();
 
         HBMsNTM.LOGGER.info("Polaroid id = {}", PolaroidItem.polaroidID);
     }
@@ -109,5 +114,15 @@ public class CommonEvents {
     @SubscribeEvent
     public static void registerCommands(RegisterCommandsEvent event) {
         ModCommands.registerCommandLivingProperties(event.getDispatcher());
+    }
+
+    @SubscribeEvent
+    public static void addCreative(BuildCreativeModeTabContentsEvent event) {
+        if (event.getTabKey() == CreativeModeTabs.COMBAT) {
+            event.accept(ModItems.ALLOY_HELMET);
+            event.accept(ModItems.ALLOY_CHESTPLATE);
+            event.accept(ModItems.ALLOY_LEGGINGS);
+            event.accept(ModItems.ALLOY_BOOTS);
+        }
     }
 }

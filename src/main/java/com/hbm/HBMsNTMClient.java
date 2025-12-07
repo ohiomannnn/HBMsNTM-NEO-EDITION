@@ -26,6 +26,7 @@ import com.hbm.render.entity.item.RenderTNTPrimedBase;
 import com.hbm.render.entity.mob.EntityDuckRenderer;
 import com.hbm.render.entity.projectile.*;
 import com.hbm.render.util.RenderInfoSystem;
+import com.hbm.util.ArmorRegistry;
 import com.hbm.util.Clock;
 import com.hbm.util.DamageResistanceHandler;
 import com.hbm.util.Vec3NT;
@@ -182,7 +183,8 @@ public class HBMsNTMClient {
 
             BufferUploader.drawWithShader(buf.buildOrThrow());
 
-            RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            RenderSystem.defaultBlendFunc();
+            RenderSystem.disableBlend();
             RenderSystem.enableDepthTest();
             RenderSystem.depthMask(true);
         }
@@ -207,14 +209,14 @@ public class HBMsNTMClient {
                 case 10 -> "Fentanyl!";
                 case 11 -> "Do drugs!";
                 case 12 -> "Imagine being scared by splash texts!";
-                default -> "nothing";
+                default -> " ";
             };
 
             double d = Math.random();
             if (d < 0.1) text = "Redditors aren't people!";
             else if (d < 0.2) text = "Can someone tell me what corrosive fumes the people on Reddit are huffing so I can avoid those more effectively?";
 
-            if (text.equals("nothing")) return;
+            if (text.equals(" ")) return;
 
             try {
                 Field splashField = TitleScreen.class.getDeclaredField("splash");
@@ -327,6 +329,7 @@ public class HBMsNTMClient {
         DamageResistanceHandler.addInfo(stack, list);
         HazardSystem.addFullTooltip(stack, list);
         HazmatRegistry.addInfo(list, context.level(), stack);
+        ArmorRegistry.addTooltip(list, stack);
     }
     @SubscribeEvent
     public static void registerParticles(RegisterParticleProvidersEvent event) {
@@ -538,7 +541,7 @@ public class HBMsNTMClient {
                     ParticleMukeCloud cloud = new ParticleMukeCloud(level, x, y + 0.5, z, rand.nextGaussian() * 0.5, rand.nextInt(5) == 0 ? 0.02 : 0, rand.nextGaussian() * 0.5, false);
                     innerMc.particleEngine.add(cloud);
                 }
-                for( int i = 0; i < 15; i++) {
+                for (int i = 0; i < 15; i++) {
                     double ix = rand.nextGaussian() * 0.2;
                     double iz = rand.nextGaussian() * 0.2;
 
@@ -580,7 +583,7 @@ public class HBMsNTMClient {
                 }
             }
 
-            if ("radFog".equals(type)) {
+            if ("gasfire".equals(type)) {
                 double mX = data.getDouble("mX");
                 double mY = data.getDouble("mY");
                 double mZ = data.getDouble("mZ");

@@ -57,15 +57,12 @@ public class ParticleRadiationFog extends TextureSheetParticle {
     }
 
     @Override
-    public void render(VertexConsumer ignored, Camera camera, float partialTicks) {
+    public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
         Vec3 cameraPosition = camera.getPosition();
 
-        float alpha = 0;
-        alpha = (float) Math.sin(age * Math.PI / (400F)) * 0.125F;
+        this.alpha = (float) Math.sin(age * Math.PI / (400F)) * 0.25F;
 
-        int color = TessColorUtil.getColorRGBA_F( 0.85F, 0.9F, 0.5F, alpha);
-        MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
-        VertexConsumer consumer = bufferSource.getBuffer(CustomRenderTypes.entitySmoth(RAD));
+        int color = TessColorUtil.getColorRGBA_F( 0.85F, 0.9F, 0.5F, this.alpha);
 
         Random rand = new Random(50);
 
@@ -86,8 +83,10 @@ public class ParticleRadiationFog extends TextureSheetParticle {
 
     private void renderQuad(VertexConsumer consumer, Camera camera, float pX, float pY, float pZ, int color, float size) {
 
-        float u0 = 0, v0 = 0;
-        float u1 = 1, v1 = 1;
+        float u0 = sprite.getU0();
+        float u1 = sprite.getU1();
+        float v0 = sprite.getV0();
+        float v1 = sprite.getV1();
 
         Vector3f l = new Vector3f(camera.getLeftVector()).mul(size);
         Vector3f u = new Vector3f(camera.getUpVector()).mul(size);
@@ -95,25 +94,21 @@ public class ParticleRadiationFog extends TextureSheetParticle {
         consumer.addVertex(pX - l.x - u.x, pY - l.y - u.y, pZ - l.z - u.z)
                 .setColor(color)
                 .setUv(u1, v1)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
         consumer.addVertex(pX - l.x + u.x, pY - l.y + u.y, pZ - l.z + u.z)
                 .setColor(color)
                 .setUv(u1, v0)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
         consumer.addVertex(pX + l.x + u.x, pY + l.y + u.y, pZ + l.z + u.z)
                 .setColor(color)
                 .setUv(u0, v0)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
         consumer.addVertex(pX + l.x - u.x, pY + l.y - u.y, pZ + l.z - u.z)
                 .setColor(color)
                 .setUv(u0, v1)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
     }

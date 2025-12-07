@@ -74,11 +74,11 @@ public class ContaminationUtil {
 
 
     public static void printGeigerData(Player player) {
-        float playerRad = (LivingProperties.getRadiation(player) * 10F) / 10F;
-        float chunkRad = Mth.floor(ChunkRadiationManager.proxy.getRadiation(player.level(), player.blockPosition()) * 10F) / 10F;
-        float envRad = Mth.floor(LivingProperties.getRadBuf(player) * 10F) / 10F;
-        float res = Mth.floor((10000F - ContaminationUtil.calculateRadiationMod(player) * 10000F)) / 100F;
-        float resKoeff = Mth.floor(HazmatRegistry.getResistance(player) * 100F) / 100F;
+        double playerRad = ((int)(LivingProperties.getRadiation(player) * 10)) / 10D;
+        double chunkRad = ((int)(ChunkRadiationManager.proxy.getRadiation(player.level(), player.blockPosition()) * 10)) / 10D;
+        double envRad = ((int)(LivingProperties.getRadBuf(player) * 10D)) / 10D;
+        double res = ((int)(10000D - ContaminationUtil.calculateRadiationMod(player) * 10000D)) / 100D;
+        double resKoeff = ((int)(HazmatRegistry.getResistance(player) * 100D)) / 100D;
 
         String playerRadPrefix = getPrefixFromRadPlayer(playerRad);
         String chunkPrefix = getPrefixFromRad(chunkRad);
@@ -86,14 +86,14 @@ public class ContaminationUtil {
         String resPrefix = getPrefixFromRadResistance(resKoeff);
 
         player.displayClientMessage(Component.translatable("geiger.title").withStyle(ChatFormatting.GOLD), false);
-        player.displayClientMessage(Component.translatable("geiger.chunkRad", chunkPrefix + (String.format(Locale.US, "%.1f", chunkRad) + " RAD/s")).withStyle(ChatFormatting.YELLOW), false);
-        player.displayClientMessage(Component.translatable("geiger.envRad", envPrefix + (String.format(Locale.US, "%.1f", envRad) + " RAD/s")).withStyle(ChatFormatting.YELLOW), false);
-        player.displayClientMessage(Component.translatable("geiger.playerRad", playerRadPrefix + (String.format(Locale.US, "%.1f", playerRad) + " RAD")).withStyle(ChatFormatting.YELLOW), false);
+        player.displayClientMessage(Component.translatable("geiger.chunkRad", chunkPrefix + (chunkRad + " RAD/s")).withStyle(ChatFormatting.YELLOW), false);
+        player.displayClientMessage(Component.translatable("geiger.envRad", envPrefix + (envRad + " RAD/s")).withStyle(ChatFormatting.YELLOW), false);
+        player.displayClientMessage(Component.translatable("geiger.playerRad", playerRadPrefix + (playerRad + " RAD")).withStyle(ChatFormatting.YELLOW), false);
         player.displayClientMessage(Component.translatable("geiger.playerRes", resPrefix + res + "% (" + resKoeff + ")").withStyle(ChatFormatting.YELLOW), false);
     }
 
     public static void printDosimeterData(Player player) {
-        float env = (LivingProperties.getRadBuf(player) * 10F) / 10F;
+        double env = ((int)(LivingProperties.getRadBuf(player) * 10D)) / 10D;
         boolean limit = false;
 
         if (env > 3.6F) {
@@ -108,16 +108,16 @@ public class ContaminationUtil {
     }
 
     public static void printDiagnosticData(Player player) {
-        float digamma = (LivingProperties.getDigamma(player) * 100F) / 100F;
-        float halfLife = (float) (((1F - Math.pow(0.5F, digamma)) * 10000F) / 100F); // hl 3 confirmed??
+        double digamma = ((int)(LivingProperties.getDigamma(player) * 100)) / 100D;
+        double halfLife = ((int)((1D - Math.pow(0.5, digamma)) * 10000)) / 100D; // hl 3 confirmed??
 
         player.displayClientMessage(Component.translatable("digamma.title").withStyle(ChatFormatting.DARK_PURPLE), false);
-        player.displayClientMessage(Component.translatable("digamma.playerDigamma", ChatFormatting.RED + String.format(Locale.US, "%.1f", digamma) + " DRX").withStyle(ChatFormatting.LIGHT_PURPLE), false);
-        player.displayClientMessage(Component.translatable("digamma.playerHealth", ChatFormatting.RED + String.format(Locale.US, "%.1f", halfLife) + " %").withStyle(ChatFormatting.LIGHT_PURPLE), false);
+        player.displayClientMessage(Component.translatable("digamma.playerDigamma", ChatFormatting.RED + (digamma + " DRX")).withStyle(ChatFormatting.LIGHT_PURPLE), false);
+        player.displayClientMessage(Component.translatable("digamma.playerHealth", ChatFormatting.RED + (halfLife + " %")).withStyle(ChatFormatting.LIGHT_PURPLE), false);
         player.displayClientMessage(Component.translatable("digamma.playerRes", ChatFormatting.BLUE + "N/A").withStyle(ChatFormatting.LIGHT_PURPLE), false);
     }
 
-    public static String getPrefixFromRad(float rads) {
+    public static String getPrefixFromRad(double rads) {
         if (rads == 0) return ChatFormatting.GREEN.toString();
         else if (rads < 1) return ChatFormatting.YELLOW.toString();
         else if (rads < 10) return ChatFormatting.GOLD.toString();
@@ -126,7 +126,7 @@ public class ContaminationUtil {
         return ChatFormatting.DARK_GRAY.toString();
     }
 
-    public static String getPrefixFromRadPlayer(float rads) {
+    public static String getPrefixFromRadPlayer(double rads) {
         if (rads < 200) return ChatFormatting.GREEN.toString();
         else if (rads < 400) return ChatFormatting.YELLOW.toString();
         else if (rads < 600) return ChatFormatting.GOLD.toString();
@@ -134,7 +134,7 @@ public class ContaminationUtil {
         else if (rads < 1000) return ChatFormatting.DARK_RED.toString();
         return ChatFormatting.DARK_GRAY.toString();
     }
-    public static String getPrefixFromRadResistance(float koeff) {
+    public static String getPrefixFromRadResistance(double koeff) {
         if (koeff > 0) return ChatFormatting.GREEN.toString();
         return ChatFormatting.WHITE.toString();
     }

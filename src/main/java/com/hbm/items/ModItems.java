@@ -4,12 +4,14 @@ import com.hbm.HBMsNTM;
 import com.hbm.handler.ability.IToolAreaAbility;
 import com.hbm.handler.ability.IToolHarvestAbility;
 import com.hbm.handler.ability.IWeaponAbility;
+import com.hbm.inventory.ModArmorMaterials;
 import com.hbm.inventory.ModTiers;
 import com.hbm.items.food.ItemEnergy;
 import com.hbm.items.special.DangerousDropItem;
 import com.hbm.items.special.EntitySpawnerItem;
 import com.hbm.items.special.PolaroidItem;
 import com.hbm.items.tools.*;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.Tiers;
@@ -128,6 +130,19 @@ public class ModItems {
                     .addAbility(IToolAreaAbility.RECURSION, 5)
                     .addAbility(IToolHarvestAbility.LUCK, 5)
     );
+
+    public static final DeferredItem<Item> ALLOY_HELMET = ITEMS.register(
+            "alloy_helmet",
+            () -> new ArmorItem(ModArmorMaterials.ALLOY, ArmorItem.Type.HELMET, new Item.Properties()));
+    public static final DeferredItem<Item> ALLOY_CHESTPLATE = ITEMS.register(
+            "alloy_chestplate",
+            () -> new ArmorItem(ModArmorMaterials.ALLOY, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
+    public static final DeferredItem<Item> ALLOY_LEGGINGS = ITEMS.register(
+            "alloy_leggings",
+            () -> new ArmorItem(ModArmorMaterials.ALLOY, ArmorItem.Type.LEGGINGS, new Item.Properties()));
+    public static final DeferredItem<Item> ALLOY_BOOTS = ITEMS.register(
+            "alloy_boots",
+            () -> new ArmorItem(ModArmorMaterials.ALLOY, ArmorItem.Type.BOOTS, new Item.Properties()));
 
     public static final DeferredItem<Item> DUCK_SPAWN_EGG = ITEMS.register(
             "duck_spawn_egg",

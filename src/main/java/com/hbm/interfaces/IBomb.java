@@ -13,13 +13,20 @@ public interface IBomb {
     BombReturnCode explode(Level level, BlockPos pos);
 
     enum BombReturnCode {
-        UNDEFINED(false, ""),				                        //non-null type for passing to clients that don't process the return code
-        DETONATED(true,"bomb.detonated"),						    //success for blowing up bombs
-        TRIGGERED(true,"bomb.triggered"),						    //success for triggering other things
-        LAUNCHED(true, "bomb.launched"),							//success for launching missiles
-        ERROR_MISSING_COMPONENT(false, "bomb.missingComponent"),	//error for bomb parts missing
-        ERROR_INCOMPATIBLE(false, "bomb.incompatible"),			//error for target being incompatible (but still implements IBomb for some reason), like locked blast doors
-        ERROR_NO_BOMB(false, "bomb.nobomb");						//not to be used by the bombs themselves, this is the generic error when trying to trigger no-bomb blocks
+        // Non-null type for passing to clients that don't process the return code
+        UNDEFINED(false, ""),
+        // Success for blowing up bombs
+        DETONATED(true,"bomb.detonated"),
+        // Success for triggering other things
+        TRIGGERED(true,"bomb.triggered"),
+        // Success for launching missiles
+        LAUNCHED(true, "bomb.launched"),
+        // Error for bomb parts missing
+        ERROR_MISSING_COMPONENT(false, "bomb.missingComponent"),
+        // Error for target being incompatible (but still implements IBomb for some reason), like locked blast doors
+        ERROR_INCOMPATIBLE(false, "bomb.incompatible"),
+        // Not to be used by the bombs themselves, this is the generic error when trying to trigger no-bomb blocks
+        ERROR_NO_BOMB(false, "bomb.nobomb");
 
         private final String unlocalizedMessage;
         private final boolean success;

@@ -82,7 +82,7 @@ public class AvailableAbilities {
                 .sorted(Comparator.comparing(Map.Entry<IBaseAbility, Integer>::getKey).thenComparing(Map.Entry::getValue)).toList();
 
         if (!toolAbilities.isEmpty()) {
-            list.add(Component.translatable("tool.ability.msg"));
+            list.add(Component.translatable("tool.ability.tooltip").withStyle(ChatFormatting.GRAY));
 
             toolAbilities.forEach(entry -> {
                 IBaseAbility ability = entry.getKey();
@@ -91,9 +91,9 @@ public class AvailableAbilities {
                 list.add(Component.literal("  " + ability.getFullName(level)).withStyle(ChatFormatting.GOLD));
             });
 
-            list.add(Component.translatable("tool.ability.msg.cycle"));
-            list.add(Component.translatable("tool.ability.msg.sneak"));
-            list.add(Component.translatable("tool.ability.msg.gui"));
+            list.add(Component.translatable("tool.ability.tooltip.cycle").withStyle(ChatFormatting.GRAY));
+            list.add(Component.translatable("tool.ability.tooltip.sneak").withStyle(ChatFormatting.GRAY));
+            list.add(Component.translatable("tool.ability.tooltip.gui").withStyle(ChatFormatting.GRAY));
         }
 
         List<Map.Entry<IBaseAbility, Integer>> weaponAbilities = abilities.entrySet().stream()
@@ -101,7 +101,7 @@ public class AvailableAbilities {
                 .sorted(Comparator.comparing(Map.Entry<IBaseAbility, Integer>::getKey).thenComparing(Map.Entry::getValue)).toList();
 
         if (!weaponAbilities.isEmpty()) {
-            list.add(Component.translatable("tool.ability.msg.weapon"));
+            list.add(Component.translatable("tool.ability.tooltip.weapon").withStyle(ChatFormatting.GRAY));
 
             weaponAbilities.forEach(entry -> {
                 IBaseAbility ability = entry.getKey();

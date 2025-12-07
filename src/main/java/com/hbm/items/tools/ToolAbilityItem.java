@@ -10,7 +10,7 @@ import com.hbm.items.IItemControlReceiver;
 import com.hbm.items.IItemHUD;
 import com.hbm.items.IKeybindReceiver;
 import com.hbm.network.toclient.InformPlayer;
-import com.hbm.util.TagsUtil;
+import com.hbm.util.TagsUtilDegradation;
 import com.hbm.util.Tuple.Pair;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -265,32 +265,32 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItem
             this.currentPreset = currentPreset;
         }
 
-        public void writeToNBT(CompoundTag nbt) {
-            nbt.putInt("ability", currentPreset);
+        public void writeToNBT(CompoundTag tag) {
+            tag.putInt("ability", currentPreset);
 
-            ListTag nbtPresets = new ListTag();
+            ListTag listPresets = new ListTag();
 
             for (ToolPreset preset : presets) {
-                CompoundTag nbtPreset = new CompoundTag();
-                preset.writeToNBT(nbtPreset);
-                nbtPresets.add(nbtPreset);
+                CompoundTag tagPreset = new CompoundTag();
+                preset.writeToNBT(tagPreset);
+                listPresets.add(tagPreset);
             }
 
-            nbt.put("abilityPresets", nbtPresets);
+            tag.put("abilityPresets", listPresets);
         }
 
-        public void readFromNBT(CompoundTag nbt) {
-            currentPreset = nbt.getInt("ability");
+        public void readFromNBT(CompoundTag tag) {
+            currentPreset = tag.getInt("ability");
 
-            ListTag nbtPresets = nbt.getList("abilityPresets", Tag.TAG_COMPOUND);
-            int numPresets = Math.min(nbtPresets.size(), 99);
+            ListTag listPresets = tag.getList("abilityPresets", Tag.TAG_COMPOUND);
+            int numPresets = Math.min(listPresets.size(), 99);
 
             presets = new ArrayList<>(numPresets);
 
             for (int i = 0; i < numPresets; i++) {
-                CompoundTag nbtPreset = nbtPresets.getCompound(i);
+                CompoundTag tagPreset = listPresets.getCompound(i);
                 ToolPreset preset = new ToolPreset();
-                preset.readFromNBT(nbtPreset);
+                preset.readFromNBT(tagPreset);
                 presets.add(preset);
             }
 
@@ -336,22 +336,25 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItem
     public Configuration getConfiguration(ItemStack stack) {
         Configuration config = new Configuration();
 
-        if (stack.isEmpty() || !TagsUtil.hasTag(stack) || !TagsUtil.contains(stack, "ability") || !TagsUtil.contains(stack, "abilityPresets")) {
+        if (stack.isEmpty() ||
+                !TagsUtilDegradation.containsAnyTag(stack) ||
+                !TagsUtilDegradation.getTag(stack).contains("ability") ||
+                !TagsUtilDegradation.getTag(stack).contains("abilityPresets")) {
             config.reset(availableAbilities);
             return config;
         }
 
-        config.readFromNBT(TagsUtil.getTag(stack));
+        config.readFromNBT(TagsUtilDegradation.getTag(stack));
         config.restrictTo(availableAbilities);
         return config;
     }
 
     public void setConfiguration(ItemStack stack, Configuration config) {
-        if (!TagsUtil.isValid(stack)) return;
+        if (stack.isEmpty()) return;
 
-        CompoundTag tag = TagsUtil.getOrCreateTag(stack);
+        CompoundTag tag = TagsUtilDegradation.getTag(stack);
         config.writeToNBT(tag);
-        TagsUtil.setTag(stack, tag);
+        TagsUtilDegradation.putTag(stack, tag);
     }
 
     @Override

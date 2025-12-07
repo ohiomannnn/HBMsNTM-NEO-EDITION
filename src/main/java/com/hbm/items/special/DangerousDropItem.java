@@ -1,15 +1,17 @@
 package com.hbm.items.special;
 
 import com.hbm.HBMsNTM;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.config.MainConfig;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.interfaces.IBomb;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModSounds;
-import com.hbm.util.TagsUtil;
+import com.hbm.util.TagsUtilDegradation;
 import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
@@ -35,18 +37,22 @@ public class DangerousDropItem extends Item {
         Level level = itemEntity.level();
 
         if (level.isClientSide) return false;
+
+        // if this item has gotten from /give command it will create EntityItem that will do things
+        // check for phantom item
         int lifespan = stack.getEntityLifespan(level);
         if (itemEntity.getAge() >= lifespan - 1) return false;
 
-        String throwerName = "";
-        if (TagsUtil.hasTag(stack)) throwerName = TagsUtil.getString(stack, "lastUser", "Somebody");
+        String throwerName = "Unknown";
+        if (TagsUtilDegradation.getTag(stack).contains("lastUser")) throwerName = TagsUtilDegradation.getTag(stack).getString("lastUser");
 
         if (itemEntity.getAge() > 5) {
             if (stack.is(ModItems.DETONATOR_DEADMAN.get())) {
-                if (TagsUtil.hasTag(stack)) {
-                    int x = TagsUtil.getInt(stack, "x", 0);
-                    int y = TagsUtil.getInt(stack, "y", 0);
-                    int z = TagsUtil.getInt(stack, "z", 0);
+                if (TagsUtilDegradation.containsAnyTag(stack)) {
+                    CompoundTag tag = TagsUtilDegradation.getTag(stack);
+                    int x = tag.getInt("x");
+                    int y = tag.getInt("y");
+                    int z = tag.getInt("z");
 
                     BlockPos pos = new BlockPos(x, y, z);
                     Block block = level.getBlockState(pos).getBlock();
@@ -79,45 +85,49 @@ public class DangerousDropItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-        for (String s : I18nUtil.resolveKeyArray(this.getDescriptionId() + ".desc")) {
-            tooltipComponents.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
+        for (String s : ITooltipProvider.getDescription(stack)) {
+            components.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
         }
         if (this == ModItems.DETONATOR_DEADMAN.get()) {
-            if (!TagsUtil.hasTag(stack)) {
-                tooltipComponents.add(Component.translatable("detonator.nopos"));
+            if (!TagsUtilDegradation.containsAnyTag(stack)) {
+                components.add(Component.translatable("detonator.no_pos"));
             } else {
-                tooltipComponents.add(Component.literal(I18nUtil.resolveKey("detonator.setto")
-                                + TagsUtil.getInt(stack, "x", 0) + ", "
-                                + TagsUtil.getInt(stack, "y", 0) + ", "
-                                + TagsUtil.getInt(stack, "z", 0)
-                ));
+                CompoundTag tag = TagsUtilDegradation.getTag(stack);
+                int x = tag.getInt("x");
+                int y = tag.getInt("y");
+                int z = tag.getInt("z");
+                components.add(Component.translatable("detonator.set_to", x, y, z));
             }
         }
 
-        tooltipComponents.add(Component.literal("[" + I18nUtil.resolveKey("trait.drop") + "]").withStyle(ChatFormatting.RED));
+        components.add(Component.literal("[" + I18nUtil.resolveKey("trait.drop") + "]").withStyle(ChatFormatting.RED));
     }
 
     @Override
-    public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
+    public InteractionResult useOn(UseOnContext context) {
         if (this != ModItems.DETONATOR_DEADMAN.get()) {
-            return super.onItemUseFirst(stack, context);
+            return super.useOn(context);
         }
         Player player = context.getPlayer();
+        if (player == null) return InteractionResult.FAIL;
+        Level level = context.getLevel();
+        ItemStack stack = context.getItemInHand();
 
-        if (player.isCrouching()) {
-            TagsUtil.setInt(stack, "x", context.getClickedPos().getX());
-            TagsUtil.setInt(stack, "y", context.getClickedPos().getY());
-            TagsUtil.setInt(stack, "z", context.getClickedPos().getZ());
-            
-            // funny part
-            TagsUtil.setString(stack, "lastUser", player.getName().getString());
+        if (!level.isClientSide) {
+            if (player.isCrouching()) {
+                CompoundTag tag = new CompoundTag();
+                tag.putInt("x", context.getClickedPos().getX());
+                tag.putInt("y", context.getClickedPos().getY());
+                tag.putInt("z", context.getClickedPos().getZ());
+                tag.putString("lastUser", player.getName().getString());
+                TagsUtilDegradation.putTag(stack, tag);
 
-            context.getLevel().playSound(null, player.blockPosition(), ModSounds.TECH_BOOP.get(), SoundSource.PLAYERS, 2.0F, 1.0F);
+                level.playSound(null, player.blockPosition(), ModSounds.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 
-            return InteractionResult.SUCCESS;
+                return InteractionResult.SUCCESS;
+            }
         }
-
-        return InteractionResult.PASS;
+        return InteractionResult.FAIL;
     }
 }

@@ -2,10 +2,9 @@ package com.hbm.blockentity.bomb;
 
 import com.hbm.blockentity.ModBlockEntities;
 import com.hbm.blocks.bomb.CrashedBombBlock;
-import com.hbm.blocks.bomb.LandmineBlock;
 import com.hbm.util.ContaminationUtil;
-import com.hbm.util.ContaminationUtil.HazardType;
 import com.hbm.util.ContaminationUtil.ContaminationType;
+import com.hbm.util.ContaminationUtil.HazardType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;

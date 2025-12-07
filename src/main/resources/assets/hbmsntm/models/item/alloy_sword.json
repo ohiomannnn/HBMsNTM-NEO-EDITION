@@ -1,28 +1,28 @@
 {
-  "parent": "minecraft:item/generated",
+  "parent": "item/generated",
   "textures": {
     "layer0": "hbmsntm:item/alloy_sword"
   },
   "display": {
     "thirdperson_righthand": {
       "rotation": [0, -90, 55],
-      "translation": [0, 4, 0.5],
-      "scale": [1, 1, 1]
+      "translation": [0, 7.0, 0],
+      "scale": [1.7, 1.7, 0.85]
     },
     "thirdperson_lefthand": {
       "rotation": [0, 90, -55],
-      "translation": [0, 4, 0.5],
-      "scale": [1, 1, 1]
+      "translation": [0, 7.0, 0],
+      "scale": [1.7, 1.7, 0.85]
     },
     "firstperson_righthand": {
-      "rotation": [0, -90, 25],
-      "translation": [1.13, 3.2, 1.13],
-      "scale": [1.2, 1.2, 1.2]
+      "rotation": [-20, -90, 10],
+      "translation": [1.13, 5.2, -0.26],
+      "scale": [1.36, 1.36, 0.68]
     },
     "firstperson_lefthand": {
-      "rotation": [0, 90, -25],
-      "translation": [1.13, 3.2, 1.13],
-      "scale": [1.2, 1.2, 1.2]
+      "rotation": [-20, -90, -80],
+      "translation": [1.13, 5.2, -0.26],
+      "scale": [1.36, 1.36, 0.68]
     }
   }
 }

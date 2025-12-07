@@ -5,6 +5,7 @@ import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 
 import java.util.List;
@@ -24,6 +25,10 @@ public interface ITooltipProvider {
                             .append(Component.literal("> to display more info").withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC))
             );
         }
+    }
+
+    static String[] getDescription(ItemStack stack) {
+        return I18nUtil.resolveKeyArray(stack.getDescriptionId() + ".desc");
     }
 
     static String[] getDescriptionWithP11(String unlocalizedName) {

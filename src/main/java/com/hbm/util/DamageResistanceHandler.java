@@ -170,25 +170,24 @@ public class DamageResistanceHandler {
                 List<Component> toAdd = new ArrayList<>();
 
                 for (Entry<String, Resistance> entry : stats.categoryResistances.entrySet()) {
-                    String key = "damage.category." + entry.getKey();
                     Resistance res = entry.getValue();
-                    toAdd.add(Component.literal(I18nUtil.resolveKey(key) + ": " + res.threshold + "/" + (int)(res.resistance * 100) + "%").withStyle(ChatFormatting.GRAY));
+                    toAdd.add(Component.translatable("damage.category." + entry.getKey(), res.threshold, ((int)(res.resistance * 100))).withStyle(ChatFormatting.GRAY));
                 }
 
                 for (Entry<String, Resistance> entry : stats.exactResistances.entrySet()) {
-                    String key = "damage.exact." + entry.getKey();
                     Resistance res = entry.getValue();
-                    toAdd.add(Component.literal(I18nUtil.resolveKey(key) + ": " + res.threshold + "/" + (int)(res.resistance * 100) + "%").withStyle(ChatFormatting.GRAY));
+                    toAdd.add(Component.translatable("damage.exact." + entry.getKey(), res.threshold, ((int)(res.resistance * 100))).withStyle(ChatFormatting.GRAY));
                 }
 
                 if (stats.otherResistance != null) {
                     Resistance res = stats.otherResistance;
-                    toAdd.add(Component.literal(I18nUtil.resolveKey("damage.other") + ": " + res.threshold + "/" + (int)(res.resistance * 100) + "%").withStyle(ChatFormatting.GRAY));
+                    toAdd.add(Component.translatable("damage.other", res.threshold, ((int)(res.resistance * 100))).withStyle(ChatFormatting.GRAY));
                 }
 
                 if (!toAdd.isEmpty()) {
                     components.add(Component.literal(I18nUtil.resolveKey("damage.inset")).withStyle(ChatFormatting.DARK_PURPLE));
 
+                    //this sucks ass!
                     if (set.getW() != null)
                         components.add(Component.literal("  ")
                                 .append(new ItemStack(set.getW()).getHoverName())
@@ -221,18 +220,18 @@ public class DamageResistanceHandler {
             for (Entry<String, Resistance> entry : stats.categoryResistances.entrySet()) {
                 String key = "damage.category." + entry.getKey();
                 Resistance res = entry.getValue();
-                toAdd.add(Component.literal(I18nUtil.resolveKey(key) + ": " + res.threshold + "/" + (int)(res.resistance * 100) + "%").withStyle(ChatFormatting.GRAY));
+                toAdd.add(Component.literal(I18nUtil.resolveKey(key) + ": " + res.threshold + "/" + ((int)(res.resistance * 100)) + "%").withStyle(ChatFormatting.GRAY));
             }
 
             for (Entry<String, Resistance> entry : stats.exactResistances.entrySet()) {
                 String key = "damage.exact." + entry.getKey();
                 Resistance res = entry.getValue();
-                toAdd.add(Component.literal(I18nUtil.resolveKey(key) + ": " + res.threshold + "/" + (int)(res.resistance * 100) + "%").withStyle(ChatFormatting.GRAY));
+                toAdd.add(Component.literal(I18nUtil.resolveKey(key) + ": " + res.threshold + "/" + ((int)(res.resistance * 100)) + "%").withStyle(ChatFormatting.GRAY));
             }
 
             if (stats.otherResistance != null) {
                 Resistance res = stats.otherResistance;
-                toAdd.add(Component.literal(I18nUtil.resolveKey("damage.other") + ": " + res.threshold + "/" + (int)(res.resistance * 100) + "%").withStyle(ChatFormatting.GRAY));
+                toAdd.add(Component.literal(I18nUtil.resolveKey("damage.other") + ": " + res.threshold + "/" + ((int)(res.resistance * 100)) + "%").withStyle(ChatFormatting.GRAY));
             }
 
             if (!toAdd.isEmpty()) {
@@ -458,7 +457,6 @@ public class DamageResistanceHandler {
         public Resistance getResistance(DamageSource source, LivingEntity entity) {
             Registry<DamageType> registry = entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE);
             String damageTypeId = String.valueOf(registry.getKey(source.type()));
-            HBMsNTM.LOGGER.info("{}", source.type());
             Resistance exact = exactResistances.get(damageTypeId);
             if (exact != null) return exact;
             Resistance category = categoryResistances.get(typeToCategory(source));

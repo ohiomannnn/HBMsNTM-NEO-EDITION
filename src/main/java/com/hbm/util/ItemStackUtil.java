@@ -55,7 +55,7 @@ public class ItemStackUtil {
     }
 
     public static ItemStack addTooltipToStack(ItemStack stack, String... lines) {
-        CompoundTag tag = TagsUtil.getOrCreateTag(stack);
+        CompoundTag tag = TagsUtilDegradation.getTag(stack);
         CompoundTag display = new CompoundTag();
         ListTag lore = new ListTag();
 
@@ -69,7 +69,7 @@ public class ItemStackUtil {
     }
 
     public static void addStacksToNBT(RegistryAccess registryAccess, ItemStack stack, ItemStack... stacks) {
-        CompoundTag tag = TagsUtil.getOrCreateTag(stack);
+        CompoundTag tag = TagsUtilDegradation.getTag(stack);
         ListTag items = new ListTag();
 
         for (int i = 0; i < stacks.length; i++) {
@@ -84,8 +84,8 @@ public class ItemStackUtil {
     }
 
     public static ItemStack[] readStacksFromNBT(ItemStack stack, HolderLookup.Provider provider, int count) {
-        if (!TagsUtil.hasTag(stack)) return null;
-        CompoundTag tag = TagsUtil.getTag(stack);
+        if (!TagsUtilDegradation.containsAnyTag(stack)) return null;
+        CompoundTag tag = TagsUtilDegradation.getTag(stack);
         if (!tag.contains("items")) return null;
 
         ListTag list = tag.getList("items", 10);

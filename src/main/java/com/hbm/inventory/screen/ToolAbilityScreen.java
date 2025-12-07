@@ -6,13 +6,12 @@ import com.hbm.handler.ability.*;
 import com.hbm.items.tools.ToolAbilityItem;
 import com.hbm.lib.ModSounds;
 import com.hbm.network.toserver.CompoundTagItemControl;
-import com.hbm.util.TagsUtil;
+import com.hbm.util.TagsUtilDegradation;
 import com.hbm.util.Tuple.Pair;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
@@ -390,7 +389,7 @@ public class ToolAbilityScreen extends Screen {
 
         LocalPlayer player = this.minecraft.player;
         ((ToolAbilityItem) this.toolStack.getItem()).setConfiguration(toolStack, config);
-        PacketDistributor.sendToServer(new CompoundTagItemControl(TagsUtil.getTag(this.toolStack)));
+        PacketDistributor.sendToServer(new CompoundTagItemControl(TagsUtilDegradation.getTag(this.toolStack)));
 
         HBMsNTMClient.displayTooltip(config.getActivePreset().getMessage(), 1000, HBMsNTMClient.ID_TOOLABILITY);
 

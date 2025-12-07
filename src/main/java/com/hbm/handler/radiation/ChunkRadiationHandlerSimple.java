@@ -1,11 +1,8 @@
 package com.hbm.handler.radiation;
 
-import java.util.HashMap;
-import java.util.Map.Entry;
-
-import com.hbm.HBMsNTMClient;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MainConfig;
+import com.hbm.network.toclient.AuxParticle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -19,6 +16,10 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.neoforge.event.level.ChunkDataEvent;
 import net.neoforged.neoforge.event.level.ChunkEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
+
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 /**
  * Most basic implementation of a chunk radiation system: Each chunk has a radiation value which spreads out to its neighbors.
@@ -109,12 +110,11 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
                             int z = newCoord.getMinBlockZ() + level.random.nextInt(16);
                             int y = level.getHeight(Heightmap.Types.WORLD_SURFACE, x, z) + level.random.nextInt(5);
 
-                            CompoundTag data = new CompoundTag();
-                            data.putString("type", "radFog");
-                            data.putDouble("posX", x);
-                            data.putDouble("posY", y);
-                            data.putDouble("posZ", z);
-                            HBMsNTMClient.effectNT(data);
+                            CompoundTag tag = new CompoundTag();
+                            tag.putString("type", "radFog");
+                            if (level instanceof ServerLevel serverLevel) {
+                                PacketDistributor.sendToPlayersNear(serverLevel, null, x, y, z, 100, new AuxParticle(tag, x, y, z));
+                            }
                         }
                     }
                 }
