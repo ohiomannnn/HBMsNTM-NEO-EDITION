@@ -2,8 +2,7 @@ package com.hbm.blocks;
 
 import com.hbm.HBMsNTM;
 import com.hbm.blocks.bomb.*;
-import com.hbm.blocks.gas.GasCoalBlock;
-import com.hbm.blocks.gas.GasMonoxideBlock;
+import com.hbm.blocks.gas.*;
 import com.hbm.blocks.generic.*;
 import com.hbm.blocks.machine.GeigerCounterBlock;
 import com.hbm.blocks.special.ConcreteBrickMBlock;
@@ -233,18 +232,61 @@ public class ModBlocks {
                     .explosionResistance(10.0F)
                     .sound(SoundType.STONE)));
 
-    public static final DeferredBlock<Block> GAS_COAL = registerBlock("gas_coal",
+    public static final DeferredBlock<Block> GAS_COAL = registerBlock(
+            "gas_coal",
             () -> new GasCoalBlock(BlockBehaviour.Properties.of()
                     .noCollission()
                     .noOcclusion()
-                    .noLootTable()
-            ));
-    public static final DeferredBlock<Block> GAS_MONOXIDE = registerBlock("gas_monoxide",
+                    .noLootTable()));
+    public static final DeferredBlock<Block> GAS_MONOXIDE = registerBlock(
+            "gas_monoxide",
             () -> new GasMonoxideBlock(BlockBehaviour.Properties.of()
                     .noCollission()
                     .noOcclusion()
-                    .noLootTable()
-            ));
+                    .noLootTable()));
+    public static final DeferredBlock<Block> GAS_ASBESTOS = registerBlock(
+            "gas_asbestos",
+            () -> new GasAsbestosBlock(BlockBehaviour.Properties.of()
+                    .noCollission()
+                    .noOcclusion()
+                    .noLootTable()));
+    public static final DeferredBlock<Block> GAS_RADON = registerBlock(
+            "gas_radon",
+            () -> new GasRadonBlock(BlockBehaviour.Properties.of()
+                    .noCollission()
+                    .noOcclusion()
+                    .noLootTable()));
+    public static final DeferredBlock<Block> GAS_RADON_DENSE = registerBlock(
+            "gas_radon_dense",
+            () -> new GasRadonDenseBlock(BlockBehaviour.Properties.of()
+                    .noCollission()
+                    .noOcclusion()
+                    .noLootTable()));
+    public static final DeferredBlock<Block> GAS_RADON_TOMB = registerBlock(
+            "gas_radon_tomb",
+            () -> new GasRadonTombBlock(BlockBehaviour.Properties.of()
+                    .noCollission()
+                    .noOcclusion()
+                    .noLootTable()));
+    public static final DeferredBlock<Block> GAS_MELTDOWN = registerBlock(
+            "gas_meltdown",
+            () -> new GasMeltdownBlock(BlockBehaviour.Properties.of()
+                    .noCollission()
+                    .noOcclusion()
+                    .noLootTable()));
+    public static final DeferredBlock<Block> GAS_FLAMMABLE = registerBlock(
+            "gas_flammable",
+            () -> new GasFlammableBlock(BlockBehaviour.Properties.of()
+                    .noCollission()
+                    .noOcclusion()
+                    .noLootTable()));
+    public static final DeferredBlock<Block> GAS_EXPLOSIVE = registerBlock(
+            "gas_explosive",
+            () -> new GasExplosiveBlock(BlockBehaviour.Properties.of()
+                    .noCollission()
+                    .noOcclusion()
+                    .noLootTable()));
+
 
     public static final DeferredBlock<Block> TAINT = registerBlock("taint",
             () -> new TaintBlock(BlockBehaviour.Properties.of()

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "hbmsntm:block/gas_radon_dense"
+  }
+}

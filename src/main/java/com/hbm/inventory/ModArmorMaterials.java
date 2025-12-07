@@ -10,7 +10,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.EnumMap;
@@ -38,11 +37,10 @@ public class ModArmorMaterials {
 
     static {
         ALLOY = register("alloy", Util.make(new EnumMap(ArmorItem.Type.class), (map) -> {
-            map.put(ArmorItem.Type.BOOTS, 1);
-            map.put(ArmorItem.Type.LEGGINGS, 4);
-            map.put(ArmorItem.Type.CHESTPLATE, 5);
-            map.put(ArmorItem.Type.HELMET, 2);
-            map.put(ArmorItem.Type.BODY, 4);
-        }), 12, SoundEvents.ARMOR_EQUIP_CHAIN, 0.0F, 0.0F, () -> Ingredient.of(Items.IRON_INGOT));
+            map.put(ArmorItem.Type.HELMET, 3);
+            map.put(ArmorItem.Type.CHESTPLATE, 8);
+            map.put(ArmorItem.Type.LEGGINGS, 6);
+            map.put(ArmorItem.Type.BOOTS, 3);
+        }), 12, SoundEvents.ARMOR_EQUIP_GENERIC, 0.0F, 0.0F, () -> Ingredient.of());
     }
 }

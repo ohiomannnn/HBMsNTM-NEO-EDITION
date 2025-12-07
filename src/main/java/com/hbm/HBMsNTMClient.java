@@ -678,7 +678,7 @@ public class HBMsNTMClient {
                         }
 
                         if ("smoke".equals(mode)) {
-                            level.addParticle(
+                            innerMc.particleEngine.createParticle(
                                     ParticleTypes.SMOKE,
                                     ix, iy, iz,
                                     (vec.x + rand.nextGaussian() * 0.1) * 0.05,

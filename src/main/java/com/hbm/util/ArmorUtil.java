@@ -8,7 +8,7 @@ import net.minecraft.world.item.Items;
 
 public class ArmorUtil {
 
-    /*
+    /**
      * The less horrifying part
      */
     public static void register() {

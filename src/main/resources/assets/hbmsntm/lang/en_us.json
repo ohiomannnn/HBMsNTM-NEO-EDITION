@@ -138,6 +138,16 @@
   "block.hbmsntm.sellafield_bedrock": "Bedrock Sellafite",
   "block.hbmsntm.nuke_fatman": "Fat Man",
 
+  "block.hbmsntm.gas_coal": "Airborne Coal Dust",
+  "block.hbmsntm.gas_asbestos": "Airborne Asbestos Particles",
+  "block.hbmsntm.gas_flammable": "Flammable Gas",
+  "block.hbmsntm.gas_explosive": "Explosive Gas",
+  "block.hbmsntm.gas_meltdown": "Meltdown Gas",
+  "block.hbmsntm.gas_monoxide": "Carbon Monoxide",
+  "block.hbmsntm.gas_radon": "Radon Gas",
+  "block.hbmsntm.gas_radon_dense": "Dense Radon Gas",
+  "block.hbmsntm.gas_radon_tomb": "Tomb Gas",
+
   "item.hbmsntm.nothing": "Nothing",
   "item.hbmsntm.geiger_counter": "Handheld Geiger Counter",
   "item.hbmsntm.dosimeter": "Dosimeter",

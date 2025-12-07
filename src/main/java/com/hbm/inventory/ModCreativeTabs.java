@@ -45,6 +45,16 @@ public class ModCreativeTabs {
 
                         output.accept(ModBlocks.SELLAFIELD_SLAKED);
                         output.accept(ModBlocks.SELLAFIELD_BEDROCK);
+
+                        output.accept(ModBlocks.GAS_RADON);
+                        output.accept(ModBlocks.GAS_RADON_DENSE);
+                        output.accept(ModBlocks.GAS_RADON_TOMB);
+                        output.accept(ModBlocks.GAS_MELTDOWN);
+                        output.accept(ModBlocks.GAS_MONOXIDE);
+                        output.accept(ModBlocks.GAS_ASBESTOS);
+                        output.accept(ModBlocks.GAS_COAL);
+                        output.accept(ModBlocks.GAS_FLAMMABLE);
+                        output.accept(ModBlocks.GAS_EXPLOSIVE);
                     }).build());
 
     public static final Supplier<CreativeModeTab> BOMBS = CREATIVE_MODE_TABS.register(
@@ -98,7 +108,6 @@ public class ModCreativeTabs {
                         output.accept(ModItems.CAP_SPARKLE);
                         output.accept(ModItems.BOTTLE_SPARKLE);
 
-                        output.accept(ModItems.ALLOY_SWORD);
                         output.accept(ModItems.SCHRABIDIUM_PICKAXE);
                     }).build());
 

@@ -123,7 +123,7 @@ public class ModItems {
 
     public static final DeferredItem<Item> SCHRABIDIUM_PICKAXE = ITEMS.register(
             "schrabidium_pickaxe",
-            () -> new ToolAbilityItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE), Tiers.NETHERITE,20F, -2.8F)
+            () -> new ToolAbilityItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE), Tiers.NETHERITE, 20F, -2.8F)
                     .addAbility(IWeaponAbility.RADIATION, 0)
                     .addAbility(IToolAreaAbility.HAMMER, 2)
                     .addAbility(IToolAreaAbility.HAMMER_FLAT, 2)

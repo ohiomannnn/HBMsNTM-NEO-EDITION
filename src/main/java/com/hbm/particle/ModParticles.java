@@ -61,6 +61,7 @@ public class ModParticles {
             "skeleton", () -> new SimpleParticleType(true));
 
     public static final ResourceLocation BASE = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/base_particle.png");
+    public static final ResourceLocation FLARE = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/flare.png");
 
     public static SpriteSet BASE_PARTICLE_SPRITES;
     public static SpriteSet RBMK_MUSH_SPRITES;

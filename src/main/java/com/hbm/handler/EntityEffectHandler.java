@@ -30,6 +30,7 @@ import net.minecraft.world.entity.animal.MushroomCow;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.biome.Biome;
@@ -64,6 +65,7 @@ public class EntityEffectHandler {
         handleRadiationEffect(entity);
         handleRadiationFX(entity);
         handleDigamma(entity);
+        handleLungDisease(entity);
     }
 
 
@@ -255,7 +257,61 @@ public class EntityEffectHandler {
                 }
             }
 
+            double blacklung = Math.min(LivingProperties.getBlackLung(entity), LivingProperties.maxBlacklung);
+            double asbestos = Math.min(LivingProperties.getAsbestos(entity), LivingProperties.maxAsbestos);
+            // TODO Add pollution someday
 
+            boolean coughs = blacklung / LivingProperties.maxBlacklung > 0.25D || asbestos / LivingProperties.maxAsbestos > 0.25D;
+
+            if (!coughs) return;
+
+            boolean coughsCoal = blacklung / LivingProperties.maxBlacklung > 0.5D;
+            boolean coughsALotOfCoal = blacklung / LivingProperties.maxBlacklung > 0.8D;
+            boolean coughsBlood = asbestos / LivingProperties.maxAsbestos > 0.75D || blacklung / LivingProperties.maxBlacklung > 0.75D;
+
+            double blacklungDelta = 1D - (blacklung / (double)LivingProperties.maxBlacklung);
+            double asbestosDelta = 1D - (asbestos / (double)LivingProperties.maxAsbestos);
+
+
+            double total = 1 - (blacklungDelta * asbestosDelta);
+
+            if (total > 0.75D) {
+                entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 2));
+            }
+
+            if (total > 0.95D) {
+                entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 100, 0));
+            }
+
+            total = 1 - (blacklungDelta * asbestosDelta);
+            int freq = Math.max((int) (1000 - 950 * total), 20);
+
+
+            if (level.getGameTime() % freq == entity.getId() % freq) {
+                level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), ModSounds.COUGH, SoundSource.NEUTRAL, 1.0F, 1.0F);
+
+                if (coughsBlood) {
+                    CompoundTag tag = new CompoundTag();
+                    tag.putString("type", "vomit");
+                    tag.putString("mode", "blood");
+                    tag.putInt("count", 5);
+                    tag.putInt("entity", entity.getId());
+                    if (level instanceof ServerLevel serverLevel) {
+                        PacketDistributor.sendToPlayersNear(serverLevel, null, entity.getX(), entity.getY(), entity.getZ(), 25, new AuxParticle(tag, entity.getX(), entity.getY(), entity.getZ()));
+                    }
+                }
+
+                if (coughsCoal) {
+                    CompoundTag tag = new CompoundTag();
+                    tag.putString("type", "vomit");
+                    tag.putString("mode", "smoke");
+                    tag.putInt("count", coughsALotOfCoal ? 50 : 10);
+                    tag.putInt("entity", entity.getId());
+                    if (level instanceof ServerLevel serverLevel) {
+                        PacketDistributor.sendToPlayersNear(serverLevel, null, entity.getX(), entity.getY(), entity.getZ(), 25, new AuxParticle(tag, entity.getX(), entity.getY(), entity.getZ()));
+                    }
+                }
+            }
         }
     }
 

@@ -59,8 +59,6 @@ public class CommonEvents {
         HazardRegistry.registerItems();
         HazmatRegistry.registerHazmats();
         ArmorUtil.register();
-
-        HBMsNTM.LOGGER.info("Polaroid id = {}", PolaroidItem.polaroidID);
     }
 
     @SubscribeEvent
@@ -119,6 +117,7 @@ public class CommonEvents {
     @SubscribeEvent
     public static void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.COMBAT) {
+            event.accept(ModItems.ALLOY_SWORD);
             event.accept(ModItems.ALLOY_HELMET);
             event.accept(ModItems.ALLOY_CHESTPLATE);
             event.accept(ModItems.ALLOY_LEGGINGS);
