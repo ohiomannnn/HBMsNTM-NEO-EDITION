@@ -1,5 +1,6 @@
 package com.hbm;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.config.FalloutConfigJSON;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntities;
@@ -11,12 +12,12 @@ import com.hbm.handler.HazmatRegistry;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.items.ModItems;
-import com.hbm.items.special.PolaroidItem;
 import com.hbm.lib.ModCommands;
-import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.DamageResistanceHandler;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -25,6 +26,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -33,6 +36,7 @@ import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.level.BlockEvent.BreakEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
 import java.io.File;
@@ -106,6 +110,24 @@ public class CommonEvents {
         if (entity instanceof LivingEntity livingEntity) {
             HazardSystem.updateLivingInventory(livingEntity);
             EntityEffectHandler.tick(livingEntity);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onBlockBreak(BreakEvent event) {
+        BlockPos pos = event.getPos();
+        Level level = (Level) event.getLevel();
+
+        if (!level.isClientSide) {
+            if (event.getState() == Blocks.COAL_ORE.defaultBlockState() || event.getState() == Blocks.DEEPSLATE_COAL_ORE.defaultBlockState() || event.getState() == Blocks.COAL_BLOCK.defaultBlockState()) {
+                for (Direction dir : Direction.values()) {
+                    BlockPos offsetPos = pos.relative(dir);
+
+                    if (level.random.nextInt(2) == 0 && level.getBlockState(offsetPos).isAir()) {
+                        level.setBlock(offsetPos, ModBlocks.GAS_COAL.get().defaultBlockState(), 3);
+                    }
+                }
+            }
         }
     }
 

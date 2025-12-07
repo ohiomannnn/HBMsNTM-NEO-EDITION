@@ -20,6 +20,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.NOTHING.get());
         basicItem(ModItems.GEIGER_COUNTER.get());
         basicItem(ModItems.DOSIMETER.get());
+        basicItem(ModItems.DIGAMMA_DIAGNOSTIC.get());
         basicItem(ModItems.DETONATOR_DE.get());
         basicItem(ModItems.DETONATOR_DEADMAN.get());
         basicItem(ModItems.FLINT_AND_BALEFIRE.get());

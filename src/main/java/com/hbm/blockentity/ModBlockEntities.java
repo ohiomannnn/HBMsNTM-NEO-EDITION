@@ -4,6 +4,7 @@ import com.hbm.HBMsNTM;
 import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blockentity.bomb.LandMineBlockEntity;
 import com.hbm.blockentity.bomb.NukeFatManBlockEntity;
+import com.hbm.blockentity.machine.DecontaminatorBlockEntity;
 import com.hbm.blockentity.machine.GeigerBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -29,6 +30,13 @@ public class ModBlockEntities {
             () -> BlockEntityType.Builder.of(
                             GeigerBlockEntity::new,
                             ModBlocks.GEIGER.get())
+                    .build(null));
+
+    public static final Supplier<BlockEntityType<DecontaminatorBlockEntity>> DECONTAMINATOR = REGISTER.register(
+            "decontaminator",
+            () -> BlockEntityType.Builder.of(
+                            DecontaminatorBlockEntity::new,
+                            ModBlocks.DECONTAMINATOR.get())
                     .build(null));
 
     public static final Supplier<BlockEntityType<LandMineBlockEntity>> LANDMINE = REGISTER.register(

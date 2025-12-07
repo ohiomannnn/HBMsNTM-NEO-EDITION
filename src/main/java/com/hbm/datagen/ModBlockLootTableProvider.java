@@ -2,19 +2,27 @@ package com.hbm.datagen;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
+import net.minecraft.advancements.critereon.EnchantmentPredicate;
+import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.AlternativesEntry;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
+import net.minecraft.world.level.storage.loot.functions.ApplyExplosionDecay;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
+import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
@@ -75,6 +83,10 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                                 ))
                 )
         );
+
+        this.add(ModBlocks.LEAVES_LAYER.get(), BlockLootSubProvider::createShearsOnlyDrop);
+        this.add(ModBlocks.WASTE_LEAVES.get(), BlockLootSubProvider::createShearsOnlyDrop);
+
         dropSelf(ModBlocks.WASTE_PLANKS.get());
         dropSelf(ModBlocks.WASTE_MYCELIUM.get());
         dropSelf(ModBlocks.WASTE_TRINITITE_RED.get());
@@ -88,13 +100,21 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.DET_NUKE.get());
         dropSelf(ModBlocks.DET_MINER.get());
 
-        add(ModBlocks.BRICK_CONCRETE_SLAB.get(), block -> createSlabItemTable(ModBlocks.BRICK_CONCRETE_SLAB.get()));
-        add(ModBlocks.BRICK_CONCRETE_MOSSY_SLAB.get(), block -> createSlabItemTable(ModBlocks.BRICK_CONCRETE_SLAB.get()));
-        add(ModBlocks.BRICK_CONCRETE_BROKEN_SLAB.get(), block -> createSlabItemTable(ModBlocks.BRICK_CONCRETE_SLAB.get()));
-        add(ModBlocks.BRICK_CONCRETE_CRACKED_SLAB.get(), block -> createSlabItemTable(ModBlocks.BRICK_CONCRETE_SLAB.get()));
+        dropSelf(ModBlocks.SELLAFIELD_SLAKED.get());
 
-        dropSelf(ModBlocks.ASH_DIGAMMA.get());
+        dropSelf(ModBlocks.FALLOUT.get());
+
+        this.dropSelf(ModBlocks.DECONTAMINATOR.get());
+
+        this.add(ModBlocks.ORE_SELLAFIELD_EMERALD.get(), block -> this.createOreDrop(block, Items.EMERALD));
+        this.add(ModBlocks.ORE_SELLAFIELD_DIAMOND.get(), block -> this.createOreDrop(block, Items.DIAMOND));
+
+        this.add(ModBlocks.BRICK_CONCRETE_SLAB.get(), this::createSlabItemTable);
+        this.add(ModBlocks.BRICK_CONCRETE_MOSSY_SLAB.get(), this::createSlabItemTable);
+        this.add(ModBlocks.BRICK_CONCRETE_BROKEN_SLAB.get(), this::createSlabItemTable);
+        this.add(ModBlocks.BRICK_CONCRETE_CRACKED_SLAB.get(), this::createSlabItemTable);
     }
+
 
     @Override
     protected Iterable<Block> getKnownBlocks() {

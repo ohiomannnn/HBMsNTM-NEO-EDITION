@@ -45,7 +45,14 @@ public class ModCreativeTabs {
 
                         output.accept(ModBlocks.SELLAFIELD_SLAKED);
                         output.accept(ModBlocks.SELLAFIELD_BEDROCK);
+                    }).build());
 
+    public static final Supplier<CreativeModeTab> MACHINES = CREATIVE_MODE_TABS.register(
+            "machines",
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.PWR_CONTROLLER.get()))
+                    .withTabsBefore(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "ores_and_blocks"))
+                    .title(Component.translatable("creative_tab.hbmsntm.machines"))
+                    .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModBlocks.GAS_RADON);
                         output.accept(ModBlocks.GAS_RADON_DENSE);
                         output.accept(ModBlocks.GAS_RADON_TOMB);
@@ -55,12 +62,15 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.GAS_COAL);
                         output.accept(ModBlocks.GAS_FLAMMABLE);
                         output.accept(ModBlocks.GAS_EXPLOSIVE);
+
+                        output.accept(ModBlocks.DECONTAMINATOR);
                     }).build());
+
 
     public static final Supplier<CreativeModeTab> BOMBS = CREATIVE_MODE_TABS.register(
             "bombs",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.NUKE_FATMAN.get()))
-                    .withTabsBefore(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "ores_and_blocks"))
+                    .withTabsBefore(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "machines"))
                     .title(Component.translatable("creative_tab.hbmsntm.bombs"))
                     .backgroundTexture(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/gui/nuke_tab.png"))
                     .displayItems((itemDisplayParameters, output) -> {
@@ -90,6 +100,7 @@ public class ModCreativeTabs {
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.GEIGER_COUNTER);
                         output.accept(ModItems.DOSIMETER);
+                        output.accept(ModItems.DIGAMMA_DIAGNOSTIC);
                         output.accept(ModItems.REACHER);
                         output.accept(ModItems.KEY);
                         output.accept(ModItems.KEY_KIT);

@@ -45,5 +45,3 @@ public class HBMsNTM {
         MainConfig.register(modContainer);
     }
 }
-
-

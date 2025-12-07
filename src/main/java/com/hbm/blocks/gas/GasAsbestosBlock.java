@@ -14,18 +14,23 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 public class GasAsbestosBlock extends GasBaseBlock {
 
     public GasAsbestosBlock(Properties properties) {
-        super(properties);
+        super(properties, 0.6F, 0.6F, 0.5F);
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         if (level.random.nextInt(5) == 0) {
             level.addParticle(ParticleTypes.ASH, pos.getX() + random.nextFloat(), pos.getY() + random.nextFloat(), pos.getZ() + random.nextFloat(), 0.0, 0.0, 0.0);
         }
+
+        super.animateTick(state, level, pos, random);
     }
 
     @Override

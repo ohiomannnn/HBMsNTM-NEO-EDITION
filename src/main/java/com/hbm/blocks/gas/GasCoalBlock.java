@@ -18,16 +18,14 @@ import net.minecraft.world.level.block.state.BlockState;
 public class GasCoalBlock extends GasBaseBlock {
 
     public GasCoalBlock(Properties properties) {
-        super(properties);
+        super(properties, 0.2F, 0.2F, 0.2F);
     }
 
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         super.animateTick(state, level, pos, random);
-        double x = pos.getX() + random.nextDouble();
-        double y = pos.getY() + random.nextDouble();
-        double z = pos.getZ() + random.nextDouble();
-        level.addParticle(ParticleTypes.SMOKE, x, y, z, 0.0D, 0.0D, 0.0D);
+
+        level.addParticle(ParticleTypes.SMOKE, pos.getX() + random.nextFloat(), pos.getY() + random.nextFloat(), pos.getZ() + random.nextFloat(), 0.0D, 0.0D, 0.0D);
     }
 
     @Override

@@ -60,8 +60,13 @@ public class ModParticles {
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SKELETON = REGISTER.register(
             "skeleton", () -> new SimpleParticleType(true));
 
+    // Why we cant just use make one constructor public...
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> VANILLA_CLOUD = REGISTER.register(
+            "vanilla_cloud", () -> new SimpleParticleType(true));
+
     public static final ResourceLocation BASE = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/base_particle.png");
     public static final ResourceLocation FLARE = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/flare.png");
+    public static final ResourceLocation SHOCKWAVE = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/shockwave.png");
 
     public static SpriteSet BASE_PARTICLE_SPRITES;
     public static SpriteSet RBMK_MUSH_SPRITES;
@@ -76,6 +81,8 @@ public class ModParticles {
     public static SpriteSet MUKE_CLOUD_SPRITES;
     public static SpriteSet MUKE_CLOUD_BF_SPRITES;
     public static SpriteSet GAS_FLAME_PARTICLES;
+
+    public static SpriteSet VANILLA_CLOUD_SPRITES;
 
     public static void register(IEventBus eventBus) {
         REGISTER.register(eventBus);

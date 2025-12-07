@@ -81,22 +81,35 @@ public class ModBlockStateProvider extends BlockStateProvider {
         logBlock((RotatedPillarBlock) ModBlocks.WASTE_LOG.get());
 
         simpleBlockWithItem(ModBlocks.WASTE_EARTH.get(),
-                models().withExistingParent("waste_earth", mcLoc("block/block"))
-                        .texture("particle", modLoc("block/waste_earth_bottom"))
-                        .texture("bottom", modLoc("block/waste_earth_bottom"))
-                        .texture("top", modLoc("block/waste_earth_top"))
-                        .texture("side", modLoc("block/waste_earth_side"))
-                        .element()
-                        .from(0, 0, 0)
-                        .to(16, 16, 16)
-                        .face(Direction.DOWN).uvs(0, 0, 16, 16).texture("#bottom").cullface(Direction.DOWN).end()
-                        .face(Direction.UP).uvs(0, 0, 16, 16).texture("#top").cullface(Direction.UP).tintindex(0).end()
-                        .face(Direction.NORTH).uvs(0, 0, 16, 16).texture("#side").cullface(Direction.NORTH).end()
-                        .face(Direction.SOUTH).uvs(0, 0, 16, 16).texture("#side").cullface(Direction.SOUTH).end()
-                        .face(Direction.WEST).uvs(0, 0, 16, 16).texture("#side").cullface(Direction.WEST).end()
-                        .face(Direction.EAST).uvs(0, 0, 16, 16).texture("#side").cullface(Direction.EAST).end()
-                        .end()
+                models().cubeBottomTop(
+                        ModBlocks.WASTE_EARTH.getId().getPath(),
+                        modLoc("block/waste_earth_side"),
+                        modLoc("block/waste_earth_bottom"),
+                        modLoc("block/waste_earth_top")
+                )
         );
+
+        simpleBlockWithItem(ModBlocks.DECONTAMINATOR.get(),
+                models().cubeBottomTop(
+                        ModBlocks.DECONTAMINATOR.getId().getPath(),
+                        modLoc("block/decontaminator_side"),
+                        modLoc("block/decontaminator_side"),
+                        modLoc("block/decontaminator_top")
+                )
+        );
+
+        simpleBlockWithItem(ModBlocks.PWR_CONTROLLER.get(),
+                models().cube(
+                        ModBlocks.PWR_CONTROLLER.getId().getPath(),
+                        modLoc("block/pwr_casing_blank"),
+                        modLoc("block/pwr_casing_blank"),
+                        modLoc("block/pwr_controller"),
+                        modLoc("block/pwr_casing_blank"),
+                        modLoc("block/pwr_casing_blank"),
+                        modLoc("block/pwr_casing_blank")
+                )
+        );
+
         simpleBlockWithItem(ModBlocks.WASTE_LEAVES.get(),
                 models().cubeColumn("waste_leaves", modLoc("block/waste_leaves"), modLoc("block/waste_leaves"))
                         .renderType("cutout_mipped")
@@ -169,8 +182,6 @@ public class ModBlockStateProvider extends BlockStateProvider {
                         .renderType("minecraft:cutout_mipped")
                         .texture("cross", modLoc("block/fire_digamma"))
         );
-
-        simpleBlockWithItem(ModBlocks.ASH_DIGAMMA.get(), cubeAll(ModBlocks.ASH_DIGAMMA.get()));
 
         generateLayeringBlock(ModBlocks.LEAVES_LAYER.get());
 

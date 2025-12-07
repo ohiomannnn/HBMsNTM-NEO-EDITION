@@ -37,10 +37,18 @@ public class ModItems {
     public static final DeferredItem<Item> CELL_ANTIMATTER = ITEMS.register("cell_antimatter",
             () -> new DangerousDropItem(new Item.Properties()));
 
-    public static final DeferredItem<Item> GEIGER_COUNTER = ITEMS.register("geiger_counter",
+    public static final DeferredItem<Item> GEIGER_COUNTER = ITEMS.register(
+            "geiger_counter",
             () -> new GeigerCounterItem(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> DOSIMETER = ITEMS.register("dosimeter",
+
+    public static final DeferredItem<Item> DOSIMETER = ITEMS.register(
+            "dosimeter",
             () -> new DosimeterItem(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> DIGAMMA_DIAGNOSTIC = ITEMS.register(
+            "digamma_diagnostic",
+            () -> new DigammaDiagnosticItem(new Item.Properties().stacksTo(1)));
+
 
     public static final DeferredItem<Item> REACHER = ITEMS.register("reacher",
             () -> new Item(new Item.Properties().stacksTo(1)));
@@ -128,7 +136,6 @@ public class ModItems {
                     .addAbility(IToolAreaAbility.HAMMER, 2)
                     .addAbility(IToolAreaAbility.HAMMER_FLAT, 2)
                     .addAbility(IToolAreaAbility.RECURSION, 5)
-                    .addAbility(IToolHarvestAbility.LUCK, 5)
     );
 
     public static final DeferredItem<Item> ALLOY_HELMET = ITEMS.register(

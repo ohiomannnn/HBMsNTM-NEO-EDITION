@@ -19,7 +19,7 @@ public class GasFlammableBlock extends GasBaseBlock {
     public static HashSet<Block> fireSources = new HashSet<>();
 
     public GasFlammableBlock(Properties properties) {
-        super(properties);
+        super(properties, 0.8F, 0.8F, 0.2F);
 
         if (fireSources.isEmpty()) {
             fireSources.add(Blocks.FIRE);

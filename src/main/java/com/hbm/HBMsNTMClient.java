@@ -15,6 +15,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.special.PolaroidItem;
 import com.hbm.particle.*;
 import com.hbm.particle.helper.ParticleCreators;
+import com.hbm.particle.vanilla.PlayerCloudParticle;
 import com.hbm.render.blockentity.RenderCrashedBomb;
 import com.hbm.render.blockentity.RenderLandMine;
 import com.hbm.render.blockentity.RenderNukeFatMan;
@@ -44,6 +45,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.CreeperRenderer;
@@ -356,6 +358,8 @@ public class HBMsNTMClient {
         event.registerSpecial(ModParticles.ROCKET_FLAME.get(), new ParticleRocketFlame.Provider());
         event.registerSpecial(ModParticles.SKELETON.get(), new SkeletonParticle.Provider());
         event.registerSpriteSet(ModParticles.HADRON.get(), ParticleHadron.Provider::new);
+
+        event.registerSpriteSet(ModParticles.VANILLA_CLOUD.get(), PlayerCloudParticle.Provider::new);
     }
 
     public static void effectNT(CompoundTag data) {
@@ -687,6 +691,37 @@ public class HBMsNTMClient {
                             );
                         }
                     }
+                }
+            }
+
+            if ("vanillaExt".equals(type)) {
+                double mX = data.getDouble("mX");
+                double mY = data.getDouble("mY");
+                double mZ = data.getDouble("mZ");
+
+                Particle particle = null;
+
+                if ("cloud".equals(data.getString("mode"))) {
+                    particle = new PlayerCloudParticle(level, x, y, z, mX, mY, mZ);
+
+                    if (data.contains("r")) {
+                        float rng = rand.nextFloat() * 0.1F;
+                        particle.setColor(data.getFloat("r") + rng, data.getFloat("g") + rng, data.getFloat("b") + rng);
+                        ((PlayerCloudParticle) particle).scaleFactor = 7.5F;
+                        particle.setParticleSpeed(0, 0, 0);
+                    }
+                }
+
+                if ("townaura".equals(data.getString("mode"))) {
+                    particle = new ParticleAura(level, x, y, z, 0, 0, 0);
+                    float color = 0.5F + rand.nextFloat() * 0.5F;
+                    particle.setColor(0.8F * color, 0.9F * color, 1.0F * color);
+                    particle.setParticleSpeed(mX, mY, mZ);
+                }
+
+
+                if (particle != null) {
+                    innerMc.particleEngine.add(particle);
                 }
             }
 

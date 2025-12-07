@@ -91,7 +91,11 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.BRICK_CONCRETE_SLAB.get())
                 .add(ModBlocks.BRICK_CONCRETE_MOSSY_SLAB.get())
                 .add(ModBlocks.BRICK_CONCRETE_CRACKED_SLAB.get())
-                .add(ModBlocks.BRICK_CONCRETE_BROKEN_SLAB.get());
+                .add(ModBlocks.BRICK_CONCRETE_BROKEN_SLAB.get())
+
+                .add(ModBlocks.SELLAFIELD_SLAKED.get())
+                .add(ModBlocks.ORE_SELLAFIELD_EMERALD.get())
+                .add(ModBlocks.ORE_SELLAFIELD_DIAMOND.get());
 
         tag(BlockTags.NEEDS_IRON_TOOL)
                 .add(ModBlocks.BRICK_CONCRETE.get())

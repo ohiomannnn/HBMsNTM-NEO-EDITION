@@ -1,10 +1,17 @@
 package com.hbm.blocks.gas;
 
+import com.hbm.HBMsNTMClient;
+import com.hbm.util.ArmorUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -17,11 +24,21 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 public abstract class GasBaseBlock extends Block {
 
-    public GasBaseBlock(Properties properties) {
+    protected float red;
+    protected float green;
+    protected float blue;
+
+    public GasBaseBlock(Properties properties, float r, float g, float b) {
         super(properties);
+
+        this.red = r;
+        this.green = g;
+        this.blue = b;
     }
 
     @Override public VoxelShape getCollisionShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) { return Shapes.empty(); }
@@ -79,5 +96,26 @@ public abstract class GasBaseBlock extends Block {
 
     public Direction randomHorizontal(RandomSource random) {
         return Direction.Plane.HORIZONTAL.getRandomDirection(random);
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+
+        Player player = Minecraft.getInstance().player;
+        if (player == null) return;
+
+        if (ArmorUtil.checkArmorPiece(player, Items.GOLDEN_HELMET, EquipmentSlot.HEAD)) {
+            CompoundTag tag = new CompoundTag();
+            tag.putString("type", "vanillaExt");
+            tag.putString("mode", "cloud");
+            tag.putDouble("posX", pos.getX() + 0.5);
+            tag.putDouble("posY", pos.getY() + 0.5);
+            tag.putDouble("posZ", pos.getZ() + 0.5);
+            tag.putFloat("r", red);
+            tag.putFloat("g", green);
+            tag.putFloat("b", blue);
+            HBMsNTMClient.effectNT(tag);
+        }
     }
 }

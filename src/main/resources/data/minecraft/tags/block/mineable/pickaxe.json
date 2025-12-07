@@ -12,6 +12,9 @@
     "hbmsntm:brick_concrete_slab",
     "hbmsntm:brick_concrete_mossy_slab",
     "hbmsntm:brick_concrete_cracked_slab",
-    "hbmsntm:brick_concrete_broken_slab"
+    "hbmsntm:brick_concrete_broken_slab",
+    "hbmsntm:sellafield_slaked",
+    "hbmsntm:ore_sellafield_emerald",
+    "hbmsntm:ore_sellafield_diamond"
   ]
 }

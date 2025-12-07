@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class GasMonoxideBlock extends GasBaseBlock {
 
     public GasMonoxideBlock(Properties properties) {
-        super(properties);
+        super(properties, 0.1F, 0.1F, 0.1F);
     }
 
     @Override

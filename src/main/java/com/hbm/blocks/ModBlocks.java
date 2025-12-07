@@ -4,14 +4,19 @@ import com.hbm.HBMsNTM;
 import com.hbm.blocks.bomb.*;
 import com.hbm.blocks.gas.*;
 import com.hbm.blocks.generic.*;
+import com.hbm.blocks.machine.DecontaminatorBlock;
 import com.hbm.blocks.machine.GeigerCounterBlock;
 import com.hbm.blocks.special.ConcreteBrickMBlock;
 import com.hbm.items.ModItems;
 import com.mojang.serialization.MapCodec;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -21,7 +26,6 @@ import java.util.function.Supplier;
 public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(HBMsNTM.MODID);
 
-    // FOR BLOCKS //
     public static final DeferredBlock<Block> BRICK_CONCRETE = registerBlock("brick_concrete",
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(15.0F)
@@ -92,41 +96,46 @@ public class ModBlocks {
                     .sound(SoundType.WOOD)));
     public static final DeferredBlock<Block> WASTE_LEAVES = registerBlock("waste_leaves",
             () -> new WasteLeavesBlock(BlockBehaviour.Properties.of()
-                    .noLootTable()
-                    .strength(0.1F)
+                    .strength(0.2F)
                     .randomTicks()
+                    .sound(SoundType.GRASS)
                     .noOcclusion()
-                    .isSuffocating((state, level, pos) -> false)
-                    .isViewBlocking((state, level, pos) -> false)
-                    .sound(SoundType.GRASS)));
+                    .isValidSpawn(Blocks::ocelotOrParrot)
+                    .isSuffocating(ModBlocks::never)
+                    .isViewBlocking(ModBlocks::never)
+                    .ignitedByLava()
+                    .pushReaction(PushReaction.DESTROY)
+                    .isRedstoneConductor(ModBlocks::never)));
     public static final DeferredBlock<Block> LEAVES_LAYER = registerBlock("leaves_layer",
             () -> new LayeringBlock(BlockBehaviour.Properties.of()
-                    .noLootTable()
-                    .strength(0.1F)
+                    .strength(0.2F)
                     .randomTicks()
+                    .sound(SoundType.GRASS)
                     .noOcclusion()
-                    .isSuffocating((state, level, pos) -> false)
-                    .isViewBlocking((state, level, pos) -> false)
-                    .sound(SoundType.GRASS)));
+                    .isValidSpawn(Blocks::ocelotOrParrot)
+                    .isSuffocating(ModBlocks::never)
+                    .isViewBlocking(ModBlocks::never)
+                    .ignitedByLava()
+                    .pushReaction(PushReaction.DESTROY)
+                    .isRedstoneConductor(ModBlocks::never)));
 
     public static final DeferredBlock<Block> FALLOUT = registerBlock("fallout",
             () -> new FalloutBlock(BlockBehaviour.Properties.of()
-                    .noLootTable()
                     .strength(0.1F)
                     .sound(SoundType.GRAVEL)));
     public static final DeferredBlock<Block> SELLAFIELD_SLAKED = registerBlock("sellafield_slaked",
             () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of()
-                    .noLootTable()
+                    .requiresCorrectToolForDrops()
                     .strength(3.0F, 10.0F)
                     .sound(SoundType.STONE)));
     public static final DeferredBlock<Block> ORE_SELLAFIELD_DIAMOND = registerBlock("ore_sellafield_diamond",
             () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of()
-                    .noLootTable()
+                    .requiresCorrectToolForDrops()
                     .strength(3.0F, 10.0F)
                     .sound(SoundType.STONE)));
     public static final DeferredBlock<Block> ORE_SELLAFIELD_EMERALD = registerBlock("ore_sellafield_emerald",
             () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of()
-                    .noLootTable()
+                    .requiresCorrectToolForDrops()
                     .strength(3.0F, 10.0F)
                     .sound(SoundType.STONE)));
     public static final DeferredBlock<Block> SELLAFIELD_BEDROCK = registerBlock("sellafield_bedrock",
@@ -160,7 +169,6 @@ public class ModBlocks {
                     .explosionResistance(5.0F)
                     .requiresCorrectToolForDrops()
                     .sound(SoundType.GRAVEL)) {
-                    // ok... this is for falling blocks don't try to read lol
                     @Override
                     protected MapCodec<? extends FallingBlock> codec() {
                         return simpleCodec(props -> new FallingBlock(props) {
@@ -232,24 +240,6 @@ public class ModBlocks {
                     .explosionResistance(10.0F)
                     .sound(SoundType.STONE)));
 
-    public static final DeferredBlock<Block> GAS_COAL = registerBlock(
-            "gas_coal",
-            () -> new GasCoalBlock(BlockBehaviour.Properties.of()
-                    .noCollission()
-                    .noOcclusion()
-                    .noLootTable()));
-    public static final DeferredBlock<Block> GAS_MONOXIDE = registerBlock(
-            "gas_monoxide",
-            () -> new GasMonoxideBlock(BlockBehaviour.Properties.of()
-                    .noCollission()
-                    .noOcclusion()
-                    .noLootTable()));
-    public static final DeferredBlock<Block> GAS_ASBESTOS = registerBlock(
-            "gas_asbestos",
-            () -> new GasAsbestosBlock(BlockBehaviour.Properties.of()
-                    .noCollission()
-                    .noOcclusion()
-                    .noLootTable()));
     public static final DeferredBlock<Block> GAS_RADON = registerBlock(
             "gas_radon",
             () -> new GasRadonBlock(BlockBehaviour.Properties.of()
@@ -274,6 +264,24 @@ public class ModBlocks {
                     .noCollission()
                     .noOcclusion()
                     .noLootTable()));
+    public static final DeferredBlock<Block> GAS_MONOXIDE = registerBlock(
+            "gas_monoxide",
+            () -> new GasMonoxideBlock(BlockBehaviour.Properties.of()
+                    .noCollission()
+                    .noOcclusion()
+                    .noLootTable()));
+    public static final DeferredBlock<Block> GAS_ASBESTOS = registerBlock(
+            "gas_asbestos",
+            () -> new GasAsbestosBlock(BlockBehaviour.Properties.of()
+                    .noCollission()
+                    .noOcclusion()
+                    .noLootTable()));
+    public static final DeferredBlock<Block> GAS_COAL = registerBlock(
+            "gas_coal",
+            () -> new GasCoalBlock(BlockBehaviour.Properties.of()
+                    .noCollission()
+                    .noOcclusion()
+                    .noLootTable()));
     public static final DeferredBlock<Block> GAS_FLAMMABLE = registerBlock(
             "gas_flammable",
             () -> new GasFlammableBlock(BlockBehaviour.Properties.of()
@@ -286,7 +294,6 @@ public class ModBlocks {
                     .noCollission()
                     .noOcclusion()
                     .noLootTable()));
-
 
     public static final DeferredBlock<Block> TAINT = registerBlock("taint",
             () -> new TaintBlock(BlockBehaviour.Properties.of()
@@ -308,6 +315,16 @@ public class ModBlocks {
                     .strength(15.0F)
                     .explosionResistance(0.25F)
                     .sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> DECONTAMINATOR = registerBlock(
+            "decontaminator",
+            () -> new DecontaminatorBlock(BlockBehaviour.Properties.of()
+                    .strength(5.0F)
+                    .explosionResistance(10.0F)
+                    .sound(SoundType.METAL)));
+
+    public static final DeferredBlock<Block> PWR_CONTROLLER = registerBlock(
+            "pwr_controller",
+            () -> new Block(BlockBehaviour.Properties.of().noLootTable()));
 
     public static final DeferredBlock<Block> DET_CHARGE = registerBlock(
             "det_charge",
@@ -466,18 +483,6 @@ public class ModBlocks {
                     .noLootTable()
                     .sound(SoundType.STONE)));
 
-    public static final DeferredBlock<Block> ASH_DIGAMMA = registerBlock("ash_digamma",
-            () -> new Block(BlockBehaviour.Properties.of()
-                    .strength(0.5F)
-                    .explosionResistance(150.0F)
-                    .sound(SoundType.SAND)));
-    public static final DeferredBlock<Block> PRIBRIS_DIGAMMA = registerBlock("pribris_digamma",
-            () -> new Block(BlockBehaviour.Properties.of()
-                    .strength(50.0F)
-                    .explosionResistance(600.0F)
-                    .sound(SoundType.STONE)
-                    .noLootTable()));
-
     public static final DeferredBlock<Block> BALEFIRE = BLOCKS.register(
             "balefire",
             () -> new BalefireBlock(BlockBehaviour.Properties.of()
@@ -493,6 +498,14 @@ public class ModBlocks {
                     .noOcclusion()
                     .lightLevel(state -> 10)
                     .noLootTable()));
+
+    private static boolean always(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+        return true;
+    }
+
+    private static boolean never(BlockState state, BlockGetter blockGetter, BlockPos pos) {
+        return false;
+    }
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> regBlock = BLOCKS.register(name, block);

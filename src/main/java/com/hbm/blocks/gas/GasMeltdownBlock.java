@@ -11,6 +11,7 @@ import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -24,7 +25,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class GasMeltdownBlock extends GasBaseBlock {
 
     public GasMeltdownBlock(Properties properties) {
-        super(properties);
+        super(properties, 0.1F, 0.4F, 0.1F);
     }
 
     @Override
@@ -39,6 +40,12 @@ public class GasMeltdownBlock extends GasBaseBlock {
                 LivingProperties.incrementAsbestos(livingEntity, 5); // Mesothelioma can be developed as a result of exposure to radiation in the lungs
             }
         }
+    }
+
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        super.animateTick(state, level, pos, random);
+        level.addParticle(ParticleTypes.MYCELIUM, pos.getX() + random.nextFloat(), pos.getY() + random.nextFloat(), pos.getZ() + random.nextFloat(), 0.0, 0.0, 0.0);
     }
 
     @Override

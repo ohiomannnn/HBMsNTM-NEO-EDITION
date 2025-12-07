@@ -53,7 +53,7 @@ public class GeigerCounterBlock extends BaseEntityBlock {
         builder.add(FACING);
     }
 
-    public static final MapCodec<CrashedBombBlock> CODEC = simpleCodec(CrashedBombBlock::new);
+    public static final MapCodec<GeigerCounterBlock> CODEC = simpleCodec(GeigerCounterBlock::new);
 
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {

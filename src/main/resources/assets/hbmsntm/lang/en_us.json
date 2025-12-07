@@ -148,9 +148,12 @@
   "block.hbmsntm.gas_radon_dense": "Dense Radon Gas",
   "block.hbmsntm.gas_radon_tomb": "Tomb Gas",
 
+  "block.hbmsntm.decontaminator": "Player Decontaminator",
+
   "item.hbmsntm.nothing": "Nothing",
   "item.hbmsntm.geiger_counter": "Handheld Geiger Counter",
   "item.hbmsntm.dosimeter": "Dosimeter",
+  "item.hbmsntm.digamma_diagnostic": "Digamma Diagnostic",
   "item.hbmsntm.reacher": "Tungsten Reacher",
   "item.hbmsntm.key": "Key",
   "item.hbmsntm.key_red": "Red Key",
@@ -350,6 +353,7 @@
   "tool.ability.tooltip.gui": "Alt-click to open customization GUI!",
   "tool.ability.tooltip.weapon": "Weapon modifiers: ",
 
+  "creative_tab.hbmsntm.machines": "NTM Machines",
   "creative_tab.hbmsntm.ores_and_blocks": "NTM Ores and Blocks",
   "creative_tab.hbmsntm.consumables_and_gear": "NTM Consumables and Gear",
   "creative_tab.hbmsntm.bombs": "NTM Bombs",

@@ -59,7 +59,7 @@ public class ArmorRegistry {
         if (list == null)
             return false;
 
-        for(HazardClass haz : clazz) {
+        for (HazardClass haz : clazz) {
             if(list.contains(haz)) return true;
         }
 

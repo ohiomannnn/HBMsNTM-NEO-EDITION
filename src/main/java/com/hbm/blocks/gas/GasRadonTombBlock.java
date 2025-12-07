@@ -23,34 +23,33 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class GasRadonTombBlock extends GasBaseBlock {
 
-    /*
+    /**
      * You should not have come here.
-     *
+     * <p>
      * This is not a place of honor. No great deed is commemorated here.
-     *
+     * <p>
      * Nothing of value is here.
-     *
+     * <p>
      * What is here is dangerous and repulsive.
-     *
+     * <p>
      * We considered ourselves a powerful culture. We harnessed the hidden fire,
      * and used it for our own purposes.
-     *
+     * <p>
      * Then we saw the fire could burn within living things, unnoticed until it
      * destroyed them.
-     *
+     * <p>
      * And we were afraid.
-     *
+     * <p>
      * We built great tombs to hold the fire for one hundred thousand years,
      * after which it would no longer kill.
-     *
+     * <p>
      * If this place is opened, the fire will not be isolated from the world,
      * and we will have failed to protect you.
-     *
+     * <p>
      * Leave this place and never come back.
      */
-
     public GasRadonTombBlock(Properties properties) {
-        super(properties);
+        super(properties, 0.1F, 0.3F, 0.1F);
     }
 
     @Override

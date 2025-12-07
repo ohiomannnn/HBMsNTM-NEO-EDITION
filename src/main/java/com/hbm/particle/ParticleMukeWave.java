@@ -1,8 +1,6 @@
 package com.hbm.particle;
 
-import com.hbm.HBMsNTM;
 import com.hbm.render.CustomRenderTypes;
-import com.hbm.util.old.TessColorUtil;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -11,7 +9,6 @@ import net.minecraft.client.particle.*;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
@@ -32,7 +29,7 @@ public class ParticleMukeWave extends TextureSheetParticle {
     }
 
     @Override
-    public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
+    public void render(VertexConsumer ignored, Camera camera, float partialTicks) {
         Vec3 camPos = camera.getPosition();
 
         float pX = (float) (Mth.lerp(partialTicks, this.xo, this.x) - camPos.x);
@@ -42,28 +39,33 @@ public class ParticleMukeWave extends TextureSheetParticle {
         this.alpha = Math.clamp(1 - ((this.age + partialTicks) / (float)this.lifetime), 0.0F, 1.0F);
         this.quadSize = (1 - (float)Math.pow(Math.E, (this.age + partialTicks) * -0.125)) * waveScale;
 
-        float u0 = sprite.getU0();
-        float u1 = sprite.getU1();
-        float v0 = sprite.getV0();
-        float v1 = sprite.getV1();
+        MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
+        VertexConsumer consumer = bufferSource.getBuffer(CustomRenderTypes.entityAdditive(ModParticles.SHOCKWAVE));
+
+        float u0 = 0, v0 = 0;
+        float u1 = 1, v1 = 1;
 
         consumer.addVertex(pX - 1 * this.quadSize, pY - 0.25F, pZ - 1 * this.quadSize)
                 .setUv(u1, v1)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setColor(1.0F, 1.0F, 1.0F, alpha)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
         consumer.addVertex(pX - 1 * this.quadSize, pY - 0.25F, pZ + 1 * this.quadSize)
                 .setUv(u1, v0)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setColor(1.0F, 1.0F, 1.0F, alpha)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
         consumer.addVertex(pX + 1 * this.quadSize, pY - 0.25F, pZ + 1 * this.quadSize)
                 .setUv(u0, v0)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setColor(1.0F, 1.0F, 1.0F, alpha)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
         consumer.addVertex(pX + 1 * this.quadSize, pY - 0.25F, pZ - 1 * this.quadSize)
                 .setUv(u0, v1)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setColor(1.0F, 1.0F, 1.0F, alpha)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
@@ -71,7 +73,7 @@ public class ParticleMukeWave extends TextureSheetParticle {
 
     @Override
     public ParticleRenderType getRenderType() {
-        return CustomRenderType.PARTICLE_SHEET_ADDITIVE;
+        return CustomRenderType.NONE;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {

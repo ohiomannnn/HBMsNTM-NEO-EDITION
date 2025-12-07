@@ -2,6 +2,7 @@ package com.hbm.particle;
 
 import com.hbm.HBMsNTM;
 import com.hbm.particle.helper.SkeletonCreator.EnumSkeletonType;
+import com.hbm.render.CustomRenderTypes;
 import com.hbm.render.entity.effect.SkeletonModel;
 import com.hbm.util.old.TessColorUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -171,11 +172,7 @@ public class SkeletonParticle extends TextureSheetParticle {
         ResourceLocation textureToUse = getTexture(type);
 
         MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
-        VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(textureToUse));
-
-        RenderSystem.setShaderTexture(0, textureToUse);
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
+        VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.entitySmoth(textureToUse));
 
         float timeLeft = this.lifetime - (this.age + partialTicks);
         if (timeLeft < 40) {

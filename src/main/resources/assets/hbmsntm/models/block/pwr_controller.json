@@ -1,0 +1,11 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "hbmsntm:block/pwr_casing_blank",
+    "east": "hbmsntm:block/pwr_casing_blank",
+    "north": "hbmsntm:block/pwr_controller",
+    "south": "hbmsntm:block/pwr_casing_blank",
+    "up": "hbmsntm:block/pwr_casing_blank",
+    "west": "hbmsntm:block/pwr_casing_blank"
+  }
+}

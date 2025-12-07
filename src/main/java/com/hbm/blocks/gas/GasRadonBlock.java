@@ -20,7 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class GasRadonBlock extends GasBaseBlock {
 
     public GasRadonBlock(Properties properties) {
-        super(properties);
+        super(properties, 0.1F, 0.8F, 0.1F);
     }
 
     @Override
