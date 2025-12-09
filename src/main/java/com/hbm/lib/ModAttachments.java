@@ -31,7 +31,10 @@ public class ModAttachments {
                         public CompoundTag write(LivingProperties attachment, HolderLookup.Provider provider) {
                             return attachment.serializeNBT();
                         }
-                    }).build()
+                    })
+                    .sync((holder, player) -> true, LivingProperties.STREAM_CODEC)
+                    .copyOnDeath()
+                    .build()
             );
 
     public static final Supplier<AttachmentType<PlayerProperties>> PLAYER_PROPS = ATTACHMENTS.register(

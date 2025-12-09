@@ -361,5 +361,9 @@
   "message.hbmsntm.loaded": "Loaded world with Hbm's Nuclear Tech Mod %s for Minecraft 1.21.1!",
   "message.hbmsntm.new_version": "New version %s is available! Click ",
   "message.hbmsntm.click_here": "[here]",
-  "message.hbmsntm.to_download": " to download!"
+  "message.hbmsntm.to_download": " to download!",
+
+  "commands.hbmsntm.error.not_living": "Target is not a living entity!",
+  "commands.hbmsntm.success.props.get": "Property %s of %s is %s",
+  "commands.hbmsntm.success.props.set": "Property %s of %s set to %s"
 }

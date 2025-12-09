@@ -11,7 +11,7 @@ public abstract class HazardModifier {
 
     public static float evalAllModifiers(ItemStack stack, LivingEntity entity, float level, List<HazardModifier> mods) {
 
-        for(HazardModifier mod : mods) {
+        for (HazardModifier mod : mods) {
             level = mod.modify(stack, entity, level);
         }
 

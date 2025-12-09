@@ -3,6 +3,9 @@ package com.hbm.config;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class ClientConfig {
+
+    public final ModConfigSpec.BooleanValue SKY_RENDERER;
+
     public final ModConfigSpec.BooleanValue NUKE_HUD_FLASH;
     public final ModConfigSpec.BooleanValue NUKE_HUD_SHAKE;
 
@@ -17,6 +20,11 @@ public class ClientConfig {
     public final ModConfigSpec.IntValue TOOL_HUD_INDICATOR_Y;
 
     ClientConfig(ModConfigSpec.Builder builder) {
+
+        SKY_RENDERER = builder
+                .comment("Toggles custom sky.")
+                .translation("hbmsntm.configuration.skyCustom")
+                .define("skyCustom", true);
 
         NUKE_HUD_FLASH = builder
                 .comment("Toggles flash from nuke explosion.")

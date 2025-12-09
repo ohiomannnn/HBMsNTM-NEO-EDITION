@@ -6,6 +6,7 @@ import com.hbm.extprop.LivingProperties;
 import com.hbm.lib.ModEffect;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorRegistry.HazardClass;
+import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
@@ -31,12 +32,12 @@ public class GasRadonDenseBlock extends GasBaseBlock {
     @Override
     public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
         if (entity instanceof LivingEntity livingEntity) {
-            if (!ArmorRegistry.hasAllProtection(livingEntity, EquipmentSlot.HEAD, HazardClass.PARTICLE_FINE)) {
-                //ArmorUtil.damageGasMaskFilter(entityLiving, 1);
+            if (ArmorRegistry.hasProtection(livingEntity, EquipmentSlot.HEAD, HazardClass.PARTICLE_FINE)) {
+                ArmorUtil.damageGasMaskFilter(livingEntity, 1);
             } else {
-                ContaminationUtil.contaminate(livingEntity, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 0.05F);
+                ContaminationUtil.contaminate(livingEntity, HazardType.RADIATION, ContaminationType.CREATIVE, 0.5F);
                 livingEntity.addEffect(new MobEffectInstance(ModEffect.RADIATION, 15 * 20, 0));
-                LivingProperties.incrementAsbestos(livingEntity, 1);
+                LivingProperties.incrementAsbestos(livingEntity, 5);
             }
         }
     }

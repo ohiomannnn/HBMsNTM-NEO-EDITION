@@ -25,6 +25,7 @@ public class GasExplosiveBlock extends GasFlammableBlock  {
 
     protected void combust(Level level, BlockPos pos) {
         level.setBlock(pos, Blocks.FIRE.defaultBlockState(), 3);
+
         ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3F)
                 .setBlockAllocator(new BlockAllocatorStandard())
                 .setBlockProcessor(new BlockProcessorNoDamage().withBlockEffect(new BlockMutatorFire()))

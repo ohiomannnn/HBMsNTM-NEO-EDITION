@@ -58,9 +58,6 @@ public class ContaminationUtil {
         if (entity instanceof Player player && player.tickCount < 200) return;
         if (living.hasEffect(ModEffect.STABILITY)) return;
 
-//        if(!(entity instanceof EntityPlayer && ArmorUtil.checkForDigamma((EntityPlayer) e)))
-//            HbmLivingProps.incrementDigamma(e, f);
-
         LivingProperties.incrementDigamma(living, dig);
     }
 
@@ -162,24 +159,15 @@ public class ContaminationUtil {
         }
 
         if (entity instanceof Player player) {
-
-//            switch(type) {
-//                case FARADAY:			if(ArmorUtil.checkForFaraday(player))	return; break;
-//                case HAZMAT:			if(ArmorUtil.checkForHazmat(player))	return; break;
-//                case HAZMAT_HEAVY:			if(ArmorUtil.checkForHaz2(player))		return; break;
-//                case DIGAMMA:			if(ArmorUtil.checkForDigamma(player))	return; if(ArmorUtil.checkForDigamma2(player))	return; break;
-//                case DIGAMMA_ROBE:			if(ArmorUtil.checkForDigamma2(player))	return; break;
-//            }
-
             if (player.isCreative() || player.isSpectator() && type != ContaminationType.NONE && type != ContaminationType.DIGAMMA_ROBE) return;
             if (player.tickCount < 200) return;
         }
 
         if (hazard == HazardType.RADIATION && isRadImmune(entity)) return;
 
-        switch(hazard) {
-            case RADIATION: LivingProperties.incrementRadiation(entity, amount * (type == ContaminationType.RAD_BYPASS ? 1 : calculateRadiationMod(entity))); break;
-            case DIGAMMA: LivingProperties.incrementDigamma(entity, amount); break;
+        switch (hazard) {
+            case RADIATION -> LivingProperties.incrementRadiation(entity, amount * (type == ContaminationType.RAD_BYPASS ? 1 : calculateRadiationMod(entity)));
+            case DIGAMMA -> LivingProperties.incrementDigamma(entity, amount);
         }
     }
 }

@@ -11,7 +11,6 @@ public class NTMNetwork {
     public static void registerPackets(RegisterPayloadHandlersEvent event) {
         PayloadRegistrar registrar = event.registrar(PROTOCOL_VERSION);
 
-        registrar.playToServer(GetRadPacket.TYPE, GetRadPacket.STREAM_CODEC, GetRadPacket::handleServer);
         registrar.playToServer(KeybindReceiver.TYPE, KeybindReceiver.STREAM_CODEC, KeybindReceiver::handleServer);
         registrar.playToServer(CompoundTagItemControl.TYPE, CompoundTagItemControl.STREAM_CODEC, CompoundTagItemControl::handleServer);
 
@@ -19,7 +18,6 @@ public class NTMNetwork {
         registrar.playToClient(InformPlayer.TYPE, InformPlayer.STREAM_CODEC, InformPlayer::handleClient);
         registrar.playToClient(ParticleBurst.TYPE, ParticleBurst.STREAM_CODEC, ParticleBurst::handleClient);
         registrar.playToClient(AuxParticle.TYPE, AuxParticle.STREAM_CODEC, AuxParticle::handleClient);
-        registrar.playToClient(SendRadPacket.TYPE, SendRadPacket.STREAM_CODEC, SendRadPacket::handleClient);
         registrar.playToClient(BufNT.TYPE, BufNT.STREAM_CODEC, BufNT::handleClient);
     }
 }

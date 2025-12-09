@@ -6,13 +6,14 @@ import com.hbm.blocks.bomb.BalefireBlock;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntities;
+import com.hbm.extprop.LivingProperties;
 import com.hbm.handler.HazmatRegistry;
-import com.hbm.handler.gui.GeigerGUI;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.inventory.screen.LoadingScreenRendererNT;
 import com.hbm.items.IItemHUD;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.PolaroidItem;
+import com.hbm.items.tools.GeigerCounterItem;
 import com.hbm.particle.*;
 import com.hbm.particle.helper.ParticleCreators;
 import com.hbm.particle.vanilla.PlayerCloudParticle;
@@ -27,6 +28,7 @@ import com.hbm.render.entity.item.RenderTNTPrimedBase;
 import com.hbm.render.entity.mob.EntityDuckRenderer;
 import com.hbm.render.entity.projectile.*;
 import com.hbm.render.util.RenderInfoSystem;
+import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.Clock;
 import com.hbm.util.DamageResistanceHandler;
@@ -50,6 +52,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.entity.CreeperRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -64,8 +67,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
@@ -88,7 +94,6 @@ import java.util.List;
 @EventBusSubscriber(value = Dist.CLIENT)
 public class HBMsNTMClient {
     public HBMsNTMClient(IEventBus modEventBus, ModContainer modContainer) {
-        modEventBus.addListener(GeigerGUI::RegisterGuiLayers);
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
     }
 
@@ -158,11 +163,12 @@ public class HBMsNTMClient {
 
     @SubscribeEvent
     public static void onRenderGuiPost(RenderGuiEvent.Post event) {
+        Minecraft mc = Minecraft.getInstance();
 
         /// NUKE FLASH ///
         if (MainConfig.CLIENT.NUKE_HUD_FLASH.get() && (flashTimestamp + flashDuration - Clock.get_ms()) > 0) {
             float brightness = (flashTimestamp + flashDuration - Clock.get_ms()) / (float) flashDuration;
-            Minecraft mc = Minecraft.getInstance();
+            int alpha = (int)(brightness * 255.0F);
             int width = mc.getWindow().getGuiScaledWidth();
             int height = mc.getWindow().getGuiScaledHeight();
 
@@ -171,24 +177,78 @@ public class HBMsNTMClient {
             RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
             RenderSystem.disableDepthTest();
             RenderSystem.depthMask(false);
-
             RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
             Tesselator tess = Tesselator.getInstance();
             BufferBuilder buf = tess.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-
-            int alpha = (int)(brightness * 255.0F);
             buf.addVertex(width, 0, 0).setColor(255, 255, 255, alpha);
             buf.addVertex(0, 0, 0).setColor(255, 255, 255, alpha);
             buf.addVertex(0, height, 0).setColor(255, 255, 255, alpha);
             buf.addVertex(width, height, 0).setColor(255, 255, 255, alpha);
-
             BufferUploader.drawWithShader(buf.buildOrThrow());
 
             RenderSystem.defaultBlendFunc();
             RenderSystem.disableBlend();
             RenderSystem.enableDepthTest();
             RenderSystem.depthMask(true);
+        }
+
+        /// GEIGER GUI ///
+        if (checkForGeiger(mc.player)) {
+            float rads = LivingProperties.getRadiation(mc.player);
+
+            RenderScreenOverlay.renderRadCounter(event.getGuiGraphics(), rads);
+        }
+    }
+
+    private static boolean checkForGeiger(Player player) {
+        if (player.getOffhandItem().getItem() instanceof GeigerCounterItem) { return true; }
+        for (ItemStack stack : player.getInventory().items) {
+            if (stack.getItem() instanceof GeigerCounterItem) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean renderLodeStar = false;
+    public static long lastStarCheck = 0L;
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onClientTickLast(ClientTickEvent.Pre event) {
+        Minecraft mc = Minecraft.getInstance();
+        long millis = Clock.get_ms();
+        if (millis == 0) millis = System.currentTimeMillis();
+
+        Player player = mc.player;
+
+        if (lastStarCheck + 100 < millis) {
+            renderLodeStar = false;
+            lastStarCheck = millis;
+
+            if (player != null) {
+                Vec3 pos = player.position();
+                Vec3 lodestarHeading = new Vec3(0, 0, -1).xRot((float) Math.toRadians(-15)).scale(25);
+
+                Vec3 nextPos = pos.add(lodestarHeading);
+                ClipContext context = new ClipContext(
+                        pos,
+                        nextPos,
+                        ClipContext.Block.COLLIDER,
+                        ClipContext.Fluid.NONE,
+                        player
+                );
+
+                BlockHitResult hit = player.level().clip(context);
+                if (hit.getType() == HitResult.Type.BLOCK) {
+                    BlockPos blockPos = hit.getBlockPos();
+                    BlockState state = player.level().getBlockState(blockPos);
+
+                    if (state.is(Blocks.GLASS)) {
+                        renderLodeStar = true;
+                    }
+                }
+            }
         }
     }
 

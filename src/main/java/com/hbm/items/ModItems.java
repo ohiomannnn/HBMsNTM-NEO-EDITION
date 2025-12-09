@@ -136,6 +136,7 @@ public class ModItems {
                     .addAbility(IToolAreaAbility.HAMMER, 2)
                     .addAbility(IToolAreaAbility.HAMMER_FLAT, 2)
                     .addAbility(IToolAreaAbility.RECURSION, 5)
+                    .addAbility(IToolHarvestAbility.LUCK, 1)
     );
 
     public static final DeferredItem<Item> ALLOY_HELMET = ITEMS.register(

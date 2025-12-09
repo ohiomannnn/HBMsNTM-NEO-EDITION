@@ -12,6 +12,7 @@ import com.hbm.lib.ModSounds;
 import com.hbm.network.NTMNetwork;
 import com.hbm.particle.ModParticles;
 import com.hbm.world.biome.ModBiomes;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
@@ -21,6 +22,7 @@ import org.slf4j.LoggerFactory;
 @Mod(HBMsNTM.MODID)
 public class HBMsNTM {
     public static final String MODID = "hbmsntm";
+    public static ResourceLocation withDefaultNamespaceNT(String path) { return ResourceLocation.fromNamespaceAndPath(MODID, path); }
     // HBM's Beta Naming Convention:
     // V T (X)
     // V -> next release version

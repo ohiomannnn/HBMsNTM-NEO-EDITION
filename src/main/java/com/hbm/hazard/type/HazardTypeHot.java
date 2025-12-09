@@ -17,18 +17,19 @@ public class HazardTypeHot extends HazardTypeBase {
 
     @Override
     public void onUpdate(LivingEntity target, float level, ItemStack stack) {
-
         if (MainConfig.COMMON.DISABLE_HOT.get()) return;
 
         boolean reacher = false;
 
-        if(target instanceof Player && !MainConfig.COMMON.ENABLE_528.get())
+        if (target instanceof Player && !MainConfig.COMMON.ENABLE_528.get()) {
             if (target.getMainHandItem().is(ModItems.REACHER.get()) || target.getOffhandItem().is(ModItems.REACHER.get())) {
                 reacher = true;
             }
+        }
 
-        if(!reacher && !target.isInWaterOrRain() && level > 0)
+        if (!reacher && !target.isInWaterOrRain() && level > 0) {
             target.setRemainingFireTicks((int) Math.ceil(level) * 20);
+        }
     }
 
     @Override

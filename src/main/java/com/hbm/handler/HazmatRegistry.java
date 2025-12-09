@@ -99,7 +99,7 @@ public class HazmatRegistry {
             ItemStack[] mods = ArmorModHandler.pryMods(level, stack);
             ItemStack cladding = mods[ArmorModHandler.CLADDING];
 
-            if (cladding != null && cladding.getItem() instanceof ItemModCladding modCladding) {
+            if (!cladding.isEmpty() && cladding.getItem() instanceof ItemModCladding modCladding) {
                 return modCladding.rad;
             }
         }

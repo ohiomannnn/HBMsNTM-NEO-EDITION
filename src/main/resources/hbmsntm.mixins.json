@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "com.hbm.util.mixins",
+  "compatibilityLevel": "JAVA_21",
+  "minVersion": "0.8",
+  "refmap": "dragonsurvival.refmap.json",
+  "mixins": [ ],
+  "client": [
+    "RenderNTMSkybox"
+  ]
+}

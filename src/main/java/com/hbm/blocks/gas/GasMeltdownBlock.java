@@ -6,6 +6,7 @@ import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.lib.ModEffect;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorRegistry.HazardClass;
+import com.hbm.util.ArmorUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
@@ -31,11 +32,12 @@ public class GasMeltdownBlock extends GasBaseBlock {
     @Override
     public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
         if (entity instanceof LivingEntity livingEntity) {
+
             ContaminationUtil.contaminate(livingEntity, HazardType.RADIATION, ContaminationType.CREATIVE, 0.5F);
             livingEntity.addEffect(new MobEffectInstance(ModEffect.RADIATION, 60 * 20, 2));
 
-            if (!ArmorRegistry.hasAllProtection(livingEntity, EquipmentSlot.HEAD, HazardClass.PARTICLE_FINE)) {
-                //ArmorUtil.damageGasMaskFilter(entityLiving, 1);
+            if (ArmorRegistry.hasProtection(livingEntity, EquipmentSlot.HEAD, HazardClass.PARTICLE_FINE)) {
+                ArmorUtil.damageGasMaskFilter(livingEntity, 1);
             } else {
                 LivingProperties.incrementAsbestos(livingEntity, 5); // Mesothelioma can be developed as a result of exposure to radiation in the lungs
             }

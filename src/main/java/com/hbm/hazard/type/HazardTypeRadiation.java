@@ -5,6 +5,8 @@ import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.items.ModItems;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.ContaminationUtil;
+import com.hbm.util.ContaminationUtil.ContaminationType;
+import com.hbm.util.ContaminationUtil.HazardType;
 import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -36,7 +38,7 @@ public class HazardTypeRadiation extends HazardTypeBase {
                 rad = (float) BobMathUtil.squirt(rad);
             }
 
-            ContaminationUtil.contaminate(target, ContaminationUtil.HazardType.RADIATION, ContaminationUtil.ContaminationType.CREATIVE, rad);
+            ContaminationUtil.contaminate(target, HazardType.RADIATION, ContaminationType.CREATIVE, rad);
         }
     }
 

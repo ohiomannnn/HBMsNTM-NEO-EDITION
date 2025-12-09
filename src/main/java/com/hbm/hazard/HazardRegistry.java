@@ -7,6 +7,30 @@ import net.minecraft.world.level.block.Blocks;
 
 public class HazardRegistry {
 
+    // CO60		                 5a		β−	030.00Rad/s	Spicy
+    // SR90		                29a		β−	015.00Rad/s Spicy
+    // TC99		           211,000a		β−	002.75Rad/s	Spicy
+    // I181		                92h		β−	150.00Rad/s	2 much spice :(
+    // XE135		             9h		β−	aaaaaaaaaaaaaaaa
+    // CS137		            30a		β−	020.00Rad/s	Spicy
+    // AU198		            64h		β−	500.00Rad/s	2 much spice :(
+    // PB209		             3h		β−	10,000.00Rad/s mama mia my face is melting off
+    // AT209		             5h		β+	like 7.5k or sth idk bruv
+    // PO210		           138d		α	075.00Rad/s	Spicy
+    // RA226		         1,600a		α	007.50Rad/s
+    // AC227		            22a		β−	030.00Rad/s Spicy
+    // TH232		14,000,000,000a		α	000.10Rad/s
+    // U233		           160,000a		α	005.00Rad/s
+    // U235		       700,000,000a		α	001.00Rad/s
+    // U238		     4,500,000,000a		α	000.25Rad/s
+    // NP237		     2,100,000a		α	002.50Rad/s
+    // PU238		            88a		α	010.00Rad/s	Spicy
+    // PU239		        24,000a		α	005.00Rad/s
+    // PU240		         6,600a		α	007.50Rad/s
+    // PU241		            14a		β−	025.00Rad/s	Spicy
+    // AM241		           432a		α	008.50Rad/s
+    // AM242		           141a		β−	009.50Rad/s
+
     public static final HazardTypeBase RADIATION = new HazardTypeRadiation();
     public static final HazardTypeBase DIGAMMA = new HazardTypeDigamma();
     public static final HazardTypeBase HOT = new HazardTypeHot();

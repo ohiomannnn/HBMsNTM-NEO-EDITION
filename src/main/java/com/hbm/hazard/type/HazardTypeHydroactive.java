@@ -17,7 +17,6 @@ public class HazardTypeHydroactive extends HazardTypeBase {
 
     @Override
     public void onUpdate(LivingEntity target, float level, ItemStack stack) {
-
         if (MainConfig.COMMON.DISABLE_HYDROACTIVE.get()) return;
 
         if (target.isInWaterOrRain() && stack.getCount() > 0) {
@@ -28,7 +27,6 @@ public class HazardTypeHydroactive extends HazardTypeBase {
 
     @Override
     public void updateEntity(ItemEntity item, float level) {
-
         if (MainConfig.COMMON.DISABLE_HYDROACTIVE.get()) return;
 
         if (item.isInWaterOrRain()) {

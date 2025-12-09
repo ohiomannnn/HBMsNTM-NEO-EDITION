@@ -17,7 +17,6 @@ public class HazardTypeExplosive extends HazardTypeBase {
 
     @Override
     public void onUpdate(LivingEntity target, float level, ItemStack stack) {
-
         if (MainConfig.COMMON.DISABLE_EXPLOSIVE.get()) return;
 
         if (!target.level().isClientSide && (target.isOnFire() || target.isInLava()) && stack.getCount() > 0) {

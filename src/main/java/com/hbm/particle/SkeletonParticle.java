@@ -17,6 +17,7 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.CowRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceLocation;
@@ -24,6 +25,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
@@ -162,6 +164,7 @@ public class SkeletonParticle extends TextureSheetParticle {
         float pX = (float)(Mth.lerp(partialTicks, this.xo, this.x) - camPos.x);
         float pY = (float)(Mth.lerp(partialTicks, this.yo, this.y) - camPos.y);
         float pZ = (float)(Mth.lerp(partialTicks, this.zo, this.z) - camPos.z);
+
         poseStack.pushPose();
         poseStack.translate(pX, pY, pZ);
 
@@ -172,7 +175,7 @@ public class SkeletonParticle extends TextureSheetParticle {
         ResourceLocation textureToUse = getTexture(type);
 
         MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
-        VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.entitySmoth(textureToUse));
+        VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(textureToUse));
 
         float timeLeft = this.lifetime - (this.age + partialTicks);
         if (timeLeft < 40) {

@@ -377,6 +377,7 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItem
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public void renderHUD(RenderGuiEvent.Pre event, Player player, ItemStack stack) {
         Minecraft mc = Minecraft.getInstance();
 

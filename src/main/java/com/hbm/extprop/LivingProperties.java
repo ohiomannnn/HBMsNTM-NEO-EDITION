@@ -10,7 +10,9 @@ import com.hbm.network.toclient.InformPlayer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
@@ -29,6 +31,14 @@ public class LivingProperties {
     public LivingEntity entity;
     private static final ResourceLocation DIGAMMA_MOD = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "digamma");
 
+    public static final StreamCodec<RegistryFriendlyByteBuf, LivingProperties> STREAM_CODEC =
+            StreamCodec.of((buf, props) -> buf.writeNbt(props.serializeNBT()), buf -> {
+                        LivingProperties props = new LivingProperties(null);
+                        props.deserializeNBT(buf.readNbt());
+                        return props;
+                    }
+            );
+
     /// VALS ///
     private float radiation;
     private float digamma;
@@ -45,7 +55,7 @@ public class LivingProperties {
     public int phosphorus;
     public int balefire;
     public int blackFire;
-    private final List<ContaminationEffect> contamination = new ArrayList<>();
+    private final List<ContaminationEffect> CONTAMINATION = new ArrayList<>();
 
     public LivingProperties(IAttachmentHolder iAttachmentHolder) {
         if (iAttachmentHolder instanceof LivingEntity livingEntity) {
@@ -65,18 +75,19 @@ public class LivingProperties {
 
     public static void setRadiation(LivingEntity entity, float rad) {
         if (isCreative(entity)) return;
-        if (MainConfig.COMMON.ENABLE_CONTAMINATION.get())
-            getData(entity).radiation = rad;
+        if (MainConfig.COMMON.ENABLE_CONTAMINATION.get()) {
+            LivingProperties props = getData(entity);
+            props.radiation = rad;
+            entity.setData(ModAttachments.LIVING_PROPS, props);
+        }
     }
 
     public static void incrementRadiation(LivingEntity entity, float rad) {
         if (!MainConfig.COMMON.ENABLE_CONTAMINATION.get()) return;
         float radiation = getData(entity).radiation + rad;
 
-        if (radiation > 2500)
-            radiation = 2500;
-        if (radiation < 0)
-            radiation = 0;
+        if (radiation > 2500) radiation = 2500;
+        if (radiation < 0) radiation = 0;
 
         setRadiation(entity, radiation);
     }
@@ -101,11 +112,11 @@ public class LivingProperties {
 
     /// CONTAMINATION ///
     public static List<ContaminationEffect> getCont(LivingEntity entity) {
-        return getData(entity).contamination;
+        return getData(entity).CONTAMINATION;
     }
 
     public static void addCont(LivingEntity entity, ContaminationEffect cont) {
-        getData(entity).contamination.add(cont);
+        getData(entity).CONTAMINATION.add(cont);
     }
 
     /// DIGAMMA ///
@@ -123,7 +134,9 @@ public class LivingProperties {
         if (entity instanceof Duck)
             digamma = 0.0F;
 
-        getData(entity).digamma = digamma;
+        LivingProperties props = getData(entity);
+        props.digamma = digamma;
+        entity.setData(ModAttachments.LIVING_PROPS, props);
 
         float healthMod = (float) Math.pow(0.5, digamma) - 1F;
 
@@ -152,10 +165,8 @@ public class LivingProperties {
 
         float dRad = getDigamma(entity) + digamma;
 
-        if (dRad > 10)
-            dRad = 10;
-        if (dRad < 0)
-            dRad = 0;
+        if (dRad > 10) dRad = 10;
+        if (dRad < 0) dRad = 0;
 
         setDigamma(entity, dRad);
     }
@@ -248,7 +259,6 @@ public class LivingProperties {
         return false;
     }
 
-    /// ---- Serializing ---- ///
     public CompoundTag serializeNBT() {
         CompoundTag props = new CompoundTag();
 
@@ -264,10 +274,10 @@ public class LivingProperties {
         props.putInt("hfr_balefire", balefire);
         props.putInt("hfr_blackfire", blackFire);
 
-        props.putInt("hfr_cont_count", this.contamination.size());
+        props.putInt("hfr_cont_count", this.CONTAMINATION.size());
 
-        for (int i = 0; i < this.contamination.size(); i++) {
-            this.contamination.get(i).save(props, i);
+        for (int i = 0; i < this.CONTAMINATION.size(); i++) {
+            this.CONTAMINATION.get(i).save(props, i);
         }
 
         return props;
@@ -289,9 +299,9 @@ public class LivingProperties {
 
             int cont = props.getInt("hfr_cont_count");
 
-            this.contamination.clear();
+            this.CONTAMINATION.clear();
             for (int i = 0; i < cont; i++) {
-                this.contamination.add(ContaminationEffect.load(props, i));
+                this.CONTAMINATION.add(ContaminationEffect.load(props, i));
             }
         }
     }
@@ -312,18 +322,17 @@ public class LivingProperties {
             return maxRad * ((float) time / (float) maxTime);
         }
 
-        public void save(CompoundTag nbt, int index) {
+        public void save(CompoundTag tag, int index) {
             CompoundTag me = new CompoundTag();
             me.putFloat("maxRad", this.maxRad);
             me.putInt("maxTime", this.maxTime);
             me.putInt("time", this.time);
-            me.putBoolean("ignoreArmor", ignoreArmor);
-            nbt.put("cont_" + index, me);
+            tag.putBoolean("ignoreArmor", ignoreArmor);
+            tag.put("cont_" + index, me);
         }
 
-        public static ContaminationEffect load(CompoundTag nbt, int index) {
-            CompoundTag me = (CompoundTag) nbt.get("cont_" + index);
-            assert me != null;
+        public static ContaminationEffect load(CompoundTag tag, int index) {
+            CompoundTag me = (CompoundTag) tag.get("cont_" + index);
             float maxRad = me.getFloat("maxRad");
             int maxTime = me.getInt("maxTime");
             int time = me.getInt("time");

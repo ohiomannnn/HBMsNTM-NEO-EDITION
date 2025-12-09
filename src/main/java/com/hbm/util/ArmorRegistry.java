@@ -30,11 +30,9 @@ public class ArmorRegistry {
                     components.add(Component.translatable(clazz.unlocalizedMessage).withStyle(ChatFormatting.YELLOW));
                 }
             } else {
-                components.add(
-                        Component.literal("Hold <")
-                                .withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
-                                .append(Component.literal("LSHIFT").withStyle(ChatFormatting.YELLOW, ChatFormatting.ITALIC))
-                                .append(Component.literal("> to display protection info").withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC))
+                components.add(Component.literal("Hold <").withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)
+                        .append(Component.literal("LSHIFT").withStyle(ChatFormatting.YELLOW, ChatFormatting.ITALIC))
+                        .append(Component.literal("> to display protection info").withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC))
                 );
             }
         }
@@ -96,8 +94,8 @@ public class ArmorRegistry {
                 // add the HazardClasses from the filter, then remove the ones blacklisted by the mask
                 List<HazardClass> filProt = (List<HazardClass>) hazardClasses.get(filter.getItem()).clone();
 
-                for (HazardClass c : gasMask.getBlacklist(stack, entity))
-                    filProt.remove(c);
+                for (HazardClass clazz : gasMask.getBlacklist(stack, entity))
+                    filProt.remove(clazz);
 
                 prot.addAll(filProt);
             }
@@ -110,7 +108,9 @@ public class ArmorRegistry {
             for (ItemStack mod : mods) {
 
                 //recursion! run the exact same procedure on every mod, in case future mods will have filter support
-                if (mod != null) prot.addAll(getProtectionFromItem(mod, entity));
+                if (!mod.isEmpty()) {
+                    prot.addAll(getProtectionFromItem(mod, entity));
+                }
             }
         }
 

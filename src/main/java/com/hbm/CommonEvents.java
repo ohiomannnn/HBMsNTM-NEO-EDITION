@@ -1,6 +1,7 @@
 package com.hbm;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.commands.LivingPropsCommand;
 import com.hbm.config.FalloutConfigJSON;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntities;
@@ -12,7 +13,6 @@ import com.hbm.handler.HazmatRegistry;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.items.ModItems;
-import com.hbm.lib.ModCommands;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.DamageResistanceHandler;
 import net.minecraft.ChatFormatting;
@@ -70,21 +70,13 @@ public class CommonEvents {
         if (MainConfig.COMMON.ENABLE_MOTD.get()) {
             Player player = event.getEntity();
 
-            player.sendSystemMessage(Component.translatable("message.hbmsntm.loaded", HBMsNTM.VERSION));
+            player.sendSystemMessage(Component.translatable("message.hbmsntm.loaded", ChatFormatting.YELLOW + HBMsNTM.VERSION));
 
             if (HTTPHandler.newVersion) {
                 player.sendSystemMessage(
                         Component.translatable("message.hbmsntm.new_version", HTTPHandler.versionNumber)
                                 .withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW))
-                                .append(Component.translatable("message.hbmsntm.click_here")
-                                        .withStyle(Style.EMPTY
-                                                .withColor(ChatFormatting.RED)
-                                                .withUnderlined(true)
-                                                .withClickEvent(new ClickEvent(
-                                                        ClickEvent.Action.OPEN_URL,
-                                                        "https://github.com/ohiomannnn/HBMsNTM-NEO-EDITION/releases"
-                                                ))
-                                ))
+                                .append(Component.translatable("message.hbmsntm.click_here").withStyle(Style.EMPTY.withColor(ChatFormatting.RED).withUnderlined(true).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/ohiomannnn/HBMsNTM-NEO-EDITION/releases"))))
                                 .append(Component.translatable("message.hbmsntm.to_download").withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)))
                 );
             }
@@ -133,7 +125,7 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void registerCommands(RegisterCommandsEvent event) {
-        ModCommands.registerCommandLivingProperties(event.getDispatcher());
+        LivingPropsCommand.register(event.getDispatcher());
     }
 
     @SubscribeEvent

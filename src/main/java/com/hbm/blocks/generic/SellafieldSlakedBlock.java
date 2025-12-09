@@ -25,8 +25,8 @@ public class SellafieldSlakedBlock extends Block {
     }
 
     @Override
-    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-        BlockPos pos = ctx.getClickedPos();
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        BlockPos pos = context.getClickedPos();
         long l = (pos.getX() * 3129871L) ^ (long)pos.getY() * 116129781L ^ (long)pos.getZ();
         l = l * l * 42317861L + l * 11L;
         int i = (int)(l >> 16 & 3L);
