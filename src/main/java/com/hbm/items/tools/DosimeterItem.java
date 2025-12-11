@@ -1,6 +1,6 @@
 package com.hbm.items.tools;
 
-import com.hbm.extprop.LivingProperties;
+import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.lib.ModSounds;
 import com.hbm.util.ContaminationUtil;
 import net.minecraft.sounds.SoundSource;
@@ -28,7 +28,7 @@ public class DosimeterItem extends Item {
         if (!level.isClientSide) {
             if (entity instanceof LivingEntity user) {
                 RandomSource rand = level.random;
-                float rads = LivingProperties.getRadBuf(user);
+                float rads = HbmLivingAttachments.getRadBuf(user);
                 if (level.getGameTime() % 5 == 0) {
                     if (rads > 1E-5) {
                         List<Integer> list = new ArrayList<>();
@@ -50,8 +50,8 @@ public class DosimeterItem extends Item {
                     } else if (rand.nextInt(50) == 0) {
                         int i = 1 + rand.nextInt(1);
                         switch (i) {
-                            case 1 -> level.playSound(null, user.getX(), user.getY(), user.getZ(), ModSounds.GEIGER1.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
-                            case 2 -> level.playSound(null, user.getX(), user.getY(), user.getZ(), ModSounds.GEIGER2.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+                            case 1 -> level.playSound(null, user.getX(), user.getY(), user.getZ(), ModSounds.GEIGER1.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
+                            case 2 -> level.playSound(null, user.getX(), user.getY(), user.getZ(), ModSounds.GEIGER2.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
                         }
                     }
                 }

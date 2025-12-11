@@ -2,6 +2,7 @@ package com.hbm;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.commands.LivingPropsCommand;
+import com.hbm.commands.SatellitesCommand;
 import com.hbm.config.FalloutConfigJSON;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntities;
@@ -12,7 +13,10 @@ import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
+import com.hbm.inventory.ModMenuTypes;
+import com.hbm.inventory.screen.MachineSatLinkerScreen;
 import com.hbm.items.ModItems;
+import com.hbm.saveddata.satellite.Satellite;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.DamageResistanceHandler;
 import net.minecraft.ChatFormatting;
@@ -32,6 +36,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLPaths;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
@@ -63,6 +68,7 @@ public class CommonEvents {
         HazardRegistry.registerItems();
         HazmatRegistry.registerHazmats();
         ArmorUtil.register();
+        Satellite.register();
     }
 
     @SubscribeEvent
@@ -126,6 +132,12 @@ public class CommonEvents {
     @SubscribeEvent
     public static void registerCommands(RegisterCommandsEvent event) {
         LivingPropsCommand.register(event.getDispatcher());
+        SatellitesCommand.register(event.getDispatcher());
+    }
+
+    @SubscribeEvent
+    public static void registerScreens(RegisterMenuScreensEvent event) {
+        event.register(ModMenuTypes.SAT_LINKER.get(), MachineSatLinkerScreen::new);
     }
 
     @SubscribeEvent

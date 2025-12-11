@@ -1,7 +1,7 @@
 package com.hbm.hazard.type;
 
 import com.hbm.config.MainConfig;
-import com.hbm.extprop.LivingProperties;
+import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorRegistry.HazardClass;
@@ -25,7 +25,7 @@ public class HazardTypeAsbestos extends HazardTypeBase {
         if (MainConfig.COMMON.DISABLE_ASBESTOS.get()) return;
 
         if (!ArmorRegistry.hasProtection(target, EquipmentSlot.HEAD, HazardClass.PARTICLE_FINE)) {
-            LivingProperties.incrementAsbestos(target, (int) Math.min(level, 10));
+            HbmLivingAttachments.incrementAsbestos(target, (int) Math.min(level, 10));
         } else {
             ArmorUtil.damageGasMaskFilter(target, (int) level);
         }

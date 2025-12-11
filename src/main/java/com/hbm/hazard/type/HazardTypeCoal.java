@@ -1,7 +1,7 @@
 package com.hbm.hazard.type;
 
 import com.hbm.config.MainConfig;
-import com.hbm.extprop.LivingProperties;
+import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorRegistry.HazardClass;
@@ -24,7 +24,7 @@ public class HazardTypeCoal extends HazardTypeBase {
         if (MainConfig.COMMON.DISABLE_COAL.get()) return;
 
         if(!ArmorRegistry.hasProtection(target, EquipmentSlot.HEAD, HazardClass.PARTICLE_COARSE)) {
-            LivingProperties.incrementBlackLung(target, (int) Math.min(level * stack.getCount(), 10));
+            HbmLivingAttachments.incrementBlackLung(target, (int) Math.min(level * stack.getCount(), 10));
         } else {
             if(target.getRandom().nextInt(Math.max(65 - stack.getCount(), 1)) == 0) {
                 ArmorUtil.damageGasMaskFilter(target, (int) level);

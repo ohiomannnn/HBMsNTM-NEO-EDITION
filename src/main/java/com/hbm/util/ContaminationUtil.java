@@ -3,14 +3,12 @@ package com.hbm.util;
 import api.hbm.entity.IRadiationImmune;
 import com.hbm.entity.mob.CreeperNuclear;
 import com.hbm.entity.mob.Duck;
-import com.hbm.extprop.LivingProperties;
+import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.lib.ModEffect;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.MushroomCow;
@@ -20,7 +18,6 @@ import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.HashSet;
-import java.util.Locale;
 
 public class ContaminationUtil {
 
@@ -58,7 +55,7 @@ public class ContaminationUtil {
         if (entity instanceof Player player && player.tickCount < 200) return;
         if (living.hasEffect(ModEffect.STABILITY)) return;
 
-        LivingProperties.incrementDigamma(living, dig);
+        HbmLivingAttachments.incrementDigamma(living, dig);
     }
 
     public static float calculateRadiationMod(LivingEntity entity) {
@@ -71,9 +68,9 @@ public class ContaminationUtil {
 
 
     public static void printGeigerData(Player player) {
-        double playerRad = ((int)(LivingProperties.getRadiation(player) * 10)) / 10D;
+        double playerRad = ((int)(HbmLivingAttachments.getRadiation(player) * 10)) / 10D;
         double chunkRad = ((int)(ChunkRadiationManager.proxy.getRadiation(player.level(), player.blockPosition()) * 10)) / 10D;
-        double envRad = ((int)(LivingProperties.getRadBuf(player) * 10D)) / 10D;
+        double envRad = ((int)(HbmLivingAttachments.getRadBuf(player) * 10D)) / 10D;
         double res = ((int)(10000D - ContaminationUtil.calculateRadiationMod(player) * 10000D)) / 100D;
         double resKoeff = ((int)(HazmatRegistry.getResistance(player) * 100D)) / 100D;
 
@@ -90,7 +87,7 @@ public class ContaminationUtil {
     }
 
     public static void printDosimeterData(Player player) {
-        double env = ((int)(LivingProperties.getRadBuf(player) * 10D)) / 10D;
+        double env = ((int)(HbmLivingAttachments.getRadBuf(player) * 10D)) / 10D;
         boolean limit = false;
 
         if (env > 3.6F) {
@@ -105,7 +102,7 @@ public class ContaminationUtil {
     }
 
     public static void printDiagnosticData(Player player) {
-        double digamma = ((int)(LivingProperties.getDigamma(player) * 100)) / 100D;
+        double digamma = ((int)(HbmLivingAttachments.getDigamma(player) * 100)) / 100D;
         double halfLife = ((int)((1D - Math.pow(0.5, digamma)) * 10000)) / 100D; // hl 3 confirmed??
 
         player.displayClientMessage(Component.translatable("digamma.title").withStyle(ChatFormatting.DARK_PURPLE), false);
@@ -155,7 +152,7 @@ public class ContaminationUtil {
     public static void contaminate(LivingEntity entity, HazardType hazard, ContaminationType type, float amount) {
 
         if (hazard == HazardType.RADIATION) {
-            LivingProperties.setRadEnv(entity, LivingProperties.getRadEnv(entity) + amount);
+            HbmLivingAttachments.setRadEnv(entity, HbmLivingAttachments.getRadEnv(entity) + amount);
         }
 
         if (entity instanceof Player player) {
@@ -166,8 +163,8 @@ public class ContaminationUtil {
         if (hazard == HazardType.RADIATION && isRadImmune(entity)) return;
 
         switch (hazard) {
-            case RADIATION -> LivingProperties.incrementRadiation(entity, amount * (type == ContaminationType.RAD_BYPASS ? 1 : calculateRadiationMod(entity)));
-            case DIGAMMA -> LivingProperties.incrementDigamma(entity, amount);
+            case RADIATION -> HbmLivingAttachments.incrementRadiation(entity, amount * (type == ContaminationType.RAD_BYPASS ? 1 : calculateRadiationMod(entity)));
+            case DIGAMMA -> HbmLivingAttachments.incrementDigamma(entity, amount);
         }
     }
 }

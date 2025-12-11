@@ -6,7 +6,7 @@ import com.hbm.blocks.bomb.BalefireBlock;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntities;
-import com.hbm.extprop.LivingProperties;
+import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.inventory.screen.LoadingScreenRendererNT;
@@ -195,7 +195,7 @@ public class HBMsNTMClient {
 
         /// GEIGER GUI ///
         if (checkForGeiger(mc.player)) {
-            float rads = LivingProperties.getRadiation(mc.player);
+            float rads = HbmLivingAttachments.getRadiation(mc.player);
 
             RenderScreenOverlay.renderRadCounter(event.getGuiGraphics(), rads);
         }

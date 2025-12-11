@@ -1,14 +1,10 @@
 package com.hbm.lib;
 
 import com.hbm.HBMsNTM;
-import com.hbm.extprop.LivingProperties;
-import com.hbm.extprop.PlayerProperties;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
+import com.hbm.extprop.HbmLivingAttachments;
+import com.hbm.extprop.HbmPlayerAttachments;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.attachment.AttachmentType;
-import net.neoforged.neoforge.attachment.IAttachmentHolder;
-import net.neoforged.neoforge.attachment.IAttachmentSerializer;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
@@ -17,41 +13,21 @@ import java.util.function.Supplier;
 public class ModAttachments {
     public static final DeferredRegister<AttachmentType<?>> ATTACHMENTS = DeferredRegister.create(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, HBMsNTM.MODID);
 
-    public static final Supplier<AttachmentType<LivingProperties>> LIVING_PROPS = ATTACHMENTS.register(
-            "ntm_living_properties",
-            () -> AttachmentType.builder(LivingProperties::new)
-                    .serialize(new IAttachmentSerializer<CompoundTag, LivingProperties>() {
-                        @Override
-                        public LivingProperties read(IAttachmentHolder holder, CompoundTag tag, HolderLookup.Provider provider) {
-                            LivingProperties props = new LivingProperties(holder);
-                            props.deserializeNBT(tag);
-                            return props;
-                        }
-                        @Override
-                        public CompoundTag write(LivingProperties attachment, HolderLookup.Provider provider) {
-                            return attachment.serializeNBT();
-                        }
-                    })
-                    .sync((holder, player) -> true, LivingProperties.STREAM_CODEC)
+    public static final Supplier<AttachmentType<HbmLivingAttachments>> LIVING_ATTACHMENT = ATTACHMENTS.register(
+            "ntm_living_attachments",
+            () -> AttachmentType.builder(HbmLivingAttachments::new)
+                    .serialize(HbmLivingAttachments.CODEC)
+                    .sync(HbmLivingAttachments.STREAM_CODEC)
+                    .build()
+    );
+
+    public static final Supplier<AttachmentType<HbmPlayerAttachments>> PLAYER_ATTACHMENT = ATTACHMENTS.register(
+            "ntm_player_attachments",
+            () -> AttachmentType.builder(HbmPlayerAttachments::new)
+                    .serialize(HbmPlayerAttachments.CODEC)
+                    .sync(HbmPlayerAttachments.STREAM_CODEC)
                     .copyOnDeath()
                     .build()
-            );
-
-    public static final Supplier<AttachmentType<PlayerProperties>> PLAYER_PROPS = ATTACHMENTS.register(
-            "ntm_player_properties",
-            () -> AttachmentType.builder(PlayerProperties::new)
-                    .serialize(new IAttachmentSerializer<CompoundTag, PlayerProperties>() {
-                        @Override
-                        public PlayerProperties read(IAttachmentHolder holder, CompoundTag tag, HolderLookup.Provider provider) {
-                            PlayerProperties props = new PlayerProperties(holder);
-                            props.deserializeNBT(tag);
-                            return props;
-                        }
-                        @Override
-                        public CompoundTag write(PlayerProperties attachment, HolderLookup.Provider provider) {
-                            return attachment.serializeNBT();
-                        }
-                    }).build()
     );
 
     public static void register(IEventBus eventBus) {

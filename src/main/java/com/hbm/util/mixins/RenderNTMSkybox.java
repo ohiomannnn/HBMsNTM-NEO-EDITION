@@ -3,7 +3,7 @@ package com.hbm.util.mixins;
 import com.hbm.HBMsNTM;
 import com.hbm.HBMsNTMClient;
 import com.hbm.config.MainConfig;
-import com.hbm.extprop.LivingProperties;
+import com.hbm.extprop.HbmLivingAttachments;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -72,7 +72,7 @@ public class RenderNTMSkybox {
         finalModelView.mul(poseStack.last().pose());
         poseStack.popPose();
 
-        float digamma = LivingProperties.getDigamma(mc.player);
+        float digamma = HbmLivingAttachments.getDigamma(mc.player);
         float size = 1F * (1 + digamma * 0.25F);
         float dist = 100F- digamma * 2.5F;
 

@@ -1,6 +1,6 @@
 package com.hbm.blocks.gas;
 
-import com.hbm.extprop.LivingProperties;
+import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.util.ArmorUtil;
@@ -31,7 +31,7 @@ public class GasRadonBlock extends GasBaseBlock {
                 ArmorUtil.damageGasMaskFilter(livingEntity, 1);
             } else {
                 ContaminationUtil.contaminate(livingEntity, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 0.05F);
-                LivingProperties.incrementAsbestos(livingEntity, 1);
+                HbmLivingAttachments.incrementAsbestos(livingEntity, 1);
             }
         }
     }

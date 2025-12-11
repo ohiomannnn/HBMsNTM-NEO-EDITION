@@ -1,7 +1,7 @@
 package com.hbm.blocks.gas;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.extprop.LivingProperties;
+import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.lib.ModEffect;
 import com.hbm.util.ArmorRegistry;
@@ -39,7 +39,7 @@ public class GasMeltdownBlock extends GasBaseBlock {
             if (ArmorRegistry.hasProtection(livingEntity, EquipmentSlot.HEAD, HazardClass.PARTICLE_FINE)) {
                 ArmorUtil.damageGasMaskFilter(livingEntity, 1);
             } else {
-                LivingProperties.incrementAsbestos(livingEntity, 5); // Mesothelioma can be developed as a result of exposure to radiation in the lungs
+                HbmLivingAttachments.incrementAsbestos(livingEntity, 5); // Mesothelioma can be developed as a result of exposure to radiation in the lungs
             }
         }
     }

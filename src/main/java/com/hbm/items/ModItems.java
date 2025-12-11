@@ -7,6 +7,7 @@ import com.hbm.handler.ability.IWeaponAbility;
 import com.hbm.inventory.ModArmorMaterials;
 import com.hbm.inventory.ModTiers;
 import com.hbm.items.food.ItemEnergy;
+import com.hbm.items.machine.SatChipItem;
 import com.hbm.items.special.DangerousDropItem;
 import com.hbm.items.special.EntitySpawnerItem;
 import com.hbm.items.special.PolaroidItem;
@@ -167,6 +168,10 @@ public class ModItems {
     public static final DeferredItem<Item> POLAROID = ITEMS.register(
             "polaroid",
             () -> new PolaroidItem(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> SAT_RADAR = ITEMS.register(
+            "sat_radar",
+            () -> new SatChipItem(new Item.Properties().stacksTo(1)));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

@@ -4,6 +4,7 @@ import com.hbm.HBMsNTM;
 import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blockentity.bomb.LandMineBlockEntity;
 import com.hbm.blockentity.bomb.NukeFatManBlockEntity;
+import com.hbm.blockentity.machine.MachineSatLinkerBlockEntity;
 import com.hbm.blockentity.machine.DecontaminatorBlockEntity;
 import com.hbm.blockentity.machine.GeigerBlockEntity;
 import com.hbm.blocks.ModBlocks;
@@ -17,6 +18,15 @@ import java.util.function.Supplier;
 @SuppressWarnings("DataFlowIssue") // kill yourself
 public class ModBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> REGISTER = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, HBMsNTM.MODID);
+
+    // Machines
+    public static final Supplier<BlockEntityType<MachineSatLinkerBlockEntity>> MACHINE_SATLINKER = REGISTER.register(
+            "machine_satlinker",
+            () -> BlockEntityType.Builder.of(
+                            MachineSatLinkerBlockEntity::new,
+                            ModBlocks.MACHINE_SATLINKER.get())
+                    .build(null));
+
 
     public static final Supplier<BlockEntityType<NukeFatManBlockEntity>> NUKE_FATMAN = REGISTER.register(
             "nuke_fatman",

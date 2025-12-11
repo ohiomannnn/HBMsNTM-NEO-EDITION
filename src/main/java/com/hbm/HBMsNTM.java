@@ -5,6 +5,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntities;
 import com.hbm.inventory.ModCreativeTabs;
+import com.hbm.inventory.ModMenuTypes;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModAttachments;
 import com.hbm.lib.ModEffect;
@@ -40,6 +41,7 @@ public class HBMsNTM {
         ModAttachments.register(modEventBus);
         ModEffect.register(modEventBus);
         ModBlockEntities.register(modEventBus);
+        ModMenuTypes.register(modEventBus);
         ModBiomes.register(modEventBus);
         ModParticles.register(modEventBus);
         modEventBus.addListener(NTMNetwork::registerPackets);

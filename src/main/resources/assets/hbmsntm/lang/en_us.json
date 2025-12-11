@@ -335,6 +335,8 @@
   "weapon.ability.stun": "Stunning",
   "weapon.ability.vampire": "Vampire",
 
+  "satchip.frequency": "Satellite frequency: %s",
+
   "tool.ability.centrifuge": "Auto-Centrifuge",
   "tool.ability.crystallizer": "Auto-Crystallizer",
   "tool.ability.explosion": "Explosion",
@@ -363,7 +365,15 @@
   "message.hbmsntm.click_here": "[here]",
   "message.hbmsntm.to_download": " to download!",
 
-  "commands.hbmsntm.error.not_living": "Target is not a living entity!",
-  "commands.hbmsntm.success.props.get": "Property %s of %s is %s",
-  "commands.hbmsntm.success.props.set": "Property %s of %s set to %s"
+  "commands.props.get": "Living property %s of %s is %s",
+  "commands.props.set": "Living property %s of %s set to %s",
+  "commands.props.not_living": "Target is not a living entity!",
+  "commands.satellite.no_active_satellites": "No active satellites found!",
+  "commands.satellite.no_satellite": "No satellite using this frequency found!",
+  "commands.satellite.not_a_satellite": "The held item is not a satellite!",
+  "commands.satellite.satellite_descended": "Satellite successfully descended.",
+  "commands.satellite.satellite_orbited": "Satellite launched.",
+  "commands.satellite.should_be_run_as_player": "This command should be run by a player!",
+
+  "container.satLinker": "SatLink Device"
 }

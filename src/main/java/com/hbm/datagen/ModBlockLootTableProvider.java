@@ -106,6 +106,8 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         this.dropSelf(ModBlocks.DECONTAMINATOR.get());
 
+        this.dropSelf(ModBlocks.MACHINE_SATLINKER.get());
+
         this.add(ModBlocks.ORE_SELLAFIELD_EMERALD.get(), block -> this.createOreDrop(block, Items.EMERALD));
         this.add(ModBlocks.ORE_SELLAFIELD_DIAMOND.get(), block -> this.createOreDrop(block, Items.DIAMOND));
 

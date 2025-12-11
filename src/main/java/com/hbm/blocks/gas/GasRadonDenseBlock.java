@@ -2,7 +2,7 @@ package com.hbm.blocks.gas;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.FalloutBlock;
-import com.hbm.extprop.LivingProperties;
+import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.lib.ModEffect;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorRegistry.HazardClass;
@@ -37,7 +37,7 @@ public class GasRadonDenseBlock extends GasBaseBlock {
             } else {
                 ContaminationUtil.contaminate(livingEntity, HazardType.RADIATION, ContaminationType.CREATIVE, 0.5F);
                 livingEntity.addEffect(new MobEffectInstance(ModEffect.RADIATION, 15 * 20, 0));
-                LivingProperties.incrementAsbestos(livingEntity, 5);
+                HbmLivingAttachments.incrementAsbestos(livingEntity, 5);
             }
         }
     }

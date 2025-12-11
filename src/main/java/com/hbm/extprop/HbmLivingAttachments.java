@@ -7,6 +7,7 @@ import com.hbm.entity.mob.Duck;
 import com.hbm.lib.ModAttachments;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.network.toclient.InformPlayer;
+import com.mojang.serialization.Codec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -20,26 +21,32 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.player.Player;
-import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LivingProperties {
-    public LivingEntity entity;
+public class HbmLivingAttachments {
     private static final ResourceLocation DIGAMMA_MOD = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "digamma");
 
-    public static final StreamCodec<RegistryFriendlyByteBuf, LivingProperties> STREAM_CODEC =
-            StreamCodec.of((buf, props) -> buf.writeNbt(props.serializeNBT()), buf -> {
-                        LivingProperties props = new LivingProperties(null);
-                        props.deserializeNBT(buf.readNbt());
+    public static final StreamCodec<RegistryFriendlyByteBuf, HbmLivingAttachments> STREAM_CODEC = StreamCodec.of(
+            (buf, props) -> buf.writeNbt(props.saveNBTData()),
+            buf -> {
+                HbmLivingAttachments props = new HbmLivingAttachments();
+                props.loadNBTData(buf.readNbt());
+                return props;
+            });
+    public static final Codec<HbmLivingAttachments> CODEC =
+            CompoundTag.CODEC.xmap(
+                    tag -> {
+                        HbmLivingAttachments props = new HbmLivingAttachments();
+                        props.loadNBTData(tag);
                         return props;
-                    }
+                        },
+                    HbmLivingAttachments::saveNBTData
             );
 
-    /// VALS ///
+
     private float radiation;
     private float digamma;
     private int asbestos;
@@ -57,14 +64,10 @@ public class LivingProperties {
     public int blackFire;
     private final List<ContaminationEffect> CONTAMINATION = new ArrayList<>();
 
-    public LivingProperties(IAttachmentHolder iAttachmentHolder) {
-        if (iAttachmentHolder instanceof LivingEntity livingEntity) {
-            this.entity = livingEntity;
-        }
-    }
+    public HbmLivingAttachments() { }
 
-    public static LivingProperties getData(LivingEntity entity) {
-        return entity.getData(ModAttachments.LIVING_PROPS);
+    public static HbmLivingAttachments getData(LivingEntity entity) {
+        return entity.getData(ModAttachments.LIVING_ATTACHMENT);
     }
 
     /// RADIATION ///
@@ -74,11 +77,10 @@ public class LivingProperties {
     }
 
     public static void setRadiation(LivingEntity entity, float rad) {
-        if (isCreative(entity)) return;
         if (MainConfig.COMMON.ENABLE_CONTAMINATION.get()) {
-            LivingProperties props = getData(entity);
+            HbmLivingAttachments props = getData(entity);
             props.radiation = rad;
-            entity.setData(ModAttachments.LIVING_PROPS, props);
+            entity.setData(ModAttachments.LIVING_ATTACHMENT, props);
         }
     }
 
@@ -93,31 +95,16 @@ public class LivingProperties {
     }
 
     /// RAD ENV ///
-    public static float getRadEnv(LivingEntity entity) {
-        return getData(entity).radEnv;
-    }
-
-    public static void setRadEnv(LivingEntity entity, float rad) {
-        getData(entity).radEnv = rad;
-    }
+    public static float getRadEnv(LivingEntity entity) { return getData(entity).radEnv; }
+    public static void setRadEnv(LivingEntity entity, float rad) { getData(entity).radEnv = rad; }
 
     /// RAD BUF ///
-    public static float getRadBuf(LivingEntity entity) {
-        return getData(entity).radBuf;
-    }
-
-    public static void setRadBuf(LivingEntity entity, float rad) {
-        getData(entity).radBuf = rad;
-    }
+    public static float getRadBuf(LivingEntity entity) { return getData(entity).radBuf; }
+    public static void setRadBuf(LivingEntity entity, float rad) { getData(entity).radBuf = rad; }
 
     /// CONTAMINATION ///
-    public static List<ContaminationEffect> getCont(LivingEntity entity) {
-        return getData(entity).CONTAMINATION;
-    }
-
-    public static void addCont(LivingEntity entity, ContaminationEffect cont) {
-        getData(entity).CONTAMINATION.add(cont);
-    }
+    public static List<ContaminationEffect> getCont(LivingEntity entity) { return getData(entity).CONTAMINATION; }
+    public static void addCont(LivingEntity entity, ContaminationEffect cont) { getData(entity).CONTAMINATION.add(cont); }
 
     /// DIGAMMA ///
     public static float getDigamma(LivingEntity entity) {
@@ -125,18 +112,15 @@ public class LivingProperties {
     }
 
     public static void setDigamma(LivingEntity entity, float digamma) {
-
-        if (isCreative(entity)) return;
-
         if (entity.level().isClientSide)
             return;
 
         if (entity instanceof Duck)
             digamma = 0.0F;
 
-        LivingProperties props = getData(entity);
+        HbmLivingAttachments props = getData(entity);
         props.digamma = digamma;
-        entity.setData(ModAttachments.LIVING_PROPS, props);
+        entity.setData(ModAttachments.LIVING_ATTACHMENT, props);
 
         float healthMod = (float) Math.pow(0.5, digamma) - 1F;
 
@@ -178,7 +162,6 @@ public class LivingProperties {
     }
 
     public static void setAsbestos(LivingEntity entity, int asbestos) {
-        if (isCreative(entity)) return;
         if (MainConfig.COMMON.DISABLE_ASBESTOS.get()) return;
         getData(entity).asbestos = asbestos;
 
@@ -205,7 +188,6 @@ public class LivingProperties {
     }
 
     public static void setBlackLung(LivingEntity entity, int blacklung) {
-        if (isCreative(entity)) return;
         if (MainConfig.COMMON.DISABLE_COAL.get()) return;
         getData(entity).blacklung = blacklung;
 
@@ -252,14 +234,7 @@ public class LivingProperties {
         getData(entity).oil = oil;
     }
 
-    private static boolean isCreative(LivingEntity entity) {
-        if (!(entity instanceof Player player)) return false;
-        if (player.isSpectator()) return true;
-        if (player.isCreative()) return true;
-        return false;
-    }
-
-    public CompoundTag serializeNBT() {
+    public CompoundTag saveNBTData() {
         CompoundTag props = new CompoundTag();
 
         props.putFloat("hfr_radiation", radiation);
@@ -283,7 +258,7 @@ public class LivingProperties {
         return props;
     }
 
-    public void deserializeNBT(CompoundTag props) {
+    public void loadNBTData(CompoundTag props) {
         if (props != null) {
             radiation = props.getFloat("hfr_radiation");
             digamma = props.getFloat("hfr_digamma");

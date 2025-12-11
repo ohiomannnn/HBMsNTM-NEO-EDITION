@@ -161,12 +161,12 @@ public class SkeletonParticle extends TextureSheetParticle {
         PoseStack poseStack = new PoseStack();
 
         Vec3 camPos = camera.getPosition();
-        float pX = (float)(Mth.lerp(partialTicks, this.xo, this.x) - camPos.x);
-        float pY = (float)(Mth.lerp(partialTicks, this.yo, this.y) - camPos.y);
-        float pZ = (float)(Mth.lerp(partialTicks, this.zo, this.z) - camPos.z);
+        float pX = (float)Mth.lerp(partialTicks, this.xo, this.x);
+        float pY = (float)Mth.lerp(partialTicks, this.yo, this.y);
+        float pZ = (float)Mth.lerp(partialTicks, this.zo, this.z);
 
         poseStack.pushPose();
-        poseStack.translate(pX, pY, pZ);
+        poseStack.translate(pX - camPos.x, pY - camPos.y, pZ - camPos.z);
 
         poseStack.mulPose(Axis.YP.rotationDegrees((float) Mth.lerp(partialTicks, this.prevRotationYaw, this.rotationYaw)));
         poseStack.mulPose(Axis.XP.rotationDegrees((float) Mth.lerp(partialTicks, this.prevRotationPitch, this.rotationPitch)));
@@ -175,7 +175,7 @@ public class SkeletonParticle extends TextureSheetParticle {
         ResourceLocation textureToUse = getTexture(type);
 
         MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
-        VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(textureToUse));
+        VertexConsumer consumer = buffer.getBuffer(RenderType.entitySmoothCutout(textureToUse));
 
         float timeLeft = this.lifetime - (this.age + partialTicks);
         if (timeLeft < 40) {

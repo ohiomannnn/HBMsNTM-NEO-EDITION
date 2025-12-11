@@ -34,6 +34,6 @@ public class DecontaminatorBlock extends BaseEntityBlock {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide ? null : BaseEntityBlock.createTickerHelper(type, ModBlockEntities.DECONTAMINATOR.get(), DecontaminatorBlockEntity::serverTick);
+        return BaseEntityBlock.createTickerHelper(type, ModBlockEntities.DECONTAMINATOR.get(), DecontaminatorBlockEntity::tick);
     }
 }

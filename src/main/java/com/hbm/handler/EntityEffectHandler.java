@@ -1,15 +1,15 @@
 package com.hbm.handler;
 
-import com.hbm.HBMsNTMClient;
 import com.hbm.config.MainConfig;
-import com.hbm.extprop.LivingProperties;
-import com.hbm.extprop.LivingProperties.ContaminationEffect;
+import com.hbm.extprop.HbmLivingAttachments;
+import com.hbm.extprop.HbmLivingAttachments.ContaminationEffect;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.lib.ModDamageSource;
 import com.hbm.lib.ModSounds;
 import com.hbm.network.toclient.AuxParticle;
 import com.hbm.util.ContaminationUtil;
-import com.hbm.util.ContaminationUtil.*;
+import com.hbm.util.ContaminationUtil.ContaminationType;
+import com.hbm.util.ContaminationUtil.HazardType;
 import com.hbm.world.biome.ModBiomes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -30,9 +30,7 @@ import net.minecraft.world.entity.animal.MushroomCow;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
-import net.minecraft.util.Mth;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -44,8 +42,8 @@ import java.util.Random;
 public class EntityEffectHandler {
     public static void tick(LivingEntity entity) {
         if (entity.tickCount % 20 == 0) {
-            LivingProperties.setRadBuf(entity, LivingProperties.getRadEnv(entity));
-            LivingProperties.setRadEnv(entity, 0);
+            HbmLivingAttachments.setRadBuf(entity, HbmLivingAttachments.getRadEnv(entity));
+            HbmLivingAttachments.setRadEnv(entity, 0);
         }
 
         ResourceKey<Biome> biome = entity.level().getBiome(new BlockPos((int) entity.getX(), (int) entity.getY(), (int) entity.getZ())).getKey();
@@ -72,7 +70,7 @@ public class EntityEffectHandler {
     private static void handleContamination(LivingEntity entity) {
         if (entity.level().isClientSide) return;
 
-        List<ContaminationEffect> contamination = LivingProperties.getCont(entity);
+        List<ContaminationEffect> contamination = HbmLivingAttachments.getCont(entity);
         List<ContaminationEffect> rem = new ArrayList<>();
 
         for (ContaminationEffect con : contamination) {
@@ -95,7 +93,7 @@ public class EntityEffectHandler {
 
         Level level = entity.level();
 
-        float eRad = LivingProperties.getRadiation(entity);
+        float eRad = HbmLivingAttachments.getRadiation(entity);
 
         if (entity instanceof Cow && !(entity instanceof MushroomCow) && eRad >= 50) {
             MushroomCow cow = new MushroomCow(EntityType.MOOSHROOM, level);
@@ -110,13 +108,13 @@ public class EntityEffectHandler {
         }
 
         if (eRad < 200 || ContaminationUtil.isRadImmune(entity)) return;
-        if (eRad > 2500) LivingProperties.setRadiation(entity, 2500);
+        if (eRad > 2500) HbmLivingAttachments.setRadiation(entity, 2500);
 
         /// EFFECTS ///
         if (eRad >= 1000) {
             DamageSource src = new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageSource.RADIATION));
             entity.hurt(src, Float.MAX_VALUE);
-            LivingProperties.setRadiation(entity, 0);
+            HbmLivingAttachments.setRadiation(entity, 0);
         } else if (eRad >= 800) {
             if (level.random.nextInt(300) == 0) entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 5 * 30, 0));
             if (level.random.nextInt(300) == 0) entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 10 * 20, 2));
@@ -161,7 +159,7 @@ public class EntityEffectHandler {
             int r600 = rand.nextInt(600);
             int r1200 = rand.nextInt(1200);
 
-            if (LivingProperties.getRadiation(entity) > 600) {
+            if (HbmLivingAttachments.getRadiation(entity) > 600) {
 
                 if ((level.getGameTime() + r600) % 600 < 20 && canVomit(entity)) {
                     CompoundTag tag = new CompoundTag();
@@ -183,7 +181,7 @@ public class EntityEffectHandler {
                     }
                 }
 
-            } else if (LivingProperties.getRadiation(entity) > 200 && (level.getGameTime() + r1200) % 1200 < 20 && canVomit(entity)) {
+            } else if (HbmLivingAttachments.getRadiation(entity) > 200 && (level.getGameTime() + r1200) % 1200 < 20 && canVomit(entity)) {
 
                 CompoundTag tag = new CompoundTag();
                 tag.putString("type", "vomit");
@@ -198,7 +196,7 @@ public class EntityEffectHandler {
                 }
             }
 
-            if (LivingProperties.getRadiation(entity) > 900 && (level.getGameTime() + rand.nextInt(10)) % 10 == 0) {
+            if (HbmLivingAttachments.getRadiation(entity) > 900 && (level.getGameTime() + rand.nextInt(10)) % 10 == 0) {
                 CompoundTag tag = new CompoundTag();
                 tag.putString("type", "sweat");
                 tag.putInt("count", 1);
@@ -207,7 +205,7 @@ public class EntityEffectHandler {
                 PacketDistributor.sendToPlayersNear((ServerLevel) level, null, entity.getX(), entity.getY(), entity.getZ(), 25, new AuxParticle(tag, entity.getX(), entity.getY(), entity.getZ()));
             }
 
-            float radiation = LivingProperties.getRadiation(entity);
+            float radiation = HbmLivingAttachments.getRadiation(entity);
             if (entity instanceof Player && radiation > 600) {
                 CompoundTag tag = new CompoundTag();
                 tag.putString("type", "radiation");
@@ -221,7 +219,7 @@ public class EntityEffectHandler {
         Level level = entity.level();
 
         if (!level.isClientSide) {
-            float digamma = LivingProperties.getDigamma(entity);
+            float digamma = HbmLivingAttachments.getDigamma(entity);
 
             if (digamma < 0.1F)
                 return;
@@ -245,32 +243,32 @@ public class EntityEffectHandler {
         if (!level.isClientSide) {
             if (entity instanceof Player player) {
                 if (player.isCreative() || player.isSpectator()) {
-                    LivingProperties.setBlackLung(entity, 0);
-                    LivingProperties.setAsbestos(entity, 0);
+                    HbmLivingAttachments.setBlackLung(entity, 0);
+                    HbmLivingAttachments.setAsbestos(entity, 0);
                     return;
                 } else {
-                    int bl = LivingProperties.getBlackLung(entity);
+                    int bl = HbmLivingAttachments.getBlackLung(entity);
 
-                    if (bl > 0 && bl < LivingProperties.maxBlacklung * 0.5) {
-                        LivingProperties.setBlackLung(entity, LivingProperties.getBlackLung(entity) - 1);
+                    if (bl > 0 && bl < HbmLivingAttachments.maxBlacklung * 0.5) {
+                        HbmLivingAttachments.setBlackLung(entity, HbmLivingAttachments.getBlackLung(entity) - 1);
                     }
                 }
             }
 
-            double blacklung = Math.min(LivingProperties.getBlackLung(entity), LivingProperties.maxBlacklung);
-            double asbestos = Math.min(LivingProperties.getAsbestos(entity), LivingProperties.maxAsbestos);
+            double blacklung = Math.min(HbmLivingAttachments.getBlackLung(entity), HbmLivingAttachments.maxBlacklung);
+            double asbestos = Math.min(HbmLivingAttachments.getAsbestos(entity), HbmLivingAttachments.maxAsbestos);
             // TODO Add pollution someday
 
-            boolean coughs = blacklung / LivingProperties.maxBlacklung > 0.25D || asbestos / LivingProperties.maxAsbestos > 0.25D;
+            boolean coughs = blacklung / HbmLivingAttachments.maxBlacklung > 0.25D || asbestos / HbmLivingAttachments.maxAsbestos > 0.25D;
 
             if (!coughs) return;
 
-            boolean coughsCoal = blacklung / LivingProperties.maxBlacklung > 0.5D;
-            boolean coughsALotOfCoal = blacklung / LivingProperties.maxBlacklung > 0.8D;
-            boolean coughsBlood = asbestos / LivingProperties.maxAsbestos > 0.75D || blacklung / LivingProperties.maxBlacklung > 0.75D;
+            boolean coughsCoal = blacklung / HbmLivingAttachments.maxBlacklung > 0.5D;
+            boolean coughsALotOfCoal = blacklung / HbmLivingAttachments.maxBlacklung > 0.8D;
+            boolean coughsBlood = asbestos / HbmLivingAttachments.maxAsbestos > 0.75D || blacklung / HbmLivingAttachments.maxBlacklung > 0.75D;
 
-            double blacklungDelta = 1D - (blacklung / (double)LivingProperties.maxBlacklung);
-            double asbestosDelta = 1D - (asbestos / (double)LivingProperties.maxAsbestos);
+            double blacklungDelta = 1D - (blacklung / (double) HbmLivingAttachments.maxBlacklung);
+            double asbestosDelta = 1D - (asbestos / (double) HbmLivingAttachments.maxAsbestos);
 
 
             double total = 1 - (blacklungDelta * asbestosDelta);

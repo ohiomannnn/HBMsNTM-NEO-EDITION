@@ -4,17 +4,36 @@ import com.hbm.HBMsNTMClient;
 import com.hbm.handler.KeyHandler.EnumKeybind;
 import com.hbm.lib.ModAttachments;
 import com.hbm.network.toclient.InformPlayer;
+import com.mojang.serialization.Codec;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.neoforge.attachment.IAttachmentHolder;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-public class PlayerProperties {
+public class HbmPlayerAttachments {
 
-    public Player player;
+    public static final StreamCodec<RegistryFriendlyByteBuf, HbmPlayerAttachments> STREAM_CODEC = StreamCodec.of(
+            (buf, props) -> buf.writeNbt(props.saveNBTData()),
+            buf -> {
+                HbmPlayerAttachments props = new HbmPlayerAttachments();
+                props.loadNBTData(buf.readNbt());
+                return props;
+            });
+    public static final Codec<HbmPlayerAttachments> CODEC =
+            CompoundTag.CODEC.xmap(
+                    tag -> {
+                        HbmPlayerAttachments props = new HbmPlayerAttachments();
+                        props.loadNBTData(tag);
+                        return props;
+                    },
+                    HbmPlayerAttachments::saveNBTData
+            );
+
 
     public boolean hasReceivedBook = false;
 
@@ -44,14 +63,10 @@ public class PlayerProperties {
 
     public boolean isOnLadder = false;
 
-    public PlayerProperties(IAttachmentHolder iAttachmentHolder) {
-        if (iAttachmentHolder instanceof Player holder) {
-            this.player = holder;
-        }
-    }
+    public HbmPlayerAttachments() { }
 
-    public static PlayerProperties getData(Player player) {
-        return player.getData(ModAttachments.PLAYER_PROPS);
+    public static HbmPlayerAttachments getData(Player player) {
+        return player.getData(ModAttachments.PLAYER_ATTACHMENT);
     }
 
     public boolean getKeyPressed(EnumKeybind key) {
@@ -66,13 +81,15 @@ public class PlayerProperties {
         return this.enableMagnet;
     }
 
-    public void setKeyPressed(EnumKeybind key, boolean pressed) {
+    public void setKeyPressed(Player player, EnumKeybind key, boolean pressed) {
         if (!getKeyPressed(key) && pressed) {
             if (key == EnumKeybind.TOGGLE_JETPACK) {
                 if (!player.level().isClientSide) {
-                    this.enableBackpack = !this.enableBackpack;
+                    HbmPlayerAttachments props = getData(player);
+                    props.enableBackpack = !props.enableBackpack;
+                    player.setData(ModAttachments.PLAYER_ATTACHMENT, props);
 
-                    if (this.enableBackpack) {
+                    if (props.enableBackpack) {
                         PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayer(Component.literal("Jetpack ON").withStyle(ChatFormatting.GREEN), HBMsNTMClient.ID_JETPACK, 1000));
                     } else {
                         PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayer(Component.literal("Jetpack OFF").withStyle(ChatFormatting.RED), HBMsNTMClient.ID_JETPACK, 1000));
@@ -81,9 +98,12 @@ public class PlayerProperties {
             }
             if (key == EnumKeybind.TOGGLE_MAGNET) {
                 if (!player.level().isClientSide) {
-                    this.enableMagnet = !this.enableMagnet;
+                    HbmPlayerAttachments props = getData(player);
+                    props.enableMagnet = !props.enableMagnet;
+                    player.setData(ModAttachments.PLAYER_ATTACHMENT, props);
 
-                    if (this.enableMagnet) {
+
+                    if (props.enableMagnet) {
                         PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayer(Component.literal("Magnet ON").withStyle(ChatFormatting.GREEN), HBMsNTMClient.ID_MAGNET, 1000));
                     } else {
                         PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayer(Component.literal("Magnet OFF").withStyle(ChatFormatting.RED), HBMsNTMClient.ID_MAGNET, 1000));
@@ -93,9 +113,11 @@ public class PlayerProperties {
             if (key == EnumKeybind.TOGGLE_HEAD) {
 
                 if (!player.level().isClientSide) {
-                    this.enableHUD = !this.enableHUD;
+                    HbmPlayerAttachments props = getData(player);
+                    props.enableMagnet = !props.enableMagnet;
+                    player.setData(ModAttachments.PLAYER_ATTACHMENT, props);
 
-                    if (this.enableHUD) {
+                    if (props.enableHUD) {
                         PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayer(Component.literal("HUD ON").withStyle(ChatFormatting.GREEN), HBMsNTMClient.ID_HUD, 1000));
                     } else {
                         PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayer(Component.literal("HUD OFF").withStyle(ChatFormatting.RED), HBMsNTMClient.ID_HUD, 1000));
@@ -136,7 +158,31 @@ public class PlayerProperties {
     }
     // TODO: plink and maxshield
 
-    public CompoundTag serializeNBT() {
+    public void serialize(ByteBuf buf) {
+        buf.writeBoolean(this.hasReceivedBook);
+        buf.writeFloat(this.shield);
+        buf.writeFloat(this.maxShield);
+        buf.writeBoolean(this.enableBackpack);
+        buf.writeBoolean(this.enableHUD);
+        buf.writeInt(this.reputation);
+        buf.writeBoolean(this.isOnLadder);
+        buf.writeBoolean(this.enableMagnet);
+    }
+
+    public void deserialize(ByteBuf buf) {
+        if (buf.readableBytes() > 0) {
+            this.hasReceivedBook = buf.readBoolean();
+            this.shield = buf.readFloat();
+            this.maxShield = buf.readFloat();
+            this.enableBackpack = buf.readBoolean();
+            this.enableHUD = buf.readBoolean();
+            this.reputation = buf.readInt();
+            this.isOnLadder = buf.readBoolean();
+            this.enableMagnet = buf.readBoolean();
+        }
+    }
+
+    public CompoundTag saveNBTData() {
         CompoundTag props = new CompoundTag();
 
         props.putBoolean("hasReceivedBook", this.hasReceivedBook);
@@ -151,7 +197,7 @@ public class PlayerProperties {
         return props;
     }
 
-    public void deserializeNBT(CompoundTag props) {
+    public void loadNBTData(CompoundTag props) {
         if (props != null) {
             this.hasReceivedBook = props.getBoolean("hasReceivedBook");
             this.shield = props.getFloat("shield");

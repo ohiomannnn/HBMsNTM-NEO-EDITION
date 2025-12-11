@@ -2,11 +2,14 @@ package com.hbm.particle;
 
 import com.hbm.render.CustomRenderTypes;
 import com.hbm.util.old.TessColorUtil;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -30,11 +33,15 @@ public class BaseParticle extends TextureSheetParticle {
         float pY = (float) (Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y);
         float pZ = (float) (Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z);
 
-        MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
-        VertexConsumer consumer = bufferSource.getBuffer(CustomRenderTypes.entitySmoth(ModParticles.BASE));
+        RenderSystem.depthMask(false);
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, ModParticles.BASE);
 
-        this.alpha = 1 - ((this.age + partialTicks) / (float)this.lifetime);
-        int color = TessColorUtil.getColorRGBA_F(1.0F, 1.0F, 1.0F, alpha);
+        this.alpha = Math.clamp(1 - ((this.age + partialTicks) / (float)this.lifetime), 0.0F, 1.0F);
+
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, alpha);
 
         float u0 = 0, v0 = 0;
         float u1 = 1, v1 = 1;
@@ -42,30 +49,17 @@ public class BaseParticle extends TextureSheetParticle {
         Vector3f l = new Vector3f(camera.getLeftVector()).mul(this.quadSize);
         Vector3f u = new Vector3f(camera.getUpVector()).mul(this.quadSize);
 
-        consumer.addVertex(pX - l.x - u.x, pY - l.y - u.y, pZ - l.z - u.z)
-                .setColor(color)
-                .setUv(u1, v1)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setNormal(0.0F, 1.0F, 0.0F)
-                .setLight(240);
-        consumer.addVertex(pX - l.x + u.x, pY - l.y + u.y, pZ - l.z + u.z)
-                .setColor(color)
-                .setUv(u1, v0)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setNormal(0.0F, 1.0F, 0.0F)
-                .setLight(240);
-        consumer.addVertex(pX + l.x + u.x, pY + l.y + u.y, pZ + l.z + u.z)
-                .setColor(color)
-                .setUv(u0, v0)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setNormal(0.0F, 1.0F, 0.0F)
-                .setLight(240);
-        consumer.addVertex(pX + l.x - u.x, pY + l.y - u.y, pZ + l.z - u.z)
-                .setColor(color)
-                .setUv(u0, v1)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setNormal(0.0F, 1.0F, 0.0F)
-                .setLight(240);
+        Tesselator tess = Tesselator.getInstance();
+        BufferBuilder buf = tess.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        buf.addVertex(pX - l.x - u.x, pY - l.y - u.y, pZ - l.z - u.z).setUv(u1, v1);
+        buf.addVertex(pX - l.x + u.x, pY - l.y + u.y, pZ - l.z + u.z).setUv(u1, v0);
+        buf.addVertex(pX + l.x + u.x, pY + l.y + u.y, pZ + l.z + u.z).setUv(u0, v0);
+        buf.addVertex(pX + l.x - u.x, pY + l.y - u.y, pZ + l.z - u.z).setUv(u0, v1);
+        BufferUploader.drawWithShader(buf.buildOrThrow());
+
+        RenderSystem.depthMask(true);
+        RenderSystem.disableBlend();
+        RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
     }
 
     @Override

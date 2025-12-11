@@ -40,7 +40,7 @@ public class EntityProcessorCrossSmooth extends EntityProcessorCross {
         if (source.exploder == entity) amount *= 0.5F;
         DamageSourceNT dmg = getDamage(entity.level(), clazz);
         if (entity instanceof LivingEntity livingEntity) {
-            EntityDamageUtil.hurtNT(livingEntity, dmg, amount, true, false, 0F, pierceDT, pierceDR);
+            livingEntity.hurt(entity.level().damageSources().source(DamageTypes.EXPLOSION), amount);
             if (!entity.isAlive()) ConfettiUtil.decideConfetti(livingEntity, dmg);
         } else {
             entity.hurt(dmg, amount);

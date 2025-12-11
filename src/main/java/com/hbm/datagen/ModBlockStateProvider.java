@@ -48,6 +48,12 @@ public class ModBlockStateProvider extends BlockStateProvider {
                         modLoc("block/det_miner_top")
                 ));
 
+        simpleBlockWithItem(ModBlocks.MACHINE_SATLINKER.get(),
+                models().cubeColumn("machine_satlinker",
+                        modLoc("block/machine_satlinker_side"),
+                        modLoc("block/machine_satlinker_top")
+                ));
+
         simpleBlockWithItem(ModBlocks.BRICK_LIGHT.get(), cubeAll(ModBlocks.BRICK_LIGHT.get()));
         simpleBlockWithItem(ModBlocks.BRICK_OBSIDIAN.get(), cubeAll(ModBlocks.BRICK_OBSIDIAN.get()));
         simpleBlockWithItem(ModBlocks.GRAVEL_OBSIDIAN.get(), cubeAll(ModBlocks.GRAVEL_OBSIDIAN.get()));

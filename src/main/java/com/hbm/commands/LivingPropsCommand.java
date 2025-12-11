@@ -1,10 +1,11 @@
 package com.hbm.commands;
 
-import com.hbm.extprop.LivingProperties;
+import com.hbm.extprop.HbmLivingAttachments;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.BuiltInExceptions;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
@@ -18,7 +19,7 @@ import net.minecraft.world.entity.LivingEntity;
 public class LivingPropsCommand {
 
     private static final SimpleCommandExceptionType ERROR_NOT_LIVING = new SimpleCommandExceptionType(
-            Component.translatable("commands.hbmsntm.error.not_living")
+            Component.translatable("commands.props.not_living")
     );
 
     private static final SuggestionProvider<CommandSourceStack> PROPS_SUGGESTIONS =
@@ -39,7 +40,6 @@ public class LivingPropsCommand {
         dispatcher.register(
                 Commands.literal("ntmprops")
                         .requires(src -> src.hasPermission(4))
-                        // ===== GET =====
                         .then(Commands.literal("get")
                                 .then(Commands.argument("target", EntityArgument.entity())
                                         .then(Commands.argument("field", StringArgumentType.word())
@@ -48,7 +48,6 @@ public class LivingPropsCommand {
                                         )
                                 )
                         )
-                        // ===== SET =====
                         .then(Commands.literal("set")
                                 .then(Commands.argument("target", EntityArgument.entity())
                                         .then(Commands.argument("field", StringArgumentType.word())
@@ -75,19 +74,19 @@ public class LivingPropsCommand {
         String field = StringArgumentType.getString(context, "field");
 
         float value = switch (field) {
-            case "radiation"  -> LivingProperties.getRadiation(target);
-            case "digamma"    -> LivingProperties.getDigamma(target);
-            case "asbestos"   -> LivingProperties.getAsbestos(target);
-            case "blacklung"  -> LivingProperties.getBlackLung(target);
-            case "oil"        -> LivingProperties.getOil(target);
-            case "fire"       -> LivingProperties.getData(target).fire;
-            case "phosphorus" -> LivingProperties.getData(target).phosphorus;
-            case "balefire"   -> LivingProperties.getData(target).balefire;
-            case "blackfire"  -> LivingProperties.getData(target).blackFire;
-            default -> throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherUnknownArgument().create();
+            case "radiation" -> HbmLivingAttachments.getRadiation(target);
+            case "digamma" -> HbmLivingAttachments.getDigamma(target);
+            case "asbestos" -> HbmLivingAttachments.getAsbestos(target);
+            case "blacklung" -> HbmLivingAttachments.getBlackLung(target);
+            case "oil" -> HbmLivingAttachments.getOil(target);
+            case "fire" -> HbmLivingAttachments.getData(target).fire;
+            case "phosphorus" -> HbmLivingAttachments.getData(target).phosphorus;
+            case "balefire" -> HbmLivingAttachments.getData(target).balefire;
+            case "blackfire" -> HbmLivingAttachments.getData(target).blackFire;
+            default -> throw new BuiltInExceptions().dispatcherUnknownArgument().create();
         };
 
-        context.getSource().sendSuccess(() -> Component.translatable("commands.hbmsntm.success.props.get", field, target.getName(), value), false);
+        context.getSource().sendSuccess(() -> Component.translatable("commands.props.get", field, target.getName(), value), false);
         return 1;
     }
 
@@ -98,19 +97,19 @@ public class LivingPropsCommand {
         float value = FloatArgumentType.getFloat(context, "value");
 
         switch (field) {
-            case "radiation"  -> LivingProperties.setRadiation(target, value);
-            case "digamma"    -> LivingProperties.setDigamma(target, value);
-            case "asbestos"   -> LivingProperties.setAsbestos(target, (int) value);
-            case "blacklung"  -> LivingProperties.setBlackLung(target, (int) value);
-            case "oil"        -> LivingProperties.setOil(target, (int) value);
-            case "fire"       -> LivingProperties.getData(target).fire = (int) value;
-            case "phosphorus" -> LivingProperties.getData(target).phosphorus = (int) value;
-            case "balefire"   -> LivingProperties.getData(target).balefire = (int) value;
-            case "blackfire"  -> LivingProperties.getData(target).blackFire = (int) value;
-            default -> throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherUnknownArgument().create();
+            case "radiation" -> HbmLivingAttachments.setRadiation(target, value);
+            case "digamma" -> HbmLivingAttachments.setDigamma(target, value);
+            case "asbestos" -> HbmLivingAttachments.setAsbestos(target, (int) value);
+            case "blacklung" -> HbmLivingAttachments.setBlackLung(target, (int) value);
+            case "oil" -> HbmLivingAttachments.setOil(target, (int) value);
+            case "fire" -> HbmLivingAttachments.getData(target).fire = (int) value;
+            case "phosphorus" -> HbmLivingAttachments.getData(target).phosphorus = (int) value;
+            case "balefire" -> HbmLivingAttachments.getData(target).balefire = (int) value;
+            case "blackfire" -> HbmLivingAttachments.getData(target).blackFire = (int) value;
+            default -> throw new BuiltInExceptions().dispatcherUnknownArgument().create();
         }
 
-        context.getSource().sendSuccess(() -> Component.translatable("commands.hbmsntm.success.props.set", field, target.getName(), value), true);
+        context.getSource().sendSuccess(() -> Component.translatable("commands.props.set", field, target.getName(), value), true);
         return 1;
     }
 }

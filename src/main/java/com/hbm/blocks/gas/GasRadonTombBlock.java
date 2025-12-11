@@ -1,10 +1,8 @@
 package com.hbm.blocks.gas;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.extprop.LivingProperties;
+import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.lib.ModEffect;
-import com.hbm.util.ArmorRegistry;
-import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
@@ -14,7 +12,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -59,7 +56,7 @@ public class GasRadonTombBlock extends GasBaseBlock {
             livingEntity.removeEffect(ModEffect.RADX);
 
             ContaminationUtil.contaminate(livingEntity, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 0.5F);
-            LivingProperties.incrementAsbestos(livingEntity, 10);
+            HbmLivingAttachments.incrementAsbestos(livingEntity, 10);
         }
     }
 
