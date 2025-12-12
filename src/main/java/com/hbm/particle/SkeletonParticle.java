@@ -6,7 +6,9 @@ import com.hbm.render.CustomRenderTypes;
 import com.hbm.render.entity.effect.SkeletonModel;
 import com.hbm.util.old.TessColorUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.Camera;
@@ -161,16 +163,16 @@ public class SkeletonParticle extends TextureSheetParticle {
         PoseStack poseStack = new PoseStack();
 
         Vec3 camPos = camera.getPosition();
-        float pX = (float)Mth.lerp(partialTicks, this.xo, this.x);
-        float pY = (float)Mth.lerp(partialTicks, this.yo, this.y);
-        float pZ = (float)Mth.lerp(partialTicks, this.zo, this.z);
+        float pX = (float)(Mth.lerp(partialTicks, this.xo, this.x) - camPos.x);
+        float pY = (float)(Mth.lerp(partialTicks, this.yo, this.y) - camPos.y);
+        float pZ = (float)(Mth.lerp(partialTicks, this.zo, this.z) - camPos.z);
 
         poseStack.pushPose();
-        poseStack.translate(pX - camPos.x, pY - camPos.y, pZ - camPos.z);
+        poseStack.translate(pX, pY, pZ);
 
-        poseStack.mulPose(Axis.YP.rotationDegrees((float) Mth.lerp(partialTicks, this.prevRotationYaw, this.rotationYaw)));
-        poseStack.mulPose(Axis.XP.rotationDegrees((float) Mth.lerp(partialTicks, this.prevRotationPitch, this.rotationPitch)));
-        poseStack.mulPose(Axis.ZN.rotationDegrees(180));
+        poseStack.mulPose(Axis.YP.rotationDegrees((float) -Mth.lerp(partialTicks, this.prevRotationYaw, this.rotationYaw)));
+        poseStack.mulPose(Axis.XP.rotationDegrees((float) -Mth.lerp(partialTicks, this.prevRotationPitch, this.rotationPitch)));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(180));
 
         ResourceLocation textureToUse = getTexture(type);
 
@@ -188,6 +190,7 @@ public class SkeletonParticle extends TextureSheetParticle {
 
         model.render(poseStack, consumer, this.getLightColor(partialTicks), OverlayTexture.NO_OVERLAY, color, this.type);
 
+        buffer.endBatch();
         poseStack.popPose();
     }
 

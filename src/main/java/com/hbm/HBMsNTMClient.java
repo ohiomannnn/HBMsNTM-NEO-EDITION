@@ -18,6 +18,7 @@ import com.hbm.particle.*;
 import com.hbm.particle.helper.ParticleCreators;
 import com.hbm.particle.vanilla.PlayerCloudParticle;
 import com.hbm.render.blockentity.RenderCrashedBomb;
+import com.hbm.render.blockentity.RenderGeigerBlock;
 import com.hbm.render.blockentity.RenderLandMine;
 import com.hbm.render.blockentity.RenderNukeFatMan;
 import com.hbm.render.entity.EmptyRenderer;
@@ -376,6 +377,8 @@ public class HBMsNTMClient {
         event.registerBlockEntityRenderer(ModBlockEntities.NUKE_FATMAN.get(), RenderNukeFatMan::new);
 
         event.registerBlockEntityRenderer(ModBlockEntities.LANDMINE.get(), RenderLandMine::new);
+
+        event.registerBlockEntityRenderer(ModBlockEntities.GEIGER_COUNTER.get(), RenderGeigerBlock::new);
 
         event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_BALEFIRE.get(), RenderCrashedBomb::new);
         event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_CONVENTIONAL.get(), RenderCrashedBomb::new);

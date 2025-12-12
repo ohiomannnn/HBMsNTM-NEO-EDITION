@@ -10,10 +10,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.Skeleton;
-import net.minecraft.world.entity.monster.Witch;
-import net.minecraft.world.entity.monster.Zombie;
-import net.minecraft.world.entity.monster.ZombieVillager;
+import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -140,19 +137,67 @@ public class SkeletonCreator implements IParticleCreator {
         };
     };
 
-    public static Function<LivingEntity, BoneDefinition[]> BONES_VILLAGER = (entity) -> {
-        Vec3NT leftarm = new Vec3NT(0.375, 0, 0).rotateAroundYDeg(-entity.yBodyRot);
+    public static final Function<LivingEntity, BoneDefinition[]> BONES_VILLAGER = (entity) -> {
+        Vec3NT leftArm = new Vec3NT(0.375, 0, 0).rotateAroundYDeg(-entity.yBodyRot);
         Vec3NT forward = new Vec3NT(0, 0, 0.25).rotateAroundYDeg(-entity.yBodyRot);
-        Vec3NT leftleg = new Vec3NT(0.125, 0, 0).rotateAroundYDeg(-entity.yBodyRot);
-        return new BoneDefinition[] {
-                new BoneDefinition(EnumSkeletonType.SKULL_VILLAGER, -entity.yHeadRot, entity.getXRot(), entity.getX(), entity.getY() + 1.6875, entity.getZ()),
-                new BoneDefinition(EnumSkeletonType.TORSO, -entity.yBodyRot, 0, entity.getX(), entity.getY() + 1, entity.getZ()),
-                new BoneDefinition(EnumSkeletonType.LIMB, -entity.yBodyRot, -45, entity.getX() + leftarm.xCoord + forward.xCoord, entity.getY() + 1.125, entity.getZ() + leftarm.zCoord + forward.zCoord),
-                new BoneDefinition(EnumSkeletonType.LIMB, -entity.yBodyRot, -45, entity.getX() - leftarm.xCoord + forward.xCoord, entity.getY() + 1.125, entity.getZ() - leftarm.zCoord + forward.zCoord),
-                new BoneDefinition(EnumSkeletonType.LIMB, -entity.yBodyRot, 0, entity.getX() + leftleg.xCoord, entity.getY() + 0.375, entity.getZ() + leftleg.zCoord),
-                new BoneDefinition(EnumSkeletonType.LIMB, -entity.yBodyRot, 0, entity.getX() - leftleg.xCoord, entity.getY() + 0.375, entity.getZ() - leftleg.zCoord),
+        Vec3NT leftLeg = new Vec3NT(0.125, 0, 0).rotateAroundYDeg(-entity.yBodyRot);
+
+        double x = entity.getX();
+        double y = entity.getY();
+        double z = entity.getZ();
+
+        return new BoneDefinition[]{
+                new BoneDefinition(
+                        EnumSkeletonType.SKULL_VILLAGER,
+                        -entity.getYHeadRot(),
+                        entity.getXRot(),
+                        x,
+                        y + 1.6875,
+                        z
+                ),
+                new BoneDefinition(
+                        EnumSkeletonType.TORSO,
+                        -entity.yBodyRot,
+                        0,
+                        x,
+                        y + 1,
+                        z
+                ),
+                new BoneDefinition(
+                        EnumSkeletonType.LIMB,
+                        -entity.yBodyRot,
+                        -45,
+                        x + leftArm.xCoord + forward.xCoord,
+                        y + 1.125,
+                        z + leftArm.zCoord + forward.zCoord
+                ),
+                new BoneDefinition(
+                        EnumSkeletonType.LIMB,
+                        -entity.yBodyRot,
+                        -45,
+                        x - leftArm.xCoord + forward.xCoord,
+                        y + 1.125,
+                        z - leftArm.zCoord + forward.zCoord
+                ),
+                new BoneDefinition(
+                        EnumSkeletonType.LIMB,
+                        -entity.yBodyRot,
+                        0,
+                        x + leftLeg.xCoord,
+                        y + 0.375,
+                        z + leftLeg.zCoord
+                ),
+                new BoneDefinition(
+                        EnumSkeletonType.LIMB,
+                        -entity.yBodyRot,
+                        0,
+                        x - leftLeg.xCoord,
+                        y + 0.375,
+                        z - leftLeg.zCoord
+                )
         };
     };
+
 
     public static Function<LivingEntity, BoneDefinition[]> BONES_DUMMY = (entity) -> {
         Vec3NT leftarm = new Vec3NT(0.375, 0, 0).rotateAroundYDeg(-entity.yBodyRot);
@@ -175,6 +220,9 @@ public class SkeletonCreator implements IParticleCreator {
 
         skullanizer.put(Villager.class.getSimpleName(), BONES_VILLAGER);
         skullanizer.put(ZombieVillager.class.getSimpleName(), BONES_VILLAGER);
+        skullanizer.put(Pillager.class.getSimpleName(), BONES_VILLAGER);
+        skullanizer.put(Illusioner.class.getSimpleName(), BONES_VILLAGER);
+        skullanizer.put(Vindicator.class.getSimpleName(), BONES_VILLAGER);
         skullanizer.put(Witch.class.getSimpleName(), BONES_VILLAGER);
     }
 }

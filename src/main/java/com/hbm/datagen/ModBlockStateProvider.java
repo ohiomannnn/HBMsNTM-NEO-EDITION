@@ -25,21 +25,18 @@ public class ModBlockStateProvider extends BlockStateProvider {
     }
     @Override
     protected void registerStatesAndModels() {
-        simpleBlock(ModBlocks.GAS_COAL.get(), cubeAll(ModBlocks.GAS_COAL.get()));
-        simpleBlockWithItem(ModBlocks.BRICK_CONCRETE.get(), cubeAll(ModBlocks.BRICK_CONCRETE.get()));
-        simpleBlockWithItem(ModBlocks.BRICK_CONCRETE_MOSSY.get(), cubeAll(ModBlocks.BRICK_CONCRETE_MOSSY.get()));
-        simpleBlockWithItem(ModBlocks.BRICK_CONCRETE_CRACKED.get(), cubeAll(ModBlocks.BRICK_CONCRETE_CRACKED.get()));
-        simpleBlockWithItem(ModBlocks.BRICK_CONCRETE_BROKEN.get(), cubeAll(ModBlocks.BRICK_CONCRETE_BROKEN.get()));
-        simpleBlockWithItem(ModBlocks.BRICK_CONCRETE_MARKED.get(),
-                models().cubeColumn("brick_concrete_marked",
-                        modLoc("block/brick_concrete_marked"),
-                        modLoc("block/brick_concrete")
-        ));
-        simpleBlockWithItem(ModBlocks.DET_NUKE.get(),
-                models().cubeColumn("det_nuke",
-                        modLoc("block/det_nuke_side"),
-                        modLoc("block/det_nuke_top")
-                ));
+        cubeAllBlockWithItem(ModBlocks.BRICK_CONCRETE.get());
+        cubeAllBlockWithItem(ModBlocks.BRICK_CONCRETE_MOSSY.get());
+        cubeAllBlockWithItem(ModBlocks.BRICK_CONCRETE_CRACKED.get());
+        cubeAllBlockWithItem(ModBlocks.BRICK_CONCRETE_BROKEN.get());
+
+        simpleColumnBlockWithItem(ModBlocks.BRICK_CONCRETE_MARKED.get(),
+                modLoc("block/brick_concrete_marked"),
+                modLoc("block/brick_concrete"));
+
+        simpleColumnBlockWithItem(ModBlocks.DET_NUKE.get(),
+                modLoc("block/det_nuke_side"),
+                modLoc("block/det_nuke_top"));
         simpleBlockWithItem(ModBlocks.DET_CHARGE.get(), cubeAll(ModBlocks.DET_CHARGE.get()));
 
         simpleBlockWithItem(ModBlocks.DET_MINER.get(),
@@ -302,6 +299,18 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
         itemModels().withExistingParent(BuiltInRegistries.BLOCK.getKey(block).getPath(), modLoc("block/" + baseName));
     }
+
+    public void simpleColumnBlockWithItem(Block block, ResourceLocation side, ResourceLocation end) {
+        simpleBlockWithItem(block, models().cubeColumn(name(block), side, end));
+    }
+
+    public void cubeAllBlockWithItem(Block block) {
+        this.simpleBlock(block, cubeAll(block));
+        this.simpleBlockItem(block, cubeAll(block));
+    }
+
+    private String name(Block block) { return this.key(block).getPath(); }
+    private ResourceLocation key(Block block) { return BuiltInRegistries.BLOCK.getKey(block); }
 
     private void blockItem(DeferredBlock<?> deferredBlock) {
         simpleBlockItem(deferredBlock.get(), new ModelFile.UncheckedModelFile("hbmsntm:block/" + deferredBlock.getId().getPath()));

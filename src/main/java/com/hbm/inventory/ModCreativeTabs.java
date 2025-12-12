@@ -45,6 +45,8 @@ public class ModCreativeTabs {
 
                         output.accept(ModBlocks.SELLAFIELD_SLAKED);
                         output.accept(ModBlocks.SELLAFIELD_BEDROCK);
+                        output.accept(ModBlocks.ORE_SELLAFIELD_DIAMOND);
+                        output.accept(ModBlocks.ORE_SELLAFIELD_EMERALD);
                     }).build());
 
     public static final Supplier<CreativeModeTab> MACHINES = CREATIVE_MODE_TABS.register(

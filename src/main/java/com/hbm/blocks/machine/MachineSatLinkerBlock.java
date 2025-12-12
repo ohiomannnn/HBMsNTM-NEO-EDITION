@@ -4,6 +4,9 @@ import com.hbm.blockentity.ModBlockEntities;
 import com.hbm.blockentity.machine.MachineSatLinkerBlockEntity;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
@@ -26,7 +29,25 @@ public class MachineSatLinkerBlock extends BaseEntityBlock {
         super(properties);
     }
 
-    // TODO add spilling items
+    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (!state.is(newState.getBlock())) {
+            BlockEntity blockentity = level.getBlockEntity(pos);
+            if (blockentity instanceof MachineSatLinkerBlockEntity satLinkerBlockEntity) {
+                NonNullList<ItemStack> stacks = NonNullList.create();
+                for (int i = 0; i < satLinkerBlockEntity.getItems().getSlots(); i++) {
+                    stacks.add(satLinkerBlockEntity.getItems().getStackInSlot(i));
+                }
+                if (level instanceof ServerLevel) {
+                    Containers.dropContents(level, pos, stacks);
+                }
+                super.onRemove(state, level, pos, newState, isMoving);
+            } else {
+                super.onRemove(state, level, pos, newState, isMoving);
+            }
+        }
+
+    }
+
 
     protected RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;

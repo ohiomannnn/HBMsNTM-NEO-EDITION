@@ -2,8 +2,6 @@ package com.hbm.inventory.screen;
 
 import com.hbm.HBMsNTM;
 import com.hbm.inventory.menus.MachineSatLinkerMenu;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -25,7 +23,6 @@ public class MachineSatLinkerScreen extends InfoScreen<MachineSatLinkerMenu> {
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         super.render(guiGraphics, mouseX, mouseY, partialTicks);
-        Font font = Minecraft.getInstance().font;
 
         List<Component> text = List.of(
                 Component.literal("The first slot will copy the satellite/chip's"),

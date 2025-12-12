@@ -95,7 +95,9 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
                 .add(ModBlocks.SELLAFIELD_SLAKED.get())
                 .add(ModBlocks.ORE_SELLAFIELD_EMERALD.get())
-                .add(ModBlocks.ORE_SELLAFIELD_DIAMOND.get());
+                .add(ModBlocks.ORE_SELLAFIELD_DIAMOND.get())
+
+                .add(ModBlocks.MACHINE_SATLINKER.get());
 
         tag(BlockTags.NEEDS_IRON_TOOL)
                 .add(ModBlocks.BRICK_CONCRETE.get())

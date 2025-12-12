@@ -1,5 +1,5 @@
 {
-  "parent": "hbmsntm:block/nuke_fatman",
+  "parent": "hbmsntm:block/geiger",
   "transform": {
     "translation": [0.6, 0.0, 0.5],
     "rotation": [0, 0, 0],

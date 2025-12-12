@@ -136,6 +136,8 @@
 
   "block.hbmsntm.sellafield_slaked": "Slaked Sellafite",
   "block.hbmsntm.sellafield_bedrock": "Bedrock Sellafite",
+  "block.hbmsntm.ore_sellafield_emerald": "Sellafite Emerald Ore",
+  "block.hbmsntm.ore_sellafield_diamond": "Sellafite Diamond Ore",
   "block.hbmsntm.nuke_fatman": "Fat Man",
 
   "block.hbmsntm.gas_coal": "Airborne Coal Dust",
@@ -149,6 +151,7 @@
   "block.hbmsntm.gas_radon_tomb": "Tomb Gas",
 
   "block.hbmsntm.decontaminator": "Player Decontaminator",
+  "block.hbmsntm.machine_satlinker": "Satellite ID Manager",
 
   "item.hbmsntm.nothing": "Nothing",
   "item.hbmsntm.geiger_counter": "Handheld Geiger Counter",

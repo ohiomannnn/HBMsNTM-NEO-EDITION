@@ -14,11 +14,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "hbmsntm:waste_leaves"
+          "name": "hbmsntm:leaves_layer"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "hbmsntm:blocks/waste_leaves"
+  "random_sequence": "hbmsntm:blocks/leaves_layer"
 }

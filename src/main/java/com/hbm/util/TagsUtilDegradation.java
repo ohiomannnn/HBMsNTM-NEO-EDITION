@@ -10,6 +10,9 @@ public class TagsUtilDegradation {
         return stack.has(DataComponents.CUSTOM_DATA);
     }
 
+    /**
+     * After you put some values in the tag, DON'T FORGET ABOUT PUT IT BACK TO THE STACK WITH {@link TagsUtilDegradation#putTag}
+     */
     public static CompoundTag getTag(ItemStack stack) {
         CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
         return customData != null ? customData.copyTag() : new CompoundTag();

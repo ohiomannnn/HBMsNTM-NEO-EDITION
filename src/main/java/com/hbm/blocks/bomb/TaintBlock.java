@@ -118,30 +118,10 @@ public class TaintBlock extends FallingBlock {
                 livingEntity.addEffect(effect);
             }
         }
-
-//        if (!level.isClientSide()) {
-//            if (entity instanceof Creeper creeper) {
-//                TaintedCreeper taintedCreeper = HbmEntityTypes.TAINTED_CREEPER.get().create(level);
-//                if (taintedCreeper != null) {
-//                    taintedCreeper.moveTo(creeper.getX(), creeper.getY(), creeper.getZ(), creeper.getYRot(), creeper.getXRot());
-//                    level.addFreshEntity(taintedCreeper);
-//                    creeper.discard(); // Новый метод для удаления сущности.
-//                }
-//            }
-//
-//            if (entity instanceof TeslaCrab teslaCrab) {
-//                TaintCrab taintCrab = HbmEntityTypes.TAINT_CRAB.get().create(level);
-//                if (taintCrab != null) {
-//                    taintCrab.moveTo(teslaCrab.getX(), teslaCrab.getY(), teslaCrab.getZ(), teslaCrab.getYRot(), teslaCrab.getXRot());
-//                    level.addFreshEntity(taintCrab);
-//                    teslaCrab.discard();
-//                }
-//            }
-//        }
     }
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("DO NOT TOUCH, BREATHE OR STARE AT.").withStyle(ChatFormatting.RED));
+        tooltip.add(Component.literal("DO NOT TOUCH, BREATHE OR STARE AT.").withStyle(ChatFormatting.GRAY));
     }
 }

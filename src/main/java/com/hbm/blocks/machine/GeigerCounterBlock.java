@@ -110,10 +110,8 @@ public class GeigerCounterBlock extends BaseEntityBlock {
         if (!level.isClientSide) {
             level.playSound(null, pos, ModSounds.TECH_BOOP.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
             ContaminationUtil.printGeigerData(player);
-
-            return InteractionResult.SUCCESS;
         }
-        return InteractionResult.PASS;
+        return InteractionResult.SUCCESS;
     }
 
     static {
