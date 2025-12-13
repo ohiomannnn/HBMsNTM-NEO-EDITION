@@ -14,7 +14,7 @@ import com.hbm.handler.HazmatRegistry;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.inventory.ModMenuTypes;
-import com.hbm.inventory.screen.MachineSatLinkerScreen;
+import com.hbm.inventory.screens.MachineSatLinkerScreen;
 import com.hbm.items.ModItems;
 import com.hbm.saveddata.satellite.Satellite;
 import com.hbm.util.ArmorUtil;

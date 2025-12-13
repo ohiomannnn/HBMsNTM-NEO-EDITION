@@ -173,6 +173,10 @@ public class ModItems {
             "sat_radar",
             () -> new SatChipItem(new Item.Properties().stacksTo(1)));
 
+    public static final DeferredItem<Item> TEST266 = ITEMS.register(
+            "test266",
+            () -> new SatelliteInterfaceItem(new Item.Properties().stacksTo(1)));
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

@@ -1,4 +1,4 @@
-package com.hbm.inventory.screen;
+package com.hbm.inventory.screens;
 
 import com.hbm.handler.HTTPHandler;
 import com.hbm.util.i18n.I18nUtil;

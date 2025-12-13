@@ -5,7 +5,7 @@ import com.hbm.HBMsNTMClient;
 import com.hbm.config.MainConfig;
 import com.hbm.handler.KeyHandler.EnumKeybind;
 import com.hbm.handler.ability.*;
-import com.hbm.inventory.screen.ToolAbilityScreen;
+import com.hbm.inventory.screens.ToolAbilityScreen;
 import com.hbm.items.IItemControlReceiver;
 import com.hbm.items.IItemHUD;
 import com.hbm.items.IKeybindReceiver;

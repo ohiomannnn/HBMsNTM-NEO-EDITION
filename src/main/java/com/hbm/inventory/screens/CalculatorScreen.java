@@ -1,4 +1,4 @@
-package com.hbm.inventory.screen;
+package com.hbm.inventory.screens;
 
 import com.hbm.HBMsNTM;
 import net.minecraft.client.Minecraft;

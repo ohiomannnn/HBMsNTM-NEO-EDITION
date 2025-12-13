@@ -19,5 +19,6 @@ public class NTMNetwork {
         registrar.playToClient(ParticleBurst.TYPE, ParticleBurst.STREAM_CODEC, ParticleBurst::handleClient);
         registrar.playToClient(AuxParticle.TYPE, AuxParticle.STREAM_CODEC, AuxParticle::handleClient);
         registrar.playToClient(BufNT.TYPE, BufNT.STREAM_CODEC, BufNT::handleClient);
+        registrar.playToClient(SatellitePanel.TYPE, SatellitePanel.STREAM_CODEC, SatellitePanel::handleClient);
     }
 }

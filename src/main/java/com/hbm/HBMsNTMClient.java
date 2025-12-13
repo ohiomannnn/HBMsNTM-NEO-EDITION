@@ -9,7 +9,7 @@ import com.hbm.entity.ModEntities;
 import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.hazard.HazardSystem;
-import com.hbm.inventory.screen.LoadingScreenRendererNT;
+import com.hbm.inventory.screens.LoadingScreenRendererNT;
 import com.hbm.items.IItemHUD;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.PolaroidItem;

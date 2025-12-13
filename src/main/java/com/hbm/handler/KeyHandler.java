@@ -1,7 +1,8 @@
 package com.hbm.handler;
 
 import com.hbm.HBMsNTM;
-import com.hbm.inventory.screen.CalculatorScreen;
+import com.hbm.inventory.screens.CalculatorScreen;
+import com.hbm.inventory.screens.SatelliteInterfaceScreen;
 import com.hbm.items.IKeybindReceiver;
 import com.hbm.network.toserver.KeybindReceiver;
 import com.mojang.blaze3d.platform.InputConstants;
@@ -91,7 +92,7 @@ public class KeyHandler {
         if (mc.player == null || mc.screen != null) return;
 
         while (CALCULATOR.consumeClick()) {
-            mc.setScreen(new CalculatorScreen());
+            mc.setScreen(new SatelliteInterfaceScreen(mc.player));
         }
     }
 
