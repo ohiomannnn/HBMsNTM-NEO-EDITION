@@ -1,0 +1,27 @@
+## Added
+* Satellites!
+  * Radar and laser types
+  * SatLinker machine
+  * Can be launched only via /ntmsatellites command!
+    * Soyuz rocket will added someday
+* Geiger counter block
+* Skeletonizer
+  * Works like in the original mod
+    * When some mobs die with gib effect their skeleton spawns
+* Advanced alloy
+  * For now only armor and sword
+* Gases, with their hazards
+  * As gas mask use diamond helmet (bruh)
+* Fully added gui for tools with abilities
+
+## Changed
+* Some tooltips
+* Particle effects
+  * Muke particles type's fade out effect should be better
+  * Might break some things
+
+
+## Fixed
+* Slaked sellafite not dropping
+  * Their ore variant too
+
