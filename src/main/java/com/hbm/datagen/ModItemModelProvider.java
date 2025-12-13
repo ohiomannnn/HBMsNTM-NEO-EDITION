@@ -55,6 +55,11 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.ALLOY_LEGGINGS.get());
         basicItem(ModItems.ALLOY_BOOTS.get());
 
+        this.basicItem(ModItems.SATELLITE_INTERFACE.get());
+
+        this.basicItem(ModItems.SATELLITE_RADAR.get());
+        this.basicItem(ModItems.SATELLITE_LASER.get());
+
         handheldItem(ModItems.ALLOY_PICKAXE.get());
 
         withExistingParent(ModBlocks.GAS_RADON.getId().getPath(), "item/generated").texture("layer0", modLoc("block/gas_radon"));

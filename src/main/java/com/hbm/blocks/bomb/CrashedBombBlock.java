@@ -91,7 +91,7 @@ public class CrashedBombBlock extends BaseEntityBlock implements IBomb {
                 spawnMush(level, pos, PolaroidItem.polaroidID == 11 || level.random.nextInt(100) == 0);
             }
             if (this == ModBlocks.CRASHED_BOMB_SALTED.get()) {
-                NukeExplosionMK5.statFac(level, 25, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5).moreFallout(25);
+                NukeExplosionMK5.statFac(level, 25, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5).setMoreFallout(25);
                 spawnMush(level, pos, PolaroidItem.polaroidID == 11 || level.random.nextInt(100) == 0);
             }
         }

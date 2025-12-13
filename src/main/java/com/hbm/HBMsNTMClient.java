@@ -1,5 +1,6 @@
 package com.hbm;
 
+import com.hbm.blockentity.IGUIProvider;
 import com.hbm.blockentity.ModBlockEntities;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.BalefireBlock;
@@ -22,6 +23,7 @@ import com.hbm.render.blockentity.RenderGeigerBlock;
 import com.hbm.render.blockentity.RenderLandMine;
 import com.hbm.render.blockentity.RenderNukeFatMan;
 import com.hbm.render.entity.EmptyRenderer;
+import com.hbm.render.entity.effect.RenderDeathBlast;
 import com.hbm.render.entity.effect.RenderFallout;
 import com.hbm.render.entity.effect.RenderTorex;
 import com.hbm.render.entity.effect.SkeletonModel;
@@ -85,6 +87,7 @@ import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
 import java.awt.*;
 import java.lang.reflect.Field;
@@ -334,6 +337,18 @@ public class HBMsNTMClient {
         }
     }
 
+    @SubscribeEvent
+    public static void itemUse(PlayerInteractEvent.RightClickItem event) {
+        if (!event.getLevel().isClientSide) return;
+        Item item = event.getItemStack().getItem();
+
+        if (item instanceof IGUIProvider provider) {
+            Minecraft mc = Minecraft.getInstance();
+            mc.setScreen(provider.provideScreenOnRightClick(mc.player, mc.player.blockPosition()));
+        }
+    }
+
+
     private static HashMap<Integer, Long> vanished = new HashMap<>();
     public static void vanish(int ent) { vanished.put(ent, System.currentTimeMillis() + 2000); }
     public static void vanish(int ent, int duration) { vanished.put(ent, System.currentTimeMillis() + duration); }
@@ -368,6 +383,8 @@ public class HBMsNTMClient {
         event.registerEntityRenderer(ModEntities.NUKE_FALLOUT_RAIN.get(), RenderFallout::new);
         event.registerEntityRenderer(ModEntities.SHRAPNEL.get(), RenderShrapnel::new);
         event.registerEntityRenderer(ModEntities.RUBBLE.get(), RenderRubble::new);
+
+        event.registerEntityRenderer(ModEntities.DEATH_BLAST.get(), RenderDeathBlast::new);
 
         event.registerEntityRenderer(ModEntities.MISSILE_HE.get(), RenderMissileTEST::new);
 

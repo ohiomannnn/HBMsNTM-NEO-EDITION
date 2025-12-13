@@ -40,7 +40,8 @@ public abstract class Satellite {
     public Interfaces satIface = Interfaces.NONE;
 
     public static void register() {
-        registerSatellite(SatelliteRadar.class, ModItems.SAT_RADAR.get());
+        registerSatellite(SatelliteLaser.class, ModItems.SATELLITE_LASER.get());
+        registerSatellite(SatelliteRadar.class, ModItems.SATELLITE_RADAR.get());
     }
 
     /**

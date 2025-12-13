@@ -6,16 +6,14 @@ import com.hbm.items.machine.SatChipItem;
 import com.hbm.network.toclient.SatellitePanel;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellite.Satellite;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.Container;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -28,11 +26,6 @@ public class SatelliteInterfaceItem extends SatChipItem implements IGUIProvider 
 
     public SatelliteInterfaceItem(Properties properties) {
         super(properties);
-    }
-
-    @Override
-    public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
-        return InteractionResult.SUCCESS;
     }
 
     @Override
@@ -57,13 +50,8 @@ public class SatelliteInterfaceItem extends SatChipItem implements IGUIProvider 
     }
 
     @Override
-    public Container provideContainer(int ID, Player player, Level level, BlockPos pos) {
-        return null;
-    }
-
-    @Override
     @OnlyIn(Dist.CLIENT)
-    public Object provideGUI(int ID, Player player, Level level, BlockPos pos) {
+    public Screen provideScreenOnRightClick(Player player, BlockPos pos) {
         return new SatelliteInterfaceScreen(player);
     }
 }

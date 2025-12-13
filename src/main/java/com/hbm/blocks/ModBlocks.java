@@ -17,6 +17,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
@@ -92,6 +93,7 @@ public class ModBlocks {
                     .sound(SoundType.GRASS)));
     public static final DeferredBlock<Block> WASTE_LOG = registerBlock("waste_log",
             () -> new RotatedPillarBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BLACK)
                     .strength(5.0F)
                     .explosionResistance(2.5F)
                     .sound(SoundType.WOOD)));
@@ -99,9 +101,10 @@ public class ModBlocks {
             () -> new WasteLeavesBlock(BlockBehaviour.Properties.of()
                     .strength(0.2F)
                     .randomTicks()
+                    .mapColor(MapColor.COLOR_BROWN)
                     .sound(SoundType.GRASS)
                     .noOcclusion()
-                    .isValidSpawn(Blocks::ocelotOrParrot)
+                    .isValidSpawn(Blocks::never)
                     .isSuffocating(ModBlocks::never)
                     .isViewBlocking(ModBlocks::never)
                     .ignitedByLava()
@@ -111,9 +114,10 @@ public class ModBlocks {
             () -> new LayeringBlock(BlockBehaviour.Properties.of()
                     .strength(0.2F)
                     .randomTicks()
+                    .mapColor(MapColor.COLOR_BROWN)
                     .sound(SoundType.GRASS)
                     .noOcclusion()
-                    .isValidSpawn(Blocks::ocelotOrParrot)
+                    .isValidSpawn(Blocks::never)
                     .isSuffocating(ModBlocks::never)
                     .isViewBlocking(ModBlocks::never)
                     .ignitedByLava()
@@ -123,24 +127,33 @@ public class ModBlocks {
     public static final DeferredBlock<Block> FALLOUT = registerBlock("fallout",
             () -> new FalloutBlock(BlockBehaviour.Properties.of()
                     .strength(0.1F)
+                    .mapColor(MapColor.STONE)
                     .sound(SoundType.GRAVEL)));
     public static final DeferredBlock<Block> SELLAFIELD_SLAKED = registerBlock("sellafield_slaked",
             () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_GRAY)
+                    .isValidSpawn(Blocks::never)
                     .requiresCorrectToolForDrops()
                     .strength(3.0F, 10.0F)
                     .sound(SoundType.STONE)));
     public static final DeferredBlock<Block> ORE_SELLAFIELD_DIAMOND = registerBlock("ore_sellafield_diamond",
             () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_GRAY)
+                    .isValidSpawn(Blocks::never)
                     .requiresCorrectToolForDrops()
                     .strength(3.0F, 10.0F)
                     .sound(SoundType.STONE)));
     public static final DeferredBlock<Block> ORE_SELLAFIELD_EMERALD = registerBlock("ore_sellafield_emerald",
             () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_GRAY)
+                    .isValidSpawn(Blocks::never)
                     .requiresCorrectToolForDrops()
                     .strength(3.0F, 10.0F)
                     .sound(SoundType.STONE)));
     public static final DeferredBlock<Block> SELLAFIELD_BEDROCK = registerBlock("sellafield_bedrock",
             () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_GRAY)
+                    .isValidSpawn(Blocks::never)
                     .noLootTable()
                     .strength(-1.0F, 6000000.0F)
                     .sound(SoundType.STONE)));

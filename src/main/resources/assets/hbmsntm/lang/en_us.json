@@ -151,6 +151,7 @@
   "block.hbmsntm.gas_radon_tomb": "Tomb Gas",
 
   "block.hbmsntm.decontaminator": "Player Decontaminator",
+
   "block.hbmsntm.machine_satlinker": "Satellite ID Manager",
 
   "item.hbmsntm.nothing": "Nothing",
@@ -174,6 +175,14 @@
   "item.hbmsntm.detonator_de.desc": "Explodes when dropped!",
   "item.hbmsntm.detonator_deadman": "Dead Man's Detonator",
   "item.hbmsntm.detonator_deadman.desc": "Shift right-click to set position, drop to detonate!",
+
+  "item.hbmsntm.satellite_interface": "Satellite Control Interface",
+
+  "satchip.frequency": "Satellite frequency: %s",
+  "item.hbmsntm.satellite_laser": "Orbital Death Ray",
+  "item.hbmsntm.satellite_laser.desc": "Allows to summon lasers with a 15 second cooldown.",
+  "item.hbmsntm.satellite_radar": "Radar Survey Satellite",
+  "item.hbmsntm.satellite_radar.desc": "Shows a map of active entities.",
 
   "detonator.no_pos": "No position set!",
   "detonator.no_pos.multi": "No positions set!",
@@ -338,8 +347,6 @@
   "weapon.ability.stun": "Stunning",
   "weapon.ability.vampire": "Vampire",
 
-  "satchip.frequency": "Satellite frequency: %s",
-
   "tool.ability.centrifuge": "Auto-Centrifuge",
   "tool.ability.crystallizer": "Auto-Crystallizer",
   "tool.ability.explosion": "Explosion",
@@ -362,6 +369,7 @@
   "creative_tab.hbmsntm.ores_and_blocks": "NTM Ores and Blocks",
   "creative_tab.hbmsntm.consumables_and_gear": "NTM Consumables and Gear",
   "creative_tab.hbmsntm.bombs": "NTM Bombs",
+  "creative_tab.hbmsntm.missiles": "NTM Missiles and Satellites",
 
   "message.hbmsntm.loaded": "Loaded world with Hbm's Nuclear Tech Mod %s for Minecraft 1.21.1!",
   "message.hbmsntm.new_version": "New version %s is available! Click ",

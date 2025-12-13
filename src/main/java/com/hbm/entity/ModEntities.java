@@ -3,6 +3,7 @@ package com.hbm.entity;
 import com.hbm.HBMsNTM;
 import com.hbm.entity.effect.FalloutRain;
 import com.hbm.entity.item.EntityTNTPrimedBase;
+import com.hbm.entity.logic.DeathBlast;
 import com.hbm.entity.logic.NukeExplosionBalefire;
 import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.entity.effect.NukeTorex;
@@ -79,6 +80,11 @@ public class ModEntities {
             "rubble",
             () -> EntityType.Builder.of(Rubble::new, MobCategory.MISC)
                     .build("rubble"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<DeathBlast>> DEATH_BLAST = REGISTER.register(
+            "death_blast",
+            () -> EntityType.Builder.of(DeathBlast::new, MobCategory.MISC)
+                    .build("death_blast"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<Entity>> MISSILE_HE = REGISTER.register(
             "missile_he",

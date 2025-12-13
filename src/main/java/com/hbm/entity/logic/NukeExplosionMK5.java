@@ -15,7 +15,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -148,12 +147,12 @@ public class NukeExplosionMK5 extends ChunkloadingEntity {
         return explosionMK5;
     }
 
-    public NukeExplosionMK5 noRad() {
+    public NukeExplosionMK5 setNoRad() {
         fallout = false;
         return this;
     }
 
-    public NukeExplosionMK5 moreFallout(int toAdd) {
+    public NukeExplosionMK5 setMoreFallout(int toAdd) {
         falloutAdd = toAdd;
         return this;
     }

@@ -5,6 +5,7 @@ import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.lib.ModEffect;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -89,6 +90,7 @@ public class FalloutBlock extends Block {
         BlockState belowState = level.getBlockState(below);
 
         if (isPlant(belowState)) return false;
+        if (level.getFluidState(pos).is(FluidTags.WATER)) return false;
         if (belowState.is(ModBlocks.FALLOUT.get())) return false;
         if (belowState.isAir()) return false;
 

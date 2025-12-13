@@ -1,12 +1,12 @@
 package com.hbm.inventory.screens;
 
 import com.hbm.HBMsNTM;
+import com.hbm.items.ISatChip;
 import com.hbm.items.tools.SatelliteInterfaceItem;
+import com.hbm.network.toserver.SatelliteLaser;
 import com.hbm.saveddata.satellite.Satellite;
 import com.hbm.saveddata.satellite.Satellite.Interfaces;
 import com.mojang.blaze3d.platform.NativeImage;
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.texture.DynamicTexture;
@@ -21,6 +21,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.AABB;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.List;
 import java.util.UUID;
@@ -36,9 +37,9 @@ public class SatelliteInterfaceScreen extends Screen {
     private int x;
     private int z;
 
-    private final NativeImage mapImage;
-    private final DynamicTexture mapTexture;
-    private final ResourceLocation mapTextureLocation;
+    private NativeImage mapImage;
+    private DynamicTexture mapTexture;
+    private ResourceLocation mapTextureLocation;
 
     @Override
     protected void init() {
@@ -48,6 +49,10 @@ public class SatelliteInterfaceScreen extends Screen {
 
         x = (int) player.getX();
         z = (int) player.getZ();
+
+        this.mapImage = new NativeImage(200, 200, false);
+        this.mapTexture = new DynamicTexture(mapImage);
+        this.mapTextureLocation = this.minecraft.getTextureManager().register("sat_map_" + UUID.randomUUID(), mapTexture);
 
         this.scanPos = 0;
         this.mapImage.fillRect(0, 0, 200, 200, 0);
@@ -67,6 +72,20 @@ public class SatelliteInterfaceScreen extends Screen {
     }
 
     @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (SatelliteInterfaceItem.currentSat != null && SatelliteInterfaceItem.currentSat.ifaceAcs.contains(Satellite.InterfaceActions.CAN_CLICK)) {
+            if (mouseX >= this.guiLeft + 8 && mouseX < this.guiLeft + 208 && mouseY >= this.guiTop + 8 && mouseY < this.guiTop + 208 && player != null) {
+                int x = (int) (this.x - guiLeft + mouseX - 8 - 100);
+                int z = (int) (this.z - guiTop + mouseY - 8 - 100);
+
+                PacketDistributor.sendToServer(new SatelliteLaser(x, z, ISatChip.getFreqS(player.getMainHandItem())));
+            }
+        }
+
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    @Override
     public boolean isPauseScreen() {
         return false;
     }
@@ -74,10 +93,6 @@ public class SatelliteInterfaceScreen extends Screen {
     public SatelliteInterfaceScreen(Player player) {
         super(Component.empty());
         this.player = player;
-
-        this.mapImage = new NativeImage(200, 200, false);
-        this.mapTexture = new DynamicTexture(mapImage);
-        this.mapTextureLocation = Minecraft.getInstance().getTextureManager().register("sat_map_" + UUID.randomUUID(), mapTexture);
     }
 
     @Override
@@ -87,12 +102,12 @@ public class SatelliteInterfaceScreen extends Screen {
 
     public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         this.renderTransparentBackground(guiGraphics);
-        this.renderBg(guiGraphics, partialTicks, mouseX, mouseY);
+        this.renderBg(guiGraphics, mouseX, mouseY);
     }
 
-    protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
+    protected void renderBg(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         this.renderCoords(guiGraphics, mouseX, mouseY);
-        this.renderOther(guiGraphics, partialTicks, mouseX, mouseY);
+        this.renderOther(guiGraphics);
     }
 
     protected void renderCoords(GuiGraphics guiGraphics, int mouseX, int mouseY) {
@@ -101,12 +116,12 @@ public class SatelliteInterfaceScreen extends Screen {
                 int x = this.x - guiLeft + mouseX - 8 - 100;
                 int z = this.z - guiTop + mouseY - 8 - 100;
 
-                guiGraphics.renderComponentTooltip(Minecraft.getInstance().font, List.of(Component.literal(x + " / " + z)), mouseX, mouseY);
+                guiGraphics.renderComponentTooltip(this.minecraft.font, List.of(Component.literal(x + " / " + z)), mouseX, mouseY);
             }
         }
     }
 
-    protected void renderOther(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
+    protected void renderOther(GuiGraphics guiGraphics) {
         guiGraphics.blit(TEXTURE, guiLeft, guiTop, 0, 0, xSize, ySize);
 
         if (SatelliteInterfaceItem.currentSat == null) {
@@ -162,9 +177,11 @@ public class SatelliteInterfaceScreen extends Screen {
             mapImage.setPixelRGBA(i + 100, scanPos, FastColor.ARGB32.color(255, r, g, b));
         }
         mapTexture.upload();
+
         guiGraphics.blit(this.mapTextureLocation, guiLeft + 8, guiTop + 8, 0, 0, 200, 200, 200, 200);
         progresScan();
     }
+
     private void renderRadar(GuiGraphics guiGraphics) {
         List<Entity> entities = player.level().getEntities(player, new AABB(player.getX() - 100, 0, player.getZ() - 100, player.getX() + 100, 5000, player.getZ() + 100));
 

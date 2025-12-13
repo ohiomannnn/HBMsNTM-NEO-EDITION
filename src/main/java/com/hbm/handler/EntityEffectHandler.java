@@ -1,5 +1,7 @@
 package com.hbm.handler;
 
+import com.hbm.HBMsNTM;
+import com.hbm.HBMsNTMClient;
 import com.hbm.config.MainConfig;
 import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.extprop.HbmLivingAttachments.ContaminationEffect;
@@ -167,13 +169,9 @@ public class EntityEffectHandler {
                     tag.putString("mode", "blood");
                     tag.putInt("count", 25);
                     tag.putInt("entity", entity.getId());
-                    PacketDistributor.sendToPlayersNear(
-                            (ServerLevel) level,
-                            null,
-                            entity.getX(), entity.getY(), entity.getZ(),
-                            25,
-                            new AuxParticle(tag, entity.getX(), entity.getY(), entity.getZ())
-                    );
+                    if (level instanceof ServerLevel serverLevel) {
+                        PacketDistributor.sendToPlayersNear(serverLevel, null, entity.getX(), entity.getY(), entity.getZ(), 25, new AuxParticle(tag, 0, 0, 0));
+                    }
 
                     if ((level.getGameTime() + r600) % 600 == 1) {
                         level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), ModSounds.VOMIT, SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -188,7 +186,9 @@ public class EntityEffectHandler {
                 tag.putString("mode", "normal");
                 tag.putInt("count", 15);
                 tag.putInt("entity", entity.getId());
-                PacketDistributor.sendToPlayersNear((ServerLevel) level, null, entity.getX(), entity.getY(), entity.getZ(), 25, new AuxParticle(tag, entity.getX(), entity.getY(), entity.getZ()));
+                if (level instanceof ServerLevel serverLevel) {
+                    PacketDistributor.sendToPlayersNear(serverLevel, null, entity.getX(), entity.getY(), entity.getZ(), 25, new AuxParticle(tag, 0, 0, 0));
+                }
 
                 if ((level.getGameTime() + r1200) % 1200 == 1) {
                     level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), ModSounds.VOMIT, SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -202,15 +202,17 @@ public class EntityEffectHandler {
                 tag.putInt("count", 1);
                 tag.put("BlockState", NbtUtils.writeBlockState(Blocks.REDSTONE_BLOCK.defaultBlockState()));
                 tag.putInt("entity", entity.getId());
-                PacketDistributor.sendToPlayersNear((ServerLevel) level, null, entity.getX(), entity.getY(), entity.getZ(), 25, new AuxParticle(tag, entity.getX(), entity.getY(), entity.getZ()));
+                if (level instanceof ServerLevel serverLevel) {
+                    PacketDistributor.sendToPlayersNear(serverLevel, null, entity.getX(), entity.getY(), entity.getZ(), 25, new AuxParticle(tag, 0, 0, 0));
+                }
             }
-
+        } else {
             float radiation = HbmLivingAttachments.getRadiation(entity);
             if (entity instanceof Player && radiation > 600) {
                 CompoundTag tag = new CompoundTag();
                 tag.putString("type", "radiation");
                 tag.putInt("count", radiation > 900 ? 4 : radiation > 800 ? 2 : 1);
-                PacketDistributor.sendToPlayersNear((ServerLevel) level, null, entity.getX(), entity.getY(), entity.getZ(), 25, new AuxParticle(tag, entity.getX(), entity.getY(), entity.getZ()));
+                HBMsNTMClient.effectNT(tag);
             }
         }
     }

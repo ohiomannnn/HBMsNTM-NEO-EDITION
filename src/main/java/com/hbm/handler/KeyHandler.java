@@ -92,7 +92,7 @@ public class KeyHandler {
         if (mc.player == null || mc.screen != null) return;
 
         while (CALCULATOR.consumeClick()) {
-            mc.setScreen(new SatelliteInterfaceScreen(mc.player));
+            mc.setScreen(new CalculatorScreen());
         }
     }
 

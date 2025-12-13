@@ -169,12 +169,15 @@ public class ModItems {
             "polaroid",
             () -> new PolaroidItem(new Item.Properties().stacksTo(1)));
 
-    public static final DeferredItem<Item> SAT_RADAR = ITEMS.register(
-            "sat_radar",
+    public static final DeferredItem<Item> SATELLITE_RADAR = ITEMS.register(
+            "satellite_radar",
+            () -> new SatChipItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> SATELLITE_LASER = ITEMS.register(
+            "satellite_laser",
             () -> new SatChipItem(new Item.Properties().stacksTo(1)));
 
-    public static final DeferredItem<Item> TEST266 = ITEMS.register(
-            "test266",
+    public static final DeferredItem<Item> SATELLITE_INTERFACE = ITEMS.register(
+            "satellite_interface",
             () -> new SatelliteInterfaceItem(new Item.Properties().stacksTo(1)));
 
     public static void register(IEventBus eventBus) {

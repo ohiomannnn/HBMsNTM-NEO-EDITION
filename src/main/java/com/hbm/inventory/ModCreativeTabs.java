@@ -66,6 +66,7 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.GAS_EXPLOSIVE);
 
                         output.accept(ModBlocks.DECONTAMINATOR);
+                        output.accept(ModBlocks.MACHINE_SATLINKER);
                     }).build());
 
 
@@ -94,10 +95,21 @@ public class ModCreativeTabs {
                         output.accept(ModItems.DETONATOR_DE);
                     }).build());
 
+    public static final Supplier<CreativeModeTab> MISSILES = CREATIVE_MODE_TABS.register(
+            "missiles",
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.SATELLITE_LASER.get()))
+                    .withTabsBefore(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "bombs"))
+                    .title(Component.translatable("creative_tab.hbmsntm.missiles"))
+                    .displayItems((itemDisplayParameters, output) -> {
+                        output.accept(ModItems.SATELLITE_RADAR);
+                        output.accept(ModItems.SATELLITE_LASER);
+                        output.accept(ModItems.SATELLITE_INTERFACE);
+                    }).build());
+
     public static final Supplier<CreativeModeTab> CONSUMABLES_AND_GEAR = CREATIVE_MODE_TABS.register(
             "consumables_and_gear",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.BOTTLE_NUKA.get()))
-                    .withTabsBefore(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "bombs"))
+                    .withTabsBefore(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "missiles"))
                     .title(Component.translatable("creative_tab.hbmsntm.consumables_and_gear"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.GEIGER_COUNTER);
