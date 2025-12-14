@@ -38,7 +38,7 @@ public interface CustomRenderType {
             RenderSystem.blendFunc(770, 1);
             RenderSystem.depthMask(false);
             RenderSystem.setShader(GameRenderer::getPositionColorShader);
-            return tesselator.begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION_COLOR);
+            return tesselator.begin(VertexFormat.Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
         }
 
         @Override

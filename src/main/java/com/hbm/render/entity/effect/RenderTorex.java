@@ -21,6 +21,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
@@ -36,9 +37,10 @@ public class RenderTorex extends EntityRenderer<NukeTorex> {
     public RenderTorex(EntityRendererProvider.Context context) { super(context); }
 
     @Override
-    public void render(NukeTorex entity, float yaw, float partialTicks, PoseStack pose, MultiBufferSource buffer, int packedLight) {
-        cloudletWrapper(entity, partialTicks, buffer);
-        if (entity.tickCount < 101) flashWrapper(entity, partialTicks, buffer);
+    public void render(NukeTorex entity, float yaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+        poseStack.pushPose();
+        cloudletWrapper(entity, partialTicks, poseStack, buffer);
+        if (entity.tickCount < 101) flashWrapper(entity, partialTicks, poseStack, buffer);
         if (entity.tickCount < 10 && System.currentTimeMillis() - HBMsNTMClient.flashTimestamp > 1_000) HBMsNTMClient.flashTimestamp = System.currentTimeMillis();
         if (entity.didPlaySound && !entity.didShake && System.currentTimeMillis() - HBMsNTMClient.shakeTimestamp > 1_000) {
             HBMsNTMClient.shakeTimestamp = System.currentTimeMillis();
@@ -49,47 +51,43 @@ public class RenderTorex extends EntityRenderer<NukeTorex> {
                 player.hurtTime = 15;
             }
         }
+        poseStack.popPose();
     }
 
-    private void cloudletWrapper(NukeTorex cloud, float partialTicks, MultiBufferSource buffer) {
+    private void cloudletWrapper(NukeTorex cloud, float partialTicks, PoseStack poseStack, MultiBufferSource buffer) {
         VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.entitySmoth(CLOUDLET));
-
-        Vec3 camPosition = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
 
         ArrayList<Cloudlet> cloudlets = new ArrayList<>(cloud.cloudlets);
         cloudlets.sort(cloudSorter);
 
         for (Cloudlet cloudlet : cloudlets) {
             Vec3 vec = cloudlet.getInterpPos(partialTicks);
-            double x = vec.x - camPosition.x;
-            double y = vec.y - camPosition.y;
-            double z = vec.z - camPosition.z;
-            renderCloudlet(consumer, (float) x, (float) y, (float) z, cloudlet, partialTicks);
+            double x = vec.x - cloud.getX();
+            double y = vec.y - cloud.getY();
+            double z = vec.z - cloud.getZ();
+            Matrix4f matrix = poseStack.last().pose();
+            renderCloudlet(matrix, consumer, (float) x, (float) y, (float) z, cloudlet, partialTicks);
         }
     }
 
-    private void flashWrapper(NukeTorex cloud, float partialTicks, MultiBufferSource buffer) {
+    private void flashWrapper(NukeTorex cloud, float partialTicks, PoseStack poseStack, MultiBufferSource buffer) {
         VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.entityAdditive(FLASH));
-        Vec3 camPosition = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
-
-        double baseX = cloud.getX() - camPosition.x;
-        double baseY = cloud.getY() - camPosition.y;
-        double baseZ = cloud.getZ() - camPosition.z;
 
         double age = Math.min(cloud.tickCount + partialTicks, 100);
         float alpha = (float) ((100D - age) / 100F);
 
         Random rand = new Random(cloud.getId());
         for (int i = 0; i < 3; i++) {
-            double x = baseX + rand.nextGaussian() * 0.5F * cloud.rollerSize;
-            double y = baseY + rand.nextGaussian() * 0.5F * cloud.rollerSize;
-            double z = baseZ + rand.nextGaussian() * 0.5F * cloud.rollerSize;
-            renderFlash(consumer, (float) x, (float) (y + cloud.coreHeight), (float) z, (float) (25 * cloud.rollerSize), alpha);
+            float x = (float) (rand.nextGaussian() * 0.5F * cloud.rollerSize);
+            float y = (float) (rand.nextGaussian() * 0.5F * cloud.rollerSize);
+            float z = (float) (rand.nextGaussian() * 0.5F * cloud.rollerSize);
+            Matrix4f matrix = poseStack.last().pose();
+            renderFlash(matrix, consumer, x, (float) (y + cloud.coreHeight), z, (float) (25 * cloud.rollerSize), alpha);
         }
     }
 
 
-    private void renderCloudlet(VertexConsumer consumer, float posX, float posY, float posZ, Cloudlet cloud, float partialTicks) {
+    private void renderCloudlet(Matrix4f matrix, VertexConsumer consumer, float posX, float posY, float posZ, Cloudlet cloud, float partialTicks) {
 
         float alpha = cloud.getAlpha();
         float scale = cloud.getScale();
@@ -104,25 +102,25 @@ public class RenderTorex extends EntityRenderer<NukeTorex> {
         int color = TessColorUtil.getColorRGBA_F((float)interpColor.x * brightness, (float)interpColor.y * brightness, (float)interpColor.z * brightness, alpha);
         int overlay = OverlayTexture.NO_OVERLAY;
 
-        consumer.addVertex(posX - l.x - u.x, posY - l.y - u.y, posZ - l.z - u.z)
+        consumer.addVertex(matrix, posX - l.x - u.x, posY - l.y - u.y, posZ - l.z - u.z)
                 .setColor(color)
                 .setUv(1, 1)
                 .setOverlay(overlay)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
-        consumer.addVertex(posX - l.x + u.x, posY - l.y + u.y, posZ - l.z + u.z)
+        consumer.addVertex(matrix, posX - l.x + u.x, posY - l.y + u.y, posZ - l.z + u.z)
                 .setColor(color)
                 .setUv(1, 0)
                 .setOverlay(overlay)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
-        consumer.addVertex(posX + l.x + u.x, posY + l.y + u.y, posZ + l.z + u.z)
+        consumer.addVertex(matrix, posX + l.x + u.x, posY + l.y + u.y, posZ + l.z + u.z)
                 .setColor(color)
                 .setUv(0, 0)
                 .setOverlay(overlay)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
-        consumer.addVertex(posX + l.x - u.x, posY + l.y - u.y, posZ + l.z - u.z)
+        consumer.addVertex(matrix, posX + l.x - u.x, posY + l.y - u.y, posZ + l.z - u.z)
                 .setColor(color)
                 .setUv(0, 1)
                 .setOverlay(overlay)
@@ -130,7 +128,7 @@ public class RenderTorex extends EntityRenderer<NukeTorex> {
                 .setLight(240);
     }
 
-    private void renderFlash(VertexConsumer consumer, float posX, float posY, float posZ, float scale, float alpha) {
+    private void renderFlash(Matrix4f matrix, VertexConsumer consumer, float posX, float posY, float posZ, float scale, float alpha) {
 
         Camera camera = Minecraft.getInstance().gameRenderer.getMainCamera();
         Vector3f l = new Vector3f(camera.getLeftVector()).mul(scale);
@@ -139,25 +137,25 @@ public class RenderTorex extends EntityRenderer<NukeTorex> {
         int color = TessColorUtil.getColorRGBA_F(1.0F, 1.0F, 1.0F, alpha);
         int overlay = OverlayTexture.NO_OVERLAY;
 
-        consumer.addVertex(posX - l.x - u.x, posY - l.y - u.y, posZ - l.z - u.z)
+        consumer.addVertex(matrix, posX - l.x - u.x, posY - l.y - u.y, posZ - l.z - u.z)
                 .setColor(color)
                 .setUv(1, 1)
                 .setOverlay(overlay)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
-        consumer.addVertex(posX - l.x + u.x, posY - l.y + u.y, posZ - l.z + u.z)
+        consumer.addVertex(matrix, posX - l.x + u.x, posY - l.y + u.y, posZ - l.z + u.z)
                 .setColor(color)
                 .setUv(1, 0)
                 .setOverlay(overlay)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
-        consumer.addVertex(posX + l.x + u.x, posY + l.y + u.y, posZ + l.z + u.z)
+        consumer.addVertex(matrix, posX + l.x + u.x, posY + l.y + u.y, posZ + l.z + u.z)
                 .setColor(color)
                 .setUv(0, 0)
                 .setOverlay(overlay)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
-        consumer.addVertex(posX + l.x - u.x, posY + l.y - u.y, posZ + l.z - u.z)
+        consumer.addVertex(matrix, posX + l.x - u.x, posY + l.y - u.y, posZ + l.z - u.z)
                 .setColor(color)
                 .setUv(0, 1)
                 .setOverlay(overlay)

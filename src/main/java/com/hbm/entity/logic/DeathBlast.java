@@ -39,9 +39,4 @@ public class DeathBlast extends Entity {
             }
         }
     }
-
-    @Override
-    public boolean shouldRenderAtSqrDistance(double distance) {
-        return true;
-    }
 }

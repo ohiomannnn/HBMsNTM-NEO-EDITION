@@ -7,6 +7,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
@@ -34,7 +35,7 @@ public class RenderDeathBlast extends EntityRenderer<DeathBlast> {
         Vec3NT vector = new Vec3NT(0.5, 0, 0);
 
         for (int i = 0; i < 8; i++) {
-            BufferBuilder buffer = tess.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+            BufferBuilder buffer = tess.begin(VertexFormat.Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
             buffer.addVertex(matrix, (float) vector.xCoord, 250F, (float) vector.zCoord).setColor(1.0F, 0, 0, 1.0F);
             buffer.addVertex(matrix, (float) vector.xCoord, 0F, (float) vector.zCoord).setColor(1.0F, 0, 0, 1.0F);
             vector.rotateAroundYRad(45);
@@ -44,7 +45,7 @@ public class RenderDeathBlast extends EntityRenderer<DeathBlast> {
         }
 
         for (int i = 0; i < 8; i++) {
-            BufferBuilder buffer = tess.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+            BufferBuilder buffer = tess.begin(VertexFormat.Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
             buffer.addVertex(matrix, (float) vector.xCoord / 2, 250F, (float) vector.zCoord / 2).setColor(1.0F, 0, 1.0F, 1.0F);
             buffer.addVertex(matrix, (float) vector.xCoord / 2, 0F, (float) vector.zCoord / 2).setColor(1.0F, 0, 1.0F, 1.0F);
             vector.rotateAroundYRad(45);
@@ -152,5 +153,10 @@ public class RenderDeathBlast extends EntityRenderer<DeathBlast> {
     @Override
     public ResourceLocation getTextureLocation(DeathBlast deathBlast) {
         return null;
+    }
+
+    @Override
+    public boolean shouldRender(DeathBlast livingEntity, Frustum camera, double camX, double camY, double camZ) {
+        return true;
     }
 }

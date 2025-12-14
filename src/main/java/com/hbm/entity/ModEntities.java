@@ -84,6 +84,7 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<DeathBlast>> DEATH_BLAST = REGISTER.register(
             "death_blast",
             () -> EntityType.Builder.of(DeathBlast::new, MobCategory.MISC)
+                    .setTrackingRange(1000)
                     .build("death_blast"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<Entity>> MISSILE_HE = REGISTER.register(

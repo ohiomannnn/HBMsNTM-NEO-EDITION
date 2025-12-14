@@ -9,6 +9,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.checkerframework.checker.units.qual.C;
 
 import java.util.*;
 
@@ -27,7 +28,7 @@ public class ArmorRegistry {
             if (Screen.hasShiftDown()) {
                 components.add(Component.translatable("hazard.protect").withStyle(ChatFormatting.GOLD));
                 for (HazardClass clazz : hazInfo) {
-                    components.add(Component.translatable(clazz.unlocalizedMessage).withStyle(ChatFormatting.YELLOW));
+                    components.add(Component.literal("  ").append(Component.translatable(clazz.unlocalizedMessage)).withStyle(ChatFormatting.YELLOW));
                 }
             } else {
                 components.add(Component.literal("Hold <").withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC)

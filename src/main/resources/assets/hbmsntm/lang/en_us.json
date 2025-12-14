@@ -10,6 +10,7 @@
 
   "hbmsntm.configuration.enableMOTD": "Enable MOTD",
   "hbmsntm.configuration.enableExtendedLogging": "Enable Extended Logging",
+  "hbmsntm.configuration.enableSilentCompStackErrors": "Enable Silent CompStack Erros",
 
   "hbmsntm.configuration.boyRadius": "Little Boy Radius",
   "hbmsntm.configuration.fatmanRadius": "Fatman Launcher Radius",
@@ -73,12 +74,14 @@
 
   "hbmsntm.configuration.enable528": "Toggle 528",
 
+  "hbmsntm.configuration.skyCustom": "Custom NTM Sky",
   "hbmsntm.configuration.infoOffsetVertical": "Info Offset Vertical",
   "hbmsntm.configuration.infoOffsetHorizontal": "Info Offset Horizontal",
   "hbmsntm.configuration.infoPosition": "Info Position",
   "hbmsntm.configuration.nukeHudFlash": "Nuke Flash",
   "hbmsntm.configuration.nukeHudShake": "Nuke Shake",
   "hbmsntm.configuration.mainMenuWackySplashes": "Main Menu Wacky Splashes",
+  "hbmsntm.configuration.tips": "Tips",
   "hbmsntm.configuration.toolHudIndicatorX": "Tool x offset",
   "hbmsntm.configuration.toolHudIndicatorY": "Tool y offset",
 

@@ -11,6 +11,7 @@ import com.hbm.blocks.special.ConcreteBrickMBlock;
 import com.hbm.items.ModItems;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.ColorRGBA;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
@@ -71,25 +72,16 @@ public class ModBlocks {
                     .requiresCorrectToolForDrops()
                     .sound(SoundType.STONE)));
     public static final DeferredBlock<Block> GRAVEL_OBSIDIAN = registerBlock("gravel_obsidian",
-            () -> new FallingBlock(BlockBehaviour.Properties.of()
+            () -> new ColoredFallingBlock(new ColorRGBA(-8356741), BlockBehaviour.Properties.of()
                     .strength(15.0F)
                     .explosionResistance(120.0F)
                     .requiresCorrectToolForDrops()
-                    .sound(SoundType.STONE)) {
-                @Override
-                protected MapCodec<? extends FallingBlock> codec() {
-                    return simpleCodec(props -> new FallingBlock(props) {
-                        @Override
-                        protected MapCodec<? extends FallingBlock> codec() {
-                            return this.codec();
-                        }
-                    });
-                }
-            });
+                    .sound(SoundType.STONE)));
 
     public static final DeferredBlock<Block> WASTE_EARTH = registerBlock("waste_earth",
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(0.6F)
+                    .mapColor(MapColor.TERRACOTTA_BROWN)
                     .sound(SoundType.GRASS)));
     public static final DeferredBlock<Block> WASTE_LOG = registerBlock("waste_log",
             () -> new RotatedPillarBlock(BlockBehaviour.Properties.of()
@@ -159,40 +151,34 @@ public class ModBlocks {
                     .sound(SoundType.STONE)));
     public static final DeferredBlock<Block> WASTE_PLANKS = registerBlock("waste_planks",
             () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BLACK)
                     .strength(0.5F)
                     .explosionResistance(2.5F)
                     .sound(SoundType.WOOD)));
     public static final DeferredBlock<Block> WASTE_TRINITITE = registerBlock("waste_trinitite",
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(0.5F)
+                    .mapColor(MapColor.SAND)
                     .explosionResistance(2.5F)
                     .sound(SoundType.SAND)));
     public static final DeferredBlock<Block> WASTE_TRINITITE_RED = registerBlock("waste_trinitite_red",
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(0.5F)
+                    .mapColor(MapColor.COLOR_RED)
                     .explosionResistance(2.5F)
                     .sound(SoundType.SAND)));
     public static final DeferredBlock<Block> WASTE_MYCELIUM = registerBlock("waste_mycelium",
             () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_LIGHT_GREEN)
                     .lightLevel(value -> 1)
                     .strength(0.6F)
                     .sound(SoundType.GRASS)));
     public static final DeferredBlock<Block> BLOCK_SCRAP = registerBlock("block_scrap",
-            () -> new FallingBlock(BlockBehaviour.Properties.of()
+            () -> new ColoredFallingBlock(new ColorRGBA(-8356741), BlockBehaviour.Properties.of()
                     .strength(2.5F)
                     .explosionResistance(5.0F)
                     .requiresCorrectToolForDrops()
-                    .sound(SoundType.GRAVEL)) {
-                    @Override
-                    protected MapCodec<? extends FallingBlock> codec() {
-                        return simpleCodec(props -> new FallingBlock(props) {
-                            @Override
-                            protected MapCodec<? extends FallingBlock> codec() {
-                                return this.codec();
-                            }
-                        });
-                    }
-            });
+                    .sound(SoundType.GRAVEL)));
     public static final DeferredBlock<Block> ORE_OIL = registerBlock("ore_oil",
             () -> new Block(BlockBehaviour.Properties.of()
                     .strength(5.0F)

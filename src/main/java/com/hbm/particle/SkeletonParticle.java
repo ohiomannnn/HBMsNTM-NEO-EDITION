@@ -59,7 +59,7 @@ public class SkeletonParticle extends TextureSheetParticle {
         this.setSpriteFromAge(ModParticles.BASE_PARTICLE_SPRITES);
         this.type = type;
 
-        this.lifetime = 1200 + random.nextInt(20);
+        this.lifetime = 300 + random.nextInt(20);
 
         this.rCol = r;
         this.gCol = g;
@@ -177,7 +177,7 @@ public class SkeletonParticle extends TextureSheetParticle {
         ResourceLocation textureToUse = getTexture(type);
 
         MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
-        VertexConsumer consumer = buffer.getBuffer(RenderType.entitySmoothCutout(textureToUse));
+        VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(textureToUse));
 
         float timeLeft = this.lifetime - (this.age + partialTicks);
         if (timeLeft < 40) {

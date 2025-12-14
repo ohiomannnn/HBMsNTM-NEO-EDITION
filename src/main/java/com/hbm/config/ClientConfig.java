@@ -15,6 +15,7 @@ public class ClientConfig {
     public final ModConfigSpec.IntValue INFO_OFFSET_VERTICAL;
 
     public final ModConfigSpec.BooleanValue MAIN_MENU_WACKY_SPLASHES;
+    public final ModConfigSpec.BooleanValue TIPS;
 
     public final ModConfigSpec.IntValue TOOL_HUD_INDICATOR_X;
     public final ModConfigSpec.IntValue TOOL_HUD_INDICATOR_Y;
@@ -53,6 +54,11 @@ public class ClientConfig {
                 .comment("Toggles wacky splashes in the main menu.")
                 .translation("hbmsntm.configuration.mainMenuWackySplashes")
                 .define("mainMenuWackySplashes", true);
+
+        TIPS = builder
+                .comment("Toggles tips in the world loading screen")
+                .translation("hbmsntm.configuration.tips")
+                .define("tips", true);
 
         TOOL_HUD_INDICATOR_X = builder
                 .comment("Tool hud indicator x offset.")

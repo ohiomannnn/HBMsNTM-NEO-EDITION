@@ -69,6 +69,8 @@ public class ParticleMukeWave extends TextureSheetParticle {
                 .setColor(1.0F, 1.0F, 1.0F, alpha)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
+
+        bufferSource.endBatch();
     }
 
     @Override

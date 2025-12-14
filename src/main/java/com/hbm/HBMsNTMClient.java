@@ -108,6 +108,7 @@ public class HBMsNTMClient {
 
     @SubscribeEvent
     public static void onScreenRender(ScreenEvent.Render.Post event) {
+        if (!MainConfig.CLIENT.TIPS.get()) return;
         Screen screen = event.getScreen();
         if (screen instanceof LevelLoadingScreen || screen instanceof ReceivingLevelScreen) {
             LOADING_RENDERER.render(event.getGuiGraphics());
@@ -116,6 +117,7 @@ public class HBMsNTMClient {
 
     @SubscribeEvent
     public static void onJoin(ClientPlayerNetworkEvent.LoggingOut event) {
+        if (!MainConfig.CLIENT.TIPS.get()) return;
         LOADING_RENDERER.resetMessage();
     }
 
@@ -427,7 +429,7 @@ public class HBMsNTMClient {
         event.registerSpecial(ModParticles.EX_SMOKE.get(), new ParticleExSmoke.Provider());
         event.registerSpecial(ModParticles.FOAM.get(), new ParticleFoam.Provider());
         event.registerSpecial(ModParticles.ASHES.get(), new AshesParticle.Provider());
-        event.registerSpecial(ModParticles.AMAT_FLASH.get(), new ParticleAmatFlash.Provider());
+        event.registerSpecial(ModParticles.AMAT_FLASH.get(), new AmatFlashParticle.Provider());
         event.registerSpecial(ModParticles.EXPLOSION_SMALL.get(), new ExplosionSmallParticle.Provider());
         event.registerSpriteSet(ModParticles.MUKE_WAVE.get(), ParticleMukeWave.Provider::new);
         event.registerSpriteSet(ModParticles.MUKE_FLASH.get(), ParticleMukeFlash.Provider::new);
@@ -683,7 +685,7 @@ public class HBMsNTMClient {
             }
 
             if ("amat".equals(type)) {
-                innerMc.particleEngine.add(new ParticleAmatFlash(level, x, y, z, data.getFloat("scale")));
+                innerMc.particleEngine.add(new AmatFlashParticle(level, x, y, z, data.getFloat("scale")));
             }
 
             if ("radiation".equals(type)) {
