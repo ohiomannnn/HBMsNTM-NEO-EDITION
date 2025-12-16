@@ -1,24 +1,23 @@
 package com.hbm.particle;
 
 import com.hbm.HBMsNTM;
-import com.hbm.render.CustomRenderTypes;
-import com.hbm.util.old.TessColorUtil;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
-
-import java.util.Random;
 
 public class HazeParticle extends TextureSheetParticle {
 
@@ -26,12 +25,9 @@ public class HazeParticle extends TextureSheetParticle {
 
     public HazeParticle(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
-        this.setSpriteFromAge(ModParticles.HAZE_SPRITES);
-
         this.lifetime = 600 + random.nextInt(100);
 
         this.quadSize = 10F;
-        this.alpha = 0;
     }
 
     @Override
@@ -55,81 +51,71 @@ public class HazeParticle extends TextureSheetParticle {
             this.zd *= 0.7D;
         }
 
-        int x = (int)Math.floor(this.x) + random.nextInt(15) - 7;
-        int z = (int)Math.floor(this.y) + random.nextInt(15) - 7;
-        int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
-        level.addParticle(ParticleTypes.LAVA, x + random.nextDouble(), y + 0.1, z + random.nextDouble(), 0.0, 0.0, 0.0);
+        int x = (int) (this.x + random.nextInt(15) - 7);
+        int z = (int) (this.y + random.nextInt(15) - 7);
+        int y = level.getHeight(Heightmap.Types.WORLD_SURFACE, x, z);
+        Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.LAVA, x + random.nextDouble(), y + 0.1, z + random.nextDouble(), 0.0, 0.0, 0.0);
     }
 
     @Override
     public void render(VertexConsumer ignored, Camera camera, float partialTicks) {
+        PoseStack poseStack = new PoseStack();
         Vec3 cameraPosition = camera.getPosition();
 
-        float alpha = 0;
+        this.alpha = (float) Math.sin(age * Math.PI / (400F)) * 0.25F;
 
-        alpha = (float) Math.sin(age * Math.PI / (400F)) * 0.25F;
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.enableBlend();
+        RenderSystem.blendFuncSeparate(
+                GlStateManager.SourceFactor.SRC_ALPHA,
+                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
+                GlStateManager.SourceFactor.ONE,
+                GlStateManager.DestFactor.ZERO
+        );
+        RenderSystem.disableDepthTest();
+        RenderSystem.depthMask(false);
+        RenderSystem.setShaderTexture(0, HAZE);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha * 0.1F);
 
-        int color = TessColorUtil.getColorRGBA_F(1.0F, 1.0F, 1.0F, alpha * 0.1F);
-        MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
-        VertexConsumer consumer = bufferSource.getBuffer(CustomRenderTypes.entitySmoth(HAZE));
+        RandomSource random = RandomSource.create(50);
 
-        Random rand = new Random(50);
-
-        Vector3f up = new Vector3f(camera.getUpVector());
-        Vector3f left = new Vector3f(camera.getLeftVector());
-
+        poseStack.pushPose();
         for (int i = 0; i < 25; i++) {
+            double dX = random.nextGaussian() * 2.5D;
+            double dY = random.nextGaussian() * 0.15D;
+            double dZ = random.nextGaussian() * 2.5D;
+            float size = (random.nextFloat() * 0.25F + 0.75F) * quadSize;
 
-            double dX = rand.nextGaussian() * 2.5D;
-            double dY = rand.nextGaussian() * 0.15D;
-            double dZ = rand.nextGaussian() * 2.5D;
-            float size = (rand.nextFloat() * 0.25F + 0.75F) * quadSize;
+            poseStack.translate(dX, dY, dZ);
 
-            float pX = (float) ((float) (Mth.lerp(partialTicks, this.xo, this.x) - cameraPosition.x) + dX + rand.nextGaussian() * 0.5);
-            float pY = (float) ((float) (Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y) + dY + rand.nextGaussian() * 0.5);
-            float pZ = (float) ((float) (Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z) + dZ + rand.nextGaussian() * 0.5);
+            float pX = (float) ((float) (Mth.lerp(partialTicks, this.xo, this.x) - cameraPosition.x) + random.nextGaussian() * 0.5);
+            float pY = (float) ((float) (Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y) + random.nextGaussian() * 0.5);
+            float pZ = (float) ((float) (Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z) + random.nextGaussian() * 0.5);
 
-            renderQuad(consumer, pX, pY, pZ, up, left, size, color);
+            Vector3f l = new Vector3f(camera.getLeftVector()).mul(size);
+            Vector3f u = new Vector3f(camera.getUpVector()).mul(size);
+
+            Matrix4f matrix = poseStack.last().pose();
+
+            Tesselator tess = Tesselator.getInstance();
+            BufferBuilder buf = tess.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+            buf.addVertex(matrix, pX - l.x - u.x, pY - l.y - u.y, pZ - l.z - u.z).setUv(1, 1);
+            buf.addVertex(matrix, pX - l.x + u.x, pY - l.y + u.y, pZ - l.z + u.z).setUv(1, 0);
+            buf.addVertex(matrix, pX + l.x + u.x, pY + l.y + u.y, pZ + l.z + u.z).setUv(0, 0);
+            buf.addVertex(matrix, pX + l.x - u.x, pY + l.y - u.y, pZ + l.z - u.z).setUv(0, 1);
+            BufferUploader.drawWithShader(buf.buildOrThrow());
         }
-    }
+        poseStack.popPose();
 
-    private void renderQuad(VertexConsumer consumer, float pX, float pY, float pZ, Vector3f up, Vector3f left, float scale, int color) {
-
-        float u0 = 0, v0 = 0;
-        float u1 = 1, v1 = 1;
-
-        Vector3f l = new Vector3f(left).mul(scale);
-        Vector3f u = new Vector3f(up).mul(scale);
-
-        consumer.addVertex(pX - l.x - u.x, pY - l.y - u.y, pZ - l.z - u.z)
-                .setColor(color)
-                .setUv(u1, v1)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setNormal(0.0F, 1.0F, 0.0F)
-                .setLight(240);
-        consumer.addVertex(pX - l.x + u.x, pY - l.y + u.y, pZ - l.z + u.z)
-                .setColor(color)
-                .setUv(u1, v0)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setNormal(0.0F, 1.0F, 0.0F)
-                .setLight(240);
-        consumer.addVertex(pX + l.x + u.x, pY + l.y + u.y, pZ + l.z + u.z)
-                .setColor(color)
-                .setUv(u0, v0)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setNormal(0.0F, 1.0F, 0.0F)
-                .setLight(240);
-        consumer.addVertex(pX + l.x - u.x, pY + l.y - u.y, pZ + l.z - u.z)
-                .setColor(color)
-                .setUv(u0, v1)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setNormal(0.0F, 1.0F, 0.0F)
-                .setLight(240);
+        RenderSystem.polygonOffset(0.0F, 0.0F);
+        RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+        RenderSystem.enableDepthTest();
+        RenderSystem.disableBlend();
     }
 
     @Override
     public ParticleRenderType getRenderType() {
-        return CustomRenderType.FOG;
+        return CustomRenderType.NONE;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {

@@ -436,7 +436,7 @@ public class HBMsNTMClient {
         event.registerSpriteSet(ModParticles.GAS_FLAME.get(), ParticleGasFlame.Provider::new);
         event.registerSpriteSet(ModParticles.DEAD_LEAF.get(), DeadLeafParticle.Provider::new);
         event.registerSpriteSet(ModParticles.AURA.get(), ParticleAura.Provider::new);
-        event.registerSpriteSet(ModParticles.RAD_FOG.get(), ParticleRadiationFog.Provider::new);
+        event.registerSpriteSet(ModParticles.RAD_FOG.get(), RadiationFogParticle.Provider::new);
         event.registerSpecial(ModParticles.ROCKET_FLAME.get(), new ParticleRocketFlame.Provider());
         event.registerSpecial(ModParticles.SKELETON.get(), new SkeletonParticle.Provider());
         event.registerSpriteSet(ModParticles.HADRON.get(), ParticleHadron.Provider::new);
@@ -468,7 +468,7 @@ public class HBMsNTMClient {
             }
 
             if ("radFog".equals(type)) {
-                ParticleRadiationFog fx = new ParticleRadiationFog(level, x, y, z);
+                RadiationFogParticle fx = new RadiationFogParticle(level, x, y, z);
                 innerMc.particleEngine.add(fx);
             }
 

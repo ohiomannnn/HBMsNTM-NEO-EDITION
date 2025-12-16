@@ -2,13 +2,9 @@ package com.hbm.particle;
 
 import com.hbm.HBMsNTM;
 import com.hbm.particle.helper.SkeletonCreator.EnumSkeletonType;
-import com.hbm.render.CustomRenderTypes;
 import com.hbm.render.entity.effect.SkeletonModel;
 import com.hbm.util.old.TessColorUtil;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.ByteBufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.Camera;
@@ -19,7 +15,6 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.CowRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceLocation;
@@ -27,7 +22,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
@@ -56,10 +50,9 @@ public class SkeletonParticle extends TextureSheetParticle {
 
     public SkeletonParticle(ClientLevel level, double x, double y, double z, float r, float g, float b, EnumSkeletonType type) {
         super(level, x, y, z);
-        this.setSpriteFromAge(ModParticles.BASE_PARTICLE_SPRITES);
         this.type = type;
 
-        this.lifetime = 300 + random.nextInt(20);
+        this.lifetime = 1200 + random.nextInt(20);
 
         this.rCol = r;
         this.gCol = g;
@@ -170,14 +163,11 @@ public class SkeletonParticle extends TextureSheetParticle {
         poseStack.pushPose();
         poseStack.translate(pX, pY, pZ);
 
-        poseStack.mulPose(Axis.YP.rotationDegrees((float) -Mth.lerp(partialTicks, this.prevRotationYaw, this.rotationYaw)));
-        poseStack.mulPose(Axis.XP.rotationDegrees((float) -Mth.lerp(partialTicks, this.prevRotationPitch, this.rotationPitch)));
-        poseStack.mulPose(Axis.ZP.rotationDegrees(180));
-
-        ResourceLocation textureToUse = getTexture(type);
+        poseStack.mulPose(Axis.YP.rotationDegrees((float) Mth.lerp(partialTicks, this.prevRotationYaw, this.rotationYaw)));
+        poseStack.mulPose(Axis.XP.rotationDegrees((float) Mth.lerp(partialTicks, this.prevRotationPitch, this.rotationPitch)));
 
         MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
-        VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(textureToUse));
+        VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(this.getTexture(type)));
 
         float timeLeft = this.lifetime - (this.age + partialTicks);
         if (timeLeft < 40) {
@@ -187,6 +177,7 @@ public class SkeletonParticle extends TextureSheetParticle {
         }
 
         int color = TessColorUtil.getColorRGBA_F(rCol, gCol, bCol, alpha);
+        poseStack.mulPose(Axis.XP.rotationDegrees(180));
 
         model.render(poseStack, consumer, this.getLightColor(partialTicks), OverlayTexture.NO_OVERLAY, color, this.type);
 

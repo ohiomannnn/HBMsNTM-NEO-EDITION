@@ -1,6 +1,5 @@
 package com.hbm.particle;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Camera;
@@ -57,30 +56,29 @@ public class DigammaSmokeParticle extends TextureSheetParticle {
         float pY = (float) (Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y);
         float pZ = (float) (Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z);
 
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
-
         this.alpha = Math.clamp(1 - ((this.age + partialTicks) / (float)this.lifetime), 0.0F, 1.0F);
 
         Vector3f l = new Vector3f(camera.getLeftVector()).mul(this.quadSize);
         Vector3f u = new Vector3f(camera.getUpVector()).mul(this.quadSize);
 
-        float u0 = sprite.getU0();
-        float u1 = sprite.getU1();
-        float v0 = sprite.getV0();
-        float v1 = sprite.getV1();
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, ModParticles.BASE);
+        RenderSystem.setShaderColor(this.rCol, this.gCol, this.bCol, alpha);
 
         Tesselator tess = Tesselator.getInstance();
-        BufferBuilder buf = tess.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
-        buf.addVertex(pX - l.x - u.x, pY - l.y - u.y, pZ - l.z - u.z).setUv(u1, v1).setColor(this.rCol, this.gCol, this.bCol, alpha);
-        buf.addVertex(pX - l.x + u.x, pY - l.y + u.y, pZ - l.z + u.z).setUv(u1, v0).setColor(this.rCol, this.gCol, this.bCol, alpha);
-        buf.addVertex(pX + l.x + u.x, pY + l.y + u.y, pZ + l.z + u.z).setUv(u0, v0).setColor(this.rCol, this.gCol, this.bCol, alpha);
-        buf.addVertex(pX + l.x - u.x, pY + l.y - u.y, pZ + l.z - u.z).setUv(u0, v1).setColor(this.rCol, this.gCol, this.bCol, alpha);
+        BufferBuilder buf = tess.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        buf.addVertex(pX - l.x - u.x, pY - l.y - u.y, pZ - l.z - u.z).setUv(1, 1);
+        buf.addVertex(pX - l.x + u.x, pY - l.y + u.y, pZ - l.z + u.z).setUv(1, 0);
+        buf.addVertex(pX + l.x + u.x, pY + l.y + u.y, pZ + l.z + u.z).setUv(0, 0);
+        buf.addVertex( pX + l.x - u.x, pY + l.y - u.y, pZ + l.z - u.z).setUv(0, 1);
         BufferUploader.drawWithShader(buf.buildOrThrow());
+
+        RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
     }
 
     @Override
     public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+        return CustomRenderType.NONE;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {

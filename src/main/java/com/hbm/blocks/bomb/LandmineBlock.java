@@ -1,6 +1,5 @@
 package com.hbm.blocks.bomb;
 
-import com.hbm.CommonEvents;
 import com.hbm.blockentity.ModBlockEntities;
 import com.hbm.blockentity.bomb.LandMineBlockEntity;
 import com.hbm.blocks.ModBlocks;
