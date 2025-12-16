@@ -1,5 +1,6 @@
 package com.hbm.particle;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -42,6 +43,8 @@ public class RBMKMushParticle extends TextureSheetParticle {
         Vector3f left = new Vector3f(camera.getLeftVector());
 
         renderQuad(consumer, pX, pY, pZ, up, left, this.quadSize);
+
+        RenderSystem.enableCull();
     }
 
     private void renderQuad(VertexConsumer consumer, float pX, float pY, float pZ, Vector3f up, Vector3f left, float scale) {

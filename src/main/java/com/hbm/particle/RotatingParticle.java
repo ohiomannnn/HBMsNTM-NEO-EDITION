@@ -9,7 +9,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
-public class RotatingParticle extends TextureSheetParticle {
+public abstract class RotatingParticle extends TextureSheetParticle {
 
     public RotatingParticle(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
@@ -88,10 +88,5 @@ public class RotatingParticle extends TextureSheetParticle {
                 .setUv(u0, v1)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(brightness);
-    }
-
-    @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 }

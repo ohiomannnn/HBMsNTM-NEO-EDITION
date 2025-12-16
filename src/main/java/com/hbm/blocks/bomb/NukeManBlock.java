@@ -1,6 +1,7 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.blockentity.bomb.NukeFatManBlockEntity;
+import com.hbm.blockentity.machine.MachineSatLinkerBlockEntity;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.effect.NukeTorex;
 import com.hbm.entity.logic.NukeExplosionMK5;
@@ -10,6 +11,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
@@ -17,6 +23,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.phys.BlockHitResult;
 
 public class NukeManBlock extends BaseEntityBlock implements IBomb {
 
@@ -43,6 +50,18 @@ public class NukeManBlock extends BaseEntityBlock implements IBomb {
         builder.add(FACING);
     }
 
+
+    @Override
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        if (level.getBlockEntity(pos) instanceof NukeFatManBlockEntity entity) {
+            if (!level.isClientSide) {
+                player.openMenu(new SimpleMenuProvider(entity, entity.getDisplayName()), pos);
+            }
+        }
+
+        return ItemInteractionResult.SUCCESS;
+    }
+
     public static final MapCodec<NukeManBlock> CODEC = simpleCodec(NukeManBlock::new);
 
     @Override
@@ -58,19 +77,18 @@ public class NukeManBlock extends BaseEntityBlock implements IBomb {
     @Override
     public BombReturnCode explode(Level level, BlockPos pos) {
         if (!level.isClientSide) {
-            igniteBomb(level, pos, MainConfig.COMMON.MAN_RADIUS.get());
+            NukeFatManBlockEntity blockEntity = (NukeFatManBlockEntity) level.getBlockEntity(pos);
+            if (blockEntity == null) return BombReturnCode.UNDEFINED;
+            level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+            if (blockEntity.isReady()) {
+                NukeExplosionMK5.statFac(level, MainConfig.COMMON.MAN_RADIUS.get(), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+                NukeTorex.statFacStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, MainConfig.COMMON.MAN_RADIUS.get());
+                return BombReturnCode.DETONATED;
+            }
+
+            return BombReturnCode.ERROR_MISSING_COMPONENT;
         }
-
-        return BombReturnCode.DETONATED;
-    }
-
-    public void igniteBomb(Level level, BlockPos pos, int strength) {
-        if (!level.isClientSide) {
-            level.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 1.0f, level.random.nextFloat() * 0.1F + 0.9F);
-
-            NukeExplosionMK5.statFac(level, strength, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-            NukeTorex.statFacStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, strength);
-        }
+        return BombReturnCode.UNDEFINED;
     }
 
     static {

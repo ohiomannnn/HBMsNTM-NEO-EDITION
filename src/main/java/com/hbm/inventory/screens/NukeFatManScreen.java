@@ -1,0 +1,61 @@
+package com.hbm.inventory.screens;
+
+import com.hbm.HBMsNTM;
+import com.hbm.inventory.menus.MachineSatLinkerMenu;
+import com.hbm.inventory.menus.NukeFatManMenu;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Inventory;
+
+import java.util.List;
+
+public class NukeFatManScreen extends InfoScreen<NukeFatManMenu> {
+
+    private static final ResourceLocation TEXTURE = HBMsNTM.withDefaultNamespaceNT("textures/gui/weapon/fat_man_schematic.png");
+
+    public NukeFatManScreen(NukeFatManMenu menu, Inventory playerInventory, Component title) {
+        super(menu, playerInventory, title);
+
+        this.imageWidth = 176;
+        this.imageHeight = 166;
+    }
+
+    @Override
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+        super.render(guiGraphics, mouseX, mouseY, partialTicks);
+
+        List<Component> text = List.of(
+                Component.translatable("desc.gui.nukeMan.desc")
+        );
+        this.drawCustomInfoStat(guiGraphics, mouseX, mouseY, this.leftPos - 16, this.topPos + 16, 16, 16, this.leftPos - 16, this.topPos + 16 + 16, text);
+        this.renderTooltip(guiGraphics, mouseX, mouseY);
+    }
+
+    @Override
+    protected void renderBg(GuiGraphics guiGraphics, float v, int i, int partialTicks) {
+        guiGraphics.blit(TEXTURE, this.leftPos, this.topPos, 0, 0, imageWidth, imageHeight);
+
+        if (menu.exp1()) {
+            guiGraphics.blit(TEXTURE, this.leftPos + 82, this.topPos + 19, 176, 0, 24, 24);
+        }
+
+        if (menu.exp2()) {
+            guiGraphics.blit(TEXTURE, this.leftPos + 106, this.topPos + 19, 200, 0, 24, 24);
+        }
+
+        if (menu.exp3()) {
+            guiGraphics.blit(TEXTURE, this.leftPos + 82, this.topPos + 43, 176, 24, 24, 24);
+        }
+
+        if (menu.exp4()) {
+            guiGraphics.blit(TEXTURE, this.leftPos + 106, this.topPos + 43, 200, 24, 24, 24);
+        }
+
+        if (menu.isReady()) {
+            guiGraphics.blit(TEXTURE, this.leftPos + 134, this.topPos + 35, 176, 48, 16, 16);
+        }
+
+        this.drawInfoPanel(guiGraphics, this.leftPos - 16, this.topPos + 16, 2);
+    }
+}

@@ -269,7 +269,7 @@ public class HBMsNTMClient {
                 case 2 -> "All answers are popbob!";
                 case 3 -> "None may enter The Orb!";
                 case 4 -> "Wacarb was here";
-                case 5 -> "SpongeBoy me Bob I am overdosing on keramine agagagagaga";
+                case 5 -> "SpongeBoy me Bob I am overdosing on ketamine agagagagaga";
                 case 6 -> ChatFormatting.RED + "I know where you live, " + System.getProperty("user.name");
                 case 7 -> "Nice toes, now hand them over.";
                 case 8 -> "I smell burnt toast!";

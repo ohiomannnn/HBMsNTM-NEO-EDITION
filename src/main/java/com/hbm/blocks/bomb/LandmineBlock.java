@@ -12,6 +12,8 @@ import com.hbm.interfaces.IBomb;
 import com.hbm.items.special.PolaroidItem;
 import com.hbm.lib.ModSounds;
 import com.hbm.network.toclient.AuxParticle;
+import com.hbm.particle.helper.ExplosionCreator;
+import com.hbm.util.DamageResistanceHandler;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -109,6 +111,7 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
 
     @Override
     protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+        if (this == ModBlocks.MINE_NAVAL.get()) return true;
         BlockPos below = pos.below();
         if (level.getBlockState(below).is(BlockTags.LEAVES)) return false;
         if (level.getBlockState(below).getBlock() instanceof LandmineBlock) return false;

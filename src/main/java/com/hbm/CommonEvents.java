@@ -15,6 +15,7 @@ import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.inventory.ModMenuTypes;
 import com.hbm.inventory.screens.MachineSatLinkerScreen;
+import com.hbm.inventory.screens.NukeFatManScreen;
 import com.hbm.items.ModItems;
 import com.hbm.saveddata.satellite.Satellite;
 import com.hbm.util.ArmorUtil;
@@ -138,6 +139,7 @@ public class CommonEvents {
     @SubscribeEvent
     public static void registerScreens(RegisterMenuScreensEvent event) {
         event.register(ModMenuTypes.SAT_LINKER.get(), MachineSatLinkerScreen::new);
+        event.register(ModMenuTypes.NUKE_FATMAN.get(), NukeFatManScreen::new);
     }
 
     @SubscribeEvent

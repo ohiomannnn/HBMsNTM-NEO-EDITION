@@ -20,9 +20,6 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
-/**
- * i think this effect should be called before explode, so it actually grabs blocks
- */
 public class ExplosionCreator implements IParticleCreator {
 
     public static final double SPEED_OF_SOUND = (17.15D) * 0.5;
@@ -124,9 +121,9 @@ public class ExplosionCreator implements IParticleCreator {
             Vec3 motion = new Vec3(debrisVelocity, 0, 0)
                     .zRot((float) -Math.toRadians(45 + rand.nextFloat() * 25))
                     .yRot((float) (rand.nextDouble() * Math.PI * 2));
-            ParticleDebris particle = new ParticleDebris(level, x, y, z, motion.x, motion.y, motion.z);
+            ParticleDebris debris = new ParticleDebris(level, x, y, z, motion.x, motion.y, motion.z);
             WorldInAJar wiaj = new WorldInAJar(debrisSize, debrisSize, debrisSize);
-            particle.setWorldInAJar(wiaj);
+            debris.setWorldInAJar(wiaj);
 
             if (debrisSize > 0) {
                 int middle = debrisSize / 2 - 1;
@@ -160,7 +157,7 @@ public class ExplosionCreator implements IParticleCreator {
                 }
             }
 
-            Minecraft.getInstance().particleEngine.add(particle);
+            Minecraft.getInstance().particleEngine.add(debris);
         }
     }
 }

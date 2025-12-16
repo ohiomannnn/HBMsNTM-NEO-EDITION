@@ -150,6 +150,38 @@ public class SkeletonCreator implements IParticleCreator {
         };
     };
 
+    public static Function<LivingEntity, BoneDefinition[]> BONES_CHANGING = entity -> {
+        Vec3NT leftArm = new Vec3NT(0.3125, 0, 0).rotateAroundYDeg(-entity.yBodyRot);
+        Vec3NT forward = new Vec3NT(0, 0, 0.1).rotateAroundYDeg(-entity.yBodyRot);
+        Vec3NT leftLeg = new Vec3NT(0.125, 0, 0).rotateAroundYDeg(-entity.yBodyRot);
+
+        double x = entity.getX();
+        double y = entity.getY();
+        double z = entity.getZ();
+
+        if (!(entity instanceof Skeleton skeleton)) return null;
+
+        if (skeleton.isAggressive()) {
+            return new BoneDefinition[]{
+                    new BoneDefinition(EnumSkeletonType.SKULL, -entity.getYHeadRot(), entity.getXRot(), x, y + 1.5, z),
+                    new BoneDefinition(EnumSkeletonType.TORSO, -entity.yBodyRot, 0, x, y + 1.5, z),
+                    new BoneDefinition(EnumSkeletonType.LIMB, -entity.yBodyRot, -90, x + leftArm.xCoord + forward.xCoord, y + 1.375, z + leftArm.zCoord + forward.zCoord),
+                    new BoneDefinition(EnumSkeletonType.LIMB, -entity.yBodyRot, -90, x - leftArm.xCoord + forward.xCoord, y + 1.375, z - leftArm.zCoord + forward.zCoord),
+                    new BoneDefinition(EnumSkeletonType.LIMB, -entity.yBodyRot, 0, x + leftLeg.xCoord, y + 0.75, z + leftLeg.zCoord),
+                    new BoneDefinition(EnumSkeletonType.LIMB, -entity.yBodyRot, 0, x - leftLeg.xCoord, y + 0.75, z - leftLeg.zCoord),
+            };
+        } else {
+            return new BoneDefinition[] {
+                    new BoneDefinition(EnumSkeletonType.SKULL, -entity.getYHeadRot(), entity.getXRot(), x, y + 1.5, z),
+                    new BoneDefinition(EnumSkeletonType.TORSO, -entity.yBodyRot, 0, x, y + 1.5, z),
+                    new BoneDefinition(EnumSkeletonType.LIMB, -entity.yBodyRot, 0, x + leftArm.xCoord, y + 1.375, z + leftArm.zCoord),
+                    new BoneDefinition(EnumSkeletonType.LIMB, -entity.yBodyRot, 0, x - leftArm.xCoord, y + 1.375, z - leftArm.zCoord),
+                    new BoneDefinition(EnumSkeletonType.LIMB, -entity.yBodyRot, 0, x + leftLeg.xCoord, y + 0.75, z + leftLeg.zCoord),
+                    new BoneDefinition(EnumSkeletonType.LIMB, -entity.yBodyRot, 0, x - leftLeg.xCoord, y + 0.75, z - leftLeg.zCoord),
+            };
+        }
+    };
+
     public static final Function<LivingEntity, BoneDefinition[]> BONES_VILLAGER = entity -> {
         Vec3NT leftArm = new Vec3NT(0.375, 0, 0).rotateAroundYDeg(-entity.yBodyRot);
         Vec3NT forward = new Vec3NT(0, 0, 0).rotateAroundYDeg(-entity.yBodyRot);
@@ -168,12 +200,13 @@ public class SkeletonCreator implements IParticleCreator {
                 new BoneDefinition(EnumSkeletonType.LIMB, -entity.yBodyRot, 0, x - leftLeg.xCoord, y + 0.75, z - leftLeg.zCoord)
         };
     };
+
     public static void init() {
         skullanizer.put(RemotePlayer.class.getSimpleName(), BONES_BIPED);
         skullanizer.put(LocalPlayer.class.getSimpleName(), BONES_BIPED);
 
         skullanizer.put(Zombie.class.getSimpleName(), BONES_ZOMBIE);
-        skullanizer.put(Skeleton.class.getSimpleName(), BONES_BIPED);
+        skullanizer.put(Skeleton.class.getSimpleName(), BONES_CHANGING);
 
         skullanizer.put(Villager.class.getSimpleName(), BONES_VILLAGER);
         skullanizer.put(ZombieVillager.class.getSimpleName(), BONES_VILLAGER);

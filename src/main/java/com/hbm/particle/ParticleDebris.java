@@ -11,25 +11,32 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
-import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
-import net.minecraft.world.level.LightLayer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.model.data.ModelData;
-
-import java.util.Random;
 
 public class ParticleDebris extends TextureSheetParticle {
 
     private final BlockRenderDispatcher blockRenderer;
     private WorldInAJar world;
-    private static final Random rng = new Random();
+    private static final RandomSource rng = RandomSource.create();
+
+    public double prevRotationPitch;
+    public double prevRotationYaw;
+    public double rotationPitch;
+    public double rotationYaw;
+
+    public ParticleDebris(ClientLevel level, double x, double y, double z) {
+        super(level, x, y, z);
+        this.blockRenderer = Minecraft.getInstance().getBlockRenderer();
+    }
 
     public ParticleDebris(ClientLevel level, double x, double y, double z, double mx, double my, double mz) {
         super(level, x, y, z);
@@ -41,7 +48,6 @@ public class ParticleDebris extends TextureSheetParticle {
         this.gravity = 0.15F;
         this.hasPhysics = false;
         this.blockRenderer = Minecraft.getInstance().getBlockRenderer();
-        this.world = new WorldInAJar(4, 4, 4);
     }
 
     public ParticleDebris setWorldInAJar(WorldInAJar world) {
@@ -58,8 +64,10 @@ public class ParticleDebris extends TextureSheetParticle {
         if (this.age > 5) this.hasPhysics = true;
 
         rng.setSeed(this.hashCode());
-        this.oRoll = this.roll;
-        this.roll += rng.nextFloat() * 10;
+        this.prevRotationPitch = this.rotationPitch;
+        this.prevRotationYaw = this.rotationYaw;
+        this.rotationPitch += rng.nextFloat() * 10;
+        this.rotationYaw += rng.nextFloat() * 10;
 
         if (this.hashCode() % 3 == 0) {
             ParticleRocketFlame particle = new ParticleRocketFlame(this.level, this.x, this.y, this.z);
@@ -79,74 +87,70 @@ public class ParticleDebris extends TextureSheetParticle {
 
     @Override
     public void render(VertexConsumer buffer, Camera camera, float partialTicks) {
-        PoseStack pose = new PoseStack();
+        if (this.world == null) return;
+        Vec3 camPos = camera.getPosition();
 
-        double camX = camera.getPosition().x;
-        double camY = camera.getPosition().y;
-        double camZ = camera.getPosition().z;
+        double pX = Mth.lerp(partialTicks, this.xo, this.x) - camPos.x;
+        double pY = Mth.lerp(partialTicks, this.yo, this.y) - camPos.y;
+        double pZ = Mth.lerp(partialTicks, this.zo, this.z) - camPos.z;
 
-        BlockPos pos = BlockPos.containing(this.x, this.y, this.z);
-        int blockLight = level.getBrightness(LightLayer.BLOCK, pos);
-        int skyLight = level.getBrightness(LightLayer.SKY, pos);
-        int packedLight = LightTexture.pack(blockLight, skyLight);
+        PoseStack poseStack = new PoseStack();
+        poseStack.pushPose();
 
-        double interpX = Mth.lerp(partialTicks, this.xo, this.x);
-        double interpY = Mth.lerp(partialTicks, this.yo, this.y);
-        double interpZ = Mth.lerp(partialTicks, this.zo, this.z);
+        poseStack.translate(pX, pY, pZ);
 
-        pose.pushPose();
-        pose.translate(interpX - camX, interpY - camY, interpZ - camZ);
+        float interpPitch = (float) Mth.lerp(partialTicks, prevRotationPitch, rotationPitch);
+        float interpYaw = (float) Mth.lerp(partialTicks, prevRotationYaw, rotationYaw);
+        poseStack.mulPose(Axis.YP.rotationDegrees(interpPitch));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(interpYaw));
 
-        pose.translate(world.sizeX / -2.0D, world.sizeY / -2.0D, world.sizeZ / -2.0D);
+        poseStack.translate(-world.sizeX / 2.0, -world.sizeY / 2.0, -world.sizeZ / 2.0);
 
-        float angle = (this.oRoll + (this.roll - this.oRoll) * partialTicks);
-        pose.translate(world.sizeX / 2.0D, world.sizeY / 2.0D, world.sizeZ / 2.0D);
-        pose.mulPose(Axis.YP.rotationDegrees(angle));
-        pose.mulPose(Axis.XP.rotationDegrees(angle * 0.5f));
-        pose.translate(-world.sizeX / 2.0D, -world.sizeY / 2.0D, -world.sizeZ / 2.0D);
         MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
+
+        int packedLight = this.getLightColor(partialTicks);
 
         for (int ix = 0; ix < world.sizeX; ix++) {
             for (int iy = 0; iy < world.sizeY; iy++) {
                 for (int iz = 0; iz < world.sizeZ; iz++) {
-                    BlockState state = world.getBlock(ix, iy, iz);
-                    if (!state.isAir()) {
-                        pose.pushPose();
-                        pose.translate(ix, iy, iz);
-                        blockRenderer.getModelRenderer().tesselateBlock(
-                                level,
-                                blockRenderer.getBlockModel(state),
-                                state,
-                                pos.offset(ix, iy, iz),
-                                pose,
-                                bufferSource.getBuffer(RenderType.cutout()),
-                                false,
-                                level.random,
-                                42L,
-                                packedLight,
-                                ModelData.EMPTY,
-                                RenderType.cutout()
-                        );
+                    BlockState state = world.getBlockState(new BlockPos(ix, iy, iz));
 
-                        pose.popPose();
+                    if (!state.isAir()) {
+                        poseStack.pushPose();
+                        poseStack.translate(ix, iy, iz);
+
+                        try {
+                            blockRenderer.renderSingleBlock(
+                                    state,
+                                    poseStack,
+                                    bufferSource,
+                                    packedLight,
+                                    OverlayTexture.NO_OVERLAY,
+                                    ModelData.EMPTY,
+                                    null
+                            );
+                        } catch (Exception ignored) { }
+
+                        poseStack.popPose();
                     }
                 }
             }
         }
 
-        pose.popPose();
+        bufferSource.endBatch();
+        poseStack.popPose();
     }
 
     @Override
     public ParticleRenderType getRenderType() {
-        return ParticleRenderType.CUSTOM;
+        return CustomRenderType.NONE;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
 
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
-            return new ParticleDebris(level, x, y, z, 0, 0, 0);
+            return new ParticleDebris(level, x, y, z);
         }
     }
 }
