@@ -6,8 +6,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public interface IEntityProcessor {
-    HashMap<Player, Vec3> processEntities(ExplosionVNT explosion, Level level, double x, double y, double z, float size);
+    HashMap<Player, Vec3> process(ExplosionVNT explosion, Level level, double x, double y, double z, float size);
 }

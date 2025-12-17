@@ -1,6 +1,9 @@
 package com.hbm.explosion.vanillant;
 
-import com.hbm.explosion.vanillant.interfaces.*;
+import com.hbm.explosion.vanillant.interfaces.IBlockAllocator;
+import com.hbm.explosion.vanillant.interfaces.IBlockProcessor;
+import com.hbm.explosion.vanillant.interfaces.IEntityProcessor;
+import com.hbm.explosion.vanillant.interfaces.IExplosionSFX;
 import com.hbm.explosion.vanillant.standard.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -20,7 +23,6 @@ public class ExplosionVNT {
     private IBlockAllocator blockAllocator;
     private IEntityProcessor entityProcessor;
     private IBlockProcessor blockProcessor;
-    private IPlayerProcessor playerProcessor;
     //since we want to reduce each effect to the bare minimum (sound, particles, etc. being separate) we definitely need multiple most of the time
     private IExplosionSFX[] sfx;
 
@@ -69,7 +71,7 @@ public class ExplosionVNT {
     public void explode() {
 
         boolean processBlocks = blockAllocator != null && blockProcessor != null;
-        boolean processEntities = entityProcessor != null && playerProcessor != null;
+        boolean processEntities = entityProcessor != null;
 
         HashSet<BlockPos> affectedBlocks = null;
         HashMap<Player, Vec3> affectedPlayers = null;
@@ -77,13 +79,12 @@ public class ExplosionVNT {
         //allocation
         if (processBlocks) affectedBlocks = blockAllocator.allocate(this, level, x, y, z, size);
         if (processBlocks) this.compat.getToBlow().addAll(affectedBlocks);
-        if (processEntities) affectedPlayers = entityProcessor.processEntities(this, level, x, y, z, size);
+        if (processEntities) affectedPlayers = entityProcessor.process(this, level, x, y, z, size);
         // technically not necessary, as the affected entity list is a separate parameter during the Detonate event
         if (processEntities) this.compat.getHitPlayers().putAll(affectedPlayers);
 
         //serverside processing
         if (processBlocks) blockProcessor.process(this, level, x, y, z, affectedBlocks);
-        if (processEntities) playerProcessor.processPlayers(this, level, x, y, z, affectedPlayers);
 
         //from server to client
         if (sfx != null) {
@@ -109,11 +110,6 @@ public class ExplosionVNT {
         return this;
     }
 
-    public ExplosionVNT setPlayerProcessor(IPlayerProcessor playerProcessor) {
-        this.playerProcessor = playerProcessor;
-        return this;
-    }
-
     public ExplosionVNT setSFX(IExplosionSFX... sfx) {
         this.sfx = sfx;
         return this;
@@ -123,7 +119,6 @@ public class ExplosionVNT {
         this.setBlockAllocator(new BlockAllocatorStandard());
         this.setBlockProcessor(new BlockProcessorStandard());
         this.setEntityProcessor(new EntityProcessorStandard());
-        this.setPlayerProcessor(new PlayerProcessorStandard());
         this.setSFX(new ExplosionEffectStandard());
         return this;
     }
@@ -132,7 +127,6 @@ public class ExplosionVNT {
         this.setBlockAllocator(new BlockAllocatorStandard(this.size < 15 ? 16 : 32));
         this.setBlockProcessor(new BlockProcessorStandard().setNoDrop());
         this.setEntityProcessor(new EntityProcessorStandard().withRangeMod(2.0F).withDamageMod(new CustomDamageHandlerRadiation(50.0F)));
-        this.setPlayerProcessor(new PlayerProcessorStandard());
         this.setSFX(new ExplosionEffectAmat());
         return this;
     }

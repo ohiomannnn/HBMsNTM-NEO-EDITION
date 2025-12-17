@@ -10,7 +10,6 @@ import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCross;
-import com.hbm.explosion.vanillant.standard.PlayerProcessorStandard;
 import com.hbm.interfaces.IBomb;
 import com.hbm.items.special.PolaroidItem;
 import com.hbm.lib.ModSounds;
@@ -81,8 +80,7 @@ public class CrashedBombBlock extends BaseEntityBlock implements IBomb {
                 ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 35F)
                         .setBlockAllocator(new BlockAllocatorStandard(24))
                         .setBlockProcessor(new BlockProcessorStandard().setNoDrop())
-                        .setEntityProcessor(new EntityProcessorCross(5D).withRangeMod(1.5F))
-                        .setPlayerProcessor(new PlayerProcessorStandard());
+                        .setEntityProcessor(new EntityProcessorCross(5D).withRangeMod(1.5F));
                 ExplosionCreator.composeEffectLarge(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
                 vnt.explode();
             }

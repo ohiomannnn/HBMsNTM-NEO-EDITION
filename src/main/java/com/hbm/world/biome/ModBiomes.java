@@ -28,13 +28,13 @@ public class ModBiomes {
         BIOMES.register(eventBus);
     }
 
-    public static void bootstrap(BootstrapContext<Biome> ctx) {
-        HolderGetter<PlacedFeature> placed = ctx.lookup(Registries.PLACED_FEATURE);
-        HolderGetter<ConfiguredWorldCarver<?>> carvers = ctx.lookup(Registries.CONFIGURED_CARVER);
+    public static void bootstrap(BootstrapContext<Biome> context) {
+        HolderGetter<PlacedFeature> placed = context.lookup(Registries.PLACED_FEATURE);
+        HolderGetter<ConfiguredWorldCarver<?>> carvers = context.lookup(Registries.CONFIGURED_CARVER);
 
-        ctx.register(CRATER, makeCraterBiome(placed, carvers));
-        ctx.register(CRATER_INNER, makeCraterInnerBiome(placed, carvers));
-        ctx.register(CRATER_OUTER, makeCraterOuterBiome(placed, carvers));
+        context.register(CRATER, makeCraterBiome(placed, carvers));
+        context.register(CRATER_INNER, makeCraterInnerBiome(placed, carvers));
+        context.register(CRATER_OUTER, makeCraterOuterBiome(placed, carvers));
     }
 
     private static Biome makeCraterBiome(HolderGetter<PlacedFeature> placed, HolderGetter<ConfiguredWorldCarver<?>> carvers) {

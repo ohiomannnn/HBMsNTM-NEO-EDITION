@@ -30,7 +30,6 @@ public class GasExplosiveBlock extends GasFlammableBlock  {
                 .setBlockAllocator(new BlockAllocatorStandard())
                 .setBlockProcessor(new BlockProcessorNoDamage().withBlockEffect(new BlockMutatorFire()))
                 .setEntityProcessor(new EntityProcessorStandard())
-                .setPlayerProcessor(new PlayerProcessorStandard())
                 .setSFX(new ExplosionEffectStandard());
         vnt.explode();
     }

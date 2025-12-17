@@ -3,6 +3,7 @@ package com.hbm.inventory.screens;
 import com.hbm.HBMsNTM;
 import com.hbm.items.ISatChip;
 import com.hbm.items.tools.SatelliteInterfaceItem;
+import com.hbm.lib.ModSounds;
 import com.hbm.network.toserver.SatelliteLaser;
 import com.hbm.saveddata.satellite.Satellite;
 import com.hbm.saveddata.satellite.Satellite.Interfaces;
@@ -10,9 +11,11 @@ import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.texture.DynamicTexture;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.FastColor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
@@ -77,6 +80,8 @@ public class SatelliteInterfaceScreen extends Screen {
             if (mouseX >= this.guiLeft + 8 && mouseX < this.guiLeft + 208 && mouseY >= this.guiTop + 8 && mouseY < this.guiTop + 208 && player != null) {
                 int x = (int) (this.x - guiLeft + mouseX - 8 - 100);
                 int z = (int) (this.z - guiTop + mouseY - 8 - 100);
+
+                this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(ModSounds.TECH_BLEEP, 1.0F));
 
                 PacketDistributor.sendToServer(new SatelliteLaser(x, z, ISatChip.getFreqS(player.getMainHandItem())));
             }

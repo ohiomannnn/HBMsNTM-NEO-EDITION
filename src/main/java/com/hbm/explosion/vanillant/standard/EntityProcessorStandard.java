@@ -33,7 +33,7 @@ public class EntityProcessorStandard implements IEntityProcessor {
     protected boolean allowSelfDamage = false;
 
     @Override
-    public HashMap<Player, Vec3> processEntities(ExplosionVNT explosion, Level level, double x, double y, double z, float size) {
+    public HashMap<Player, Vec3> process(ExplosionVNT explosion, Level level, double x, double y, double z, float size) {
 
         HashMap<Player, Vec3> affectedPlayers = new HashMap<>();
 

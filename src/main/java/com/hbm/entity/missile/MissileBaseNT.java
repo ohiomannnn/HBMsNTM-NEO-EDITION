@@ -245,8 +245,7 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
         ExplosionVNT vnt = new ExplosionVNT(this.level(), this.getX(), this.getY(), this.getZ(), strength)
                 .setBlockAllocator(new BlockAllocatorStandard(resolution))
                 .setBlockProcessor(new BlockProcessorStandard().setNoDrop().withBlockEffect(fire ? new BlockMutatorFire() : null))
-                .setEntityProcessor(new EntityProcessorCross(7.5D).withRangeMod(2))
-                .setPlayerProcessor(new PlayerProcessorStandard());
+                .setEntityProcessor(new EntityProcessorCross(7.5D).withRangeMod(2));
         vnt.explode();
     }
 

@@ -5,19 +5,12 @@ import com.hbm.explosion.vanillant.interfaces.ICustomDamageHandler;
 import com.hbm.explosion.vanillant.interfaces.IEntityProcessor;
 import com.hbm.explosion.vanillant.interfaces.IEntityRangeMutator;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -52,7 +45,7 @@ public class EntityProcessorCross implements IEntityProcessor {
     }
 
     @Override
-    public HashMap<Player, Vec3> processEntities(ExplosionVNT explosion, Level level, double x, double y, double z, float size) {
+    public HashMap<Player, Vec3> process(ExplosionVNT explosion, Level level, double x, double y, double z, float size) {
 
         HashMap<Player, Vec3> affectedPlayers = new HashMap<>();
 
@@ -82,55 +75,62 @@ public class EntityProcessorCross implements IEntityProcessor {
         HashMap<Entity, Float> damageMap = new HashMap<>();
 
         for (Entity entity : list) {
+            if (!entity.ignoreExplosion(explosion.compat)) {
 
-            AABB entityBoundingBox = entity.getBoundingBox();
-            double xDist = (entityBoundingBox.minX <= x && entityBoundingBox.maxX >= x) ? 0 : Math.min(Math.abs(entityBoundingBox.minX - x), Math.abs(entityBoundingBox.maxX - x));
-            double yDist = (entityBoundingBox.minY <= y && entityBoundingBox.maxY >= y) ? 0 : Math.min(Math.abs(entityBoundingBox.minY - y), Math.abs(entityBoundingBox.maxY - y));
-            double zDist = (entityBoundingBox.minZ <= z && entityBoundingBox.maxZ >= z) ? 0 : Math.min(Math.abs(entityBoundingBox.minZ - z), Math.abs(entityBoundingBox.maxZ - z));
-            double dist = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist);
-            double distanceScaled = dist / size;
+                AABB entityBoundingBox = entity.getBoundingBox();
+                double xDist = (entityBoundingBox.minX <= x && entityBoundingBox.maxX >= x) ? 0 : Math.min(Math.abs(entityBoundingBox.minX - x), Math.abs(entityBoundingBox.maxX - x));
+                double yDist = (entityBoundingBox.minY <= y && entityBoundingBox.maxY >= y) ? 0 : Math.min(Math.abs(entityBoundingBox.minY - y), Math.abs(entityBoundingBox.maxY - y));
+                double zDist = (entityBoundingBox.minZ <= z && entityBoundingBox.maxZ >= z) ? 0 : Math.min(Math.abs(entityBoundingBox.minZ - z), Math.abs(entityBoundingBox.maxZ - z));
+                double dist = Math.sqrt(xDist * xDist + yDist * yDist + zDist * zDist);
+                double distanceScaled = dist / size;
 
+                if (distanceScaled <= 1.0D) {
+                    double deltaX = entity.getX() - x;
+                    double deltaY = entity.getY() + entity.getEyeHeight() - y;
+                    double deltaZ = entity.getZ() - z;
+                    double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
 
-            if (distanceScaled <= 1.0D) {
-                double deltaX = entity.getX() - x;
-                double deltaY = entity.getY() + entity.getEyeHeight() - y;
-                double deltaZ = entity.getZ() - z;
-                double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+                    if (distance != 0.0D) {
 
-                if (distance != 0.0D) {
+                        deltaX /= distance;
+                        deltaY /= distance;
+                        deltaZ /= distance;
 
-                    deltaX /= distance;
-                    deltaY /= distance;
-                    deltaZ /= distance;
+                        double density = 0;
 
-                    double density = 0.0D;
-                    for (Vec3 vec : nodes) {
-                        double d = Explosion.getSeenPercent(vec, entity);
-                        if (d > density) {
-                            density = d;
+                        for (Vec3 vec : nodes) {
+                            double d = Explosion.getSeenPercent(vec, entity);
+                            if (d > density) {
+                                density = d;
+                            }
                         }
-                    }
 
-                    double knockback = density * (1.0D - distanceScaled);
+                        double knockback = (1.0D - distanceScaled) * density;
 
-                    float dmg = calculateDamage(distanceScaled, density, knockback, size);
-                    if (!damageMap.containsKey(entity) || damageMap.get(entity) < dmg) damageMap.put(entity, dmg);
+                        float dmg = calculateDamage(distanceScaled, density, knockback, size);
+                        if (!damageMap.containsKey(entity) || damageMap.get(entity) < dmg) damageMap.put(entity, dmg);
 
-                    if (entity instanceof LivingEntity livingEntity) {
-                        knockback = density * (1D - livingEntity.getAttributeValue(Attributes.EXPLOSION_KNOCKBACK_RESISTANCE));
-                    } else {
-                        knockback = density;
-                    }
+                        double enchKnockback;
+                        if (entity instanceof LivingEntity livingEntity) {
+                            double resistance = livingEntity.getAttributeValue(Attributes.EXPLOSION_KNOCKBACK_RESISTANCE);
+                            enchKnockback = knockback * (1.0D - resistance);
+                        } else {
+                            enchKnockback = knockback;
+                        }
 
-                    deltaX *= knockback * knockbackMult;
-                    deltaY *= knockback * knockbackMult;
-                    deltaZ *= knockback * knockbackMult;
+                        Vec3 velocity = new Vec3(
+                                deltaX * enchKnockback * knockbackMult,
+                                deltaY * enchKnockback * knockbackMult,
+                                deltaZ * enchKnockback * knockbackMult
+                        );
 
-                    Vec3 velocity = new Vec3(deltaX, deltaY, deltaZ);
+                        entity.setDeltaMovement(entity.getDeltaMovement().add(velocity));
 
-                    if (entity instanceof Player player) {
-                        if (!player.isSpectator() && (!player.isCreative() || !player.getAbilities().flying)) {
-                            affectedPlayers.put(player, velocity);
+                        if (entity instanceof Player player) {
+                            player.hurtMarked = true;
+                            if (!player.isSpectator() && (!player.isCreative() || !player.getAbilities().flying)) {
+                                affectedPlayers.put(player, velocity);
+                            }
                         }
                     }
                 }
@@ -173,12 +173,7 @@ public class EntityProcessorCross implements IEntityProcessor {
     }
 
     public EntityProcessorCross withRangeMod(float mod) {
-        range = new IEntityRangeMutator() {
-            @Override
-            public float mutateRange(ExplosionVNT explosion, float range) {
-                return range * mod;
-            }
-        };
+        range = (explosion, range) -> range * mod;
         return this;
     }
 

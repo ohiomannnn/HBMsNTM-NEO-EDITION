@@ -63,6 +63,8 @@ public class BlockProcessorStandard implements IBlockProcessor {
             if (!state.isAir()) {
                 if (state.canDropFromExplosion(level, pos, null)) {
 
+                    level.getProfiler().push("explosion_blocks");
+
                     if (chance != null) {
                         dropChance = chance.mutateDropChance(explosion, block, pos, dropChance);
                     }
@@ -98,6 +100,8 @@ public class BlockProcessorStandard implements IBlockProcessor {
                 if (this.convert != null) {
                     this.convert.mutatePre(explosion, state, pos);
                 }
+
+                level.getProfiler().pop();
             } else {
                 iterator.remove();
             }

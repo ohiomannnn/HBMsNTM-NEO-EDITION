@@ -19,6 +19,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
+
         // im probably dumb but i dont know any tags like this
         tag(ModTags.Blocks.ACTUALLY_STONE)
                 .add(Blocks.COAL_ORE)

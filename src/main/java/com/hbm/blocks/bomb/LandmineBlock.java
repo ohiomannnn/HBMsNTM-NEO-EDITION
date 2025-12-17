@@ -12,8 +12,6 @@ import com.hbm.interfaces.IBomb;
 import com.hbm.items.special.PolaroidItem;
 import com.hbm.lib.ModSounds;
 import com.hbm.network.toclient.AuxParticle;
-import com.hbm.particle.helper.ExplosionCreator;
-import com.hbm.util.DamageResistanceHandler;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -142,7 +140,6 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
             if (this == ModBlocks.MINE_AP.get()) {
                 ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3F)
                         .setEntityProcessor(new EntityProcessorCrossSmooth(0.5, (float) MainConfig.SERVER.MINE_AP_DAMAGE.getAsDouble()).setupPiercing(5F, 0.2F))
-                        .setPlayerProcessor(new PlayerProcessorStandard())
                         .setSFX(new ExplosionEffectWeapon(5, 1F, 0.5F));
                 vnt.explode();
             }
@@ -152,7 +149,6 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
                         .setBlockAllocator(new BlockAllocatorStandard())
                         .setBlockProcessor(new BlockProcessorStandard())
                         .setEntityProcessor(new EntityProcessorCrossSmooth(1, (float) MainConfig.SERVER.MINE_HE_DAMAGE.getAsDouble()).setupPiercing(15F, 0.2F))
-                        .setPlayerProcessor(new PlayerProcessorStandard())
                         .setSFX(new ExplosionEffectWeapon(15, 3.5F, 1.25F));
                 vnt.explode();
             }
@@ -160,7 +156,6 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
             if (this == ModBlocks.MINE_SHRAP.get()) {
                 ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3F)
                         .setEntityProcessor(new EntityProcessorCrossSmooth(0.5, (float) MainConfig.SERVER.MINE_SHRAP_DAMAGE.getAsDouble()))
-                        .setPlayerProcessor(new PlayerProcessorStandard())
                         .setSFX(new ExplosionEffectWeapon(5, 1F, 0.5F));
                 vnt.explode();
 
@@ -174,8 +169,7 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
                 ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 10)
                         .setBlockAllocator(new BlockAllocatorStandard(64))
                         .setBlockProcessor(new BlockProcessorStandard())
-                        .setEntityProcessor(new EntityProcessorCrossSmooth(2, (float) MainConfig.SERVER.MINE_NUKE_DAMAGE.getAsDouble()).withRangeMod(1.5F))
-                        .setPlayerProcessor(new PlayerProcessorStandard());
+                        .setEntityProcessor(new EntityProcessorCrossSmooth(2, (float) MainConfig.SERVER.MINE_NUKE_DAMAGE.getAsDouble()).withRangeMod(1.5F));
                 vnt.explode();
 
                 ExplosionNukeGeneric.incrementRad(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 1.5F);
@@ -195,7 +189,6 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
                         .setBlockAllocator(new BlockAllocatorWater(32))
                         .setBlockProcessor(new BlockProcessorStandard())
                         .setEntityProcessor(new EntityProcessorCrossSmooth(0.5, (float) MainConfig.SERVER.MINE_NAVAL_DAMAGE.getAsDouble()).setupPiercing(5F, 0.2F))
-                        .setPlayerProcessor(new PlayerProcessorStandard())
                         .setSFX(new ExplosionEffectWeapon(10, 1F, 0.5F));
                 vnt.explode();
 

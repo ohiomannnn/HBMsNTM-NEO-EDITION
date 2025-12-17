@@ -302,11 +302,15 @@ public class ModBlocks {
                     .noOcclusion()
                     .noLootTable()));
 
-    public static final DeferredBlock<Block> TAINT = registerBlock("taint",
+    public static final DeferredBlock<Block> TAINT = registerBlock(
+            "taint",
             () -> new TaintBlock(BlockBehaviour.Properties.of()
                     .strength(15.0F)
                     .explosionResistance(10.0F)
-                    .randomTicks()));
+                    .randomTicks()
+                    .noLootTable()
+            )
+    );
 
     public static final DeferredBlock<Block> NUKE_FATMAN = registerBlock("nuke_fatman",
             () -> new NukeManBlock(BlockBehaviour.Properties.of()

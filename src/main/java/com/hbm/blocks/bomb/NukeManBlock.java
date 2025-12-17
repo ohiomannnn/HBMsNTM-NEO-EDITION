@@ -1,7 +1,6 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.blockentity.bomb.NukeFatManBlockEntity;
-import com.hbm.blockentity.machine.MachineSatLinkerBlockEntity;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.effect.NukeTorex;
 import com.hbm.entity.logic.NukeExplosionMK5;
@@ -9,8 +8,6 @@ import com.hbm.interfaces.IBomb;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
@@ -50,7 +47,6 @@ public class NukeManBlock extends BaseEntityBlock implements IBomb {
         builder.add(FACING);
     }
 
-
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (level.getBlockEntity(pos) instanceof NukeFatManBlockEntity entity) {
@@ -63,15 +59,11 @@ public class NukeManBlock extends BaseEntityBlock implements IBomb {
     }
 
     public static final MapCodec<NukeManBlock> CODEC = simpleCodec(NukeManBlock::new);
+    @Override protected MapCodec<NukeManBlock> codec() { return CODEC; }
 
     @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
-    }
-
-    @Override
-    public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return new NukeFatManBlockEntity(blockPos, blockState);
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new NukeFatManBlockEntity(pos, state);
     }
 
     @Override
@@ -85,9 +77,9 @@ public class NukeManBlock extends BaseEntityBlock implements IBomb {
                 NukeTorex.statFacStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, MainConfig.COMMON.MAN_RADIUS.get());
                 return BombReturnCode.DETONATED;
             }
-
             return BombReturnCode.ERROR_MISSING_COMPONENT;
         }
+
         return BombReturnCode.UNDEFINED;
     }
 

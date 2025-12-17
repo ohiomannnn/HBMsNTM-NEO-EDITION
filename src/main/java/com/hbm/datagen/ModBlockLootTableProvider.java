@@ -92,8 +92,6 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.WASTE_TRINITITE_RED.get());
         dropSelf(ModBlocks.WASTE_TRINITITE.get());
 
-        dropSelf(ModBlocks.TAINT.get());
-
         dropSelf(ModBlocks.GEIGER.get());
 
         dropSelf(ModBlocks.DET_CHARGE.get());

@@ -1,4 +1,3 @@
-
 package com.hbm.blocks.bomb;
 
 import com.hbm.lib.ModEffect;
@@ -23,7 +22,6 @@ import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -32,36 +30,35 @@ import java.util.List;
 
 public class TaintBlock extends FallingBlock {
 
-    public static final IntegerProperty TAINT_LEVEL = IntegerProperty.create("taint_level", 0, 15);
-
-    protected static final VoxelShape SHAPE = Block.box(0.0, 0.0, 0.0, 16.0, 12.0, 16.0);
-
     public TaintBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(TAINT_LEVEL, 0));
     }
 
-    public static final MapCodec<TaintBlock> CODEC = simpleCodec(TaintBlock::new);
-
-    @Override
-    protected MapCodec<? extends FallingBlock> codec() {
-        return CODEC;
-    }
+    public static final IntegerProperty TAINT_LEVEL = IntegerProperty.create("taint_level", 0, 15);
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(TAINT_LEVEL);
     }
 
+    public static final MapCodec<TaintBlock> CODEC = simpleCodec(TaintBlock::new);
+    @Override protected MapCodec<TaintBlock> codec() {
+        return CODEC;
+    }
+
+    protected static final VoxelShape SHAPE = Block.box(0.0, 0.0, 0.0, 16.0, 12.0, 16.0);
+
     @Override
-    public MapColor getMapColor(BlockState state, BlockGetter level, BlockPos pos, MapColor defaultColor) {
-        return MapColor.COLOR_GRAY;
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return SHAPE;
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        int currentLevel = state.getValue(TAINT_LEVEL);
-        if (currentLevel >= 15) return;
+    public void randomTick(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource random) {
+
+        int taintLevel = state.getValue(TAINT_LEVEL);
+        if (taintLevel >= 15) return;
 
         for (int i = -3; i <= 3; i++) {
             for (int j = -3; j <= 3; j++) {
@@ -70,43 +67,33 @@ public class TaintBlock extends FallingBlock {
                     if (random.nextFloat() > 0.25F) continue;
 
                     BlockPos targetPos = pos.offset(i, j, k);
-                    BlockState targetState = level.getBlockState(targetPos);
+                    BlockState targetState = serverLevel.getBlockState(targetPos);
 
                     if (targetState.isAir() || targetState.is(Blocks.BEDROCK)) continue;
 
-                    int newLevel = currentLevel + 1;
+                    int targetLevel = taintLevel + 1;
 
                     boolean hasAir = false;
                     for (Direction dir : Direction.values()) {
-                        if (level.getBlockState(targetPos.relative(dir)).isAir()) {
+                        if (serverLevel.getBlockState(targetPos.relative(dir)).isAir()) {
                             hasAir = true;
                             break;
                         }
                     }
+                    if (!hasAir) targetLevel = taintLevel + 3;
+                    if (targetLevel > 15) continue;
+                    if (targetState.is(this) && targetState.getValue(TAINT_LEVEL) >= targetLevel) continue;
 
-                    if (!hasAir) {
-                        newLevel = currentLevel + 3;
-                    }
-
-                    if (newLevel > 15) continue;
-
-                    if (targetState.is(this) && targetState.getValue(TAINT_LEVEL) >= newLevel) continue;
-
-                    level.setBlock(targetPos, this.defaultBlockState().setValue(TAINT_LEVEL, newLevel), 3);
+                    serverLevel.setBlock(targetPos, this.defaultBlockState().setValue(TAINT_LEVEL, taintLevel), 3);
                 }
             }
         }
     }
 
     @Override
-    public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return SHAPE;
-    }
-
-    @Override
     public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
-        int meta = state.getValue(TAINT_LEVEL);
-        int potionLevel = 15 - meta;
+        int taintLevel = state.getValue(TAINT_LEVEL);
+        int potionLevel = 15 - taintLevel;
 
         Vec3 motion = entity.getDeltaMovement();
         entity.setDeltaMovement(motion.x * 0.6, motion.y, motion.z * 0.6);

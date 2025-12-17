@@ -30,8 +30,7 @@ public class ExplosiveChargeBlock extends DetonatableBlock implements IBomb {
                 ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 15F)
                         .setBlockAllocator(new BlockAllocatorStandard(64))
                         .setBlockProcessor(new BlockProcessorStandard())
-                        .setEntityProcessor(new EntityProcessorStandard())
-                        .setPlayerProcessor(new PlayerProcessorStandard());
+                        .setEntityProcessor(new EntityProcessorStandard());
                 ExplosionCreator.composeEffectStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
                 vnt.explode();
             }
