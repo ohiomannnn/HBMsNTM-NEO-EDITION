@@ -1,8 +1,12 @@
 package com.hbm.items.special;
 
+import com.hbm.entity.ModEntities;
+import com.hbm.entity.projectile.Rubble;
 import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -11,6 +15,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.List;
 import java.util.Random;
@@ -36,6 +41,17 @@ public class PolaroidItem extends Item {
     public PolaroidItem(Properties properties) {
         super(properties);
         RerollPal();
+    }
+
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
+        if (!level.isClientSide) {
+            Rubble rubble = new Rubble(ModEntities.RUBBLE.get(), level);
+            rubble.setPos(player.getX(), player.getY() + 10.0, player.getZ());
+            rubble.setBlock(Blocks.COAL_ORE);
+            level.addFreshEntity(rubble);
+        }
+        return super.use(level, player, usedHand);
     }
 
     @Override

@@ -2,10 +2,11 @@ package com.hbm.render.entity.projectile;
 
 import com.hbm.entity.projectile.Rubble;
 import com.hbm.render.util.AtlasSpriteVertexConsumer;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -40,23 +41,16 @@ public class RenderRubble extends EntityRenderer<Rubble> {
         Block block = entity.getBlock();
 
         ResourceLocation blockId = BuiltInRegistries.BLOCK.getKey(block);
-        ResourceLocation tex = ResourceLocation.fromNamespaceAndPath(blockId.getNamespace(), "block/" + blockId.getPath());
+        ResourceLocation tex = blockId.withPrefix("textures/block/").withSuffix(".png");
 
-        TextureAtlasSprite sprite = Minecraft.getInstance()
-                .getModelManager()
-                .getAtlas(TextureAtlas.LOCATION_BLOCKS)
-                .getSprite(tex);
-
-        VertexConsumer base = buffer.getBuffer(RenderType.entityCutout(TextureAtlas.LOCATION_BLOCKS));
-
-        VertexConsumer vc = new AtlasSpriteVertexConsumer(base, sprite);
-        model.renderToBuffer(poseStack, vc, packedLight, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF);
+        VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(tex));
+        model.renderToBuffer(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF);
 
         poseStack.popPose();
     }
 
     @Override
-    public ResourceLocation getTextureLocation(Rubble entityShrapnel) {
+    public ResourceLocation getTextureLocation(Rubble entity) {
         return null;
     }
 }

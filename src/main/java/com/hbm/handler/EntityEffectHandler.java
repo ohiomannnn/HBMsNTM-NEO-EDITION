@@ -1,6 +1,5 @@
 package com.hbm.handler;
 
-import com.hbm.HBMsNTM;
 import com.hbm.HBMsNTMClient;
 import com.hbm.config.MainConfig;
 import com.hbm.extprop.HbmLivingAttachments;

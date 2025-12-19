@@ -20,6 +20,7 @@ public class ConfettiUtil {
 
     public static void decideConfetti(LivingEntity entity, DamageSourceNT source) {
         if (entity.isAlive()) return;
+        if (source.isLaser()) pulverize(entity);
         if (source.isExplosion()) gib(entity);
         if (source.isFireDamage()) cremate(entity);
     }

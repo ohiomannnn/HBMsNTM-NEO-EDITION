@@ -56,7 +56,7 @@ public class EntityProcessorCrossSmooth extends EntityProcessorCross {
 
         String name = "minecraft:generic";
 
-        switch(dmgClass) {
+        switch (dmgClass) {
             case IN_FIRE: name = "minecraft:in_fire"; break;
             case EXPLOSION: name = "minecraft:explosion"; break;
             case ELECTRIC, LASER, SUBATOMIC, PHYSICAL: break;
@@ -64,11 +64,11 @@ public class EntityProcessorCrossSmooth extends EntityProcessorCross {
 
         DamageSourceNT dmg = new DamageSourceNT(level, name);
 
-        switch(dmgClass) {
+        switch (dmgClass) {
             case PHYSICAL: dmg.setProjectile(); break;
             case IN_FIRE: dmg.setFireDamage(); break;
             case EXPLOSION: dmg.setExplosion(); break;
-            case ELECTRIC, LASER, SUBATOMIC: break;
+            case ELECTRIC, LASER, SUBATOMIC: dmg.setLaser(); break;
         }
 
         return dmg;

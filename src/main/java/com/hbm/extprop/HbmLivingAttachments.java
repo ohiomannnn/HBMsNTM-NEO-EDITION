@@ -138,8 +138,7 @@ public class HbmLivingAttachments {
             }
         }
         if ((entity.getMaxHealth() <= 0 || digamma >= 10.0F) && entity.isAlive()) {
-            DamageSource src = new DamageSource(entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageSource.DIGAMMA));
-            entity.hurt(src, Float.MAX_VALUE);
+            entity.hurt(entity.damageSources().source(ModDamageSource.DIGAMMA), Float.MAX_VALUE);
         }
     }
 
@@ -163,12 +162,13 @@ public class HbmLivingAttachments {
 
     public static void setAsbestos(LivingEntity entity, int asbestos) {
         if (MainConfig.COMMON.DISABLE_ASBESTOS.get()) return;
-        getData(entity).asbestos = asbestos;
+        HbmLivingAttachments props = getData(entity);
+        props.asbestos = asbestos;
+        entity.setData(ModAttachments.LIVING_ATTACHMENT, props);
 
         if (asbestos >= maxAsbestos) {
             getData(entity).asbestos = 0;
-            DamageSource src = new DamageSource(entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageSource.ASBESTOS));
-            entity.hurt(src, Float.MAX_VALUE);
+            entity.hurt(entity.damageSources().source(ModDamageSource.ASBESTOS), Float.MAX_VALUE);
         }
     }
 
@@ -189,12 +189,13 @@ public class HbmLivingAttachments {
 
     public static void setBlackLung(LivingEntity entity, int blacklung) {
         if (MainConfig.COMMON.DISABLE_COAL.get()) return;
-        getData(entity).blacklung = blacklung;
+        HbmLivingAttachments props = getData(entity);
+        props.blacklung = blacklung;
+        entity.setData(ModAttachments.LIVING_ATTACHMENT, props);
 
         if (blacklung >= maxBlacklung) {
             getData(entity).blacklung = 0;
-            DamageSource src = new DamageSource(entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageSource.BLACKLUNG));
-            entity.hurt(src, Float.MAX_VALUE);
+            entity.hurt(entity.damageSources().source(ModDamageSource.BLACKLUNG), Float.MAX_VALUE);
         }
     }
 

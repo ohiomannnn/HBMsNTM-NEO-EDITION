@@ -122,21 +122,16 @@ public class BlockProcessorStandard implements IBlockProcessor {
     }
 
     public BlockProcessorStandard setNoDrop() {
-        this.chance = new DropChanceMutatorStandard(0F);
+        this.chance = (explosion, block, pos, chance) -> 0F;
         return this;
     }
     public BlockProcessorStandard setAllDrop() {
-        this.chance = new DropChanceMutatorStandard(1F);
+        this.chance = (explosion, block, pos, chance) -> 1F;
         return this;
     }
 
     public BlockProcessorStandard setFortune(int fortune) {
-        this.fortune = new IFortuneMutator() { //no standard class because we only have one case thus far
-            @Override
-            public int mutateFortune(ExplosionVNT explosion, Block block, BlockPos pos) {
-                return fortune;
-            }
-        };
+        this.fortune = (explosion, block, pos) -> fortune;
         return this;
     }
 }

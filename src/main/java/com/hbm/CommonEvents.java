@@ -1,6 +1,7 @@
 package com.hbm;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.commands.ChunkRadCommand;
 import com.hbm.commands.LivingPropsCommand;
 import com.hbm.commands.SatellitesCommand;
 import com.hbm.config.FalloutConfigJSON;
@@ -134,6 +135,7 @@ public class CommonEvents {
     public static void registerCommands(RegisterCommandsEvent event) {
         LivingPropsCommand.register(event.getDispatcher());
         SatellitesCommand.register(event.getDispatcher());
+        ChunkRadCommand.register(event.getDispatcher());
     }
 
     @SubscribeEvent

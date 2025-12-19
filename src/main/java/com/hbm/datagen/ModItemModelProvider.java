@@ -90,5 +90,10 @@ public class ModItemModelProvider extends ItemModelProvider {
                             .texture("layer0", modLoc("item/polaroids/polaroid_" + i)))
                     .end();
         }
+
+        this.basicItem(ModItems.EARLY_EXPLOSIVE_LENSES.get());
+
+        this.basicItem(ModItems.MAN_IGNITER.get());
+        this.basicItem(ModItems.MAN_CORE.get());
     }
 }

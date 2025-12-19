@@ -7,6 +7,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
@@ -26,23 +27,26 @@ public class DataGenerators {
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
-        PackOutput packOutput = generator.getPackOutput();
-        ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
-        CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
+        PackOutput output = generator.getPackOutput();
+        ExistingFileHelper helper = event.getExistingFileHelper();
+        CompletableFuture<HolderLookup.Provider> lookup = event.getLookupProvider();
 
-        generator.addProvider(event.includeServer(), new LootTableProvider(packOutput, Collections.emptySet(), List.of(new LootTableProvider.SubProviderEntry(ModBlockLootTableProvider::new, LootContextParamSets.BLOCK)), lookupProvider));
-        generator.addProvider(event.includeServer(), new ModRecipeProvider(packOutput, lookupProvider));
+        // Client things
+        generator.addProvider(event.includeClient(), new ModItemModelProvider(output, helper));
+        generator.addProvider(event.includeClient(), new ModBlockStateProvider(output, helper));
 
-        generator.addProvider(event.includeServer(), new ModBlockTagProvider(packOutput, lookupProvider, existingFileHelper));;
+        // Server things
+        LootTableProvider.SubProviderEntry blockLootTableSubProvider = new LootTableProvider.SubProviderEntry(ModBlockLootTableProvider::new, LootContextParamSets.BLOCK);
+        generator.addProvider(event.includeServer(), (DataProvider.Factory<LootTableProvider>) lootTableOutput -> new LootTableProvider(lootTableOutput, Collections.emptySet(), List.of(blockLootTableSubProvider), event.getLookupProvider()));
 
-        generator.addProvider(event.includeClient(), new ModItemModelProvider(packOutput, existingFileHelper));
-        generator.addProvider(event.includeClient(), new ModBlockStateProvider(packOutput, existingFileHelper));
+        generator.addProvider(event.includeServer(), new ModBlockTagProvider(output, lookup, helper));
+        generator.addProvider(event.includeServer(), new ModRecipeProvider(output, lookup));
 
         // Datapack things
         RegistrySetBuilder builder = new RegistrySetBuilder();
         builder.add(Registries.DAMAGE_TYPE, ModDamageSource::bootstrap);
         builder.add(Registries.BIOME, ModBiomes::bootstrap);
-        DatapackBuiltinEntriesProvider datapackProvider = new DatapackBuiltinEntriesProvider(packOutput, lookupProvider, builder, Set.of(HBMsNTM.MODID));
+        DatapackBuiltinEntriesProvider datapackProvider = new DatapackBuiltinEntriesProvider(output, lookup, builder, Set.of(HBMsNTM.MODID));
         generator.addProvider(event.includeServer(), datapackProvider);
     }
 }

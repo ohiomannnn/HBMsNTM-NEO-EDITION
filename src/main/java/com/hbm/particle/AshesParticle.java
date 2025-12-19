@@ -17,9 +17,6 @@ import java.util.List;
 
 public class AshesParticle extends RotatingParticle {
 
-    protected double prevRotationPitch;
-    protected double rotationPitch;
-
     public AshesParticle(ClientLevel level, double x, double y, double z, float scale) {
         super(level, x, y, z);
         this.setSpriteFromAge(ModParticles.BASE_PARTICLE_SPRITES);
@@ -77,9 +74,9 @@ public class AshesParticle extends RotatingParticle {
         }
 
         this.yd -= gravity;
-        this.prevRotationPitch = this.rotationPitch;
+        this.oRoll = this.roll;
 
-        if (!this.onGround) this.rotationPitch += (float) (2 * ((this.hashCode() % 2) - 0.5));
+        if (!this.onGround) this.roll += (float) (2 * ((this.hashCode() % 2) - 0.5));
 
         this.xd *= 0.95D;
         this.yd *= 0.99D;
@@ -87,7 +84,7 @@ public class AshesParticle extends RotatingParticle {
 
         boolean wasOnGround = this.onGround;
         this.move(this.xd, this.yd, this.zd);
-        if (!wasOnGround && this.onGround) this.rotationPitch = random.nextFloat() * 360F;
+        if (!wasOnGround && this.onGround) this.roll = random.nextFloat() * 360F;
 
         if (this.hashCode() % 5 == 0 && this.onGround && random.nextInt(15) == 0) {
             level.addParticle(ParticleTypes.SMOKE, x, y + 0.125, z, 0, 0.05, 0);
@@ -110,7 +107,7 @@ public class AshesParticle extends RotatingParticle {
             float pY = (float)(Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y);
             float pZ = (float)(Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z);
 
-            Vec3NT vec = new Vec3NT(quadSize, 0, quadSize).rotateAroundYDeg(this.rotationPitch);
+            Vec3NT vec = new Vec3NT(quadSize, 0, quadSize).rotateAroundYDeg(this.roll);
 
             float u0 = sprite.getU0();
             float u1 = sprite.getU1();
@@ -122,25 +119,21 @@ public class AshesParticle extends RotatingParticle {
             consumer.addVertex((float) (pX + vec.xCoord), pY + 0.15F, (float) (pZ + vec.zCoord))
                     .setUv(u1, v1)
                     .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
-                    .setNormal(0.0F, 1.0F, 0.0F)
                     .setLight(light);
             vec.rotateAroundYDeg(90);
             consumer.addVertex((float) (pX + vec.xCoord), pY + 0.15F, (float) (pZ + vec.zCoord))
                     .setUv(u1, v0)
                     .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
-                    .setNormal(0.0F, 1.0F, 0.0F)
                     .setLight(light);
             vec.rotateAroundYDeg(90);
             consumer.addVertex((float) (pX + vec.xCoord), pY + 0.15F, (float) (pZ + vec.zCoord))
                     .setUv(u0, v0)
                     .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
-                    .setNormal(0.0F, 1.0F, 0.0F)
                     .setLight(light);
             vec.rotateAroundYDeg(90);
             consumer.addVertex((float) (pX + vec.xCoord), pY + 0.15F, (float) (pZ + vec.zCoord))
                     .setUv(u0, v1)
                     .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
-                    .setNormal(0.0F, 1.0F, 0.0F)
                     .setLight(light);
         } else {
             this.renderParticleRotated(consumer, camera, this.rCol, this.gCol, this.bCol, this.alpha, this.quadSize, partialTicks, this.getLightColor(partialTicks));

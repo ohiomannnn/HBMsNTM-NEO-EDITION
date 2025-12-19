@@ -22,7 +22,7 @@ public class NukeFatManMenu extends AbstractContainerMenu {
         this(id, playerInv, (NukeFatManBlockEntity) playerInv.player.level().getBlockEntity(extraData.readBlockPos()));
     }
 
-    public NukeFatManMenu(int id, Inventory playerInv, NukeFatManBlockEntity blockEntity) {
+    public NukeFatManMenu(int id, Inventory inventory, NukeFatManBlockEntity blockEntity) {
         super(ModMenuTypes.NUKE_FATMAN.get(), id);
 
         this.blockEntity = blockEntity;
@@ -38,12 +38,12 @@ public class NukeFatManMenu extends AbstractContainerMenu {
 
         for (int y = 0; y < 3; y++) {
             for (int x = 0; x < 9; x++) {
-                this.addSlot(new Slot(playerInv, x + y * 9 + 9, 8 + x * 18, 84 + y * 18));
+                this.addSlot(new Slot(inventory, x + y * 9 + 9, 8 + x * 18, 84 + y * 18));
             }
         }
 
         for (int x = 0; x < 9; x++) {
-            this.addSlot(new Slot(playerInv, x, 8 + x * 18, 142));
+            this.addSlot(new Slot(inventory, x, 8 + x * 18, 142));
         }
     }
 
@@ -74,32 +74,6 @@ public class NukeFatManMenu extends AbstractContainerMenu {
 
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
-
-        ItemStack newStack = ItemStack.EMPTY;
-        Slot slot = this.slots.get(index);
-
-        if (slot.hasItem()) {
-
-            ItemStack stack = slot.getItem();
-            newStack = stack.copy();
-
-            if (index < 3) {
-                if (!moveItemStackTo(stack, 3, this.slots.size(), true)) {
-                    return ItemStack.EMPTY;
-                }
-            } else {
-                if (!moveItemStackTo(stack, 0, 1, false)) {
-                    return ItemStack.EMPTY;
-                }
-            }
-
-            if (stack.isEmpty()) {
-                slot.set(ItemStack.EMPTY);
-            } else {
-                slot.setChanged();
-            }
-        }
-
-        return newStack;
+        return ItemStack.EMPTY;
     }
 }

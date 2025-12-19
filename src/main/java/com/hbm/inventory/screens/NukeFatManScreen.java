@@ -3,11 +3,14 @@ package com.hbm.inventory.screens;
 import com.hbm.HBMsNTM;
 import com.hbm.inventory.menus.MachineSatLinkerMenu;
 import com.hbm.inventory.menus.NukeFatManMenu;
+import com.hbm.util.i18n.I18nUtil;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NukeFatManScreen extends InfoScreen<NukeFatManMenu> {
@@ -25,9 +28,10 @@ public class NukeFatManScreen extends InfoScreen<NukeFatManMenu> {
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         super.render(guiGraphics, mouseX, mouseY, partialTicks);
 
-        List<Component> text = List.of(
-                Component.translatable("desc.gui.nukeMan.desc")
-        );
+        List<Component> text = new ArrayList<>();
+        for (String s : I18nUtil.resolveKeyArray("desc.gui.nukeMan.desc")) {
+            text.add(Component.literal(s).withStyle(ChatFormatting.GRAY));
+        }
         this.drawCustomInfoStat(guiGraphics, mouseX, mouseY, this.leftPos - 16, this.topPos + 16, 16, 16, this.leftPos - 16, this.topPos + 16 + 16, text);
         this.renderTooltip(guiGraphics, mouseX, mouseY);
     }

@@ -11,6 +11,7 @@ public class DamageSourceNT extends DamageSource {
     private boolean isFire;
     private boolean isProjectile;
     private boolean isExplosion;
+    private boolean isLaser;
 
     public DamageSourceNT(Level level, String fromNameAndPath) {
         super(ModDamageSource.create(level, fromNameAndPath.toLowerCase(Locale.US)).typeHolder());
@@ -31,6 +32,11 @@ public class DamageSourceNT extends DamageSource {
         return this;
     }
 
+    public DamageSourceNT setLaser() {
+        this.isLaser = true;
+        return this;
+    }
+
     public boolean isFireDamage() {
         return isFire;
     }
@@ -43,4 +49,7 @@ public class DamageSourceNT extends DamageSource {
         return isExplosion;
     }
 
+    public boolean isLaser() {
+        return isLaser;
+    }
 }

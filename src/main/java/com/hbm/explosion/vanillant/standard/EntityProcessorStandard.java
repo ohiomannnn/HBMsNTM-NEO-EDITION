@@ -82,14 +82,16 @@ public class EntityProcessorStandard implements IEntityProcessor {
 
                     entity.hurt(setExplosionSource(level, explosion.compat), calculateDamage(distanceScaled, density, knockback, size));
 
-                    deltaX *= knockback;
-                    deltaY *= knockback;
-                    deltaZ *= knockback;
+                    Vec3 velocity = new Vec3(
+                            deltaX * knockback,
+                            deltaY * knockback,
+                            deltaZ * knockback
+                    );
 
-                    Vec3 velocity = new Vec3(deltaX, deltaY, deltaZ);
+                    entity.setDeltaMovement(entity.getDeltaMovement().add(velocity));
 
                     if (entity instanceof Player player) {
-                        if (!player.isSpectator() && (!player.isCreative() || !player.getAbilities().flying)) {
+                        if (!player.isSpectator() && !player.isCreative()) {
                             affectedPlayers.put(player, velocity);
                         }
                     }

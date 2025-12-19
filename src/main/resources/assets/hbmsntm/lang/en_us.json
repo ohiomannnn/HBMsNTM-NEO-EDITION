@@ -181,6 +181,13 @@
 
   "item.hbmsntm.satellite_interface": "Satellite Control Interface",
 
+  "item.hbmsntm.early_explosive_lenses": "Array of First-Generation High-Explosive Lenses",
+  "item.hbmsntm.early_explosive_lenses.desc": "Assembly of 8 high-explosive lenses with an aluminium$pusher, duraluminium shell, and bridgewire detonators.",
+  "item.hbmsntm.man_core": "Plutonium Core",
+  "item.hbmsntm.man_igniter": "Bomb Firing Unit",
+
+  "desc.gui.nukeMan.desc": "§1Requires:§r$ * 4 Arrays of First-Generation$   High-Explosive Lenses$ * Plutonium Core$ * Bomb Firing Unit",
+
   "satchip.frequency": "Satellite frequency: %s",
   "item.hbmsntm.satellite_laser": "Orbital Death Ray",
   "item.hbmsntm.satellite_laser.desc": "Allows to summon lasers with a 15 second cooldown.",
@@ -388,6 +395,8 @@
   "commands.satellite.satellite_descended": "Satellite successfully descended.",
   "commands.satellite.satellite_orbited": "Satellite launched.",
   "commands.satellite.should_be_run_as_player": "This command should be run by a player!",
+  "commands.chunkrad.setrad": "Chunk radiation set to %s",
 
-  "container.satLinker": "SatLink Device"
+  "container.satLinker": "SatLink Device",
+  "container.nuke_fatman": "Fat Man"
 }

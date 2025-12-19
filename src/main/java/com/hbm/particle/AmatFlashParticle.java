@@ -10,6 +10,7 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -43,10 +44,11 @@ public class AmatFlashParticle extends TextureSheetParticle {
         Tesselator tess = Tesselator.getInstance();
 
         RandomSource random = RandomSource.create(432L);
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-        RenderSystem.disableCull();
         RenderSystem.depthMask(false);
+        RenderSystem.enableCull();
 
         float scale = 0.5F;
 
@@ -60,23 +62,27 @@ public class AmatFlashParticle extends TextureSheetParticle {
             float vert1 = (random.nextFloat() * 20.0F + 5.0F + 1 * 10.0F) * (intensity * scale);
             float vert2 = (random.nextFloat() * 2.0F + 1.0F + 1 * 2.0F) * (intensity * scale);
 
-            BufferBuilder buffer = tess.begin(VertexFormat.Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
-
             Matrix4f matrix = poseStack.last().pose();
 
-            buffer.addVertex(matrix, 0, 0, 0).setColor(1.0F, 1.0F, 1.0F, inverse);
-
-            buffer.addVertex(matrix, -0.866F * vert2, vert1, -0.5F * vert2).setColor(1.0F, 1.0F, 1.0F, 0.0F);
-            buffer.addVertex(matrix, 0.866F * vert2, vert1, -0.5F * vert2).setColor(1.0F, 1.0F, 1.0F, 0.0F);
-            buffer.addVertex(matrix, 0.0F, vert1, 1.0F * vert2).setColor(1.0F, 1.0F, 1.0F, 0.0F);
-            buffer.addVertex(matrix, -0.866F * vert2, vert1, -0.5F * vert2).setColor(1.0F, 1.0F, 1.0F, 0.0F);
+            BufferBuilder buffer = tess.begin(VertexFormat.Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
+            buffer.addVertex(matrix, 0, 0, 0)
+                    .setColor(1.0F, 1.0F, 1.0F, inverse);
+            buffer.addVertex(matrix, -0.866F * vert2, vert1, -0.5F * vert2)
+                    .setColor(1.0F, 1.0F, 1.0F, 0F);
+            buffer.addVertex(matrix, 0.866F * vert2, vert1, -0.5F * vert2)
+                    .setColor(1.0F, 1.0F, 1.0F, 0F);
+            buffer.addVertex(matrix, 0.0F, vert1, 1.0F * vert2)
+                    .setColor(1.0F, 1.0F, 1.0F, 0F);
+            buffer.addVertex(matrix, -0.866F * vert2, vert1, -0.5F * vert2)
+                    .setColor(1.0F, 1.0F, 1.0F, 0F);
 
             BufferUploader.drawWithShader(buffer.buildOrThrow());
         }
 
-        RenderSystem.enableCull();
         RenderSystem.disableBlend();
+        RenderSystem.disableCull();
         RenderSystem.depthMask(true);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
         poseStack.popPose();
     }

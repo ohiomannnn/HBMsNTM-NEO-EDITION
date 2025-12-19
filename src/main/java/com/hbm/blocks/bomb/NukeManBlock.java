@@ -1,6 +1,7 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.blockentity.bomb.NukeFatManBlockEntity;
+import com.hbm.blockentity.machine.MachineSatLinkerBlockEntity;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.effect.NukeTorex;
 import com.hbm.entity.logic.NukeExplosionMK5;
@@ -8,6 +9,9 @@ import com.hbm.interfaces.IBomb;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
@@ -47,6 +51,25 @@ public class NukeManBlock extends BaseEntityBlock implements IBomb {
         builder.add(FACING);
     }
 
+    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (!state.is(newState.getBlock())) {
+            BlockEntity blockentity = level.getBlockEntity(pos);
+            if (blockentity instanceof NukeFatManBlockEntity blockEntity) {
+                NonNullList<ItemStack> stacks = NonNullList.create();
+                for (int i = 0; i < blockEntity.getItems().getSlots(); i++) {
+                    stacks.add(blockEntity.getItems().getStackInSlot(i));
+                }
+                if (level instanceof ServerLevel) {
+                    Containers.dropContents(level, pos, stacks);
+                }
+                super.onRemove(state, level, pos, newState, isMoving);
+            } else {
+                super.onRemove(state, level, pos, newState, isMoving);
+            }
+        }
+
+    }
+
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (level.getBlockEntity(pos) instanceof NukeFatManBlockEntity entity) {
@@ -71,8 +94,11 @@ public class NukeManBlock extends BaseEntityBlock implements IBomb {
         if (!level.isClientSide) {
             NukeFatManBlockEntity blockEntity = (NukeFatManBlockEntity) level.getBlockEntity(pos);
             if (blockEntity == null) return BombReturnCode.UNDEFINED;
-            level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
             if (blockEntity.isReady()) {
+                for (int i = 0; i < blockEntity.getItems().getSlots(); i++) {
+                    blockEntity.getItems().insertItem(i, ItemStack.EMPTY, false);
+                }
+                level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
                 NukeExplosionMK5.statFac(level, MainConfig.COMMON.MAN_RADIUS.get(), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
                 NukeTorex.statFacStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, MainConfig.COMMON.MAN_RADIUS.get());
                 return BombReturnCode.DETONATED;

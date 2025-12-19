@@ -66,14 +66,8 @@ public class HazeParticle extends TextureSheetParticle {
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.enableBlend();
-        RenderSystem.blendFuncSeparate(
-                GlStateManager.SourceFactor.SRC_ALPHA,
-                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
-                GlStateManager.SourceFactor.ONE,
-                GlStateManager.DestFactor.ZERO
-        );
-        RenderSystem.disableDepthTest();
-        RenderSystem.depthMask(false);
+        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+        RenderSystem.depthMask(true);
         RenderSystem.setShaderTexture(0, HAZE);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha * 0.1F);
 
@@ -109,7 +103,6 @@ public class HazeParticle extends TextureSheetParticle {
 
         RenderSystem.polygonOffset(0.0F, 0.0F);
         RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-        RenderSystem.enableDepthTest();
         RenderSystem.disableBlend();
     }
 

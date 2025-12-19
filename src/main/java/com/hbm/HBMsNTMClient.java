@@ -388,8 +388,6 @@ public class HBMsNTMClient {
 
         event.registerEntityRenderer(ModEntities.DEATH_BLAST.get(), RenderDeathBlast::new);
 
-        event.registerEntityRenderer(ModEntities.MISSILE_HE.get(), RenderMissileTEST::new);
-
         ItemProperties.register(ModItems.POLAROID.get(), ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "polaroid_id"),
                 (stack, level, entity, seed) -> PolaroidItem.polaroidID);
 

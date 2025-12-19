@@ -128,7 +128,7 @@ public class EntityProcessorCross implements IEntityProcessor {
 
                         if (entity instanceof Player player) {
                             player.hurtMarked = true;
-                            if (!player.isSpectator() && (!player.isCreative() || !player.getAbilities().flying)) {
+                            if (!player.isSpectator() && !player.isCreative()) {
                                 affectedPlayers.put(player, velocity);
                             }
                         }

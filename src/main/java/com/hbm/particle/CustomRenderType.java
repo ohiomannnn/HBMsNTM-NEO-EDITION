@@ -31,66 +31,7 @@ public interface CustomRenderType {
         }
     };
 
-    ParticleRenderType AMAT_FLASH = new ParticleRenderType() {
-        @Override
-        public BufferBuilder begin(Tesselator tesselator, TextureManager textureManager) {
-            RenderSystem.enableBlend();
-            RenderSystem.blendFunc(770, 1);
-            RenderSystem.depthMask(false);
-            RenderSystem.setShader(GameRenderer::getPositionColorShader);
-            return tesselator.begin(VertexFormat.Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
-        }
-
-        @Override
-        public String toString() {
-            return "AMAT_FLASH";
-        }
-    };
-
-    // the fog is coming
-    ParticleRenderType FOG = new ParticleRenderType() {
-        @Override
-        public BufferBuilder begin(Tesselator tesselator, TextureManager textureManager) {
-            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
-            RenderSystem.enableBlend();
-            RenderSystem.blendFuncSeparate(
-                    GlStateManager.SourceFactor.SRC_ALPHA,
-                    GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
-                    GlStateManager.SourceFactor.ONE,
-                    GlStateManager.DestFactor.ZERO
-            );
-            RenderSystem.depthMask(false);
-            return tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
-        }
-
-        @Override
-        public String toString() {
-            return "FOG";
-        }
-    };
-
-    ParticleRenderType ASH = new ParticleRenderType() {
-        @Override
-        public BufferBuilder begin(Tesselator tesselator, TextureManager textureManager) {
-            RenderSystem.depthMask(true);
-            RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
-            RenderSystem.enableBlend();
-            RenderSystem.blendFuncSeparate(
-                    GlStateManager.SourceFactor.SRC_ALPHA,
-                    GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
-                    GlStateManager.SourceFactor.ONE,
-                    GlStateManager.DestFactor.ZERO
-            );
-            RenderSystem.disableCull();
-            return tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
-        }
-
-        @Override
-        public String toString() {
-            return "ASH";
-        }
-    };
-
+    // mojang just why we cant particle render type without everything?
     ParticleRenderType NONE = new ParticleRenderType() {
         @Override
         public BufferBuilder begin(Tesselator tesselator, TextureManager textureManager) {

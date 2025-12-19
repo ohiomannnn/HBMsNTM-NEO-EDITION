@@ -24,10 +24,7 @@ public class BlockProcessorNoDamage implements IBlockProcessor {
     @Override
     public void process(ExplosionVNT explosion, Level level, double x, double y, double z, HashSet<BlockPos> affectedBlocks) {
 
-        Iterator<BlockPos> iterator = affectedBlocks.iterator();
-
-        while (iterator.hasNext()) {
-            BlockPos pos = iterator.next();
+        for (BlockPos pos : affectedBlocks) {
             BlockState state = level.getBlockState(pos);
 
             if (!state.isAir()) {
@@ -36,10 +33,7 @@ public class BlockProcessorNoDamage implements IBlockProcessor {
         }
 
         if (this.convert != null) {
-            iterator = affectedBlocks.iterator();
-
-            while (iterator.hasNext()) {
-                BlockPos pos = iterator.next();
+            for (BlockPos pos : affectedBlocks) {
                 BlockState state = level.getBlockState(pos);
 
                 if (state.isAir()) {

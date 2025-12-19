@@ -3,7 +3,6 @@ package com.hbm.particle;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
@@ -20,7 +19,7 @@ public abstract class RotatingParticle extends TextureSheetParticle {
         float pX = (float)(Mth.lerp(partialTicks, this.xo, this.x) - camPos.x);
         float pY = (float)(Mth.lerp(partialTicks, this.yo, this.y) - camPos.y);
         float pZ = (float)(Mth.lerp(partialTicks, this.zo, this.z) - camPos.z);
-        float rotation  = this.oRoll + (this.roll - this.oRoll) * partialTicks;
+        float rotation = Mth.lerp(partialTicks, this.oRoll, this.roll);
 
         Vector3f l = new Vector3f(camera.getLeftVector()).mul(scale);
         Vector3f u = new Vector3f(camera.getUpVector()).mul(scale);
@@ -71,22 +70,18 @@ public abstract class RotatingParticle extends TextureSheetParticle {
         consumer.addVertex(pX + x01, pY + y01, pZ + z01)
                 .setColor(r, g, b, alpha)
                 .setUv(u1, v1)
-                .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(brightness);
         consumer.addVertex(pX + x02, pY + y02, pZ + z02)
                 .setColor(r, g, b, alpha)
                 .setUv(u1, v0)
-                .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(brightness);
         consumer.addVertex(pX + x03, pY + y03, pZ + z03)
                 .setColor(r, g, b, alpha)
                 .setUv(u0, v0)
-                .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(brightness);
         consumer.addVertex(pX + x04, pY + y04, pZ + z04)
                 .setColor(r, g, b, alpha)
                 .setUv(u0, v1)
-                .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(brightness);
     }
 }
