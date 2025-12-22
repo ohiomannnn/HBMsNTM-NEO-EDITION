@@ -235,9 +235,12 @@
   "item.hbmsntm.bottle_sparkle": "Bottle of S~Cola",
   "item.hbmsntm.bottle_sparkle.desc": "The most delicious beverage in the wasteland!",
   "item.hbmsntm.bottle_sparkle.desc.P11": "Contains trace amounts of taint.",
+  "requires.opener": "[Requires bottle opener]",
 
   "item.hbmsntm.cell_antimatter": "Antimatter Cell",
   "item.hbmsntm.cell_antimatter.desc": "Warning: Exposure to matter will lead to violent annihilation!",
+  "item.hbmsntm.pellet_antimatter": "Antimatter Cluster",
+  "item.hbmsntm.pellet_antimatter.desc": "Very heavy antimatter cluster.$Gets rid of black holes.",
   "item.hbmsntm.schrabidium_pickaxe": "Schrabidium Pickaxe",
   "item.hbmsntm.alloy_sword": "Advanced Alloy Sword",
 
@@ -257,6 +260,11 @@
   "death.attack.nuclear_blast": "%s was blown away by a nuclear explosion.",
   "death.attack.shrapnel": "%s was ragged by a shrapnel.",
   "death.attack.monoxide": "%s forgot to change the batteries in their carbon monoxide detector.",
+
+  "entity.hbmsntm.black_hole": "Black Hole",
+  "entity.hbmsntm.quasar": "Quasar",
+  "entity.hbmsntm.vortex": "Vortex",
+  "entity.hbmsntm.raging_vortex": "Raging Vortex",
 
   "effect.hbmsntm.taint": "Tainted",
   "effect.hbmsntm.radiation": "Radiation",

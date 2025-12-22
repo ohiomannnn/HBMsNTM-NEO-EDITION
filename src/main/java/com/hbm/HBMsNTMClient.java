@@ -23,10 +23,7 @@ import com.hbm.render.blockentity.RenderGeigerBlock;
 import com.hbm.render.blockentity.RenderLandMine;
 import com.hbm.render.blockentity.RenderNukeFatMan;
 import com.hbm.render.entity.EmptyRenderer;
-import com.hbm.render.entity.effect.RenderDeathBlast;
-import com.hbm.render.entity.effect.RenderFallout;
-import com.hbm.render.entity.effect.RenderTorex;
-import com.hbm.render.entity.effect.SkeletonModel;
+import com.hbm.render.entity.effect.*;
 import com.hbm.render.entity.item.RenderTNTPrimedBase;
 import com.hbm.render.entity.mob.EntityDuckRenderer;
 import com.hbm.render.entity.projectile.*;
@@ -385,6 +382,11 @@ public class HBMsNTMClient {
         event.registerEntityRenderer(ModEntities.NUKE_FALLOUT_RAIN.get(), RenderFallout::new);
         event.registerEntityRenderer(ModEntities.SHRAPNEL.get(), RenderShrapnel::new);
         event.registerEntityRenderer(ModEntities.RUBBLE.get(), RenderRubble::new);
+        
+        event.registerEntityRenderer(ModEntities.BLACK_HOLE.get(), RenderBlackHole::new);
+        event.registerEntityRenderer(ModEntities.VORTEX.get(), RenderBlackHole::new);
+        event.registerEntityRenderer(ModEntities.RAGING_VORTEX.get(), RenderBlackHole::new);
+        event.registerEntityRenderer(ModEntities.QUASAR.get(), RenderQuasar::new);
 
         event.registerEntityRenderer(ModEntities.DEATH_BLAST.get(), RenderDeathBlast::new);
 

@@ -1,12 +1,11 @@
 package com.hbm.entity;
 
 import com.hbm.HBMsNTM;
-import com.hbm.entity.effect.FalloutRain;
+import com.hbm.entity.effect.*;
 import com.hbm.entity.item.EntityTNTPrimedBase;
 import com.hbm.entity.logic.DeathBlast;
 import com.hbm.entity.logic.NukeExplosionBalefire;
 import com.hbm.entity.logic.NukeExplosionMK5;
-import com.hbm.entity.effect.NukeTorex;
 import com.hbm.entity.missile.MissileTier1.MissileGeneric;
 import com.hbm.entity.mob.CreeperNuclear;
 import com.hbm.entity.mob.Duck;
@@ -79,6 +78,7 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<Rubble>> RUBBLE = REGISTER.register(
             "rubble",
             () -> EntityType.Builder.of(Rubble::new, MobCategory.MISC)
+                    .sized(1F, 1F)
                     .build("rubble"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<DeathBlast>> DEATH_BLAST = REGISTER.register(
@@ -86,6 +86,36 @@ public class ModEntities {
             () -> EntityType.Builder.of(DeathBlast::new, MobCategory.MISC)
                     .setTrackingRange(1000)
                     .build("death_blast"));
+
+
+    public static final DeferredHolder<EntityType<?>, EntityType<Entity>> BLACK_HOLE = REGISTER.register(
+            "black_hole",
+            () -> EntityType.Builder.of(BlackHole::new, MobCategory.MISC)
+                    .sized(1F, 1F)
+                    .setTrackingRange(1000)
+                    .fireImmune()
+                    .build("black_hole"));
+    public static final DeferredHolder<EntityType<?>, EntityType<Vortex>> VORTEX = REGISTER.register(
+            "vortex",
+            () -> EntityType.Builder.of(Vortex::new, MobCategory.MISC)
+                    .sized(1F, 1F)
+                    .setTrackingRange(1000)
+                    .fireImmune()
+                    .build("vortex"));
+    public static final DeferredHolder<EntityType<?>, EntityType<RagingVortex>> RAGING_VORTEX = REGISTER.register(
+            "raging_vortex",
+            () -> EntityType.Builder.of(RagingVortex::new, MobCategory.MISC)
+                    .sized(1F, 1F)
+                    .setTrackingRange(1000)
+                    .fireImmune()
+                    .build("raging_vortex"));
+    public static final DeferredHolder<EntityType<?>, EntityType<Entity>> QUASAR = REGISTER.register(
+            "quasar",
+            () -> EntityType.Builder.of(BlackHole::new, MobCategory.MISC)
+                    .sized(1F, 1F)
+                    .setTrackingRange(1000)
+                    .fireImmune()
+                    .build("quasar"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<Entity>> MISSILE_HE = REGISTER.register(
             "missile_he",

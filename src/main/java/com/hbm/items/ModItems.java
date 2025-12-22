@@ -37,6 +37,9 @@ public class ModItems {
 
     public static final DeferredItem<Item> CELL_ANTIMATTER = ITEMS.register("cell_antimatter",
             () -> new DangerousDropItem(new Item.Properties()));
+    public static final DeferredItem<Item> PELLET_ANTIMATTER = ITEMS.register("pellet_antimatter",
+            () -> new DangerousDropItem(new Item.Properties()));
+
 
     public static final DeferredItem<Item> GEIGER_COUNTER = ITEMS.register(
             "geiger_counter",

@@ -14,9 +14,11 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class RenderRubble extends EntityRenderer<Rubble> {
 
@@ -40,8 +42,13 @@ public class RenderRubble extends EntityRenderer<Rubble> {
 
         Block block = entity.getBlock();
 
-        ResourceLocation blockId = BuiltInRegistries.BLOCK.getKey(block);
-        ResourceLocation tex = blockId.withPrefix("textures/block/").withSuffix(".png");
+        Minecraft mc = Minecraft.getInstance();
+        BlockState state = block.defaultBlockState();
+        BakedModel stateModel = mc.getBlockRenderer().getBlockModel(state);
+        TextureAtlasSprite sprite = stateModel.getParticleIcon();
+
+        ResourceLocation texturePath = sprite.contents().name();
+        ResourceLocation tex = texturePath.withPrefix("textures/").withSuffix(".png");
 
         VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(tex));
         model.renderToBuffer(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, 0xFFFFFFFF);

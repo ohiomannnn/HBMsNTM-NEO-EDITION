@@ -1,6 +1,7 @@
 package com.hbm.items.special;
 
 import com.hbm.entity.ModEntities;
+import com.hbm.entity.effect.BlackHole;
 import com.hbm.entity.projectile.Rubble;
 import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
@@ -46,10 +47,16 @@ public class PolaroidItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         if (!level.isClientSide) {
-            Rubble rubble = new Rubble(ModEntities.RUBBLE.get(), level);
-            rubble.setPos(player.getX(), player.getY() + 10.0, player.getZ());
-            rubble.setBlock(Blocks.COAL_ORE);
-            level.addFreshEntity(rubble);
+            if (player.isCrouching()) {
+                BlackHole blackHole = new BlackHole(ModEntities.BLACK_HOLE.get(), level);
+                blackHole.setPos(player.getX(), player.getY(), player.getZ());
+                level.addFreshEntity(blackHole);
+            } else {
+                BlackHole blackHole = new BlackHole(ModEntities.BLACK_HOLE.get(), level, 3);
+                blackHole.setPos(player.getX(), player.getY(), player.getZ());
+                blackHole.noBreak();
+                level.addFreshEntity(blackHole);
+            }
         }
         return super.use(level, player, usedHand);
     }

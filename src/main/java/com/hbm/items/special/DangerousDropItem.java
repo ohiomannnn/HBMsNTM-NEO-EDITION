@@ -79,6 +79,10 @@ public class DangerousDropItem extends Item {
             if (stack.is(ModItems.CELL_ANTIMATTER.get()) && MainConfig.COMMON.DROP_CELL.get()) {
                 new ExplosionVNT(level, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), 5F).makeAmat().explode();
             }
+
+            if (stack.is(ModItems.PELLET_ANTIMATTER.get()) && MainConfig.COMMON.DROP_CELL.get()) {
+                new ExplosionVNT(level, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), 20F).makeAmat().explode();
+            }
         }
 
         return false;

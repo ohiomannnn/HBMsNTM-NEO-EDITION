@@ -126,9 +126,11 @@ public class ItemEnergy extends PotionItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
         for (String s : ITooltipProvider.getDescriptionWithP11(this.getDescriptionId())) {
-            tooltipComponents.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
+            components.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
         }
+
+        if (this.requiresOpener) components.add(Component.translatable("requires.opener").withStyle(ChatFormatting.GRAY));
     }
 }
