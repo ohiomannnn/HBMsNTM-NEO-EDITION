@@ -7,7 +7,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 
-import static com.hbm.lib.ModDamageSource.BANG;
+import static com.hbm.lib.ModDamageTypes.BANG;
 
 public class BangEffect extends MobEffect {
 

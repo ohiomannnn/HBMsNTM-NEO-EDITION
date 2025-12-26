@@ -1,6 +1,6 @@
 package com.hbm.blocks.gas;
 
-import com.hbm.lib.ModDamageSource;
+import com.hbm.lib.ModDamageTypes;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.util.ArmorUtil;
@@ -30,7 +30,7 @@ public class GasMonoxideBlock extends GasBaseBlock {
             if (ArmorRegistry.hasProtection(livingEntity, EquipmentSlot.HEAD, HazardClass.GAS_MONOXIDE)) {
                 ArmorUtil.damageGasMaskFilter(livingEntity, 1);
             } else {
-                DamageSource src = new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageSource.MONOXIDE));
+                DamageSource src = new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageTypes.MONOXIDE));
                 livingEntity.hurt(src, 1);
             }
         }

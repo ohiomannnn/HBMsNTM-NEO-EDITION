@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public record SatellitePanel(int satType, CompoundTag tag) implements CustomPacketPayload {
-    public static final Type<SatellitePanel> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "sat_panel"));
+    public static final Type<SatellitePanel> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "satellite_panel_packet"));
 
     public static final StreamCodec<FriendlyByteBuf, SatellitePanel> STREAM_CODEC = new StreamCodec<>() {
                 @Override

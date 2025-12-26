@@ -21,7 +21,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 
-public class ModEntities {
+public class ModEntityTypes {
     public static final DeferredRegister<EntityType<?>> REGISTER = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, HBMsNTM.MODID);
 
     public static final DeferredHolder<EntityType<?>, EntityType<NukeExplosionMK5>> NUKE_MK5 = REGISTER.register(
@@ -74,11 +74,13 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<Shrapnel>> SHRAPNEL = REGISTER.register(
             "shrapnel",
             () -> EntityType.Builder.of(Shrapnel::new, MobCategory.MISC)
+                    .sized(0.25F, 0.25F)
+                    .fireImmune()
                     .build("shrapnel"));
     public static final DeferredHolder<EntityType<?>, EntityType<Rubble>> RUBBLE = REGISTER.register(
             "rubble",
             () -> EntityType.Builder.of(Rubble::new, MobCategory.MISC)
-                    .sized(1F, 1F)
+                    .sized(0.25F, 0.25F)
                     .build("rubble"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<DeathBlast>> DEATH_BLAST = REGISTER.register(
@@ -87,8 +89,7 @@ public class ModEntities {
                     .setTrackingRange(1000)
                     .build("death_blast"));
 
-
-    public static final DeferredHolder<EntityType<?>, EntityType<Entity>> BLACK_HOLE = REGISTER.register(
+    public static final DeferredHolder<EntityType<?>, EntityType<BlackHole>> BLACK_HOLE = REGISTER.register(
             "black_hole",
             () -> EntityType.Builder.of(BlackHole::new, MobCategory.MISC)
                     .sized(1F, 1F)
@@ -109,7 +110,7 @@ public class ModEntities {
                     .setTrackingRange(1000)
                     .fireImmune()
                     .build("raging_vortex"));
-    public static final DeferredHolder<EntityType<?>, EntityType<Entity>> QUASAR = REGISTER.register(
+    public static final DeferredHolder<EntityType<?>, EntityType<BlackHole>> QUASAR = REGISTER.register(
             "quasar",
             () -> EntityType.Builder.of(BlackHole::new, MobCategory.MISC)
                     .sized(1F, 1F)

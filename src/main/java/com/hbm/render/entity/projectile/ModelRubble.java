@@ -17,7 +17,7 @@ import net.minecraft.world.entity.Entity;
 
 public class ModelRubble<T extends Entity> extends EntityModel<T> {
 
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "rubble"), "main");
+    public static final ModelLayerLocation LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "rubble"), "main");
 
     private final ModelPart root;
 

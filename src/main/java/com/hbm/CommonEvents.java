@@ -6,7 +6,7 @@ import com.hbm.commands.LivingPropsCommand;
 import com.hbm.commands.SatellitesCommand;
 import com.hbm.config.FalloutConfigJSON;
 import com.hbm.config.MainConfig;
-import com.hbm.entity.ModEntities;
+import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.mob.CreeperNuclear;
 import com.hbm.entity.mob.Duck;
 import com.hbm.handler.EntityEffectHandler;
@@ -93,8 +93,8 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void onEntityAttributeCreation(EntityAttributeCreationEvent event) {
-        event.put(ModEntities.DUCK.get(), Duck.createAttributes().build());
-        event.put(ModEntities.CREEPER_NUCLEAR.get(), CreeperNuclear.createAttributes().build());
+        event.put(ModEntityTypes.DUCK.get(), Duck.createAttributes().build());
+        event.put(ModEntityTypes.CREEPER_NUCLEAR.get(), CreeperNuclear.createAttributes().build());
     }
 
     @SubscribeEvent

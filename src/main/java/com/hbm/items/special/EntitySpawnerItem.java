@@ -1,6 +1,6 @@
 package com.hbm.items.special;
 
-import com.hbm.entity.ModEntities;
+import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.mob.Duck;
 import com.hbm.items.ModItems;
 import net.minecraft.core.BlockPos;
@@ -97,7 +97,7 @@ public class EntitySpawnerItem extends Item {
 //            y += 35;
 //        }
         if (stack.is(ModItems.DUCK_SPAWN_EGG.get())) {
-            Duck duck = ModEntities.DUCK.get().create(level);
+            Duck duck = ModEntityTypes.DUCK.get().create(level);
             if (duck != null) {
                 duck.moveTo(x, y, z, level.random.nextFloat() * 360F, 0.0F);
                 level.addFreshEntity(duck);

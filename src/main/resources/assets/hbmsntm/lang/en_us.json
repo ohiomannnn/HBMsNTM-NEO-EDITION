@@ -10,7 +10,7 @@
 
   "hbmsntm.configuration.enableMOTD": "Enable MOTD",
   "hbmsntm.configuration.enableExtendedLogging": "Enable Extended Logging",
-  "hbmsntm.configuration.enableSilentCompStackErrors": "Enable Silent CompStack Erros",
+  "hbmsntm.configuration.enableSilentCompStackErrors": "Enable Silent CompStack Errors",
 
   "hbmsntm.configuration.boyRadius": "Little Boy Radius",
   "hbmsntm.configuration.fatmanRadius": "Fatman Launcher Radius",

@@ -12,7 +12,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record InformPlayer(Component component, int id, int millis) implements CustomPacketPayload {
 
-    public static final Type<InformPlayer> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "inform_player"));
+    public static final Type<InformPlayer> TYPE = new Type<>(HBMsNTM.withDefaultNamespaceNT("inform_player_packet"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, InformPlayer> STREAM_CODEC = new StreamCodec<>() {
         @Override
@@ -31,13 +31,8 @@ public record InformPlayer(Component component, int id, int millis) implements C
     };
 
     public static void handleClient(InformPlayer packet, IPayloadContext context) {
-        context.enqueueWork(() -> {
-            HBMsNTMClient.displayTooltip(packet.component(), packet.millis(), packet.id());
-        });
+        context.enqueueWork(() -> HBMsNTMClient.displayTooltip(packet.component(), packet.millis(), packet.id()));
     }
 
-    @Override
-    public Type<? extends CustomPacketPayload> type() {
-        return TYPE;
-    }
+    @Override public Type<? extends CustomPacketPayload> type() { return TYPE; }
 }

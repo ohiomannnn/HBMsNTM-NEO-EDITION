@@ -6,16 +6,15 @@ import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockMutatorDebris;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
@@ -23,7 +22,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
-import static com.hbm.lib.ModDamageSource.SHRAPNEL;
+import static com.hbm.lib.ModDamageTypes.SHRAPNEL;
 
 public class Shrapnel extends ThrowableProjectile {
 
@@ -43,7 +42,7 @@ public class Shrapnel extends ThrowableProjectile {
         super.tick();
 
         if (level().isClientSide && this.entityData.get(TYPE) == 1) {
-            level().addAlwaysVisibleParticle(ParticleTypes.FLAME, true, getX(), getY(), getZ(), 0.0, 0.0, 0.0);
+            Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getX(), this.getY(), this.getZ(), 0.0, 0.0, 0.0);
         }
     }
 
@@ -52,10 +51,7 @@ public class Shrapnel extends ThrowableProjectile {
         super.onHit(result);
 
         if (result instanceof EntityHitResult ehr) {
-            DamageSource src = new DamageSource(
-                    ehr.getEntity().level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(SHRAPNEL)
-            );
-            ehr.getEntity().hurt(src, 15);
+            ehr.getEntity().hurt(this.level().damageSources().source(SHRAPNEL), 15);
         }
 
         if (this.tickCount > 5) {
@@ -86,10 +82,10 @@ public class Shrapnel extends ThrowableProjectile {
 
                     if (getDeltaMovement().y > 0 && result instanceof BlockHitResult bhr) {
                         BlockPos pos = bhr.getBlockPos();
-                        ExplosionVNT vnt = new ExplosionVNT(level(), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 7);
-                        vnt.setBlockAllocator(new BlockAllocatorStandard());
-                        vnt.setBlockProcessor(new BlockProcessorStandard().setNoDrop().withBlockEffect(new BlockMutatorDebris(b == 2 ? ModBlocks.VOLCANIC_LAVA_BLOCK.get() : ModBlocks.RAD_LAVA_BLOCK.get())));
-                        vnt.setSFX(new ExplosionEffectStandard());
+                        ExplosionVNT vnt = new ExplosionVNT(level(), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 7)
+                                .setBlockAllocator(new BlockAllocatorStandard())
+                                .setBlockProcessor(new BlockProcessorStandard().setNoDrop().withBlockEffect(new BlockMutatorDebris(b == 2 ? ModBlocks.VOLCANIC_LAVA_BLOCK.get() : ModBlocks.RAD_LAVA_BLOCK.get())))
+                                .setSFX(new ExplosionEffectStandard());
                         vnt.explode();
                     }
                 }
@@ -101,7 +97,9 @@ public class Shrapnel extends ThrowableProjectile {
                 }
             } else {
                 for (int i = 0; i < 5; i++) {
-                    level().addAlwaysVisibleParticle(ParticleTypes.LAVA, true, getX(), getY(), getZ(), 0.0, 0.0, 0.0);
+                    if (level().isClientSide) {
+                        Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.LAVA, this.getX(), this.getY() + 0.5, this.getZ(), 0.0, 0.0, 0.0);
+                    }
                 }
             }
 

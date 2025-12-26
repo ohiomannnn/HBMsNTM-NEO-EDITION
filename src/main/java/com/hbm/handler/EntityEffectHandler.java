@@ -5,7 +5,7 @@ import com.hbm.config.MainConfig;
 import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.extprop.HbmLivingAttachments.ContaminationEffect;
 import com.hbm.handler.radiation.ChunkRadiationManager;
-import com.hbm.lib.ModDamageSource;
+import com.hbm.lib.ModDamageTypes;
 import com.hbm.lib.ModSounds;
 import com.hbm.network.toclient.AuxParticle;
 import com.hbm.util.ContaminationUtil;
@@ -113,7 +113,7 @@ public class EntityEffectHandler {
 
         /// EFFECTS ///
         if (eRad >= 1000) {
-            DamageSource src = new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageSource.RADIATION));
+            DamageSource src = new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageTypes.RADIATION));
             entity.hurt(src, Float.MAX_VALUE);
             HbmLivingAttachments.setRadiation(entity, 0);
         } else if (eRad >= 800) {

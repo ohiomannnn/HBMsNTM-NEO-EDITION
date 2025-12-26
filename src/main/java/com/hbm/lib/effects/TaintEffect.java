@@ -2,7 +2,7 @@ package com.hbm.lib.effects;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MainConfig;
-import com.hbm.lib.ModDamageSource;
+import com.hbm.lib.ModDamageTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.damagesource.DamageSource;
@@ -25,7 +25,7 @@ public class TaintEffect extends MobEffect {
             // if (!(entity instanceof EntityCreeperTainted) && !(entity instanceof EntityTaintCrab)) {
             if (entity.level().random.nextInt(40) == 0) {
                 DamageSource src = new DamageSource(
-                        entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageSource.TAINT)
+                        entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageTypes.TAINT)
                 );
                 entity.hurt(src, (float) (amplifier + 1));
             }

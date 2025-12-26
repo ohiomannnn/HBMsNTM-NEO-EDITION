@@ -13,38 +13,38 @@ import net.minecraft.resources.ResourceLocation;
 
 public class RenderShrapnel extends EntityRenderer<Shrapnel> {
 
-    private static final ResourceLocation SHRAPNEL = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/entity/shrapnel.png");
+    private static final ResourceLocation SHRAPNEL_LOCATION = HBMsNTM.withDefaultNamespaceNT("textures/entity/shrapnel.png");
 
     private final ModelShrapnel<Shrapnel> model;
 
     public RenderShrapnel(EntityRendererProvider.Context context) {
         super(context);
-        this.model = new ModelShrapnel<>(context.bakeLayer(ModelShrapnel.LAYER_LOCATION));
+        this.model = new ModelShrapnel<>(context.bakeLayer(ModelShrapnel.LAYER));
     }
 
     @Override
-    public void render(Shrapnel entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+    public void render(Shrapnel shrapnel, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         poseStack.pushPose();
         poseStack.scale(1.0F, 1.0F, 1.0F);
-        poseStack.mulPose(Axis.XP.rotationDegrees(180.0F));
 
-        float rotation = (entity.tickCount % 360) * 10 + partialTicks;
+        poseStack.mulPose(Axis.XP.rotationDegrees(180.0F));
+        float rotation = (shrapnel.tickCount % 360) * 10 + partialTicks;
         poseStack.mulPose(Axis.XP.rotationDegrees(rotation));
         poseStack.mulPose(Axis.YP.rotationDegrees(rotation));
         poseStack.mulPose(Axis.ZP.rotationDegrees(rotation));
 
-        if (entity.getShrapnelType() >= 2) { //scale up lava blobs
+        if (shrapnel.getShrapnelType() >= 2) { //scale up lava blobs
             poseStack.scale(3F, 3F, 3F);
         }
 
-        VertexConsumer vertexconsumer = buffer.getBuffer(model.renderType(getTextureLocation(entity)));
-        model.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY);
+        VertexConsumer consumer = buffer.getBuffer(model.renderType(this.getTextureLocation(shrapnel)));
+        model.renderToBuffer(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY);
 
         poseStack.popPose();
     }
 
     @Override
-    public ResourceLocation getTextureLocation(Shrapnel entityShrapnel) {
-        return SHRAPNEL;
+    public ResourceLocation getTextureLocation(Shrapnel shrapnel) {
+        return SHRAPNEL_LOCATION;
     }
 }

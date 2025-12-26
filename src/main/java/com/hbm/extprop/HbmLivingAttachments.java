@@ -5,18 +5,16 @@ import com.hbm.HBMsNTMClient;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.mob.Duck;
 import com.hbm.lib.ModAttachments;
-import com.hbm.lib.ModDamageSource;
+import com.hbm.lib.ModDamageTypes;
 import com.hbm.network.toclient.InformPlayer;
 import com.mojang.serialization.Codec;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -138,7 +136,7 @@ public class HbmLivingAttachments {
             }
         }
         if ((entity.getMaxHealth() <= 0 || digamma >= 10.0F) && entity.isAlive()) {
-            entity.hurt(entity.damageSources().source(ModDamageSource.DIGAMMA), Float.MAX_VALUE);
+            entity.hurt(entity.damageSources().source(ModDamageTypes.DIGAMMA), Float.MAX_VALUE);
         }
     }
 
@@ -168,7 +166,7 @@ public class HbmLivingAttachments {
 
         if (asbestos >= maxAsbestos) {
             getData(entity).asbestos = 0;
-            entity.hurt(entity.damageSources().source(ModDamageSource.ASBESTOS), Float.MAX_VALUE);
+            entity.hurt(entity.damageSources().source(ModDamageTypes.ASBESTOS), Float.MAX_VALUE);
         }
     }
 
@@ -195,7 +193,7 @@ public class HbmLivingAttachments {
 
         if (blacklung >= maxBlacklung) {
             getData(entity).blacklung = 0;
-            entity.hurt(entity.damageSources().source(ModDamageSource.BLACKLUNG), Float.MAX_VALUE);
+            entity.hurt(entity.damageSources().source(ModDamageTypes.BLACKLUNG), Float.MAX_VALUE);
         }
     }
 

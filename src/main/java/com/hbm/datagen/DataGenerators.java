@@ -1,7 +1,7 @@
 package com.hbm.datagen;
 
 import com.hbm.HBMsNTM;
-import com.hbm.lib.ModDamageSource;
+import com.hbm.lib.ModDamageTypes;
 import com.hbm.world.biome.ModBiomes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
@@ -44,7 +44,7 @@ public class DataGenerators {
 
         // Datapack things
         RegistrySetBuilder builder = new RegistrySetBuilder();
-        builder.add(Registries.DAMAGE_TYPE, ModDamageSource::bootstrap);
+        builder.add(Registries.DAMAGE_TYPE, ModDamageTypes::bootstrap);
         builder.add(Registries.BIOME, ModBiomes::bootstrap);
         DatapackBuiltinEntriesProvider datapackProvider = new DatapackBuiltinEntriesProvider(output, lookup, builder, Set.of(HBMsNTM.MODID));
         generator.addProvider(event.includeServer(), datapackProvider);

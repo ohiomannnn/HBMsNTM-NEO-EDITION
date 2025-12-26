@@ -9,7 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.*;
 import net.minecraft.world.level.Level;
 
-public class ModDamageSource {
+public class ModDamageTypes {
     public static final ResourceKey<DamageType> DIGAMMA = create("digamma");
     public static final ResourceKey<DamageType> RADIATION = create("radiation");
     public static final ResourceKey<DamageType> ASBESTOS = create("asbestos");
@@ -17,7 +17,7 @@ public class ModDamageSource {
     public static final ResourceKey<DamageType> TAINT = create("taint");
     public static final ResourceKey<DamageType> BANG = create("bang");
     public static final ResourceKey<DamageType> LEAD = create("lead");
-    public static final ResourceKey<DamageType> NUCLEAR_BLAST = create( "nuclear_blast");
+    public static final ResourceKey<DamageType> NUCLEAR_BLAST = create("nuclear_blast");
     public static final ResourceKey<DamageType> SHRAPNEL = create("shrapnel");
     public static final ResourceKey<DamageType> RUBBLE = create("rubble");
     public static final ResourceKey<DamageType> MONOXIDE = create("monoxide");

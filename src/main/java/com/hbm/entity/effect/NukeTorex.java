@@ -1,6 +1,6 @@
 package com.hbm.entity.effect;
 
-import com.hbm.entity.ModEntities;
+import com.hbm.entity.ModEntityTypes;
 import com.hbm.render.entity.effect.RenderTorex;
 import com.hbm.util.BobMathUtil;
 import net.minecraft.nbt.CompoundTag;
@@ -224,7 +224,7 @@ public class NukeTorex extends Entity {
         int fadeOut = lifetime * 3 / 4;
         int life = NukeTorex.this.tickCount;
 
-        if(life > fadeOut) {
+        if (life > fadeOut) {
             float fac = (float)(life - fadeOut) / (float)(lifetime - fadeOut);
             return 1F - fac;
         }
@@ -584,7 +584,7 @@ public class NukeTorex extends Entity {
     }
 
     private static void statFac(Level level, double x, double y, double z, float scale, int type) {
-        NukeTorex torex = new NukeTorex(ModEntities.NUKE_TOREX.get(), level).setScale(Mth.clamp((float) BobMathUtil.squirt(scale * 0.01) * 1.5F, 0.5F, 5F));
+        NukeTorex torex = new NukeTorex(ModEntityTypes.NUKE_TOREX.get(), level).setScale(Mth.clamp((float) BobMathUtil.squirt(scale * 0.01) * 1.5F, 0.5F, 5F));
         if (type == 1 || type == 0) torex.setType(type);
         torex.moveTo(x, y, z);;
         level.addFreshEntity(torex);

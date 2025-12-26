@@ -2,6 +2,12 @@ package com.hbm.entity.mob;
 
 import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.explosion.ExplosionNukeGeneric;
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
+import com.hbm.explosion.vanillant.standard.BlockMutatorFire;
+import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
+import com.hbm.items.special.PolaroidItem;
+import com.hbm.lib.ModDamageTypes;
 import com.hbm.lib.ModSounds;
 import com.hbm.network.toclient.AuxParticle;
 import com.hbm.util.ContaminationUtil;
@@ -20,7 +26,6 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.List;
@@ -44,17 +49,30 @@ public class CreeperNuclear extends Creeper {
         this.spawnAtLocation(Items.TNT);
     }
 
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        // for some reason the nuclear explosion would damage the already dead entity, reviving it and forcing it to play the death animation
+        if (this.dead) return false;
+
+        if (source.is(ModDamageTypes.RADIATION)) {
+            if (this.isAlive()) {
+                this.heal(amount);
+            }
+            return false;
+        }
+
+        return super.hurt(source, amount);
+    }
 
     @Override
     public void tick() {
         super.tick();
 
         if (!this.level().isClientSide) {
-            AABB box = this.getBoundingBox().inflate(5);
-            List<LivingEntity> list = this.level().getEntitiesOfClass(LivingEntity.class, box);
+            List<LivingEntity> list = this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(5));
 
-            for (LivingEntity e : list) {
-                ContaminationUtil.contaminate(e, HazardType.RADIATION, ContaminationType.CREATIVE, 0.25F);
+            for (LivingEntity entity : list) {
+                ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, 0.25F);
             }
 
             if (this.isAlive() && this.getHealth() < this.getMaxHealth() && this.tickCount % 10 == 0) {
@@ -66,40 +84,46 @@ public class CreeperNuclear extends Creeper {
     @Override
     public void ignite() {
         super.ignite();
-        nuclearExplode();
+
+        this.dead = true;
+        this.nuclearExplode();
+        this.triggerOnDeathMobEffects(RemovalReason.KILLED);
+        this.discard();
     }
 
     private void nuclearExplode() {
-        if (!this.level().isClientSide) {
-            this.discard();
 
-            boolean mobGriefing = this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING);
+        Level level = this.level();
+        if (!level.isClientSide) {
+            boolean mobGriefing = level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING);
+
+            // this has to be the single worst solution ever
+            level.playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 25.0F, 1F);
+            CompoundTag tag = new CompoundTag();
+            tag.putString("type", "muke");
+            tag.putBoolean("balefire", PolaroidItem.polaroidID == 11 || level.random.nextInt(100) == 0);
+            if (level instanceof ServerLevel serverLevel) {
+                PacketDistributor.sendToPlayersNear(serverLevel, null, this.getX(), this.getY(), this.getZ(), 250, new AuxParticle(tag, this.getX(), this.getY() + 0.5, this.getZ()));
+            }
 
             if (this.isPowered()) {
-                CompoundTag data = new CompoundTag();
-                data.putString("type", "muke");
-                PacketDistributor.sendToPlayersNear(
-                        (ServerLevel) level(),
-                        null,
-                        this.getX(), this.getY(), this.getZ(),
-                        1000,
-                        new AuxParticle(data, this.getX(), this.getY(), this.getZ())
-                );
-
-                this.level().playSound(null, this.blockPosition(), ModSounds.MUKE_EXPLOSION.get(), SoundSource.HOSTILE, 15.0F, 1.0F);
-
                 if (mobGriefing) {
-                    this.level().addFreshEntity(NukeExplosionMK5.statFac(this.level(), 50, this.getX(), this.getY(), this.getZ()));
+                    NukeExplosionMK5.statFac(this.level(), 50, this.getX(), this.getY(), this.getZ());
                 } else {
                     ExplosionNukeGeneric.dealDamage(this.level(), this.getX(), this.getY() + 0.5, this.getZ(), 100);
                 }
             } else {
-                // TODO: no more shitty explode method, only vnt!!!
-//                if (mobGriefing) {
-//                    ExplosionNukeSmall.explode(this.level(), this.getX(), this.getY() + 0.5, this.getZ(), ExplosionNukeSmall.PARAMS_MEDIUM);
-//                } else {
-//                    ExplosionNukeSmall.explode(this.level(), this.getX(), this.getY() + 0.5, this.getZ(), ExplosionNukeSmall.PARAMS_SAFE);
-//                }
+                if (mobGriefing) {
+                    ExplosionVNT vnt = new ExplosionVNT(level, this.getX(), this.getY() + 0.5, this.getZ(), 20)
+                            .setBlockAllocator(new BlockAllocatorStandard())
+                            .setBlockProcessor(new BlockProcessorStandard().withBlockEffect(new BlockMutatorFire()).setNoDrop());
+                    vnt.explode();
+                    ExplosionNukeGeneric.dealDamage(level, this.getX(), this.getY() + 0.5, this.getZ(), 55);
+                    ExplosionNukeGeneric.incrementRad(level, this.getX(), this.getY() + 0.5, this.getZ(), 3 / 3F);
+                } else {
+                    ExplosionNukeGeneric.dealDamage(level, this.getX(), this.getY() + 0.5, this.getZ(), 45);
+                    ExplosionNukeGeneric.incrementRad(level, this.getX(), this.getY() + 0.5, this.getZ(), 2 / 3F);
+                }
             }
         }
     }

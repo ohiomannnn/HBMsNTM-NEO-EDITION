@@ -47,12 +47,14 @@ public class RagingVortex extends BlackHole {
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
+
         this.vortexTimer = tag.getInt("VortexTimer");
     }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
+
         tag.putInt("VortexTimer", this.vortexTimer);
     }
 

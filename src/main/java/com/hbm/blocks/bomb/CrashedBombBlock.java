@@ -3,7 +3,7 @@ package com.hbm.blocks.bomb;
 import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MainConfig;
-import com.hbm.entity.ModEntities;
+import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.logic.NukeExplosionBalefire;
 import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.explosion.vanillant.ExplosionVNT;
@@ -70,7 +70,7 @@ public class CrashedBombBlock extends BaseEntityBlock implements IBomb {
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
 
             if (this == ModBlocks.CRASHED_BOMB_BALEFIRE.get()) {
-                NukeExplosionBalefire balefire = new NukeExplosionBalefire(ModEntities.NUKE_BALEFIRE.get(), level);
+                NukeExplosionBalefire balefire = new NukeExplosionBalefire(ModEntityTypes.NUKE_BALEFIRE.get(), level);
                 balefire.setPos(pos.getX(), pos.getY(), pos.getZ());
                 balefire.destructionRange = (int) (MainConfig.COMMON.FATMAN_RADIUS.get() * 1.25);
                 level.addFreshEntity(balefire);

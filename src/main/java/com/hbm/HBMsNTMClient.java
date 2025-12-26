@@ -6,7 +6,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.BalefireBlock;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
 import com.hbm.config.MainConfig;
-import com.hbm.entity.ModEntities;
+import com.hbm.entity.ModEntityTypes;
 import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.hazard.HazardSystem;
@@ -25,8 +25,12 @@ import com.hbm.render.blockentity.RenderNukeFatMan;
 import com.hbm.render.entity.EmptyRenderer;
 import com.hbm.render.entity.effect.*;
 import com.hbm.render.entity.item.RenderTNTPrimedBase;
-import com.hbm.render.entity.mob.EntityDuckRenderer;
-import com.hbm.render.entity.projectile.*;
+import com.hbm.render.entity.mob.CreeperNuclearRenderer;
+import com.hbm.render.entity.mob.DuckRenderer;
+import com.hbm.render.entity.projectile.ModelRubble;
+import com.hbm.render.entity.projectile.ModelShrapnel;
+import com.hbm.render.entity.projectile.RenderRubble;
+import com.hbm.render.entity.projectile.RenderShrapnel;
 import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.util.ArmorRegistry;
@@ -50,7 +54,6 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.entity.CreeperRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -365,30 +368,30 @@ public class HBMsNTMClient {
 
     @SubscribeEvent
     public static void registerLayerDefinitions(EntityRenderersEvent.RegisterLayerDefinitions event) {
-        event.registerLayerDefinition(ModelShrapnel.LAYER_LOCATION, ModelShrapnel::createBodyLayer);
-        event.registerLayerDefinition(ModelRubble.LAYER_LOCATION, ModelRubble::createBodyLayer);
+        event.registerLayerDefinition(ModelShrapnel.LAYER, ModelShrapnel::createBodyLayer);
+        event.registerLayerDefinition(ModelRubble.LAYER, ModelRubble::createBodyLayer);
 
         event.registerLayerDefinition(SkeletonModel.SKELETON_PART_LAYER, SkeletonModel::createLayer);
     }
 
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(ModEntities.DUCK.get(), EntityDuckRenderer::new);
-        event.registerEntityRenderer(ModEntities.TNT_PRIMED_BASE.get(), RenderTNTPrimedBase::new);
-        event.registerEntityRenderer(ModEntities.CREEPER_NUCLEAR.get(), CreeperRenderer::new);
-        event.registerEntityRenderer(ModEntities.NUKE_MK5.get(), EmptyRenderer::new);
-        event.registerEntityRenderer(ModEntities.NUKE_BALEFIRE.get(), EmptyRenderer::new);
-        event.registerEntityRenderer(ModEntities.NUKE_TOREX.get(), RenderTorex::new);
-        event.registerEntityRenderer(ModEntities.NUKE_FALLOUT_RAIN.get(), RenderFallout::new);
-        event.registerEntityRenderer(ModEntities.SHRAPNEL.get(), RenderShrapnel::new);
-        event.registerEntityRenderer(ModEntities.RUBBLE.get(), RenderRubble::new);
+        event.registerEntityRenderer(ModEntityTypes.DUCK.get(), DuckRenderer::new);
+        event.registerEntityRenderer(ModEntityTypes.CREEPER_NUCLEAR.get(), CreeperNuclearRenderer::new);
+        event.registerEntityRenderer(ModEntityTypes.TNT_PRIMED_BASE.get(), RenderTNTPrimedBase::new);
+        event.registerEntityRenderer(ModEntityTypes.NUKE_MK5.get(), EmptyRenderer::new);
+        event.registerEntityRenderer(ModEntityTypes.NUKE_BALEFIRE.get(), EmptyRenderer::new);
+        event.registerEntityRenderer(ModEntityTypes.NUKE_TOREX.get(), RenderTorex::new);
+        event.registerEntityRenderer(ModEntityTypes.NUKE_FALLOUT_RAIN.get(), RenderFallout::new);
+        event.registerEntityRenderer(ModEntityTypes.SHRAPNEL.get(), RenderShrapnel::new);
+        event.registerEntityRenderer(ModEntityTypes.RUBBLE.get(), RenderRubble::new);
         
-        event.registerEntityRenderer(ModEntities.BLACK_HOLE.get(), RenderBlackHole::new);
-        event.registerEntityRenderer(ModEntities.VORTEX.get(), RenderBlackHole::new);
-        event.registerEntityRenderer(ModEntities.RAGING_VORTEX.get(), RenderBlackHole::new);
-        event.registerEntityRenderer(ModEntities.QUASAR.get(), RenderQuasar::new);
+        event.registerEntityRenderer(ModEntityTypes.BLACK_HOLE.get(), RenderBlackHole::new);
+        event.registerEntityRenderer(ModEntityTypes.VORTEX.get(), RenderBlackHole::new);
+        event.registerEntityRenderer(ModEntityTypes.RAGING_VORTEX.get(), RenderBlackHole::new);
+        event.registerEntityRenderer(ModEntityTypes.QUASAR.get(), RenderQuasar::new);
 
-        event.registerEntityRenderer(ModEntities.DEATH_BLAST.get(), RenderDeathBlast::new);
+        event.registerEntityRenderer(ModEntityTypes.DEATH_BLAST.get(), RenderDeathBlast::new);
 
         ItemProperties.register(ModItems.POLAROID.get(), ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "polaroid_id"),
                 (stack, level, entity, seed) -> PolaroidItem.polaroidID);

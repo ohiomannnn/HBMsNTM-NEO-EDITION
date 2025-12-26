@@ -3,7 +3,7 @@ package com.hbm;
 import com.hbm.blockentity.ModBlockEntities;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MainConfig;
-import com.hbm.entity.ModEntities;
+import com.hbm.entity.ModEntityTypes;
 import com.hbm.inventory.ModCreativeTabs;
 import com.hbm.inventory.ModMenuTypes;
 import com.hbm.items.ModItems;
@@ -35,7 +35,7 @@ public class HBMsNTM {
     public HBMsNTM(IEventBus modEventBus, ModContainer modContainer) {
         ModBlocks.register(modEventBus);
         ModItems.register(modEventBus);
-        ModEntities.register(modEventBus);
+        ModEntityTypes.register(modEventBus);
         ModSounds.register(modEventBus);
         ModCreativeTabs.register(modEventBus);
         ModAttachments.register(modEventBus);

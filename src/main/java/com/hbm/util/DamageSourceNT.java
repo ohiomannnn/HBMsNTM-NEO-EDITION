@@ -1,6 +1,6 @@
 package com.hbm.util;
 
-import com.hbm.lib.ModDamageSource;
+import com.hbm.lib.ModDamageTypes;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.level.Level;
 
@@ -14,7 +14,7 @@ public class DamageSourceNT extends DamageSource {
     private boolean isLaser;
 
     public DamageSourceNT(Level level, String fromNameAndPath) {
-        super(ModDamageSource.create(level, fromNameAndPath.toLowerCase(Locale.US)).typeHolder());
+        super(ModDamageTypes.create(level, fromNameAndPath.toLowerCase(Locale.US)).typeHolder());
     }
 
     public DamageSourceNT setFireDamage() {

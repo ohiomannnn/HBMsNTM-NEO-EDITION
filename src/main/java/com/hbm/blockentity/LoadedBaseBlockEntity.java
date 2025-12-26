@@ -1,19 +1,14 @@
 package com.hbm.blockentity;
 
-import api.hbm.tile.ILoadedTile;
-import com.hbm.network.toclient.BufNT;
+import api.hbm.blockentity.ILoadedTile;
 import com.hbm.sound.AudioWrapper;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 public class LoadedBaseBlockEntity extends BlockEntity implements ILoadedTile, IBufPacketReceiver {
 
@@ -59,8 +54,6 @@ public class LoadedBaseBlockEntity extends BlockEntity implements ILoadedTile, I
         return muffled ? baseVolume * 0.1F : baseVolume;
     }
 
-    private ByteBuf lastPackedBuf;
-
     @Override
     public void serialize(ByteBuf buf) {
         buf.writeBoolean(muffled);
@@ -71,25 +64,10 @@ public class LoadedBaseBlockEntity extends BlockEntity implements ILoadedTile, I
         this.muffled = buf.readBoolean();
     }
 
+    private ByteBuf lastPackedBuf;
+
+    /** Sends a sync packet that uses ByteBuf for efficient information-cramming */
     public void networkPackNT(int range) {
-        if (level.isClientSide) return;
 
-        FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-        this.serialize(buf);
-
-        BufNT packet = new BufNT(worldPosition, buf);
-
-        if (buf.equals(lastPackedBuf) && level.getGameTime() % 20 != 0) return;
-        lastPackedBuf = new FriendlyByteBuf(buf.copy());
-
-        PacketDistributor.sendToPlayersNear(
-                (ServerLevel) level,
-                null,
-                worldPosition.getX() + 0.5,
-                worldPosition.getY() + 0.5,
-                worldPosition.getZ() + 0.5,
-                range,
-                packet
-        );
     }
 }

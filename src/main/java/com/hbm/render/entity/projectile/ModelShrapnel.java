@@ -17,22 +17,23 @@ import net.minecraft.world.entity.Entity;
 
 public class ModelShrapnel<T extends Entity> extends EntityModel<T> {
 
-    public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "shrapnel"), "main");
+    public static final ModelLayerLocation LAYER = new ModelLayerLocation(HBMsNTM.withDefaultNamespaceNT("shrapnel"), "main");
 
-    private final ModelPart bullet;
+    private final ModelPart root;
 
     public ModelShrapnel(ModelPart root) {
-        super(RenderType::entityCutoutNoCull);
-        this.bullet = root.getChild("bullet");
+        super(RenderType::entitySolid);
+        this.root = root;
     }
 
     public static LayerDefinition createBodyLayer() {
         MeshDefinition mesh = new MeshDefinition();
-        PartDefinition root = mesh.getRoot();
+        PartDefinition partDefinition = mesh.getRoot();
 
-        root.addOrReplaceChild("bullet",
+        partDefinition.addOrReplaceChild("bullet",
                 CubeListBuilder.create()
                         .texOffs(0, 0)
+                        .mirror()
                         .addBox(0.0F, 0.0F, 0.0F, 4.0F, 4.0F, 4.0F),
                 PartPose.offset(1.0F, -0.5F, -0.5F));
 
@@ -40,10 +41,10 @@ public class ModelShrapnel<T extends Entity> extends EntityModel<T> {
     }
 
     @Override
-    public void setupAnim(T t, float v, float v1, float v2, float v3, float v4) {}
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer consumer, int packedLight, int packedOverlay, int color) {
+        root.render(poseStack, consumer, packedLight, packedOverlay, color);
+    }
 
     @Override
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int color) {
-        bullet.render(poseStack, buffer, packedLight, packedOverlay, color);
-    }
+    public void setupAnim(T t, float v, float v1, float v2, float v3, float v4) {}
 }

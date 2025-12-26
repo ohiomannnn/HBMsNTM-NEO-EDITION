@@ -1,8 +1,9 @@
+//file:noinspection GroovyAssignabilityCheck -> ignore
 plugins {
-    id 'java-library'
+    id 'eclipse'
+    id 'idea'
     id 'maven-publish'
     id 'net.neoforged.moddev' version '2.0.107'
-    id 'idea'
 }
 
 tasks.named('wrapper', Wrapper).configure {
@@ -108,8 +109,20 @@ configurations {
 
 repositories {
     maven {
-        // JEI
         url "https://maven.blamejared.com"
+    }
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+        content {
+            includeGroup "maven.modrinth"
+        }
+    }
+    maven {
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
     }
 }
 
@@ -119,6 +132,10 @@ dependencies {
     // JEI
     compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
     runtimeOnly "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
+
+    // Sodium and Iris
+    implementation "curse.maven:sodium-394468:6382651" // 0.6.13
+    implementation "curse.maven:irisshaders-455508:6661598" // 1.8.12
 }
 
 tasks.withType(ProcessResources).configureEach {

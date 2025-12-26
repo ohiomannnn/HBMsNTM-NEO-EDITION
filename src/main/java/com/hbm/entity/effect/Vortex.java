@@ -40,12 +40,14 @@ public class Vortex extends BlackHole {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
+
         builder.define(SHRINK_RATE, 0.0025F);
     }
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
+
         if (tag.contains("ShrinkRate")) {
             this.entityData.set(SHRINK_RATE, tag.getFloat("ShrinkRate"));
         }
@@ -54,6 +56,7 @@ public class Vortex extends BlackHole {
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
+
         tag.putFloat("ShrinkRate", getShrinkRate());
     }
 }

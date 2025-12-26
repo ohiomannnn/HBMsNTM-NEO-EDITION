@@ -1,6 +1,6 @@
 package com.hbm.entity.effect;
 
-import com.hbm.entity.ModEntities;
+import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.projectile.Rubble;
 import com.hbm.items.ModItems;
 import net.minecraft.core.BlockPos;
@@ -33,9 +33,9 @@ public class BlackHole extends Entity {
         this.noCulling = true;
     }
 
-    public BlackHole(EntityType<?> entityType, Level level, float size) {
-        this(entityType, level);
+    public BlackHole setSize(float size) {
         this.entityData.set(SIZE, size);
+        return this;
     }
 
     public BlackHole noBreak() {
@@ -68,7 +68,7 @@ public class BlackHole extends Entity {
                 int z0 = (int) (this.getZ() + (vec.z * i));
                 BlockPos toChange = new BlockPos(x0, y0, z0);
                 if (!level.getBlockState(toChange).isAir()) {
-                    Rubble rubble = new Rubble(ModEntities.RUBBLE.get(), level);
+                    Rubble rubble = new Rubble(ModEntityTypes.RUBBLE.get(), level);
                     rubble.setPos(x0 + 0.5F, y0, z0 + 0.5F);
                     rubble.setBlock(level.getBlockState(toChange).getBlock());
                     level.addFreshEntity(rubble);

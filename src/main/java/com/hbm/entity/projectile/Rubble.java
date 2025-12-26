@@ -1,11 +1,10 @@
 package com.hbm.entity.projectile;
 
-import com.hbm.lib.ModDamageSource;
+import com.hbm.lib.ModDamageTypes;
 import com.hbm.lib.ModSounds;
 import com.hbm.network.toclient.ParticleBurst;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -13,7 +12,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
@@ -34,24 +32,26 @@ public class Rubble extends ThrowableProjectile {
     protected void onHit(HitResult result) {
         super.onHit(result);
 
+        Level level = this.level();
+
         if (result instanceof EntityHitResult entityHitResult) {
-            entityHitResult.getEntity().hurt(new DamageSource(entityHitResult.getEntity().level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageSource.RUBBLE)), 15);
+            entityHitResult.getEntity().hurt(level.damageSources().source(ModDamageTypes.RUBBLE, this.getOwner()), 15);
         }
 
         if (this.tickCount > 2) {
             this.discard();
 
-            this.level().playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.DEBRIS, SoundSource.BLOCKS, 1.5F, 1.0F);
+            level.playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.DEBRIS, SoundSource.BLOCKS, 1.5F, 1.0F);
 
-            if (this.level() instanceof ServerLevel serverLevel) {
-                PacketDistributor.sendToPlayersNear(serverLevel, null, this.getX(), this.getY(), this.getZ(), 250, new ParticleBurst(BlockPos.containing(this.getX(), this.getY(), this.getZ()), this.getBlock()));
+            if (level instanceof ServerLevel serverLevel) {
+                PacketDistributor.sendToPlayersNear(serverLevel, null, this.getX(), this.getY(), this.getZ(), 50, new ParticleBurst(BlockPos.containing(this.getX(), this.getY(), this.getZ()), this.getBlock()));
             }
         }
     }
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        builder.define(BLOCK_ID, "minecraft:stone");
+        builder.define(BLOCK_ID, "");
     }
 
     public Block getBlock() { return BuiltInRegistries.BLOCK.get(ResourceLocation.parse(entityData.get(BLOCK_ID))); }
@@ -59,11 +59,15 @@ public class Rubble extends ThrowableProjectile {
 
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+
         tag.putString("Block", entityData.get(BLOCK_ID));
     }
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+
         entityData.set(BLOCK_ID, tag.getString("Block"));
     }
 }

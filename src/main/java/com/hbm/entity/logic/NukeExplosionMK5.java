@@ -2,7 +2,7 @@ package com.hbm.entity.logic;
 
 import com.hbm.HBMsNTM;
 import com.hbm.config.MainConfig;
-import com.hbm.entity.ModEntities;
+import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.effect.FalloutRain;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeRayBatched;
@@ -74,7 +74,7 @@ public class NukeExplosionMK5 extends ChunkloadingEntity {
                 HBMsNTM.LOGGER.info("[NUKE] Explosion complete. Time elapsed: {}ms", (System.currentTimeMillis() - explosionStart));
             }
             if (fallout) {
-                FalloutRain fallout = new FalloutRain(ModEntities.NUKE_FALLOUT_RAIN.get(), level());
+                FalloutRain fallout = new FalloutRain(ModEntityTypes.NUKE_FALLOUT_RAIN.get(), level());
                 fallout.setPos(getX(), getY(), getZ());
                 fallout.setScale((int) (this.length * 2.5 + falloutAdd) * MainConfig.COMMON.FALLOUT_RANGE.get() / 100);
                 this.level().addFreshEntity(fallout);
@@ -138,7 +138,7 @@ public class NukeExplosionMK5 extends ChunkloadingEntity {
         if (strength == 0) strength = 25;
         strength *= 2;
 
-        NukeExplosionMK5 explosionMK5 = new NukeExplosionMK5(ModEntities.NUKE_MK5.get(), level);
+        NukeExplosionMK5 explosionMK5 = new NukeExplosionMK5(ModEntityTypes.NUKE_MK5.get(), level);
         explosionMK5.strength = strength;
         explosionMK5.speed = (int) Math.ceil(100000D / explosionMK5.strength);
         explosionMK5.setPos(x, y, z);

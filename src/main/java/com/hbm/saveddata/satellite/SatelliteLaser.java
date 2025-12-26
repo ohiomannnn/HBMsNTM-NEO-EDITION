@@ -1,6 +1,6 @@
 package com.hbm.saveddata.satellite;
 
-import com.hbm.entity.ModEntities;
+import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.logic.DeathBlast;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
@@ -34,7 +34,7 @@ public class SatelliteLaser extends Satellite {
 
             int y = level.getHeight(Heightmap.Types.WORLD_SURFACE, x, z);
 
-            DeathBlast blast = new DeathBlast(ModEntities.DEATH_BLAST.get(), level);
+            DeathBlast blast = new DeathBlast(ModEntityTypes.DEATH_BLAST.get(), level);
             blast.setPos(x, y, z);
 
             level.addFreshEntity(blast);

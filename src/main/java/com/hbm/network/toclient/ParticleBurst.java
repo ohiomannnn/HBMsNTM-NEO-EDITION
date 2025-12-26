@@ -14,7 +14,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record ParticleBurst(BlockPos pos, Block block) implements CustomPacketPayload {
 
-    public static final Type<ParticleBurst> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "particle_burst"));
+    public static final Type<ParticleBurst> TYPE = new Type<>(HBMsNTM.withDefaultNamespaceNT("particle_burst_packet"));
 
     public static final StreamCodec<FriendlyByteBuf, ParticleBurst> STREAM_CODEC =
             new StreamCodec<>() {
@@ -40,8 +40,5 @@ public record ParticleBurst(BlockPos pos, Block block) implements CustomPacketPa
         });
     }
 
-    @Override
-    public Type<? extends CustomPacketPayload> type() {
-        return TYPE;
-    }
+    @Override public Type<? extends CustomPacketPayload> type() {return TYPE; }
 }
