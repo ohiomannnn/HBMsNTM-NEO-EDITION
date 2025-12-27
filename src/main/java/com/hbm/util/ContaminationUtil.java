@@ -51,8 +51,10 @@ public class ContaminationUtil {
 
         if (!(entity instanceof LivingEntity living)) return;
         if (entity instanceof Duck || entity instanceof Ocelot) return;
-        if (entity instanceof Player player && player.isCreative()) return;
-        if (entity instanceof Player player && player.tickCount < 200) return;
+        if (entity instanceof Player player) {
+            if (player.tickCount < 200) return;
+            if (player.isCreative() || player.isSpectator()) return;
+        }
         if (living.hasEffect(ModEffect.STABILITY)) return;
 
         HbmLivingAttachments.incrementDigamma(living, dig);

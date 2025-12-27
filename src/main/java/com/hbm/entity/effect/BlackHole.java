@@ -3,6 +3,7 @@ package com.hbm.entity.effect;
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.projectile.Rubble;
 import com.hbm.items.ModItems;
+import com.hbm.lib.ModDamageTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -107,7 +108,7 @@ public class BlackHole extends Entity {
             if (entity instanceof BlackHole) continue;
 
             if (dist < size * 1.5) {
-                entity.hurt(level.damageSources().generic(), Float.MAX_VALUE);
+                entity.hurt(level.damageSources().source(ModDamageTypes.BLACK_HOLE), Float.MAX_VALUE);
 
                 if (!(entity instanceof LivingEntity)) {
                     entity.discard();

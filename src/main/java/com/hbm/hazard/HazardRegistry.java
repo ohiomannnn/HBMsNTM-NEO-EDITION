@@ -2,6 +2,7 @@ package com.hbm.hazard;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.hazard.type.*;
+import com.hbm.items.ModItems;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
@@ -53,6 +54,8 @@ public class HazardRegistry {
         HazardSystem.register(Items.COAL, makeData(COAL, 1F));
 
         HazardSystem.register(ModBlocks.URANIUM_BLOCK.get(), makeData(RADIATION, 160F));
+
+        HazardSystem.register(ModItems.PARTICLE_DIGAMMA.get(), makeData(DIGAMMA, 0.3333F));
     }
 
     private static HazardData makeData() { return new HazardData(); }

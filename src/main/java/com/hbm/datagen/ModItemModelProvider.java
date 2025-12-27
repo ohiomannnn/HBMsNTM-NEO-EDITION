@@ -30,6 +30,11 @@ public class ModItemModelProvider extends ItemModelProvider {
         handheldItem(ModItems.SCHRABIDIUM_PICKAXE.get());
         basicItem(ModItems.DUCK_SPAWN_EGG.get());
 
+        this.basicItem(ModItems.PELLET_RTG.get());
+
+        this.basicItem(ModItems.PARTICLE_DIGAMMA.get());
+        this.basicItem(ModItems.PARTICLE_LUTECE.get());
+
         this.basicItem(ModItems.CELL_ANTIMATTER.get());
 
         this.basicItem(ModItems.SINGULARITY.get());

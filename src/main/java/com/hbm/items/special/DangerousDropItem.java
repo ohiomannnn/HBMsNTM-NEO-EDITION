@@ -8,6 +8,9 @@ import com.hbm.entity.effect.BlackHole;
 import com.hbm.entity.effect.RagingVortex;
 import com.hbm.entity.effect.Vortex;
 import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.hazard.HazardRegistry;
+import com.hbm.hazard.HazardSystem;
+import com.hbm.hazard.type.HazardTypeDigamma;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
@@ -82,6 +85,14 @@ public class DangerousDropItem extends Item {
         }
 
         if (itemEntity.onGround()) {
+
+            if (stack.is(ModItems.PARTICLE_DIGAMMA.get()) && MainConfig.COMMON.DROP_SINGULARITY.get()) {
+                BlackHole quasar = new BlackHole(ModEntityTypes.QUASAR.get(), level);
+                quasar.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
+                quasar.setSize(5F);
+                level.addFreshEntity(quasar);
+            }
+
             if (stack.is(ModItems.CELL_ANTIMATTER.get()) && MainConfig.COMMON.DROP_CELL.get()) {
                 new ExplosionVNT(level, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), 5F).makeAmat().explode();
             }
@@ -149,6 +160,10 @@ public class DangerousDropItem extends Item {
                 int z = tag.getInt("z");
                 components.add(Component.translatable("detonator.set_to", x, y, z));
             }
+        }
+        if (this == ModItems.PARTICLE_DIGAMMA.get()) {
+            components.add(Component.translatable("trait.hlParticle", "1.67*10³⁴a").withStyle(ChatFormatting.GOLD));
+            components.add(Component.translatable("trait.hlPlayer", (HazardSystem.getHazardLevelFromStack(stack, HazardRegistry.DIGAMMA) / 20F) + "s").withStyle(ChatFormatting.RED));
         }
 
         components.add(Component.literal("[" + I18nUtil.resolveKey("trait.drop") + "]").withStyle(ChatFormatting.RED));

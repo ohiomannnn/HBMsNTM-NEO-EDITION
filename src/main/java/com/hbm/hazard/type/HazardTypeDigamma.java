@@ -28,7 +28,7 @@ public class HazardTypeDigamma extends HazardTypeBase {
 
         float digamma = (float) (Math.floor(level * 10000F)) / 10F;
         components.add(Component.literal("[" + I18nUtil.resolveKey("trait.digamma") + "]").withStyle(ChatFormatting.RED));
-        components.add(Component.literal(digamma + "mDRX/s"));
+        components.add(Component.literal(digamma + "mDRX/s").withStyle(ChatFormatting.DARK_RED));
 
         if (stack.getCount() > 1) {
             components.add(Component.literal("Stack: " + ((Math.floor(level * 10000F * stack.getCount()) / 10F) + "mDRX/s")).withStyle(ChatFormatting.DARK_RED));

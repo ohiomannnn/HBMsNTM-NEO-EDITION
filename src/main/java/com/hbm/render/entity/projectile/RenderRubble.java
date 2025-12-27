@@ -13,14 +13,15 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.MapColor;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.client.extensions.common.IClientBlockExtensions;
 
 @OnlyIn(Dist.CLIENT)
 public class RenderRubble extends EntityRenderer<Rubble> {
+
+    protected TextureAtlasSprite sprite;
 
     private final ModelRubble<Rubble> model;
 
@@ -42,12 +43,14 @@ public class RenderRubble extends EntityRenderer<Rubble> {
 
         Minecraft mc = Minecraft.getInstance();
 
+        BlockState state = rubble.getBlock().defaultBlockState();
         int color = 0xFFFFFFFF;
 
-        BlockState state = rubble.getBlock().defaultBlockState();
-        if (state.getBlock() instanceof BushBlock bush) color = bush
-                .getMapColor(state, mc.level, rubble.blockPosition(), MapColor.COLOR_GREEN)
-                .calculateRGBColor(MapColor.Brightness.NORMAL);
+        this.setSprite(Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(state));
+
+        if (IClientBlockExtensions.of(state).areBreakingParticlesTinted(state, mc.level, rubble.blockPosition())) {
+            color = Minecraft.getInstance().getBlockColors().getColor(state, mc.level, rubble.blockPosition(), 0);
+        }
 
         BakedModel stateModel = mc.getBlockRenderer().getBlockModel(state);
         TextureAtlasSprite sprite = stateModel.getParticleIcon();
@@ -55,10 +58,14 @@ public class RenderRubble extends EntityRenderer<Rubble> {
         ResourceLocation texturePath = sprite.contents().name();
         ResourceLocation tex = texturePath.withPrefix("textures/").withSuffix(".png");
 
-        VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(tex));
+        VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutout(tex));
         model.renderToBuffer(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, color);
 
         poseStack.popPose();
+    }
+
+    protected void setSprite(TextureAtlasSprite sprite) {
+        this.sprite = sprite;
     }
 
     @Override

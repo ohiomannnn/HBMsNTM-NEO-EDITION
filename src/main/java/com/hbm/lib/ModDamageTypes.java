@@ -14,6 +14,7 @@ public class ModDamageTypes {
     public static final ResourceKey<DamageType> RADIATION = create("radiation");
     public static final ResourceKey<DamageType> ASBESTOS = create("asbestos");
     public static final ResourceKey<DamageType> BLACKLUNG = create("blacklung");
+    public static final ResourceKey<DamageType> BLACK_HOLE = create("black_hole");
     public static final ResourceKey<DamageType> TAINT = create("taint");
     public static final ResourceKey<DamageType> BANG = create("bang");
     public static final ResourceKey<DamageType> LEAD = create("lead");
@@ -29,6 +30,7 @@ public class ModDamageTypes {
         context.register(RADIATION, defaultType(pathOf(RADIATION)));
         context.register(ASBESTOS, defaultType(pathOf(ASBESTOS)));
         context.register(BLACKLUNG, defaultType(pathOf(BLACKLUNG)));
+        context.register(BLACK_HOLE, defaultType(pathOf(BLACK_HOLE)));
         context.register(TAINT, defaultType(pathOf(TAINT)));
         context.register(BANG, defaultType(pathOf(BANG)));
         context.register(LEAD, defaultType(pathOf(LEAD)));

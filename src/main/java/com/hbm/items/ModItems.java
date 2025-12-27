@@ -40,6 +40,15 @@ public class ModItems {
             () -> new Item(new Item.Properties())
     );
 
+    public static final DeferredItem<Item> PARTICLE_DIGAMMA = ITEMS.register(
+            "particle_digamma",
+            () -> new DangerousDropItem(new Item.Properties())
+    );
+    public static final DeferredItem<Item> PARTICLE_LUTECE = ITEMS.register(
+            "particle_lutece",
+            () -> new Item(new Item.Properties())
+    );
+
     public static final DeferredItem<Item> CELL_ANTIMATTER = ITEMS.register(
             "cell_antimatter",
             () -> new DangerousDropItem(new Item.Properties())
@@ -50,23 +59,23 @@ public class ModItems {
     );
     public static final DeferredItem<Item> SINGULARITY = ITEMS.register(
             "singularity",
-            () -> new DangerousDropItem(new Item.Properties())
+            () -> new DangerousDropItem(new Item.Properties().stacksTo(1))
     );
     public static final DeferredItem<Item> SINGULARITY_COUNTER_RESONANT = ITEMS.register(
             "singularity_counter_resonant",
-            () -> new DangerousDropItem(new Item.Properties())
+            () -> new DangerousDropItem(new Item.Properties().stacksTo(1))
     );
     public static final DeferredItem<Item> SINGULARITY_SUPER_HEATED = ITEMS.register(
             "singularity_super_heated",
-            () -> new DangerousDropItem(new Item.Properties())
+            () -> new DangerousDropItem(new Item.Properties().stacksTo(1))
     );
     public static final DeferredItem<Item> BLACK_HOLE = ITEMS.register(
             "black_hole",
-            () -> new DangerousDropItem(new Item.Properties())
+            () -> new DangerousDropItem(new Item.Properties().stacksTo(1))
     );
     public static final DeferredItem<Item> SINGULARITY_SPARK = ITEMS.register(
             "singularity_spark",
-            () -> new DangerousDropItem(new Item.Properties())
+            () -> new DangerousDropItem(new Item.Properties().stacksTo(1))
     );
 
     public static final DeferredItem<Item> GEIGER_COUNTER = ITEMS.register(

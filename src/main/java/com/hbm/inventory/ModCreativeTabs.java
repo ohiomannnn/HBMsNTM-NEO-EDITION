@@ -22,6 +22,9 @@ public class ModCreativeTabs {
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.PELLET_RTG.get()))
                     .title(Component.translatable("creative_tab.hbmsntm.machine_items_and_fuel"))
                     .displayItems((itemDisplayParameters, output) -> {
+                        output.accept(ModItems.PARTICLE_DIGAMMA);
+                        output.accept(ModItems.PARTICLE_LUTECE);
+
                         output.accept(ModItems.CELL_ANTIMATTER);
 
                         output.accept(ModItems.SINGULARITY);
