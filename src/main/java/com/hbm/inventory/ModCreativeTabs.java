@@ -17,6 +17,23 @@ import static net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB;
 public class ModCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(CREATIVE_MODE_TAB, HBMsNTM.MODID);
 
+    public static final Supplier<CreativeModeTab> MACHINE_ITEMS_AND_FUEL = CREATIVE_MODE_TABS.register(
+            "machine_items_and_fuel",
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.PELLET_RTG.get()))
+                    .title(Component.translatable("creative_tab.hbmsntm.machine_items_and_fuel"))
+                    .displayItems((itemDisplayParameters, output) -> {
+                        output.accept(ModItems.CELL_ANTIMATTER);
+
+                        output.accept(ModItems.SINGULARITY);
+                        output.accept(ModItems.SINGULARITY_COUNTER_RESONANT);
+                        output.accept(ModItems.SINGULARITY_SUPER_HEATED);
+                        output.accept(ModItems.BLACK_HOLE);
+                        output.accept(ModItems.SINGULARITY_SPARK);
+                        output.accept(ModItems.PELLET_ANTIMATTER);
+
+                        output.accept(ModItems.REACHER);
+                    }).build());
+
     public static final Supplier<CreativeModeTab> ORES_AND_BLOCKS = CREATIVE_MODE_TABS.register(
             "ores_and_blocks",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.ORE_URANIUM.get()))
@@ -119,7 +136,6 @@ public class ModCreativeTabs {
                         output.accept(ModItems.GEIGER_COUNTER);
                         output.accept(ModItems.DOSIMETER);
                         output.accept(ModItems.DIGAMMA_DIAGNOSTIC);
-                        output.accept(ModItems.REACHER);
                         output.accept(ModItems.KEY);
                         output.accept(ModItems.KEY_KIT);
                         output.accept(ModItems.KEY_FAKE);

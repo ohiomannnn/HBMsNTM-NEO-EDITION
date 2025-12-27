@@ -31,6 +31,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.DUCK_SPAWN_EGG.get());
 
         this.basicItem(ModItems.CELL_ANTIMATTER.get());
+
+        this.basicItem(ModItems.SINGULARITY.get());
+        this.basicItem(ModItems.SINGULARITY_COUNTER_RESONANT.get());
+        this.basicItem(ModItems.SINGULARITY_SUPER_HEATED.get());
+        this.basicItem(ModItems.BLACK_HOLE.get());
+        this.basicItem(ModItems.SINGULARITY_SPARK.get());
         this.basicItem(ModItems.PELLET_ANTIMATTER.get());
 
         basicItem(ModItems.BOTTLE_OPENER.get());

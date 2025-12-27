@@ -3,8 +3,13 @@ package com.hbm.items.special;
 import com.hbm.HBMsNTM;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.config.MainConfig;
+import com.hbm.entity.ModEntityTypes;
+import com.hbm.entity.effect.BlackHole;
+import com.hbm.entity.effect.RagingVortex;
+import com.hbm.entity.effect.Vortex;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.interfaces.IBomb;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModSounds;
 import com.hbm.util.TagsUtilDegradation;
@@ -26,6 +31,7 @@ import net.minecraft.world.level.block.Block;
 
 import java.util.List;
 
+@Spaghetti("holy shet")
 public class DangerousDropItem extends Item {
 
     public DangerousDropItem(Properties properties) {
@@ -83,6 +89,43 @@ public class DangerousDropItem extends Item {
             if (stack.is(ModItems.PELLET_ANTIMATTER.get()) && MainConfig.COMMON.DROP_CELL.get()) {
                 new ExplosionVNT(level, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), 20F).makeAmat().explode();
             }
+
+            if (stack.is(ModItems.SINGULARITY.get()) && MainConfig.COMMON.DROP_SINGULARITY.get()) {
+                Vortex vortex = new Vortex(ModEntityTypes.VORTEX.get(), level);
+                vortex.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
+                vortex.setSize(1.5F);
+                level.addFreshEntity(vortex);
+            }
+
+            if (stack.is(ModItems.SINGULARITY_COUNTER_RESONANT.get()) && MainConfig.COMMON.DROP_SINGULARITY.get()) {
+                Vortex vortex = new Vortex(ModEntityTypes.VORTEX.get(), level);
+                vortex.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
+                vortex.setSize(2.5F);
+                level.addFreshEntity(vortex);
+            }
+
+            if (stack.is(ModItems.SINGULARITY_SUPER_HEATED.get()) && MainConfig.COMMON.DROP_SINGULARITY.get()) {
+                Vortex vortex = new Vortex(ModEntityTypes.VORTEX.get(), level);
+                vortex.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
+                vortex.setSize(2.5F);
+                level.addFreshEntity(vortex);
+            }
+
+            if (stack.is(ModItems.BLACK_HOLE.get()) && MainConfig.COMMON.DROP_SINGULARITY.get()) {
+                BlackHole blackHole = new BlackHole(ModEntityTypes.BLACK_HOLE.get(), level);
+                blackHole.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
+                blackHole.setSize(1.5F);
+                level.addFreshEntity(blackHole);
+            }
+
+            if (stack.is(ModItems.SINGULARITY_SPARK.get()) && MainConfig.COMMON.DROP_SINGULARITY.get()) {
+                RagingVortex ragingVortex = new RagingVortex(ModEntityTypes.RAGING_VORTEX.get(), level);
+                ragingVortex.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
+                ragingVortex.setSize(3.5F);
+                level.addFreshEntity(ragingVortex);
+            }
+
+            itemEntity.discard();
         }
 
         return false;
@@ -90,8 +133,11 @@ public class DangerousDropItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
-        for (String s : ITooltipProvider.getDescription(stack)) {
-            components.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
+        String[] desc = ITooltipProvider.getDescriptionOrNull(stack);
+        if (desc != null) {
+            for (String s : desc) {
+                components.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
+            }
         }
         if (this == ModItems.DETONATOR_DEADMAN.get()) {
             if (!TagsUtilDegradation.containsAnyTag(stack)) {

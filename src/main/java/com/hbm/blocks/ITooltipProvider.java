@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public interface ITooltipProvider {
@@ -28,6 +29,12 @@ public interface ITooltipProvider {
     }
 
     static String[] getDescription(ItemStack stack) {
+        return I18nUtil.resolveKeyArray(stack.getDescriptionId() + ".desc");
+    }
+
+    @Nullable
+    static String[] getDescriptionOrNull(ItemStack stack) {
+        if (I18nUtil.resolveKey(stack.getDescriptionId() + ".desc").equals(" ")) return null;
         return I18nUtil.resolveKeyArray(stack.getDescriptionId() + ".desc");
     }
 

@@ -241,6 +241,17 @@
   "item.hbmsntm.cell_antimatter.desc": "Warning: Exposure to matter will lead to violent annihilation!",
   "item.hbmsntm.pellet_antimatter": "Antimatter Cluster",
   "item.hbmsntm.pellet_antimatter.desc": "Very heavy antimatter cluster.$Gets rid of black holes.",
+  "item.hbmsntm.singularity": "Singularity",
+  "item.hbmsntm.singularity.desc": "You may be asking:$\"But HBM, a manifold with an undefined state of spacetime?$How is this possible?\"$Long answer short:$\"I have no idea!\"",
+  "item.hbmsntm.singularity_counter_resonant": "Contained Counter-Resonant Singularity",
+  "item.hbmsntm.singularity_counter_resonant.desc": "Nullifies resonance of objects in$non-euclidean space, creates variable gravity well.$Spontaneously spawns$tesseracts. If a tesseract happens to$appear near you, do not look directly at it.",
+  "item.hbmsntm.singularity_super_heated": "Superheated Resonating Singularity",
+  "item.hbmsntm.singularity_super_heated.desc": "Continuously heats up matter by resonating every planck second.$Tends to catch fire or to create small plasma arcs.$Not edible.",
+  "item.hbmsntm.black_hole": "Miniature Black Hole",
+  "item.hbmsntm.black_hole.desc": "Contains a regular singularity in the center.$Large enough to stay stable.$It's not the end of the world as we know it,$and I don't feel fine.",
+  "item.hbmsntm.singularity_spark": "Spark Singularity",
+  "item.hbmsntm.singularity_spark.desc": " ",
+
   "item.hbmsntm.schrabidium_pickaxe": "Schrabidium Pickaxe",
   "item.hbmsntm.alloy_sword": "Advanced Alloy Sword",
 
@@ -383,6 +394,7 @@
   "tool.ability.tooltip.gui": "Alt-click to open customization GUI!",
   "tool.ability.tooltip.weapon": "Weapon modifiers: ",
 
+  "creative_tab.hbmsntm.machine_items_and_fuel": "NTM Machine Items and Fuel",
   "creative_tab.hbmsntm.machines": "NTM Machines",
   "creative_tab.hbmsntm.ores_and_blocks": "NTM Ores and Blocks",
   "creative_tab.hbmsntm.consumables_and_gear": "NTM Consumables and Gear",

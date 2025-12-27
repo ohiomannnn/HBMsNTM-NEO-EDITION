@@ -51,29 +51,31 @@ public class BlackHole extends Entity {
         Level level = this.level();
 
         if (breaksBlocks && !level.isClientSide) {
-            double phi = random.nextDouble() * (Math.PI * 2);
-            double costheta = random.nextDouble() * 2 - 1;
-            double theta = Math.acos(costheta);
-            double x = Math.sin(theta) * Math.cos(phi);
-            double y = Math.sin(theta) * Math.sin(phi);
-            double z = Math.cos(theta);
+            for (int k = 0; k < size * 2; k++) {
+                double phi = random.nextDouble() * (Math.PI * 2);
+                double costheta = random.nextDouble() * 2 - 1;
+                double theta = Math.acos(costheta);
+                double x = Math.sin(theta) * Math.cos(phi);
+                double y = Math.sin(theta) * Math.sin(phi);
+                double z = Math.cos(theta);
 
-            Vec3 vec = new Vec3(x, y, z);
+                Vec3 vec = new Vec3(x, y, z);
 
-            int length = (int) Math.ceil(size * 15);
+                int length = (int) Math.ceil(size * 15);
 
-            for (int i = 0; i < length; i++) {
-                int x0 = (int) (this.getX() + (vec.x * i));
-                int y0 = (int) (this.getY() + (vec.y * i));
-                int z0 = (int) (this.getZ() + (vec.z * i));
-                BlockPos toChange = new BlockPos(x0, y0, z0);
-                if (!level.getBlockState(toChange).isAir()) {
-                    Rubble rubble = new Rubble(ModEntityTypes.RUBBLE.get(), level);
-                    rubble.setPos(x0 + 0.5F, y0, z0 + 0.5F);
-                    rubble.setBlock(level.getBlockState(toChange).getBlock());
-                    level.addFreshEntity(rubble);
-                    level.setBlock(toChange, Blocks.AIR.defaultBlockState(), 3);
-                    break;
+                for (int i = 0; i < length; i++) {
+                    int x0 = (int) (this.getX() + (vec.x * i));
+                    int y0 = (int) (this.getY() + (vec.y * i));
+                    int z0 = (int) (this.getZ() + (vec.z * i));
+                    BlockPos toChange = new BlockPos(x0, y0, z0);
+                    if (!level.getBlockState(toChange).isAir()) {
+                        Rubble rubble = new Rubble(ModEntityTypes.RUBBLE.get(), level);
+                        rubble.setPos(x0 + 0.5F, y0, z0 + 0.5F);
+                        rubble.setBlock(level.getBlockState(toChange).getBlock());
+                        level.addFreshEntity(rubble);
+                        level.setBlock(toChange, Blocks.AIR.defaultBlockState(), 3);
+                        break;
+                    }
                 }
             }
         }
