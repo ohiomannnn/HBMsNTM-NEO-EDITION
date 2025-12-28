@@ -1,5 +1,3 @@
-# Hbm's Nuclear Tech: Neo Edition
-
 This is a port of the minecraft <a href="https://github.com/HbmMods/Hbm-s-Nuclear-Tech-GIT/">HBM's Nuclear Tech Mod made by The Bobcat</a> aiming to bring nuclear technology, radiation, and advanced weaponry to minecraft 1.21.1+. WIP
 
 ### WARNING ⚠️: 
