@@ -33,13 +33,13 @@ public class HazardTypeHot extends HazardTypeBase {
     }
 
     @Override
-    public void updateEntity(ItemEntity item, float level) { }
+    public void updateEntity(ItemEntity item, float lvl) { }
 
     @Override
-    public void addHazardInformation(Player player, List<Component> components, float level, ItemStack stack, List<HazardModifier> modifiers) {
-        level = HazardModifier.evalAllModifiers(stack, player, level, modifiers);
+    public void addHazardInformation(Player player, List<Component> components, float lvl, ItemStack stack, List<HazardModifier> modifiers) {
+        lvl = HazardModifier.evalAllModifiers(stack, player, lvl, modifiers);
 
-        if (level > 0) {
+        if (lvl > 0) {
             components.add(Component.literal("[" + I18nUtil.resolveKey("trait.hot") + "]").withStyle(ChatFormatting.GOLD));
         }
     }

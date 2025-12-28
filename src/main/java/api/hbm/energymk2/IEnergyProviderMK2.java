@@ -1,10 +1,15 @@
 package api.hbm.energymk2;
 
 import api.hbm.energymk2.Nodespace.PowerNode;
+import com.hbm.network.toclient.AuxParticle;
+import com.hbm.util.Compat;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 /** If it sends energy, use this */
 public interface IEnergyProviderMK2 extends IEnergyHandlerMK2 {
@@ -18,22 +23,13 @@ public interface IEnergyProviderMK2 extends IEnergyHandlerMK2 {
         return this.getMaxPower();
     }
 
-    /** A standard implementation of safely grabbing a tile entity without loading chunks, might have more fluff added to it later on. */
-    static BlockEntity getBlockEntityStandard(Level level, BlockPos pos) {
-        int x = pos.getX();
-        int z = pos.getZ();
-        if (!level.hasChunk(x >> 4, z >> 4)) return null;
-        return level.getBlockEntity(pos);
-    }
-
     default void tryProvide(Level level, BlockPos pos, Direction dir) {
 
-        BlockEntity be = getBlockEntityStandard(level, pos);
+        BlockEntity be = Compat.getBlockEntityStandard(level, pos);
         boolean red = false;
 
-        if (be instanceof IEnergyConductorMK2) {
-            IEnergyConductorMK2 con = (IEnergyConductorMK2) be;
-            if(con.canConnect(dir.getOpposite())) {
+        if (be instanceof IEnergyConductorMK2 con) {
+            if (con.canConnect(dir.getOpposite())) {
 
                 PowerNode node = Nodespace.getNode(level, pos);
 
@@ -44,8 +40,7 @@ public interface IEnergyProviderMK2 extends IEnergyHandlerMK2 {
             }
         }
 
-        if (be instanceof IEnergyReceiverMK2 && be != this) {
-            IEnergyReceiverMK2 rec = (IEnergyReceiverMK2) be;
+        if (be instanceof IEnergyReceiverMK2 rec && be != this) {
             if (rec.canConnect(dir.getOpposite()) && rec.allowDirectProvision()) {
                 long provides = Math.min(this.getPower(), this.getProviderSpeed());
                 long receives = Math.min(rec.getMaxPower() - rec.getPower(), rec.getReceiverSpeed());
@@ -55,17 +50,19 @@ public interface IEnergyProviderMK2 extends IEnergyHandlerMK2 {
             }
         }
 
-//        if (particleDebug) {
-//            NBTTagCompound data = new NBTTagCompound();
-//            data.setString("type", "network");
-//            data.setString("mode", "power");
-//            double posX = x + 0.5 - dir.offsetX * 0.5 + world.rand.nextDouble() * 0.5 - 0.25;
-//            double posY = y + 0.5 - dir.offsetY * 0.5 + world.rand.nextDouble() * 0.5 - 0.25;
-//            double posZ = z + 0.5 - dir.offsetZ * 0.5 + world.rand.nextDouble() * 0.5 - 0.25;
-//            data.setDouble("mX", dir.offsetX * (red ? 0.025 : 0.1));
-//            data.setDouble("mY", dir.offsetY * (red ? 0.025 : 0.1));
-//            data.setDouble("mZ", dir.offsetZ * (red ? 0.025 : 0.1));
-//            PacketThreading.createAllAroundThreadedPacket(new AuxParticlePacketNT(data, posX, posY, posZ), new TargetPoint(world.provider.dimensionId, posX, posY, posZ, 25));
-//        }
+        if (particleDebug) {
+            CompoundTag tag = new CompoundTag();
+            tag.putString("type", "network");
+            tag.putString("mode", "power");
+            double posX = pos.getX() + 0.5 - dir.getStepX() * 0.5 + level.random.nextDouble() * 0.5 - 0.25;
+            double posY = pos.getY() + 0.5 - dir.getStepY() * 0.5 + level.random.nextDouble() * 0.5 - 0.25;
+            double posZ = pos.getZ() + 0.5 - dir.getStepZ() * 0.5 + level.random.nextDouble() * 0.5 - 0.25;
+            tag.putDouble("mX", dir.getStepX() * (red ? 0.025 : 0.1));
+            tag.putDouble("mY", dir.getStepY() * (red ? 0.025 : 0.1));
+            tag.putDouble("mZ", dir.getStepZ() * (red ? 0.025 : 0.1));
+            if (level instanceof ServerLevel serverLevel) {
+                PacketDistributor.sendToPlayersNear(serverLevel, null, posX, posY, posZ, 25, new AuxParticle(tag, posX, posY, posZ));
+            }
+        }
     }
 }

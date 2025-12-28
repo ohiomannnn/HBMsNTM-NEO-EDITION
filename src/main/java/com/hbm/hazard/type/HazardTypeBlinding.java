@@ -29,10 +29,10 @@ public class HazardTypeBlinding extends HazardTypeBase {
     }
 
     @Override
-    public void updateEntity(ItemEntity item, float level) { }
+    public void updateEntity(ItemEntity item, float lvl) { }
 
     @Override
-    public void addHazardInformation(Player player, List<Component> components, float level, ItemStack stack, List<HazardModifier> modifiers) {
+    public void addHazardInformation(Player player, List<Component> components, float lvl, ItemStack stack, List<HazardModifier> modifiers) {
         components.add(Component.literal("[" + I18nUtil.resolveKey("trait.blinding") + "]").withStyle(ChatFormatting.DARK_AQUA));
     }
 }

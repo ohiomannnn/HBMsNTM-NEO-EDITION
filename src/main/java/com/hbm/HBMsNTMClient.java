@@ -444,6 +444,9 @@ public class HBMsNTMClient {
         event.registerSpecial(ModParticles.SKELETON.get(), new SkeletonParticle.Provider());
         event.registerSpriteSet(ModParticles.HADRON.get(), ParticleHadron.Provider::new);
 
+        event.registerSpriteSet(ModParticles.POWER_DEBUG.get(), DebugParticle.PowerProvider::new);
+        event.registerSpriteSet(ModParticles.FLUID_DEBUG.get(), DebugParticle.FluidProvider::new);
+
         event.registerSpriteSet(ModParticles.VANILLA_CLOUD.get(), PlayerCloudParticle.Provider::new);
     }
 
@@ -671,6 +674,24 @@ public class HBMsNTMClient {
                     innerMc.particleEngine.add(particle);
                 }
             }
+
+            if ("network".equals(type)) {
+                DebugParticle particle = null;
+                double mX = data.getDouble("mX");
+                double mY = data.getDouble("mY");
+                double mZ = data.getDouble("mZ");
+
+                if ("power".equals(data.getString("mode"))) {
+                    particle = new DebugParticle(level, x, y, z, mX, mY, mZ);
+                }
+                if ("fluid".equals(data.getString("mode"))) {
+                    int color = data.getInt("color");
+                    particle = new DebugParticle(level, x, y, z, mX, mY, mZ, color);
+                }
+
+                if (particle != null) innerMc.particleEngine.add(particle);
+            }
+
 
             if ("gasfire".equals(type)) {
                 double mX = data.getDouble("mX");

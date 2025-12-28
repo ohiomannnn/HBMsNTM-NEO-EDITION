@@ -60,6 +60,11 @@ public class ModParticles {
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SKELETON = REGISTER.register(
             "skeleton", () -> new SimpleParticleType(true));
 
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> FLUID_DEBUG = REGISTER.register(
+            "fluid_debug", () -> new SimpleParticleType(true));
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> POWER_DEBUG = REGISTER.register(
+            "power_debug", () -> new SimpleParticleType(true));
+
     // Why we cant just use make one constructor public...
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> VANILLA_CLOUD = REGISTER.register(
             "vanilla_cloud", () -> new SimpleParticleType(true));
@@ -81,6 +86,9 @@ public class ModParticles {
     public static SpriteSet MUKE_CLOUD_SPRITES;
     public static SpriteSet MUKE_CLOUD_BF_SPRITES;
     public static SpriteSet GAS_FLAME_PARTICLES;
+
+    public static SpriteSet POWER_SPRITES;
+    public static SpriteSet FLUID_SPRITES;
 
     public static SpriteSet VANILLA_CLOUD_SPRITES;
 

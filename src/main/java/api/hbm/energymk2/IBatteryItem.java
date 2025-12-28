@@ -17,7 +17,7 @@ public interface IBatteryItem {
 
     /** Returns a string for the NBT tag name of the long storing power */
     default String getChargeTagName() {
-        return "charge";
+        return "Charge";
     }
 
     /** Returns a string for the NBT tag name of the long storing power */
@@ -27,13 +27,13 @@ public interface IBatteryItem {
 
     /** Returns an empty battery stack from the passed ItemStack, the original won't be modified */
     static ItemStack emptyBattery(ItemStack stack) {
-        if(stack != null && stack.getItem() instanceof IBatteryItem) {
+        if (stack.getItem() instanceof IBatteryItem) {
             String keyName = getChargeTagName(stack);
             ItemStack stackOut = stack.copy();
             CompoundTag tag = new CompoundTag();
             tag.putLong(keyName, 0);
             TagsUtilDegradation.putTag(stackOut, tag);
-            return stackOut.copy();
+            return stackOut;
         }
         return null;
     }

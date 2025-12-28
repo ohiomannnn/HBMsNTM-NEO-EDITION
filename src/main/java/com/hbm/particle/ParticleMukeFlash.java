@@ -8,6 +8,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
@@ -75,7 +76,7 @@ public class ParticleMukeFlash extends TextureSheetParticle {
         Vec3 cameraPosition = camera.getPosition();
 
         MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
-        VertexConsumer consumer = bufferSource.getBuffer(CustomRenderTypes.entityAdditive(ModParticles.FLARE));
+        VertexConsumer consumer = bufferSource.getBuffer(CustomRenderTypes.entityAdditive(TextureAtlas.LOCATION_PARTICLES));
 
         float dX = (float) (Mth.lerp(partialTicks, this.xo, this.x) - cameraPosition.x);
         float dY = (float) (Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y);
@@ -84,8 +85,10 @@ public class ParticleMukeFlash extends TextureSheetParticle {
         this.alpha = Math.clamp(1 - ((this.age + partialTicks) / (float)this.lifetime), 0.0F, 1.0F);
         this.quadSize = (this.age + partialTicks) * 3F + 1F;
 
-        float u0 = 0, v0 = 0;
-        float u1 = 1, v1 = 1;
+        float u0 = sprite.getU0();
+        float u1 = sprite.getU1();
+        float v0 = sprite.getV0();
+        float v1 = sprite.getV1();
 
         Vector3f l = new Vector3f(camera.getLeftVector()).mul(this.quadSize);
         Vector3f u = new Vector3f(camera.getUpVector()).mul(this.quadSize);

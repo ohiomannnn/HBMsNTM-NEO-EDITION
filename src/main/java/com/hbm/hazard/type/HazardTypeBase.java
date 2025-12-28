@@ -14,8 +14,8 @@ import java.util.List;
 public abstract class HazardTypeBase {
     public abstract void onUpdate(LivingEntity target, float level, ItemStack stack);
 
-    public abstract void updateEntity(ItemEntity item, float level);
+    public abstract void updateEntity(ItemEntity item, float lvl);
 
     @OnlyIn(Dist.CLIENT)
-    public abstract void addHazardInformation(Player player, List<Component> components, float level, ItemStack stack, List<HazardModifier> modifiers);
+    public abstract void addHazardInformation(Player player, List<Component> components, float lvl, ItemStack stack, List<HazardModifier> modifiers);
 }

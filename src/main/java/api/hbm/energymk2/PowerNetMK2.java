@@ -26,8 +26,8 @@ public class PowerNetMK2 extends NodeNet<IEnergyReceiverMK2, IEnergyProviderMK2,
     @Override
     public void update() {
 
-        if(providerEntries.isEmpty()) return;
-        if(receiverEntries.isEmpty()) return;
+        if (providerEntries.isEmpty()) return;
+        if (receiverEntries.isEmpty()) return;
 
         long timestamp = System.currentTimeMillis();
 
@@ -38,9 +38,9 @@ public class PowerNetMK2 extends NodeNet<IEnergyReceiverMK2, IEnergyProviderMK2,
         Iterator<Entry<IEnergyProviderMK2, Long>> provIt = providerEntries.entrySet().iterator();
         while (provIt.hasNext()) {
             Entry<IEnergyProviderMK2, Long> entry = provIt.next();
-            if(timestamp - entry.getValue() > timeout || isBadLink(entry.getKey())) { provIt.remove(); continue; }
+            if (timestamp - entry.getValue() > timeout || isBadLink(entry.getKey())) { provIt.remove(); continue; }
             long src = Math.min(entry.getKey().getPower(), entry.getKey().getProviderSpeed());
-            if(src > 0) {
+            if (src > 0) {
                 providers.add(new Pair(entry.getKey(), src));
                 powerAvailable += src;
             }

@@ -19,6 +19,7 @@ import com.hbm.inventory.screens.MachineSatLinkerScreen;
 import com.hbm.inventory.screens.NukeFatManScreen;
 import com.hbm.items.ModItems;
 import com.hbm.saveddata.satellite.Satellite;
+import com.hbm.uninos.UniNodespace;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.DamageResistanceHandler;
 import net.minecraft.ChatFormatting;
@@ -45,6 +46,7 @@ import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.level.BlockEvent.BreakEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
 
 import java.io.File;
 
@@ -71,6 +73,13 @@ public class CommonEvents {
         HazmatRegistry.registerHazmats();
         ArmorUtil.register();
         Satellite.register();
+    }
+
+    @SubscribeEvent
+    public static void onServerTick(ServerTickEvent.Pre event) {
+
+        // Networks! All of them!
+        UniNodespace.updateNodespace();
     }
 
     @SubscribeEvent

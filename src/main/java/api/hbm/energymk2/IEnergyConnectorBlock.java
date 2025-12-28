@@ -6,8 +6,8 @@ import net.minecraft.world.level.BlockGetter;
 /**
  * Interface for all blocks that should visually connect to cables without having an IEnergyConnector tile entity.
  * This is meant for BLOCKS
- * @author hbm
  *
+ * @author hbm
  */
 public interface IEnergyConnectorBlock {
 

@@ -26,17 +26,17 @@ public class HazardTypeHydroactive extends HazardTypeBase {
     }
 
     @Override
-    public void updateEntity(ItemEntity item, float level) {
+    public void updateEntity(ItemEntity item, float lvl) {
         if (MainConfig.COMMON.DISABLE_HYDROACTIVE.get()) return;
 
         if (item.isInWaterOrRain()) {
             item.discard();
-            item.level().explode(null, item.getX(), item.getY(), item.getZ(), level, false, Level.ExplosionInteraction.TNT);
+            item.level().explode(null, item.getX(), item.getY(), item.getZ(), lvl, false, Level.ExplosionInteraction.TNT);
         }
     }
 
     @Override
-    public void addHazardInformation(Player player, List<Component> components, float level, ItemStack stack, List<HazardModifier> modifiers) {
+    public void addHazardInformation(Player player, List<Component> components, float lvl, ItemStack stack, List<HazardModifier> modifiers) {
         components.add(Component.literal("[" + I18nUtil.resolveKey("trait.hydro") + "]").withStyle(ChatFormatting.RED));
     }
 }

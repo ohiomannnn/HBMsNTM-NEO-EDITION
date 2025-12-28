@@ -43,19 +43,19 @@ public class HazardTypeRadiation extends HazardTypeBase {
     }
 
     @Override
-    public void updateEntity(ItemEntity item, float level) {}
+    public void updateEntity(ItemEntity item, float lvl) {}
 
     @Override
-    public void addHazardInformation(Player player, List<Component> components, float level, ItemStack stack, List<HazardModifier> modifiers) {
-        level = HazardModifier.evalAllModifiers(stack, player, level, modifiers);
+    public void addHazardInformation(Player player, List<Component> components, float lvl, ItemStack stack, List<HazardModifier> modifiers) {
+        lvl = HazardModifier.evalAllModifiers(stack, player, lvl, modifiers);
 
         components.add(Component.literal("[" + I18nUtil.resolveKey("trait.radioactive") + "]").withStyle(ChatFormatting.GREEN));
 
-        String rad = "" + (Math.floor(level * 1000) / 1000);
+        String rad = "" + (Math.floor(lvl * 1000) / 1000);
         components.add(Component.literal(rad + " RAD/s").withStyle(ChatFormatting.YELLOW));
 
         if (stack.getCount() > 1) {
-            double total = Math.floor(level * 1000 * stack.getCount()) / 1000;
+            double total = Math.floor(lvl * 1000 * stack.getCount()) / 1000;
             components.add(Component.literal("Stack: " + total + " RAD/s").withStyle(ChatFormatting.YELLOW));
         }
     }

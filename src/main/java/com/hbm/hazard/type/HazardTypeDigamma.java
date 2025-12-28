@@ -20,18 +20,18 @@ public class HazardTypeDigamma extends HazardTypeBase {
     }
 
     @Override
-    public void updateEntity(ItemEntity item, float level) { }
+    public void updateEntity(ItemEntity item, float lvl) { }
 
     @Override
-    public void addHazardInformation(Player player, List<Component> components, float level, ItemStack stack, List<HazardModifier> modifiers) {
-        level = HazardModifier.evalAllModifiers(stack, player, level, modifiers);
+    public void addHazardInformation(Player player, List<Component> components, float lvl, ItemStack stack, List<HazardModifier> modifiers) {
+        lvl = HazardModifier.evalAllModifiers(stack, player, lvl, modifiers);
 
-        float digamma = (float) (Math.floor(level * 10000F)) / 10F;
+        float digamma = (float) (Math.floor(lvl * 10000F)) / 10F;
         components.add(Component.literal("[" + I18nUtil.resolveKey("trait.digamma") + "]").withStyle(ChatFormatting.RED));
         components.add(Component.literal(digamma + "mDRX/s").withStyle(ChatFormatting.DARK_RED));
 
         if (stack.getCount() > 1) {
-            components.add(Component.literal("Stack: " + ((Math.floor(level * 10000F * stack.getCount()) / 10F) + "mDRX/s")).withStyle(ChatFormatting.DARK_RED));
+            components.add(Component.literal("Stack: " + ((Math.floor(lvl * 10000F * stack.getCount()) / 10F) + "mDRX/s")).withStyle(ChatFormatting.DARK_RED));
         }
     }
 }
