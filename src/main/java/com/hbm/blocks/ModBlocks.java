@@ -6,6 +6,7 @@ import com.hbm.blocks.gas.*;
 import com.hbm.blocks.generic.*;
 import com.hbm.blocks.machine.DecontaminatorBlock;
 import com.hbm.blocks.machine.GeigerCounterBlock;
+import com.hbm.blocks.machine.MachineAssemblyMachine;
 import com.hbm.blocks.machine.MachineSatLinkerBlock;
 import com.hbm.blocks.network.CableBlock;
 import com.hbm.blocks.special.ConcreteBrickMBlock;
@@ -244,6 +245,13 @@ public class ModBlocks {
     public static final DeferredBlock<Block> CABLE = registerBlock(
             "cable",
             () -> new CableBlock(BlockBehaviour.Properties.of()
+                    .strength(5.0F)
+                    .explosionResistance(10.0F)
+                    .sound(SoundType.METAL)));
+
+    public static final DeferredBlock<Block> ASS = registerBlock(
+            "ass",
+            () -> new MachineAssemblyMachine(BlockBehaviour.Properties.of()
                     .strength(5.0F)
                     .explosionResistance(10.0F)
                     .sound(SoundType.METAL)));

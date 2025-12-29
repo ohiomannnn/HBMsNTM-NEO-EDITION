@@ -2,6 +2,7 @@ package com.hbm;
 
 import com.hbm.blockentity.IGUIProvider;
 import com.hbm.blockentity.ModBlockEntities;
+import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.BalefireBlock;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
@@ -71,6 +72,8 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -259,6 +262,24 @@ public class HBMsNTMClient {
     }
 
     @SubscribeEvent
+    public static void onRenderHighlight(RenderHighlightEvent.Block event) {
+
+        Level level = Minecraft.getInstance().level;
+
+        BlockHitResult bhr = event.getTarget();
+
+        if (bhr.getType() == HitResult.Type.BLOCK) {
+            Block b = level.getBlockState(bhr.getBlockPos()).getBlock();
+            if (b instanceof ICustomBlockHighlight cus) {
+                if (cus.shouldDrawHighlight(level, bhr.getBlockPos())) {
+                    cus.drawHighlight(event, level, bhr.getBlockPos());
+                    event.setCanceled(true);
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
     public static void onOpenGUI(ScreenEvent.Opening event) {
         if (event.getScreen() instanceof TitleScreen main && MainConfig.CLIENT.MAIN_MENU_WACKY_SPLASHES.get()) {
             String text;
@@ -340,7 +361,7 @@ public class HBMsNTMClient {
     }
 
     @SubscribeEvent
-    public static void itemUse(PlayerInteractEvent.RightClickItem event) {
+    public static void onRightClickWItem(PlayerInteractEvent.RightClickItem event) {
         if (!event.getLevel().isClientSide) return;
         Item item = event.getItemStack().getItem();
 
@@ -350,6 +371,17 @@ public class HBMsNTMClient {
         }
     }
 
+    @SubscribeEvent
+    public static void onRightClickOnBlock(PlayerInteractEvent.RightClickBlock event) {
+        Level level = event.getLevel();
+        if (!level.isClientSide) return;
+        BlockHitResult bhr = event.getHitVec();
+
+        if (bhr.getType() == HitResult.Type.BLOCK && level.getBlockState(event.getPos()).getBlock() instanceof IGUIProvider provider) {
+            Minecraft mc = Minecraft.getInstance();
+            mc.setScreen(provider.provideScreenOnRightClick(mc.player, mc.player.blockPosition()));
+        }
+    }
 
     private static HashMap<Integer, Long> vanished = new HashMap<>();
     public static void vanish(int ent) { vanished.put(ent, System.currentTimeMillis() + 2000); }

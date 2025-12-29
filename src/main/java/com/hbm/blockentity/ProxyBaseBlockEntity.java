@@ -1,5 +1,7 @@
 package com.hbm.blockentity;
 
+import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.IProxyController;
 import com.hbm.util.Compat;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -27,32 +29,29 @@ public class ProxyBaseBlockEntity extends LoadedBaseBlockEntity {
 
         if (level == null) return null;
 
-        if(cachedPosition != null) {
+        if (cachedPosition != null) {
             BlockEntity be = Compat.getBlockEntityStandard(level, cachedPosition);
             if (be != null && !(be instanceof ProxyBaseBlockEntity)) return be;
             cachedPosition = null;
             this.setChanged();
         }
 
-//        if (this.getBlockType() instanceof BlockDummyable) {
-//
-//            BlockDummyable dummy = (BlockDummyable) this.getBlockType();
-//
-//            int[] pos = dummy.findCore(worldObj, xCoord, yCoord, zCoord);
-//
-//            if (pos != null) {
-//
-//                TileEntity te = Compat.getBlockEntityStandard(worldObj, pos[0], pos[1], pos[2]);
-//                if (te != null && !(te instanceof TileEntityProxyBase)) return te;
-//            }
-//        }
-//
-//        if (this.getBlockType() instanceof IProxyController) {
-//            IProxyController controller = (IProxyController) this.getBlockType();
-//            TileEntity tile = controller.getCore(worldObj, xCoord, yCoord, zCoord);
-//
-//            if (tile != null && !(tile instanceof TileEntityProxyBase)) return tile;
-//        }
+        if (this.getBlockState().getBlock() instanceof BlockDummyable dummyable) {
+
+            BlockPos pos = dummyable.findCore(level, this.getBlockPos());
+
+            if (pos != null) {
+
+                BlockEntity be = Compat.getBlockEntityStandard(level, pos);
+                if (be != null && !(be instanceof ProxyBaseBlockEntity)) return be;
+            }
+        }
+
+        if (this.getBlockState().getBlock() instanceof IProxyController controller) {
+            BlockEntity be = controller.getCore(level, this.getBlockPos());
+
+            if (be != null && !(be instanceof ProxyBaseBlockEntity)) return be;
+        }
 
         return null;
     }
@@ -60,7 +59,6 @@ public class ProxyBaseBlockEntity extends LoadedBaseBlockEntity {
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-
 
         if (tag.getBoolean("hasPos")) cachedPosition = new BlockPos(tag.getInt("pX"), tag.getInt("pY"), tag.getInt("pZ"));
     }
