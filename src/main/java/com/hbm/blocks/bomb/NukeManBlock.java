@@ -1,7 +1,6 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.blockentity.bomb.NukeFatManBlockEntity;
-import com.hbm.blockentity.machine.MachineSatLinkerBlockEntity;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.effect.NukeTorex;
 import com.hbm.entity.logic.NukeExplosionMK5;

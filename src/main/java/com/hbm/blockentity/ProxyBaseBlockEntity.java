@@ -1,6 +1,6 @@
 package com.hbm.blockentity;
 
-import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.DummyableBlock;
 import com.hbm.blocks.IProxyController;
 import com.hbm.util.Compat;
 import net.minecraft.core.BlockPos;
@@ -36,7 +36,7 @@ public class ProxyBaseBlockEntity extends LoadedBaseBlockEntity {
             this.setChanged();
         }
 
-        if (this.getBlockState().getBlock() instanceof BlockDummyable dummyable) {
+        if (this.getBlockState().getBlock() instanceof DummyableBlock dummyable) {
 
             BlockPos pos = dummyable.findCore(level, this.getBlockPos());
 

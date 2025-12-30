@@ -55,10 +55,7 @@ public class UniNodespace {
         }
     }
 
-    public static void updateNodespace() {
-
-        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-        if (server == null) return;
+    public static void updateNodespace(MinecraftServer server ) {
 
         for (Level level : server.getAllLevels()) {
             UniNodeWorld nodeWorld = levels.get(level);
@@ -88,7 +85,7 @@ public class UniNodespace {
     private static void checkNodeConnection(Level level, GenNode node, INetworkProvider provider) {
 
         for (DirPos con : node.connections) {
-            GenNode conNode = getNode(level, new BlockPos(con.getX(), con.getY(), con.getY()), provider); // get whatever neighbor node intersects with that connection
+            GenNode conNode = getNode(level, new BlockPos(con.getX(), con.getY(), con.getZ()), provider); // get whatever neighbor node intersects with that connection
             if (conNode != null) { // if there is a node at that place
                 if (conNode.hasValidNet() && conNode.net == node.net) continue; // if the net is valid and both nodes have the same net, skip
                 if (checkConnection(conNode, con, false)) {

@@ -1,14 +1,21 @@
 package com.hbm.blockentity;
 
 import api.hbm.blockentity.ILoadedTile;
+import com.hbm.network.toclient.BufPacket;
 import com.hbm.sound.AudioWrapper;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.network.PacketDistributor;
+
+import java.util.Arrays;
 
 public class LoadedBaseBlockEntity extends BlockEntity implements ILoadedTile, IBufPacketReceiver {
 
@@ -64,10 +71,25 @@ public class LoadedBaseBlockEntity extends BlockEntity implements ILoadedTile, I
         this.muffled = buf.readBoolean();
     }
 
-    private ByteBuf lastPackedBuf;
+    private byte[] lastPacketData;
 
     /** Sends a sync packet that uses ByteBuf for efficient information-cramming */
     public void networkPackNT(int range) {
+        if (level == null || level.isClientSide()) return;
 
+        FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
+        this.serialize(buf);
+        byte[] data = new byte[buf.readableBytes()];
+        buf.readBytes(data);
+        buf.release();
+
+        if (Arrays.equals(data, lastPacketData) && level.getGameTime() % 20 != 0) {
+            return;
+        }
+        this.lastPacketData = data;
+
+        if (level instanceof ServerLevel serverLevel) {
+            PacketDistributor.sendToPlayersNear(serverLevel, null, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), range, new BufPacket(worldPosition, data));
+        }
     }
 }

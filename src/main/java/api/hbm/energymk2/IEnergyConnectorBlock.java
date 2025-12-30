@@ -1,5 +1,6 @@
 package api.hbm.energymk2;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
 
@@ -14,5 +15,5 @@ public interface IEnergyConnectorBlock {
     /**
      * Same as IEnergyConnector's method but for regular blocks that might not even have TEs. Used for rendering only!
      */
-    boolean canConnect(BlockGetter level, int x, int y, int z, Direction dir);
+    boolean canConnect(BlockGetter level, BlockPos pos, Direction dir);
 }

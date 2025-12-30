@@ -16,6 +16,8 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -42,14 +44,14 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BlockDummyable extends BaseEntityBlock implements ICustomBlockHighlight, ICopiable, INBTBlockTransformable {
+public abstract class DummyableBlock extends BaseEntityBlock implements ICustomBlockHighlight, ICopiable, INBTBlockTransformable {
 
     public static final DirectionProperty FACING = DirectionProperty.create("facing", Direction.values());
     public static final EnumProperty<DummyBlockType> TYPE = EnumProperty.create("type", DummyBlockType.class);
 
     public static boolean safeRem = false;
 
-    public BlockDummyable(Properties properties) {
+    public DummyableBlock(Properties properties) {
         super(properties.randomTicks());
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(TYPE, DummyBlockType.CORE));
     }
@@ -484,5 +486,26 @@ public abstract class BlockDummyable extends BaseEntityBlock implements ICustomB
     public abstract int getOffset();
     public int getHeightOffset() {
         return 0;
+    }
+
+    protected InteractionResult standardOpenBehavior(Level level, BlockPos pos, Player player, int guiId) {
+        if (level.isClientSide) {
+            return InteractionResult.SUCCESS;
+        }
+
+        if (!player.isShiftKeyDown()) {
+            BlockPos corePos = findCore(level, pos);
+            if (corePos == null) {
+                return InteractionResult.FAIL;
+            }
+
+            BlockEntity blockEntity = level.getBlockEntity(corePos);
+            if (blockEntity instanceof MenuProvider menuProvider) {
+                player.openMenu(menuProvider);
+            }
+            return InteractionResult.CONSUME;
+        }
+
+        return InteractionResult.SUCCESS;
     }
 }

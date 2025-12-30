@@ -13,9 +13,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
 
-// TODO: MAKE LOADER WITH VBO
-//              ^^
-// this is not actual loader lol
 public class HFRWavefrontObject {
 
     public final List<Vertex> vertices = new ArrayList<>();

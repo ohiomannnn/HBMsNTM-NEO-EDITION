@@ -77,7 +77,7 @@ public class MachineSatLinkerBlockEntity extends BlockEntity implements MenuProv
         return items;
     }
 
-    public static void serverTick(Level level, BlockPos pos, BlockState state, MachineSatLinkerBlockEntity be) {
+    public static void serverTick(Level level, BlockPos ignored, BlockState ignored1, MachineSatLinkerBlockEntity be) {
 
         ItemStack s0 = be.items.getStackInSlot(0);
         ItemStack s1 = be.items.getStackInSlot(1);

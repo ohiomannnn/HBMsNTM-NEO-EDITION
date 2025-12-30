@@ -1,7 +1,7 @@
 package com.hbm.handler;
 
 import com.hbm.HBMsNTM;
-import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.DummyableBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
@@ -50,7 +50,7 @@ public class MultiblockHandlerXR {
         return true;
     }
 
-    public static void fillSpace(Level level, BlockPos corePos, int[] dim, BlockDummyable block, Direction dir) {
+    public static void fillSpace(Level level, BlockPos corePos, int[] dim, DummyableBlock block, Direction dir) {
         if (dim == null || dim.length != 6) {
             return;
         }
@@ -63,7 +63,7 @@ public class MultiblockHandlerXR {
         int y = corePos.getY();
         int z = corePos.getZ();
 
-        BlockDummyable.safeRem = true;
+        DummyableBlock.safeRem = true;
 
         for (int a = x - rot[4]; a <= x + rot[5]; a++) {
             for (int b = y - rot[1]; b <= y + rot[0]; b++) {
@@ -102,7 +102,7 @@ public class MultiblockHandlerXR {
             }
         }
 
-        BlockDummyable.safeRem = false;
+        DummyableBlock.safeRem = false;
     }
 
     @Nullable

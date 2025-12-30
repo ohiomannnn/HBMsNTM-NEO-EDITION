@@ -1,6 +1,6 @@
 package com.hbm.util;
 
-import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.DummyableBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -26,7 +26,7 @@ public class CompatExternal {
         Block block = level.getBlockState(pos).getBlock();
 
         // if the block at that pos is a Dummyable, use the mk2's system to find the core
-        if (block instanceof BlockDummyable dummyable) {
+        if (block instanceof DummyableBlock dummyable) {
             BlockPos core = dummyable.findCore(level, pos);
 
             if (core != null) {

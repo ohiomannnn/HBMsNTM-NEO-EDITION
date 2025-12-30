@@ -91,10 +91,6 @@ public class GeigerCounterBlock extends BaseEntityBlock {
         return Math.min((int)Math.ceil(rad / 5f), 15);
     }
 
-    public int timer = 0;
-    public float ticker = 0;
-    public Random rand = new Random();
-
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         return level.isClientSide ? null : BaseEntityBlock.createTickerHelper(type, ModBlockEntities.GEIGER_COUNTER.get(), GeigerBlockEntity::serverTick);

@@ -79,7 +79,7 @@ public class CommonEvents {
     public static void onServerTick(ServerTickEvent.Pre event) {
 
         // Networks! All of them!
-        UniNodespace.updateNodespace();
+        UniNodespace.updateNodespace(event.getServer());
     }
 
     @SubscribeEvent

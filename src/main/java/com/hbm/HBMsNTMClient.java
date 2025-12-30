@@ -20,10 +20,7 @@ import com.hbm.main.ResourceManager;
 import com.hbm.particle.*;
 import com.hbm.particle.helper.ParticleCreators;
 import com.hbm.particle.vanilla.PlayerCloudParticle;
-import com.hbm.render.blockentity.RenderCrashedBomb;
-import com.hbm.render.blockentity.RenderGeigerBlock;
-import com.hbm.render.blockentity.RenderLandMine;
-import com.hbm.render.blockentity.RenderNukeFatMan;
+import com.hbm.render.blockentity.*;
 import com.hbm.render.entity.EmptyRenderer;
 import com.hbm.render.entity.effect.*;
 import com.hbm.render.entity.item.RenderTNTPrimedBase;
@@ -434,8 +431,7 @@ public class HBMsNTMClient {
 
         event.registerEntityRenderer(ModEntityTypes.DEATH_BLAST.get(), RenderDeathBlast::new);
 
-        ItemProperties.register(ModItems.POLAROID.get(), ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "polaroid_id"),
-                (stack, level, entity, seed) -> PolaroidItem.polaroidID);
+        ItemProperties.register(ModItems.POLAROID.get(), HBMsNTM.withDefaultNamespaceNT("polaroid_id"), (stack, level, entity, seed) -> PolaroidItem.polaroidID);
 
         event.registerBlockEntityRenderer(ModBlockEntities.NUKE_FATMAN.get(), RenderNukeFatMan::new);
 
@@ -447,6 +443,8 @@ public class HBMsNTMClient {
         event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_CONVENTIONAL.get(), RenderCrashedBomb::new);
         event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_NUKE.get(), RenderCrashedBomb::new);
         event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_SALTED.get(), RenderCrashedBomb::new);
+
+        event.registerBlockEntityRenderer(ModBlockEntities.NETWORK_CABLE.get(), RenderCable::new);
     }
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void drawTooltip(ItemTooltipEvent event) {

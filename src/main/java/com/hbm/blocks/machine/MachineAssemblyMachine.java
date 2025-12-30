@@ -1,6 +1,6 @@
 package com.hbm.blocks.machine;
 
-import com.hbm.blocks.BlockDummyable;
+import com.hbm.blocks.DummyableBlock;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -8,7 +8,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class MachineAssemblyMachine extends BlockDummyable {
+public class MachineAssemblyMachine extends DummyableBlock {
 
     public MachineAssemblyMachine(Properties properties) {
         super(properties);

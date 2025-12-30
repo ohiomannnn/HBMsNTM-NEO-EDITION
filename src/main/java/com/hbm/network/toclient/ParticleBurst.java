@@ -40,5 +40,5 @@ public record ParticleBurst(BlockPos pos, Block block) implements CustomPacketPa
         });
     }
 
-    @Override public Type<? extends CustomPacketPayload> type() {return TYPE; }
+    @Override public Type<? extends CustomPacketPayload> type() { return TYPE; }
 }

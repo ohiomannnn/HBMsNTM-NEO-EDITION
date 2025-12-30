@@ -17,7 +17,7 @@ public class CableBlockEntityBaseNT extends LoadedBaseBlockEntity implements IEn
         super(ModBlockEntities.NETWORK_CABLE.get(), pos, state);
     }
 
-    public static void serverTick(Level level, BlockPos pos, BlockState state, CableBlockEntityBaseNT be) {
+    public static void serverTick(Level level, BlockPos pos, BlockState ignored, CableBlockEntityBaseNT be) {
         if (!level.isClientSide) {
             if (be.node == null || be.node.expired) {
 
@@ -42,11 +42,11 @@ public class CableBlockEntityBaseNT extends LoadedBaseBlockEntity implements IEn
         super.setRemoved();
 
         if (this.level != null && !this.level.isClientSide) {
-            if (level.getBlockEntity(this.getBlockPos()) instanceof CableBlockEntityBaseNT be) {
-                if (be.node != null) {
+            //if (level.getBlockEntity(this.getBlockPos()) instanceof CableBlockEntityBaseNT be) { FUCK
+                if (this.node != null) {
                     Nodespace.destroyNode(level, this.getBlockPos());
                 }
-            }
+            //}
         }
     }
 }
