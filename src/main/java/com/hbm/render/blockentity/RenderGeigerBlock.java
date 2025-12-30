@@ -2,7 +2,9 @@ package com.hbm.render.blockentity;
 
 import com.hbm.blockentity.machine.GeigerBlockEntity;
 import com.hbm.blocks.machine.GeigerCounterBlock;
+import com.hbm.main.ResourceManager;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -15,11 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class RenderGeigerBlock implements BlockEntityRenderer<GeigerBlockEntity> {
 
-    private final BlockRenderDispatcher renderDispatcher;
-
-    public RenderGeigerBlock(BlockEntityRendererProvider.Context context) {
-        this.renderDispatcher = context.getBlockRenderDispatcher();
-    }
+    public RenderGeigerBlock(BlockEntityRendererProvider.Context context) { }
 
     @Override
     public void render(GeigerBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
@@ -36,18 +34,8 @@ public class RenderGeigerBlock implements BlockEntityRenderer<GeigerBlockEntity>
         poseStack.translate(0.5, 0.0, 0.5);
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
 
-        BlockState state = be.getBlockState();
-        BakedModel model = renderDispatcher.getBlockModel(state);
-
-        renderDispatcher.getModelRenderer().renderModel(
-                poseStack.last(),
-                buffer.getBuffer(RenderType.cutout()),
-                state,
-                model,
-                1.0f, 1.0f, 1.0f,
-                packedLight,
-                packedOverlay
-        );
+        VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.GEIGER_TEX));
+        ResourceManager.geiger.renderAll(poseStack, consumer, packedLight, packedOverlay);
 
         poseStack.popPose();
     }

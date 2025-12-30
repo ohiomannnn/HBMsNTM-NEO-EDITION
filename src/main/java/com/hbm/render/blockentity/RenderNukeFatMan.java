@@ -2,7 +2,9 @@ package com.hbm.render.blockentity;
 
 import com.hbm.blockentity.bomb.NukeFatManBlockEntity;
 import com.hbm.blocks.bomb.NukeManBlock;
+import com.hbm.main.ResourceManager;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -16,11 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class RenderNukeFatMan implements BlockEntityRenderer<NukeFatManBlockEntity> {
 
-    private final BlockRenderDispatcher renderDispatcher;
-
-    public RenderNukeFatMan(BlockEntityRendererProvider.Context context) {
-        this.renderDispatcher = context.getBlockRenderDispatcher();
-    }
+    public RenderNukeFatMan(BlockEntityRendererProvider.Context context) { }
 
     @Override
     public void render(NukeFatManBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
@@ -37,18 +35,8 @@ public class RenderNukeFatMan implements BlockEntityRenderer<NukeFatManBlockEnti
         poseStack.translate(0.5, 0.0, 0.5);
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
 
-        BlockState state = be.getBlockState();
-        BakedModel model = renderDispatcher.getBlockModel(state);
-
-        renderDispatcher.getModelRenderer().renderModel(
-                poseStack.last(),
-                buffer.getBuffer(RenderType.cutout()),
-                state,
-                model,
-                1.0f, 1.0f, 1.0f,
-                packedLight,
-                packedOverlay
-        );
+        VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.NUKE_FAT_MAN_TEX));
+        ResourceManager.nuke_fat_man.renderAll(poseStack, consumer, packedLight, packedOverlay);
 
         poseStack.popPose();
     }

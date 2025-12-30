@@ -1,10 +1,10 @@
-package com.hbm.render.loader.old.obj;
+package com.hbm.render.loader;
 
 public class TextureCoordinate {
     public float u, v, w;
 
     public TextureCoordinate(float u, float v) {
-        this(u, v, 0F);
+        this(u, v, 0);
     }
 
     public TextureCoordinate(float u, float v, float w) {
