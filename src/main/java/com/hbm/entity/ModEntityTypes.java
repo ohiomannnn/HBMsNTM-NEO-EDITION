@@ -61,15 +61,13 @@ public class ModEntityTypes {
                             .sized(0.6F, 1.7F)
                             .build("creeper_nuclear"));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityTNTPrimedBase>> TNT_PRIMED_BASE =
-            REGISTER.register("tnt_primed_base",
-                    () -> EntityType.Builder
-                            //why
-                            .of((EntityType<EntityTNTPrimedBase> type, Level level) -> new EntityTNTPrimedBase(type, level), MobCategory.MISC)
-                            .sized(0.98F, 0.98F)
-                            .clientTrackingRange(10)
-                            .updateInterval(10)
-                            .build("tnt_primed_base"));
+    public static final DeferredHolder<EntityType<?>, EntityType<EntityTNTPrimedBase>> TNT_PRIMED_BASE = REGISTER.register(
+            "tnt_primed_base",
+            () -> EntityType.Builder.<EntityTNTPrimedBase>of(EntityTNTPrimedBase::new, MobCategory.MONSTER)
+                    .sized(0.98F, 0.98F)
+                    .clientTrackingRange(10)
+                    .updateInterval(10)
+                    .build("tnt_primed_base"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<Shrapnel>> SHRAPNEL = REGISTER.register(
             "shrapnel",

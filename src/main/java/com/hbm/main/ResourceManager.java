@@ -1,8 +1,8 @@
 package com.hbm.main;
 
 import com.hbm.HBMsNTM;
-import com.hbm.render.loader.HFRWavefrontObjectVBO;
 import com.hbm.render.loader.HFRWavefrontObject;
+import com.hbm.render.loader.IModelCustom;
 import net.minecraft.resources.ResourceLocation;
 
 public class ResourceManager {
@@ -26,39 +26,39 @@ public class ResourceManager {
 
     public static final ResourceLocation GEIGER_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/geiger.png");
 
-    public static HFRWavefrontObject mine_ap;
-    public static HFRWavefrontObject mine_he;
-    public static HFRWavefrontObject mine_shrapnel;
-    public static HFRWavefrontObject mine_naval;
-    public static HFRWavefrontObject mine_fat;
+    public static IModelCustom mine_ap;
+    public static IModelCustom mine_he;
+    public static IModelCustom mine_shrapnel;
+    public static IModelCustom mine_naval;
+    public static IModelCustom mine_fat;
 
-    public static HFRWavefrontObject nuke_fat_man;
-    public static HFRWavefrontObject nuke_tsar;
-    public static HFRWavefrontObject dud_balefire;
-    public static HFRWavefrontObject dud_conventional;
-    public static HFRWavefrontObject dud_nuke;
-    public static HFRWavefrontObject dud_salted;
+    public static IModelCustom nuke_fat_man;
+    public static IModelCustom nuke_tsar;
+    public static IModelCustom dud_balefire;
+    public static IModelCustom dud_conventional;
+    public static IModelCustom dud_nuke;
+    public static IModelCustom dud_salted;
 
-    public static HFRWavefrontObject cable_neo;
+    public static IModelCustom cable_neo;
 
-    public static HFRWavefrontObject geiger;
+    public static IModelCustom geiger;
 
     public static void init() {
-        mine_ap = new HFRWavefrontObjectVBO(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/mine_ap.obj")).buildVBO();
-        mine_he = new HFRWavefrontObjectVBO(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/mine_he.obj")).buildVBO();
-        mine_shrapnel = new HFRWavefrontObjectVBO(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/mine_shrap.obj")).buildVBO();
-        mine_naval = new HFRWavefrontObjectVBO(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/mine_naval.obj")).buildVBO();
-        mine_fat = new HFRWavefrontObjectVBO(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/mine_fat.obj")).buildVBO();
+        mine_ap = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/mine_ap.obj")).asVBO();
+        mine_he = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/mine_he.obj")).asVBO();
+        mine_shrapnel = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/mine_shrap.obj")).asVBO();
+        mine_naval = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/mine_naval.obj")).asVBO();
+        mine_fat = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/mine_fat.obj")).asVBO();
 
-        nuke_fat_man = new HFRWavefrontObjectVBO(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/nuke_fatman.obj")).buildVBO();
-        nuke_tsar = new HFRWavefrontObjectVBO(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/nuke_tsar.obj")).buildVBO();
-        dud_balefire = new HFRWavefrontObjectVBO(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/dud_balefire.obj")).buildVBO();
-        dud_conventional = new HFRWavefrontObjectVBO(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/dud_conventional.obj")).buildVBO();
-        dud_nuke = new HFRWavefrontObjectVBO(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/dud_nuke.obj")).buildVBO();
-        dud_salted = new HFRWavefrontObjectVBO(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/dud_salted.obj")).buildVBO();
+        nuke_fat_man = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/nuke_fatman.obj")).asVBO();
+        nuke_tsar = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/nuke_tsar.obj")).asVBO();
+        dud_balefire = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/dud_balefire.obj")).asVBO();
+        dud_conventional = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/dud_conventional.obj")).asVBO();
+        dud_nuke = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/dud_nuke.obj")).asVBO();
+        dud_salted = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/dud_salted.obj")).asVBO();
 
-        cable_neo = new HFRWavefrontObjectVBO(HBMsNTM.withDefaultNamespaceNT("models/obj/block/cable_neo.obj")).buildVBO();
+        cable_neo = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/block/cable_neo.obj")).asVBO();
 
-        geiger = new HFRWavefrontObjectVBO(HBMsNTM.withDefaultNamespaceNT("models/obj/block/geiger.obj")).buildVBO();
+        geiger = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/block/geiger.obj")).asVBO();
     }
 }

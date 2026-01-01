@@ -13,7 +13,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class HFRWavefrontObject {
+public class HFRWavefrontObject implements IModelCustom {
 
     public final List<Vertex> vertices = new ArrayList<>();
     public final List<Vertex> vertexNormals = new ArrayList<>();
@@ -79,7 +79,7 @@ public class HFRWavefrontObject {
                         currentGroupObject = new ObjGroupObject("Default");
                     }
                     ObjFace face = parseFace(currentLine);
-                    if (face != null) currentGroupObject.faces.add(face);
+                    currentGroupObject.faces.add(face);
                 } else if (currentLine.startsWith("g ") || currentLine.startsWith("o ")) {
                     String name = currentLine.substring(2).trim();
                     if (!name.isEmpty()) {
@@ -101,6 +101,7 @@ public class HFRWavefrontObject {
         }
     }
 
+    @Override
     public void renderAll(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay) {
         renderAll(poseStack, buffer, packedLight, packedOverlay, 1.0f, 1.0f, 1.0f, 1.0f);
     }
@@ -111,6 +112,7 @@ public class HFRWavefrontObject {
         }
     }
 
+    @Override
     public void renderPart(String partName, PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay) {
         renderPart(partName, poseStack, buffer, packedLight, packedOverlay, 1.0f, 1.0f, 1.0f, 1.0f);
     }
@@ -122,6 +124,7 @@ public class HFRWavefrontObject {
         }
     }
 
+    @Override
     public void renderOnly(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, String... groupNames) {
         Set<String> names = new HashSet<>(Arrays.asList(groupNames));
         for (ObjGroupObject group : groupObjects) {
@@ -131,6 +134,7 @@ public class HFRWavefrontObject {
         }
     }
 
+    @Override
     public void renderAllExcept(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, String... excludedGroupNames) {
         Set<String> excluded = new HashSet<>(Arrays.asList(excludedGroupNames));
         for (ObjGroupObject group : groupObjects) {
@@ -207,7 +211,7 @@ public class HFRWavefrontObject {
     }
 
     private ObjFace parseFace(String line) {
-        ObjFace face = new ObjFace(this.smoothing);
+        ObjFace face = new ObjFace();
         String[] tokens = line.substring(2).trim().split(" ");
 
         if (tokens[0].contains("//")) {
@@ -252,6 +256,10 @@ public class HFRWavefrontObject {
 
         face.faceNormal = face.calculateFaceNormal();
         return face;
+    }
+
+    public WavefrontObjVBO asVBO() {
+        return new WavefrontObjVBO(this);
     }
 
     public List<String> getPartNames() {

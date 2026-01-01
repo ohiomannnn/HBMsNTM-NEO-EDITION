@@ -28,7 +28,7 @@ public class BlackHole extends Entity {
 
     protected static final EntityDataAccessor<Float> SIZE = SynchedEntityData.defineId(BlackHole.class, EntityDataSerializers.FLOAT);
 
-    public BlackHole(EntityType<?> entityType, Level level) {
+    public BlackHole(EntityType<? extends BlackHole> entityType, Level level) {
         super(entityType, level);
         this.noPhysics = true;
         this.noCulling = true;
@@ -131,12 +131,8 @@ public class BlackHole extends Entity {
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
-        if (tag.contains("Size")) {
-            this.entityData.set(SIZE, tag.getFloat("Size"));
-        }
-        if (tag.contains("BreaksBlocks")) {
-            this.breaksBlocks = tag.getBoolean("BreaksBlocks");
-        }
+        this.entityData.set(SIZE, tag.getFloat("Size"));
+        this.breaksBlocks = tag.getBoolean("BreaksBlocks");
     }
 
     @Override

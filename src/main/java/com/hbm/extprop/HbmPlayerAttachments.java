@@ -1,5 +1,6 @@
 package com.hbm.extprop;
 
+import com.hbm.HBMsNTM;
 import com.hbm.HBMsNTMClient;
 import com.hbm.handler.KeyHandler.EnumKeybind;
 import com.hbm.lib.ModAttachments;
@@ -114,7 +115,7 @@ public class HbmPlayerAttachments {
 
                 if (!player.level().isClientSide) {
                     HbmPlayerAttachments props = getData(player);
-                    props.enableMagnet = !props.enableMagnet;
+                    props.enableHUD = !props.enableHUD;
                     player.setData(ModAttachments.PLAYER_ATTACHMENT, props);
 
                     if (props.enableHUD) {

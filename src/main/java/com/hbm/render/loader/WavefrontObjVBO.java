@@ -2,12 +2,12 @@ package com.hbm.render.loader;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix4f;
 
 import java.util.*;
 
-public class HFRWavefrontObjectVBO extends HFRWavefrontObject {
+// not actual gpu vbo, were just caching everything and whats all
+public class WavefrontObjVBO implements IModelCustom {
 
     private static class VertexVBO {
         final float x, y, z;
@@ -39,18 +39,8 @@ public class HFRWavefrontObjectVBO extends HFRWavefrontObject {
     private final List<GroupVBO> groups = new ArrayList<>();
     private final Map<String, GroupVBO> groupMap = new HashMap<>();
 
-    public HFRWavefrontObjectVBO(ResourceLocation resource) {
-        super(resource);
-    }
-
-    public HFRWavefrontObjectVBO(ResourceLocation resource, boolean smoothing) {
-        super(resource, smoothing);
-    }
-
-    public HFRWavefrontObjectVBO buildVBO() {
-        groups.clear();
-        groupMap.clear();
-        for (ObjGroupObject group : this.groupObjects) {
+    public WavefrontObjVBO(HFRWavefrontObject object) {
+        for (ObjGroupObject group : object.groupObjects) {
             List<VertexVBO> vertexList = new ArrayList<>();
 
             for (ObjFace face : group.faces) {
@@ -84,8 +74,6 @@ public class HFRWavefrontObjectVBO extends HFRWavefrontObject {
             groups.add(cachedGroup);
             groupMap.put(group.name.toLowerCase(), cachedGroup);
         }
-
-        return this;
     }
 
     @Override
@@ -93,7 +81,6 @@ public class HFRWavefrontObjectVBO extends HFRWavefrontObject {
         renderAll(poseStack, buffer, packedLight, packedOverlay, 1f, 1f, 1f, 1f);
     }
 
-    @Override
     public void renderAll(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float r, float g, float b, float a) {
         Matrix4f matrix = poseStack.last().pose();
         PoseStack.Pose pose = poseStack.last();
@@ -102,13 +89,11 @@ public class HFRWavefrontObjectVBO extends HFRWavefrontObject {
             renderCachedGroup(group, matrix, pose, buffer, packedLight, packedOverlay, r, g, b, a);
         }
     }
-
     @Override
     public void renderPart(String partName, PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay) {
         renderPart(partName, poseStack, buffer, packedLight, packedOverlay, 1f, 1f, 1f, 1f);
     }
 
-    @Override
     public void renderPart(String partName, PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float r, float g, float b, float a) {
         GroupVBO group = groupMap.get(partName.toLowerCase());
         if (group != null) {

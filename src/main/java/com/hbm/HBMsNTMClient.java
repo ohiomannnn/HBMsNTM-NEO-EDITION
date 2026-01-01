@@ -11,6 +11,7 @@ import com.hbm.entity.ModEntityTypes;
 import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.hazard.HazardSystem;
+import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.screens.LoadingScreenRendererNT;
 import com.hbm.items.IItemHUD;
 import com.hbm.items.ModItems;
@@ -21,7 +22,7 @@ import com.hbm.particle.*;
 import com.hbm.particle.helper.ParticleCreators;
 import com.hbm.particle.vanilla.PlayerCloudParticle;
 import com.hbm.render.blockentity.*;
-import com.hbm.render.entity.EmptyRenderer;
+import com.hbm.render.entity.EmptyEntityRenderer;
 import com.hbm.render.entity.effect.*;
 import com.hbm.render.entity.item.RenderTNTPrimedBase;
 import com.hbm.render.entity.mob.CreeperNuclearRenderer;
@@ -30,6 +31,7 @@ import com.hbm.render.entity.projectile.ModelRubble;
 import com.hbm.render.entity.projectile.ModelShrapnel;
 import com.hbm.render.entity.projectile.RenderRubble;
 import com.hbm.render.entity.projectile.RenderShrapnel;
+import com.hbm.render.loader.bakedLoader.HFRObjGeometryLoader;
 import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.util.ArmorRegistry;
@@ -54,6 +56,7 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
@@ -96,6 +99,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 
+@Spaghetti("die")
 @Mod(value = HBMsNTM.MODID, dist = Dist.CLIENT)
 @EventBusSubscriber(value = Dist.CLIENT)
 public class HBMsNTMClient {
@@ -304,6 +308,7 @@ public class HBMsNTMClient {
                 case 10 -> "Fentanyl!";
                 case 11 -> "Do drugs!";
                 case 12 -> "Imagine being scared by splash texts!";
+                case 13 -> ChatFormatting.RED + "" + ChatFormatting.BOLD + "AW SHUCKS!";
                 default -> " ";
             };
 
@@ -413,12 +418,17 @@ public class HBMsNTMClient {
     }
 
     @SubscribeEvent
+    public static void registerGeometryLoaders(ModelEvent.RegisterGeometryLoaders event) {
+        event.register(HFRObjGeometryLoader.ID, HFRObjGeometryLoader.INSTANCE);
+    }
+
+    @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntityTypes.DUCK.get(), DuckRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.CREEPER_NUCLEAR.get(), CreeperNuclearRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.TNT_PRIMED_BASE.get(), RenderTNTPrimedBase::new);
-        event.registerEntityRenderer(ModEntityTypes.NUKE_MK5.get(), EmptyRenderer::new);
-        event.registerEntityRenderer(ModEntityTypes.NUKE_BALEFIRE.get(), EmptyRenderer::new);
+        event.registerEntityRenderer(ModEntityTypes.NUKE_MK5.get(), EmptyEntityRenderer::new);
+        event.registerEntityRenderer(ModEntityTypes.NUKE_BALEFIRE.get(), EmptyEntityRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.NUKE_TOREX.get(), RenderTorex::new);
         event.registerEntityRenderer(ModEntityTypes.NUKE_FALLOUT_RAIN.get(), RenderFallout::new);
         event.registerEntityRenderer(ModEntityTypes.SHRAPNEL.get(), RenderShrapnel::new);

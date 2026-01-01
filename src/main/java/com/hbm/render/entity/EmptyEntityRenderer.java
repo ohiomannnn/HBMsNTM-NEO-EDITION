@@ -7,8 +7,8 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 
-public class EmptyRenderer<T extends Entity> extends EntityRenderer<T> {
-    public EmptyRenderer(EntityRendererProvider.Context context) { super(context); }
+public class EmptyEntityRenderer<T extends Entity> extends EntityRenderer<T> {
+    public EmptyEntityRenderer(EntityRendererProvider.Context context) { super(context); }
 
     @Override
     public void render(T entity, float yaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {}

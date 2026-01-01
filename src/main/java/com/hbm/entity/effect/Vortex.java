@@ -11,7 +11,7 @@ public class Vortex extends BlackHole {
 
     protected static final EntityDataAccessor<Float> SHRINK_RATE = SynchedEntityData.defineId(Vortex.class, EntityDataSerializers.FLOAT);
 
-    public Vortex(EntityType<?> entityType, Level level) {
+    public Vortex(EntityType<? extends Vortex> entityType, Level level) {
         super(entityType, level);
     }
 
@@ -48,9 +48,7 @@ public class Vortex extends BlackHole {
     protected void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
 
-        if (tag.contains("ShrinkRate")) {
-            this.entityData.set(SHRINK_RATE, tag.getFloat("ShrinkRate"));
-        }
+        this.entityData.set(SHRINK_RATE, tag.getFloat("ShrinkRate"));
     }
 
     @Override

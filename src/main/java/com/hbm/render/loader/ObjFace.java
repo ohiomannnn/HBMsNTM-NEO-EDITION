@@ -8,7 +8,7 @@ public class ObjFace {
     public Vertex[] vertexNormals;
     public Vertex faceNormal;
 
-    public ObjFace(boolean smoothing) { }
+    public ObjFace() { }
 
     public Vertex calculateFaceNormal() {
         if (vertices == null || vertices.length < 3) {

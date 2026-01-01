@@ -9,7 +9,7 @@ public class RagingVortex extends BlackHole {
 
     protected int vortexTimer = 0;
 
-    public RagingVortex(EntityType<?> entityType, Level level) {
+    public RagingVortex(EntityType<? extends RagingVortex> entityType, Level level) {
         super(entityType, level);
     }
 

@@ -1,11 +1,11 @@
 {
-  "loader": "neoforge:obj",
+  "loader": "hbmsntm:hfr_obj",
   "model": "hbmsntm:models/obj/bomb/mine_naval.obj",
-  "flip_v": true,
-  "automatic_culling": false,
-  "shade_quads": true,
-  "emissive_ambient": true,
+  "smoothing": true,
+  "as_vbo": true,
+  "render_all": true,
   "textures": {
-    "particle": "hbmsntm:block/mine_naval"
+    "particle": "hbmsntm:block/mine_naval",
+    "texture": "hbmsntm:block/mine_naval"
   }
 }
