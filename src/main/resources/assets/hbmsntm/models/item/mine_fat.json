@@ -1,5 +1,12 @@
 {
-  "parent": "hbmsntm:block/mine_fat",
+  "loader": "hbmsntm:hfr_obj",
+  "model": "hbmsntm:models/obj/bomb/mine_fat.obj",
+  "smoothing": true,
+  "as_vbo": true,
+  "render_all": true,
+  "textures": {
+    "texture": "hbmsntm:block/bomb/mine_fat"
+  },
   "display": {
     "gui": {
       "rotation": [0, -90, 0],

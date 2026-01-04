@@ -1,10 +1,4 @@
 {
-  "loader": "neoforge:obj",
-  "model": "hbmsntm:models/obj/bomb/mine_shrap.obj",
-  "flip_v": true,
-  "automatic_culling": false,
-  "shade_quads": true,
-  "emissive_ambient": true,
   "textures": {
     "particle": "hbmsntm:block/mine_shrap"
   }

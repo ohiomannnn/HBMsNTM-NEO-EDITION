@@ -1,5 +1,12 @@
 {
-  "parent": "hbmsntm:block/nuke_fatman",
+  "loader": "hbmsntm:hfr_obj",
+  "model": "hbmsntm:models/obj/bomb/nuke_fatman.obj",
+  "smoothing": true,
+  "as_vbo": true,
+  "render_all": true,
+  "textures": {
+    "texture": "hbmsntm:block/bomb/nuke_fatman"
+  },
   "transform": {
     "translation": [0.6, 0.0, 0.5],
     "rotation": [0, 0, 0],

@@ -1,11 +1,5 @@
 {
-  "loader": "hbmsntm:hfr_obj",
-  "model": "hbmsntm:models/obj/bomb/mine_naval.obj",
-  "smoothing": true,
-  "as_vbo": true,
-  "render_all": true,
   "textures": {
-    "particle": "hbmsntm:block/mine_naval",
-    "texture": "hbmsntm:block/mine_naval"
+    "particle": "hbmsntm:block/mine_naval"
   }
 }

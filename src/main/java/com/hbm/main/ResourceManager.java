@@ -28,7 +28,6 @@ public class ResourceManager {
 
     public static IModelCustom mine_ap;
     public static IModelCustom mine_he;
-    public static IModelCustom mine_shrapnel;
     public static IModelCustom mine_naval;
     public static IModelCustom mine_fat;
 
@@ -46,7 +45,6 @@ public class ResourceManager {
     public static void init() {
         mine_ap = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/mine_ap.obj")).asVBO();
         mine_he = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/mine_he.obj")).asVBO();
-        mine_shrapnel = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/mine_shrap.obj")).asVBO();
         mine_naval = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/mine_naval.obj")).asVBO();
         mine_fat = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/mine_fat.obj")).asVBO();
 

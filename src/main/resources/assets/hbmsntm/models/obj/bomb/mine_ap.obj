@@ -1,6 +1,5 @@
 # Blender v2.79 (sub 0) OBJ File: 'ap_mine.blend'
 # www.blender.org
-mtllib mine_ap.mtl
 o Circle
 v 0.000000 0.000000 -0.500000
 v -0.250000 0.000000 -0.433013
@@ -486,7 +485,6 @@ vn -0.7746 0.4472 0.4472
 vn -0.4472 0.4472 0.7746
 vn -0.0000 0.4472 0.8944
 vn 0.4472 0.4472 0.7746
-usemtl None
 s off
 f 87/1/1 7/2/1 6/3/1
 f 45/4/2 47/5/2 37/6/2

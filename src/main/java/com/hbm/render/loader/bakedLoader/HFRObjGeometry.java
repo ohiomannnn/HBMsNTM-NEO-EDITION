@@ -1,6 +1,5 @@
 package com.hbm.render.loader.bakedLoader;
 
-import com.hbm.HBMsNTM;
 import com.hbm.render.loader.*;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Transformation;

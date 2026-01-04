@@ -1,6 +1,5 @@
 # Blender v2.79 (sub 7) OBJ File: 'salted boy.blend'
 # www.blender.org
-mtllib dud_salted.mtl
 o Cylinder.002
 v -0.000000 -0.724444 -2.500000
 v -0.000000 -0.724445 1.750000
@@ -918,7 +917,6 @@ vn 0.6229 -0.3596 0.6947
 vn 0.7193 0.0000 0.6947
 vn 0.6229 0.3596 0.6947
 vn 0.3596 0.6229 0.6947
-usemtl None
 s off
 f 38/1/1 39/2/1 37/3/1
 f 39/4/2 44/5/2 43/6/2

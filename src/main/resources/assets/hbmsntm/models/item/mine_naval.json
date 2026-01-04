@@ -1,5 +1,12 @@
 {
-  "parent": "hbmsntm:block/mine_naval",
+  "loader": "hbmsntm:hfr_obj",
+  "model": "hbmsntm:models/obj/bomb/mine_naval.obj",
+  "smoothing": true,
+  "as_vbo": true,
+  "render_all": true,
+  "textures": {
+    "texture": "hbmsntm:block/bomb/mine_naval"
+  },
   "display": {
     "gui": {
       "rotation": [0, 0, 0],

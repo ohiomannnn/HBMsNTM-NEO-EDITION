@@ -60,7 +60,7 @@ public class RenderLandMine implements BlockEntityRenderer<LandMineBlockEntity> 
             poseStack.scale(0.375F, 0.375F, 0.375F);
             poseStack.translate(0, -0.0625F * 3.5F, 0);
             VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MINE_SHRAPNEL_TEX));
-            ResourceManager.mine_shrapnel.renderAll(poseStack, consumer, packedLight, packedOverlay);
+            ResourceManager.mine_ap.renderAll(poseStack, consumer, packedLight, packedOverlay);
         }
 
         if (state.getBlock() == ModBlocks.MINE_FAT.get()) {

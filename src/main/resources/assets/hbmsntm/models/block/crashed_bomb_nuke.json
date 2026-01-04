@@ -1,10 +1,4 @@
 {
-  "loader": "neoforge:obj",
-  "model": "hbmsntm:models/obj/bomb/dud_nuke.obj",
-  "flip_v": true,
-  "automatic_culling": false,
-  "shade_quads": true,
-  "emissive_ambient": false,
   "textures": {
     "particle": "hbmsntm:block/block_rust"
   }

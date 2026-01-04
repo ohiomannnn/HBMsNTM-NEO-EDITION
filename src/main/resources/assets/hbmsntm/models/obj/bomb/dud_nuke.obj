@@ -1,6 +1,5 @@
 # Blender v2.79 (sub 7) OBJ File: 'flat fuck.blend'
 # www.blender.org
-mtllib dud_nuke.mtl
 o Cube.001_Cube.002
 v 0.218750 -0.031250 -3.812500
 v 0.218750 0.031250 -3.812500
@@ -534,7 +533,6 @@ vn -0.7169 0.0000 -0.6972
 vn -0.6208 -0.3584 -0.6972
 vn -0.3584 -0.6208 -0.6972
 vn 0.3786 0.6557 0.6532
-usemtl None
 s off
 f 7/1/1 1/2/1 6/3/1
 f 2/4/2 7/1/2 8/5/2

@@ -1,5 +1,12 @@
 {
-  "parent": "hbmsntm:block/mine_shrap",
+  "loader": "hbmsntm:hfr_obj",
+  "model": "hbmsntm:models/obj/bomb/mine_ap.obj",
+  "smoothing": true,
+  "as_vbo": true,
+  "render_all": true,
+  "textures": {
+    "texture": "hbmsntm:block/bomb/mine_shrap"
+  },
   "display": {
     "gui": {
       "rotation": [45, 0, 45],

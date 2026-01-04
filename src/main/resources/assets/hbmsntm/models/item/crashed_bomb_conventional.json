@@ -1,5 +1,12 @@
 {
-  "parent": "hbmsntm:block/crashed_bomb_conventional",
+  "loader": "hbmsntm:hfr_obj",
+  "model": "hbmsntm:models/obj/bomb/dud_conventional.obj",
+  "smoothing": true,
+  "as_vbo": true,
+  "render_all": true,
+  "textures": {
+    "texture": "hbmsntm:block/bomb/dud_conventional"
+  },
   "display": {
     "gui": {
       "rotation": [-90, 0, 0],
