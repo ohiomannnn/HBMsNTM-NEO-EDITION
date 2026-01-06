@@ -54,11 +54,7 @@ public class GeigerCounterBlock extends BaseEntityBlock {
     }
 
     public static final MapCodec<GeigerCounterBlock> CODEC = simpleCodec(GeigerCounterBlock::new);
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
-    }
+    @Override protected MapCodec<GeigerCounterBlock> codec() { return CODEC; }
 
     @Override
     public VoxelShape getShape(BlockState blockState, BlockGetter level, BlockPos pos, CollisionContext context) {
@@ -105,7 +101,7 @@ public class GeigerCounterBlock extends BaseEntityBlock {
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (!level.isClientSide) {
             level.playSound(null, pos, ModSounds.TECH_BOOP.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
-            ContaminationUtil.printGeigerData(player);
+            ContaminationUtil.printGeigerDataFromCoords(player, pos);
         }
         return InteractionResult.SUCCESS;
     }

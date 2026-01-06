@@ -85,6 +85,8 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.GAS_FLAMMABLE);
                         output.accept(ModBlocks.GAS_EXPLOSIVE);
 
+                        output.accept(ModBlocks.GEIGER);
+
                         output.accept(ModBlocks.DECONTAMINATOR);
                         output.accept(ModBlocks.MACHINE_SATLINKER);
                     }).build());

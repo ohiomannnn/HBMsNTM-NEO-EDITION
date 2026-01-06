@@ -351,6 +351,15 @@ public class ModBlocks {
                     .strength(0.1F)
                     .explosionResistance(0.0F)
                     .sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> DET_CORD = registerBlock(
+            "det_cord",
+            () -> new DetCordBlock(BlockBehaviour.Properties.of()
+                    .strength(0.1F)
+                    .explosionResistance(0.0F)
+                    .noOcclusion()
+                    .isSuffocating(ModBlocks::never)
+                    .isViewBlocking(ModBlocks::never)
+                    .sound(SoundType.METAL)));
     public static final DeferredBlock<Block> DET_NUKE = registerBlock(
             "det_nuke",
             () -> new ExplosiveChargeBlock(BlockBehaviour.Properties.of()
@@ -359,7 +368,7 @@ public class ModBlocks {
                     .sound(SoundType.METAL)));
     public static final DeferredBlock<Block> DET_MINER = registerBlock(
             "det_miner",
-            () -> new DetMinerBlock(BlockBehaviour.Properties.of()
+            () -> new ExplosiveChargeBlock(BlockBehaviour.Properties.of()
                     .strength(0.1F)
                     .explosionResistance(0.0F)
                     .sound(SoundType.METAL)));

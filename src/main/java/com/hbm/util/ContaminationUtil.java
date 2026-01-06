@@ -8,6 +8,7 @@ import com.hbm.handler.HazmatRegistry;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.lib.ModEffect;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -70,8 +71,12 @@ public class ContaminationUtil {
 
 
     public static void printGeigerData(Player player) {
+        printGeigerDataFromCoords(player, player.blockPosition());
+    }
+
+    public static void printGeigerDataFromCoords(Player player, BlockPos pos) {
         double playerRad = ((int)(HbmLivingAttachments.getRadiation(player) * 10)) / 10D;
-        double chunkRad = ((int)(ChunkRadiationManager.proxy.getRadiation(player.level(), player.blockPosition()) * 10)) / 10D;
+        double chunkRad = ((int)(ChunkRadiationManager.proxy.getRadiation(player.level(), pos) * 10)) / 10D;
         double envRad = ((int)(HbmLivingAttachments.getRadBuf(player) * 10D)) / 10D;
         double res = ((int)(10000D - ContaminationUtil.calculateRadiationMod(player) * 10000D)) / 100D;
         double resKoeff = ((int)(HazmatRegistry.getResistance(player) * 100D)) / 100D;

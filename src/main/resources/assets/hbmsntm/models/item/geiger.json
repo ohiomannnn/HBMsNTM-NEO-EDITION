@@ -1,5 +1,12 @@
 {
-  "parent": "hbmsntm:block/geiger",
+  "loader": "hbmsntm:hfr_obj",
+  "model": "hbmsntm:models/obj/block/geiger.obj",
+  "smoothing": true,
+  "as_vbo": true,
+  "render_all": true,
+  "textures": {
+    "texture": "hbmsntm:block/geiger"
+  },
   "transform": {
     "translation": [0.6, 0.0, 0.5],
     "rotation": [0, 0, 0],
@@ -7,34 +14,29 @@
   },
   "display": {
     "gui": {
-      "rotation": [30, 45, 0],
-      "translation": [-2.3, -1.9, 0],
-      "scale": [0.32, 0.32, 0.32]
-    },
-    "ground": {
-      "rotation": [0, 90, 0],
-      "translation": [0, 0, 0],
-      "scale": [0.3, 0.3, 0.3]
+      "rotation": [30, 315, 0],
+      "translation": [-2, 2, 0],
+      "scale": [0.63, 0.63, 0.63]
     },
     "firstperson_righthand": {
-      "rotation": [0, 0, 0],
-      "translation": [0, 0, 0],
-      "scale": [0.2, 0.2, 0.2]
+      "rotation": [0, 225, 0],
+      "translation": [-1, 4, 0],
+      "scale": [0.5, 0.5, 0.5]
     },
     "firstperson_lefthand": {
-      "rotation": [0, 180, 0],
-      "translation": [0, 0, -3],
-      "scale": [0.2, 0.2, 0.2]
+      "rotation": [0, 225, 0],
+      "translation": [-1, 4, 0],
+      "scale": [0.5, 0.5, 0.5]
     },
     "thirdperson_righthand": {
       "rotation": [0, 0, 0],
       "translation": [0, 0, 0],
-      "scale": [0.2, 0.2, 0.2]
+      "scale": [0.5, 0.5, 0.5]
     },
     "thirdperson_lefthand": {
-      "rotation": [0, 180, 0],
-      "translation": [0, 0, -3],
-      "scale": [0.2, 0.2, 0.2]
+      "rotation": [0, 0, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.5, 0.5, 0.5]
     }
   }
 }

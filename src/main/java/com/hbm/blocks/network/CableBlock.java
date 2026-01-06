@@ -70,7 +70,7 @@ public class CableBlock extends BaseEntityBlock {
     }
 
     public static final MapCodec<CableBlock> CODEC = simpleCodec(CableBlock::new);
-    @Override protected MapCodec<? extends BaseEntityBlock> codec() { return CODEC; }
+    @Override protected MapCodec<CableBlock> codec() { return CODEC; }
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {

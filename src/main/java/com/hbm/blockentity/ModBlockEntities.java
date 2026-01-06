@@ -2,6 +2,7 @@ package com.hbm.blockentity;
 
 import com.hbm.HBMsNTM;
 import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
+import com.hbm.blockentity.bomb.DetCordBlockEntity;
 import com.hbm.blockentity.bomb.LandMineBlockEntity;
 import com.hbm.blockentity.bomb.NukeFatManBlockEntity;
 import com.hbm.blockentity.machine.MachineSatLinkerBlockEntity;
@@ -35,6 +36,20 @@ public class ModBlockEntities {
                             ModBlocks.CABLE.get())
                     .build(null));
 
+    public static final Supplier<BlockEntityType<DecontaminatorBlockEntity>> DECONTAMINATOR = REGISTER.register(
+            "decontaminator",
+            () -> BlockEntityType.Builder.of(
+                            DecontaminatorBlockEntity::new,
+                            ModBlocks.DECONTAMINATOR.get())
+                    .build(null));
+
+    public static final Supplier<BlockEntityType<DetCordBlockEntity>> DET_CORD = REGISTER.register(
+            "det_cord",
+            () -> BlockEntityType.Builder.of(
+                            DetCordBlockEntity::new,
+                            ModBlocks.DET_CORD.get())
+                    .build(null));
+
 
     public static final Supplier<BlockEntityType<NukeFatManBlockEntity>> NUKE_FATMAN = REGISTER.register(
             "nuke_fatman",
@@ -48,13 +63,6 @@ public class ModBlockEntities {
             () -> BlockEntityType.Builder.of(
                             GeigerBlockEntity::new,
                             ModBlocks.GEIGER.get())
-                    .build(null));
-
-    public static final Supplier<BlockEntityType<DecontaminatorBlockEntity>> DECONTAMINATOR = REGISTER.register(
-            "decontaminator",
-            () -> BlockEntityType.Builder.of(
-                            DecontaminatorBlockEntity::new,
-                            ModBlocks.DECONTAMINATOR.get())
                     .build(null));
 
     public static final Supplier<BlockEntityType<LandMineBlockEntity>> LANDMINE = REGISTER.register(
