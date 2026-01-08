@@ -1,5 +1,8 @@
 package com.hbm.blocks.machine;
 
+import com.hbm.blockentity.ProxyBaseBlockEntity;
+import com.hbm.blockentity.ProxyComboBlockEntity;
+import com.hbm.blocks.DummyBlockType;
 import com.hbm.blocks.DummyableBlock;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -21,11 +24,11 @@ public class MachineAssemblyMachine extends DummyableBlock {
     @Override public MapCodec<MachineAssemblyMachine> codec() { return CODEC; }
 
     @Override
-    public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        if (isCore(blockState)) {
-            return null;
-        }
-
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        //            DummyBlockType type = state.getValue(TYPE);
+        //            case CORE -> new assBLOCKENT(pos, state);
+        //            case EXTRA -> new ProxyComboBlockEntity(pos, state)
+        //            case DUMMY -> null;
         return null;
     }
 

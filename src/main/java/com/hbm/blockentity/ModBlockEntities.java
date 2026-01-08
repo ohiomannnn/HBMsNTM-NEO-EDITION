@@ -61,7 +61,7 @@ public class ModBlockEntities {
     public static final Supplier<BlockEntityType<GeigerBlockEntity>> GEIGER_COUNTER = REGISTER.register(
             "geiger_counter",
             () -> BlockEntityType.Builder.of(
-                            GeigerBlockEntity::new,
+                    (pos, state) -> new GeigerBlockEntity(ModBlockEntities.GEIGER_COUNTER.get(), pos, state),
                             ModBlocks.GEIGER.get())
                     .build(null));
 

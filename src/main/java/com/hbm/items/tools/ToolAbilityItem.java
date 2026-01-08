@@ -67,23 +67,9 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItem
         return this;
     }
 
-    public ToolAbilityItem(Properties properties, Tier tier, float damage, float attackSpeed) {
-        super(tier, properties
-                .component(DataComponents.TOOL, tier.createToolProperties(BlockTags.MINEABLE_WITH_PICKAXE))
-                .attributes(ItemAttributeModifiers.builder()
-                                .add(
-                                        Attributes.ATTACK_DAMAGE,
-                                        new AttributeModifier(BASE_ATTACK_DAMAGE_ID, (damage + tier.getAttackDamageBonus()), AttributeModifier.Operation.ADD_VALUE),
-                                        EquipmentSlotGroup.MAINHAND
-                                )
-                                .add(
-                                        Attributes.ATTACK_SPEED,
-                                        new AttributeModifier(BASE_ATTACK_SPEED_ID, attackSpeed, AttributeModifier.Operation.ADD_VALUE),
-                                        EquipmentSlotGroup.MAINHAND
-                                )
-                                .build()
-                )
-        );
+
+    public ToolAbilityItem(Properties properties, Tier tier) {
+        super(tier, properties);
     }
 
     public ToolAbilityItem addAbility(IBaseAbility ability, int level) {

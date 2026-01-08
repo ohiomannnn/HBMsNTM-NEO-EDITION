@@ -12,13 +12,19 @@ import com.hbm.items.special.DangerousDropItem;
 import com.hbm.items.special.EntitySpawnerItem;
 import com.hbm.items.special.PolaroidItem;
 import com.hbm.items.tools.*;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.Tiers;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+
+import static net.minecraft.world.item.Item.BASE_ATTACK_DAMAGE_ID;
+import static net.minecraft.world.item.Item.BASE_ATTACK_SPEED_ID;
 
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(HBMsNTM.MODID);
@@ -166,13 +172,25 @@ public class ModItems {
     );
     public static final DeferredItem<Item> ALLOY_PICKAXE = ITEMS.register(
             "alloy_pickaxe",
-            () -> new ToolAbilityItem(new Item.Properties().stacksTo(1), ModTiers.ALLOY, 5F, -2.8F)
+            () -> new ToolAbilityItem(new Item.Properties().stacksTo(1)
+                    .component(DataComponents.TOOL, ModTiers.ALLOY.createToolProperties(BlockTags.MINEABLE_WITH_PICKAXE))
+                    .attributes(ItemAttributeModifiers.builder()
+                            .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ID, (5F + ModTiers.ALLOY.getAttackDamageBonus()), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                            .add(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_ID, -2.8F, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                            .build()
+                    ), ModTiers.ALLOY)
                     .addAbility(IToolAreaAbility.RECURSION, 0)
     );
 
     public static final DeferredItem<Item> SCHRABIDIUM_PICKAXE = ITEMS.register(
             "schrabidium_pickaxe",
-            () -> new ToolAbilityItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE), Tiers.NETHERITE, 20F, -2.8F)
+            () -> new ToolAbilityItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)
+                    .component(DataComponents.TOOL, ModTiers.ALLOY.createToolProperties(BlockTags.MINEABLE_WITH_PICKAXE))
+                    .attributes(ItemAttributeModifiers.builder()
+                            .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ID, (5F + Tiers.NETHERITE.getAttackDamageBonus()), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                            .add(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_ID, -2.8F, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                            .build()
+                    ), Tiers.NETHERITE)
                     .addAbility(IWeaponAbility.RADIATION, 0)
                     .addAbility(IToolAreaAbility.HAMMER, 2)
                     .addAbility(IToolAreaAbility.HAMMER_FLAT, 2)

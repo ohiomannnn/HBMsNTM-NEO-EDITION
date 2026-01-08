@@ -1,12 +1,5 @@
 {
-  "loader": "hbmsntm:hfr_obj",
-  "model": "hbmsntm:models/obj/block/cable_neo.obj",
-  "smoothing": true,
-  "as_vbo": true,
-  "render_all": false,
-  "render_only": ["Core", "posX", "negX", "posZ", "negZ"],
   "textures": {
-    "particle": "hbmsntm:block/cable_neo",
-    "texture": "hbmsntm:block/cable_neo"
+    "particle": "hbmsntm:block/cable_neo"
   }
 }

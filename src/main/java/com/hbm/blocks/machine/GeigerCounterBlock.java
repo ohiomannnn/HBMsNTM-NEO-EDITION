@@ -94,7 +94,7 @@ public class GeigerCounterBlock extends BaseEntityBlock {
 
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return new GeigerBlockEntity(blockPos, blockState);
+        return new GeigerBlockEntity(ModBlockEntities.GEIGER_COUNTER.get(), blockPos, blockState);
     }
 
     @Override

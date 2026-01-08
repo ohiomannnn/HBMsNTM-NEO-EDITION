@@ -4,9 +4,9 @@
   "smoothing": true,
   "as_vbo": true,
   "render_all": false,
-  "render_only": ["Core", "posX", "negX", "posZ", "negZ"],
+  "render_only": ["CZ"],
   "textures": {
-    "texture": "hbmsntm:block/cable_neo"
+    "texture": "hbmsntm:block/det_cord"
   },
   "transform": {
     "translation": [0.6, 0.0, 0.5],

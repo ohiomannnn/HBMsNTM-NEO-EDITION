@@ -124,6 +124,7 @@
   "block.hbmsntm.geiger": "Geiger Counter",
 
   "block.hbmsntm.det_charge": "Explosive Charge",
+  "block.hbmsntm.det_cord": "Det Cord",
   "block.hbmsntm.det_nuke": "Nuclear Charge",
   "block.hbmsntm.det_miner": "Mining Charge",
   "block.hbmsntm.crashed_bomb_balefire": "Dud",
