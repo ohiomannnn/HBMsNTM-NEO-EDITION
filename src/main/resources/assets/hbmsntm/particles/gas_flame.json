@@ -1,12 +1,12 @@
 {
   "textures": [
-    "hbmsntm:part1",
-    "hbmsntm:part2",
-    "hbmsntm:part3",
-    "hbmsntm:part4",
-    "hbmsntm:part5",
-    "hbmsntm:part6",
-    "hbmsntm:part7",
-    "hbmsntm:part8"
+    "hbmsntm:vanilla/generic_7",
+    "hbmsntm:vanilla/generic_6",
+    "hbmsntm:vanilla/generic_5",
+    "hbmsntm:vanilla/generic_4",
+    "hbmsntm:vanilla/generic_3",
+    "hbmsntm:vanilla/generic_2",
+    "hbmsntm:vanilla/generic_1",
+    "hbmsntm:vanilla/generic_0"
   ]
 }

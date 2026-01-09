@@ -3,12 +3,14 @@ package com.hbm.entity;
 import com.hbm.HBMsNTM;
 import com.hbm.entity.effect.*;
 import com.hbm.entity.item.EntityTNTPrimedBase;
+import com.hbm.entity.logic.Bomber;
 import com.hbm.entity.logic.DeathBlast;
 import com.hbm.entity.logic.NukeExplosionBalefire;
 import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.entity.missile.MissileTier1.MissileGeneric;
 import com.hbm.entity.mob.CreeperNuclear;
 import com.hbm.entity.mob.Duck;
+import com.hbm.entity.projectile.BombletZeta;
 import com.hbm.entity.projectile.Rubble;
 import com.hbm.entity.projectile.Shrapnel;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -86,6 +88,20 @@ public class ModEntityTypes {
             () -> EntityType.Builder.of(DeathBlast::new, MobCategory.MISC)
                     .setTrackingRange(1000)
                     .build("death_blast"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<Bomber>> BOMBER = REGISTER.register(
+            "bomber",
+            () -> EntityType.Builder.of(Bomber::new, MobCategory.MISC)
+                    .sized(8F, 4F)
+                    .setTrackingRange(250)
+                    .build("bomber"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<BombletZeta>> BOMBLET_ZETA = REGISTER.register(
+            "bomblet_zeta",
+            () -> EntityType.Builder.of(BombletZeta::new, MobCategory.MISC)
+                    .sized(1F, 1F)
+                    .setTrackingRange(250)
+                    .build("bomblet_zeta"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<BlackHole>> BLACK_HOLE = REGISTER.register(
             "black_hole",

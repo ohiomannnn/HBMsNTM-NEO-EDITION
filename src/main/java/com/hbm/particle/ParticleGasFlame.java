@@ -17,7 +17,7 @@ public class ParticleGasFlame extends TextureSheetParticle {
         this.colorMod = 0.8F + RandomSource.create().nextFloat() * 0.2F;
         this.hasPhysics = false;
         this.lifetime = 30 + RandomSource.create().nextInt(13);
-        this.setSize(scale, scale);
+        this.quadSize = scale;
         updateColor();
     }
 
@@ -31,6 +31,7 @@ public class ParticleGasFlame extends TextureSheetParticle {
         this.xd *= 0.75;
         this.yd += 0.005;
         this.zd *= 0.75;
+        this.setSpriteFromAge(ModParticles.GAS_FLAME_PARTICLES);
     }
 
     @Override
@@ -59,7 +60,7 @@ public class ParticleGasFlame extends TextureSheetParticle {
 
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double vx, double vy, double vz) {
-            return new ParticleGasFlame(level, x, y, z, vx, vy, vz, 1.0F);
+            return new ParticleGasFlame(level, x, y, z, vx, vy, vz, 1F);
         }
     }
 }

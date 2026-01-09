@@ -91,6 +91,21 @@
   "crate_open": {
     "sounds": ["hbmsntm:block/crate_open"]
   },
+  "plane_shot_down": {
+    "sounds": ["hbmsntm:entity/plane_shot_down"]
+  },
+  "plane_crash": {
+    "sounds": ["hbmsntm:entity/plane_crash"]
+  },
+  "bomber_small_loop": {
+    "sounds": ["hbmsntm:entity/bomber_small_loop"]
+  },
+  "bomber_loop": {
+    "sounds": ["hbmsntm:entity/bomber_loop"]
+  },
+  "bomb_whistle": {
+    "sounds": ["hbmsntm:entity/bomb_whistle"]
+  },
   "block.debris": {
     "sounds": [
       "hbmsntm:block/debris1",

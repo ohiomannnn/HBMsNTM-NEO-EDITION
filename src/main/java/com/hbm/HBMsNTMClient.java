@@ -27,13 +27,12 @@ import com.hbm.render.entity.effect.*;
 import com.hbm.render.entity.item.RenderTNTPrimedBase;
 import com.hbm.render.entity.mob.CreeperNuclearRenderer;
 import com.hbm.render.entity.mob.DuckRenderer;
-import com.hbm.render.entity.projectile.ModelRubble;
-import com.hbm.render.entity.projectile.ModelShrapnel;
-import com.hbm.render.entity.projectile.RenderRubble;
-import com.hbm.render.entity.projectile.RenderShrapnel;
+import com.hbm.render.entity.projectile.*;
 import com.hbm.render.loader.bakedLoader.HFRObjGeometryLoader;
 import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.render.util.RenderScreenOverlay;
+import com.hbm.sound.AudioWrapper;
+import com.hbm.sound.AudioWrapperClient;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.Clock;
 import com.hbm.util.DamageResistanceHandler;
@@ -62,6 +61,8 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -153,6 +154,20 @@ public class HBMsNTMClient {
         } else {
             RenderInfoSystem.push(entry);
         }
+    }
+
+    public static AudioWrapper getLoopedSound(SoundEvent event, SoundSource source, float x, float y, float z, float volume, float range, float pitch) {
+        AudioWrapperClient audio = new AudioWrapperClient(event, source);
+        audio.updatePosition(x, y, z);
+        audio.updateVolume(volume);
+        audio.updateRange(range);
+        return audio;
+    }
+
+    public static AudioWrapper getLoopedSound(SoundEvent event, SoundSource source, float x, float y, float z, float volume, float range, float pitch, int keepAlive) {
+        AudioWrapper audio = getLoopedSound(event, source, x, y, z, volume, range, pitch);
+        audio.setKeepAlive(keepAlive);
+        return audio;
     }
 
     public static final int flashDuration = 5_000;
@@ -438,6 +453,9 @@ public class HBMsNTMClient {
         event.registerEntityRenderer(ModEntityTypes.QUASAR.get(), RenderQuasar::new);
 
         event.registerEntityRenderer(ModEntityTypes.DEATH_BLAST.get(), RenderDeathBlast::new);
+
+        event.registerEntityRenderer(ModEntityTypes.BOMBER.get(), RenderBomber::new);
+        event.registerEntityRenderer(ModEntityTypes.BOMBLET_ZETA.get(), RenderBombletZeta::new);
 
         ItemProperties.register(ModItems.POLAROID.get(), HBMsNTM.withDefaultNamespaceNT("polaroid_id"), (stack, level, entity, seed) -> PolaroidItem.polaroidID);
 
@@ -746,7 +764,7 @@ public class HBMsNTMClient {
                 double mY = data.getDouble("mY");
                 double mZ = data.getDouble("mZ");
                 float scale = data.getFloat("scale");
-                ParticleGasFlame fx = new ParticleGasFlame(level, x, y, z, mX, mY, mZ, scale > 0 ? scale : 6.5F);
+                ParticleGasFlame fx = new ParticleGasFlame(level, x, y, z, mX, mY, mZ, scale > 0 ? scale : 0.5F);
                 innerMc.particleEngine.add(fx);
             }
 

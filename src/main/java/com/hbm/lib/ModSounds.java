@@ -52,6 +52,14 @@ public class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> CRATE_CLOSE = registerSoundEvent("crate_close");
     public static final DeferredHolder<SoundEvent, SoundEvent> CRATE_OPEN = registerSoundEvent("crate_open");
 
+    public static final DeferredHolder<SoundEvent, SoundEvent> PLANE_SHOT_DOWN = registerSoundEvent("plane_shot_down");
+    public static final DeferredHolder<SoundEvent, SoundEvent> PLANE_CRASH = registerSoundEvent("plane_crash");
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> BOMBER_SMALL_LOOP = registerSoundEvent("bomber_small_loop");
+    public static final DeferredHolder<SoundEvent, SoundEvent> BOMBER_LOOP = registerSoundEvent("bomber_loop");
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> BOMB_WHISTLE = registerSoundEvent("bomb_whistle");
+
 
     private static DeferredHolder<SoundEvent, SoundEvent> registerSoundEvent(String name) {
         ResourceLocation id = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, name);

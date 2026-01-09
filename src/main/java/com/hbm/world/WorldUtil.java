@@ -18,6 +18,18 @@ import java.util.List;
 
 public class WorldUtil {
 
+    public static void loadAndSpawnEntityInWorld(Entity entity) {
+        if (entity.level() instanceof ServerLevel serverLevel) {
+
+            int chunkX = entity.chunkPosition().x;
+            int chunkZ = entity.chunkPosition().z;
+
+            serverLevel.getChunk(chunkX, chunkZ, ChunkStatus.FULL, true);
+
+            serverLevel.addFreshEntity(entity);
+        }
+    }
+
     public static void setBiomeColumn(ServerLevel level, int blockX, int blockZ, Holder<Biome> biome) {
         LevelChunk chunk = level.getChunk(blockX >> 4, blockZ >> 4);
         int localX = (blockX & 15) >> 2;

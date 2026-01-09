@@ -27,6 +27,17 @@ public class ResourceManager {
 
     public static final ResourceLocation GEIGER_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/geiger.png");
 
+    public static final ResourceLocation DORNIER_1_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/dornier_1.png");
+    public static final ResourceLocation DORNIER_2_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/dornier_2.png");
+    public static final ResourceLocation DORNIER_4_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/dornier_4.png");
+    public static final ResourceLocation B29_0_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/b29_0.png");
+    public static final ResourceLocation B29_1_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/b29_1.png");
+    public static final ResourceLocation B29_2_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/b29_2.png");
+    public static final ResourceLocation B29_3_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/b29_3.png");
+    public static final ResourceLocation C130_0_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/weapon/c130_0.png");
+
+    public static final ResourceLocation BOMBLET_ZETA_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bomblet_zeta.png");
+
     public static IModelCustom mine_ap;
     public static IModelCustom mine_he;
     public static IModelCustom mine_naval;
@@ -42,6 +53,12 @@ public class ResourceManager {
     public static IModelCustom cable_neo;
 
     public static IModelCustom geiger;
+
+    public static IModelCustom dornier;
+    public static IModelCustom b29;
+    public static IModelCustom c130;
+
+    public static IModelCustom bomblet_zeta;
 
     public static void init() {
         mine_ap = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/mine_ap.obj")).asVBO();
@@ -59,5 +76,11 @@ public class ResourceManager {
         cable_neo = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/block/cable_neo.obj")).asVBO();
 
         geiger = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/block/geiger.obj")).asVBO();
+
+        dornier = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/dornier.obj")).asVBO();
+        b29 = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/b29.obj")).asVBO();
+        c130 = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/weapon/c130.obj")).asVBO();
+
+        bomblet_zeta = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomblet_zeta.obj")).asVBO();
     }
 }
