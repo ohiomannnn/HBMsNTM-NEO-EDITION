@@ -1,12 +1,8 @@
 package com.hbm.items.special;
 
-import com.hbm.entity.logic.Bomber;
 import com.hbm.util.i18n.I18nUtil;
-import com.hbm.world.WorldUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -40,15 +36,6 @@ public class PolaroidItem extends Item {
     public PolaroidItem(Properties properties) {
         super(properties);
         RerollPal();
-    }
-
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
-        if (!level.isClientSide) {
-            Bomber bomber = Bomber.statFacNapalm(level, player.getX(), player.getY(), player.getZ());
-            WorldUtil.loadAndSpawnEntityInWorld(bomber);
-        }
-        return super.use(level, player, usedHand);
     }
 
     @Override

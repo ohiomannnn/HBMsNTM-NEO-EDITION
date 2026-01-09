@@ -12,6 +12,7 @@ import com.hbm.items.special.DangerousDropItem;
 import com.hbm.items.special.EntitySpawnerItem;
 import com.hbm.items.special.PolaroidItem;
 import com.hbm.items.tools.*;
+import com.hbm.items.tools.BombCallerItem.BomberType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -32,14 +33,34 @@ public class ModItems {
     public static final DeferredItem<Item> NOTHING = ITEMS.register("nothing",
             () -> new Item(new Item.Properties()));
 
-    public static final DeferredItem<Item> DETONATOR = ITEMS.register("detonator",
-            () -> new DetonatorItem(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> MULTI_DETONATOR = ITEMS.register("multi_detonator",
-            () -> new MultiDetonatorItem(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> DETONATOR_DEADMAN = ITEMS.register("detonator_deadman",
-            () -> new DangerousDropItem(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> DETONATOR_DE = ITEMS.register("detonator_de",
-            () -> new DangerousDropItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> DETONATOR = ITEMS.register(
+            "detonator",
+            () -> new DetonatorItem(new Item.Properties().stacksTo(1))
+    );
+    public static final DeferredItem<Item> MULTI_DETONATOR = ITEMS.register(
+            "multi_detonator",
+            () -> new MultiDetonatorItem(new Item.Properties().stacksTo(1))
+    );
+    public static final DeferredItem<Item> DETONATOR_DEADMAN = ITEMS.register(
+            "detonator_deadman",
+            () -> new DangerousDropItem(new Item.Properties().stacksTo(1))
+    );
+    public static final DeferredItem<Item> DETONATOR_DE = ITEMS.register(
+            "detonator_de",
+            () -> new DangerousDropItem(new Item.Properties().stacksTo(1))
+    );
+    public static final DeferredItem<Item> BOMB_CALLER_CARPET = ITEMS.register(
+            "bomb_caller_carpet",
+            () -> new BombCallerItem(new Item.Properties().stacksTo(1), BomberType.CARPET)
+    );
+    public static final DeferredItem<Item> BOMB_CALLER_NAPALM = ITEMS.register(
+            "bomb_caller_napalm",
+            () -> new BombCallerItem(new Item.Properties().stacksTo(1), BomberType.NAPALM)
+    );
+    public static final DeferredItem<Item> BOMB_CALLER_ATOMIC = ITEMS.register(
+            "bomb_caller_atomic",
+            () -> new BombCallerItem(new Item.Properties().stacksTo(1), BomberType.ATOMIC_BOMB)
+    );
 
     public static final DeferredItem<Item> PELLET_RTG = ITEMS.register(
             "pellet_rtg",

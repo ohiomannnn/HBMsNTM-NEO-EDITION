@@ -1,5 +1,6 @@
 package com.hbm.entity.logic;
 
+import com.hbm.HBMsNTM;
 import com.hbm.HBMsNTMClient;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntityTypes;
@@ -25,10 +26,12 @@ public class Bomber extends PlaneBase {
     int bombStop = 125;
     int bombRate = 3;
     int type = 0;
+    public int getBomberType() { return this.type; } // sure
 
     private static final EntityDataAccessor<Byte> STYLE = SynchedEntityData.defineId(Bomber.class, EntityDataSerializers.BYTE);
     public byte getBomberStyle() { return this.entityData.get(STYLE); }
     public void setBomberStyle(byte type) { this.entityData.set(STYLE, type); }
+
 
     protected AudioWrapper audio;
 
@@ -40,6 +43,8 @@ public class Bomber extends PlaneBase {
     @Override
     public void tick() {
         super.tick();
+
+        HBMsNTM.LOGGER.info("tick air");
 
         if (level().isClientSide) {
             if (this.getHealth() > 0) {
@@ -132,6 +137,30 @@ public class Bomber extends PlaneBase {
         bomber.bombRate = 5;
         bomber.fac(level, x, y, z);
         bomber.type = 1;
+        return bomber;
+    }
+
+    public static Bomber statFacABomb(Level level, double x, double y, double z) {
+        Bomber bomber = new Bomber(ModEntityTypes.BOMBER.get(), level);
+        bomber.timer = 200;
+        bomber.bombStart = 60;
+        bomber.bombStop = 70;
+        bomber.bombRate = 65;
+        bomber.fac(level, x, y, z);
+        int i = 1;
+
+        int rand = level.random.nextInt(3);
+
+        i = switch (rand) {
+            case 0 -> 5;
+            case 1 -> 6;
+            case 2 -> 7;
+            default -> i;
+        };
+        if (level.random.nextInt(100) == 0) i = 8;
+
+        bomber.setBomberStyle((byte) i);
+        bomber.type = 4;
         return bomber;
     }
 

@@ -1,6 +1,8 @@
 package com.hbm.explosion;
 
+import com.hbm.entity.logic.Bomber;
 import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -37,7 +39,6 @@ public class ExplosionNukeGeneric {
         List<Entity> entities = level.getEntities(null, new AABB(x, y, z, x, y, z).inflate(radius));
 
         for (Entity entity : entities) {
-
             double distSq = entity.distanceToSqr(x, y, z);
             if (distSq <= radius * radius) {
 
@@ -45,11 +46,10 @@ public class ExplosionNukeGeneric {
                 double entY = entity.getY() + entity.getEyeHeight();
                 double entZ = entity.getZ();
 
-                if (!isExplosionExempt(entity) && !isObstructed(level, x, y, z, entX, entY, entZ)) {
+                if (!isExplosionExempt(entity) && !Library.isObstructed(level, x, y, z, entX, entY, entZ)) {
                     double dist = Math.sqrt(distSq);
                     double damage = maxDamage * (radius - dist) / radius;
-                    DamageSource src = new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageTypes.NUCLEAR_BLAST));
-                    entity.hurt(src, (float) damage);
+                    entity.hurt(level.damageSources().source(ModDamageTypes.NUCLEAR_BLAST), (float) damage);
                     entity.setRemainingFireTicks(100);
 
                     double knockX = entX - x;
@@ -63,15 +63,13 @@ public class ExplosionNukeGeneric {
         }
     }
 
-
-    public static boolean isObstructed(Level level, double x, double y, double z, double a, double b, double c) {
-        return level.clip(new ClipContext(new Vec3(x, y, z), new Vec3(a, b, c), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, CollisionContext.empty())).getType() != HitResult.Type.MISS;
-    }
-
     private static boolean isExplosionExempt(Entity entity) {
         if (entity instanceof Ocelot) return true;
 
-        if (entity instanceof Player && ((Player) entity).isCreative()) return true;
+        if (
+                entity instanceof Player && ((Player) entity).isCreative() ||
+                entity instanceof Bomber && ((Bomber) entity).getBomberType() == 4
+        ) return true;
 
         return false;
     }

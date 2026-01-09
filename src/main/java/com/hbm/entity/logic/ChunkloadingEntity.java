@@ -12,8 +12,7 @@ import java.util.UUID;
 
 public abstract class ChunkloadingEntity extends Entity {
 
-    private static final TicketType<UUID> CHUNK_TICKET =
-            TicketType.create("chunkloading_entity", Comparator.comparing(UUID::toString));
+    private static final TicketType<UUID> CHUNK_TICKET = TicketType.create("chunkloading_entity", Comparator.comparing(UUID::toString), 0);
 
     private ChunkPos loadedChunk;
 
@@ -29,7 +28,7 @@ public abstract class ChunkloadingEntity extends Entity {
             server.getChunkSource().addRegionTicket(
                     CHUNK_TICKET,
                     this.loadedChunk,
-                    2,
+                    3,
                     this.getUUID()
             );
         }
@@ -42,7 +41,7 @@ public abstract class ChunkloadingEntity extends Entity {
             server.getChunkSource().removeRegionTicket(
                     CHUNK_TICKET,
                     this.loadedChunk,
-                    2,
+                    3,
                     this.getUUID()
             );
             this.loadedChunk = null;
@@ -57,7 +56,7 @@ public abstract class ChunkloadingEntity extends Entity {
                     server.getChunkSource().removeRegionTicket(
                             CHUNK_TICKET,
                             this.loadedChunk,
-                            2,
+                            3,
                             this.getUUID()
                     );
                 }
@@ -65,7 +64,7 @@ public abstract class ChunkloadingEntity extends Entity {
                 server.getChunkSource().addRegionTicket(
                         CHUNK_TICKET,
                         this.loadedChunk,
-                        2,
+                        3,
                         this.getUUID()
                 );
             }
