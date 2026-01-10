@@ -4,6 +4,7 @@ import com.hbm.blocks.ITooltipProvider;
 import com.hbm.entity.logic.Bomber;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModSounds;
+import com.hbm.util.i18n.I18nUtil;
 import com.hbm.world.WorldUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -48,10 +49,12 @@ public class BombCallerItem extends Item {
 
                 WorldUtil.loadAndSpawnEntityInWorld(bomber);
 
-                player.sendSystemMessage(Component.translatable(stack.getDescriptionId() + ".message.call"));
+                player.sendSystemMessage(Component.translatable("item.hbmsntm.bomb_caller.message.call"));
                 level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.TECH_BLEEP, SoundSource.PLAYERS, 1.0F, 1.0F);
 
-                stack.setCount(stack.getCount() - 1);
+                if (!player.isCreative()) {
+                    stack.setCount(stack.getCount() - 1);
+                }
             }
         }
 
@@ -60,13 +63,13 @@ public class BombCallerItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
-        for (String s : ITooltipProvider.getDescription(stack)) {
+        for (String s : I18nUtil.resolveKeyArray("item.hbmsntm.bomb_caller.desc")) {
             components.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
         }
         switch (type) {
-            case CARPET -> components.add(Component.translatable(stack.getDescriptionId() + ".desc.carpet").withStyle(ChatFormatting.GRAY));
-            case NAPALM -> components.add(Component.translatable(stack.getDescriptionId() + ".desc.napalm").withStyle(ChatFormatting.GRAY));
-            case ATOMIC_BOMB -> components.add(Component.translatable(stack.getDescriptionId() + ".desc.atomic").withStyle(ChatFormatting.GRAY));
+            case CARPET -> components.add(Component.translatable("item.hbmsntm.bomb_caller.desc.carpet").withStyle(ChatFormatting.GRAY));
+            case NAPALM -> components.add(Component.translatable("item.hbmsntm.bomb_caller.desc.napalm").withStyle(ChatFormatting.GRAY));
+            case ATOMIC_BOMB -> components.add(Component.translatable("item.hbmsntm.bomb_caller.desc.atomic").withStyle(ChatFormatting.GRAY));
         };
     }
 

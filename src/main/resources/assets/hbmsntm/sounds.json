@@ -52,6 +52,12 @@
   "vomit": {
     "sounds": ["hbmsntm:entity/vomit"]
   },
+  "old_explosion": {
+    "sounds": ["hbmsntm:entity/old_explosion"]
+  },
+  "meteorite_falling_loop": {
+    "sounds": ["hbmsntm:entity/meteorite_falling_loop"]
+  },
   "tech_boop": {
     "sounds": ["hbmsntm:tech/tech_boop"]
   },

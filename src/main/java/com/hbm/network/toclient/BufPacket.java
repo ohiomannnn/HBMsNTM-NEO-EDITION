@@ -11,6 +11,8 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record BufPacket(BlockPos pos, byte[] data) implements CustomPacketPayload {
@@ -33,6 +35,12 @@ public record BufPacket(BlockPos pos, byte[] data) implements CustomPacketPayloa
     };
 
     public static void handleClient(BufPacket packet, IPayloadContext context) {
+        context.enqueueWork(() -> performShit(packet, context));
+    }
+
+    // why are you CRASHING
+    @OnlyIn(Dist.CLIENT)
+    public static void performShit(BufPacket packet, IPayloadContext context) {
         context.enqueueWork(() -> {
             Level level = Minecraft.getInstance().level;
             if (level == null) return;

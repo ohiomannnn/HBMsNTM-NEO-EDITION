@@ -112,8 +112,9 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.CRASHED_BOMB_CONVENTIONAL);
                         output.accept(ModBlocks.CRASHED_BOMB_NUKE);
                         output.accept(ModBlocks.CRASHED_BOMB_SALTED);
-                        output.accept(ModBlocks.DET_NUKE);
+                        output.accept(ModBlocks.DET_CORD);
                         output.accept(ModBlocks.DET_CHARGE);
+                        output.accept(ModBlocks.DET_NUKE);
                         output.accept(ModBlocks.DET_MINER);
                         output.accept(ModItems.DETONATOR);
                         output.accept(ModItems.MULTI_DETONATOR);
@@ -159,6 +160,10 @@ public class ModCreativeTabs {
                         output.accept(ModItems.BOTTLE_SPARKLE);
 
                         output.accept(ModItems.SCHRABIDIUM_PICKAXE);
+
+                        output.accept(ModItems.BOMB_CALLER_CARPET);
+                        output.accept(ModItems.BOMB_CALLER_NAPALM);
+                        output.accept(ModItems.BOMB_CALLER_ATOMIC);
                     }).build());
 
     public static void register(IEventBus eventBus) {

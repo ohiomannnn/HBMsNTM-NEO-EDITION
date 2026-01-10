@@ -32,7 +32,6 @@ public class Bomber extends PlaneBase {
     public byte getBomberStyle() { return this.entityData.get(STYLE); }
     public void setBomberStyle(byte type) { this.entityData.set(STYLE, type); }
 
-
     protected AudioWrapper audio;
 
     public Bomber(EntityType<?> type, Level level) {
@@ -43,8 +42,6 @@ public class Bomber extends PlaneBase {
     @Override
     public void tick() {
         super.tick();
-
-        HBMsNTM.LOGGER.info("tick air");
 
         if (level().isClientSide) {
             if (this.getHealth() > 0) {

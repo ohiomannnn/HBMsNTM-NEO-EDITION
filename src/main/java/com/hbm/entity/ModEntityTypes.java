@@ -11,6 +11,7 @@ import com.hbm.entity.missile.MissileTier1.MissileGeneric;
 import com.hbm.entity.mob.CreeperNuclear;
 import com.hbm.entity.mob.Duck;
 import com.hbm.entity.projectile.BombletZeta;
+import com.hbm.entity.projectile.Meteor;
 import com.hbm.entity.projectile.Rubble;
 import com.hbm.entity.projectile.Shrapnel;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -131,6 +132,12 @@ public class ModEntityTypes {
                     .setTrackingRange(1000)
                     .fireImmune()
                     .build("quasar"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<Meteor>> METEOR = REGISTER.register(
+            "meteor",
+            () -> EntityType.Builder.of(Meteor::new, MobCategory.MISC)
+                    .sized(4F, 4F)
+                    .build("meteor"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<Entity>> MISSILE_HE = REGISTER.register(
             "missile_he",

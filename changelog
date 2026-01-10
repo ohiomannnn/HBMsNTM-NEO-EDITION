@@ -1,0 +1,13 @@
+## Added
+* Custom obj loader
+  * Better performance (pls), better shading, etc
+* Airstrike Designators
+  * Only 3 right now
+* Det cord explosive
+
+## Changed
+* 500 particle changes
+
+## Fixed
+* Broken hud keybind
+* Geiger counter block is now actually listed in creative tab

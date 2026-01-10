@@ -35,6 +35,10 @@ public class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> VOMIT = registerSoundEvent("vomit");
     public static final DeferredHolder<SoundEvent, SoundEvent> COUGH = registerSoundEvent("player.cough");
 
+    public static final DeferredHolder<SoundEvent, SoundEvent> OLD_EXPLOSION = registerSoundEvent("old_explosion");
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> METEORITE_FALLING_LOOP = registerSoundEvent("meteorite_falling_loop");
+
     public static final DeferredHolder<SoundEvent, SoundEvent> TECH_BOOP = registerSoundEvent("tech_boop");
     public static final DeferredHolder<SoundEvent, SoundEvent> TECH_BLEEP = registerSoundEvent("tech_bleep");
 

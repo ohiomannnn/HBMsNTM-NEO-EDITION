@@ -452,6 +452,8 @@ public class HBMsNTMClient {
         event.registerEntityRenderer(ModEntityTypes.RAGING_VORTEX.get(), RenderBlackHole::new);
         event.registerEntityRenderer(ModEntityTypes.QUASAR.get(), RenderQuasar::new);
 
+        event.registerEntityRenderer(ModEntityTypes.METEOR.get(), RenderMeteor::new);
+
         event.registerEntityRenderer(ModEntityTypes.DEATH_BLAST.get(), RenderDeathBlast::new);
 
         event.registerEntityRenderer(ModEntityTypes.BOMBER.get(), RenderBomber::new);
@@ -670,6 +672,41 @@ public class HBMsNTMClient {
                         innerMc.particleEngine.add(particle);
 
                         vec.rotateAroundYRad(360 / count);
+                    }
+                }
+            }
+
+            if ("exhaust".equals(type)) {
+
+                String mode = data.getString("mode");
+
+                if ("soyuz".equals(mode)) {
+
+                    if (new Vec3(player.getX() - x, player.getY() - y, player.getZ() - z).length() > 350)
+                        return;
+
+                    int count = Math.max(1, data.getInt("count"));
+                    double width = data.getDouble("width");
+
+                    for (int i = 0; i < count; i++) {
+                        ParticleRocketFlame particle = new ParticleRocketFlame(level, x + rand.nextGaussian() * width, y, z + rand.nextGaussian() * width);
+                        particle.setParticleSpeed(0, -0.75 + rand.nextDouble() * 0.5, 0);
+                        innerMc.particleEngine.add(particle);
+                    }
+                }
+
+                if ("meteor".equals(mode)) {
+
+                    if (new Vec3(player.getX() - x, player.getY() - y, player.getZ() - z).length() > 350)
+                        return;
+
+                    int count = Math.max(1, data.getInt("count"));
+                    double width = data.getDouble("width");
+
+                    for (int i = 0; i < count; i++) {
+
+                        ParticleRocketFlame particle = new ParticleRocketFlame(level, x + rand.nextGaussian() * width, y + rand.nextGaussian() * width, z + rand.nextGaussian() * width);
+                        innerMc.particleEngine.add(particle);
                     }
                 }
             }

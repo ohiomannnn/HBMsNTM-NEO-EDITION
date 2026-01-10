@@ -181,6 +181,15 @@
   "item.hbmsntm.detonator_deadman": "Dead Man's Detonator",
   "item.hbmsntm.detonator_deadman.desc": "Shift right-click to set position, drop to detonate!",
 
+  "item.hbmsntm.bomb_caller_carpet": "Airstrike Designator",
+  "item.hbmsntm.bomb_caller_napalm": "Airstrike Designator",
+  "item.hbmsntm.bomb_caller_atomic": "Airstrike Designator",
+  "item.hbmsntm.bomb_caller.desc": "Aim & click to call an airstrike!",
+  "item.hbmsntm.bomb_caller.desc.carpet": "Type: Carpet bombing",
+  "item.hbmsntm.bomb_caller.desc.napalm": "Type: Napalm",
+  "item.hbmsntm.bomb_caller.desc.atomic": "Type: Atomic bomb",
+  "item.hbmsntm.bomb_caller.message.call": "Called in airstrike!",
+
   "item.hbmsntm.satellite_interface": "Satellite Control Interface",
 
   "item.hbmsntm.early_explosive_lenses": "Array of First-Generation High-Explosive Lenses",

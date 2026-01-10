@@ -2,7 +2,10 @@ package com.hbm.network;
 
 import com.hbm.network.toclient.*;
 import com.hbm.network.toserver.*;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.handlers.ClientPayloadHandler;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 public class NTMNetwork {

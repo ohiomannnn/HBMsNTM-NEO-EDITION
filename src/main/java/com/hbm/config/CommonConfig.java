@@ -27,6 +27,15 @@ public class CommonConfig {
     public final ModConfigSpec.IntValue NUKA_RADIUS;
     public final ModConfigSpec.IntValue ASCHRAB_RADIUS;
 
+    // METEORS (05)
+    public final ModConfigSpec.BooleanValue ENABLE_METEOR_STRIKES;
+    public final ModConfigSpec.BooleanValue ENABLE_METEOR_SHOWERS;
+    public final ModConfigSpec.BooleanValue ENABLE_METEOR_TAILS;
+    public final ModConfigSpec.BooleanValue ENABLE_SPECIAL_METEORS;
+    public final ModConfigSpec.IntValue METEOR_STRIKE_CHACE;
+    public final ModConfigSpec.IntValue METEOR_SHOWER_CHACE;
+    public final ModConfigSpec.IntValue METEOR_SHOWER_DURATION;
+
     // EXPLOSIONS (06)
     public final ModConfigSpec.IntValue MK5;
     public final ModConfigSpec.IntValue FALLOUT_RANGE;
@@ -164,6 +173,40 @@ public class CommonConfig {
                 .comment("Radius of dropped anti schrabidium.")
                 .translation("hbmsntm.configuration.aSchrabRadius")
                 .defineInRange("aSchrabRadius", 20, 0, Integer.MAX_VALUE);
+
+        builder.pop();
+
+        /// METEORS ///
+        builder.push("explosion");
+
+        ENABLE_METEOR_STRIKES = builder
+                .comment("Toggles the spawning of meteors.")
+                .translation("hbmsntm.configuration.enableMeteorStrikes")
+                .define("enableMeteorStrikes", true);
+        ENABLE_METEOR_SHOWERS = builder
+                .comment("Toggles meteor showers, which start with a 1% chance for every spawned meteor.")
+                .translation("hbmsntm.configuration.enableMeteorShowers")
+                .define("enableMeteorShowers", true);
+        ENABLE_METEOR_TAILS = builder
+                .comment("Toggles the particle effect created by falling meteors.")
+                .translation("hbmsntm.configuration.enableMeteorTails")
+                .define("enableMeteorTails", true);
+        ENABLE_SPECIAL_METEORS = builder
+                .comment("Toggles rare, special meteor types with different impact effects.")
+                .translation("hbmsntm.configuration.enableSpecialMeteors")
+                .define("enableSpecialMeteors", true);
+        METEOR_STRIKE_CHACE = builder
+                .comment("The probability of a meteor spawning (an average of once every nTH ticks).")
+                .translation("hbmsntm.configuration.meteorStrikeChance")
+                .defineInRange("meteorStrikeChance", 360000, 1, Integer.MAX_VALUE);
+        METEOR_SHOWER_CHACE = builder
+                .comment("The probability of a meteor spawning during meteor shower (an average of once every nTH ticks).")
+                .translation("hbmsntm.configuration.meteorStrikeChance")
+                .defineInRange("meteorStrikeChance", 18000, 1, Integer.MAX_VALUE);
+        METEOR_SHOWER_DURATION = builder
+                .comment("Max duration of meteor shower in ticks.")
+                .translation("hbmsntm.configuration.meteorShowerDuration")
+                .defineInRange("meteorShowerDuration", 36000, 1, Integer.MAX_VALUE);
 
         builder.pop();
 

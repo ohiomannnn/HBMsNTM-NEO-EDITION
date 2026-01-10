@@ -3,12 +3,16 @@ package com.hbm.datagen;
 import com.hbm.HBMsNTM;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+
+import java.util.Objects;
 
 public class ModItemModelProvider extends ItemModelProvider {
     public ModItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
@@ -28,6 +32,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         handheldItem(ModItems.DETONATOR.get());
         handheldItem(ModItems.MULTI_DETONATOR.get());
         handheldItem(ModItems.SCHRABIDIUM_PICKAXE.get());
+        bombCallerItem(ModItems.BOMB_CALLER_ATOMIC.get());
+        bombCallerItem(ModItems.BOMB_CALLER_CARPET.get());
+        bombCallerItem(ModItems.BOMB_CALLER_NAPALM.get());
         basicItem(ModItems.DUCK_SPAWN_EGG.get());
 
         this.basicItem(ModItems.PELLET_RTG.get());
@@ -108,4 +115,10 @@ public class ModItemModelProvider extends ItemModelProvider {
         this.basicItem(ModItems.MAN_IGNITER.get());
         this.basicItem(ModItems.MAN_CORE.get());
     }
+
+    public ItemModelBuilder bombCallerItem(Item item) {
+        ResourceLocation loc = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
+        return this.getBuilder(item.toString()).parent(new ModelFile.UncheckedModelFile("item/handheld")).texture("layer0", ResourceLocation.fromNamespaceAndPath(loc.getNamespace(), "item/bomb_caller"));
+    }
+
 }
