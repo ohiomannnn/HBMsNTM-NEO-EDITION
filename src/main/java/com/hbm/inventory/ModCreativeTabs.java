@@ -106,6 +106,7 @@ public class ModCreativeTabs {
 
                         output.accept(ModBlocks.GEIGER);
                         output.accept(ModBlocks.MACHINE_BATTERY_SOCKET);
+                        output.accept(ModBlocks.CABLE);
 
                         output.accept(ModBlocks.DECONTAMINATOR);
                         output.accept(ModBlocks.MACHINE_SATLINKER);
