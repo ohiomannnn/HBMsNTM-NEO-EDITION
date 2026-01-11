@@ -123,6 +123,8 @@
   "block.hbmsntm.taint": "Taint",
   "block.hbmsntm.geiger": "Geiger Counter",
 
+  "block.hbmsntm.red_cable": "Red Copper Cable",
+
   "block.hbmsntm.det_charge": "Explosive Charge",
   "block.hbmsntm.det_cord": "Det Cord",
   "block.hbmsntm.det_nuke": "Nuclear Charge",
@@ -157,6 +159,8 @@
 
   "block.hbmsntm.decontaminator": "Player Decontaminator",
 
+  "block.hbmsntm.machine_battery_socket": "Battery Socket",
+
   "block.hbmsntm.machine_satlinker": "Satellite ID Manager",
 
   "item.hbmsntm.nothing": "Nothing",
@@ -189,6 +193,13 @@
   "item.hbmsntm.bomb_caller.desc.napalm": "Type: Napalm",
   "item.hbmsntm.bomb_caller.desc.atomic": "Type: Atomic bomb",
   "item.hbmsntm.bomb_caller.message.call": "Called in airstrike!",
+
+  "item.hbmsntm.battery_pack_lead": "Lead-Acid Battery",
+  "item.hbmsntm.battery_pack_lithium": "Lithium-Ion Battery",
+  "item.hbmsntm.battery_pack_quantum": "Quantum Battery",
+  "item.hbmsntm.battery_pack_redstone": "Redstone Battery",
+  "item.hbmsntm.battery_pack_schrabidium": "Schrabidium Battery",
+  "item.hbmsntm.battery_pack_sodium": "Sodium-Iron Battery",
 
   "item.hbmsntm.satellite_interface": "Satellite Control Interface",
 
@@ -281,6 +292,14 @@
   "item.hbmsntm.battery_pack.desc.charge_lasts_for": "Charge lasts for: %s",
 
   "entity.hbmsntm.duck": "Duck",
+
+  "battery.priority.high": "Charge Priority: High",
+  "battery.priority.high.desc": "Emergency buffers that$always need to be full",
+  "battery.priority.low": "Charge Priority: Low",
+  "battery.priority.low.desc": "Most use-cases where surplus$energy needs to be stored without$affecting machine performance",
+  "battery.priority.normal": "Charge Priority: Normal",
+  "battery.priority.normal.desc": "Smaller power grids where$priority doesn't matter",
+  "battery.priority.recommended": "Recommended for:",
 
   "death.attack.digamma": "%s stepped into the abyss",
   "death.attack.blacklung": "%s died from black lung disease",

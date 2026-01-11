@@ -37,11 +37,23 @@ public class ModCreativeTabs {
 
                         output.accept(ModItems.REACHER);
 
+                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_REDSTONE.get())));
+                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.BATTERY_PACK_REDSTONE.get())));
+
+                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_LEAD.get())));
+                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.BATTERY_PACK_LEAD.get())));
+
                         output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_LITHIUM.get())));
                         output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.BATTERY_PACK_LITHIUM.get())));
 
-                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.CAPACITOR_PACK_LITHIUM.get())));
-                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.CAPACITOR_PACK_LITHIUM.get())));
+                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_SODIUM.get())));
+                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.BATTERY_PACK_SODIUM.get())));
+
+                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_SCHRABIDIUM.get())));
+                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.BATTERY_PACK_SCHRABIDIUM.get())));
+
+                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_QUANTUM.get())));
+                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.BATTERY_PACK_QUANTUM.get())));
                     }).build());
 
     public static final Supplier<CreativeModeTab> ORES_AND_BLOCKS = CREATIVE_MODE_TABS.register(
@@ -93,6 +105,7 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.GAS_EXPLOSIVE);
 
                         output.accept(ModBlocks.GEIGER);
+                        output.accept(ModBlocks.MACHINE_BATTERY_SOCKET);
 
                         output.accept(ModBlocks.DECONTAMINATOR);
                         output.accept(ModBlocks.MACHINE_SATLINKER);

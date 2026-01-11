@@ -1,0 +1,48 @@
+{
+  "loader": "hbmsntm:hfr_obj",
+  "model": "hbmsntm:models/obj/machines/battery.obj",
+  "smoothing": true,
+  "as_vbo": true,
+  "render_all": false,
+  "render_only": ["Socket"],
+  "textures": {
+    "texture": "hbmsntm:block/battery_socket"
+  },
+  "transform": {
+    "translation": [0.6, 0.0, 0.5],
+    "rotation": [0, 0, 0],
+    "scale": 1.0
+  },
+  "display": {
+    "gui": {
+      "rotation": [30, 315, 0],
+      "translation": [0, -1, 0],
+      "scale": [0.32, 0.32, 0.32]
+    },
+    "firstperson_righthand": {
+      "rotation": [0, 225, 0],
+      "translation": [-1, 2, 0],
+      "scale": [0.2, 0.2, 0.2]
+    },
+    "firstperson_lefthand": {
+      "rotation": [0, 225, 0],
+      "translation": [-1, 2, 0],
+      "scale": [0.2, 0.2, 0.2]
+    },
+    "thirdperson_righthand": {
+      "rotation": [70, 225, 0],
+      "translation": [0, 4.2, 1],
+      "scale": [0.2, 0.2, 0.2]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [70, 225, 0],
+      "translation": [0, 3, 1],
+      "scale": [0.2, 0.2, 0.2]
+    },
+    "ground": {
+      "rotation": [0, 0, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.2, 0.2, 0.2]
+    }
+  }
+}

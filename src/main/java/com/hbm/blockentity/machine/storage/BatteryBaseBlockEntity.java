@@ -139,10 +139,10 @@ public abstract class BatteryBaseBlockEntity extends MachineBaseBlockEntity impl
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
 
-        this.redLow = tag.getShort("redLow");
-        this.redHigh = tag.getShort("redHigh");
-        this.lastRedstone = tag.getByte("lastRedstone");
-        this.priority = EnumUtil.grabEnumSafely(ConnectionPriority.class, tag.getByte("priority"));
+        this.redLow = tag.getShort("RedLow");
+        this.redHigh = tag.getShort("RedHigh");
+        this.lastRedstone = tag.getByte("LastRedstone");
+        this.priority = EnumUtil.grabEnumSafely(ConnectionPriority.class, tag.getByte("Priority"));
     }
 
     @Override
@@ -175,7 +175,6 @@ public abstract class BatteryBaseBlockEntity extends MachineBaseBlockEntity impl
 
     @Override
     public void receiveControl(CompoundTag tag) {
-        HBMsNTM.LOGGER.info("Control = {}", tag);
         if (tag.contains("low")) {
             this.redLow++;
             if (this.redLow > 3) this.redLow = 0;

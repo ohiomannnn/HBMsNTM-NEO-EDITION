@@ -25,6 +25,8 @@ public class ResourceManager {
     public static final ResourceLocation CABLE_NEO_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/cable_neo.png");
     public static final ResourceLocation DET_CORD_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/det_cord.png");
 
+    public static final ResourceLocation BATTERY_SOCKET_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/machines/battery_socket.png");
+
     public static final ResourceLocation GEIGER_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/geiger.png");
 
     public static final ResourceLocation DORNIER_1_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/dornier_1.png");
@@ -54,6 +56,8 @@ public class ResourceManager {
 
     public static IModelCustom geiger;
 
+    public static IModelCustom battery_socket;
+
     public static IModelCustom dornier;
     public static IModelCustom b29;
     public static IModelCustom c130;
@@ -76,6 +80,8 @@ public class ResourceManager {
         cable_neo = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/block/cable_neo.obj")).asVBO();
 
         geiger = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/block/geiger.obj")).asVBO();
+
+        battery_socket = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/machines/battery.obj")).asVBO();
 
         dornier = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/dornier.obj")).asVBO();
         b29 = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/b29.obj")).asVBO();

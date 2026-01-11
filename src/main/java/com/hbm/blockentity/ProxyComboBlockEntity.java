@@ -21,8 +21,8 @@ public class ProxyComboBlockEntity extends ProxyBaseBlockEntity implements IEner
     private boolean heat;
     public boolean moltenMetal;
 
-    public ProxyComboBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
-        super(type, pos, blockState);
+    public ProxyComboBlockEntity(BlockPos pos, BlockState blockState) {
+        super(ModBlockEntities.PROXY_COMBO.get(), pos, blockState);
     }
 
     public ProxyComboBlockEntity inventory() {

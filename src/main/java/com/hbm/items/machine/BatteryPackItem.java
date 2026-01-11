@@ -60,6 +60,7 @@ public class BatteryPackItem extends Item implements IBatteryItem {
     }
 
     private BatteryPack pack;
+    public BatteryPack getPack() { return this.pack; }
 
     public BatteryPackItem(Properties properties, BatteryPack batteryPack) {
         super(properties.stacksTo(1));

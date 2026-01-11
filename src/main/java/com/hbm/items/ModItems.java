@@ -131,13 +131,28 @@ public class ModItems {
     public static final DeferredItem<Item> SCREWDRIVER_DESH = ITEMS.register("screwdriver_desh",
             () -> new Item(new Item.Properties().stacksTo(8)));
 
+    public static final DeferredItem<Item> BATTERY_PACK_REDSTONE = ITEMS.register(
+            "battery_pack_redstone",
+            () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPack.BATTERY_REDSTONE));
+    public static final DeferredItem<Item> BATTERY_PACK_LEAD = ITEMS.register(
+            "battery_pack_lead",
+            () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPack.BATTERY_LEAD));
     public static final DeferredItem<Item> BATTERY_PACK_LITHIUM = ITEMS.register(
             "battery_pack_lithium",
             () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPack.BATTERY_LITHIUM));
+    public static final DeferredItem<Item> BATTERY_PACK_SODIUM = ITEMS.register(
+            "battery_pack_sodium",
+            () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPack.BATTERY_SODIUM));
+    public static final DeferredItem<Item> BATTERY_PACK_SCHRABIDIUM = ITEMS.register(
+            "battery_pack_schrabidium",
+            () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPack.BATTERY_SCHRABIDIUM));
+    public static final DeferredItem<Item> BATTERY_PACK_QUANTUM = ITEMS.register(
+            "battery_pack_quantum",
+            () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPack.BATTERY_QUANTUM));
 
-    public static final DeferredItem<Item> CAPACITOR_PACK_LITHIUM = ITEMS.register(
-            "capacitor_pack_lithium",
-            () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPack.BATTERY_LITHIUM));
+    public static final DeferredItem<Item> CAPACITOR_PACK_NIOBIUM = ITEMS.register(
+            "capacitor_pack_niobium",
+            () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPack.CAPACITOR_NIOBIUM));
 
     public static final DeferredItem<Item> PIN = ITEMS.register(
             "pin",

@@ -29,7 +29,7 @@ public class MachineBatterySocketBlock extends DummyableBlock {
         DummyBlockType type = state.getValue(TYPE);
         return switch (type) {
             case CORE -> new BatterySocketBlockEntity(ModBlockEntities.BATTERY_SOCKET.get(), pos, state);
-            case EXTRA -> new ProxyComboBlockEntity(ModBlockEntities.BATTERY_SOCKET.get(), pos, state).inventory().power().conductor();
+            case EXTRA -> new ProxyComboBlockEntity(pos, state).inventory().power().conductor();
             default -> null;
         };
     }

@@ -242,7 +242,7 @@ public class ModBlocks {
                     .sound(SoundType.STONE)));
 
     public static final DeferredBlock<Block> CABLE = registerBlock(
-            "cable",
+            "red_cable",
             () -> new CableBlock(BlockBehaviour.Properties.of()
                     .strength(5.0F)
                     .explosionResistance(10.0F)
@@ -256,11 +256,12 @@ public class ModBlocks {
                     .explosionResistance(10.0F)
                     .sound(SoundType.METAL)));
 
-    public static final DeferredBlock<Block> MACHINE_BATTER_SOCKET = registerBlock(
+    public static final DeferredBlock<Block> MACHINE_BATTERY_SOCKET = registerBlock(
             "machine_battery_socket",
             () -> new MachineBatterySocketBlock(BlockBehaviour.Properties.of()
                     .strength(5.0F)
                     .explosionResistance(10.0F)
+                    .noOcclusion()
                     .sound(SoundType.METAL)));
 
     public static final DeferredBlock<Block> GAS_RADON = registerBlock(

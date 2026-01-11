@@ -34,7 +34,14 @@ public class ModBlockEntities {
             "batter_socket",
             () -> BlockEntityType.Builder.of(
                             (pos, state) -> new BatterySocketBlockEntity(ModBlockEntities.BATTERY_SOCKET.get(), pos, state),
-                            ModBlocks.MACHINE_BATTER_SOCKET.get())
+                            ModBlocks.MACHINE_BATTERY_SOCKET.get())
+                    .build(null));
+
+    public static final Supplier<BlockEntityType<ProxyComboBlockEntity>> PROXY_COMBO = REGISTER.register(
+            "proxy_combo",
+            () -> BlockEntityType.Builder.of(
+                            ProxyComboBlockEntity::new,
+                            ModBlocks.MACHINE_BATTERY_SOCKET.get())
                     .build(null));
 
     public static final Supplier<BlockEntityType<CableBlockEntityBaseNT>> NETWORK_CABLE = REGISTER.register(

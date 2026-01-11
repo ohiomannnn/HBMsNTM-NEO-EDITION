@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "hbmsntm:block/machine_battery_socket"
+    }
+  }
+}

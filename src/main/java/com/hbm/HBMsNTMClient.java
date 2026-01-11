@@ -55,6 +55,7 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
@@ -477,6 +478,8 @@ public class HBMsNTMClient {
         event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_CONVENTIONAL.get(), RenderCrashedBomb::new);
         event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_NUKE.get(), RenderCrashedBomb::new);
         event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_SALTED.get(), RenderCrashedBomb::new);
+
+        event.registerBlockEntityRenderer(ModBlockEntities.BATTERY_SOCKET.get(), RenderBatterySocket::new);
 
         event.registerBlockEntityRenderer(ModBlockEntities.NETWORK_CABLE.get(), RenderCable::new);
         event.registerBlockEntityRenderer(ModBlockEntities.DET_CORD.get(), RenderDetCord::new);

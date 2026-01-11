@@ -34,6 +34,7 @@ public class DataGenerators {
         // Client things
         generator.addProvider(event.includeClient(), new ModItemModelProvider(output, helper));
         generator.addProvider(event.includeClient(), new ModBlockStateProvider(output, helper));
+        generator.addProvider(event.includeClient(), new ModAtlasProvider(output, lookup, helper));
 
         // Server things
         LootTableProvider.SubProviderEntry blockLootTableSubProvider = new LootTableProvider.SubProviderEntry(ModBlockLootTableProvider::new, LootContextParamSets.BLOCK);
