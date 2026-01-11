@@ -3,6 +3,7 @@ package com.hbm.inventory;
 import com.hbm.HBMsNTM;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.BatteryPackItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -35,6 +36,12 @@ public class ModCreativeTabs {
                         output.accept(ModItems.PELLET_ANTIMATTER);
 
                         output.accept(ModItems.REACHER);
+
+                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_LITHIUM.get())));
+                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.BATTERY_PACK_LITHIUM.get())));
+
+                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.CAPACITOR_PACK_LITHIUM.get())));
+                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.CAPACITOR_PACK_LITHIUM.get())));
                     }).build());
 
     public static final Supplier<CreativeModeTab> ORES_AND_BLOCKS = CREATIVE_MODE_TABS.register(

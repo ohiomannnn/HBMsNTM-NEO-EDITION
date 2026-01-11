@@ -395,14 +395,20 @@ public class HBMsNTMClient {
         }
     }
 
+    // uhh sure, no more convenient solutions...
     @SubscribeEvent
     public static void onRightClickOnBlock(PlayerInteractEvent.RightClickBlock event) {
         Level level = event.getLevel();
         if (!level.isClientSide) return;
         BlockHitResult bhr = event.getHitVec();
 
+        Minecraft mc = Minecraft.getInstance();
+
         if (bhr.getType() == HitResult.Type.BLOCK && level.getBlockState(event.getPos()).getBlock() instanceof IGUIProvider provider) {
-            Minecraft mc = Minecraft.getInstance();
+            mc.setScreen(provider.provideScreenOnRightClick(mc.player, mc.player.blockPosition()));
+        }
+
+        if (bhr.getType() == HitResult.Type.BLOCK && level.getBlockEntity(event.getPos()) instanceof IGUIProvider provider) {
             mc.setScreen(provider.provideScreenOnRightClick(mc.player, mc.player.blockPosition()));
         }
     }

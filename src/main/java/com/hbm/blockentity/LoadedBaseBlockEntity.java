@@ -7,6 +7,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
@@ -62,12 +63,12 @@ public class LoadedBaseBlockEntity extends BlockEntity implements ILoadedTile, I
     }
 
     @Override
-    public void serialize(ByteBuf buf) {
+    public void serialize(ByteBuf buf, RegistryAccess registryAccess) {
         buf.writeBoolean(muffled);
     }
 
     @Override
-    public void deserialize(ByteBuf buf) {
+    public void deserialize(ByteBuf buf, RegistryAccess registryAccess) {
         this.muffled = buf.readBoolean();
     }
 
@@ -78,7 +79,7 @@ public class LoadedBaseBlockEntity extends BlockEntity implements ILoadedTile, I
         if (level == null || level.isClientSide()) return;
 
         FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-        this.serialize(buf);
+        this.serialize(buf, level.registryAccess());
         byte[] data = new byte[buf.readableBytes()];
         buf.readBytes(data);
         buf.release();

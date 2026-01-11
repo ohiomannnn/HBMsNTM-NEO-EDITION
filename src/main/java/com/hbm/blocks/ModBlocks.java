@@ -8,6 +8,7 @@ import com.hbm.blocks.machine.DecontaminatorBlock;
 import com.hbm.blocks.machine.GeigerCounterBlock;
 import com.hbm.blocks.machine.MachineSatLinkerBlock;
 import com.hbm.blocks.network.CableBlock;
+import com.hbm.blocks.network.MachineBatterySocketBlock;
 import com.hbm.blocks.special.ConcreteBrickMBlock;
 import com.hbm.items.ModItems;
 import net.minecraft.core.BlockPos;
@@ -251,6 +252,13 @@ public class ModBlocks {
     public static final DeferredBlock<Block> MACHINE_SATLINKER = registerBlock(
             "machine_satlinker",
             () -> new MachineSatLinkerBlock(BlockBehaviour.Properties.of()
+                    .strength(5.0F)
+                    .explosionResistance(10.0F)
+                    .sound(SoundType.METAL)));
+
+    public static final DeferredBlock<Block> MACHINE_BATTER_SOCKET = registerBlock(
+            "machine_battery_socket",
+            () -> new MachineBatterySocketBlock(BlockBehaviour.Properties.of()
                     .strength(5.0F)
                     .explosionResistance(10.0F)
                     .sound(SoundType.METAL)));

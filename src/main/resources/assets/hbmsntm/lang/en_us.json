@@ -274,6 +274,12 @@
   "item.hbmsntm.alloy_leggings": "Advanced Alloy Leggings",
   "item.hbmsntm.alloy_boots": "Advanced Alloy Boots",
 
+  "item.hbmsntm.battery_pack.desc.energy_stored": "Energy stored: %s",
+  "item.hbmsntm.battery_pack.desc.charge_rate": "Charge rate: %s",
+  "item.hbmsntm.battery_pack.desc.discharge_rate": "Discharge rate: %s",
+  "item.hbmsntm.battery_pack.desc.time_for_full_charge": "Time for full charge: %s",
+  "item.hbmsntm.battery_pack.desc.charge_lasts_for": "Charge lasts for: %s",
+
   "entity.hbmsntm.duck": "Duck",
 
   "death.attack.digamma": "%s stepped into the abyss",
@@ -437,5 +443,6 @@
   "commands.chunkrad.setrad": "Chunk radiation set to %s",
 
   "container.satLinker": "SatLink Device",
+  "container.batterySocket": "Battery Socket",
   "container.nuke_fatman": "Fat Man"
 }

@@ -1,6 +1,5 @@
 package com.hbm.entity.logic;
 
-import com.hbm.HBMsNTM;
 import com.hbm.HBMsNTMClient;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntityTypes;

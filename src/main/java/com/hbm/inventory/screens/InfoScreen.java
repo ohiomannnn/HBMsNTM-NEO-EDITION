@@ -5,8 +5,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 
@@ -48,5 +50,13 @@ public abstract class InfoScreen<T extends AbstractContainerMenu> extends Abstra
             case 10 -> guiGraphics.blit(GUI_UTIL, x, y, 8, 32, 16, 16); //Large blue *
             case 11 -> guiGraphics.blit(GUI_UTIL, x, y, 24, 32, 16, 16); //Large grey *
         }
+    }
+
+    protected boolean checkClick(int x, int y, int left, int top, int sizeX, int sizeY) {
+        return leftPos + left <= x && leftPos + left + sizeX > x && topPos + top < y && topPos + top + sizeY >= y;
+    }
+
+    public void click() {
+        this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
     }
 }

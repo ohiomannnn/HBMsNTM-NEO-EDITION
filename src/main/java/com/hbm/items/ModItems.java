@@ -7,6 +7,8 @@ import com.hbm.handler.ability.IWeaponAbility;
 import com.hbm.inventory.ModArmorMaterials;
 import com.hbm.inventory.ModTiers;
 import com.hbm.items.food.ItemEnergy;
+import com.hbm.items.machine.BatteryPackItem;
+import com.hbm.items.machine.BatteryPackItem.BatteryPack;
 import com.hbm.items.machine.SatChipItem;
 import com.hbm.items.special.DangerousDropItem;
 import com.hbm.items.special.EntitySpawnerItem;
@@ -18,7 +20,10 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -125,6 +130,14 @@ public class ModItems {
             () -> new Item(new Item.Properties().stacksTo(8)));
     public static final DeferredItem<Item> SCREWDRIVER_DESH = ITEMS.register("screwdriver_desh",
             () -> new Item(new Item.Properties().stacksTo(8)));
+
+    public static final DeferredItem<Item> BATTERY_PACK_LITHIUM = ITEMS.register(
+            "battery_pack_lithium",
+            () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPack.BATTERY_LITHIUM));
+
+    public static final DeferredItem<Item> CAPACITOR_PACK_LITHIUM = ITEMS.register(
+            "capacitor_pack_lithium",
+            () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPack.BATTERY_LITHIUM));
 
     public static final DeferredItem<Item> PIN = ITEMS.register(
             "pin",

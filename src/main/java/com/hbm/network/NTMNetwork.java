@@ -16,6 +16,7 @@ public class NTMNetwork {
 
         registrar.playToServer(KeybindReceiver.TYPE, KeybindReceiver.STREAM_CODEC, KeybindReceiver::handleServer);
         registrar.playToServer(CompoundTagItemControl.TYPE, CompoundTagItemControl.STREAM_CODEC, CompoundTagItemControl::handleServer);
+        registrar.playToServer(CompoundTagControl.TYPE, CompoundTagControl.STREAM_CODEC, CompoundTagControl::handleServer);
         registrar.playToServer(SatelliteLaser.TYPE, SatelliteLaser.STREAM_CODEC, SatelliteLaser::handleServer);
 
         registrar.playToClient(VanillaExplosionLike.TYPE, VanillaExplosionLike.STREAM_CODEC, VanillaExplosionLike::handleClient);

@@ -8,6 +8,7 @@ import com.hbm.blockentity.bomb.NukeFatManBlockEntity;
 import com.hbm.blockentity.machine.MachineSatLinkerBlockEntity;
 import com.hbm.blockentity.machine.DecontaminatorBlockEntity;
 import com.hbm.blockentity.machine.GeigerBlockEntity;
+import com.hbm.blockentity.machine.storage.BatterySocketBlockEntity;
 import com.hbm.blockentity.network.CableBlockEntityBaseNT;
 import com.hbm.blocks.ModBlocks;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -27,6 +28,13 @@ public class ModBlockEntities {
             () -> BlockEntityType.Builder.of(
                             MachineSatLinkerBlockEntity::new,
                             ModBlocks.MACHINE_SATLINKER.get())
+                    .build(null));
+
+    public static final Supplier<BlockEntityType<BatterySocketBlockEntity>> BATTERY_SOCKET = REGISTER.register(
+            "batter_socket",
+            () -> BlockEntityType.Builder.of(
+                            (pos, state) -> new BatterySocketBlockEntity(ModBlockEntities.BATTERY_SOCKET.get(), pos, state),
+                            ModBlocks.MACHINE_BATTER_SOCKET.get())
                     .build(null));
 
     public static final Supplier<BlockEntityType<CableBlockEntityBaseNT>> NETWORK_CABLE = REGISTER.register(

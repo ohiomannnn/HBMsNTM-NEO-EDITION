@@ -14,10 +14,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.Container;
-import net.minecraft.world.Containers;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.MenuProvider;
+import net.minecraft.world.*;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -499,9 +496,9 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
                 return InteractionResult.FAIL;
             }
 
-            BlockEntity blockEntity = level.getBlockEntity(corePos);
-            if (blockEntity instanceof MenuProvider menuProvider) {
-                player.openMenu(menuProvider);
+            BlockEntity blockentity = level.getBlockEntity(corePos);
+            if (blockentity instanceof MenuProvider be) {
+                player.openMenu(new SimpleMenuProvider(be, be.getDisplayName()), pos);
             }
             return InteractionResult.CONSUME;
         }

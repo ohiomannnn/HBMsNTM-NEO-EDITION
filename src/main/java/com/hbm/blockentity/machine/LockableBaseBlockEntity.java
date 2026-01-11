@@ -8,6 +8,7 @@ import com.hbm.lib.ModSounds;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
@@ -59,8 +60,8 @@ public abstract class LockableBaseBlockEntity extends LoadedBaseBlockEntity {
     }
 
     @Override
-    public void serialize(ByteBuf buf) {
-        super.serialize(buf);
+    public void serialize(ByteBuf buf, RegistryAccess registryAccess) {
+        super.serialize(buf, registryAccess);
 
         buf.writeInt(lock);
         buf.writeBoolean(isLocked);
