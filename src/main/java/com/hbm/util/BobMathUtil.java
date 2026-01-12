@@ -109,6 +109,10 @@ public class BobMathUtil {
         return Mth.clamp((num - min1) / (max1 - min1), 0, 1);
     }
 
+    public static boolean getBlink() {
+        return System.currentTimeMillis() % 1000 < 500;
+    }
+
     public static String getShortNumber(long l) {
 
         if(l >= Math.pow(10, 18)) {

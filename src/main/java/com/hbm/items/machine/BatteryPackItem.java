@@ -18,7 +18,7 @@ import java.util.List;
 
 public class BatteryPackItem extends Item implements IBatteryItem {
 
-    public enum BatteryPack {
+    public enum BatteryPackType {
         BATTERY_REDSTONE	("battery_redstone",	      100L, false),
         BATTERY_LEAD		("battery_lead",		    1_000L, false),
         BATTERY_LITHIUM		("battery_lithium",		   10_000L, false),
@@ -38,18 +38,18 @@ public class BatteryPackItem extends Item implements IBatteryItem {
         public long chargeRate;
         public long dischargeRate;
 
-        BatteryPack(String tex, long dischargeRate, boolean capacitor) {
+        BatteryPackType(String tex, long dischargeRate, boolean capacitor) {
             this(tex,
                     capacitor ? (dischargeRate * 20 * 30) : (dischargeRate * 20 * 60 * 15),
                     capacitor ? dischargeRate : dischargeRate * 10,
                     dischargeRate);
         }
 
-        BatteryPack(String tex, long dischargeRate, long duration) {
+        BatteryPackType(String tex, long dischargeRate, long duration) {
             this(tex, dischargeRate * duration, dischargeRate * 10, dischargeRate);
         }
 
-        BatteryPack(String tex, long capacity, long chargeRate, long dischargeRate) {
+        BatteryPackType(String tex, long capacity, long chargeRate, long dischargeRate) {
             this.texture = HBMsNTM.withDefaultNamespaceNT("textures/models/machines/" + tex + ".png");
             this.capacity = capacity;
             this.chargeRate = chargeRate;
@@ -59,10 +59,10 @@ public class BatteryPackItem extends Item implements IBatteryItem {
         public boolean isCapacitor() { return this.ordinal() > BATTERY_QUANTUM.ordinal(); }
     }
 
-    private BatteryPack pack;
-    public BatteryPack getPack() { return this.pack; }
+    private BatteryPackType pack;
+    public BatteryPackType getPack() { return this.pack; }
 
-    public BatteryPackItem(Properties properties, BatteryPack batteryPack) {
+    public BatteryPackItem(Properties properties, BatteryPackType batteryPack) {
         super(properties.stacksTo(1));
         this.pack = batteryPack;
     }

@@ -62,6 +62,8 @@ public class LoadedBaseBlockEntity extends BlockEntity implements ILoadedTile, I
         return muffled ? baseVolume * 0.1F : baseVolume;
     }
 
+    private byte[] lastPacketData;
+
     @Override
     public void serialize(ByteBuf buf, RegistryAccess registryAccess) {
         buf.writeBoolean(muffled);
@@ -71,8 +73,6 @@ public class LoadedBaseBlockEntity extends BlockEntity implements ILoadedTile, I
     public void deserialize(ByteBuf buf, RegistryAccess registryAccess) {
         this.muffled = buf.readBoolean();
     }
-
-    private byte[] lastPacketData;
 
     /** Sends a sync packet that uses ByteBuf for efficient information-cramming */
     public void networkPackNT(int range) {
@@ -84,9 +84,8 @@ public class LoadedBaseBlockEntity extends BlockEntity implements ILoadedTile, I
         buf.readBytes(data);
         buf.release();
 
-        if (Arrays.equals(data, lastPacketData) && level.getGameTime() % 20 != 0) {
-            return;
-        }
+        if (Arrays.equals(data, lastPacketData) && level.getGameTime() % 20 != 0) return;
+
         this.lastPacketData = data;
 
         if (level instanceof ServerLevel serverLevel) {

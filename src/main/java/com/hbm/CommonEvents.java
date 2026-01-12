@@ -71,7 +71,7 @@ public class CommonEvents {
         HTTPHandler.loadStats();
         FalloutConfigJSON.initialize();
         DamageResistanceHandler.init();
-        //Fluids.init();
+        Fluids.init();
         HazardRegistry.registerItems();
         HazmatRegistry.registerHazmats();
         ArmorUtil.register();

@@ -8,7 +8,7 @@ import com.hbm.inventory.ModArmorMaterials;
 import com.hbm.inventory.ModTiers;
 import com.hbm.items.food.ItemEnergy;
 import com.hbm.items.machine.BatteryPackItem;
-import com.hbm.items.machine.BatteryPackItem.BatteryPack;
+import com.hbm.items.machine.BatteryPackItem.BatteryPackType;
 import com.hbm.items.machine.SatChipItem;
 import com.hbm.items.special.DangerousDropItem;
 import com.hbm.items.special.EntitySpawnerItem;
@@ -133,26 +133,26 @@ public class ModItems {
 
     public static final DeferredItem<Item> BATTERY_PACK_REDSTONE = ITEMS.register(
             "battery_pack_redstone",
-            () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPack.BATTERY_REDSTONE));
+            () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.BATTERY_REDSTONE));
     public static final DeferredItem<Item> BATTERY_PACK_LEAD = ITEMS.register(
             "battery_pack_lead",
-            () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPack.BATTERY_LEAD));
+            () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.BATTERY_LEAD));
     public static final DeferredItem<Item> BATTERY_PACK_LITHIUM = ITEMS.register(
             "battery_pack_lithium",
-            () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPack.BATTERY_LITHIUM));
+            () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.BATTERY_LITHIUM));
     public static final DeferredItem<Item> BATTERY_PACK_SODIUM = ITEMS.register(
             "battery_pack_sodium",
-            () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPack.BATTERY_SODIUM));
+            () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.BATTERY_SODIUM));
     public static final DeferredItem<Item> BATTERY_PACK_SCHRABIDIUM = ITEMS.register(
             "battery_pack_schrabidium",
-            () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPack.BATTERY_SCHRABIDIUM));
+            () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.BATTERY_SCHRABIDIUM));
     public static final DeferredItem<Item> BATTERY_PACK_QUANTUM = ITEMS.register(
             "battery_pack_quantum",
-            () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPack.BATTERY_QUANTUM));
+            () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.BATTERY_QUANTUM));
 
     public static final DeferredItem<Item> CAPACITOR_PACK_NIOBIUM = ITEMS.register(
             "capacitor_pack_niobium",
-            () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPack.CAPACITOR_NIOBIUM));
+            () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.CAPACITOR_NIOBIUM));
 
     public static final DeferredItem<Item> PIN = ITEMS.register(
             "pin",

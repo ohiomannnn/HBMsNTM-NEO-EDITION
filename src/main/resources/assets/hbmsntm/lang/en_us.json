@@ -160,6 +160,7 @@
   "block.hbmsntm.decontaminator": "Player Decontaminator",
 
   "block.hbmsntm.machine_battery_socket": "Battery Socket",
+  "block.hbmsntm.machine_battery_socket.desc": "Allows battery items to be connected$to the power grid directly.$Acts as a cable, all ports are connected$to the same network.",
 
   "block.hbmsntm.machine_satlinker": "Satellite ID Manager",
 
@@ -290,6 +291,8 @@
   "item.hbmsntm.battery_pack.desc.discharge_rate": "Discharge rate: %s",
   "item.hbmsntm.battery_pack.desc.time_for_full_charge": "Time for full charge: %s",
   "item.hbmsntm.battery_pack.desc.charge_lasts_for": "Charge lasts for: %s",
+
+  "item.hbmsntm.battery_sc.desc.discharge_rate": "Discharge rate %s",
 
   "entity.hbmsntm.duck": "Duck",
 

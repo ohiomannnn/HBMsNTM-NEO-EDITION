@@ -2,16 +2,22 @@ package com.hbm.blockentity;
 
 import api.hbm.energymk2.IEnergyConductorMK2;
 import api.hbm.energymk2.IEnergyReceiverMK2;
+import api.hbm.fluidmk2.IFluidReceiverMK2;
 import api.hbm.redstoneoverradio.IRORInfo;
 import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.redstoneoverradio.IRORValueProvider;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.Container;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class ProxyComboBlockEntity extends ProxyBaseBlockEntity implements IEnergyReceiverMK2, IEnergyConductorMK2, IRORValueProvider, IRORInteractive {
+public class ProxyComboBlockEntity extends ProxyBaseBlockEntity implements IEnergyReceiverMK2, IEnergyConductorMK2, WorldlyContainer, IFluidReceiverMK2, IRORValueProvider, IRORInteractive {
 
     private BlockEntity be;
     private boolean inventory;
@@ -54,7 +60,7 @@ public class ProxyComboBlockEntity extends ProxyBaseBlockEntity implements IEner
 
     /** Returns the actual tile entity that represents the core. Only for internal use, and EnergyControl. */
     public BlockEntity getBlockEntity() {
-        if (be == null || be.isRemoved() || (be instanceof LoadedBaseBlockEntity && !((LoadedBaseBlockEntity) be).isLoaded)) {
+        if (be == null || be.isRemoved() || (be instanceof LoadedBaseBlockEntity loadedBaseBE && !loadedBaseBE.isLoaded)) {
             be = this.getBE();
         }
         return be;
@@ -137,5 +143,198 @@ public class ProxyComboBlockEntity extends ProxyBaseBlockEntity implements IEner
     public String runRORFunction(String name, String[] params) {
         if (this.getCoreObject() instanceof IRORInteractive interactive) return interactive.runRORFunction(name, params);
         return null;
+    }
+
+    public static final FluidTank[] EMPTY_TANKS = FluidTank.EMPTY_ARRAY;
+
+    @Override
+    public FluidTank[] getAllTanks() {
+        if (!fluid) return EMPTY_TANKS;
+
+        if(getCoreObject() instanceof IFluidReceiverMK2) {
+            return ((IFluidReceiverMK2)getCoreObject()).getAllTanks();
+        }
+
+        return EMPTY_TANKS;
+    }
+
+    @Override
+    public long transferFluid(FluidType type, int pressure, long amount) {
+        if (!fluid) return amount;
+
+        if (getCoreObject() instanceof IFluidReceiverMK2 rec) {
+            return rec.transferFluid(type, pressure, amount);
+        }
+
+        return amount;
+    }
+
+    @Override
+    public long getDemand(FluidType type, int pressure) {
+        if (!fluid) return 0;
+
+        if (getCoreObject() instanceof IFluidReceiverMK2 rec) {
+            return rec.getDemand(type, pressure);
+        }
+
+        return 0;
+    }
+
+    @Override
+    public int getContainerSize() {
+        if (!inventory) return 0;
+
+        if (getCoreObject() instanceof Container container) {
+            return container.getContainerSize();
+        }
+
+        return 0;
+    }
+
+    @Override
+    public ItemStack getItem(int slot) {
+        if (!inventory) return ItemStack.EMPTY;
+
+        if (getCoreObject() instanceof Container container) {
+            return container.getItem(slot);
+        }
+
+        return ItemStack.EMPTY;
+    }
+
+    @Override
+    public ItemStack removeItem(int slot, int amount) {
+        if (!inventory) return ItemStack.EMPTY;
+
+        if (getCoreObject() instanceof Container container) {
+            return container.removeItem(slot, amount);
+        }
+
+        return ItemStack.EMPTY;
+    }
+
+    @Override
+    public ItemStack removeItemNoUpdate(int slot) {
+        if (!inventory) return ItemStack.EMPTY;
+
+        if (getCoreObject() instanceof Container container) {
+            return container.removeItemNoUpdate(slot);
+        }
+
+        return ItemStack.EMPTY;
+    }
+
+
+    @Override
+    public void setItem(int slot, ItemStack itemStack) {
+        if (!inventory) return;
+
+        if (getCoreObject() instanceof Container container) {
+            container.setItem(slot, itemStack);
+        }
+    }
+
+    @Override
+    public boolean stillValid(Player player) {
+        if (!inventory) return false;
+
+        if (getCoreObject() instanceof Container container) {
+            return container.stillValid(player);
+        }
+
+        return false;
+    }
+
+    @Override
+    public void startOpen(Player player) {
+        if (!inventory) return;
+
+        if (getCoreObject() instanceof Container container) {
+            container.startOpen(player);
+        }
+    }
+    @Override
+    public void stopOpen(Player player) {
+        if (!inventory) return;
+
+        if (getCoreObject() instanceof Container container) {
+            container.stopOpen(player);
+        }
+    }
+
+    @Override
+    public boolean isEmpty() {
+        if (!inventory) return false;
+
+        if (getCoreObject() instanceof Container container) {
+            container.isEmpty();
+        }
+
+        return false;
+    }
+
+    @Override
+    public void clearContent() {
+        if (!inventory) return;
+
+        if (getCoreObject() instanceof Container container) {
+            container.clearContent();
+        }
+    }
+
+    @Override
+    public boolean canPlaceItem(int slot, ItemStack stack) {
+        if (!inventory) return false;
+
+        if (getCoreObject() instanceof Container container) {
+
+            if (getCoreObject() instanceof IConditionalInvAccess) return ((IConditionalInvAccess) getCoreObject()).isItemValidForSlot(this.getBlockPos(), slot, stack);
+
+            return container.canPlaceItem(slot, stack);
+        }
+
+        return false;
+    }
+
+    @Override
+    public int[] getSlotsForFace(Direction direction) {
+        if (!inventory) return new int[0];
+
+        if (getCoreObject() instanceof WorldlyContainer container) {
+
+            if (getCoreObject() instanceof IConditionalInvAccess) return ((IConditionalInvAccess) getCoreObject()).getAccessibleSlotsFromSide(this.getBlockPos(), direction);
+
+            return container.getSlotsForFace(direction);
+        }
+
+        return new int[0];
+    }
+
+    @Override
+    public boolean canPlaceItemThroughFace(int slot, ItemStack itemStack, Direction direction) {
+        if (!inventory) return false;
+
+        if (getCoreObject() instanceof WorldlyContainer container) {
+
+            if(getCoreObject() instanceof IConditionalInvAccess) return ((IConditionalInvAccess) getCoreObject()).canInsertItem(this.getBlockPos(), slot, itemStack, direction);
+
+            return container.canPlaceItemThroughFace(slot, itemStack, direction);
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean canTakeItemThroughFace(int slot, ItemStack itemStack, Direction direction) {
+        if (!inventory) return false;
+
+        if (getCoreObject() instanceof WorldlyContainer container) {
+
+            if (getCoreObject() instanceof IConditionalInvAccess) return ((IConditionalInvAccess) getCoreObject()).canExtractItem(this.getBlockPos(), slot, itemStack, direction);
+
+            return container.canTakeItemThroughFace(slot, itemStack, direction);
+        }
+
+        return false;
     }
 }

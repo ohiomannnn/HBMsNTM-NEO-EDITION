@@ -1,8 +1,9 @@
 package com.hbm.inventory.menus;
 
-import com.hbm.blockentity.ProxyBaseBlockEntity;
 import com.hbm.blockentity.machine.storage.BatterySocketBlockEntity;
+import com.hbm.blocks.DummyableBlock;
 import com.hbm.inventory.ModMenuTypes;
+import com.hbm.inventory.SlotNonRetarded;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -11,7 +12,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.Block;
 
 public class BatterySocketMenu extends AbstractContainerMenu {
 
@@ -22,20 +23,14 @@ public class BatterySocketMenu extends AbstractContainerMenu {
     }
 
     private static BatterySocketBlockEntity getBlockEntity(Level level, BlockPos pos) {
-        BlockEntity be = level.getBlockEntity(pos);
-
-        if (be == null) {
-            be = level.getBlockEntity(pos.below());
+        Block b = level.getBlockState(pos).getBlock();
+        if (b instanceof DummyableBlock dummy) {
+            // pos might be null, i dont care
+            BlockPos dummyCore = dummy.findCore(level, pos);
+            // if minecraft going to crash its not my fault
+            return (BatterySocketBlockEntity) level.getBlockEntity(dummyCore);
         }
-
-        if (be instanceof ProxyBaseBlockEntity proxy) {
-            BlockEntity core = proxy.getBE();
-            if (core instanceof BatterySocketBlockEntity s) {
-                return s;
-            }
-        }
-
-        return (BatterySocketBlockEntity) be;
+        return null;
     }
 
     public BatterySocketMenu(int id, Inventory inventory, BatterySocketBlockEntity be) {
@@ -43,7 +38,7 @@ public class BatterySocketMenu extends AbstractContainerMenu {
 
         this.socket = be;
 
-        this.addSlot(new Slot(be, 0, 35, 35));
+        this.addSlot(new SlotNonRetarded(be, 0, 35, 35));
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 9; j++) {

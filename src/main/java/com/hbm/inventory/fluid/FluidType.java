@@ -1,10 +1,13 @@
 package com.hbm.inventory.fluid;
 
+import api.hbm.fluidmk2.FluidNetMK2;
 import com.hbm.HBMsNTM;
 import com.hbm.inventory.fluid.trait.FT_Corrosive;
 import com.hbm.inventory.fluid.trait.FluidTrait;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.*;
 import com.hbm.render.util.EnumSymbol;
+import com.hbm.uninos.INetworkProvider;
+import com.hbm.uninos.networkproviders.FluidNetProvider;
 import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -256,9 +259,9 @@ public class FluidType {
         return this.stringId;
     }
 
-//    protected INetworkProvider<FluidNetMK2> NETWORK_PROVIDER = new FluidNetProvider(this);
-//
-//    public INetworkProvider<FluidNetMK2> getNetworkProvider() {
-//        return NETWORK_PROVIDER;
-//    }
+    protected INetworkProvider<FluidNetMK2> NETWORK_PROVIDER = new FluidNetProvider(this);
+
+    public INetworkProvider<FluidNetMK2> getNetworkProvider() {
+        return NETWORK_PROVIDER;
+    }
 }

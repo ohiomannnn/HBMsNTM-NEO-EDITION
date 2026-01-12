@@ -44,7 +44,7 @@ public class RecipesCommon {
 
     public static abstract class AStack implements Comparable<AStack> {
 
-        protected int stackSize;
+        public int stackSize;
 
         /**
          * Whether the supplied itemstack is applicable for a recipe (e.g. anvils). Slightly different from {@code isApplicable}.

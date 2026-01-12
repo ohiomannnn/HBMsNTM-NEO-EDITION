@@ -17,7 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 
-public abstract class MachineBaseBlockEntity extends LoadedBaseBlockEntity implements WorldlyContainer, Container, Nameable {
+public abstract class MachineBaseBlockEntity extends LoadedBaseBlockEntity implements WorldlyContainer, Nameable {
 
     public NonNullList<ItemStack> slots;
 

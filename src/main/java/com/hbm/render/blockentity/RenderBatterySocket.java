@@ -1,7 +1,5 @@
 package com.hbm.render.blockentity;
 
-import com.hbm.HBMsNTM;
-import com.hbm.HBMsNTMClient;
 import com.hbm.blockentity.machine.storage.BatterySocketBlockEntity;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.items.machine.BatteryPackItem;

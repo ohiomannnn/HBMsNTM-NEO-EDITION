@@ -36,13 +36,12 @@ public class ProxyBaseBlockEntity extends LoadedBaseBlockEntity {
             this.setChanged();
         }
 
-        if (this.getBlockState().getBlock() instanceof DummyableBlock dummyable) {
+        if (this.getBlockState().getBlock() instanceof DummyableBlock dummy) {
 
-            BlockPos pos = dummyable.findCore(level, this.getBlockPos());
+            BlockPos corePos = dummy.findCore(level, this.getBlockPos());
 
-            if (pos != null) {
-
-                BlockEntity be = Compat.getBlockEntityStandard(level, pos);
+            if (corePos != null) {
+                BlockEntity be = Compat.getBlockEntityStandard(level, corePos);
                 if (be != null && !(be instanceof ProxyBaseBlockEntity)) return be;
             }
         }
@@ -60,7 +59,7 @@ public class ProxyBaseBlockEntity extends LoadedBaseBlockEntity {
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
 
-        if (tag.getBoolean("hasPos")) cachedPosition = new BlockPos(tag.getInt("pX"), tag.getInt("pY"), tag.getInt("pZ"));
+        if (tag.getBoolean("HasPosition")) cachedPosition = new BlockPos(tag.getInt("pX"), tag.getInt("pY"), tag.getInt("pZ"));
     }
 
     @Override
@@ -68,7 +67,7 @@ public class ProxyBaseBlockEntity extends LoadedBaseBlockEntity {
         super.saveAdditional(tag, registries);
 
         if (this.cachedPosition != null) {
-            tag.putBoolean("hasPos", true);
+            tag.putBoolean("HasPosition", true);
             tag.putInt("pX", this.cachedPosition.getX());
             tag.putInt("pY", this.cachedPosition.getY());
             tag.putInt("pZ", this.cachedPosition.getZ());

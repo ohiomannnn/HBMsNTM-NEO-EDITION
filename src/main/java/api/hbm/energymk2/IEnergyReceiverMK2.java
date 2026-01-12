@@ -3,7 +3,6 @@ package api.hbm.energymk2;
 import api.hbm.energymk2.Nodespace.PowerNode;
 import com.hbm.interfaces.NotableComments;
 import com.hbm.network.toclient.AuxParticle;
-import com.hbm.util.Compat;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -39,7 +38,7 @@ public interface IEnergyReceiverMK2 extends IEnergyHandlerMK2 {
 
     default void trySubscribe(Level level, BlockPos pos, Direction dir) {
 
-        BlockEntity be = Compat.getBlockEntityStandard(level, pos);
+        BlockEntity be = TileAccessCache.getTileOrCache(level, pos);
         boolean red = false;
 
         if (be instanceof IEnergyConductorMK2 con) {
