@@ -48,15 +48,20 @@ public class MachineBatterySocketBlock extends DummyableBlock implements IToolti
     protected void fillSpace(Level level, BlockPos pos, Direction dir, int offset) {
         super.fillSpace(level, pos, dir, offset);
 
+        int x = pos.getX();
+        int y = pos.getY();
+        int z = pos.getZ();
+
         Direction rot = dir.getClockWise();
-        this.makeExtra(level, pos.relative(dir.getOpposite()));
-        this.makeExtra(level, pos.relative(rot));
-        this.makeExtra(level, pos.relative(dir.getOpposite()).relative(rot));
+        this.makeExtra(level, new BlockPos(x - dir.getStepX(), y, z - dir.getStepZ()));
+        this.makeExtra(level, new BlockPos(x + rot.getStepX(), y, z + rot.getStepZ()));
+        this.makeExtra(level, new BlockPos(x - dir.getStepX() + rot.getStepX(), y, z - dir.getStepZ() + rot.getStepZ()));
     }
 
     public static final MapCodec<MachineBatterySocketBlock> CODEC = simpleCodec(MachineBatterySocketBlock::new);
     @Override protected MapCodec<MachineBatterySocketBlock> codec() { return CODEC; }
 
+    @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         return this.standardOpenBehavior(level, pos, player, 0);
     }

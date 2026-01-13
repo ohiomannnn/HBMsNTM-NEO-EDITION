@@ -1,6 +1,7 @@
 package com.hbm.inventory;
 
 import com.hbm.HBMsNTM;
+import com.hbm.inventory.menus.BatteryREDDMenu;
 import com.hbm.inventory.menus.BatterySocketMenu;
 import com.hbm.inventory.menus.MachineSatLinkerMenu;
 import com.hbm.inventory.menus.NukeFatManMenu;
@@ -19,6 +20,7 @@ public class ModMenuTypes {
     public static final DeferredHolder<MenuType<?>, MenuType<MachineSatLinkerMenu>> SAT_LINKER = register("sat_linker", MachineSatLinkerMenu::new);
 
     public static final DeferredHolder<MenuType<?>, MenuType<BatterySocketMenu>> BATTERY_SOCKET = register("battery_socket", BatterySocketMenu::new);
+    public static final DeferredHolder<MenuType<?>, MenuType<BatteryREDDMenu>> BATTERY_REDD = register("battery_redd", BatteryREDDMenu::new);
 
     // NUKES GOES HERE
     public static final DeferredHolder<MenuType<?>, MenuType<NukeFatManMenu>> NUKE_FATMAN = register("nuke_fatman", NukeFatManMenu::new);

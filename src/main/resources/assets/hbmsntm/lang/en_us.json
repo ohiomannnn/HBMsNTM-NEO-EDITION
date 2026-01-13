@@ -160,6 +160,7 @@
   "block.hbmsntm.decontaminator": "Player Decontaminator",
 
   "block.hbmsntm.machine_battery_socket": "Battery Socket",
+  "block.hbmsntm.machine_battery_redd": "FEnSU",
   "block.hbmsntm.machine_battery_socket.desc": "Allows battery items to be connected$to the power grid directly.$Acts as a cable, all ports are connected$to the same network.",
 
   "block.hbmsntm.machine_satlinker": "Satellite ID Manager",
@@ -466,5 +467,6 @@
 
   "container.satLinker": "SatLink Device",
   "container.batterySocket": "Battery Socket",
+  "container.batteryREDD": "FEnSU",
   "container.nuke_fatman": "Fat Man"
 }

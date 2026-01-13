@@ -49,6 +49,9 @@
       "hbmsntm:entity/ducc2"
     ]
   },
+  "block.fensu_hum": {
+    "sounds": ["hbmsntm:block/fensu_hum"]
+  },
   "vomit": {
     "sounds": ["hbmsntm:entity/vomit"]
   },

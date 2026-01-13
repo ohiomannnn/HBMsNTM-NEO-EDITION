@@ -4,12 +4,19 @@ import com.hbm.util.CompatExternal;
 import com.hbm.util.TagsUtilDegradation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface IPersistentNBT {
 
@@ -18,8 +25,8 @@ public interface IPersistentNBT {
     void writeNBT(CompoundTag nbt);
     void readNBT(CompoundTag nbt);
 
-    default ArrayList<ItemStack> getDrops(Block block) {
-        ArrayList<ItemStack> list = new ArrayList<>();
+    default List<ItemStack> getDrops(Block block) {
+        List<ItemStack> list = new ArrayList<>();
         ItemStack stack = new ItemStack(block);
         CompoundTag tag = new CompoundTag();
         writeNBT(tag);
@@ -30,7 +37,17 @@ public interface IPersistentNBT {
         return list;
     }
 
-    static ArrayList<ItemStack> getDrops(Level level, BlockPos pos, Block b) {
+    static List<ItemStack> getDropsFromLootParams(BlockState state, LootParams.Builder builder) {
+        ServerLevel level = builder.getLevel();
+        Vec3 origin = builder.getOptionalParameter(LootContextParams.ORIGIN);
+
+        assert origin != null; // i think
+        BlockPos pos = BlockPos.containing(origin.x, origin.y, origin.z);
+
+        return getDrops(level, pos, state.getBlock());
+    }
+
+    static List<ItemStack> getDrops(Level level, BlockPos pos, Block b) {
 
         BlockEntity be = CompatExternal.getCoreFromPos(level, pos);
 

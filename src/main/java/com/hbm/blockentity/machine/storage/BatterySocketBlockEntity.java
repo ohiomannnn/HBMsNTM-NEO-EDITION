@@ -111,12 +111,22 @@ public class BatterySocketBlockEntity extends BatteryBaseBlockEntity {
     public BlockPos[] getPortPos() {
         Direction dir = this.getBlockState().getValue(DummyableBlock.FACING);
         Direction rot = dir.getClockWise();
+
         BlockPos pos = this.getBlockPos();
+        int x = pos.getX();
+        int y = pos.getY();
+        int z = pos.getZ();
+
+        int dirX = dir.getStepX();
+        int dirZ = dir.getStepZ();
+        int rotX = rot.getStepX();
+        int rotZ = rot.getStepZ();
+
         return new BlockPos[] {
-                pos,
-                pos.relative(dir.getOpposite()),
-                pos.relative(rot),
-                pos.relative(dir.getOpposite()).relative(rot)
+                new BlockPos(x, y, z),
+                new BlockPos(x - dirX, y, z - dirZ),
+                new BlockPos(x + rotX, y, z + rotZ),
+                new BlockPos(x - dirX + rotX, y, z - dirZ + rotZ)
         };
     }
 
@@ -138,13 +148,10 @@ public class BatterySocketBlockEntity extends BatteryBaseBlockEntity {
         return new DirPos[] {
                 new DirPos(x + dirX, y, z + dirZ, dir),
                 new DirPos(x + dirX + rotX, y, z + dirZ + rotZ, dir),
-
                 new DirPos(x - dirX * 2, y, z - dirZ * 2, dir.getOpposite()),
                 new DirPos(x - dirX * 2 + rotX, y, z - dirZ * 2 + rotZ, dir.getOpposite()),
-
                 new DirPos(x + rotX * 2, y, z + rotZ * 2, rot),
                 new DirPos(x + rotX * 2 - dirX, y, z + rotZ * 2 - dirZ, rot),
-
                 new DirPos(x - rotX, y, z - rotZ, rot.getOpposite()),
                 new DirPos(x - rotX - dirX, y, z - rotZ - dirZ, rot.getOpposite())
         };

@@ -6,7 +6,9 @@ import api.hbm.energymk2.IEnergyConnectorMK2;
 import com.hbm.interfaces.Spaghetti;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -54,15 +56,36 @@ public class Library {
         return false;
     }
 
-    public static long chargeTEFromItems(ItemStackHandler slots, int index, long power, long maxPower) {
+    //not great either but certainly better
+    public static long chargeItemsFromTE(NonNullList<ItemStack> slots, int index, long power, long maxPower) {
 
-        if (slots.getStackInSlot(index).getItem() instanceof IBatteryItem batteryItem) {
+        if (power < 0) return 0;
+        if (power > maxPower) return maxPower;
 
-            long batCharge = batteryItem.getCharge(slots.getStackInSlot(index));
-            long batRate = batteryItem.getDischargeRate(slots.getStackInSlot(index));
+        if (slots.get(index).getItem() instanceof IBatteryItem batteryItem) {
+
+            long batMax = batteryItem.getMaxCharge(slots.get(index));
+            long batCharge = batteryItem.getCharge(slots.get(index));
+            long batRate = batteryItem.getChargeRate(slots.get(index));
+            long toCharge = Math.min(Math.min(power, batRate), batMax - batCharge);
+
+            power -= toCharge;
+
+            batteryItem.chargeBattery(slots.get(index), toCharge);
+        }
+
+        return power;
+    }
+
+    public static long chargeTEFromItems(NonNullList<ItemStack> slots, int index, long power, long maxPower) {
+
+        if (slots.get(index).getItem() instanceof IBatteryItem batteryItem) {
+
+            long batCharge = batteryItem.getCharge(slots.get(index));
+            long batRate = batteryItem.getDischargeRate(slots.get(index));
             long toDischarge = Math.min(Math.min((maxPower - power), batRate), batCharge);
 
-            batteryItem.dischargeBattery(slots.getStackInSlot(index), toDischarge);
+            batteryItem.dischargeBattery(slots.get(index), toDischarge);
             power += toDischarge;
         }
 

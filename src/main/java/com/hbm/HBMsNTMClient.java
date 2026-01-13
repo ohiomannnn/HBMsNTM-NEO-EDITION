@@ -107,6 +107,10 @@ public class HBMsNTMClient {
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
     }
 
+    public static LocalPlayer me() {
+        return Minecraft.getInstance().player;
+    }
+
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {

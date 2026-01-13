@@ -94,7 +94,10 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         dropSelf(ModBlocks.GEIGER.get());
         dropSelf(ModBlocks.CABLE.get());
-        dropSelf(ModBlocks.MACHINE_BATTERY_SOCKET.get());
+
+        this.dropSelf(ModBlocks.MACHINE_BATTERY_SOCKET.get());
+        this.dropSelf(ModBlocks.MACHINE_BATTERY_REDD.get());
+
         dropSelf(ModBlocks.DET_CORD.get());
 
         dropSelf(ModBlocks.DET_CHARGE.get());

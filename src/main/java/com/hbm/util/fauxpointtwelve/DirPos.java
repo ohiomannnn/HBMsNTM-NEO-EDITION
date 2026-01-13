@@ -15,13 +15,12 @@ public class DirPos extends BlockPos {
 
     @Override
     public DirPos rotate(Rotation rotationIn) {
-        switch(rotationIn) {
-            case NONE:
-            default: return this;
-            case CLOCKWISE_90: return new DirPos(-this.getZ(), this.getY(), this.getX(), this.getDir());
-            case CLOCKWISE_180: return new DirPos(-this.getX(), this.getY(), -this.getZ(), this.getDir().getOpposite());
-            case COUNTERCLOCKWISE_90: return new DirPos(this.getZ(), this.getY(), -this.getX(), this.getDir());
-        }
+        return switch (rotationIn) {
+            case CLOCKWISE_90 -> new DirPos(-this.getZ(), this.getY(), this.getX(), this.getDir());
+            case CLOCKWISE_180 -> new DirPos(-this.getX(), this.getY(), -this.getZ(), this.getDir().getOpposite());
+            case COUNTERCLOCKWISE_90 -> new DirPos(this.getZ(), this.getY(), -this.getX(), this.getDir());
+            default -> this;
+        };
     }
 
     public Direction getDir() {

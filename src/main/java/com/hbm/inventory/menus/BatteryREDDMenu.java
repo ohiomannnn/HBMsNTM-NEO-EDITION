@@ -1,6 +1,6 @@
 package com.hbm.inventory.menus;
 
-import com.hbm.blockentity.machine.storage.BatterySocketBlockEntity;
+import com.hbm.blockentity.machine.storage.BatteryREDDBlockEntity;
 import com.hbm.inventory.ModMenuTypes;
 import com.hbm.inventory.SlotNonRetarded;
 import com.hbm.util.CompatExternal;
@@ -11,20 +11,21 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
-public class BatterySocketMenu extends AbstractContainerMenu {
+public class BatteryREDDMenu extends AbstractContainerMenu {
 
-    public BatterySocketBlockEntity socket;
+    public BatteryREDDBlockEntity battery;
 
-    public BatterySocketMenu(int id, Inventory inventory, FriendlyByteBuf extraData) {
-        this(id, inventory, (BatterySocketBlockEntity) CompatExternal.getCoreFromPos(inventory.player.level(), extraData.readBlockPos()));
+    public BatteryREDDMenu(int id, Inventory inventory, FriendlyByteBuf extraData) {
+        this(id, inventory, (BatteryREDDBlockEntity) CompatExternal.getCoreFromPos(inventory.player.level(), extraData.readBlockPos()));
     }
 
-    public BatterySocketMenu(int id, Inventory inventory, BatterySocketBlockEntity be) {
-        super(ModMenuTypes.BATTERY_SOCKET.get(), id);
+    public BatteryREDDMenu(int id, Inventory inventory, BatteryREDDBlockEntity be) {
+        super(ModMenuTypes.BATTERY_REDD.get(), id);
 
-        this.socket = be;
+        this.battery = be;
 
-        this.addSlot(new SlotNonRetarded(be, 0, 35, 35));
+        this.addSlot(new SlotNonRetarded(battery, 0, 26, 53));
+        this.addSlot(new SlotNonRetarded(battery, 1, 80, 53));
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 9; j++) {
@@ -40,7 +41,7 @@ public class BatterySocketMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return socket.stillValid(player);
+        return battery.stillValid(player);
     }
 
     @Override
@@ -55,11 +56,11 @@ public class BatterySocketMenu extends AbstractContainerMenu {
             newStack = stack.copy();
 
             if (index < 1) {
-                if (!this.moveItemStackTo(stack, 1, this.slots.size(), true)) {
+                if (!this.moveItemStackTo(stack, 2, this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
             } else {
-                if (!this.moveItemStackTo(stack, 0, 1, false)) {
+                if (!this.moveItemStackTo(stack, 0, 2, false)) {
                     return ItemStack.EMPTY;
                 }
             }

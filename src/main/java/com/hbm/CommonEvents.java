@@ -16,6 +16,8 @@ import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.inventory.ModMenuTypes;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.menus.BatteryREDDMenu;
+import com.hbm.inventory.screens.BatteryREDDScreen;
 import com.hbm.inventory.screens.BatterySocketScreen;
 import com.hbm.inventory.screens.MachineSatLinkerScreen;
 import com.hbm.inventory.screens.NukeFatManScreen;
@@ -155,6 +157,7 @@ public class CommonEvents {
         event.register(ModMenuTypes.SAT_LINKER.get(), MachineSatLinkerScreen::new);
 
         event.register(ModMenuTypes.BATTERY_SOCKET.get(), BatterySocketScreen::new);
+        event.register(ModMenuTypes.BATTERY_REDD.get(), BatteryREDDScreen::new);
 
         event.register(ModMenuTypes.NUKE_FATMAN.get(), NukeFatManScreen::new);
     }

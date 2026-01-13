@@ -82,6 +82,10 @@ public class Vec3NT {
         return this;
     }
 
+    public double length() {
+        return Math.sqrt(xCoord * xCoord + yCoord * yCoord + zCoord * zCoord);
+    }
+
     public Vec3NT rotateAroundXRad(double alpha) {
         double cos = Math.cos(alpha);
         double sin = Math.sin(alpha);

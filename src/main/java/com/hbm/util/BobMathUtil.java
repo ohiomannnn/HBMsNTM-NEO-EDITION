@@ -3,6 +3,8 @@ package com.hbm.util;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.Locale;
+
 public class BobMathUtil {
 
     //finally!
@@ -107,6 +109,13 @@ public class BobMathUtil {
 
     public static float remap01_clamp(float num, float min1, float max1){
         return Mth.clamp((num - min1) / (max1 - min1), 0, 1);
+    }
+
+    /**
+     * @return the number as a string with thousand group commas
+     */
+    public static String format(Number amount) {
+        return String.format(Locale.US, "%,d", amount);
     }
 
     public static boolean getBlink() {

@@ -3,6 +3,7 @@ package com.hbm.blocks;
 import com.hbm.blockentity.IPersistentNBT;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.interfaces.ICopiable;
+import com.hbm.util.CompatExternal;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -294,11 +295,8 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
     @Override
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
-            DummyBlockType type = state.getValue(TYPE);
 
-            if (type == DummyBlockType.CORE) {
-                // whatever
-            } else if (!safeRem) {
+            if (!safeRem) {
                 Direction dir = state.getValue(FACING);
                 BlockPos neighborPos = pos.relative(dir.getOpposite());
 
@@ -326,8 +324,9 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
 
     @Override
     public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-        if (!player.isCreative() && isCore(state)) {
-            dropResources(state, level, pos, level.getBlockEntity(pos), player, player.getMainHandItem());
+        BlockPos corePos = this.findCore(level, pos);
+        if (!player.isCreative()) {
+            dropResources(state, level, corePos, level.getBlockEntity(corePos), player, player.getMainHandItem());
         }
         return super.playerWillDestroy(level, pos, state, player);
     }

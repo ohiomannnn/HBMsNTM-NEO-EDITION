@@ -8,6 +8,7 @@ import com.hbm.blockentity.bomb.NukeFatManBlockEntity;
 import com.hbm.blockentity.machine.MachineSatLinkerBlockEntity;
 import com.hbm.blockentity.machine.DecontaminatorBlockEntity;
 import com.hbm.blockentity.machine.GeigerBlockEntity;
+import com.hbm.blockentity.machine.storage.BatteryREDDBlockEntity;
 import com.hbm.blockentity.machine.storage.BatterySocketBlockEntity;
 import com.hbm.blockentity.network.CableBlockEntityBaseNT;
 import com.hbm.blocks.ModBlocks;
@@ -31,18 +32,26 @@ public class ModBlockEntities {
                     .build(null));
 
     public static final Supplier<BlockEntityType<BatterySocketBlockEntity>> BATTERY_SOCKET = REGISTER.register(
-            "batter_socket",
+            "battery_socket",
             () -> BlockEntityType.Builder.of(
                             (pos, state) -> new BatterySocketBlockEntity(ModBlockEntities.BATTERY_SOCKET.get(), pos, state),
                             ModBlocks.MACHINE_BATTERY_SOCKET.get())
+                    .build(null));
+
+    public static final Supplier<BlockEntityType<BatteryREDDBlockEntity>> BATTERY_REDD = REGISTER.register(
+            "battery_redd",
+            () -> BlockEntityType.Builder.of(
+                            BatteryREDDBlockEntity::new,
+                            ModBlocks.MACHINE_BATTERY_REDD.get())
                     .build(null));
 
     public static final Supplier<BlockEntityType<ProxyComboBlockEntity>> PROXY_COMBO = REGISTER.register(
             "proxy_combo",
             () -> BlockEntityType.Builder.of(
                             ProxyComboBlockEntity::new,
-                            ModBlocks.MACHINE_BATTERY_SOCKET.get())
-                    .build(null));
+                            ModBlocks.MACHINE_BATTERY_SOCKET.get(),
+                            ModBlocks.MACHINE_BATTERY_REDD.get()
+                    ).build(null));
 
     public static final Supplier<BlockEntityType<CableBlockEntityBaseNT>> NETWORK_CABLE = REGISTER.register(
             "network_cable",
