@@ -34,7 +34,7 @@ public class ModBlockEntities {
     public static final Supplier<BlockEntityType<BatterySocketBlockEntity>> BATTERY_SOCKET = REGISTER.register(
             "battery_socket",
             () -> BlockEntityType.Builder.of(
-                            (pos, state) -> new BatterySocketBlockEntity(ModBlockEntities.BATTERY_SOCKET.get(), pos, state),
+                            BatterySocketBlockEntity::new,
                             ModBlocks.MACHINE_BATTERY_SOCKET.get())
                     .build(null));
 

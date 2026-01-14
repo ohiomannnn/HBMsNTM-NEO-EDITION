@@ -484,6 +484,7 @@ public class HBMsNTMClient {
         event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_SALTED.get(), RenderCrashedBomb::new);
 
         event.registerBlockEntityRenderer(ModBlockEntities.BATTERY_SOCKET.get(), RenderBatterySocket::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.BATTERY_REDD.get(), RenderBatteryREDD::new);
 
         event.registerBlockEntityRenderer(ModBlockEntities.NETWORK_CABLE.get(), RenderCable::new);
         event.registerBlockEntityRenderer(ModBlockEntities.DET_CORD.get(), RenderDetCord::new);

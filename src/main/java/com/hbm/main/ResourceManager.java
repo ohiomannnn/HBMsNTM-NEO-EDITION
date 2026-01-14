@@ -26,8 +26,13 @@ public class ResourceManager {
     public static final ResourceLocation DET_CORD_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/det_cord.png");
 
     public static final ResourceLocation BATTERY_SOCKET_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/machines/battery_socket.png");
+    public static final ResourceLocation BATTERY_REDD_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/machines/fensu2.png");
 
     public static final ResourceLocation GEIGER_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/geiger.png");
+
+    public static final ResourceLocation FUSION_PLASMA_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/fusion/plasma.png");
+    public static final ResourceLocation FUSION_PLASMA_GLOW_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/fusion/plasma_glow.png");
+    public static final ResourceLocation FUSION_PLASMA_SPARKLE_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/fusion/plasma_sparkle.png");
 
     public static final ResourceLocation DORNIER_1_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/dornier_1.png");
     public static final ResourceLocation DORNIER_2_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/dornier_2.png");
@@ -57,6 +62,7 @@ public class ResourceManager {
     public static IModelCustom geiger;
 
     public static IModelCustom battery_socket;
+    public static IModelCustom battery_redd;
 
     public static IModelCustom dornier;
     public static IModelCustom b29;
@@ -81,7 +87,8 @@ public class ResourceManager {
 
         geiger = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/block/geiger.obj")).asVBO();
 
-        battery_socket = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/machines/battery.obj")).asVBO();
+        battery_socket = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/machines/battery.obj"));
+        battery_redd = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/machines/fensu2.obj"));
 
         dornier = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/dornier.obj")).asVBO();
         b29 = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/b29.obj")).asVBO();

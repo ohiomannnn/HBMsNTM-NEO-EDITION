@@ -8,4 +8,8 @@ public class Vertex {
         this.y = y;
         this.z = z;
     }
+
+    public Vertex(float x, float y) {
+        this(x, y, 0);
+    }
 }

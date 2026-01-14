@@ -170,4 +170,9 @@ public class BobMathUtil {
     public static double squirt(double x) {
         return Math.sqrt(x + 1D / ((x + 2D) * (x + 2D))) - 1D / (x + 2D);
     }
+
+    /** Soft peak sine */
+    public static double sps(double x) {
+        return Math.sin(Math.PI / 2D * Math.cos(x));
+    }
 }

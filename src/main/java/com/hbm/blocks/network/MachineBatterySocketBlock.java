@@ -35,7 +35,7 @@ public class MachineBatterySocketBlock extends DummyableBlock implements IToolti
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         DummyBlockType type = state.getValue(TYPE);
         return switch (type) {
-            case CORE -> new BatterySocketBlockEntity(ModBlockEntities.BATTERY_SOCKET.get(), pos, state);
+            case CORE -> new BatterySocketBlockEntity(pos, state);
             case EXTRA -> new ProxyComboBlockEntity(pos, state).inventory().power().conductor();
             default -> null;
         };

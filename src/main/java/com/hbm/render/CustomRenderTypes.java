@@ -5,6 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.Util;
+import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderStateShard.TextureStateShard;
 import net.minecraft.client.renderer.RenderStateShard.TransparencyStateShard;
 import net.minecraft.client.renderer.RenderType;
@@ -38,6 +39,22 @@ public class CustomRenderTypes {
                 RenderSystem.disableBlend();
                 RenderSystem.defaultBlendFunc();
             });
+
+    public static final RenderType GLOW = RenderType.create(
+            "glow",
+            DefaultVertexFormat.POSITION_COLOR,
+            VertexFormat.Mode.QUADS,
+            256,
+            false,
+            true,
+            RenderType.CompositeState.builder()
+                    .setShaderState(RenderStateShard.POSITION_COLOR_SHADER)
+                    .setTransparencyState(ADDITIVE_BLEND)
+                    .setWriteMaskState(RenderStateShard.COLOR_WRITE)
+                    .setCullState(RenderStateShard.NO_CULL)
+                    .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
+                    .createCompositeState(false)
+    );
 
     public static final Function<ResourceLocation, RenderType> ADDITIVE = Util.memoize(
             texture -> {

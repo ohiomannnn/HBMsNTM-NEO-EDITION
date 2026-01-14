@@ -6,11 +6,13 @@ import com.hbm.interfaces.ICopiable;
 import com.hbm.util.CompatExternal;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
@@ -485,6 +487,10 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
     }
 
     protected InteractionResult standardOpenBehavior(Level level, BlockPos pos, Player player, int guiId) {
+        if (player.isSpectator()) {
+            player.displayClientMessage(Component.literal("You can open GUIs while in spectator").withStyle(ChatFormatting.RED), true);
+        }
+
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         }
