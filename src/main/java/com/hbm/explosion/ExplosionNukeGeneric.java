@@ -1,21 +1,15 @@
 package com.hbm.explosion;
 
-import com.hbm.entity.logic.Bomber;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageTypes;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Ocelot;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.CollisionContext;
 
 import java.util.List;
 
@@ -67,8 +61,7 @@ public class ExplosionNukeGeneric {
         if (entity instanceof Ocelot) return true;
 
         if (
-                entity instanceof Player && ((Player) entity).isCreative() ||
-                entity instanceof Bomber && ((Bomber) entity).getBomberType() == 4
+                entity instanceof Player && ((Player) entity).isCreative()
         ) return true;
 
         return false;

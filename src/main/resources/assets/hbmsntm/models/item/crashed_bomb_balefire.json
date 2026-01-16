@@ -7,35 +7,40 @@
   "textures": {
     "texture": "hbmsntm:block/bomb/dud_balefire"
   },
+  "transform": {
+    "translation": [0.6, 0.0, 0.5],
+    "rotation": [0, 0, 0],
+    "scale": 1.0
+  },
   "display": {
     "gui": {
-      "rotation": [-90, 0, 0],
-      "translation": [1, 1, 0],
+      "rotation": [-90, 0, 30],
+      "translation": [-0.6, 0, 0],
       "scale": [0.14, 0.14, 0.14]
     },
-    "ground": {
-      "rotation": [0, 90, 0],
-      "translation": [0, 0, 0],
-      "scale": [0.2, 0.2, 0.2]
-    },
     "firstperson_righthand": {
-      "rotation": [0, -90, 0],
-      "translation": [0, 0, 2],
+      "rotation": [0, 225, 0],
+      "translation": [-1, 2, 0],
       "scale": [0.2, 0.2, 0.2]
     },
     "firstperson_lefthand": {
-      "rotation": [0, -90, 0],
-      "translation": [0, 0, -2],
+      "rotation": [0, 225, 0],
+      "translation": [-1, 2, 0],
       "scale": [0.2, 0.2, 0.2]
     },
     "thirdperson_righthand": {
-      "rotation": [0, -90, 0],
-      "translation": [0, 2, 1.5],
+      "rotation": [70, 225, 0],
+      "translation": [0, 3.7, 2],
       "scale": [0.2, 0.2, 0.2]
     },
     "thirdperson_lefthand": {
-      "rotation": [0, -90, 0],
-      "translation": [0, 2, -1.5],
+      "rotation": [70, 225, 0],
+      "translation": [0, 2.5, 2],
+      "scale": [0.2, 0.2, 0.2]
+    },
+    "ground": {
+      "rotation": [0, 0, 0],
+      "translation": [0, 0, 0],
       "scale": [0.2, 0.2, 0.2]
     }
   }

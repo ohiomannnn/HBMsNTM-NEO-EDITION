@@ -2,8 +2,11 @@ package com.hbm.inventory;
 
 import com.hbm.HBMsNTM;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.BatteryPackItem;
+import com.hbm.items.machine.FluidIconItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -37,23 +40,25 @@ public class ModCreativeTabs {
 
                         output.accept(ModItems.REACHER);
 
-                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_REDSTONE.get())));
                         output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.BATTERY_PACK_REDSTONE.get())));
+                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_REDSTONE.get())));
 
-                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_LEAD.get())));
                         output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.BATTERY_PACK_LEAD.get())));
+                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_LEAD.get())));
 
-                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_LITHIUM.get())));
                         output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.BATTERY_PACK_LITHIUM.get())));
+                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_LITHIUM.get())));
 
-                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_SODIUM.get())));
                         output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.BATTERY_PACK_SODIUM.get())));
+                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_SODIUM.get())));
 
-                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_SCHRABIDIUM.get())));
                         output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.BATTERY_PACK_SCHRABIDIUM.get())));
+                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_SCHRABIDIUM.get())));
 
-                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_QUANTUM.get())));
                         output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.BATTERY_PACK_QUANTUM.get())));
+                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_QUANTUM.get())));
+
+                        output.accept(ModItems.BATTERY_CREATIVE);
                     }).build());
 
     public static final Supplier<CreativeModeTab> ORES_AND_BLOCKS = CREATIVE_MODE_TABS.register(
@@ -106,6 +111,7 @@ public class ModCreativeTabs {
 
                         output.accept(ModBlocks.GEIGER);
                         output.accept(ModBlocks.MACHINE_BATTERY_SOCKET);
+                        output.accept(ModBlocks.MACHINE_BATTERY_REDD);
                         output.accept(ModBlocks.CABLE);
 
                         output.accept(ModBlocks.DECONTAMINATOR);

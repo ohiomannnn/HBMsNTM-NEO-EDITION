@@ -205,6 +205,8 @@
 
   "item.hbmsntm.satellite_interface": "Satellite Control Interface",
 
+  "item.hbmsntm.battery_creative": "Infinite Battery",
+
   "item.hbmsntm.early_explosive_lenses": "Array of First-Generation High-Explosive Lenses",
   "item.hbmsntm.early_explosive_lenses.desc": "Assembly of 8 high-explosive lenses with an aluminium$pusher, duraluminium shell, and bridgewire detonators.",
   "item.hbmsntm.man_core": "Plutonium Core",

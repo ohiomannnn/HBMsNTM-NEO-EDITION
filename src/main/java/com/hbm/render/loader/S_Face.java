@@ -2,13 +2,13 @@ package com.hbm.render.loader;
 
 import org.joml.Vector3f;
 
-public class ObjFace {
+public class S_Face {
     public Vertex[] vertices;
     public TextureCoordinate[] textureCoordinates;
     public Vertex[] vertexNormals;
     public Vertex faceNormal;
 
-    public ObjFace() { }
+    public S_Face() { }
 
     public Vertex calculateFaceNormal() {
         if (vertices == null || vertices.length < 3) {

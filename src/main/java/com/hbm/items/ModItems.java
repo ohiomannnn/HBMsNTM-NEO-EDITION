@@ -7,8 +7,10 @@ import com.hbm.handler.ability.IWeaponAbility;
 import com.hbm.inventory.ModArmorMaterials;
 import com.hbm.inventory.ModTiers;
 import com.hbm.items.food.ItemEnergy;
+import com.hbm.items.machine.BatteryCreativeItem;
 import com.hbm.items.machine.BatteryPackItem;
 import com.hbm.items.machine.BatteryPackItem.BatteryPackType;
+import com.hbm.items.machine.FluidIconItem;
 import com.hbm.items.machine.SatChipItem;
 import com.hbm.items.special.DangerousDropItem;
 import com.hbm.items.special.EntitySpawnerItem;
@@ -123,13 +125,20 @@ public class ModItems {
             () -> new DigammaDiagnosticItem(new Item.Properties().stacksTo(1)));
 
 
-    public static final DeferredItem<Item> REACHER = ITEMS.register("reacher",
-            () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> REACHER = ITEMS.register(
+            "reacher",
+            () -> new Item(new Item.Properties().stacksTo(1))
+    );
 
     public static final DeferredItem<Item> SCREWDRIVER = ITEMS.register("screwdriver",
             () -> new Item(new Item.Properties().stacksTo(8)));
     public static final DeferredItem<Item> SCREWDRIVER_DESH = ITEMS.register("screwdriver_desh",
             () -> new Item(new Item.Properties().stacksTo(8)));
+
+    public static final DeferredItem<Item> BATTERY_CREATIVE = ITEMS.register(
+            "battery_creative",
+            () -> new BatteryCreativeItem(new Item.Properties().stacksTo(1))
+    );
 
     public static final DeferredItem<Item> BATTERY_PACK_REDSTONE = ITEMS.register(
             "battery_pack_redstone",
@@ -271,6 +280,11 @@ public class ModItems {
             () -> new BalefireAndSteelITem(new Item.Properties()
                     .stacksTo(1)
                     .durability(256)));
+
+    public static final DeferredItem<FluidIconItem> FLUID_ICON = ITEMS.register(
+            "fluid_icon",
+            () -> new FluidIconItem(new Item.Properties())
+    );
 
     public static final DeferredItem<Item> POLAROID = ITEMS.register(
             "polaroid",

@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.CommonEvents;
 import com.hbm.inventory.fluid.trait.FluidTrait;
+import com.hbm.inventory.fluid.trait.FluidTraitSimple.*;
 import com.hbm.render.util.EnumSymbol;
 
 import java.io.*;
@@ -24,6 +25,9 @@ public class Fluids {
     public static List<IFluidRegisterListener> additionalListeners = new ArrayList<>();
 
     public static FluidType NONE;
+    public static FluidType AIR;
+    public static FluidType WATER;
+    public static FluidType LAVA;
 
     public static final HashBiMap<String, FluidType> renameMapping = HashBiMap.create();
 
@@ -36,6 +40,18 @@ public class Fluids {
     protected static final List<FluidType> registerOrder = new ArrayList<>();
     /** What's used to list fluids with niceOrder enabled */
     public static final List<FluidType> metaOrder = new ArrayList<>();
+
+    public static final FT_Liquid LIQUID = new FT_Liquid();
+    public static final FT_Viscous VISCOUS = new FT_Viscous();
+    public static final FT_Gaseous_ART EVAP = new FT_Gaseous_ART();
+    public static final FT_Gaseous GASEOUS = new FT_Gaseous();
+    public static final FT_Plasma PLASMA = new FT_Plasma();
+    public static final FT_Amat ANTI = new FT_Amat();
+    public static final FT_LeadContainer LEADCON = new FT_LeadContainer();
+    public static final FT_NoContainer NOCON = new FT_NoContainer();
+    public static final FT_NoID NOID = new FT_NoID();
+    public static final FT_Delicious DELICIOUS = new FT_Delicious();
+    public static final FT_Unsiphonable UNSIPHONABLE = new FT_Unsiphonable();
 
     public static void init() {
 
@@ -53,6 +69,9 @@ public class Fluids {
          */
 
         NONE =					new FluidType("NONE",				0x888888, 0, 0, 0, EnumSymbol.NONE);
+        AIR =					new FluidType("AIR",				0xE7EAEB, 0, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
+        WATER =					new FluidType("WATER",			0x3333FF, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, UNSIPHONABLE);
+        LAVA =					new FluidType("LAVA",				0xFF3300, 4, 0, 0, EnumSymbol.NOWATER).setTemp(1200).addTraits(LIQUID, VISCOUS);
 
         // ^ ^ ^ ^ ^ ^ ^ ^
         //ADD NEW FLUIDS HERE
@@ -69,6 +88,10 @@ public class Fluids {
 
         //null
         metaOrder.add(NONE);
+        //vanilla
+        metaOrder.add(AIR);
+        metaOrder.add(WATER);
+        metaOrder.add(LAVA);
 
         //do not forget about this thingy
         metaOrder.addAll(customFluids);

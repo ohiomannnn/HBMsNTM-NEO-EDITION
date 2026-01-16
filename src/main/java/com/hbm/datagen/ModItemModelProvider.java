@@ -44,6 +44,8 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         this.basicItem(ModItems.CELL_ANTIMATTER.get());
 
+        this.basicItem(ModItems.BATTERY_CREATIVE.get());
+
         this.basicItem(ModItems.SINGULARITY.get());
         this.basicItem(ModItems.SINGULARITY_COUNTER_RESONANT.get());
         this.basicItem(ModItems.SINGULARITY_SUPER_HEATED.get());
@@ -52,6 +54,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         this.basicItem(ModItems.PELLET_ANTIMATTER.get());
 
         basicItem(ModItems.BOTTLE_OPENER.get());
+
+        basicItem(ModItems.FLUID_ICON.get());
 
         basicItem(ModItems.CAP_NUKA.get());
         basicItem(ModItems.CAP_QUANTUM.get());

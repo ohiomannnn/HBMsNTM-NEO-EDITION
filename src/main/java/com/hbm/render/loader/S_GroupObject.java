@@ -3,11 +3,11 @@ package com.hbm.render.loader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ObjGroupObject {
+public class S_GroupObject {
     public String name;
-    public List<ObjFace> faces = new ArrayList<>();
+    public List<S_Face> faces = new ArrayList<>();
 
-    public ObjGroupObject(String name) {
+    public S_GroupObject(String name) {
         this.name = name;
     }
 }

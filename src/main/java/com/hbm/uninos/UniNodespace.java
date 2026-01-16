@@ -5,7 +5,6 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import java.util.HashMap;
 import java.util.HashSet;

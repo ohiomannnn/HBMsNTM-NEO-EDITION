@@ -5,6 +5,7 @@ import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blockentity.bomb.DetCordBlockEntity;
 import com.hbm.blockentity.bomb.LandMineBlockEntity;
 import com.hbm.blockentity.bomb.NukeFatManBlockEntity;
+import com.hbm.blockentity.machine.MachinePressBlockEntity;
 import com.hbm.blockentity.machine.MachineSatLinkerBlockEntity;
 import com.hbm.blockentity.machine.DecontaminatorBlockEntity;
 import com.hbm.blockentity.machine.GeigerBlockEntity;
@@ -31,6 +32,13 @@ public class ModBlockEntities {
                             ModBlocks.MACHINE_SATLINKER.get())
                     .build(null));
 
+    public static final Supplier<BlockEntityType<MachinePressBlockEntity>> PRESS = REGISTER.register(
+            "press",
+            () -> BlockEntityType.Builder.of(
+                            MachinePressBlockEntity::new,
+                            ModBlocks.MACHINE_PRESS.get())
+                    .build(null));
+
     public static final Supplier<BlockEntityType<BatterySocketBlockEntity>> BATTERY_SOCKET = REGISTER.register(
             "battery_socket",
             () -> BlockEntityType.Builder.of(
@@ -49,6 +57,8 @@ public class ModBlockEntities {
             "proxy_combo",
             () -> BlockEntityType.Builder.of(
                             ProxyComboBlockEntity::new,
+                            ModBlocks.MACHINE_PRESS.get(),
+
                             ModBlocks.MACHINE_BATTERY_SOCKET.get(),
                             ModBlocks.MACHINE_BATTERY_REDD.get()
                     ).build(null));

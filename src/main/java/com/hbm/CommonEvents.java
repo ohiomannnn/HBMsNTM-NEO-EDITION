@@ -92,7 +92,7 @@ public class CommonEvents {
         if (MainConfig.COMMON.ENABLE_MOTD.get()) {
             Player player = event.getEntity();
 
-            player.sendSystemMessage(Component.translatable("message.hbmsntm.loaded", ChatFormatting.YELLOW + HBMsNTM.VERSION));
+            player.sendSystemMessage(Component.translatable("message.hbmsntm.loaded", HBMsNTM.VERSION));
 
             if (HTTPHandler.newVersion) {
                 player.sendSystemMessage(

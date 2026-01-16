@@ -10,6 +10,8 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Player;
@@ -336,5 +338,29 @@ public class ProxyComboBlockEntity extends ProxyBaseBlockEntity implements IEner
         }
 
         return false;
+    }
+
+    @Override
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+
+        this.inventory = tag.getBoolean("Inventory");
+        this.power = tag.getBoolean("Power");
+        this.conductor = tag.getBoolean("Conductor");
+        this.fluid = tag.getBoolean("Fluid");
+        this.moltenMetal = tag.getBoolean("MoltenMetal");
+        this.heat = tag.getBoolean("Heat");
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+
+        tag.putBoolean("Inventory", inventory);
+        tag.putBoolean("Power", power);
+        tag.putBoolean("Conductor", conductor);
+        tag.putBoolean("Fluid", fluid);
+        tag.putBoolean("MoltenMetal", moltenMetal);
+        tag.putBoolean("Heat", heat);
     }
 }

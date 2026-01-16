@@ -40,7 +40,7 @@ public abstract class PlaneBase extends ChunkloadingEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (source == level().damageSources().source(ModDamageTypes.NUCLEAR_BLAST)) return false;
+        if (source.is(ModDamageTypes.NUCLEAR_BLAST)) return false;
         if (this.isInvulnerable()) return false;
         if (this.isAlive() && !level().isClientSide && this.getHealth() > 0) {
             setHealth(getHealth() - amount);

@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import java.util.HashMap;
 import java.util.Map;
 
+// how do i rename it ... fuck it i dont want to it anyway
 /** For anything that should be removed off networks when considered unloaded, only affects providers and receivers, not links. Must not necessarily be a tile. */
 public interface ILoadedTile {
     boolean isLoaded();

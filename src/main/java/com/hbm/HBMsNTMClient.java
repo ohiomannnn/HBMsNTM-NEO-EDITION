@@ -15,6 +15,7 @@ import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.screens.LoadingScreenRendererNT;
 import com.hbm.items.IItemHUD;
 import com.hbm.items.ModItems;
+import com.hbm.items.machine.FluidIconItem;
 import com.hbm.items.special.PolaroidItem;
 import com.hbm.items.tools.GeigerCounterItem;
 import com.hbm.main.ResourceManager;
@@ -55,15 +56,16 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -72,6 +74,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -362,7 +365,7 @@ public class HBMsNTMClient {
         event.register(
                 (state, world, pos, tintIndex) -> {
                     int age = state.getValue(BalefireBlock.AGE);
-                    return  Color.HSBtoRGB(0F, 0F, 1F - age / 30F);
+                    return Color.HSBtoRGB(0F, 0F, 1F - age / 30F);
                 },
                 ModBlocks.BALEFIRE.get()
         );
@@ -379,6 +382,10 @@ public class HBMsNTMClient {
                 ModBlocks.SELLAFIELD_BEDROCK.get(),
                 ModBlocks.ORE_SELLAFIELD_DIAMOND.get(),
                 ModBlocks.ORE_SELLAFIELD_EMERALD.get()
+        );
+        event.register(
+                (stack, tintIndex) -> new Color(FluidIconItem.getColor(stack)).getRGB(),
+                ModItems.FLUID_ICON.get()
         );
     }
 
@@ -494,11 +501,24 @@ public class HBMsNTMClient {
         ItemStack stack = event.getItemStack();
         List<Component> list = event.getToolTip();
         Item.TooltipContext context = event.getContext();
+        TooltipFlag flag = event.getFlags();
 
         DamageResistanceHandler.addInfo(stack, list);
         HazardSystem.addFullTooltip(stack, list);
         HazmatRegistry.addInfo(list, context.level(), stack);
         ArmorRegistry.addTooltip(list, stack);
+
+        if (flag.isAdvanced()) {
+            boolean hasTags = event.getItemStack().getTags().findAny().isPresent();
+
+            if (hasTags) {
+                list.add(Component.empty());
+                list.add(Component.literal("Item tags:").withStyle(ChatFormatting.BLUE));
+                stack.getTags().map(TagKey::location).sorted(ResourceLocation::compareTo).forEach(location ->
+                        list.add(Component.literal(" -" + location).withStyle(ChatFormatting.AQUA)
+                ));
+            }
+        }
     }
     @SubscribeEvent
     public static void registerParticles(RegisterParticleProvidersEvent event) {

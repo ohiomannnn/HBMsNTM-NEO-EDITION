@@ -10,7 +10,6 @@ import com.hbm.items.ModItems;
 import com.hbm.lib.ModAttachments;
 import com.hbm.lib.ModEffect;
 import com.hbm.lib.ModSounds;
-import com.hbm.network.NTMNetwork;
 import com.hbm.particle.ModParticles;
 import com.hbm.world.biome.ModBiomes;
 import net.minecraft.resources.ResourceLocation;
@@ -44,7 +43,6 @@ public class HBMsNTM {
         ModMenuTypes.register(modEventBus);
         ModBiomes.register(modEventBus);
         ModParticles.register(modEventBus);
-        modEventBus.addListener(NTMNetwork::registerPackets);
 
         MainConfig.register(modContainer);
     }

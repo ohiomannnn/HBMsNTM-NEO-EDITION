@@ -40,10 +40,10 @@ public class WavefrontObjVBO implements IModelCustom {
     private final Map<String, GroupVBO> groupMap = new HashMap<>();
 
     public WavefrontObjVBO(HFRWavefrontObject object) {
-        for (ObjGroupObject group : object.groupObjects) {
+        for (S_GroupObject group : object.groupObjects) {
             List<VertexVBO> vertexList = new ArrayList<>();
 
-            for (ObjFace face : group.faces) {
+            for (S_Face face : group.faces) {
                 if (face.vertices == null) continue;
 
                 Vertex faceNormal = face.faceNormal != null ? face.faceNormal : new Vertex(0, 1, 0);

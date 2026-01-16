@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 
 public class Compat {
 
-    /** A standard implementation of safely grabbing a tile entity without loading chunks, might have more fluff added to it later on. */
+    /** A standard implementation of safely grabbing a block entity without loading chunks, might have more fluff added to it later on. */
     @Nullable
     public static BlockEntity getBlockEntityStandard(Level level, BlockPos pos) {
         int x = pos.getX();

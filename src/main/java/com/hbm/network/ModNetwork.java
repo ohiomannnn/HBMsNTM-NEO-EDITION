@@ -1,16 +1,21 @@
 package com.hbm.network;
 
+import com.hbm.HBMsNTM;
 import com.hbm.network.toclient.*;
-import com.hbm.network.toserver.*;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.fml.loading.FMLLoader;
+import com.hbm.network.toserver.CompoundTagControl;
+import com.hbm.network.toserver.CompoundTagItemControl;
+import com.hbm.network.toserver.KeybindReceiver;
+import com.hbm.network.toserver.SatelliteLaser;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
-import net.neoforged.neoforge.network.handlers.ClientPayloadHandler;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
-public class NTMNetwork {
-    private static final String PROTOCOL_VERSION = "2";
+@EventBusSubscriber(modid = HBMsNTM.MODID)
+public class ModNetwork {
+    private static final String PROTOCOL_VERSION = "3";
 
+    @SubscribeEvent
     public static void registerPackets(RegisterPayloadHandlersEvent event) {
         PayloadRegistrar registrar = event.registrar(PROTOCOL_VERSION);
 

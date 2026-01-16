@@ -172,13 +172,13 @@ public class HFRObjGeometry implements IUnbakedGeometry<HFRObjGeometry> {
                 return quads;
             }
 
-            List<ObjGroupObject> groupsToRender = getGroupsToRender();
+            List<S_GroupObject> groupsToRender = getGroupsToRender();
 
             Matrix4f combinedTransform = new Matrix4f(rootTransform);
             combinedTransform.mul(modelState.getRotation().getMatrix());
 
-            for (ObjGroupObject group : groupsToRender) {
-                for (ObjFace face : group.faces) {
+            for (S_GroupObject group : groupsToRender) {
+                for (S_Face face : group.faces) {
                     BakedQuad quad = createQuadFromFace(face, combinedTransform);
                     if (quad != null) {
                         quads.add(quad);
@@ -189,10 +189,10 @@ public class HFRObjGeometry implements IUnbakedGeometry<HFRObjGeometry> {
             return quads;
         }
 
-        private List<ObjGroupObject> getGroupsToRender() {
-            List<ObjGroupObject> result = new ArrayList<>();
+        private List<S_GroupObject> getGroupsToRender() {
+            List<S_GroupObject> result = new ArrayList<>();
 
-            for (ObjGroupObject group : wavefrontObj.groupObjects) {
+            for (S_GroupObject group : wavefrontObj.groupObjects) {
                 if (shouldRenderGroup(group.name)) {
                     result.add(group);
                 }
@@ -219,7 +219,7 @@ public class HFRObjGeometry implements IUnbakedGeometry<HFRObjGeometry> {
             return shouldRender;
         }
 
-        private BakedQuad createQuadFromFace(ObjFace face, Matrix4f transform) {
+        private BakedQuad createQuadFromFace(S_Face face, Matrix4f transform) {
             if (face.vertices == null || face.vertices.length < 3) {
                 return null;
             }
@@ -371,7 +371,7 @@ public class HFRObjGeometry implements IUnbakedGeometry<HFRObjGeometry> {
 
         public List<String> getRenderedGroupNames() {
             List<String> result = new ArrayList<>();
-            for (ObjGroupObject group : wavefrontObj.groupObjects) {
+            for (S_GroupObject group : wavefrontObj.groupObjects) {
                 if (shouldRenderGroup(group.name)) {
                     result.add(group.name);
                 }

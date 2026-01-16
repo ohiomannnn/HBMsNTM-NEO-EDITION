@@ -18,10 +18,10 @@ public class HFRWavefrontObject implements IModelCustom {
     public final List<Vertex> vertices = new ArrayList<>();
     public final List<Vertex> vertexNormals = new ArrayList<>();
     public final List<TextureCoordinate> textureCoordinates = new ArrayList<>();
-    public final Map<String, ObjGroupObject> groupObjectsMap = new LinkedHashMap<>();
-    public final List<ObjGroupObject> groupObjects = new ArrayList<>();
+    public final Map<String, S_GroupObject> groupObjectsMap = new LinkedHashMap<>();
+    public final List<S_GroupObject> groupObjects = new ArrayList<>();
 
-    private ObjGroupObject currentGroupObject;
+    private S_GroupObject currentGroupObject;
     private final String fileName;
     private final boolean smoothing;
 
@@ -76,9 +76,9 @@ public class HFRWavefrontObject implements IModelCustom {
                     if (tc != null) textureCoordinates.add(tc);
                 } else if (currentLine.startsWith("f ")) {
                     if (currentGroupObject == null) {
-                        currentGroupObject = new ObjGroupObject("Default");
+                        currentGroupObject = new S_GroupObject("Default");
                     }
-                    ObjFace face = parseFace(currentLine);
+                    S_Face face = parseFace(currentLine);
                     currentGroupObject.faces.add(face);
                 } else if (currentLine.startsWith("g ") || currentLine.startsWith("o ")) {
                     String name = currentLine.substring(2).trim();
@@ -87,7 +87,7 @@ public class HFRWavefrontObject implements IModelCustom {
                             groupObjects.add(currentGroupObject);
                             groupObjectsMap.put(currentGroupObject.name, currentGroupObject);
                         }
-                        currentGroupObject = new ObjGroupObject(name);
+                        currentGroupObject = new S_GroupObject(name);
                     }
                 }
             }
@@ -107,7 +107,7 @@ public class HFRWavefrontObject implements IModelCustom {
     }
 
     public void renderAll(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float r, float g, float b, float a) {
-        for (ObjGroupObject group : groupObjects) {
+        for (S_GroupObject group : groupObjects) {
             renderGroup(group, poseStack, buffer, packedLight, packedOverlay, r, g, b, a);
         }
     }
@@ -118,7 +118,7 @@ public class HFRWavefrontObject implements IModelCustom {
     }
 
     public void renderPart(String partName, PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float r, float g, float b, float a) {
-        ObjGroupObject group = groupObjectsMap.get(partName);
+        S_GroupObject group = groupObjectsMap.get(partName);
         if (group != null) {
             renderGroup(group, poseStack, buffer, packedLight, packedOverlay, r, g, b, a);
         }
@@ -127,7 +127,7 @@ public class HFRWavefrontObject implements IModelCustom {
     @Override
     public void renderOnly(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, String... groupNames) {
         Set<String> names = new HashSet<>(Arrays.asList(groupNames));
-        for (ObjGroupObject group : groupObjects) {
+        for (S_GroupObject group : groupObjects) {
             if (names.contains(group.name)) {
                 renderGroup(group, poseStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
             }
@@ -137,23 +137,23 @@ public class HFRWavefrontObject implements IModelCustom {
     @Override
     public void renderAllExcept(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, String... excludedGroupNames) {
         Set<String> excluded = new HashSet<>(Arrays.asList(excludedGroupNames));
-        for (ObjGroupObject group : groupObjects) {
+        for (S_GroupObject group : groupObjects) {
             if (!excluded.contains(group.name)) {
                 renderGroup(group, poseStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
             }
         }
     }
 
-    private void renderGroup(ObjGroupObject group, PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float r, float g, float b, float a) {
+    private void renderGroup(S_GroupObject group, PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float r, float g, float b, float a) {
         Matrix4f matrix = poseStack.last().pose();
         PoseStack.Pose pose = poseStack.last();
 
-        for (ObjFace face : group.faces) {
+        for (S_Face face : group.faces) {
             renderFace(face, matrix, pose, buffer, packedLight, packedOverlay, r, g, b, a);
         }
     }
 
-    private void renderFace(ObjFace face, Matrix4f matrix, PoseStack.Pose pose, VertexConsumer buffer, int packedLight, int packedOverlay, float r, float g, float b, float a) {
+    private void renderFace(S_Face face, Matrix4f matrix, PoseStack.Pose pose, VertexConsumer buffer, int packedLight, int packedOverlay, float r, float g, float b, float a) {
         if (face.vertices == null) return;
 
         Vertex faceNormal = face.faceNormal != null ? face.faceNormal : new Vertex(0, 1, 0);
@@ -210,8 +210,8 @@ public class HFRWavefrontObject implements IModelCustom {
         return null;
     }
 
-    private ObjFace parseFace(String line) {
-        ObjFace face = new ObjFace();
+    private S_Face parseFace(String line) {
+        S_Face face = new S_Face();
         String[] tokens = line.substring(2).trim().split(" ");
 
         if (tokens[0].contains("//")) {

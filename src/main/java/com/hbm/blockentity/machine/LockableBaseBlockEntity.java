@@ -38,25 +38,27 @@ public abstract class LockableBaseBlockEntity extends LoadedBaseBlockEntity {
         setChanged();
     }
 
-    public void setPins(int pins) { lock = pins; setChanged(); }
+    public void setPins(int pins) { lock = pins; this.setChanged(); }
     public int getPins() { return lock; }
-    public void setMod(double mod) { lockMod = mod; setChanged(); }
+    public void setMod(double mod) { lockMod = mod; this.setChanged(); }
     public double getMod() { return lockMod; }
 
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        lock = tag.getInt("lock");
-        isLocked = tag.getBoolean("isLocked");
-        lockMod  = tag.getDouble("lockMod");
+
+        lock = tag.getInt("Lock");
+        isLocked = tag.getBoolean("IsLocked");
+        lockMod  = tag.getDouble("LockMod");
     }
 
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
-        tag.putInt("lock", lock);
-        tag.putBoolean("isLocked", isLocked);
-        tag.putDouble("lockMod", lockMod);
+
+        tag.putInt("Lock", lock);
+        tag.putBoolean("IsLocked", isLocked);
+        tag.putDouble("LockMod", lockMod);
     }
 
     @Override
@@ -68,23 +70,35 @@ public abstract class LockableBaseBlockEntity extends LoadedBaseBlockEntity {
         buf.writeDouble(lockMod);
     }
 
+    @Override
+    public void deserialize(ByteBuf buf, RegistryAccess registryAccess) {
+        super.deserialize(buf, registryAccess);
+
+        lock = buf.readInt();
+        isLocked = buf.readBoolean();
+        lockMod = buf.readDouble();
+    }
+
     public boolean canAccess(Player player) {
-        if (!isLocked) return true;
-        if (player == null) return false;
 
-        ItemStack stack = player.getMainHandItem();
-
-        if (!stack.isEmpty() && stack.getItem() instanceof KeyItem && KeyItem.getPins(stack) == this.lock) {
-            level.playSound(null, getBlockPos(), ModSounds.LOCK_OPEN.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+        if (!isLocked) {
             return true;
-        }
+        } else {
+            if (player == null || level == null) return false;
+            ItemStack stack = player.getMainHandItem();
 
-        if (!stack.isEmpty() && stack.is(ModItems.KEY_RED.get())) {
-            level.playSound(null, getBlockPos(), ModSounds.LOCK_OPEN.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
-            return true;
-        }
+            if (stack.getItem() instanceof KeyItem && KeyItem.getPins(stack) == this.lock) {
+                level.playSound(null, this.getBlockPos(), ModSounds.LOCK_OPEN.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                return true;
+            }
 
-        return tryPick(player);
+            if (stack.is(ModItems.KEY_RED)) {
+                level.playSound(null, this.getBlockPos(), ModSounds.LOCK_OPEN.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                return true;
+            }
+
+            return this.tryPick(player);
+        }
     }
 
     private boolean tryPick(Player player) {
@@ -92,17 +106,13 @@ public abstract class LockableBaseBlockEntity extends LoadedBaseBlockEntity {
         ItemStack stack = player.getMainHandItem();
         double chanceOfSuccess = this.lockMod * 100;
 
-        if (!stack.isEmpty() && stack.is(ModItems.PIN.get()) &&
-                (player.getInventory().contains(new ItemStack(ModItems.SCREWDRIVER.get())) ||
-                        player.getInventory().contains(new ItemStack(ModItems.SCREWDRIVER_DESH.get())))) {
+        if (stack.is(ModItems.PIN.get()) && (player.getInventory().contains(new ItemStack(ModItems.SCREWDRIVER.get())) || player.getInventory().contains(new ItemStack(ModItems.SCREWDRIVER_DESH.get())))) {
 
             stack.shrink(1);
             canPick = true;
         }
 
-        if (!stack.isEmpty() &&
-                (stack.is(ModItems.SCREWDRIVER.get()) || stack.is(ModItems.SCREWDRIVER_DESH.get())) &&
-                player.getInventory().contains(new ItemStack(ModItems.PIN.get()))) {
+        if ((stack.is(ModItems.SCREWDRIVER.get()) || stack.is(ModItems.SCREWDRIVER_DESH.get())) && player.getInventory().contains(new ItemStack(ModItems.PIN.get()))) {
 
             removeOne(player, ModItems.PIN.get());
             canPick = true;
