@@ -33,6 +33,8 @@ public class KeyHandler {
     public static final KeyMapping HUD = new KeyMapping(category + ".toggleHUD", InputConstants.Type.KEYSYM, InputConstants.KEY_V, category);
     public static final KeyMapping CALCULATOR = new KeyMapping(category + ".calc", InputConstants.Type.KEYSYM, InputConstants.KEY_N, category);
 
+    public static final KeyMapping DUCK = new KeyMapping(category + ".duck", InputConstants.Type.KEYSYM, InputConstants.KEY_O, category);
+
     public static final KeyMapping ABILITY_CYCLE = new KeyMapping(category + ".ability", InputConstants.Type.KEYSYM, InputConstants.KEY_I, category);
     public static final KeyMapping ABILITY_ALT = new KeyMapping(category + ".abilityAlt", InputConstants.Type.KEYSYM, InputConstants.KEY_LALT, category);
 
@@ -43,6 +45,7 @@ public class KeyHandler {
         register(event, JETPACK, EnumKeybind.TOGGLE_JETPACK);
         register(event, MAGNET, EnumKeybind.TOGGLE_MAGNET);
         register(event, HUD, EnumKeybind.TOGGLE_HEAD);
+        register(event, DUCK, EnumKeybind.DUCK);
         register(event, ABILITY_CYCLE, EnumKeybind.ABILITY_CYCLE);
         register(event, ABILITY_ALT, EnumKeybind.ABILITY_ALT);
     }
@@ -113,6 +116,7 @@ public class KeyHandler {
         TOGGLE_JETPACK,
         TOGGLE_MAGNET,
         TOGGLE_HEAD,
+        DUCK,
         DASH,
         TRAIN,
         CRANE_UP,

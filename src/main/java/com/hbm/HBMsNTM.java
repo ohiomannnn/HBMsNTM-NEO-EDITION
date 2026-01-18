@@ -19,6 +19,8 @@ import net.neoforged.fml.common.Mod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+
 @Mod(HBMsNTM.MODID)
 public class HBMsNTM {
     public static final String MODID = "hbmsntm";
@@ -30,6 +32,9 @@ public class HBMsNTM {
     // X -> days since 10/10/2010
     public static final String VERSION = "0.0.8 ALPHA (5571)";
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
+
+    public static File configDir;
+    public static File configHbmDir;
 
     public HBMsNTM(IEventBus modEventBus, ModContainer modContainer) {
         ModBlocks.register(modEventBus);

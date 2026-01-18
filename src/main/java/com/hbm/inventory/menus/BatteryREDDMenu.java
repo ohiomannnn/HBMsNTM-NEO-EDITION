@@ -4,7 +4,9 @@ import com.hbm.blockentity.machine.storage.BatteryREDDBlockEntity;
 import com.hbm.inventory.ModMenuTypes;
 import com.hbm.inventory.SlotNonRetarded;
 import com.hbm.util.CompatExternal;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -13,19 +15,19 @@ import net.minecraft.world.item.ItemStack;
 
 public class BatteryREDDMenu extends AbstractContainerMenu {
 
-    public BatteryREDDBlockEntity battery;
+    public BatteryREDDBlockEntity be;
 
     public BatteryREDDMenu(int id, Inventory inventory, FriendlyByteBuf extraData) {
         this(id, inventory, (BatteryREDDBlockEntity) CompatExternal.getCoreFromPos(inventory.player.level(), extraData.readBlockPos()));
     }
 
-    public BatteryREDDMenu(int id, Inventory inventory, BatteryREDDBlockEntity be) {
+    public BatteryREDDMenu(int id, Inventory inventory, BatteryREDDBlockEntity blockEntity) {
         super(ModMenuTypes.BATTERY_REDD.get(), id);
 
-        this.battery = be;
+        this.be = blockEntity;
 
-        this.addSlot(new SlotNonRetarded(battery, 0, 26, 53));
-        this.addSlot(new SlotNonRetarded(battery, 1, 80, 53));
+        this.addSlot(new SlotNonRetarded(be, 0, 26, 53));
+        this.addSlot(new SlotNonRetarded(be, 1, 80, 53));
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 9; j++) {
@@ -41,7 +43,7 @@ public class BatteryREDDMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return battery.stillValid(player);
+        return be.stillValid(player);
     }
 
     @Override
@@ -56,11 +58,11 @@ public class BatteryREDDMenu extends AbstractContainerMenu {
             newStack = stack.copy();
 
             if (index < 1) {
-                if (!this.moveItemStackTo(stack, 2, this.slots.size(), true)) {
+                if (!this.moveItemStackTo(stack, be.getContainerSize(), this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
             } else {
-                if (!this.moveItemStackTo(stack, 0, 2, false)) {
+                if (!this.moveItemStackTo(stack, 0, be.getContainerSize(), false)) {
                     return ItemStack.EMPTY;
                 }
             }

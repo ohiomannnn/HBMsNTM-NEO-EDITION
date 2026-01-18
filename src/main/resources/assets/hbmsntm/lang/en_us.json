@@ -1,4 +1,6 @@
 {
+  "o.to_duck": "Press O to Duck!",
+
   "hbmsntm.configuration.general": "General",
   "hbmsntm.configuration.nukes": "Nukes",
   "hbmsntm.configuration.hazards": "Hazards",
@@ -82,8 +84,8 @@
   "hbmsntm.configuration.nukeHudShake": "Nuke Shake",
   "hbmsntm.configuration.mainMenuWackySplashes": "Main Menu Wacky Splashes",
   "hbmsntm.configuration.tips": "Tips",
-  "hbmsntm.configuration.toolHudIndicatorX": "Tool x offset",
-  "hbmsntm.configuration.toolHudIndicatorY": "Tool y offset",
+  "hbmsntm.configuration.toolHudIndicatorX": "Tool Offset Horizontal",
+  "hbmsntm.configuration.toolHudIndicatorY": "Tool Offset Vertical",
 
   "hbmsntm.configuration.crate_keep_contents": "Keep Crate Contents",
   "hbmsntm.configuration.taint_trails": "Taint trails",
@@ -99,6 +101,9 @@
   "hbmsntm.keys.toggleBack": "Toggle Jetpack",
   "hbmsntm.keys.toggleHUD": "Toggle HUD",
   "hbmsntm.keys.toggleMagnet": "Toggle Magnet",
+  "hbmsntm.keys.ability": "Switch Tool Ability",
+  "hbmsntm.keys.abilityAlt": "Open Tool Ability Screen",
+  "hbmsntm.keys.duck": "ducc",
 
   "block.hbmsntm.brick_concrete": "Concrete Brick",
   "block.hbmsntm.brick_concrete_mossy": "Mossy Concrete Brick",
@@ -470,5 +475,5 @@
   "container.satLinker": "SatLink Device",
   "container.batterySocket": "Battery Socket",
   "container.batteryREDD": "FEnSU",
-  "container.nuke_fatman": "Fat Man"
+  "container.nukeFatman": "Fat Man"
 }

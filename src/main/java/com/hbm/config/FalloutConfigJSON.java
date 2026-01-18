@@ -39,7 +39,7 @@ public class FalloutConfigJSON {
     public static final Gson gson = new Gson();
 
     public static void initialize() {
-        File folder = CommonEvents.configHbmDir;
+        File folder = HBMsNTM.configHbmDir;
 
         File config = new File(folder.getAbsolutePath() + File.separatorChar + "hbmFallout.json");
         File template = new File(folder.getAbsolutePath() + File.separatorChar + "_hbmFallout.json");

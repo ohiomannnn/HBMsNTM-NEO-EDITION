@@ -4,7 +4,9 @@ import com.hbm.blockentity.machine.storage.BatterySocketBlockEntity;
 import com.hbm.inventory.ModMenuTypes;
 import com.hbm.inventory.SlotNonRetarded;
 import com.hbm.util.CompatExternal;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -13,16 +15,16 @@ import net.minecraft.world.item.ItemStack;
 
 public class BatterySocketMenu extends AbstractContainerMenu {
 
-    public BatterySocketBlockEntity socket;
+    public BatterySocketBlockEntity be;
 
     public BatterySocketMenu(int id, Inventory inventory, FriendlyByteBuf extraData) {
         this(id, inventory, (BatterySocketBlockEntity) CompatExternal.getCoreFromPos(inventory.player.level(), extraData.readBlockPos()));
     }
 
-    public BatterySocketMenu(int id, Inventory inventory, BatterySocketBlockEntity be) {
+    public BatterySocketMenu(int id, Inventory inventory, BatterySocketBlockEntity blockEntity) {
         super(ModMenuTypes.BATTERY_SOCKET.get(), id);
 
-        this.socket = be;
+        this.be = blockEntity;
 
         this.addSlot(new SlotNonRetarded(be, 0, 35, 35));
 
@@ -40,7 +42,7 @@ public class BatterySocketMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return socket.stillValid(player);
+        return be.stillValid(player);
     }
 
     @Override
@@ -55,11 +57,11 @@ public class BatterySocketMenu extends AbstractContainerMenu {
             newStack = stack.copy();
 
             if (index < 1) {
-                if (!this.moveItemStackTo(stack, 1, this.slots.size(), true)) {
+                if (!this.moveItemStackTo(stack, be.getContainerSize(), this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
             } else {
-                if (!this.moveItemStackTo(stack, 0, 1, false)) {
+                if (!this.moveItemStackTo(stack, 0, be.getContainerSize(), false)) {
                     return ItemStack.EMPTY;
                 }
             }

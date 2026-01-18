@@ -128,7 +128,7 @@ public class HBMsNTMClient {
 
     @SubscribeEvent
     public static void onScreenRender(ScreenEvent.Render.Post event) {
-        if (!MainConfig.CLIENT.TIPS.get()) return;
+        if (!MainConfig.CLIENT.ENABLE_TIPS.get()) return;
         Screen screen = event.getScreen();
         if (screen instanceof LevelLoadingScreen || screen instanceof ReceivingLevelScreen) {
             LOADING_RENDERER.render(event.getGuiGraphics());
@@ -137,7 +137,8 @@ public class HBMsNTMClient {
 
     @SubscribeEvent
     public static void onJoin(ClientPlayerNetworkEvent.LoggingOut event) {
-        if (!MainConfig.CLIENT.TIPS.get()) return;
+        RenderInfoSystem.clear();
+        if (!MainConfig.CLIENT.ENABLE_TIPS.get()) return;
         LOADING_RENDERER.resetMessage();
     }
 
@@ -189,7 +190,7 @@ public class HBMsNTMClient {
         LocalPlayer player = Minecraft.getInstance().player;
 
         /// NUKE SHAKE ///
-        if ((shakeTimestamp + shakeDuration - System.currentTimeMillis()) > 0 && MainConfig.CLIENT.NUKE_HUD_SHAKE.get()) {
+        if ((shakeTimestamp + shakeDuration - System.currentTimeMillis()) > 0 && MainConfig.CLIENT.ENABLE_NUKE_HUD_SHAKE.get()) {
             double mult = (shakeTimestamp + shakeDuration - System.currentTimeMillis()) / (double) shakeDuration * 2;
             double horizontal = Mth.clamp(Math.sin(System.currentTimeMillis() * 0.02), -0.7, 0.7) * 15;
             double vertical = Mth.clamp(Math.sin(System.currentTimeMillis() * 0.01 + 2), -0.7, 0.7) * 3;
@@ -206,7 +207,7 @@ public class HBMsNTMClient {
         Minecraft mc = Minecraft.getInstance();
 
         /// NUKE FLASH ///
-        if (MainConfig.CLIENT.NUKE_HUD_FLASH.get() && (flashTimestamp + flashDuration - Clock.get_ms()) > 0) {
+        if (MainConfig.CLIENT.ENABLE_NUKE_HUD_FLASH.get() && (flashTimestamp + flashDuration - Clock.get_ms()) > 0) {
             float brightness = (flashTimestamp + flashDuration - Clock.get_ms()) / (float) flashDuration;
             int alpha = (int)(brightness * 255.0F);
             int width = mc.getWindow().getGuiScaledWidth();
@@ -312,7 +313,7 @@ public class HBMsNTMClient {
 
     @SubscribeEvent
     public static void onOpenGUI(ScreenEvent.Opening event) {
-        if (event.getScreen() instanceof TitleScreen main && MainConfig.CLIENT.MAIN_MENU_WACKY_SPLASHES.get()) {
+        if (event.getScreen() instanceof TitleScreen main && MainConfig.CLIENT.ENABLE_MAIN_MENU_WACKY_SPLASHES.get()) {
             String text;
             int rand = (int) (Math.random() * 150);
             text = switch (rand) {

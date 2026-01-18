@@ -1,9 +1,11 @@
 package com.hbm.extprop;
 
-import com.hbm.HBMsNTM;
 import com.hbm.HBMsNTMClient;
+import com.hbm.entity.ModEntityTypes;
+import com.hbm.entity.mob.Duck;
 import com.hbm.handler.KeyHandler.EnumKeybind;
 import com.hbm.lib.ModAttachments;
+import com.hbm.lib.ModSounds;
 import com.hbm.network.toclient.InformPlayer;
 import com.mojang.serialization.Codec;
 import io.netty.buffer.ByteBuf;
@@ -13,6 +15,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 
@@ -37,6 +40,8 @@ public class HbmPlayerAttachments {
 
 
     public boolean hasReceivedBook = false;
+
+    public boolean ducked = false;
 
     public boolean enableHUD = true;
     public boolean enableBackpack = true;
@@ -125,6 +130,22 @@ public class HbmPlayerAttachments {
                     }
                 }
             }
+            if (key == EnumKeybind.DUCK) {
+                HbmPlayerAttachments props = getData(player);
+                if (!props.ducked) {
+                    Duck ducc = new Duck(ModEntityTypes.DUCK.get(), player.level());
+
+                    ducc.setPos(player.getX(), player.getEyeY(), player.getZ());
+                    ducc.setDeltaMovement(player.getLookAngle());
+                    ducc.fallDistance = 0.0F;
+
+                    player.level().addFreshEntity(ducc);
+                    player.level().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.DUCK, SoundSource.NEUTRAL, 1.0F, 1.0F);
+
+                    props.ducked = !props.ducked;
+                    player.setData(ModAttachments.PLAYER_ATTACHMENT, props);
+                }
+            }
             //TODO: add train lol
         }
 
@@ -161,6 +182,7 @@ public class HbmPlayerAttachments {
 
     public void serialize(ByteBuf buf) {
         buf.writeBoolean(this.hasReceivedBook);
+        buf.writeBoolean(this.ducked);
         buf.writeFloat(this.shield);
         buf.writeFloat(this.maxShield);
         buf.writeBoolean(this.enableBackpack);
@@ -173,6 +195,7 @@ public class HbmPlayerAttachments {
     public void deserialize(ByteBuf buf) {
         if (buf.readableBytes() > 0) {
             this.hasReceivedBook = buf.readBoolean();
+            this.ducked = buf.readBoolean();
             this.shield = buf.readFloat();
             this.maxShield = buf.readFloat();
             this.enableBackpack = buf.readBoolean();
@@ -187,6 +210,7 @@ public class HbmPlayerAttachments {
         CompoundTag props = new CompoundTag();
 
         props.putBoolean("hasReceivedBook", this.hasReceivedBook);
+        props.putBoolean("ducked", this.ducked);
         props.putFloat("shield", this.shield);
         props.putFloat("maxShield", this.maxShield);
         props.putBoolean("enableBackpack", this.enableBackpack);
@@ -201,6 +225,7 @@ public class HbmPlayerAttachments {
     public void loadNBTData(CompoundTag props) {
         if (props != null) {
             this.hasReceivedBook = props.getBoolean("hasReceivedBook");
+            this.ducked = props.getBoolean("ducked");
             this.shield = props.getFloat("shield");
             this.maxShield = props.getFloat("maxShield");
             this.enableBackpack = props.getBoolean("enableBackpack");

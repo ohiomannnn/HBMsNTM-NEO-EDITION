@@ -22,12 +22,12 @@ public class BatteryREDDScreen extends InfoScreen<BatteryREDDMenu> {
 
     private static final ResourceLocation TEXTURE = HBMsNTM.withDefaultNamespaceNT("textures/gui/storage/gui_battery_redd.png");
 
-    public BatteryREDDBlockEntity battery;
+    public BatteryREDDBlockEntity be;
 
     public BatteryREDDScreen(BatteryREDDMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
 
-        this.battery = menu.battery;
+        this.be = menu.be;
 
         this.imageWidth = 176;
         this.imageHeight = 181;
@@ -37,7 +37,7 @@ public class BatteryREDDScreen extends InfoScreen<BatteryREDDMenu> {
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
 
-        String lang = switch (battery.priority) {
+        String lang = switch (be.priority) {
             case LOW -> "low";
             case HIGH -> "high";
             default -> "normal";
@@ -63,7 +63,7 @@ public class BatteryREDDScreen extends InfoScreen<BatteryREDDMenu> {
         if (this.checkClick((int) x, (int) y, 133, 52, 18, 18)) { this.click(); tag.putBoolean("high", true); }
         if (this.checkClick((int) x, (int) y, 152, 35, 16, 16)) { this.click(); tag.putBoolean("priority", true); }
 
-        if (!tag.isEmpty()) PacketDistributor.sendToServer(new CompoundTagControl(tag, battery.getBlockPos()));
+        if (!tag.isEmpty()) PacketDistributor.sendToServer(new CompoundTagControl(tag, be.getBlockPos()));
 
         return super.mouseClicked(x, y, button);
     }
@@ -72,9 +72,9 @@ public class BatteryREDDScreen extends InfoScreen<BatteryREDDMenu> {
     protected void renderBg(GuiGraphics guiGraphics, float v, int i, int partialTicks) {
         guiGraphics.blit(TEXTURE, this.leftPos, this.topPos, 0, 0, imageWidth, imageHeight);
 
-        guiGraphics.blit(TEXTURE, this.leftPos + 133, this.topPos + 16, 176, 52 + battery.redLow * 18, 18, 18);
-        guiGraphics.blit(TEXTURE, this.leftPos + 133, this.topPos + 52, 176, 52 + battery.redHigh * 18, 18, 18);
-        guiGraphics.blit(TEXTURE, this.leftPos + 152, this.topPos + 35, 194, 52 + battery.priority.ordinal() * 16 - 16, 16, 16);
+        guiGraphics.blit(TEXTURE, this.leftPos + 133, this.topPos + 16, 176, 52 + be.redLow * 18, 18, 18);
+        guiGraphics.blit(TEXTURE, this.leftPos + 133, this.topPos + 52, 176, 52 + be.redHigh * 18, 18, 18);
+        guiGraphics.blit(TEXTURE, this.leftPos + 152, this.topPos + 35, 194, 52 + be.priority.ordinal() * 16 - 16, 16, 16);
     }
 
     @Override
@@ -85,12 +85,12 @@ public class BatteryREDDScreen extends InfoScreen<BatteryREDDMenu> {
         guiGraphics.pose().pushPose();
         guiGraphics.pose().scale(0.5F, 0.5F, 1.0F);
 
-        String label = String.format(Locale.US, "%,d", battery.power) + " HE";
+        String label = String.format(Locale.US, "%,d", be.power) + " HE";
         guiGraphics.drawString(this.font, label, 242 - this.font.width(label), 45, 0x00ff00);
 
-        String deltaText = String.format(Locale.US, "%,d", battery.delta) + " HE/s";
+        String deltaText = String.format(Locale.US, "%,d", be.delta) + " HE/s";
 
-        int comp = battery.delta.compareTo(BigInteger.ZERO);
+        int comp = be.delta.compareTo(BigInteger.ZERO);
         if (comp > 0) deltaText = ChatFormatting.GREEN + "+" + deltaText;
         else if (comp < 0) deltaText = ChatFormatting.RED + deltaText;
         else deltaText = ChatFormatting.YELLOW + "+" + deltaText;

@@ -67,7 +67,7 @@ public class DamageResistanceHandler {
     public static HashMap<Item, List<Quartet<Item, Item, Item, Item>>> itemInfoSet = new HashMap<>();
 
     public static void init() {
-        File folder = CommonEvents.configHbmDir;
+        File folder = HBMsNTM.configHbmDir;
 
         File config = new File(folder.getAbsolutePath() + File.separatorChar + "hbmArmor.json");
         File template = new File(folder.getAbsolutePath() + File.separatorChar + "_hbmArmor.json");
@@ -392,7 +392,7 @@ public class DamageResistanceHandler {
         amount -= dt;
         dr *= Mth.clamp(1F - pierce, 0F, 2F /* we allow up to -1 armor piercing, which can double effective armor values */);
 
-        return amount *= (1F - dr);
+        return amount * (1F - dr);
     }
 
     public static float[] getDTDR(LivingEntity entity, DamageSource damage, float amount, float pierceDT, float pierce) {

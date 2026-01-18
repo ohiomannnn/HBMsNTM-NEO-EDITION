@@ -9,11 +9,13 @@ import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.mob.CreeperNuclear;
 import com.hbm.entity.mob.Duck;
+import com.hbm.extprop.HbmPlayerAttachments;
 import com.hbm.handler.EntityEffectHandler;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
+import com.hbm.inventory.ItemManager;
 import com.hbm.inventory.ModMenuTypes;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.menus.BatteryREDDMenu;
@@ -22,6 +24,7 @@ import com.hbm.inventory.screens.BatterySocketScreen;
 import com.hbm.inventory.screens.MachineSatLinkerScreen;
 import com.hbm.inventory.screens.NukeFatManScreen;
 import com.hbm.items.ModItems;
+import com.hbm.network.toclient.InformPlayer;
 import com.hbm.saveddata.satellite.Satellite;
 import com.hbm.uninos.UniNodespace;
 import com.hbm.util.ArmorUtil;
@@ -32,6 +35,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -51,24 +55,24 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.level.BlockEvent.BreakEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.io.File;
 
 @EventBusSubscriber(modid = HBMsNTM.MODID)
 public class CommonEvents {
 
-    public static File configDir;
-    public static File configHbmDir;
-
     @SubscribeEvent
     public static void commonSetup(FMLCommonSetupEvent event) {
 
-        configDir = FMLPaths.CONFIGDIR.get().toFile();
-        configHbmDir = new File(configDir, "hbmConfig");
+        HBMsNTM.configDir = FMLPaths.CONFIGDIR.get().toFile();
+        HBMsNTM.configHbmDir = new File(HBMsNTM.configDir, "hbmConfig");
 
-        if (!configHbmDir.exists()) configHbmDir.mkdirs();
+        if (!HBMsNTM.configHbmDir.exists()) {
+            HBMsNTM.configHbmDir.mkdirs();
+        }
 
-        HBMsNTM.LOGGER.info("Let us celebrate the fact that the logger finally works again!");
+        HBMsNTM.LOGGER.info("Hello world!");
 
         HTTPHandler.loadStats();
         FalloutConfigJSON.initialize();
@@ -78,6 +82,7 @@ public class CommonEvents {
         HazmatRegistry.registerHazmats();
         ArmorUtil.register();
         Satellite.register();
+        ItemManager.register();
     }
 
     @SubscribeEvent
@@ -89,8 +94,9 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
+        Player player = event.getEntity();
+
         if (MainConfig.COMMON.ENABLE_MOTD.get()) {
-            Player player = event.getEntity();
 
             player.sendSystemMessage(Component.translatable("message.hbmsntm.loaded", HBMsNTM.VERSION));
 
@@ -101,6 +107,12 @@ public class CommonEvents {
                                 .append(Component.translatable("message.hbmsntm.click_here").withStyle(Style.EMPTY.withColor(ChatFormatting.RED).withUnderlined(true).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/ohiomannnn/HBMsNTM-NEO-EDITION/releases"))))
                                 .append(Component.translatable("message.hbmsntm.to_download").withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)))
                 );
+            }
+        }
+
+        if (!HbmPlayerAttachments.getData(player).ducked) {
+            if (player instanceof ServerPlayer serverPlayer) {
+                PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(Component.translatable("o.to_duck"), HBMsNTMClient.ID_DUCK, 30_000));
             }
         }
     }

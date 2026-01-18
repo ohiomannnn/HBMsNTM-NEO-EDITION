@@ -22,6 +22,11 @@ public class RenderInfoSystem {
     private static final Map<Integer, InfoEntry> inbox = new HashMap<>();
     private static final Map<Integer, InfoEntry> messages = new HashMap<>();
 
+    public static void clear() {
+        inbox.clear();
+        messages.clear();
+    }
+
     @SubscribeEvent
     public static void clientTick(ClientTickEvent.Post event) {
         messages.putAll(inbox);

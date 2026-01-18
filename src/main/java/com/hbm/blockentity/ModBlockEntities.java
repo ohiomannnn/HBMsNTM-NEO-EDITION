@@ -9,8 +9,7 @@ import com.hbm.blockentity.machine.MachinePressBlockEntity;
 import com.hbm.blockentity.machine.MachineSatLinkerBlockEntity;
 import com.hbm.blockentity.machine.DecontaminatorBlockEntity;
 import com.hbm.blockentity.machine.GeigerBlockEntity;
-import com.hbm.blockentity.machine.storage.BatteryREDDBlockEntity;
-import com.hbm.blockentity.machine.storage.BatterySocketBlockEntity;
+import com.hbm.blockentity.machine.storage.*;
 import com.hbm.blockentity.network.CableBlockEntityBaseNT;
 import com.hbm.blocks.ModBlocks;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -29,6 +28,25 @@ public class ModBlockEntities {
             "machine_satlinker",
             () -> BlockEntityType.Builder.of(
                             MachineSatLinkerBlockEntity::new,
+                            ModBlocks.MACHINE_SATLINKER.get())
+                    .build(null));
+
+    public static final Supplier<BlockEntityType<CrateIronBlockEntity>> CRATE_IRON = REGISTER.register(
+            "crate_iron",
+            () -> BlockEntityType.Builder.of(
+                            CrateIronBlockEntity::new,
+                            ModBlocks.MACHINE_SATLINKER.get())
+                    .build(null));
+    public static final Supplier<BlockEntityType<CrateSteelBlockEntity>> CRATE_STEEL = REGISTER.register(
+            "crate_steel",
+            () -> BlockEntityType.Builder.of(
+                            CrateSteelBlockEntity::new,
+                            ModBlocks.MACHINE_SATLINKER.get())
+                    .build(null));
+    public static final Supplier<BlockEntityType<CrateDeshBlockEntity>> CRATE_DESH = REGISTER.register(
+            "crate_desh",
+            () -> BlockEntityType.Builder.of(
+                            CrateDeshBlockEntity::new,
                             ModBlocks.MACHINE_SATLINKER.get())
                     .build(null));
 

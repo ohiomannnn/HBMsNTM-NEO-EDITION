@@ -6,14 +6,13 @@ import com.hbm.entity.effect.NukeTorex;
 import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.interfaces.IBomb;
 import com.mojang.serialization.MapCodec;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.Containers;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
-import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -51,33 +50,33 @@ public class NukeManBlock extends BaseEntityBlock implements IBomb {
     }
 
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (!state.is(newState.getBlock())) {
-            BlockEntity blockentity = level.getBlockEntity(pos);
-            if (blockentity instanceof NukeFatManBlockEntity blockEntity) {
-                NonNullList<ItemStack> stacks = NonNullList.create();
-                for (int i = 0; i < blockEntity.getItems().getSlots(); i++) {
-                    stacks.add(blockEntity.getItems().getStackInSlot(i));
-                }
-                if (level instanceof ServerLevel) {
-                    Containers.dropContents(level, pos, stacks);
-                }
-                super.onRemove(state, level, pos, newState, isMoving);
-            } else {
-                super.onRemove(state, level, pos, newState, isMoving);
-            }
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (blockEntity instanceof Container container) {
+            Containers.dropContents(level, pos, container);
+            level.updateNeighbourForOutputSignal(pos, this);
         }
-
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if (level.getBlockEntity(pos) instanceof NukeFatManBlockEntity entity) {
-            if (!level.isClientSide) {
-                player.openMenu(new SimpleMenuProvider(entity, entity.getDisplayName()), pos);
-            }
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        if (player.isSpectator()) {
+            player.displayClientMessage(Component.literal("You can open GUIs while in spectator").withStyle(ChatFormatting.RED), true);
+            return InteractionResult.FAIL;
         }
 
-        return ItemInteractionResult.SUCCESS;
+        if (level.isClientSide) {
+            return InteractionResult.SUCCESS;
+        }
+
+        if (!player.isShiftKeyDown()) {
+            BlockEntity blockentity = level.getBlockEntity(pos);
+            if (blockentity instanceof MenuProvider be) {
+                player.openMenu(new SimpleMenuProvider(be, be.getDisplayName()), pos);
+            }
+            return InteractionResult.CONSUME;
+        }
+
+        return InteractionResult.SUCCESS;
     }
 
     public static final MapCodec<NukeManBlock> CODEC = simpleCodec(NukeManBlock::new);
@@ -94,9 +93,7 @@ public class NukeManBlock extends BaseEntityBlock implements IBomb {
             NukeFatManBlockEntity blockEntity = (NukeFatManBlockEntity) level.getBlockEntity(pos);
             if (blockEntity == null) return BombReturnCode.UNDEFINED;
             if (blockEntity.isReady()) {
-                for (int i = 0; i < blockEntity.getItems().getSlots(); i++) {
-                    blockEntity.getItems().insertItem(i, ItemStack.EMPTY, false);
-                }
+                blockEntity.slots.clear();
                 level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
                 NukeExplosionMK5.statFac(level, MainConfig.COMMON.MAN_RADIUS.get(), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
                 NukeTorex.statFacStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, MainConfig.COMMON.MAN_RADIUS.get());

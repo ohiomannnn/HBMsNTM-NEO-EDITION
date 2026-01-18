@@ -1,7 +1,5 @@
 package com.hbm.inventory;
 
-import com.hbm.HBMsNTM;
-import com.hbm.config.MainConfig;
 import com.hbm.items.ModItems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
@@ -14,47 +12,19 @@ import java.util.List;
 
 public class RecipesCommon {
 
-    public static ItemStack[] copyStackArray(ItemStack[] array) {
-
-        if (array == null) return null;
-
-        ItemStack[] clone = new ItemStack[array.length];
-
-        for (int i = 0; i < array.length; i++) {
-
-            if (array[i] != null) clone[i] = array[i].copy();
-        }
-
-        return clone;
-    }
-
-    public static ItemStack[] objectToStackArray(Object[] array) {
-
-        if (array == null) return null;
-
-        ItemStack[] clone = new ItemStack[array.length];
-
-        for (int i = 0; i < array.length; i++) {
-
-            if (array[i] instanceof ItemStack) clone[i] = (ItemStack)array[i];
-        }
-
-        return clone;
-    }
-
     public static abstract class AStack implements Comparable<AStack> {
 
-        public int stackSize;
+        public int size;
 
         /**
-         * Whether the supplied itemstack is applicable for a recipe (e.g. anvils). Slightly different from {@code isApplicable}.
+         * Whether the supplied item stack is applicable for a recipe (e.g. anvils). Slightly different from {@code isApplicable}.
          * @param stack the ItemStack to check
          * @param ignoreSize whether size should be ignored entirely or if the ItemStack needs to be >at least< the same size as this' size
          */
         public abstract boolean matchesRecipe(ItemStack stack, boolean ignoreSize);
 
         public abstract AStack copy();
-        public abstract AStack copy(int stackSize);
+        public abstract AStack copy(int size);
 
         /**
          * Generates either an ItemStack or an ArrayList of ItemStacks
@@ -74,71 +44,52 @@ public class RecipesCommon {
     public static class ComparableStack extends AStack {
 
         public Item item;
-        //public int meta; meta? i dont know you
 
         public ComparableStack(ItemStack stack) {
             if (stack.isEmpty()) {
                 this.item = ModItems.NOTHING.get();
-                this.stackSize = 1;
+                this.size = 1;
                 return;
             }
-            try {
-                this.item = stack.getItem();
-                if (this.item == null) ModItems.NOTHING.get(); //i'm going to bash some fuckard's head in
-                this.stackSize = stack.getCount();
-            } catch (Exception ex) {
-                this.item = ModItems.NOTHING.get();
-                if (!MainConfig.COMMON.ENABLE_SILENT_COMPSTACK_ERRORS.get()) {
-                    ex.printStackTrace();
-                }
-            }
+            this.item = stack.getItem();
+            this.size = stack.getCount();
         }
 
         public ComparableStack makeSingular() {
-            stackSize = 1;
+            size = 1;
             return this;
         }
 
         public ComparableStack(Item item) {
             this.item = item;
-            if (this.item == null) this.item = ModItems.NOTHING.get();
-            this.stackSize = 1;
+            this.size = 1;
         }
 
         public ComparableStack(Block item) {
             this.item = item.asItem();
-            this.stackSize = 1;
+            this.size = 1;
         }
 
         public ComparableStack(Block item, int stackSize) {
             this.item = item.asItem();
-            this.stackSize = stackSize;
+            this.size = stackSize;
         }
 
         public ComparableStack(Item item, int stackSize) {
             this(item);
-            this.stackSize = stackSize;
+            this.size = stackSize;
         }
 
         public ItemStack toStack() {
-            return new ItemStack(item == null ? ModItems.NOTHING.get() : item, stackSize);
+            return new ItemStack(item, size);
         }
 
         @Override
         public int hashCode() {
-
-            if (item == null) {
-                if (!MainConfig.COMMON.ENABLE_SILENT_COMPSTACK_ERRORS.get()) {
-                    HBMsNTM.LOGGER.error("ComparableStack has a null item! This is a serious issue!");
-                    Thread.dumpStack();
-                }
-                item = ModItems.NOTHING.get();
-            }
-
             final int prime = 31;
             int result = 1;
-            result = prime * result +  BuiltInRegistries.ITEM.getKey(item).hashCode(); //using the int ID will cause fucky-wuckys if IDs are scrambled
-            result = prime * result + stackSize;
+            result = prime * result + BuiltInRegistries.ITEM.getKey(item).hashCode(); //using the int ID will cause fucky-wuckys if IDs are scrambled
+            result = prime * result + size;
             return result;
         }
 
@@ -148,11 +99,12 @@ public class RecipesCommon {
             if (obj == null) return false;
             if (getClass() != obj.getClass()) return false;
             ComparableStack other = (ComparableStack) obj;
-            if(item == null) {
-                if(other.item != null) return false;
-            } else if(!item.equals(other.item))
+            if (item == null) {
+                if (other.item != null) return false;
+            } else if (!item.equals(other.item)) {
                 return false;
-            return stackSize == other.stackSize;
+            }
+            return size == other.size;
         }
 
         @Override
@@ -170,7 +122,7 @@ public class RecipesCommon {
 
         @Override
         public ComparableStack copy() {
-            return new ComparableStack(item, stackSize);
+            return new ComparableStack(item, size);
         }
 
         @Override
@@ -178,13 +130,12 @@ public class RecipesCommon {
             return new ComparableStack(item, stackSize);
         }
 
-
         @Override
         public boolean matchesRecipe(ItemStack stack, boolean ignoreSize) {
 
             if (stack == null) return false;
             if (stack.getItem() != this.item) return false;
-            if (!ignoreSize && stack.getCount() < this.stackSize) return false;
+            if (!ignoreSize && stack.getCount() < this.size) return false;
 
             return true;
         }
@@ -222,9 +173,8 @@ public class RecipesCommon {
             if (getClass() != obj.getClass()) return false;
             StateBlock other = (StateBlock) obj;
             if (state == null) {
-                if (other.state != null) return false;
-            } else if (!state.equals(other.state)) return false;
-            return true;
+                return other.state == null;
+            } else return state.equals(other.state);
         }
     }
 }

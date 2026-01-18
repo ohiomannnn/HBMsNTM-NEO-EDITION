@@ -19,12 +19,12 @@ public class SatelliteLaser extends Satellite {
 
     @Override
     public void writeToNBT(CompoundTag nbt) {
-        nbt.putLong("lastOp", lastOp);
+        nbt.putLong("LastOP", lastOp);
     }
 
     @Override
     public void readFromNBT(CompoundTag nbt) {
-        lastOp = nbt.getLong("lastOp");
+        lastOp = nbt.getLong("LastOP");
     }
 
     @Override

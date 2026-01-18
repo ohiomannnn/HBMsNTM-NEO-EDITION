@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": "hbmsntm:crashed_bomb_balefire",
+  "step": "top_layer_modification"
+}

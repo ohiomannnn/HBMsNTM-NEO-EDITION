@@ -1,6 +1,5 @@
 package com.hbm.blockentity.machine.storage;
 
-import com.hbm.HBMsNTM;
 import com.hbm.HBMsNTMClient;
 import com.hbm.blockentity.IPersistentNBT;
 import com.hbm.blockentity.ModBlockEntities;
@@ -241,7 +240,6 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
         tag.putByteArray("power", this.power.toByteArray());
         tag.putBoolean("muffled", muffled);
         nbt.put(NBT_PERSISTENT_KEY, tag);
-        HBMsNTM.LOGGER.info(tag.getAsString());
     }
 
     @Override
@@ -249,6 +247,5 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
         CompoundTag tag = nbt.getCompound(NBT_PERSISTENT_KEY);
         this.power = new BigInteger(tag.getByteArray("power"));
         this.muffled = tag.getBoolean("muffled");
-        HBMsNTM.LOGGER.info(tag.getAsString());
     }
 }

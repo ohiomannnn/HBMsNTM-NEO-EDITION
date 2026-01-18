@@ -91,7 +91,8 @@ public class EntityProcessorStandard implements IEntityProcessor {
                     entity.setDeltaMovement(entity.getDeltaMovement().add(velocity));
 
                     if (entity instanceof Player player) {
-                        if (!player.isSpectator() && !player.isCreative()) {
+                        if (!player.isSpectator() && !player.getAbilities().flying) {
+                            player.hurtMarked = true;
                             affectedPlayers.put(player, velocity);
                         }
                     }

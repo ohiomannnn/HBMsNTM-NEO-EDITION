@@ -76,8 +76,8 @@ public class GenericRecipe {
     public GenericRecipe outputFluids(FluidStack... output) { this.outputFluid = output; return this; }
 
     private boolean exceedsStackLimit(AStack stack) {
-        if (stack instanceof ComparableStack && stack.stackSize > ((ComparableStack) stack).item.getMaxStackSize(((ComparableStack) stack).toStack())) return true;
-        if (stack.stackSize > 64) return true;
+        if (stack instanceof ComparableStack && stack.size > ((ComparableStack) stack).item.getMaxStackSize(((ComparableStack) stack).toStack())) return true;
+        if (stack.size > 64) return true;
         return false;
     }
 

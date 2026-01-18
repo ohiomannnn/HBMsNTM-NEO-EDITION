@@ -43,7 +43,7 @@ public class RenderNTMSkybox {
 
     @Unique
     private void hbmsntm$renderDigammaStar(Matrix4f modelView, float partialTicks) {
-        if (!MainConfig.CLIENT.SKY_RENDERER.get()) return;
+        if (!MainConfig.CLIENT.ENABLE_NTM_SKYBOX.get()) return;
         Minecraft mc = Minecraft.getInstance();
 
         Level level = mc.level;
@@ -91,7 +91,7 @@ public class RenderNTMSkybox {
 
     @Unique
     private void hbmsntm$renderBobmazonSat(Matrix4f modelView) {
-        if (!MainConfig.CLIENT.SKY_RENDERER.get()) return;
+        if (!MainConfig.CLIENT.ENABLE_NTM_SKYBOX.get()) return;
         Minecraft mc = Minecraft.getInstance();
 
         Level level = mc.level;
@@ -134,7 +134,7 @@ public class RenderNTMSkybox {
 
     @Unique
     private void hbmsntm$renderLodeStar(Matrix4f modelView) {
-        if (!MainConfig.CLIENT.SKY_RENDERER.get()) return;
+        if (!MainConfig.CLIENT.ENABLE_NTM_SKYBOX.get()) return;
         Minecraft mc = Minecraft.getInstance();
 
         Level level = mc.level;

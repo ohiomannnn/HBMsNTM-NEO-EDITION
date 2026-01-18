@@ -17,15 +17,14 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class ModMenuTypes {
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(Registries.MENU, HBMsNTM.MODID);
 
-    public static final DeferredHolder<MenuType<?>, MenuType<MachineSatLinkerMenu>> SAT_LINKER = register("sat_linker", MachineSatLinkerMenu::new);
+    public static final DeferredHolder<MenuType<?>, MenuType<MachineSatLinkerMenu>> SAT_LINKER = reg("sat_linker", MachineSatLinkerMenu::new);
 
-    public static final DeferredHolder<MenuType<?>, MenuType<BatterySocketMenu>> BATTERY_SOCKET = register("battery_socket", BatterySocketMenu::new);
-    public static final DeferredHolder<MenuType<?>, MenuType<BatteryREDDMenu>> BATTERY_REDD = register("battery_redd", BatteryREDDMenu::new);
+    public static final DeferredHolder<MenuType<?>, MenuType<BatterySocketMenu>> BATTERY_SOCKET = reg("battery_socket", BatterySocketMenu::new);
+    public static final DeferredHolder<MenuType<?>, MenuType<BatteryREDDMenu>> BATTERY_REDD = reg("battery_redd", BatteryREDDMenu::new);
 
-    // NUKES GOES HERE
-    public static final DeferredHolder<MenuType<?>, MenuType<NukeFatManMenu>> NUKE_FATMAN = register("nuke_fatman", NukeFatManMenu::new);
+    public static final DeferredHolder<MenuType<?>, MenuType<NukeFatManMenu>> NUKE_FATMAN = reg("nuke_fatman", NukeFatManMenu::new);
 
-    private static <T extends AbstractContainerMenu> DeferredHolder<MenuType<?>, MenuType<T>> register(String name, IContainerFactory<T> factory) {
+    private static <T extends AbstractContainerMenu> DeferredHolder<MenuType<?>, MenuType<T>> reg(String name, IContainerFactory<T> factory) {
         return MENUS.register(name, () -> IMenuTypeExtension.create(factory));
     }
 

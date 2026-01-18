@@ -22,12 +22,12 @@ public class BatterySocketScreen extends InfoScreen<BatterySocketMenu> {
 
     private static final ResourceLocation TEXTURE = HBMsNTM.withDefaultNamespaceNT("textures/gui/storage/gui_battery_socket.png");
 
-    public BatterySocketBlockEntity battery;
+    public BatterySocketBlockEntity be;
 
     public BatterySocketScreen(BatterySocketMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
 
-        this.battery = menu.socket;
+        this.be = menu.be;
 
         this.imageWidth = 176;
         this.imageHeight = 181;
@@ -37,23 +37,23 @@ public class BatterySocketScreen extends InfoScreen<BatterySocketMenu> {
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
 
-        if (battery.slots.getFirst().getItem() instanceof IBatteryItem batteryItem) {
-            String deltaText = BobMathUtil.getShortNumber(Math.abs(battery.delta)) + "HE/s";
+        if (be.slots.getFirst().getItem() instanceof IBatteryItem batteryItem) {
+            String deltaText = BobMathUtil.getShortNumber(Math.abs(be.delta)) + "HE/s";
 
-            if (battery.delta > 0) deltaText = ChatFormatting.GREEN + "+" + deltaText;
-            else if (battery.delta < 0) deltaText = ChatFormatting.RED + "-" + deltaText;
+            if (be.delta > 0) deltaText = ChatFormatting.GREEN + "+" + deltaText;
+            else if (be.delta < 0) deltaText = ChatFormatting.RED + "-" + deltaText;
             else deltaText = ChatFormatting.YELLOW + "+" + deltaText;
 
             List<Component> info = List.of(
-                    Component.literal(BobMathUtil.getShortNumber(batteryItem.getCharge(battery.slots.getFirst())) + "/"
-                            + BobMathUtil.getShortNumber(batteryItem.getMaxCharge(battery.slots.getFirst())) + "HE"),
+                    Component.literal(BobMathUtil.getShortNumber(batteryItem.getCharge(be.slots.getFirst())) + "/"
+                            + BobMathUtil.getShortNumber(batteryItem.getMaxCharge(be.slots.getFirst())) + "HE"),
                     Component.literal(deltaText)
             );
 
             this.drawCustomInfoStat(guiGraphics, mouseX, mouseY, leftPos + 62, topPos + 69 - 52, 34, 52, mouseX, mouseY, info);
         }
 
-        String lang = switch (battery.priority) {
+        String lang = switch (be.priority) {
             case LOW -> "low";
             case HIGH -> "high";
             default -> "normal";
@@ -79,7 +79,7 @@ public class BatterySocketScreen extends InfoScreen<BatterySocketMenu> {
         if (this.checkClick((int) x, (int) y, 106, 52, 18, 18)) { this.click(); tag.putBoolean("high", true); }
         if (this.checkClick((int) x, (int) y, 125, 35, 16, 16)) { this.click(); tag.putBoolean("priority", true); }
 
-        if (!tag.isEmpty()) PacketDistributor.sendToServer(new CompoundTagControl(tag, battery.getBlockPos()));
+        if (!tag.isEmpty()) PacketDistributor.sendToServer(new CompoundTagControl(tag, be.getBlockPos()));
 
         return super.mouseClicked(x, y, button);
     }
@@ -88,9 +88,9 @@ public class BatterySocketScreen extends InfoScreen<BatterySocketMenu> {
     protected void renderBg(GuiGraphics guiGraphics, float v, int i, int partialTicks) {
         guiGraphics.blit(TEXTURE, this.leftPos, this.topPos, 0, 0, imageWidth, imageHeight);
 
-        if (battery.slots.getFirst().getItem() instanceof IBatteryItem batteryItem) {
-            long power = batteryItem.getCharge(battery.slots.getFirst());
-            long maxPower = batteryItem.getMaxCharge(battery.slots.getFirst());
+        if (be.slots.getFirst().getItem() instanceof IBatteryItem batteryItem) {
+            long power = batteryItem.getCharge(be.slots.getFirst());
+            long maxPower = batteryItem.getMaxCharge(be.slots.getFirst());
             if (power > Long.MAX_VALUE / 100) {
                 power /= 100;
                 maxPower /= 100;
@@ -100,9 +100,9 @@ public class BatterySocketScreen extends InfoScreen<BatterySocketMenu> {
             guiGraphics.blit(TEXTURE, this.leftPos + 62, this.topPos + 69 - p, 176, 52 - p, 34, p);
         }
 
-        guiGraphics.blit(TEXTURE, this.leftPos + 106, this.topPos + 16, 176, 52 + battery.redLow * 18, 18, 18);
-        guiGraphics.blit(TEXTURE, this.leftPos + 106, this.topPos + 52, 176, 52 + battery.redHigh * 18, 18, 18);
-        guiGraphics.blit(TEXTURE, this.leftPos + 125, this.topPos + 35, 194, 52 + battery.priority.ordinal() * 16 - 16, 16, 16);
+        guiGraphics.blit(TEXTURE, this.leftPos + 106, this.topPos + 16, 176, 52 + be.redLow * 18, 18, 18);
+        guiGraphics.blit(TEXTURE, this.leftPos + 106, this.topPos + 52, 176, 52 + be.redHigh * 18, 18, 18);
+        guiGraphics.blit(TEXTURE, this.leftPos + 125, this.topPos + 35, 194, 52 + be.priority.ordinal() * 16 - 16, 16, 16);
     }
 
     @Override

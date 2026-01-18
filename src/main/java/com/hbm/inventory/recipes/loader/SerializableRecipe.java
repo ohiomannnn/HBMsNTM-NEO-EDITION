@@ -39,7 +39,7 @@ public abstract class SerializableRecipe {
     }
 
     public static void initialize() {
-        File recDir = new File(CommonEvents.configDir.getAbsolutePath() + File.separatorChar + "hbmRecipes");
+        File recDir = new File(HBMsNTM.configDir.getAbsolutePath() + File.separatorChar + "hbmRecipes");
 
         if (!recDir.exists()) {
             if (!recDir.mkdir()) {

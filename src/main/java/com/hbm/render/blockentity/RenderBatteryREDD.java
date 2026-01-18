@@ -58,7 +58,7 @@ public class RenderBatteryREDD implements BlockEntityRenderer<BatteryREDDBlockEn
         poseStack.translate(0F, -5.5F, 0F);
 
         ResourceManager.battery_redd.renderPart("Wheel",  poseStack, consumer, packedLight, packedOverlay);
-        ResourceManager.battery_redd.renderPart("Lights",  poseStack, consumer, 255, packedOverlay);
+        ResourceManager.battery_redd.renderPart("Lights",  poseStack, consumer, 240, packedOverlay);
 
         poseStack.pushPose();
         poseStack.translate(0F, 5.5F, 0F);
@@ -131,14 +131,14 @@ public class RenderBatteryREDD implements BlockEntityRenderer<BatteryREDDBlockEn
         VertexConsumer plasmaConsumer = buffer.getBuffer(CustomRenderTypes.entityAdditive(ResourceManager.FUSION_PLASMA_TEX));
         VertexConsumer offsetConsumer = new OffsetVertexConsumer(plasmaConsumer, 0, (float) mainOsc);
         ((HFRWavefrontObject) ResourceManager.battery_redd)
-                .renderPart("Plasma", poseStack, offsetConsumer, 255, packedOverlay, r, g, b, alpha * alphaMult);
+                .renderPart("Plasma", poseStack, offsetConsumer, 240, packedOverlay, r, g, b, alpha * alphaMult);
 
         // cost-cutting measure, don't render extra layers from more than 100m away
         if (HBMsNTMClient.me().distanceToSqr(be.getBlockPos().getX() + 0.5, be.getBlockPos().getY() + 2.5, be.getBlockPos().getZ()) < 100 * 100) {
             VertexConsumer sparkleConsumer = buffer.getBuffer(CustomRenderTypes.entityAdditive(ResourceManager.FUSION_PLASMA_SPARKLE_TEX));
             VertexConsumer offsetSparkleConsumer = new OffsetVertexConsumer(sparkleConsumer, (float) sparkleSpin, (float) sparkleOsc);
             ((HFRWavefrontObject) ResourceManager.battery_redd)
-                    .renderPart("Plasma", poseStack, offsetSparkleConsumer, 255, packedOverlay, r * 2, g * 2, b * 2, 0.75F * alphaMult);
+                    .renderPart("Plasma", poseStack, offsetSparkleConsumer, 240, packedOverlay, r * 2, g * 2, b * 2, 0.75F * alphaMult);
         }
     }
 
@@ -197,5 +197,10 @@ public class RenderBatteryREDD implements BlockEntityRenderer<BatteryREDDBlockEn
         }
 
         return bb;
+    }
+
+    @Override
+    public int getViewDistance() {
+        return 256;
     }
 }
