@@ -2,10 +2,14 @@ package com.hbm.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 import net.neoforged.api.distmarker.Dist;
@@ -76,12 +80,10 @@ public class ExplosionSmallParticle extends RotatingParticle {
         this.alpha = (float) Math.pow(1 - Math.min(ageScaled, 1), 0.25);
 
         float scale = (float) ((0.25 + 1 - Math.pow(1 - ageScaled, 4) + (this.age + partialTicks) * 0.02) * this.quadSize);
-        this.renderParticleRotated(consumer, camera, this.rCol, this.gCol, this.bCol, this.alpha * 0.5F, scale, partialTicks, 240);
-    }
 
-    @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+        MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+        this.renderParticleRotated(buffer, RenderType.entityTranslucent(TextureAtlas.LOCATION_PARTICLES), camera, this.rCol, this.gCol, this.bCol, this.alpha * 0.5F, scale, partialTicks, 240);
+        buffer.endBatch();
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {

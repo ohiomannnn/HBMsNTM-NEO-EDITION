@@ -2,15 +2,21 @@ package com.hbm.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.*;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
-import org.joml.Quaternionf;
 import org.joml.Vector3f;
-
-import java.util.Random;
 
 public class ParticleExSmoke extends TextureSheetParticle {
 
@@ -64,11 +70,10 @@ public class ParticleExSmoke extends TextureSheetParticle {
     }
 
     @Override
-    public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
-        Quaternionf quaternionf = new Quaternionf(camera.rotation());
+    public void render(VertexConsumer ignored, Camera camera, float partialTicks) {
         Vec3 camPos = camera.getPosition();
 
-        Random urandom = new Random(this.hashCode());
+        RandomSource urandom = RandomSource.create(this.hashCode());
 
         for (int i = 0; i < 6; i++) {
             this.rCol = this.gCol = this.bCol = urandom.nextFloat() * 0.25F + 0.25F;
@@ -77,31 +82,58 @@ public class ParticleExSmoke extends TextureSheetParticle {
             float pY = (float)(Mth.lerp(partialTicks, this.yo, this.y) - camPos.y() + (urandom.nextGaussian() - 1D) * 0.75F);
             float pZ = (float)(Mth.lerp(partialTicks, this.zo, this.z) - camPos.z() + (urandom.nextGaussian() - 1D) * 0.75F);
 
-            float size = urandom.nextFloat() + 0.5F;
-            float U0 = this.getU0();
-            float U1 = this.getU1();
-            float V0 = this.getV0();
-            float V1 = this.getV1();
-            int color = this.getLightColor(partialTicks);
-            this.renderVertex(consumer, quaternionf, pX, pY, pZ, 1.0F, -1.0F, size, U1, V1, color);
-            this.renderVertex(consumer, quaternionf, pX, pY, pZ, 1.0F, 1.0F, size, U1, V0, color);
-            this.renderVertex(consumer, quaternionf, pX, pY, pZ, -1.0F, 1.0F, size, U0, V0, color);
-            this.renderVertex(consumer, quaternionf, pX, pY, pZ, -1.0F, -1.0F, size, U0, V1, color);
+            this.quadSize = urandom.nextFloat() + 0.5F;
+
+            MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+            this.renderQuad(buffer, pX, pY, pZ, camera, this.quadSize, this.getLightColor(partialTicks));
+            buffer.endBatch();
         }
     }
 
-    private void renderVertex(VertexConsumer buffer, Quaternionf quaternion, float x, float y, float z, float xOffset, float yOffset, float quadSize, float u, float v, int packedLight) {
-        Vector3f vector3f = (new Vector3f(xOffset, yOffset, 0.0F)).rotate(quaternion).mul(quadSize).add(x, y, z);
-        buffer.addVertex(vector3f.x(), vector3f.y(), vector3f.z()).setUv(u, v).setColor(this.rCol, this.gCol, this.bCol, this.alpha).setLight(packedLight);
+    private void renderQuad(MultiBufferSource.BufferSource buffer, float pX, float pY, float pZ, Camera camera, float scale, int brightness) {
+
+        float u0 = sprite.getU0();
+        float u1 = sprite.getU1();
+        float v0 = sprite.getV0();
+        float v1 = sprite.getV1();
+
+        Vector3f l = new Vector3f(camera.getLeftVector()).mul(scale);
+        Vector3f u = new Vector3f(camera.getUpVector()).mul(scale);
+
+        VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(TextureAtlas.LOCATION_PARTICLES));
+
+        consumer.addVertex(pX - l.x - u.x, pY - l.y - u.y, pZ - l.z - u.z)
+                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
+                .setUv(u1, v1)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(brightness)
+                .setNormal(0.0F, 1.0F, 0.0F);
+        consumer.addVertex(pX - l.x + u.x, pY - l.y + u.y, pZ - l.z + u.z)
+                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
+                .setUv(u1, v0)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(brightness)
+                .setNormal(0.0F, 1.0F, 0.0F);
+        consumer.addVertex(pX + l.x + u.x, pY + l.y + u.y, pZ + l.z + u.z)
+                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
+                .setUv(u0, v0)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(brightness)
+                .setNormal(0.0F, 1.0F, 0.0F);
+        consumer.addVertex(pX + l.x - u.x, pY + l.y - u.y, pZ + l.z - u.z)
+                .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
+                .setUv(u0, v1)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
+                .setLight(brightness)
+                .setNormal(0.0F, 1.0F, 0.0F);
     }
 
     @Override
     public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+        return CustomRenderType.NONE;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
-
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double vx, double vy, double vz) {
             return new ParticleExSmoke(level, x, y, z);

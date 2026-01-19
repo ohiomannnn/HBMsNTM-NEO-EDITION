@@ -1,21 +1,14 @@
 package com.hbm.inventory.menus;
 
 import com.hbm.blockentity.bomb.NukeFatManBlockEntity;
-import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.ModMenuTypes;
 import com.hbm.inventory.SlotNonRetarded;
-import com.hbm.items.ModItems;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.ItemStackHandler;
-import net.neoforged.neoforge.items.SlotItemHandler;
 
 public class NukeFatManMenu extends AbstractContainerMenu {
 
@@ -26,7 +19,7 @@ public class NukeFatManMenu extends AbstractContainerMenu {
     }
 
     public NukeFatManMenu(int id, Inventory inventory, NukeFatManBlockEntity blockEntity) {
-        super(ModMenuTypes.NUKE_FATMAN.get(), id);
+        super(ModMenuTypes.NUKE_FAT_MAN.get(), id);
 
         this.be = blockEntity;
 

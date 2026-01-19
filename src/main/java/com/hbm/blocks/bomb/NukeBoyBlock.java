@@ -1,5 +1,6 @@
 package com.hbm.blocks.bomb;
 
+import com.hbm.blockentity.bomb.NukeBoyBlockEntity;
 import com.hbm.blockentity.bomb.NukeFatManBlockEntity;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.effect.NukeTorex;
@@ -19,11 +20,11 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 
-public class NukeManBlock extends BaseEntityBlock implements IBomb {
+public class NukeBoyBlock extends BaseEntityBlock implements IBomb {
 
     public static final DirectionProperty FACING;
 
-    public NukeManBlock(Properties properties) {
+    public NukeBoyBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(((this.stateDefinition.any()).setValue(FACING, Direction.NORTH)));
     }
@@ -69,24 +70,24 @@ public class NukeManBlock extends BaseEntityBlock implements IBomb {
         return InteractionResult.SUCCESS;
     }
 
-    public static final MapCodec<NukeManBlock> CODEC = simpleCodec(NukeManBlock::new);
-    @Override protected MapCodec<NukeManBlock> codec() { return CODEC; }
+    public static final MapCodec<NukeBoyBlock> CODEC = simpleCodec(NukeBoyBlock::new);
+    @Override protected MapCodec<NukeBoyBlock> codec() { return CODEC; }
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new NukeFatManBlockEntity(pos, state);
+        return new NukeBoyBlockEntity(pos, state);
     }
 
     @Override
     public BombReturnCode explode(Level level, BlockPos pos) {
         if (!level.isClientSide) {
-            NukeFatManBlockEntity blockEntity = (NukeFatManBlockEntity) level.getBlockEntity(pos);
+            NukeBoyBlockEntity blockEntity = (NukeBoyBlockEntity) level.getBlockEntity(pos);
             if (blockEntity == null) return BombReturnCode.UNDEFINED;
             if (blockEntity.isReady()) {
                 blockEntity.slots.clear();
                 level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
-                NukeExplosionMK5.statFac(level, MainConfig.COMMON.MAN_RADIUS.get(), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-                NukeTorex.statFacStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, MainConfig.COMMON.MAN_RADIUS.get());
+                NukeExplosionMK5.statFac(level, MainConfig.COMMON.BOY_RADIUS.get(), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+                NukeTorex.statFacStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, MainConfig.COMMON.BOY_RADIUS.get());
                 return BombReturnCode.DETONATED;
             }
             return BombReturnCode.ERROR_MISSING_COMPONENT;

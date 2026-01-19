@@ -15,7 +15,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class BatteryREDDMenu extends AbstractContainerMenu {
 
-    public BatteryREDDBlockEntity be;
+    public final BatteryREDDBlockEntity be;
 
     public BatteryREDDMenu(int id, Inventory inventory, FriendlyByteBuf extraData) {
         this(id, inventory, (BatteryREDDBlockEntity) CompatExternal.getCoreFromPos(inventory.player.level(), extraData.readBlockPos()));

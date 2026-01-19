@@ -25,7 +25,6 @@ public class Bomber extends PlaneBase {
     int bombStop = 125;
     int bombRate = 3;
     int type = 0;
-    public int getBomberType() { return this.type; } // sure
 
     private static final EntityDataAccessor<Byte> STYLE = SynchedEntityData.defineId(Bomber.class, EntityDataSerializers.BYTE);
     public byte getBomberStyle() { return this.entityData.get(STYLE); }

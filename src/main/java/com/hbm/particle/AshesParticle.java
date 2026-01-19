@@ -3,10 +3,15 @@ package com.hbm.particle;
 import com.hbm.util.Vec3NT;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
@@ -92,7 +97,7 @@ public class AshesParticle extends RotatingParticle {
     }
 
     @Override
-    public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
+    public void render(VertexConsumer ignored, Camera camera, float partialTicks) {
         Vec3 cameraPosition = camera.getPosition();
         float timeLeft = this.lifetime - (this.age + partialTicks);
 
@@ -103,6 +108,9 @@ public class AshesParticle extends RotatingParticle {
         }
 
         if (this.onGround) {
+            BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+            VertexConsumer consumer = buffer.getBuffer(RenderType.entityTranslucent(TextureAtlas.LOCATION_PARTICLES));
+
             float pX = (float)(Mth.lerp(partialTicks, this.xo, this.x) - cameraPosition.x);
             float pY = (float)(Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y);
             float pZ = (float)(Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z);
@@ -117,33 +125,39 @@ public class AshesParticle extends RotatingParticle {
             int light = this.getLightColor(partialTicks);
 
             consumer.addVertex((float) (pX + vec.xCoord), pY + 0.15F, (float) (pZ + vec.zCoord))
+                    .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
                     .setUv(u1, v1)
-                    .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
-                    .setLight(light);
+                    .setOverlay(OverlayTexture.NO_OVERLAY)
+                    .setLight(light)
+                    .setNormal(0.0F, 1.0F, 0.0F);
             vec.rotateAroundYDeg(90);
             consumer.addVertex((float) (pX + vec.xCoord), pY + 0.15F, (float) (pZ + vec.zCoord))
+                    .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
                     .setUv(u1, v0)
-                    .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
-                    .setLight(light);
+                    .setOverlay(OverlayTexture.NO_OVERLAY)
+                    .setLight(light)
+                    .setNormal(0.0F, 1.0F, 0.0F);
             vec.rotateAroundYDeg(90);
             consumer.addVertex((float) (pX + vec.xCoord), pY + 0.15F, (float) (pZ + vec.zCoord))
+                    .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
                     .setUv(u0, v0)
-                    .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
-                    .setLight(light);
+                    .setOverlay(OverlayTexture.NO_OVERLAY)
+                    .setLight(light)
+                    .setNormal(0.0F, 1.0F, 0.0F);
             vec.rotateAroundYDeg(90);
             consumer.addVertex((float) (pX + vec.xCoord), pY + 0.15F, (float) (pZ + vec.zCoord))
-                    .setUv(u0, v1)
                     .setColor(this.rCol, this.gCol, this.bCol, this.alpha)
-                    .setLight(light);
+                    .setUv(u0, v1)
+                    .setOverlay(OverlayTexture.NO_OVERLAY)
+                    .setLight(light)
+                    .setNormal(0.0F, 1.0F, 0.0F);
+
+            buffer.endBatch();
         } else {
-            this.renderParticleRotated(consumer, camera, this.rCol, this.gCol, this.bCol, this.alpha, this.quadSize, partialTicks, this.getLightColor(partialTicks));
+            BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+            this.renderParticleRotated(buffer, RenderType.entityTranslucent(TextureAtlas.LOCATION_PARTICLES), camera, this.rCol, this.gCol, this.bCol, this.alpha, this.quadSize, partialTicks, this.getLightColor(partialTicks));
+            buffer.endBatch();
         }
-    }
-
-
-    @Override
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {

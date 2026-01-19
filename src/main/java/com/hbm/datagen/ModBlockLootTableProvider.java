@@ -2,27 +2,19 @@ package com.hbm.datagen;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
-import net.minecraft.advancements.critereon.EnchantmentPredicate;
-import net.minecraft.advancements.critereon.ItemPredicate;
-import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.AlternativesEntry;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
-import net.minecraft.world.level.storage.loot.functions.ApplyExplosionDecay;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
-import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
@@ -51,7 +43,8 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.BRICK_CONCRETE_BROKEN_STAIRS.get());
         dropSelf(ModBlocks.BRICK_CONCRETE_CRACKED_STAIRS.get());
 
-        dropSelf(ModBlocks.NUKE_FATMAN.get());
+        this.dropSelf(ModBlocks.NUKE_LITTLE_BOY.get());
+        this.dropSelf(ModBlocks.NUKE_FAT_MAN.get());
 
         dropSelf(ModBlocks.URANIUM_BLOCK.get());
 
@@ -94,6 +87,8 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         dropSelf(ModBlocks.GEIGER.get());
         dropSelf(ModBlocks.CABLE.get());
+
+        this.dropSelf(ModBlocks.MACHINE_PRESS.get());
 
         this.dropSelf(ModBlocks.MACHINE_BATTERY_SOCKET.get());
         this.dropSelf(ModBlocks.MACHINE_BATTERY_REDD.get());

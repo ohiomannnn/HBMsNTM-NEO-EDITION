@@ -346,7 +346,16 @@ public class ModBlocks {
             )
     );
 
-    public static final DeferredBlock<Block> NUKE_FATMAN = registerBlock("nuke_fatman",
+    public static final DeferredBlock<Block> NUKE_LITTLE_BOY = registerBlock(
+            "nuke_little_boy",
+            () -> new NukeBoyBlock(BlockBehaviour.Properties.of()
+                    .strength(5.0F)
+                    .explosionResistance(200.0F)
+                    .noOcclusion()
+                    .sound(SoundType.METAL)
+            ));
+    public static final DeferredBlock<Block> NUKE_FAT_MAN = registerBlock(
+            "nuke_fat_man",
             () -> new NukeManBlock(BlockBehaviour.Properties.of()
                     .strength(5.0F)
                     .explosionResistance(200.0F)

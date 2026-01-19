@@ -15,7 +15,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class BatterySocketMenu extends AbstractContainerMenu {
 
-    public BatterySocketBlockEntity be;
+    public final BatterySocketBlockEntity be;
 
     public BatterySocketMenu(int id, Inventory inventory, FriendlyByteBuf extraData) {
         this(id, inventory, (BatterySocketBlockEntity) CompatExternal.getCoreFromPos(inventory.player.level(), extraData.readBlockPos()));

@@ -22,22 +22,19 @@ public class CustomRenderTypes {
                 RenderSystem.blendFuncSeparate(770, 771, 1, 0);
             },
             () -> {
-                RenderSystem.disableBlend();
                 RenderSystem.defaultBlendFunc();
+                RenderSystem.disableBlend();
             });
 
     private static final TransparencyStateShard ADDITIVE_BLEND = new TransparencyStateShard(
             "additive",
             () -> {
-                RenderSystem.enableDepthTest();
                 RenderSystem.enableBlend();
                 RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
-                RenderSystem.depthMask(false);
             },
             () -> {
-                RenderSystem.depthMask(true);
-                RenderSystem.disableBlend();
                 RenderSystem.defaultBlendFunc();
+                RenderSystem.disableBlend();
             });
 
     public static final RenderType GLOW = RenderType.create(
@@ -65,8 +62,10 @@ public class CustomRenderTypes {
                         .setCullState(RenderType.NO_CULL)
                         .setLightmapState(RenderType.LIGHTMAP)
                         .setOverlayState(RenderType.OVERLAY)
+                        .setWriteMaskState(RenderType.COLOR_WRITE)
+                        .setDepthTestState(RenderType.LEQUAL_DEPTH_TEST)
                         .createCompositeState(false);
-                return RenderType.create("additive", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 128, true, true, state);
+                return RenderType.create("additive", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, state);
             }
     );
 
@@ -79,8 +78,9 @@ public class CustomRenderTypes {
                         .setCullState(RenderType.NO_CULL)
                         .setLightmapState(RenderType.LIGHTMAP)
                         .setOverlayState(RenderType.OVERLAY)
+                        .setWriteMaskState(RenderType.COLOR_DEPTH_WRITE)
                         .createCompositeState(false);
-                return RenderType.create("smoth", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 128, true, true, state);
+                return RenderType.create("smoth", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, state);
             }
     );
 

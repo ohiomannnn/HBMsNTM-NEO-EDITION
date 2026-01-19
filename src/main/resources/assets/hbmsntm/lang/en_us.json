@@ -150,7 +150,9 @@
   "block.hbmsntm.sellafield_bedrock": "Bedrock Sellafite",
   "block.hbmsntm.ore_sellafield_emerald": "Sellafite Emerald Ore",
   "block.hbmsntm.ore_sellafield_diamond": "Sellafite Diamond Ore",
-  "block.hbmsntm.nuke_fatman": "Fat Man",
+
+  "block.hbmsntm.nuke_little_boy": "Little Boy",
+  "block.hbmsntm.nuke_fat_man": "Fat Man",
 
   "block.hbmsntm.gas_coal": "Airborne Coal Dust",
   "block.hbmsntm.gas_asbestos": "Airborne Asbestos Particles",
@@ -214,10 +216,15 @@
 
   "item.hbmsntm.early_explosive_lenses": "Array of First-Generation High-Explosive Lenses",
   "item.hbmsntm.early_explosive_lenses.desc": "Assembly of 8 high-explosive lenses with an aluminium$pusher, duraluminium shell, and bridgewire detonators.",
-  "item.hbmsntm.man_core": "Plutonium Core",
-  "item.hbmsntm.man_igniter": "Bomb Firing Unit",
 
-  "desc.gui.nukeMan.desc": "§1Requires:§r$ * 4 Arrays of First-Generation$   High-Explosive Lenses$ * Plutonium Core$ * Bomb Firing Unit",
+  "item.hbmsntm.little_boy_shielding": "Neutron Shielding",
+  "item.hbmsntm.little_boy_target": "Subcritical U235 Target",
+  "item.hbmsntm.little_boy_bullet": "U235 Projectile",
+  "item.hbmsntm.little_boy_propellant": "Propellant",
+  "item.hbmsntm.little_boy_igniter": "Bomb Igniter",
+
+  "item.hbmsntm.fat_man_core": "Plutonium Core",
+  "item.hbmsntm.fat_man_igniter": "Bomb Firing Unit",
 
   "satchip.frequency": "Satellite frequency: %s",
   "item.hbmsntm.satellite_laser": "Orbital Death Ray",
@@ -475,5 +482,8 @@
   "container.satLinker": "SatLink Device",
   "container.batterySocket": "Battery Socket",
   "container.batteryREDD": "FEnSU",
-  "container.nukeFatman": "Fat Man"
+  "container.nukeFatMan": "Fat Man",
+  "gui.nukeFatMan.desc": "§1Requires:§r$ * 4 Arrays of First-Generation$   High-Explosive Lenses$ * Plutonium Core$ * Bomb Firing Unit",
+  "container.nukeLittleBoy": "Little Boy",
+  "gui.nukeLittleBoy.desc": "§1Requires:§r$ * Neutron Shielding$ * U235 Projectile$ * Subcritical U235 Target$ * Propellant$ * Bomb Igniter"
 }

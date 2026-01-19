@@ -1,10 +1,7 @@
 package com.hbm.blockentity;
 
 import com.hbm.HBMsNTM;
-import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
-import com.hbm.blockentity.bomb.DetCordBlockEntity;
-import com.hbm.blockentity.bomb.LandMineBlockEntity;
-import com.hbm.blockentity.bomb.NukeFatManBlockEntity;
+import com.hbm.blockentity.bomb.*;
 import com.hbm.blockentity.machine.MachinePressBlockEntity;
 import com.hbm.blockentity.machine.MachineSatLinkerBlockEntity;
 import com.hbm.blockentity.machine.DecontaminatorBlockEntity;
@@ -102,13 +99,19 @@ public class ModBlockEntities {
                             ModBlocks.DET_CORD.get())
                     .build(null));
 
+    public static final Supplier<BlockEntityType<NukeBoyBlockEntity>> NUKE_LITTLE_BOY = REGISTER.register(
+            "nuke_little_boy",
+            () -> BlockEntityType.Builder.of(
+                    NukeBoyBlockEntity::new,
+                    ModBlocks.NUKE_LITTLE_BOY.get()
+            ).build(null));
 
-    public static final Supplier<BlockEntityType<NukeFatManBlockEntity>> NUKE_FATMAN = REGISTER.register(
-            "nuke_fatman",
+    public static final Supplier<BlockEntityType<NukeFatManBlockEntity>> NUKE_FAT_MAN = REGISTER.register(
+            "nuke_fat_man",
             () -> BlockEntityType.Builder.of(
                             NukeFatManBlockEntity::new,
-                            ModBlocks.NUKE_FATMAN.get())
-                    .build(null));
+                            ModBlocks.NUKE_FAT_MAN.get()
+                    ).build(null));
 
     public static final Supplier<BlockEntityType<GeigerBlockEntity>> GEIGER_COUNTER = REGISTER.register(
             "geiger_counter",

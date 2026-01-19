@@ -70,7 +70,7 @@ public class ParticleDebris extends TextureSheetParticle {
         this.rotationYaw += rng.nextFloat() * 10;
 
         if (this.hashCode() % 3 == 0) {
-            ParticleRocketFlame particle = new ParticleRocketFlame(this.level, this.x, this.y, this.z);
+            RocketFlameParticle particle = new RocketFlameParticle(this.level, this.x, this.y, this.z);
             particle.setScale(1F * Math.max(world.sizeY, 6) / 16F);
             particle.resetPrevPos();
             particle.setMaxAge(50);

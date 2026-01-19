@@ -480,7 +480,8 @@ public class HBMsNTMClient {
 
         ItemProperties.register(ModItems.POLAROID.get(), HBMsNTM.withDefaultNamespaceNT("polaroid_id"), (stack, level, entity, seed) -> PolaroidItem.polaroidID);
 
-        event.registerBlockEntityRenderer(ModBlockEntities.NUKE_FATMAN.get(), RenderNukeFatMan::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.NUKE_LITTLE_BOY.get(), RenderNukeLittleBoy::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.NUKE_FAT_MAN.get(), RenderNukeFatMan::new);
 
         event.registerBlockEntityRenderer(ModBlockEntities.LANDMINE.get(), RenderLandMine::new);
 
@@ -543,7 +544,7 @@ public class HBMsNTMClient {
         event.registerSpriteSet(ModParticles.DEAD_LEAF.get(), DeadLeafParticle.Provider::new);
         event.registerSpriteSet(ModParticles.AURA.get(), ParticleAura.Provider::new);
         event.registerSpriteSet(ModParticles.RAD_FOG.get(), RadiationFogParticle.Provider::new);
-        event.registerSpecial(ModParticles.ROCKET_FLAME.get(), new ParticleRocketFlame.Provider());
+        event.registerSpecial(ModParticles.ROCKET_FLAME.get(), new RocketFlameParticle.Provider());
         event.registerSpecial(ModParticles.SKELETON.get(), new SkeletonParticle.Provider());
         event.registerSpriteSet(ModParticles.HADRON.get(), ParticleHadron.Provider::new);
 
@@ -590,7 +591,7 @@ public class HBMsNTMClient {
                 double mY = data.getDouble("moY");
                 double mZ = data.getDouble("moZ");
 
-                ParticleRocketFlame particle = new ParticleRocketFlame(level, x, y, z).setScale(scale);
+                RocketFlameParticle particle = new RocketFlameParticle(level, x, y, z).setScale(scale);
                 particle.setParticleSpeed(mX, mY, mZ);
                 if (data.contains("maxAge")) particle.setMaxAge(data.getInt("maxAge"));
                 innerMc.particleEngine.add(particle);
@@ -724,7 +725,7 @@ public class HBMsNTMClient {
                     double width = data.getDouble("width");
 
                     for (int i = 0; i < count; i++) {
-                        ParticleRocketFlame particle = new ParticleRocketFlame(level, x + rand.nextGaussian() * width, y, z + rand.nextGaussian() * width);
+                        RocketFlameParticle particle = new RocketFlameParticle(level, x + rand.nextGaussian() * width, y, z + rand.nextGaussian() * width);
                         particle.setParticleSpeed(0, -0.75 + rand.nextDouble() * 0.5, 0);
                         innerMc.particleEngine.add(particle);
                     }
@@ -740,7 +741,7 @@ public class HBMsNTMClient {
 
                     for (int i = 0; i < count; i++) {
 
-                        ParticleRocketFlame particle = new ParticleRocketFlame(level, x + rand.nextGaussian() * width, y + rand.nextGaussian() * width, z + rand.nextGaussian() * width);
+                        RocketFlameParticle particle = new RocketFlameParticle(level, x + rand.nextGaussian() * width, y + rand.nextGaussian() * width, z + rand.nextGaussian() * width);
                         innerMc.particleEngine.add(particle);
                     }
                 }

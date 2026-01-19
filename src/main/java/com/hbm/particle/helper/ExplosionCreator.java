@@ -3,7 +3,7 @@ package com.hbm.particle.helper;
 import com.hbm.lib.ModSounds;
 import com.hbm.particle.ParticleDebris;
 import com.hbm.particle.ParticleMukeWave;
-import com.hbm.particle.ParticleRocketFlame;
+import com.hbm.particle.RocketFlameParticle;
 import com.hbm.wiaj.WorldInAJar;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -79,10 +79,9 @@ public class ExplosionCreator implements IParticleCreator {
         float debrisVerticalOffset = data.getFloat("debrisVerticalOffset");
         float soundRange = data.getFloat("soundRange");
 
-        double distSq = player.distanceToSqr(x, y, z);
+        double dist = Math.sqrt(player.distanceToSqr(x, y, z));
 
-        if (distSq <= soundRange * soundRange) {
-            double dist = Math.sqrt(distSq);
+        if (dist <= soundRange) {
             SoundEvent sound = dist <= soundRange * 0.4 ? ModSounds.EXPLOSION_LARGE_NEAR.get() : ModSounds.EXPLOSION_LARGE_FAR.get();
             SimpleSoundInstance instance = new SimpleSoundInstance(sound, SoundSource.BLOCKS, 1000.0F, 0.9F + rand.nextFloat() * 0.2F, rand, x, y, z);
             Minecraft.getInstance().getSoundManager().playDelayed(instance, (int) (dist / SPEED_OF_SOUND));
@@ -95,7 +94,7 @@ public class ExplosionCreator implements IParticleCreator {
 
         // SMOKE PLUME
         for (int i = 0; i < cloudCount; i++) {
-            ParticleRocketFlame particle = new ParticleRocketFlame(level, x, y, z).setScale(cloudScale);
+            RocketFlameParticle particle = new RocketFlameParticle(level, x, y, z).setScale(cloudScale);
             particle.resetPrevPos();
             particle.setParticleSpeed(
                     rand.nextGaussian() * 0.5 * cloudSpeedMultiplier,

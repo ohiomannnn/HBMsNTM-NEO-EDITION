@@ -5,25 +5,22 @@ import com.hbm.blockentity.ModBlockEntities;
 import com.hbm.inventory.menus.NukeFatManMenu;
 import com.hbm.items.ModItems;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.items.ItemStackHandler;
 
 public class NukeFatManBlockEntity extends MachineBaseBlockEntity implements MenuProvider {
 
     public NukeFatManBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.NUKE_FATMAN.get(), pos, state, 6);
+        super(ModBlockEntities.NUKE_FAT_MAN.get(), pos, state, 6);
     }
 
-    @Override public Component getName() { return Component.translatable("container.nukeFatman"); }
+    @Override public Component getName() { return Component.translatable("container.nukeFatMan"); }
 
     @Override public void updateEntity() { }
 
@@ -34,7 +31,8 @@ public class NukeFatManBlockEntity extends MachineBaseBlockEntity implements Men
 
     @Override
     public boolean canPlaceItem(int slot, ItemStack stack) {
-        return true;
+        Item item = stack.getItem();
+        return item == ModItems.EARLY_EXPLOSIVE_LENSES.get() || item == ModItems.FAT_MAN_IGNITER.get() || item == ModItems.FAT_MAN_CORE.get();
     }
 
     public boolean exp1() {
@@ -55,8 +53,8 @@ public class NukeFatManBlockEntity extends MachineBaseBlockEntity implements Men
 
     public boolean isReady() {
         if (this.exp1() && this.exp2() && this.exp3() && this.exp4()) {
-            return slots.get(0).getItem() == ModItems.MAN_IGNITER.get() &&
-                    slots.get(5).getItem() == ModItems.MAN_CORE.get();
+            return slots.get(0).getItem() == ModItems.FAT_MAN_IGNITER.get() &&
+                    slots.get(5).getItem() == ModItems.FAT_MAN_CORE.get();
         }
 
         return false;
@@ -64,6 +62,7 @@ public class NukeFatManBlockEntity extends MachineBaseBlockEntity implements Men
 
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
+        if (player.isSpectator()) return null;
         return new NukeFatManMenu(id, inventory, this);
     }
 }

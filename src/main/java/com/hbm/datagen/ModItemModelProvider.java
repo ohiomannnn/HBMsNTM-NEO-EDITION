@@ -116,8 +116,14 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         this.basicItem(ModItems.EARLY_EXPLOSIVE_LENSES.get());
 
-        this.basicItem(ModItems.MAN_IGNITER.get());
-        this.basicItem(ModItems.MAN_CORE.get());
+        this.basicItem(ModItems.LITTLE_BOY_SHIELDING.get());
+        this.basicItem(ModItems.LITTLE_BOY_TARGET.get());
+        this.basicItem(ModItems.LITTLE_BOY_BULLET.get());
+        this.basicItem(ModItems.LITTLE_BOY_PROPELLANT.get());
+        this.basicItem(ModItems.LITTLE_BOY_IGNITER.get());
+
+        this.basicItem(ModItems.FAT_MAN_IGNITER.get());
+        this.basicItem(ModItems.FAT_MAN_CORE.get());
     }
 
     public ItemModelBuilder bombCallerItem(Item item) {

@@ -1,10 +1,7 @@
 package com.hbm.inventory;
 
 import com.hbm.HBMsNTM;
-import com.hbm.inventory.menus.BatteryREDDMenu;
-import com.hbm.inventory.menus.BatterySocketMenu;
-import com.hbm.inventory.menus.MachineSatLinkerMenu;
-import com.hbm.inventory.menus.NukeFatManMenu;
+import com.hbm.inventory.menus.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -22,7 +19,8 @@ public class ModMenuTypes {
     public static final DeferredHolder<MenuType<?>, MenuType<BatterySocketMenu>> BATTERY_SOCKET = reg("battery_socket", BatterySocketMenu::new);
     public static final DeferredHolder<MenuType<?>, MenuType<BatteryREDDMenu>> BATTERY_REDD = reg("battery_redd", BatteryREDDMenu::new);
 
-    public static final DeferredHolder<MenuType<?>, MenuType<NukeFatManMenu>> NUKE_FATMAN = reg("nuke_fatman", NukeFatManMenu::new);
+    public static final DeferredHolder<MenuType<?>, MenuType<NukeLittleBoyMenu>> NUKE_LITTLE_BOY = reg("nuke_little_boy", NukeLittleBoyMenu::new);
+    public static final DeferredHolder<MenuType<?>, MenuType<NukeFatManMenu>> NUKE_FAT_MAN = reg("nuke_fat_man", NukeFatManMenu::new);
 
     private static <T extends AbstractContainerMenu> DeferredHolder<MenuType<?>, MenuType<T>> reg(String name, IContainerFactory<T> factory) {
         return MENUS.register(name, () -> IMenuTypeExtension.create(factory));

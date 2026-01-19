@@ -18,11 +18,7 @@ import com.hbm.hazard.HazardSystem;
 import com.hbm.inventory.ItemManager;
 import com.hbm.inventory.ModMenuTypes;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.menus.BatteryREDDMenu;
-import com.hbm.inventory.screens.BatteryREDDScreen;
-import com.hbm.inventory.screens.BatterySocketScreen;
-import com.hbm.inventory.screens.MachineSatLinkerScreen;
-import com.hbm.inventory.screens.NukeFatManScreen;
+import com.hbm.inventory.screens.*;
 import com.hbm.items.ModItems;
 import com.hbm.network.toclient.InformPlayer;
 import com.hbm.saveddata.satellite.Satellite;
@@ -71,8 +67,6 @@ public class CommonEvents {
         if (!HBMsNTM.configHbmDir.exists()) {
             HBMsNTM.configHbmDir.mkdirs();
         }
-
-        HBMsNTM.LOGGER.info("Hello world!");
 
         HTTPHandler.loadStats();
         FalloutConfigJSON.initialize();
@@ -171,7 +165,8 @@ public class CommonEvents {
         event.register(ModMenuTypes.BATTERY_SOCKET.get(), BatterySocketScreen::new);
         event.register(ModMenuTypes.BATTERY_REDD.get(), BatteryREDDScreen::new);
 
-        event.register(ModMenuTypes.NUKE_FATMAN.get(), NukeFatManScreen::new);
+        event.register(ModMenuTypes.NUKE_FAT_MAN.get(), NukeFatManScreen::new);
+        event.register(ModMenuTypes.NUKE_LITTLE_BOY.get(), NukeLittleBoyScreen::new);
     }
 
     @SubscribeEvent

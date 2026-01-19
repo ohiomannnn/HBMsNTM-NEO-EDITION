@@ -1,6 +1,8 @@
 package com.hbm.render.blockentity;
 
+import com.hbm.blockentity.bomb.NukeBoyBlockEntity;
 import com.hbm.blockentity.bomb.NukeFatManBlockEntity;
+import com.hbm.blocks.bomb.NukeBoyBlock;
 import com.hbm.blocks.bomb.NukeManBlock;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.loader.IModelCustom;
@@ -17,27 +19,29 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 
-public class RenderNukeFatMan implements BlockEntityRenderer<NukeFatManBlockEntity> {
+public class RenderNukeLittleBoy implements BlockEntityRenderer<NukeBoyBlockEntity> {
 
-    public RenderNukeFatMan(BlockEntityRendererProvider.Context ignored) { }
+    public RenderNukeLittleBoy(BlockEntityRendererProvider.Context ignored) { }
 
     @Override
-    public void render(NukeFatManBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+    public void render(NukeBoyBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
 
-        Direction facing = be.getBlockState().getValue(NukeManBlock.FACING);
+        Direction facing = be.getBlockState().getValue(NukeBoyBlock.FACING);
         float rot = switch (facing) {
-            case EAST -> 90f;
-            case NORTH -> 180f;
-            case WEST -> 270f;
-            default -> 0f;
+            case DOWN, UP -> 0.0F;
+            case NORTH -> 0F;
+            case EAST -> 270F;
+            case SOUTH -> 180F;
+            case WEST -> 90F;
         };
 
         poseStack.pushPose();
         poseStack.translate(0.5, 0.0, 0.5);
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
+        poseStack.translate(-2.0F, 0.0F, 0.0F);
 
-        VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.NUKE_FAT_MAN_TEX));
-        ResourceManager.nuke_fat_man.renderAll(poseStack, consumer, packedLight, packedOverlay);
+        VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.NUKE_LITTLE_BOY_TEX));
+        ResourceManager.nuke_little_boy.renderAll(poseStack, consumer, packedLight, packedOverlay);
 
         poseStack.popPose();
     }

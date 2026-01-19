@@ -2,11 +2,8 @@ package com.hbm.inventory;
 
 import com.hbm.HBMsNTM;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.inventory.fluid.FluidType;
-import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.BatteryPackItem;
-import com.hbm.items.machine.FluidIconItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -121,28 +118,40 @@ public class ModCreativeTabs {
 
     public static final Supplier<CreativeModeTab> BOMBS = CREATIVE_MODE_TABS.register(
             "bombs",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.NUKE_FATMAN.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.NUKE_FAT_MAN.get()))
                     .withTabsBefore(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "machines"))
                     .title(Component.translatable("creative_tab.hbmsntm.bombs"))
                     .backgroundTexture(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/gui/nuke_tab.png"))
                     .displayItems((itemDisplayParameters, output) -> {
-                        output.accept(ModBlocks.NUKE_FATMAN);
-                        output.accept(ModItems.EARLY_EXPLOSIVE_LENSES);
-                        output.accept(ModItems.MAN_CORE);
-                        output.accept(ModItems.MAN_IGNITER);
+                        output.accept(ModBlocks.NUKE_LITTLE_BOY);
+                        output.accept(ModBlocks.NUKE_FAT_MAN);
+
+                        output.accept(ModBlocks.CRASHED_BOMB_BALEFIRE);
+                        output.accept(ModBlocks.CRASHED_BOMB_CONVENTIONAL);
+                        output.accept(ModBlocks.CRASHED_BOMB_NUKE);
+                        output.accept(ModBlocks.CRASHED_BOMB_SALTED);
+
                         output.accept(ModBlocks.MINE_AP);
                         output.accept(ModBlocks.MINE_SHRAP);
                         output.accept(ModBlocks.MINE_HE);
                         output.accept(ModBlocks.MINE_FAT);
                         output.accept(ModBlocks.MINE_NAVAL);
-                        output.accept(ModBlocks.CRASHED_BOMB_BALEFIRE);
-                        output.accept(ModBlocks.CRASHED_BOMB_CONVENTIONAL);
-                        output.accept(ModBlocks.CRASHED_BOMB_NUKE);
-                        output.accept(ModBlocks.CRASHED_BOMB_SALTED);
+
                         output.accept(ModBlocks.DET_CORD);
                         output.accept(ModBlocks.DET_CHARGE);
                         output.accept(ModBlocks.DET_NUKE);
                         output.accept(ModBlocks.DET_MINER);
+
+                        output.accept(ModItems.LITTLE_BOY_SHIELDING);
+                        output.accept(ModItems.LITTLE_BOY_TARGET);
+                        output.accept(ModItems.LITTLE_BOY_BULLET);
+                        output.accept(ModItems.LITTLE_BOY_PROPELLANT);
+                        output.accept(ModItems.LITTLE_BOY_IGNITER);
+
+                        output.accept(ModItems.EARLY_EXPLOSIVE_LENSES);
+                        output.accept(ModItems.FAT_MAN_CORE);
+                        output.accept(ModItems.FAT_MAN_IGNITER);
+
                         output.accept(ModItems.DETONATOR);
                         output.accept(ModItems.MULTI_DETONATOR);
                         output.accept(ModItems.DETONATOR_DEADMAN);

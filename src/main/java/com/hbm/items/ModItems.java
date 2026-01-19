@@ -301,16 +301,16 @@ public class ModItems {
             "satellite_interface",
             () -> new SatelliteInterfaceItem(new Item.Properties().stacksTo(1)));
 
-    public static final DeferredItem<Item> EARLY_EXPLOSIVE_LENSES = ITEMS.register(
-            "early_explosive_lenses",
-            () -> new LoreItem(new Item.Properties()));
+    public static final DeferredItem<Item> EARLY_EXPLOSIVE_LENSES = ITEMS.register("early_explosive_lenses", () -> new LoreItem(new Item.Properties()));
 
-    public static final DeferredItem<Item> MAN_IGNITER = ITEMS.register(
-            "man_igniter",
-            () -> new Item(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> MAN_CORE = ITEMS.register(
-            "man_core",
-            () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
+    public static final DeferredItem<Item> LITTLE_BOY_SHIELDING = ITEMS.register("little_boy_shielding", () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> LITTLE_BOY_TARGET = ITEMS.register("little_boy_target", () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
+    public static final DeferredItem<Item> LITTLE_BOY_BULLET = ITEMS.register("little_boy_bullet", () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
+    public static final DeferredItem<Item> LITTLE_BOY_PROPELLANT = ITEMS.register("little_boy_propellant", () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> LITTLE_BOY_IGNITER = ITEMS.register("little_boy_igniter", () -> new Item(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> FAT_MAN_IGNITER = ITEMS.register("fat_man_igniter", () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> FAT_MAN_CORE = ITEMS.register("fat_man_core", () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
