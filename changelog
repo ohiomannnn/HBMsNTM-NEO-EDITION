@@ -1,13 +1,20 @@
 ## Added
-* Custom obj loader
-  * Better performance (pls), better shading, etc
-* Airstrike Designators
-  * Only 3 right now
-* Det cord explosive
+* Machines!
+  * FEnSU - used for storing infinity amount of energy
+  * Red copper cable - used for transferring energy
+  * Battery socket - used for storing batteries with energy
+  * Works like original mod!
+* Little boy bomb
+  * Guess what it does
+* World generation
+  * Crashed bombs, as well mines now will generate in your world
+* Duck button
 
 ## Changed
-* 500 particle changes
+* Nukes guis
+* Particle rendering method (ONCE AGAIN)
+* Items icons
 
 ## Fixed
-* Broken hud keybind
-* Geiger counter block is now actually listed in creative tab
+* Explosion did knockback while flying
+* Creative tab items misplacing

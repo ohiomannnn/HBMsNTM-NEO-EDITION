@@ -165,8 +165,8 @@ public class CommonEvents {
         event.register(ModMenuTypes.BATTERY_SOCKET.get(), BatterySocketScreen::new);
         event.register(ModMenuTypes.BATTERY_REDD.get(), BatteryREDDScreen::new);
 
-        event.register(ModMenuTypes.NUKE_FAT_MAN.get(), NukeFatManScreen::new);
         event.register(ModMenuTypes.NUKE_LITTLE_BOY.get(), NukeLittleBoyScreen::new);
+        event.register(ModMenuTypes.NUKE_FAT_MAN.get(), NukeFatManScreen::new);
     }
 
     @SubscribeEvent
