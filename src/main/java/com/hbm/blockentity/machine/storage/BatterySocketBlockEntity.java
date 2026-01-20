@@ -4,7 +4,6 @@ import api.hbm.energymk2.IBatteryItem;
 import com.hbm.blockentity.ModBlockEntities;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.inventory.menus.BatterySocketMenu;
-import com.hbm.util.BufferUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
@@ -14,9 +13,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class BatterySocketBlockEntity extends BatteryBaseBlockEntity {
@@ -24,7 +23,9 @@ public class BatterySocketBlockEntity extends BatteryBaseBlockEntity {
     public long[] log = new long[20];
     public long delta = 0;
 
-    public ItemStack syncStack;
+    public long syncPower = 0;
+    public long syncMaxPower = 0;
+    public ItemStack syncStack = ItemStack.EMPTY;
 
     public BatterySocketBlockEntity(BlockPos pos, BlockState blockState) {
         super(ModBlockEntities.BATTERY_SOCKET.get(), pos, blockState, 1);
@@ -53,15 +54,19 @@ public class BatterySocketBlockEntity extends BatteryBaseBlockEntity {
     @Override
     public void serialize(ByteBuf buf, RegistryAccess registryAccess) {
         super.serialize(buf, registryAccess);
-        buf.writeLong(delta);
-        BufferUtil.writeItemStack(buf, this.slots.getFirst(), registryAccess);
+        buf.writeLong(this.delta);
+        buf.writeLong(this.getPower());
+        buf.writeLong(this.getMaxPower());
+        buf.writeInt(Item.getId(slots.get(0).getItem()));
     }
 
     @Override
     public void deserialize(ByteBuf buf, RegistryAccess registryAccess) {
         super.deserialize(buf, registryAccess);
-        delta = buf.readLong();
-        this.syncStack = BufferUtil.readItemStack(buf, registryAccess);
+        this.delta = buf.readLong();
+        this.syncPower = buf.readLong();
+        this.syncMaxPower = buf.readLong();
+        this.syncStack = new ItemStack(Item.byId(buf.readInt()), 1);
     }
 
     @Override

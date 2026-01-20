@@ -40,7 +40,7 @@ public class RenderBatterySocket implements BlockEntityRenderer<BatterySocketBlo
         ResourceManager.battery_socket.renderPart("Socket", poseStack, consumerSocket, packedLight, packedOverlay);
 
         ItemStack render = be.syncStack;
-        if (render != null && !render.isEmpty()) {
+        if (!render.isEmpty()) {
             if (render.getItem() instanceof BatteryPackItem packItem) {
                 VertexConsumer consumerPack = buffer.getBuffer(RenderType.entityCutoutNoCull(packItem.getPack().texture));
                 ResourceManager.battery_socket.renderPart(packItem.getPack().isCapacitor() ? "Capacitor" : "Battery", poseStack, consumerPack, packedLight, packedOverlay);

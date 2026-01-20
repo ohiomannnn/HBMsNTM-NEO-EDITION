@@ -3,6 +3,7 @@ package com.hbm;
 import com.hbm.blockentity.IGUIProvider;
 import com.hbm.blockentity.ModBlockEntities;
 import com.hbm.blocks.ICustomBlockHighlight;
+import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.BalefireBlock;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
@@ -82,6 +83,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
@@ -186,7 +188,7 @@ public class HBMsNTMClient {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onRenderGuiPre(RenderGuiEvent.Pre event) {
-
+        Minecraft mc = Minecraft.getInstance();
         LocalPlayer player = Minecraft.getInstance().player;
 
         /// NUKE SHAKE ///
@@ -199,6 +201,21 @@ public class HBMsNTMClient {
 
         if (!player.getMainHandItem().isEmpty() && player.getMainHandItem().getItem() instanceof IItemHUD hudProvider) {
             hudProvider.renderHUD(event, player, player.getMainHandItem());
+        }
+
+        HitResult hr = mc.hitResult;
+        Level level = mc.level;
+
+        if (hr != null) {
+            if (hr.getType() == Type.BLOCK) {
+                BlockHitResult bhr = (BlockHitResult) hr;
+                if (player.getMainHandItem().getItem() instanceof ILookOverlay ilo) {
+                    ilo.printHook(event, level, bhr.getBlockPos());
+                }
+                if (level.getBlockState(bhr.getBlockPos()).getBlock() instanceof ILookOverlay ilo) {
+                    ilo.printHook(event, level, bhr.getBlockPos());
+                }
+            }
         }
     }
 

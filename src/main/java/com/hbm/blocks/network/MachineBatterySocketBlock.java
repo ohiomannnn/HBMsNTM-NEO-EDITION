@@ -5,7 +5,9 @@ import com.hbm.blockentity.ProxyComboBlockEntity;
 import com.hbm.blockentity.machine.storage.BatterySocketBlockEntity;
 import com.hbm.blocks.DummyBlockType;
 import com.hbm.blocks.DummyableBlock;
+import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
+import com.hbm.util.BobMathUtil;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -22,10 +24,12 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.neoforged.neoforge.client.event.RenderGuiEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class MachineBatterySocketBlock extends DummyableBlock implements ITooltipProvider {
+public class MachineBatterySocketBlock extends DummyableBlock implements ITooltipProvider, ILookOverlay {
 
     public MachineBatterySocketBlock(Properties properties) {
         super(properties);
@@ -39,6 +43,12 @@ public class MachineBatterySocketBlock extends DummyableBlock implements IToolti
             case EXTRA -> new ProxyComboBlockEntity(pos, state).inventory().power().conductor();
             default -> null;
         };
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        if (state.getValue(TYPE) != DummyBlockType.CORE) return null;
+        return level.isClientSide ? null : BaseEntityBlock.createTickerHelper(type, ModBlockEntities.BATTERY_SOCKET.get(), BatterySocketBlockEntity::serverTick);
     }
 
     @Override public int[] getDimensions() { return new int[] {1, 0, 1, 0, 1, 0}; }
@@ -66,14 +76,41 @@ public class MachineBatterySocketBlock extends DummyableBlock implements IToolti
         return this.standardOpenBehavior(level, pos, player, 0);
     }
 
+    public boolean hasAnalogOutputSignal(BlockState state) {
+        return true;
+    }
+
+    public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+        BlockPos corePos = this.findCore(level, pos);
+        if (corePos == null) return 0;
+        if (level.getBlockEntity(corePos) instanceof BatterySocketBlockEntity be) {
+            return be.getComparatorPower();
+        }
+        return 0;
+    }
+
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
         this.addStandardInfo(components);
     }
 
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        if (state.getValue(TYPE) != DummyBlockType.CORE) return null;
-        return level.isClientSide ? null : BaseEntityBlock.createTickerHelper(type, ModBlockEntities.BATTERY_SOCKET.get(), BatterySocketBlockEntity::serverTick);
+    public void printHook(RenderGuiEvent.Pre event, Level level, BlockPos pos) {
+        BlockPos corePos = this.findCore(level, pos);
+        if (corePos == null) return;
+        if (level.getBlockEntity(corePos) instanceof BatterySocketBlockEntity be) {
+            if (be.syncStack.isEmpty()) return;
+
+            List<String> text = new ArrayList<>();
+            text.add(BobMathUtil.getShortNumber(be.syncPower) + " / " + BobMathUtil.getShortNumber(be.syncMaxPower) + "HE");
+
+            double percent = (double) be.syncPower / be.syncMaxPower;
+            int charge = (int) Math.floor(percent * 10_000D);
+            int color = ((int) (0xFF - 0xFF * percent)) << 16 | ((int)(0xFF * percent) << 8);
+
+            text.add("&[" + color + "&]" + (charge / 100D) + "%");
+
+            ILookOverlay.printGeneric(event, be.syncStack.getDisplayName().getString(), 0xffff00, 0x404000, text);
+        }
     }
 }
