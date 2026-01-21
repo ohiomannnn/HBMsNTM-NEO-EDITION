@@ -2,6 +2,7 @@ package com.hbm.inventory.fluid;
 
 import api.hbm.fluidmk2.FluidNetMK2;
 import com.hbm.HBMsNTM;
+import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Corrosive;
 import com.hbm.inventory.fluid.trait.FluidTrait;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.*;
@@ -11,8 +12,11 @@ import com.hbm.uninos.networkproviders.FluidNetProvider;
 import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
@@ -204,6 +208,23 @@ public class FluidType {
     public boolean isDispersable() {
         return !(this.traits.containsKey(FT_Amat.class) || this.traits.containsKey(FT_NoContainer.class) || this.traits.containsKey(FT_Viscous.class));
     }
+
+    /**
+     * Called when the tile entity is broken, effectively voiding the fluids.
+     */
+    public void onTankBroken(BlockEntity be, FluidTank tank) { }
+    /**
+     * Called by the tile entity's update loop. Also has an arg for the fluid tank for possible tanks using child-classes that are shielded or treated differently.
+     */
+    public void onTankUpdate(BlockEntity be, FluidTank tank) { }
+    /**
+     * For when the tile entity is releasing this fluid into the world, either by an overflow or (by proxy) when broken.
+     */
+    public void onFluidRelease(BlockEntity be, FluidTank tank, int overflowAmount) {
+        this.onFluidRelease(be.getLevel(), be.getBlockPos(), tank, overflowAmount);
+    }
+
+    public void onFluidRelease(Level level, BlockPos pos, FluidTank tank, int overflowAmount) { }
 
     @OnlyIn(Dist.CLIENT)
     public void addInfo(List<Component> info) {

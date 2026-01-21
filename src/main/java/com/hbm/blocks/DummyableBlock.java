@@ -486,11 +486,6 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
     }
 
     protected InteractionResult standardOpenBehavior(Level level, BlockPos pos, Player player, int guiId) {
-        if (player.isSpectator()) {
-            player.displayClientMessage(Component.literal("You can open GUIs while in spectator").withStyle(ChatFormatting.RED), true);
-            return InteractionResult.FAIL;
-        }
-
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         }

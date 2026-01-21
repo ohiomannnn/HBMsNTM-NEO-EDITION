@@ -14,6 +14,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
@@ -97,11 +98,11 @@ public class FluidTank implements Cloneable {
     }
 
     //Fills tank from canisters
-    public boolean loadTank(Level level, int in, int out, ItemStack[] slots) {
-        if (slots[in] == null) return false;
+    public boolean loadTank(Level level, int in, int out, NonNullList<ItemStack> slots) {
+        if (slots.get(in).isEmpty()) return false;
 
         // TODO: Inf barrel                                         here
-        boolean isInfiniteBarrel = slots[in].getItem() == ModItems.NOTHING.get();
+        boolean isInfiniteBarrel = slots.get(in).getItem() == ModItems.NOTHING.get();
         if (!isInfiniteBarrel && pressure != 0) return false;
 
         int prev = this.getFill();
@@ -116,8 +117,8 @@ public class FluidTank implements Cloneable {
     }
 
     //Fills canisters from tank
-    public boolean unloadTank(Level level, int in, int out, ItemStack[] slots) {
-        if (slots[in] == null) return false;
+    public boolean unloadTank(Level level, int in, int out, NonNullList<ItemStack> slots) {
+        if (slots.get(in).isEmpty()) return false;
 
         int prev = this.getFill();
 
@@ -130,31 +131,31 @@ public class FluidTank implements Cloneable {
         return this.getFill() < prev;
     }
 
-    public boolean setType(int in, ItemStack[] slots) {
+    public boolean setType(int in, NonNullList<ItemStack> slots) {
         return setType(in, in, slots);
     }
 
     /**
      * Changes the tank type and returns true if successful
      */
-    public boolean setType(int in, int out, ItemStack[] slots) {
+    public boolean setType(int in, int out, NonNullList<ItemStack> slots) {
 
-        if (slots[in] != null && slots[in].getItem() instanceof IItemFluidIdentifier id) {
+        if (!slots.get(in).isEmpty() && slots.get(in).getItem() instanceof IItemFluidIdentifier id) {
             if (in == out) {
-                FluidType newType = id.getType(null, BlockPos.ZERO, slots[in]);
+                FluidType newType = id.getType(null, BlockPos.ZERO, slots.get(in));
 
-                if(type != newType) {
+                if (type != newType) {
                     type = newType;
                     fluid = 0;
                     return true;
                 }
 
-            } else if (slots[out] == null) {
-                FluidType newType = id.getType(null, BlockPos.ZERO, slots[in]);
-                if(type != newType) {
+            } else if (slots.get(out).isEmpty()) {
+                FluidType newType = id.getType(null, BlockPos.ZERO, slots.get(in));
+                if (type != newType) {
                     type = newType;
-                    slots[out] = slots[in].copy();
-                    slots[in] = null;
+                    slots.set(out, slots.get(in).copy());
+                    slots.set(in, ItemStack.EMPTY);
                     fluid = 0;
                     return true;
                 }

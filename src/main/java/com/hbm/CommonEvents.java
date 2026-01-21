@@ -162,6 +162,8 @@ public class CommonEvents {
     public static void registerScreens(RegisterMenuScreensEvent event) {
         event.register(ModMenuTypes.SAT_LINKER.get(), MachineSatLinkerScreen::new);
 
+        event.register(ModMenuTypes.FLUID_TANK.get(), MachineFluidTankScreen::new);
+
         event.register(ModMenuTypes.BATTERY_SOCKET.get(), BatterySocketScreen::new);
         event.register(ModMenuTypes.BATTERY_REDD.get(), BatteryREDDScreen::new);
 

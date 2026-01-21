@@ -3,7 +3,10 @@ package com.hbm.util;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Locale;
+import java.util.function.ToIntFunction;
 
 public class BobMathUtil {
 
@@ -174,5 +177,20 @@ public class BobMathUtil {
     /** Soft peak sine */
     public static double sps(double x) {
         return Math.sin(Math.PI / 2D * Math.cos(x));
+    }
+
+    // I am sick of trying to remember the ridiculous quirks of Java 8
+    // so I wrote this thing that can shit any int-ish list-ish into a regular fucking int[]
+    // made by mellow, thrown here by 70k
+    public static int[] intCollectionToArray(Collection<Integer> in) {
+        return intCollectionToArray(in, i -> (int) i);
+    }
+
+    public static int[] intCollectionToArray(Collection<Integer> in, ToIntFunction<? super Object> mapper) {
+        return Arrays.stream(in.toArray()).mapToInt(mapper).toArray();
+    }
+
+    public static int[] collectionToIntArray(Collection<?> in, ToIntFunction<? super Object> mapper) {
+        return Arrays.stream(in.toArray()).mapToInt(mapper).toArray();
     }
 }

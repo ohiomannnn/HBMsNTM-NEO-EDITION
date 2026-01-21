@@ -22,8 +22,8 @@ public interface IPersistentNBT {
 
     String NBT_PERSISTENT_KEY = "persistent";
 
-    void writeNBT(CompoundTag nbt);
-    void readNBT(CompoundTag nbt);
+    void writeNBT(CompoundTag savedTag);
+    void readNBT(CompoundTag savedTag);
 
     default List<ItemStack> getDrops(Block block) {
         List<ItemStack> list = new ArrayList<>();

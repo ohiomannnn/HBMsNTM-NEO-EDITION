@@ -61,7 +61,7 @@ public class CustomRenderTypes {
                         .setTransparencyState(ADDITIVE_BLEND)
                         .setCullState(RenderType.NO_CULL)
                         .setLightmapState(RenderType.LIGHTMAP)
-                        .setOverlayState(RenderType.OVERLAY)
+                        .setOverlayState(RenderType.NO_OVERLAY)
                         .setWriteMaskState(RenderType.COLOR_WRITE)
                         .setDepthTestState(RenderType.LEQUAL_DEPTH_TEST)
                         .createCompositeState(false);
@@ -77,7 +77,7 @@ public class CustomRenderTypes {
                         .setTransparencyState(SEVEN_SEVEN10)
                         .setCullState(RenderType.NO_CULL)
                         .setLightmapState(RenderType.LIGHTMAP)
-                        .setOverlayState(RenderType.OVERLAY)
+                        .setOverlayState(RenderType.NO_OVERLAY)
                         .setWriteMaskState(RenderType.COLOR_DEPTH_WRITE)
                         .createCompositeState(false);
                 return RenderType.create("smoth", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, state);

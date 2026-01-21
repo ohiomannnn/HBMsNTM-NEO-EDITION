@@ -1,5 +1,6 @@
 package com.hbm.blockentity;
 
+import com.hbm.util.fauxpointtwelve.DirPos;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -7,11 +8,11 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.Container;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -192,5 +193,29 @@ public abstract class MachineBaseBlockEntity extends LoadedBaseBlockEntity imple
     @Override
     public void clearContent() {
         slots.clear();
+    }
+
+    public void updateRedstoneConnection(DirPos pos) {
+
+        int x = pos.getX();
+        int y = pos.getY();
+        int z = pos.getZ();
+        Direction dir = pos.getDir();
+        BlockState s = level.getBlockState(pos);
+        Block b = s.getBlock();
+
+        b.onNeighborChange(s, level, pos, this.getBlockPos());
+        if (s.isSolidRender(level, pos)) {
+            x += dir.getStepX();
+            y += dir.getStepY();
+            z += dir.getStepZ();
+            BlockPos newPos = new BlockPos(x, y, z);
+            BlockState s2 = level.getBlockState(pos);
+            Block b2 = s2.getBlock();
+
+            if (b2.getWeakChanges(s2, level, newPos)) {
+                b2.onNeighborChange(s2, level, newPos, this.getBlockPos());
+            }
+        }
     }
 }

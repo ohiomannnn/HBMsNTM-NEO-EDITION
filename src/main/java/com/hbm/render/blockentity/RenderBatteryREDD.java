@@ -17,6 +17,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -58,7 +59,7 @@ public class RenderBatteryREDD implements BlockEntityRenderer<BatteryREDDBlockEn
         poseStack.translate(0F, -5.5F, 0F);
 
         ResourceManager.battery_redd.renderPart("Wheel",  poseStack, consumer, packedLight, packedOverlay);
-        ResourceManager.battery_redd.renderPart("Lights",  poseStack, consumer, 240, packedOverlay);
+        ResourceManager.battery_redd.renderPart("Lights",  poseStack, consumer, LightTexture.FULL_BRIGHT, packedOverlay);
 
         poseStack.pushPose();
         poseStack.translate(0F, 5.5F, 0F);
@@ -131,14 +132,14 @@ public class RenderBatteryREDD implements BlockEntityRenderer<BatteryREDDBlockEn
         VertexConsumer plasmaConsumer = buffer.getBuffer(CustomRenderTypes.entityAdditive(ResourceManager.FUSION_PLASMA_TEX));
         VertexConsumer offsetConsumer = new OffsetVertexConsumer(plasmaConsumer, 0, (float) mainOsc);
         ((HFRWavefrontObject) ResourceManager.battery_redd)
-                .renderPart("Plasma", poseStack, offsetConsumer, 240, packedOverlay, r, g, b, alpha * alphaMult);
+                .renderPart("Plasma", poseStack, offsetConsumer, LightTexture.FULL_BRIGHT, packedOverlay, r, g, b, alpha * alphaMult);
 
         // cost-cutting measure, don't render extra layers from more than 100m away
         if (HBMsNTMClient.me().distanceToSqr(be.getBlockPos().getX() + 0.5, be.getBlockPos().getY() + 2.5, be.getBlockPos().getZ()) < 100 * 100) {
             VertexConsumer sparkleConsumer = buffer.getBuffer(CustomRenderTypes.entityAdditive(ResourceManager.FUSION_PLASMA_SPARKLE_TEX));
             VertexConsumer offsetSparkleConsumer = new OffsetVertexConsumer(sparkleConsumer, (float) sparkleSpin, (float) sparkleOsc);
             ((HFRWavefrontObject) ResourceManager.battery_redd)
-                    .renderPart("Plasma", poseStack, offsetSparkleConsumer, 240, packedOverlay, r * 2, g * 2, b * 2, 0.75F * alphaMult);
+                    .renderPart("Plasma", poseStack, offsetSparkleConsumer, LightTexture.FULL_BRIGHT, packedOverlay, r * 2, g * 2, b * 2, 0.75F * alphaMult);
         }
     }
 

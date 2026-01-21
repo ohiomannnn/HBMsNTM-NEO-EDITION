@@ -101,6 +101,6 @@ public abstract class RotatingParticle extends TextureSheetParticle {
 
     @Override
     public ParticleRenderType getRenderType() {
-        return CustomRenderType.NONE;
+        return ModParticleRenderTypes.NONE;
     }
 }

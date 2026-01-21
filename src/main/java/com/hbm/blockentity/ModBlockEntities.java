@@ -54,6 +54,13 @@ public class ModBlockEntities {
                             ModBlocks.MACHINE_PRESS.get())
                     .build(null));
 
+    public static final Supplier<BlockEntityType<MachineFluidTankBlockEntity>> FLUID_TANK = REGISTER.register(
+            "fluid_tank",
+            () -> BlockEntityType.Builder.of(
+                            MachineFluidTankBlockEntity::new,
+                            ModBlocks.MACHINE_FLUID_TANK.get())
+                    .build(null));
+
     public static final Supplier<BlockEntityType<BatterySocketBlockEntity>> BATTERY_SOCKET = REGISTER.register(
             "battery_socket",
             () -> BlockEntityType.Builder.of(
@@ -73,6 +80,8 @@ public class ModBlockEntities {
             () -> BlockEntityType.Builder.of(
                             ProxyComboBlockEntity::new,
                             ModBlocks.MACHINE_PRESS.get(),
+
+                            ModBlocks.MACHINE_FLUID_TANK.get(),
 
                             ModBlocks.MACHINE_BATTERY_SOCKET.get(),
                             ModBlocks.MACHINE_BATTERY_REDD.get()

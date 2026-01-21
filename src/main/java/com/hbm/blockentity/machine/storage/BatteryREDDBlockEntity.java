@@ -46,10 +46,7 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
     @Override
     public void updateEntity() {
         BigInteger prevPower = new BigInteger(power.toByteArray());
-
-        if (level != null && !level.isClientSide) {
-            super.updateEntity();
-        }
+        super.updateEntity();
 
         if (!level.isClientSide) {
 
@@ -236,16 +233,16 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
     }
 
     @Override
-    public void writeNBT(CompoundTag nbt) {
+    public void writeNBT(CompoundTag savedTag) {
         CompoundTag tag = new CompoundTag();
         tag.putByteArray("power", this.power.toByteArray());
         tag.putBoolean("muffled", muffled);
-        nbt.put(NBT_PERSISTENT_KEY, tag);
+        savedTag.put(NBT_PERSISTENT_KEY, tag);
     }
 
     @Override
-    public void readNBT(CompoundTag nbt) {
-        CompoundTag tag = nbt.getCompound(NBT_PERSISTENT_KEY);
+    public void readNBT(CompoundTag savedTag) {
+        CompoundTag tag = savedTag.getCompound(NBT_PERSISTENT_KEY);
         this.power = new BigInteger(tag.getByteArray("power"));
         this.muffled = tag.getBoolean("muffled");
     }

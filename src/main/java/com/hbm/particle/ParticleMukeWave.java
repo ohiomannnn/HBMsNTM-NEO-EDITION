@@ -78,7 +78,7 @@ public class ParticleMukeWave extends TextureSheetParticle {
 
     @Override
     public ParticleRenderType getRenderType() {
-        return CustomRenderType.NONE;
+        return ModParticleRenderTypes.NONE;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {

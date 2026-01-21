@@ -6,8 +6,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
-import com.hbm.CommonEvents;
 import com.hbm.HBMsNTM;
+import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.fluid.trait.FluidTrait;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.*;
 import com.hbm.render.util.EnumSymbol;
@@ -29,6 +29,13 @@ public class Fluids {
     public static FluidType AIR;
     public static FluidType WATER;
     public static FluidType LAVA;
+
+    public static FluidType GAS;
+
+    public static FluidType AROMATICS;			//anything from benzene to phenol and toluene
+    public static FluidType UNSATURATEDS;		//collection of various basic unsaturated compounds like ethylene, acetylene and whatnot
+
+    public static FluidType OXYGEN;
 
     public static final HashBiMap<String, FluidType> renameMapping = HashBiMap.create();
 
@@ -74,6 +81,13 @@ public class Fluids {
         WATER =					new FluidType("WATER",			0x3333FF, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, UNSIPHONABLE);
         LAVA =					new FluidType("LAVA",				0xFF3300, 4, 0, 0, EnumSymbol.NOWATER).setTemp(1200).addTraits(LIQUID, VISCOUS);
 
+        GAS =					new FluidType("GAS",				0xfffeed, 1, 4, 1, EnumSymbol.NONE).addContainers(new CD_Gastank(0xFF4545, 0xFFE97F)).addTraits(new FT_Flammable(10_000), GASEOUS /*P_GAS*/);
+
+        AROMATICS =				new FluidType("AROMATICS",		0x68A09A, 1, 4, 1, EnumSymbol.NONE).addContainers(new CD_Gastank(0x68A09A, 0xEDCF27)).addTraits(new FT_Flammable(25_000), LIQUID, VISCOUS /*P_GAS*/);
+        UNSATURATEDS =			new FluidType("UNSATURATEDS",		0x628FAE, 1, 4, 1, EnumSymbol.NONE).addContainers(new CD_Gastank(0x628FAE, 0xEDCF27)).addTraits(new FT_Flammable(1_000_000), GASEOUS /*P_GAS*/); //acetylene burns as hot as satan's asshole
+
+        OXYGEN =				new FluidType("OXYGEN",			0x98bdf9, 3, 0, 0, EnumSymbol.CROYGENIC).setTemp(-100).addContainers(new CD_Gastank(0x98bdf9, 0xffffff)).addTraits(LIQUID, EVAP);
+
         // ^ ^ ^ ^ ^ ^ ^ ^
         //ADD NEW FLUIDS HERE
 
@@ -93,6 +107,13 @@ public class Fluids {
         metaOrder.add(AIR);
         metaOrder.add(WATER);
         metaOrder.add(LAVA);
+        //oils, fuels
+        metaOrder.add(GAS);
+
+        metaOrder.add(AROMATICS);
+        metaOrder.add(UNSATURATEDS);
+        //pure elements, cyogenic gasses
+        metaOrder.add(OXYGEN);
 
         //do not forget about this thingy
         metaOrder.addAll(customFluids);

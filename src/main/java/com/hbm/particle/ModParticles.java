@@ -59,19 +59,18 @@ public class ModParticles {
             "digamma_smoke", () -> new SimpleParticleType(true));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SKELETON = REGISTER.register(
             "skeleton", () -> new SimpleParticleType(true));
-
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> FLUID_DEBUG = REGISTER.register(
             "fluid_debug", () -> new SimpleParticleType(true));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> POWER_DEBUG = REGISTER.register(
             "power_debug", () -> new SimpleParticleType(true));
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SPARK = REGISTER.register(
+            "spark", () -> new SimpleParticleType(true));
 
     // Why we cant just use make one constructor public...
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> VANILLA_CLOUD = REGISTER.register(
             "vanilla_cloud", () -> new SimpleParticleType(true));
 
     public static final ResourceLocation BASE = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/base_particle.png");
-    public static final ResourceLocation FLARE = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/flare.png");
-    public static final ResourceLocation SHOCKWAVE = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/shockwave.png");
 
     public static SpriteSet BASE_PARTICLE_SPRITES;
     public static SpriteSet RBMK_MUSH_SPRITES;

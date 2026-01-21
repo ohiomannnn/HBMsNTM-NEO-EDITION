@@ -2,7 +2,6 @@ package com.hbm.blockentity.machine.storage;
 
 import api.hbm.energymk2.*;
 import api.hbm.energymk2.Nodespace.PowerNode;
-import com.hbm.HBMsNTM;
 import com.hbm.blockentity.MachineBaseBlockEntity;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.uninos.UniNodespace;
@@ -43,52 +42,54 @@ public abstract class BatteryBaseBlockEntity extends MachineBaseBlockEntity impl
 
     @Override
     public void updateEntity() {
-        if (priority == null || priority.ordinal() == 0 || priority.ordinal() == 4) {
-            priority = ConnectionPriority.LOW;
-        }
-
-        if (this.node == null || this.node.expired) {
-            this.node = (PowerNode) UniNodespace.getNode(level, this.getBlockPos(), Nodespace.THE_POWER_PROVIDER);
+        if (level != null && level.isClientSide) {
+            if (priority == null || priority.ordinal() == 0 || priority.ordinal() == 4) {
+                priority = ConnectionPriority.LOW;
+            }
 
             if (this.node == null || this.node.expired) {
-                this.node = this.createNode();
-                UniNodespace.createNode(level, this.node);
+                this.node = (PowerNode) UniNodespace.getNode(level, this.getBlockPos(), Nodespace.THE_POWER_PROVIDER);
+
+                if (this.node == null || this.node.expired) {
+                    this.node = this.createNode();
+                    UniNodespace.createNode(level, this.node);
+                }
             }
-        }
 
-        if (this.node != null && this.node.hasValidNet()) {
-            switch (this.getRelevantMode(false)) {
-                case mode_input:
-                    this.node.net.removeProvider(this);
-                    this.node.net.addReceiver(this);
-                    break;
-                case mode_output:
-                    this.node.net.addProvider(this);
-                    this.node.net.removeReceiver(this);
-                    break;
-                case mode_buffer:
-                    this.node.net.addProvider(this);
-                    this.node.net.addReceiver(this);
-                    break;
-                case mode_none:
-                    this.node.net.removeProvider(this);
-                    this.node.net.removeReceiver(this);
-                    break;
+            if (this.node != null && this.node.hasValidNet()) {
+                switch (this.getRelevantMode(false)) {
+                    case mode_input:
+                        this.node.net.removeProvider(this);
+                        this.node.net.addReceiver(this);
+                        break;
+                    case mode_output:
+                        this.node.net.addProvider(this);
+                        this.node.net.removeReceiver(this);
+                        break;
+                    case mode_buffer:
+                        this.node.net.addProvider(this);
+                        this.node.net.addReceiver(this);
+                        break;
+                    case mode_none:
+                        this.node.net.removeProvider(this);
+                        this.node.net.removeReceiver(this);
+                        break;
+                }
             }
-        }
 
-        byte comp = this.getComparatorPower();
-        if (comp != this.lastRedstone) {
-            for (BlockPos port : this.getPortPos()) {
-                BlockEntity be = Compat.getBlockEntityStandard(level, port);
-                if (be != null) be.setChanged();
+            byte comp = this.getComparatorPower();
+            if (comp != this.lastRedstone) {
+                for (BlockPos port : this.getPortPos()) {
+                    BlockEntity be = Compat.getBlockEntityStandard(level, port);
+                    if (be != null) be.setChanged();
+                }
             }
+            this.lastRedstone = comp;
+
+            prevPowerState = this.getPower();
+
+            this.networkPackNT(100);
         }
-        this.lastRedstone = comp;
-
-        prevPowerState = this.getPower();
-
-        this.networkPackNT(100);
     }
 
     public byte getComparatorPower() {

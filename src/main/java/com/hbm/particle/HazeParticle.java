@@ -1,6 +1,5 @@
 package com.hbm.particle;
 
-import com.hbm.HBMsNTM;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -9,9 +8,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -21,10 +20,10 @@ import org.joml.Vector3f;
 
 public class HazeParticle extends TextureSheetParticle {
 
-    private static final ResourceLocation HAZE = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/haze.png");
-
     public HazeParticle(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
+        this.setSpriteFromAge(ModParticles.HAZE_SPRITES);
+
         this.lifetime = 600 + random.nextInt(100);
 
         this.quadSize = 10F;
@@ -73,7 +72,7 @@ public class HazeParticle extends TextureSheetParticle {
                 GlStateManager.DestFactor.ZERO
         );
         RenderSystem.depthMask(false);
-        RenderSystem.setShaderTexture(0, HAZE);
+        RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha * 0.1F);
 
         RandomSource random = RandomSource.create(50);
@@ -96,12 +95,17 @@ public class HazeParticle extends TextureSheetParticle {
 
             Matrix4f matrix = poseStack.last().pose();
 
+            float u0 = sprite.getU0();
+            float u1 = sprite.getU1();
+            float v0 = sprite.getV0();
+            float v1 = sprite.getV1();
+
             Tesselator tess = Tesselator.getInstance();
             BufferBuilder buf = tess.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-            buf.addVertex(matrix, pX - l.x - u.x, pY - l.y - u.y, pZ - l.z - u.z).setUv(1, 1);
-            buf.addVertex(matrix, pX - l.x + u.x, pY - l.y + u.y, pZ - l.z + u.z).setUv(1, 0);
-            buf.addVertex(matrix, pX + l.x + u.x, pY + l.y + u.y, pZ + l.z + u.z).setUv(0, 0);
-            buf.addVertex(matrix, pX + l.x - u.x, pY + l.y - u.y, pZ + l.z - u.z).setUv(0, 1);
+            buf.addVertex(matrix, pX - l.x - u.x, pY - l.y - u.y, pZ - l.z - u.z).setUv(u1, v1);
+            buf.addVertex(matrix, pX - l.x + u.x, pY - l.y + u.y, pZ - l.z + u.z).setUv(u1, v0);
+            buf.addVertex(matrix, pX + l.x + u.x, pY + l.y + u.y, pZ + l.z + u.z).setUv(u0, v0);
+            buf.addVertex(matrix, pX + l.x - u.x, pY + l.y - u.y, pZ + l.z - u.z).setUv(u0, v1);
             BufferUploader.drawWithShader(buf.buildOrThrow());
         }
         poseStack.popPose();
@@ -114,7 +118,7 @@ public class HazeParticle extends TextureSheetParticle {
 
     @Override
     public ParticleRenderType getRenderType() {
-        return CustomRenderType.NONE;
+        return ModParticleRenderTypes.NONE;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {
