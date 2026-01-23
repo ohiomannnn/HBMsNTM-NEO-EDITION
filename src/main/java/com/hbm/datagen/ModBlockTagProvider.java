@@ -98,6 +98,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.ORE_SELLAFIELD_EMERALD.get())
                 .add(ModBlocks.ORE_SELLAFIELD_DIAMOND.get())
 
+                .add(ModBlocks.MACHINE_FLUID_TANK.get())
+
                 .add(ModBlocks.MACHINE_BATTERY_REDD.get())
                 .add(ModBlocks.MACHINE_BATTERY_SOCKET.get())
 

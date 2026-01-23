@@ -9,6 +9,7 @@ import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.util.BobMathUtil;
 import com.mojang.serialization.MapCodec;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -101,16 +102,16 @@ public class MachineBatterySocketBlock extends DummyableBlock implements IToolti
         if (level.getBlockEntity(corePos) instanceof BatterySocketBlockEntity be) {
             if (be.syncStack.isEmpty()) return;
 
-            List<String> text = new ArrayList<>();
-            text.add(BobMathUtil.getShortNumber(be.syncPower) + " / " + BobMathUtil.getShortNumber(be.syncMaxPower) + "HE");
+            List<Component> text = new ArrayList<>();
+            text.add(Component.literal(BobMathUtil.getShortNumber(be.syncPower) + " / " + BobMathUtil.getShortNumber(be.syncMaxPower) + "HE"));
 
             double percent = (double) be.syncPower / be.syncMaxPower;
             int charge = (int) Math.floor(percent * 10_000D);
             int color = ((int) (0xFF - 0xFF * percent)) << 16 | ((int)(0xFF * percent) << 8);
 
-            text.add("&[" + color + "&]" + (charge / 100D) + "%");
+            text.add(Component.literal((charge / 100D) + "%").withColor(color));
 
-            ILookOverlay.printGeneric(event, be.syncStack.getDisplayName().getString(), 0xffff00, 0x404000, text);
+            ILookOverlay.printGeneric(event, be.syncStack.getDisplayName(), 0xffff00, 0x404000, text);
         }
     }
 }

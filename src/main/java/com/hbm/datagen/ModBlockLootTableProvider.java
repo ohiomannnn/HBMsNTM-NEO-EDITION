@@ -90,6 +90,8 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         this.dropSelf(ModBlocks.MACHINE_PRESS.get());
 
+        this.dropSelf(ModBlocks.MACHINE_FLUID_TANK.get());
+
         this.dropSelf(ModBlocks.MACHINE_BATTERY_SOCKET.get());
         this.dropSelf(ModBlocks.MACHINE_BATTERY_REDD.get());
 

@@ -1,10 +1,10 @@
 package com.hbm.blocks;
 
-import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
 import net.minecraft.client.gui.Font;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
@@ -18,7 +18,7 @@ public interface ILookOverlay {
     void printHook(RenderGuiEvent.Pre event, Level level, BlockPos pos);
 
     @OnlyIn(Dist.CLIENT)
-    static void printGeneric(RenderGuiEvent.Pre event, String title, int titleCol, int bgCol, List<String> text) {
+    static void printGeneric(RenderGuiEvent.Pre event, Component title, int titleCol, int bgCol, List<Component> text) {
         Minecraft mc = Minecraft.getInstance();
 
         Options options = mc.options;
@@ -26,26 +26,16 @@ public interface ILookOverlay {
         if (options.hideGui) return;
         if (mc.gameMode.getPlayerMode() == GameType.SPECTATOR) return;
 
-        Window window = mc.getWindow();
-        int pX = window.getGuiScaledWidth() / 2 + 8;
-        int pZ = window.getGuiScaledHeight() / 2;
+        int pX = mc.getWindow().getGuiScaledWidth() / 2 + 8;
+        int pZ = mc.getWindow().getGuiScaledHeight() / 2;
 
         Font font = mc.font;
 
-        event.getGuiGraphics().drawString(font, title, pX + 1, pZ - 9, bgCol);
-        event.getGuiGraphics().drawString(font, title, pX, pZ - 10, titleCol);
+        event.getGuiGraphics().drawString(font, title.copy().withColor(bgCol), pX + 1, pZ - 9, 0xFFFFFF, false);
+        event.getGuiGraphics().drawString(font, title.copy().withColor(titleCol), pX, pZ - 10, 0xFFFFFF, false);
 
-        for (String line : text) {
-
-            int color = 0xFFFFFF;
-            if (line.startsWith("&[")) {
-                int end = line.lastIndexOf("&]");
-                color = Integer.parseInt(line.substring(2, end));
-                line = line.substring(end + 2);
-            }
-
-            event.getGuiGraphics().drawString(font, line, pX, pZ, color, true);
-
+        for (Component c : text) {
+            event.getGuiGraphics().drawString(font, c, pX, pZ, 0xFFFFFF);
             pZ += 10;
         }
     }

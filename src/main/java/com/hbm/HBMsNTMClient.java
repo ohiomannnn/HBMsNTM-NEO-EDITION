@@ -30,6 +30,7 @@ import com.hbm.render.entity.item.RenderTNTPrimedBase;
 import com.hbm.render.entity.mob.CreeperNuclearRenderer;
 import com.hbm.render.entity.mob.DuckRenderer;
 import com.hbm.render.entity.projectile.*;
+import com.hbm.render.item.RenderFluidTankItem;
 import com.hbm.render.loader.bakedLoader.HFRObjGeometryLoader;
 import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.render.util.RenderScreenOverlay;
@@ -55,6 +56,7 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.BlockPos;
@@ -94,6 +96,8 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.*;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
@@ -103,6 +107,7 @@ import java.awt.*;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Supplier;
 
 @Spaghetti("die")
 @Mod(value = HBMsNTM.MODID, dist = Dist.CLIENT)
@@ -509,12 +514,35 @@ public class HBMsNTMClient {
         event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_NUKE.get(), RenderCrashedBomb::new);
         event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_SALTED.get(), RenderCrashedBomb::new);
 
+        event.registerBlockEntityRenderer(ModBlockEntities.FLUID_TANK.get(), RenderFluidTank::new);
+
         event.registerBlockEntityRenderer(ModBlockEntities.BATTERY_SOCKET.get(), RenderBatterySocket::new);
         event.registerBlockEntityRenderer(ModBlockEntities.BATTERY_REDD.get(), RenderBatteryREDD::new);
 
         event.registerBlockEntityRenderer(ModBlockEntities.NETWORK_CABLE.get(), RenderCable::new);
         event.registerBlockEntityRenderer(ModBlockEntities.DET_CORD.get(), RenderDetCord::new);
     }
+
+    @SubscribeEvent
+    public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
+
+        registerItemRenderer(event, RenderFluidTankItem::new, ModBlocks.MACHINE_FLUID_TANK.asItem());
+    }
+
+    private static void registerItemRenderer(RegisterClientExtensionsEvent event, Supplier<BlockEntityWithoutLevelRenderer> rendererFactory, Item... items) {
+        event.registerItem(new IClientItemExtensions() {
+            private BlockEntityWithoutLevelRenderer renderer;
+
+            @Override
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                if (renderer == null) {
+                    renderer = rendererFactory.get();
+                }
+                return renderer;
+            }
+        }, items);
+    }
+
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void drawTooltip(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();

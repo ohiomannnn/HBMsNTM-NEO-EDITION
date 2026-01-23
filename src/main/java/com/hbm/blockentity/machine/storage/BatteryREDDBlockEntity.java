@@ -235,15 +235,15 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
     @Override
     public void writeNBT(CompoundTag savedTag) {
         CompoundTag tag = new CompoundTag();
-        tag.putByteArray("power", this.power.toByteArray());
-        tag.putBoolean("muffled", muffled);
+        tag.putByteArray("Power", this.power.toByteArray());
+        tag.putBoolean("Muffled", muffled);
         savedTag.put(NBT_PERSISTENT_KEY, tag);
     }
 
     @Override
     public void readNBT(CompoundTag savedTag) {
         CompoundTag tag = savedTag.getCompound(NBT_PERSISTENT_KEY);
-        this.power = new BigInteger(tag.getByteArray("power"));
-        this.muffled = tag.getBoolean("muffled");
+        this.power = new BigInteger(tag.getByteArray("Power"));
+        this.muffled = tag.getBoolean("Muffled");
     }
 }

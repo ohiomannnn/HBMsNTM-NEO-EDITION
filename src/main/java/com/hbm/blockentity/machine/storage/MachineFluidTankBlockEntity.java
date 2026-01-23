@@ -16,12 +16,10 @@ import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous_ART;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Liquid;
-import com.hbm.inventory.menus.BatteryREDDMenu;
 import com.hbm.inventory.menus.MachineFluidTankMenu;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
 import com.hbm.uninos.UniNodespace;
-import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
@@ -296,20 +294,20 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
     public void writeNBT(CompoundTag savedTag) {
         if (this.tank.getFill() == 0 && !this.hasExploded) return;
         CompoundTag tag = new CompoundTag();
-        this.tank.writeToNBT(tag, "tank");
-        tag.putShort("mode", mode);
-        tag.putBoolean("hasExploded", hasExploded);
-        tag.putBoolean("onFire", onFire);
+        this.tank.writeToNBT(tag, "Tank");
+        tag.putShort("Mode", mode);
+        tag.putBoolean("HasExploded", hasExploded);
+        tag.putBoolean("OnFire", onFire);
         savedTag.put(NBT_PERSISTENT_KEY, tag);
     }
 
     @Override
     public void readNBT(CompoundTag savedTag) {
         CompoundTag tag = savedTag.getCompound(NBT_PERSISTENT_KEY);
-        this.tank.readFromNBT(tag, "tank");
-        this.mode = tag.getShort("mode");
-        this.hasExploded = tag.getBoolean("hasExploded");
-        this.onFire = tag.getBoolean("onFire");
+        this.tank.readFromNBT(tag, "Tank");
+        this.mode = tag.getShort("Mode");
+        this.hasExploded = tag.getBoolean("HasExploded");
+        this.onFire = tag.getBoolean("OnFire");
     }
 
     @Override public boolean canConnect(FluidType fluid, Direction dir) { return true; }

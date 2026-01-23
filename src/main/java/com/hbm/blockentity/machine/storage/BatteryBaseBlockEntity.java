@@ -4,6 +4,7 @@ import api.hbm.energymk2.*;
 import api.hbm.energymk2.Nodespace.PowerNode;
 import com.hbm.blockentity.MachineBaseBlockEntity;
 import com.hbm.interfaces.IControlReceiver;
+import com.hbm.interfaces.ICopiable;
 import com.hbm.uninos.UniNodespace;
 import com.hbm.util.Compat;
 import com.hbm.util.EnumUtil;
@@ -17,11 +18,12 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public abstract class BatteryBaseBlockEntity extends MachineBaseBlockEntity implements IEnergyConductorMK2, IEnergyProviderMK2, IEnergyReceiverMK2, IControlReceiver, MenuProvider {
+public abstract class BatteryBaseBlockEntity extends MachineBaseBlockEntity implements IEnergyConductorMK2, IEnergyProviderMK2, IEnergyReceiverMK2, IControlReceiver, ICopiable, MenuProvider {
 
     public byte lastRedstone = 0;
     public long prevPowerState = 0;
@@ -42,7 +44,7 @@ public abstract class BatteryBaseBlockEntity extends MachineBaseBlockEntity impl
 
     @Override
     public void updateEntity() {
-        if (level != null && level.isClientSide) {
+        if (level != null && !level.isClientSide) {
             if (priority == null || priority.ordinal() == 0 || priority.ordinal() == 4) {
                 priority = ConnectionPriority.LOW;
             }
@@ -58,22 +60,22 @@ public abstract class BatteryBaseBlockEntity extends MachineBaseBlockEntity impl
 
             if (this.node != null && this.node.hasValidNet()) {
                 switch (this.getRelevantMode(false)) {
-                    case mode_input:
+                    case mode_input -> {
                         this.node.net.removeProvider(this);
                         this.node.net.addReceiver(this);
-                        break;
-                    case mode_output:
+                    }
+                    case mode_output -> {
                         this.node.net.addProvider(this);
                         this.node.net.removeReceiver(this);
-                        break;
-                    case mode_buffer:
+                    }
+                    case mode_buffer -> {
                         this.node.net.addProvider(this);
                         this.node.net.addReceiver(this);
-                        break;
-                    case mode_none:
+                    }
+                    case mode_none -> {
                         this.node.net.removeProvider(this);
                         this.node.net.removeReceiver(this);
-                        break;
+                    }
                 }
             }
 
@@ -84,6 +86,7 @@ public abstract class BatteryBaseBlockEntity extends MachineBaseBlockEntity impl
                     if (be != null) be.setChanged();
                 }
             }
+
             this.lastRedstone = comp;
 
             prevPowerState = this.getPower();
@@ -190,5 +193,21 @@ public abstract class BatteryBaseBlockEntity extends MachineBaseBlockEntity impl
             if (ordinal > ConnectionPriority.HIGH.ordinal()) ordinal = ConnectionPriority.LOW.ordinal();
             this.priority = EnumUtil.grabEnumSafely(ConnectionPriority.class, ordinal);
         }
+    }
+
+    @Override
+    public CompoundTag getSettings(Level level, BlockPos pos) {
+        CompoundTag tag = new CompoundTag();
+        tag.putShort("redLow", redLow);
+        tag.putShort("redHigh", redHigh);
+        tag.putByte("priority", (byte) this.priority.ordinal());
+        return null;
+    }
+
+    @Override
+    public void pasteSettings(CompoundTag tag, int index, Level level, Player player, BlockPos pos) {
+        if (tag.contains("redLow")) this.redLow = tag.getShort("redLow");
+        if (tag.contains("redHigh")) this.redHigh = tag.getShort("redHigh");
+        if (tag.contains("priority")) this.priority = EnumUtil.grabEnumSafely(ConnectionPriority.class, tag.getByte("priority"));
     }
 }

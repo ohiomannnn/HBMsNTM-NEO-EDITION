@@ -13,7 +13,6 @@ import com.hbm.render.util.OffsetVertexConsumer;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.Clock;
 import com.hbm.util.Vec3NT;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -100,10 +99,6 @@ public class RenderBatteryREDD implements BlockEntityRenderer<BatteryREDDBlockEn
                 }
             }
         }
-
-        RenderSystem.disableBlend();
-        RenderSystem.enableCull();
-        RenderSystem.depthMask(true);
 
         poseStack.popPose();
 

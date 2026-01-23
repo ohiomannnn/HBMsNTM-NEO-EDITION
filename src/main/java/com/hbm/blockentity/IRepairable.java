@@ -69,19 +69,15 @@ public interface IRepairable {
         List<AStack> materials = IRepairable.getRepairMaterials(level, pos, dummy, HBMsNTMClient.me());
         if (materials == null) return;
 
-        List<String> text = new ArrayList<>();
-        text.add(ChatFormatting.GOLD + "Repair with:");
+        List<Component> text = new ArrayList<>();
+        text.add(Component.translatable("overlay.repair_with").withStyle(ChatFormatting.GOLD));
 
         for (AStack stack : materials) {
-            try {
-                ItemStack display = stack.extractForCyclingDisplay(20);
-                text.add("- " + display.getDisplayName() + " x" + display.getCount());
-            } catch(Exception ex) {
-                text.add(ChatFormatting.RED + "- ERROR");
-            }
+            ItemStack display = stack.extractForCyclingDisplay(20);
+            text.add(Component.literal("- " + display.getDisplayName().getString() + " x" + display.getCount()));
         }
 
-        ILookOverlay.printGeneric(event, Component.translatable(dummy.getDescriptionId()).getString(), 0xffff00, 0x404000, text);
+        ILookOverlay.printGeneric(event, dummy.getName(), 0xffff00, 0x404000, text);
     }
 
     void tryExtinguish(Level level, BlockPos pos, EnumExtinguishType type);

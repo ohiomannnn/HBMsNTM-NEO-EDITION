@@ -26,6 +26,9 @@ public class ResourceManager {
     public static final ResourceLocation CABLE_NEO_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/cable_neo.png");
     public static final ResourceLocation DET_CORD_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/det_cord.png");
 
+    public static final ResourceLocation TANK_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/machines/tank.png");
+    public static final ResourceLocation TANK_INNER_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/machines/tank_inner.png");
+
     public static final ResourceLocation BATTERY_SOCKET_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/machines/battery_socket.png");
     public static final ResourceLocation BATTERY_REDD_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/machines/fensu2.png");
 
@@ -61,6 +64,9 @@ public class ResourceManager {
 
     public static IModelCustom cable_neo;
 
+    public static IModelCustom fluid_tank;
+    public static IModelCustom fluid_tank_exploded;
+
     public static IModelCustom geiger;
 
     public static IModelCustom battery_socket;
@@ -87,6 +93,9 @@ public class ResourceManager {
         dud_salted = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/dud_salted.obj")).asVBO();
 
         cable_neo = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/block/cable_neo.obj")).asVBO();
+
+        fluid_tank = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/machines/fluid_tank.obj")).asVBO();
+        fluid_tank_exploded = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/machines/fluid_tank_exploded.obj")).asVBO();
 
         geiger = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/block/geiger.obj")).asVBO();
 
