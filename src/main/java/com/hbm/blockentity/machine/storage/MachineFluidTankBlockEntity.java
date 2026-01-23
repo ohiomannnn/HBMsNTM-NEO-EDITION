@@ -388,7 +388,7 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
 
     @Override
     public void receiveControl(CompoundTag tag) {
-        if (tag.contains("mode")) {
+        if (tag.contains("Mode")) {
             mode = (short) ((mode + 1) % modes);
             this.markChanged();
         }

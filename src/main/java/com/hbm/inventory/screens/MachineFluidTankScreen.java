@@ -30,6 +30,7 @@ public class MachineFluidTankScreen extends InfoScreen<MachineFluidTankMenu> {
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
 
+        be.tank.renderTankTooltip(guiGraphics, mouseX, mouseY, this.leftPos + 71, this.topPos + 69 - 52, 34, 52);
         this.renderTooltip(guiGraphics, mouseX, mouseY);
     }
 
@@ -38,7 +39,7 @@ public class MachineFluidTankScreen extends InfoScreen<MachineFluidTankMenu> {
 
         CompoundTag tag = new CompoundTag();
 
-        if (this.checkClick((int) x, (int) y, 151, 35, 18, 18)) { this.click(); tag.putBoolean("mode", true); }
+        if (this.checkClick((int) x, (int) y, 151, 35, 18, 18)) { this.click(); tag.putBoolean("Mode", true); }
 
         if (!tag.isEmpty()) PacketDistributor.sendToServer(new CompoundTagControl(tag, be.getBlockPos()));
 
@@ -49,8 +50,10 @@ public class MachineFluidTankScreen extends InfoScreen<MachineFluidTankMenu> {
     protected void renderBg(GuiGraphics guiGraphics, float v, int i, int partialTicks) {
         guiGraphics.blit(TEXTURE, this.leftPos, this.topPos, 0, 0, imageWidth, imageHeight);
 
+        // render modes
         guiGraphics.blit(TEXTURE, this.leftPos + 151, this.topPos + 34, 176, be.mode * 18, 18, 18);
 
+        // render tank
         be.tank.renderTank(this.leftPos + 71, this.topPos + 69, 0, 34, 52);
     }
 

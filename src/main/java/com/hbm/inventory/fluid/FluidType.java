@@ -12,6 +12,7 @@ import com.hbm.uninos.networkproviders.FluidNetProvider;
 import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -139,7 +140,7 @@ public class FluidType {
     }
 
     public FluidType addTraits(FluidTrait... traits) {
-        for(FluidTrait trait : traits) this.traits.put(trait.getClass(), trait);
+        for (FluidTrait trait : traits) this.traits.put(trait.getClass(), trait);
         return this;
     }
 
@@ -175,16 +176,13 @@ public class FluidType {
     }
 
     /** Returns the localized override name if present, or otherwise the I18n converted name */
-    @OnlyIn(Dist.CLIENT) public String getLocalizedName() {
+    @OnlyIn(Dist.CLIENT)
+    public String getLocalizedName() {
         return this.localizedOverride != null ? this.localizedOverride : I18nUtil.resolveKey(this.unlocalized);
     }
     /** Returns the localized override name if present, or otherwise the raw unlocalized name. Used for server-side code that needs ChatComponentTranslation. */
     public String getConditionalName() {
         return this.localizedOverride != null ? this.localizedOverride : this.unlocalized;
-    }
-    public String getDict(int quantity) {
-        String prefix = "ntmcontainer";//GeneralConfig.enableFluidContainerCompat ? "container" : "ntmcontainer";
-        return prefix + quantity + this.stringId.replace("_", "").toLowerCase(Locale.US);
     }
 
     public boolean isHot() {
@@ -234,7 +232,7 @@ public class FluidType {
             if (temperature > 0) info.add(Component.literal(temperature + "°C").withStyle(ChatFormatting.RED));
         }
 
-        boolean shiftHeld = Minecraft.getInstance().options.keyShift.isDown();
+        boolean shiftHeld = Screen.hasShiftDown();
 
         List<Component> hidden = new ArrayList<>();
 

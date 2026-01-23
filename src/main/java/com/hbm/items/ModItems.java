@@ -117,6 +117,8 @@ public class ModItems {
             "capacitor_pack_niobium",
             () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.CAPACITOR_NIOBIUM));
 
+    public static final DeferredItem<Item> FLUID_BARREL_CREATIVE = ITEMS.register("fluid_barrel_creative", () -> new Item(new Item.Properties().stacksTo(1)));
+
     public static final DeferredItem<Item> PIN = ITEMS.register(
             "pin",
             () -> new Item(new Item.Properties().stacksTo(8)));

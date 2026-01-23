@@ -9,10 +9,13 @@ import com.hbm.blockentity.machine.storage.MachineFluidTankBlockEntity;
 import com.hbm.blocks.DummyBlockType;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.blocks.ILookOverlay;
+import com.hbm.inventory.fluid.Fluids;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -74,7 +77,29 @@ public class MachineFluidTankBlock extends DummyableBlock implements IToolable, 
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        return this.standardOpenBehavior(level, pos, player, 0);
+        if (level.isClientSide) {
+            return InteractionResult.SUCCESS;
+        }
+
+        BlockPos corePos = this.findCore(level, pos);
+        if (corePos == null) {
+            return InteractionResult.FAIL;
+        }
+
+        if (!player.isShiftKeyDown()) {
+            BlockEntity blockentity = level.getBlockEntity(corePos);
+            if (blockentity instanceof MenuProvider be) {
+                player.openMenu(new SimpleMenuProvider(be, be.getDisplayName()), pos);
+            }
+            return InteractionResult.CONSUME;
+        } else {
+            BlockEntity blockentity = level.getBlockEntity(corePos);
+            if (blockentity instanceof MachineFluidTankBlockEntity be) {
+                be.tank.setTankType(Fluids.AIR);
+            }
+        }
+
+        return InteractionResult.SUCCESS;
     }
 
     @Override

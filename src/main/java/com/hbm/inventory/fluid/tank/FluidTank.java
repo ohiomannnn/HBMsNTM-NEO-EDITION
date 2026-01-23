@@ -29,7 +29,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class FluidTank implements Cloneable {
+public class FluidTank {
 
     public static final FluidTank[] EMPTY_ARRAY = new FluidTank[0];
 
@@ -97,12 +97,11 @@ public class FluidTank implements Cloneable {
         return 0;
     }
 
-    //Fills tank from canisters
+    // Fills tank from canisters
     public boolean loadTank(Level level, int in, int out, NonNullList<ItemStack> slots) {
         if (slots.get(in).isEmpty()) return false;
 
-        // TODO: Inf barrel                                         here
-        boolean isInfiniteBarrel = slots.get(in).getItem() == ModItems.NOTHING.get();
+        boolean isInfiniteBarrel = slots.get(in).getItem() == ModItems.FLUID_BARREL_CREATIVE.get();
         if (!isInfiniteBarrel && pressure != 0) return false;
 
         int prev = this.getFill();
@@ -116,7 +115,7 @@ public class FluidTank implements Cloneable {
         return this.getFill() > prev;
     }
 
-    //Fills canisters from tank
+    // Fills canisters from tank
     public boolean unloadTank(Level level, int in, int out, NonNullList<ItemStack> slots) {
         if (slots.get(in).isEmpty()) return false;
 
@@ -234,12 +233,12 @@ public class FluidTank implements Cloneable {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void renderTankInfo(GuiGraphics guiGraphics, int mouseX, int mouseY, int x, int y, int width, int height) {
+    public void renderTankTooltip(GuiGraphics guiGraphics, int mouseX, int mouseY, int x, int y, int width, int height) {
         if (x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY) {
 
             List<Component> list = new ArrayList<>();
-            list.add(Component.literal(this.type.getLocalizedName()).withStyle(ChatFormatting.GRAY));
-            list.add(Component.literal(fluid + "/" + maxFluid + "mB").withStyle(ChatFormatting.GRAY));
+            list.add(Component.literal(this.type.getLocalizedName()));
+            list.add(Component.literal(fluid + "/" + maxFluid + "mB"));
 
             if (this.pressure != 0) {
                 list.add(Component.translatable("fluid.info.pressure", this.pressure).withStyle(ChatFormatting.RED));
