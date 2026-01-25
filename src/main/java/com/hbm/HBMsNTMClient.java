@@ -416,6 +416,7 @@ public class HBMsNTMClient {
                     }
                     return 0xFFFFFFFF;
                 },
+                ModItems.FLUID_IDENTIFIER_MULTI.get(),
                 ModItems.FLUID_TANK_FULL.get(),
                 ModItems.FLUID_TANK_LEAD_FULL.get(),
                 ModItems.FLUID_BARREL_FULL.get(),
@@ -585,7 +586,7 @@ public class HBMsNTMClient {
                     list.add(Component.empty());
                     list.add(Component.literal("Block tags:").withStyle(ChatFormatting.GREEN));
                     block.builtInRegistryHolder().tags().map(TagKey::location).sorted(ResourceLocation::compareTo).forEach(location ->
-                            list.add(Component.literal(" - " + location).withStyle(ChatFormatting.DARK_GREEN))
+                            list.add(Component.literal(" -" + location).withStyle(ChatFormatting.DARK_GREEN))
                     );
                 }
             }

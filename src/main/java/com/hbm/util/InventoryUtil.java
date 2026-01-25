@@ -9,11 +9,16 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class InventoryUtil {
 
     public static List<ItemStack> getItemsFromBothHands(LivingEntity living) {
-        return Arrays.stream(InteractionHand.values()).map(living::getItemInHand).filter(item -> !item.isEmpty()).toList();
+        return Arrays.stream(InteractionHand.values()).map(living::getItemInHand).toList();
+    }
+
+    public static Stream<ItemStack> getItemSteamFromBothHands(LivingEntity living) {
+        return Arrays.stream(InteractionHand.values()).map(living::getItemInHand);
     }
 
 

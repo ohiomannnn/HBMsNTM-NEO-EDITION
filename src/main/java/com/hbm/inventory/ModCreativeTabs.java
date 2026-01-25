@@ -6,6 +6,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.BatteryPackItem;
+import com.hbm.items.machine.FluidIDMultiItem;
 import com.hbm.items.machine.FluidIconItem;
 import com.hbm.items.machine.FluidTankItem;
 import net.minecraft.network.chat.Component;
@@ -39,7 +40,48 @@ public class ModCreativeTabs {
                         output.accept(ModItems.SINGULARITY_SPARK);
                         output.accept(ModItems.PELLET_ANTIMATTER);
 
-                        output.accept(ModItems.REACHER);
+                        FluidType[] types = Fluids.getInNiceOrder();
+                        // tanks
+                        output.accept(ModItems.FLUID_TANK_EMPTY.get());
+                        for (int i = 1; i < types.length; ++i) {
+                            FluidType type = types[i];
+
+                            if (type.hasNoContainer()) continue;
+                            if (type.needsLeadContainer()) continue;
+                            output.accept(FluidTankItem.createStack(ModItems.FLUID_TANK_FULL.get(), type));
+                        }
+                        // lead tanks
+                        output.accept(ModItems.FLUID_TANK_LEAD_EMPTY.get());
+                        for (int i = 1; i < types.length; ++i) {
+                            FluidType type = types[i];
+
+                            if (type.hasNoContainer()) continue;
+                            output.accept(FluidTankItem.createStack(ModItems.FLUID_TANK_LEAD_FULL.get(), type));
+                        }
+                        // barrels
+                        output.accept(ModItems.FLUID_BARREL_EMPTY.get());
+                        for (int i = 1; i < types.length; ++i) {
+                            FluidType type = types[i];
+
+                            if (type.hasNoContainer()) continue;
+                            if (type.needsLeadContainer()) continue;
+                            output.accept(FluidTankItem.createStack(ModItems.FLUID_BARREL_FULL.get(), type));
+                        }
+                        // fluid packs
+                        output.accept(ModItems.FLUID_PACK_EMPTY.get());
+                        for (int i = 1; i < types.length; ++i) {
+                            FluidType type = types[i];
+
+                            if (type.hasNoContainer()) continue;
+                            if (type.needsLeadContainer()) continue;
+                            output.accept(FluidTankItem.createStack(ModItems.FLUID_PACK_FULL.get(), type));
+                        }
+
+                        for (int i = 1; i < types.length; ++i) {
+                            FluidType type = types[i];
+
+                            output.accept(FluidIconItem.make(type, 1000));
+                        }
 
                         output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.BATTERY_PACK_REDSTONE.get())));
                         output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_REDSTONE.get())));
@@ -58,8 +100,9 @@ public class ModCreativeTabs {
 
                         output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.BATTERY_PACK_QUANTUM.get())));
                         output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_QUANTUM.get())));
-
                         output.accept(ModItems.BATTERY_CREATIVE);
+
+                        output.accept(ModItems.REACHER);
                     }).build());
 
     public static final Supplier<CreativeModeTab> ORES_AND_BLOCKS = CREATIVE_MODE_TABS.register(
@@ -119,46 +162,11 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.MACHINE_SATLINKER);
 
                         FluidType[] types = Fluids.getInNiceOrder();
-                        // tanks
-                        output.accept(ModItems.FLUID_TANK_EMPTY.get());
+                        // multi identifiers
                         for (int i = 1; i < types.length; ++i) {
                             FluidType type = types[i];
 
-                            if (type.hasNoContainer()) continue;
-                            if (type.needsLeadContainer()) continue;
-                            output.accept(FluidTankItem.createStack(ModItems.FLUID_TANK_FULL.get(), type));
-                        }
-                        // lead tanks
-                        output.accept(ModItems.FLUID_TANK_LEAD_EMPTY.get());
-                        for (int i = 1; i < types.length; ++i) {
-                            FluidType type = types[i];
-
-                            if (type.hasNoContainer()) continue;
-                            output.accept(FluidTankItem.createStack(ModItems.FLUID_TANK_LEAD_FULL.get(), type));
-                        }
-                        // barrels
-                        output.accept(ModItems.FLUID_BARREL_EMPTY.get());
-                        for (int i = 1; i < types.length; ++i) {
-                            FluidType type = types[i];
-
-                            if (type.hasNoContainer()) continue;
-                            if (type.needsLeadContainer()) continue;
-                            output.accept(FluidTankItem.createStack(ModItems.FLUID_BARREL_FULL.get(), type));
-                        }
-                        // fluid packs
-                        output.accept(ModItems.FLUID_PACK_EMPTY.get());
-                        for (int i = 1; i < types.length; ++i) {
-                            FluidType type = types[i];
-
-                            if (type.hasNoContainer()) continue;
-                            if (type.needsLeadContainer()) continue;
-                            output.accept(FluidTankItem.createStack(ModItems.FLUID_PACK_FULL.get(), type));
-                        }
-
-                        for (int i = 1; i < types.length; ++i) {
-                            FluidType type = types[i];
-
-                            output.accept(FluidIconItem.make(type, 1000));
+                            output.accept(FluidIDMultiItem.createStack(type));
                         }
                     }).build());
 

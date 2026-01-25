@@ -167,6 +167,7 @@
   "block.hbmsntm.decontaminator": "Player Decontaminator",
 
   "block.hbmsntm.machine_fluid_tank": "Tank",
+  "block.hbmsntm.machine_fluid_tank.changed_type_to": "Changed type to %s!",
 
   "block.hbmsntm.machine_battery_socket": "Battery Socket",
   "block.hbmsntm.machine_battery_redd": "FEnSU",
@@ -212,6 +213,9 @@
   "item.hbmsntm.battery_pack_schrabidium": "Schrabidium Battery",
   "item.hbmsntm.battery_pack_sodium": "Sodium-Iron Battery",
 
+  "item.hbmsntm.fluid_identifier_multi": "Multi Fluid Identifier",
+  "item.hbmsntm.fluid_identifier_multi.info": "Universal fluid identifier for:",
+  "item.hbmsntm.fluid_identifier_multi.info2": "Secondary type:",
   "item.hbmsntm.fluid_tank_empty": "Empty Universal Fluid Tank",
   "item.hbmsntm.fluid_tank_full": "Universal Fluid Tank: %s",
   "item.hbmsntm.fluid_tank_lead_empty": "Empty Hazardous Material Tank",

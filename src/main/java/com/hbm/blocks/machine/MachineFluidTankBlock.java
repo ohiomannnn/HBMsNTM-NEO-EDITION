@@ -9,8 +9,11 @@ import com.hbm.blockentity.machine.storage.MachineFluidTankBlockEntity;
 import com.hbm.blocks.DummyBlockType;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.blocks.ILookOverlay;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.items.machine.IItemFluidIdentifier;
+import com.hbm.util.InventoryUtil;
 import com.hbm.util.TagsUtilDegradation;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
@@ -112,7 +115,15 @@ public class MachineFluidTankBlock extends DummyableBlock implements IToolable, 
         } else {
             BlockEntity blockentity = level.getBlockEntity(corePos);
             if (blockentity instanceof MachineFluidTankBlockEntity be) {
-                be.tank.setTankType(Fluids.AIR);
+                for (ItemStack stack : InventoryUtil.getItemsFromBothHands(player)) {
+                    if (stack.getItem() instanceof IItemFluidIdentifier iifi) {
+                        FluidType type = iifi.getType(level, corePos, stack);
+
+                        be.tank.setTankType(type);
+                        be.setChanged();
+                        player.displayClientMessage(Component.translatable("block.hbmsntm.machine_fluid_tank.changed_type_to", type.getName()).withStyle(ChatFormatting.YELLOW), false);
+                    }
+                }
 
                 return InteractionResult.CONSUME;
             }

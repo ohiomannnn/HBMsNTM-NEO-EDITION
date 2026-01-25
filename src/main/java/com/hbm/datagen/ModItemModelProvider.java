@@ -57,6 +57,7 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         basicItem(ModItems.FLUID_ICON.get());
 
+        this.layeredItem(ModItems.FLUID_IDENTIFIER_MULTI.get(), "fluid_identifier_multi", "fluid_identifier_overlay");
         this.basicCustomLayerItem(ModItems.FLUID_TANK_EMPTY.get(), "fluid_tank");
         this.layeredItem(ModItems.FLUID_TANK_FULL.get(), "fluid_tank", "fluid_tank_overlay");
         this.basicCustomLayerItem(ModItems.FLUID_TANK_LEAD_EMPTY.get(), "fluid_tank_lead");
