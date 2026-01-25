@@ -147,12 +147,4 @@ public class WavefrontObjVBO implements IModelCustom {
                     .setNormal(pose, cv.nx, cv.ny, cv.nz);
         }
     }
-
-    public List<String> getPartNames() {
-        List<String> names = new ArrayList<>();
-        for (GroupVBO group : groups) {
-            names.add(group.name);
-        }
-        return names;
-    }
 }

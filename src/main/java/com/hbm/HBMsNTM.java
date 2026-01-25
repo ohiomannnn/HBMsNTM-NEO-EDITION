@@ -7,6 +7,7 @@ import com.hbm.entity.ModEntityTypes;
 import com.hbm.inventory.ModCreativeTabs;
 import com.hbm.inventory.ModMenuTypes;
 import com.hbm.items.ModItems;
+import com.hbm.items.datacomps.ModDataComponents;
 import com.hbm.lib.ModAttachments;
 import com.hbm.lib.ModEffect;
 import com.hbm.lib.ModSounds;
@@ -39,6 +40,7 @@ public class HBMsNTM {
     public HBMsNTM(IEventBus modEventBus, ModContainer modContainer) {
         ModBlocks.register(modEventBus);
         ModItems.register(modEventBus);
+        ModDataComponents.register(modEventBus);
         ModEntityTypes.register(modEventBus);
         ModSounds.register(modEventBus);
         ModCreativeTabs.register(modEventBus);

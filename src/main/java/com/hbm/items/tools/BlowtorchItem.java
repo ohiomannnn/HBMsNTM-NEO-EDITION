@@ -206,7 +206,7 @@ public class BlowtorchItem extends Item implements IFillableItem {
     }
 
     private String getFillGauge(ItemStack stack, FluidType type) {
-        return type.getLocalizedName() + ": " + String.format(Locale.US, "%,d", this.getFill(stack, type)) + " / " + String.format(Locale.US, "%,d", this.getMaxFill(type));
+        return type.getName() + ": " + String.format(Locale.US, "%,d", this.getFill(stack, type)) + " / " + String.format(Locale.US, "%,d", this.getMaxFill(type));
     }
 
     @Override public boolean providesFluid(FluidType type, ItemStack stack) { return false; }

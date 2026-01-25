@@ -60,7 +60,7 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
         tank = new FluidTank(Fluids.NONE, 256000);
     }
 
-    @Override public Component getName() { return Component.translatable("container.fluidtank"); }
+    @Override public Component getName() { return Component.translatable("container.fluidTank"); }
 
     public byte getComparatorPower() {
         if (tank.getFill() == 0) return 0;
@@ -122,6 +122,7 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
 
                 tank.loadTank(level, 2, 3, slots);
                 tank.setType(0, 1, slots);
+                tank.setFill(tank.getFill() + 10);
             } else if (this.node != null) {
                 UniNodespace.destroyNode(level, getBlockPos(), tank.getTankType().getNetworkProvider());
                 this.node = null;
@@ -130,7 +131,7 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
             byte comp = this.getComparatorPower(); //comparator shit
             if (comp != this.lastRedstone) {
                 this.setChanged();
-                for(DirPos pos : getConPos()) this.updateRedstoneConnection(pos);
+                for (DirPos pos : getConPos()) this.updateRedstoneConnection(pos);
             }
             this.lastRedstone = comp;
 

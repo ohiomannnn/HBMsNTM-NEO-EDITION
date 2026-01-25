@@ -57,6 +57,15 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         basicItem(ModItems.FLUID_ICON.get());
 
+        this.basicCustomLayerItem(ModItems.FLUID_TANK_EMPTY.get(), "fluid_tank");
+        this.layeredItem(ModItems.FLUID_TANK_FULL.get(), "fluid_tank", "fluid_tank_overlay");
+        this.basicCustomLayerItem(ModItems.FLUID_TANK_LEAD_EMPTY.get(), "fluid_tank_lead");
+        this.layeredItem(ModItems.FLUID_TANK_LEAD_FULL.get(), "fluid_tank_lead", "fluid_tank_lead_overlay");
+        this.basicCustomLayerItem(ModItems.FLUID_BARREL_EMPTY.get(), "fluid_barrel_empty");
+        this.layeredItem(ModItems.FLUID_BARREL_FULL.get(), "fluid_barrel", "fluid_barrel_overlay");
+        this.basicCustomLayerItem(ModItems.FLUID_PACK_EMPTY.get(), "fluid_pack");
+        this.layeredItem(ModItems.FLUID_PACK_FULL.get(), "fluid_pack", "fluid_pack_overlay");
+
         basicItem(ModItems.CAP_NUKA.get());
         basicItem(ModItems.CAP_QUANTUM.get());
         basicItem(ModItems.CAP_SPARKLE.get());
@@ -125,6 +134,18 @@ public class ModItemModelProvider extends ItemModelProvider {
         this.basicItem(ModItems.FAT_MAN_IGNITER.get());
         this.basicItem(ModItems.FAT_MAN_CORE.get());
     }
+
+    private ItemModelBuilder layeredItem(Item item, String layer0, String layer1) {
+        return this.getBuilder(BuiltInRegistries.ITEM.getKey(item).toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/" + layer0))
+                .texture("layer1", modLoc("item/" + layer1));
+    }
+
+    private ItemModelBuilder basicCustomLayerItem(Item item, String layer0) {
+        return this.getBuilder(BuiltInRegistries.ITEM.getKey(item).toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
+                .texture("layer0", modLoc("item/" + layer0));
+    }
+
 
     public ItemModelBuilder bombCallerItem(Item item) {
         ResourceLocation loc = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));

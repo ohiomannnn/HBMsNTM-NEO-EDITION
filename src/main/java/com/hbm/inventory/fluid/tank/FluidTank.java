@@ -13,6 +13,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -139,7 +140,7 @@ public class FluidTank {
      */
     public boolean setType(int in, int out, NonNullList<ItemStack> slots) {
 
-        if (!slots.get(in).isEmpty() && slots.get(in).getItem() instanceof IItemFluidIdentifier id) {
+        if (slots.get(in).getItem() instanceof IItemFluidIdentifier id) {
             if (in == out) {
                 FluidType newType = id.getType(null, BlockPos.ZERO, slots.get(in));
 
@@ -237,8 +238,8 @@ public class FluidTank {
         if (x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY) {
 
             List<Component> list = new ArrayList<>();
-            list.add(Component.literal(this.type.getLocalizedName()));
-            list.add(Component.literal(fluid + "/" + maxFluid + "mB"));
+            list.add(this.type.getName());
+            list.add(Component.translatable("fluid.info.mb_out", this.fluid, this.maxFluid));
 
             if (this.pressure != 0) {
                 list.add(Component.translatable("fluid.info.pressure", this.pressure).withStyle(ChatFormatting.RED));

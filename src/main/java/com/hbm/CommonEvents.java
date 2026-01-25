@@ -15,7 +15,7 @@ import com.hbm.handler.HTTPHandler;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
-import com.hbm.inventory.ItemManager;
+import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.ModMenuTypes;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.screens.*;
@@ -74,9 +74,9 @@ public class CommonEvents {
         Fluids.init();
         HazardRegistry.registerItems();
         HazmatRegistry.registerHazmats();
+        FluidContainerRegistry.register();
         ArmorUtil.register();
         Satellite.register();
-        ItemManager.register();
     }
 
     @SubscribeEvent

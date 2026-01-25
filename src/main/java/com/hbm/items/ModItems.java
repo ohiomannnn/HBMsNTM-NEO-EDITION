@@ -8,11 +8,8 @@ import com.hbm.interfaces.Placeholder;
 import com.hbm.inventory.ModArmorMaterials;
 import com.hbm.inventory.ModTiers;
 import com.hbm.items.food.ItemEnergy;
-import com.hbm.items.machine.BatteryCreativeItem;
-import com.hbm.items.machine.BatteryPackItem;
+import com.hbm.items.machine.*;
 import com.hbm.items.machine.BatteryPackItem.BatteryPackType;
-import com.hbm.items.machine.FluidIconItem;
-import com.hbm.items.machine.SatChipItem;
 import com.hbm.items.special.DangerousDropItem;
 import com.hbm.items.special.EntitySpawnerItem;
 import com.hbm.items.special.PolaroidItem;
@@ -45,10 +42,6 @@ public class ModItems {
     public static final DeferredItem<Item> DETONATOR_DEADMAN = ITEMS.register("detonator_deadman", () -> new DangerousDropItem(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> DETONATOR_DE = ITEMS.register("detonator_de", () -> new DangerousDropItem(new Item.Properties().stacksTo(1)));
 
-    public static final DeferredItem<Item> BOMB_CALLER_CARPET = ITEMS.register("bomb_caller_carpet", () -> new BombCallerItem(new Item.Properties().stacksTo(1), BomberType.CARPET));
-    public static final DeferredItem<Item> BOMB_CALLER_NAPALM = ITEMS.register("bomb_caller_napalm", () -> new BombCallerItem(new Item.Properties().stacksTo(1), BomberType.NAPALM));
-    public static final DeferredItem<Item> BOMB_CALLER_ATOMIC = ITEMS.register("bomb_caller_atomic", () -> new BombCallerItem(new Item.Properties().stacksTo(1), BomberType.ATOMIC_BOMB));
-
     @Placeholder(reason = "only for creative tab")
     public static final DeferredItem<Item> PELLET_RTG = ITEMS.register("pellet_rtg", () -> new Item(new Item.Properties()));
 
@@ -61,34 +54,13 @@ public class ModItems {
             () -> new Item(new Item.Properties())
     );
 
-    public static final DeferredItem<Item> CELL_ANTIMATTER = ITEMS.register(
-            "cell_antimatter",
-            () -> new DangerousDropItem(new Item.Properties())
-    );
-    public static final DeferredItem<Item> PELLET_ANTIMATTER = ITEMS.register(
-            "pellet_antimatter",
-            () -> new DangerousDropItem(new Item.Properties())
-    );
-    public static final DeferredItem<Item> SINGULARITY = ITEMS.register(
-            "singularity",
-            () -> new DangerousDropItem(new Item.Properties().stacksTo(1))
-    );
-    public static final DeferredItem<Item> SINGULARITY_COUNTER_RESONANT = ITEMS.register(
-            "singularity_counter_resonant",
-            () -> new DangerousDropItem(new Item.Properties().stacksTo(1))
-    );
-    public static final DeferredItem<Item> SINGULARITY_SUPER_HEATED = ITEMS.register(
-            "singularity_super_heated",
-            () -> new DangerousDropItem(new Item.Properties().stacksTo(1))
-    );
-    public static final DeferredItem<Item> BLACK_HOLE = ITEMS.register(
-            "black_hole",
-            () -> new DangerousDropItem(new Item.Properties().stacksTo(1))
-    );
-    public static final DeferredItem<Item> SINGULARITY_SPARK = ITEMS.register(
-            "singularity_spark",
-            () -> new DangerousDropItem(new Item.Properties().stacksTo(1))
-    );
+    public static final DeferredItem<Item> CELL_ANTIMATTER = ITEMS.register("cell_antimatter", () -> new DangerousDropItem(new Item.Properties()));
+    public static final DeferredItem<Item> PELLET_ANTIMATTER = ITEMS.register("pellet_antimatter", () -> new DangerousDropItem(new Item.Properties()));
+    public static final DeferredItem<Item> SINGULARITY = ITEMS.register("singularity", () -> new DangerousDropItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> SINGULARITY_COUNTER_RESONANT = ITEMS.register("singularity_counter_resonant", () -> new DangerousDropItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> SINGULARITY_SUPER_HEATED = ITEMS.register("singularity_super_heated", () -> new DangerousDropItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> BLACK_HOLE = ITEMS.register("black_hole", () -> new DangerousDropItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> SINGULARITY_SPARK = ITEMS.register("singularity_spark", () -> new DangerousDropItem(new Item.Properties().stacksTo(1)));
 
     public static final DeferredItem<Item> REACHER = ITEMS.register("reacher", () -> new Item(new Item.Properties().stacksTo(1)));
 
@@ -237,6 +209,19 @@ public class ModItems {
     );
 
     public static final DeferredItem<Item> POLAROID = ITEMS.register("polaroid", () -> new PolaroidItem(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> BOMB_CALLER_CARPET = ITEMS.register("bomb_caller_carpet", () -> new BombCallerItem(new Item.Properties().stacksTo(1), BomberType.CARPET));
+    public static final DeferredItem<Item> BOMB_CALLER_NAPALM = ITEMS.register("bomb_caller_napalm", () -> new BombCallerItem(new Item.Properties().stacksTo(1), BomberType.NAPALM));
+    public static final DeferredItem<Item> BOMB_CALLER_ATOMIC = ITEMS.register("bomb_caller_atomic", () -> new BombCallerItem(new Item.Properties().stacksTo(1), BomberType.ATOMIC_BOMB));
+
+    public static final DeferredItem<Item> FLUID_TANK_EMPTY = ITEMS.register("fluid_tank_empty", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> FLUID_TANK_FULL = ITEMS.register("fluid_tank_full", () -> new FluidTankItem(new Item.Properties()));
+    public static final DeferredItem<Item> FLUID_TANK_LEAD_EMPTY = ITEMS.register("fluid_tank_lead_empty", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> FLUID_TANK_LEAD_FULL = ITEMS.register("fluid_tank_lead_full", () -> new FluidTankItem(new Item.Properties()));
+    public static final DeferredItem<Item> FLUID_BARREL_EMPTY = ITEMS.register("fluid_barrel_empty", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> FLUID_BARREL_FULL = ITEMS.register("fluid_barrel_full", () -> new FluidTankItem(new Item.Properties()));
+    public static final DeferredItem<Item> FLUID_PACK_EMPTY = ITEMS.register("fluid_pack_empty", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> FLUID_PACK_FULL = ITEMS.register("fluid_pack_full", () -> new FluidTankItem(new Item.Properties()));
 
     public static final DeferredItem<Item> BLOWTORCH = ITEMS.register("blowtorch", () -> new BlowtorchItem(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> ACETYLENE_TORCH = ITEMS.register("acetylene_torch", () -> new BlowtorchItem(new Item.Properties().stacksTo(1)));

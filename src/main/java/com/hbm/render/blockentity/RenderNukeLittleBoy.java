@@ -1,23 +1,16 @@
 package com.hbm.render.blockentity;
 
 import com.hbm.blockentity.bomb.NukeBoyBlockEntity;
-import com.hbm.blockentity.bomb.NukeFatManBlockEntity;
 import com.hbm.blocks.bomb.NukeBoyBlock;
-import com.hbm.blocks.bomb.NukeManBlock;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.loader.IModelCustom;
-import com.hbm.render.loader.bakedLoader.HFRObjGeometry.HFRObjBakedModel;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
 
 public class RenderNukeLittleBoy implements BlockEntityRenderer<NukeBoyBlockEntity> {
 
@@ -29,10 +22,10 @@ public class RenderNukeLittleBoy implements BlockEntityRenderer<NukeBoyBlockEnti
         Direction facing = be.getBlockState().getValue(NukeBoyBlock.FACING);
         float rot = switch (facing) {
             case DOWN, UP -> 0.0F;
-            case NORTH -> 0F;
-            case EAST -> 270F;
-            case SOUTH -> 180F;
             case WEST -> 90F;
+            case SOUTH -> 180F;
+            case EAST -> 270F;
+            case NORTH -> 0F;
         };
 
         poseStack.pushPose();

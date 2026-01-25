@@ -5,7 +5,7 @@ import com.hbm.blockentity.machine.storage.BatteryREDDBlockEntity;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.CustomRenderTypes;
-import com.hbm.render.loader.HFRWavefrontObject;
+import com.hbm.render.loader.WavefrontObjVBO;
 import com.hbm.render.util.BeamPronter;
 import com.hbm.render.util.BeamPronter.BeamType;
 import com.hbm.render.util.BeamPronter.WaveType;
@@ -36,10 +36,11 @@ public class RenderBatteryREDD implements BlockEntityRenderer<BatteryREDDBlockEn
 
         Direction facing = be.getBlockState().getValue(DummyableBlock.FACING);
         float rot = switch (facing) {
-            case NORTH -> 270f;
-            case SOUTH -> 90f;
-            case WEST -> 0f;
-            default -> 180f;
+            case DOWN, UP -> 0.0F;
+            case WEST -> 180F;
+            case SOUTH -> 90F;
+            case EAST -> 0F;
+            case NORTH -> 270F;
         };
 
         poseStack.pushPose();
@@ -126,15 +127,13 @@ public class RenderBatteryREDD implements BlockEntityRenderer<BatteryREDDBlockEn
         // why did i start using shaders...
         VertexConsumer plasmaConsumer = buffer.getBuffer(CustomRenderTypes.entityAdditive(ResourceManager.FUSION_PLASMA_TEX));
         VertexConsumer offsetConsumer = new OffsetVertexConsumer(plasmaConsumer, 0, (float) mainOsc);
-        ((HFRWavefrontObject) ResourceManager.battery_redd)
-                .renderPart("Plasma", poseStack, offsetConsumer, LightTexture.FULL_BRIGHT, packedOverlay, r, g, b, alpha * alphaMult);
+        ((WavefrontObjVBO) ResourceManager.battery_redd).renderPart("Plasma", poseStack, offsetConsumer, LightTexture.FULL_BRIGHT, packedOverlay, r, g, b, alpha * alphaMult);
 
         // cost-cutting measure, don't render extra layers from more than 100m away
         if (HBMsNTMClient.me().distanceToSqr(be.getBlockPos().getX() + 0.5, be.getBlockPos().getY() + 2.5, be.getBlockPos().getZ()) < 100 * 100) {
             VertexConsumer sparkleConsumer = buffer.getBuffer(CustomRenderTypes.entityAdditive(ResourceManager.FUSION_PLASMA_SPARKLE_TEX));
             VertexConsumer offsetSparkleConsumer = new OffsetVertexConsumer(sparkleConsumer, (float) sparkleSpin, (float) sparkleOsc);
-            ((HFRWavefrontObject) ResourceManager.battery_redd)
-                    .renderPart("Plasma", poseStack, offsetSparkleConsumer, LightTexture.FULL_BRIGHT, packedOverlay, r * 2, g * 2, b * 2, 0.75F * alphaMult);
+            ((WavefrontObjVBO) ResourceManager.battery_redd).renderPart("Plasma", poseStack, offsetSparkleConsumer, LightTexture.FULL_BRIGHT, packedOverlay, r * 2, g * 2, b * 2, 0.75F * alphaMult);
         }
     }
 
@@ -179,16 +178,20 @@ public class RenderBatteryREDD implements BlockEntityRenderer<BatteryREDDBlockEn
     private AABB bb = null;
 
     @Override
-    public AABB getRenderBoundingBox(BatteryREDDBlockEntity blockEntity) {
+    public AABB getRenderBoundingBox(BatteryREDDBlockEntity be) {
 
         if (bb == null) {
+            int x = be.getBlockPos().getX();
+            int y = be.getBlockPos().getX();
+            int z = be.getBlockPos().getX();
+
             bb = new AABB(
-                    blockEntity.getBlockPos().getX() - 4,
-                    blockEntity.getBlockPos().getY(),
-                    blockEntity.getBlockPos().getZ() - 4,
-                    blockEntity.getBlockPos().getX() - 5,
-                    blockEntity.getBlockPos().getY() - 10,
-                    blockEntity.getBlockPos().getZ() - 5
+                    x - 4,
+                    y - 0,
+                    z - 4,
+                    x - 5,
+                    y - 10,
+                    z - 5
             );
         }
 

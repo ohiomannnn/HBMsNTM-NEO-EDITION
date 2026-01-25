@@ -74,7 +74,7 @@ public class RenderFluidTank implements BlockEntityRenderer<MachineFluidTankBloc
     }
 
     public static String getTextureFromType(FluidType type) {
-        String s = type.getName().toLowerCase(Locale.US);
+        String s = type.getInternalName().toLowerCase(Locale.US);
 
         if (type.isAntimatter() || (type.hasTrait(FT_Corrosive.class) && type.getTrait(FT_Corrosive.class).isHighlyCorrosive())) {
             s = "danger";

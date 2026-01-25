@@ -156,7 +156,7 @@ public class FluidType {
         return this.id;
     }
     /** The unique mapping name for this fluid, usually matches the unlocalied name, minus the prefix */
-    public String getName() {
+    public String getInternalName() {
         return this.stringId;
     }
 
@@ -176,13 +176,8 @@ public class FluidType {
     }
 
     /** Returns the localized override name if present, or otherwise the I18n converted name */
-    @OnlyIn(Dist.CLIENT)
-    public String getLocalizedName() {
-        return this.localizedOverride != null ? this.localizedOverride : I18nUtil.resolveKey(this.unlocalized);
-    }
-    /** Returns the localized override name if present, or otherwise the raw unlocalized name. Used for server-side code that needs ChatComponentTranslation. */
-    public String getConditionalName() {
-        return this.localizedOverride != null ? this.localizedOverride : this.unlocalized;
+    public Component getName() {
+        return this.localizedOverride != null ? Component.literal(localizedOverride) : Component.translatable(this.unlocalized);
     }
 
     public boolean isHot() {

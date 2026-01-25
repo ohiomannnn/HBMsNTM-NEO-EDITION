@@ -189,7 +189,7 @@ public class Fluids {
             writer.beginObject();
 
             for (FluidType type : metaOrder) {
-                writer.name(type.getName()).beginObject();
+                writer.name(type.getInternalName()).beginObject();
 
                 for (Entry<Class<? extends FluidTrait>, FluidTrait> entry : type.traits.entrySet()) {
                     writer.name(FluidTrait.traitNameMap.inverse().get(entry.getKey())).beginObject();
@@ -214,7 +214,7 @@ public class Fluids {
 
             for (FluidType type : metaOrder) {
 
-                JsonElement element = json.get(type.getName());
+                JsonElement element = json.get(type.getInternalName());
                 if (element != null) {
                     type.traits.clear();
                     JsonObject obj = element.getAsJsonObject();
@@ -245,19 +245,19 @@ public class Fluids {
         if (!customTypes.exists()) initDefaultFluids(customTypes);
 
         for (FluidType type : customFluids) {
-            fluidMigration.put(type.getName(), type);
+            fluidMigration.put(type.getInternalName(), type);
             idMapping.remove(type.getID());
             registerOrder.remove(type);
-            nameMapping.remove(type.getName());
+            nameMapping.remove(type.getInternalName());
             metaOrder.remove(type);
         }
         customFluids.clear();
 
         for (FluidType type : foreignFluids) {
-            fluidMigration.put(type.getName(), type);
+            fluidMigration.put(type.getInternalName(), type);
             idMapping.remove(type.getID());
             registerOrder.remove(type);
-            nameMapping.remove(type.getName());
+            nameMapping.remove(type.getInternalName());
             metaOrder.remove(type);
         }
         foreignFluids.clear();
@@ -280,14 +280,14 @@ public class Fluids {
         int id = idMapping.size();
         idMapping.put(id, fluid);
         registerOrder.add(fluid);
-        nameMapping.put(fluid.getName(), fluid);
+        nameMapping.put(fluid.getInternalName(), fluid);
         return id;
     }
 
     protected static void register(FluidType fluid, int id) {
         idMapping.put(id, fluid);
         registerOrder.add(fluid);
-        nameMapping.put(fluid.getName(), fluid);
+        nameMapping.put(fluid.getInternalName(), fluid);
     }
 
     public static FluidType fromID(int id) {
@@ -326,12 +326,12 @@ public class Fluids {
             String name = renameMapping.inverse().get(type);
 
             //ditto
-            if (name == null) name = Fluids.NONE.getName();
+            if (name == null) name = Fluids.NONE.getInternalName();
 
             return name;
         }
 
-        return type.getName();
+        return type.getInternalName();
     }
 
     public static FluidType[] getAll() {

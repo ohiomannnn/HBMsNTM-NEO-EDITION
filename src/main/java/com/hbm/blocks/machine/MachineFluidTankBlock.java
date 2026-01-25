@@ -10,14 +10,21 @@ import com.hbm.blocks.DummyBlockType;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.util.TagsUtilDegradation;
 import com.mojang.serialization.MapCodec;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
@@ -76,6 +83,16 @@ public class MachineFluidTankBlock extends DummyableBlock implements IToolable, 
     }
 
     @Override
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
+        CompoundTag persistent = TagsUtilDegradation.getTag(stack).getCompound("persistent");
+        FluidTank tank = new FluidTank(Fluids.NONE, 0);
+        if (persistent.contains("Tank")) {
+            tank.readFromNBT(persistent, "Tank");
+            components.add(Component.translatable("fluid.info.mb.name", tank.getFill(), tank.getMaxFill(), tank.getTankType().getName()).withStyle(ChatFormatting.YELLOW));
+        }
+    }
+
+    @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
@@ -96,6 +113,8 @@ public class MachineFluidTankBlock extends DummyableBlock implements IToolable, 
             BlockEntity blockentity = level.getBlockEntity(corePos);
             if (blockentity instanceof MachineFluidTankBlockEntity be) {
                 be.tank.setTankType(Fluids.AIR);
+
+                return InteractionResult.CONSUME;
             }
         }
 

@@ -4,6 +4,8 @@ import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
+import com.hbm.items.datacomps.FluidTypeComponent;
+import com.hbm.items.datacomps.ModDataComponents;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.TagsUtilDegradation;
 import net.minecraft.ChatFormatting;
@@ -23,42 +25,23 @@ public class FluidIconItem extends Item {
 
     @Override
     public Component getName(ItemStack stack) {
-        FluidType type = getFluidType(stack);
-        if (type != null) {
-            return Component.translatable(type.getConditionalName());
-        }
-        return Component.literal("Unknown Fluid");
+        return FluidTypeComponent.getFluidType(stack).getName();
     }
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
         if (TagsUtilDegradation.containsAnyTag(stack)) {
-            if (getQuantity(stack) > 0) components.add(Component.literal(getQuantity(stack) + "mB").withStyle(ChatFormatting.GRAY));
+            if (getQuantity(stack) > 0) components.add(Component.translatable("fluid.info.mb", getQuantity(stack)).withStyle(ChatFormatting.GRAY));
             if (getPressure(stack) > 0) {
                 components.add(Component.translatable("fluid.info.pressure", getPressure(stack)).withStyle(ChatFormatting.RED));
                 components.add(Component.translatable("fluid.info.pressurized").withStyle(BobMathUtil.getBlink() ? ChatFormatting.RED : ChatFormatting.DARK_RED));
             }
         }
 
-        FluidType type = getFluidType(stack);
+        FluidType type = FluidTypeComponent.getFluidType(stack);
         if (type != null) {
             type.addInfo(components);
         }
-    }
-
-    public static FluidType getFluidType(ItemStack stack) {
-        CompoundTag tag = TagsUtilDegradation.getTag(stack);
-        if (tag.contains("FluidId")) {
-            return Fluids.fromID(tag.getInt("FluidId"));
-        }
-        return null;
-    }
-
-    public static ItemStack setFluidType(ItemStack stack, FluidType type) {
-        CompoundTag tag = TagsUtilDegradation.getTag(stack);
-        tag.putInt("FluidId", type.getID());
-        TagsUtilDegradation.putTag(stack, tag);
-        return stack;
     }
 
     public static ItemStack addQuantity(ItemStack stack, int amount) {
@@ -85,27 +68,18 @@ public class FluidIconItem extends Item {
     }
 
     public static ItemStack make(FluidStack fluidStack) {
-        return make(fluidStack.type, fluidStack.fill, fluidStack.pressure);
+        return create(fluidStack.type, fluidStack.fill, fluidStack.pressure);
     }
 
     public static ItemStack make(FluidType fluid, int amount) {
-        return make(fluid, amount, 0);
+        return create(fluid, amount, 0);
     }
 
-    public static ItemStack make(FluidType fluid, int amount, int pressure) {
+    public static ItemStack create(FluidType type, int amount, int pressure) {
         ItemStack stack = new ItemStack(ModItems.FLUID_ICON.get());
-        setFluidType(stack, fluid);
+        stack.set(ModDataComponents.FLUID_TYPE.get(), new FluidTypeComponent(type.getID()));
         addQuantity(stack, amount);
         addPressure(stack, pressure);
         return stack;
-    }
-
-    public static int getColor(ItemStack stack) {
-        FluidType type = getFluidType(stack);
-        if (type != null) {
-            int color = type.getColor();
-            return color < 0 ? 0xFFFFFF : color;
-        }
-        return 0xFFFFFF;
     }
 }

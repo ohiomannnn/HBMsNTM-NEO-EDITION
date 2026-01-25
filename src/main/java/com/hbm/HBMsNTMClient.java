@@ -13,10 +13,13 @@ import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.Spaghetti;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.screens.LoadingScreenRendererNT;
 import com.hbm.items.IItemHUD;
 import com.hbm.items.ModItems;
+import com.hbm.items.datacomps.FluidTypeComponent;
 import com.hbm.items.machine.FluidIconItem;
+import com.hbm.items.machine.FluidTankItem;
 import com.hbm.items.special.PolaroidItem;
 import com.hbm.items.tools.GeigerCounterItem;
 import com.hbm.main.ResourceManager;
@@ -36,10 +39,7 @@ import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.sound.AudioWrapperClient;
-import com.hbm.util.ArmorRegistry;
-import com.hbm.util.Clock;
-import com.hbm.util.DamageResistanceHandler;
-import com.hbm.util.Vec3NT;
+import com.hbm.util.*;
 import com.hbm.util.i18n.I18nClient;
 import com.hbm.util.i18n.ITranslate;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -332,7 +332,6 @@ public class HBMsNTMClient {
             }
         }
     }
-
     @SubscribeEvent
     public static void onOpenGUI(ScreenEvent.Opening event) {
         if (event.getScreen() instanceof TitleScreen main && MainConfig.CLIENT.ENABLE_MAIN_MENU_WACKY_SPLASHES.get()) {
@@ -353,14 +352,14 @@ public class HBMsNTMClient {
                 case 11 -> "Do drugs!";
                 case 12 -> "Imagine being scared by splash texts!";
                 case 13 -> ChatFormatting.RED + "" + ChatFormatting.BOLD + "AW SHUCKS!";
-                default -> " ";
+                default -> null;
             };
 
             double d = Math.random();
             if (d < 0.1) text = "Redditors aren't people!";
             else if (d < 0.2) text = "Can someone tell me what corrosive fumes the people on Reddit are huffing so I can avoid those more effectively?";
 
-            if (text.equals(" ")) return;
+            if (text == null) return;
 
             try {
                 Field splashField = TitleScreen.class.getDeclaredField("splash");
@@ -407,8 +406,20 @@ public class HBMsNTMClient {
                 ModBlocks.ORE_SELLAFIELD_EMERALD.get()
         );
         event.register(
-                (stack, tintIndex) -> new Color(FluidIconItem.getColor(stack)).getRGB(),
+                (stack, tintIndex) -> 0xFF000000 | FluidTypeComponent.getFluidType(stack).getColor(),
                 ModItems.FLUID_ICON.get()
+        );
+        event.register(
+                (stack, tintIndex) -> {
+                    if (tintIndex == 1) {
+                        return 0xFF000000 | FluidTypeComponent.getFluidType(stack).getColor();
+                    }
+                    return 0xFFFFFFFF;
+                },
+                ModItems.FLUID_TANK_FULL.get(),
+                ModItems.FLUID_TANK_LEAD_FULL.get(),
+                ModItems.FLUID_BARREL_FULL.get(),
+                ModItems.FLUID_PACK_FULL.get()
         );
     }
 
@@ -564,6 +575,19 @@ public class HBMsNTMClient {
                 stack.getTags().map(TagKey::location).sorted(ResourceLocation::compareTo).forEach(location ->
                         list.add(Component.literal(" -" + location).withStyle(ChatFormatting.AQUA)
                 ));
+            }
+            Item item = stack.getItem();
+            if (item instanceof BlockItem blockItem) {
+                Block block = blockItem.getBlock();
+                boolean hasBlockTags = block.builtInRegistryHolder().tags().findAny().isPresent();
+
+                if (hasBlockTags) {
+                    list.add(Component.empty());
+                    list.add(Component.literal("Block tags:").withStyle(ChatFormatting.GREEN));
+                    block.builtInRegistryHolder().tags().map(TagKey::location).sorted(ResourceLocation::compareTo).forEach(location ->
+                            list.add(Component.literal(" - " + location).withStyle(ChatFormatting.DARK_GREEN))
+                    );
+                }
             }
         }
     }

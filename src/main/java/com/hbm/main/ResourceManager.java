@@ -99,8 +99,8 @@ public class ResourceManager {
 
         geiger = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/block/geiger.obj")).asVBO();
 
-        battery_socket = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/machines/battery.obj"));
-        battery_redd = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/machines/fensu2.obj"));
+        battery_socket = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/machines/battery.obj")).asVBO();
+        battery_redd = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/machines/fensu2.obj")).asVBO();
 
         dornier = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/dornier.obj")).asVBO();
         b29 = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/b29.obj")).asVBO();

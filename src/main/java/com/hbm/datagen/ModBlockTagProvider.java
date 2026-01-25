@@ -2,7 +2,7 @@ package com.hbm.datagen;
 
 import com.hbm.HBMsNTM;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.util.ModTags;
+import com.hbm.inventory.ModTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
