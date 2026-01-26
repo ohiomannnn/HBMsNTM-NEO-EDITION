@@ -7,10 +7,12 @@ import com.hbm.entity.effect.NukeTorex.Cloudlet;
 import com.hbm.lib.ModSounds;
 import com.hbm.render.CustomRenderTypes;
 import com.hbm.util.old.TessColorUtil;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -39,6 +41,7 @@ public class RenderTorex extends EntityRenderer<NukeTorex> {
     @Override
     public void render(NukeTorex entity, float yaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         poseStack.pushPose();
+        FogRenderer.setupNoFog();
         cloudletWrapper(entity, partialTicks, poseStack, buffer);
         if (entity.tickCount < 101) flashWrapper(entity, partialTicks, poseStack, buffer);
         if (entity.tickCount < 10 && System.currentTimeMillis() - HBMsNTMClient.flashTimestamp > 1_000) HBMsNTMClient.flashTimestamp = System.currentTimeMillis();

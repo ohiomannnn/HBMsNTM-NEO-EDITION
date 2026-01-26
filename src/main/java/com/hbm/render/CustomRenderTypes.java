@@ -84,8 +84,27 @@ public class CustomRenderTypes {
             }
     );
 
+    public static final Function<ResourceLocation, RenderType> SMOTH_NO_LIGHT = Util.memoize(
+            texture -> {
+                RenderType.CompositeState state = RenderType.CompositeState.builder()
+                        .setShaderState(RenderType.POSITION_COLOR_SHADER)
+                        .setTextureState(new TextureStateShard(texture, false, false))
+                        .setTransparencyState(SEVEN_SEVEN10)
+                        .setCullState(RenderType.NO_CULL)
+                        .setLightmapState(RenderType.NO_LIGHTMAP)
+                        .setOverlayState(RenderType.NO_OVERLAY)
+                        .setWriteMaskState(RenderType.COLOR_WRITE)
+                        .createCompositeState(false);
+                return RenderType.create("smoth", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, true, true, state);
+            }
+    );
+
     public static RenderType entitySmoth(ResourceLocation location) {
         return SMOTH.apply(location);
+    }
+
+    public static RenderType entitySmothNoLight(ResourceLocation location) {
+        return SMOTH_NO_LIGHT.apply(location);
     }
 
     public static RenderType entityAdditive(ResourceLocation location) {

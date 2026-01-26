@@ -224,6 +224,9 @@
   "item.hbmsntm.fluid_barrel_full": "Fluid Barrel: %s",
   "item.hbmsntm.fluid_pack_empty": "Large Fluid Container",
   "item.hbmsntm.fluid_pack_full": "Packaged %s",
+  "item.hbmsntm.fluid_barrel_infinite": "Infinite Fluid Barrel",
+  "item.hbmsntm.inf_water": "Infinite Water Tank",
+  "item.hbmsntm.inf_water_mk2": "Large Infinite Water Tank",
 
   "item.hbmsntm.satellite_interface": "Satellite Control Interface",
 

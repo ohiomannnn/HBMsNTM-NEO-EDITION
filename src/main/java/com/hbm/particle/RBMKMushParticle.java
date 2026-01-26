@@ -1,10 +1,14 @@
 package com.hbm.particle;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.hbm.render.CustomRenderTypes;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
@@ -32,56 +36,55 @@ public class RBMKMushParticle extends TextureSheetParticle {
     }
 
     @Override
-    public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
+    public void render(VertexConsumer ignored, Camera camera, float partialTicks) {
         Vec3 cameraPosition = camera.getPosition();
 
         float pX = (float) (Mth.lerp(partialTicks, this.xo, this.x) - cameraPosition.x);
         float pY = (float) (Mth.lerp(partialTicks, this.yo, this.y) - cameraPosition.y) + this.quadSize;
         float pZ = (float) (Mth.lerp(partialTicks, this.zo, this.z) - cameraPosition.z);
 
-        Vector3f up = new Vector3f(camera.getUpVector());
-        Vector3f left = new Vector3f(camera.getLeftVector());
-
-        renderQuad(consumer, pX, pY, pZ, up, left, this.quadSize);
-
-        RenderSystem.enableCull();
-    }
-
-    private void renderQuad(VertexConsumer consumer, float pX, float pY, float pZ, Vector3f up, Vector3f left, float scale) {
-
         float u0 = sprite.getU0();
         float u1 = sprite.getU1();
         float v0 = sprite.getV0();
         float v1 = sprite.getV1();
 
-        Vector3f l = new Vector3f(left).mul(scale);
-        Vector3f u = new Vector3f(up).mul(scale);
+        Vector3f l = new Vector3f(camera.getLeftVector()).mul(this.quadSize);
+        Vector3f u = new Vector3f(camera.getUpVector()).mul(this.quadSize);
+
+        MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
+        VertexConsumer consumer = bufferSource.getBuffer(CustomRenderTypes.entityAdditive(TextureAtlas.LOCATION_PARTICLES));
 
         consumer.addVertex(pX - l.x - u.x, pY - l.y - u.y, pZ - l.z - u.z)
-                .setUv(u1, v1)
                 .setColor(this.rCol, this.bCol, this.gCol, this.alpha)
+                .setUv(u1, v1)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
         consumer.addVertex(pX - l.x + u.x, pY - l.y + u.y, pZ - l.z + u.z)
-                .setUv(u1, v0)
                 .setColor(this.rCol, this.bCol, this.gCol, this.alpha)
+                .setUv(u1, v0)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
         consumer.addVertex(pX + l.x + u.x, pY + l.y + u.y, pZ + l.z + u.z)
-                .setUv(u0, v0)
                 .setColor(this.rCol, this.bCol, this.gCol, this.alpha)
+                .setUv(u0, v0)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
         consumer.addVertex(pX + l.x - u.x, pY + l.y - u.y, pZ + l.z - u.z)
-                .setUv(u0, v1)
                 .setColor(this.rCol, this.bCol, this.gCol, this.alpha)
+                .setUv(u0, v1)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
+
+        bufferSource.endBatch();
     }
 
     @Override
     public ParticleRenderType getRenderType() {
-        return ModParticleRenderTypes.PARTICLE_SHEET_ADDITIVE;
+        return ModParticleRenderTypes.NONE;
     }
 
     public static class Provider implements ParticleProvider<SimpleParticleType> {

@@ -66,6 +66,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         this.layeredItem(ModItems.FLUID_BARREL_FULL.get(), "fluid_barrel", "fluid_barrel_overlay");
         this.basicCustomLayerItem(ModItems.FLUID_PACK_EMPTY.get(), "fluid_pack");
         this.layeredItem(ModItems.FLUID_PACK_FULL.get(), "fluid_pack", "fluid_pack_overlay");
+        this.basicItem(ModItems.FLUID_BARREL_INFINITE.get());
+        this.basicItem(ModItems.INF_WATER.get());
+        this.basicItem(ModItems.INF_WATER_MK2.get());
 
         basicItem(ModItems.CAP_NUKA.get());
         basicItem(ModItems.CAP_QUANTUM.get());

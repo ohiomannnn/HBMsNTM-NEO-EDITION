@@ -13,7 +13,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -102,7 +101,7 @@ public class FluidTank {
     public boolean loadTank(Level level, int in, int out, NonNullList<ItemStack> slots) {
         if (slots.get(in).isEmpty()) return false;
 
-        boolean isInfiniteBarrel = slots.get(in).getItem() == ModItems.FLUID_BARREL_CREATIVE.get();
+        boolean isInfiniteBarrel = slots.get(in).getItem() == ModItems.FLUID_BARREL_INFINITE.get();
         if (!isInfiniteBarrel && pressure != 0) return false;
 
         int prev = this.getFill();

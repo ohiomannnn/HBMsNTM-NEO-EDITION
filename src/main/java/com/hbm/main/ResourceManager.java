@@ -49,6 +49,8 @@ public class ResourceManager {
 
     public static final ResourceLocation BOMBLET_ZETA_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bomblet_zeta.png");
 
+    public static final ResourceLocation DETONATOR_LASER_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/weapon/detonator_laser.png");
+
     public static IModelCustom mine_ap;
     public static IModelCustom mine_he;
     public static IModelCustom mine_naval;
@@ -77,6 +79,8 @@ public class ResourceManager {
     public static IModelCustom c130;
 
     public static IModelCustom bomblet_zeta;
+
+    public static IModelCustom detonator_laser;
 
     public static void init() {
         mine_ap = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/mine_ap.obj")).asVBO();
@@ -107,5 +111,7 @@ public class ResourceManager {
         c130 = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/weapon/c130.obj")).asVBO();
 
         bomblet_zeta = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomblet_zeta.obj")).asVBO();
+
+        detonator_laser = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/weapon/detonator_laser.obj")).asVBO();
     }
 }

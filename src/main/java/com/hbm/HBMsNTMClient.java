@@ -34,6 +34,7 @@ import com.hbm.render.entity.mob.CreeperNuclearRenderer;
 import com.hbm.render.entity.mob.DuckRenderer;
 import com.hbm.render.entity.projectile.*;
 import com.hbm.render.item.RenderFluidTankItem;
+import com.hbm.render.item.RenderLaserDetonator;
 import com.hbm.render.loader.bakedLoader.HFRObjGeometryLoader;
 import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.render.util.RenderScreenOverlay;
@@ -539,6 +540,7 @@ public class HBMsNTMClient {
     public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
 
         registerItemRenderer(event, RenderFluidTankItem::new, ModBlocks.MACHINE_FLUID_TANK.asItem());
+        registerItemRenderer(event, RenderLaserDetonator::new, ModItems.NOTHING.get());
     }
 
     private static void registerItemRenderer(RegisterClientExtensionsEvent event, Supplier<BlockEntityWithoutLevelRenderer> rendererFactory, Item... items) {

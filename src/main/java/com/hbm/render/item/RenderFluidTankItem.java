@@ -37,13 +37,12 @@ public class RenderFluidTankItem extends BlockEntityWithoutLevelRenderer {
 
         FluidType type = tank.getTankType();
 
+        VertexConsumer frameConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.TANK_TEX));
         if (!exploded) {
-            VertexConsumer frameConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.TANK_TEX));
             ResourceManager.fluid_tank.renderPart("Frame", poseStack, frameConsumer, packedLight, packedOverlay);
             VertexConsumer tankConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(HBMsNTM.withDefaultNamespaceNT(RenderFluidTank.getTextureFromType(type))));
             ResourceManager.fluid_tank.renderPart("Tank", poseStack, tankConsumer, packedLight, packedOverlay);
         } else {
-            VertexConsumer frameConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.TANK_TEX));
             ResourceManager.fluid_tank_exploded.renderPart("Frame", poseStack, frameConsumer, packedLight, packedOverlay);
             VertexConsumer innerConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.TANK_INNER_TEX));
             ResourceManager.fluid_tank_exploded.renderPart("TankInner", poseStack, innerConsumer, packedLight, packedOverlay);

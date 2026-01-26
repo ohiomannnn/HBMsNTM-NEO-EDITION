@@ -41,6 +41,11 @@ public class ModCreativeTabs {
                         output.accept(ModItems.PELLET_ANTIMATTER);
 
                         FluidType[] types = Fluids.getInNiceOrder();
+                        for (int i = 1; i < types.length; ++i) {
+                            FluidType type = types[i];
+
+                            output.accept(FluidIconItem.make(type, 1000));
+                        }
                         // tanks
                         output.accept(ModItems.FLUID_TANK_EMPTY.get());
                         for (int i = 1; i < types.length; ++i) {
@@ -76,12 +81,9 @@ public class ModCreativeTabs {
                             if (type.needsLeadContainer()) continue;
                             output.accept(FluidTankItem.createStack(ModItems.FLUID_PACK_FULL.get(), type));
                         }
-
-                        for (int i = 1; i < types.length; ++i) {
-                            FluidType type = types[i];
-
-                            output.accept(FluidIconItem.make(type, 1000));
-                        }
+                        output.accept(ModItems.FLUID_BARREL_INFINITE.get());
+                        output.accept(ModItems.INF_WATER.get());
+                        output.accept(ModItems.INF_WATER_MK2.get());
 
                         output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.BATTERY_PACK_REDSTONE.get())));
                         output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_REDSTONE.get())));
