@@ -129,6 +129,9 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         this.basicItem(ModItems.EARLY_EXPLOSIVE_LENSES.get());
 
+        this.basicItem(ModItems.GADGET_WIREING.get());
+        this.basicItem(ModItems.GADGET_CORE.get());
+
         this.basicItem(ModItems.LITTLE_BOY_SHIELDING.get());
         this.basicItem(ModItems.LITTLE_BOY_TARGET.get());
         this.basicItem(ModItems.LITTLE_BOY_BULLET.get());

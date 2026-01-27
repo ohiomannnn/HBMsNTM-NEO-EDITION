@@ -154,6 +154,7 @@ public class HazardRegistry {
 
         HazardSystem.register(ModItems.LITTLE_BOY_PROPELLANT.get(), makeData(EXPLOSIVE, 2F));
 
+        HazardSystem.register(ModItems.GADGET_CORE.get(), makeData(RADIATION, pu239 * nugget * 10));
         HazardSystem.register(ModItems.LITTLE_BOY_TARGET.get(), makeData(RADIATION, u235 * ingot * 2));
         HazardSystem.register(ModItems.LITTLE_BOY_BULLET.get(), makeData(RADIATION, u235 * ingot));
         HazardSystem.register(ModItems.FAT_MAN_CORE.get(), makeData(RADIATION, pu239 * nugget * 10));

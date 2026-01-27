@@ -41,7 +41,7 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
         super(ModBlockEntities.BATTERY_REDD.get(), pos, blockState, 2);
     }
 
-    @Override public Component getName() { return Component.translatable("container.batteryREDD"); }
+    @Override public Component getDefaultName() { return Component.translatable("container.batteryREDD"); }
 
     @Override
     public void updateEntity() {

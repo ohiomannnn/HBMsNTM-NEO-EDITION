@@ -26,17 +26,17 @@ public class RenderCrashedBombItem extends ItemRenderBase {
             ResourceManager.dud_balefire.renderAll(poseStack, consumer, packedLight, packedOverlay);
         }
         if (stack.is(ModBlocks.CRASHED_BOMB_CONVENTIONAL.asItem())) {
-            poseStack.translate(0, 0, -0.5);
+            poseStack.translate(0F, 0F, -0.5F);
             VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.DUD_CONVENTIONAL_TEX));
             ResourceManager.dud_conventional.renderAll(poseStack, consumer, packedLight, packedOverlay);
         }
         if (stack.is(ModBlocks.CRASHED_BOMB_NUKE.asItem())) {
-            poseStack.translate(0, 0, 1.25);
+            poseStack.translate(0F, 0F, 1.25F);
             VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.DUD_NUKE_TEX));
             ResourceManager.dud_nuke.renderAll(poseStack, consumer, packedLight, packedOverlay);
         }
         if (stack.is(ModBlocks.CRASHED_BOMB_SALTED.asItem())) {
-            poseStack.translate(0, 0, 0.5);
+            poseStack.translate(0F, 0F, 0.5F);
             VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.DUD_SALTED_TEX));
             ResourceManager.dud_salted.renderAll(poseStack, consumer, packedLight, packedOverlay);
         }

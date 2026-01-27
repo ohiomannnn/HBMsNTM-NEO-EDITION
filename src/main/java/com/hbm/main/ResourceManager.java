@@ -15,6 +15,7 @@ public class ResourceManager {
     public static final ResourceLocation MINE_NAVAL_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/bomb/mine_naval.png");
     public static final ResourceLocation MINE_FAT_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/bomb/mine_fat.png");
 
+    public static final ResourceLocation NUKE_GADGET_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/bomb/nuke_gadget.png");
     public static final ResourceLocation NUKE_LITTLE_BOY_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/bomb/nuke_little_boy.png");
     public static final ResourceLocation NUKE_FAT_MAN_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/bomb/nuke_fatman.png");
     public static final ResourceLocation NUKE_TSAR_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/bomb/nuke_tsar.png");
@@ -56,6 +57,7 @@ public class ResourceManager {
     public static IModelCustom mine_naval;
     public static IModelCustom mine_fat;
 
+    public static IModelCustom nuke_gadget;
     public static IModelCustom nuke_little_boy;
     public static IModelCustom nuke_fat_man;
     public static IModelCustom nuke_tsar;
@@ -88,6 +90,7 @@ public class ResourceManager {
         mine_naval = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/mine_naval.obj")).asVBO();
         mine_fat = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/mine_fat.obj")).asVBO();
 
+        nuke_gadget = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/nuke_gadget.obj")).asVBO();
         nuke_little_boy = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/nuke_little_boy.obj")).asVBO();
         nuke_fat_man = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/nuke_fatman.obj")).asVBO();
         nuke_tsar = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/nuke_tsar.obj")).asVBO();

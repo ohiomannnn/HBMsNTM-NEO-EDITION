@@ -31,7 +31,7 @@ public class BatterySocketBlockEntity extends BatteryBaseBlockEntity {
         super(ModBlockEntities.BATTERY_SOCKET.get(), pos, blockState, 1);
     }
 
-    @Override public Component getName() { return Component.translatable("container.batterySocket"); }
+    @Override public Component getDefaultName() { return Component.translatable("container.batterySocket"); }
 
     @Override
     public void updateEntity() {

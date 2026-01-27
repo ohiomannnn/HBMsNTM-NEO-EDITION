@@ -1,6 +1,6 @@
 package com.hbm.blockentity;
 
-import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hbm.blockentity.bomb.IReady;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -13,35 +13,32 @@ import net.minecraft.world.Nameable;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.FurnaceBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 
-public abstract class MachineBaseBlockEntity extends LoadedBaseBlockEntity implements WorldlyContainer, Nameable, MenuProvider {
+// same as MachineBaseBlockEntity but without update things
+public abstract class NukeBaseBlockEntity extends BlockEntity implements WorldlyContainer, Nameable, MenuProvider {
 
     public NonNullList<ItemStack> slots;
 
     private Component customName;
 
-    public MachineBaseBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState, int size) {
+    public NukeBaseBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState, int size) {
         super(type, pos, blockState);
         slots = NonNullList.withSize(size, ItemStack.EMPTY);
     }
 
-    /** The "chunks is modified, pls don't forget to save me" effect of markDirty, minus the block updates */
-    public void markChanged() {
-        if (level != null) {
-            level.blockEntityChanged(this.worldPosition);
-        }
-    }
+    public abstract boolean isReady();
 
+    @Override
     public Component getName() {
         return this.customName != null ? this.customName : this.getDefaultName();
     }
 
+    @Override
     public Component getDisplayName() {
         return this.getName();
     }
@@ -134,11 +131,6 @@ public abstract class MachineBaseBlockEntity extends LoadedBaseBlockEntity imple
         return new int[] { };
     }
 
-    public abstract void updateEntity();
-
-    @Deprecated
-    public void handleButtonPacket(int value, int meta) { }
-
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
@@ -193,29 +185,5 @@ public abstract class MachineBaseBlockEntity extends LoadedBaseBlockEntity imple
     @Override
     public void clearContent() {
         slots.clear();
-    }
-
-    public void updateRedstoneConnection(DirPos pos) {
-
-        int x = pos.getX();
-        int y = pos.getY();
-        int z = pos.getZ();
-        Direction dir = pos.getDir();
-        BlockState s = level.getBlockState(pos);
-        Block b = s.getBlock();
-
-        b.onNeighborChange(s, level, pos, this.getBlockPos());
-        if (s.isSolidRender(level, pos)) {
-            x += dir.getStepX();
-            y += dir.getStepY();
-            z += dir.getStepZ();
-            BlockPos newPos = new BlockPos(x, y, z);
-            BlockState s2 = level.getBlockState(pos);
-            Block b2 = s2.getBlock();
-
-            if (b2.getWeakChanges(s2, level, newPos)) {
-                b2.onNeighborChange(s2, level, newPos, this.getBlockPos());
-            }
-        }
     }
 }

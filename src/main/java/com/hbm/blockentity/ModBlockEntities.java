@@ -108,10 +108,17 @@ public class ModBlockEntities {
                             ModBlocks.DET_CORD.get())
                     .build(null));
 
-    public static final Supplier<BlockEntityType<NukeBoyBlockEntity>> NUKE_LITTLE_BOY = REGISTER.register(
+    public static final Supplier<BlockEntityType<NukeGadgetBlockEntity>> NUKE_GADGET = REGISTER.register(
+            "nuke_gadget",
+            () -> BlockEntityType.Builder.of(
+                    NukeGadgetBlockEntity::new,
+                    ModBlocks.NUKE_GADGET.get()
+            ).build(null));
+
+    public static final Supplier<BlockEntityType<NukeLittleBoyBlockEntity>> NUKE_LITTLE_BOY = REGISTER.register(
             "nuke_little_boy",
             () -> BlockEntityType.Builder.of(
-                    NukeBoyBlockEntity::new,
+                    NukeLittleBoyBlockEntity::new,
                     ModBlocks.NUKE_LITTLE_BOY.get()
             ).build(null));
 

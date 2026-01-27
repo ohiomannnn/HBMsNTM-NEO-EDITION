@@ -1,11 +1,11 @@
 package com.hbm.blocks.bomb;
 
-import com.hbm.blockentity.bomb.NukeFatManBlockEntity;
+import com.hbm.blockentity.NukeBaseBlockEntity;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.effect.NukeTorex;
 import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.interfaces.IBomb;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.*;
@@ -19,11 +19,15 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 
-public class NukeManBlock extends BaseEntityBlock implements IBomb {
+// now were thinking with abstraction
+// is it was too hard, or bob was too lazy?
+public abstract class NukeBaseBlock extends BaseEntityBlock implements IBomb {
 
-    public static final DirectionProperty FACING;
+    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
-    public NukeManBlock(Properties properties) {
+    private int size = 0;
+
+    public NukeBaseBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(((this.stateDefinition.any()).setValue(FACING, Direction.NORTH)));
     }
@@ -45,8 +49,7 @@ public class NukeManBlock extends BaseEntityBlock implements IBomb {
     }
 
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
-        BlockEntity blockEntity = level.getBlockEntity(pos);
-        if (blockEntity instanceof Container container) {
+        if (level.getBlockEntity(pos) instanceof Container container) {
             Containers.dropContents(level, pos, container);
             level.updateNeighbourForOutputSignal(pos, this);
         }
@@ -69,33 +72,37 @@ public class NukeManBlock extends BaseEntityBlock implements IBomb {
         return InteractionResult.SUCCESS;
     }
 
-    public static final MapCodec<NukeManBlock> CODEC = simpleCodec(NukeManBlock::new);
-    @Override protected MapCodec<NukeManBlock> codec() { return CODEC; }
+    /**
+     * Because neoforge config system sucks, we will register sizes on FMLCommonSetupEvent, NOT on item registration
+     */
+    public NukeBaseBlock setSize(int size) {
+        this.size = size;
+        return this;
+    }
 
-    @Override
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new NukeFatManBlockEntity(pos, state);
+    public static void registerSizes() {
+        ModBlocks.NUKE_GADGET.get()      .setSize(MainConfig.COMMON.GADGET_RADIUS.get());
+        ModBlocks.NUKE_LITTLE_BOY.get()  .setSize(MainConfig.COMMON.BOY_RADIUS.get());
+        ModBlocks.NUKE_FAT_MAN.get()     .setSize(MainConfig.COMMON.MAN_RADIUS.get());
     }
 
     @Override
     public BombReturnCode explode(Level level, BlockPos pos) {
         if (!level.isClientSide) {
-            NukeFatManBlockEntity blockEntity = (NukeFatManBlockEntity) level.getBlockEntity(pos);
-            if (blockEntity == null) return BombReturnCode.UNDEFINED;
-            if (blockEntity.isReady()) {
-                blockEntity.slots.clear();
-                level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
-                NukeExplosionMK5.statFac(level, MainConfig.COMMON.MAN_RADIUS.get(), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-                NukeTorex.statFacStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, MainConfig.COMMON.MAN_RADIUS.get());
-                return BombReturnCode.DETONATED;
+            BlockEntity be = level.getBlockEntity(pos);
+            if (be == null) return BombReturnCode.UNDEFINED;
+            if (be instanceof NukeBaseBlockEntity nuke) {
+                if (nuke.isReady()) {
+                    nuke.slots.clear();
+                    level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+                    NukeExplosionMK5.statFac(level, this.size, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+                    NukeTorex.statFacStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, this.size);
+                    return BombReturnCode.DETONATED;
+                }
             }
             return BombReturnCode.ERROR_MISSING_COMPONENT;
         }
 
         return BombReturnCode.UNDEFINED;
-    }
-
-    static {
-        FACING = HorizontalDirectionalBlock.FACING;
     }
 }

@@ -1,6 +1,7 @@
 package com.hbm;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.bomb.NukeBaseBlock;
 import com.hbm.commands.ChunkRadCommand;
 import com.hbm.commands.LivingPropsCommand;
 import com.hbm.commands.SatellitesCommand;
@@ -77,6 +78,7 @@ public class CommonEvents {
         FluidContainerRegistry.register();
         ArmorUtil.register();
         Satellite.register();
+        NukeBaseBlock.registerSizes();
     }
 
     @SubscribeEvent
@@ -167,6 +169,7 @@ public class CommonEvents {
         event.register(ModMenuTypes.BATTERY_SOCKET.get(), BatterySocketScreen::new);
         event.register(ModMenuTypes.BATTERY_REDD.get(), BatteryREDDScreen::new);
 
+        event.register(ModMenuTypes.NUKE_GADGET.get(), NukeGadgetScreen::new);
         event.register(ModMenuTypes.NUKE_LITTLE_BOY.get(), NukeLittleBoyScreen::new);
         event.register(ModMenuTypes.NUKE_FAT_MAN.get(), NukeFatManScreen::new);
     }

@@ -1,12 +1,11 @@
 package com.hbm.blockentity.bomb;
 
-import com.hbm.blockentity.MachineBaseBlockEntity;
 import com.hbm.blockentity.ModBlockEntities;
+import com.hbm.blockentity.NukeBaseBlockEntity;
 import com.hbm.inventory.menus.NukeLittleBoyMenu;
 import com.hbm.items.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -14,16 +13,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class NukeBoyBlockEntity extends MachineBaseBlockEntity implements MenuProvider {
+public class NukeLittleBoyBlockEntity extends NukeBaseBlockEntity {
 
-    public NukeBoyBlockEntity(BlockPos pos, BlockState state) {
+    public NukeLittleBoyBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.NUKE_LITTLE_BOY.get(), pos, state, 5);
     }
 
-    @Override public Component getName() { return Component.translatable("container.nukeLittleBoy"); }
-
-    @Override public void updateEntity() { }
-
+    @Override public Component getDefaultName() { return Component.translatable("container.nukeLittleBoy"); }
     @Override
     public int getMaxStackSize() {
         return 1;
@@ -39,6 +35,7 @@ public class NukeBoyBlockEntity extends MachineBaseBlockEntity implements MenuPr
                 item == ModItems.LITTLE_BOY_IGNITER.get();
     }
 
+    @Override
     public boolean isReady() {
         return slots.get(0).getItem() == ModItems.LITTLE_BOY_SHIELDING.get() &&
                 slots.get(1).getItem() == ModItems.LITTLE_BOY_TARGET.get() &&

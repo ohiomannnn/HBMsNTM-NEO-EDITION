@@ -43,6 +43,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.BRICK_CONCRETE_BROKEN_STAIRS.get());
         dropSelf(ModBlocks.BRICK_CONCRETE_CRACKED_STAIRS.get());
 
+        this.dropSelf(ModBlocks.NUKE_GADGET.get());
         this.dropSelf(ModBlocks.NUKE_LITTLE_BOY.get());
         this.dropSelf(ModBlocks.NUKE_FAT_MAN.get());
 

@@ -23,7 +23,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public abstract class BatteryBaseBlockEntity extends MachineBaseBlockEntity implements IEnergyConductorMK2, IEnergyProviderMK2, IEnergyReceiverMK2, IControlReceiver, ICopiable, MenuProvider {
+public abstract class BatteryBaseBlockEntity extends MachineBaseBlockEntity implements IEnergyConductorMK2, IEnergyProviderMK2, IEnergyReceiverMK2, IControlReceiver, ICopiable {
 
     public byte lastRedstone = 0;
     public long prevPowerState = 0;

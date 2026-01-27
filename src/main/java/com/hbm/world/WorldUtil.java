@@ -52,25 +52,18 @@ public class WorldUtil {
         int localX = (blockX & 15) >> 2;
         int localZ = (blockZ & 15) >> 2;
 
-        int minQuartY = level.getMinBuildHeight() >> 2;
-        int maxQuartY = level.getMaxBuildHeight() >> 2;
-        int minSection = level.getMinSection();
-        int sectionsCount = chunk.getSectionsCount();
+        LevelChunkSection[] sections = chunk.getSections();
+        for (LevelChunkSection section : sections) {
+            PalettedContainer<Holder<Biome>> biomes = (PalettedContainer<Holder<Biome>>) section.getBiomes();
 
-        for (int quartY = minQuartY; quartY < maxQuartY; quartY++) {
-            int sectionIndex = (quartY >> 2) - minSection;
-            if (sectionIndex < 0 || sectionIndex >= sectionsCount) continue;
-
-            LevelChunkSection section = chunk.getSection(sectionIndex);
-            int localY = quartY & 3;
-
-            ((PalettedContainer<Holder<Biome>>) section.getBiomes())
-                    .getAndSetUnchecked(localX, localY, localZ, biome);
+            biomes.getAndSetUnchecked(localX, 0, localZ, biome);
+            biomes.getAndSetUnchecked(localX, 1, localZ, biome);
+            biomes.getAndSetUnchecked(localX, 2, localZ, biome);
+            biomes.getAndSetUnchecked(localX, 3, localZ, biome);
         }
 
         chunk.setUnsaved(true);
     }
-
     public static void flushChunk(ServerLevel level, LevelChunk chunk) {
         level.getChunkSource().chunkMap.resendBiomesForChunks(List.of(chunk));
     }

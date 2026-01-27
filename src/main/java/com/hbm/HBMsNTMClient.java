@@ -25,6 +25,7 @@ import com.hbm.particle.*;
 import com.hbm.particle.helper.ParticleCreators;
 import com.hbm.particle.vanilla.PlayerCloudParticle;
 import com.hbm.render.blockentity.*;
+import com.hbm.render.blockentity.RenderNukeGadget;
 import com.hbm.render.entity.EmptyEntityRenderer;
 import com.hbm.render.entity.effect.*;
 import com.hbm.render.entity.item.RenderTNTPrimedBase;
@@ -524,6 +525,7 @@ public class HBMsNTMClient {
 
         ItemProperties.register(ModItems.POLAROID.get(), HBMsNTM.withDefaultNamespaceNT("polaroid_id"), (stack, level, entity, seed) -> PolaroidItem.polaroidID);
 
+        event.registerBlockEntityRenderer(ModBlockEntities.NUKE_GADGET.get(), RenderNukeGadget::new);
         event.registerBlockEntityRenderer(ModBlockEntities.NUKE_LITTLE_BOY.get(), RenderNukeLittleBoy::new);
         event.registerBlockEntityRenderer(ModBlockEntities.NUKE_FAT_MAN.get(), RenderNukeFatMan::new);
 
@@ -550,8 +552,9 @@ public class HBMsNTMClient {
 
         registerItemRenderer(event, RenderFluidTankItem::new, ModBlocks.MACHINE_FLUID_TANK.asItem());
         registerItemRenderer(event, RenderLaserDetonator::new, ModItems.DETONATOR_LASER.get());
+        registerItemRenderer(event, RenderNukeGadgetItem::new, ModBlocks.NUKE_GADGET.asItem());
         registerItemRenderer(event, RenderNukeLittleBoyItem::new, ModBlocks.NUKE_LITTLE_BOY.asItem());
-        registerItemRenderer(event, RenderFatManItem::new, ModBlocks.NUKE_FAT_MAN.asItem());
+        registerItemRenderer(event, RenderNukeFatManItem::new, ModBlocks.NUKE_FAT_MAN.asItem());
         registerItemRenderer(event, RenderGeigerItem::new, ModBlocks.GEIGER.asItem());
         registerItemRenderer(event, RenderCableItem::new, ModBlocks.CABLE.asItem());
         registerItemRenderer(event, RenderBatteryREDDItem::new, ModBlocks.MACHINE_BATTERY_REDD.asItem());

@@ -1,7 +1,7 @@
 package com.hbm.render.blockentity;
 
-import com.hbm.blockentity.bomb.NukeBoyBlockEntity;
-import com.hbm.blocks.bomb.NukeBoyBlock;
+import com.hbm.blockentity.bomb.NukeLittleBoyBlockEntity;
+import com.hbm.blocks.bomb.NukeBaseBlock;
 import com.hbm.main.ResourceManager;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -12,14 +12,14 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
 
-public class RenderNukeLittleBoy implements BlockEntityRenderer<NukeBoyBlockEntity> {
+public class RenderNukeLittleBoy implements BlockEntityRenderer<NukeLittleBoyBlockEntity> {
 
     public RenderNukeLittleBoy(BlockEntityRendererProvider.Context ignored) { }
 
     @Override
-    public void render(NukeBoyBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+    public void render(NukeLittleBoyBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
 
-        Direction facing = be.getBlockState().getValue(NukeBoyBlock.FACING);
+        Direction facing = be.getBlockState().getValue(NukeBaseBlock.FACING);
         float rot = switch (facing) {
             case DOWN, UP -> 0.0F;
             case WEST -> 90F;

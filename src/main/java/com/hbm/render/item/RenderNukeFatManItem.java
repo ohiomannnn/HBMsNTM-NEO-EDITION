@@ -7,7 +7,7 @@ import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 
-public class RenderFatManItem extends ItemRenderBase {
+public class RenderNukeFatManItem extends ItemRenderBase {
 
     @Override
     public void renderInventory(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {

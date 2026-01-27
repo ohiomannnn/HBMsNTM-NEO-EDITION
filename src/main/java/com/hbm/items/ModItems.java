@@ -238,6 +238,9 @@ public class ModItems {
 
     public static final DeferredItem<Item> EARLY_EXPLOSIVE_LENSES = ITEMS.register("early_explosive_lenses", () -> new LoreItem(new Item.Properties()));
 
+    public static final DeferredItem<Item> GADGET_WIREING = ITEMS.register("gadget_wireing", () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> GADGET_CORE = ITEMS.register("gadget_core", () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
+
     public static final DeferredItem<Item> LITTLE_BOY_SHIELDING = ITEMS.register("little_boy_shielding", () -> new Item(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> LITTLE_BOY_TARGET = ITEMS.register("little_boy_target", () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
     public static final DeferredItem<Item> LITTLE_BOY_BULLET = ITEMS.register("little_boy_bullet", () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));

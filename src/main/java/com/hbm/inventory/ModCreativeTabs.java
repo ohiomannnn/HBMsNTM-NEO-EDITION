@@ -179,6 +179,7 @@ public class ModCreativeTabs {
                     .title(Component.translatable("creative_tab.hbmsntm.bombs"))
                     .backgroundTexture(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/gui/nuke_tab.png"))
                     .displayItems((itemDisplayParameters, output) -> {
+                        output.accept(ModBlocks.NUKE_GADGET);
                         output.accept(ModBlocks.NUKE_LITTLE_BOY);
                         output.accept(ModBlocks.NUKE_FAT_MAN);
 
@@ -197,6 +198,9 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.DET_CHARGE);
                         output.accept(ModBlocks.DET_NUKE);
                         output.accept(ModBlocks.DET_MINER);
+
+                        output.accept(ModItems.GADGET_WIREING);
+                        output.accept(ModItems.GADGET_CORE);
 
                         output.accept(ModItems.LITTLE_BOY_SHIELDING);
                         output.accept(ModItems.LITTLE_BOY_TARGET);

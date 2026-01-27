@@ -151,6 +151,7 @@
   "block.hbmsntm.ore_sellafield_emerald": "Sellafite Emerald Ore",
   "block.hbmsntm.ore_sellafield_diamond": "Sellafite Diamond Ore",
 
+  "block.hbmsntm.nuke_gadget": "The Gadget",
   "block.hbmsntm.nuke_little_boy": "Little Boy",
   "block.hbmsntm.nuke_fat_man": "Fat Man",
 
@@ -234,6 +235,9 @@
 
   "item.hbmsntm.early_explosive_lenses": "Array of First-Generation High-Explosive Lenses",
   "item.hbmsntm.early_explosive_lenses.desc": "Assembly of 8 high-explosive lenses with an aluminium$pusher, duraluminium shell, and bridgewire detonators.",
+
+  "item.hbmsntm.gadget_wireing": "Wiring",
+  "item.hbmsntm.gadget_core": "Large Plutonium Core",
 
   "item.hbmsntm.little_boy_shielding": "Neutron Shielding",
   "item.hbmsntm.little_boy_target": "Subcritical U235 Target",
@@ -676,6 +680,8 @@
   "container.fluidTank": "Tank",
   "container.batterySocket": "Battery Socket",
   "container.batteryREDD": "FEnSU",
+  "container.nukeGadget": "The Gadget",
+  "gui.nukeGadget.desc": "§1Requires:§r$ * 4 Arrays of First-Generation$   High-Explosive Lenses$ * Heavy Plutonium Core$ * Wiring",
   "container.nukeFatMan": "Fat Man",
   "gui.nukeFatMan.desc": "§1Requires:§r$ * 4 Arrays of First-Generation$   High-Explosive Lenses$ * Plutonium Core$ * Bomb Firing Unit",
   "container.nukeLittleBoy": "Little Boy",

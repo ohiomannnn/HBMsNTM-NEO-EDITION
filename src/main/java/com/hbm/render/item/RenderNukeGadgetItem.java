@@ -9,17 +9,24 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 
-public class RenderNukeLittleBoyItem extends ItemRenderBase {
+public class RenderNukeGadgetItem extends ItemRenderBase {
 
     @Override
     public void renderInventory(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+        poseStack.translate(0F, -3F, 0F);
         poseStack.scale(5F, 5F, 5F);
     }
 
     @Override
     public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-        poseStack.translate(-1F, 0F, 0F);
-        VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.NUKE_LITTLE_BOY_TEX));
-        ResourceManager.nuke_little_boy.renderAll(poseStack, consumer, packedLight, packedOverlay);
+        poseStack.mulPose(Axis.YN.rotationDegrees(90F));
+        VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.NUKE_GADGET_TEX));
+        ResourceManager.nuke_gadget.renderPart("Body", poseStack, consumer, packedLight, packedOverlay);
+
+        GraphicsStatus graphics = Minecraft.getInstance().options.graphicsMode().get();
+
+        if (graphics == GraphicsStatus.FANCY || graphics == GraphicsStatus.FABULOUS) {
+            ResourceManager.nuke_gadget.renderPart("Wires", poseStack, consumer, packedLight, packedOverlay);
+        }
     }
 }

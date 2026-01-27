@@ -60,7 +60,7 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
         tank = new FluidTank(Fluids.NONE, 256000);
     }
 
-    @Override public Component getName() { return Component.translatable("container.fluidTank"); }
+    @Override public Component getDefaultName() { return Component.translatable("container.fluidTank"); }
 
     public byte getComparatorPower() {
         if (tank.getFill() == 0) return 0;

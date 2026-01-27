@@ -36,16 +36,18 @@ public class ItemRenderBase extends BlockEntityWithoutLevelRenderer {
                 renderNonInv(itemStackIn, poseStack, buffer, packedLight, packedOverlay, false);
             }
             case THIRD_PERSON_RIGHT_HAND, HEAD -> {
-                poseStack.translate(0F, 0.5F, 0F);
-                poseStack.scale(0.1875F, 0.1875F, 0.1875F);
-                poseStack.mulPose(Axis.YP.rotationDegrees(345F));
+                poseStack.translate(0F, 0.52F, 0F);
+                poseStack.scale(0.1575F, 0.1575F, 0.1575F);
+                poseStack.mulPose(Axis.YN.rotationDegrees(15F));
                 poseStack.mulPose(Axis.YP.rotationDegrees(180F));
+                poseStack.mulPose(Axis.XN.rotationDegrees(15F));
                 renderNonInv(itemStackIn, poseStack, buffer, packedLight, packedOverlay, true);
             }
             case THIRD_PERSON_LEFT_HAND -> {
-                poseStack.translate(0F, 0.5F, 0F);
-                poseStack.scale(0.1875F, 0.1875F, 0.1875F);
+                poseStack.translate(0F, 0.52F, 0F);
+                poseStack.scale(0.1575F, 0.1575F, 0.1575F);
                 poseStack.mulPose(Axis.YP.rotationDegrees(15F));
+                poseStack.mulPose(Axis.XP.rotationDegrees(15F));
                 renderNonInv(itemStackIn, poseStack, buffer, packedLight, packedOverlay, false);
             }
             case GROUND -> {
