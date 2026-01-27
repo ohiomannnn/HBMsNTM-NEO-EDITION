@@ -73,7 +73,7 @@ public class CustomRenderTypes {
             texture -> {
                 RenderType.CompositeState state = RenderType.CompositeState.builder()
                         .setShaderState(RenderType.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
-                        .setTextureState(new TextureStateShard(texture, false, false))
+                        .setTextureState(new TextureStateShard(texture, false, true))
                         .setTransparencyState(SEVEN_SEVEN10)
                         .setCullState(RenderType.NO_CULL)
                         .setLightmapState(RenderType.LIGHTMAP)
@@ -95,7 +95,7 @@ public class CustomRenderTypes {
                         .setOverlayState(RenderType.NO_OVERLAY)
                         .setWriteMaskState(RenderType.COLOR_WRITE)
                         .createCompositeState(false);
-                return RenderType.create("smoth", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, true, true, state);
+                return RenderType.create("smoth2", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, true, true, state);
             }
     );
 

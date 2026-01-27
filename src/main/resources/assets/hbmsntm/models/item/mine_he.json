@@ -1,42 +1,11 @@
 {
-  "loader": "hbmsntm:hfr_obj",
-  "model": "hbmsntm:models/obj/bomb/mine_he.obj",
-  "smoothing": true,
-  "as_vbo": true,
-  "render_all": true,
-  "textures": {
-    "texture": "hbmsntm:block/bomb/mine_he"
-  },
-  "display": {
-    "gui": {
-      "rotation": [30, 315, 0],
-      "translation": [0, 0, 0],
-      "scale": [1.5, 1.5, 1.5]
-    },
-    "firstperson_righthand": {
-      "rotation": [0, 0, 0],
-      "translation": [15, 2, 0],
-      "scale": [1, 1, 1]
-    },
-    "firstperson_lefthand": {
-      "rotation": [0, 0, 0],
-      "translation": [0, 2, 0],
-      "scale": [1, 1, 1]
-    },
-    "thirdperson_righthand": {
-      "rotation": [70, 0, 0],
-      "translation": [8, -2, 9],
-      "scale": [1, 1, 1]
-    },
-    "thirdperson_lefthand": {
-      "rotation": [70, 0, 0],
-      "translation": [-8, -2, 9],
-      "scale": [1, 1, 1]
-    },
-    "ground": {
-      "rotation": [0, 0, 0],
-      "translation": [0, 0, 0],
-      "scale": [1, 1, 1]
-    }
-  }
+  "parent": "builtin/entity",
+  "firstperson_righthand": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "firstperson_lefthand": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "thirdperson_righthand": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "thirdperson_lefthand": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "ground": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "fixed": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "gui": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "head": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] }
 }

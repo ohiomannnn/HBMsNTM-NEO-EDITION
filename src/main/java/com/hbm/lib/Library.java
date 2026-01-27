@@ -95,17 +95,17 @@ public class Library {
     public static HitResult rayTrace(Player player, double length, float interpolation) {
         Vec3 vec3 = getPosition(interpolation, player);
         vec3 = vec3.add(0, player.getEyeHeight(), 0);
-        Vec3 vec31 = player.getLookAngle();
+        Vec3 vec31 = player.getViewVector(interpolation);
         Vec3 vec32 = vec3.add(vec31.x * length, vec31.y * length, vec31.z * length);
         return player.level().clip(new ClipContext(vec3, vec32, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, CollisionContext.empty()));
     }
 
     public static Vec3 getPosition(float interpolation, Player player) {
         if (interpolation == 1.0F) {
-            return new Vec3(player.getX(), player.getY() + player.getEyeHeight(), player.getZ());
+            return new Vec3(player.getX(), player.getY(), player.getZ());
         } else {
             double d0 = player.xo + (player.getX() - player.xo) * interpolation;
-            double d1 = player.yo + (player.getY() - player.yo) * interpolation + player.getEyeHeight();
+            double d1 = player.yo + (player.getY() - player.yo) * interpolation;
             double d2 = player.zo + (player.getZ() - player.zo) * interpolation;
             return new Vec3(d0, d1, d2);
         }

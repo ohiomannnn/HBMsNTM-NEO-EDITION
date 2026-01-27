@@ -27,8 +27,8 @@ public class RenderLandMine implements BlockEntityRenderer<LandMineBlockEntity> 
     @Override
     public void render(LandMineBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
         poseStack.pushPose();
-
         poseStack.translate(0.5, 0.0, 0.5);
+        poseStack.mulPose(Axis.YP.rotationDegrees(180F));
 
         BlockState state = be.getBlockState();
 
@@ -52,7 +52,7 @@ public class RenderLandMine implements BlockEntityRenderer<LandMineBlockEntity> 
         }
 
         if (state.getBlock() == ModBlocks.MINE_HE.get()) {
-            poseStack.mulPose(Axis.YP.rotationDegrees(180F));
+            poseStack.mulPose(Axis.YN.rotationDegrees(90F));
             VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MINE_HE_TEX));
             ResourceManager.mine_he.renderAll(poseStack, consumer, packedLight, packedOverlay);
         }
@@ -66,7 +66,6 @@ public class RenderLandMine implements BlockEntityRenderer<LandMineBlockEntity> 
 
         if (state.getBlock() == ModBlocks.MINE_FAT.get()) {
             poseStack.scale(0.25F, 0.25F, 0.25F);
-
             VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MINE_FAT_TEX));
             ResourceManager.mine_fat.renderAll(poseStack, consumer, packedLight, packedOverlay);
         }

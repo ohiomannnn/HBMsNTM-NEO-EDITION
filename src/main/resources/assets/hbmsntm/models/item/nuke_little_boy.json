@@ -1,47 +1,11 @@
 {
-  "loader": "hbmsntm:hfr_obj",
-  "model": "hbmsntm:models/obj/bomb/nuke_little_boy.obj",
-  "smoothing": true,
-  "as_vbo": true,
-  "render_all": true,
-  "textures": {
-    "texture": "hbmsntm:block/bomb/nuke_little_boy"
-  },
-  "transform": {
-    "translation": [0.6, 0.0, 0.5],
-    "rotation": [0, 0, 0],
-    "scale": 1.0
-  },
-  "display": {
-    "gui": {
-      "rotation": [30, 225, 0],
-      "translation": [5, 2, 0],
-      "scale": [0.35, 0.35, 0.35]
-    },
-    "firstperson_righthand": {
-      "rotation": [0, 180, 0],
-      "translation": [6, 1, 0],
-      "scale": [0.2, 0.2, 0.2]
-    },
-    "firstperson_lefthand": {
-      "rotation": [0, 0, 0],
-      "translation": [6, 1, 0],
-      "scale": [0.2, 0.2, 0.2]
-    },
-    "thirdperson_righthand": {
-      "rotation": [0, 180, 0],
-      "translation": [6, 0, 0],
-      "scale": [0.2, 0.2, 0.2]
-    },
-    "thirdperson_lefthand": {
-      "rotation": [0, 0, 0],
-      "translation": [6, 0, 0],
-      "scale": [0.2, 0.2, 0.2]
-    },
-    "ground": {
-      "rotation": [0, 0, 0],
-      "translation": [0, 0, 0],
-      "scale": [0.2, 0.2, 0.2]
-    }
-  }
+  "parent": "builtin/entity",
+  "firstperson_righthand": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "firstperson_lefthand": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "thirdperson_righthand": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "thirdperson_lefthand": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "ground": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "fixed": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "gui": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "head": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] }
 }

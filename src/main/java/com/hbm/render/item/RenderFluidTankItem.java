@@ -10,22 +10,24 @@ import com.hbm.render.blockentity.RenderFluidTank;
 import com.hbm.util.TagsUtilDegradation;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
-public class RenderFluidTankItem extends BlockEntityWithoutLevelRenderer {
+public class RenderFluidTankItem extends ItemRenderBase {
 
-    public RenderFluidTankItem() {
-        super(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());
+    @Override
+    public void renderInventory(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+        poseStack.translate(0, -2, 0);
+        poseStack.scale(3.5F, 3.5F, 3.5F);
     }
 
     @Override
-    public void renderByItem(ItemStack stack, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+    public void renderCommon(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+        poseStack.mulPose(Axis.YP.rotationDegrees(90F));
+        poseStack.scale(0.75F, 0.75F, 0.75F);
 
         FluidTank tank = new FluidTank(Fluids.NONE, 0);
         boolean exploded = false;

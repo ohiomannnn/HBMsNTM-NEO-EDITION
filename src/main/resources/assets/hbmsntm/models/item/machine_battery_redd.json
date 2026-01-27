@@ -1,48 +1,11 @@
 {
-  "loader": "hbmsntm:hfr_obj",
-  "model": "hbmsntm:models/obj/machines/fensu2.obj",
-  "smoothing": true,
-  "as_vbo": true,
-  "render_all": false,
-  "render_only": ["Base", "Wheel", "Lights"],
-  "textures": {
-    "texture": "hbmsntm:models/machines/fensu2"
-  },
-  "transform": {
-    "translation": [0.6, 0.0, 0.5],
-    "rotation": [0, 0, 0],
-    "scale": 1.0
-  },
-  "display": {
-    "gui": {
-      "rotation": [30, 315, 0],
-      "translation": [0, -3.7, 0],
-      "scale": [0.08, 0.08, 0.08]
-    },
-    "firstperson_righthand": {
-      "rotation": [0, 225, 0],
-      "translation": [-1, 1, 0],
-      "scale": [0.05, 0.05, 0.05]
-    },
-    "firstperson_lefthand": {
-      "rotation": [0, 225, 0],
-      "translation": [-1, 1, 0],
-      "scale": [0.05, 0.05, 0.05]
-    },
-    "thirdperson_righthand": {
-      "rotation": [70, 225, 0],
-      "translation": [0, 3.2, 1],
-      "scale": [0.05, 0.05, 0.05]
-    },
-    "thirdperson_lefthand": {
-      "rotation": [70, 225, 0],
-      "translation": [0, 2, 1],
-      "scale": [0.05, 0.05, 0.05]
-    },
-    "ground": {
-      "rotation": [0, 0, 0],
-      "translation": [0, 0, 0],
-      "scale": [0.05, 0.05, 0.05]
-    }
-  }
+  "parent": "builtin/entity",
+  "firstperson_righthand": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "firstperson_lefthand": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "thirdperson_righthand": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "thirdperson_lefthand": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "ground": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "fixed": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "gui": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "head": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] }
 }

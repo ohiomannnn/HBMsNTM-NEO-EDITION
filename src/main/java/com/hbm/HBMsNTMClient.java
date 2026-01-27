@@ -12,14 +12,12 @@ import com.hbm.entity.ModEntityTypes;
 import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.hazard.HazardSystem;
+import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.Spaghetti;
-import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.screens.LoadingScreenRendererNT;
 import com.hbm.items.IItemHUD;
 import com.hbm.items.ModItems;
 import com.hbm.items.datacomps.FluidTypeComponent;
-import com.hbm.items.machine.FluidIconItem;
-import com.hbm.items.machine.FluidTankItem;
 import com.hbm.items.special.PolaroidItem;
 import com.hbm.items.tools.GeigerCounterItem;
 import com.hbm.main.ResourceManager;
@@ -33,14 +31,16 @@ import com.hbm.render.entity.item.RenderTNTPrimedBase;
 import com.hbm.render.entity.mob.CreeperNuclearRenderer;
 import com.hbm.render.entity.mob.DuckRenderer;
 import com.hbm.render.entity.projectile.*;
-import com.hbm.render.item.RenderFluidTankItem;
-import com.hbm.render.item.RenderLaserDetonator;
+import com.hbm.render.item.*;
 import com.hbm.render.loader.bakedLoader.HFRObjGeometryLoader;
 import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.sound.AudioWrapperClient;
-import com.hbm.util.*;
+import com.hbm.util.ArmorRegistry;
+import com.hbm.util.Clock;
+import com.hbm.util.DamageResistanceHandler;
+import com.hbm.util.Vec3NT;
 import com.hbm.util.i18n.I18nClient;
 import com.hbm.util.i18n.ITranslate;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -54,6 +54,7 @@ import net.minecraft.client.gui.screens.ReceivingLevelScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.player.LocalPlayer;
@@ -90,7 +91,6 @@ import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
-import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -114,7 +114,7 @@ import java.util.function.Supplier;
 @Mod(value = HBMsNTM.MODID, dist = Dist.CLIENT)
 @EventBusSubscriber(value = Dist.CLIENT)
 public class HBMsNTMClient {
-    public HBMsNTMClient(IEventBus modEventBus, ModContainer modContainer) {
+    public HBMsNTMClient(ModContainer modContainer) {
         modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
     }
 
@@ -132,22 +132,22 @@ public class HBMsNTMClient {
     private static final I18nClient I18N = new I18nClient();
     public static ITranslate getI18n() { return I18N; }
 
-    private static final LoadingScreenRendererNT LOADING_RENDERER = new LoadingScreenRendererNT(Minecraft.getInstance());
-
     @SubscribeEvent
     public static void onScreenRender(ScreenEvent.Render.Post event) {
-        if (!MainConfig.CLIENT.ENABLE_TIPS.get()) return;
-        Screen screen = event.getScreen();
-        if (screen instanceof LevelLoadingScreen || screen instanceof ReceivingLevelScreen) {
-            LOADING_RENDERER.render(event.getGuiGraphics());
+        if (MainConfig.CLIENT.ENABLE_TIPS.get()) {
+            Screen screen = event.getScreen();
+            if (screen instanceof LevelLoadingScreen || screen instanceof ReceivingLevelScreen) {
+                LoadingScreenRendererNT.render(event.getGuiGraphics());
+            }
         }
     }
 
     @SubscribeEvent
     public static void onJoin(ClientPlayerNetworkEvent.LoggingOut event) {
+        if (MainConfig.CLIENT.ENABLE_TIPS.get()) {
+            LoadingScreenRendererNT.resetMessage();
+        }
         RenderInfoSystem.clear();
-        if (!MainConfig.CLIENT.ENABLE_TIPS.get()) return;
-        LOADING_RENDERER.resetMessage();
     }
 
     public static final int ID_DUCK = 0;
@@ -336,9 +336,8 @@ public class HBMsNTMClient {
     @SubscribeEvent
     public static void onOpenGUI(ScreenEvent.Opening event) {
         if (event.getScreen() instanceof TitleScreen main && MainConfig.CLIENT.ENABLE_MAIN_MENU_WACKY_SPLASHES.get()) {
-            String text;
             int rand = (int) (Math.random() * 150);
-            text = switch (rand) {
+            String text = switch (rand) {
                 case 0 -> "Floppenheimer!";
                 case 1 -> "i should dip my balls in sulfuric acid";
                 case 2 -> "All answers are popbob!";
@@ -433,19 +432,18 @@ public class HBMsNTMClient {
     }
 
     @SubscribeEvent
-    public static void onRightClickWItem(PlayerInteractEvent.RightClickItem event) {
+    public static void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
         if (!event.getLevel().isClientSide) return;
-        Item item = event.getItemStack().getItem();
+        Minecraft mc = Minecraft.getInstance();
 
-        if (item instanceof IGUIProvider provider) {
-            Minecraft mc = Minecraft.getInstance();
-            mc.setScreen(provider.provideScreenOnRightClick(mc.player, mc.player.blockPosition()));
+        if (event.getItemStack().getItem() instanceof IGUIProvider provider) {
+            mc.setScreen(provider.provideScreenOnRightClick(mc.player, event.getPos()));
         }
     }
 
     // uhh sure, no more convenient solutions...
     @SubscribeEvent
-    public static void onRightClickOnBlock(PlayerInteractEvent.RightClickBlock event) {
+    public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
         Level level = event.getLevel();
         if (!level.isClientSide) return;
         BlockHitResult bhr = event.getHitVec();
@@ -461,7 +459,7 @@ public class HBMsNTMClient {
         }
     }
 
-    private static HashMap<Integer, Long> vanished = new HashMap<>();
+    private static final HashMap<Integer, Long> vanished = new HashMap<>();
     public static void vanish(int ent) { vanished.put(ent, System.currentTimeMillis() + 2000); }
     public static void vanish(int ent, int duration) { vanished.put(ent, System.currentTimeMillis() + duration); }
 
@@ -474,6 +472,17 @@ public class HBMsNTMClient {
     @SubscribeEvent
     public static void onRenderLiving(RenderLivingEvent.Pre<? extends LivingEntity, ? extends EntityModel<?>> event) {
         if (isVanished(event.getEntity())) event.setCanceled(true);
+        if (!(event.getRenderer().getModel() instanceof HumanoidModel<?> model)) return;
+
+        ItemStack mainHand = event.getEntity().getMainHandItem();
+        ItemStack offHand = event.getEntity().getOffhandItem();
+
+        if (mainHand.getItem() instanceof IHoldableWeapon) {
+            model.rightArmPose = HumanoidModel.ArmPose.BOW_AND_ARROW;
+        }
+        if (offHand.getItem() instanceof IHoldableWeapon ihw && ihw.shouldChangeOffhand()) {
+            model.leftArmPose = HumanoidModel.ArmPose.BOW_AND_ARROW;
+        }
     }
 
     @SubscribeEvent
@@ -540,7 +549,25 @@ public class HBMsNTMClient {
     public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
 
         registerItemRenderer(event, RenderFluidTankItem::new, ModBlocks.MACHINE_FLUID_TANK.asItem());
-        registerItemRenderer(event, RenderLaserDetonator::new, ModItems.NOTHING.get());
+        registerItemRenderer(event, RenderLaserDetonator::new, ModItems.DETONATOR_LASER.get());
+        registerItemRenderer(event, RenderNukeLittleBoyItem::new, ModBlocks.NUKE_LITTLE_BOY.asItem());
+        registerItemRenderer(event, RenderFatManItem::new, ModBlocks.NUKE_FAT_MAN.asItem());
+        registerItemRenderer(event, RenderGeigerItem::new, ModBlocks.GEIGER.asItem());
+        registerItemRenderer(event, RenderCableItem::new, ModBlocks.CABLE.asItem());
+        registerItemRenderer(event, RenderBatteryREDDItem::new, ModBlocks.MACHINE_BATTERY_REDD.asItem());
+        registerItemRenderer(event, RenderCrashedBombItem::new,
+                ModBlocks.CRASHED_BOMB_BALEFIRE.asItem(),
+                ModBlocks.CRASHED_BOMB_CONVENTIONAL.asItem(),
+                ModBlocks.CRASHED_BOMB_NUKE.asItem(),
+                ModBlocks.CRASHED_BOMB_SALTED.asItem()
+        );
+        registerItemRenderer(event, RenderLandmineItem::new,
+                ModBlocks.MINE_AP.asItem(),
+                ModBlocks.MINE_HE.asItem(),
+                ModBlocks.MINE_SHRAP.asItem(),
+                ModBlocks.MINE_NAVAL.asItem(),
+                ModBlocks.MINE_FAT.asItem()
+        );
     }
 
     private static void registerItemRenderer(RegisterClientExtensionsEvent event, Supplier<BlockEntityWithoutLevelRenderer> rendererFactory, Item... items) {
