@@ -154,6 +154,8 @@
   "block.hbmsntm.nuke_gadget": "The Gadget",
   "block.hbmsntm.nuke_little_boy": "Little Boy",
   "block.hbmsntm.nuke_fat_man": "Fat Man",
+  "block.hbmsntm.nuke_ivy_mike": "Ivy Mike",
+  "block.hbmsntm.nuke_tsar_bomba": "Tsar Bomba",
 
   "block.hbmsntm.gas_coal": "Airborne Coal Dust",
   "block.hbmsntm.gas_asbestos": "Airborne Asbestos Particles",
@@ -247,6 +249,12 @@
 
   "item.hbmsntm.fat_man_core": "Plutonium Core",
   "item.hbmsntm.fat_man_igniter": "Bomb Firing Unit",
+
+  "item.hbmsntm.ivy_mike_core": "Uranium Coated Deuterium Tank",
+  "item.hbmsntm.ivy_mike_deut": "Deuterium Tank",
+  "item.hbmsntm.ivy_mike_cooling_unit": "Deuterium Cooling Unit",
+
+  "item.hbmsntm.tsar_bomba_core": "Tsar Bomba Core",
 
   "satchip.frequency": "Satellite frequency: %s",
   "item.hbmsntm.satellite_laser": "Orbital Death Ray",
@@ -685,5 +693,9 @@
   "container.nukeFatMan": "Fat Man",
   "gui.nukeFatMan.desc": "§1Requires:§r$ * 4 Arrays of First-Generation$   High-Explosive Lenses$ * Plutonium Core$ * Bomb Firing Unit",
   "container.nukeLittleBoy": "Little Boy",
-  "gui.nukeLittleBoy.desc": "§1Requires:§r$ * Neutron Shielding$ * U235 Projectile$ * Subcritical U235 Target$ * Propellant$ * Bomb Igniter"
+  "gui.nukeLittleBoy.desc": "§1Requires:§r$ * Neutron Shielding$ * U235 Projectile$ * Subcritical U235 Target$ * Propellant$ * Bomb Igniter",
+  "container.nukeIvyMike": "Ivy Mike",
+  "gui.nukeIvyMike.desc": "§1Requires:§r$ * 4 Arrays of High-Explosive Lenses$ * Plutonium Core$ * Deuterium Cooling Unit$ * Uranium Coated Deuterium Tank$ * Deuterium Tank",
+  "container.nukeTsarBomba": "Tsar Bomba",
+  "gui.nukeTsarBomba.desc": "§1Requires:§r$ * 4 Arrays of High-Explosive Lenses$ * Plutonium Core$§9Optional:§r$ * Tsar Bomba Core"
 }

@@ -32,6 +32,7 @@ public abstract class NukeBaseBlockEntity extends BlockEntity implements Worldly
     }
 
     public abstract boolean isReady();
+    public boolean isFilled() { return false; }
 
     @Override
     public Component getName() {

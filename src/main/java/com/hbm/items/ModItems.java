@@ -8,7 +8,6 @@ import com.hbm.interfaces.Placeholder;
 import com.hbm.inventory.ModArmorMaterials;
 import com.hbm.inventory.ModTiers;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.food.ItemEnergy;
 import com.hbm.items.machine.*;
 import com.hbm.items.machine.BatteryPackItem.BatteryPackType;
@@ -249,6 +248,12 @@ public class ModItems {
 
     public static final DeferredItem<Item> FAT_MAN_IGNITER = ITEMS.register("fat_man_igniter", () -> new Item(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> FAT_MAN_CORE = ITEMS.register("fat_man_core", () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
+
+    public static final DeferredItem<Item> IVY_MIKE_CORE = ITEMS.register("ivy_mike_core", () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> IVY_MIKE_DEUT = ITEMS.register("ivy_mike_deut", () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> IVY_MIKE_COOLING_UNIT = ITEMS.register("ivy_mike_cooling_unit", () -> new Item(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> TSAR_BOMBA_CORE = ITEMS.register("tsar_bomba_core", () -> new Item(new Item.Properties().stacksTo(1)));
 
     public static void register(IEventBus eventBus) { ITEMS.register(eventBus); }
 }

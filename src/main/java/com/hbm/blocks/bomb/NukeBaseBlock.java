@@ -26,6 +26,7 @@ public abstract class NukeBaseBlock extends BaseEntityBlock implements IBomb {
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
     private int size = 0;
+    private int notFullSize = 0;
 
     public NukeBaseBlock(Properties properties) {
         super(properties);
@@ -75,15 +76,15 @@ public abstract class NukeBaseBlock extends BaseEntityBlock implements IBomb {
     /**
      * Because neoforge config system sucks, we will register sizes on FMLCommonSetupEvent, NOT on item registration
      */
-    public NukeBaseBlock setSize(int size) {
-        this.size = size;
-        return this;
-    }
+    public NukeBaseBlock setSize(int size) { this.size = size; return this; }
+    public NukeBaseBlock setNotFullSize(int size) { this.notFullSize = size; return this; }
 
     public static void registerSizes() {
         ModBlocks.NUKE_GADGET.get()      .setSize(MainConfig.COMMON.GADGET_RADIUS.get());
         ModBlocks.NUKE_LITTLE_BOY.get()  .setSize(MainConfig.COMMON.BOY_RADIUS.get());
         ModBlocks.NUKE_FAT_MAN.get()     .setSize(MainConfig.COMMON.MAN_RADIUS.get());
+        ModBlocks.NUKE_IVY_MIKE.get()    .setSize(MainConfig.COMMON.MIKE_RADIUS.get()).setNotFullSize(MainConfig.COMMON.MAN_RADIUS.get());
+        ModBlocks.NUKE_TSAR_BOMBA.get()  .setSize(MainConfig.COMMON.TSAR_RADIUS.get()).setNotFullSize(MainConfig.COMMON.MAN_RADIUS.get());
     }
 
     @Override
@@ -97,6 +98,13 @@ public abstract class NukeBaseBlock extends BaseEntityBlock implements IBomb {
                     level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
                     NukeExplosionMK5.statFac(level, this.size, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
                     NukeTorex.statFacStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, this.size);
+                    return BombReturnCode.DETONATED;
+                }
+                if (nuke.isFilled() && notFullSize != 0) {
+                    nuke.slots.clear();
+                    level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+                    NukeExplosionMK5.statFac(level, this.notFullSize, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+                    NukeTorex.statFacStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, this.notFullSize);
                     return BombReturnCode.DETONATED;
                 }
             }

@@ -76,10 +76,10 @@ public class ItemRenderBase extends BlockEntityWithoutLevelRenderer {
         poseStack.popPose();
     }
 
-    public void renderNonInv(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay, boolean righthand) { renderNonInv(poseStack, buffer, packedLight, packedOverlay); }
+    public void renderNonInv(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay, boolean righthand) { renderNonInv(poseStack, buffer, packedLight, packedOverlay, righthand); }
     public void renderInventory(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) { renderInventory(poseStack, buffer, packedLight, packedOverlay); }
     public void renderCommon(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) { renderCommon(poseStack, buffer, packedLight, packedOverlay); }
-    public void renderNonInv(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) { }
+    public void renderNonInv(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay,  boolean righthand) { }
     public void renderInventory(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) { }
     public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) { }
     public void renderGround(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) { }

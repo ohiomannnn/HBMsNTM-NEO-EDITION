@@ -140,6 +140,12 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         this.basicItem(ModItems.FAT_MAN_IGNITER.get());
         this.basicItem(ModItems.FAT_MAN_CORE.get());
+
+        this.basicItem(ModItems.IVY_MIKE_CORE.get());
+        this.basicItem(ModItems.IVY_MIKE_DEUT.get());
+        this.basicItem(ModItems.IVY_MIKE_COOLING_UNIT.get());
+
+        this.basicItem(ModItems.TSAR_BOMBA_CORE.get());
     }
 
     private ItemModelBuilder layeredItem(Item item, String layer0, String layer1) {

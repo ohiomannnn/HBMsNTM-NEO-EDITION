@@ -129,6 +129,20 @@ public class ModBlockEntities {
                             ModBlocks.NUKE_FAT_MAN.get()
                     ).build(null));
 
+    public static final Supplier<BlockEntityType<NukeIvyMikeBlockEntity>> NUKE_IVY_MIKE = REGISTER.register(
+            "nuke_ivy_mike",
+            () -> BlockEntityType.Builder.of(
+                    NukeIvyMikeBlockEntity::new,
+                    ModBlocks.NUKE_IVY_MIKE.get()
+            ).build(null));
+
+    public static final Supplier<BlockEntityType<NukeTsarBombaBlockEntity>> NUKE_TSAR_BOMBA = REGISTER.register(
+            "nuke_tsar_bomba",
+            () -> BlockEntityType.Builder.of(
+                    NukeTsarBombaBlockEntity::new,
+                    ModBlocks.NUKE_TSAR_BOMBA.get()
+            ).build(null));
+
     public static final Supplier<BlockEntityType<GeigerBlockEntity>> GEIGER_COUNTER = REGISTER.register(
             "geiger_counter",
             () -> BlockEntityType.Builder.of(

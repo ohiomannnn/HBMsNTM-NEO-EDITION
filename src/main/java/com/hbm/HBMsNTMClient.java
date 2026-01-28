@@ -25,7 +25,6 @@ import com.hbm.particle.*;
 import com.hbm.particle.helper.ParticleCreators;
 import com.hbm.particle.vanilla.PlayerCloudParticle;
 import com.hbm.render.blockentity.*;
-import com.hbm.render.blockentity.RenderNukeGadget;
 import com.hbm.render.entity.EmptyEntityRenderer;
 import com.hbm.render.entity.effect.*;
 import com.hbm.render.entity.item.RenderTNTPrimedBase;
@@ -528,6 +527,8 @@ public class HBMsNTMClient {
         event.registerBlockEntityRenderer(ModBlockEntities.NUKE_GADGET.get(), RenderNukeGadget::new);
         event.registerBlockEntityRenderer(ModBlockEntities.NUKE_LITTLE_BOY.get(), RenderNukeLittleBoy::new);
         event.registerBlockEntityRenderer(ModBlockEntities.NUKE_FAT_MAN.get(), RenderNukeFatMan::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.NUKE_IVY_MIKE.get(), RenderNukeIvyMike::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.NUKE_TSAR_BOMBA.get(), RenderNukeTsarBomba::new);
 
         event.registerBlockEntityRenderer(ModBlockEntities.LANDMINE.get(), RenderLandMine::new);
 
@@ -552,9 +553,13 @@ public class HBMsNTMClient {
 
         registerItemRenderer(event, RenderFluidTankItem::new, ModBlocks.MACHINE_FLUID_TANK.asItem());
         registerItemRenderer(event, RenderLaserDetonator::new, ModItems.DETONATOR_LASER.get());
+
         registerItemRenderer(event, RenderNukeGadgetItem::new, ModBlocks.NUKE_GADGET.asItem());
         registerItemRenderer(event, RenderNukeLittleBoyItem::new, ModBlocks.NUKE_LITTLE_BOY.asItem());
         registerItemRenderer(event, RenderNukeFatManItem::new, ModBlocks.NUKE_FAT_MAN.asItem());
+        registerItemRenderer(event, RenderNukeIvyMikeItem::new, ModBlocks.NUKE_IVY_MIKE.asItem());
+        registerItemRenderer(event, RenderNukeTsarBombaItem::new, ModBlocks.NUKE_TSAR_BOMBA.asItem());
+
         registerItemRenderer(event, RenderGeigerItem::new, ModBlocks.GEIGER.asItem());
         registerItemRenderer(event, RenderCableItem::new, ModBlocks.CABLE.asItem());
         registerItemRenderer(event, RenderBatteryREDDItem::new, ModBlocks.MACHINE_BATTERY_REDD.asItem());

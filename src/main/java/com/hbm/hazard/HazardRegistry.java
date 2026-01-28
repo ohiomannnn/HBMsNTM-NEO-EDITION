@@ -126,7 +126,6 @@ public class HazardRegistry {
     public static final float rod_quad = rod * 4;
     public static final float rod_rbmk = rod * 8;
 
-
     public static final HazardTypeBase RADIATION = new HazardTypeRadiation();
     public static final HazardTypeBase DIGAMMA = new HazardTypeDigamma();
     public static final HazardTypeBase HOT = new HazardTypeHot();
@@ -152,11 +151,15 @@ public class HazardRegistry {
 
         HazardSystem.register(ModItems.PARTICLE_DIGAMMA.get(), makeData(DIGAMMA, 0.3333F));
 
-        HazardSystem.register(ModItems.LITTLE_BOY_PROPELLANT.get(), makeData(EXPLOSIVE, 2F));
 
+        /*
+         * Nuke parts
+         */
+        HazardSystem.register(ModItems.LITTLE_BOY_PROPELLANT.get(), makeData(EXPLOSIVE, 2F));
         HazardSystem.register(ModItems.GADGET_CORE.get(), makeData(RADIATION, pu239 * nugget * 10));
         HazardSystem.register(ModItems.LITTLE_BOY_TARGET.get(), makeData(RADIATION, u235 * ingot * 2));
         HazardSystem.register(ModItems.LITTLE_BOY_BULLET.get(), makeData(RADIATION, u235 * ingot));
+        HazardSystem.register(ModItems.IVY_MIKE_CORE.get(), makeData(RADIATION, u238 * nugget * 10));
         HazardSystem.register(ModItems.FAT_MAN_CORE.get(), makeData(RADIATION, pu239 * nugget * 10));
     }
 

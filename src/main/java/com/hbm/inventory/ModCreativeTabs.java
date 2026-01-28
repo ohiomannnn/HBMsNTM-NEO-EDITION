@@ -182,6 +182,8 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.NUKE_GADGET);
                         output.accept(ModBlocks.NUKE_LITTLE_BOY);
                         output.accept(ModBlocks.NUKE_FAT_MAN);
+                        output.accept(ModBlocks.NUKE_IVY_MIKE);
+                        output.accept(ModBlocks.NUKE_TSAR_BOMBA);
 
                         output.accept(ModBlocks.CRASHED_BOMB_BALEFIRE);
                         output.accept(ModBlocks.CRASHED_BOMB_CONVENTIONAL);
@@ -211,6 +213,12 @@ public class ModCreativeTabs {
                         output.accept(ModItems.EARLY_EXPLOSIVE_LENSES);
                         output.accept(ModItems.FAT_MAN_CORE);
                         output.accept(ModItems.FAT_MAN_IGNITER);
+
+                        output.accept(ModItems.IVY_MIKE_CORE);
+                        output.accept(ModItems.IVY_MIKE_DEUT);
+                        output.accept(ModItems.IVY_MIKE_COOLING_UNIT);
+
+                        output.accept(ModItems.TSAR_BOMBA_CORE);
 
                         output.accept(ModItems.DETONATOR);
                         output.accept(ModItems.MULTI_DETONATOR);

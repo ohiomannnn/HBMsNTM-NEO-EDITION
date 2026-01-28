@@ -172,6 +172,8 @@ public class CommonEvents {
         event.register(ModMenuTypes.NUKE_GADGET.get(), NukeGadgetScreen::new);
         event.register(ModMenuTypes.NUKE_LITTLE_BOY.get(), NukeLittleBoyScreen::new);
         event.register(ModMenuTypes.NUKE_FAT_MAN.get(), NukeFatManScreen::new);
+        event.register(ModMenuTypes.NUKE_IVY_MIKE.get(), NukeIvyMikeScreen::new);
+        event.register(ModMenuTypes.NUKE_TSAR_BOMBA.get(), NukeTsarBombaScreen::new);
     }
 
     @SubscribeEvent
