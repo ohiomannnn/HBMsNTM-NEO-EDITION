@@ -3,6 +3,8 @@ package com.hbm.inventory;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
+import com.hbm.items.datacomps.FluidTypeComponent;
+import com.hbm.items.datacomps.ModDataComponents;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
@@ -52,20 +54,21 @@ public class FluidContainerRegistry {
         return containerMap.get(type);
     }
 
-    @Nullable
     public static FluidContainer getContainer(FluidType type, ItemStack stack) {
-        if (stack.isEmpty()) return null;
+        if (stack.isEmpty()) return FluidContainer.FLUID_CONTAINER_EMPTY;
 
         ItemStack sta = stack.copy();
         sta.setCount(1);
 
-        if (!containerMap.containsKey(type)) return null;
+        if (!containerMap.containsKey(type)) return FluidContainer.FLUID_CONTAINER_EMPTY;
 
         for (FluidContainer container : getContainers(type)) {
-            if (container.emptyContainer != null && container.emptyContainer.equals(sta)) return container;
+            if (!container.emptyContainer.isEmpty() && container.emptyContainer.equals(sta)) {
+                return container;
+            }
         }
 
-        return null;
+        return FluidContainer.FLUID_CONTAINER_EMPTY;
     }
 
     public static int getFluidContent(ItemStack stack, FluidType type) {
@@ -77,50 +80,11 @@ public class FluidContainerRegistry {
         if (!containerMap.containsKey(type)) return 0;
 
         for (FluidContainer container : containerMap.get(type)) {
-            if (container.fullContainer.equals(sta)) return container.content;
+            if (container.fullContainer.equals(sta)) {
+                return container.content;
+            }
         }
 
         return 0;
-    }
-
-    public static FluidType getFluidType(ItemStack stack) {
-        if (stack.isEmpty()) return Fluids.NONE;
-
-        ItemStack sta = stack.copy();
-        sta.setCount(1);
-
-        for (FluidContainer container : allContainers) {
-            if (container.fullContainer.equals(sta)) return container.type;
-        }
-
-        return Fluids.NONE;
-    }
-
-    public static ItemStack getFullContainer(ItemStack stack, FluidType type) {
-        if (stack.isEmpty()) return ItemStack.EMPTY;
-
-        ItemStack sta = stack.copy();
-        sta.setCount(1);
-
-        if (!containerMap.containsKey(type)) return ItemStack.EMPTY;
-
-        for (FluidContainer container : containerMap.get(type)) {
-            if (!container.emptyContainer.isEmpty() && container.emptyContainer.equals(sta)) return container.fullContainer.copy();
-        }
-
-        return ItemStack.EMPTY;
-    }
-
-    public static ItemStack getEmptyContainer(ItemStack stack) {
-        if (stack.isEmpty()) return ItemStack.EMPTY;
-
-        ItemStack sta = stack.copy();
-        sta.setCount(1);
-
-        for (FluidContainer container : allContainers) {
-            if (container.fullContainer.equals(sta)) return container.emptyContainer.isEmpty() ? ItemStack.EMPTY : container.emptyContainer.copy();
-        }
-
-        return ItemStack.EMPTY;
     }
 }

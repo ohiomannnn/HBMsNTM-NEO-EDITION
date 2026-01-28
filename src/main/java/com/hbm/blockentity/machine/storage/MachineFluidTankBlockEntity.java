@@ -4,7 +4,9 @@ import api.hbm.energymk2.IEnergyReceiverMK2.ConnectionPriority;
 import api.hbm.fluidmk2.FluidNode;
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import com.hbm.blockentity.*;
+import com.hbm.blocks.DummyableBlock;
 import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.extprop.HbmPlayerAttachments;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
@@ -19,6 +21,7 @@ import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Liquid;
 import com.hbm.inventory.menus.MachineFluidTankMenu;
 import com.hbm.items.ModItems;
 import com.hbm.lib.Library;
+import com.hbm.lib.ModAttachments;
 import com.hbm.uninos.UniNodespace;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import io.netty.buffer.ByteBuf;
@@ -35,6 +38,7 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -122,7 +126,6 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
 
                 tank.loadTank(level, 2, 3, slots);
                 tank.setType(0, 1, slots);
-                tank.setFill(tank.getFill() + 10);
             } else if (this.node != null) {
                 UniNodespace.destroyNode(level, getBlockPos(), tank.getTankType().getNetworkProvider());
                 this.node = null;
@@ -164,6 +167,22 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
             tank.unloadTank(level, 4, 5, slots);
 
             this.networkPackNT(150);
+        }
+
+        if (level != null) {
+            Direction dir = this.getBlockState().getValue(DummyableBlock.FACING);
+            Direction rot = dir.getClockWise();
+            BlockPos pos = this.getBlockPos();
+            int x = pos.getX();
+            int y = pos.getY();
+            int z = pos.getZ();
+            List<Player> players = level.getEntitiesOfClass(Player.class, new AABB(x, y, z, x + 1, y + 2.875, z + 1).move(dir.getStepX() * 0.5 - rot.getStepX() * 2.25, 0, dir.getStepZ() * 0.5 - rot.getStepZ() * 2.25));
+
+            for (Player player : players) {
+                HbmPlayerAttachments props = HbmPlayerAttachments.getData(player);
+                props.isOnLadder = true;
+                player.setData(ModAttachments.PLAYER_ATTACHMENT.get(), props);
+            }
         }
     }
 

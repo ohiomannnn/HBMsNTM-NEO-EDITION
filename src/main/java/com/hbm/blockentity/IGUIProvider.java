@@ -6,7 +6,6 @@ import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
-@OnlyIn(Dist.CLIENT)
 public interface IGUIProvider {
-    Screen provideScreenOnRightClick(Player player, BlockPos pos);
+    @OnlyIn(Dist.CLIENT) Screen provideScreenOnRightClick(Player player, BlockPos pos);
 }

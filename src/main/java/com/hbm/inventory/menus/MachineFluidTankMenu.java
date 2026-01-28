@@ -30,14 +30,14 @@ public class MachineFluidTankMenu extends AbstractContainerMenu {
         this.addSlot(new Slot(be, 4, 125, 17));
         this.addSlot(new Slot(be, 5, 125, 53));
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 9; j++) {
-                this.addSlot(new Slot(inventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+        for (int y = 0; y < 3; y++) {
+            for (int x = 0; x < 9; x++) {
+                this.addSlot(new Slot(inventory, x + y * 9 + 9, 8 + x * 18, 84 + y * 18));
             }
         }
 
-        for (int i = 0; i < 9; i++) {
-            this.addSlot(new Slot(inventory, i, 8 + i * 18, 142));
+        for (int x = 0; x< 9; x++) {
+            this.addSlot(new Slot(inventory, x, 8 + x * 18, 142));
         }
     }
 
@@ -57,7 +57,7 @@ public class MachineFluidTankMenu extends AbstractContainerMenu {
             ItemStack stack = slot.getItem();
             newStack = stack.copy();
 
-            if (index < 1) {
+            if (index <= 5) {
                 if (!this.moveItemStackTo(stack, be.getContainerSize(), this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }

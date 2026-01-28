@@ -7,7 +7,6 @@ import com.hbm.entity.effect.NukeTorex.Cloudlet;
 import com.hbm.lib.ModSounds;
 import com.hbm.render.CustomRenderTypes;
 import com.hbm.util.old.TessColorUtil;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;

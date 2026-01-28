@@ -4,7 +4,9 @@ import com.hbm.HBMsNTMClient;
 import com.hbm.config.MainConfig;
 import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.extprop.HbmLivingAttachments.ContaminationEffect;
+import com.hbm.extprop.HbmPlayerAttachments;
 import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.lib.ModAttachments;
 import com.hbm.lib.ModDamageTypes;
 import com.hbm.lib.ModSounds;
 import com.hbm.network.toclient.AuxParticle;
@@ -34,6 +36,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
@@ -65,8 +68,40 @@ public class EntityEffectHandler {
         handleRadiationFX(entity);
         handleDigamma(entity);
         handleLungDisease(entity);
+        if (entity instanceof Player player) handleFauxLadder(player);
     }
 
+    private static void handleFauxLadder(Player player) {
+
+        HbmPlayerAttachments props = HbmPlayerAttachments.getData(player);
+
+        if (props.isOnLadder) {
+            double climbSpeed = 0.15;
+
+            Vec3 motion = player.getDeltaMovement();
+            double motionX = motion.x;
+            double motionY = motion.y;
+            double motionZ = motion.z;
+
+            if (motionX < -climbSpeed) motionX = -climbSpeed;
+            if (motionX > climbSpeed) motionX = climbSpeed;
+            if (motionZ < -climbSpeed) motionZ = -climbSpeed;
+            if (motionZ > climbSpeed) motionZ = climbSpeed;
+
+            player.resetFallDistance();
+
+            if (motionY < -climbSpeed) motionY = -climbSpeed;
+            if (player.isCrouching() && motionY < 0.0D) motionY = 0.0D;
+            if (player.horizontalCollision) motionY = 0.2D;
+
+            player.setDeltaMovement(motionX, motionY, motionZ);
+
+            props.isOnLadder = false;
+            player.setData(ModAttachments.PLAYER_ATTACHMENT.get(), props);
+
+            //if(!player.worldObj.isRemote) ArmorUtil.resetFlightTime(player);
+        }
+    }
 
     private static void handleContamination(LivingEntity entity) {
         if (entity.level().isClientSide) return;

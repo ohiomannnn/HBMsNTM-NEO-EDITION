@@ -1,9 +1,12 @@
 package com.hbm.inventory;
 
 import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.fluid.Fluids;
 import net.minecraft.world.item.ItemStack;
 
 public class FluidContainer {
+
+    public static FluidContainer FLUID_CONTAINER_EMPTY = new FluidContainer(ItemStack.EMPTY, ItemStack.EMPTY, Fluids.NONE, 0);
     // The full container (e.g. deuterium cell)
     public ItemStack fullContainer;
     // Them empty container (e.g. empty cell)
@@ -18,5 +21,9 @@ public class FluidContainer {
         this.emptyContainer = empty;
         this.type = type;
         this.content = amount;
+    }
+
+    public boolean isEmpty() {
+        return this == FLUID_CONTAINER_EMPTY;
     }
 }

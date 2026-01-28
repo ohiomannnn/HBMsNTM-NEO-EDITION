@@ -10,6 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix4f;
 
 public class DiamondPronter {
+
     private static final ResourceLocation TEXTURE = HBMsNTM.withDefaultNamespaceNT("textures/models/misc/danger_diamond.png");
 
     public static void pront(MultiBufferSource buffer, PoseStack poseStack, int brightness, int poison, int flammability, int reactivity, EnumSymbol symbol) {
@@ -171,7 +172,7 @@ public class DiamondPronter {
 
             consumer.addVertex(matrix, 0.01F, symSize + oY, -symSize + oZ)
                     .setColor(1F, 1F, 1F, 1F)
-                    .setUv((x + 20) * p, y * p)
+                    .setUv((x + 59) * p, y * p)
                     .setOverlay(OverlayTexture.NO_OVERLAY)
                     .setLight(brightness)
                     .setNormal(0.0F, 1.0F, 0.0F);
@@ -183,13 +184,13 @@ public class DiamondPronter {
                     .setNormal(0.0F, 1.0F, 0.0F);
             consumer.addVertex(matrix, 0.01F, -symSize + oY, symSize + oZ)
                     .setColor(1F, 1F, 1F, 1F)
-                    .setUv(x * p, (y + 28) * p)
+                    .setUv(x * p, (y + 59) * p)
                     .setOverlay(OverlayTexture.NO_OVERLAY)
                     .setLight(brightness)
                     .setNormal(0.0F, 1.0F, 0.0F);
             consumer.addVertex(matrix, 0.01F, -symSize + oY, -symSize + oZ)
                     .setColor(1F, 1F, 1F, 1F)
-                    .setUv((x + 20) * p, (y + 28) * p)
+                    .setUv((x + 59) * p, (y + 59) * p)
                     .setOverlay(OverlayTexture.NO_OVERLAY)
                     .setLight(brightness)
                     .setNormal(0.0F, 1.0F, 0.0F);

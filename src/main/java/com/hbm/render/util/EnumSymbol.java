@@ -10,8 +10,8 @@ public enum EnumSymbol {
     ANTIMATTER(73, 185),
     OXIDIZER(12, 185);
 
-    public int x;
-    public int y;
+    public final int x;
+    public final int y;
 
     EnumSymbol(int x, int y) {
         this.x = x;

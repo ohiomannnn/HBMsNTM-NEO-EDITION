@@ -26,6 +26,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.List;
@@ -112,6 +114,7 @@ public class FluidIDMultiItem extends Item implements IGUIProvider, IItemControl
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public Screen provideScreenOnRightClick(Player player, BlockPos pos) {
         if (player.isCrouching()) return new FluidScreen(player);;
         return null;

@@ -19,11 +19,13 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -218,15 +220,35 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
         dir = getDirModified(dir);
 
         if (!checkRequirement(level, adjustedPos, dir, offset)) {
-            if (!player.isCreative()) {
-                if (!player.getInventory().add(new ItemStack(this))) {
-                    player.drop(new ItemStack(this), false);
+            if (!player.hasInfiniteMaterials()) {
+                ItemStack mainHandStack = player.getMainHandItem();
+                ItemStack offHandStack = player.getOffhandItem();
+                Item item = this.asItem();
+
+                boolean added = false;
+
+                if (mainHandStack.is(item) && mainHandStack.getCount() < mainHandStack.getMaxStackSize()) {
+                    mainHandStack.grow(1);
+                    added = true;
+                } else if (offHandStack.is(item) && offHandStack.getCount() < offHandStack.getMaxStackSize()) {
+                    offHandStack.grow(1);
+                    added = true;
+                } else if (mainHandStack.isEmpty()) {
+                    player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(this));
+                    added = true;
+                } else if (offHandStack.isEmpty()) {
+                    player.setItemInHand(InteractionHand.OFF_HAND, new ItemStack(this));
+                    added = true;
+                }
+
+                if (!added) {
+                    player.getInventory().add(new ItemStack(this));
                 }
             }
             return;
         }
 
-        if (!level.isClientSide()) {
+        if (!level.isClientSide) {
             BlockPos corePos = adjustedPos.relative(dir, offset);
             BlockState coreState = getStateForCore(level, corePos, player, dir);
 
