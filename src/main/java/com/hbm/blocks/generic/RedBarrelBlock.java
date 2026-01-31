@@ -4,7 +4,7 @@ import com.hbm.blockentity.EmptyBlockEntity;
 import com.hbm.blockentity.ModBlockEntities;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.DetonatableBlock;
-import com.hbm.entity.item.EntityTNTPrimedBase;
+import com.hbm.entity.item.TNTPrimedBase;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -83,7 +83,7 @@ public class RedBarrelBlock extends DetonatableBlock implements EntityBlock, Sim
     @Override protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) { return SHAPE; }
 
     @Override
-    public void explodeEntity(Level level, double x, double y, double z, EntityTNTPrimedBase entity) {
+    public void explodeEntity(Level level, double x, double y, double z, TNTPrimedBase entity) {
         if (this == ModBlocks.BARREL_RED.get() || this == ModBlocks.BARREL_PINK.get()) {
             level.explode(entity, x, y, z, 2.5F, true, Level.ExplosionInteraction.BLOCK);
         }

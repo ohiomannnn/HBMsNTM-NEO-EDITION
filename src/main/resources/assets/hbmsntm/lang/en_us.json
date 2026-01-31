@@ -219,6 +219,12 @@
   "item.hbmsntm.battery_pack_redstone": "Redstone Battery",
   "item.hbmsntm.battery_pack_schrabidium": "Schrabidium Battery",
   "item.hbmsntm.battery_pack_sodium": "Sodium-Iron Battery",
+  "item.hbmsntm.capacitor_copper": "Copper Capacitor",
+  "item.hbmsntm.capacitor_gold": "Gold Capacitor",
+  "item.hbmsntm.capacitor_niobium": "Niobium Capacitor",
+  "item.hbmsntm.capacitor_tantalum": "Tantalum Capacitor",
+  "item.hbmsntm.capacitor_bismuth": "Bismuth Capacitor",
+  "item.hbmsntm.capacitor_spark": "Spark Capacitor",
 
   "item.hbmsntm.fluid_identifier_multi": "Multi Fluid Identifier",
   "item.hbmsntm.fluid_identifier_multi.info": "Universal fluid identifier for:",

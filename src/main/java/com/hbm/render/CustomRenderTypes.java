@@ -77,8 +77,25 @@ public class CustomRenderTypes {
                         .setTransparencyState(SEVEN_SEVEN10)
                         .setCullState(RenderType.NO_CULL)
                         .setLightmapState(RenderType.LIGHTMAP)
-                        .setOverlayState(RenderType.NO_OVERLAY)
+                        .setOverlayState(RenderType.OVERLAY)
                         .setWriteMaskState(RenderType.COLOR_DEPTH_WRITE)
+                        .setOutputState(RenderType.CLOUDS_TARGET)
+                        .createCompositeState(false);
+                return RenderType.create("smoth", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, state);
+            }
+    );
+
+    public static final Function<ResourceLocation, RenderType> SMOTH_NO_DEPTH = Util.memoize(
+            texture -> {
+                RenderType.CompositeState state = RenderType.CompositeState.builder()
+                        .setShaderState(RenderType.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
+                        .setTextureState(new TextureStateShard(texture, false, true))
+                        .setTransparencyState(SEVEN_SEVEN10)
+                        .setCullState(RenderType.NO_CULL)
+                        .setLightmapState(RenderType.LIGHTMAP)
+                        .setOverlayState(RenderType.NO_OVERLAY)
+                        .setWriteMaskState(RenderType.COLOR_WRITE)
+                        .setOutputState(RenderType.CLOUDS_TARGET)
                         .createCompositeState(false);
                 return RenderType.create("smoth", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, state);
             }
@@ -94,7 +111,7 @@ public class CustomRenderTypes {
                         .setLightmapState(RenderType.NO_LIGHTMAP)
                         .setOverlayState(RenderType.NO_OVERLAY)
                         .setWriteMaskState(RenderType.COLOR_WRITE)
-                        .setOutputState(RenderStateShard.TRANSLUCENT_TARGET)
+                        .setOutputState(RenderType.CLOUDS_TARGET)
                         .createCompositeState(false);
                 return RenderType.create("smoth2", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, true, true, state);
             }
@@ -106,6 +123,10 @@ public class CustomRenderTypes {
 
     public static RenderType entitySmothNoLight(ResourceLocation location) {
         return SMOTH_NO_LIGHT.apply(location);
+    }
+
+    public static RenderType entitySmothNoDepth(ResourceLocation location) {
+        return SMOTH_NO_DEPTH.apply(location);
     }
 
     public static RenderType entityAdditive(ResourceLocation location) {

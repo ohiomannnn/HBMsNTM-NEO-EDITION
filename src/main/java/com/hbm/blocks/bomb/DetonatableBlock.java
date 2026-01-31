@@ -2,7 +2,7 @@ package com.hbm.blocks.bomb;
 
 import api.hbm.block.IFuckingExplode;
 import com.hbm.blocks.generic.FlammableBlock;
-import com.hbm.entity.item.EntityTNTPrimedBase;
+import com.hbm.entity.item.TNTPrimedBase;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
@@ -10,6 +10,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+
+import javax.annotation.Nullable;
 
 public abstract class DetonatableBlock extends FlammableBlock implements IFuckingExplode {
 
@@ -30,10 +32,10 @@ public abstract class DetonatableBlock extends FlammableBlock implements IFuckin
     }
 
     @Override
-    public void wasExploded(Level level, BlockPos pos, Explosion explosion) {
+    public void wasExploded(Level level, BlockPos pos, @Nullable Explosion explosion) {
         if (!level.isClientSide) {
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
-            EntityTNTPrimedBase tntPrimed = new EntityTNTPrimedBase(level, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, explosion.getIndirectSourceEntity(), this);
+            TNTPrimedBase tntPrimed = new TNTPrimedBase(level, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, explosion != null ? explosion.getIndirectSourceEntity() : null, this);
             tntPrimed.fuse = popFuse <= 0 ? 0 : level.random.nextInt(popFuse) + popFuse / 2;
             tntPrimed.detonateOnCollision = detonateOnCollision;
             level.addFreshEntity(tntPrimed);

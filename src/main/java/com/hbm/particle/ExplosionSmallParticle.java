@@ -1,5 +1,6 @@
 package com.hbm.particle;
 
+import com.hbm.render.CustomRenderTypes;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -82,7 +83,7 @@ public class ExplosionSmallParticle extends RotatingParticle {
         float scale = (float) ((0.25 + 1 - Math.pow(1 - ageScaled, 4) + (this.age + partialTicks) * 0.02) * this.quadSize);
 
         MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
-        this.renderParticleRotated(buffer, RenderType.entityTranslucent(TextureAtlas.LOCATION_PARTICLES), camera, this.rCol, this.gCol, this.bCol, this.alpha * 0.5F, scale, partialTicks, 240);
+        this.renderParticleRotated(buffer, CustomRenderTypes.entitySmothNoDepth(TextureAtlas.LOCATION_PARTICLES), camera, this.rCol, this.gCol, this.bCol, this.alpha * 0.5F, scale, partialTicks, 240);
         buffer.endBatch();
     }
 

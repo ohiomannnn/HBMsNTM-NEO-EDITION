@@ -3,7 +3,7 @@ package com.hbm.blocks.bomb;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.effect.NukeTorex;
-import com.hbm.entity.item.EntityTNTPrimedBase;
+import com.hbm.entity.item.TNTPrimedBase;
 import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.vanillant.ExplosionVNT;
@@ -58,7 +58,7 @@ public class ExplosiveChargeBlock extends DetonatableBlock implements IBomb, IDe
     }
 
     @Override
-    public void explodeEntity(Level level, double x, double y, double z, EntityTNTPrimedBase entity) {
+    public void explodeEntity(Level level, double x, double y, double z, TNTPrimedBase entity) {
         explode(level, BlockPos.containing(x, y, z));
     }
 

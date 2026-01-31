@@ -15,22 +15,22 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
 
-public class EntityTNTPrimedBase extends Entity {
+public class TNTPrimedBase extends Entity {
 
-    private static final EntityDataAccessor<Integer> BLOCK_ID = SynchedEntityData.defineId(EntityTNTPrimedBase.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> BLOCK_ID = SynchedEntityData.defineId(TNTPrimedBase.class, EntityDataSerializers.INT);
 
     public boolean detonateOnCollision;
     public int fuse;
     private LivingEntity tntPlacedBy;
 
-    public EntityTNTPrimedBase(EntityType<? extends EntityTNTPrimedBase> type, Level level) {
+    public TNTPrimedBase(EntityType<? extends TNTPrimedBase> type, Level level) {
         super(type, level);
         this.blocksBuilding = true;
         this.fuse = 80;
         this.detonateOnCollision = false;
     }
 
-    public EntityTNTPrimedBase(Level level, double x, double y, double z, LivingEntity placer, Block bomb) {
+    public TNTPrimedBase(Level level, double x, double y, double z, LivingEntity placer, Block bomb) {
         this(ModEntityTypes.TNT_PRIMED_BASE.get(), level);
         this.setPos(x, y, z);
         float f = (float) (Math.random() * Math.PI * 2.0D);

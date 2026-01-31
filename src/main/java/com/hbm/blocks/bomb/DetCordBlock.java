@@ -1,7 +1,7 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.blockentity.bomb.DetCordBlockEntity;
-import com.hbm.entity.item.EntityTNTPrimedBase;
+import com.hbm.entity.item.TNTPrimedBase;
 import com.hbm.interfaces.IBomb;
 import com.hbm.lib.Library;
 import net.minecraft.core.BlockPos;
@@ -80,7 +80,7 @@ public class DetCordBlock extends DetonatableBlock implements IDetConnectible, I
     }
 
     @Override
-    public void explodeEntity(Level level, double x, double y, double z, EntityTNTPrimedBase entity) {
+    public void explodeEntity(Level level, double x, double y, double z, TNTPrimedBase entity) {
         explode(level, BlockPos.containing(x, y, z));
     }
 

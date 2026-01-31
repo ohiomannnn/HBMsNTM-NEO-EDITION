@@ -2,7 +2,7 @@ package com.hbm.entity;
 
 import com.hbm.HBMsNTM;
 import com.hbm.entity.effect.*;
-import com.hbm.entity.item.EntityTNTPrimedBase;
+import com.hbm.entity.item.TNTPrimedBase;
 import com.hbm.entity.logic.Bomber;
 import com.hbm.entity.logic.DeathBlast;
 import com.hbm.entity.logic.NukeExplosionBalefire;
@@ -63,9 +63,9 @@ public class ModEntityTypes {
                             .sized(0.6F, 1.7F)
                             .build("creeper_nuclear"));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<EntityTNTPrimedBase>> TNT_PRIMED_BASE = REGISTER.register(
+    public static final DeferredHolder<EntityType<?>, EntityType<TNTPrimedBase>> TNT_PRIMED_BASE = REGISTER.register(
             "tnt_primed_base",
-            () -> EntityType.Builder.<EntityTNTPrimedBase>of(EntityTNTPrimedBase::new, MobCategory.MONSTER)
+            () -> EntityType.Builder.<TNTPrimedBase>of(TNTPrimedBase::new, MobCategory.MONSTER)
                     .fireImmune()
                     .sized(0.98F, 0.98F)
                     .eyeHeight(0.15F)

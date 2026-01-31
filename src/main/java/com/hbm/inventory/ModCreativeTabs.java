@@ -102,6 +102,28 @@ public class ModCreativeTabs {
 
                         output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.BATTERY_PACK_QUANTUM.get())));
                         output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_QUANTUM.get())));
+
+                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.CAPACITOR_COPPER.get())));
+                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.CAPACITOR_COPPER.get())));
+
+                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.CAPACITOR_GOLD.get())));
+                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.CAPACITOR_GOLD.get())));
+
+                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.CAPACITOR_NIOBIUM.get())));
+                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.CAPACITOR_NIOBIUM.get())));
+
+                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.CAPACITOR_NIOBIUM.get())));
+                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.CAPACITOR_NIOBIUM.get())));
+
+                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.CAPACITOR_TANTALUM.get())));
+                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.CAPACITOR_TANTALUM.get())));
+
+                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.CAPACITOR_BISMUTH.get())));
+                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.CAPACITOR_BISMUTH.get())));
+
+                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.CAPACITOR_SPARK.get())));
+                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.CAPACITOR_SPARK.get())));
+
                         output.accept(ModItems.BATTERY_CREATIVE);
 
                         output.accept(ModItems.REACHER);

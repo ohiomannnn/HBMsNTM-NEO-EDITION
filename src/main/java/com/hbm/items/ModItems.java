@@ -84,6 +84,13 @@ public class ModItems {
     public static final DeferredItem<Item> BATTERY_PACK_SCHRABIDIUM = ITEMS.register("battery_pack_schrabidium", () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.BATTERY_SCHRABIDIUM));
     public static final DeferredItem<Item> BATTERY_PACK_QUANTUM = ITEMS.register("battery_pack_quantum",         () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.BATTERY_QUANTUM));
 
+    public static final DeferredItem<Item> CAPACITOR_COPPER = ITEMS.register("capacitor_copper",            () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.CAPACITOR_COPPER));
+    public static final DeferredItem<Item> CAPACITOR_GOLD = ITEMS.register("capacitor_gold",                () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.CAPACITOR_GOLD));
+    public static final DeferredItem<Item> CAPACITOR_NIOBIUM = ITEMS.register("capacitor_niobium",          () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.CAPACITOR_NIOBIUM));
+    public static final DeferredItem<Item> CAPACITOR_TANTALUM = ITEMS.register("capacitor_tantalum",        () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.CAPACITOR_TANTALUM));
+    public static final DeferredItem<Item> CAPACITOR_BISMUTH = ITEMS.register("capacitor_bismuth",          () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.CAPACITOR_BISMUTH));
+    public static final DeferredItem<Item> CAPACITOR_SPARK = ITEMS.register("capacitor_spark",              () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.CAPACITOR_SPARK));
+
     public static final DeferredItem<Item> BATTERY_CREATIVE = ITEMS.register("battery_creative", () -> new BatteryCreativeItem(new Item.Properties().stacksTo(1)));
 
     public static final DeferredItem<Item> FLUID_TANK_EMPTY = ITEMS.register("fluid_tank_empty", () -> new Item(new Item.Properties()));
@@ -98,10 +105,6 @@ public class ModItems {
     public static final DeferredItem<Item> INF_WATER = ITEMS.register("inf_water", () -> new InfiniteFluidItem(new Item.Properties().stacksTo(1), Fluids.WATER, 50));
     public static final DeferredItem<Item> INF_WATER_MK2 = ITEMS.register("inf_water_mk2", () -> new InfiniteFluidItem(new Item.Properties().stacksTo(1), Fluids.WATER, 500));
 
-    @Placeholder(reason = "uhh yes?")
-    public static final DeferredItem<Item> CAPACITOR_PACK_NIOBIUM = ITEMS.register(
-            "capacitor_pack_niobium",
-            () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.CAPACITOR_NIOBIUM));
     public static final DeferredItem<Item> PIN = ITEMS.register(
             "pin",
             () -> new Item(new Item.Properties().stacksTo(8)));

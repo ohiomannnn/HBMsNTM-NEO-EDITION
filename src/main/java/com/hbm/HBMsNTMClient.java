@@ -579,7 +579,13 @@ public class HBMsNTMClient {
                 ModItems.BATTERY_PACK_LITHIUM.get(),
                 ModItems.BATTERY_PACK_SODIUM.get(),
                 ModItems.BATTERY_PACK_SCHRABIDIUM.get(),
-                ModItems.BATTERY_PACK_QUANTUM.get()
+                ModItems.BATTERY_PACK_QUANTUM.get(),
+                ModItems.CAPACITOR_COPPER.get(),
+                ModItems.CAPACITOR_GOLD.get(),
+                ModItems.CAPACITOR_NIOBIUM.get(),
+                ModItems.CAPACITOR_TANTALUM.get(),
+                ModItems.CAPACITOR_BISMUTH.get(),
+                ModItems.CAPACITOR_SPARK.get()
         );
 
         registerItemRenderer(event, RenderBatteryREDDItem::new, ModBlocks.MACHINE_BATTERY_REDD.asItem());

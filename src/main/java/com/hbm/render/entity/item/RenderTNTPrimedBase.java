@@ -1,6 +1,6 @@
 package com.hbm.render.entity.item;
 
-import com.hbm.entity.item.EntityTNTPrimedBase;
+import com.hbm.entity.item.TNTPrimedBase;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -15,7 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class RenderTNTPrimedBase extends EntityRenderer<EntityTNTPrimedBase> {
+public class RenderTNTPrimedBase extends EntityRenderer<TNTPrimedBase> {
 
     private final BlockRenderDispatcher blockRenderer;
 
@@ -26,7 +26,7 @@ public class RenderTNTPrimedBase extends EntityRenderer<EntityTNTPrimedBase> {
     }
 
     @Override
-    public void render(EntityTNTPrimedBase tnt, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+    public void render(TNTPrimedBase tnt, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         BlockState blockstate = tnt.getBlock().defaultBlockState();
         int fuse = tnt.fuse;
         float f = (float) fuse - partialTicks + 1.0F;
@@ -74,7 +74,7 @@ public class RenderTNTPrimedBase extends EntityRenderer<EntityTNTPrimedBase> {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(EntityTNTPrimedBase entity) {
+    public ResourceLocation getTextureLocation(TNTPrimedBase entity) {
         return TextureAtlas.LOCATION_BLOCKS;
     }
 }
