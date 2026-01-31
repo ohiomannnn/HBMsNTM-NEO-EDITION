@@ -18,7 +18,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -67,7 +66,9 @@ public class ModEntityTypes {
     public static final DeferredHolder<EntityType<?>, EntityType<EntityTNTPrimedBase>> TNT_PRIMED_BASE = REGISTER.register(
             "tnt_primed_base",
             () -> EntityType.Builder.<EntityTNTPrimedBase>of(EntityTNTPrimedBase::new, MobCategory.MONSTER)
+                    .fireImmune()
                     .sized(0.98F, 0.98F)
+                    .eyeHeight(0.15F)
                     .clientTrackingRange(10)
                     .updateInterval(10)
                     .build("tnt_primed_base"));

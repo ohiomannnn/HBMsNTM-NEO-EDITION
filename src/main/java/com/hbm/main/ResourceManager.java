@@ -26,8 +26,25 @@ public class ResourceManager {
     public static final ResourceLocation DUD_NUKE_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/bomb/dud_nuke.png");
     public static final ResourceLocation DUD_SALTED_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/bomb/dud_salted.png");
 
-    public static final ResourceLocation CABLE_NEO_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/cable_neo.png");
+    public static final ResourceLocation CABLE_NEO_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/red_cable.png");
+    public static final ResourceLocation DIFURNACE_EXTENSION_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/difurnace_extension.png");
+    public static final ResourceLocation DIFURNACE_EXTENSION_TOP_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/difurnace_top_off_alt.png");
+    public static final ResourceLocation DIFURNACE_EXTENSION_BOTTOM_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/brick_fire.png");
+    public static final ResourceLocation CABLE_CLASSIC_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/red_cable_classic.png");
     public static final ResourceLocation DET_CORD_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/det_cord.png");
+
+    public static final ResourceLocation BARREL_ANTIMATTER_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/barrel_antimatter.png");
+    public static final ResourceLocation BARREL_CORRODED_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/barrel_corroded.png");
+    public static final ResourceLocation BARREL_IRON_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/barrel_iron.png");
+    public static final ResourceLocation BARREL_LOX_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/barrel_lox.png");
+    public static final ResourceLocation BARREL_PINK_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/barrel_pink.png");
+    public static final ResourceLocation BARREL_PLASTIC_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/barrel_plastic.png");
+    public static final ResourceLocation BARREL_RED_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/barrel_red.png");
+    public static final ResourceLocation BARREL_STEEL_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/barrel_steel.png");
+    public static final ResourceLocation BARREL_TAINT_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/barrel_taint.png");
+    public static final ResourceLocation BARREL_TCALLOY_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/barrel_tcalloy.png");
+    public static final ResourceLocation BARREL_VITRIFIED_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/barrel_vitrified.png");
+    public static final ResourceLocation BARREL_YELLOW_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/barrel_yellow.png");
 
     public static final ResourceLocation TANK_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/machines/tank.png");
     public static final ResourceLocation TANK_INNER_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/machines/tank_inner.png");
@@ -71,6 +88,7 @@ public class ResourceManager {
     public static IModelCustom dud_salted;
 
     public static IModelCustom cable_neo;
+    public static IModelCustom difurnace_extension;
 
     public static IModelCustom fluid_tank;
     public static IModelCustom fluid_tank_exploded;
@@ -87,6 +105,8 @@ public class ResourceManager {
     public static IModelCustom bomblet_zeta;
 
     public static IModelCustom detonator_laser;
+
+    public static IModelCustom barrel;
 
     public static void init() {
         mine_ap = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/mine_ap.obj")).asVBO();
@@ -106,6 +126,7 @@ public class ResourceManager {
         dud_salted = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/dud_salted.obj")).asVBO();
 
         cable_neo = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/block/cable_neo.obj")).asVBO();
+        difurnace_extension = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/block/difurnace_extension.obj")).asVBO();
 
         fluid_tank = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/machines/fluid_tank.obj")).asVBO();
         fluid_tank_exploded = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/machines/fluid_tank_exploded.obj")).asVBO();
@@ -122,5 +143,7 @@ public class ResourceManager {
         bomblet_zeta = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomblet_zeta.obj")).asVBO();
 
         detonator_laser = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/weapon/detonator_laser.obj")).asVBO();
+
+        barrel = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/block/barrel.obj")).asVBO();
     }
 }

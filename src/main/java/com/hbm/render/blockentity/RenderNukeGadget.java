@@ -1,20 +1,18 @@
 package com.hbm.render.blockentity;
 
 import com.hbm.blockentity.bomb.NukeGadgetBlockEntity;
-import com.hbm.blockentity.bomb.NukeLittleBoyBlockEntity;
-import com.hbm.blocks.bomb.NukeBaseBlock;
 import com.hbm.main.ResourceManager;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.GraphicsStatus;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.Options;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public class RenderNukeGadget implements BlockEntityRenderer<NukeGadgetBlockEntity> {
 
@@ -23,7 +21,7 @@ public class RenderNukeGadget implements BlockEntityRenderer<NukeGadgetBlockEnti
     @Override
     public void render(NukeGadgetBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
 
-        Direction facing = be.getBlockState().getValue(NukeBaseBlock.FACING);
+        Direction facing = be.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
         float rot = switch (facing) {
             case DOWN, UP -> 0.0F;
             case WEST -> 0F;

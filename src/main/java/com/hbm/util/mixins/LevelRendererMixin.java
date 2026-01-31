@@ -21,21 +21,20 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LevelRenderer.class)
 @OnlyIn(Dist.CLIENT)
-public class RenderNTMSkybox {
+public class LevelRendererMixin {
 
+    // CUSTOM SKY BOX
     @Unique private static final ResourceLocation DIGAMMA_STAR = HBMsNTM.withDefaultNamespaceNT("textures/misc/star_digamma.png");
     @Unique private static final ResourceLocation LODESTAR = HBMsNTM.withDefaultNamespaceNT("textures/misc/star_lode.png");
     @Unique private static final ResourceLocation BOBMAZON_SATELLITE = HBMsNTM.withDefaultNamespaceNT("textures/misc/bobmazon_sat.png");
 
     @Inject(method = "renderSky", at = @At("TAIL"))
-    private void renderSky(Matrix4f frustumMatrix, Matrix4f projectionMatrix,
-                           float partialTick, Camera camera,
-                           boolean isFoggy, Runnable skyFogSetup, CallbackInfo ci) {
-
+    private void renderSky(Matrix4f frustumMatrix, Matrix4f projectionMatrix, float partialTick, Camera camera, boolean isFoggy, Runnable skyFogSetup, CallbackInfo ci) {
         hbmsntm$renderBobmazonSat(frustumMatrix);
         hbmsntm$renderDigammaStar(frustumMatrix, partialTick);
         hbmsntm$renderLodeStar(frustumMatrix);
@@ -73,8 +72,8 @@ public class RenderNTMSkybox {
         poseStack.popPose();
 
         float digamma = HbmLivingAttachments.getDigamma(mc.player);
-        float size = 1F * (1 + digamma * 0.25F);
-        float dist = 100F- digamma * 2.5F;
+        float size = 1 + digamma * 0.25F;
+        float dist = 100F - digamma * 2.5F;
 
         Tesselator tess = Tesselator.getInstance();
         BufferBuilder buf = tess.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);

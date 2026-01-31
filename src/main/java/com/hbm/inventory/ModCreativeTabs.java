@@ -202,6 +202,9 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.DET_NUKE);
                         output.accept(ModBlocks.DET_MINER);
 
+                        output.accept(ModBlocks.BARREL_RED);
+                        output.accept(ModBlocks.BARREL_PINK);
+
                         output.accept(ModItems.GADGET_WIREING);
                         output.accept(ModItems.GADGET_CORE);
 

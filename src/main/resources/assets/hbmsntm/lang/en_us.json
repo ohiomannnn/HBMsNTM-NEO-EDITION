@@ -125,6 +125,10 @@
   "block.hbmsntm.waste_leaves": "Dead Leaves",
   "block.hbmsntm.waste_log": "Charred Log",
 
+  "block.hbmsntm.barrel_red": "Explosive Barrel",
+  "block.hbmsntm.barrel_pink": "Kerosene Barrel",
+  "block.hbmsntm.barrel.static_fluid_barrel": "Static Fluid Barrel",
+
   "block.hbmsntm.taint": "Taint",
   "block.hbmsntm.geiger": "Geiger Counter",
 

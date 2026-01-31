@@ -17,8 +17,7 @@ import net.minecraft.world.phys.Vec3;
 
 public class EntityTNTPrimedBase extends Entity {
 
-    private static final EntityDataAccessor<Integer> BLOCK_ID =
-            SynchedEntityData.defineId(EntityTNTPrimedBase.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> BLOCK_ID = SynchedEntityData.defineId(EntityTNTPrimedBase.class, EntityDataSerializers.INT);
 
     public boolean detonateOnCollision;
     public int fuse;
@@ -48,28 +47,24 @@ public class EntityTNTPrimedBase extends Entity {
 
     @Override
     public boolean isPushable() {
-        return true;
+        return this.isAlive();
     }
 
     @Override
     public void tick() {
-        super.tick();
 
-        Vec3 motion = this.getDeltaMovement();
-        if (!this.isNoGravity()) {
-            motion = motion.add(0.0, -0.04, 0.0);
-        }
-
-        this.move(MoverType.SELF, motion);
-        motion = motion.scale(0.98);
+        this.xo = this.getX();
+        this.yo = this.getY();
+        this.zo = this.getZ();
+        this.setDeltaMovement(this.getDeltaMovement().subtract(0, 0.04D, 0));
+        this.move(MoverType.SELF, this.getDeltaMovement());
+        this.setDeltaMovement(this.getDeltaMovement().multiply(0.98D, 0.98D, 0.98D));
 
         if (this.onGround()) {
-            motion = new Vec3(motion.x * 0.7, -motion.y * 0.5, motion.z * 0.7);
+            this.setDeltaMovement(this.getDeltaMovement().multiply(0.7D, -0.5D, 0.7D));
         }
 
-        this.setDeltaMovement(motion);
-
-        if (this.fuse-- <= 0 || (this.detonateOnCollision && this.horizontalCollision)) {
+        if (this.fuse-- <= 0 || (this.detonateOnCollision && this.horizontalCollision || this.verticalCollision)) {
             this.discard();
 
             if (!this.level().isClientSide) {
@@ -94,13 +89,13 @@ public class EntityTNTPrimedBase extends Entity {
 
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
-        tag.putInt("Fuse", this.fuse);
+        tag.putByte("Fuse", (byte) this.fuse);
         tag.putInt("BlockId", this.entityData.get(BLOCK_ID));
     }
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
-        this.fuse = tag.getInt("Fuse");
+        this.fuse = tag.getByte("Fuse");
         this.entityData.set(BLOCK_ID, tag.getInt("BlockId"));
     }
 

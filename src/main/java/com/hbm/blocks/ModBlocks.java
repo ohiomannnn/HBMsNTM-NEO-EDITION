@@ -471,15 +471,8 @@ public class ModBlocks {
                     .strength(6000.0F)
                     .sound(SoundType.METAL)));
 
-    public static final DeferredBlock<Block> RED_BARREL = registerBlock("red_barrel",
-            () -> new RedBarrelBlock(BlockBehaviour.Properties.of()
-                    .noOcclusion()
-                    .noLootTable()
-                    .strength(0.1F)
-                    .explosionResistance(2.5F)
-                    .sound(SoundType.METAL),
-                    true
-            ));
+    public static final DeferredBlock<Block> BARREL_RED = registerBlock("barrel_red", () -> new RedBarrelBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.1F).explosionResistance(2.5F).sound(SoundType.METAL), true));
+    public static final DeferredBlock<Block> BARREL_PINK = registerBlock("barrel_pink", () -> new RedBarrelBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.1F).explosionResistance(2.5F).sound(SoundType.METAL), true));
 
     public static final DeferredBlock<Block> URANIUM_BLOCK = registerBlock("uranium_block",
             () -> new HazardBlock(BlockBehaviour.Properties.of()

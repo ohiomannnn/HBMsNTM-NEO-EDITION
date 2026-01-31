@@ -1,48 +1,11 @@
 {
-  "loader": "hbmsntm:hfr_obj",
-  "model": "hbmsntm:models/obj/machines/battery.obj",
-  "smoothing": true,
-  "as_vbo": true,
-  "render_all": false,
-  "render_only": ["Battery"],
-  "textures": {
-    "texture": "hbmsntm:models/machines/battery_lithium"
-  },
-  "transform": {
-    "translation": [0.6, 0.0, 0.5],
-    "rotation": [0, 0, 0],
-    "scale": 1.0
-  },
-  "display": {
-    "gui": {
-      "rotation": [30, 315, 0],
-      "translation": [-0.5, -2, 0],
-      "scale": [0.32, 0.32, 0.32]
-    },
-    "firstperson_righthand": {
-      "rotation": [0, 225, 0],
-      "translation": [-1, 2, 0],
-      "scale": [0.2, 0.2, 0.2]
-    },
-    "firstperson_lefthand": {
-      "rotation": [0, 225, 0],
-      "translation": [-1, 2, 0],
-      "scale": [0.2, 0.2, 0.2]
-    },
-    "thirdperson_righthand": {
-      "rotation": [70, 225, 0],
-      "translation": [0, 3.7, 0],
-      "scale": [0.2, 0.2, 0.2]
-    },
-    "thirdperson_lefthand": {
-      "rotation": [70, 225, 0],
-      "translation": [0, 2.5, 0],
-      "scale": [0.2, 0.2, 0.2]
-    },
-    "ground": {
-      "rotation": [0, 0, 0],
-      "translation": [0, 0, 0],
-      "scale": [0.2, 0.2, 0.2]
-    }
-  }
+  "parent": "builtin/entity",
+  "firstperson_righthand": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "firstperson_lefthand": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "thirdperson_righthand": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "thirdperson_lefthand": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "ground": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "fixed": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "gui": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] },
+  "head": { "rotation": [0,0,0], "translation": [0,0,0], "scale": [1,1,1] }
 }

@@ -532,6 +532,8 @@ public class HBMsNTMClient {
 
         event.registerBlockEntityRenderer(ModBlockEntities.LANDMINE.get(), RenderLandMine::new);
 
+        event.registerBlockEntityRenderer(ModBlockEntities.BARREL.get(), RenderBarrel::new);
+
         event.registerBlockEntityRenderer(ModBlockEntities.GEIGER_COUNTER.get(), RenderGeigerBlock::new);
 
         event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_BALEFIRE.get(), RenderCrashedBomb::new);
@@ -554,6 +556,11 @@ public class HBMsNTMClient {
         registerItemRenderer(event, RenderFluidTankItem::new, ModBlocks.MACHINE_FLUID_TANK.asItem());
         registerItemRenderer(event, RenderLaserDetonator::new, ModItems.DETONATOR_LASER.get());
 
+        registerItemRenderer(event, RenderBarrelItem::new,
+                ModBlocks.BARREL_RED.asItem(),
+                ModBlocks.BARREL_PINK.asItem()
+        );
+
         registerItemRenderer(event, RenderNukeGadgetItem::new, ModBlocks.NUKE_GADGET.asItem());
         registerItemRenderer(event, RenderNukeLittleBoyItem::new, ModBlocks.NUKE_LITTLE_BOY.asItem());
         registerItemRenderer(event, RenderNukeFatManItem::new, ModBlocks.NUKE_FAT_MAN.asItem());
@@ -561,7 +568,20 @@ public class HBMsNTMClient {
         registerItemRenderer(event, RenderNukeTsarBombaItem::new, ModBlocks.NUKE_TSAR_BOMBA.asItem());
 
         registerItemRenderer(event, RenderGeigerItem::new, ModBlocks.GEIGER.asItem());
+
         registerItemRenderer(event, RenderCableItem::new, ModBlocks.CABLE.asItem());
+
+        registerItemRenderer(event, RenderBatterySocketItem::new, ModBlocks.MACHINE_BATTERY_SOCKET.asItem());
+
+        registerItemRenderer(event, RenderBatteryPackItem::new,
+                ModItems.BATTERY_PACK_REDSTONE.get(),
+                ModItems.BATTERY_PACK_LEAD.get(),
+                ModItems.BATTERY_PACK_LITHIUM.get(),
+                ModItems.BATTERY_PACK_SODIUM.get(),
+                ModItems.BATTERY_PACK_SCHRABIDIUM.get(),
+                ModItems.BATTERY_PACK_QUANTUM.get()
+        );
+
         registerItemRenderer(event, RenderBatteryREDDItem::new, ModBlocks.MACHINE_BATTERY_REDD.asItem());
         registerItemRenderer(event, RenderCrashedBombItem::new,
                 ModBlocks.CRASHED_BOMB_BALEFIRE.asItem(),

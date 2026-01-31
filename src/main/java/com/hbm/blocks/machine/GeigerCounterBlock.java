@@ -2,7 +2,6 @@ package com.hbm.blocks.machine;
 
 import com.hbm.blockentity.ModBlockEntities;
 import com.hbm.blockentity.machine.GeigerBlockEntity;
-import com.hbm.blocks.bomb.CrashedBombBlock;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.lib.ModSounds;
 import com.hbm.util.ContaminationUtil;
@@ -15,50 +14,70 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import java.util.Random;
-
-public class GeigerCounterBlock extends BaseEntityBlock {
-
-    public static final DirectionProperty FACING;
+public class GeigerCounterBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
 
     public GeigerCounterBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+        this.registerDefaultState(this.stateDefinition.any().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH).setValue(BlockStateProperties.WATERLOGGED, Boolean.FALSE));
     }
 
+    @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite());
     }
 
+    @Override
     protected BlockState rotate(BlockState state, Rotation rotation) {
-        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
+        return state.setValue(BlockStateProperties.HORIZONTAL_FACING, rotation.rotate(state.getValue(BlockStateProperties.HORIZONTAL_FACING)));
     }
 
+    @Override
     protected BlockState mirror(BlockState state, Mirror mirror) {
-        return state.rotate(mirror.getRotation(state.getValue(FACING)));
+        return state.rotate(mirror.getRotation(state.getValue(BlockStateProperties.HORIZONTAL_FACING)));
     }
 
+    @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
+        builder.add(BlockStateProperties.HORIZONTAL_FACING, BlockStateProperties.WATERLOGGED);
+    }
+
+    @Override
+    protected BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
+        if (state.getValue(BlockStateProperties.WATERLOGGED)) {
+            level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+
+        }
+
+        return super.updateShape(state, facing, facingState, level, currentPos, facingPos);
+    }
+
+    @Override
+    protected FluidState getFluidState(BlockState state) {
+        return state.getValue(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     public static final MapCodec<GeigerCounterBlock> CODEC = simpleCodec(GeigerCounterBlock::new);
-    @Override protected MapCodec<GeigerCounterBlock> codec() { return CODEC; }
+    @Override protected MapCodec<GeigerCounterBlock> codec() {
+        return CODEC;
+    }
 
     @Override
     public VoxelShape getShape(BlockState blockState, BlockGetter level, BlockPos pos, CollisionContext context) {
-        Direction dir = blockState.getValue(FACING);
+        Direction dir = blockState.getValue(BlockStateProperties.HORIZONTAL_FACING);
 
         return switch (dir) {
             case WEST -> Block.box(2, 0, 1.5, 16, 9, 16);
@@ -84,7 +103,7 @@ public class GeigerCounterBlock extends BaseEntityBlock {
         // 0 at exactly 0 rads/sec
         // +1 per 5 rads/sec
         // 15 at 75+ rads/sec
-        return Math.min((int)Math.ceil(rad / 5f), 15);
+        return Math.min((int) Math.ceil(rad / 5f), 15);
     }
 
     @Override
@@ -104,9 +123,5 @@ public class GeigerCounterBlock extends BaseEntityBlock {
             ContaminationUtil.printGeigerDataFromCoords(player, pos);
         }
         return InteractionResult.SUCCESS;
-    }
-
-    static {
-        FACING = HorizontalDirectionalBlock.FACING;
     }
 }

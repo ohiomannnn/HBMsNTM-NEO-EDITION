@@ -94,6 +94,7 @@ public class CustomRenderTypes {
                         .setLightmapState(RenderType.NO_LIGHTMAP)
                         .setOverlayState(RenderType.NO_OVERLAY)
                         .setWriteMaskState(RenderType.COLOR_WRITE)
+                        .setOutputState(RenderStateShard.TRANSLUCENT_TARGET)
                         .createCompositeState(false);
                 return RenderType.create("smoth2", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, true, true, state);
             }

@@ -2,10 +2,10 @@ package com.hbm.blockentity;
 
 import com.hbm.HBMsNTM;
 import com.hbm.blockentity.bomb.*;
-import com.hbm.blockentity.machine.MachinePressBlockEntity;
-import com.hbm.blockentity.machine.MachineSatLinkerBlockEntity;
 import com.hbm.blockentity.machine.DecontaminatorBlockEntity;
 import com.hbm.blockentity.machine.GeigerBlockEntity;
+import com.hbm.blockentity.machine.MachinePressBlockEntity;
+import com.hbm.blockentity.machine.MachineSatLinkerBlockEntity;
 import com.hbm.blockentity.machine.storage.*;
 import com.hbm.blockentity.network.CableBlockEntityBaseNT;
 import com.hbm.blocks.ModBlocks;
@@ -19,6 +19,13 @@ import java.util.function.Supplier;
 @SuppressWarnings("DataFlowIssue") // kill yourself
 public class ModBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> REGISTER = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, HBMsNTM.MODID);
+
+    public static final Supplier<BlockEntityType<EmptyBlockEntity>> BARREL = REGISTER.register(
+            "barrel",
+            () -> BlockEntityType.Builder.of((pos, state) -> new EmptyBlockEntity(ModBlockEntities.BARREL.get(), pos, state),
+                    ModBlocks.BARREL_RED.get(),
+                    ModBlocks.BARREL_PINK.get()
+            ).build(null));
 
     // Machines
     public static final Supplier<BlockEntityType<MachineSatLinkerBlockEntity>> MACHINE_SATLINKER = REGISTER.register(

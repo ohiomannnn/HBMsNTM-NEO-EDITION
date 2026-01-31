@@ -1,7 +1,6 @@
 package com.hbm.render.blockentity;
 
 import com.hbm.blockentity.bomb.NukeIvyMikeBlockEntity;
-import com.hbm.blocks.bomb.NukeBaseBlock;
 import com.hbm.main.ResourceManager;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -11,6 +10,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public class RenderNukeIvyMike implements BlockEntityRenderer<NukeIvyMikeBlockEntity> {
 
@@ -19,7 +19,7 @@ public class RenderNukeIvyMike implements BlockEntityRenderer<NukeIvyMikeBlockEn
     @Override
     public void render(NukeIvyMikeBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
 
-        Direction facing = be.getBlockState().getValue(NukeBaseBlock.FACING);
+        Direction facing = be.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
         float rot = switch (facing) {
             case DOWN, UP -> 0.0F;
             case WEST -> 0F;

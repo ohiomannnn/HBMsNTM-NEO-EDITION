@@ -19,9 +19,10 @@ public class RenderCable implements BlockEntityRenderer<CableBlockEntityBaseNT> 
     @Override
     public void render(CableBlockEntityBaseNT be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
 
-        BlockPos pos = be.getBlockPos();
         Level level = be.getLevel();
         if (level == null) return;
+
+        BlockPos pos = be.getBlockPos();
 
         boolean pX = Library.canConnect(level, pos.relative(Library.POS_X), Library.POS_X);
         boolean nX = Library.canConnect(level, pos.relative(Library.NEG_X), Library.NEG_X);
