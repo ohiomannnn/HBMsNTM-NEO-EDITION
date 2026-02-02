@@ -216,11 +216,7 @@ public class ModItems {
                     .stacksTo(1)
                     .durability(256)));
 
-    @Placeholder(reason = "working but mehh")
-    public static final DeferredItem<FluidIconItem> FLUID_ICON = ITEMS.register(
-            "fluid_icon",
-            () -> new FluidIconItem(new Item.Properties())
-    );
+    public static final DeferredItem<FluidIconItem> FLUID_ICON = ITEMS.register("fluid_icon", () -> new FluidIconItem(new Item.Properties()));
 
     public static final DeferredItem<Item> POLAROID = ITEMS.register("polaroid", () -> new PolaroidItem(new Item.Properties().stacksTo(1)));
 

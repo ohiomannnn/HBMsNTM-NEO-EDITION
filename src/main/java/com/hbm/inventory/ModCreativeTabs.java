@@ -41,11 +41,6 @@ public class ModCreativeTabs {
                         output.accept(ModItems.PELLET_ANTIMATTER);
 
                         FluidType[] types = Fluids.getInNiceOrder();
-                        for (int i = 1; i < types.length; ++i) {
-                            FluidType type = types[i];
-
-                            output.accept(FluidIconItem.make(type, 1000));
-                        }
                         // tanks
                         output.accept(ModItems.FLUID_TANK_EMPTY.get());
                         for (int i = 1; i < types.length; ++i) {

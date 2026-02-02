@@ -1,0 +1,15 @@
+## Added
+* Gadget, ivy mike, tsar bomba, nukes
+* Explosive barrels
+* Fluid tank multiblock
+* Fluid tanks, barrels, hazard tanks, identifiers, etc
+* Jei plugin
+* Battery socket capacitors
+
+## Changed
+* Item rendering handling
+  * Now same as original mod
+
+## Fixed
+* Crash when you tried opening menus as spectator
+* Balefire explosion spawning balefire on water
