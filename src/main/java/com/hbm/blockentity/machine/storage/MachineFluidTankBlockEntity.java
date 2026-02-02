@@ -361,7 +361,6 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
 
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
-        if (player.isSpectator()) return null;
         return new MachineFluidTankMenu(id, inventory, this);
     }
 

@@ -46,7 +46,6 @@ public class NukeLittleBoyBlockEntity extends NukeBaseBlockEntity {
 
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
-        if (player.isSpectator()) return null;
         return new NukeLittleBoyMenu(id, inventory, this);
     }
 }

@@ -29,54 +29,15 @@ import java.util.function.Supplier;
 public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(HBMsNTM.MODID);
 
-    public static final DeferredBlock<Block> BRICK_CONCRETE = registerBlock("brick_concrete",
-            () -> new Block(BlockBehaviour.Properties.of()
-                    .strength(15.0F)
-                    .explosionResistance(160.0F)
-                    .requiresCorrectToolForDrops()
-                    .sound(SoundType.STONE)));
-    public static final DeferredBlock<Block> BRICK_CONCRETE_MOSSY = registerBlock("brick_concrete_mossy",
-            () -> new Block(BlockBehaviour.Properties.of()
-                    .strength(15.0F)
-                    .explosionResistance(160.0F)
-                    .requiresCorrectToolForDrops()
-                    .sound(SoundType.STONE)));
-    public static final DeferredBlock<Block> BRICK_CONCRETE_CRACKED = registerBlock("brick_concrete_cracked",
-            () -> new Block(BlockBehaviour.Properties.of()
-                    .strength(15.0F)
-                    .explosionResistance(60.0F)
-                    .requiresCorrectToolForDrops()
-                    .sound(SoundType.STONE)));
-    public static final DeferredBlock<Block> BRICK_CONCRETE_BROKEN = registerBlock("brick_concrete_broken",
-            () -> new Block(BlockBehaviour.Properties.of()
-                    .strength(15.0F)
-                    .explosionResistance(45.0F)
-                    .requiresCorrectToolForDrops()
-                    .sound(SoundType.STONE)));
-    public static final DeferredBlock<Block> BRICK_CONCRETE_MARKED = registerBlock("brick_concrete_marked",
-            () -> new ConcreteBrickMBlock(BlockBehaviour.Properties.of()
-                    .strength(15.0F)
-                    .explosionResistance(160.0F)
-                    .requiresCorrectToolForDrops()
-                    .sound(SoundType.STONE)));
-    public static final DeferredBlock<Block> BRICK_LIGHT = registerBlock("brick_light",
-            () -> new Block(BlockBehaviour.Properties.of()
-                    .strength(5.0F)
-                    .explosionResistance(20.0F)
-                    .requiresCorrectToolForDrops()
-                    .sound(SoundType.STONE)));
-    public static final DeferredBlock<Block> BRICK_OBSIDIAN = registerBlock("brick_obsidian",
-            () -> new Block(BlockBehaviour.Properties.of()
-                    .strength(15.0F)
-                    .explosionResistance(120.0F)
-                    .requiresCorrectToolForDrops()
-                    .sound(SoundType.STONE)));
-    public static final DeferredBlock<Block> GRAVEL_OBSIDIAN = registerBlock("gravel_obsidian",
-            () -> new ColoredFallingBlock(new ColorRGBA(-8356741), BlockBehaviour.Properties.of()
-                    .strength(15.0F)
-                    .explosionResistance(120.0F)
-                    .requiresCorrectToolForDrops()
-                    .sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> BRICK_CONCRETE = registerBlock("brick_concrete", () -> new Block(BlockBehaviour.Properties.of().strength(15.0F).explosionResistance(160.0F).requiresCorrectToolForDrops().sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> BRICK_CONCRETE_MOSSY = registerBlock("brick_concrete_mossy", () -> new Block(BlockBehaviour.Properties.of().strength(15.0F).explosionResistance(160.0F).requiresCorrectToolForDrops().sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> BRICK_CONCRETE_CRACKED = registerBlock("brick_concrete_cracked", () -> new Block(BlockBehaviour.Properties.of().strength(15.0F).explosionResistance(60.0F).requiresCorrectToolForDrops().sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> BRICK_CONCRETE_BROKEN = registerBlock("brick_concrete_broken", () -> new Block(BlockBehaviour.Properties.of().strength(15.0F).explosionResistance(45.0F).requiresCorrectToolForDrops().sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> BRICK_CONCRETE_MARKED = registerBlock("brick_concrete_marked", () -> new ConcreteBrickMBlock(BlockBehaviour.Properties.of().strength(15.0F).explosionResistance(160.0F).requiresCorrectToolForDrops().sound(SoundType.STONE)));
+
+    public static final DeferredBlock<Block> BRICK_LIGHT = registerBlock("brick_light", () -> new Block(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(20.0F).requiresCorrectToolForDrops().sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> BRICK_OBSIDIAN = registerBlock("brick_obsidian", () -> new Block(BlockBehaviour.Properties.of().strength(15.0F).explosionResistance(120.0F).requiresCorrectToolForDrops().sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> GRAVEL_OBSIDIAN = registerBlock("gravel_obsidian", () -> new ColoredFallingBlock(new ColorRGBA(-8356741), BlockBehaviour.Properties.of().strength(15.0F).explosionResistance(120.0F).requiresCorrectToolForDrops().sound(SoundType.STONE)));
 
     public static final DeferredBlock<Block> WASTE_EARTH = registerBlock("waste_earth",
             () -> new Block(BlockBehaviour.Properties.of()
@@ -558,13 +519,9 @@ public class ModBlocks {
     }
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
-        DeferredBlock<T> regBlock = BLOCKS.register(name, block);
-        registerBlockItem(name, regBlock);
-        return regBlock;
-    }
-
-    private static <T extends Block> void registerBlockItem(String name, DeferredBlock<T> block) {
-        ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
+        DeferredBlock<T> defBlock = BLOCKS.register(name, block);
+        ModItems.ITEMS.register(name, () -> new BlockItem(defBlock.get(), new Item.Properties()));
+        return defBlock;
     }
 
     public static void register(IEventBus eventBus) {

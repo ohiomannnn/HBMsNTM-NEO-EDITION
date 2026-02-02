@@ -33,34 +33,18 @@ public class NukeGadgetBlockEntity extends NukeBaseBlockEntity {
                 item == ModItems.GADGET_CORE.get();
     }
 
-    public boolean exp1() {
-        return slots.get(1).getItem() == ModItems.EARLY_EXPLOSIVE_LENSES.get();
-    }
-
-    public boolean exp2() {
-        return slots.get(2).getItem() == ModItems.EARLY_EXPLOSIVE_LENSES.get();
-    }
-
-    public boolean exp3() {
-        return slots.get(3).getItem() == ModItems.EARLY_EXPLOSIVE_LENSES.get();
-    }
-
-    public boolean exp4() {
-        return slots.get(4).getItem() == ModItems.EARLY_EXPLOSIVE_LENSES.get();
-    }
-
     @Override
     public boolean isReady() {
-        if (this.exp1() && this.exp2() && this.exp3() && this.exp4()) {
-            return slots.get(0).getItem() == ModItems.GADGET_WIREING.get() && slots.get(5).getItem() == ModItems.GADGET_CORE.get();
-        }
-
-        return false;
+        return slots.get(0).getItem() == ModItems.EARLY_EXPLOSIVE_LENSES.get() &&
+                slots.get(1).getItem() == ModItems.EARLY_EXPLOSIVE_LENSES.get() &&
+                slots.get(2).getItem() == ModItems.EARLY_EXPLOSIVE_LENSES.get() &&
+                slots.get(3).getItem() == ModItems.EARLY_EXPLOSIVE_LENSES.get() &&
+                slots.get(4).getItem() == ModItems.GADGET_WIREING.get() &&
+                slots.get(5).getItem() == ModItems.GADGET_CORE.get();
     }
 
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
-        if (player.isSpectator()) return null;
         return new NukeGadgetMenu(id, inventory, this);
     }
 }

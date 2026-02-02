@@ -57,7 +57,6 @@ public class NukeIvyMikeBlockEntity extends NukeBaseBlockEntity {
 
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
-        if (player.isSpectator()) return null;
         return new NukeIvyMikeMenu(id, inventory, this);
     }
 }

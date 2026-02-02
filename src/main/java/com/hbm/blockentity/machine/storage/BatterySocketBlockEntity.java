@@ -165,7 +165,6 @@ public class BatterySocketBlockEntity extends BatteryBaseBlockEntity {
 
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
-        if (player.isSpectator()) return null;
         return new BatterySocketMenu(id, inventory, this);
     }
 }

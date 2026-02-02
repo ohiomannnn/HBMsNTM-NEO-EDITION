@@ -32,7 +32,7 @@ public class RenderNukeTsarBomba implements BlockEntityRenderer<NukeTsarBombaBlo
         poseStack.translate(0.5, 0.0, 0.5);
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
 
-        VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.NUKE_TSAR_TEX));
+        VertexConsumer consumer = buffer.getBuffer(RenderType.entitySmoothCutout(ResourceManager.NUKE_TSAR_TEX));
         ResourceManager.nuke_tsar.renderAll(poseStack, consumer, packedLight, packedOverlay);
 
         poseStack.popPose();

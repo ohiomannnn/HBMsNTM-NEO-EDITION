@@ -54,7 +54,6 @@ public class NukeTsarBombaBlockEntity extends NukeBaseBlockEntity {
 
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
-        if (player.isSpectator()) return null;
         return new NukeTsarBombaMenu(id, inventory, this);
     }
 }

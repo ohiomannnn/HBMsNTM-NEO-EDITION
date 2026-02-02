@@ -108,12 +108,11 @@ public class ModBlockEntities {
                             ModBlocks.DECONTAMINATOR.get())
                     .build(null));
 
-    public static final Supplier<BlockEntityType<DetCordBlockEntity>> DET_CORD = REGISTER.register(
+    public static final Supplier<BlockEntityType<EmptyBlockEntity>> DET_CORD = REGISTER.register(
             "det_cord",
-            () -> BlockEntityType.Builder.of(
-                            DetCordBlockEntity::new,
-                            ModBlocks.DET_CORD.get())
-                    .build(null));
+            () -> BlockEntityType.Builder.of((pos, state) -> new EmptyBlockEntity(ModBlockEntities.DET_CORD.get(), pos, state),
+                    ModBlocks.DET_CORD.get()
+            ).build(null));
 
     public static final Supplier<BlockEntityType<NukeGadgetBlockEntity>> NUKE_GADGET = REGISTER.register(
             "nuke_gadget",

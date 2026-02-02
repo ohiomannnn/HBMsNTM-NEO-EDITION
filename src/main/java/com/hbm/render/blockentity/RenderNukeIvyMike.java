@@ -32,7 +32,7 @@ public class RenderNukeIvyMike implements BlockEntityRenderer<NukeIvyMikeBlockEn
         poseStack.translate(0.5, 0.0, 0.5);
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
 
-        VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.NUKE_IVY_MIKE));
+        VertexConsumer consumer = buffer.getBuffer(RenderType.entitySmoothCutout(ResourceManager.NUKE_IVY_MIKE));
         ResourceManager.nuke_ivy_mike.renderAll(poseStack, consumer, packedLight, packedOverlay);
 
         poseStack.popPose();

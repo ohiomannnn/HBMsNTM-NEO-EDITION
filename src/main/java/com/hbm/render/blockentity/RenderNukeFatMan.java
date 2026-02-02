@@ -32,7 +32,7 @@ public class RenderNukeFatMan implements BlockEntityRenderer<NukeFatManBlockEnti
         poseStack.translate(0.5, 0.0, 0.5);
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
 
-        VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.NUKE_FAT_MAN_TEX));
+        VertexConsumer consumer = buffer.getBuffer(RenderType.entitySmoothCutout(ResourceManager.NUKE_FAT_MAN_TEX));
         ResourceManager.nuke_fat_man.renderAll(poseStack, consumer, packedLight, packedOverlay);
 
         poseStack.popPose();

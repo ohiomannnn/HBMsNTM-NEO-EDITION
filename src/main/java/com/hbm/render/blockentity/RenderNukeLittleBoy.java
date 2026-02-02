@@ -33,7 +33,7 @@ public class RenderNukeLittleBoy implements BlockEntityRenderer<NukeLittleBoyBlo
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
         poseStack.translate(-2.0F, 0.0F, 0.0F);
 
-        VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.NUKE_LITTLE_BOY_TEX));
+        VertexConsumer consumer = buffer.getBuffer(RenderType.entitySmoothCutout(ResourceManager.NUKE_LITTLE_BOY_TEX));
         ResourceManager.nuke_little_boy.renderAll(poseStack, consumer, packedLight, packedOverlay);
 
         poseStack.popPose();

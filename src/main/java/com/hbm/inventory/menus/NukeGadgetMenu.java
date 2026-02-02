@@ -23,11 +23,11 @@ public class NukeGadgetMenu extends AbstractContainerMenu {
 
         this.be = blockEntity;
 
-        this.addSlot(new SlotNonRetarded(be, 0, 26, 35));
-        this.addSlot(new SlotNonRetarded(be, 1, 8, 17));
-        this.addSlot(new SlotNonRetarded(be, 2, 44, 17));
-        this.addSlot(new SlotNonRetarded(be, 3, 8, 53));
-        this.addSlot(new SlotNonRetarded(be, 4, 44, 53));
+        this.addSlot(new SlotNonRetarded(be, 0, 8, 17));
+        this.addSlot(new SlotNonRetarded(be, 1, 44, 17));
+        this.addSlot(new SlotNonRetarded(be, 2, 8, 53));
+        this.addSlot(new SlotNonRetarded(be, 3, 44, 53));
+        this.addSlot(new SlotNonRetarded(be, 4, 26, 35));
         this.addSlot(new SlotNonRetarded(be, 5, 98, 35));
 
         for (int y = 0; y < 3; y++) {

@@ -1,5 +1,6 @@
 package com.hbm.blocks.bomb;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.ModEffect;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -33,26 +34,12 @@ public class BalefireBlock extends BaseFireBlock {
     }
 
     public static final MapCodec<BalefireBlock> CODEC = simpleCodec(BalefireBlock::new);
+    @Override protected MapCodec<BalefireBlock> codec() { return CODEC; }
 
-    @Override
-    protected MapCodec<? extends BaseFireBlock> codec() {
-        return CODEC;
-    }
+    @Override protected VoxelShape getCollisionShape(BlockState state, BlockGetter blockGetter, BlockPos pos, CollisionContext context) { return Shapes.empty(); }
+    @Override protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) { return Shapes.empty(); }
 
-    @Override
-    protected VoxelShape getCollisionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return Shapes.empty();
-    }
-
-    @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return Shapes.empty();
-    }
-
-    @Override
-    protected boolean canBurn(BlockState state) {
-        return true;
-    }
+    @Override protected boolean canBurn(BlockState state) { return true; }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
@@ -61,59 +48,62 @@ public class BalefireBlock extends BaseFireBlock {
 
     @Override
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
-        if (!oldState.is(state.getBlock())) {
-            level.scheduleTick(pos, this, getCustomFireTickDelay(level.getRandom()));
-        }
+        level.scheduleTick(pos, this, this.tickRate(level) + level.random.nextInt(10));
     }
 
     @Override
-    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand) {
-        if (!level.getGameRules().getBoolean(GameRules.RULE_DOFIRETICK)) return;
+    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (level.getGameRules().getBoolean(GameRules.RULE_DOFIRETICK)) {
 
-        if (!canSurvive(state, level, pos)) {
-            level.removeBlock(pos, false);
-            return;
-        }
+            if (!this.canSurvive(state, level, pos)) {
+                level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+            }
 
-        int age = state.getValue(AGE);
+            int age = state.getValue(AGE);
 
-        if (age < 15) {
-            level.scheduleTick(pos, this, getCustomFireTickDelay(rand));
-        }
+            if (age < 15) level.scheduleTick(pos, this, this.tickRate(level) + random.nextInt(10));
 
-        if (!canCatchFireAround(level, pos) && !level.getBlockState(pos.below()).isFaceSturdy(level, pos.below(), Direction.UP)) {
-            level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
-        } else {
-            if (age < 15) {
-                for (Direction dir : Direction.values()) {
-                    tryCatchFire(level, pos.relative(dir), 300, rand, age, dir.getOpposite());
-                }
+            if (!this.canNeighborBurn(level, pos) && !level.getBlockState(pos.below()).isFaceSturdy(level, pos.below(), Direction.UP)) {
+                level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+            } else {
+                if (age < 15) {
+                    int x = pos.getX();
+                    int y = pos.getY();
+                    int z = pos.getZ();
+                    this.tryCatchFire(level, new BlockPos(x + 1, y, z), 500, random, age, Direction.WEST);
+                    this.tryCatchFire(level, new BlockPos(x - 1, y, z), 500, random, age, Direction.EAST);
+                    this.tryCatchFire(level, new BlockPos(x, y - 1, z), 300, random, age, Direction.UP);
+                    this.tryCatchFire(level, new BlockPos(x, y + 1, z), 300, random, age, Direction.DOWN);
+                    this.tryCatchFire(level, new BlockPos(x, y, z - 1), 500, random, age, Direction.SOUTH);
+                    this.tryCatchFire(level, new BlockPos(x, y, z + 1), 500, random, age, Direction.NORTH);
 
-                int h = 3;
-                for (int dx = -h; dx <= h; dx++) {
-                    for (int dz = -h; dz <= h; dz++) {
-                        for (int dy = -1; dy <= 4; dy++) {
-                            BlockPos check = pos.offset(dx, dy, dz);
-                            if (check.equals(pos)) continue;
+                    int h = 3;
 
-                            int fireLimit = 100;
-                            if (dy > 1) fireLimit += (dy - 1) * 100;
+                    for (int ix = x - h; ix <= x + h; ++ix) {
+                        for (int iz = z - h; iz <= z + h; ++iz) {
+                            for (int iy = y - 1; iy <= y + 4; ++iy) {
+                                if (ix != x || iy != y || iz != z) {
+                                    BlockPos posNew = new BlockPos(ix, iy, iz);
 
-                            BlockState bs = level.getBlockState(check);
-                            if (bs.is(this)) {
-                                int neighAge = bs.getValue(AGE);
-                                if (neighAge > age + 1) {
-                                    level.setBlock(check, this.defaultBlockState().setValue(AGE, Math.min(15, age + 1)), 3);
-                                    continue;
-                                }
-                            }
+                                    int fireLimit = 100;
 
-                            if (level.isEmptyBlock(check)) {
-                                int spread = getNeighborEncouragement(level, check);
-                                if (spread > 0) {
-                                    int adjusted = (spread + 40 + level.getDifficulty().getId() * 7) / (age + 30);
-                                    if (adjusted > 0 && rand.nextInt(fireLimit) <= adjusted) {
-                                        level.setBlock(check, this.defaultBlockState().setValue(AGE, Math.min(15, age + 1)), 3);
+                                    if (iy > y + 1) {
+                                        fireLimit += (iy - (y + 1)) * 100;
+                                    }
+
+                                    if (level.getBlockState(posNew).is(ModBlocks.BALEFIRE.get()) && level.getBlockState(posNew).getValue(AGE) > age + 1) {
+                                        level.setBlock(posNew, this.defaultBlockState().setValue(AGE, age + 1), 3);
+                                        continue;
+                                    }
+
+                                    if (level.isEmptyBlock(posNew)) {
+                                        int spread = getNeighborEncouragement(level, posNew);
+                                        if (spread > 0) {
+                                            int adjusted = (spread + 40 + level.getDifficulty().getId() * 7) / (age + 30);
+                                            if (adjusted > 0 && random.nextInt(fireLimit) <= adjusted) {
+                                                level.setBlock(posNew, this.defaultBlockState().setValue(AGE, age + 1), 3);
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -124,24 +114,20 @@ public class BalefireBlock extends BaseFireBlock {
         }
     }
 
-    private void tryCatchFire(Level level, BlockPos pos, int chance, RandomSource random, int age, Direction face) {
-        int i = level.getBlockState(pos).getFlammability(level, pos, face);
-        if (random.nextInt(chance) < i) {
-            BlockState blockstate = level.getBlockState(pos);
-            blockstate.onCaughtFire(level, pos, face, null);
-            if (random.nextInt(age + 10) < 5 && !level.isRainingAt(pos)) {
-                level.setBlock(pos, this.defaultBlockState().setValue(AGE, Math.min(15, age + 1)), 3);
-            } else {
-                level.removeBlock(pos, false);
-            }
+    private void tryCatchFire(Level level, BlockPos pos, int chance, RandomSource rand, int age, Direction face) {
+        int flammability = level.getBlockState(pos).getFlammability(level, pos, face);
+
+        if (rand.nextInt(chance) < flammability) {
+            level.setBlock(pos, this.defaultBlockState().setValue(AGE, age + 1), 3);
+            level.getBlockState(pos).onCaughtFire(level, pos, face, null);
         }
     }
 
-    private boolean canCatchFireAround(LevelReader level, BlockPos pos) {
+    private boolean canNeighborBurn(LevelReader level, BlockPos pos) {
         for (Direction dir : Direction.values()) {
-            BlockPos np = pos.relative(dir);
-            BlockState ns = level.getBlockState(np);
-            if (ns.isFlammable(level, np, dir.getOpposite())) return true;
+            if (level.getBlockState(pos.relative(dir)).isFlammable(level, pos.relative(dir), dir.getOpposite())) {
+                return true;
+            }
         }
         return false;
     }
@@ -158,15 +144,19 @@ public class BalefireBlock extends BaseFireBlock {
         return best;
     }
 
-    private int getCustomFireTickDelay(RandomSource rand) {
-        return 30 + rand.nextInt(10);
+    /**
+     * How many world ticks before ticking
+     */
+    public int tickRate(LevelReader level)
+    {
+        return 30;
     }
 
     @Override
     protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
-        entity.setRemainingFireTicks(10 * 20);
+        entity.setRemainingFireTicks(200);
         if (entity instanceof LivingEntity living) {
-            living.addEffect(new MobEffectInstance(ModEffect.RADIATION, 5 * 20, 9));
+            living.addEffect(new MobEffectInstance(ModEffect.RADIATION, 100, 9));
         }
     }
 }

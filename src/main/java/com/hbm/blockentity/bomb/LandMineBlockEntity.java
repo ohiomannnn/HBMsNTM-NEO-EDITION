@@ -21,7 +21,7 @@ import java.util.List;
 public class LandMineBlockEntity extends BlockEntity {
 
     private boolean isPrimed = false;
-    private boolean waitingForPlayer = false;
+    private boolean waitingForPlayer = true;
 
     public LandMineBlockEntity(BlockPos pos, BlockState blockState) {
         super(ModBlockEntities.LANDMINE.get(), pos, blockState);

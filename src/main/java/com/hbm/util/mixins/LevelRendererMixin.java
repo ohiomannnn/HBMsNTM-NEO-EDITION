@@ -26,7 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LevelRenderer.class)
 @OnlyIn(Dist.CLIENT)
-public class LevelRendererMixin {
+public abstract class LevelRendererMixin {
 
     // CUSTOM SKY BOX
     @Unique private static final ResourceLocation DIGAMMA_STAR = HBMsNTM.withDefaultNamespaceNT("textures/misc/star_digamma.png");

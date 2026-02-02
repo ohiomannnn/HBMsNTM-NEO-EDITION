@@ -34,7 +34,7 @@ public class RenderNukeGadget implements BlockEntityRenderer<NukeGadgetBlockEnti
         poseStack.translate(0.5, 0.0, 0.5);
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
 
-        VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.NUKE_GADGET_TEX));
+        VertexConsumer consumer = buffer.getBuffer(RenderType.entitySmoothCutout(ResourceManager.NUKE_GADGET_TEX));
         ResourceManager.nuke_gadget.renderPart("Body", poseStack, consumer, packedLight, packedOverlay);
 
         GraphicsStatus graphics = Minecraft.getInstance().options.graphicsMode().get();

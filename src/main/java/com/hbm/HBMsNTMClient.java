@@ -570,6 +570,7 @@ public class HBMsNTMClient {
         registerItemRenderer(event, RenderGeigerItem::new, ModBlocks.GEIGER.asItem());
 
         registerItemRenderer(event, RenderCableItem::new, ModBlocks.CABLE.asItem());
+        registerItemRenderer(event, RenderDetCordItem::new, ModBlocks.DET_CORD.asItem());
 
         registerItemRenderer(event, RenderBatterySocketItem::new, ModBlocks.MACHINE_BATTERY_SOCKET.asItem());
 

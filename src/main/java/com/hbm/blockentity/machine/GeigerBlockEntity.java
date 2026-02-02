@@ -1,6 +1,5 @@
 package com.hbm.blockentity.machine;
 
-import com.hbm.blockentity.ModBlockEntities;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.lib.ModSounds;
 import net.minecraft.core.BlockPos;

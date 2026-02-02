@@ -1,7 +1,6 @@
 package com.hbm.render.blockentity;
 
-import com.hbm.blockentity.bomb.DetCordBlockEntity;
-import com.hbm.blockentity.network.CableBlockEntityBaseNT;
+import com.hbm.blockentity.EmptyBlockEntity;
 import com.hbm.blocks.bomb.IDetConnectible;
 import com.hbm.lib.Library;
 import com.hbm.main.ResourceManager;
@@ -14,12 +13,12 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 
-public class RenderDetCord implements BlockEntityRenderer<DetCordBlockEntity> {
+public class RenderDetCord implements BlockEntityRenderer<EmptyBlockEntity> {
 
     public RenderDetCord(BlockEntityRendererProvider.Context context) { }
 
     @Override
-    public void render(DetCordBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+    public void render(EmptyBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
 
         BlockPos pos = be.getBlockPos();
         Level level = be.getLevel();

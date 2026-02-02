@@ -38,8 +38,8 @@ public class HBMsNTM {
     public static File configHbmDir;
 
     public HBMsNTM(IEventBus modEventBus, ModContainer modContainer) {
-        ModBlocks.register(modEventBus);
         ModItems.register(modEventBus);
+        ModBlocks.register(modEventBus);
         ModDataComponents.register(modEventBus);
         ModEntityTypes.register(modEventBus);
         ModSounds.register(modEventBus);

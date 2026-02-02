@@ -45,12 +45,18 @@ public class NukeGadgetScreen extends InfoScreen<NukeGadgetMenu> {
     protected void renderBg(GuiGraphics guiGraphics, float v, int i, int partialTicks) {
         guiGraphics.blit(TEXTURE, this.leftPos, this.topPos, 0, 0, imageWidth, imageHeight);
 
-        if (be.exp1()) guiGraphics.blit(TEXTURE, this.leftPos + 82, this.topPos + 19, 176, 0, 24, 24);
-        if (be.exp2()) guiGraphics.blit(TEXTURE, this.leftPos + 106, this.topPos + 19, 200, 0, 24, 24);
-        if (be.exp3()) guiGraphics.blit(TEXTURE, this.leftPos + 82, this.topPos + 43, 176, 24, 24, 24);
-        if (be.exp4()) guiGraphics.blit(TEXTURE, this.leftPos + 106, this.topPos + 43, 200, 24, 24, 24);
         if (be.isReady()) guiGraphics.blit(TEXTURE, this.leftPos + 134, this.topPos + 35, 176, 48, 16, 16);
 
+        for (int index = 0; index < 4; index++) {
+            if (be.slots.get(index).getItem() == ModItems.EARLY_EXPLOSIVE_LENSES.get()) {
+                switch (index) {
+                    case 0 -> guiGraphics.blit(TEXTURE, this.leftPos + 82, this.topPos + 19, 176, 0, 24, 24);
+                    case 1 -> guiGraphics.blit(TEXTURE, this.leftPos + 106, this.topPos + 19, 200, 0, 24, 24);
+                    case 2 -> guiGraphics.blit(TEXTURE, this.leftPos + 82, this.topPos + 43, 176, 24, 24, 24);
+                    case 3 -> guiGraphics.blit(TEXTURE, this.leftPos + 106, this.topPos + 43, 200, 24, 24, 24);
+                }
+            }
+        }
 
         this.drawInfoPanel(guiGraphics, this.leftPos - 16, this.topPos + 16, 2);
     }

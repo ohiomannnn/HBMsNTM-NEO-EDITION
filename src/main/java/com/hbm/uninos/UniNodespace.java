@@ -14,10 +14,10 @@ import java.util.Set;
 
 /**
  * Unified Nodespace, a Nodespace for all applications.
- * "Nodespace" is an invisible "dimension" where nodes exist, a node is basically the "soul" of a tile entity with networking capabilities.
- * Instead of tile entities having to find each other which is costly and assumes the tiles are loaded, tiles simply create nodes at their
+ * "Nodespace" is an invisible "dimension" where nodes exist, a node is basically the "soul" of a block entity with networking capabilities.
+ * Instead of block entities having to find each other which is costly and assumes the BEs are loaded, BEs simply create nodes at their
  * respective position in nodespace, the nodespace itself handles stuff like connections which can also happen in unloaded chunks.
- * A node is so to say the "soul" of a tile entity which can act independent of its "body".
+ * A node is so to say the "soul" of a block entity which can act independent of its "body".
  * @author hbm
  */
 public class UniNodespace {
@@ -54,7 +54,7 @@ public class UniNodespace {
         }
     }
 
-    public static void updateNodespace(MinecraftServer server ) {
+    public static void updateNodespace(MinecraftServer server) {
 
         for (Level level : server.getAllLevels()) {
             UniNodeWorld nodeWorld = levels.get(level);

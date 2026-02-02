@@ -12,6 +12,7 @@ public class RenderCableItem extends ItemRenderBaseStandard {
     @Override
     public void renderInventory(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
         poseStack.scale(10F, 10F, 10F);
+        poseStack.translate(0F, 0.05F, 0F);
     }
 
     @Override

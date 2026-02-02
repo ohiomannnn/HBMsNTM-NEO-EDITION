@@ -2,8 +2,10 @@ package com.hbm.explosion;
 
 import com.hbm.blocks.ModBlocks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseFireBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.Heightmap;
 
@@ -68,15 +70,15 @@ public class ExplosionBalefire {
 
     public boolean update() {
 
-        if(n == 0) return true;
+        if (n == 0) return true;
 
-        breakColumn(this.lastposX, this.lastposZ);
+        this.breakColumn(this.lastposX, this.lastposZ);
         this.shell = (int) Math.floor((Math.sqrt(n) + 1) / 2);
         int shell2 = this.shell * 2;
 
-        if(shell2 == 0) return true;
+        if (shell2 == 0) return true;
 
-        this.leg = (int) Math.floor((this.n - (shell2 - 1) * (shell2 - 1)) / shell2);
+        this.leg = (int) Math.floor((double) (this.n - (shell2 - 1) * (shell2 - 1)) / shell2);
         this.element = (this.n - (shell2 - 1) * (shell2 - 1)) - shell2 * this.leg - this.shell + 1;
         this.lastposX = this.leg == 0 ? this.shell : this.leg == 1 ? -this.element : this.leg == 2 ? -this.shell : this.element;
         this.lastposZ = this.leg == 0 ? this.element : this.leg == 1 ? this.shell : this.leg == 2 ? -this.element : -this.shell;
@@ -92,34 +94,22 @@ public class ExplosionBalefire {
             int pZ = posZ + z;
 
             int y = level.getHeight(Heightmap.Types.WORLD_SURFACE, pX, pZ);
-            int maxdepth = (int) (10 + radius * 0.25);
-            int depth = (int) ((maxdepth * dist / radius) + (Math.sin(dist * 0.15 + 2) * 2));
+            int maxDepth = (int) (10 + radius * 0.25);
+            int depth = (int) (((double) (maxDepth * dist) / radius) + (Math.sin(dist * 0.15 + 2) * 2));
 
-            depth = Math.max(y - depth, -64);
+            depth = Math.max(y - depth, level.getMinBuildHeight());
 
-            //TODO: make clusters
             while (y > depth) {
                 BlockPos pos = new BlockPos(pX, y, pZ);
-
-//                if (level.getBlockState(pos == ModBlocks.block_schrabidium_cluster)) {
-//
-//                    if (level.random.nextInt(10) == 0) {
-//                        level.setBlock(new BlockPos(pX, y + 1, pZ), ModBlocks.BALEFIRE.get().defaultBlockState(), 3);
-//                        level.setBlock(pX, y, pZ, ModBlocks.block_euphemium_cluster, level.getBlockMetadata(pX, y, pZ), 3);
-//                    }
-//                    return;
-//                }
-
                 level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
-
                 y--;
             }
 
-            if(level.random.nextInt(10) == 0) {
-                level.setBlock(new BlockPos(pX, depth + 1, pZ), ModBlocks.BALEFIRE.get().defaultBlockState(), 3);
-
-//                if(worldObj.getBlock(pX, y, pZ) == ModBlocks.block_schrabidium_cluster)
-//                    worldObj.setBlock(pX, y, pZ, ModBlocks.block_euphemium_cluster, worldObj.getBlockMetadata(pX, y, pZ), 3);
+            if (level.random.nextInt(10) == 0) {
+                BlockPos pos = new BlockPos(pX, depth + 1, pZ);
+                if (BaseFireBlock.canBePlacedAt(level, pos, Direction.UP)) {
+                    level.setBlock(pos, ModBlocks.BALEFIRE.get().defaultBlockState(), 3);
+                }
             }
 
             for (int i = depth; i > depth - 5; i--) {

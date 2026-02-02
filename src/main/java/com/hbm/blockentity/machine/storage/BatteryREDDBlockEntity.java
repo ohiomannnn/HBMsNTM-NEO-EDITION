@@ -228,7 +228,6 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
 
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
-        if (player.isSpectator()) return null;
         return new BatteryREDDMenu(id, inventory, this);
     }
 

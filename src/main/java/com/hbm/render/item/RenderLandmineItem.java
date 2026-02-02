@@ -54,7 +54,7 @@ public class RenderLandmineItem extends ItemRenderBase {
         }
         if (stack.is(ModBlocks.MINE_HE.asItem())) {
             poseStack.scale(4F, 4F, 4F);
-            VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MINE_HE_TEX));
+            VertexConsumer consumer = buffer.getBuffer(RenderType.entitySmoothCutout(ResourceManager.MINE_HE_TEX));
             ResourceManager.mine_he.renderAll(poseStack, consumer, packedLight, packedOverlay);
         }
         if (stack.is(ModBlocks.MINE_SHRAP.asItem())) {
@@ -63,7 +63,7 @@ public class RenderLandmineItem extends ItemRenderBase {
             ResourceManager.mine_ap.renderAll(poseStack, consumer, packedLight, packedOverlay);
         }
         if (stack.is(ModBlocks.MINE_NAVAL.asItem())) {
-            VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MINE_NAVAL_TEX));
+            VertexConsumer consumer = buffer.getBuffer(RenderType.entitySmoothCutout(ResourceManager.MINE_NAVAL_TEX));
             ResourceManager.mine_naval.renderAll(poseStack, consumer, packedLight, packedOverlay);
         }
         if (stack.is(ModBlocks.MINE_FAT.asItem())) {

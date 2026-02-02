@@ -12,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class NukeFatManMenu extends AbstractContainerMenu {
 
-    private final NukeFatManBlockEntity be;
+    public final NukeFatManBlockEntity be;
 
     public NukeFatManMenu(int id, Inventory playerInv, FriendlyByteBuf extraData) {
         this(id, playerInv, (NukeFatManBlockEntity) playerInv.player.level().getBlockEntity(extraData.readBlockPos()));
@@ -23,11 +23,11 @@ public class NukeFatManMenu extends AbstractContainerMenu {
 
         this.be = blockEntity;
 
-        this.addSlot(new SlotNonRetarded(be, 0, 26, 35));
-        this.addSlot(new SlotNonRetarded(be, 1, 8, 17));
-        this.addSlot(new SlotNonRetarded(be, 2, 44, 17));
-        this.addSlot(new SlotNonRetarded(be, 3, 8, 53));
-        this.addSlot(new SlotNonRetarded(be, 4, 44, 53));
+        this.addSlot(new SlotNonRetarded(be, 0, 8, 17));
+        this.addSlot(new SlotNonRetarded(be, 1, 44, 17));
+        this.addSlot(new SlotNonRetarded(be, 2, 8, 53));
+        this.addSlot(new SlotNonRetarded(be, 3, 44, 53));
+        this.addSlot(new SlotNonRetarded(be, 4, 26, 35));
         this.addSlot(new SlotNonRetarded(be, 5, 98, 35));
 
         for (int y = 0; y < 3; y++) {
@@ -39,26 +39,6 @@ public class NukeFatManMenu extends AbstractContainerMenu {
         for (int x = 0; x < 9; x++) {
             this.addSlot(new Slot(inventory, x, 8 + x * 18, 142));
         }
-    }
-
-    public boolean exp1() {
-        return this.be.exp1();
-    }
-
-    public boolean exp2() {
-        return this.be.exp2();
-    }
-
-    public boolean exp3() {
-        return this.be.exp3();
-    }
-
-    public boolean exp4() {
-        return this.be.exp4();
-    }
-
-    public boolean isReady() {
-        return this.be.isReady();
     }
 
     @Override

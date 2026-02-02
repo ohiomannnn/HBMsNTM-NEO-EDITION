@@ -3,7 +3,9 @@
   "package": "com.hbm.util.mixins",
   "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
-  "mixins": [ ],
+  "mixins": [
+    "ServerPlayerGameModeMixin"
+  ],
   "client": [
     "LevelRendererMixin"
   ]

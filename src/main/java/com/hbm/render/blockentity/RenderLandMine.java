@@ -3,22 +3,19 @@ package com.hbm.render.blockentity;
 import com.hbm.blockentity.bomb.LandMineBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
+import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.phys.Vec3;
 
 public class RenderLandMine implements BlockEntityRenderer<LandMineBlockEntity> {
 
@@ -53,7 +50,7 @@ public class RenderLandMine implements BlockEntityRenderer<LandMineBlockEntity> 
 
         if (state.getBlock() == ModBlocks.MINE_HE.get()) {
             poseStack.mulPose(Axis.YN.rotationDegrees(90F));
-            VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MINE_HE_TEX));
+            VertexConsumer consumer = buffer.getBuffer(RenderType.entitySmoothCutout(ResourceManager.MINE_HE_TEX));
             ResourceManager.mine_he.renderAll(poseStack, consumer, packedLight, packedOverlay);
         }
 
@@ -73,7 +70,7 @@ public class RenderLandMine implements BlockEntityRenderer<LandMineBlockEntity> 
         if (state.getBlock() == ModBlocks.MINE_NAVAL.get()) {
             poseStack.scale(1F, 1F, 1F);
             poseStack.translate(0, 0.5F, 0);
-            VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MINE_NAVAL_TEX));
+            VertexConsumer consumer = buffer.getBuffer(RenderType.entitySmoothCutout(ResourceManager.MINE_NAVAL_TEX));
             ResourceManager.mine_naval.renderAll(poseStack, consumer, packedLight, packedOverlay);
         }
 
