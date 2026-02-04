@@ -3,9 +3,9 @@ package com.hbm.blocks.bomb;
 import com.hbm.blockentity.NukeBaseBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MainConfig;
-import com.hbm.entity.effect.NukeTorex;
 import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.interfaces.IBomb;
+import com.hbm.particle.helper.NukeTorexCreator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.*;
@@ -95,14 +95,14 @@ public abstract class NukeBaseBlock extends BaseEntityBlock implements IBomb {
                     nuke.slots.clear();
                     level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
                     NukeExplosionMK5.statFac(level, this.size, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-                    NukeTorex.statFacStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, this.size);
+                    NukeTorexCreator.statFacStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, this.size);
                     return BombReturnCode.DETONATED;
                 }
                 if (nuke.isFilled() && notFullSize != 0) {
                     nuke.slots.clear();
                     level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
                     NukeExplosionMK5.statFac(level, this.notFullSize, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-                    NukeTorex.statFacStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, this.notFullSize);
+                    NukeTorexCreator.statFacStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, this.notFullSize);
                     return BombReturnCode.DETONATED;
                 }
             }

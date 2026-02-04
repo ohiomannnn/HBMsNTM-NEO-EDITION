@@ -13,5 +13,6 @@ public class ParticleCreators {
 //        particleCreators.put("blackPowder", new BlackPowderCreator());
         particleCreators.put("ashes", new AshesCreator());
         particleCreators.put("skeleton", new SkeletonCreator());
+        particleCreators.put("nukeTorex", new NukeTorexCreator());
     }
 }

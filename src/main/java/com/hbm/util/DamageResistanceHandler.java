@@ -361,7 +361,7 @@ public class DamageResistanceHandler {
     @SubscribeEvent
     public static void onEntityDamaged(LivingDamageEvent.Pre event) {
         event.setNewDamage(calculateDamage(event.getEntity(), event.getSource(), event.getOriginalDamage(), currentPDT, currentPDR));
-        if(event.getEntity() instanceof IResistanceProvider irp) {
+        if (event.getEntity() instanceof IResistanceProvider irp) {
             irp.onDamageDealt(event.getSource(), event.getNewDamage());
         }
     }

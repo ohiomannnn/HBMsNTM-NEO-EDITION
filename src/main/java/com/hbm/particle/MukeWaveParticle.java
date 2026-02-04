@@ -1,26 +1,26 @@
 package com.hbm.particle;
 
+import com.hbm.HBMsNTM;
+import com.hbm.particle.engine.ParticleNT;
 import com.hbm.render.CustomRenderTypes;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.*;
 import net.minecraft.client.renderer.FogRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
-public class ParticleMukeWave extends TextureSheetParticle {
+public class MukeWaveParticle extends ParticleNT {
 
     private float waveScale = 45F;
 
-    public ParticleMukeWave(ClientLevel level, double x, double y, double z) {
+    private static final ResourceLocation TEXTURE = HBMsNTM.withDefaultNamespaceNT("textures/particle/shockwave.png");
+
+    public MukeWaveParticle(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
-        this.setSpriteFromAge(ModParticles.MUKE_WAVE_SPRITES);
 
         this.lifetime = 25;
     }
@@ -31,9 +31,9 @@ public class ParticleMukeWave extends TextureSheetParticle {
     }
 
     @Override
-    public void render(VertexConsumer ignored, Camera camera, float partialTicks) {
-        Vec3 camPos = camera.getPosition();
+    public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
 
+        Vec3 camPos = camera.getPosition();
         float pX = (float) (Mth.lerp(partialTicks, this.xo, this.x) - camPos.x);
         float pY = (float) (Mth.lerp(partialTicks, this.yo, this.y) - camPos.y);
         float pZ = (float) (Mth.lerp(partialTicks, this.zo, this.z) - camPos.z);
@@ -42,56 +42,35 @@ public class ParticleMukeWave extends TextureSheetParticle {
         this.quadSize = (1 - (float)Math.pow(Math.E, (this.age + partialTicks) * -0.125)) * waveScale;
 
         FogRenderer.setupNoFog();
-        MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
-        VertexConsumer consumer = bufferSource.getBuffer(CustomRenderTypes.entityAdditive(TextureAtlas.LOCATION_PARTICLES));
-
-        float u0 = sprite.getU0();
-        float u1 = sprite.getU1();
-        float v0 = sprite.getV0();
-        float v1 = sprite.getV1();
 
         consumer.addVertex(pX - 1 * this.quadSize, pY - 0.25F, pZ - 1 * this.quadSize)
-                .setUv(u1, v1)
+                .setUv(1, 1)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setColor(1.0F, 1.0F, 1.0F, alpha)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
         consumer.addVertex(pX - 1 * this.quadSize, pY - 0.25F, pZ + 1 * this.quadSize)
-                .setUv(u1, v0)
+                .setUv(1, 0)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setColor(1.0F, 1.0F, 1.0F, alpha)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
         consumer.addVertex(pX + 1 * this.quadSize, pY - 0.25F, pZ + 1 * this.quadSize)
-                .setUv(u0, v0)
+                .setUv(0, 0)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setColor(1.0F, 1.0F, 1.0F, alpha)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
         consumer.addVertex(pX + 1 * this.quadSize, pY - 0.25F, pZ - 1 * this.quadSize)
-                .setUv(u0, v1)
+                .setUv(0, 1)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setColor(1.0F, 1.0F, 1.0F, alpha)
                 .setNormal(0.0F, 1.0F, 0.0F)
                 .setLight(240);
-
-        bufferSource.endBatch();
     }
 
     @Override
-    public ParticleRenderType getRenderType() {
-        return ModParticleRenderTypes.NONE;
-    }
-
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
-
-        public Provider(SpriteSet sprites) {
-            ModParticles.MUKE_WAVE_SPRITES = sprites;
-        }
-
-        @Override
-        public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
-            return new ParticleMukeWave(level, x, y, z);
-        }
+    public RenderType getRenderType() {
+        return CustomRenderTypes.entityAdditive(TEXTURE);
     }
 }

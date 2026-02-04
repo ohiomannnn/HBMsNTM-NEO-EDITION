@@ -3,6 +3,7 @@ package com.hbm.particle.helper;
 import com.hbm.lib.ModSounds;
 import com.hbm.particle.ExplosionSmallParticle;
 import com.hbm.particle.ParticleDust;
+import com.hbm.particle.engine.ParticleEngineNT;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -57,8 +58,7 @@ public class ExplosionSmallCreator implements IParticleCreator {
         }
 
         for (int i = 0; i < cloudCount; i++) {
-            ExplosionSmallParticle particle = new ExplosionSmallParticle(level, x, y, z, cloudScale, cloudSpeedMultiplier);
-            Minecraft.getInstance().particleEngine.add(particle);
+            ParticleEngineNT.INSTANCE.add(new ExplosionSmallParticle(level, x, y, z, cloudScale, cloudSpeedMultiplier));
         }
 
         BlockPos base = BlockPos.containing(x, y, z);

@@ -21,6 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 
 import java.util.List;
@@ -39,7 +40,7 @@ public class DetonatorItem extends Item {
         ItemStack stack = context.getItemInHand();
 
         if (!level.isClientSide) {
-            if (player.isCrouching()) {
+            if (player.isShiftKeyDown()) {
                 CompoundTag tag = new CompoundTag();
                 tag.putInt("x", context.getClickedPos().getX());
                 tag.putInt("y", context.getClickedPos().getY());

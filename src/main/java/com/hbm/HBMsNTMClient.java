@@ -22,6 +22,7 @@ import com.hbm.items.special.PolaroidItem;
 import com.hbm.items.tools.GeigerCounterItem;
 import com.hbm.main.ResourceManager;
 import com.hbm.particle.*;
+import com.hbm.particle.engine.ParticleEngineNT;
 import com.hbm.particle.helper.ParticleCreators;
 import com.hbm.particle.vanilla.PlayerCloudParticle;
 import com.hbm.render.blockentity.*;
@@ -505,7 +506,6 @@ public class HBMsNTMClient {
         event.registerEntityRenderer(ModEntityTypes.TNT_PRIMED_BASE.get(), RenderTNTPrimedBase::new);
         event.registerEntityRenderer(ModEntityTypes.NUKE_MK5.get(), EmptyEntityRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.NUKE_BALEFIRE.get(), EmptyEntityRenderer::new);
-        event.registerEntityRenderer(ModEntityTypes.NUKE_TOREX.get(), RenderTorex::new);
         event.registerEntityRenderer(ModEntityTypes.NUKE_FALLOUT_RAIN.get(), RenderFallout::new);
         event.registerEntityRenderer(ModEntityTypes.SHRAPNEL.get(), RenderShrapnel::new);
         event.registerEntityRenderer(ModEntityTypes.RUBBLE.get(), RenderRubble::new);
@@ -661,8 +661,6 @@ public class HBMsNTMClient {
         event.registerSpriteSet(ModParticles.BASE_PARTICLE.get(), BaseParticle.Provider::new);
         event.registerSpecial(ModParticles.COOLING_TOWER.get(), new CoolingTowerParticle.Provider());
         event.registerSpecial(ModParticles.DIGAMMA_SMOKE.get(), new DigammaSmokeParticle.Provider());
-        event.registerSpriteSet(ModParticles.MUKE_CLOUD.get(), sprites -> new ParticleMukeCloud.Provider(sprites, false));
-        event.registerSpriteSet(ModParticles.MUKE_CLOUD_BF.get(), sprites -> new ParticleMukeCloud.Provider(sprites, true));
         event.registerSpriteSet(ModParticles.RBMK_MUSH.get(), RBMKMushParticle.Provider::new);
         event.registerSpriteSet(ModParticles.HAZE.get(), HazeParticle.Provider::new);
         event.registerSpriteSet(ModParticles.GIBLET.get(), ParticleGiblet.Provider::new);
@@ -671,9 +669,6 @@ public class HBMsNTMClient {
         event.registerSpecial(ModParticles.FOAM.get(), new ParticleFoam.Provider());
         event.registerSpecial(ModParticles.ASHES.get(), new AshesParticle.Provider());
         event.registerSpecial(ModParticles.AMAT_FLASH.get(), new AmatFlashParticle.Provider());
-        event.registerSpecial(ModParticles.EXPLOSION_SMALL.get(), new ExplosionSmallParticle.Provider());
-        event.registerSpriteSet(ModParticles.MUKE_WAVE.get(), ParticleMukeWave.Provider::new);
-        event.registerSpriteSet(ModParticles.MUKE_FLASH.get(), ParticleMukeFlash.Provider::new);
         event.registerSpriteSet(ModParticles.GAS_FLAME.get(), ParticleGasFlame.Provider::new);
         event.registerSpriteSet(ModParticles.DEAD_LEAF.get(), DeadLeafParticle.Provider::new);
         event.registerSpriteSet(ModParticles.AURA.get(), ParticleAura.Provider::new);
@@ -703,6 +698,8 @@ public class HBMsNTMClient {
             double x = data.getDouble("posX");
             double y = data.getDouble("posY");
             double z = data.getDouble("posZ");
+
+            HBMsNTM.LOGGER.info("type = {}", data);
 
             RandomSource rand = RandomSource.create();
 
@@ -883,8 +880,8 @@ public class HBMsNTMClient {
 
             if ("muke".contains(type)) {
 
-                innerMc.particleEngine.add(new ParticleMukeFlash(level, x, y, z, data.getBoolean("balefire")));
-                innerMc.particleEngine.add(new ParticleMukeWave(level, x, y, z));
+                ParticleEngineNT.INSTANCE.add(new MukeFlashParticle(level, x, y, z, data.getBoolean("balefire")));
+                ParticleEngineNT.INSTANCE.add(new MukeWaveParticle(level, x, y, z));
 
                 //single swing: 			HT 15,  MHT 15
                 //double swing: 			HT 60,  MHT 50
@@ -896,15 +893,15 @@ public class HBMsNTMClient {
             }
 
             if ("tinytot".contains(type)) {
-                innerMc.particleEngine.add(new ParticleMukeWave(level, x, y, z));
+                ParticleEngineNT.INSTANCE.add(new MukeWaveParticle(level, x, y, z));
 
                 for (double d = 0.0D; d <= 1.6D; d += 0.1) {
-                    ParticleMukeCloud cloud = new ParticleMukeCloud(level, x, y, z, rand.nextGaussian() * 0.05, d + rand.nextGaussian() * 0.02, rand.nextGaussian() * 0.05, false);
-                    innerMc.particleEngine.add(cloud);
+                    MukeCloudParticle cloud = new MukeCloudParticle(level, x, y, z, rand.nextGaussian() * 0.05, d + rand.nextGaussian() * 0.02, rand.nextGaussian() * 0.05);
+                    ParticleEngineNT.INSTANCE.add(cloud);
                 }
                 for (int i = 0; i < 50; i++) {
-                    ParticleMukeCloud cloud = new ParticleMukeCloud(level, x, y + 0.5, z, rand.nextGaussian() * 0.5, rand.nextInt(5) == 0 ? 0.02 : 0, rand.nextGaussian() * 0.5, false);
-                    innerMc.particleEngine.add(cloud);
+                    MukeCloudParticle cloud = new MukeCloudParticle(level, x, y + 0.5, z, rand.nextGaussian() * 0.5, rand.nextInt(5) == 0 ? 0.02 : 0, rand.nextGaussian() * 0.5);
+                    ParticleEngineNT.INSTANCE.add(cloud);
                 }
                 for (int i = 0; i < 15; i++) {
                     double ix = rand.nextGaussian() * 0.2;
@@ -917,8 +914,8 @@ public class HBMsNTMClient {
 
                     double iy = 1.6 + (rand.nextDouble() * 2 - 1) * (0.75 - (ix * ix + iz * iz)) * 0.5;
 
-                    ParticleMukeCloud cloud = new ParticleMukeCloud(level, x, y, z, ix, iy + rand.nextGaussian() * 0.02, iz, false);
-                    innerMc.particleEngine.add(cloud);
+                    MukeCloudParticle cloud = new MukeCloudParticle(level, x, y, z, ix, iy + rand.nextGaussian() * 0.02, iz);
+                    ParticleEngineNT.INSTANCE.add(cloud);
                 }
 
                 if (player != null) {
@@ -1107,7 +1104,7 @@ public class HBMsNTMClient {
             if ("tau".equals(type)) {
                 for (int i = 0; i < data.getByte("count"); i++)
                     innerMc.particleEngine.add(new SparkParticle(level, x, y, z, rand.nextGaussian() * 0.05, 0.05, rand.nextGaussian() * 0.05));
-                innerMc.particleEngine.add(new ParticleHadron(level, x, y, z));
+                ParticleEngineNT.INSTANCE.add(new ParticleNTHadron(level, x, y, z));
             }
 
             if ("giblets".equals(type)) {

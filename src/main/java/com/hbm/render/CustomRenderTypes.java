@@ -63,7 +63,7 @@ public class CustomRenderTypes {
                         .setLightmapState(RenderType.LIGHTMAP)
                         .setOverlayState(RenderType.NO_OVERLAY)
                         .setWriteMaskState(RenderType.COLOR_WRITE)
-                        .setDepthTestState(RenderType.LEQUAL_DEPTH_TEST)
+                        .setOutputState(RenderType.CLOUDS_TARGET)
                         .createCompositeState(false);
                 return RenderType.create("additive", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, state);
             }
@@ -97,7 +97,7 @@ public class CustomRenderTypes {
                         .setWriteMaskState(RenderType.COLOR_WRITE)
                         .setOutputState(RenderType.CLOUDS_TARGET)
                         .createCompositeState(false);
-                return RenderType.create("smoth", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, state);
+                return RenderType.create("smoth", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, false, state);
             }
     );
 

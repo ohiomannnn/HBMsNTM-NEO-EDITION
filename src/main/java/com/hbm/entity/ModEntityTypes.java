@@ -37,13 +37,6 @@ public class ModEntityTypes {
                     .sized(1.0F, 1.0F)
                     .build("nuke_balefire"));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<NukeTorex>> NUKE_TOREX = REGISTER.register(
-            "nuke_torex",
-            () -> EntityType.Builder.of(NukeTorex::new, MobCategory.MISC)
-                    .setTrackingRange(1000)
-                    .sized(1F, 50F)
-                    .fireImmune()
-                    .build("nuke_torex"));
     public static final DeferredHolder<EntityType<?>, EntityType<FalloutRain>> NUKE_FALLOUT_RAIN = REGISTER.register(
             "nuke_fallout_rain",
             () -> EntityType.Builder.of(FalloutRain::new, MobCategory.MISC)

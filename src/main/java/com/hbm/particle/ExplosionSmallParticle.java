@@ -1,32 +1,27 @@
 package com.hbm.particle;
 
+import com.hbm.HBMsNTM;
 import com.hbm.render.CustomRenderTypes;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import org.joml.Vector3f;
 
 import java.awt.*;
 
 @OnlyIn(Dist.CLIENT)
-public class ExplosionSmallParticle extends RotatingParticle {
+public class ExplosionSmallParticle extends RotatingParticleNT {
 
     private final float hue;
 
+    private static final ResourceLocation TEXTURE = HBMsNTM.withDefaultNamespaceNT("textures/particle/base_particle.png");
+
     public ExplosionSmallParticle(ClientLevel level, double x, double y, double z, float scale, float speedMultiplier) {
         super(level, x, y, z);
-        this.setSpriteFromAge(ModParticles.BASE_PARTICLE_SPRITES);
         this.lifetime = 25 + this.random.nextInt(10);
         this.quadSize = scale * 0.9F + this.random.nextFloat() * 0.2F;
 
@@ -41,7 +36,7 @@ public class ExplosionSmallParticle extends RotatingParticle {
         this.gCol = base.getGreen() / 255F;
         this.bCol = base.getBlue() / 255F;
 
-        this.hasPhysics = false;
+        this.noClip = true;
     }
 
     @Override
@@ -82,15 +77,11 @@ public class ExplosionSmallParticle extends RotatingParticle {
 
         float scale = (float) ((0.25 + 1 - Math.pow(1 - ageScaled, 4) + (this.age + partialTicks) * 0.02) * this.quadSize);
 
-        MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
-        this.renderParticleRotated(buffer, CustomRenderTypes.entitySmothNoDepth(TextureAtlas.LOCATION_PARTICLES), camera, this.rCol, this.gCol, this.bCol, this.alpha * 0.5F, scale, partialTicks, 240);
-        buffer.endBatch();
+        this.renderParticleRotated(consumer, camera, this.rCol, this.gCol, this.bCol, this.alpha * 0.5F, scale, partialTicks, 240);
     }
 
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
-        @Override
-        public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
-            return new ExplosionSmallParticle(level, x, y, z, 1.0F, 0.1F);
-        }
+    @Override
+    public RenderType getRenderType() {
+        return CustomRenderTypes.entitySmothNoDepth(TEXTURE);
     }
 }

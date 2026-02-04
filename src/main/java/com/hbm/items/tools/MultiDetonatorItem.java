@@ -40,7 +40,7 @@ public class MultiDetonatorItem extends Item {
         ItemStack stack = context.getItemInHand();
 
         if (!level.isClientSide) {
-            if (player.isCrouching()) {
+            if (player.isShiftKeyDown()) {
                 addLocation(stack, context.getClickedPos().getX(), context.getClickedPos().getY(), context.getClickedPos().getZ());
 
                 level.playSound(null, player.blockPosition(), ModSounds.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
