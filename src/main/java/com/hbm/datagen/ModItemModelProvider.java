@@ -70,6 +70,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         this.basicItem(ModItems.INF_WATER.get());
         this.basicItem(ModItems.INF_WATER_MK2.get());
 
+        this.handheldItem(ModItems.CIGARETTE.get());
+        this.handheldItem(ModItems.CRACKPIPE.get());
+
         basicItem(ModItems.CAP_NUKA.get());
         basicItem(ModItems.CAP_QUANTUM.get());
         basicItem(ModItems.CAP_SPARKLE.get());

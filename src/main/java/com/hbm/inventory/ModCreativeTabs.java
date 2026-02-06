@@ -154,6 +154,11 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.SELLAFIELD_BEDROCK);
                         output.accept(ModBlocks.ORE_SELLAFIELD_DIAMOND);
                         output.accept(ModBlocks.ORE_SELLAFIELD_EMERALD);
+
+                        output.accept(ModBlocks.PLUSHIE_YOMI);
+                        output.accept(ModBlocks.PLUSHIE_NUMBERNINE);
+                        output.accept(ModBlocks.PLUSHIE_HUNDUN);
+                        output.accept(ModBlocks.PLUSHIE_DERG);
                     }).build());
 
     public static final Supplier<CreativeModeTab> MACHINES = CREATIVE_MODE_TABS.register(

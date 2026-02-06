@@ -13,7 +13,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class HFRWavefrontObject implements IModelCustom {
+public class HFRWavefrontObject implements IModelCustomNamed {
 
     public final List<Vertex> vertices = new ArrayList<>();
     public final List<Vertex> vertexNormals = new ArrayList<>();
@@ -262,7 +262,12 @@ public class HFRWavefrontObject implements IModelCustom {
         return new WavefrontObjVBO(this);
     }
 
+    @Override
     public List<String> getPartNames() {
-        return new ArrayList<>(groupObjectsMap.keySet());
+        List<String> names = new ArrayList<>();
+        for(S_GroupObject data : groupObjects) {
+            names.add(data.name);
+        }
+        return names;
     }
 }

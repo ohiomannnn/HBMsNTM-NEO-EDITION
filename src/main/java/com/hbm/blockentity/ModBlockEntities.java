@@ -9,6 +9,7 @@ import com.hbm.blockentity.machine.MachineSatLinkerBlockEntity;
 import com.hbm.blockentity.machine.storage.*;
 import com.hbm.blockentity.network.CableBlockEntityBaseNT;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.generic.PlushieBlock.PlushieBlockEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
@@ -93,6 +94,11 @@ public class ModBlockEntities {
                             ModBlocks.MACHINE_BATTERY_SOCKET.get(),
                             ModBlocks.MACHINE_BATTERY_REDD.get()
                     ).build(null));
+
+    public static final Supplier<BlockEntityType<PlushieBlockEntity>> PLUSHIE_YOMI = REGISTER.register("plushie_yomi", () -> BlockEntityType.Builder.of(PlushieBlockEntity::yomi, ModBlocks.PLUSHIE_YOMI.get()).build(null));
+    public static final Supplier<BlockEntityType<PlushieBlockEntity>> PLUSHIE_NUMBERNINE = REGISTER.register("plushie_numbernine", () -> BlockEntityType.Builder.of(PlushieBlockEntity::numbernine, ModBlocks.PLUSHIE_NUMBERNINE.get()).build(null));
+    public static final Supplier<BlockEntityType<PlushieBlockEntity>> PLUSHIE_HUNDUN = REGISTER.register("plushie_hundun", () -> BlockEntityType.Builder.of(PlushieBlockEntity::hundun, ModBlocks.PLUSHIE_HUNDUN.get()).build(null));
+    public static final Supplier<BlockEntityType<PlushieBlockEntity>> PLUSHIE_DERG = REGISTER.register("plushie_derg", () -> BlockEntityType.Builder.of(PlushieBlockEntity::derg, ModBlocks.PLUSHIE_DERG.get()).build(null));
 
     public static final Supplier<BlockEntityType<CableBlockEntityBaseNT>> NETWORK_CABLE = REGISTER.register(
             "network_cable",

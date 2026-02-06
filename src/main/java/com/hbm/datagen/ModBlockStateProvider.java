@@ -9,6 +9,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.Property;
@@ -47,8 +48,13 @@ public class ModBlockStateProvider extends BlockStateProvider {
                         modLoc("block/machine_satlinker_top")
                 ));
 
-        this.particleOnlyBlock(ModBlocks.BARREL_RED.get(), name(ModBlocks.BARREL_RED.get()));
-        this.particleOnlyBlock(ModBlocks.BARREL_PINK.get(), name(ModBlocks.BARREL_PINK.get()));
+        this.particleOnlyBlock(ModBlocks.BARREL_RED.get(), name(ModBlocks.BARREL_RED.get()), false);
+        this.particleOnlyBlock(ModBlocks.BARREL_PINK.get(), name(ModBlocks.BARREL_PINK.get()), false);
+
+        this.particleOnlyBlock(ModBlocks.PLUSHIE_YOMI.get(), "white_wool", true);
+        this.particleOnlyBlock(ModBlocks.PLUSHIE_NUMBERNINE.get(), "white_wool", true);
+        this.particleOnlyBlock(ModBlocks.PLUSHIE_HUNDUN.get(), "white_wool", true);
+        this.particleOnlyBlock(ModBlocks.PLUSHIE_DERG.get(), "white_wool", true);
 
         simpleBlockWithItem(ModBlocks.BRICK_LIGHT.get(), cubeAll(ModBlocks.BRICK_LIGHT.get()));
         simpleBlockWithItem(ModBlocks.BRICK_OBSIDIAN.get(), cubeAll(ModBlocks.BRICK_OBSIDIAN.get()));
@@ -299,8 +305,9 @@ public class ModBlockStateProvider extends BlockStateProvider {
         this.simpleBlockItem(block, cubeAll(block));
     }
 
-    private void particleOnlyBlock(Block block, String particleTexture) {
-        ModelFile model = models().getBuilder(name(block) + "_particle").texture("particle", modLoc("block/" + particleTexture));
+    // todo make better solution lol
+    private void particleOnlyBlock(Block block, String particleTexture, boolean asMcLock) {
+        ModelFile model = models().getBuilder(name(block) + "_particle").texture("particle", asMcLock ? mcLoc("block/" + particleTexture) : modLoc("block/" + particleTexture));
         this.simpleBlock(block, model);
     }
 

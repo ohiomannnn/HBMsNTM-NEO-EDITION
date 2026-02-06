@@ -1,6 +1,6 @@
 package com.hbm.particle.helper;
 
-import com.hbm.particle.NukeTorexParticle;
+import com.hbm.particle.NukeTorex;
 import com.hbm.particle.engine.ParticleEngineNT;
 import com.hbm.util.BobMathUtil;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -23,22 +23,23 @@ public class NukeTorexCreator implements IParticleCreator {
     private static void statFac(Level level, double x, double y, double z, float scale, int type) {
 
         CompoundTag tag = new CompoundTag();
-        tag.putString("type", "nukeTorex");
+        tag.putString("type", "nuke");
         tag.putFloat("scale", scale);
-        if (type == 1 || type == 0) tag.putFloat("cloudType", type);
+        if (type == 1 || type == 0) tag.putFloat("cType", type);
         if (level instanceof ServerLevel serverLevel) {
-            IParticleCreator.sendPacket(serverLevel, x, y, z, 2000, tag);
+            IParticleCreator.sendPacket(serverLevel, x, y, z, 1000, tag);
         }
     }
 
     @Override
     public void makeParticle(ClientLevel level, Player player, RandomSource rand, double x, double y, double z, CompoundTag tag) {
-        int type = tag.getInt("cloudType");
+        int type = tag.getInt("cType");
         float scale = tag.getFloat("scale");
 
-        NukeTorexParticle particle = new NukeTorexParticle(level, x, y, z);
-        particle.setScale((float) Math.clamp(BobMathUtil.squirt(scale * 0.01) * 1.5F, 0.5F, 5F));
-        particle.setType(type);
-        ParticleEngineNT.INSTANCE.add(particle);
+        ParticleEngineNT.INSTANCE.add(
+                new NukeTorex(level, x, y, z)
+                        .setScale((float) Math.clamp(BobMathUtil.squirt(scale * 0.01) * 1.5F, 0.5F, 5F))
+                        .setType(type)
+        );
     }
 }

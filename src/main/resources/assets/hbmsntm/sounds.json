@@ -115,6 +115,12 @@
   "bomb_whistle": {
     "sounds": ["hbmsntm:entity/bomb_whistle"]
   },
+  "block.hunduns_magnificent_howl": {
+    "sounds": ["hbmsntm:block/hunduns_magnificent_howl"]
+  },
+  "block.squeaky_toy": {
+    "sounds": ["hbmsntm:block/squeaky_toy"]
+  },
   "block.debris": {
     "sounds": [
       "hbmsntm:block/debris1",

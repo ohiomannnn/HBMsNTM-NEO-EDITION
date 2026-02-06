@@ -26,6 +26,9 @@ public class ResourceManager {
     public static final ResourceLocation DUD_NUKE_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/bomb/dud_nuke.png");
     public static final ResourceLocation DUD_SALTED_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/bomb/dud_salted.png");
 
+    public static final ResourceLocation NO9 = HBMsNTM.withDefaultNamespaceNT("textures/armor/no9.png");
+    public static final ResourceLocation NO9_INSIGNIA = HBMsNTM.withDefaultNamespaceNT("textures/armor/no9_insignia.png");
+
     public static final ResourceLocation CABLE_NEO_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/red_cable.png");
     public static final ResourceLocation DIFURNACE_EXTENSION_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/difurnace_extension.png");
     public static final ResourceLocation DIFURNACE_EXTENSION_TOP_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/difurnace_top_off_alt.png");
@@ -87,6 +90,8 @@ public class ResourceManager {
     public static IModelCustom dud_nuke;
     public static IModelCustom dud_salted;
 
+    public static IModelCustom armor_no9;
+
     public static IModelCustom cable_neo;
     public static IModelCustom difurnace_extension;
 
@@ -124,6 +129,8 @@ public class ResourceManager {
         dud_conventional = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/dud_conventional.obj")).asVBO();
         dud_nuke = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/dud_nuke.obj")).asVBO();
         dud_salted = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/dud_salted.obj")).asVBO();
+
+        armor_no9 = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/armor/no9.obj")).asVBO();
 
         cable_neo = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/block/cable_neo.obj")).asVBO();
         difurnace_extension = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/block/difurnace_extension.obj")).asVBO();

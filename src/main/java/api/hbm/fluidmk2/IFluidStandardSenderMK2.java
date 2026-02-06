@@ -20,9 +20,9 @@ import net.neoforged.neoforge.network.PacketDistributor;
  */
 public interface IFluidStandardSenderMK2 extends IFluidProviderMK2 {
 
-    default void tryProvide(FluidTank tank, Level level, DirPos pos) { tryProvide(tank.getTankType(), tank.getPressure(), level, pos, pos.getDir()); }
-    default void tryProvide(FluidType type, Level level, DirPos pos) { tryProvide(type, 0, level, pos, pos.getDir()); }
-    default void tryProvide(FluidType type, int pressure, Level level, DirPos pos) { tryProvide(type, pressure, level, pos, pos.getDir()); }
+    default void tryProvide(FluidTank tank, Level level, DirPos pos) { tryProvide(tank.getTankType(), tank.getPressure(), level, pos.makeCompat(), pos.getDir()); }
+    default void tryProvide(FluidType type, Level level, DirPos pos) { tryProvide(type, 0, level, pos.makeCompat(), pos.getDir()); }
+    default void tryProvide(FluidType type, int pressure, Level level, DirPos pos) { tryProvide(type, pressure, level, pos.makeCompat(), pos.getDir()); }
 
     default void tryProvide(FluidTank tank, Level level, BlockPos pos, Direction dir) { tryProvide(tank.getTankType(), tank.getPressure(), level, pos, dir); }
     default void tryProvide(FluidType type, Level level, BlockPos pos, Direction dir) { tryProvide(type, 0, level,pos, dir); }

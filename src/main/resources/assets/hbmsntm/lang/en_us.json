@@ -155,6 +155,15 @@
   "block.hbmsntm.ore_sellafield_emerald": "Sellafite Emerald Ore",
   "block.hbmsntm.ore_sellafield_diamond": "Sellafite Diamond Ore",
 
+  "block.hbmsntm.plushie_yomi": "Yomi Plushie",
+  "block.hbmsntm.plushie_yomi.desc": "Hi! Can I be your rabbit friend?",
+  "block.hbmsntm.plushie_numbernine": "Number Nine Plushie",
+  "block.hbmsntm.plushie_numbernine.desc": "None of y'all deserve coal.",
+  "block.hbmsntm.plushie_hundun": "Hundun Plushie",
+  "block.hbmsntm.plushie_hundun.desc": "混沌",
+  "block.hbmsntm.plushie_derg": "Dragon Plushie",
+  "block.hbmsntm.plushie_derg.desc": "Squeeze him.",
+
   "block.hbmsntm.nuke_gadget": "The Gadget",
   "block.hbmsntm.nuke_little_boy": "Little Boy",
   "block.hbmsntm.nuke_fat_man": "Fat Man",

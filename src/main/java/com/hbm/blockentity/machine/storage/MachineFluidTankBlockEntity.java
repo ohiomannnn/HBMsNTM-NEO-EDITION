@@ -108,10 +108,10 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
                     }
 
                     for (DirPos pos : getConPos()) {
-                        FluidNode dirNode = (FluidNode) UniNodespace.getNode(level, pos, tank.getTankType().getNetworkProvider());
+                        FluidNode dirNode = (FluidNode) UniNodespace.getNode(level, pos.makeCompat(), tank.getTankType().getNetworkProvider());
 
                         if (mode == 2) {
-                            tryProvide(tank, level, pos, pos.getDir());
+                            tryProvide(tank, level, pos.makeCompat(), pos.getDir());
                         } else {
                             if (dirNode != null && dirNode.hasValidNet()) dirNode.net.removeProvider(this);
                         }

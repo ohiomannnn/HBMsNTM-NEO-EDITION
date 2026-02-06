@@ -541,6 +541,11 @@ public class HBMsNTMClient {
         event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_NUKE.get(), RenderCrashedBomb::new);
         event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_SALTED.get(), RenderCrashedBomb::new);
 
+        event.registerBlockEntityRenderer(ModBlockEntities.PLUSHIE_YOMI.get(), RenderPlushie::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.PLUSHIE_NUMBERNINE.get(), RenderPlushie::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.PLUSHIE_HUNDUN.get(), RenderPlushie::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.PLUSHIE_DERG.get(), RenderPlushie::new);
+
         event.registerBlockEntityRenderer(ModBlockEntities.FLUID_TANK.get(), RenderFluidTank::new);
 
         event.registerBlockEntityRenderer(ModBlockEntities.BATTERY_SOCKET.get(), RenderBatterySocket::new);
@@ -566,6 +571,13 @@ public class HBMsNTMClient {
         registerItemRenderer(event, RenderNukeFatManItem::new, ModBlocks.NUKE_FAT_MAN.asItem());
         registerItemRenderer(event, RenderNukeIvyMikeItem::new, ModBlocks.NUKE_IVY_MIKE.asItem());
         registerItemRenderer(event, RenderNukeTsarBombaItem::new, ModBlocks.NUKE_TSAR_BOMBA.asItem());
+
+        registerItemRenderer(event, RenderPlushieItem::new,
+                ModBlocks.PLUSHIE_YOMI.asItem(),
+                ModBlocks.PLUSHIE_NUMBERNINE.asItem(),
+                ModBlocks.PLUSHIE_HUNDUN.asItem(),
+                ModBlocks.PLUSHIE_DERG.asItem()
+        );
 
         registerItemRenderer(event, RenderGeigerItem::new, ModBlocks.GEIGER.asItem());
 

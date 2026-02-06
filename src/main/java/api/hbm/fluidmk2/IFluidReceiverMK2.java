@@ -22,7 +22,7 @@ public interface IFluidReceiverMK2 extends IFluidUserMK2 {
 
     default int[] getReceivingPressureRange(FluidType type) { return DEFAULT_PRESSURE_RANGE; }
 
-    default void trySubscribe(FluidType type, Level level, DirPos pos) { trySubscribe(type, level, pos, pos.getDir()); }
+    default void trySubscribe(FluidType type, Level level, DirPos pos) { trySubscribe(type, level, pos.makeCompat(), pos.getDir()); }
 
     default void trySubscribe(FluidType type,Level level, BlockPos pos, Direction dir) {
         BlockEntity be = TileAccessCache.getTileOrCache(level, pos);

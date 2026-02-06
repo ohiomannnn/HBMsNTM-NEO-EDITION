@@ -121,6 +121,9 @@ public class ModItems {
             "key_fake",
             () -> new KeyItem(new Item.Properties().stacksTo(1)));
 
+    public static final DeferredItem<Item> CIGARETTE = ITEMS.register("cigarette", () -> new Item(new Item.Properties().stacksTo(16)));
+    public static final DeferredItem<Item> CRACKPIPE = ITEMS.register("crackpipe", () -> new Item(new Item.Properties().stacksTo(1)));
+
     public static final DeferredItem<Item> BOTTLE_OPENER = ITEMS.register(
             "bottle_opener",
             () -> new Item(new Item.Properties().stacksTo(1))

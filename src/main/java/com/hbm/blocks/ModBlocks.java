@@ -4,6 +4,7 @@ import com.hbm.HBMsNTM;
 import com.hbm.blocks.bomb.*;
 import com.hbm.blocks.gas.*;
 import com.hbm.blocks.generic.*;
+import com.hbm.blocks.generic.PlushieBlock.PlushieType;
 import com.hbm.blocks.machine.*;
 import com.hbm.blocks.network.CableBlock;
 import com.hbm.blocks.network.MachineBatteryREDD;
@@ -311,6 +312,11 @@ public class ModBlocks {
                     .noLootTable()
             )
     );
+
+    public static final DeferredBlock<Block> PLUSHIE_YOMI = registerBlock("plushie_yomi", () -> new PlushieBlock(BlockBehaviour.Properties.of().sound(SoundType.WOOL).strength(0.0F).explosionResistance(0.0F).noOcclusion(), PlushieType.YOMI));
+    public static final DeferredBlock<Block> PLUSHIE_NUMBERNINE = registerBlock("plushie_numbernine", () -> new PlushieBlock(BlockBehaviour.Properties.of().sound(SoundType.WOOL).strength(0.0F).explosionResistance(0.0F).noOcclusion(), PlushieType.NUMBERNINE));
+    public static final DeferredBlock<Block> PLUSHIE_HUNDUN = registerBlock("plushie_hundun", () -> new PlushieBlock(BlockBehaviour.Properties.of().sound(SoundType.WOOL).strength(0.0F).explosionResistance(0.0F).noOcclusion(), PlushieType.HUNDUN));
+    public static final DeferredBlock<Block> PLUSHIE_DERG = registerBlock("plushie_derg", () -> new PlushieBlock(BlockBehaviour.Properties.of().sound(SoundType.WOOL).strength(0.0F).explosionResistance(0.0F).noOcclusion(), PlushieType.DERG));
 
     public static final DeferredBlock<NukeGadgetBlock> NUKE_GADGET = registerBlock("nuke_gadget", () -> new NukeGadgetBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
     public static final DeferredBlock<NukeLittleBoyBlock> NUKE_LITTLE_BOY = registerBlock("nuke_little_boy", () -> new NukeLittleBoyBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));

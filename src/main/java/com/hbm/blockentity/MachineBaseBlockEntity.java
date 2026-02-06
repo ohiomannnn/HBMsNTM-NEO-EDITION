@@ -136,9 +136,6 @@ public abstract class MachineBaseBlockEntity extends LoadedBaseBlockEntity imple
 
     public abstract void updateEntity();
 
-    @Deprecated
-    public void handleButtonPacket(int value, int meta) { }
-
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
@@ -201,16 +198,16 @@ public abstract class MachineBaseBlockEntity extends LoadedBaseBlockEntity imple
         int y = pos.getY();
         int z = pos.getZ();
         Direction dir = pos.getDir();
-        BlockState s = level.getBlockState(pos);
+        BlockState s = level.getBlockState(pos.makeCompat());
         Block b = s.getBlock();
 
-        b.onNeighborChange(s, level, pos, this.getBlockPos());
-        if (s.isSolidRender(level, pos)) {
+        b.onNeighborChange(s, level, pos.makeCompat(), this.getBlockPos());
+        if (s.isSolidRender(level, pos.makeCompat())) {
             x += dir.getStepX();
             y += dir.getStepY();
             z += dir.getStepZ();
             BlockPos newPos = new BlockPos(x, y, z);
-            BlockState s2 = level.getBlockState(pos);
+            BlockState s2 = level.getBlockState(pos.makeCompat());
             Block b2 = s2.getBlock();
 
             if (b2.getWeakChanges(s2, level, newPos)) {

@@ -34,7 +34,7 @@ public interface IEnergyReceiverMK2 extends IEnergyHandlerMK2 {
     /** Whether a provider can provide power by touching the block (i.e. via proxies), bypassing the need for a network entirely */
     default boolean allowDirectProvision() { return true; }
 
-    default void trySubscribe(Level level, DirPos pos) { trySubscribe(level, pos, pos.getDir()); }
+    default void trySubscribe(Level level, DirPos pos) { trySubscribe(level, pos.makeCompat(), pos.getDir()); }
 
     default void trySubscribe(Level level, BlockPos pos, Direction dir) {
 

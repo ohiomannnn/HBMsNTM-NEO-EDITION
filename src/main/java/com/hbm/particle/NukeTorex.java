@@ -30,9 +30,17 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
-public class NukeTorexParticle extends ParticleNT {
+/*
+ * Toroidial Convection Simulation Explosion Effect
+ * Tor                             Ex
+ */
+public class NukeTorex extends ParticleNT {
 
-    private int tickCount = 0;
+    private int tickCount;
+
+    // balefire or not
+    protected int type = 0;
+    protected float scale = 1;
 
     public double coreHeight = 3;
     public double convectionHeight = 3;
@@ -45,29 +53,22 @@ public class NukeTorexParticle extends ParticleNT {
     public boolean didPlaySound = false;
     public boolean didShake = false;
 
-    protected int type = 0;
-    protected float scale = 1;
-
-    public NukeTorexParticle(ClientLevel level, double x, double y, double z) {
+    public NukeTorex(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
     }
 
     @Override
     public void tick() {
 
-        this.tickCount++;
-
         double s = 1.5;
         double cs = 1.5;
         int maxAge = this.getMaxAge();
 
-        if (this.tickCount == 1) setScale((float) s);
-
         if (lastSpawnY == -1) {
-            lastSpawnY = y - 3;
+            lastSpawnY = this.y - 3;
         }
 
-        if (tickCount < 100) this.level.setSkyFlashTime(3);
+        if (tickCount < 100) this.level.setSkyFlashTime(5);
 
         int spawnTarget = level.getHeight(Heightmap.Types.WORLD_SURFACE, (int) x, (int) z) - 3;
         double moveSpeed = 0.5D;
@@ -93,7 +94,7 @@ public class NukeTorexParticle extends ParticleNT {
         }
 
         // spawn shock clouds
-        if (tickCount < 150) {
+        if (tickCount < 200) {
             int cloudCount = tickCount * 5;
             int shockLife = Math.max(300 - tickCount * 20, 50);
 
@@ -166,9 +167,12 @@ public class NukeTorexParticle extends ParticleNT {
         cloudlets.removeIf(x -> x.isDead);
 
         if (this.tickCount > maxAge) this.remove();
+
+
+        this.tickCount++;
     }
 
-    public NukeTorexParticle setScale(float scale) {
+    public NukeTorex setScale(float scale) {
         this.scale = scale;
         this.coreHeight = this.coreHeight / 1.5D * scale;
         this.convectionHeight = this.convectionHeight / 1.5D * scale;
@@ -177,7 +181,7 @@ public class NukeTorexParticle extends ParticleNT {
         return this;
     }
 
-    public NukeTorexParticle setType(int type) {
+    public NukeTorex setType(int type) {
         this.type = type;
         return this;
     }
@@ -187,7 +191,7 @@ public class NukeTorexParticle extends ParticleNT {
         int lifetime = getMaxAge();
         int simSlow = lifetime / 4;
         int simStop = lifetime / 2;
-        int life = this.tickCount;
+        int life = NukeTorex.this.tickCount;
 
         if (life > simStop) {
             return 0D;
@@ -219,7 +223,7 @@ public class NukeTorexParticle extends ParticleNT {
 
         int lifetime = getMaxAge();
         int fadeOut = lifetime * 3 / 4;
-        int life = this.tickCount;
+        int life = NukeTorex.this.tickCount;
 
         if (life > fadeOut) {
             float fac = (float)(life - fadeOut) / (float)(lifetime - fadeOut);
@@ -278,20 +282,20 @@ public class NukeTorexParticle extends ParticleNT {
             this.prevPosZ = this.posZ;
 
             Vec3 simPos = new Vec3(
-                    NukeTorexParticle.this.x - this.posX,
+                    NukeTorex.this.x - this.posX,
                     0,
-                    NukeTorexParticle.this.z - this.posZ
+                    NukeTorex.this.z - this.posZ
             );
 
-            double simPosX = NukeTorexParticle.this.x + simPos.length();
-            double simPosZ = NukeTorexParticle.this.z;
+            double simPosX = NukeTorex.this.x + simPos.length();
+            double simPosZ = NukeTorex.this.z;
 
             if (this.type == TorexType.STANDARD) {
                 Vec3 convection = getConvectionMotion(simPosX, simPosZ);
                 Vec3 lift = getLiftMotion(simPosX);
 
                 double factor = Mth.clamp(
-                        (this.posY - NukeTorexParticle.this.y) / NukeTorexParticle.this.coreHeight,
+                        (this.posY - NukeTorex.this.y) / NukeTorex.this.coreHeight,
                         0.0, 1.0
                 );
 
@@ -300,7 +304,7 @@ public class NukeTorexParticle extends ParticleNT {
                 this.motionZ = convection.z * factor + lift.z * (1.0 - factor);
 
             } else if (this.type == TorexType.SHOCK) {
-                double factor = Mth.clamp((this.posY - NukeTorexParticle.this.y) / NukeTorexParticle.this.coreHeight, 0, 1);
+                double factor = Mth.clamp((this.posY - NukeTorex.this.y) / NukeTorex.this.coreHeight, 0, 1);
 
                 Vec3 motion = new Vec3(1, 0, 0).yRot(this.angle);
 
@@ -331,22 +335,22 @@ public class NukeTorexParticle extends ParticleNT {
         }
 
         private Vec3 getCondensationMotion() {
-            Vec3 delta = new Vec3(posX - NukeTorexParticle.this.x, 0, posZ - NukeTorexParticle.this.z);
-            double speed = 0.00002 * NukeTorexParticle.this.tickCount;
+            Vec3 delta = new Vec3(posX - NukeTorex.this.x, 0, posZ - NukeTorex.this.z);
+            double speed = 0.00002 * NukeTorex.this.tickCount;
 
             return new Vec3(delta.x * speed, 0, delta.z * speed);
         }
 
         private Vec3 getRingMotion(double simPosX, double simPosZ) {
-            if (simPosX > NukeTorexParticle.this.x + torusWidth * 2) {
+            if (simPosX > NukeTorex.this.x + torusWidth * 2) {
                 return new Vec3(0, 0, 0);
             }
 
             /* the position of the torus' outer ring center */
             Vec3 torusPos = new Vec3(
-                    NukeTorexParticle.this.x + torusWidth,
-                    NukeTorexParticle.this.y + coreHeight * 0.5,
-                    NukeTorexParticle.this.z
+                    NukeTorex.this.x + torusWidth,
+                    NukeTorex.this.y + coreHeight * 0.5,
+                    NukeTorex.this.z
             );
 
             /* the difference between the cloudlet and the torus' ring center */
@@ -357,7 +361,7 @@ public class NukeTorexParticle extends ParticleNT {
             );
 
             /* the distance this cloudlet wants to achieve to the torus' ring center */
-            double roller = NukeTorexParticle.this.rollerSize * this.rangeMod * 0.25;
+            double roller = NukeTorex.this.rollerSize * this.rangeMod * 0.25;
             /* the distance between this cloudlet and the torus' outer ring perimeter */
             double dist = delta.length() / roller - 1.0;
 
@@ -390,9 +394,9 @@ public class NukeTorexParticle extends ParticleNT {
 
             /* the position of the torus' outer ring center */
             Vec3 torusPos = new Vec3(
-                    NukeTorexParticle.this.x + torusWidth,
-                    NukeTorexParticle.this.y + coreHeight,
-                    NukeTorexParticle.this.z
+                    NukeTorex.this.x + torusWidth,
+                    NukeTorex.this.y + coreHeight,
+                    NukeTorex.this.z
             );
 
             /* the difference between the cloudlet and the torus' ring center */
@@ -403,7 +407,7 @@ public class NukeTorexParticle extends ParticleNT {
             );
 
             /* the distance this cloudlet wants to achieve to the torus' ring center */
-            double roller = NukeTorexParticle.this.rollerSize * this.rangeMod;
+            double roller = NukeTorex.this.rollerSize * this.rangeMod;
             /* the distance between this cloudlet and the torus' outer ring perimeter */
             double dist = delta.length() / roller - 1D;
 
@@ -429,12 +433,12 @@ public class NukeTorexParticle extends ParticleNT {
         }
 
         private Vec3 getLiftMotion(double simPosX) {
-            double scale = Mth.clamp(1D - (simPosX - (NukeTorexParticle.this.x + torusWidth)), 0, 1);
+            double scale = Mth.clamp(1D - (simPosX - (NukeTorex.this.x + torusWidth)), 0, 1);
 
             Vec3 motion = new Vec3(
-                    NukeTorexParticle.this.x - this.posX,
-                    (NukeTorexParticle.this.y + convectionHeight) - this.posY,
-                    NukeTorexParticle.this.z - this.posZ
+                    NukeTorex.this.x - this.posX,
+                    (NukeTorex.this.y + convectionHeight) - this.posY,
+                    NukeTorex.this.z - this.posZ
             );
 
             motion = motion.normalize();
@@ -447,9 +451,9 @@ public class NukeTorexParticle extends ParticleNT {
         private void updateColor() {
             this.prevColor = this.color;
 
-            double exX = NukeTorexParticle.this.x;
-            double exY = NukeTorexParticle.this.y + NukeTorexParticle.this.coreHeight;
-            double exZ = NukeTorexParticle.this.z;
+            double exX = NukeTorex.this.x;
+            double exY = NukeTorex.this.y + NukeTorex.this.coreHeight;
+            double exZ = NukeTorex.this.z;
 
             double distX = exX - posX;
             double distY = exY - posY;
@@ -457,13 +461,13 @@ public class NukeTorexParticle extends ParticleNT {
 
 
             double distSq = distX * distX + distY * distY + distZ * distZ;
-            distSq /= NukeTorexParticle.this.heat;
+            distSq /= NukeTorex.this.heat;
             double dist = Math.sqrt(distSq);
 
             dist = Math.max(dist, 1);
             double col = 2.0 / dist;
 
-            int type = NukeTorexParticle.this.type;
+            int type = NukeTorex.this.type;
 
             if (type == 1) {
                 this.color = new Vec3(
@@ -492,7 +496,7 @@ public class NukeTorexParticle extends ParticleNT {
         }
 
         public Vec3 getInterpPos(float partialTicks) {
-            float scale = (float) NukeTorexParticle.this.getScale();
+            float scale = (float) NukeTorex.this.getScale();
 
             Vec3 base = new Vec3(
                     prevPosX + (posX - prevPosX) * partialTicks,
@@ -501,9 +505,9 @@ public class NukeTorexParticle extends ParticleNT {
             );
 
             if (this.type != TorexType.SHOCK) {  //no rescale for the shockwave as this messes with the positions
-                double x = (base.x - NukeTorexParticle.this.x) * scale + NukeTorexParticle.this.x;
-                double y = (base.y - NukeTorexParticle.this.y) * scale + NukeTorexParticle.this.y;
-                double z = (base.z - NukeTorexParticle.this.z) * scale + NukeTorexParticle.this.z;
+                double x = (base.x - NukeTorex.this.x) * scale + NukeTorex.this.x;
+                double y = (base.y - NukeTorex.this.y) * scale + NukeTorex.this.y;
+                double z = (base.z - NukeTorex.this.z) * scale + NukeTorex.this.z;
                 base = new Vec3(x, y, z);
             }
 
@@ -515,7 +519,7 @@ public class NukeTorexParticle extends ParticleNT {
                 return new Vec3(1F, 1F, 1F);
             }
 
-            double greying = NukeTorexParticle.this.getGreying();
+            double greying = NukeTorex.this.getGreying();
 
             if (this.type == TorexType.RING) {
                 greying += 1;
@@ -529,7 +533,7 @@ public class NukeTorexParticle extends ParticleNT {
         }
 
         public float getAlpha() {
-            float alpha = (1F - ((float) age / (float) cloudletLife)) * NukeTorexParticle.this.getAlpha();
+            float alpha = (1F - ((float) age / (float) cloudletLife)) * NukeTorex.this.getAlpha();
             if (this.type == TorexType.CONDENSATION) alpha *= 0.25;
             return alpha;
         }
@@ -539,7 +543,7 @@ public class NukeTorexParticle extends ParticleNT {
 
         public float getScale() {
             float base = startingScale + ((float) age / (float) cloudletLife) * growingScale;
-            if (this.type != TorexType.SHOCK) base *= (float) NukeTorexParticle.this.getScale();
+            if (this.type != TorexType.SHOCK) base *= (float) NukeTorex.this.getScale();
             return base;
         }
 
@@ -582,14 +586,11 @@ public class NukeTorexParticle extends ParticleNT {
         poseStack.popPose();
     }
 
-    private static final ResourceLocation CLOUDLET = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/base_particle.png");
-    private static final ResourceLocation FLASH = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/flare.png");
+    private static final ResourceLocation CLOUDLET = HBMsNTM.withDefaultNamespaceNT("textures/particle/base_particle.png");
+    private static final ResourceLocation FLASH = HBMsNTM.withDefaultNamespaceNT("textures/particle/flare.png");
 
     private void cloudletWrapper(float partialTicks, PoseStack poseStack, MultiBufferSource buffer) {
-        VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.entitySmothNoDepth(CLOUDLET));
-
-        ArrayList<Cloudlet> cloudlets = new ArrayList<>(this.cloudlets);
-        cloudlets.sort(cloudSorter);
+        VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.NUKE_TOREX.apply(CLOUDLET));
 
         for (Cloudlet cloudlet : cloudlets) {
             Vec3 vec = cloudlet.getInterpPos(partialTicks);
@@ -602,7 +603,7 @@ public class NukeTorexParticle extends ParticleNT {
     }
 
     private void flashWrapper(float partialTicks, PoseStack poseStack, MultiBufferSource buffer) {
-        VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.entityAdditive(FLASH));
+        VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.ADDITIVE.apply(FLASH));
 
         double age = Math.min(this.tickCount + partialTicks, 100);
         float alpha = (float) ((100D - age) / 100F);
@@ -694,14 +695,6 @@ public class NukeTorexParticle extends ParticleNT {
                 .setLight(240);
     }
 
-    private final Comparator<Cloudlet> cloudSorter = (ca, cb) -> {
-        Player player = Minecraft.getInstance().player;
-        if (player == null) return 0;
-        double dist1 = player.distanceToSqr(ca.posX, ca.posY, ca.posZ);
-        double dist2 = player.distanceToSqr(cb.posX, cb.posY, cb.posZ);
-        return Double.compare(dist2, dist1);
-    };
-
     @Override
     public RenderType getRenderType() {
         return RenderType.cutout();
@@ -714,7 +707,7 @@ public class NukeTorexParticle extends ParticleNT {
         CONDENSATION
     }
 
-    public static void handleSound(NukeTorexParticle particle, int tickCount) {
+    public static void handleSound(NukeTorex particle, int tickCount) {
         Player player = Minecraft.getInstance().player;
         if (player != null) {
             double dist = Math.sqrt(player.distanceToSqr(particle.x, particle.y, particle.z));

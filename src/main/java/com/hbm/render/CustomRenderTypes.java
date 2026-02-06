@@ -5,6 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.Util;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderStateShard.TextureStateShard;
 import net.minecraft.client.renderer.RenderStateShard.TransparencyStateShard;
@@ -52,7 +53,6 @@ public class CustomRenderTypes {
                     .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
                     .createCompositeState(false)
     );
-
     public static final Function<ResourceLocation, RenderType> ADDITIVE = Util.memoize(
             texture -> {
                 RenderType.CompositeState state = RenderType.CompositeState.builder()
@@ -63,7 +63,8 @@ public class CustomRenderTypes {
                         .setLightmapState(RenderType.LIGHTMAP)
                         .setOverlayState(RenderType.NO_OVERLAY)
                         .setWriteMaskState(RenderType.COLOR_WRITE)
-                        .setOutputState(RenderType.CLOUDS_TARGET)
+                        .setOutputState(RenderType.TRANSLUCENT_TARGET)
+                        .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
                         .createCompositeState(false);
                 return RenderType.create("additive", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, state);
             }
@@ -89,7 +90,7 @@ public class CustomRenderTypes {
             texture -> {
                 RenderType.CompositeState state = RenderType.CompositeState.builder()
                         .setShaderState(RenderType.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
-                        .setTextureState(new TextureStateShard(texture, false, true))
+                        .setTextureState(new TextureStateShard(texture, false, false))
                         .setTransparencyState(SEVEN_SEVEN10)
                         .setCullState(RenderType.NO_CULL)
                         .setLightmapState(RenderType.LIGHTMAP)
@@ -114,6 +115,39 @@ public class CustomRenderTypes {
                         .setOutputState(RenderType.CLOUDS_TARGET)
                         .createCompositeState(false);
                 return RenderType.create("smoth2", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, true, true, state);
+            }
+    );
+
+    public static final Function<ResourceLocation, RenderType> NUKE_TOREX = Util.memoize(
+            texture -> {
+                RenderType.CompositeState state = RenderType.CompositeState.builder()
+                        .setShaderState(RenderType.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
+                        .setTextureState(new TextureStateShard(texture, false, false))
+                        .setTransparencyState(SEVEN_SEVEN10)
+                        .setCullState(RenderType.NO_CULL)
+                        .setLightmapState(RenderType.LIGHTMAP)
+                        .setOverlayState(RenderType.NO_OVERLAY)
+                        .setWriteMaskState(RenderType.COLOR_WRITE)
+                        .setOutputState(RenderType.TRANSLUCENT_TARGET)
+                        .createCompositeState(false);
+                return RenderType.create("smoth", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 239120, true, true, state);
+            }
+    );
+
+    public static final Function<ResourceLocation, RenderType> NUKE_FLASH = Util.memoize(
+            texture -> {
+                RenderType.CompositeState state = RenderType.CompositeState.builder()
+                        .setShaderState(RenderType.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
+                        .setTextureState(new TextureStateShard(texture, false, false))
+                        .setTransparencyState(ADDITIVE_BLEND)
+                        .setCullState(RenderType.NO_CULL)
+                        .setLightmapState(RenderType.NO_LIGHTMAP)
+                        .setOverlayState(RenderType.NO_OVERLAY)
+                        .setWriteMaskState(RenderType.COLOR_WRITE)
+                        .setOutputState(RenderType.TRANSLUCENT_TARGET)
+                        .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
+                        .createCompositeState(false);
+                return RenderType.create("additive", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, false, state);
             }
     );
 

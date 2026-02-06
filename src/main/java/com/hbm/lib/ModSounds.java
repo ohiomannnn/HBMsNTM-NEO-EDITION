@@ -15,61 +15,66 @@ import java.util.function.Supplier;
 public class ModSounds {
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, HBMsNTM.MODID);
 
-    public static final DeferredHolder<SoundEvent, SoundEvent> MUKE_EXPLOSION = registerSoundEvent("muke_explosion");
-    public static final DeferredHolder<SoundEvent, SoundEvent> NUCLEAR_EXPLOSION = registerSoundEvent("nuclear_explosion");
-    public static final DeferredHolder<SoundEvent, SoundEvent> EXPLOSION_LARGE_NEAR = registerSoundEvent("weapon.explosion_large_near");
-    public static final DeferredHolder<SoundEvent, SoundEvent> EXPLOSION_LARGE_FAR = registerSoundEvent("weapon.explosion_large_far");
-    public static final DeferredHolder<SoundEvent, SoundEvent> EXPLOSION_SMALL_NEAR = registerSoundEvent("weapon.explosion_small_near");
-    public static final DeferredHolder<SoundEvent, SoundEvent> EXPLOSION_SMALL_FAR = registerSoundEvent("weapon.explosion_small_far");
-    public static final DeferredHolder<SoundEvent, SoundEvent> EXPLOSION_TINY = registerSoundEvent("weapon.explosion_tiny");
+    public static final DeferredHolder<SoundEvent, SoundEvent> MUKE_EXPLOSION = reg("muke_explosion");
+    public static final DeferredHolder<SoundEvent, SoundEvent> NUCLEAR_EXPLOSION = reg("nuclear_explosion");
+    public static final DeferredHolder<SoundEvent, SoundEvent> EXPLOSION_LARGE_NEAR = reg("weapon.explosion_large_near");
+    public static final DeferredHolder<SoundEvent, SoundEvent> EXPLOSION_LARGE_FAR = reg("weapon.explosion_large_far");
+    public static final DeferredHolder<SoundEvent, SoundEvent> EXPLOSION_SMALL_NEAR = reg("weapon.explosion_small_near");
+    public static final DeferredHolder<SoundEvent, SoundEvent> EXPLOSION_SMALL_FAR = reg("weapon.explosion_small_far");
+    public static final DeferredHolder<SoundEvent, SoundEvent> EXPLOSION_TINY = reg("weapon.explosion_tiny");
 
-    public static final DeferredHolder<SoundEvent, SoundEvent> FIRE_DISINTEGRATION = registerSoundEvent("weapon.fire.disintegration");
+    public static final DeferredHolder<SoundEvent, SoundEvent> FIRE_DISINTEGRATION = reg("weapon.fire.disintegration");
 
-    public static final DeferredHolder<SoundEvent, SoundEvent> FSTBMB_START = registerSoundEvent("weapon.fstbmb_start");
+    public static final DeferredHolder<SoundEvent, SoundEvent> FSTBMB_START = reg("weapon.fstbmb_start");
 
-    public static final DeferredHolder<SoundEvent, SoundEvent> DEBRIS = registerSoundEvent("block.debris");
+    public static final DeferredHolder<SoundEvent, SoundEvent> DEBRIS = reg("block.debris");
 
-    public static final DeferredHolder<SoundEvent, SoundEvent> GRENADE_BOUNCE = registerSoundEvent("grenade_bounce");
+    public static final DeferredHolder<SoundEvent, SoundEvent> GRENADE_BOUNCE = reg("grenade_bounce");
 
-    public static final DeferredHolder<SoundEvent, SoundEvent> DUCK = registerSoundEvent("duck");
-    public static final DeferredHolder<SoundEvent, SoundEvent> VOMIT = registerSoundEvent("vomit");
-    public static final DeferredHolder<SoundEvent, SoundEvent> COUGH = registerSoundEvent("player.cough");
+    public static final DeferredHolder<SoundEvent, SoundEvent> DUCK = reg("duck");
+    public static final DeferredHolder<SoundEvent, SoundEvent> VOMIT = reg("vomit");
+    public static final DeferredHolder<SoundEvent, SoundEvent> COUGH = reg("player.cough");
 
-    public static final DeferredHolder<SoundEvent, SoundEvent> FENSU_HUM = registerSoundEvent("block.fensu_hum");
+    public static final DeferredHolder<SoundEvent, SoundEvent> FENSU_HUM = reg("block.fensu_hum");
 
-    public static final DeferredHolder<SoundEvent, SoundEvent> OLD_EXPLOSION = registerSoundEvent("old_explosion");
+    public static final DeferredHolder<SoundEvent, SoundEvent> OLD_EXPLOSION = reg("old_explosion");
 
-    public static final DeferredHolder<SoundEvent, SoundEvent> METEORITE_FALLING_LOOP = registerSoundEvent("meteorite_falling_loop");
+    public static final DeferredHolder<SoundEvent, SoundEvent> METEORITE_FALLING_LOOP = reg("meteorite_falling_loop");
 
-    public static final DeferredHolder<SoundEvent, SoundEvent> TECH_BOOP = registerSoundEvent("tech_boop");
-    public static final DeferredHolder<SoundEvent, SoundEvent> TECH_BLEEP = registerSoundEvent("tech_bleep");
+    public static final DeferredHolder<SoundEvent, SoundEvent> TECH_BOOP = reg("tech_boop");
+    public static final DeferredHolder<SoundEvent, SoundEvent> TECH_BLEEP = reg("tech_bleep");
 
-    public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER1 = registerSoundEvent("item.geiger1");
-    public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER2 = registerSoundEvent("item.geiger2");
-    public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER3 = registerSoundEvent("item.geiger3");
-    public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER4 = registerSoundEvent("item.geiger4");
-    public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER5 = registerSoundEvent("item.geiger5");
-    public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER6 = registerSoundEvent("item.geiger6");
+    public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER1 = reg("item.geiger1");
+    public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER2 = reg("item.geiger2");
+    public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER3 = reg("item.geiger3");
+    public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER4 = reg("item.geiger4");
+    public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER5 = reg("item.geiger5");
+    public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER6 = reg("item.geiger6");
 
-    public static final DeferredHolder<SoundEvent, SoundEvent> LOCK_OPEN = registerSoundEvent("lock_open");
-    public static final DeferredHolder<SoundEvent, SoundEvent> PIN_UNLOCK = registerSoundEvent("pin_unlock");
-    public static final DeferredHolder<SoundEvent, SoundEvent> PIN_BREAK = registerSoundEvent("pin_break");
+    public static final DeferredHolder<SoundEvent, SoundEvent> LOCK_OPEN = reg("lock_open");
+    public static final DeferredHolder<SoundEvent, SoundEvent> PIN_UNLOCK = reg("pin_unlock");
+    public static final DeferredHolder<SoundEvent, SoundEvent> PIN_BREAK = reg("pin_break");
 
-    public static final DeferredHolder<SoundEvent, SoundEvent> CRATE_CLOSE = registerSoundEvent("crate_close");
-    public static final DeferredHolder<SoundEvent, SoundEvent> CRATE_OPEN = registerSoundEvent("crate_open");
+    public static final DeferredHolder<SoundEvent, SoundEvent> CRATE_CLOSE = reg("crate_close");
+    public static final DeferredHolder<SoundEvent, SoundEvent> CRATE_OPEN = reg("crate_open");
 
-    public static final DeferredHolder<SoundEvent, SoundEvent> PLANE_SHOT_DOWN = registerSoundEvent("plane_shot_down");
-    public static final DeferredHolder<SoundEvent, SoundEvent> PLANE_CRASH = registerSoundEvent("plane_crash");
+    public static final DeferredHolder<SoundEvent, SoundEvent> PLANE_SHOT_DOWN = reg("plane_shot_down");
+    public static final DeferredHolder<SoundEvent, SoundEvent> PLANE_CRASH = reg("plane_crash");
 
-    public static final DeferredHolder<SoundEvent, SoundEvent> BOMBER_SMALL_LOOP = registerSoundEvent("bomber_small_loop");
-    public static final DeferredHolder<SoundEvent, SoundEvent> BOMBER_LOOP = registerSoundEvent("bomber_loop");
+    public static final DeferredHolder<SoundEvent, SoundEvent> BOMBER_SMALL_LOOP = reg("bomber_small_loop");
+    public static final DeferredHolder<SoundEvent, SoundEvent> BOMBER_LOOP = reg("bomber_loop");
 
-    public static final DeferredHolder<SoundEvent, SoundEvent> BOMB_WHISTLE = registerSoundEvent("bomb_whistle");
+    public static final DeferredHolder<SoundEvent, SoundEvent> BOMB_WHISTLE = reg("bomb_whistle");
 
+    public static final DeferredHolder<SoundEvent, SoundEvent> HUNDUS = reg("block.hunduns_magnificent_howl");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SQUEAKY_TOY = reg("block.squeaky_toy");
 
-    private static DeferredHolder<SoundEvent, SoundEvent> registerSoundEvent(String name) {
-        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, name);
-        return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(id));
+    public static final DeferredHolder<SoundEvent, SoundEvent> DOOR_WGH_STOP = reg("door.wghStop");
+    public static final DeferredHolder<SoundEvent, SoundEvent> DOOR_WGH_START = reg("door.wghStart");
+    public static final DeferredHolder<SoundEvent, SoundEvent> DOOR_ALARM_6 = reg("door.alarm6");
+
+    private static DeferredHolder<SoundEvent, SoundEvent> reg(String name) {
+        return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(HBMsNTM.withDefaultNamespaceNT(name)));
     }
 
     public static void register(IEventBus eventBus) {

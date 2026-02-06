@@ -59,7 +59,7 @@ public class RenderBatterySocket implements BlockEntityRenderer<BatterySocketBlo
             } else if (render.is(ModItems.BATTERY_CREATIVE)) {
                 poseStack.pushPose();
                 poseStack.scale(0.75F, 0.75F, 0.75F);
-                poseStack.mulPose(Axis.YP.rotationDegrees((be.getLevel().getGameTime() % 360 + partialTicks) * 25F));
+                poseStack.mulPose(Axis.YN.rotationDegrees((be.getLevel().getGameTime() % 360 + partialTicks) * 25F));
 
                 HorsePronter.reset();
                 HorsePronter.enableHorn();

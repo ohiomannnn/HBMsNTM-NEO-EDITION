@@ -7,7 +7,7 @@ import org.joml.Matrix4f;
 import java.util.*;
 
 // not actual gpu vbo, were just caching everything and whats all
-public class WavefrontObjVBO implements IModelCustom {
+public class WavefrontObjVBO implements IModelCustomNamed {
 
     private static class VertexVBO {
         final float x, y, z;
@@ -146,5 +146,15 @@ public class WavefrontObjVBO implements IModelCustom {
                     .setLight(packedLight)
                     .setNormal(pose, cv.nx, cv.ny, cv.nz);
         }
+    }
+
+
+    @Override
+    public List<String> getPartNames() {
+        List<String> names = new ArrayList<>();
+        for(GroupVBO data : groups) {
+            names.add(data.name);
+        }
+        return names;
     }
 }

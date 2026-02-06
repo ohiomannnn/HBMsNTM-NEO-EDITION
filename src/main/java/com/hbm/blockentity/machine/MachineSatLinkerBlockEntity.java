@@ -70,7 +70,6 @@ public class MachineSatLinkerBlockEntity extends BlockEntity implements MenuProv
 
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory playerInv, Player player) {
-        if (player.isSpectator()) return null;
         return new MachineSatLinkerMenu(id, playerInv, this);
     }
 
