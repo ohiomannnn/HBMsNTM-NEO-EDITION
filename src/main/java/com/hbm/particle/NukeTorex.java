@@ -5,6 +5,7 @@ import com.hbm.HBMsNTMClient;
 import com.hbm.lib.ModSounds;
 import com.hbm.particle.engine.ParticleNT;
 import com.hbm.render.CustomRenderTypes;
+import com.hbm.util.Vec3NT;
 import com.hbm.util.old.TessColorUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -26,7 +27,6 @@ import org.joml.Vector3f;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -35,8 +35,6 @@ import java.util.Random;
  * Tor                             Ex
  */
 public class NukeTorex extends ParticleNT {
-
-    private int tickCount;
 
     // balefire or not
     protected int type = 0;
@@ -59,16 +57,19 @@ public class NukeTorex extends ParticleNT {
 
     @Override
     public void tick() {
+        this.age++;
 
         double s = 1.5;
         double cs = 1.5;
         int maxAge = this.getMaxAge();
 
+        if (age == 1) this.setScale((float) s, false);
+
         if (lastSpawnY == -1) {
             lastSpawnY = this.y - 3;
         }
 
-        if (tickCount < 100) this.level.setSkyFlashTime(5);
+        if (age < 100) this.level.setSkyFlashTime(5);
 
         int spawnTarget = level.getHeight(Heightmap.Types.WORLD_SURFACE, (int) x, (int) z) - 3;
         double moveSpeed = 0.5D;
@@ -83,69 +84,77 @@ public class NukeTorex extends ParticleNT {
         double range = (torusWidth - rollerSize) * 0.25;
         double simSpeed = getSimulationSpeed();
         int toSpawn = (int) Math.ceil(10 * simSpeed * simSpeed);
-        int lifetime = Math.min((tickCount * tickCount) + 200, maxAge - tickCount + 200);
+        int lifetime = Math.min((age * age) + 200, maxAge - age + 200);
 
         for (int i = 0; i < toSpawn; i++) {
             double x = this.x + random.nextGaussian() * range;
             double z = this.z + random.nextGaussian() * range;
             Cloudlet cloud = new Cloudlet(x, lastSpawnY, z, (float)(random.nextDouble() * 2D * Math.PI), 0, lifetime);
-            cloud.setScale(1F + this.tickCount * 0.005F * (float) cs, 5F * (float) cs);
+            cloud.setScale(1F + this.age * 0.005F * (float) cs, 5F * (float) cs);
             cloudlets.add(cloud);
         }
 
         // spawn shock clouds
-        if (tickCount < 200) {
-            int cloudCount = tickCount * 5;
-            int shockLife = Math.max(300 - tickCount * 20, 50);
+        if (age < 200) {
+            int cloudCount = age * 5;
+            int shockLife = Math.max(300 - age * 20, 50);
 
             for (int i = 0; i < cloudCount; i++) {
+                Vec3NT vec = new Vec3NT((age * 1.5 + random.nextDouble()) * 1.5, 0, 0);
                 float rot = (float) (Math.PI * 2 * random.nextDouble());
-                Vec3 vec = new Vec3((tickCount * 1.5 + random.nextDouble()) * 1.5, 0, 0)
-                        .yRot(rot);
-                this.cloudlets.add(new Cloudlet(vec.x + this.x, level.getHeight(Heightmap.Types.WORLD_SURFACE, (int) (vec.x + this.x), (int) (vec.z + this.z)), vec.z + this.z, rot, 0, shockLife, TorexType.SHOCK)
+                vec.rotateAroundYRad(rot);
+                this.cloudlets.add(new Cloudlet(vec.xCoord + this.x, level.getHeight(Heightmap.Types.WORLD_SURFACE, (int) (vec.xCoord + this.x), (int) (vec.zCoord + this.z)), vec.zCoord + this.z, rot, 0, shockLife, TorexType.SHOCK)
                         .setScale(7F, 2F)
-                        .setMotion(tickCount > 15 ? 0.75 : 0));
+                        .setMotion(age > 15 ? 0.75 : 0));
             }
 
             if (!didPlaySound) {
-                handleSound(this, tickCount);
+                Player player = Minecraft.getInstance().player;
+                if (player != null) {
+                    double dist = Math.sqrt(player.distanceToSqr(x, y, z));
+                    double radius = (age * 1.5 + 1) * 1.5;
+                    if (dist < radius) {
+                        level.playLocalSound(x, y, z, ModSounds.NUCLEAR_EXPLOSION.get(), SoundSource.AMBIENT, 10_000F, 1F, false);
+                        didPlaySound = true;
+                    }
+                }
             }
         }
 
         // spawn ring clouds
-        if (tickCount < 130 * s) {
+        if (age < 130 * s) {
             lifetime *= s;
             for (int i = 0; i < 2; i++) {
-                Cloudlet cloud = new Cloudlet(this.x, this.y + coreHeight, this.z, (float)(random.nextDouble() * 2D * Math.PI), 0, lifetime, TorexType.RING);
-                cloud.setScale(1F + this.tickCount * 0.0025F * (float) (cs * cs), 3F * (float) (cs * cs));
+                Cloudlet cloud = new Cloudlet(x, y + coreHeight, z, (float)(random.nextDouble() * 2D * Math.PI), 0, lifetime, TorexType.RING);
+                cloud.setScale(1F + this.age * 0.0025F * (float) (cs * cs), 3F * (float) (cs * cs));
                 cloudlets.add(cloud);
             }
         }
 
         // spawn condensation clouds
-        if (tickCount > 130 * s && tickCount < 600 * s) {
+        if (age > 130 * s && age < 600 * s) {
 
             for (int i = 0; i < 20; i++) {
                 for (int j = 0; j < 4; j++) {
                     float angle = (float) (Math.PI * 2 * random.nextDouble());
-                    Vec3 vec = new Vec3(torusWidth + rollerSize * (5 + random.nextDouble()), 0, 0)
-                            .zRot((float) (Math.PI / 45 * j))
-                            .yRot(angle);
-                    Cloudlet cloud = new Cloudlet(this.x + vec.x, this.y + coreHeight - 5 + j * s, this.z + vec.z, angle, 0, (int) ((20 + tickCount / 10) * (1 + random.nextDouble() * 0.1)), TorexType.CONDENSATION);
+                    Vec3NT vec = new Vec3NT(torusWidth + rollerSize * (5 + random.nextDouble()), 0, 0);
+                    vec.rotateAroundZRad((float) (Math.PI / 45 * j));
+                    vec.rotateAroundYRad(angle);
+                    Cloudlet cloud = new Cloudlet(x + vec.xCoord, y + coreHeight - 5 + j * s, z + vec.zCoord, angle, 0, (int) ((20 + age / 10) * (1 + random.nextDouble() * 0.1)), TorexType.CONDENSATION);
                     cloud.setScale(0.125F * (float) (cs), 3F * (float) (cs));
                     cloudlets.add(cloud);
                 }
             }
         }
+        if (age > 200 * s && age < 600 * s) {
 
-        if (tickCount > 200 * s && tickCount < 600 * s) {
             for (int i = 0; i < 20; i++) {
                 for (int j = 0; j < 4; j++) {
                     float angle = (float) (Math.PI * 2 * random.nextDouble());
-                    Vec3 vec = new Vec3(torusWidth + rollerSize * (3 + random.nextDouble() * 0.5), 0, 0)
-                            .zRot((float) (Math.PI / 45 * j))
-                            .yRot(angle);
-                    Cloudlet cloud = new Cloudlet(this.x + vec.x, this.y + coreHeight + 25 + j * cs, this.z + vec.z, angle, 0, (int) ((20 + tickCount / 10) * (1 + random.nextDouble() * 0.1)), TorexType.CONDENSATION);
+                    Vec3NT vec = new Vec3NT(torusWidth + rollerSize * (3 + random.nextDouble() * 0.5), 0, 0);
+                    vec.rotateAroundZRad((float) (Math.PI / 45 * j));
+                    vec.rotateAroundYRad(angle);
+                    Cloudlet cloud = new Cloudlet(x + vec.xCoord, y + coreHeight + 25 + j * cs, z + vec.zCoord, angle, 0, (int) ((20 + age / 10) * (1 + random.nextDouble() * 0.1)), TorexType.CONDENSATION);
                     cloud.setScale(0.125F * (float) (cs), 3F * (float) (cs));
                     cloudlets.add(cloud);
                 }
@@ -162,18 +171,15 @@ public class NukeTorex extends ParticleNT {
         convectionHeight = coreHeight + rollerSize;
 
         int maxHeat = (int) (50 * cs);
-        heat = maxHeat - Math.pow((double) (maxHeat * this.tickCount) / maxAge, 1);
+        heat = maxHeat - Math.pow((maxHeat * this.age) / maxAge, 1);
 
         cloudlets.removeIf(x -> x.isDead);
 
-        if (this.tickCount > maxAge) this.remove();
-
-
-        this.tickCount++;
+        if (this.age > maxAge) this.remove();
     }
 
-    public NukeTorex setScale(float scale) {
-        this.scale = scale;
+    public NukeTorex setScale(float scale, boolean changeScale) {
+        if (changeScale) this.scale = scale;
         this.coreHeight = this.coreHeight / 1.5D * scale;
         this.convectionHeight = this.convectionHeight / 1.5D * scale;
         this.torusWidth = this.torusWidth / 1.5D * scale;
@@ -191,7 +197,7 @@ public class NukeTorex extends ParticleNT {
         int lifetime = getMaxAge();
         int simSlow = lifetime / 4;
         int simStop = lifetime / 2;
-        int life = NukeTorex.this.tickCount;
+        int life = NukeTorex.this.age;
 
         if (life > simStop) {
             return 0D;
@@ -212,8 +218,8 @@ public class NukeTorex extends ParticleNT {
         int lifetime = getMaxAge();
         int greying = lifetime * 3 / 4;
 
-        if (this.tickCount > greying) {
-            return 1 + ((double) (this.tickCount - greying) / (double) (lifetime - greying));
+        if (this.age > greying) {
+            return 1 + ((double) (this.age - greying) / (double) (lifetime - greying));
         }
 
         return 1D;
@@ -223,7 +229,7 @@ public class NukeTorex extends ParticleNT {
 
         int lifetime = getMaxAge();
         int fadeOut = lifetime * 3 / 4;
-        int life = NukeTorex.this.tickCount;
+        int life = NukeTorex.this.age;
 
         if (life > fadeOut) {
             float fac = (float)(life - fadeOut) / (float)(lifetime - fadeOut);
@@ -336,7 +342,7 @@ public class NukeTorex extends ParticleNT {
 
         private Vec3 getCondensationMotion() {
             Vec3 delta = new Vec3(posX - NukeTorex.this.x, 0, posZ - NukeTorex.this.z);
-            double speed = 0.00002 * NukeTorex.this.tickCount;
+            double speed = 0.00002 * NukeTorex.this.age;
 
             return new Vec3(delta.x * speed, 0, delta.z * speed);
         }
@@ -561,6 +567,12 @@ public class NukeTorex extends ParticleNT {
         }
     }
 
+    public enum TorexType {
+        STANDARD,
+        SHOCK,
+        RING,
+        CONDENSATION
+    }
 
     @Override
     public void render(VertexConsumer ignored, Camera camera, float partialTicks) {
@@ -570,9 +582,9 @@ public class NukeTorex extends ParticleNT {
         poseStack.translate(this.x - camPos.x, this.y - camPos.y, this.z - camPos.z);
         FogRenderer.setupNoFog();
         MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+        if (this.age < 101) flashWrapper(partialTicks, poseStack, buffer);
         cloudletWrapper(partialTicks, poseStack, buffer);
-        if (this.tickCount < 101) flashWrapper(partialTicks, poseStack, buffer);
-        if (this.tickCount < 10 && System.currentTimeMillis() - HBMsNTMClient.flashTimestamp > 1_000) HBMsNTMClient.flashTimestamp = System.currentTimeMillis();
+        if (this.age < 10 && System.currentTimeMillis() - HBMsNTMClient.flashTimestamp > 1_000) HBMsNTMClient.flashTimestamp = System.currentTimeMillis();
         if (this.didPlaySound && !this.didShake && System.currentTimeMillis() - HBMsNTMClient.shakeTimestamp > 1_000) {
             HBMsNTMClient.shakeTimestamp = System.currentTimeMillis();
             this.didShake = true;
@@ -590,7 +602,7 @@ public class NukeTorex extends ParticleNT {
     private static final ResourceLocation FLASH = HBMsNTM.withDefaultNamespaceNT("textures/particle/flare.png");
 
     private void cloudletWrapper(float partialTicks, PoseStack poseStack, MultiBufferSource buffer) {
-        VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.NUKE_TOREX.apply(CLOUDLET));
+        VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.NUKE_CLOUDS.apply(CLOUDLET));
 
         for (Cloudlet cloudlet : cloudlets) {
             Vec3 vec = cloudlet.getInterpPos(partialTicks);
@@ -603,9 +615,9 @@ public class NukeTorex extends ParticleNT {
     }
 
     private void flashWrapper(float partialTicks, PoseStack poseStack, MultiBufferSource buffer) {
-        VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.ADDITIVE.apply(FLASH));
+        VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.NUKE_FLASH.apply(FLASH));
 
-        double age = Math.min(this.tickCount + partialTicks, 100);
+        double age = Math.min(this.age + partialTicks, 100);
         float alpha = (float) ((100D - age) / 100F);
 
         Random rand = new Random(this.hashCode());
@@ -699,24 +711,4 @@ public class NukeTorex extends ParticleNT {
     public RenderType getRenderType() {
         return RenderType.cutout();
     }
-
-    public enum TorexType {
-        STANDARD,
-        SHOCK,
-        RING,
-        CONDENSATION
-    }
-
-    public static void handleSound(NukeTorex particle, int tickCount) {
-        Player player = Minecraft.getInstance().player;
-        if (player != null) {
-            double dist = Math.sqrt(player.distanceToSqr(particle.x, particle.y, particle.z));
-            double radius = (tickCount * 1.5 + 1) * 1.5;
-            if (dist < radius) {
-                particle.level.playLocalSound(particle.z, particle.y, particle.z, ModSounds.NUCLEAR_EXPLOSION.get(), SoundSource.AMBIENT, 10_000F, 1F, false);
-                particle.didPlaySound = true;
-            }
-        }
-    }
-
 }

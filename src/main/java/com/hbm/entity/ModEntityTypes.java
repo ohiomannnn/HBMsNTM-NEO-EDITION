@@ -2,6 +2,7 @@ package com.hbm.entity;
 
 import com.hbm.HBMsNTM;
 import com.hbm.entity.effect.*;
+import com.hbm.entity.item.FallingBlockEntityNT;
 import com.hbm.entity.item.TNTPrimedBase;
 import com.hbm.entity.logic.Bomber;
 import com.hbm.entity.logic.DeathBlast;
@@ -44,6 +45,12 @@ public class ModEntityTypes {
                     .sized(4F, 20F)
                     .fireImmune()
                     .build("nuke_fallout_rain"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<FallingBlockEntityNT>> FALLING_BLOCK = REGISTER.register(
+            "falling_block",
+            () -> EntityType.Builder.of(FallingBlockEntityNT::new, MobCategory.MISC)
+                    .sized(0.98F, 0.98F).clientTrackingRange(10).updateInterval(20)
+                    .build("falling_block"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<Duck>> DUCK =
             REGISTER.register("duck",

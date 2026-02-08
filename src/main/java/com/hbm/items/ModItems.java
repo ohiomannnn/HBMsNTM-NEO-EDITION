@@ -1,6 +1,7 @@
 package com.hbm.items;
 
 import com.hbm.HBMsNTM;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.ability.IToolAreaAbility;
 import com.hbm.handler.ability.IToolHarvestAbility;
 import com.hbm.handler.ability.IWeaponAbility;
@@ -14,6 +15,7 @@ import com.hbm.items.machine.BatteryPackItem.BatteryPackType;
 import com.hbm.items.special.DangerousDropItem;
 import com.hbm.items.special.EntitySpawnerItem;
 import com.hbm.items.special.PolaroidItem;
+import com.hbm.items.special.UsedInItem;
 import com.hbm.items.tools.*;
 import com.hbm.items.tools.BombCallerItem.BomberType;
 import net.minecraft.core.component.DataComponents;
@@ -29,6 +31,9 @@ import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static net.minecraft.world.item.Item.BASE_ATTACK_DAMAGE_ID;
 import static net.minecraft.world.item.Item.BASE_ATTACK_SPEED_ID;
@@ -256,6 +261,8 @@ public class ModItems {
     public static final DeferredItem<Item> IVY_MIKE_COOLING_UNIT = ITEMS.register("ivy_mike_cooling_unit", () -> new Item(new Item.Properties().stacksTo(1)));
 
     public static final DeferredItem<Item> TSAR_BOMBA_CORE = ITEMS.register("tsar_bomba_core", () -> new Item(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> N2_CHARGE = ITEMS.register("n2_charge", () -> new UsedInItem(new Item.Properties().stacksTo(1), List.of(ModBlocks.NUKE_N2.get())));
 
     public static void register(IEventBus eventBus) { ITEMS.register(eventBus); }
 }

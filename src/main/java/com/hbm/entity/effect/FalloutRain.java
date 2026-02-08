@@ -4,6 +4,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.FalloutBlock;
 import com.hbm.config.FalloutConfigJSON;
 import com.hbm.config.MainConfig;
+import com.hbm.entity.item.FallingBlockEntityNT;
 import com.hbm.entity.logic.ChunkloadingEntity;
 import com.hbm.world.WorldUtil;
 import com.hbm.world.biome.ModBiomes;
@@ -18,6 +19,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
@@ -224,21 +226,21 @@ public class FalloutRain extends ChunkloadingEntity {
                 }
             }
 
-//            float hardness = state.getDestroySpeed(level, pos);
-//            if (y > -64 && dist < 65 && hardness <= Blocks.STONE_BRICKS.getExplosionResistance(state, level, pos, null) && hardness >= 0) {
-//
-//                if (level.getBlockState(pos.below()).isAir()) {
-//                    for (int i = 0; i <= depth; i++) {
-//                        BlockPos fallingPos = pos.offset(0, i, 0);
-//                        BlockState fallingState = level.getBlockState(fallingPos);
-//                        float h = fallingState.getDestroySpeed(level, fallingPos);
-//                        if (h <= Blocks.STONE_BRICKS.getExplosionResistance(state, level, pos, null) && h >= 0) {
-//                            FallingBlockEntity fallingBlockEntity = FallingBlockEntity.fall(level, pos, fallingState);
-//                            fallingBlockEntity.dropItem = false;
-//                        }
-//                    }
-//                }
-//            }
+            float hardness = state.getDestroySpeed(level, pos);
+            if (y > level.getMinBuildHeight() && dist < 65 && hardness <= Blocks.STONE_BRICKS.getExplosionResistance(state, level, pos, null) && hardness >= 0) {
+
+                if (level.getBlockState(pos.below()).isAir()) {
+                    for (int i = 0; i <= depth; i++) {
+                        BlockPos fallingPos = pos.offset(0, i, 0);
+                        BlockState fallingState = level.getBlockState(fallingPos);
+                        float h = fallingState.getDestroySpeed(level, fallingPos);
+                        if (h <= Blocks.STONE_BRICKS.getExplosionResistance(state, level, pos, null) && h >= 0) {
+                            FallingBlockEntityNT fallingBlockEntity = FallingBlockEntityNT.fall(level, pos, fallingState);
+                            fallingBlockEntity.dropItem = false;
+                        }
+                    }
+                }
+            }
 
             if (!eval && state.isSolidRender(level, pos)) {
                 depth++;

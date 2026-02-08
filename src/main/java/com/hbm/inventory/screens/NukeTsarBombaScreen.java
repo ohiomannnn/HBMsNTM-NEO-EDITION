@@ -40,7 +40,7 @@ public class NukeTsarBombaScreen extends InfoScreen<NukeTsarBombaMenu> {
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float v, int i, int partialTicks) {
+    protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
         guiGraphics.blit(TEXTURE, this.leftPos, this.topPos, 0, 0, imageWidth, imageHeight);
 
         if (be.isFilled()) {

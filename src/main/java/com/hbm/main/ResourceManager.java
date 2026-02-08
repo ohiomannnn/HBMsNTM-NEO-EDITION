@@ -6,25 +6,26 @@ import com.hbm.render.loader.IModelCustom;
 import net.minecraft.resources.ResourceLocation;
 
 public class ResourceManager {
-    public static final ResourceLocation MINE_AP_STONE_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/bomb/mine_ap.png");
-    public static final ResourceLocation MINE_AP_SNOW_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/bomb/mine_ap_snow.png");
-    public static final ResourceLocation MINE_AP_GRASS_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/bomb/mine_ap_grass.png");
-    public static final ResourceLocation MINE_AP_DESERT_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/bomb/mine_ap_desert.png");
-    public static final ResourceLocation MINE_HE_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/bomb/mine_he.png");
-    public static final ResourceLocation MINE_SHRAPNEL_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/bomb/mine_shrap.png");
-    public static final ResourceLocation MINE_NAVAL_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/bomb/mine_naval.png");
-    public static final ResourceLocation MINE_FAT_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/bomb/mine_fat.png");
+    public static final ResourceLocation MINE_AP_STONE_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/mine_ap.png");
+    public static final ResourceLocation MINE_AP_SNOW_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/mine_ap_snow.png");
+    public static final ResourceLocation MINE_AP_GRASS_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/mine_ap_grass.png");
+    public static final ResourceLocation MINE_AP_DESERT_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/mine_ap_desert.png");
+    public static final ResourceLocation MINE_HE_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/mine_he.png");
+    public static final ResourceLocation MINE_SHRAPNEL_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/mine_shrap.png");
+    public static final ResourceLocation MINE_NAVAL_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/mine_naval.png");
+    public static final ResourceLocation MINE_FAT_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/mine_fat.png");
 
-    public static final ResourceLocation NUKE_GADGET_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/bomb/nuke_gadget.png");
-    public static final ResourceLocation NUKE_LITTLE_BOY_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/bomb/nuke_little_boy.png");
-    public static final ResourceLocation NUKE_FAT_MAN_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/bomb/nuke_fatman.png");
-    public static final ResourceLocation NUKE_IVY_MIKE = HBMsNTM.withDefaultNamespaceNT("textures/block/bomb/nuke_ivy_mike.png");
-    public static final ResourceLocation NUKE_TSAR_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/bomb/nuke_tsar.png");
+    public static final ResourceLocation NUKE_GADGET_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/nuke_gadget.png");
+    public static final ResourceLocation NUKE_LITTLE_BOY_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/nuke_little_boy.png");
+    public static final ResourceLocation NUKE_FAT_MAN_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/nuke_fatman.png");
+    public static final ResourceLocation NUKE_IVY_MIKE = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/nuke_ivy_mike.png");
+    public static final ResourceLocation NUKE_TSAR_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/nuke_tsar.png");
+    public static final ResourceLocation NUKE_N2_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/nuke_n2.png");
 
-    public static final ResourceLocation DUD_BALEFIRE_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/bomb/dud_balefire.png");
-    public static final ResourceLocation DUD_CONVENTIONAL_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/bomb/dud_conventional.png");
-    public static final ResourceLocation DUD_NUKE_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/bomb/dud_nuke.png");
-    public static final ResourceLocation DUD_SALTED_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/bomb/dud_salted.png");
+    public static final ResourceLocation DUD_BALEFIRE_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/dud_balefire.png");
+    public static final ResourceLocation DUD_CONVENTIONAL_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/dud_conventional.png");
+    public static final ResourceLocation DUD_NUKE_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/dud_nuke.png");
+    public static final ResourceLocation DUD_SALTED_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/dud_salted.png");
 
     public static final ResourceLocation NO9 = HBMsNTM.withDefaultNamespaceNT("textures/armor/no9.png");
     public static final ResourceLocation NO9_INSIGNIA = HBMsNTM.withDefaultNamespaceNT("textures/armor/no9_insignia.png");
@@ -84,6 +85,7 @@ public class ResourceManager {
     public static IModelCustom nuke_fat_man;
     public static IModelCustom nuke_ivy_mike;
     public static IModelCustom nuke_tsar;
+    public static IModelCustom nuke_n2;
 
     public static IModelCustom dud_balefire;
     public static IModelCustom dud_conventional;
@@ -124,6 +126,7 @@ public class ResourceManager {
         nuke_fat_man = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/nuke_fatman.obj")).asVBO();
         nuke_ivy_mike = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/nuke_ivy_mike.obj")).asVBO();
         nuke_tsar = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/nuke_tsar.obj")).asVBO();
+        nuke_n2 = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/nuke_n2.obj")).asVBO();
 
         dud_balefire = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/dud_balefire.obj")).asVBO();
         dud_conventional = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/dud_conventional.obj")).asVBO();

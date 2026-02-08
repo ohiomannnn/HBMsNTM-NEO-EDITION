@@ -1,10 +1,13 @@
 ## Added
 * Plushies!
+* N² mine
+* Laser detonator
 
 ## Changed
-* Nuke torex changes:
+* Nuke big mushroom cloud changes:
   * Now its particle, not entity
   * This means mushroom cloud can be rendered even outside of render distance
   * Shockwave is now a little longer
+* Nukes now create falling blocks
 
 ## Fixed

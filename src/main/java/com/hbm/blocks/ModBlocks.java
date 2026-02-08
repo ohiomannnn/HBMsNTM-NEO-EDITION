@@ -318,11 +318,12 @@ public class ModBlocks {
     public static final DeferredBlock<Block> PLUSHIE_HUNDUN = registerBlock("plushie_hundun", () -> new PlushieBlock(BlockBehaviour.Properties.of().sound(SoundType.WOOL).strength(0.0F).explosionResistance(0.0F).noOcclusion(), PlushieType.HUNDUN));
     public static final DeferredBlock<Block> PLUSHIE_DERG = registerBlock("plushie_derg", () -> new PlushieBlock(BlockBehaviour.Properties.of().sound(SoundType.WOOL).strength(0.0F).explosionResistance(0.0F).noOcclusion(), PlushieType.DERG));
 
-    public static final DeferredBlock<NukeGadgetBlock> NUKE_GADGET = registerBlock("nuke_gadget", () -> new NukeGadgetBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
-    public static final DeferredBlock<NukeLittleBoyBlock> NUKE_LITTLE_BOY = registerBlock("nuke_little_boy", () -> new NukeLittleBoyBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
-    public static final DeferredBlock<NukeFatManBlock> NUKE_FAT_MAN = registerBlock("nuke_fat_man", () -> new NukeFatManBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
-    public static final DeferredBlock<NukeIvyMikeBlock> NUKE_IVY_MIKE = registerBlock("nuke_ivy_mike", () -> new NukeIvyMikeBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
-    public static final DeferredBlock<NukeTsarBombaBlock> NUKE_TSAR_BOMBA = registerBlock("nuke_tsar_bomba", () -> new NukeTsarBombaBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> NUKE_GADGET = registerBlock("nuke_gadget", () -> new NukeGadgetBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> NUKE_LITTLE_BOY = registerBlock("nuke_little_boy", () -> new NukeLittleBoyBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> NUKE_FAT_MAN = registerBlock("nuke_fat_man", () -> new NukeFatManBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> NUKE_IVY_MIKE = registerBlock("nuke_ivy_mike", () -> new NukeIvyMikeBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> NUKE_TSAR_BOMBA = registerBlock("nuke_tsar_bomba", () -> new NukeTsarBombaBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> NUKE_N2 = registerBlock("nuke_n2", () -> new NukeN2Block(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
 
     public static final DeferredBlock<Block> GEIGER = registerBlock(
             "geiger",

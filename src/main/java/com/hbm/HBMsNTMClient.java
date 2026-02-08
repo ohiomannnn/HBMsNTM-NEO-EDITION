@@ -28,6 +28,7 @@ import com.hbm.particle.vanilla.PlayerCloudParticle;
 import com.hbm.render.blockentity.*;
 import com.hbm.render.entity.EmptyEntityRenderer;
 import com.hbm.render.entity.effect.*;
+import com.hbm.render.entity.item.RenderFallingBlockEntityNT;
 import com.hbm.render.entity.item.RenderTNTPrimedBase;
 import com.hbm.render.entity.mob.CreeperNuclearRenderer;
 import com.hbm.render.entity.mob.DuckRenderer;
@@ -75,6 +76,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
@@ -478,11 +480,20 @@ public class HBMsNTMClient {
         ItemStack mainHand = event.getEntity().getMainHandItem();
         ItemStack offHand = event.getEntity().getOffhandItem();
 
-        if (mainHand.getItem() instanceof IHoldableWeapon) {
-            model.rightArmPose = HumanoidModel.ArmPose.BOW_AND_ARROW;
-        }
-        if (offHand.getItem() instanceof IHoldableWeapon ihw && ihw.shouldChangeOffhand()) {
-            model.leftArmPose = HumanoidModel.ArmPose.BOW_AND_ARROW;
+        if (event.getEntity() instanceof Player player && player.getMainArm() == HumanoidArm.LEFT) {
+            if (mainHand.getItem() instanceof IHoldableWeapon) {
+                model.leftArmPose = HumanoidModel.ArmPose.BOW_AND_ARROW;
+            }
+            if (offHand.getItem() instanceof IHoldableWeapon ihw && ihw.shouldChangeOffhand()) {
+                model.rightArmPose = HumanoidModel.ArmPose.BOW_AND_ARROW;
+            }
+        } else {
+            if (mainHand.getItem() instanceof IHoldableWeapon) {
+                model.rightArmPose = HumanoidModel.ArmPose.BOW_AND_ARROW;
+            }
+            if (offHand.getItem() instanceof IHoldableWeapon ihw && ihw.shouldChangeOffhand()) {
+                model.leftArmPose = HumanoidModel.ArmPose.BOW_AND_ARROW;
+            }
         }
     }
 
@@ -517,6 +528,8 @@ public class HBMsNTMClient {
 
         event.registerEntityRenderer(ModEntityTypes.METEOR.get(), RenderMeteor::new);
 
+        event.registerEntityRenderer(ModEntityTypes.FALLING_BLOCK.get(), RenderFallingBlockEntityNT::new);
+
         event.registerEntityRenderer(ModEntityTypes.DEATH_BLAST.get(), RenderDeathBlast::new);
 
         event.registerEntityRenderer(ModEntityTypes.BOMBER.get(), RenderBomber::new);
@@ -529,6 +542,7 @@ public class HBMsNTMClient {
         event.registerBlockEntityRenderer(ModBlockEntities.NUKE_FAT_MAN.get(), RenderNukeFatMan::new);
         event.registerBlockEntityRenderer(ModBlockEntities.NUKE_IVY_MIKE.get(), RenderNukeIvyMike::new);
         event.registerBlockEntityRenderer(ModBlockEntities.NUKE_TSAR_BOMBA.get(), RenderNukeTsarBomba::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.NUKE_N2.get(), RenderNukeN2::new);
 
         event.registerBlockEntityRenderer(ModBlockEntities.LANDMINE.get(), RenderLandMine::new);
 
@@ -571,6 +585,7 @@ public class HBMsNTMClient {
         registerItemRenderer(event, RenderNukeFatManItem::new, ModBlocks.NUKE_FAT_MAN.asItem());
         registerItemRenderer(event, RenderNukeIvyMikeItem::new, ModBlocks.NUKE_IVY_MIKE.asItem());
         registerItemRenderer(event, RenderNukeTsarBombaItem::new, ModBlocks.NUKE_TSAR_BOMBA.asItem());
+        registerItemRenderer(event, RenderNukeN2Item::new, ModBlocks.NUKE_N2.asItem());
 
         registerItemRenderer(event, RenderPlushieItem::new,
                 ModBlocks.PLUSHIE_YOMI.asItem(),
@@ -710,8 +725,6 @@ public class HBMsNTMClient {
             double x = data.getDouble("posX");
             double y = data.getDouble("posY");
             double z = data.getDouble("posZ");
-
-            HBMsNTM.LOGGER.info("type = {}", data);
 
             RandomSource rand = RandomSource.create();
 

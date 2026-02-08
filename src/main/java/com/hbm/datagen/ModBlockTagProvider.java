@@ -2,7 +2,6 @@ package com.hbm.datagen;
 
 import com.hbm.HBMsNTM;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.inventory.ModTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
@@ -12,16 +11,37 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.concurrent.CompletableFuture;
 
+// common bullshit
+import static net.neoforged.neoforge.common.Tags.Blocks.*;
+import static com.hbm.inventory.ModTags.Blocks.*;
+
 public class ModBlockTagProvider extends BlockTagsProvider {
     public ModBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
         super(output, lookupProvider, HBMsNTM.MODID, existingFileHelper);
     }
 
     @Override
+    @SuppressWarnings("unchecked") // no
     protected void addTags(HolderLookup.Provider provider) {
 
+        this.tag(PLANTS)
+                .addTags(
+                        BlockTags.FLOWERS,
+                        BlockTags.SAPLINGS,
+                        BlockTags.CROPS,
+                        PUMPKINS
+                )
+                .add(
+                        Blocks.SHORT_GRASS,
+                        Blocks.FERN,
+                        Blocks.DEAD_BUSH,
+                        Blocks.VINE,
+                        Blocks.TALL_GRASS,
+                        Blocks.LARGE_FERN
+                );
+
         // im probably dumb but i dont know any tags like this
-        tag(ModTags.Blocks.ACTUALLY_STONE)
+        tag(ACTUALLY_STONE)
                 .add(Blocks.COAL_ORE)
                 .add(Blocks.IRON_ORE)
                 .add(Blocks.COPPER_ORE)
@@ -51,7 +71,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
                 .add(Blocks.STONE);
 
-        tag(ModTags.Blocks.GROUND)
+        tag(GROUND)
                 .add(Blocks.GRASS_BLOCK)
                 .add(Blocks.MUD)
                 .add(Blocks.MUDDY_MANGROVE_ROOTS)
@@ -62,7 +82,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(Blocks.SAND)
                 .add(Blocks.DIRT);
 
-        tag(ModTags.Blocks.LEAVES)
+        tag(LEAVES)
                 .add(Blocks.ACACIA_LEAVES)
                 .add(Blocks.AZALEA_LEAVES)
                 .add(Blocks.BIRCH_LEAVES)
@@ -121,6 +141,5 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.BRICK_CONCRETE_MOSSY_SLAB.get())
                 .add(ModBlocks.BRICK_CONCRETE_CRACKED_SLAB.get())
                 .add(ModBlocks.BRICK_CONCRETE_BROKEN_SLAB.get());
-
     }
 }

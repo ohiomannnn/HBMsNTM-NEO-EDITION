@@ -5,7 +5,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.Util;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderStateShard.TextureStateShard;
 import net.minecraft.client.renderer.RenderStateShard.TransparencyStateShard;
@@ -118,7 +117,7 @@ public class CustomRenderTypes {
             }
     );
 
-    public static final Function<ResourceLocation, RenderType> NUKE_TOREX = Util.memoize(
+    public static final Function<ResourceLocation, RenderType> NUKE_CLOUDS = Util.memoize(
             texture -> {
                 RenderType.CompositeState state = RenderType.CompositeState.builder()
                         .setShaderState(RenderType.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
@@ -130,7 +129,7 @@ public class CustomRenderTypes {
                         .setWriteMaskState(RenderType.COLOR_WRITE)
                         .setOutputState(RenderType.TRANSLUCENT_TARGET)
                         .createCompositeState(false);
-                return RenderType.create("smoth", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 239120, true, true, state);
+                return RenderType.create("nuke", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 239120, true, true, state);
             }
     );
 
@@ -141,13 +140,12 @@ public class CustomRenderTypes {
                         .setTextureState(new TextureStateShard(texture, false, false))
                         .setTransparencyState(ADDITIVE_BLEND)
                         .setCullState(RenderType.NO_CULL)
-                        .setLightmapState(RenderType.NO_LIGHTMAP)
+                        .setLightmapState(RenderType.LIGHTMAP)
                         .setOverlayState(RenderType.NO_OVERLAY)
                         .setWriteMaskState(RenderType.COLOR_WRITE)
                         .setOutputState(RenderType.TRANSLUCENT_TARGET)
-                        .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
                         .createCompositeState(false);
-                return RenderType.create("additive", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, false, state);
+                return RenderType.create("nuke_flash", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 545234, true, true, state);
             }
     );
 

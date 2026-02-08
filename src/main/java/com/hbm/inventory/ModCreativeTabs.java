@@ -207,6 +207,7 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.NUKE_FAT_MAN);
                         output.accept(ModBlocks.NUKE_IVY_MIKE);
                         output.accept(ModBlocks.NUKE_TSAR_BOMBA);
+                        output.accept(ModBlocks.NUKE_N2);
 
                         output.accept(ModBlocks.CRASHED_BOMB_BALEFIRE);
                         output.accept(ModBlocks.CRASHED_BOMB_CONVENTIONAL);
@@ -246,8 +247,11 @@ public class ModCreativeTabs {
 
                         output.accept(ModItems.TSAR_BOMBA_CORE);
 
+                        output.accept(ModItems.N2_CHARGE);
+
                         output.accept(ModItems.DETONATOR);
                         output.accept(ModItems.MULTI_DETONATOR);
+                        output.accept(ModItems.DETONATOR_LASER);
                         output.accept(ModItems.DETONATOR_DEADMAN);
                         output.accept(ModItems.DETONATOR_DE);
                     }).build());

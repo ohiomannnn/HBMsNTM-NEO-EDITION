@@ -17,6 +17,7 @@ public class ModTags {
         public static final TagKey<Block> ACTUALLY_STONE = crateTag("actually_stone");
         public static final TagKey<Block> GROUND = crateTag("ground");
         public static final TagKey<Block> LEAVES = crateTag("leaves");
+        public static final TagKey<Block> PLANTS = crateTag("plants");
 
         private static TagKey<Block> crateTag(String name) {
             return BlockTags.create(HBMsNTM.withDefaultNamespaceNT(name));

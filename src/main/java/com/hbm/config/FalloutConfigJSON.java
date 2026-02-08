@@ -61,66 +61,21 @@ public class FalloutConfigJSON {
 
         double woodEffectRange = 65D;
 
-        entries.add(new FalloutEntry()
-                .mT(BlockTags.LOGS)
-                .prim(new Pair(ModBlocks.WASTE_LOG.get().defaultBlockState(), 1))
-                .max(woodEffectRange));
-        entries.add(new FalloutEntry()
-                .mBS(Blocks.MUSHROOM_STEM.defaultBlockState())
-                .prim(new Pair(ModBlocks.WASTE_LOG.get().defaultBlockState(), 1))
-                .max(woodEffectRange));
-        entries.add(new FalloutEntry()
-                .mBS(Blocks.BROWN_MUSHROOM_BLOCK.defaultBlockState())
-                .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))
-                .max(woodEffectRange));
-        entries.add(new FalloutEntry()
-                .mBS(Blocks.RED_MUSHROOM_BLOCK.defaultBlockState())
-                .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))
-                .max(woodEffectRange));
+        /* petrify all wooden things possible */
+        entries.add(new FalloutEntry()  .mT(BlockTags.LOGS)                                   .prim(new Pair(ModBlocks.WASTE_LOG.get().defaultBlockState(), 1))   .max(woodEffectRange));
+        entries.add(new FalloutEntry()  .mBS(Blocks.MUSHROOM_STEM.defaultBlockState())        .prim(new Pair(ModBlocks.WASTE_LOG.get().defaultBlockState(), 1))   .max(woodEffectRange));
+        entries.add(new FalloutEntry()  .mBS(Blocks.BROWN_MUSHROOM_BLOCK.defaultBlockState()) .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))                  .max(woodEffectRange));
+        entries.add(new FalloutEntry()  .mBS(Blocks.RED_MUSHROOM_BLOCK.defaultBlockState())   .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))                  .max(woodEffectRange));
+        entries.add(new FalloutEntry()  .mBS(Blocks.SNOW.defaultBlockState())                 .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))                  .max(woodEffectRange));
+        entries.add(new FalloutEntry()  .mT(BlockTags.PLANKS)                                 .prim(new Pair(ModBlocks.WASTE_PLANKS.get().defaultBlockState(), 1)).max(woodEffectRange));
+        /* destroy all leaves within the radios, kill all leaves outside of it */
+        entries.add(new FalloutEntry()  .mT(BlockTags.LEAVES)                                 .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))                     .max(woodEffectRange));
+        entries.add(new FalloutEntry()  .mT(BlockTags.LEAVES)                                 .prim(new Pair(ModBlocks.WASTE_LEAVES.get().defaultBlockState(), 1))   .max(woodEffectRange + 100D));
+        entries.add(new FalloutEntry()  .mBS(ModBlocks.WASTE_LEAVES.get().defaultBlockState()).prim(new Pair(Blocks.AIR.defaultBlockState(), 1))                     .max(woodEffectRange));
+        entries.add(new FalloutEntry()  .mT(ModTags.Blocks.PLANTS)                            .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))                     .max(woodEffectRange));
 
-        entries.add(new FalloutEntry()
-                .mBS(Blocks.SNOW.defaultBlockState())
-                .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))
-                .max(woodEffectRange));
-
-        entries.add(new FalloutEntry()
-                .mT(BlockTags.PLANKS)
-                .prim(new Pair(ModBlocks.WASTE_PLANKS.get().defaultBlockState(), 1))
-                .max(woodEffectRange));
-        entries.add(new FalloutEntry()
-                .mT(ModTags.Blocks.LEAVES)
-                .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))
-                .max(woodEffectRange));
-        entries.add(new FalloutEntry()
-                .mBS(ModBlocks.WASTE_LEAVES.get().defaultBlockState())
-                .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))
-                .max(woodEffectRange));
-        entries.add(new FalloutEntry()
-                .mT(BlockTags.CROPS)
-                .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))
-                .max(woodEffectRange));
-        entries.add(new FalloutEntry()
-                .mT(BlockTags.FLOWERS)
-                .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))
-                .max(woodEffectRange));
-        entries.add(new FalloutEntry()
-                .mT(BlockTags.SAPLINGS)
-                .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))
-                .max(woodEffectRange));
-        entries.add(new FalloutEntry()
-                .mT(ModTags.Blocks.LEAVES)
-                .prim(new Pair(ModBlocks.WASTE_LEAVES.get().defaultBlockState(), 1))
-                .max(woodEffectRange + 100D));
-
-        entries.add(new FalloutEntry()
-                .mBS(Blocks.MOSSY_COBBLESTONE.defaultBlockState())
-                .prim(new Pair(Blocks.COAL_ORE.defaultBlockState(), 1)));
-        entries.add(new FalloutEntry()
-                .mBS(ModBlocks.ORE_NETHER_URANIUM.get().defaultBlockState())
-                .prim(
-                        new Pair(ModBlocks.ORE_NETHER_SCHRABIDIUM.get().defaultBlockState(), 1),
-                        new Pair(ModBlocks.ORE_NETHER_URANIUM_SCORCHED.get().defaultBlockState(), 99)
-                ));
+        entries.add(new FalloutEntry().mBS(Blocks.MOSSY_COBBLESTONE.defaultBlockState()).prim(new Pair(Blocks.COAL_ORE.defaultBlockState(), 1)));
+        entries.add(new FalloutEntry().mBS(ModBlocks.ORE_NETHER_URANIUM.get().defaultBlockState()).prim(new Pair(ModBlocks.ORE_NETHER_SCHRABIDIUM.get().defaultBlockState(), 1), new Pair(ModBlocks.ORE_NETHER_URANIUM_SCORCHED.get().defaultBlockState(), 99)));
 
         for (int i = 1; i <= 10; i++) {
             int m = 10 - i;

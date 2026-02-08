@@ -169,6 +169,7 @@
   "block.hbmsntm.nuke_fat_man": "Fat Man",
   "block.hbmsntm.nuke_ivy_mike": "Ivy Mike",
   "block.hbmsntm.nuke_tsar_bomba": "Tsar Bomba",
+  "block.hbmsntm.nuke_n2": "N² Mine",
 
   "block.hbmsntm.gas_coal": "Airborne Coal Dust",
   "block.hbmsntm.gas_asbestos": "Airborne Asbestos Particles",
@@ -208,6 +209,8 @@
   "item.hbmsntm.detonator.desc": "Shift right-click to set position, right-click to detonate!",
   "item.hbmsntm.multi_detonator": "Multi Detonator",
   "item.hbmsntm.multi_detonator.desc": "Shift right-click block to add position, right-click to detonate!$Shift right-click in the air to clear positions.",
+  "item.hbmsntm.detonator_laser": "Laser Detonator",
+  "item.hbmsntm.detonator_laser.desc": "Aim & click to detonate!",
   "item.hbmsntm.detonator_de": "Dead Man's Explosive",
   "item.hbmsntm.detonator_de.desc": "Explodes when dropped!",
   "item.hbmsntm.detonator_deadman": "Dead Man's Detonator",
@@ -274,6 +277,10 @@
   "item.hbmsntm.ivy_mike_cooling_unit": "Deuterium Cooling Unit",
 
   "item.hbmsntm.tsar_bomba_core": "Tsar Bomba Core",
+
+  "item.hbmsntm.n2_charge": "Large Explosive Charge",
+
+  "item.hbmsntm.used_in": "Used in:",
 
   "satchip.frequency": "Satellite frequency: %s",
   "item.hbmsntm.satellite_laser": "Orbital Death Ray",
@@ -716,5 +723,6 @@
   "container.nukeIvyMike": "Ivy Mike",
   "gui.nukeIvyMike.desc": "§1Requires:§r$ * 4 Arrays of High-Explosive Lenses$ * Plutonium Core$ * Deuterium Cooling Unit$ * Uranium Coated Deuterium Tank$ * Deuterium Tank",
   "container.nukeTsarBomba": "Tsar Bomba",
-  "gui.nukeTsarBomba.desc": "§1Requires:§r$ * 4 Arrays of High-Explosive Lenses$ * Plutonium Core$§9Optional:§r$ * Tsar Bomba Core"
+  "gui.nukeTsarBomba.desc": "§1Requires:§r$ * 4 Arrays of High-Explosive Lenses$ * Plutonium Core$§9Optional:§r$ * Tsar Bomba Core",
+  "container.nukeN2": "N² Mine"
 }

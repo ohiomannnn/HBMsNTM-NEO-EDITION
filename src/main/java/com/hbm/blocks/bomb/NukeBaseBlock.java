@@ -23,9 +23,6 @@ import net.minecraft.world.phys.BlockHitResult;
 // is it was too hard, or bob was too lazy?
 public abstract class NukeBaseBlock extends BaseEntityBlock implements IBomb {
 
-    private int size = 0;
-    private int notFullSize = 0;
-
     public NukeBaseBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(((this.stateDefinition.any()).setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH)));
@@ -76,19 +73,8 @@ public abstract class NukeBaseBlock extends BaseEntityBlock implements IBomb {
         return InteractionResult.SUCCESS;
     }
 
-    /**
-     * Because neoforge config system sucks, we will register sizes on FMLCommonSetupEvent, NOT on item registration
-     */
-    public NukeBaseBlock setSize(int size) { this.size = size; return this; }
-    public NukeBaseBlock setNotFullSize(int size) { this.notFullSize = size; return this; }
-
-    public static void registerSizes() {
-        ModBlocks.NUKE_GADGET.get()      .setSize(MainConfig.COMMON.GADGET_RADIUS.get());
-        ModBlocks.NUKE_LITTLE_BOY.get()  .setSize(MainConfig.COMMON.BOY_RADIUS.get());
-        ModBlocks.NUKE_FAT_MAN.get()     .setSize(MainConfig.COMMON.MAN_RADIUS.get());
-        ModBlocks.NUKE_IVY_MIKE.get()    .setSize(MainConfig.COMMON.MIKE_RADIUS.get()).setNotFullSize(MainConfig.COMMON.MAN_RADIUS.get());
-        ModBlocks.NUKE_TSAR_BOMBA.get()  .setSize(MainConfig.COMMON.TSAR_RADIUS.get()).setNotFullSize(MainConfig.COMMON.MAN_RADIUS.get());
-    }
+    protected abstract void explode(Level level, double x, double y, double z);
+    protected void explodeNotFull(Level level, double x, double y, double z) { }
 
     @Override
     public BombReturnCode explode(Level level, BlockPos pos) {
@@ -99,15 +85,13 @@ public abstract class NukeBaseBlock extends BaseEntityBlock implements IBomb {
                 if (nuke.isReady()) {
                     nuke.slots.clear();
                     level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
-                    NukeExplosionMK5.statFac(level, this.size, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-                    NukeTorexCreator.statFacStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, this.size);
+                    this.explode(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
                     return BombReturnCode.DETONATED;
                 }
-                if (nuke.isFilled() && notFullSize != 0) {
+                if (nuke.isFilled()) {
                     nuke.slots.clear();
                     level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
-                    NukeExplosionMK5.statFac(level, this.notFullSize, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-                    NukeTorexCreator.statFacStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, this.notFullSize);
+                    this.explodeNotFull(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
                     return BombReturnCode.DETONATED;
                 }
             }

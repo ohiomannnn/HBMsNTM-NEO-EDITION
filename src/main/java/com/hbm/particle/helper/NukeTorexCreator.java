@@ -6,6 +6,7 @@ import com.hbm.util.BobMathUtil;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -36,10 +37,8 @@ public class NukeTorexCreator implements IParticleCreator {
         int type = tag.getInt("cType");
         float scale = tag.getFloat("scale");
 
-        ParticleEngineNT.INSTANCE.add(
-                new NukeTorex(level, x, y, z)
-                        .setScale((float) Math.clamp(BobMathUtil.squirt(scale * 0.01) * 1.5F, 0.5F, 5F))
-                        .setType(type)
-        );
+        NukeTorex torex = new NukeTorex(level, x, y, z).setScale(Mth.clamp((float) BobMathUtil.squirt(scale * 0.01) * 1.5F, 0.5F, 5F), true);
+        torex.setType(type);
+        ParticleEngineNT.INSTANCE.add(torex);
     }
 }

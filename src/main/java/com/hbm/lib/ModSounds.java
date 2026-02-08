@@ -69,8 +69,8 @@ public class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> HUNDUS = reg("block.hunduns_magnificent_howl");
     public static final DeferredHolder<SoundEvent, SoundEvent> SQUEAKY_TOY = reg("block.squeaky_toy");
 
-    public static final DeferredHolder<SoundEvent, SoundEvent> DOOR_WGH_STOP = reg("door.wghStop");
-    public static final DeferredHolder<SoundEvent, SoundEvent> DOOR_WGH_START = reg("door.wghStart");
+    public static final DeferredHolder<SoundEvent, SoundEvent> DOOR_WGH_STOP = reg("door.wgh_stop");
+    public static final DeferredHolder<SoundEvent, SoundEvent> DOOR_WGH_START = reg("door.wgh_start");
     public static final DeferredHolder<SoundEvent, SoundEvent> DOOR_ALARM_6 = reg("door.alarm6");
 
     private static DeferredHolder<SoundEvent, SoundEvent> reg(String name) {

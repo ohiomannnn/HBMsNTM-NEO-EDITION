@@ -122,12 +122,12 @@ public class NukeExplosionMK5 extends ChunkloadingEntity {
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
-        this.tickCount = tag.getInt("tickCount");
+        this.tickCount = tag.getInt("age");
     }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
-        tag.putInt("tickCount", this.tickCount);
+        tag.putInt("age", this.tickCount);
     }
 
     public static NukeExplosionMK5 statFac(Level level, int strength, double x, double y, double z) {

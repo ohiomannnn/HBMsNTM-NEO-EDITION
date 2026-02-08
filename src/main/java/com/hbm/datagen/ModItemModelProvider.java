@@ -149,6 +149,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         this.basicItem(ModItems.IVY_MIKE_COOLING_UNIT.get());
 
         this.basicItem(ModItems.TSAR_BOMBA_CORE.get());
+
+        this.basicItem(ModItems.N2_CHARGE.get());
     }
 
     private ItemModelBuilder layeredItem(Item item, String layer0, String layer1) {

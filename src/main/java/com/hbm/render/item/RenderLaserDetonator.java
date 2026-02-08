@@ -28,6 +28,43 @@ public class RenderLaserDetonator extends BlockEntityWithoutLevelRenderer {
 
         poseStack.pushPose();
 
+        if (displayContext != ItemDisplayContext.GUI) poseStack.translate(0.5F, 0F, 0.5F);
+        switch (displayContext) {
+            case FIRST_PERSON_RIGHT_HAND -> {
+                poseStack.translate(-0.2F, 0.6F, 0.1F);
+                poseStack.scale(0.15F, 0.15F, 0.15F);
+                poseStack.mulPose(Axis.YP.rotationDegrees(180F));
+            }
+            case FIRST_PERSON_LEFT_HAND -> {
+                poseStack.translate(0.2F, 0.6F, 0.1F);
+                poseStack.scale(-0.15F, 0.15F, 0.15F);
+                poseStack.mulPose(Axis.YP.rotationDegrees(180F));
+            }
+            case THIRD_PERSON_RIGHT_HAND, HEAD -> {
+                poseStack.translate(0F, 0.48F, 0.05F);
+                poseStack.scale(0.15F, 0.15F, 0.15F);
+                poseStack.mulPose(Axis.YP.rotationDegrees(180F));
+            }
+            case THIRD_PERSON_LEFT_HAND -> {
+                poseStack.translate(0F, 0.48F, 0.05F);
+                poseStack.scale(-0.15F, 0.15F, 0.15F);
+                poseStack.mulPose(Axis.YP.rotationDegrees(180F));
+            }
+            case GROUND -> {
+                poseStack.translate(0F, 0.3F, 0F);
+                poseStack.scale(0.15F, 0.15F, 0.15F);
+                poseStack.mulPose(Axis.YP.rotationDegrees(90F));
+            }
+            case FIXED, GUI -> {
+                float s = 0.25F;
+                poseStack.scale(s, -s, -s);
+                poseStack.translate(1.2F, -1.5F, 0F);
+                poseStack.mulPose(Axis.XP.rotationDegrees(180F));
+                poseStack.mulPose(Axis.YP.rotationDegrees(-90F));
+                poseStack.mulPose(Axis.XP.rotationDegrees(-45F));
+            }
+        }
+
         VertexConsumer mainConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.DETONATOR_LASER_TEX));
         ResourceManager.detonator_laser.renderPart("Main", poseStack, mainConsumer, packedLight, packedOverlay);
 
@@ -66,7 +103,12 @@ public class RenderLaserDetonator extends BlockEntityWithoutLevelRenderer {
         Font font = Minecraft.getInstance().font;
         float f3 = 0.01F;
         poseStack.translate(0.5625F, 1.3125F, 0.875F);
-        poseStack.scale(f3, -f3, f3);
+        if (displayContext == ItemDisplayContext.FIRST_PERSON_LEFT_HAND || displayContext == ItemDisplayContext.THIRD_PERSON_LEFT_HAND) {
+            poseStack.scale(f3, -f3, -f3);
+            poseStack.translate(0F, 0F, 40F);
+        } else {
+            poseStack.scale(f3, -f3, f3);
+        }
         poseStack.mulPose(Axis.YP.rotationDegrees(90));
 
         poseStack.translate(3F, -2F, 0.2F);
