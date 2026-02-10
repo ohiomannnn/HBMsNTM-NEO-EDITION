@@ -130,23 +130,6 @@ public class HbmPlayerAttachments {
                     }
                 }
             }
-            if (key == EnumKeybind.DUCK) {
-                HbmPlayerAttachments props = getData(player);
-                if (!props.ducked) {
-                    Duck ducc = new Duck(ModEntityTypes.DUCK.get(), player.level());
-
-                    ducc.setPos(player.getX(), player.getEyeY(), player.getZ());
-                    ducc.setDeltaMovement(player.getLookAngle());
-                    ducc.fallDistance = 0.0F;
-
-                    player.level().addFreshEntity(ducc);
-                    player.level().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.DUCK, SoundSource.NEUTRAL, 1.0F, 1.0F);
-
-                    props.ducked = !props.ducked;
-                    player.setData(ModAttachments.PLAYER_ATTACHMENT, props);
-                }
-            }
-            //TODO: add train lol
         }
 
         keysPressed[key.ordinal()] = pressed;

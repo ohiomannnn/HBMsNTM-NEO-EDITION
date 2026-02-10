@@ -57,6 +57,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.TNT.get());
         this.dropSelf(ModBlocks.SEMTEX.get());
         this.dropSelf(ModBlocks.C4.get());
+        this.dropSelf(ModBlocks.FISSURE_BOMB.get());
 
         this.dropSelf(ModBlocks.PLUSHIE_YOMI.get());
         this.dropSelf(ModBlocks.PLUSHIE_NUMBERNINE.get());

@@ -122,6 +122,7 @@
   "block.hbmsntm.brick_concrete_broken_slab": "Broken Concrete Brick Slab",
 
   "block.hbmsntm.waste_earth": "Dead Grass",
+  "block.hbmsntm.waste_mycelium": "Glowing Mycelium",
   "block.hbmsntm.waste_leaves": "Dead Leaves",
   "block.hbmsntm.waste_log": "Charred Log",
 
@@ -138,6 +139,7 @@
   "block.hbmsntm.tnt": "Actual TNT",
   "block.hbmsntm.semtex": "Semtex",
   "block.hbmsntm.c4": "C-4",
+  "block.hbmsntm.fissure_bomb": "Fissure Bomb",
   "block.hbmsntm.barrel_red": "Explosive Barrel",
   "block.hbmsntm.barrel_pink": "Kerosene Barrel",
   "block.hbmsntm.barrel.static_fluid_barrel": "Static Fluid Barrel",

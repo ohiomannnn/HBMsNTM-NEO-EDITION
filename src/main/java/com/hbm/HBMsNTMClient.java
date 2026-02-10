@@ -21,6 +21,7 @@ import com.hbm.items.datacomps.FluidTypeComponent;
 import com.hbm.items.special.PolaroidItem;
 import com.hbm.items.tools.GeigerCounterItem;
 import com.hbm.main.ResourceManager;
+import com.hbm.network.toserver.Ducc;
 import com.hbm.particle.*;
 import com.hbm.particle.engine.ParticleEngineNT;
 import com.hbm.particle.helper.ParticleCreators;
@@ -46,6 +47,7 @@ import com.hbm.util.Vec3NT;
 import com.hbm.util.i18n.I18nClient;
 import com.hbm.util.i18n.ITranslate;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.ChatFormatting;
@@ -106,6 +108,7 @@ import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.awt.*;
 import java.lang.reflect.Field;
@@ -228,6 +231,8 @@ public class HBMsNTMClient {
         }
     }
 
+    public static boolean ducked = false;
+
     @SubscribeEvent
     public static void onRenderGuiPost(RenderGuiEvent.Post event) {
         Minecraft mc = Minecraft.getInstance();
@@ -266,6 +271,12 @@ public class HBMsNTMClient {
 
             RenderScreenOverlay.renderRadCounter(event.getGuiGraphics(), rads);
         }
+
+        if (!ducked && InputConstants.isKeyDown(mc.getWindow().getWindow(), InputConstants.KEY_O) && mc.screen == null) {
+            ducked = true;
+            PacketDistributor.sendToServer(new Ducc());
+        }
+
     }
 
     private static boolean checkForGeiger(Player player) {

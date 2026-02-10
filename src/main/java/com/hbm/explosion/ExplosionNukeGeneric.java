@@ -1,13 +1,19 @@
 package com.hbm.explosion;
 
+import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.inventory.ModTags;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModDamageTypes;
 import net.minecraft.core.BlockPos;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Ocelot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -65,5 +71,21 @@ public class ExplosionNukeGeneric {
         ) return true;
 
         return false;
+    }
+
+    public static void solinium(Level level, BlockPos pos) {
+        if (!level.isClientSide) {
+            BlockState state = level.getBlockState(pos);
+            Block b = state.getBlock();
+
+            if (b == Blocks.GRASS_BLOCK || b == Blocks.MYCELIUM || b == ModBlocks.WASTE_EARTH.get() || b == ModBlocks.WASTE_MYCELIUM.get()) {
+                level.setBlock(pos, Blocks.DIRT.defaultBlockState(), 3);
+                return;
+            }
+
+            if (state.is(ModTags.Blocks.PLANTS) || state.is(BlockTags.LEAVES) || state.is(BlockTags.PLANKS)) {
+                level.removeBlock(pos, false);
+            }
+        }
     }
 }

@@ -145,10 +145,12 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.BRICK_CONCRETE_CRACKED_SLAB);
                         output.accept(ModBlocks.BRICK_CONCRETE_BROKEN_SLAB);
 
+                        output.accept(ModBlocks.WASTE_MYCELIUM);
                         output.accept(ModBlocks.WASTE_EARTH);
                         output.accept(ModBlocks.WASTE_LOG);
                         output.accept(ModBlocks.WASTE_LEAVES);
                         output.accept(ModBlocks.LEAVES_LAYER);
+                        output.accept(ModBlocks.FALLOUT);
 
                         output.accept(ModBlocks.SELLAFIELD_SLAKED);
                         output.accept(ModBlocks.SELLAFIELD_BEDROCK);
@@ -218,6 +220,7 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.TNT);
                         output.accept(ModBlocks.SEMTEX);
                         output.accept(ModBlocks.C4);
+                        output.accept(ModBlocks.FISSURE_BOMB);
 
                         output.accept(ModBlocks.MINE_AP);
                         output.accept(ModBlocks.MINE_SHRAP);

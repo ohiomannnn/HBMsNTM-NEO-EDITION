@@ -9,6 +9,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.Property;
@@ -46,18 +47,19 @@ public class ModBlockStateProvider extends BlockStateProvider {
                         modLoc("block/machine_satlinker_top")
                 ));
 
-        this.particleOnlyBlock(ModBlocks.BARREL_RED.get(), name(ModBlocks.BARREL_RED.get()), false);
-        this.particleOnlyBlock(ModBlocks.BARREL_PINK.get(), name(ModBlocks.BARREL_PINK.get()), false);
+        this.particleOnlyBlock(ModBlocks.BARREL_RED.get(), modLoc("block/" + name(ModBlocks.BARREL_RED.get())));
+        this.particleOnlyBlock(ModBlocks.BARREL_PINK.get(), modLoc("block/" + name(ModBlocks.BARREL_PINK.get())));
 
-        this.particleOnlyBlock(ModBlocks.PLUSHIE_YOMI.get(), "white_wool", true);
-        this.particleOnlyBlock(ModBlocks.PLUSHIE_NUMBERNINE.get(), "white_wool", true);
-        this.particleOnlyBlock(ModBlocks.PLUSHIE_HUNDUN.get(), "white_wool", true);
-        this.particleOnlyBlock(ModBlocks.PLUSHIE_DERG.get(), "white_wool", true);
+        this.particleOnlyBlock(ModBlocks.PLUSHIE_YOMI.get(), mcLoc("block/" + name(Blocks.WHITE_WOOL)));
+        this.particleOnlyBlock(ModBlocks.PLUSHIE_NUMBERNINE.get(),  mcLoc("block/" + name(Blocks.WHITE_WOOL)));
+        this.particleOnlyBlock(ModBlocks.PLUSHIE_HUNDUN.get(),  mcLoc("block/" + name(Blocks.WHITE_WOOL)));
+        this.particleOnlyBlock(ModBlocks.PLUSHIE_DERG.get(),  mcLoc("block/" + name(Blocks.WHITE_WOOL)));
 
         this.cubeSideBottomTop(ModBlocks.DYNAMITE.get());
         this.cubeSideBottomTop(ModBlocks.TNT.get());
         this.cubeSideBottomTop(ModBlocks.SEMTEX.get());
         this.cubeSideBottomTop(ModBlocks.C4.get());
+        this.cubeSideBottomTop(ModBlocks.FISSURE_BOMB.get());
 
         simpleBlockWithItem(ModBlocks.BRICK_LIGHT.get(), cubeAll(ModBlocks.BRICK_LIGHT.get()));
         simpleBlockWithItem(ModBlocks.BRICK_OBSIDIAN.get(), cubeAll(ModBlocks.BRICK_OBSIDIAN.get()));
@@ -308,9 +310,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
         this.simpleBlockItem(block, cubeAll(block));
     }
 
-    // todo make better solution lol
-    private void particleOnlyBlock(Block block, String particleTexture, boolean asMcLock) {
-        ModelFile model = models().getBuilder(name(block) + "_particle").texture("particle", asMcLock ? mcLoc("block/" + particleTexture) : modLoc("block/" + particleTexture));
+    private void particleOnlyBlock(Block block, ResourceLocation particleTexture) {
+        ModelFile model = models().getBuilder(name(block) + "_particle").texture("particle", particleTexture);
         this.simpleBlock(block, model);
     }
 

@@ -357,10 +357,11 @@ public class ModBlocks {
     public static final DeferredBlock<Block> MINE_SHRAP = registerBlock("mine_shrap", () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().noLootTable().strength(1.0F).sound(SoundType.METAL), 1.5D, 1D));
     public static final DeferredBlock<Block> MINE_FAT =   registerBlock("mine_fat",   () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().noLootTable().strength(1.0F).sound(SoundType.METAL), 2.5D, 1D));
     public static final DeferredBlock<Block> MINE_NAVAL = registerBlock("mine_naval", () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().noLootTable().strength(1.0F).sound(SoundType.METAL), 2.5D, 1D));
-    public static final DeferredBlock<Block> DYNAMITE = registerBlock("dynamite", () -> new DynamiteBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.0F).sound(SoundType.GRASS)));
-    public static final DeferredBlock<Block> TNT =      registerBlock("tnt",      () -> new TNTBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.0F).sound(SoundType.GRASS)));
-    public static final DeferredBlock<Block> SEMTEX =   registerBlock("semtex",   () -> new SemtexBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.0F).sound(SoundType.GRASS)));
-    public static final DeferredBlock<Block> C4 =       registerBlock("c4",       () -> new C4Block(BlockBehaviour.Properties.of().noOcclusion().strength(0.0F).sound(SoundType.GRASS)));
+    public static final DeferredBlock<Block> DYNAMITE =     registerBlock("dynamite",     () -> new DynamiteBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.0F).sound(SoundType.GRASS)));
+    public static final DeferredBlock<Block> TNT =          registerBlock("tnt",          () -> new TNTBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.0F).sound(SoundType.GRASS)));
+    public static final DeferredBlock<Block> SEMTEX =       registerBlock("semtex",       () -> new SemtexBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.0F).sound(SoundType.GRASS)));
+    public static final DeferredBlock<Block> C4 =           registerBlock("c4",           () -> new C4Block(BlockBehaviour.Properties.of().noOcclusion().strength(0.0F).sound(SoundType.GRASS)));
+    public static final DeferredBlock<Block> FISSURE_BOMB = registerBlock("fissure_bomb", () -> new FissureBombBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.0F).sound(SoundType.GRASS)));
 
     public static final DeferredBlock<Block> URANIUM_BLOCK = registerBlock("uranium_block",
             () -> new HazardBlock(BlockBehaviour.Properties.of()

@@ -2,10 +2,7 @@ package com.hbm.network;
 
 import com.hbm.HBMsNTM;
 import com.hbm.network.toclient.*;
-import com.hbm.network.toserver.CompoundTagControl;
-import com.hbm.network.toserver.CompoundTagItemControl;
-import com.hbm.network.toserver.KeybindReceiver;
-import com.hbm.network.toserver.SatelliteLaser;
+import com.hbm.network.toserver.*;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -21,6 +18,7 @@ public class ModNetwork {
 
         registrar.playToServer(KeybindReceiver.TYPE, KeybindReceiver.STREAM_CODEC, KeybindReceiver::handleServer);
         registrar.playToServer(CompoundTagItemControl.TYPE, CompoundTagItemControl.STREAM_CODEC, CompoundTagItemControl::handleServer);
+        registrar.playToServer(Ducc.TYPE, Ducc.STREAM_CODEC, Ducc::handleServer);
         registrar.playToServer(CompoundTagControl.TYPE, CompoundTagControl.STREAM_CODEC, CompoundTagControl::handleServer);
         registrar.playToServer(SatelliteLaser.TYPE, SatelliteLaser.STREAM_CODEC, SatelliteLaser::handleServer);
 
