@@ -177,31 +177,33 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItem
         preset.harvestAbility.onHarvestBlock(level, pos, player, refPos);
     }
 
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
-        if (!canOperate(player.getItemInHand(usedHand))) return InteractionResultHolder.pass(player.getItemInHand(usedHand));
 
-        Configuration config = this.getConfiguration(player.getItemInHand(usedHand));
-        if (config.presets.size() < 2 || level.isClientSide) return InteractionResultHolder.pass(player.getItemInHand(usedHand));
-
-        if (player.isCrouching()) {
-            config.currentPreset = 0;
-        } else {
-            config.currentPreset = (config.currentPreset + 1) % config.presets.size();
-        }
-
-        setConfiguration(player.getItemInHand(usedHand), config);
-        if (player instanceof ServerPlayer serverPlayer) {
-            PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(config.getActivePreset().getMessage(), HBMsNTMClient.ID_TOOLABILITY, 1000));
-        }
-        level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 0.25F, config.getActivePreset().isNone() ? 0.75F : 1.25F);
-
-        return InteractionResultHolder.pass(player.getItemInHand(usedHand));
-    }
+//    @Override
+//    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
+//        if (!canOperate(player.getItemInHand(usedHand))) return InteractionResultHolder.pass(player.getItemInHand(usedHand));
+//
+//        Configuration config = this.getConfiguration(player.getItemInHand(usedHand));
+//        if (config.presets.size() < 2 || level.isClientSide) return InteractionResultHolder.pass(player.getItemInHand(usedHand));
+//
+//        if (player.isCrouching()) {
+//            config.currentPreset = 0;
+//        } else {
+//            config.currentPreset = (config.currentPreset + 1) % config.presets.size();
+//        }
+//
+//        setConfiguration(player.getItemInHand(usedHand), config);
+//        if (player instanceof ServerPlayer serverPlayer) {
+//            PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(config.getActivePreset().getMessage(), HBMsNTMClient.ID_TOOLABILITY, 1000));
+//        }
+//        level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 0.25F, config.getActivePreset().isNone() ? 0.75F : 1.25F);
+//
+//        return InteractionResultHolder.pass(player.getItemInHand(usedHand));
+//    }
 
     @Override
     public boolean canHandleKeybind(Player player, ItemStack stack, EnumKeybind keybind) {
-        return keybind == EnumKeybind.ABILITY_CYCLE || keybind == EnumKeybind.ABILITY_ALT;
+        if (player.level().isClientSide) return keybind == EnumKeybind.ABILITY_ALT;
+        return keybind == EnumKeybind.ABILITY_CYCLE;
     }
 
     @Override

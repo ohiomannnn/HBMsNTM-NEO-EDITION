@@ -60,7 +60,7 @@ public class RenderCrashedBomb implements BlockEntityRenderer<CrashedBombBlockEn
     }
 
     @Override
-    public boolean shouldRenderOffScreen(CrashedBombBlockEntity blockEntity) {
-        return true;
+    public int getViewDistance() {
+        return 256;
     }
 }

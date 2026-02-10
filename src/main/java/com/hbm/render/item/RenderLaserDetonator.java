@@ -31,12 +31,12 @@ public class RenderLaserDetonator extends BlockEntityWithoutLevelRenderer {
         if (displayContext != ItemDisplayContext.GUI) poseStack.translate(0.5F, 0F, 0.5F);
         switch (displayContext) {
             case FIRST_PERSON_RIGHT_HAND -> {
-                poseStack.translate(-0.2F, 0.6F, 0.1F);
+                poseStack.translate(-0.15F, 0.63F, 0.1F);
                 poseStack.scale(0.15F, 0.15F, 0.15F);
                 poseStack.mulPose(Axis.YP.rotationDegrees(180F));
             }
             case FIRST_PERSON_LEFT_HAND -> {
-                poseStack.translate(0.2F, 0.6F, 0.1F);
+                poseStack.translate(0.15F, 0.63F, 0.1F);
                 poseStack.scale(-0.15F, 0.15F, 0.15F);
                 poseStack.mulPose(Axis.YP.rotationDegrees(180F));
             }
@@ -56,12 +56,12 @@ public class RenderLaserDetonator extends BlockEntityWithoutLevelRenderer {
                 poseStack.mulPose(Axis.YP.rotationDegrees(90F));
             }
             case FIXED, GUI -> {
-                float s = 0.25F;
+                float s = 0.22F;
                 poseStack.scale(s, -s, -s);
-                poseStack.translate(1.2F, -1.5F, 0F);
+                poseStack.translate(1.4F, -1.7F, 0F);
                 poseStack.mulPose(Axis.XP.rotationDegrees(180F));
                 poseStack.mulPose(Axis.YP.rotationDegrees(-90F));
-                poseStack.mulPose(Axis.XP.rotationDegrees(-45F));
+                poseStack.mulPose(Axis.XP.rotationDegrees(-50F));
             }
         }
 

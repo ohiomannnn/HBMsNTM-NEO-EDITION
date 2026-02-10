@@ -1,6 +1,5 @@
 package com.hbm.items.tools;
 
-import com.hbm.blocks.ITooltipProvider;
 import com.hbm.entity.logic.Bomber;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModSounds;

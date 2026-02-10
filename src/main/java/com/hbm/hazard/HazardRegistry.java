@@ -149,6 +149,8 @@ public class HazardRegistry {
 
         HazardSystem.register(ModBlocks.URANIUM_BLOCK.get(), makeData(RADIATION, 160F));
 
+        HazardSystem.register(ModBlocks.FALLOUT.get(), makeData(RADIATION, 60F));
+
         HazardSystem.register(ModItems.PARTICLE_DIGAMMA.get(), makeData(DIGAMMA, 0.3333F));
 
 

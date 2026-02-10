@@ -38,4 +38,9 @@ public class RenderNukeN2 implements BlockEntityRenderer<NukeN2BlockEntity> {
 
         poseStack.popPose();
     }
+
+    @Override
+    public int getViewDistance() {
+        return 256;
+    }
 }

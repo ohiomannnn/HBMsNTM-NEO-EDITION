@@ -12,10 +12,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.food.ItemEnergy;
 import com.hbm.items.machine.*;
 import com.hbm.items.machine.BatteryPackItem.BatteryPackType;
-import com.hbm.items.special.DangerousDropItem;
-import com.hbm.items.special.EntitySpawnerItem;
-import com.hbm.items.special.PolaroidItem;
-import com.hbm.items.special.UsedInItem;
+import com.hbm.items.special.*;
 import com.hbm.items.tools.*;
 import com.hbm.items.tools.BombCallerItem.BomberType;
 import net.minecraft.core.component.DataComponents;
@@ -110,24 +107,8 @@ public class ModItems {
     public static final DeferredItem<Item> INF_WATER = ITEMS.register("inf_water", () -> new InfiniteFluidItem(new Item.Properties().stacksTo(1), Fluids.WATER, 50));
     public static final DeferredItem<Item> INF_WATER_MK2 = ITEMS.register("inf_water_mk2", () -> new InfiniteFluidItem(new Item.Properties().stacksTo(1), Fluids.WATER, 500));
 
-    public static final DeferredItem<Item> PIN = ITEMS.register(
-            "pin",
-            () -> new Item(new Item.Properties().stacksTo(8)));
-    public static final DeferredItem<Item> KEY = ITEMS.register(
-            "key",
-            () -> new KeyItem(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> KEY_RED = ITEMS.register(
-            "key_red",
-            () -> new Item(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> KEY_KIT = ITEMS.register(
-            "key_kit",
-            () -> new KeyItem(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> KEY_FAKE = ITEMS.register(
-            "key_fake",
-            () -> new KeyItem(new Item.Properties().stacksTo(1)));
-
-    public static final DeferredItem<Item> CIGARETTE = ITEMS.register("cigarette", () -> new Item(new Item.Properties().stacksTo(16)));
-    public static final DeferredItem<Item> CRACKPIPE = ITEMS.register("crackpipe", () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> CIGARETTE = ITEMS.register("cigarette", () -> new CigaretteItem(new Item.Properties().stacksTo(16)));
+    public static final DeferredItem<Item> CRACKPIPE = ITEMS.register("crackpipe", () -> new CigaretteItem(new Item.Properties().stacksTo(1)));
 
     public static final DeferredItem<Item> BOTTLE_OPENER = ITEMS.register(
             "bottle_opener",
@@ -172,6 +153,12 @@ public class ModItems {
             "chocolate_milk",
             () -> new ItemEnergy(new Item.Properties())
     );
+
+    public static final DeferredItem<Item> PIN = ITEMS.register("pin", () -> new Item(new Item.Properties().stacksTo(8)));
+    public static final DeferredItem<Item> KEY = ITEMS.register("key", () -> new KeyItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> KEY_RED = ITEMS.register("key_red", () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> KEY_KIT = ITEMS.register("key_kit", () -> new KeyItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> KEY_FAKE = ITEMS.register("key_fake", () -> new KeyItem(new Item.Properties().stacksTo(1)));
 
     public static final DeferredItem<Item> ALLOY_SWORD = ITEMS.register(
             "alloy_sword",

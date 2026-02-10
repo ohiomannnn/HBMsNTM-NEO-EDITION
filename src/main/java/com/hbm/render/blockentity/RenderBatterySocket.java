@@ -104,4 +104,9 @@ public class RenderBatterySocket implements BlockEntityRenderer<BatterySocketBlo
 
         return bb;
     }
+
+    @Override
+    public int getViewDistance() {
+        return 256;
+    }
 }

@@ -9,11 +9,9 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.Property;
-import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
@@ -55,6 +53,11 @@ public class ModBlockStateProvider extends BlockStateProvider {
         this.particleOnlyBlock(ModBlocks.PLUSHIE_NUMBERNINE.get(), "white_wool", true);
         this.particleOnlyBlock(ModBlocks.PLUSHIE_HUNDUN.get(), "white_wool", true);
         this.particleOnlyBlock(ModBlocks.PLUSHIE_DERG.get(), "white_wool", true);
+
+        this.cubeSideBottomTop(ModBlocks.DYNAMITE.get());
+        this.cubeSideBottomTop(ModBlocks.TNT.get());
+        this.cubeSideBottomTop(ModBlocks.SEMTEX.get());
+        this.cubeSideBottomTop(ModBlocks.C4.get());
 
         simpleBlockWithItem(ModBlocks.BRICK_LIGHT.get(), cubeAll(ModBlocks.BRICK_LIGHT.get()));
         simpleBlockWithItem(ModBlocks.BRICK_OBSIDIAN.get(), cubeAll(ModBlocks.BRICK_OBSIDIAN.get()));
@@ -309,6 +312,12 @@ public class ModBlockStateProvider extends BlockStateProvider {
     private void particleOnlyBlock(Block block, String particleTexture, boolean asMcLock) {
         ModelFile model = models().getBuilder(name(block) + "_particle").texture("particle", asMcLock ? mcLoc("block/" + particleTexture) : modLoc("block/" + particleTexture));
         this.simpleBlock(block, model);
+    }
+
+    public void cubeSideBottomTop(Block block) {
+        String blockName = name(block);
+        this.simpleBlock(block, this.models().cubeBottomTop(blockName, modLoc("block/" + blockName + "_side"), modLoc("block/" + blockName + "_bottom"), modLoc("block/" + blockName + "_top")));
+        this.simpleBlockItem(block, this.models().cubeBottomTop(blockName, modLoc("block/" + blockName + "_side"), modLoc("block/" + blockName + "_bottom"), modLoc("block/" + blockName + "_top")));
     }
 
     private String name(Block block) { return this.key(block).getPath(); }

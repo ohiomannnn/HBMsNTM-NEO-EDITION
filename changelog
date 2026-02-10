@@ -1,6 +1,7 @@
 ## Added
 * Plushies!
 * N² mine
+* Dynamite, tnt, semtex, c4 bombs
 * Laser detonator
 
 ## Changed
@@ -9,5 +10,3 @@
   * This means mushroom cloud can be rendered even outside of render distance
   * Shockwave is now a little longer
 * Nukes now create falling blocks
-
-## Fixed

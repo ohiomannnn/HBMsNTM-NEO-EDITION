@@ -45,4 +45,9 @@ public class RenderNukeGadget implements BlockEntityRenderer<NukeGadgetBlockEnti
 
         poseStack.popPose();
     }
+
+    @Override
+    public int getViewDistance() {
+        return 256;
+    }
 }

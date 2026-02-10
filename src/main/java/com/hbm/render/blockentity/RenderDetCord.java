@@ -55,4 +55,9 @@ public class RenderDetCord implements BlockEntityRenderer<EmptyBlockEntity> {
         }
         poseStack.popPose();
     }
+
+    @Override
+    public int getViewDistance() {
+        return 256;
+    }
 }

@@ -99,7 +99,7 @@ public class EntityEffectHandler {
             props.isOnLadder = false;
             player.setData(ModAttachments.PLAYER_ATTACHMENT.get(), props);
 
-            //if(!player.worldObj.isRemote) ArmorUtil.resetFlightTime(player);
+            //if(!player.level.isRemote) ArmorUtil.resetFlightTime(player);
         }
     }
 
@@ -322,7 +322,7 @@ public class EntityEffectHandler {
 
 
             if (level.getGameTime() % freq == entity.getId() % freq) {
-                level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), ModSounds.COUGH, SoundSource.NEUTRAL, 1.0F, 1.0F);
+                level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), ModSounds.COUGH, SoundSource.PLAYERS, 1.0F, 1.0F);
 
                 if (coughsBlood) {
                     CompoundTag tag = new CompoundTag();

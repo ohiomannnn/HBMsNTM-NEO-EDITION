@@ -214,6 +214,11 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.CRASHED_BOMB_NUKE);
                         output.accept(ModBlocks.CRASHED_BOMB_SALTED);
 
+                        output.accept(ModBlocks.DYNAMITE);
+                        output.accept(ModBlocks.TNT);
+                        output.accept(ModBlocks.SEMTEX);
+                        output.accept(ModBlocks.C4);
+
                         output.accept(ModBlocks.MINE_AP);
                         output.accept(ModBlocks.MINE_SHRAP);
                         output.accept(ModBlocks.MINE_HE);
@@ -273,9 +278,12 @@ public class ModCreativeTabs {
                     .withTabsBefore(HBMsNTM.withDefaultNamespaceNT("missiles"))
                     .title(Component.translatable("creative_tab.hbmsntm.consumables_and_gear"))
                     .displayItems((itemDisplayParameters, output) -> {
-                        output.accept(ModItems.GEIGER_COUNTER);
+                        output.accept(ModItems.DUCK_SPAWN_EGG);
+
                         output.accept(ModItems.DOSIMETER);
+                        output.accept(ModItems.GEIGER_COUNTER);
                         output.accept(ModItems.DIGAMMA_DIAGNOSTIC);
+
                         output.accept(ModItems.KEY);
                         output.accept(ModItems.KEY_KIT);
                         output.accept(ModItems.KEY_FAKE);
@@ -283,17 +291,17 @@ public class ModCreativeTabs {
                         output.accept(ModItems.FLINT_AND_BALEFIRE);
                         output.accept(ModItems.POLAROID);
 
-                        output.accept(ModItems.BOTTLE_EMPTY);
                         output.accept(ModItems.BOTTLE_OPENER);
-                        output.accept(ModItems.CAP_NUKA);
                         output.accept(ModItems.BOTTLE_NUKA);
                         output.accept(ModItems.BOTTLE_CHERRY);
-                        output.accept(ModItems.CAP_QUANTUM);
                         output.accept(ModItems.BOTTLE_QUANTUM);
-                        output.accept(ModItems.CAP_SPARKLE);
                         output.accept(ModItems.BOTTLE_SPARKLE);
+                        output.accept(ModItems.CAP_NUKA);
+                        output.accept(ModItems.CAP_QUANTUM);
+                        output.accept(ModItems.CAP_SPARKLE);
 
-                        output.accept(ModItems.SCHRABIDIUM_PICKAXE);
+                        output.accept(ModItems.CIGARETTE);
+                        output.accept(ModItems.CRACKPIPE);
 
                         output.accept(ModItems.BOMB_CALLER_CARPET);
                         output.accept(ModItems.BOMB_CALLER_NAPALM);

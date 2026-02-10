@@ -31,4 +31,9 @@ public class RenderBarrel implements BlockEntityRenderer<EmptyBlockEntity> {
 
         poseStack.popPose();
     }
+
+    @Override
+    public int getViewDistance() {
+        return 256;
+    }
 }

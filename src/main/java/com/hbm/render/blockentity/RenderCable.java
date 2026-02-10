@@ -53,4 +53,9 @@ public class RenderCable implements BlockEntityRenderer<CableBlockEntityBaseNT> 
         }
         poseStack.popPose();
     }
+
+    @Override
+    public int getViewDistance() {
+        return 256;
+    }
 }

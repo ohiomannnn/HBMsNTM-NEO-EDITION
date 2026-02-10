@@ -114,4 +114,9 @@ public class RenderPlushie implements BlockEntityRenderer<PlushieBlockEntity> {
             }
         }
     }
+
+    @Override
+    public int getViewDistance() {
+        return 256;
+    }
 }

@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.Util;
 import net.minecraft.client.renderer.RenderStateShard;
+import net.minecraft.client.renderer.RenderStateShard.ShaderStateShard;
 import net.minecraft.client.renderer.RenderStateShard.TextureStateShard;
 import net.minecraft.client.renderer.RenderStateShard.TransparencyStateShard;
 import net.minecraft.client.renderer.RenderType;
@@ -36,6 +37,22 @@ public class CustomRenderTypes {
                 RenderSystem.defaultBlendFunc();
                 RenderSystem.disableBlend();
             });
+
+    public static final Function<ResourceLocation, RenderType> HAZE = Util.memoize(
+            texture -> {
+                RenderType.CompositeState state = RenderType.CompositeState.builder()
+                        .setShaderState(RenderType.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
+                        .setTextureState(new TextureStateShard(texture, false, false))
+                        .setTransparencyState(SEVEN_SEVEN10)
+                        .setCullState(RenderType.NO_CULL)
+                        .setLightmapState(RenderType.LIGHTMAP)
+                        .setOverlayState(RenderType.NO_OVERLAY)
+                        .setWriteMaskState(RenderType.COLOR_WRITE)
+                        .setOutputState(RenderType.TRANSLUCENT_TARGET)
+                        .createCompositeState(false);
+                return RenderType.create("haze", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 24325, false, false, state);
+            }
+    );
 
     public static final RenderType GLOW = RenderType.create(
             "glow",

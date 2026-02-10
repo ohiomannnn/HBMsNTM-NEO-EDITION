@@ -71,13 +71,13 @@ public class LaserDetonatorItem extends Item implements IHoldableWeapon {
                     }
                 }
             } else {
-                Vec3 vec = new Vec3(pos.getX() + 0.5 - player.getX(), pos.getY() + 0.5 - player.getY() + player.getEyeHeight(), pos.getZ() + 0.5 - player.getZ());
+                Vec3 vec = new Vec3(pos.getX() + 0.5 - player.getX(), pos.getY() + 0.5 - player.getEyeY(), pos.getZ() + 0.5 - player.getZ());
                 double len = Math.min(vec.length(), 15D);
                 vec = vec.normalize();
 
                 for (int i = 0; i < len; i++) {
                     double rand = level.random.nextDouble() * len + 3;
-                    level.addParticle(new DustParticleOptions(DustParticleOptions.REDSTONE_PARTICLE_COLOR, 1.0F), player.getX() + vec.x * rand, player.getY() + vec.y * rand, player.getZ() + vec.z * rand, 0, 0, 0);
+                    level.addParticle(new DustParticleOptions(DustParticleOptions.REDSTONE_PARTICLE_COLOR, 1.0F), player.getX() + vec.x * rand, player.getEyeY() + vec.y * rand, player.getZ() + vec.z * rand, 0, 0, 0);
                 }
             }
         }

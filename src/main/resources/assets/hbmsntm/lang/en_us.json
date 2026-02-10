@@ -125,10 +125,6 @@
   "block.hbmsntm.waste_leaves": "Dead Leaves",
   "block.hbmsntm.waste_log": "Charred Log",
 
-  "block.hbmsntm.barrel_red": "Explosive Barrel",
-  "block.hbmsntm.barrel_pink": "Kerosene Barrel",
-  "block.hbmsntm.barrel.static_fluid_barrel": "Static Fluid Barrel",
-
   "block.hbmsntm.taint": "Taint",
   "block.hbmsntm.geiger": "Geiger Counter",
 
@@ -138,17 +134,24 @@
   "block.hbmsntm.det_cord": "Det Cord",
   "block.hbmsntm.det_nuke": "Nuclear Charge",
   "block.hbmsntm.det_miner": "Mining Charge",
+  "block.hbmsntm.dynamite": "Dynamite",
+  "block.hbmsntm.tnt": "Actual TNT",
+  "block.hbmsntm.semtex": "Semtex",
+  "block.hbmsntm.c4": "C-4",
+  "block.hbmsntm.barrel_red": "Explosive Barrel",
+  "block.hbmsntm.barrel_pink": "Kerosene Barrel",
+  "block.hbmsntm.barrel.static_fluid_barrel": "Static Fluid Barrel",
   "block.hbmsntm.crashed_bomb_balefire": "Dud",
   "block.hbmsntm.crashed_bomb_conventional": "Dud",
   "block.hbmsntm.crashed_bomb_nuke": "Dud",
   "block.hbmsntm.crashed_bomb_salted": "Dud",
-  "block.hbmsntm.leaves_layer": "Fallen Leaves",
-
   "block.hbmsntm.mine_ap": "Anti-Personell Mine",
   "block.hbmsntm.mine_fat": "Fat Mine",
   "block.hbmsntm.mine_naval": "Naval Mine",
   "block.hbmsntm.mine_he": "Anti-Tank Mine",
   "block.hbmsntm.mine_shrap": "Shrapnel Mine",
+  "block.hbmsntm.leaves_layer": "Fallen Leaves",
+  "block.hbmsntm.fallout": "Fallout",
 
   "block.hbmsntm.sellafield_slaked": "Slaked Sellafite",
   "block.hbmsntm.sellafield_bedrock": "Bedrock Sellafite",
@@ -330,6 +333,12 @@
   "item.hbmsntm.bottle_sparkle.desc": "The most delicious beverage in the wasteland!",
   "item.hbmsntm.bottle_sparkle.desc.P11": "Contains trace amounts of taint.",
   "requires.opener": "[Requires bottle opener]",
+
+  "item.hbmsntm.cigarette": "FFI-Brand Cigarette",
+  "item.hbmsntm.cigarette.desc": "✓ Asbestos filter $✓ High in tar $✓ Tobacco contains 100%% Polonium-210 $✓ Yum",
+  "item.hbmsntm.crackpipe": "Health Pipe",
+  "item.hbmsntm.crackpipe.desc": "This can't be good for me, but I feel ",
+  "item.hbmsntm.crackpipe.desc1": "GREAT",
 
   "item.hbmsntm.cell_antimatter": "Antimatter Cell",
   "item.hbmsntm.cell_antimatter.desc": "Warning: Exposure to matter will lead to violent annihilation!",

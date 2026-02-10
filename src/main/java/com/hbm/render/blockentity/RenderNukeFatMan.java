@@ -37,4 +37,9 @@ public class RenderNukeFatMan implements BlockEntityRenderer<NukeFatManBlockEnti
 
         poseStack.popPose();
     }
+
+    @Override
+    public int getViewDistance() {
+        return 256;
+    }
 }

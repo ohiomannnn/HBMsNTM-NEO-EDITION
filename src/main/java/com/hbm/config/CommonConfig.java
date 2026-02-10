@@ -10,6 +10,7 @@ public class CommonConfig {
     public final ModConfigSpec.BooleanValue ENABLE_EXTENDED_LOGGING;
     public final ModConfigSpec.BooleanValue ENABLE_BOMBER_SHORT_MODE;
     public final ModConfigSpec.BooleanValue ENABLE_SILENT_COMPSTACK_ERRORS;
+    public final ModConfigSpec.BooleanValue ENABLE_KEYBIND_OVERLAP;
 
     // NUKES (03)
     public final ModConfigSpec.IntValue GADGET_RADIUS;
@@ -111,6 +112,10 @@ public class CommonConfig {
                 .comment("Enabling this will disable log spam created by unregistered items in ComparableStack instances.")
                 .translation("hbmsntm.configuration.enableSilentCompStackErrors")
                 .define("enableSilentCompStackErrors", false);
+        ENABLE_KEYBIND_OVERLAP = builder
+                .comment("If enabled, will handle keybinds that would otherwise be ignored due to overlapping.")
+                .translation("hbmsntm.configuration.enableKeybindOverlap")
+                .define("enableKeybindOverlap", true);
 
         builder.pop();
 

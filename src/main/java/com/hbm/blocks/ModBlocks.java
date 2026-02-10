@@ -318,13 +318,6 @@ public class ModBlocks {
     public static final DeferredBlock<Block> PLUSHIE_HUNDUN = registerBlock("plushie_hundun", () -> new PlushieBlock(BlockBehaviour.Properties.of().sound(SoundType.WOOL).strength(0.0F).explosionResistance(0.0F).noOcclusion(), PlushieType.HUNDUN));
     public static final DeferredBlock<Block> PLUSHIE_DERG = registerBlock("plushie_derg", () -> new PlushieBlock(BlockBehaviour.Properties.of().sound(SoundType.WOOL).strength(0.0F).explosionResistance(0.0F).noOcclusion(), PlushieType.DERG));
 
-    public static final DeferredBlock<Block> NUKE_GADGET = registerBlock("nuke_gadget", () -> new NukeGadgetBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
-    public static final DeferredBlock<Block> NUKE_LITTLE_BOY = registerBlock("nuke_little_boy", () -> new NukeLittleBoyBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
-    public static final DeferredBlock<Block> NUKE_FAT_MAN = registerBlock("nuke_fat_man", () -> new NukeFatManBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
-    public static final DeferredBlock<Block> NUKE_IVY_MIKE = registerBlock("nuke_ivy_mike", () -> new NukeIvyMikeBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
-    public static final DeferredBlock<Block> NUKE_TSAR_BOMBA = registerBlock("nuke_tsar_bomba", () -> new NukeTsarBombaBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
-    public static final DeferredBlock<Block> NUKE_N2 = registerBlock("nuke_n2", () -> new NukeN2Block(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
-
     public static final DeferredBlock<Block> GEIGER = registerBlock(
             "geiger",
             () -> new GeigerCounterBlock(BlockBehaviour.Properties.of()
@@ -342,105 +335,32 @@ public class ModBlocks {
             "pwr_controller",
             () -> new Block(BlockBehaviour.Properties.of().noLootTable()));
 
-    public static final DeferredBlock<Block> DET_CHARGE = registerBlock(
-            "det_charge",
-            () -> new ExplosiveChargeBlock(BlockBehaviour.Properties.of()
-                    .strength(0.1F)
-                    .explosionResistance(0.0F)
-                    .sound(SoundType.METAL)));
-    public static final DeferredBlock<Block> DET_CORD = registerBlock(
-            "det_cord",
-            () -> new DetCordBlock(BlockBehaviour.Properties.of()
-                    .strength(0.1F)
-                    .explosionResistance(0.0F)
-                    .noOcclusion()
-                    .isSuffocating(ModBlocks::never)
-                    .isViewBlocking(ModBlocks::never)
-                    .sound(SoundType.METAL)));
-    public static final DeferredBlock<Block> DET_NUKE = registerBlock(
-            "det_nuke",
-            () -> new ExplosiveChargeBlock(BlockBehaviour.Properties.of()
-                    .strength(0.1F)
-                    .explosionResistance(0.0F)
-                    .sound(SoundType.METAL)));
-    public static final DeferredBlock<Block> DET_MINER = registerBlock(
-            "det_miner",
-            () -> new ExplosiveChargeBlock(BlockBehaviour.Properties.of()
-                    .strength(0.1F)
-                    .explosionResistance(0.0F)
-                    .sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> NUKE_GADGET =     registerBlock("nuke_gadget",     () -> new NukeGadgetBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> NUKE_LITTLE_BOY = registerBlock("nuke_little_boy", () -> new NukeLittleBoyBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> NUKE_FAT_MAN =    registerBlock("nuke_fat_man",    () -> new NukeFatManBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> NUKE_IVY_MIKE =   registerBlock("nuke_ivy_mike",   () -> new NukeIvyMikeBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> NUKE_TSAR_BOMBA = registerBlock("nuke_tsar_bomba", () -> new NukeTsarBombaBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> NUKE_N2 =         registerBlock("nuke_n2",         () -> new NukeN2Block(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
 
-    public static final DeferredBlock<Block> MINE_AP = registerBlock(
-            "mine_ap",
-            () -> new LandmineBlock(BlockBehaviour.Properties.of()
-                    .noOcclusion()
-                    .noLootTable()
-                    .strength(1.0F)
-                    .sound(SoundType.METAL), 1.5D, 1D));
-
-    public static final DeferredBlock<Block> MINE_HE = registerBlock(
-            "mine_he",
-            () -> new LandmineBlock(BlockBehaviour.Properties.of()
-                    .noOcclusion()
-                    .noLootTable()
-                    .strength(1.0F)
-                    .sound(SoundType.METAL), 2D, 5D));
-
-    public static final DeferredBlock<Block> MINE_SHRAP = registerBlock(
-            "mine_shrap",
-            () -> new LandmineBlock(BlockBehaviour.Properties.of()
-                    .noOcclusion()
-                    .noLootTable()
-                    .strength(1.0F)
-                    .sound(SoundType.METAL), 1.5D, 1D));
-
-    public static final DeferredBlock<Block> MINE_FAT = registerBlock(
-            "mine_fat",
-            () -> new LandmineBlock(BlockBehaviour.Properties.of()
-                    .noOcclusion()
-                    .noLootTable()
-                    .strength(1.0F)
-                    .sound(SoundType.METAL), 2.5D, 1D));
-
-    public static final DeferredBlock<Block> MINE_NAVAL = registerBlock(
-            "mine_naval",
-            () -> new LandmineBlock(BlockBehaviour.Properties.of()
-                    .noOcclusion()
-                    .noLootTable()
-                    .strength(1.0F)
-                    .sound(SoundType.METAL), 2.5D, 1D));
-
-    public static final DeferredBlock<Block> CRASHED_BOMB_BALEFIRE = registerBlock(
-            "crashed_bomb_balefire",
-            () -> new CrashedBombBlock(BlockBehaviour.Properties.of()
-                    .noLootTable()
-                    .noOcclusion()
-                    .strength(6000.0F)
-                    .sound(SoundType.METAL)));
-    public static final DeferredBlock<Block> CRASHED_BOMB_CONVENTIONAL = registerBlock(
-            "crashed_bomb_conventional",
-            () -> new CrashedBombBlock(BlockBehaviour.Properties.of()
-                    .noLootTable()
-                    .noOcclusion()
-                    .strength(6000.0F)
-                    .sound(SoundType.METAL)));
-    public static final DeferredBlock<Block> CRASHED_BOMB_NUKE = registerBlock(
-            "crashed_bomb_nuke",
-            () -> new CrashedBombBlock(BlockBehaviour.Properties.of()
-                    .noLootTable()
-                    .noOcclusion()
-                    .strength(6000.0F)
-                    .sound(SoundType.METAL)));
-    public static final DeferredBlock<Block> CRASHED_BOMB_SALTED = registerBlock(
-            "crashed_bomb_salted",
-            () -> new CrashedBombBlock(BlockBehaviour.Properties.of()
-                    .noLootTable()
-                    .noOcclusion()
-                    .strength(6000.0F)
-                    .sound(SoundType.METAL)));
-
-    public static final DeferredBlock<Block> BARREL_RED = registerBlock("barrel_red", () -> new RedBarrelBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.1F).explosionResistance(2.5F).sound(SoundType.METAL), true));
+    public static final DeferredBlock<Block> DET_CHARGE =  registerBlock("det_charge",  () -> new ExplosiveChargeBlock(BlockBehaviour.Properties.of().strength(0.1F).explosionResistance(0.0F).sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> DET_CORD =    registerBlock("det_cord",    () -> new DetCordBlock(BlockBehaviour.Properties.of().strength(0.1F).explosionResistance(0.0F).noOcclusion().isSuffocating(ModBlocks::never).isViewBlocking(ModBlocks::never).sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> DET_NUKE =    registerBlock("det_nuke",    () -> new ExplosiveChargeBlock(BlockBehaviour.Properties.of().strength(0.1F).explosionResistance(0.0F).sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> DET_MINER =   registerBlock("det_miner",   () -> new ExplosiveChargeBlock(BlockBehaviour.Properties.of().strength(0.1F).explosionResistance(0.0F).sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> BARREL_RED =  registerBlock("barrel_red",  () -> new RedBarrelBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.1F).explosionResistance(2.5F).sound(SoundType.METAL), true));
     public static final DeferredBlock<Block> BARREL_PINK = registerBlock("barrel_pink", () -> new RedBarrelBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.1F).explosionResistance(2.5F).sound(SoundType.METAL), true));
+    public static final DeferredBlock<Block> CRASHED_BOMB_BALEFIRE =     registerBlock("crashed_bomb_balefire",     () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> CRASHED_BOMB_CONVENTIONAL = registerBlock("crashed_bomb_conventional", () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> CRASHED_BOMB_NUKE =         registerBlock("crashed_bomb_nuke",         () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> CRASHED_BOMB_SALTED =       registerBlock("crashed_bomb_salted",       () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> MINE_AP =    registerBlock("mine_ap",    () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().noLootTable().strength(1.0F).sound(SoundType.METAL), 1.5D, 1D));
+    public static final DeferredBlock<Block> MINE_HE =    registerBlock("mine_he",    () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().noLootTable().strength(1.0F).sound(SoundType.METAL), 2D, 5D));
+    public static final DeferredBlock<Block> MINE_SHRAP = registerBlock("mine_shrap", () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().noLootTable().strength(1.0F).sound(SoundType.METAL), 1.5D, 1D));
+    public static final DeferredBlock<Block> MINE_FAT =   registerBlock("mine_fat",   () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().noLootTable().strength(1.0F).sound(SoundType.METAL), 2.5D, 1D));
+    public static final DeferredBlock<Block> MINE_NAVAL = registerBlock("mine_naval", () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().noLootTable().strength(1.0F).sound(SoundType.METAL), 2.5D, 1D));
+    public static final DeferredBlock<Block> DYNAMITE = registerBlock("dynamite", () -> new DynamiteBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.0F).sound(SoundType.GRASS)));
+    public static final DeferredBlock<Block> TNT =      registerBlock("tnt",      () -> new TNTBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.0F).sound(SoundType.GRASS)));
+    public static final DeferredBlock<Block> SEMTEX =   registerBlock("semtex",   () -> new SemtexBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.0F).sound(SoundType.GRASS)));
+    public static final DeferredBlock<Block> C4 =       registerBlock("c4",       () -> new C4Block(BlockBehaviour.Properties.of().noOcclusion().strength(0.0F).sound(SoundType.GRASS)));
 
     public static final DeferredBlock<Block> URANIUM_BLOCK = registerBlock("uranium_block",
             () -> new HazardBlock(BlockBehaviour.Properties.of()

@@ -18,7 +18,13 @@ import java.util.function.Supplier;
 
 public class ModArmorMaterials {
 
-    public static final Holder<ArmorMaterial> ALLOY;
+    public static final Holder<ArmorMaterial> ALLOY =
+            register("alloy", Util.make(new EnumMap(ArmorItem.Type.class), (map) -> {
+                map.put(ArmorItem.Type.HELMET, 3);
+                map.put(ArmorItem.Type.CHESTPLATE, 8);
+                map.put(ArmorItem.Type.LEGGINGS, 6);
+                map.put(ArmorItem.Type.BOOTS, 3);
+            }), 12, SoundEvents.ARMOR_EQUIP_GENERIC, 0.0F, 0.0F, () -> Ingredient.of());
 
     private static Holder<ArmorMaterial> register(String name, EnumMap<ArmorItem.Type, Integer> defense, int enchantmentValue, Holder<SoundEvent> equipSound, float toughness, float knockbackResistance, Supplier<Ingredient> repairIngredient) {
         List<ArmorMaterial.Layer> list = List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, name)));
@@ -33,14 +39,5 @@ public class ModArmorMaterials {
         }
 
         return Registry.registerForHolder(BuiltInRegistries.ARMOR_MATERIAL, ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, name), new ArmorMaterial(enummap, enchantmentValue, equipSound, repairIngridient, layers, toughness, knockbackResistance));
-    }
-
-    static {
-        ALLOY = register("alloy", Util.make(new EnumMap(ArmorItem.Type.class), (map) -> {
-            map.put(ArmorItem.Type.HELMET, 3);
-            map.put(ArmorItem.Type.CHESTPLATE, 8);
-            map.put(ArmorItem.Type.LEGGINGS, 6);
-            map.put(ArmorItem.Type.BOOTS, 3);
-        }), 12, SoundEvents.ARMOR_EQUIP_GENERIC, 0.0F, 0.0F, () -> Ingredient.of());
     }
 }

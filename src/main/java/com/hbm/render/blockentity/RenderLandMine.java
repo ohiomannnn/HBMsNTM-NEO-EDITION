@@ -79,6 +79,6 @@ public class RenderLandMine implements BlockEntityRenderer<LandMineBlockEntity> 
 
     @Override
     public int getViewDistance() {
-        return 128;
+        return 256;
     }
 }

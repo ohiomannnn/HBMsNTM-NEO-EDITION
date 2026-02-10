@@ -12,6 +12,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
+import org.joml.Matrix4f;
 
 import java.util.*;
 
@@ -86,10 +87,12 @@ public class RenderInfoSystem {
         Tesselator tess = Tesselator.getInstance();
         BufferBuilder buf = tess.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
 
-        buf.addVertex(pX - 5, pZ - 5, z).setColor(0.25F, 0.25F, 0.25F, 0.5F);
-        buf.addVertex(pX - 5, infoHeight, z).setColor(0.25F, 0.25F, 0.25F, 0.5F);
-        buf.addVertex(side, infoHeight, z).setColor(0.25F, 0.25F, 0.25F, 0.5F);
-        buf.addVertex(side, pZ - 5, z).setColor(0.25F, 0.25F, 0.25F, 0.5F);
+        Matrix4f matrix = event.getGuiGraphics().pose().last().pose();
+
+        buf.addVertex(matrix, pX - 5, pZ - 5, z).setColor(0.25F, 0.25F, 0.25F, 0.5F);
+        buf.addVertex(matrix, pX - 5, infoHeight, z).setColor(0.25F, 0.25F, 0.25F, 0.5F);
+        buf.addVertex(matrix, side, infoHeight, z).setColor(0.25F, 0.25F, 0.25F, 0.5F);
+        buf.addVertex(matrix, side, pZ - 5, z).setColor(0.25F, 0.25F, 0.25F, 0.5F);
 
         BufferUploader.drawWithShader(buf.buildOrThrow());
 

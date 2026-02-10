@@ -13,7 +13,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.phys.Vec3;
 
 public class TNTPrimedBase extends Entity {
 
@@ -33,9 +32,8 @@ public class TNTPrimedBase extends Entity {
     public TNTPrimedBase(Level level, double x, double y, double z, LivingEntity placer, Block bomb) {
         this(ModEntityTypes.TNT_PRIMED_BASE.get(), level);
         this.setPos(x, y, z);
-        float f = (float) (Math.random() * Math.PI * 2.0D);
-        Vec3 vec = new Vec3(-Math.sin(f) * 0.02, 0.2, -Math.cos(f) * 0.02);
-        this.setDeltaMovement(vec);
+        double d0 = level.random.nextDouble() * (double)((float)Math.PI * 2F);
+        this.setDeltaMovement(-Math.sin(d0) * 0.02, 0.2F, -Math.cos(d0) * 0.02);
         this.tntPlacedBy = placer;
         this.entityData.set(BLOCK_ID, Block.getId(bomb.defaultBlockState()));
     }
@@ -43,11 +41,6 @@ public class TNTPrimedBase extends Entity {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         builder.define(BLOCK_ID, 0);
-    }
-
-    @Override
-    public boolean isPushable() {
-        return this.isAlive();
     }
 
     @Override
@@ -64,7 +57,7 @@ public class TNTPrimedBase extends Entity {
             this.setDeltaMovement(this.getDeltaMovement().multiply(0.7D, -0.5D, 0.7D));
         }
 
-        if (this.fuse-- <= 0 || (this.detonateOnCollision && this.horizontalCollision || this.verticalCollision)) {
+        if (this.fuse-- <= 0 || (this.detonateOnCollision && (this.horizontalCollision || this.verticalCollision))) {
             this.discard();
 
             if (!this.level().isClientSide) {

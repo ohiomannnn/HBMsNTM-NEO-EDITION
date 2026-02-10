@@ -26,7 +26,7 @@ import java.io.File;
 public class HBMsNTM {
     public static final String MODID = "hbmsntm";
     public static ResourceLocation withDefaultNamespaceNT(String path) { return ResourceLocation.fromNamespaceAndPath(MODID, path); }
-    // HBM's Beta Naming Convention:
+    // HBM's -Beta- ALPHA Naming Convention:
     // V T (X)
     // V -> next release version
     // T -> build type

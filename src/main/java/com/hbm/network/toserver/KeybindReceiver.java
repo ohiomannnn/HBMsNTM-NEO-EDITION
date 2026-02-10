@@ -2,54 +2,45 @@ package com.hbm.network.toserver;
 
 import com.hbm.HBMsNTM;
 import com.hbm.extprop.HbmPlayerAttachments;
-import com.hbm.handler.KeyHandler;
+import com.hbm.handler.KeyHandler.EnumKeybind;
 import com.hbm.items.IKeybindReceiver;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-public record KeybindReceiver(KeyHandler.EnumKeybind keybind, boolean state, boolean property) implements CustomPacketPayload {
+public record KeybindReceiver(EnumKeybind keybind, boolean state) implements CustomPacketPayload {
 
-    public static final Type<KeybindReceiver> TYPE =
-            new Type<>(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "keybind"));
+    public static final Type<KeybindReceiver> TYPE = new Type<>(HBMsNTM.withDefaultNamespaceNT("keybind"));
 
-    public static final StreamCodec<FriendlyByteBuf, KeybindReceiver> STREAM_CODEC =
-            new StreamCodec<>() {
-                @Override
-                public KeybindReceiver decode(FriendlyByteBuf buf) {
-                    KeyHandler.EnumKeybind key = buf.readEnum(KeyHandler.EnumKeybind.class);
-                    boolean state = buf.readBoolean();
-                    boolean property = buf.readBoolean();
-                    return new KeybindReceiver(key, state, property);
-                }
+    public static final StreamCodec<FriendlyByteBuf, KeybindReceiver> STREAM_CODEC = new StreamCodec<>() {
+        @Override
+        public KeybindReceiver decode(FriendlyByteBuf buf) {
+            EnumKeybind key = buf.readEnum(EnumKeybind.class);
+            boolean state = buf.readBoolean();
+            return new KeybindReceiver(key, state);
+        }
 
-                @Override
-                public void encode(FriendlyByteBuf buf, KeybindReceiver packet) {
-                    buf.writeEnum(packet.keybind);
-                    buf.writeBoolean(packet.state);
-                    buf.writeBoolean(packet.property);
-                }
-            };
+        @Override
+        public void encode(FriendlyByteBuf buf, KeybindReceiver packet) {
+            buf.writeEnum(packet.keybind);
+            buf.writeBoolean(packet.state);
+        }
+    };
 
     public static void handleServer(KeybindReceiver packet, IPayloadContext context) {
         context.enqueueWork(() -> {
-            if (!(context.player() instanceof ServerPlayer player)) return;
+            Player player = context.player();
 
-            if (packet.property) {
-                HbmPlayerAttachments props = HbmPlayerAttachments.getData(player);
-                props.setKeyPressed(player, packet.keybind(), packet.state());
-            }
+            HbmPlayerAttachments props = HbmPlayerAttachments.getData(player);
+            props.setKeyPressed(context.player(), packet.keybind(), packet.state());
 
-            if (!packet.property) {
-                for (ItemStack stack : new ItemStack[]{player.getMainHandItem(), player.getOffhandItem()}) {
-                    if (stack.getItem() instanceof IKeybindReceiver receiver) {
-                        if (receiver.canHandleKeybind(player, stack, packet.keybind())) {
-                            receiver.handleKeybind(player, stack, packet.keybind(), packet.state());
-                        }
+            for (ItemStack stack : new ItemStack[]{player.getMainHandItem(), player.getOffhandItem()}) {
+                if (stack.getItem() instanceof IKeybindReceiver receiver) {
+                    if (receiver.canHandleKeybind(player, stack, packet.keybind())) {
+                        receiver.handleKeybind(player, stack, packet.keybind(), packet.state());
                     }
                 }
             }
@@ -57,7 +48,5 @@ public record KeybindReceiver(KeyHandler.EnumKeybind keybind, boolean state, boo
     }
 
     @Override
-    public Type<? extends CustomPacketPayload> type() {
-        return TYPE;
-    }
+    public Type<? extends CustomPacketPayload> type() { return TYPE; }
 }

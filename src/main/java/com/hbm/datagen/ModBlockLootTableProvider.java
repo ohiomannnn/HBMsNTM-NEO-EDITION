@@ -53,6 +53,11 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.BARREL_RED.get());
         this.dropSelf(ModBlocks.BARREL_PINK.get());
 
+        this.dropSelf(ModBlocks.DYNAMITE.get());
+        this.dropSelf(ModBlocks.TNT.get());
+        this.dropSelf(ModBlocks.SEMTEX.get());
+        this.dropSelf(ModBlocks.C4.get());
+
         this.dropSelf(ModBlocks.PLUSHIE_YOMI.get());
         this.dropSelf(ModBlocks.PLUSHIE_NUMBERNINE.get());
         this.dropSelf(ModBlocks.PLUSHIE_HUNDUN.get());

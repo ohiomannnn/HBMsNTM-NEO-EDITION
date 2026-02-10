@@ -37,4 +37,8 @@ public class RenderNukeTsarBomba implements BlockEntityRenderer<NukeTsarBombaBlo
 
         poseStack.popPose();
     }
+    @Override
+    public int getViewDistance() {
+        return 256;
+    }
 }

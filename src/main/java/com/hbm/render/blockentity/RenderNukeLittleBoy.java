@@ -38,4 +38,9 @@ public class RenderNukeLittleBoy implements BlockEntityRenderer<NukeLittleBoyBlo
 
         poseStack.popPose();
     }
+
+    @Override
+    public int getViewDistance() {
+        return 256;
+    }
 }

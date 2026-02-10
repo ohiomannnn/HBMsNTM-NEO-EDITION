@@ -16,6 +16,7 @@ import static net.neoforged.neoforge.common.Tags.Blocks.*;
 import static com.hbm.inventory.ModTags.Blocks.*;
 
 public class ModBlockTagProvider extends BlockTagsProvider {
+
     public ModBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper existingFileHelper) {
         super(output, lookupProvider, HBMsNTM.MODID, existingFileHelper);
     }

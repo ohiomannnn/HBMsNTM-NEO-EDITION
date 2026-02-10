@@ -38,7 +38,7 @@ public class RenderGeigerBlock implements BlockEntityRenderer<GeigerBlockEntity>
     }
 
     @Override
-    public boolean shouldRenderOffScreen(GeigerBlockEntity blockEntity) {
-        return true;
+    public int getViewDistance() {
+        return 256;
     }
 }
