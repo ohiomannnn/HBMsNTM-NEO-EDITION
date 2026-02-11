@@ -1,6 +1,6 @@
 package com.hbm.blocks.machine;
 
-import com.hbm.blockentity.ModBlockEntities;
+import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blockentity.machine.GeigerBlockEntity;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.lib.ModSounds;
@@ -108,12 +108,12 @@ public class GeigerCounterBlock extends BaseEntityBlock implements SimpleWaterlo
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide ? null : BaseEntityBlock.createTickerHelper(type, ModBlockEntities.GEIGER_COUNTER.get(), GeigerBlockEntity::serverTick);
+        return level.isClientSide ? null : BaseEntityBlock.createTickerHelper(type, ModBlockEntityTypes.GEIGER_COUNTER.get(), GeigerBlockEntity::serverTick);
     }
 
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return new GeigerBlockEntity(ModBlockEntities.GEIGER_COUNTER.get(), blockPos, blockState);
+        return new GeigerBlockEntity(ModBlockEntityTypes.GEIGER_COUNTER.get(), blockPos, blockState);
     }
 
     @Override

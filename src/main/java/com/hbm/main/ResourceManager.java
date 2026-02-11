@@ -156,4 +156,8 @@ public class ResourceManager {
 
         barrel = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/block/barrel.obj")).asVBO();
     }
+
+    public static final IModelCustom yomiModel = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/trinkets/yomi.obj"), false).asVBO();
+    public static final IModelCustom hundunModel = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/trinkets/hundun.obj"), false).asVBO();
+    public static final IModelCustom dergModel = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/trinkets/derg.obj"), false).asVBO();
 }

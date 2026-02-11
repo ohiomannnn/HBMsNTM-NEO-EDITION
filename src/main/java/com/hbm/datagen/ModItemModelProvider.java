@@ -101,15 +101,15 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         handheldItem(ModItems.ALLOY_PICKAXE.get());
 
-        withExistingParent(ModBlocks.GAS_RADON.getId().getPath(), "item/generated").texture("layer0", modLoc("block/gas_radon"));
-        withExistingParent(ModBlocks.GAS_RADON_DENSE.getId().getPath(), "item/generated").texture("layer0", modLoc("block/gas_radon_dense"));
-        withExistingParent(ModBlocks.GAS_RADON_TOMB.getId().getPath(), "item/generated").texture("layer0", modLoc("block/gas_radon_tomb"));
-        withExistingParent(ModBlocks.GAS_MELTDOWN.getId().getPath(), "item/generated").texture("layer0", modLoc("block/gas_meltdown"));
-        withExistingParent(ModBlocks.GAS_MONOXIDE.getId().getPath(), "item/generated").texture("layer0", modLoc("block/gas_monoxide"));
-        withExistingParent(ModBlocks.GAS_ASBESTOS.getId().getPath(), "item/generated").texture("layer0", modLoc("block/gas_asbestos"));
-        withExistingParent(ModBlocks.GAS_COAL.getId().getPath(), "item/generated").texture("layer0", modLoc("block/gas_coal"));
-        withExistingParent(ModBlocks.GAS_FLAMMABLE.getId().getPath(), "item/generated").texture("layer0", modLoc("block/gas_flammable"));
-        withExistingParent(ModBlocks.GAS_EXPLOSIVE.getId().getPath(), "item/generated").texture("layer0", modLoc("block/gas_explosive"));
+        this.basicItem(ModBlocks.GAS_RADON.asItem());
+        this.basicItem(ModBlocks.GAS_RADON_DENSE.asItem());
+        this.basicItem(ModBlocks.GAS_RADON_TOMB.asItem());
+        this.basicItem(ModBlocks.GAS_MELTDOWN.asItem());
+        this.basicItem(ModBlocks.GAS_MONOXIDE.asItem());
+        this.basicItem(ModBlocks.GAS_ASBESTOS.asItem());
+        this.basicItem(ModBlocks.GAS_COAL.asItem());
+        this.basicItem(ModBlocks.GAS_FLAMMABLE.asItem());
+        this.basicItem(ModBlocks.GAS_EXPLOSIVE.asItem());
 
         getBuilder(ModBlocks.LEAVES_LAYER.getId().getPath())
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/layering_1")));

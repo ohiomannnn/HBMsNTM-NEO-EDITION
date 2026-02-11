@@ -1,6 +1,6 @@
 package com.hbm.blocks.machine;
 
-import com.hbm.blockentity.ModBlockEntities;
+import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blockentity.machine.DecontaminatorBlockEntity;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -34,6 +34,6 @@ public class DecontaminatorBlock extends BaseEntityBlock {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return BaseEntityBlock.createTickerHelper(type, ModBlockEntities.DECONTAMINATOR.get(), DecontaminatorBlockEntity::tick);
+        return BaseEntityBlock.createTickerHelper(type, ModBlockEntityTypes.DECONTAMINATOR.get(), DecontaminatorBlockEntity::tick);
     }
 }

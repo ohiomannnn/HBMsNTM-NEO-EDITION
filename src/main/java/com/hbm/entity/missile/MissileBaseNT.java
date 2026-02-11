@@ -37,7 +37,7 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
     public int health = 50;
 
     public MissileBaseNT(EntityType<?> entityType, Level level) {
-        super(entityType, level);
+        super((EntityType<? extends ThrowableInterp>) entityType, level);
 
         startX = (int) this.getX();
         startZ = (int) this.getZ();
@@ -163,15 +163,15 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
         return true;
     }
 
-    @Override
-    protected double motionMult() {
-        return velocity;
-    }
-
-    @Override
-    public boolean doesImpactEntities() {
-        return false;
-    }
+//    @Override
+//    protected double motionMult() {
+//        return velocity;
+//    }
+//
+//    @Override
+//    public boolean doesImpactEntities() {
+//        return false;
+//    }
 
     protected void killMissile() {
         if (this.isAlive()) {
@@ -184,33 +184,33 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
         }
     }
 
-    @Override
-    protected void onImpact(HitResult hitResult) {
-        if (hitResult != null && hitResult.getType() == HitResult.Type.BLOCK) {
-            this.onMissileImpact(hitResult);
-            this.discard();
-        }
-    }
+//    @Override
+//    protected void onImpact(HitResult hitResult) {
+//        if (hitResult != null && hitResult.getType() == HitResult.Type.BLOCK) {
+//            this.onMissileImpact(hitResult);
+//            this.discard();
+//        }
+//    }
 
     public abstract void onMissileImpact(HitResult hitResult);
     public abstract List<ItemStack> getDebris();
     public abstract ItemStack getDebrisRareDrop();
     public void cluster() { }
 
-    @Override
-    public double getGravityVelocity() {
-        return 0.0D;
-    }
+//    @Override
+//    public double getGravityVelocity() {
+//        return 0.0D;
+//    }
 
-    @Override
-    protected float getAirDrag() {
-        return 1F;
-    }
-
-    @Override
-    protected float getWaterDrag() {
-        return 1F;
-    }
+//    @Override
+//    protected float getAirDrag() {
+//        return 1F;
+//    }
+//
+//    @Override
+//    protected float getWaterDrag() {
+//        return 1F;
+//    }
 
 
     @Override

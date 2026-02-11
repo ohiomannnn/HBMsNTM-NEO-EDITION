@@ -34,15 +34,9 @@ public class HFRWavefrontObject implements IModelCustomNamed {
         this.smoothing = smoothing;
 
         try {
-            Optional<Resource> resourceOpt = Minecraft.getInstance()
-                    .getResourceManager()
-                    .getResource(resource);
+            Resource res = Minecraft.getInstance().getResourceManager().getResourceOrThrow(resource);
 
-            if (resourceOpt.isEmpty()) {
-                throw new RuntimeException("Could not find OBJ model: " + resource);
-            }
-
-            try (InputStream stream = resourceOpt.get().open()) {
+            try (InputStream stream = res.open()) {
                 loadObjModel(stream);
             }
         } catch (IOException e) {

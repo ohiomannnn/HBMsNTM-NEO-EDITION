@@ -1,7 +1,7 @@
 package com.hbm.blocks.generic;
 
 import com.hbm.blockentity.EmptyBlockEntity;
-import com.hbm.blockentity.ModBlockEntities;
+import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.DetonatableBlock;
 import com.hbm.entity.item.TNTPrimedBase;
@@ -43,7 +43,7 @@ public class RedBarrelBlock extends DetonatableBlock implements EntityBlock, Sim
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new EmptyBlockEntity(ModBlockEntities.BARREL.get(), pos, state);
+        return new EmptyBlockEntity(ModBlockEntityTypes.BARREL.get(), pos, state);
     }
 
     @Override

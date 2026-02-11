@@ -35,13 +35,13 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.List;
 
-public class PlushieBlock extends Block implements EntityBlock, ITooltipProvider {
+public class BobbleHeadBlock extends Block implements EntityBlock, ITooltipProvider {
 
     public static final IntegerProperty DIRECTION = IntegerProperty.create("direction", 0, 16);
 
     public PlushieType type;
 
-    public PlushieBlock(Properties properties, PlushieType type) {
+    public BobbleHeadBlock(Properties properties, PlushieType type) {
         super(properties);
         this.type = type;
         this.registerDefaultState(((this.stateDefinition.any()).setValue(DIRECTION, 0)));

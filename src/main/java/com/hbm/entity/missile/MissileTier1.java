@@ -26,11 +26,11 @@ public abstract class MissileTier1 extends MissileBaseNT {
         return 0.5F;
     }
 
-    public static class MissileGeneric extends MissileTier1 {
-        public MissileGeneric(EntityType<?> entityType, Level level) { super(entityType, level); }
-        public MissileGeneric(EntityType<?> entityType, Level level, float x, float y, float z, int a, int b) { super(entityType, level, x, y, z, a, b); }
-        @Override public void onMissileImpact(HitResult mop) { this.explodeStandard(15F, 24, false); ExplosionCreator.composeEffectSmall(level(), getX(), getY(), getZ()); }
-        @Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.NOTHING.get()); }
-        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.NOTHING.get()); }
-    }
+//    public static class MissileGeneric extends MissileTier1 {
+//        public MissileGeneric(EntityType<?> entityType, Level level) { super(entityType, level); }
+//        public MissileGeneric(EntityType<?> entityType, Level level, float x, float y, float z, int a, int b) { super(entityType, level, x, y, z, a, b); }
+//        @Override public void onMissileImpact(HitResult mop) { this.explodeStandard(15F, 24, false); ExplosionCreator.composeEffectSmall(level(), getX(), getY(), getZ()); }
+//        @Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.NOTHING.get()); }
+//        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.NOTHING.get()); }
+//    }
 }

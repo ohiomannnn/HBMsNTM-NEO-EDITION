@@ -4,7 +4,7 @@ import api.hbm.energymk2.IEnergyConductorMK2;
 import api.hbm.energymk2.Nodespace;
 import api.hbm.energymk2.Nodespace.PowerNode;
 import com.hbm.blockentity.LoadedBaseBlockEntity;
-import com.hbm.blockentity.ModBlockEntities;
+import com.hbm.blockentity.ModBlockEntityTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -14,7 +14,7 @@ public class CableBlockEntityBaseNT extends LoadedBaseBlockEntity implements IEn
     public PowerNode node;
 
     public CableBlockEntityBaseNT(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.NETWORK_CABLE.get(), pos, state);
+        super(ModBlockEntityTypes.NETWORK_CABLE.get(), pos, state);
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState ignored, CableBlockEntityBaseNT be) {

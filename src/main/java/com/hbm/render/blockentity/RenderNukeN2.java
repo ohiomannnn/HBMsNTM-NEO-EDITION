@@ -1,20 +1,28 @@
 package com.hbm.render.blockentity;
 
 import com.hbm.blockentity.bomb.NukeN2BlockEntity;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.item.ItemRenderBase;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
-public class RenderNukeN2 implements BlockEntityRenderer<NukeN2BlockEntity> {
+public class RenderNukeN2 extends BlockEntityRendererNT<NukeN2BlockEntity> implements IBEWLRProvider {
 
-    public RenderNukeN2(BlockEntityRendererProvider.Context ignored) { }
+    public RenderNukeN2(Context ignored) { }
+
+    @Override
+    public BlockEntityRenderer<NukeN2BlockEntity> create(Context context) {
+        return new RenderNukeN2(context);
+    }
 
     @Override
     public void render(NukeN2BlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
@@ -42,5 +50,27 @@ public class RenderNukeN2 implements BlockEntityRenderer<NukeN2BlockEntity> {
     @Override
     public int getViewDistance() {
         return 256;
+    }
+
+    @Override
+    public Item getItemForRenderer() {
+        return ModBlocks.NUKE_N2.asItem();
+    }
+
+    @Override
+    public BlockEntityWithoutLevelRenderer getRenderer() {
+        return new ItemRenderBase() {
+            @Override
+            public void renderInventory(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+                poseStack.translate(0F, -5F, 0F);
+                poseStack.scale(2.25F, 2.25F, 2.25F);
+            }
+
+            @Override
+            public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+                VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.NUKE_N2_TEX));
+                ResourceManager.nuke_n2.renderAll(poseStack, consumer, packedLight, packedOverlay);
+            }
+        };
     }
 }

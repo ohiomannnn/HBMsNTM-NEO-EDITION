@@ -3,8 +3,10 @@ package com.hbm.render.blockentity;
 import com.hbm.HBMsNTMClient;
 import com.hbm.blockentity.machine.storage.BatteryREDDBlockEntity;
 import com.hbm.blocks.DummyableBlock;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.CustomRenderTypes;
+import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.loader.WavefrontObjVBO;
 import com.hbm.render.util.BeamPronter;
 import com.hbm.render.util.BeamPronter.BeamType;
@@ -16,20 +18,26 @@ import com.hbm.util.Vec3NT;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.phys.AABB;
 import org.joml.Matrix4f;
 
 import java.util.Random;
 
-public class RenderBatteryREDD implements BlockEntityRenderer<BatteryREDDBlockEntity> {
+public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEntity> implements IBEWLRProvider {
 
-    public RenderBatteryREDD(BlockEntityRendererProvider.Context context) { }
+    public RenderBatteryREDD(Context context) { }
+
+    @Override
+    public BlockEntityRenderer<BatteryREDDBlockEntity> create(Context context) {
+        return new RenderBatteryREDD(context);
+    }
 
     @Override
     public void render(BatteryREDDBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
@@ -201,5 +209,31 @@ public class RenderBatteryREDD implements BlockEntityRenderer<BatteryREDDBlockEn
     @Override
     public int getViewDistance() {
         return 256;
+    }
+
+    @Override
+    public Item getItemForRenderer() {
+        return ModBlocks.MACHINE_BATTERY_REDD.asItem();
+    }
+
+    @Override
+    public BlockEntityWithoutLevelRenderer getRenderer() {
+        return new ItemRenderBase() {
+            @Override
+            public void renderInventory(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+                poseStack.translate(0, -3, 0);
+                poseStack.scale(2.5F, 2.5F, 2.5F);
+            }
+
+            @Override
+            public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+                poseStack.mulPose(Axis.YN.rotationDegrees(-90F));
+                poseStack.scale(0.5F, 0.5F, 0.5F);
+                VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.BATTERY_REDD_TEX));
+                ResourceManager.battery_redd.renderPart("Base", poseStack, consumer, packedLight, packedOverlay);
+                ResourceManager.battery_redd.renderPart("Wheel", poseStack, consumer, packedLight, packedOverlay);
+                ResourceManager.battery_redd.renderPart("Lights", poseStack, consumer, 240, packedOverlay);
+            }
+        };
     }
 }

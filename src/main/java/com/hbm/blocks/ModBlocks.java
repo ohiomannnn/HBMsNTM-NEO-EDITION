@@ -14,6 +14,7 @@ import com.hbm.items.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.ColorRGBA;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
@@ -248,60 +249,15 @@ public class ModBlocks {
                     .noOcclusion()
                     .sound(SoundType.METAL)));
 
-    public static final DeferredBlock<Block> GAS_RADON = registerBlock(
-            "gas_radon",
-            () -> new GasRadonBlock(BlockBehaviour.Properties.of()
-                    .noCollission()
-                    .noOcclusion()
-                    .noLootTable()));
-    public static final DeferredBlock<Block> GAS_RADON_DENSE = registerBlock(
-            "gas_radon_dense",
-            () -> new GasRadonDenseBlock(BlockBehaviour.Properties.of()
-                    .noCollission()
-                    .noOcclusion()
-                    .noLootTable()));
-    public static final DeferredBlock<Block> GAS_RADON_TOMB = registerBlock(
-            "gas_radon_tomb",
-            () -> new GasRadonTombBlock(BlockBehaviour.Properties.of()
-                    .noCollission()
-                    .noOcclusion()
-                    .noLootTable()));
-    public static final DeferredBlock<Block> GAS_MELTDOWN = registerBlock(
-            "gas_meltdown",
-            () -> new GasMeltdownBlock(BlockBehaviour.Properties.of()
-                    .noCollission()
-                    .noOcclusion()
-                    .noLootTable()));
-    public static final DeferredBlock<Block> GAS_MONOXIDE = registerBlock(
-            "gas_monoxide",
-            () -> new GasMonoxideBlock(BlockBehaviour.Properties.of()
-                    .noCollission()
-                    .noOcclusion()
-                    .noLootTable()));
-    public static final DeferredBlock<Block> GAS_ASBESTOS = registerBlock(
-            "gas_asbestos",
-            () -> new GasAsbestosBlock(BlockBehaviour.Properties.of()
-                    .noCollission()
-                    .noOcclusion()
-                    .noLootTable()));
-    public static final DeferredBlock<Block> GAS_COAL = registerBlock(
-            "gas_coal",
-            () -> new GasCoalBlock(BlockBehaviour.Properties.of()
-                    .noCollission()
-                    .noOcclusion()
-                    .noLootTable()));
-    public static final DeferredBlock<Block> GAS_FLAMMABLE = registerBlock(
-            "gas_flammable",
-            () -> new GasFlammableBlock(BlockBehaviour.Properties.of()
-                    .noCollission()
-                    .noOcclusion()
-                    .noLootTable()));
-    public static final DeferredBlock<Block> GAS_EXPLOSIVE = registerBlock(
-            "gas_explosive",
-            () -> new GasExplosiveBlock(BlockBehaviour.Properties.of()
-                    .noCollission()
-                    .noOcclusion()
-                    .noLootTable()));
+    public static final DeferredBlock<Block> GAS_RADON =       registerBlock("gas_radon",       () -> new GasRadonBlock(      BlockBehaviour.Properties.of().noOcclusion().replaceable().noCollission().noLootTable()));
+    public static final DeferredBlock<Block> GAS_RADON_DENSE = registerBlock("gas_radon_dense", () -> new GasRadonDenseBlock( BlockBehaviour.Properties.of().noOcclusion().replaceable().noCollission().noLootTable()));
+    public static final DeferredBlock<Block> GAS_RADON_TOMB =  registerBlock("gas_radon_tomb",  () -> new GasRadonTombBlock(  BlockBehaviour.Properties.of().noOcclusion().replaceable().noCollission().noLootTable()));
+    public static final DeferredBlock<Block> GAS_MELTDOWN =    registerBlock("gas_meltdown",    () -> new GasMeltdownBlock(   BlockBehaviour.Properties.of().noOcclusion().replaceable().noCollission().noLootTable()));
+    public static final DeferredBlock<Block> GAS_MONOXIDE =    registerBlock("gas_monoxide",    () -> new GasMonoxideBlock(   BlockBehaviour.Properties.of().noOcclusion().replaceable().noCollission().noLootTable()));
+    public static final DeferredBlock<Block> GAS_ASBESTOS =    registerBlock("gas_asbestos",    () -> new GasAsbestosBlock(   BlockBehaviour.Properties.of().noOcclusion().replaceable().noCollission().noLootTable()));
+    public static final DeferredBlock<Block> GAS_COAL =        registerBlock("gas_coal",        () -> new GasCoalBlock(       BlockBehaviour.Properties.of().noOcclusion().replaceable().noCollission().noLootTable()));
+    public static final DeferredBlock<Block> GAS_FLAMMABLE =   registerBlock("gas_flammable",   () -> new GasFlammableBlock(  BlockBehaviour.Properties.of().noOcclusion().replaceable().noCollission().noLootTable()));
+    public static final DeferredBlock<Block> GAS_EXPLOSIVE =   registerBlock("gas_explosive",   () -> new GasExplosiveBlock(  BlockBehaviour.Properties.of().noOcclusion().replaceable().noCollission().noLootTable()));
 
     public static final DeferredBlock<Block> TAINT = registerBlock(
             "taint",
@@ -313,10 +269,10 @@ public class ModBlocks {
             )
     );
 
-    public static final DeferredBlock<Block> PLUSHIE_YOMI = registerBlock("plushie_yomi", () -> new PlushieBlock(BlockBehaviour.Properties.of().sound(SoundType.WOOL).strength(0.0F).explosionResistance(0.0F).noOcclusion(), PlushieType.YOMI));
-    public static final DeferredBlock<Block> PLUSHIE_NUMBERNINE = registerBlock("plushie_numbernine", () -> new PlushieBlock(BlockBehaviour.Properties.of().sound(SoundType.WOOL).strength(0.0F).explosionResistance(0.0F).noOcclusion(), PlushieType.NUMBERNINE));
-    public static final DeferredBlock<Block> PLUSHIE_HUNDUN = registerBlock("plushie_hundun", () -> new PlushieBlock(BlockBehaviour.Properties.of().sound(SoundType.WOOL).strength(0.0F).explosionResistance(0.0F).noOcclusion(), PlushieType.HUNDUN));
-    public static final DeferredBlock<Block> PLUSHIE_DERG = registerBlock("plushie_derg", () -> new PlushieBlock(BlockBehaviour.Properties.of().sound(SoundType.WOOL).strength(0.0F).explosionResistance(0.0F).noOcclusion(), PlushieType.DERG));
+    public static final DeferredBlock<Block> PLUSHIE_YOMI =       registerBlock("plushie_yomi",       () -> new PlushieBlock(BlockBehaviour.Properties.of().noOcclusion().instabreak().sound(SoundType.WOOL).mapColor(DyeColor.WHITE), PlushieType.YOMI));
+    public static final DeferredBlock<Block> PLUSHIE_NUMBERNINE = registerBlock("plushie_numbernine", () -> new PlushieBlock(BlockBehaviour.Properties.of().noOcclusion().instabreak().sound(SoundType.WOOL).mapColor(DyeColor.WHITE), PlushieType.NUMBERNINE));
+    public static final DeferredBlock<Block> PLUSHIE_HUNDUN =     registerBlock("plushie_hundun",     () -> new PlushieBlock(BlockBehaviour.Properties.of().noOcclusion().instabreak().sound(SoundType.WOOL).mapColor(DyeColor.WHITE), PlushieType.HUNDUN));
+    public static final DeferredBlock<Block> PLUSHIE_DERG =       registerBlock("plushie_derg",       () -> new PlushieBlock(BlockBehaviour.Properties.of().noOcclusion().instabreak().sound(SoundType.WOOL).mapColor(DyeColor.WHITE), PlushieType.DERG));
 
     public static final DeferredBlock<Block> GEIGER = registerBlock(
             "geiger",
@@ -335,12 +291,12 @@ public class ModBlocks {
             "pwr_controller",
             () -> new Block(BlockBehaviour.Properties.of().noLootTable()));
 
-    public static final DeferredBlock<Block> NUKE_GADGET =     registerBlock("nuke_gadget",     () -> new NukeGadgetBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
-    public static final DeferredBlock<Block> NUKE_LITTLE_BOY = registerBlock("nuke_little_boy", () -> new NukeLittleBoyBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
-    public static final DeferredBlock<Block> NUKE_FAT_MAN =    registerBlock("nuke_fat_man",    () -> new NukeFatManBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
-    public static final DeferredBlock<Block> NUKE_IVY_MIKE =   registerBlock("nuke_ivy_mike",   () -> new NukeIvyMikeBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
-    public static final DeferredBlock<Block> NUKE_TSAR_BOMBA = registerBlock("nuke_tsar_bomba", () -> new NukeTsarBombaBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
-    public static final DeferredBlock<Block> NUKE_N2 =         registerBlock("nuke_n2",         () -> new NukeN2Block(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(200.0F).noOcclusion().sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> NUKE_GADGET =     registerBlock("nuke_gadget",     () -> new NukeGadgetBlock(    BlockBehaviour.Properties.of().strength(5.0F, 200.0F).noOcclusion().sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> NUKE_LITTLE_BOY = registerBlock("nuke_little_boy", () -> new NukeLittleBoyBlock( BlockBehaviour.Properties.of().strength(5.0F, 200.0F).noOcclusion().sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> NUKE_FAT_MAN =    registerBlock("nuke_fat_man",    () -> new NukeFatManBlock(    BlockBehaviour.Properties.of().strength(5.0F, 200.0F).noOcclusion().sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> NUKE_IVY_MIKE =   registerBlock("nuke_ivy_mike",   () -> new NukeIvyMikeBlock(   BlockBehaviour.Properties.of().strength(5.0F, 200.0F).noOcclusion().sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> NUKE_TSAR_BOMBA = registerBlock("nuke_tsar_bomba", () -> new NukeTsarBombaBlock( BlockBehaviour.Properties.of().strength(5.0F, 200.0F).noOcclusion().sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> NUKE_N2 =         registerBlock("nuke_n2",         () -> new NukeN2Block(        BlockBehaviour.Properties.of().strength(5.0F, 200.0F).noOcclusion().sound(SoundType.METAL).mapColor(MapColor.METAL)));
 
     public static final DeferredBlock<Block> DET_CHARGE =  registerBlock("det_charge",  () -> new ExplosiveChargeBlock(BlockBehaviour.Properties.of().strength(0.1F).explosionResistance(0.0F).sound(SoundType.METAL)));
     public static final DeferredBlock<Block> DET_CORD =    registerBlock("det_cord",    () -> new DetCordBlock(BlockBehaviour.Properties.of().strength(0.1F).explosionResistance(0.0F).noOcclusion().isSuffocating(ModBlocks::never).isViewBlocking(ModBlocks::never).sound(SoundType.METAL)));
@@ -348,27 +304,20 @@ public class ModBlocks {
     public static final DeferredBlock<Block> DET_MINER =   registerBlock("det_miner",   () -> new ExplosiveChargeBlock(BlockBehaviour.Properties.of().strength(0.1F).explosionResistance(0.0F).sound(SoundType.METAL)));
     public static final DeferredBlock<Block> BARREL_RED =  registerBlock("barrel_red",  () -> new RedBarrelBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.1F).explosionResistance(2.5F).sound(SoundType.METAL), true));
     public static final DeferredBlock<Block> BARREL_PINK = registerBlock("barrel_pink", () -> new RedBarrelBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.1F).explosionResistance(2.5F).sound(SoundType.METAL), true));
-    public static final DeferredBlock<Block> CRASHED_BOMB_BALEFIRE =     registerBlock("crashed_bomb_balefire",     () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL)));
-    public static final DeferredBlock<Block> CRASHED_BOMB_CONVENTIONAL = registerBlock("crashed_bomb_conventional", () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL)));
-    public static final DeferredBlock<Block> CRASHED_BOMB_NUKE =         registerBlock("crashed_bomb_nuke",         () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL)));
-    public static final DeferredBlock<Block> CRASHED_BOMB_SALTED =       registerBlock("crashed_bomb_salted",       () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL)));
-    public static final DeferredBlock<Block> MINE_AP =    registerBlock("mine_ap",    () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().noLootTable().strength(1.0F).sound(SoundType.METAL), 1.5D, 1D));
-    public static final DeferredBlock<Block> MINE_HE =    registerBlock("mine_he",    () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().noLootTable().strength(1.0F).sound(SoundType.METAL), 2D, 5D));
-    public static final DeferredBlock<Block> MINE_SHRAP = registerBlock("mine_shrap", () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().noLootTable().strength(1.0F).sound(SoundType.METAL), 1.5D, 1D));
-    public static final DeferredBlock<Block> MINE_FAT =   registerBlock("mine_fat",   () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().noLootTable().strength(1.0F).sound(SoundType.METAL), 2.5D, 1D));
-    public static final DeferredBlock<Block> MINE_NAVAL = registerBlock("mine_naval", () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().noLootTable().strength(1.0F).sound(SoundType.METAL), 2.5D, 1D));
-    public static final DeferredBlock<Block> DYNAMITE =     registerBlock("dynamite",     () -> new DynamiteBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.0F).sound(SoundType.GRASS)));
-    public static final DeferredBlock<Block> TNT =          registerBlock("tnt",          () -> new TNTBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.0F).sound(SoundType.GRASS)));
-    public static final DeferredBlock<Block> SEMTEX =       registerBlock("semtex",       () -> new SemtexBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.0F).sound(SoundType.GRASS)));
-    public static final DeferredBlock<Block> C4 =           registerBlock("c4",           () -> new C4Block(BlockBehaviour.Properties.of().noOcclusion().strength(0.0F).sound(SoundType.GRASS)));
-    public static final DeferredBlock<Block> FISSURE_BOMB = registerBlock("fissure_bomb", () -> new FissureBombBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.0F).sound(SoundType.GRASS)));
-
-    public static final DeferredBlock<Block> URANIUM_BLOCK = registerBlock("uranium_block",
-            () -> new HazardBlock(BlockBehaviour.Properties.of()
-                    .strength(5.0F)
-                    .explosionResistance(50.0F)
-                    .requiresCorrectToolForDrops()
-                    .sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> CRASHED_BOMB_BALEFIRE =     registerBlock("crashed_bomb_balefire",     () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> CRASHED_BOMB_CONVENTIONAL = registerBlock("crashed_bomb_conventional", () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> CRASHED_BOMB_NUKE =         registerBlock("crashed_bomb_nuke",         () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> CRASHED_BOMB_SALTED =       registerBlock("crashed_bomb_salted",       () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> MINE_AP =    registerBlock("mine_ap",    () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().strength(1.0F, 0.0F).sound(SoundType.METAL).mapColor(MapColor.METAL), 1.5D, 1D));
+    public static final DeferredBlock<Block> MINE_HE =    registerBlock("mine_he",    () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().strength(1.0F, 0.0F).sound(SoundType.METAL).mapColor(MapColor.METAL), 2D, 5D));
+    public static final DeferredBlock<Block> MINE_SHRAP = registerBlock("mine_shrap", () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().strength(1.0F, 0.0F).sound(SoundType.METAL).mapColor(MapColor.METAL), 1.5D, 1D));
+    public static final DeferredBlock<Block> MINE_FAT =   registerBlock("mine_fat",   () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().strength(1.0F, 0.0F).sound(SoundType.METAL).mapColor(MapColor.METAL), 2.5D, 1D));
+    public static final DeferredBlock<Block> MINE_NAVAL = registerBlock("mine_naval", () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().strength(1.0F, 0.0F).sound(SoundType.METAL).mapColor(MapColor.METAL), 2.5D, 1D));
+    public static final DeferredBlock<Block> DYNAMITE =     registerBlock("dynamite",     () -> new DynamiteBlock(    BlockBehaviour.Properties.of().instabreak().ignitedByLava().isRedstoneConductor(ModBlocks::never).sound(SoundType.GRASS).mapColor(MapColor.FIRE)));
+    public static final DeferredBlock<Block> TNT =          registerBlock("tnt",          () -> new TNTBlock(         BlockBehaviour.Properties.of().instabreak().ignitedByLava().isRedstoneConductor(ModBlocks::never).sound(SoundType.GRASS).mapColor(MapColor.FIRE)));
+    public static final DeferredBlock<Block> SEMTEX =       registerBlock("semtex",       () -> new SemtexBlock(      BlockBehaviour.Properties.of().instabreak().ignitedByLava().isRedstoneConductor(ModBlocks::never).sound(SoundType.GRASS).mapColor(MapColor.FIRE)));
+    public static final DeferredBlock<Block> C4 =           registerBlock("c4",           () -> new C4Block(          BlockBehaviour.Properties.of().instabreak().ignitedByLava().isRedstoneConductor(ModBlocks::never).sound(SoundType.GRASS).mapColor(MapColor.FIRE)));
+    public static final DeferredBlock<Block> FISSURE_BOMB = registerBlock("fissure_bomb", () -> new FissureBombBlock( BlockBehaviour.Properties.of().instabreak().ignitedByLava().isRedstoneConductor(ModBlocks::never).sound(SoundType.GRASS).mapColor(MapColor.FIRE)));
 
     public static final DeferredBlock<StairBlock> BRICK_CONCRETE_STAIRS = registerBlock(
             "brick_concrete_stairs",

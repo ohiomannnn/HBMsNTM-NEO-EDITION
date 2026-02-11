@@ -1,6 +1,6 @@
 package com.hbm.blocks.network;
 
-import com.hbm.blockentity.ModBlockEntities;
+import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blockentity.ProxyComboBlockEntity;
 import com.hbm.blockentity.machine.storage.BatterySocketBlockEntity;
 import com.hbm.blocks.DummyBlockType;
@@ -9,7 +9,6 @@ import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.util.BobMathUtil;
 import com.mojang.serialization.MapCodec;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -49,7 +48,7 @@ public class MachineBatterySocketBlock extends DummyableBlock implements IToolti
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         if (state.getValue(TYPE) != DummyBlockType.CORE) return null;
-        return level.isClientSide ? null : BaseEntityBlock.createTickerHelper(type, ModBlockEntities.BATTERY_SOCKET.get(), BatterySocketBlockEntity::serverTick);
+        return level.isClientSide ? null : BaseEntityBlock.createTickerHelper(type, ModBlockEntityTypes.BATTERY_SOCKET.get(), BatterySocketBlockEntity::serverTick);
     }
 
     @Override public int[] getDimensions() { return new int[] {1, 0, 1, 0, 1, 0}; }

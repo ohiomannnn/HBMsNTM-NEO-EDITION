@@ -1,7 +1,7 @@
 package com.hbm;
 
 import com.hbm.blockentity.IGUIProvider;
-import com.hbm.blockentity.ModBlockEntities;
+import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
@@ -34,7 +34,8 @@ import com.hbm.render.entity.item.RenderTNTPrimedBase;
 import com.hbm.render.entity.mob.CreeperNuclearRenderer;
 import com.hbm.render.entity.mob.DuckRenderer;
 import com.hbm.render.entity.projectile.*;
-import com.hbm.render.item.*;
+import com.hbm.render.item.RenderBatteryPackItem;
+import com.hbm.render.item.RenderLaserDetonator;
 import com.hbm.render.loader.bakedLoader.HFRObjGeometryLoader;
 import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.render.util.RenderScreenOverlay;
@@ -64,6 +65,8 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -89,6 +92,7 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -114,6 +118,7 @@ import java.awt.*;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.function.Supplier;
 
 @Spaghetti("die")
@@ -547,70 +552,46 @@ public class HBMsNTMClient {
         event.registerEntityRenderer(ModEntityTypes.BOMBLET_ZETA.get(), RenderBombletZeta::new);
 
         ItemProperties.register(ModItems.POLAROID.get(), HBMsNTM.withDefaultNamespaceNT("polaroid_id"), (stack, level, entity, seed) -> PolaroidItem.polaroidID);
-
-        event.registerBlockEntityRenderer(ModBlockEntities.NUKE_GADGET.get(), RenderNukeGadget::new);
-        event.registerBlockEntityRenderer(ModBlockEntities.NUKE_LITTLE_BOY.get(), RenderNukeLittleBoy::new);
-        event.registerBlockEntityRenderer(ModBlockEntities.NUKE_FAT_MAN.get(), RenderNukeFatMan::new);
-        event.registerBlockEntityRenderer(ModBlockEntities.NUKE_IVY_MIKE.get(), RenderNukeIvyMike::new);
-        event.registerBlockEntityRenderer(ModBlockEntities.NUKE_TSAR_BOMBA.get(), RenderNukeTsarBomba::new);
-        event.registerBlockEntityRenderer(ModBlockEntities.NUKE_N2.get(), RenderNukeN2::new);
-
-        event.registerBlockEntityRenderer(ModBlockEntities.LANDMINE.get(), RenderLandMine::new);
-
-        event.registerBlockEntityRenderer(ModBlockEntities.BARREL.get(), RenderBarrel::new);
-
-        event.registerBlockEntityRenderer(ModBlockEntities.GEIGER_COUNTER.get(), RenderGeigerBlock::new);
-
-        event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_BALEFIRE.get(), RenderCrashedBomb::new);
-        event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_CONVENTIONAL.get(), RenderCrashedBomb::new);
-        event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_NUKE.get(), RenderCrashedBomb::new);
-        event.registerBlockEntityRenderer(ModBlockEntities.CRASHED_BOMB_SALTED.get(), RenderCrashedBomb::new);
-
-        event.registerBlockEntityRenderer(ModBlockEntities.PLUSHIE_YOMI.get(), RenderPlushie::new);
-        event.registerBlockEntityRenderer(ModBlockEntities.PLUSHIE_NUMBERNINE.get(), RenderPlushie::new);
-        event.registerBlockEntityRenderer(ModBlockEntities.PLUSHIE_HUNDUN.get(), RenderPlushie::new);
-        event.registerBlockEntityRenderer(ModBlockEntities.PLUSHIE_DERG.get(), RenderPlushie::new);
-
-        event.registerBlockEntityRenderer(ModBlockEntities.FLUID_TANK.get(), RenderFluidTank::new);
-
-        event.registerBlockEntityRenderer(ModBlockEntities.BATTERY_SOCKET.get(), RenderBatterySocket::new);
-        event.registerBlockEntityRenderer(ModBlockEntities.BATTERY_REDD.get(), RenderBatteryREDD::new);
-
-        event.registerBlockEntityRenderer(ModBlockEntities.NETWORK_CABLE.get(), RenderCable::new);
-        event.registerBlockEntityRenderer(ModBlockEntities.DET_CORD.get(), RenderDetCord::new);
     }
 
+    // happens before EntityRenderersEvent.RegisterRenderers so we gotta use that
     @SubscribeEvent
     public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
 
-        registerItemRenderer(event, RenderFluidTankItem::new, ModBlocks.MACHINE_FLUID_TANK.asItem());
+        BlockEntityRenderers.register(ModBlockEntityTypes.PLUSHIE_YOMI.get(), new RenderPlushie(null));
+        BlockEntityRenderers.register(ModBlockEntityTypes.PLUSHIE_NUMBERNINE.get(), RenderPlushie::new); // we already have bewlr for ALL plushies
+        BlockEntityRenderers.register(ModBlockEntityTypes.PLUSHIE_HUNDUN.get(), RenderPlushie::new);
+        BlockEntityRenderers.register(ModBlockEntityTypes.PLUSHIE_DERG.get(), RenderPlushie::new);
+
+        BlockEntityRenderers.register(ModBlockEntityTypes.BATTERY_SOCKET.get(), new RenderBatterySocket(null));
+        BlockEntityRenderers.register(ModBlockEntityTypes.BATTERY_REDD.get(), new RenderBatteryREDD(null));
+
+        BlockEntityRenderers.register(ModBlockEntityTypes.NETWORK_CABLE.get(), new RenderCable(null));
+        BlockEntityRenderers.register(ModBlockEntityTypes.DET_CORD.get(), new RenderDetCord(null));
+
+        BlockEntityRenderers.register(ModBlockEntityTypes.FLUID_TANK.get(), new RenderFluidTank(null));
+        BlockEntityRenderers.register(ModBlockEntityTypes.GEIGER_COUNTER.get(), new RenderGeigerBlock(null));
+
+        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_IVY_MIKE.get(), new RenderNukeIvyMike(null));
+        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_TSAR_BOMBA.get(), new RenderNukeTsarBomba(null));
+        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_N2.get(), new RenderNukeN2(null));
+        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_GADGET.get(), new RenderNukeGadget(null));
+        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_LITTLE_BOY.get(), new RenderNukeLittleBoy(null));
+        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_FAT_MAN.get(), new RenderNukeFatMan(null));
+        BlockEntityRenderers.register(ModBlockEntityTypes.BARREL.get(), new RenderBarrel(null));
+        BlockEntityRenderers.register(ModBlockEntityTypes.CRASHED_BOMB_BALEFIRE.get(), new RenderCrashedBomb(null));
+        BlockEntityRenderers.register(ModBlockEntityTypes.CRASHED_BOMB_CONVENTIONAL.get(), RenderCrashedBomb::new);
+        BlockEntityRenderers.register(ModBlockEntityTypes.CRASHED_BOMB_NUKE.get(), RenderCrashedBomb::new);
+        BlockEntityRenderers.register(ModBlockEntityTypes.CRASHED_BOMB_SALTED.get(), RenderCrashedBomb::new);
+        BlockEntityRenderers.register(ModBlockEntityTypes.LANDMINE.get(), new RenderLandMine(null));
+
+        for (Entry<BlockEntityType<?>, BlockEntityRendererProvider<?>> entry : BlockEntityRenderers.PROVIDERS.entrySet()) {
+            if (entry.getValue() instanceof IBEWLRProvider provider) {
+                registerItemRenderer(event, provider::getRenderer, provider.getItemsForRenderer());
+            }
+        }
+
         registerItemRenderer(event, RenderLaserDetonator::new, ModItems.DETONATOR_LASER.get());
-
-        registerItemRenderer(event, RenderBarrelItem::new,
-                ModBlocks.BARREL_RED.asItem(),
-                ModBlocks.BARREL_PINK.asItem()
-        );
-
-        registerItemRenderer(event, RenderNukeGadgetItem::new, ModBlocks.NUKE_GADGET.asItem());
-        registerItemRenderer(event, RenderNukeLittleBoyItem::new, ModBlocks.NUKE_LITTLE_BOY.asItem());
-        registerItemRenderer(event, RenderNukeFatManItem::new, ModBlocks.NUKE_FAT_MAN.asItem());
-        registerItemRenderer(event, RenderNukeIvyMikeItem::new, ModBlocks.NUKE_IVY_MIKE.asItem());
-        registerItemRenderer(event, RenderNukeTsarBombaItem::new, ModBlocks.NUKE_TSAR_BOMBA.asItem());
-        registerItemRenderer(event, RenderNukeN2Item::new, ModBlocks.NUKE_N2.asItem());
-
-        registerItemRenderer(event, RenderPlushieItem::new,
-                ModBlocks.PLUSHIE_YOMI.asItem(),
-                ModBlocks.PLUSHIE_NUMBERNINE.asItem(),
-                ModBlocks.PLUSHIE_HUNDUN.asItem(),
-                ModBlocks.PLUSHIE_DERG.asItem()
-        );
-
-        registerItemRenderer(event, RenderGeigerItem::new, ModBlocks.GEIGER.asItem());
-
-        registerItemRenderer(event, RenderCableItem::new, ModBlocks.CABLE.asItem());
-        registerItemRenderer(event, RenderDetCordItem::new, ModBlocks.DET_CORD.asItem());
-
-        registerItemRenderer(event, RenderBatterySocketItem::new, ModBlocks.MACHINE_BATTERY_SOCKET.asItem());
 
         registerItemRenderer(event, RenderBatteryPackItem::new,
                 ModItems.BATTERY_PACK_REDSTONE.get(),
@@ -625,21 +606,6 @@ public class HBMsNTMClient {
                 ModItems.CAPACITOR_TANTALUM.get(),
                 ModItems.CAPACITOR_BISMUTH.get(),
                 ModItems.CAPACITOR_SPARK.get()
-        );
-
-        registerItemRenderer(event, RenderBatteryREDDItem::new, ModBlocks.MACHINE_BATTERY_REDD.asItem());
-        registerItemRenderer(event, RenderCrashedBombItem::new,
-                ModBlocks.CRASHED_BOMB_BALEFIRE.asItem(),
-                ModBlocks.CRASHED_BOMB_CONVENTIONAL.asItem(),
-                ModBlocks.CRASHED_BOMB_NUKE.asItem(),
-                ModBlocks.CRASHED_BOMB_SALTED.asItem()
-        );
-        registerItemRenderer(event, RenderLandmineItem::new,
-                ModBlocks.MINE_AP.asItem(),
-                ModBlocks.MINE_HE.asItem(),
-                ModBlocks.MINE_SHRAP.asItem(),
-                ModBlocks.MINE_NAVAL.asItem(),
-                ModBlocks.MINE_FAT.asItem()
         );
     }
 

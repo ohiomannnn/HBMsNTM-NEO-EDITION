@@ -18,12 +18,12 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import java.util.function.Supplier;
 
 @SuppressWarnings("DataFlowIssue") // kill yourself
-public class ModBlockEntities {
+public class ModBlockEntityTypes {
     public static final DeferredRegister<BlockEntityType<?>> REGISTER = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, HBMsNTM.MODID);
 
     public static final Supplier<BlockEntityType<EmptyBlockEntity>> BARREL = REGISTER.register(
             "barrel",
-            () -> BlockEntityType.Builder.of((pos, state) -> new EmptyBlockEntity(ModBlockEntities.BARREL.get(), pos, state),
+            () -> BlockEntityType.Builder.of((pos, state) -> new EmptyBlockEntity(ModBlockEntityTypes.BARREL.get(), pos, state),
                     ModBlocks.BARREL_RED.get(),
                     ModBlocks.BARREL_PINK.get()
             ).build(null));
@@ -116,7 +116,7 @@ public class ModBlockEntities {
 
     public static final Supplier<BlockEntityType<EmptyBlockEntity>> DET_CORD = REGISTER.register(
             "det_cord",
-            () -> BlockEntityType.Builder.of((pos, state) -> new EmptyBlockEntity(ModBlockEntities.DET_CORD.get(), pos, state),
+            () -> BlockEntityType.Builder.of((pos, state) -> new EmptyBlockEntity(ModBlockEntityTypes.DET_CORD.get(), pos, state),
                     ModBlocks.DET_CORD.get()
             ).build(null));
 
@@ -130,7 +130,7 @@ public class ModBlockEntities {
     public static final Supplier<BlockEntityType<GeigerBlockEntity>> GEIGER_COUNTER = REGISTER.register(
             "geiger_counter",
             () -> BlockEntityType.Builder.of(
-                    (pos, state) -> new GeigerBlockEntity(ModBlockEntities.GEIGER_COUNTER.get(), pos, state),
+                    (pos, state) -> new GeigerBlockEntity(ModBlockEntityTypes.GEIGER_COUNTER.get(), pos, state),
                             ModBlocks.GEIGER.get())
                     .build(null));
 

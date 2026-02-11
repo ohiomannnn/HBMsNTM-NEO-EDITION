@@ -1,6 +1,6 @@
 package com.hbm.blockentity.bomb;
 
-import com.hbm.blockentity.ModBlockEntities;
+import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blockentity.NukeBaseBlockEntity;
 import com.hbm.inventory.menus.NukeLittleBoyMenu;
 import com.hbm.items.ModItems;
@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class NukeLittleBoyBlockEntity extends NukeBaseBlockEntity {
 
     public NukeLittleBoyBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.NUKE_LITTLE_BOY.get(), pos, state, 5);
+        super(ModBlockEntityTypes.NUKE_LITTLE_BOY.get(), pos, state, 5);
     }
 
     @Override public Component getDefaultName() { return Component.translatable("container.nukeLittleBoy"); }

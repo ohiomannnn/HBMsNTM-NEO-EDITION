@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "hbmsntm:block/gas_radon_tomb"
+    "layer0": "hbmsntm:item/gas_radon_tomb"
   }
 }

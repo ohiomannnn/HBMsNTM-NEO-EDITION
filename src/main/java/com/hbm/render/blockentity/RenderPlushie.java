@@ -1,36 +1,41 @@
 package com.hbm.render.blockentity;
 
 import com.hbm.HBMsNTM;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.PlushieBlock;
 import com.hbm.blocks.generic.PlushieBlock.PlushieBlockEntity;
 import com.hbm.blocks.generic.PlushieBlock.PlushieType;
 import com.hbm.items.ModItems;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.loader.HFRWavefrontObject;
-import com.hbm.render.loader.IModelCustom;
+import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.util.HorsePronter;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
-public class RenderPlushie implements BlockEntityRenderer<PlushieBlockEntity> {
+import javax.annotation.Nullable;
 
-    public RenderPlushie(BlockEntityRendererProvider.Context context) { }
+public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> implements IBEWLRProvider {
 
-    public static final IModelCustom yomiModel = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/trinkets/yomi.obj"), false).asVBO();
-    public static final IModelCustom hundunModel = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/trinkets/hundun.obj"), false).asVBO();
-    public static final IModelCustom dergModel = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/trinkets/derg.obj"), false).asVBO();
+    public RenderPlushie(Context context) { }
+
+    @Override
+    public BlockEntityRenderer<PlushieBlockEntity> create(Context context) {
+        return new RenderPlushie(context);
+    }
+
     public static final ResourceLocation yomiTex = HBMsNTM.withDefaultNamespaceNT("textures/models/trinkets/yomi.png");
     public static final ResourceLocation numbernineTex = HBMsNTM.withDefaultNamespaceNT("textures/models/horse/numbernine.png");
     public static final ResourceLocation hundunTex = HBMsNTM.withDefaultNamespaceNT("textures/models/trinkets/hundun.png");
@@ -63,7 +68,7 @@ public class RenderPlushie implements BlockEntityRenderer<PlushieBlockEntity> {
         switch (type) {
             case YOMI -> {
                 VertexConsumer consumer = buffer.getBuffer(RenderType.entitySmoothCutout(yomiTex));
-                yomiModel.renderAll(poseStack, consumer, packedLight, packedOverlay);
+                ResourceManager.yomiModel.renderAll(poseStack, consumer, packedLight, packedOverlay);
             }
             case NUMBERNINE -> {
                 poseStack.mulPose(Axis.YP.rotationDegrees(90F));
@@ -105,12 +110,12 @@ public class RenderPlushie implements BlockEntityRenderer<PlushieBlockEntity> {
             }
             case HUNDUN -> {
                 VertexConsumer consumer = buffer.getBuffer(RenderType.entitySmoothCutout(hundunTex));
-                hundunModel.renderPart("goober_posed", poseStack, consumer, packedLight, packedOverlay);
+                ResourceManager.hundunModel.renderPart("goober_posed", poseStack, consumer, packedLight, packedOverlay);
             }
             case DERG -> {
                 VertexConsumer consumer = buffer.getBuffer(RenderType.entitySmoothCutout(dergTex));
-                dergModel.renderPart("Derg", poseStack, consumer, packedLight, packedOverlay);
-                dergModel.renderPart(squish ? "Blep" : "ColonThree", poseStack, consumer, packedLight, packedOverlay);
+                ResourceManager.dergModel.renderPart("Derg", poseStack, consumer, packedLight, packedOverlay);
+                ResourceManager.dergModel.renderPart(squish ? "Blep" : "ColonThree", poseStack, consumer, packedLight, packedOverlay);
             }
         }
     }
@@ -118,5 +123,64 @@ public class RenderPlushie implements BlockEntityRenderer<PlushieBlockEntity> {
     @Override
     public int getViewDistance() {
         return 256;
+    }
+
+    @Override
+    public Item getItemForRenderer() {
+        return null;
+    }
+
+    @Override
+    public Item[] getItemsForRenderer() {
+        return new Item[] {
+                ModBlocks.PLUSHIE_YOMI.asItem(),
+                ModBlocks.PLUSHIE_NUMBERNINE.asItem(),
+                ModBlocks.PLUSHIE_HUNDUN.asItem(),
+                ModBlocks.PLUSHIE_DERG.asItem()
+        };
+    }
+
+    @Override
+    public BlockEntityWithoutLevelRenderer getRenderer() {
+        return new ItemRenderBase() {
+            @Override
+            public void renderInventory(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+                poseStack.translate(0F, -6F, 0F);
+                poseStack.scale(6F, 6F, 6F);
+            }
+
+            @Override
+            public void renderCommon(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+                poseStack.translate(0F, 0.25F, 0F);
+
+                PlushieType type = getType(stack);
+
+                if (type == null) return;
+
+                switch (type) {
+                    case YOMI -> poseStack.scale(1.25F, 1.25F, 1.25F);
+                    case NUMBERNINE -> {
+                        poseStack.translate(0F, 0.25F, 0.25F);
+                        poseStack.scale(1.25F, 1.25F, 1.25F);
+                    }
+                    case HUNDUN -> {
+                        poseStack.translate(0.5F, 0.5F, 0);
+                        poseStack.scale(1.25F, 1.25F, 1.25F);
+                    }
+                    case DERG -> poseStack.scale(1.5F, 1.5F, 1.5F);
+                }
+
+                renderPlushie(poseStack, buffer, packedLight, packedOverlay, type, false);
+            }
+        };
+    }
+
+    @Nullable
+    private static PlushieType getType(ItemStack stack) {
+        if (stack.is(ModBlocks.PLUSHIE_YOMI.asItem())) return PlushieType.YOMI;
+        if (stack.is(ModBlocks.PLUSHIE_NUMBERNINE.asItem())) return PlushieType.NUMBERNINE;
+        if (stack.is(ModBlocks.PLUSHIE_HUNDUN.asItem())) return PlushieType.HUNDUN;
+        if (stack.is(ModBlocks.PLUSHIE_DERG.asItem())) return PlushieType.DERG;
+        return null;
     }
 }

@@ -2,6 +2,7 @@ package com.hbm.blocks.gas;
 
 import com.hbm.HBMsNTMClient;
 import com.hbm.util.ArmorUtil;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -41,25 +42,19 @@ public abstract class GasBaseBlock extends Block {
         this.blue = b;
     }
 
-    @Override public VoxelShape getCollisionShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) { return Shapes.empty(); }
     @Override public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) { return Shapes.empty(); }
-
     @Override public RenderShape getRenderShape(BlockState state) { return RenderShape.INVISIBLE; }
-
-    @Override public boolean canBeReplaced(BlockState state, BlockPlaceContext context) { return true; }
 
     @Override
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
-        if (!level.isClientSide()) {
+        if (!oldState.is(state.getBlock())) {
             level.scheduleTick(pos, this, 10);
         }
     }
 
     @Override
     public void neighborChanged(BlockState state, Level level, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean isMoving) {
-        if (!level.isClientSide()) {
-            level.scheduleTick(pos, this, 10);
-        }
+        level.scheduleTick(pos, this, 10);
     }
 
     @Override
@@ -95,7 +90,7 @@ public abstract class GasBaseBlock extends Block {
     }
 
     public Direction randomHorizontal(RandomSource random) {
-        return Direction.Plane.HORIZONTAL.getRandomDirection(random);
+        return Direction.values()[random.nextInt(4) + 2];
     }
 
     @Override

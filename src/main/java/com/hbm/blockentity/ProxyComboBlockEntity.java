@@ -30,7 +30,7 @@ public class ProxyComboBlockEntity extends ProxyBaseBlockEntity implements IEner
     public boolean moltenMetal;
 
     public ProxyComboBlockEntity(BlockPos pos, BlockState blockState) {
-        super(ModBlockEntities.PROXY_COMBO.get(), pos, blockState);
+        super(ModBlockEntityTypes.PROXY_COMBO.get(), pos, blockState);
     }
 
     public ProxyComboBlockEntity inventory() {

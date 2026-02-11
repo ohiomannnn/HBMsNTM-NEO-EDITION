@@ -1,6 +1,6 @@
 package com.hbm.blocks.network;
 
-import com.hbm.blockentity.ModBlockEntities;
+import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blockentity.network.CableBlockEntityBaseNT;
 import com.hbm.lib.Library;
 import com.mojang.serialization.MapCodec;
@@ -74,7 +74,7 @@ public class CableBlock extends BaseEntityBlock {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide ? null : BaseEntityBlock.createTickerHelper(type, ModBlockEntities.NETWORK_CABLE.get(), CableBlockEntityBaseNT::serverTick);
+        return level.isClientSide ? null : BaseEntityBlock.createTickerHelper(type, ModBlockEntityTypes.NETWORK_CABLE.get(), CableBlockEntityBaseNT::serverTick);
     }
 
     @Override

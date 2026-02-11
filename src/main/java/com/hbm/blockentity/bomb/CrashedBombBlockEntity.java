@@ -1,6 +1,6 @@
 package com.hbm.blockentity.bomb;
 
-import com.hbm.blockentity.ModBlockEntities;
+import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blocks.bomb.CrashedBombBlock;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
@@ -33,19 +33,19 @@ public class CrashedBombBlockEntity extends BlockEntity {
     }
 
     public static CrashedBombBlockEntity balefire(BlockPos pos, BlockState state) {
-        return new CrashedBombBlockEntity(ModBlockEntities.CRASHED_BOMB_BALEFIRE.get(), pos, state, EnumDudType.BALEFIRE);
+        return new CrashedBombBlockEntity(ModBlockEntityTypes.CRASHED_BOMB_BALEFIRE.get(), pos, state, EnumDudType.BALEFIRE);
     }
 
     public static CrashedBombBlockEntity conventional(BlockPos pos, BlockState state) {
-        return new CrashedBombBlockEntity(ModBlockEntities.CRASHED_BOMB_CONVENTIONAL.get(), pos, state, EnumDudType.CONVENTIONAL);
+        return new CrashedBombBlockEntity(ModBlockEntityTypes.CRASHED_BOMB_CONVENTIONAL.get(), pos, state, EnumDudType.CONVENTIONAL);
     }
 
     public static CrashedBombBlockEntity nuke(BlockPos pos, BlockState state) {
-        return new CrashedBombBlockEntity(ModBlockEntities.CRASHED_BOMB_NUKE.get(), pos, state, EnumDudType.NUKE);
+        return new CrashedBombBlockEntity(ModBlockEntityTypes.CRASHED_BOMB_NUKE.get(), pos, state, EnumDudType.NUKE);
     }
 
     public static CrashedBombBlockEntity salted(BlockPos pos, BlockState state) {
-        return new CrashedBombBlockEntity(ModBlockEntities.CRASHED_BOMB_SALTED.get(), pos, state, EnumDudType.SALTED);
+        return new CrashedBombBlockEntity(ModBlockEntityTypes.CRASHED_BOMB_SALTED.get(), pos, state, EnumDudType.SALTED);
     }
 
     public EnumDudType getDudType() {

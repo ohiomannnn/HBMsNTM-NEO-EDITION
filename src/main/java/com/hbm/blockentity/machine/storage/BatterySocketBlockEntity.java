@@ -1,7 +1,7 @@
 package com.hbm.blockentity.machine.storage;
 
 import api.hbm.energymk2.IBatteryItem;
-import com.hbm.blockentity.ModBlockEntities;
+import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.inventory.menus.BatterySocketMenu;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -28,7 +28,7 @@ public class BatterySocketBlockEntity extends BatteryBaseBlockEntity {
     public ItemStack syncStack = ItemStack.EMPTY;
 
     public BatterySocketBlockEntity(BlockPos pos, BlockState blockState) {
-        super(ModBlockEntities.BATTERY_SOCKET.get(), pos, blockState, 1);
+        super(ModBlockEntityTypes.BATTERY_SOCKET.get(), pos, blockState, 1);
     }
 
     @Override public Component getDefaultName() { return Component.translatable("container.batterySocket"); }

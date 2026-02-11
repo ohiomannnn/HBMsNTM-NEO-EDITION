@@ -3,9 +3,11 @@ package com.hbm.render.blockentity;
 import com.hbm.HBMsNTM;
 import com.hbm.blockentity.machine.storage.BatterySocketBlockEntity;
 import com.hbm.blocks.DummyableBlock;
+import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.BatteryPackItem;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.util.BeamPronter;
 import com.hbm.render.util.BeamPronter.BeamType;
 import com.hbm.render.util.BeamPronter.WaveType;
@@ -14,22 +16,29 @@ import com.hbm.util.Vec3NT;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 
 import java.util.Random;
 
-public class RenderBatterySocket implements BlockEntityRenderer<BatterySocketBlockEntity> {
+public class RenderBatterySocket extends BlockEntityRendererNT<BatterySocketBlockEntity> implements IBEWLRProvider {
 
     private static final ResourceLocation blorbo = HBMsNTM.withDefaultNamespaceNT("textures/models/horse/sunburst.png");
 
-    public RenderBatterySocket(BlockEntityRendererProvider.Context context) { }
+    public RenderBatterySocket(Context context) { }
+
+
+    @Override
+    public BlockEntityRenderer<BatterySocketBlockEntity> create(Context context) {
+        return new RenderBatterySocket(context);
+    }
 
     @Override
     public void render(BatterySocketBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
@@ -108,5 +117,27 @@ public class RenderBatterySocket implements BlockEntityRenderer<BatterySocketBlo
     @Override
     public int getViewDistance() {
         return 256;
+    }
+
+    @Override
+    public Item getItemForRenderer() {
+        return ModBlocks.MACHINE_BATTERY_SOCKET.asItem();
+    }
+
+    @Override
+    public BlockEntityWithoutLevelRenderer getRenderer() {
+        return new ItemRenderBase() {
+            @Override
+            public void renderInventory(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+                poseStack.translate(0F, -2F, 0F);
+                poseStack.scale(5F, 5F, 5F);
+            }
+
+            @Override
+            public void renderCommon(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+                VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.BATTERY_SOCKET_TEX));
+                ResourceManager.battery_socket.renderPart("Socket", poseStack, consumer, packedLight, packedOverlay);
+            }
+        };
     }
 }

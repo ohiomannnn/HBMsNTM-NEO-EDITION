@@ -1,7 +1,7 @@
 package com.hbm.blockentity.machine;
 
 import com.hbm.blockentity.MachineBaseBlockEntity;
-import com.hbm.blockentity.ModBlockEntities;
+import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.util.BufferUtil;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
@@ -33,7 +33,7 @@ public class MachinePressBlockEntity extends MachineBaseBlockEntity {
     public ItemStack syncStack;
 
     public MachinePressBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.PRESS.get(), pos, state, 4);
+        super(ModBlockEntityTypes.PRESS.get(), pos, state, 4);
     }
 
     @Override

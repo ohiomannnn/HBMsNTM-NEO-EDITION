@@ -1,7 +1,7 @@
 package com.hbm.blockentity.machine;
 
 import com.hbm.HBMsNTMClient;
-import com.hbm.blockentity.ModBlockEntities;
+import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.lib.ModEffect;
 import net.minecraft.core.BlockPos;
@@ -18,7 +18,7 @@ import java.util.List;
 public class DecontaminatorBlockEntity extends BlockEntity {
 
     public DecontaminatorBlockEntity(BlockPos pos, BlockState blockState) {
-        super(ModBlockEntities.DECONTAMINATOR.get(), pos, blockState);
+        super(ModBlockEntityTypes.DECONTAMINATOR.get(), pos, blockState);
     }
 
     public static void tick(Level level, BlockPos pos, BlockState ignored, DecontaminatorBlockEntity ignored1) {

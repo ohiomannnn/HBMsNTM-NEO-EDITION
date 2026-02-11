@@ -1,7 +1,7 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.blockentity.EmptyBlockEntity;
-import com.hbm.blockentity.ModBlockEntities;
+import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.entity.item.TNTPrimedBase;
 import com.hbm.interfaces.IBomb;
 import com.hbm.lib.Library;
@@ -94,7 +94,7 @@ public class DetCordBlock extends DetonatableBlock implements IDetConnectible, I
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new EmptyBlockEntity(ModBlockEntities.DET_CORD.get(), pos, state);
+        return new EmptyBlockEntity(ModBlockEntityTypes.DET_CORD.get(), pos, state);
     }
 
     @Override

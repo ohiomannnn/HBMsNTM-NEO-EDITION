@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "hbmsntm:block/gas_flammable"
+    "layer0": "hbmsntm:item/gas_flammable"
   }
 }

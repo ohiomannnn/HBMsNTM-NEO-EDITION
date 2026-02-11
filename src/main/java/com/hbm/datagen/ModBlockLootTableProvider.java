@@ -50,9 +50,17 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.NUKE_TSAR_BOMBA.get());
         this.dropSelf(ModBlocks.NUKE_N2.get());
 
+        this.dropSelf(ModBlocks.DET_CORD.get());
+        this.dropSelf(ModBlocks.DET_CHARGE.get());
+        this.dropSelf(ModBlocks.DET_NUKE.get());
+        this.dropSelf(ModBlocks.DET_MINER.get());
         this.dropSelf(ModBlocks.BARREL_RED.get());
         this.dropSelf(ModBlocks.BARREL_PINK.get());
-
+        this.dropSelf(ModBlocks.MINE_AP.get());
+        this.dropSelf(ModBlocks.MINE_HE.get());
+        this.dropSelf(ModBlocks.MINE_SHRAP.get());
+        this.dropSelf(ModBlocks.MINE_FAT.get());
+        this.dropSelf(ModBlocks.MINE_NAVAL.get());
         this.dropSelf(ModBlocks.DYNAMITE.get());
         this.dropSelf(ModBlocks.TNT.get());
         this.dropSelf(ModBlocks.SEMTEX.get());
@@ -63,8 +71,6 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.PLUSHIE_NUMBERNINE.get());
         this.dropSelf(ModBlocks.PLUSHIE_HUNDUN.get());
         this.dropSelf(ModBlocks.PLUSHIE_DERG.get());
-
-        dropSelf(ModBlocks.URANIUM_BLOCK.get());
 
         dropSelf(ModBlocks.ORE_OIL.get());
         dropSelf(ModBlocks.ORE_URANIUM.get());
@@ -112,12 +118,6 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         this.dropSelf(ModBlocks.MACHINE_BATTERY_SOCKET.get());
         this.dropSelf(ModBlocks.MACHINE_BATTERY_REDD.get());
-
-        dropSelf(ModBlocks.DET_CORD.get());
-
-        dropSelf(ModBlocks.DET_CHARGE.get());
-        dropSelf(ModBlocks.DET_NUKE.get());
-        dropSelf(ModBlocks.DET_MINER.get());
 
         dropSelf(ModBlocks.SELLAFIELD_SLAKED.get());
 

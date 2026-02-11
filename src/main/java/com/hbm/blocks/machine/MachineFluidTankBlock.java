@@ -3,7 +3,7 @@ package com.hbm.blocks.machine;
 import api.hbm.block.IToolable;
 import com.hbm.blockentity.IPersistentNBT;
 import com.hbm.blockentity.IRepairable;
-import com.hbm.blockentity.ModBlockEntities;
+import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blockentity.ProxyComboBlockEntity;
 import com.hbm.blockentity.machine.storage.MachineFluidTankBlockEntity;
 import com.hbm.blocks.DummyBlockType;
@@ -62,7 +62,7 @@ public class MachineFluidTankBlock extends DummyableBlock implements IToolable, 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         if (state.getValue(TYPE) != DummyBlockType.CORE) return null;
-        return BaseEntityBlock.createTickerHelper(type, ModBlockEntities.FLUID_TANK.get(), MachineFluidTankBlockEntity::tick);
+        return BaseEntityBlock.createTickerHelper(type, ModBlockEntityTypes.FLUID_TANK.get(), MachineFluidTankBlockEntity::tick);
     }
 
     public static final MapCodec<MachineFluidTankBlock> CODEC = simpleCodec(MachineFluidTankBlock::new);

@@ -1,7 +1,6 @@
 package com.hbm;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.bomb.NukeBaseBlock;
 import com.hbm.commands.ChunkRadCommand;
 import com.hbm.commands.LivingPropsCommand;
 import com.hbm.commands.SatellitesCommand;

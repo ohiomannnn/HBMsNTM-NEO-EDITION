@@ -1,6 +1,6 @@
 package com.hbm.blocks.bomb;
 
-import com.hbm.blockentity.ModBlockEntities;
+import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blockentity.bomb.LandMineBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MainConfig;
@@ -49,8 +49,6 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
     public double range;
     public double height;
 
-    public static final MapCodec<LandmineBlock> CODEC = simpleCodec(LandmineBlock::new);
-
     protected LandmineBlock(Properties properties) {
         super(properties);
     }
@@ -61,8 +59,8 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
         this.height = height;
     }
 
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
+    public static final MapCodec<LandmineBlock> CODEC = simpleCodec(LandmineBlock::new);
+    @Override protected MapCodec<LandmineBlock> codec() {
         return CODEC;
     }
 
@@ -73,7 +71,7 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide ? null : BaseEntityBlock.createTickerHelper(type, ModBlockEntities.LANDMINE.get(), LandMineBlockEntity::serverTick);
+        return level.isClientSide ? null : BaseEntityBlock.createTickerHelper(type, ModBlockEntityTypes.LANDMINE.get(), LandMineBlockEntity::serverTick);
     }
 
     @Override
@@ -87,7 +85,7 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
 
     @Override
     protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return getShape(state, level, pos, context);
+        return this.getShape(state, level, pos, context);
     }
 
     @Override
@@ -119,13 +117,7 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
 
     @Override
     public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
-
-        if (!safeMode) {
-            this.explode(level, pos);
-        } else {
-            Block.dropResources(state, level, pos);
-        }
-
+        if (!safeMode) this.explode(level, pos);
         return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
     }
 

@@ -1,6 +1,6 @@
 package com.hbm.blockentity.bomb;
 
-import com.hbm.blockentity.ModBlockEntities;
+import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blocks.bomb.LandmineBlock;
 import com.hbm.lib.ModSounds;
 import net.minecraft.core.BlockPos;
@@ -24,7 +24,7 @@ public class LandMineBlockEntity extends BlockEntity {
     private boolean waitingForPlayer = true;
 
     public LandMineBlockEntity(BlockPos pos, BlockState blockState) {
-        super(ModBlockEntities.LANDMINE.get(), pos, blockState);
+        super(ModBlockEntityTypes.LANDMINE.get(), pos, blockState);
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, LandMineBlockEntity blockEntity) {

@@ -1,6 +1,6 @@
 package com.hbm;
 
-import com.hbm.blockentity.ModBlockEntities;
+import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntityTypes;
@@ -46,7 +46,7 @@ public class HBMsNTM {
         ModCreativeTabs.register(modEventBus);
         ModAttachments.register(modEventBus);
         ModEffect.register(modEventBus);
-        ModBlockEntities.register(modEventBus);
+        ModBlockEntityTypes.register(modEventBus);
         ModMenuTypes.register(modEventBus);
         ModBiomes.register(modEventBus);
         ModParticles.register(modEventBus);

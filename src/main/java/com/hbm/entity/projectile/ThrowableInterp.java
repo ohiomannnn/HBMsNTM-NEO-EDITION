@@ -2,11 +2,12 @@ package com.hbm.entity.projectile;
 
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
-public abstract class ThrowableInterp extends ProjectileNT {
+public abstract class ThrowableInterp extends Projectile {
 
     protected int turnProgress;
     protected double syncPosX;
@@ -18,7 +19,7 @@ public abstract class ThrowableInterp extends ProjectileNT {
     @OnlyIn(Dist.CLIENT) protected double velocityY;
     @OnlyIn(Dist.CLIENT) protected double velocityZ;
 
-    protected ThrowableInterp(EntityType<?> entityType, Level level) {
+    protected ThrowableInterp(EntityType<? extends ThrowableInterp> entityType, Level level) {
         super(entityType, level);
     }
 
@@ -46,30 +47,5 @@ public abstract class ThrowableInterp extends ProjectileNT {
                 this.setPos(this.getX(), this.getY(), this.getZ());
             }
         }
-    }
-
-    @Override
-    public void setDeltaMovement(double x, double y, double z) {
-        this.velocityX = x;
-        this.velocityY = y;
-        this.velocityZ = z;
-        super.setDeltaMovement(x, y, z);
-    }
-
-    public void setPositionAndRotation2(double x, double y, double z, float yaw, float pitch, int theNumberThree) {
-        this.syncPosX = x;
-        this.syncPosY = y;
-        this.syncPosZ = z;
-        this.syncYaw = yaw;
-        this.syncPitch = pitch;
-        this.turnProgress = theNumberThree + this.approachNum();
-        this.setDeltaMovement(velocityX, velocityY, velocityZ);
-    }
-
-    /**
-     * @return a number added to the basic "3" of the approach progress value. Larger numbers make the approach smoother, but lagging behind the true value more.
-     */
-    public int approachNum() {
-        return 0;
     }
 }

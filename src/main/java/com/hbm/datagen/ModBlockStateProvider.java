@@ -26,34 +26,27 @@ public class ModBlockStateProvider extends BlockStateProvider {
     }
     @Override
     protected void registerStatesAndModels() {
-        cubeAllBlockWithItem(ModBlocks.BRICK_CONCRETE.get());
-        cubeAllBlockWithItem(ModBlocks.BRICK_CONCRETE_MOSSY.get());
-        cubeAllBlockWithItem(ModBlocks.BRICK_CONCRETE_CRACKED.get());
-        cubeAllBlockWithItem(ModBlocks.BRICK_CONCRETE_BROKEN.get());
+        cub3All(ModBlocks.BRICK_CONCRETE.get());
+        cub3All(ModBlocks.BRICK_CONCRETE_MOSSY.get());
+        cub3All(ModBlocks.BRICK_CONCRETE_CRACKED.get());
+        cub3All(ModBlocks.BRICK_CONCRETE_BROKEN.get());
 
         simpleColumnBlockWithItem(ModBlocks.BRICK_CONCRETE_MARKED.get(), modLoc("block/brick_concrete_marked"), modLoc("block/brick_concrete"));
-        simpleColumnBlockWithItem(ModBlocks.DET_NUKE.get(), modLoc("block/det_nuke_side"), modLoc("block/det_nuke_top"));
-        simpleBlockWithItem(ModBlocks.DET_CHARGE.get(), cubeAll(ModBlocks.DET_CHARGE.get()));
 
-        simpleBlockWithItem(ModBlocks.DET_MINER.get(),
-                models().cubeColumn("det_miner",
-                        modLoc("block/det_miner_side"),
-                        modLoc("block/det_miner_top")
-                ));
+        this.particleOnlyBlock(ModBlocks.PLUSHIE_YOMI.get(), mcLoc("block/" + name(Blocks.WHITE_WOOL)));
+        this.particleOnlyBlock(ModBlocks.PLUSHIE_NUMBERNINE.get(), mcLoc("block/" + name(Blocks.WHITE_WOOL)));
+        this.particleOnlyBlock(ModBlocks.PLUSHIE_HUNDUN.get(), mcLoc("block/" + name(Blocks.WHITE_WOOL)));
+        this.particleOnlyBlock(ModBlocks.PLUSHIE_DERG.get(), mcLoc("block/" + name(Blocks.WHITE_WOOL)));
 
-        simpleBlockWithItem(ModBlocks.MACHINE_SATLINKER.get(),
-                models().cubeColumn("machine_satlinker",
-                        modLoc("block/machine_satlinker_side"),
-                        modLoc("block/machine_satlinker_top")
-                ));
+        cubeTop(ModBlocks.MACHINE_SATLINKER.get());
+
+        this.cubeAll(ModBlocks.DET_CHARGE.get());
+        this.particleOnlyBlock(ModBlocks.DET_CORD.get(), mcLoc("block/" + name(ModBlocks.DET_CORD.get())));
+        this.cubeTop(ModBlocks.DET_NUKE.get());
+        this.cubeTop(ModBlocks.DET_MINER.get());
 
         this.particleOnlyBlock(ModBlocks.BARREL_RED.get(), modLoc("block/" + name(ModBlocks.BARREL_RED.get())));
         this.particleOnlyBlock(ModBlocks.BARREL_PINK.get(), modLoc("block/" + name(ModBlocks.BARREL_PINK.get())));
-
-        this.particleOnlyBlock(ModBlocks.PLUSHIE_YOMI.get(), mcLoc("block/" + name(Blocks.WHITE_WOOL)));
-        this.particleOnlyBlock(ModBlocks.PLUSHIE_NUMBERNINE.get(),  mcLoc("block/" + name(Blocks.WHITE_WOOL)));
-        this.particleOnlyBlock(ModBlocks.PLUSHIE_HUNDUN.get(),  mcLoc("block/" + name(Blocks.WHITE_WOOL)));
-        this.particleOnlyBlock(ModBlocks.PLUSHIE_DERG.get(),  mcLoc("block/" + name(Blocks.WHITE_WOOL)));
 
         this.cubeSideBottomTop(ModBlocks.DYNAMITE.get());
         this.cubeSideBottomTop(ModBlocks.TNT.get());
@@ -61,9 +54,9 @@ public class ModBlockStateProvider extends BlockStateProvider {
         this.cubeSideBottomTop(ModBlocks.C4.get());
         this.cubeSideBottomTop(ModBlocks.FISSURE_BOMB.get());
 
-        simpleBlockWithItem(ModBlocks.BRICK_LIGHT.get(), cubeAll(ModBlocks.BRICK_LIGHT.get()));
-        simpleBlockWithItem(ModBlocks.BRICK_OBSIDIAN.get(), cubeAll(ModBlocks.BRICK_OBSIDIAN.get()));
-        simpleBlockWithItem(ModBlocks.GRAVEL_OBSIDIAN.get(), cubeAll(ModBlocks.GRAVEL_OBSIDIAN.get()));
+        cub3All(ModBlocks.BRICK_LIGHT.get());
+        cub3All(ModBlocks.BRICK_OBSIDIAN.get());
+        cub3All(ModBlocks.GRAVEL_OBSIDIAN.get());
 
         sellafieldSlaked(
                 ModBlocks.SELLAFIELD_SLAKED.get(),
@@ -305,7 +298,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlockWithItem(block, models().cubeColumn(name(block), side, end));
     }
 
-    public void cubeAllBlockWithItem(Block block) {
+    public void cub3All(Block block) {
         this.simpleBlock(block, cubeAll(block));
         this.simpleBlockItem(block, cubeAll(block));
     }
@@ -319,6 +312,12 @@ public class ModBlockStateProvider extends BlockStateProvider {
         String blockName = name(block);
         this.simpleBlock(block, this.models().cubeBottomTop(blockName, modLoc("block/" + blockName + "_side"), modLoc("block/" + blockName + "_bottom"), modLoc("block/" + blockName + "_top")));
         this.simpleBlockItem(block, this.models().cubeBottomTop(blockName, modLoc("block/" + blockName + "_side"), modLoc("block/" + blockName + "_bottom"), modLoc("block/" + blockName + "_top")));
+    }
+
+    public void cubeTop(Block block) {
+        String blockName = name(block);
+        this.simpleBlock(block, this.models().cubeTop(blockName, modLoc("block/" + blockName + "_side"), modLoc("block/" + blockName + "_top")));
+        this.simpleBlockItem(block, this.models().cubeTop(blockName, modLoc("block/" + blockName + "_side"), modLoc("block/" + blockName + "_top")));
     }
 
     private String name(Block block) { return this.key(block).getPath(); }

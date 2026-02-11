@@ -8,7 +8,6 @@ import com.hbm.entity.logic.Bomber;
 import com.hbm.entity.logic.DeathBlast;
 import com.hbm.entity.logic.NukeExplosionBalefire;
 import com.hbm.entity.logic.NukeExplosionMK5;
-import com.hbm.entity.missile.MissileTier1.MissileGeneric;
 import com.hbm.entity.mob.CreeperNuclear;
 import com.hbm.entity.mob.Duck;
 import com.hbm.entity.projectile.BombletZeta;
@@ -139,12 +138,6 @@ public class ModEntityTypes {
             () -> EntityType.Builder.of(Meteor::new, MobCategory.MISC)
                     .sized(4F, 4F)
                     .build("meteor"));
-
-    public static final DeferredHolder<EntityType<?>, EntityType<Entity>> MISSILE_HE = REGISTER.register(
-            "missile_he",
-            () -> EntityType.Builder.of(MissileGeneric::new, MobCategory.MISC)
-                    .sized(1.5F, 1.5F)
-                    .build("missile_he"));
 
     public static void register(IEventBus eventBus) {
         REGISTER.register(eventBus);
