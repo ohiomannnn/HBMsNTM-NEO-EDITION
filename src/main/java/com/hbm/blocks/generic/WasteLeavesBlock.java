@@ -2,11 +2,11 @@ package com.hbm.blocks.generic;
 
 import com.hbm.HBMsNTMClient;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.item.FallingBlockEntityNT;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -24,7 +24,7 @@ public class WasteLeavesBlock extends Block {
             serverLevel.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
 
             if (serverLevel.getBlockState(pos.below()).isAir()) {
-                FallingBlockEntity leaves = FallingBlockEntity.fall(serverLevel, pos, ModBlocks.LEAVES_LAYER.get().defaultBlockState());
+                FallingBlockEntityNT leaves = FallingBlockEntityNT.fall(serverLevel, pos, ModBlocks.LEAVES_LAYER.get().defaultBlockState());
                 leaves.time = 2;
                 leaves.dropItem = false;
             }

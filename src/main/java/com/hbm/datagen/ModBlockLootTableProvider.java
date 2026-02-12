@@ -56,6 +56,8 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.DET_MINER.get());
         this.dropSelf(ModBlocks.BARREL_RED.get());
         this.dropSelf(ModBlocks.BARREL_PINK.get());
+        this.dropSelf(ModBlocks.BARREL_LOX.get());
+        this.dropSelf(ModBlocks.BARREL_TAINT.get());
         this.dropSelf(ModBlocks.MINE_AP.get());
         this.dropSelf(ModBlocks.MINE_HE.get());
         this.dropSelf(ModBlocks.MINE_SHRAP.get());
@@ -85,8 +87,12 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.ORE_GNEISS_URANIUM_SCORCHED.get());
         dropSelf(ModBlocks.ORE_GNEISS_SCHRABIDIUM.get());
 
-        add(ModBlocks.WASTE_EARTH.get(),
-                block -> createSingleItemTable(Blocks.DIRT));
+        this.add(ModBlocks.WASTE_EARTH.get(), block -> createSingleItemTable(Blocks.DIRT));
+        this.add(ModBlocks.FROZEN_DIRT.get(), block -> createSingleItemTable(Items.SNOWBALL));
+        this.add(ModBlocks.FROZEN_GRASS.get(), block -> createSingleItemTable(Items.SNOWBALL));
+        this.add(ModBlocks.FROZEN_LOG.get(), block -> createSingleItemTable(Items.SNOWBALL));
+        this.add(ModBlocks.FROZEN_PLANKS.get(), block -> createSingleItemTable(Items.SNOWBALL));
+
         add(ModBlocks.WASTE_LOG.get(), block ->
                 LootTable.lootTable().withPool(
                         LootPool.lootPool()
@@ -135,7 +141,6 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         this.add(ModBlocks.BRICK_CONCRETE_BROKEN_SLAB.get(), this::createSlabItemTable);
         this.add(ModBlocks.BRICK_CONCRETE_CRACKED_SLAB.get(), this::createSlabItemTable);
     }
-
 
     @Override
     protected Iterable<Block> getKnownBlocks() {

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "hbmsntm:block/frozen_dirt",
+    "side": "hbmsntm:block/frozen_grass_side",
+    "top": "hbmsntm:block/frozen_grass_top"
+  }
+}

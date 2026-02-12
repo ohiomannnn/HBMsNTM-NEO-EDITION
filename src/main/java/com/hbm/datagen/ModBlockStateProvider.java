@@ -10,9 +10,6 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.RotatedPillarBlock;
-import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.block.state.properties.Property;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
@@ -33,20 +30,22 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
         simpleColumnBlockWithItem(ModBlocks.BRICK_CONCRETE_MARKED.get(), modLoc("block/brick_concrete_marked"), modLoc("block/brick_concrete"));
 
-        this.particleOnlyBlock(ModBlocks.PLUSHIE_YOMI.get(), mcLoc("block/" + name(Blocks.WHITE_WOOL)));
-        this.particleOnlyBlock(ModBlocks.PLUSHIE_NUMBERNINE.get(), mcLoc("block/" + name(Blocks.WHITE_WOOL)));
-        this.particleOnlyBlock(ModBlocks.PLUSHIE_HUNDUN.get(), mcLoc("block/" + name(Blocks.WHITE_WOOL)));
-        this.particleOnlyBlock(ModBlocks.PLUSHIE_DERG.get(), mcLoc("block/" + name(Blocks.WHITE_WOOL)));
+        this.particleOnlyBlock(ModBlocks.PLUSHIE_YOMI.get(), blockTexture(Blocks.WHITE_WOOL));
+        this.particleOnlyBlock(ModBlocks.PLUSHIE_NUMBERNINE.get(), blockTexture(Blocks.WHITE_WOOL));
+        this.particleOnlyBlock(ModBlocks.PLUSHIE_HUNDUN.get(), blockTexture(Blocks.WHITE_WOOL));
+        this.particleOnlyBlock(ModBlocks.PLUSHIE_DERG.get(), blockTexture(Blocks.WHITE_WOOL));
 
         cubeTop(ModBlocks.MACHINE_SATLINKER.get());
 
         this.cubeAll(ModBlocks.DET_CHARGE.get());
-        this.particleOnlyBlock(ModBlocks.DET_CORD.get(), mcLoc("block/" + name(ModBlocks.DET_CORD.get())));
+        this.particleOnlyBlock(ModBlocks.DET_CORD.get(), blockTexture(ModBlocks.DET_CORD.get()));
         this.cubeTop(ModBlocks.DET_NUKE.get());
         this.cubeTop(ModBlocks.DET_MINER.get());
 
-        this.particleOnlyBlock(ModBlocks.BARREL_RED.get(), modLoc("block/" + name(ModBlocks.BARREL_RED.get())));
-        this.particleOnlyBlock(ModBlocks.BARREL_PINK.get(), modLoc("block/" + name(ModBlocks.BARREL_PINK.get())));
+        this.particleOnlyBlock(ModBlocks.BARREL_RED.get(), blockTexture(ModBlocks.BARREL_RED.get()));
+        this.particleOnlyBlock(ModBlocks.BARREL_PINK.get(), blockTexture(ModBlocks.BARREL_PINK.get()));
+        this.particleOnlyBlock(ModBlocks.BARREL_LOX.get(), blockTexture(ModBlocks.BARREL_LOX.get()));
+        this.particleOnlyBlock(ModBlocks.BARREL_TAINT.get(), blockTexture(ModBlocks.BARREL_TAINT.get()));
 
         this.cubeSideBottomTop(ModBlocks.DYNAMITE.get());
         this.cubeSideBottomTop(ModBlocks.TNT.get());
@@ -60,22 +59,30 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
         sellafieldSlaked(
                 ModBlocks.SELLAFIELD_SLAKED.get(),
-                "sellafield_slaked",
-                SellafieldSlakedBlock.VARIANT,
-                SellafieldSlakedBlock.COLOR_LEVEL
+                "sellafield_slaked"
         );
 
         sellafieldSlaked(
                 ModBlocks.SELLAFIELD_BEDROCK.get(),
-                "sellafield_bedrock",
-                SellafieldSlakedBlock.VARIANT,
-                SellafieldSlakedBlock.COLOR_LEVEL
+                "sellafield_bedrock"
         );
 
-        sellafieldOre(ModBlocks.ORE_SELLAFIELD_DIAMOND.get(), "sellafield_ore_diamond", "block/ore_diamond_overlay", SellafieldSlakedBlock.VARIANT, SellafieldSlakedBlock.COLOR_LEVEL);
-        sellafieldOre(ModBlocks.ORE_SELLAFIELD_EMERALD.get(), "sellafield_ore_emerald", "block/ore_emerald_overlay", SellafieldSlakedBlock.VARIANT, SellafieldSlakedBlock.COLOR_LEVEL);
+        sellafieldOre(ModBlocks.ORE_SELLAFIELD_DIAMOND.get(), "sellafield_ore_diamond", "block/ore_diamond_overlay");
+        sellafieldOre(ModBlocks.ORE_SELLAFIELD_EMERALD.get(), "sellafield_ore_emerald", "block/ore_emerald_overlay");
 
-        logBlock((RotatedPillarBlock) ModBlocks.WASTE_LOG.get());
+        this.logBlock(ModBlocks.WASTE_LOG.get());
+        this.logBlock(ModBlocks.FROZEN_LOG.get());
+        this.cub3All(ModBlocks.FROZEN_DIRT.get());
+        this.cub3All(ModBlocks.FROZEN_PLANKS.get());
+
+        simpleBlockWithItem(ModBlocks.FROZEN_GRASS.get(),
+                models().cubeBottomTop(
+                        ModBlocks.FROZEN_GRASS.getId().getPath(),
+                        modLoc("block/frozen_grass_side"),
+                        modLoc("block/frozen_dirt"),
+                        modLoc("block/frozen_grass_top")
+                )
+        );
 
         simpleBlockWithItem(ModBlocks.WASTE_EARTH.get(),
                 models().cubeBottomTop(
@@ -236,60 +243,54 @@ public class ModBlockStateProvider extends BlockStateProvider {
         }
     }
 
-    private void sellafieldSlaked(Block block, String modelBaseName, IntegerProperty variantProperty, Property<?>... ignored) {
-        getVariantBuilder(block)
-                .forAllStatesExcept(state -> {
-                    int variant = state.getValue(variantProperty);
-                    String modelName = modelBaseName + (variant == 0 ? "" : "_" + variant);
-                    String texName = "sellafield_slaked" + (variant == 0 ? "" : "_" + variant);
+    private void sellafieldSlaked(Block block, String modelBaseName) {
+        getVariantBuilder(block).forAllStatesExcept(state -> {
+            int variant = state.getValue(SellafieldSlakedBlock.VARIANT);
+            String modelName = modelBaseName + (variant == 0 ? "" : "_" + variant);
+            String texName = "sellafield_slaked" + (variant == 0 ? "" : "_" + variant);
 
-                    ModelFile tintedModel = models().withExistingParent(modelName, mcLoc("block/cube"))
-                            .texture("particle", modLoc("block/" + texName))
-                            .texture("down", modLoc("block/" + texName))
-                            .texture("up", modLoc("block/" + texName))
-                            .texture("north", modLoc("block/" + texName))
-                            .texture("south", modLoc("block/" + texName))
-                            .texture("west", modLoc("block/" + texName))
-                            .texture("east", modLoc("block/" + texName))
-                            .element()
-                            .from(0, 0, 0).to(16, 16, 16)
-                            .allFaces((dir, face) -> face.texture("#" + dir.getName()).tintindex(0))
-                            .end();
+            ModelFile tintedModel = models().withExistingParent(modelName, mcLoc("block/cube"))
+                    .texture("particle", modLoc("block/" + texName))
+                    .texture("down", modLoc("block/" + texName))
+                    .texture("up", modLoc("block/" + texName))
+                    .texture("north", modLoc("block/" + texName))
+                    .texture("south", modLoc("block/" + texName))
+                    .texture("west", modLoc("block/" + texName))
+                    .texture("east", modLoc("block/" + texName))
+                    .element()
+                    .from(0, 0, 0).to(16, 16, 16)
+                    .allFaces((dir, face) -> face.texture("#" + dir.getName()).tintindex(0))
+                    .end();
 
-                    return ConfiguredModel.builder()
-                            .modelFile(tintedModel)
-                            .build();
-                }, ignored);
+            return ConfiguredModel.builder().modelFile(tintedModel).build();
+            }, SellafieldSlakedBlock.COLOR_LEVEL);
 
         itemModels().withExistingParent(BuiltInRegistries.BLOCK.getKey(block).getPath(), modLoc("block/sellafield_slaked"));
     }
 
-    private void sellafieldOre(Block block, String baseName, String overlayTexture, IntegerProperty variantProperty, Property<?>... ignored) {
+    private void sellafieldOre(Block block, String baseName, String overlayTexture) {
 
-        getVariantBuilder(block)
-                .forAllStatesExcept(state -> {
-                    int variant = state.getValue(variantProperty);
-                    String modelName = baseName + (variant == 0 ? "" : "_" + variant);
-                    String baseTex = "sellafield_slaked" + (variant == 0 ? "" : "_" + variant);
+        this.getVariantBuilder(block).forAllStatesExcept(state -> {
+            int variant = state.getValue(SellafieldSlakedBlock.VARIANT);
+            String modelName = baseName + (variant == 0 ? "" : "_" + variant);
+            String baseTex = "sellafield_slaked" + (variant == 0 ? "" : "_" + variant);
 
-                    ModelFile oreModel = models().withExistingParent(modelName, mcLoc("block/cube"))
-                            .renderType("cutout")
-                            .texture("base", modLoc("block/" + baseTex))
-                            .texture("overlay", modLoc(overlayTexture))
-                            .texture("particle", modLoc(overlayTexture))
-                            .element()
-                            .from(0, 0, 0).to(16, 16, 16)
-                            .allFaces((dir, face) -> face.texture("#base").tintindex(0))
-                            .end()
-                            .element()
-                            .from(0, 0, 0).to(16, 16, 16)
-                            .allFaces((dir, face) -> face.texture("#overlay"))
-                            .end();
+            ModelFile oreModel = models().withExistingParent(modelName, mcLoc("block/cube"))
+                    .renderType("cutout")
+                    .texture("base", modLoc("block/" + baseTex))
+                    .texture("overlay", modLoc(overlayTexture))
+                    .texture("particle", modLoc(overlayTexture))
+                    .element()
+                    .from(0, 0, 0).to(16, 16, 16)
+                    .allFaces((dir, face) -> face.texture("#base").tintindex(0))
+                    .end()
+                    .element()
+                    .from(0, 0, 0).to(16, 16, 16)
+                    .allFaces((dir, face) -> face.texture("#overlay"))
+                    .end();
+            return ConfiguredModel.builder().modelFile(oreModel).build();
 
-                    return ConfiguredModel.builder()
-                            .modelFile(oreModel)
-                            .build();
-                }, ignored);
+            }, SellafieldSlakedBlock.COLOR_LEVEL);
 
         itemModels().withExistingParent(BuiltInRegistries.BLOCK.getKey(block).getPath(), modLoc("block/" + baseName));
     }

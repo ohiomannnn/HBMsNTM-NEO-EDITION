@@ -4,11 +4,15 @@ import com.hbm.blockentity.EmptyBlockEntity;
 import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.DetonatableBlock;
+import com.hbm.blocks.bomb.TaintBlock;
 import com.hbm.entity.item.TNTPrimedBase;
+import com.hbm.explosion.ExplosionThermo;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -16,10 +20,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -30,6 +31,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.List;
+import java.util.Random;
 
 public class RedBarrelBlock extends DetonatableBlock implements EntityBlock, SimpleWaterloggedBlock {
 
@@ -58,7 +60,6 @@ public class RedBarrelBlock extends DetonatableBlock implements EntityBlock, Sim
     protected BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
         if (state.getValue(BlockStateProperties.WATERLOGGED)) {
             level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
-
         }
 
         return super.updateShape(state, facing, facingState, level, currentPos, facingPos);
@@ -84,8 +85,29 @@ public class RedBarrelBlock extends DetonatableBlock implements EntityBlock, Sim
 
     @Override
     public void explodeEntity(Level level, double x, double y, double z, TNTPrimedBase entity) {
+        int ix = Mth.floor(x), iy = Mth.floor(y), iz = Mth.floor(z);
+
         if (this == ModBlocks.BARREL_RED.get() || this == ModBlocks.BARREL_PINK.get()) {
             level.explode(entity, x, y, z, 2.5F, true, Level.ExplosionInteraction.BLOCK);
+        }
+        if (this == ModBlocks.BARREL_LOX.get()) {
+            level.explode(entity, x, y, z, 1F, false, Level.ExplosionInteraction.BLOCK);
+            ExplosionThermo.freeze(level, BlockPos.containing(x, y, z), 7);
+        }
+        if (this == ModBlocks.BARREL_TAINT.get()) {
+            level.explode(entity, x, y, z, 1F, false, Level.ExplosionInteraction.BLOCK);
+
+            RandomSource rand = level.random;
+            for(int i = 0; i < 100; i++) {
+                int a = rand.nextInt(9) - 4 + ix;
+                int b = rand.nextInt(9) - 4 + iy;
+                int c = rand.nextInt(9) - 4 + iz;
+                BlockPos aPos = new BlockPos(a, b, c);
+                BlockState state = level.getBlockState(aPos);
+                if (state.isSolidRender(level, aPos) && state.getBlock() != Blocks.BEDROCK) {
+                    level.setBlock(aPos, ModBlocks.TAINT.get().defaultBlockState().setValue(TaintBlock.TAINT_LEVEL, rand.nextInt(3) + 4), 2);
+                }
+            }
         }
     }
 

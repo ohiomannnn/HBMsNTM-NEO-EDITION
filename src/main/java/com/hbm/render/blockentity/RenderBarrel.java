@@ -6,6 +6,7 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBaseStandard;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -33,6 +34,8 @@ public class RenderBarrel extends BlockEntityRendererNT<EmptyBlockEntity> implem
 
         VertexConsumer consumer;
         if (block == ModBlocks.BARREL_PINK.get()) consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.BARREL_PINK_TEX));
+        else if (block == ModBlocks.BARREL_LOX.get()) consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.BARREL_LOX_TEX));
+        else if (block == ModBlocks.BARREL_TAINT.get()) consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.BARREL_TAINT_TEX));
         else consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.BARREL_RED_TEX));
         ResourceManager.barrel.renderAll(poseStack, consumer, packedLight, packedOverlay);
 
@@ -53,10 +56,11 @@ public class RenderBarrel extends BlockEntityRendererNT<EmptyBlockEntity> implem
     public Item[] getItemsForRenderer() {
         return new Item[] {
                 ModBlocks.BARREL_RED.asItem(),
-                ModBlocks.BARREL_PINK.asItem()
+                ModBlocks.BARREL_PINK.asItem(),
+                ModBlocks.BARREL_LOX.asItem(),
+                ModBlocks.BARREL_TAINT.asItem()
         };
     }
-
 
     @Override
     public BlockEntityWithoutLevelRenderer getRenderer() {
@@ -65,12 +69,15 @@ public class RenderBarrel extends BlockEntityRendererNT<EmptyBlockEntity> implem
             public void renderInventory(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
                 poseStack.scale(10F, 10F, 10F);
                 poseStack.translate(0F, -0.3F, 0F);
+                poseStack.mulPose(Axis.YP.rotationDegrees(90F));
             }
 
             @Override
             public void renderCommon(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
                 VertexConsumer consumer;
                 if (stack.is(ModBlocks.BARREL_PINK.asItem())) consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.BARREL_PINK_TEX));
+                else if (stack.is(ModBlocks.BARREL_LOX.asItem())) consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.BARREL_LOX_TEX));
+                else if (stack.is(ModBlocks.BARREL_TAINT.asItem())) consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.BARREL_TAINT_TEX));
                 else consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.BARREL_RED_TEX));
                 ResourceManager.barrel.renderAll(poseStack, consumer, packedLight, packedOverlay);
             }

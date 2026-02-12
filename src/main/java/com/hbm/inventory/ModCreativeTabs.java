@@ -129,38 +129,46 @@ public class ModCreativeTabs {
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.ORE_URANIUM.get()))
                     .title(Component.translatable("creative_tab.hbmsntm.ores_and_blocks"))
                     .displayItems((itemDisplayParameters, output) -> {
+
+                        output.accept(ModBlocks.PLUSHIE_YOMI);
+                        output.accept(ModBlocks.PLUSHIE_NUMBERNINE);
+                        output.accept(ModBlocks.PLUSHIE_HUNDUN);
+                        output.accept(ModBlocks.PLUSHIE_DERG);
+
                         output.accept(ModBlocks.BRICK_CONCRETE);
                         output.accept(ModBlocks.BRICK_CONCRETE_MOSSY);
                         output.accept(ModBlocks.BRICK_CONCRETE_CRACKED);
                         output.accept(ModBlocks.BRICK_CONCRETE_BROKEN);
                         output.accept(ModBlocks.BRICK_CONCRETE_MARKED);
 
-                        output.accept(ModBlocks.BRICK_CONCRETE_STAIRS);
-                        output.accept(ModBlocks.BRICK_CONCRETE_MOSSY_STAIRS);
-                        output.accept(ModBlocks.BRICK_CONCRETE_CRACKED_STAIRS);
-                        output.accept(ModBlocks.BRICK_CONCRETE_BROKEN_STAIRS);
-
                         output.accept(ModBlocks.BRICK_CONCRETE_SLAB);
                         output.accept(ModBlocks.BRICK_CONCRETE_MOSSY_SLAB);
                         output.accept(ModBlocks.BRICK_CONCRETE_CRACKED_SLAB);
                         output.accept(ModBlocks.BRICK_CONCRETE_BROKEN_SLAB);
 
-                        output.accept(ModBlocks.WASTE_MYCELIUM);
+                        output.accept(ModBlocks.BRICK_CONCRETE_STAIRS);
+                        output.accept(ModBlocks.BRICK_CONCRETE_MOSSY_STAIRS);
+                        output.accept(ModBlocks.BRICK_CONCRETE_CRACKED_STAIRS);
+                        output.accept(ModBlocks.BRICK_CONCRETE_BROKEN_STAIRS);
+
                         output.accept(ModBlocks.WASTE_EARTH);
+                        output.accept(ModBlocks.WASTE_MYCELIUM);
+                        output.accept(ModBlocks.WASTE_TRINITITE);
+                        output.accept(ModBlocks.WASTE_TRINITITE_RED);
                         output.accept(ModBlocks.WASTE_LOG);
                         output.accept(ModBlocks.WASTE_LEAVES);
-                        output.accept(ModBlocks.LEAVES_LAYER);
+                        output.accept(ModBlocks.WASTE_PLANKS);
+                        output.accept(ModBlocks.FROZEN_GRASS);
+                        output.accept(ModBlocks.FROZEN_DIRT);
+                        output.accept(ModBlocks.FROZEN_PLANKS);
+                        output.accept(ModBlocks.FROZEN_PLANKS);
                         output.accept(ModBlocks.FALLOUT);
+                        output.accept(ModBlocks.LEAVES_LAYER);
 
                         output.accept(ModBlocks.SELLAFIELD_SLAKED);
                         output.accept(ModBlocks.SELLAFIELD_BEDROCK);
                         output.accept(ModBlocks.ORE_SELLAFIELD_DIAMOND);
                         output.accept(ModBlocks.ORE_SELLAFIELD_EMERALD);
-
-                        output.accept(ModBlocks.PLUSHIE_YOMI);
-                        output.accept(ModBlocks.PLUSHIE_NUMBERNINE);
-                        output.accept(ModBlocks.PLUSHIE_HUNDUN);
-                        output.accept(ModBlocks.PLUSHIE_DERG);
                     }).build());
 
     public static final Supplier<CreativeModeTab> MACHINES = CREATIVE_MODE_TABS.register(
@@ -235,6 +243,8 @@ public class ModCreativeTabs {
 
                         output.accept(ModBlocks.BARREL_RED);
                         output.accept(ModBlocks.BARREL_PINK);
+                        output.accept(ModBlocks.BARREL_LOX);
+                        output.accept(ModBlocks.BARREL_TAINT);
 
                         output.accept(ModItems.GADGET_WIREING);
                         output.accept(ModItems.GADGET_CORE);

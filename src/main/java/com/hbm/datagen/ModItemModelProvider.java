@@ -118,6 +118,8 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         getBuilder(ModBlocks.WASTE_LOG.getId().getPath())
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/waste_log")));
+        getBuilder(ModBlocks.FROZEN_LOG.getId().getPath())
+                .parent(new ModelFile.UncheckedModelFile(modLoc("block/frozen_log")));
 
         ItemModelBuilder builder = getBuilder("polaroid")
                 .parent(getExistingFile(mcLoc("item/generated")));

@@ -25,7 +25,9 @@ public class ModBlockEntityTypes {
             "barrel",
             () -> BlockEntityType.Builder.of((pos, state) -> new EmptyBlockEntity(ModBlockEntityTypes.BARREL.get(), pos, state),
                     ModBlocks.BARREL_RED.get(),
-                    ModBlocks.BARREL_PINK.get()
+                    ModBlocks.BARREL_PINK.get(),
+                    ModBlocks.BARREL_LOX.get(),
+                    ModBlocks.BARREL_TAINT.get()
             ).build(null));
 
     // Machines

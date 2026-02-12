@@ -83,22 +83,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(Blocks.SAND)
                 .add(Blocks.DIRT);
 
-        tag(LEAVES)
-                .add(Blocks.ACACIA_LEAVES)
-                .add(Blocks.AZALEA_LEAVES)
-                .add(Blocks.BIRCH_LEAVES)
-                .add(Blocks.CHERRY_LEAVES)
-                .add(Blocks.DARK_OAK_LEAVES)
-                .add(Blocks.JUNGLE_LEAVES)
-                .add(Blocks.FLOWERING_AZALEA_LEAVES)
-                .add(Blocks.MANGROVE_LEAVES)
-                .add(Blocks.OAK_LEAVES)
-                .add(Blocks.SPRUCE_LEAVES);
-
-        tag(BlockTags.MINEABLE_WITH_AXE)
-                .add(ModBlocks.WASTE_LOG.get());
-
-        tag(BlockTags.MINEABLE_WITH_PICKAXE)
+        this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(ModBlocks.BRICK_CONCRETE.get())
                 .add(ModBlocks.BRICK_CONCRETE_MOSSY.get())
                 .add(ModBlocks.BRICK_CONCRETE_CRACKED.get())
@@ -126,21 +111,28 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
                 .add(ModBlocks.MACHINE_SATLINKER.get());
 
-        tag(BlockTags.NEEDS_IRON_TOOL)
-                .add(ModBlocks.BRICK_CONCRETE.get())
-                .add(ModBlocks.BRICK_CONCRETE_MOSSY.get())
-                .add(ModBlocks.BRICK_CONCRETE_CRACKED.get())
-                .add(ModBlocks.BRICK_CONCRETE_BROKEN.get())
-                .add(ModBlocks.BRICK_CONCRETE_MARKED.get())
+        this.tag(BlockTags.MINEABLE_WITH_AXE)
+                .add(
+                        ModBlocks.WASTE_LOG.get(),
+                        ModBlocks.WASTE_PLANKS.get(),
+                        ModBlocks.FROZEN_LOG.get(),
+                        ModBlocks.FROZEN_PLANKS.get()
+                );
 
-                .add(ModBlocks.BRICK_CONCRETE_STAIRS.get())
-                .add(ModBlocks.BRICK_CONCRETE_MOSSY_STAIRS.get())
-                .add(ModBlocks.BRICK_CONCRETE_CRACKED_STAIRS.get())
-                .add(ModBlocks.BRICK_CONCRETE_BROKEN_STAIRS.get())
+        this.tag(BlockTags.MINEABLE_WITH_SHOVEL)
+                .add(
+                        ModBlocks.WASTE_EARTH.get(),
+                        ModBlocks.WASTE_MYCELIUM.get(),
+                        ModBlocks.WASTE_TRINITITE.get(),
+                        ModBlocks.WASTE_TRINITITE_RED.get(),
+                        ModBlocks.FROZEN_DIRT.get(),
+                        ModBlocks.FROZEN_GRASS.get()
+                );
 
-                .add(ModBlocks.BRICK_CONCRETE_SLAB.get())
-                .add(ModBlocks.BRICK_CONCRETE_MOSSY_SLAB.get())
-                .add(ModBlocks.BRICK_CONCRETE_CRACKED_SLAB.get())
-                .add(ModBlocks.BRICK_CONCRETE_BROKEN_SLAB.get());
+        this.tag(BlockTags.MINEABLE_WITH_HOE)
+                .add(
+                        ModBlocks.WASTE_LEAVES.get(),
+                        ModBlocks.LEAVES_LAYER.get()
+                );
     }
 }

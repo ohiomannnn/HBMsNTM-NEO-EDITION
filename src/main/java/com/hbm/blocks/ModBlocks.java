@@ -20,6 +20,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.bus.api.IEventBus;
@@ -41,30 +42,18 @@ public class ModBlocks {
     public static final DeferredBlock<Block> BRICK_OBSIDIAN = registerBlock("brick_obsidian", () -> new Block(BlockBehaviour.Properties.of().strength(15.0F).explosionResistance(120.0F).requiresCorrectToolForDrops().sound(SoundType.STONE)));
     public static final DeferredBlock<Block> GRAVEL_OBSIDIAN = registerBlock("gravel_obsidian", () -> new ColoredFallingBlock(new ColorRGBA(-8356741), BlockBehaviour.Properties.of().strength(15.0F).explosionResistance(120.0F).requiresCorrectToolForDrops().sound(SoundType.STONE)));
 
-    public static final DeferredBlock<Block> WASTE_EARTH = registerBlock("waste_earth",
-            () -> new Block(BlockBehaviour.Properties.of()
-                    .strength(0.6F)
-                    .mapColor(MapColor.TERRACOTTA_BROWN)
-                    .sound(SoundType.GRASS)));
-    public static final DeferredBlock<Block> WASTE_LOG = registerBlock("waste_log",
-            () -> new RotatedPillarBlock(BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.COLOR_BLACK)
-                    .strength(5.0F)
-                    .explosionResistance(2.5F)
-                    .sound(SoundType.WOOD)));
-    public static final DeferredBlock<Block> WASTE_LEAVES = registerBlock("waste_leaves",
-            () -> new WasteLeavesBlock(BlockBehaviour.Properties.of()
-                    .strength(0.2F)
-                    .randomTicks()
-                    .mapColor(MapColor.COLOR_BROWN)
-                    .sound(SoundType.GRASS)
-                    .noOcclusion()
-                    .isValidSpawn(Blocks::never)
-                    .isSuffocating(ModBlocks::never)
-                    .isViewBlocking(ModBlocks::never)
-                    .ignitedByLava()
-                    .pushReaction(PushReaction.DESTROY)
-                    .isRedstoneConductor(ModBlocks::never)));
+    public static final DeferredBlock<Block> WASTE_EARTH =         registerBlock("waste_earth",         () -> new Block(               BlockBehaviour.Properties.of().strength(0.6F).sound(SoundType.GRASS).mapColor(MapColor.DIRT)));
+    public static final DeferredBlock<Block> WASTE_MYCELIUM =      registerBlock("waste_mycelium",      () -> new WasteMyceliumBlock(  BlockBehaviour.Properties.of().strength(0.6F).lightLevel(value -> 10).sound(SoundType.GRASS).mapColor(MapColor.COLOR_LIGHT_GREEN)));
+    public static final DeferredBlock<Block> WASTE_TRINITITE =     registerBlock("waste_trinitite",     () -> new WasteTrinititeBlock( BlockBehaviour.Properties.of().strength(0.5F, 2.5F).sound(SoundType.SAND).mapColor(MapColor.SAND).instrument(NoteBlockInstrument.SNARE)));
+    public static final DeferredBlock<Block> WASTE_TRINITITE_RED = registerBlock("waste_trinitite_red", () -> new WasteTrinititeBlock( BlockBehaviour.Properties.of().strength(0.5F, 2.5F).sound(SoundType.SAND).mapColor(MapColor.COLOR_RED).instrument(NoteBlockInstrument.SNARE)));
+    public static final DeferredBlock<RotatedPillarBlock> WASTE_LOG =    registerBlock("waste_log",    () -> new RotatedPillarBlock( BlockBehaviour.Properties.of().strength(5.0F, 2.5F).sound(SoundType.WOOD).mapColor(MapColor.COLOR_BLACK)));
+    public static final DeferredBlock<Block> WASTE_LEAVES =              registerBlock("waste_leaves", () -> new WasteLeavesBlock(   BlockBehaviour.Properties.of().strength(0.2F).randomTicks().mapColor(MapColor.COLOR_BROWN).sound(SoundType.GRASS).noOcclusion().isValidSpawn(Blocks::never).isSuffocating(ModBlocks::never).isViewBlocking(ModBlocks::never).ignitedByLava().pushReaction(PushReaction.DESTROY).isRedstoneConductor(ModBlocks::never)));
+    public static final DeferredBlock<Block> WASTE_PLANKS =              registerBlock("waste_planks", () -> new Block(              BlockBehaviour.Properties.of().strength(0.5F, 2.5F).sound(SoundType.WOOD).mapColor(MapColor.COLOR_BLACK)));
+    public static final DeferredBlock<Block> FROZEN_DIRT =                registerBlock("frozen_dirt",   () -> new FrozenBlock(        BlockBehaviour.Properties.of().strength(0.5F, 2.5F).sound(SoundType.GLASS).mapColor(DyeColor.LIGHT_BLUE)));
+    public static final DeferredBlock<Block> FROZEN_GRASS =               registerBlock("frozen_grass",  () -> new FrozenBlock(        BlockBehaviour.Properties.of().strength(0.5F, 2.5F).sound(SoundType.GLASS).mapColor(DyeColor.WHITE)));
+    public static final DeferredBlock<RotatedPillarBlock> FROZEN_LOG =    registerBlock("frozen_log",    () -> new RotatedPillarBlock( BlockBehaviour.Properties.of().strength(0.5F, 2.5F).sound(SoundType.GLASS).mapColor(DyeColor.LIGHT_BLUE)));
+    public static final DeferredBlock<Block> FROZEN_PLANKS =              registerBlock("frozen_planks", () -> new Block(              BlockBehaviour.Properties.of().strength(0.5F, 2.5F).sound(SoundType.GLASS).mapColor(DyeColor.LIGHT_BLUE)));
+
     public static final DeferredBlock<Block> LEAVES_LAYER = registerBlock("leaves_layer",
             () -> new LayeringBlock(BlockBehaviour.Properties.of()
                     .strength(0.2F)
@@ -112,30 +101,7 @@ public class ModBlocks {
                     .noLootTable()
                     .strength(-1.0F, 6000000.0F)
                     .sound(SoundType.STONE)));
-    public static final DeferredBlock<Block> WASTE_PLANKS = registerBlock("waste_planks",
-            () -> new Block(BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.COLOR_BLACK)
-                    .strength(0.5F)
-                    .explosionResistance(2.5F)
-                    .sound(SoundType.WOOD)));
-    public static final DeferredBlock<Block> WASTE_TRINITITE = registerBlock("waste_trinitite",
-            () -> new Block(BlockBehaviour.Properties.of()
-                    .strength(0.5F)
-                    .mapColor(MapColor.SAND)
-                    .explosionResistance(2.5F)
-                    .sound(SoundType.SAND)));
-    public static final DeferredBlock<Block> WASTE_TRINITITE_RED = registerBlock("waste_trinitite_red",
-            () -> new Block(BlockBehaviour.Properties.of()
-                    .strength(0.5F)
-                    .mapColor(MapColor.COLOR_RED)
-                    .explosionResistance(2.5F)
-                    .sound(SoundType.SAND)));
-    public static final DeferredBlock<Block> WASTE_MYCELIUM = registerBlock("waste_mycelium",
-            () -> new Block(BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.COLOR_LIGHT_GREEN)
-                    .lightLevel(value -> 1)
-                    .strength(0.6F)
-                    .sound(SoundType.GRASS)));
+
     public static final DeferredBlock<Block> BLOCK_SCRAP = registerBlock("block_scrap",
             () -> new ColoredFallingBlock(new ColorRGBA(-8356741), BlockBehaviour.Properties.of()
                     .strength(2.5F)
@@ -302,8 +268,10 @@ public class ModBlocks {
     public static final DeferredBlock<Block> DET_CORD =    registerBlock("det_cord",    () -> new DetCordBlock(BlockBehaviour.Properties.of().strength(0.1F).explosionResistance(0.0F).noOcclusion().isSuffocating(ModBlocks::never).isViewBlocking(ModBlocks::never).sound(SoundType.METAL)));
     public static final DeferredBlock<Block> DET_NUKE =    registerBlock("det_nuke",    () -> new ExplosiveChargeBlock(BlockBehaviour.Properties.of().strength(0.1F).explosionResistance(0.0F).sound(SoundType.METAL)));
     public static final DeferredBlock<Block> DET_MINER =   registerBlock("det_miner",   () -> new ExplosiveChargeBlock(BlockBehaviour.Properties.of().strength(0.1F).explosionResistance(0.0F).sound(SoundType.METAL)));
-    public static final DeferredBlock<Block> BARREL_RED =  registerBlock("barrel_red",  () -> new RedBarrelBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.1F).explosionResistance(2.5F).sound(SoundType.METAL), true));
-    public static final DeferredBlock<Block> BARREL_PINK = registerBlock("barrel_pink", () -> new RedBarrelBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.1F).explosionResistance(2.5F).sound(SoundType.METAL), true));
+    public static final DeferredBlock<Block> BARREL_RED =   registerBlock("barrel_red",   () -> new RedBarrelBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.1F).explosionResistance(2.5F).sound(SoundType.METAL), true));
+    public static final DeferredBlock<Block> BARREL_PINK =  registerBlock("barrel_pink",  () -> new RedBarrelBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.1F).explosionResistance(2.5F).sound(SoundType.METAL), true));
+    public static final DeferredBlock<Block> BARREL_LOX =   registerBlock("barrel_lox",   () -> new RedBarrelBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.1F).explosionResistance(2.5F).sound(SoundType.METAL), false));
+    public static final DeferredBlock<Block> BARREL_TAINT = registerBlock("barrel_taint", () -> new RedBarrelBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.1F).explosionResistance(2.5F).sound(SoundType.METAL), false));
     public static final DeferredBlock<Block> CRASHED_BOMB_BALEFIRE =     registerBlock("crashed_bomb_balefire",     () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
     public static final DeferredBlock<Block> CRASHED_BOMB_CONVENTIONAL = registerBlock("crashed_bomb_conventional", () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
     public static final DeferredBlock<Block> CRASHED_BOMB_NUKE =         registerBlock("crashed_bomb_nuke",         () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));

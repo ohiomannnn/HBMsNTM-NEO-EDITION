@@ -28,7 +28,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.List;
 
-public class TaintBlock extends FallingBlock {
+public class TaintBlock extends Block {
 
     public TaintBlock(Properties properties) {
         super(properties);
