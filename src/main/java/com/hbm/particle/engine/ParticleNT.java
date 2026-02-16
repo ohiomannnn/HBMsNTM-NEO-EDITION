@@ -18,7 +18,7 @@ import java.util.Optional;
 
 public abstract class ParticleNT {
     private static final AABB INITIAL_AABB = new AABB(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-    private static final double MAXIMUM_COLLISION_VELOCITY_SQUARED = Mth.square((double)100.0F);
+    private static final double MAXIMUM_COLLISION_VELOCITY_SQUARED = Mth.square(100.0D);
     protected final ClientLevel level;
     public double xo;
     public double yo;
@@ -33,7 +33,6 @@ public abstract class ParticleNT {
     private AABB bb;
     public boolean onGround;
     public boolean noClip;
-    private boolean stoppedByCollision;
     public boolean dead;
     protected float bbWidth;
     protected float bbHeight;
@@ -104,7 +103,6 @@ public abstract class ParticleNT {
                 this.zd *= 0.7F;
             }
         }
-
     }
 
     public abstract void render(VertexConsumer consumer, Camera camera, float partialTicks);
@@ -124,37 +122,34 @@ public abstract class ParticleNT {
     }
 
     public void move(double x, double y, double z) {
-        if (!this.stoppedByCollision) {
-            double d0 = x;
-            double d1 = y;
-            double d2 = z;
-            if (!this.noClip && (x != (double)0.0F || y != (double)0.0F || z != (double)0.0F) && x * x + y * y + z * z < MAXIMUM_COLLISION_VELOCITY_SQUARED) {
-                Vec3 vec3 = Entity.collideBoundingBox((Entity)null, new Vec3(x, y, z), this.getBoundingBox(), this.level, List.of());
-                x = vec3.x;
-                y = vec3.y;
-                z = vec3.z;
-            }
+        double d0 = x;
+        double d1 = y;
+        double d2 = z;
 
-            if (x != (double)0.0F || y != (double)0.0F || z != (double)0.0F) {
-                this.setBoundingBox(this.getBoundingBox().move(x, y, z));
-                this.setLocationFromBoundingbox();
-            }
-
-            if (Math.abs(d1) >= (double)1.0E-5F && Math.abs(y) < (double)1.0E-5F) {
-                this.stoppedByCollision = true;
-            }
-
-            this.onGround = d1 != y && d1 < (double)0.0F;
-            if (d0 != x) {
-                this.xd = (double)0.0F;
-            }
-
-            if (d2 != z) {
-                this.zd = (double)0.0F;
-            }
+        if (!this.noClip && (x != 0.0 || y != 0.0 || z != 0.0) && x * x + y * y + z * z < MAXIMUM_COLLISION_VELOCITY_SQUARED) {
+            Vec3 vec3 = Entity.collideBoundingBox(null, new Vec3(x, y, z), this.getBoundingBox(), this.level, List.of());
+            x = vec3.x;
+            y = vec3.y;
+            z = vec3.z;
         }
 
+        if (x != 0.0 || y != 0.0 || z != 0.0) {
+            this.setBoundingBox(this.getBoundingBox().move(x, y, z));
+            this.setLocationFromBoundingbox();
+        }
+
+        this.onGround = d1 != y && d1 < 0.0;
+
+        if (this.onGround) {
+            this.xd = 0.0;
+            this.yd = 0.0;
+            this.zd = 0.0;
+        } else {
+            if (d0 != x) this.xd = 0.0;
+            if (d2 != z) this.zd = 0.0;
+        }
     }
+
     protected void setLocationFromBoundingbox() {
         AABB aabb = this.getBoundingBox();
         this.x = (aabb.minX + aabb.maxX) / (double)2.0F;
@@ -162,7 +157,7 @@ public abstract class ParticleNT {
         this.z = (aabb.minZ + aabb.maxZ) / (double)2.0F;
     }
 
-    protected int getLightColor(float partialTick) {
+    protected int getLightColor() {
         BlockPos blockpos = BlockPos.containing(this.x, this.y, this.z);
         return this.level.hasChunkAt(blockpos) ? LevelRenderer.getLightColor(this.level, blockpos) : 0;
     }
@@ -175,16 +170,8 @@ public abstract class ParticleNT {
         this.bb = bb;
     }
 
-    public Optional<ParticleGroup> getParticleGroup() {
-        return Optional.empty();
-    }
-
-    public AABB getRenderBoundingBox(float partialTicks) {
-        return this.getBoundingBox().inflate((double)1.0F);
-    }
-
-    public Vec3 getPos() {
-        return new Vec3(this.x, this.y, this.z);
+    public AABB getRenderBoundingBox() {
+        return this.getBoundingBox().inflate(1.0F);
     }
 
     public void remove() {

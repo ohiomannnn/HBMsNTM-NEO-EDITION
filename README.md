@@ -13,5 +13,8 @@ Pull requests, suggestions, and bug reports are welcome!
 ### Credits
 - Hbm's Nuclear Tech Mod created by The Bobcat.
 - NeoForged Team and Mojang for their work on Minecraft.
+### Links
+- `Curseforge:` https://www.curseforge.com/minecraft/mc-mods/hbms-nuclear-tech-ne
+- `Modrinth:` https://modrinth.com/mod/hbms-nuclear-tech-ne
 ### Licence
 This software is licensed under the GNU Lesser General Public License version 3. In short: This software is free, you may run the software freely, create modified versions, distribute this software and distribute modified versions, as long as the modified software too has a free software license (with an exception for linking to this software, as stated by the "Lesser" part of the LGPL, where this may not be required). You win this round, Stallman. The full license can be found in the LICENSE and LICENSE.LESSER files.

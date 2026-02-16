@@ -1,5 +1,6 @@
 package com.hbm.particle;
 
+import com.hbm.particle.engine.ParticleEngineNT;
 import com.hbm.wiaj.WorldInAJar;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -71,10 +72,12 @@ public class ParticleDebris extends TextureSheetParticle {
 
         if (this.hashCode() % 3 == 0) {
             RocketFlameParticle particle = new RocketFlameParticle(this.level, this.x, this.y, this.z);
-            particle.setScale(1F * Math.max(world.sizeY, 6) / 16F);
-            particle.resetPrevPos();
-            particle.setMaxAge(50);
-            Minecraft.getInstance().particleEngine.add(particle);
+            particle.quadSize = 1F * Math.max(world.sizeY, 6) / 16F;
+            particle.xo = particle.x;
+            particle.yo = particle.y;
+            particle.zo = particle.z;
+            particle.lifetime = 50;
+            ParticleEngineNT.INSTANCE.add(particle);
         }
 
         this.yd -= gravity;
@@ -115,24 +118,12 @@ public class ParticleDebris extends TextureSheetParticle {
                 for (int iz = 0; iz < world.sizeZ; iz++) {
                     BlockState state = world.getBlockState(new BlockPos(ix, iy, iz));
 
-                    if (!state.isAir()) {
-                        poseStack.pushPose();
-                        poseStack.translate(ix, iy, iz);
+                    poseStack.pushPose();
+                    poseStack.translate(ix, iy, iz);
 
-                        try {
-                            blockRenderer.renderSingleBlock(
-                                    state,
-                                    poseStack,
-                                    bufferSource,
-                                    packedLight,
-                                    OverlayTexture.NO_OVERLAY,
-                                    ModelData.EMPTY,
-                                    null
-                            );
-                        } catch (Exception ignored) { }
+                    blockRenderer.renderSingleBlock(state, poseStack, bufferSource, packedLight, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, null);
 
-                        poseStack.popPose();
-                    }
+                    poseStack.popPose();
                 }
             }
         }

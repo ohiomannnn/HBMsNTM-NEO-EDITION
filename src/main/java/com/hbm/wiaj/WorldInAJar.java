@@ -76,16 +76,6 @@ public class WorldInAJar implements BlockAndTintGetter {
         return Fluids.EMPTY.defaultFluidState();
     }
 
-    @Override
-    public int getBrightness(LightLayer type, BlockPos pos) {
-        return 15;
-    }
-
-    @Override
-    public int getRawBrightness(BlockPos pos, int ambientDarkening) {
-        return 15;
-    }
-
     public boolean isAirBlock(int x, int y, int z) {
         return getBlock(x, y, z).isAir();
     }
@@ -101,19 +91,20 @@ public class WorldInAJar implements BlockAndTintGetter {
     }
 
     @Override
-    public float getShade(Direction dir, boolean ambient) {
-        ClientLevel lvl = Minecraft.getInstance().level;
-        return lvl == null ? 1.0F : lvl.getShade(dir, ambient);
+    public float getShade(Direction direction, boolean shade) {
+        assert Minecraft.getInstance().level != null;
+        return Minecraft.getInstance().level.getShade(direction, shade);
     }
 
     @Override
     public LevelLightEngine getLightEngine() {
-        ClientLevel lvl = Minecraft.getInstance().level;
-        return lvl == null ? null : lvl.getLightEngine();
+        assert Minecraft.getInstance().level != null;
+        return Minecraft.getInstance().level.getLightEngine();
     }
 
     @Override
     public int getBlockTint(BlockPos pos, ColorResolver resolver) {
+        assert Minecraft.getInstance().level != null;
         // green grass
         Biome plains = Minecraft.getInstance().level.registryAccess().registryOrThrow(Registries.BIOME).getOrThrow(Biomes.PLAINS);
         return resolver.getColor(plains, pos.getX(), pos.getZ());

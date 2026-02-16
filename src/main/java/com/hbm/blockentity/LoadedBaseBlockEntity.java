@@ -68,12 +68,12 @@ public class LoadedBaseBlockEntity extends BlockEntity implements ILoadedTile, I
     private byte[] lastPacketData;
 
     @Override
-    public void serialize(ByteBuf buf, RegistryAccess registryAccess) {
+    public void serialize(ByteBuf buf) {
         buf.writeBoolean(muffled);
     }
 
     @Override
-    public void deserialize(ByteBuf buf, RegistryAccess registryAccess) {
+    public void deserialize(ByteBuf buf) {
         this.muffled = buf.readBoolean();
     }
 
@@ -82,7 +82,7 @@ public class LoadedBaseBlockEntity extends BlockEntity implements ILoadedTile, I
         if (level == null || level.isClientSide()) return;
 
         FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-        this.serialize(buf, level.registryAccess());
+        this.serialize(buf);
         byte[] data = new byte[buf.readableBytes()];
         buf.readBytes(data);
         buf.release();

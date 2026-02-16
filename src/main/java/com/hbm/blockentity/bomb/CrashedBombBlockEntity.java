@@ -1,7 +1,7 @@
 package com.hbm.blockentity.bomb;
 
 import com.hbm.blockentity.ModBlockEntityTypes;
-import com.hbm.blocks.bomb.CrashedBombBlock;
+import com.hbm.blocks.bomb.CrashedBombBlock.DudType;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
@@ -9,7 +9,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
@@ -18,58 +17,20 @@ import java.util.function.BiConsumer;
 
 public class CrashedBombBlockEntity extends BlockEntity {
 
-    public enum EnumDudType {
-        BALEFIRE,
-        CONVENTIONAL,
-        NUKE,
-        SALTED
+    public DudType type;
+
+    public CrashedBombBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntityTypes.CRASHED_BOMB.get(), pos, state);
     }
 
-    protected final EnumDudType dudType;
-
-    public CrashedBombBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, EnumDudType dudType) {
-        super(type, pos, state);
-        this.dudType = dudType;
-    }
-
-    public static CrashedBombBlockEntity balefire(BlockPos pos, BlockState state) {
-        return new CrashedBombBlockEntity(ModBlockEntityTypes.CRASHED_BOMB_BALEFIRE.get(), pos, state, EnumDudType.BALEFIRE);
-    }
-
-    public static CrashedBombBlockEntity conventional(BlockPos pos, BlockState state) {
-        return new CrashedBombBlockEntity(ModBlockEntityTypes.CRASHED_BOMB_CONVENTIONAL.get(), pos, state, EnumDudType.CONVENTIONAL);
-    }
-
-    public static CrashedBombBlockEntity nuke(BlockPos pos, BlockState state) {
-        return new CrashedBombBlockEntity(ModBlockEntityTypes.CRASHED_BOMB_NUKE.get(), pos, state, EnumDudType.NUKE);
-    }
-
-    public static CrashedBombBlockEntity salted(BlockPos pos, BlockState state) {
-        return new CrashedBombBlockEntity(ModBlockEntityTypes.CRASHED_BOMB_SALTED.get(), pos, state, EnumDudType.SALTED);
-    }
-
-    public EnumDudType getDudType() {
-        return dudType;
-    }
-
-    public static void serverTick(Level level, BlockPos pos, BlockState state, CrashedBombBlockEntity be) {
-        if (!(state.getBlock() instanceof CrashedBombBlock)) return;
-
-        if (level.getGameTime() % 2 == 0) {
-
-            EnumDudType type = be.dudType;
-
-            if (type == EnumDudType.BALEFIRE)
-                be.affectEntities(level, pos, (entity, intensity) ->
-                        ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, 1F * intensity), 15D);
-
-            else if (type == EnumDudType.NUKE)
-                be.affectEntities(level, pos, (entity, intensity) ->
-                        ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, 0.25F * intensity), 10D);
-
-            else if (type == EnumDudType.SALTED)
-                be.affectEntities(level, pos, (entity, intensity) ->
-                        ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, 0.5F * intensity), 10D);
+    public void updateEntity() {
+        if (level != null && !level.isClientSide) {
+            BlockPos pos = this.getBlockPos();
+            if (level.getGameTime() % 2 == 0) {
+                if (type == DudType.BALEFIRE)	 affectEntities(level, pos, (entity, intensity) -> ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, 1F * intensity), 15D);
+                if (type == DudType.NUKE)		 affectEntities(level, pos, (entity, intensity) -> ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, 0.25F * intensity), 10D);
+                if (type == DudType.SALTED)		 affectEntities(level, pos, (entity, intensity) -> ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, 0.5F * intensity), 10D);
+            }
         }
     }
 

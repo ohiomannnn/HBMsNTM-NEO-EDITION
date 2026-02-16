@@ -63,35 +63,35 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
     }
 
     /**
-     * Creates a dummy block state pointing towards the given direction
+     * Creates a dummy block pressed pointing towards the given direction
      */
     public BlockState createDummyState(Direction pointingTo) {
         return this.defaultBlockState().setValue(FACING, pointingTo).setValue(TYPE, DummyBlockType.DUMMY);
     }
 
     /**
-     * Creates an extra (flagged dummy) block state
+     * Creates an extra (flagged dummy) block pressed
      */
     public BlockState createExtraState(Direction pointingTo) {
         return this.defaultBlockState().setValue(FACING, pointingTo).setValue(TYPE, DummyBlockType.EXTRA);
     }
 
     /**
-     * Creates a core block state with the given facing direction
+     * Creates a core block pressed with the given facing direction
      */
     public BlockState createCoreState(Direction facing) {
         return this.defaultBlockState().setValue(FACING, facing).setValue(TYPE, DummyBlockType.CORE);
     }
 
     /**
-     * Checks if this block state represents the core of the multiblock
+     * Checks if this block pressed represents the core of the multiblock
      */
     public static boolean isCore(BlockState state) {
         return state.getValue(TYPE) == DummyBlockType.CORE;
     }
 
     /**
-     * Checks if this block state has the extra flag
+     * Checks if this block pressed has the extra flag
      */
     public static boolean hasExtra(BlockState state) {
         return state.getValue(TYPE) == DummyBlockType.EXTRA;

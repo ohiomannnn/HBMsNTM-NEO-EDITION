@@ -1,8 +1,8 @@
 package com.hbm.render.blockentity;
 
 import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
-import com.hbm.blockentity.bomb.CrashedBombBlockEntity.EnumDudType;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.bomb.CrashedBombBlock.DudType;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -44,22 +44,22 @@ public class RenderCrashedBomb extends BlockEntityRendererNT<CrashedBombBlockEnt
 
         poseStack.translate(0.0, 0.0, -offset);
 
-        EnumDudType type = be.getDudType();
+        DudType type = be.type;
 
-        if (type == EnumDudType.BALEFIRE) {
+        if (type == DudType.BALEFIRE) {
             VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.DUD_BALEFIRE_TEX));
             ResourceManager.dud_balefire.renderAll(poseStack, consumer, packedLight, packedOverlay);
         }
-        if (type == EnumDudType.CONVENTIONAL) {
+        if (type == DudType.CONVENTIONAL) {
             VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.DUD_CONVENTIONAL_TEX));
             ResourceManager.dud_conventional.renderAll(poseStack, consumer, packedLight, packedOverlay);
         }
-        if (type == EnumDudType.NUKE) {
+        if (type == DudType.NUKE) {
             poseStack.translate(0, 0, 1.25);
             VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.DUD_NUKE_TEX));
             ResourceManager.dud_nuke.renderAll(poseStack, consumer, packedLight, packedOverlay);
         }
-        if (type == EnumDudType.SALTED) {
+        if (type == DudType.SALTED) {
             poseStack.translate(0, 0, 0.5);
             VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.DUD_SALTED_TEX));
             ResourceManager.dud_salted.renderAll(poseStack, consumer, packedLight, packedOverlay);

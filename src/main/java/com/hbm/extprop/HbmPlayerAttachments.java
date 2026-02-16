@@ -1,11 +1,8 @@
 package com.hbm.extprop;
 
 import com.hbm.HBMsNTMClient;
-import com.hbm.entity.ModEntityTypes;
-import com.hbm.entity.mob.Duck;
-import com.hbm.handler.KeyHandler.EnumKeybind;
+import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.lib.ModAttachments;
-import com.hbm.lib.ModSounds;
 import com.hbm.network.toclient.InformPlayer;
 import com.mojang.serialization.Codec;
 import io.netty.buffer.ByteBuf;
@@ -15,7 +12,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
 
@@ -38,7 +34,6 @@ public class HbmPlayerAttachments {
                     HbmPlayerAttachments::saveNBTData
             );
 
-
     public boolean hasReceivedBook = false;
 
     public boolean ducked = false;
@@ -46,8 +41,6 @@ public class HbmPlayerAttachments {
     public boolean enableHUD = true;
     public boolean enableBackpack = true;
     public boolean enableMagnet = true;
-
-    private final boolean[] keysPressed = new boolean[EnumKeybind.values().length];
 
     public boolean dashActivated = true;
 
@@ -69,31 +62,25 @@ public class HbmPlayerAttachments {
 
     public boolean isOnLadder = false;
 
-    public HbmPlayerAttachments() { }
-
     public static HbmPlayerAttachments getData(Player player) {
         return player.getData(ModAttachments.PLAYER_ATTACHMENT);
     }
+
+    public final boolean[] keysPressed = new boolean[EnumKeybind.values().length];
 
     public boolean getKeyPressed(EnumKeybind key) {
         return keysPressed[key.ordinal()];
     }
 
-    public boolean isJetpackActive() {
-        return this.enableBackpack && getKeyPressed(EnumKeybind.JETPACK);
-    }
+    public static void setKeyPressed(Player player, EnumKeybind key, boolean pressed) {
+        HbmPlayerAttachments props = player.getData(ModAttachments.PLAYER_ATTACHMENT);
 
-    public boolean isMagnetActive(){
-        return this.enableMagnet;
-    }
+        if (!props.getKeyPressed(key) && pressed) {
 
-    public void setKeyPressed(Player player, EnumKeybind key, boolean pressed) {
-        if (!getKeyPressed(key) && pressed) {
             if (key == EnumKeybind.TOGGLE_JETPACK) {
+
                 if (!player.level().isClientSide) {
-                    HbmPlayerAttachments props = getData(player);
                     props.enableBackpack = !props.enableBackpack;
-                    player.setData(ModAttachments.PLAYER_ATTACHMENT, props);
 
                     if (props.enableBackpack) {
                         PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayer(Component.literal("Jetpack ON").withStyle(ChatFormatting.GREEN), HBMsNTMClient.ID_JETPACK, 1000));
@@ -102,12 +89,11 @@ public class HbmPlayerAttachments {
                     }
                 }
             }
-            if (key == EnumKeybind.TOGGLE_MAGNET) {
-                if (!player.level().isClientSide) {
-                    HbmPlayerAttachments props = getData(player);
-                    props.enableMagnet = !props.enableMagnet;
-                    player.setData(ModAttachments.PLAYER_ATTACHMENT, props);
 
+            if (key == EnumKeybind.TOGGLE_MAGNET) {
+
+                if (!player.level().isClientSide) {
+                    props.enableMagnet = !props.enableMagnet;
 
                     if (props.enableMagnet) {
                         PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayer(Component.literal("Magnet ON").withStyle(ChatFormatting.GREEN), HBMsNTMClient.ID_MAGNET, 1000));
@@ -116,12 +102,11 @@ public class HbmPlayerAttachments {
                     }
                 }
             }
+
             if (key == EnumKeybind.TOGGLE_HEAD) {
 
                 if (!player.level().isClientSide) {
-                    HbmPlayerAttachments props = getData(player);
                     props.enableHUD = !props.enableHUD;
-                    player.setData(ModAttachments.PLAYER_ATTACHMENT, props);
 
                     if (props.enableHUD) {
                         PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayer(Component.literal("HUD ON").withStyle(ChatFormatting.GREEN), HBMsNTMClient.ID_HUD, 1000));
@@ -132,36 +117,10 @@ public class HbmPlayerAttachments {
             }
         }
 
-        keysPressed[key.ordinal()] = pressed;
-    }
+        props.keysPressed[key.ordinal()] = pressed;
 
-    public void setDashCooldown(int cooldown) {
-        this.dashCooldown = cooldown;
-        return;
+        player.setData(ModAttachments.PLAYER_ATTACHMENT, props);
     }
-
-    public int getDashCooldown() {
-        return this.dashCooldown;
-    }
-
-    public void setStamina(int stamina) {
-        this.stamina = stamina;
-        return;
-    }
-
-    public int getStamina() {
-        return this.stamina;
-    }
-
-    public void setDashCount(int count) {
-        this.totalDashCount = count;
-        return;
-    }
-
-    public int getDashCount() {
-        return this.totalDashCount;
-    }
-    // TODO: plink and maxshield
 
     public void serialize(ByteBuf buf) {
         buf.writeBoolean(this.hasReceivedBook);

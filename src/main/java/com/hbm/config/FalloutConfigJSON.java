@@ -70,9 +70,9 @@ public class FalloutConfigJSON {
         entries.add(new FalloutEntry()  .mT(BlockTags.PLANKS)                                 .prim(new Pair(ModBlocks.WASTE_PLANKS.get().defaultBlockState(), 1)).max(woodEffectRange));
         /* destroy all leaves within the radios, kill all leaves outside of it */
         entries.add(new FalloutEntry()  .mT(BlockTags.LEAVES)                                 .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))                     .max(woodEffectRange));
-        entries.add(new FalloutEntry()  .mT(BlockTags.LEAVES)                                 .prim(new Pair(ModBlocks.WASTE_LEAVES.get().defaultBlockState(), 1))   .max(woodEffectRange + 100D));
         entries.add(new FalloutEntry()  .mBS(ModBlocks.WASTE_LEAVES.get().defaultBlockState()).prim(new Pair(Blocks.AIR.defaultBlockState(), 1))                     .max(woodEffectRange));
         entries.add(new FalloutEntry()  .mT(ModTags.Blocks.PLANTS)                            .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))                     .max(woodEffectRange));
+        entries.add(new FalloutEntry()  .mT(BlockTags.LEAVES)                                 .prim(new Pair(ModBlocks.WASTE_LEAVES.get().defaultBlockState(), 1))   .max(woodEffectRange + 35D));
 
         entries.add(new FalloutEntry().mBS(Blocks.MOSSY_COBBLESTONE.defaultBlockState()).prim(new Pair(Blocks.COAL_ORE.defaultBlockState(), 1)));
         entries.add(new FalloutEntry().mBS(ModBlocks.ORE_NETHER_URANIUM.get().defaultBlockState()).prim(new Pair(ModBlocks.ORE_NETHER_SCHRABIDIUM.get().defaultBlockState(), 1), new Pair(ModBlocks.ORE_NETHER_URANIUM_SCORCHED.get().defaultBlockState(), 99)));
@@ -114,20 +114,10 @@ public class FalloutConfigJSON {
                     .mBS(Blocks.GRASS_BLOCK.defaultBlockState()));
         }
 
-        entries.add(new FalloutEntry()
-                .mBS(Blocks.MYCELIUM.defaultBlockState())
-                .prim(new Pair(ModBlocks.WASTE_MYCELIUM.get().defaultBlockState(), 1)));
-        entries.add(new FalloutEntry()
-                .mBS(Blocks.SAND.defaultBlockState())
-                .prim(new Pair(ModBlocks.WASTE_TRINITITE.get().defaultBlockState(), 1))
-                .c(0.05));
-        entries.add(new FalloutEntry()
-                .mBS(Blocks.RED_SAND.defaultBlockState())
-                .prim(new Pair(ModBlocks.WASTE_TRINITITE_RED.get().defaultBlockState(), 1))
-                .c(0.05));
-        entries.add(new FalloutEntry()
-                .mBS(Blocks.CLAY.defaultBlockState())
-                .prim(new Pair(Blocks.TERRACOTTA.defaultBlockState(), 1)));
+        entries.add(new FalloutEntry() .mBS(Blocks.MYCELIUM.defaultBlockState()) .prim(new Pair(ModBlocks.WASTE_MYCELIUM.get().defaultBlockState(), 1)));
+        entries.add(new FalloutEntry() .mBS(Blocks.SAND.defaultBlockState())     .prim(new Pair(ModBlocks.WASTE_TRINITITE.get().defaultBlockState(), 1))     .c(0.05));
+        entries.add(new FalloutEntry() .mBS(Blocks.RED_SAND.defaultBlockState()) .prim(new Pair(ModBlocks.WASTE_TRINITITE_RED.get().defaultBlockState(), 1)) .c(0.05));
+        entries.add(new FalloutEntry() .mBS(Blocks.CLAY.defaultBlockState())     .prim(new Pair(Blocks.TERRACOTTA.defaultBlockState(), 1)));
 
     }
 

@@ -1,7 +1,10 @@
 package com.hbm.entity;
 
 import com.hbm.HBMsNTM;
-import com.hbm.entity.effect.*;
+import com.hbm.entity.effect.BlackHole;
+import com.hbm.entity.effect.FalloutRain;
+import com.hbm.entity.effect.RagingVortex;
+import com.hbm.entity.effect.Vortex;
 import com.hbm.entity.item.FallingBlockEntityNT;
 import com.hbm.entity.item.TNTPrimedBase;
 import com.hbm.entity.logic.Bomber;
@@ -11,17 +14,16 @@ import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.entity.mob.CreeperNuclear;
 import com.hbm.entity.mob.Duck;
 import com.hbm.entity.projectile.BombletZeta;
+import com.hbm.entity.missile.MissileTier1.MissileGeneric;
 import com.hbm.entity.projectile.Meteor;
 import com.hbm.entity.projectile.Rubble;
 import com.hbm.entity.projectile.Shrapnel;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
-
 
 public class ModEntityTypes {
     public static final DeferredRegister<EntityType<?>> REGISTER = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, HBMsNTM.MODID);
@@ -95,6 +97,13 @@ public class ModEntityTypes {
             () -> EntityType.Builder.of(Bomber::new, MobCategory.MISC)
                     .sized(8F, 4F)
                     .setTrackingRange(250)
+                    .build("bomber"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<MissileGeneric>> MISSILE_GENERIC = REGISTER.register(
+            "missile_generic",
+            () -> EntityType.Builder.<MissileGeneric>of(MissileGeneric::new, MobCategory.MISC)
+                    .sized(1.5F, 1.5F)
+                    .setTrackingRange(1000)
                     .build("bomber"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<BombletZeta>> BOMBLET_ZETA = REGISTER.register(

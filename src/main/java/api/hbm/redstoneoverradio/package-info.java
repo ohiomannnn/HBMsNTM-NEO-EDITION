@@ -28,7 +28,7 @@ INDEX includes:
   it is worthless on its own, rather it is extended by all other ROR API interfaces
 - IRORValueProvider, a simple interface that returns values based on names, serving as a simple getter. Get operations should never
   cause changes within the ROR component, and should be kept simple
-- IRORInteractive, an interface providing functions equivalent to java, usually performing a state change within the component and
+- IRORInteractive, an interface providing functions equivalent to java, usually performing a pressed change within the component and
   optionally returning a value
 
 On the implementation side we can expect:

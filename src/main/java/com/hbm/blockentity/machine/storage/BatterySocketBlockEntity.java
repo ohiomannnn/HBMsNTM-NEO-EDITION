@@ -52,8 +52,8 @@ public class BatterySocketBlockEntity extends BatteryBaseBlockEntity {
     public static void serverTick(Level ignored, BlockPos ignored1, BlockState ignored2, BatterySocketBlockEntity be) { be.updateEntity(); }
 
     @Override
-    public void serialize(ByteBuf buf, RegistryAccess registryAccess) {
-        super.serialize(buf, registryAccess);
+    public void serialize(ByteBuf buf) {
+        super.serialize(buf);
         buf.writeLong(this.delta);
         buf.writeLong(this.getPower());
         buf.writeLong(this.getMaxPower());
@@ -61,8 +61,8 @@ public class BatterySocketBlockEntity extends BatteryBaseBlockEntity {
     }
 
     @Override
-    public void deserialize(ByteBuf buf, RegistryAccess registryAccess) {
-        super.deserialize(buf, registryAccess);
+    public void deserialize(ByteBuf buf) {
+        super.deserialize(buf);
         this.delta = buf.readLong();
         this.syncPower = buf.readLong();
         this.syncMaxPower = buf.readLong();

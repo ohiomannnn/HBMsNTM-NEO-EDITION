@@ -1,6 +1,6 @@
 package com.hbm.items;
 
-import com.hbm.handler.KeyHandler.EnumKeybind;
+import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;

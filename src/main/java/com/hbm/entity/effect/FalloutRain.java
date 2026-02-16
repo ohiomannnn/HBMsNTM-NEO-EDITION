@@ -19,15 +19,12 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.*;
@@ -78,50 +75,54 @@ public class FalloutRain extends ChunkloadingEntity {
 
                 while (System.currentTimeMillis() < start + mk5) {
                     if (!chunksToProcess.isEmpty()) {
-                        long chunkPos = chunksToProcess.removeLast();
-                        int chunkPosX = ChunkPos.getX(chunkPos);
-                        int chunkPosZ = ChunkPos.getZ(chunkPos);
+                        long chunkPos = chunksToProcess.remove(chunksToProcess.size() - 1); // Just so it doesn't shift the whole list every time
+                        int chunkPosX = (int) (chunkPos & 4294967295L);
+                        int chunkPosZ = (int) (chunkPos >> 32 & 4294967295L);
 
                         LevelChunk chunk = level.getChunk(chunkPosX, chunkPosZ);
 
+                        boolean biomeModified = false;
                         for (int x = chunkPosX << 4; x < (chunkPosX << 4) + 16; x++) {
                             for (int z = chunkPosZ << 4; z < (chunkPosZ << 4) + 16; z++) {
                                 double percent = Math.hypot(x - this.getX(), z - this.getZ()) * 100 / getScale();
                                 stomp(x, z, percent);
-                                ResourceKey<Biome> biomeKey = getBiomeChange(percent, getScale(), level.getBiome(new BlockPos(x, 64, z)).getKey());
+                                ResourceKey<Biome> biomeKey = getBiomeChange(percent, getScale(), level.getBiome(new BlockPos(x, (int) this.getY(), z)).getKey());
                                 if (biomeKey != null) {
                                     Holder<Biome> biomeHolder = biomeCache.get(biomeKey);
                                     if (biomeHolder != null) {
                                         WorldUtil.setBiomeColumn((ServerLevel) level, x, z, biomeHolder);
+                                        biomeModified = true;
                                     }
                                 }
                             }
                         }
-                        WorldUtil.flushChunk((ServerLevel) level, chunk);
+                        if (biomeModified) WorldUtil.flushChunk((ServerLevel) level, chunk);
                     } else if (!outerChunksToProcess.isEmpty()) {
-                        long chunkPos = outerChunksToProcess.removeLast();
-                        int chunkPosX = ChunkPos.getX(chunkPos);
-                        int chunkPosZ = ChunkPos.getZ(chunkPos);
+                        long chunkPos = outerChunksToProcess.remove(outerChunksToProcess.size() - 1);
+                        int chunkPosX = (int) (chunkPos & 4294967295L);
+                        int chunkPosZ = (int) (chunkPos >> 32 & 4294967295L);
 
                         LevelChunk chunk = level.getChunk(chunkPosX, chunkPosZ);
 
+                        boolean biomeModified = false;
                         for (int x = chunkPosX << 4; x < (chunkPosX << 4) + 16; x++) {
                             for (int z = chunkPosZ << 4; z < (chunkPosZ << 4) + 16; z++) {
                                 double distance = Math.hypot(x - this.getX(), z - this.getZ());
                                 if (distance <= getScale()) {
                                     double percent = distance * 100 / getScale();
                                     stomp(x, z, percent);
-                                    ResourceKey<Biome> biomeKey = getBiomeChange(percent, getScale(), level.getBiome(new BlockPos(x, 64, z)).getKey());
+                                    ResourceKey<Biome> biomeKey = getBiomeChange(percent, getScale(), level.getBiome(new BlockPos(x, (int) this.getY(), z)).getKey());
                                     if (biomeKey != null) {
                                         Holder<Biome> biomeHolder = biomeCache.get(biomeKey);
                                         if (biomeHolder != null) {
                                             WorldUtil.setBiomeColumn((ServerLevel) level, x, z, biomeHolder);
+                                            biomeModified = true;
                                         }
                                     }
                                 }
                             }
                         }
-                        WorldUtil.flushChunk((ServerLevel) level, chunk);
+                        if (biomeModified) WorldUtil.flushChunk((ServerLevel) level, chunk);
                     } else {
                         this.discard();
                     }

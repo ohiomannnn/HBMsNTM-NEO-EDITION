@@ -1,9 +1,10 @@
 package com.hbm.items.tools;
 
 import api.hbm.item.IDepthRockTool;
+import com.hbm.HBMsNTM;
 import com.hbm.HBMsNTMClient;
 import com.hbm.config.MainConfig;
-import com.hbm.handler.KeyHandler.EnumKeybind;
+import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.handler.ability.*;
 import com.hbm.inventory.screens.ToolAbilityScreen;
 import com.hbm.items.IItemControlReceiver;
@@ -27,8 +28,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -42,10 +41,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
+import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.common.IShearable;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
 import net.neoforged.neoforge.event.EventHooks;
+import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.*;
@@ -97,19 +98,10 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItem
         if (!level.isClientSide && miningEntity instanceof Player player && (canHarvest(stack, state, player, level, pos) || canShearBlock(state, stack, level, pos)) && canOperate(stack)) {
             Configuration config = this.getConfiguration(stack);
             ToolPreset preset = config.getActivePreset();
-            boolean harvestAllowed = preset.harvestAbility.isAllowed();
             boolean areaAllowed = preset.areaAbility.isAllowed();
-
-            if (harvestAllowed) {
-                preset.harvestAbility.preHarvestAll(preset.harvestAbilityLevel, level, player, stack);
-            }
 
             if (areaAllowed) {
                 preset.areaAbility.onDig(preset.areaAbilityLevel, level, pos, player, this);
-            }
-
-            if (harvestAllowed) {
-                preset.harvestAbility.postHarvestAll(preset.harvestAbilityLevel, level, player, stack);
             }
         }
 
@@ -171,34 +163,28 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItem
     }
 
     public void breakExtraBlock(Level level, BlockPos pos, Player player, BlockPos refPos) {
+
+        BlockState state = level.getBlockState(pos);
+        BlockState refState = level.getBlockState(refPos);
+
+        if (state.isAir()) return;
+        if (!(player instanceof ServerPlayer)) return;
+
+        float refStrength = refState.getDestroyProgress(player, level, refPos);
+        float strength = state.getDestroyProgress(player, level, pos);
+
+        HBMsNTM.LOGGER.info("ref = {}, s = {}", refStrength, strength);
+
+        if (!player.hasCorrectToolForDrops(state) || refStrength / strength > 2f || refState.getDestroyProgress(player, level, refPos) < 0) return;
+
+        BlockEvent.BreakEvent event = CommonHooks.fireBlockBreak(level, ((ServerPlayer) player).gameMode.getGameModeForPlayer(), (ServerPlayer) player, pos, state);
+        if (event.isCanceled()) return;
+
         Configuration config = this.getConfiguration(player.getMainHandItem());
         ToolPreset preset = config.getActivePreset();
 
         preset.harvestAbility.onHarvestBlock(level, pos, player, refPos);
     }
-
-
-//    @Override
-//    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
-//        if (!canOperate(player.getItemInHand(usedHand))) return InteractionResultHolder.pass(player.getItemInHand(usedHand));
-//
-//        Configuration config = this.getConfiguration(player.getItemInHand(usedHand));
-//        if (config.presets.size() < 2 || level.isClientSide) return InteractionResultHolder.pass(player.getItemInHand(usedHand));
-//
-//        if (player.isCrouching()) {
-//            config.currentPreset = 0;
-//        } else {
-//            config.currentPreset = (config.currentPreset + 1) % config.presets.size();
-//        }
-//
-//        setConfiguration(player.getItemInHand(usedHand), config);
-//        if (player instanceof ServerPlayer serverPlayer) {
-//            PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(config.getActivePreset().getMessage(), HBMsNTMClient.ID_TOOLABILITY, 1000));
-//        }
-//        level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 0.25F, config.getActivePreset().isNone() ? 0.75F : 1.25F);
-//
-//        return InteractionResultHolder.pass(player.getItemInHand(usedHand));
-//    }
 
     @Override
     public boolean canHandleKeybind(Player player, ItemStack stack, EnumKeybind keybind) {
@@ -379,21 +365,9 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItem
         int oy = MainConfig.CLIENT.TOOL_HUD_OFFSET_VERTICAL.get();
 
         RenderSystem.enableBlend();
-        RenderSystem.blendFuncSeparate(
-                GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR,
-                GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR,
-                GlStateManager.SourceFactor.ONE,
-                GlStateManager.DestFactor.ZERO
-        );
+        RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 
-        guiGraphics.blit(
-                ToolAbilityScreen.TEXTURE,
-                mc.getWindow().getGuiScaledWidth() / 2 - size - 8 + ox, mc.getWindow().getGuiScaledHeight() / 2 + 8 + oy,
-                size, size,
-                uv.key, uv.value,
-                size, size,
-                256, 256
-        );
+        guiGraphics.blit(ToolAbilityScreen.TEXTURE, mc.getWindow().getGuiScaledWidth() / 2 - size - 8 + ox, mc.getWindow().getGuiScaledHeight() / 2 + 8 + oy, size, size, uv.key, uv.value, size, size, 256, 256);
 
         RenderSystem.defaultBlendFunc();
         RenderSystem.disableBlend();

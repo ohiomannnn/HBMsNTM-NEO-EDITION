@@ -2,19 +2,28 @@ package com.hbm.entity.missile;
 
 import api.hbm.entity.IRadarDetectableNT;
 import com.hbm.HBMsNTMClient;
+import com.hbm.entity.logic.PlaneBase;
 import com.hbm.entity.projectile.ThrowableInterp;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.*;
+import com.hbm.lib.ModDamageTypes;
 import com.hbm.util.Vec3NT;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.TicketType;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
@@ -24,8 +33,9 @@ import java.util.UUID;
 
 public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDetectableNT {
 
-    private static final TicketType<UUID> CHUNK_TICKET = TicketType.create("chunkloading_missle", Comparator.comparing(UUID::toString));
+    private static final TicketType<UUID> CHUNK_TICKET = TicketType.create("chunkloading_missle", Comparator.comparing(UUID::toString), 0);
     private ChunkPos loadedChunk;
+
     public int startX;
     public int startZ;
     public int targetX;
@@ -36,8 +46,10 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
     public boolean isCluster = false;
     public int health = 50;
 
-    public MissileBaseNT(EntityType<?> entityType, Level level) {
-        super((EntityType<? extends ThrowableInterp>) entityType, level);
+    private static final EntityDataAccessor<Integer> ROT = SynchedEntityData.defineId(MissileBaseNT.class, EntityDataSerializers.INT);
+
+    public MissileBaseNT(EntityType<? extends MissileBaseNT> entityType, Level level) {
+        super(entityType, level);
 
         startX = (int) this.getX();
         startZ = (int) this.getZ();
@@ -45,7 +57,7 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
         targetZ = (int) this.getZ();
     }
 
-    public MissileBaseNT(EntityType<?> entityType, Level level, float x, float y, float z, int a, int b) {
+    public MissileBaseNT(EntityType<? extends MissileBaseNT> entityType, Level level, float x, float y, float z, int a, int b) {
         this(entityType, level);
 
         this.moveTo(x, y, z, 0, 0);
@@ -61,7 +73,7 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
         decelY *= 2;
         velocity = 0;
 
-        this.setYRot((float) (Math.atan2(targetX - getX(), targetZ - getZ()) * 180.0D / Math.PI));
+        this.yRot = (float) (Math.atan2(targetX - getX(), targetZ - getZ()) * 180.0D / Math.PI);
     }
 
     public abstract ItemStack getMissileItemForInfo();
@@ -77,50 +89,56 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
 
         if (!level().isClientSide) {
             if (hasPropulsion()) {
-                Vec3 motion = this.getDeltaMovement();
-
-                motion = motion.add(0, -decelY * velocity, 0);
+                double newY = this.getDeltaMovement().y - decelY * velocity;
 
                 Vec3 vector = new Vec3(targetX - startX, 0, targetZ - startZ).normalize();
-                vector = new Vec3(vector.x * accelXZ, 0, vector.z * accelXZ);
+                double vecX = vector.x * accelXZ;
+                double vecZ = vector.z * accelXZ;
 
-                if (motion.y > 0) {
-                    motion = motion.add(vector.x * velocity, 0, vector.z * velocity);
+                double newX = this.getDeltaMovement().x;
+                double newZ = this.getDeltaMovement().z;
+
+                if (newY > 0) {
+                    newX += vecX * velocity;
+                    newZ += vecZ * velocity;
                 }
 
-                if (motion.y < 0) {
-                    motion = motion.add(-vector.x * velocity, 0, -vector.z * velocity);
+                if (newY < 0) {
+                    newY -= vecX * velocity;
+                    newZ -= vecZ * velocity;
                 }
 
-                this.setDeltaMovement(motion);
+                this.setDeltaMovement(newX, newY, newZ);
+
             } else {
-                Vec3 motion = this.getDeltaMovement();
-                motion = new Vec3(motion.x * 0.99, motion.y, motion.z * 0.99);
+                double newX = this.getDeltaMovement().x * 0.99;
+                double newZ = this.getDeltaMovement().z * 0.99;
+                double newY = this.getDeltaMovement().y;
 
-                if (motion.y > -1.5) {
-                    motion = motion.add(0, -0.05, 0);
+                if (newY > -1.5) {
+                    newY -= 0.05;
                 }
 
-                this.setDeltaMovement(motion);
+                this.setDeltaMovement(newX, newY, newZ);
             }
 
-            if (this.getDeltaMovement().y < -velocity && this.isCluster) {
+            if (this.deltaMovement.y < -velocity && this.isCluster) {
                 cluster();
                 this.discard();
                 return;
             }
-            this.setYRot((float)(Math.atan2(targetX - this.getX(), targetZ - this.getZ()) * 180.0D / Math.PI));
+
+            this.yRot = (float)(Math.atan2(targetX - this.getX(), targetZ - this.getZ()) * 180.0D / Math.PI);
             Vec3 motion = this.getDeltaMovement();
             float f2 = (float)Math.sqrt(motion.x * motion.x + motion.z * motion.z);
-            this.setXRot((float)(Math.atan2(motion.y, f2) * 180.0D / Math.PI) - 90.0F);
-            while (this.getXRot() - this.xRotO < -180.0F) this.xRotO -= 360.0F;
+            for (this.xRot = (float) (Math.atan2(this.deltaMovement.y, f2) * 180.0D / Math.PI) - 90; this.xRot - this.xRotO < -180.0F; this.xRotO -= 360.0F);
         } else {
             this.spawnContrail();
         }
 
-        while (this.getXRot() - this.xRotO >= 180.0F) this.xRotO += 360.0F;
-        while (this.getYRot() - this.yRotO < -180.0F) this.yRotO -= 360.0F;
-        while (this.getYRot() - this.yRotO >= 180.0F) this.yRotO += 360.0F;
+        while (this.xRot - this.xRotO >= 180.0F) this.xRotO += 360.0F;
+        while (this.yRot - this.yRotO < -180.0F) this.yRotO -= 360.0F;
+        while (this.yRot - this.yRotO >= 180.0F) this.yRotO += 360.0F;
     }
 
     public boolean hasPropulsion() {
@@ -159,11 +177,56 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
         return 1F;
     }
 
+    @Override
+    protected void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+
+        this.setDeltaMovement(tag.getDouble("moX"), tag.getDouble("moY"), tag.getDouble("moZ"));
+        this.setPos(tag.getDouble("posX"), tag.getDouble("posY"), tag.getDouble("posZ"));
+
+        this.decelY = tag.getDouble("decel");
+        this.accelXZ = tag.getDouble("accel");
+        this.targetX = tag.getInt("tX");
+        this.targetZ = tag.getInt("tZ");
+        this.startX = tag.getInt("sX");
+        this.startZ = tag.getInt("sZ");
+        this.velocity = tag.getDouble("velocity");
+    }
+
+    @Override
+    protected void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+
+        tag.putDouble("moX", this.deltaMovement.x);
+        tag.putDouble("moY", this.deltaMovement.y);
+        tag.putDouble("moZ", this.deltaMovement.z);
+        tag.putDouble("poX", this.position.x);
+        tag.putDouble("poY", this.position.y);
+        tag.putDouble("poZ", this.position.z);
+        tag.putDouble("decel", this.decelY);
+        tag.putDouble("accel", this.accelXZ);
+        tag.putInt("tX", this.targetX);
+        tag.putInt("tZ", this.targetZ);
+        tag.putInt("sX", this.startX);
+        tag.putInt("sZ", this.startZ);
+        tag.putDouble("veloc", this.velocity);
+    }
+
     public boolean canBeCollidedWith() {
         return true;
     }
 
-//    @Override
+    @Override
+    public boolean hurt(DamageSource source, float amount) {
+        if (this.isInvulnerable()) return false;
+        if (this.health > 0 && !this.level().isClientSide) {
+            this.health -= amount;
+            if (this.health <= 0) this.killMissile();
+        }
+        return true;
+    }
+
+    //    @Override
 //    protected double motionMult() {
 //        return velocity;
 //    }
@@ -178,40 +241,29 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
             this.discard();
             if (this.level() instanceof ServerLevel serverLevel) {
                 ExplosionLarge.explode(serverLevel, this.getX(), this.getY(), this.getZ(), 5, true, false, true);
-                ExplosionLarge.spawnShrapnelShower(serverLevel, this.getX(), this.getY(), this.getZ(), this.getDeltaMovement().x, this.getDeltaMovement().y, this.getDeltaMovement().z, 15, 0.075);
-                ExplosionLarge.spawnMissileDebris(serverLevel, this.getX(), this.getY(), this.getZ(), this.getDeltaMovement().x, this.getDeltaMovement().y, this.getDeltaMovement().z, 0.25, this.getDebris(), this.getDebrisRareDrop());
+                ExplosionLarge.spawnShrapnelShower(serverLevel, this.getX(), this.getY(), this.getZ(), this.deltaMovement.x, this.deltaMovement.y, this.deltaMovement.z, 15, 0.075);
+                ExplosionLarge.spawnMissileDebris(serverLevel, this.getX(), this.getY(), this.getZ(), this.deltaMovement.x, this.deltaMovement.y, this.deltaMovement.z, 0.25, this.getDebris(), this.getDebrisRareDrop());
             }
         }
     }
 
-//    @Override
-//    protected void onImpact(HitResult hitResult) {
-//        if (hitResult != null && hitResult.getType() == HitResult.Type.BLOCK) {
-//            this.onMissileImpact(hitResult);
-//            this.discard();
-//        }
-//    }
+    @Override
+    protected void onHit(HitResult hitResult) {
+        if (hitResult instanceof BlockHitResult) {
+            this.onMissileImpact(hitResult);
+            this.discard();
+        }
+    }
 
     public abstract void onMissileImpact(HitResult hitResult);
     public abstract List<ItemStack> getDebris();
     public abstract ItemStack getDebrisRareDrop();
     public void cluster() { }
 
-//    @Override
-//    public double getGravityVelocity() {
-//        return 0.0D;
-//    }
-
-//    @Override
-//    protected float getAirDrag() {
-//        return 1F;
-//    }
-//
-//    @Override
-//    protected float getWaterDrag() {
-//        return 1F;
-//    }
-
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        builder.define(ROT, 5);
+    }
 
     @Override
     public void onAddedToLevel() {
@@ -271,6 +323,6 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
 
     @Override
     public boolean suppliesRedstone(RadarScanParams params) {
-        return !params.smartMode || !(this.getDeltaMovement().y >= 0);
+        return !params.smartMode || !(this.deltaMovement.y >= 0);
     }
 }

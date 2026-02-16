@@ -32,7 +32,7 @@ public abstract class LockableBaseBlockEntity extends LoadedBaseBlockEntity {
 
     public void lock() {
         if (lock == 0) {
-            HBMsNTM.LOGGER.error("A block has been set to locked state before setting pins, this should not happen and may cause errors! {}", this);
+            HBMsNTM.LOGGER.error("A block has been set to locked pressed before setting pins, this should not happen and may cause errors! {}", this);
         }
         isLocked = true;
         setChanged();
@@ -62,8 +62,8 @@ public abstract class LockableBaseBlockEntity extends LoadedBaseBlockEntity {
     }
 
     @Override
-    public void serialize(ByteBuf buf, RegistryAccess registryAccess) {
-        super.serialize(buf, registryAccess);
+    public void serialize(ByteBuf buf) {
+        super.serialize(buf);
 
         buf.writeInt(lock);
         buf.writeBoolean(isLocked);
@@ -71,8 +71,8 @@ public abstract class LockableBaseBlockEntity extends LoadedBaseBlockEntity {
     }
 
     @Override
-    public void deserialize(ByteBuf buf, RegistryAccess registryAccess) {
-        super.deserialize(buf, registryAccess);
+    public void deserialize(ByteBuf buf) {
+        super.deserialize(buf);
 
         lock = buf.readInt();
         isLocked = buf.readBoolean();

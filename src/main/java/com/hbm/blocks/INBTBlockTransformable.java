@@ -14,7 +14,7 @@ public interface INBTBlockTransformable {
      * which needs transformations applied when building from an .nbt structure file
      */
 
-    // Takes the block current state and translates it into a rotated state
+    // Takes the block current pressed and translates it into a rotated pressed
     BlockState transformState(BlockState state, Rotation rotation);
 
     // Takes the block and turns it into a different block entirely, to turn off lights, shit like that

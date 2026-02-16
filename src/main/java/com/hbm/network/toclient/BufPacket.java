@@ -50,7 +50,7 @@ public record BufPacket(BlockPos pos, byte[] data) implements CustomPacketPayloa
             if (be instanceof IBufPacketReceiver receiver) {
                 FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.wrappedBuffer(packet.data));
                 try {
-                    receiver.deserialize(buf, level.registryAccess());
+                    receiver.deserialize(buf);
                 } catch (Exception e) {
                     HBMsNTM.LOGGER.warn("A ByteBuf packet failed to be read. Buffer underflow or invalid data.");
                     HBMsNTM.LOGGER.warn("Block: {}", be.getBlockState().getBlock().getDescriptionId());

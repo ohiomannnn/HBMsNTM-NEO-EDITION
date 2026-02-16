@@ -122,8 +122,8 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
     }
 
     @Override
-    public void serialize(ByteBuf buf, RegistryAccess registryAccess) {
-        super.serialize(buf, registryAccess);
+    public void serialize(ByteBuf buf) {
+        super.serialize(buf);
 
         byte[] array0 = this.power.toByteArray();
         buf.writeInt(array0.length);
@@ -135,8 +135,8 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
     }
 
     @Override
-    public void deserialize(ByteBuf buf, RegistryAccess registryAccess) {
-        super.deserialize(buf, registryAccess);
+    public void deserialize(ByteBuf buf) {
+        super.deserialize(buf);
 
         byte[] array0 = new byte[buf.readInt()];
         for (int i = 0 ; i < array0.length; i++) array0[i] = buf.readByte();

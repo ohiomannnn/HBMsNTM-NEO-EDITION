@@ -2,18 +2,13 @@ package com.hbm.blocks.generic;
 
 import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blocks.ITooltipProvider;
-import com.hbm.blocks.ModBlocks;
 import com.hbm.lib.ModSounds;
 import com.hbm.util.EnumUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
@@ -44,7 +39,7 @@ public class PlushieBlock extends Block implements EntityBlock, ITooltipProvider
     public PlushieBlock(Properties properties, PlushieType type) {
         super(properties);
         this.type = type;
-        this.registerDefaultState(((this.stateDefinition.any()).setValue(DIRECTION, 0)));
+        this.registerDefaultState(this.stateDefinition.any().setValue(DIRECTION, 0));
     }
 
     @Override
@@ -59,23 +54,27 @@ public class PlushieBlock extends Block implements EntityBlock, ITooltipProvider
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        if (this == ModBlocks.PLUSHIE_YOMI.get()) return PlushieBlockEntity.yomi(pos, state);
-        if (this == ModBlocks.PLUSHIE_NUMBERNINE.get()) return PlushieBlockEntity.numbernine(pos, state);
-        if (this == ModBlocks.PLUSHIE_HUNDUN.get()) return PlushieBlockEntity.hundun(pos, state);
-        if (this == ModBlocks.PLUSHIE_DERG.get()) return PlushieBlockEntity.derg(pos, state);
-        return null;
+        PlushieBlockEntity plushie = new PlushieBlockEntity(pos, state);
+        plushie.type = this.type;
+        return plushie;
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        return (lvl, pos, st, be) -> {
+            if (be instanceof PlushieBlockEntity tickable) tickable.updateEntity();
+        };
     }
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
 
-        PlushieBlockEntity be = (PlushieBlockEntity) level.getBlockEntity(pos);
+        PlushieBlockEntity plushie = (PlushieBlockEntity) level.getBlockEntity(pos);
 
-        assert be != null;
         if (level.isClientSide) {
-            be.squishTimer = 11;
+            plushie.squishTimer = 11;
         } else {
-            if (be.type == PlushieType.HUNDUN) {
+            if (plushie.type == PlushieType.HUNDUN) {
                 level.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, ModSounds.HUNDUS.get(), SoundSource.BLOCKS, 100F, 1F);
             } else {
                 level.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, ModSounds.SQUEAKY_TOY.get(), SoundSource.BLOCKS, 100F, 1F);
@@ -88,51 +87,15 @@ public class PlushieBlock extends Block implements EntityBlock, ITooltipProvider
     public static class PlushieBlockEntity extends BlockEntity {
 
         public PlushieType type;
+
         public int squishTimer;
 
         public void updateEntity() {
             if (squishTimer > 0) squishTimer--;
         }
 
-        public static void tick(PlushieBlockEntity be) { be.updateEntity(); }
-
-        public PlushieBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState, PlushieType pType) {
-            super(type, pos, blockState);
-            this.type = pType;
-        }
-
-        public static PlushieBlockEntity yomi(BlockPos pos, BlockState state) {
-            return new PlushieBlockEntity(ModBlockEntityTypes.PLUSHIE_YOMI.get(), pos, state, PlushieType.YOMI);
-        }
-
-        public static PlushieBlockEntity numbernine(BlockPos pos, BlockState state) {
-            return new PlushieBlockEntity(ModBlockEntityTypes.PLUSHIE_NUMBERNINE.get(), pos, state, PlushieType.NUMBERNINE);
-        }
-
-        public static PlushieBlockEntity hundun(BlockPos pos, BlockState state) {
-            return new PlushieBlockEntity(ModBlockEntityTypes.PLUSHIE_HUNDUN.get(), pos, state, PlushieType.HUNDUN);
-        }
-
-        public static PlushieBlockEntity derg(BlockPos pos, BlockState state) {
-            return new PlushieBlockEntity(ModBlockEntityTypes.PLUSHIE_DERG.get(), pos, state, PlushieType.DERG);
-        }
-
-        @Override
-        public Packet<ClientGamePacketListener> getUpdatePacket() {
-            return ClientboundBlockEntityDataPacket.create(this);
-        }
-
-        @Override
-        public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
-            CompoundTag tag = new CompoundTag();
-            this.saveAdditional(tag, registries);
-            return tag;
-        }
-
-        @Override
-        public void onDataPacket(Connection con, ClientboundBlockEntityDataPacket packet, HolderLookup.Provider registries) {
-            CompoundTag tag = packet.getTag();
-            this.loadAdditional(tag, registries);
+        public PlushieBlockEntity(BlockPos pos, BlockState state) {
+            super(ModBlockEntityTypes.PLUSHIE.get(), pos, state);
         }
 
         @Override
@@ -144,13 +107,6 @@ public class PlushieBlock extends Block implements EntityBlock, ITooltipProvider
         protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
             tag.putByte("Type", (byte) this.type.ordinal());
         }
-    }
-
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return (lvl, pos, st, be) -> {
-            if (be instanceof PlushieBlockEntity tickable) PlushieBlockEntity.tick(tickable);
-        };
     }
 
     public enum PlushieType {

@@ -254,7 +254,7 @@ public interface IToolAreaAbility extends IBaseAbility {
             int y = pos.getY();
             int z = pos.getZ();
 
-            for(int a = x - xRange; a <= x + xRange; a++) {
+            for (int a = x - xRange; a <= x + xRange; a++) {
                 for (int b = y - yRange; b <= y + yRange; b++) {
                     for (int c = z - zRange; c <= z + zRange; c++) {
                         if (a == x && b == y && c == z) continue;

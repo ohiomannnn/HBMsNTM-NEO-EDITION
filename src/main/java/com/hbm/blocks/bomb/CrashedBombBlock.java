@@ -15,14 +15,14 @@ import com.hbm.items.special.PolaroidItem;
 import com.hbm.lib.ModSounds;
 import com.hbm.network.toclient.AuxParticle;
 import com.hbm.particle.helper.ExplosionCreator;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -30,38 +30,32 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-public class CrashedBombBlock extends BaseEntityBlock implements IBomb {
+public class CrashedBombBlock extends Block implements EntityBlock, IBomb {
 
-    public CrashedBombBlock(Properties properties) {
+    public DudType type;
+
+    public CrashedBombBlock(Properties properties, DudType type) {
         super(properties);
-    }
-
-    public static final MapCodec<CrashedBombBlock> CODEC = simpleCodec(CrashedBombBlock::new);
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
+        this.type = type;
     }
 
     @Override
-    public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        if (this == ModBlocks.CRASHED_BOMB_BALEFIRE.get()) return CrashedBombBlockEntity.balefire(blockPos, blockState);
-        if (this == ModBlocks.CRASHED_BOMB_CONVENTIONAL.get()) return CrashedBombBlockEntity.conventional(blockPos, blockState);
-        if (this == ModBlocks.CRASHED_BOMB_NUKE.get()) return CrashedBombBlockEntity.nuke(blockPos, blockState);
-        if (this == ModBlocks.CRASHED_BOMB_SALTED.get()) return CrashedBombBlockEntity.salted(blockPos, blockState);
-        return null;
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        CrashedBombBlockEntity plushie = new CrashedBombBlockEntity(pos, state);
+        plushie.type = this.type;
+        return plushie;
     }
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide ? null : (lvl, pos, st, be) -> {
-            if (be instanceof CrashedBombBlockEntity bomb) { CrashedBombBlockEntity.serverTick(lvl, pos, st, bomb); }
+        return (lvl, pos, st, be) -> {
+            if (be instanceof CrashedBombBlockEntity tickable) tickable.updateEntity();
         };
     }
 
     @Override
     public RenderShape getRenderShape(BlockState state) {
-        return RenderShape.INVISIBLE;
+        return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
     @Override
@@ -102,5 +96,12 @@ public class CrashedBombBlock extends BaseEntityBlock implements IBomb {
         tag.putString("type", "muke");
         tag.putBoolean("balefire", balefire);
         PacketDistributor.sendToPlayersNear((ServerLevel) level, null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 250, new AuxParticle(tag, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5));
+    }
+
+    public enum DudType {
+        BALEFIRE,
+        CONVENTIONAL,
+        NUKE,
+        SALTED
     }
 }

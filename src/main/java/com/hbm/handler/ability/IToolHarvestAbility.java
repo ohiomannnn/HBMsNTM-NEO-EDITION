@@ -23,19 +23,11 @@ public interface IToolHarvestAbility extends IBaseAbility {
 
     default void onHarvestBlock(Level level, BlockPos pos, Player player, BlockPos refPos) {
         BlockState state = level.getBlockState(pos);
-        BlockState refState = level.getBlockState(refPos);
 
-        if (state.is(refState.getBlock())) {
-            List<ItemStack> drops = Block.getDrops(state, (ServerLevel) level, pos, level.getBlockEntity(pos), player, player.getMainHandItem());
-            for (ItemStack stack : drops) {
-                if (!stack.isEmpty()) {
-                    Block.popResource(level, refPos, stack);
-                }
-            }
-            level.removeBlock(pos, false);
+        state.getBlock().playerDestroy(level, player, pos, state, level.getBlockEntity(pos), player.getMainHandItem());
+        level.removeBlock(pos, false);
 
-            player.getMainHandItem().hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
-        }
+        player.getMainHandItem().hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
     }
 
     int SORT_ORDER_BASE = 100;

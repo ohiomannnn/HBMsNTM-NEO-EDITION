@@ -72,7 +72,7 @@ public class BusAnimation {
     }
 
     /**
-     * Gets the state of a bus at a specified time
+     * Gets the pressed of a bus at a specified time
      * @param name the name of the bus in question
      * @param millis the elapsed time since the animation started in milliseconds
      * @return

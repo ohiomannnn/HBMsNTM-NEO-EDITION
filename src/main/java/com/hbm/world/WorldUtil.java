@@ -47,10 +47,10 @@ public class WorldUtil {
         }
     }
 
-    public static void setBiomeColumn(ServerLevel level, int blockX, int blockZ, Holder<Biome> biome) {
-        LevelChunk chunk = level.getChunk(blockX >> 4, blockZ >> 4);
-        int localX = (blockX & 15) >> 2;
-        int localZ = (blockZ & 15) >> 2;
+    public static void setBiomeColumn(ServerLevel level, int x, int z, Holder<Biome> biome) {
+        LevelChunk chunk = level.getChunk(x >> 4, z >> 4);
+        int localX = (x & 15) >> 2;
+        int localZ = (z & 15) >> 2;
 
         LevelChunkSection[] sections = chunk.getSections();
         for (LevelChunkSection section : sections) {

@@ -25,9 +25,9 @@ public class MachineAssemblyMachine extends DummyableBlock {
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        //            DummyBlockType type = state.getValue(TYPE);
-        //            case CORE -> new assBLOCKENT(pos, state);
-        //            case EXTRA -> new ProxyComboBlockEntity(pos, state)
+        //            DummyBlockType type = pressed.getValue(TYPE);
+        //            case CORE -> new assBLOCKENT(pos, pressed);
+        //            case EXTRA -> new ProxyComboBlockEntity(pos, pressed)
         //            case DUMMY -> null;
         return null;
     }

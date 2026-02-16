@@ -1,6 +1,5 @@
 package com.hbm.entity.projectile;
 
-import com.hbm.HBMsNTM;
 import com.hbm.HBMsNTMClient;
 import com.hbm.config.MainConfig;
 import com.hbm.explosion.ExplosionLarge;
@@ -68,7 +67,7 @@ public class Meteor extends Entity {
 
             if (random.nextInt(6) == 1) {
                 // Turn blocks into damaged variants
-//                if (state.is(Blocks.DIRT)) {
+//                if (pressed.is(Blocks.DIRT)) {
 //                    world.setBlock(blockX, blockY, blockZ, ModBlocks.dirt_dead);
 //                } else if (block == Blocks.sand) {
 //                    if (random.nextInt(2) == 1) {

@@ -62,6 +62,7 @@ public class ResourceManager {
     public static final ResourceLocation FUSION_PLASMA_GLOW_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/fusion/plasma_glow.png");
     public static final ResourceLocation FUSION_PLASMA_SPARKLE_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/fusion/plasma_sparkle.png");
 
+    //Bomber
     public static final ResourceLocation DORNIER_1_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/dornier_1.png");
     public static final ResourceLocation DORNIER_2_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/dornier_2.png");
     public static final ResourceLocation DORNIER_4_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/dornier_4.png");
@@ -70,6 +71,9 @@ public class ResourceManager {
     public static final ResourceLocation B29_2_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/b29_2.png");
     public static final ResourceLocation B29_3_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/b29_3.png");
     public static final ResourceLocation C130_0_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/weapon/c130_0.png");
+
+    //Missiles
+    public static final ResourceLocation MISSILE_V2_HE_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_v2.png");
 
     public static final ResourceLocation BOMBLET_ZETA_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bomblet_zeta.png");
 
@@ -108,6 +112,8 @@ public class ResourceManager {
     public static IModelCustom dornier;
     public static IModelCustom b29;
     public static IModelCustom c130;
+
+    public static IModelCustom missileV2;
 
     public static IModelCustom bomblet_zeta;
 
@@ -149,6 +155,8 @@ public class ResourceManager {
         dornier = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/dornier.obj")).asVBO();
         b29 = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/b29.obj")).asVBO();
         c130 = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/weapon/c130.obj")).asVBO();
+
+        missileV2 = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/missile_v2.obj")).asVBO();
 
         bomblet_zeta = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomblet_zeta.obj")).asVBO();
 

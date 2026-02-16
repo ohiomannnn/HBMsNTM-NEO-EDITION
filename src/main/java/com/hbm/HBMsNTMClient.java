@@ -34,6 +34,7 @@ import com.hbm.render.entity.item.RenderTNTPrimedBase;
 import com.hbm.render.entity.mob.CreeperNuclearRenderer;
 import com.hbm.render.entity.mob.DuckRenderer;
 import com.hbm.render.entity.projectile.*;
+import com.hbm.render.entity.rocket.RenderMissileGeneric;
 import com.hbm.render.item.RenderBatteryPackItem;
 import com.hbm.render.item.RenderLaserDetonator;
 import com.hbm.render.loader.bakedLoader.HFRObjGeometryLoader;
@@ -549,6 +550,8 @@ public class HBMsNTMClient {
         event.registerEntityRenderer(ModEntityTypes.DEATH_BLAST.get(), RenderDeathBlast::new);
 
         event.registerEntityRenderer(ModEntityTypes.BOMBER.get(), RenderBomber::new);
+
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_GENERIC.get(), RenderMissileGeneric::new);
         event.registerEntityRenderer(ModEntityTypes.BOMBLET_ZETA.get(), RenderBombletZeta::new);
 
         ItemProperties.register(ModItems.POLAROID.get(), HBMsNTM.withDefaultNamespaceNT("polaroid_id"), (stack, level, entity, seed) -> PolaroidItem.polaroidID);
@@ -558,10 +561,7 @@ public class HBMsNTMClient {
     @SubscribeEvent
     public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
 
-        BlockEntityRenderers.register(ModBlockEntityTypes.PLUSHIE_YOMI.get(), new RenderPlushie(null));
-        BlockEntityRenderers.register(ModBlockEntityTypes.PLUSHIE_NUMBERNINE.get(), RenderPlushie::new); // we already have bewlr for ALL plushies
-        BlockEntityRenderers.register(ModBlockEntityTypes.PLUSHIE_HUNDUN.get(), RenderPlushie::new);
-        BlockEntityRenderers.register(ModBlockEntityTypes.PLUSHIE_DERG.get(), RenderPlushie::new);
+        BlockEntityRenderers.register(ModBlockEntityTypes.PLUSHIE.get(), new RenderPlushie(null));
 
         BlockEntityRenderers.register(ModBlockEntityTypes.BATTERY_SOCKET.get(), new RenderBatterySocket(null));
         BlockEntityRenderers.register(ModBlockEntityTypes.BATTERY_REDD.get(), new RenderBatteryREDD(null));
@@ -579,10 +579,7 @@ public class HBMsNTMClient {
         BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_LITTLE_BOY.get(), new RenderNukeLittleBoy(null));
         BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_FAT_MAN.get(), new RenderNukeFatMan(null));
         BlockEntityRenderers.register(ModBlockEntityTypes.BARREL.get(), new RenderBarrel(null));
-        BlockEntityRenderers.register(ModBlockEntityTypes.CRASHED_BOMB_BALEFIRE.get(), new RenderCrashedBomb(null));
-        BlockEntityRenderers.register(ModBlockEntityTypes.CRASHED_BOMB_CONVENTIONAL.get(), RenderCrashedBomb::new);
-        BlockEntityRenderers.register(ModBlockEntityTypes.CRASHED_BOMB_NUKE.get(), RenderCrashedBomb::new);
-        BlockEntityRenderers.register(ModBlockEntityTypes.CRASHED_BOMB_SALTED.get(), RenderCrashedBomb::new);
+        BlockEntityRenderers.register(ModBlockEntityTypes.CRASHED_BOMB.get(), new RenderCrashedBomb(null));
         BlockEntityRenderers.register(ModBlockEntityTypes.LANDMINE.get(), new RenderLandMine(null));
 
         for (Entry<BlockEntityType<?>, BlockEntityRendererProvider<?>> entry : BlockEntityRenderers.PROVIDERS.entrySet()) {
@@ -669,7 +666,6 @@ public class HBMsNTMClient {
         event.registerSpriteSet(ModParticles.HAZE.get(), HazeParticle.Provider::new);
         event.registerSpriteSet(ModParticles.GIBLET.get(), ParticleGiblet.Provider::new);
         event.registerSpecial(ModParticles.DEBRIS.get(), new ParticleDebris.Provider());
-        event.registerSpecial(ModParticles.EX_SMOKE.get(), new ParticleExSmoke.Provider());
         event.registerSpecial(ModParticles.FOAM.get(), new ParticleFoam.Provider());
         event.registerSpecial(ModParticles.ASHES.get(), new AshesParticle.Provider());
         event.registerSpecial(ModParticles.AMAT_FLASH.get(), new AmatFlashParticle.Provider());
@@ -677,7 +673,6 @@ public class HBMsNTMClient {
         event.registerSpriteSet(ModParticles.DEAD_LEAF.get(), DeadLeafParticle.Provider::new);
         event.registerSpriteSet(ModParticles.AURA.get(), ParticleAura.Provider::new);
         event.registerSpriteSet(ModParticles.RAD_FOG.get(), RadiationFogParticle.Provider::new);
-        event.registerSpecial(ModParticles.ROCKET_FLAME.get(), new RocketFlameParticle.Provider());
         event.registerSpecial(ModParticles.SKELETON.get(), new SkeletonParticle.Provider());
         event.registerSpriteSet(ModParticles.HADRON.get(), ParticleHadron.Provider::new);
         event.registerSpriteSet(ModParticles.POWER_DEBUG.get(), DebugParticle.PowerProvider::new);
@@ -724,10 +719,13 @@ public class HBMsNTMClient {
                 double mY = data.getDouble("moY");
                 double mZ = data.getDouble("moZ");
 
-                RocketFlameParticle particle = new RocketFlameParticle(level, x, y, z).setScale(scale);
-                particle.setParticleSpeed(mX, mY, mZ);
-                if (data.contains("maxAge")) particle.setMaxAge(data.getInt("maxAge"));
-                innerMc.particleEngine.add(particle);
+                RocketFlameParticle particle = new RocketFlameParticle(level, x, y, z);
+                particle.quadSize = scale;
+                particle.xd = mX;
+                particle.yd = mY;
+                particle.zd = mZ;
+                if (data.contains("maxAge")) particle.lifetime = data.getInt("maxAge");
+                ParticleEngineNT.INSTANCE.add(particle);
             }
 
             if ("smoke".equals(type)) {
@@ -739,11 +737,11 @@ public class HBMsNTMClient {
 
                     for (int i = 0; i < count; i++) {
                         ParticleExSmoke particle = new ParticleExSmoke(level, x, y, z);
-                        particle.setMotionX(rand.nextGaussian() * (1 + (count / 150)));
-                        particle.setMotionY(rand.nextGaussian() * (1 + (count / 100)));
-                        particle.setMotionZ(rand.nextGaussian() * (1 + (count / 150)));
-                        if (rand.nextBoolean()) particle.setMotionX(Math.abs(particle.getMotionY()));
-                        Minecraft.getInstance().particleEngine.add(particle);
+                        particle.xd = rand.nextGaussian() * (1 + (count / 150));
+                        particle.yd = rand.nextGaussian() * (1 + (count / 100));
+                        particle.zd = rand.nextGaussian() * (1 + (count / 150));
+                        if (rand.nextBoolean()) particle.yd = Math.abs(particle.yd);
+                        ParticleEngineNT.INSTANCE.add(particle);
                     }
                 }
 
@@ -751,10 +749,10 @@ public class HBMsNTMClient {
 
                     for (int i = 0; i < count; i++) {
                         ParticleExSmoke particle = new ParticleExSmoke(level, x, y, z);
-                        particle.setMotionX(rand.nextGaussian() * (1 + (count / 50)));
-                        particle.setMotionY(rand.nextGaussian() * (1 + (count / 50)));
-                        particle.setMotionZ(rand.nextGaussian() * (1 + (count / 50)));
-                        Minecraft.getInstance().particleEngine.add(particle);
+                        particle.xd = rand.nextGaussian() * (1 + (count / 50));
+                        particle.yd = rand.nextGaussian() * (1 + (count / 50));
+                        particle.zd = rand.nextGaussian() * (1 + (count / 50));
+                        ParticleEngineNT.INSTANCE.add(particle);
                     }
                 }
 
@@ -781,8 +779,9 @@ public class HBMsNTMClient {
 
                     for (int i = 0; i < count; i++) {
                         ParticleExSmoke particle = new ParticleExSmoke(level, x, y, z);
-                        particle.setParticleSpeed(vec.xCoord, 0, vec.zCoord);
-                        innerMc.particleEngine.add(particle);
+                        particle.xd = vec.xCoord;
+                        particle.zd = vec.zCoord;
+                        ParticleEngineNT.INSTANCE.add(particle);
 
                         vec.rotateAroundXRad((float)Math.PI * 2F / (float)count);
                     }
@@ -799,8 +798,9 @@ public class HBMsNTMClient {
                     for (int i = 0; i < count; i++) {
                         r = rand.nextDouble();
                         ParticleExSmoke particle = new ParticleExSmoke(level, x, y, z);
-                        particle.setParticleSpeed(vec.xCoord * r, 0, vec.zCoord * r);
-                        innerMc.particleEngine.add(particle);
+                        particle.xd = vec.xCoord * r;
+                        particle.zd = vec.zCoord * r;
+                        ParticleEngineNT.INSTANCE.add(particle);
 
                         vec.rotateAroundYRad(360 / count);
                     }
@@ -817,9 +817,11 @@ public class HBMsNTMClient {
                         vec.rotateAroundYRad((float) Math.toRadians(rand.nextFloat() * 360F));
 
                         ParticleExSmoke particle = new ParticleExSmoke(level, x + vec.xCoord, y, z + vec.zCoord);
-                        particle.maxAge = 50;
-                        particle.setParticleSpeed(0, 0, 0);
-                        innerMc.particleEngine.add(particle);
+                        particle.lifetime = 50;
+                        particle.xd = 0;
+                        particle.yd = 0;
+                        particle.zd = 0;
+                        ParticleEngineNT.INSTANCE.add(particle);
 
                         vec.rotateAroundYRad(360 / count);
                     }
@@ -859,8 +861,8 @@ public class HBMsNTMClient {
 
                     for (int i = 0; i < count; i++) {
                         RocketFlameParticle particle = new RocketFlameParticle(level, x + rand.nextGaussian() * width, y, z + rand.nextGaussian() * width);
-                        particle.setParticleSpeed(0, -0.75 + rand.nextDouble() * 0.5, 0);
-                        innerMc.particleEngine.add(particle);
+                        particle.yd = -0.75 + rand.nextDouble() * 0.5;
+                        ParticleEngineNT.INSTANCE.add(particle);
                     }
                 }
 
@@ -875,7 +877,7 @@ public class HBMsNTMClient {
                     for (int i = 0; i < count; i++) {
 
                         RocketFlameParticle particle = new RocketFlameParticle(level, x + rand.nextGaussian() * width, y + rand.nextGaussian() * width, z + rand.nextGaussian() * width);
-                        innerMc.particleEngine.add(particle);
+                        ParticleEngineNT.INSTANCE.add(particle);
                     }
                 }
             }
@@ -909,7 +911,7 @@ public class HBMsNTMClient {
                     double ix = rand.nextGaussian() * 0.2;
                     double iz = rand.nextGaussian() * 0.2;
 
-                    if(ix * ix + iz * iz > 0.75) {
+                    if (ix * ix + iz * iz > 0.75) {
                         ix *= 0.5;
                         iz *= 0.5;
                     }

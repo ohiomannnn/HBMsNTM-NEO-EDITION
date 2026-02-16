@@ -214,16 +214,16 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
 
 
     @Override
-    public void serialize(ByteBuf buf, RegistryAccess registryAccess) {
-        super.serialize(buf, registryAccess);
+    public void serialize(ByteBuf buf) {
+        super.serialize(buf);
         buf.writeShort(mode);
         buf.writeBoolean(hasExploded);
         tank.serialize(buf);
     }
 
     @Override
-    public void deserialize(ByteBuf buf, RegistryAccess registryAccess) {
-        super.deserialize(buf, registryAccess);
+    public void deserialize(ByteBuf buf) {
+        super.deserialize(buf);
         mode = buf.readShort();
         hasExploded = buf.readBoolean();
         tank.deserialize(buf);

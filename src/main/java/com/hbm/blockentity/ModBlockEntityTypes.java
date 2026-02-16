@@ -97,10 +97,7 @@ public class ModBlockEntityTypes {
                             ModBlocks.MACHINE_BATTERY_REDD.get()
                     ).build(null));
 
-    public static final Supplier<BlockEntityType<PlushieBlockEntity>> PLUSHIE_YOMI = REGISTER.register("plushie_yomi", () -> BlockEntityType.Builder.of(PlushieBlockEntity::yomi, ModBlocks.PLUSHIE_YOMI.get()).build(null));
-    public static final Supplier<BlockEntityType<PlushieBlockEntity>> PLUSHIE_NUMBERNINE = REGISTER.register("plushie_numbernine", () -> BlockEntityType.Builder.of(PlushieBlockEntity::numbernine, ModBlocks.PLUSHIE_NUMBERNINE.get()).build(null));
-    public static final Supplier<BlockEntityType<PlushieBlockEntity>> PLUSHIE_HUNDUN = REGISTER.register("plushie_hundun", () -> BlockEntityType.Builder.of(PlushieBlockEntity::hundun, ModBlocks.PLUSHIE_HUNDUN.get()).build(null));
-    public static final Supplier<BlockEntityType<PlushieBlockEntity>> PLUSHIE_DERG = REGISTER.register("plushie_derg", () -> BlockEntityType.Builder.of(PlushieBlockEntity::derg, ModBlocks.PLUSHIE_DERG.get()).build(null));
+    public static final Supplier<BlockEntityType<PlushieBlockEntity>> PLUSHIE = REGISTER.register("plushie", () -> BlockEntityType.Builder.of(PlushieBlockEntity::new, ModBlocks.PLUSHIE_YOMI.get(), ModBlocks.PLUSHIE_NUMBERNINE.get(), ModBlocks.PLUSHIE_HUNDUN.get(), ModBlocks.PLUSHIE_DERG.get()).build(null));
 
     public static final Supplier<BlockEntityType<CableBlockEntityBaseNT>> NETWORK_CABLE = REGISTER.register(
             "network_cable",
@@ -147,33 +144,7 @@ public class ModBlockEntityTypes {
                             ModBlocks.MINE_NAVAL.get())
                     .build(null));
 
-    public static final Supplier<BlockEntityType<CrashedBombBlockEntity>> CRASHED_BOMB_BALEFIRE = REGISTER.register(
-            "crashed_bomb_balefire",
-            () -> BlockEntityType.Builder.of(
-                            CrashedBombBlockEntity::balefire,
-                            ModBlocks.CRASHED_BOMB_BALEFIRE.get())
-                    .build(null));
-
-    public static final Supplier<BlockEntityType<CrashedBombBlockEntity>> CRASHED_BOMB_CONVENTIONAL = REGISTER.register(
-            "crashed_bomb_conventional",
-            () -> BlockEntityType.Builder.of(
-                            CrashedBombBlockEntity::conventional,
-                            ModBlocks.CRASHED_BOMB_CONVENTIONAL.get())
-                    .build(null));
-
-    public static final Supplier<BlockEntityType<CrashedBombBlockEntity>> CRASHED_BOMB_NUKE = REGISTER.register(
-            "crashed_bomb_nuke",
-            () -> BlockEntityType.Builder.of(
-                            CrashedBombBlockEntity::nuke,
-                            ModBlocks.CRASHED_BOMB_NUKE.get())
-                    .build(null));
-
-    public static final Supplier<BlockEntityType<CrashedBombBlockEntity>> CRASHED_BOMB_SALTED = REGISTER.register(
-            "crashed_bomb_salted",
-            () -> BlockEntityType.Builder.of(
-                            CrashedBombBlockEntity::salted,
-                            ModBlocks.CRASHED_BOMB_SALTED.get())
-                    .build(null));
+    public static final Supplier<BlockEntityType<CrashedBombBlockEntity>> CRASHED_BOMB = REGISTER.register("crashed_bomb", () -> BlockEntityType.Builder.of(CrashedBombBlockEntity::new, ModBlocks.CRASHED_BOMB_BALEFIRE.get(), ModBlocks.CRASHED_BOMB_CONVENTIONAL.get(), ModBlocks.CRASHED_BOMB_NUKE.get(), ModBlocks.CRASHED_BOMB_SALTED.get()).build(null));
 
     public static void register(IEventBus eventBus) {
         REGISTER.register(eventBus);

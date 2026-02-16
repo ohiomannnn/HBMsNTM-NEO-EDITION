@@ -2,6 +2,7 @@ package com.hbm.blocks;
 
 import com.hbm.HBMsNTM;
 import com.hbm.blocks.bomb.*;
+import com.hbm.blocks.bomb.CrashedBombBlock.DudType;
 import com.hbm.blocks.gas.*;
 import com.hbm.blocks.generic.*;
 import com.hbm.blocks.generic.PlushieBlock.PlushieType;
@@ -68,39 +69,11 @@ public class ModBlocks {
                     .pushReaction(PushReaction.DESTROY)
                     .isRedstoneConductor(ModBlocks::never)));
 
-    public static final DeferredBlock<Block> FALLOUT = registerBlock("fallout",
-            () -> new FalloutBlock(BlockBehaviour.Properties.of()
-                    .strength(0.1F)
-                    .mapColor(MapColor.STONE)
-                    .sound(SoundType.GRAVEL)));
-    public static final DeferredBlock<Block> SELLAFIELD_SLAKED = registerBlock("sellafield_slaked",
-            () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.COLOR_GRAY)
-                    .isValidSpawn(Blocks::never)
-                    .requiresCorrectToolForDrops()
-                    .strength(3.0F, 10.0F)
-                    .sound(SoundType.STONE)));
-    public static final DeferredBlock<Block> ORE_SELLAFIELD_DIAMOND = registerBlock("ore_sellafield_diamond",
-            () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.COLOR_GRAY)
-                    .isValidSpawn(Blocks::never)
-                    .requiresCorrectToolForDrops()
-                    .strength(3.0F, 10.0F)
-                    .sound(SoundType.STONE)));
-    public static final DeferredBlock<Block> ORE_SELLAFIELD_EMERALD = registerBlock("ore_sellafield_emerald",
-            () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.COLOR_GRAY)
-                    .isValidSpawn(Blocks::never)
-                    .requiresCorrectToolForDrops()
-                    .strength(3.0F, 10.0F)
-                    .sound(SoundType.STONE)));
-    public static final DeferredBlock<Block> SELLAFIELD_BEDROCK = registerBlock("sellafield_bedrock",
-            () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.COLOR_GRAY)
-                    .isValidSpawn(Blocks::never)
-                    .noLootTable()
-                    .strength(-1.0F, 6000000.0F)
-                    .sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> FALLOUT = registerBlock("fallout", () -> new FalloutBlock(BlockBehaviour.Properties.of().strength(0.1F).sound(SoundType.GRAVEL).mapColor(MapColor.STONE)));
+    public static final DeferredBlock<Block> SELLAFIELD_SLAKED = registerBlock("sellafield_slaked", () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).isValidSpawn(Blocks::never).requiresCorrectToolForDrops().strength(3.0F, 10.0F).sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_SELLAFIELD_DIAMOND = registerBlock("ore_sellafield_diamond", () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).isValidSpawn(Blocks::never).requiresCorrectToolForDrops().strength(3.0F, 10.0F).sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_SELLAFIELD_EMERALD = registerBlock("ore_sellafield_emerald", () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).isValidSpawn(Blocks::never).requiresCorrectToolForDrops().strength(3.0F, 10.0F).sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> SELLAFIELD_BEDROCK = registerBlock("sellafield_bedrock", () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).isValidSpawn(Blocks::never).noLootTable().strength(-1.0F, 6000000.0F).sound(SoundType.STONE)));
 
     public static final DeferredBlock<Block> BLOCK_SCRAP = registerBlock("block_scrap",
             () -> new ColoredFallingBlock(new ColorRGBA(-8356741), BlockBehaviour.Properties.of()
@@ -272,10 +245,10 @@ public class ModBlocks {
     public static final DeferredBlock<Block> BARREL_PINK =  registerBlock("barrel_pink",  () -> new RedBarrelBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.1F).explosionResistance(2.5F).sound(SoundType.METAL), true));
     public static final DeferredBlock<Block> BARREL_LOX =   registerBlock("barrel_lox",   () -> new RedBarrelBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.1F).explosionResistance(2.5F).sound(SoundType.METAL), false));
     public static final DeferredBlock<Block> BARREL_TAINT = registerBlock("barrel_taint", () -> new RedBarrelBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.1F).explosionResistance(2.5F).sound(SoundType.METAL), false));
-    public static final DeferredBlock<Block> CRASHED_BOMB_BALEFIRE =     registerBlock("crashed_bomb_balefire",     () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
-    public static final DeferredBlock<Block> CRASHED_BOMB_CONVENTIONAL = registerBlock("crashed_bomb_conventional", () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
-    public static final DeferredBlock<Block> CRASHED_BOMB_NUKE =         registerBlock("crashed_bomb_nuke",         () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
-    public static final DeferredBlock<Block> CRASHED_BOMB_SALTED =       registerBlock("crashed_bomb_salted",       () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> CRASHED_BOMB_BALEFIRE =     registerBlock("crashed_bomb_balefire",     () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL).mapColor(MapColor.METAL), DudType.BALEFIRE));
+    public static final DeferredBlock<Block> CRASHED_BOMB_CONVENTIONAL = registerBlock("crashed_bomb_conventional", () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL).mapColor(MapColor.METAL), DudType.CONVENTIONAL));
+    public static final DeferredBlock<Block> CRASHED_BOMB_NUKE =         registerBlock("crashed_bomb_nuke",         () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL).mapColor(MapColor.METAL), DudType.NUKE));
+    public static final DeferredBlock<Block> CRASHED_BOMB_SALTED =       registerBlock("crashed_bomb_salted",       () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL).mapColor(MapColor.METAL), DudType.SALTED));
     public static final DeferredBlock<Block> MINE_AP =    registerBlock("mine_ap",    () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().strength(1.0F, 0.0F).sound(SoundType.METAL).mapColor(MapColor.METAL), 1.5D, 1D));
     public static final DeferredBlock<Block> MINE_HE =    registerBlock("mine_he",    () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().strength(1.0F, 0.0F).sound(SoundType.METAL).mapColor(MapColor.METAL), 2D, 5D));
     public static final DeferredBlock<Block> MINE_SHRAP = registerBlock("mine_shrap", () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().strength(1.0F, 0.0F).sound(SoundType.METAL).mapColor(MapColor.METAL), 1.5D, 1D));

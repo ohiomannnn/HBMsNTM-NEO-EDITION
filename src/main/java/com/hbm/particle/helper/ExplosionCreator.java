@@ -88,25 +88,26 @@ public class ExplosionCreator implements IParticleCreator {
             Minecraft.getInstance().getSoundManager().playDelayed(instance, (int) (dist / SPEED_OF_SOUND));
         }
 
+        // SMOKE PLUME
+        for (int i = 0; i < cloudCount; i++) {
+            RocketFlameParticle particle = new RocketFlameParticle(level, x, y, z);
+            particle.xo = particle.x;
+            particle.yo = particle.y;
+            particle.zo = particle.z;
+            particle.quadSize = cloudScale;
+            particle.xd = rand.nextGaussian() * 0.5 * cloudSpeedMultiplier;
+            particle.yd = rand.nextDouble() * 3 * cloudSpeedMultiplier;
+            particle.zd = rand.nextGaussian() * 0.5 * cloudSpeedMultiplier;
+            particle.lifetime = 70 + rand.nextInt(20);
+            particle.noClip = true;
+
+            ParticleEngineNT.INSTANCE.add(particle);
+        }
+
         // WAVE
         MukeWaveParticle wave = new MukeWaveParticle(level, x, y + 2, z);
         wave.setup(waveScale, (int) (25F * waveScale / 45));
         ParticleEngineNT.INSTANCE.add(wave);
-
-        // SMOKE PLUME
-        for (int i = 0; i < cloudCount; i++) {
-            RocketFlameParticle particle = new RocketFlameParticle(level, x, y, z).setScale(cloudScale);
-            particle.resetPrevPos();
-            particle.setParticleSpeed(
-                    rand.nextGaussian() * 0.5 * cloudSpeedMultiplier,
-                    rand.nextDouble() * 3 * cloudSpeedMultiplier,
-                    rand.nextGaussian() * 0.5 * cloudSpeedMultiplier
-            );
-            particle.setMaxAge(70 + rand.nextInt(20));
-            particle.setNoClip();
-
-            Minecraft.getInstance().particleEngine.add(particle);
-        }
 
         // DEBRIS
         for (int c = 0; c < debrisCount; c++) {
@@ -114,9 +115,9 @@ public class ExplosionCreator implements IParticleCreator {
             double oX = rand.nextGaussian() * debrisHorizontalDeviation;
             double oY = debrisVerticalOffset;
             double oZ = rand.nextGaussian() * debrisHorizontalDeviation;
-            int cX = (int) Math.floor(x + oX + 0.5);
-            int cY = (int) Math.floor(y + oY + 0.5);
-            int cZ = (int) Math.floor(z + oZ + 0.5);
+            double cX = x + oX + 0.5;
+            double cY = y + oY + 0.5;
+            double cZ = z + oZ + 0.5;
 
             Vec3 motion = new Vec3(debrisVelocity, 0, 0)
                     .zRot((float) -Math.toRadians(45 + rand.nextFloat() * 25))
@@ -131,7 +132,7 @@ public class ExplosionCreator implements IParticleCreator {
                 for (int i = 0; i < 2; i++) {
                     for (int j = 0; j < 2; j++) {
                         for (int k = 0; k < 2; k++) {
-                            wiaj.setBlock(middle + i, middle + j, middle + k, level.getBlockState(new BlockPos(cX + i, cY + j, cZ + k)));
+                            wiaj.setBlock(middle + i, middle + j, middle + k, level.getBlockState(BlockPos.containing(cX + i, cY + j, cZ + k)));
                         }
                     }
                 }
@@ -151,7 +152,7 @@ public class ExplosionCreator implements IParticleCreator {
                                 !wiaj.getBlock(middle + jx, middle + jy, middle + jz + 1).isAir() ||
                                 !wiaj.getBlock(middle + jx, middle + jy, middle + jz - 1).isAir()) {
 
-                            wiaj.setBlock(middle + jx, middle + jy, middle + jz, level.getBlockState(new BlockPos(cX + jx, cY + jy, cZ + jz)));
+                            wiaj.setBlock(middle + jx, middle + jy, middle + jz, level.getBlockState(BlockPos.containing(cX + jx, cY + jy, cZ + jz)));
                         }
                     }
                 }

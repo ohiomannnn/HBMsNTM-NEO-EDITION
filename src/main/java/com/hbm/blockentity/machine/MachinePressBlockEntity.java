@@ -45,21 +45,21 @@ public class MachinePressBlockEntity extends MachineBaseBlockEntity {
     }
 
     @Override
-    public void serialize(ByteBuf buf, RegistryAccess registryAccess) {
-        super.serialize(buf, registryAccess);
+    public void serialize(ByteBuf buf) {
+        super.serialize(buf);
         buf.writeInt(this.speed);
         buf.writeInt(this.burnTime);
         buf.writeInt(this.press);
-        BufferUtil.writeItemStack(buf, this.slots.get(2), registryAccess);
+        //BufferUtil.writeItemStack(buf, this.slots.get(2), registryAccess);
     }
 
     @Override
-    public void deserialize(ByteBuf buf, RegistryAccess registryAccess) {
-        super.deserialize(buf, registryAccess);
+    public void deserialize(ByteBuf buf) {
+        super.deserialize(buf);
         this.speed = buf.readInt();
         this.burnTime = buf.readInt();
         this.syncPress = buf.readInt();
-        this.syncStack = BufferUtil.readItemStack(buf, registryAccess);
+        //this.syncStack = BufferUtil.readItemStack(buf, registryAccess);
 
         this.turnProgress = 2;
     }

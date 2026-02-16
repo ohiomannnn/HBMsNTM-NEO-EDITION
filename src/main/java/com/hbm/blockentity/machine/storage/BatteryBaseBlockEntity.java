@@ -122,8 +122,8 @@ public abstract class BatteryBaseBlockEntity extends MachineBaseBlockEntity impl
     }
 
     @Override
-    public void serialize(ByteBuf buf, RegistryAccess registryAccess) {
-        super.serialize(buf, registryAccess);
+    public void serialize(ByteBuf buf) {
+        super.serialize(buf);
 
         buf.writeShort(redLow);
         buf.writeShort(redHigh);
@@ -131,8 +131,8 @@ public abstract class BatteryBaseBlockEntity extends MachineBaseBlockEntity impl
     }
 
     @Override
-    public void deserialize(ByteBuf buf, RegistryAccess registryAccess) {
-        super.deserialize(buf, registryAccess);
+    public void deserialize(ByteBuf buf) {
+        super.deserialize(buf);
 
         redLow = buf.readShort();
         redHigh = buf.readShort();

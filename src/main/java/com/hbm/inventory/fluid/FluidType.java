@@ -48,7 +48,7 @@ public class FluidType {
 
     public static final int ROOM_TEMPERATURE = 20;
 
-    // v v v this entire system is a pain in the ass to work with. i'd much rather define state transitions and heat values manually.
+    // v v v this entire system is a pain in the ass to work with. i'd much rather define pressed transitions and heat values manually.
     /** How hot this fluid is. Simple enough. */
     public int temperature = ROOM_TEMPERATURE;
 

@@ -165,7 +165,7 @@ public class FluidTank {
     }
 
     /**
-     * Renders the fluid texture into a GUI, with the height based on the fill state
+     * Renders the fluid texture into a GUI, with the height based on the fill pressed
      * @param x the tank's left side
      * @param y the tank's bottom side (convention from the old system, changing it now would be a pain in the ass)
      * @param z the GUI's zLevel

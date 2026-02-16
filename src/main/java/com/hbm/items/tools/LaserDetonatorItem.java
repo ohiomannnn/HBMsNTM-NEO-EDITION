@@ -4,6 +4,8 @@ import com.hbm.HBMsNTM;
 import com.hbm.HBMsNTMClient;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.config.MainConfig;
+import com.hbm.entity.ModEntityTypes;
+import com.hbm.entity.missile.MissileTier1.MissileGeneric;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IBomb.BombReturnCode;
 import com.hbm.interfaces.IHoldableWeapon;
@@ -52,24 +54,27 @@ public class LaserDetonatorItem extends Item implements IHoldableWeapon {
         if (hr instanceof BlockHitResult bhr) {
             BlockPos pos = bhr.getBlockPos();
             if (!level.isClientSide) {
-                Block block = level.getBlockState(pos).getBlock();
-                if (block instanceof IBomb ib) {
-                    BombReturnCode ret = ib.explode(level, pos);
 
-                    if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
-                        HBMsNTM.LOGGER.info("[LASER DETONATOR] {} detonated {} at {} / {} / {}!", player.getName().getString(), block.getName().getString(), pos.getX(), pos.getY(), pos.getZ());
-                    }
-
-                    level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.TECH_BLEEP.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
-                    if (player instanceof ServerPlayer serverPlayer) {
-                        PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(Component.translatable(ret.getUnlocalizedMessage()).withStyle(ret.wasSuccessful() ? ChatFormatting.YELLOW : ChatFormatting.RED), HBMsNTMClient.ID_DETONATOR, 500));
-                    }
-                } else {
-                    level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.TECH_BOOP.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
-                    if (player instanceof ServerPlayer serverPlayer) {
-                        PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(Component.translatable(BombReturnCode.ERROR_NO_BOMB.getUnlocalizedMessage()).withStyle( ChatFormatting.RED), HBMsNTMClient.ID_DETONATOR, 500));
-                    }
-                }
+                MissileGeneric missileGeneric = new MissileGeneric(ModEntityTypes.MISSILE_GENERIC.get(), level, (float) player.position.x, (float) player.position.y + 10, (float) player.position.z, pos.getX(), pos.getZ());
+                level.addFreshEntity(missileGeneric);
+//                Block block = level.getBlockState(pos).getBlock();
+//                if (block instanceof IBomb ib) {
+//                    BombReturnCode ret = ib.explode(level, pos);
+//
+//                    if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
+//                        HBMsNTM.LOGGER.info("[LASER DETONATOR] {} detonated {} at {} / {} / {}!", player.getName().getString(), block.getName().getString(), pos.getX(), pos.getY(), pos.getZ());
+//                    }
+//
+//                    level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.TECH_BLEEP.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
+//                    if (player instanceof ServerPlayer serverPlayer) {
+//                        PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(Component.translatable(ret.getUnlocalizedMessage()).withStyle(ret.wasSuccessful() ? ChatFormatting.YELLOW : ChatFormatting.RED), HBMsNTMClient.ID_DETONATOR, 500));
+//                    }
+//                } else {
+//                    level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.TECH_BOOP.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
+//                    if (player instanceof ServerPlayer serverPlayer) {
+//                        PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(Component.translatable(BombReturnCode.ERROR_NO_BOMB.getUnlocalizedMessage()).withStyle( ChatFormatting.RED), HBMsNTMClient.ID_DETONATOR, 500));
+//                    }
+//                }
             } else {
                 Vec3 vec = new Vec3(pos.getX() + 0.5 - player.getX(), pos.getY() + 0.5 - player.getEyeY(), pos.getZ() + 0.5 - player.getZ());
                 double len = Math.min(vec.length(), 15D);

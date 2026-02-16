@@ -82,7 +82,7 @@ public class CustomRenderTypes {
                         .setOutputState(RenderType.TRANSLUCENT_TARGET)
                         .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
                         .createCompositeState(false);
-                return RenderType.create("additive", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, state);
+                return RenderType.create("additive", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, false, state);
             }
     );
 

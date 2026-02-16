@@ -23,8 +23,8 @@ public class MachinePressBlock extends DummyableBlock {
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         DummyBlockType type = state.getValue(TYPE);
         return switch (type) {
-//            case CORE -> new BatteryREDDBlockEntity(pos, state);
-//            case EXTRA -> new ProxyComboBlockEntity(pos, state).inventory();
+//            case CORE -> new BatteryREDDBlockEntity(pos, pressed);
+//            case EXTRA -> new ProxyComboBlockEntity(pos, pressed).inventory();
             default -> null;
         };
     }

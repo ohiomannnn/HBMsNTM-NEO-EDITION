@@ -86,12 +86,12 @@ public abstract class PlaneBase extends ChunkloadingEntity {
 
     @Override
     public float lerpTargetXRot() {
-        return this.lerpSteps > 0 ? (float) this.lerpXRot : this.getXRot();
+        return this.lerpSteps > 0 ? (float) this.lerpXRot : this.xRot;
     }
 
     @Override
     public float lerpTargetYRot() {
-        return this.lerpSteps > 0 ? (float) this.lerpYRot : this.getYRot();
+        return this.lerpSteps > 0 ? (float) this.lerpYRot : this.yRot;
     }
 
     @Override
@@ -113,7 +113,7 @@ public abstract class PlaneBase extends ChunkloadingEntity {
             this.yo = this.yOld = this.getY();
             this.zo = this.zOld = this.getZ();
 
-            this.setPos(this.getX() + this.getDeltaMovement().x, this.getY() + this.getDeltaMovement().y, this.getZ() + this.getDeltaMovement().z);
+            this.setPos(this.getX() + this.deltaMovement.x, this.getY() + this.deltaMovement.y, this.getZ() + this.deltaMovement.z);
 
             this.rotation();
 
@@ -122,9 +122,9 @@ public abstract class PlaneBase extends ChunkloadingEntity {
 
                 for (int i = 0; i < 10; i++)
                     ParticleUtil.spawnGasFlame(this.level(),
-                            this.getX() + random.nextGaussian() * 0.5 - this.getDeltaMovement().x * 2,
-                            this.getY() + random.nextGaussian() * 0.5 - this.getDeltaMovement().y * 2,
-                            this.getZ() + random.nextGaussian() * 0.5 - this.getDeltaMovement().z * 2,
+                            this.getX() + random.nextGaussian() * 0.5 - this.deltaMovement.x * 2,
+                            this.getY() + random.nextGaussian() * 0.5 - this.deltaMovement.y * 2,
+                            this.getZ() + random.nextGaussian() * 0.5 - this.deltaMovement.z * 2,
                             0.0, 0.1, 0.0);
 
                 if ((!level().getBlockState(this.blockPosition()).isAir()) || this.getY() < this.level().getMinBuildHeight()) {
@@ -143,12 +143,12 @@ public abstract class PlaneBase extends ChunkloadingEntity {
     }
 
     protected void rotation() {
-        float motionHorizontal = Mth.sqrt((float) (this.getDeltaMovement().x * this.getDeltaMovement().x + this.getDeltaMovement().z * this.getDeltaMovement().z));
-        this.setYRot((float) (Math.atan2(this.getDeltaMovement().x, this.getDeltaMovement().z) * 180.0D / Math.PI));
-        for (this.setXRot((float) (Math.atan2(this.getDeltaMovement().y, motionHorizontal) * 180.0D / Math.PI) - 90); this.getXRot() - this.xRotO < -180.0F; this.xRotO -= 360.0F);
-        while (this.getXRot() - this.xRotO >= 180.0F) this.xRotO += 360.0F;
-        while (this.getYRot() - this.yRotO < -180.0F) this.yRotO -= 360.0F;
-        while (this.getYRot() - this.yRotO >= 180.0F) this.yRotO += 360.0F;
+        float motionHorizontal = Mth.sqrt((float) (this.deltaMovement.x * this.deltaMovement.x + this.deltaMovement.z * this.deltaMovement.z));
+        this.setYRot((float) (Math.atan2(this.deltaMovement.x, this.deltaMovement.z) * 180.0D / Math.PI));
+        for (this.setXRot((float) (Math.atan2(this.deltaMovement.y, motionHorizontal) * 180.0D / Math.PI) - 90); this.xRot - this.xRotO < -180.0F; this.xRotO -= 360.0F);
+        while (this.xRot - this.xRotO >= 180.0F) this.xRotO += 360.0F;
+        while (this.yRot - this.yRotO < -180.0F) this.yRotO -= 360.0F;
+        while (this.yRot - this.yRotO >= 180.0F) this.yRotO += 360.0F;
     }
 
     @Override

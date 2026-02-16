@@ -112,14 +112,14 @@ public class DoorGenericBlockEntity extends LockableBaseBlockEntity {
     }
 
     @Override
-    public void serialize(ByteBuf buf, RegistryAccess registryAccess) {
+    public void serialize(ByteBuf buf) {
         buf.writeByte(state);
         buf.writeByte(skinIndex);
         buf.writeBoolean(shouldUseBB);
     }
 
     @Override
-    public void deserialize(ByteBuf buf, RegistryAccess registryAccess) {
+    public void deserialize(ByteBuf buf) {
         handleNewState(buf.readByte());
         skinIndex = buf.readByte();
         shouldUseBB = buf.readBoolean();

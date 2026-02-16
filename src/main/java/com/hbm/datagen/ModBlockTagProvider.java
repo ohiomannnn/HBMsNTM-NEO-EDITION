@@ -126,7 +126,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                         ModBlocks.WASTE_TRINITITE.get(),
                         ModBlocks.WASTE_TRINITITE_RED.get(),
                         ModBlocks.FROZEN_DIRT.get(),
-                        ModBlocks.FROZEN_GRASS.get()
+                        ModBlocks.FROZEN_GRASS.get(),
+                        ModBlocks.FALLOUT.get()
                 );
 
         this.tag(BlockTags.MINEABLE_WITH_HOE)

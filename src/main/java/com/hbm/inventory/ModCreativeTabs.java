@@ -161,7 +161,7 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.FROZEN_GRASS);
                         output.accept(ModBlocks.FROZEN_DIRT);
                         output.accept(ModBlocks.FROZEN_PLANKS);
-                        output.accept(ModBlocks.FROZEN_PLANKS);
+                        output.accept(ModBlocks.FROZEN_LOG);
                         output.accept(ModBlocks.FALLOUT);
                         output.accept(ModBlocks.LEAVES_LAYER);
 

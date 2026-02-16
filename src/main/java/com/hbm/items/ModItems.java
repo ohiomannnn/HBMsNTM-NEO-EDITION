@@ -193,10 +193,10 @@ public class ModItems {
                     .addAbility(IToolHarvestAbility.LUCK, 1)
     );
 
-    public static final DeferredItem<Item> ALLOY_HELMET = ITEMS.register("alloy_helmet",         () -> new ArmorItem(ModArmorMaterials.ALLOY, ArmorItem.Type.HELMET, new Item.Properties()));
-    public static final DeferredItem<Item> ALLOY_CHESTPLATE = ITEMS.register("alloy_chestplate", () -> new ArmorItem(ModArmorMaterials.ALLOY, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
-    public static final DeferredItem<Item> ALLOY_LEGGINGS = ITEMS.register("alloy_leggings",     () -> new ArmorItem(ModArmorMaterials.ALLOY, ArmorItem.Type.LEGGINGS, new Item.Properties()));
-    public static final DeferredItem<Item> ALLOY_BOOTS = ITEMS.register("alloy_boots",           () -> new ArmorItem(ModArmorMaterials.ALLOY, ArmorItem.Type.BOOTS, new Item.Properties()));
+    public static final DeferredItem<Item> ALLOY_HELMET = ITEMS.register("alloy_helmet",         () -> new ArmorItem(ModArmorMaterials.ALLOY, ArmorItem.Type.HELMET, new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> ALLOY_CHESTPLATE = ITEMS.register("alloy_chestplate", () -> new ArmorItem(ModArmorMaterials.ALLOY, ArmorItem.Type.CHESTPLATE, new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> ALLOY_LEGGINGS = ITEMS.register("alloy_leggings",     () -> new ArmorItem(ModArmorMaterials.ALLOY, ArmorItem.Type.LEGGINGS, new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> ALLOY_BOOTS = ITEMS.register("alloy_boots",           () -> new ArmorItem(ModArmorMaterials.ALLOY, ArmorItem.Type.BOOTS, new Item.Properties().stacksTo(1)));
 
     public static final DeferredItem<Item> DUCK_SPAWN_EGG = ITEMS.register(
             "duck_spawn_egg",
