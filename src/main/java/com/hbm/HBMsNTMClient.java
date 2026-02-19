@@ -116,7 +116,6 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.awt.*;
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -355,7 +354,8 @@ public class HBMsNTMClient {
     }
     @SubscribeEvent
     public static void onOpenGUI(ScreenEvent.Opening event) {
-        if (event.getScreen() instanceof TitleScreen main && MainConfig.CLIENT.ENABLE_MAIN_MENU_WACKY_SPLASHES.get()) {
+        if (event.getScreen() instanceof TitleScreen titleScreen && MainConfig.CLIENT.ENABLE_MAIN_MENU_WACKY_SPLASHES.get()) {
+
             int rand = (int) (Math.random() * 150);
             String text = switch (rand) {
                 case 0 -> "Floppenheimer!";
@@ -381,14 +381,7 @@ public class HBMsNTMClient {
 
             if (text == null) return;
 
-            try {
-                Field splashField = TitleScreen.class.getDeclaredField("splash");
-                splashField.setAccessible(true);
-
-                splashField.set(main, new SplashRenderer(text));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            titleScreen.splash = new SplashRenderer(text);
         }
     }
 

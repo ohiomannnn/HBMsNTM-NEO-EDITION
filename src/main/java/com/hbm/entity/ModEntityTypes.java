@@ -79,11 +79,13 @@ public class ModEntityTypes {
             () -> EntityType.Builder.of(Shrapnel::new, MobCategory.MISC)
                     .sized(0.25F, 0.25F)
                     .fireImmune()
+                    .setTrackingRange(1000)
                     .build("shrapnel"));
     public static final DeferredHolder<EntityType<?>, EntityType<Rubble>> RUBBLE = REGISTER.register(
             "rubble",
             () -> EntityType.Builder.of(Rubble::new, MobCategory.MISC)
                     .sized(0.25F, 0.25F)
+                    .setTrackingRange(1000)
                     .build("rubble"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<DeathBlast>> DEATH_BLAST = REGISTER.register(
@@ -104,7 +106,7 @@ public class ModEntityTypes {
             () -> EntityType.Builder.<MissileGeneric>of(MissileGeneric::new, MobCategory.MISC)
                     .sized(1.5F, 1.5F)
                     .setTrackingRange(1000)
-                    .build("bomber"));
+                    .build("missile_generic"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<BombletZeta>> BOMBLET_ZETA = REGISTER.register(
             "bomblet_zeta",

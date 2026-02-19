@@ -1,9 +1,13 @@
 package com.hbm.entity.projectile;
 
+import com.hbm.HBMsNTM;
 import com.hbm.entity.IProjectile;
 import com.hbm.lib.Library;
+import com.hbm.util.AABBUtils;
+import com.hbm.util.RayTraceResult;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -12,15 +16,14 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.projectile.ProjectileUtil;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.phys.*;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Predicate;
 
 public abstract class ThrowableNT extends Entity implements IProjectile {
 
@@ -148,65 +151,102 @@ public abstract class ThrowableNT extends Entity implements IProjectile {
             }
 
             inGround = false;
-//                this.motionX *= (double) (this.rand.nextFloat() * 0.2F);
-//                this.motionY *= (double) (this.rand.nextFloat() * 0.2F);
-//                this.motionZ *= (double) (this.rand.nextFloat() * 0.2F);
-            //Randomizing motion why?? Im assuming for unpredicadbility but no
-
             ticksInGround = 0;
             ticksInAir = 0;
         } else {
+            ticksInAir++;
 
+            Vec3 pos = this.position;
+            Vec3 nextPos = new Vec3(pos.x + this.deltaMovement.x * motionMult(), pos.y + this.deltaMovement.y * motionMult(), pos.z + this.deltaMovement.z * motionMult());
+            RayTraceResult mop = null;
+            if (!isSpectral()) mop = Library.rayTraceBlocks(this.level(), pos, nextPos, false, true, false);
+            pos = this.position;
+            nextPos = new Vec3(pos.x + this.deltaMovement.x * motionMult(), pos.y + this.deltaMovement.y * motionMult(), pos.z + this.deltaMovement.z * motionMult());
 
-            ++ticksInAir;
-            double mm = motionMult();
-            Vec3 nextPos = new Vec3(this.position.x + this.deltaMovement.x * mm, this.position.y + this.deltaMovement.y * mm, this.position.z + this.deltaMovement.z * mm);
-
-            HitResult hitResult = null;
-            if (!isSpectral()) hitResult = Library.rayTraceBlocks(this.level(), this.position, nextPos, false, true, false);
-
-            if (hitResult != null) {
-                nextPos = new Vec3(hitResult.getLocation().x, hitResult.getLocation().y, hitResult.getLocation().z);
+            if (mop != null) {
+                nextPos = new Vec3(mop.hitVec.x, mop.hitVec.y, mop.hitVec.z);
             }
 
             if (!level().isClientSide && doesImpactEntities()) {
                 Entity hitEntity = null;
-                List<Entity> entities = this.level().getEntities(this, this.getBoundingBox().contract(this.deltaMovement.x * mm, this.deltaMovement.y * mm, this.deltaMovement.z * mm).inflate(1.0D, 1.0D, 1.0D));
+                List<Entity> entities = this.level().getEntities(this, this.getBoundingBox().contract(this.deltaMovement.x * motionMult(), this.deltaMovement.y * motionMult(), this.deltaMovement.z * motionMult()).inflate(1.0D, 1.0D, 1.0D));
                 double nearest = 0.0D;
                 LivingEntity thrower = this.getThrower();
-                HitResult nonPenImpact = null;
+                RayTraceResult nonPenImpact = null;
 
                 for (Entity entity : entities) {
 
-                    if (entity.canBeCollidedWith() && (entity != thrower || this.ticksInAir >= this.selfDamageDelay()) && entity.isAlive()) {
+                    if ((entity != thrower || this.ticksInAir >= this.selfDamageDelay()) && entity.isAlive()) {
                         double hitbox = 0.3F;
                         AABB aabb = entity.getBoundingBox().inflate(hitbox, hitbox, hitbox);
-                        HitResult hitRes = getHitResultOnViewVector(this, this.position, nextPos, Entity::isInvulnerable);
+                        RayTraceResult hitMop = AABBUtils.calculateIntercept(aabb, pos, nextPos);
+
+                        if (hitMop != null) {
+
+                            // if penetration is enabled, run impact for all intersecting entities
+                            if (this.doesPenetrate()) {
+                                this.onImpact(new RayTraceResult(entity, hitMop.hitVec));
+                            } else {
+
+                                double dist = pos.distanceTo(hitMop.hitVec);
+
+                                if (dist < nearest || nearest == 0.0D) {
+                                    hitEntity = entity;
+                                    nearest = dist;
+                                    nonPenImpact = hitMop;
+                                }
+                            }
+                        }
                     }
                 }
+
+                // if not, only run it for the closest MOP
+                if (!this.doesPenetrate() && hitEntity != null) {
+                    mop = new RayTraceResult(hitEntity, nonPenImpact.hitVec);
+                }
             }
+
+            if (mop != null) {
+                if(mop.typeOfHit == RayTraceResult.Type.BLOCK && this.level().getBlockState(mop.getBlockPos()).is(Blocks.NETHER_PORTAL)) {
+                    this.handlePortal();
+                } else {
+                    this.onImpact(mop);
+                }
+            }
+
+            if (!this.onGround()) {
+                float hyp = (float) Math.sqrt(this.deltaMovement.x * this.deltaMovement.x + this.deltaMovement.z * this.deltaMovement.z);
+                this.yRot = (float) (Math.atan2(this.deltaMovement.x, this.deltaMovement.z) * 180.0D / Math.PI);
+
+                for (this.xRot = (float) (Math.atan2(this.deltaMovement.y, hyp) * 180.0D / Math.PI); this.xRot - this.xRotO < -180.0F; this.xRotO -= 360.0F);
+
+                while (this.xRot - this.xRotO >= 180.0F) this.xRotO += 360.0F;
+                while (this.yRot - this.yRotO < -180.0F) this.yRotO -= 360.0F;
+                while (this.yRot - this.yRotO >= 180.0F) this.yRotO += 360.0F;
+
+                this.xRot = this.xRotO + (this.xRot - this.xRotO) * 0.2F;
+                this.yRot = this.yRotO + (this.yRot - this.yRotO) * 0.2F;
+            }
+
+            float drag = this.getAirDrag();
+            double gravity = this.getGravityVelocity();
+
+            this.position = new Vec3(this.position.x + this.deltaMovement.x * motionMult(), this.position.y + this.deltaMovement.y * motionMult(), this.position.z + this.deltaMovement.z * motionMult());
+
+            if (this.isInWater()) {
+                for (int i = 0; i < 4; ++i) {
+                    this.level().addParticle(ParticleTypes.BUBBLE, this.position.x - this.deltaMovement.x, this.position.y - this.deltaMovement.y, this.position.z - this.deltaMovement.z, this.deltaMovement.x, this.deltaMovement.y, this.deltaMovement.z);
+                }
+
+                drag = this.getWaterDrag();
+            }
+
+            this.deltaMovement = new Vec3(this.deltaMovement.x * (double) drag, this.deltaMovement.y * (double) drag, this.deltaMovement.z * (double) drag);
+            this.deltaMovement = new Vec3(this.deltaMovement.x, this.deltaMovement.y - gravity, this.deltaMovement.z);
+
+            this.setPos(this.position);
         }
     }
-
-    public static HitResult getHitResultOnViewVector(Entity projectile, Vec3 pos, Vec3 nextPos, Predicate<Entity> filter) {
-        return getHitResult(pos, projectile, filter, nextPos, projectile.level(), 0.0F, ClipContext.Block.COLLIDER);
-    }
-
-    private static HitResult getHitResult(Vec3 pos, Entity projectile, Predicate<Entity> filter, Vec3 deltaMovement, Level level, float margin, ClipContext.Block clipContext) {
-        Vec3 vec3 = pos.add(deltaMovement);
-        HitResult hitresult = level.clip(new ClipContext(pos, vec3, clipContext, ClipContext.Fluid.NONE, projectile));
-        if (hitresult.getType() != HitResult.Type.MISS) {
-            vec3 = hitresult.getLocation();
-        }
-
-        HitResult hitresult1 = ProjectileUtil.getEntityHitResult(level, projectile, pos, vec3, projectile.getBoundingBox().expandTowards(deltaMovement).inflate((double)1.0F), filter, margin);
-        if (hitresult1 != null) {
-            hitresult = hitresult1;
-        }
-
-        return hitresult;
-    }
-
 
     public boolean doesImpactEntities() {
         return true;
@@ -224,7 +264,21 @@ public abstract class ThrowableNT extends Entity implements IProjectile {
         return 5;
     }
 
-    protected abstract void onImpact(BlockHitResult result);
+    public void getStuck(BlockPos pos, Direction side) {
+        this.stuckBlockX = pos.getX();
+        this.stuckBlockY = pos.getY();
+        this.stuckBlockZ = pos.getZ();
+        this.stuckBlock = level().getBlockState(pos).getBlock();
+        this.inGround = true;
+        this.deltaMovement = new Vec3(0, 0, 0);
+        this.setStuckIn(side);
+    }
+
+    public double getGravityVelocity() {
+        return 0.03D;
+    }
+
+    protected abstract void onImpact(RayTraceResult result);
 
     @Override
     protected void readAdditionalSaveData(CompoundTag compoundTag) {

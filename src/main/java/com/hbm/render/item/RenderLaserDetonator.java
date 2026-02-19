@@ -31,12 +31,12 @@ public class RenderLaserDetonator extends BlockEntityWithoutLevelRenderer {
         if (displayContext != ItemDisplayContext.GUI) poseStack.translate(0.5F, 0F, 0.5F);
         switch (displayContext) {
             case FIRST_PERSON_RIGHT_HAND -> {
-                poseStack.translate(-0.15F, 0.63F, 0.1F);
+                poseStack.translate(-0.2F, 0.63F, 0.1F);
                 poseStack.scale(0.15F, 0.15F, 0.15F);
                 poseStack.mulPose(Axis.YP.rotationDegrees(180F));
             }
             case FIRST_PERSON_LEFT_HAND -> {
-                poseStack.translate(0.15F, 0.63F, 0.1F);
+                poseStack.translate(0.2F, 0.63F, 0.1F);
                 poseStack.scale(-0.15F, 0.15F, 0.15F);
                 poseStack.mulPose(Axis.YP.rotationDegrees(180F));
             }

@@ -3,6 +3,7 @@ package com.hbm.items.tools;
 import com.hbm.entity.logic.Bomber;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModSounds;
+import com.hbm.util.RayTraceResult;
 import com.hbm.util.i18n.I18nUtil;
 import com.hbm.world.WorldUtil;
 import net.minecraft.ChatFormatting;
@@ -34,26 +35,24 @@ public class BombCallerItem extends Item {
         ItemStack stack = player.getItemInHand(hand);
 
         if (!level.isClientSide) {
-            HitResult ehr = Library.rayTrace(player, 500, 1);
-            if (ehr instanceof BlockHitResult bhr) {
-                int x = bhr.getBlockPos().getX();
-                int y = bhr.getBlockPos().getY();
-                int z = bhr.getBlockPos().getZ();
+            RayTraceResult ray = Library.rayTrace(player, 500, 1);
+            int x = ray.getBlockPos().getX();
+            int y = ray.getBlockPos().getY();
+            int z = ray.getBlockPos().getZ();
 
-                Bomber bomber = switch (type) {
-                    case NAPALM -> Bomber.statFacNapalm(level, x, y, z);
-                    case ATOMIC_BOMB -> Bomber.statFacABomb(level, x, y, z);
-                    default -> Bomber.statFacCarpet(level, x, y, z);
-                };
+            Bomber bomber = switch (type) {
+                case NAPALM -> Bomber.statFacNapalm(level, x, y, z);
+                case ATOMIC_BOMB -> Bomber.statFacABomb(level, x, y, z);
+                default -> Bomber.statFacCarpet(level, x, y, z);
+            };
 
-                WorldUtil.loadAndSpawnEntityInWorld(bomber);
+            WorldUtil.loadAndSpawnEntityInWorld(bomber);
 
-                player.sendSystemMessage(Component.translatable("item.hbmsntm.bomb_caller.message.call"));
-                level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.TECH_BLEEP, SoundSource.PLAYERS, 1.0F, 1.0F);
+            player.sendSystemMessage(Component.translatable("item.hbmsntm.bomb_caller.message.call"));
+            level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.TECH_BLEEP, SoundSource.PLAYERS, 1.0F, 1.0F);
 
-                if (!player.isCreative()) {
-                    stack.setCount(stack.getCount() - 1);
-                }
+            if (!player.isCreative()) {
+                stack.setCount(stack.getCount() - 1);
             }
         }
 

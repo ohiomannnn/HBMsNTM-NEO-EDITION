@@ -126,12 +126,7 @@ public class ModBlockEntityTypes {
     public static final Supplier<BlockEntityType<NukeTsarBombaBlockEntity>> NUKE_TSAR_BOMBA = REGISTER.register("nuke_tsar_bomba", () -> BlockEntityType.Builder.of(NukeTsarBombaBlockEntity::new, ModBlocks.NUKE_TSAR_BOMBA.get()).build(null));
     public static final Supplier<BlockEntityType<NukeN2BlockEntity>> NUKE_N2 = REGISTER.register("nuke_n2", () -> BlockEntityType.Builder.of(NukeN2BlockEntity::new, ModBlocks.NUKE_N2.get()).build(null));
 
-    public static final Supplier<BlockEntityType<GeigerBlockEntity>> GEIGER_COUNTER = REGISTER.register(
-            "geiger_counter",
-            () -> BlockEntityType.Builder.of(
-                    (pos, state) -> new GeigerBlockEntity(ModBlockEntityTypes.GEIGER_COUNTER.get(), pos, state),
-                            ModBlocks.GEIGER.get())
-                    .build(null));
+    public static final Supplier<BlockEntityType<GeigerBlockEntity>> GEIGER_COUNTER = REGISTER.register("geiger_counter", () -> BlockEntityType.Builder.of((pos, state) -> new GeigerBlockEntity(ModBlockEntityTypes.GEIGER_COUNTER.get(), pos, state), ModBlocks.GEIGER.get()).build(null));
 
     public static final Supplier<BlockEntityType<LandMineBlockEntity>> LANDMINE = REGISTER.register(
             "landmine",

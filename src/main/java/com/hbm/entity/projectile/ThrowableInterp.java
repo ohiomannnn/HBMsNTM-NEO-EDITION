@@ -1,10 +1,9 @@
 package com.hbm.entity.projectile;
 
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 
-public abstract class ThrowableInterp extends ThrowableProjectile {
+public abstract class ThrowableInterp extends ThrowableNT {
 
     protected int lerpSteps;
     protected double lerpX;
@@ -25,11 +24,6 @@ public abstract class ThrowableInterp extends ThrowableProjectile {
         this.lerpYRot = yRot;
         this.lerpXRot = xRot;
         this.lerpSteps = steps + 1;
-    }
-
-    @Override
-    public void lerpMotion(double x, double y, double z) {
-        this.setDeltaMovement(x, y, z);
     }
 
     @Override

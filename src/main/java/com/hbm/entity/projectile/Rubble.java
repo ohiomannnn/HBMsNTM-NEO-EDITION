@@ -3,6 +3,7 @@ package com.hbm.entity.projectile;
 import com.hbm.lib.ModDamageTypes;
 import com.hbm.lib.ModSounds;
 import com.hbm.network.toclient.ParticleBurst;
+import com.hbm.util.RayTraceResult;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -13,14 +14,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-public class Rubble extends ThrowableProjectile {
+public class Rubble extends ThrowableNT {
 
     private static final EntityDataAccessor<String> BLOCK_ID = SynchedEntityData.defineId(Rubble.class, EntityDataSerializers.STRING);
 
@@ -29,13 +27,17 @@ public class Rubble extends ThrowableProjectile {
     }
 
     @Override
-    protected void onHit(HitResult result) {
-        super.onHit(result);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(BLOCK_ID, "");
+    }
 
+    @Override
+    protected void onImpact(RayTraceResult result) {
         Level level = this.level();
 
-        if (result instanceof EntityHitResult entityHitResult) {
-            entityHitResult.getEntity().hurt(level.damageSources().source(ModDamageTypes.RUBBLE, this.getOwner()), 15);
+        if (result.entityHit != null) {
+            result.entityHit.hurt(level.damageSources().source(ModDamageTypes.RUBBLE), 15);
         }
 
         if (this.tickCount > 2) {
@@ -50,8 +52,8 @@ public class Rubble extends ThrowableProjectile {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        builder.define(BLOCK_ID, "");
+    protected float getAirDrag() {
+        return 1F;
     }
 
     public Block getBlock() { return BuiltInRegistries.BLOCK.get(ResourceLocation.parse(entityData.get(BLOCK_ID))); }
