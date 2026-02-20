@@ -1,24 +1,15 @@
 package com.hbm.items.tools;
 
-import com.hbm.HBMsNTM;
-import com.hbm.HBMsNTMClient;
 import com.hbm.blocks.ITooltipProvider;
-import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.missile.MissileTier1.MissileGeneric;
-import com.hbm.interfaces.IBomb;
-import com.hbm.interfaces.IBomb.BombReturnCode;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.lib.Library;
-import com.hbm.lib.ModSounds;
-import com.hbm.network.toclient.InformPlayer;
 import com.hbm.util.RayTraceResult;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -26,9 +17,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.List;
 

@@ -6,13 +6,13 @@ import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockMutatorDebris;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
@@ -41,8 +41,8 @@ public class Shrapnel extends ThrowableProjectile {
     public void tick() {
         super.tick();
 
-        if (level().isClientSide && this.entityData.get(TYPE) == 1) {
-            Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.FLAME, this.getX(), this.getY(), this.getZ(), 0.0, 0.0, 0.0);
+        if (this.level() instanceof ServerLevel serverLevel) {
+            serverLevel.sendParticles(ParticleTypes.FLAME, this.getX(), this.getY(), this.getZ(), 1, 0.0, 0.0, 0.0, 0.0);
         }
     }
 
@@ -96,10 +96,8 @@ public class Shrapnel extends ThrowableProjectile {
                     level().setBlock(pos, ModBlocks.BLOCK_SCRAP.get().defaultBlockState(), 3);
                 }
             } else {
-                for (int i = 0; i < 5; i++) {
-                    if (level().isClientSide) {
-                        Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.LAVA, this.getX(), this.getY() + 0.5, this.getZ(), 0.0, 0.0, 0.0);
-                    }
+                if (this.level() instanceof ServerLevel serverLevel) {
+                    serverLevel.sendParticles(ParticleTypes.LAVA, this.getX(), this.getY() + 0.5, this.getZ(), 5, 0.0, 0.0, 0.0, 0.0);
                 }
             }
 

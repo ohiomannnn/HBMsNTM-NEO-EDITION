@@ -26,6 +26,7 @@ public abstract class PlaneBase extends ChunkloadingEntity {
 
     protected PlaneBase(EntityType<?> type, Level level) {
         super(type, level);
+        this.rotation();
     }
 
     private static final EntityDataAccessor<Float> HEALTH = SynchedEntityData.defineId(PlaneBase.class, EntityDataSerializers.FLOAT);

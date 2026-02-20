@@ -26,6 +26,7 @@ public class BombletZeta extends ThrowableProjectile {
 
     public BombletZeta(EntityType<BombletZeta> entityType, Level level) {
         super(entityType, level);
+        this.rotation();
     }
 
     @Override

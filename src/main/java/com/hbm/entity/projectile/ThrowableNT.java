@@ -1,6 +1,5 @@
 package com.hbm.entity.projectile;
 
-import com.hbm.HBMsNTM;
 import com.hbm.entity.IProjectile;
 import com.hbm.lib.Library;
 import com.hbm.util.AABBUtils;
@@ -12,6 +11,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -19,9 +19,11 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,14 +32,14 @@ public abstract class ThrowableNT extends Entity implements IProjectile {
     private static final EntityDataAccessor<Direction> STUCK_SIDE = SynchedEntityData.defineId(ThrowableNT.class, EntityDataSerializers.DIRECTION);
     public int throwableShake;
     protected boolean inGround;
-    protected LivingEntity thrower;
+    @Nullable private UUID throwerUUID;
+    @Nullable protected Entity thrower;
     private int stuckBlockX = -1;
     private int stuckBlockY = -1;
     private int stuckBlockZ = -1;
-    private Block stuckBlock;
-    private UUID throwerName;
-    private int ticksInGround;
-    private int ticksInAir;
+    private BlockState stuckBlock;
+    public int ticksInGround;
+    protected int ticksInAir;
 
     public ThrowableNT(EntityType<? extends ThrowableNT> entityType, Level level) {
         super(entityType, level);
@@ -53,13 +55,13 @@ public abstract class ThrowableNT extends Entity implements IProjectile {
         this.thrower = thrower;
         this.moveTo(thrower.position.x, thrower.getEyeY(), thrower.position.z, thrower.yRot, thrower.xRot);
         double posX = this.position.x - (double) (Mth.cos(this.yRot / 180.0F * (float) Math.PI) * 0.16F);
-        double posY = 0.1D;
-        double posZ = this.position.x - (double) (Mth.sin(this.yRot / 180.0F * (float) Math.PI) * 0.16F);
+        double posY = this.position.y - 0.1D;
+        double posZ = this.position.z - (double)(Mth.sin(this.yRot / 180.0F * (float)Math.PI) * 0.16F);
         this.setPos(posX, posY, posZ);
         float velocity = 0.4F;
         double motionX = -Mth.sin(this.yRot / 180.0F * (float) Math.PI) * Mth.cos(this.xRot / 180.0F * (float) Math.PI) * velocity;
-        double motionZ = Mth.cos(this.yRot / 180.0F * (float) Math.PI) * Mth.cos(this.xRot / 180.0F * (float) Math.PI) * velocity;
         double motionY = -Mth.sin((this.xRot + throwAngle()) / 180.0F * (float) Math.PI) * velocity;
+        double motionZ = Mth.cos(this.yRot / 180.0F * (float) Math.PI) * Mth.cos(this.xRot / 180.0F * (float) Math.PI) * velocity;
         this.setThrowableHeading(motionX, motionY, motionZ, throwForce(), 1.0F);
     }
 
@@ -95,22 +97,15 @@ public abstract class ThrowableNT extends Entity implements IProjectile {
     @Override
     public void setThrowableHeading(double motionX, double motionY, double motionZ, float velocity, float inaccuracy) {
         float throwLen = (float) Math.sqrt(motionX * motionX + motionY * motionY + motionZ * motionZ);
-        //Euclidean Distance ^^
-
         motionX /= throwLen;
         motionY /= throwLen;
         motionZ /= throwLen;
-
         motionX += random.nextGaussian() * headingForceMult() * (double) inaccuracy;
         motionY += random.nextGaussian() * headingForceMult() * (double) inaccuracy;
         motionZ += random.nextGaussian() * headingForceMult() * (double) inaccuracy;
-
         motionX *= velocity;
         motionY *= velocity;
         motionZ *= velocity;
-
-        //Motion should be fine as a double
-
         this.deltaMovement = new Vec3(motionX, motionY, motionZ);
         float hyp = (float) Math.sqrt(motionX * motionX + motionZ * motionZ);
         this.yRotO = this.yRot = (float) (Math.atan2(motionX, motionZ) * 180.0D / Math.PI);
@@ -140,19 +135,19 @@ public abstract class ThrowableNT extends Entity implements IProjectile {
         }
 
         if (inGround) {
-            if (level().getBlockState(new BlockPos(stuckBlockX, stuckBlockY, stuckBlockZ)).getBlock() == stuckBlock) {
+            if (level().getBlockState(new BlockPos(stuckBlockX, stuckBlockY, stuckBlockZ)) == stuckBlock) {
                 ++ticksInGround;
 
                 if (groundDespawn() > 0 && ticksInGround == groundDespawn()) {
                     this.discard();
                 }
 
-                return;
-            }
+            } else {
 
-            inGround = false;
-            ticksInGround = 0;
-            ticksInAir = 0;
+                inGround = false;
+                ticksInGround = 0;
+                ticksInAir = 0;
+            }
         } else {
             ticksInAir++;
 
@@ -171,7 +166,7 @@ public abstract class ThrowableNT extends Entity implements IProjectile {
                 Entity hitEntity = null;
                 List<Entity> entities = this.level().getEntities(this, this.getBoundingBox().contract(this.deltaMovement.x * motionMult(), this.deltaMovement.y * motionMult(), this.deltaMovement.z * motionMult()).inflate(1.0D, 1.0D, 1.0D));
                 double nearest = 0.0D;
-                LivingEntity thrower = this.getThrower();
+                Entity thrower = this.getThrower();
                 RayTraceResult nonPenImpact = null;
 
                 for (Entity entity : entities) {
@@ -268,7 +263,7 @@ public abstract class ThrowableNT extends Entity implements IProjectile {
         this.stuckBlockX = pos.getX();
         this.stuckBlockY = pos.getY();
         this.stuckBlockZ = pos.getZ();
-        this.stuckBlock = level().getBlockState(pos).getBlock();
+        this.stuckBlock = level().getBlockState(pos);
         this.inGround = true;
         this.deltaMovement = new Vec3(0, 0, 0);
         this.setStuckIn(side);
@@ -281,23 +276,51 @@ public abstract class ThrowableNT extends Entity implements IProjectile {
     protected abstract void onImpact(RayTraceResult result);
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag compoundTag) {
+    protected void readAdditionalSaveData(CompoundTag tag) {
+        tag.putInt("StuckX", this.stuckBlockX);
+        tag.putInt("StuckY", this.stuckBlockY);
+        tag.putInt("StuckZ", this.stuckBlockZ);
+        tag.putInt("InBlock", Block.getId(this.stuckBlock));
+        tag.putByte("Shake", (byte) this.throwableShake);
+        tag.putBoolean("InGround", this.inGround);
 
+        if (this.throwerUUID != null) {
+            tag.putUUID("Owner", this.throwerUUID);
+        }
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag compoundTag) {
+    protected void addAdditionalSaveData(CompoundTag tag) {
+        this.stuckBlockX = tag.getInt("StuckX");
+        this.stuckBlockY = tag.getInt("StuckY");
+        this.stuckBlockZ = tag.getInt("StuckZ");
+        this.stuckBlock = Block.stateById(tag.getInt("InBlock"));
+        this.throwableShake = tag.getByte("Shake");
+        this.inGround = tag.getBoolean("InGround");
 
-    }
-
-    public LivingEntity getThrower() {
-        if (thrower == null && throwerName != null && throwerName.toString().length() > 0) {
-            thrower = level().getPlayerByUUID(throwerName);
+        if (tag.hasUUID("Owner")) {
+            this.throwerUUID = tag.getUUID("Owner");
+            this.thrower = null;
         }
-        return thrower;
     }
 
-    public void setThrower(LivingEntity thrower) {
+    public Entity getThrower() {
+        if (this.thrower != null && !this.thrower.isRemoved()) {
+            return this.thrower;
+        } else {
+            if (this.throwerUUID != null) {
+                if (this.level() instanceof ServerLevel serverLevel) {
+                    this.thrower = serverLevel.getEntity(this.throwerUUID);
+                    return this.thrower;
+                }
+            }
+
+            return null;
+        }
+    }
+
+    public void setThrower(Entity thrower) {
+        this.throwerUUID = thrower.getUUID();
         this.thrower = thrower;
     }
 

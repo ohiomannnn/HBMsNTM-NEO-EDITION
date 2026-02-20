@@ -14,7 +14,7 @@ import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.entity.mob.CreeperNuclear;
 import com.hbm.entity.mob.Duck;
 import com.hbm.entity.projectile.BombletZeta;
-import com.hbm.entity.missile.MissileTier1.MissileGeneric;
+import com.hbm.entity.missile.MissileTier1.*;
 import com.hbm.entity.projectile.Meteor;
 import com.hbm.entity.projectile.Rubble;
 import com.hbm.entity.projectile.Shrapnel;
@@ -101,12 +101,7 @@ public class ModEntityTypes {
                     .setTrackingRange(250)
                     .build("bomber"));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<MissileGeneric>> MISSILE_GENERIC = REGISTER.register(
-            "missile_generic",
-            () -> EntityType.Builder.<MissileGeneric>of(MissileGeneric::new, MobCategory.MISC)
-                    .sized(1.5F, 1.5F)
-                    .setTrackingRange(1000)
-                    .build("missile_generic"));
+    public static final DeferredHolder<EntityType<?>, EntityType<MissileGeneric>> MISSILE_GENERIC = REGISTER.register("missile_generic", () -> EntityType.Builder.<MissileGeneric>of(MissileGeneric::new, MobCategory.MISC).sized(1.5F, 1.5F).setTrackingRange(500).build("missile_generic"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<BombletZeta>> BOMBLET_ZETA = REGISTER.register(
             "bomblet_zeta",

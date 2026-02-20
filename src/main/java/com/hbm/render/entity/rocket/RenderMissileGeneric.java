@@ -23,9 +23,9 @@ public class RenderMissileGeneric extends EntityRenderer<MissileTier1> {
     public void render(MissileTier1 entity, float yaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         poseStack.pushPose();
 
-        poseStack.mulPose(Axis.XP.rotationDegrees(Mth.lerp(packedLight, entity.yRotO, entity.yRot) - 90.0F));
-        poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(packedLight, entity.xRotO, entity.xRot)));
-        poseStack.mulPose(Axis.ZN.rotationDegrees(Mth.lerp(packedLight, entity.yRotO, entity.yRot) - 90.0F));
+        poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTicks, entity.yRotO, entity.yRot) - 90.0F));
+        poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTicks, entity.xRotO, entity.xRot)));
+        poseStack.mulPose(Axis.YN.rotationDegrees(Mth.lerp(partialTicks, entity.yRotO, entity.yRot) - 90.0F));
 
         VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_V2_HE_TEX));
         ResourceManager.missileV2.renderAll(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY);

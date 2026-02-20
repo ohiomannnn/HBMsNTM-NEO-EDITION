@@ -130,4 +130,13 @@ public class ExplosionVNT {
         this.setSFX(new ExplosionEffectAmat());
         return this;
     }
+
+    public static void newExplosion(Level level, double x, double y, double z, float strength, boolean fire, boolean isSmoking) {
+        ExplosionVNT vnt = new ExplosionVNT(level, x, y, z, strength)
+                .setBlockAllocator(isSmoking ? new BlockAllocatorStandard() : null)
+                .setBlockProcessor(isSmoking ? new BlockProcessorStandard().withBlockEffect(fire ? new BlockMutatorFire() : null) : null)
+                .setEntityProcessor(new EntityProcessorStandard())
+                .setSFX(new ExplosionEffectStandard());
+        vnt.explode();
+    }
 }
