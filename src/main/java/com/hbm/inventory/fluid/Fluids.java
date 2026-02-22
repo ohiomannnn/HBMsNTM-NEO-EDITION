@@ -7,6 +7,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.HBMsNTM;
+import com.hbm.inventory.fluid.trait.FT_Corrosive;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.fluid.trait.FluidTrait;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.*;
@@ -29,13 +30,14 @@ public class Fluids {
     public static FluidType AIR;
     public static FluidType WATER;
     public static FluidType LAVA;
-
+    public static FluidType KEROSENE;
     public static FluidType GAS;
-
     public static FluidType AROMATICS;			//anything from benzene to phenol and toluene
     public static FluidType UNSATURATEDS;		//collection of various basic unsaturated compounds like ethylene, acetylene and whatnot
-
+    public static FluidType PEROXIDE;
     public static FluidType OXYGEN;
+    public static FluidType ETHANOL;
+    public static FluidType KEROSENE_REFORM;
 
     public static final HashBiMap<String, FluidType> renameMapping = HashBiMap.create();
 
@@ -80,13 +82,14 @@ public class Fluids {
         AIR =					new FluidType("AIR",				0xE7EAEB, 0, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
         WATER =					new FluidType("WATER",			0x3333FF, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, UNSIPHONABLE);
         LAVA =					new FluidType("LAVA",				0xFF3300, 4, 0, 0, EnumSymbol.NOWATER).setTemp(1200).addTraits(LIQUID, VISCOUS);
-
+        KEROSENE =				new FluidType("KEROSENE",			0xffa5d2, 1, 2, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0xFF377D)).addTraits(new FT_Flammable(300_000),/*new FT_Combustible(FuelGrade.AERO, 1_250_000), LIQUID, P_FUEL*/ LIQUID);
         GAS =					new FluidType("GAS",				0xfffeed, 1, 4, 1, EnumSymbol.NONE).addContainers(new CD_Gastank(0xFF4545, 0xFFE97F)).addTraits(new FT_Flammable(10_000), GASEOUS /*P_GAS*/);
-
         AROMATICS =				new FluidType("AROMATICS",		0x68A09A, 1, 4, 1, EnumSymbol.NONE).addContainers(new CD_Gastank(0x68A09A, 0xEDCF27)).addTraits(new FT_Flammable(25_000), LIQUID, VISCOUS /*P_GAS*/);
         UNSATURATEDS =			new FluidType("UNSATURATEDS",		0x628FAE, 1, 4, 1, EnumSymbol.NONE).addContainers(new CD_Gastank(0x628FAE, 0xEDCF27)).addTraits(new FT_Flammable(1_000_000), GASEOUS /*P_GAS*/); //acetylene burns as hot as satan's asshole
-
+        PEROXIDE =				new FluidType("PEROXIDE",			0xfff7aa, 3, 0, 3, EnumSymbol.OXIDIZER).addTraits(new FT_Corrosive(40), LIQUID);
         OXYGEN =				new FluidType("OXYGEN",			0x98bdf9, 3, 0, 0, EnumSymbol.CROYGENIC).setTemp(-100).addContainers(new CD_Gastank(0x98bdf9, 0xffffff)).addTraits(LIQUID, EVAP);
+        ETHANOL =				new FluidType("ETHANOL",			0xe0ffff, 2, 3, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0xEAFFF3)).addTraits(new FT_Flammable(75_000),/*new FT_Combustible(FuelGrade.HIGH, 200_000), LIQUID, P_FUEL*/ LIQUID);
+        KEROSENE_REFORM =		new FluidType("KEROSENE_REFORM",	0xFFA5F3, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID/*, P_FUEL*/).addContainers(new CD_Canister(0xFF377D));
 
         // ^ ^ ^ ^ ^ ^ ^ ^
         //ADD NEW FLUIDS HERE
@@ -107,13 +110,17 @@ public class Fluids {
         metaOrder.add(AIR);
         metaOrder.add(WATER);
         metaOrder.add(LAVA);
-        //oils, fuels
-        metaOrder.add(GAS);
-
-        metaOrder.add(AROMATICS);
-        metaOrder.add(UNSATURATEDS);
         //pure elements, cyogenic gasses
         metaOrder.add(OXYGEN);
+        //oils, fuels
+        metaOrder.add(GAS);
+        metaOrder.add(AROMATICS);
+        metaOrder.add(UNSATURATEDS);
+        metaOrder.add(KEROSENE);
+        metaOrder.add(KEROSENE_REFORM);
+        metaOrder.add(ETHANOL);
+        //processing fluids
+        metaOrder.add(PEROXIDE);
 
         //do not forget about this thingy
         metaOrder.addAll(customFluids);

@@ -12,6 +12,7 @@ import com.hbm.explosion.vanillant.standard.EntityProcessorCross;
 import com.hbm.items.weapon.MissileItem;
 import com.hbm.util.RayTraceResult;
 import com.hbm.util.Vec3NT;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -45,7 +46,7 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
     public boolean isCluster = false;
     public int health = 50;
 
-    private static final EntityDataAccessor<Integer> ROT = SynchedEntityData.defineId(MissileBaseNT.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Direction> ROT = SynchedEntityData.defineId(MissileBaseNT.class, EntityDataSerializers.DIRECTION);
 
     public MissileBaseNT(EntityType<? extends MissileBaseNT> entityType, Level level) {
         super(entityType, level);
@@ -280,7 +281,7 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(ROT, 5);
+        builder.define(ROT, Direction.NORTH);
     }
 
     protected void updateChunkTicket() {

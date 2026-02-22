@@ -22,7 +22,7 @@ public class MissileItem extends Item {
     }
 
     public MissileItem(MissileFormFactor form, MissileTier tier, MissileFuel fuel) {
-        super(new Properties());
+        super(new Properties().stacksTo(1));
         this.formFactor = form;
         this.tier = tier;
         this.fuel = fuel;
@@ -47,7 +47,7 @@ public class MissileItem extends Item {
             components.add(Component.translatable("item.missile.desc.notLaunchable").withStyle(ChatFormatting.RED));
         } else {
             components.add(Component.translatable("item.missile.desc.fuel").append(": ").append(Component.translatable(this.fuel.key)));
-            if (this.fuelCap > 0) components.add(Component.translatable("item.missile.desc.fuelCapacity").append(": ").append(this.fuelCap + "").append(Component.translatable("fluid.info.mb")));
+            if (this.fuelCap > 0) components.add(Component.translatable("item.missile.desc.fuelCapacity").append(": ").append(Component.translatable("fluid.info.mb", this.fuelCap)));
         }
     }
 

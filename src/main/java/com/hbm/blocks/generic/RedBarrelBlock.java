@@ -7,6 +7,7 @@ import com.hbm.blocks.bomb.DetonatableBlock;
 import com.hbm.blocks.bomb.TaintBlock;
 import com.hbm.entity.item.TNTPrimedBase;
 import com.hbm.explosion.ExplosionThermo;
+import com.hbm.explosion.vanillant.ExplosionVNT;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -31,7 +32,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.List;
-import java.util.Random;
 
 public class RedBarrelBlock extends DetonatableBlock implements EntityBlock, SimpleWaterloggedBlock {
 
@@ -88,14 +88,14 @@ public class RedBarrelBlock extends DetonatableBlock implements EntityBlock, Sim
         int ix = Mth.floor(x), iy = Mth.floor(y), iz = Mth.floor(z);
 
         if (this == ModBlocks.BARREL_RED.get() || this == ModBlocks.BARREL_PINK.get()) {
-            level.explode(entity, x, y, z, 2.5F, true, Level.ExplosionInteraction.BLOCK);
+            ExplosionVNT.newExplosion(level, entity, x, y, z, 2.5F, true, true);
         }
         if (this == ModBlocks.BARREL_LOX.get()) {
-            level.explode(entity, x, y, z, 1F, false, Level.ExplosionInteraction.BLOCK);
+            ExplosionVNT.newExplosion(level, entity, x, y, z, 1F, false, false);
             ExplosionThermo.freeze(level, BlockPos.containing(x, y, z), 7);
         }
         if (this == ModBlocks.BARREL_TAINT.get()) {
-            level.explode(entity, x, y, z, 1F, false, Level.ExplosionInteraction.BLOCK);
+            ExplosionVNT.newExplosion(level, entity, x, y, z, 1F, false, false);
 
             RandomSource rand = level.random;
             for(int i = 0; i < 100; i++) {

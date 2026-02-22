@@ -32,19 +32,17 @@ import java.util.*;
 public class FalloutRain extends ChunkloadingEntity {
 
     private boolean firstTick = true;
-    private final Level level;
 
     private static final EntityDataAccessor<Integer> SCALE = SynchedEntityData.defineId(FalloutRain.class, EntityDataSerializers.INT);
 
     public FalloutRain(EntityType<?> type, Level level) {
         super(type, level);
-        this.level = level;
     }
 
     private final Map<ResourceKey<Biome>, Holder<Biome>> biomeCache = new HashMap<>();
 
     private Holder<Biome> getCachedHolder(ResourceKey<Biome> key) {
-        return biomeCache.computeIfAbsent(key, k -> level.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(k));
+        return biomeCache.computeIfAbsent(key, k -> this.level.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(k));
     }
 
     private int tickDelay = MainConfig.COMMON.FALLOUT_DELAY.get();
@@ -54,7 +52,7 @@ public class FalloutRain extends ChunkloadingEntity {
     public void tick() {
         super.tick();
 
-        if (!level().isClientSide) {
+        if (!level.isClientSide) {
 
             long start = System.currentTimeMillis();
 
@@ -79,24 +77,26 @@ public class FalloutRain extends ChunkloadingEntity {
                         int chunkPosX = (int) (chunkPos & 4294967295L);
                         int chunkPosZ = (int) (chunkPos >> 32 & 4294967295L);
 
-                        LevelChunk chunk = level.getChunk(chunkPosX, chunkPosZ);
+                        LevelChunk chunk = this.level.getChunk(chunkPosX, chunkPosZ);
 
                         boolean biomeModified = false;
                         for (int x = chunkPosX << 4; x < (chunkPosX << 4) + 16; x++) {
                             for (int z = chunkPosZ << 4; z < (chunkPosZ << 4) + 16; z++) {
                                 double percent = Math.hypot(x - this.getX(), z - this.getZ()) * 100 / getScale();
                                 stomp(x, z, percent);
-                                ResourceKey<Biome> biomeKey = getBiomeChange(percent, getScale(), level.getBiome(new BlockPos(x, (int) this.getY(), z)).getKey());
+                                ResourceKey<Biome> biomeKey = getBiomeChange(percent, getScale(), this.level.getBiome(new BlockPos(x, (int) this.getY(), z)).getKey());
                                 if (biomeKey != null) {
                                     Holder<Biome> biomeHolder = biomeCache.get(biomeKey);
                                     if (biomeHolder != null) {
-                                        WorldUtil.setBiomeColumn((ServerLevel) level, x, z, biomeHolder);
+                                        if (this.level instanceof ServerLevel serverLevel) {
+                                            WorldUtil.setBiomeColumn(serverLevel, x, z, biomeHolder);
+                                        }
                                         biomeModified = true;
                                     }
                                 }
                             }
                         }
-                        if (biomeModified) WorldUtil.flushChunk((ServerLevel) level, chunk);
+                        if (biomeModified && this.level instanceof ServerLevel serverLevel) WorldUtil.flushChunk(serverLevel, chunk);
                     } else if (!outerChunksToProcess.isEmpty()) {
                         long chunkPos = outerChunksToProcess.remove(outerChunksToProcess.size() - 1);
                         int chunkPosX = (int) (chunkPos & 4294967295L);
@@ -115,16 +115,19 @@ public class FalloutRain extends ChunkloadingEntity {
                                     if (biomeKey != null) {
                                         Holder<Biome> biomeHolder = biomeCache.get(biomeKey);
                                         if (biomeHolder != null) {
-                                            WorldUtil.setBiomeColumn((ServerLevel) level, x, z, biomeHolder);
+                                            if (this.level instanceof ServerLevel serverLevel) {
+                                                WorldUtil.setBiomeColumn(serverLevel, x, z, biomeHolder);
+                                            }
                                             biomeModified = true;
                                         }
                                     }
                                 }
                             }
                         }
-                        if (biomeModified) WorldUtil.flushChunk((ServerLevel) level, chunk);
+                        if (biomeModified && this.level instanceof ServerLevel serverLevel) WorldUtil.flushChunk(serverLevel, chunk);
                     } else {
                         this.discard();
+                        break;
                     }
                 }
             }
@@ -256,9 +259,9 @@ public class FalloutRain extends ChunkloadingEntity {
 
     @Override
     protected void readAdditionalSaveData(CompoundTag compoundTag) {
-        setScale(compoundTag.getInt("scale"));
-        chunksToProcess.addAll(readChunksFromIntArray(compoundTag.getIntArray("chunks")));
-        outerChunksToProcess.addAll(readChunksFromIntArray(compoundTag.getIntArray("outerChunks")));
+        setScale(compoundTag.getInt("Scale"));
+        chunksToProcess.addAll(readChunksFromIntArray(compoundTag.getIntArray("Chunks")));
+        outerChunksToProcess.addAll(readChunksFromIntArray(compoundTag.getIntArray("OuterChunks")));
     }
 
     private Collection<Long> readChunksFromIntArray(int[] data) {
@@ -273,9 +276,9 @@ public class FalloutRain extends ChunkloadingEntity {
 
     @Override
     protected void addAdditionalSaveData(CompoundTag compoundTag) {
-        compoundTag.putInt("scale", getScale());
-        compoundTag.putIntArray("chunks", writeChunksToIntArray(chunksToProcess));
-        compoundTag.putIntArray("outerChunks", writeChunksToIntArray(outerChunksToProcess));
+        compoundTag.putInt("Scale", getScale());
+        compoundTag.putIntArray("Chunks", writeChunksToIntArray(chunksToProcess));
+        compoundTag.putIntArray("OuterChunks", writeChunksToIntArray(outerChunksToProcess));
     }
 
     private int[] writeChunksToIntArray(Collection<Long> coords) {

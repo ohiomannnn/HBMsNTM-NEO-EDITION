@@ -73,9 +73,4 @@ public class RenderRubble extends EntityRenderer<Rubble> {
     public ResourceLocation getTextureLocation(Rubble rubble) {
         return null;
     }
-
-    @Override
-    public boolean shouldRender(Rubble livingEntity, Frustum camera, double camX, double camY, double camZ) {
-        return true;
-    }
 }

@@ -113,6 +113,13 @@ public abstract class ThrowableNT extends Entity implements IProjectile {
         this.ticksInGround = 0;
     }
 
+    public boolean shouldRenderAtSqrDistance(double distance) {
+        double size = this.getBoundingBox().getSize() * 4.0D;
+        if (Double.isNaN(size)) size = 4.0F;
+        size *= 64.0F;
+        return distance < size * size;
+    }
+
     @Override
     public void lerpMotion(double x, double y, double z) {
         this.setDeltaMovement(x, y, z);
@@ -135,7 +142,7 @@ public abstract class ThrowableNT extends Entity implements IProjectile {
         }
 
         if (inGround) {
-            if (level().getBlockState(new BlockPos(stuckBlockX, stuckBlockY, stuckBlockZ)) == stuckBlock) {
+            if (level.getBlockState(new BlockPos(stuckBlockX, stuckBlockY, stuckBlockZ)) == stuckBlock) {
                 ++ticksInGround;
 
                 if (groundDespawn() > 0 && ticksInGround == groundDespawn()) {
@@ -154,7 +161,7 @@ public abstract class ThrowableNT extends Entity implements IProjectile {
             Vec3 pos = this.position;
             Vec3 nextPos = new Vec3(pos.x + this.deltaMovement.x * motionMult(), pos.y + this.deltaMovement.y * motionMult(), pos.z + this.deltaMovement.z * motionMult());
             RayTraceResult mop = null;
-            if (!isSpectral()) mop = Library.rayTraceBlocks(this.level(), pos, nextPos, false, true, false);
+            if (!isSpectral()) mop = Library.rayTraceBlocks(this.level, pos, nextPos, false, true, false);
             pos = this.position;
             nextPos = new Vec3(pos.x + this.deltaMovement.x * motionMult(), pos.y + this.deltaMovement.y * motionMult(), pos.z + this.deltaMovement.z * motionMult());
 
@@ -162,9 +169,9 @@ public abstract class ThrowableNT extends Entity implements IProjectile {
                 nextPos = new Vec3(mop.hitVec.x, mop.hitVec.y, mop.hitVec.z);
             }
 
-            if (!level().isClientSide && doesImpactEntities()) {
+            if (!this.level.isClientSide && doesImpactEntities()) {
                 Entity hitEntity = null;
-                List<Entity> entities = this.level().getEntities(this, this.getBoundingBox().contract(this.deltaMovement.x * motionMult(), this.deltaMovement.y * motionMult(), this.deltaMovement.z * motionMult()).inflate(1.0D, 1.0D, 1.0D));
+                List<Entity> entities = this.level.getEntities(this, this.getBoundingBox().contract(this.deltaMovement.x * motionMult(), this.deltaMovement.y * motionMult(), this.deltaMovement.z * motionMult()).inflate(1.0D, 1.0D, 1.0D));
                 double nearest = 0.0D;
                 Entity thrower = this.getThrower();
                 RayTraceResult nonPenImpact = null;
@@ -202,7 +209,7 @@ public abstract class ThrowableNT extends Entity implements IProjectile {
             }
 
             if (mop != null) {
-                if(mop.typeOfHit == RayTraceResult.Type.BLOCK && this.level().getBlockState(mop.getBlockPos()).is(Blocks.NETHER_PORTAL)) {
+                if(mop.typeOfHit == RayTraceResult.Type.BLOCK && this.level.getBlockState(mop.getBlockPos()).is(Blocks.NETHER_PORTAL)) {
                     this.handlePortal();
                 } else {
                     this.onImpact(mop);
@@ -230,7 +237,7 @@ public abstract class ThrowableNT extends Entity implements IProjectile {
 
             if (this.isInWater()) {
                 for (int i = 0; i < 4; ++i) {
-                    this.level().addParticle(ParticleTypes.BUBBLE, this.position.x - this.deltaMovement.x, this.position.y - this.deltaMovement.y, this.position.z - this.deltaMovement.z, this.deltaMovement.x, this.deltaMovement.y, this.deltaMovement.z);
+                    this.level.addParticle(ParticleTypes.BUBBLE, this.position.x - this.deltaMovement.x, this.position.y - this.deltaMovement.y, this.position.z - this.deltaMovement.z, this.deltaMovement.x, this.deltaMovement.y, this.deltaMovement.z);
                 }
 
                 drag = this.getWaterDrag();
@@ -263,7 +270,7 @@ public abstract class ThrowableNT extends Entity implements IProjectile {
         this.stuckBlockX = pos.getX();
         this.stuckBlockY = pos.getY();
         this.stuckBlockZ = pos.getZ();
-        this.stuckBlock = level().getBlockState(pos);
+        this.stuckBlock = level.getBlockState(pos);
         this.inGround = true;
         this.deltaMovement = new Vec3(0, 0, 0);
         this.setStuckIn(side);
@@ -309,7 +316,7 @@ public abstract class ThrowableNT extends Entity implements IProjectile {
             return this.thrower;
         } else {
             if (this.throwerUUID != null) {
-                if (this.level() instanceof ServerLevel serverLevel) {
+                if (this.level instanceof ServerLevel serverLevel) {
                     this.thrower = serverLevel.getEntity(this.throwerUUID);
                     return this.thrower;
                 }

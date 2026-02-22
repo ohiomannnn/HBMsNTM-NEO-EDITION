@@ -66,6 +66,8 @@ public class ModSounds {
 
     public static final DeferredHolder<SoundEvent, SoundEvent> BOMB_WHISTLE = reg("bomb_whistle");
 
+    public static final DeferredHolder<SoundEvent, SoundEvent> MISSILE_TAKE_OFF = reg("weapon.missile_take_off");
+
     public static final DeferredHolder<SoundEvent, SoundEvent> HUNDUS = reg("block.hunduns_magnificent_howl");
     public static final DeferredHolder<SoundEvent, SoundEvent> SQUEAKY_TOY = reg("block.squeaky_toy");
 

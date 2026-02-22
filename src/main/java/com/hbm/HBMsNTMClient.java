@@ -35,6 +35,8 @@ import com.hbm.render.entity.mob.CreeperNuclearRenderer;
 import com.hbm.render.entity.mob.DuckRenderer;
 import com.hbm.render.entity.projectile.*;
 import com.hbm.render.entity.rocket.RenderMissileGeneric;
+import com.hbm.render.item.ItemRenderMissileGeneric;
+import com.hbm.render.item.ItemRenderMissileGeneric.RenderMissileType;
 import com.hbm.render.item.RenderBatteryPackItem;
 import com.hbm.render.item.RenderLaserDetonator;
 import com.hbm.render.loader.bakedLoader.HFRObjGeometryLoader;
@@ -137,6 +139,7 @@ public class HBMsNTMClient {
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             ResourceManager.init();
+            ItemRenderMissileGeneric.init();
         });
     }
 
@@ -597,6 +600,14 @@ public class HBMsNTMClient {
                 ModItems.CAPACITOR_BISMUTH.get(),
                 ModItems.CAPACITOR_SPARK.get()
         );
+
+        registerItemRenderer(event, () -> new ItemRenderMissileGeneric(RenderMissileType.TYPE_NUCLEAR),
+                ModItems.MISSILE_DECOY.get()
+        );
+
+        registerItemRenderer(event, () -> new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER0),
+                ModItems.MISSILE_GENERIC.get()
+        );
     }
 
     private static void registerItemRenderer(RegisterClientExtensionsEvent event, Supplier<BlockEntityWithoutLevelRenderer> rendererFactory, Item... items) {
@@ -886,6 +897,7 @@ public class HBMsNTMClient {
                 if (player != null) {
                     player.hurtTime = 15;
                     player.hurtDuration = 15;
+                    player.hurtDir = 0.0F;
                 }
             }
 
@@ -918,6 +930,7 @@ public class HBMsNTMClient {
                 if (player != null) {
                     player.hurtTime = 15;
                     player.hurtDuration = 15;
+                    player.hurtDir = 0.0F;
                 }
             }
 

@@ -3,6 +3,7 @@ package com.hbm.explosion;
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.projectile.Rubble;
 import com.hbm.entity.projectile.Shrapnel;
+import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.network.toclient.AuxParticle;
 import com.hbm.util.ParticleUtil;
 import com.hbm.util.Vec3NT;
@@ -74,7 +75,7 @@ public class ExplosionLarge {
             rubble.setPos(x, y, z);
             rubble.setDeltaMovement(
                     rand.nextGaussian() * 0.75 * (1 + (count / 50.0)),
-                    0.75 * (1 + ((count + rand.nextInt(count * 5))) / 25.0),
+                    0.75                * (1 + ((count + rand.nextInt(count * 5))) / 25.0),
                     rand.nextGaussian() * 0.75 * (1 + (count / 50.0))
             );
             rubble.setBlock(Blocks.STONE);
@@ -158,7 +159,7 @@ public class ExplosionLarge {
 
     @Deprecated
     public static void explode(ServerLevel serverLevel, double x, double y, double z, int strength, boolean cloud, boolean rubble, boolean shrapnel, @Nullable Entity exploder) {
-        serverLevel.explode(exploder, x, y, z, strength, Level.ExplosionInteraction.BLOCK);
+        ExplosionVNT.createExplosion(serverLevel, exploder, x, y, z, strength, true);
         if (cloud) spawnParticles(serverLevel, x, y, z, cloudFunction(strength));
         if (rubble) spawnRubble(serverLevel, x, y, z, rubbleFunction(strength));
         if (shrapnel) spawnShrapnels(serverLevel, x, y, z, shrapnelFunction(strength));
@@ -171,7 +172,7 @@ public class ExplosionLarge {
 
     @Deprecated
     public static void explodeFire(ServerLevel serverLevel, double x, double y, double z, int strength, boolean cloud, boolean rubble, boolean shrapnel) {
-        serverLevel.explode(null, x, y, z, strength, true, Level.ExplosionInteraction.BLOCK);
+        ExplosionVNT.newExplosion(serverLevel, null, x, y, z, strength, true, true);
         if (cloud) spawnParticles(serverLevel, x, y, z, cloudFunction(strength));
         if (rubble) spawnRubble(serverLevel, x, y, z, rubbleFunction(strength));
         if (shrapnel) spawnShrapnels(serverLevel, x, y, z, shrapnelFunction(strength));

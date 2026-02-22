@@ -592,6 +592,7 @@ public class NukeTorex extends ParticleNT {
             if (player != null) {
                 player.hurtDuration = 15;
                 player.hurtTime = 15;
+                player.hurtDir = 0.0F;
             }
         }
         buffer.endBatch();

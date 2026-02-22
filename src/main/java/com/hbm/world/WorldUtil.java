@@ -56,10 +56,10 @@ public class WorldUtil {
         for (LevelChunkSection section : sections) {
             PalettedContainer<Holder<Biome>> biomes = (PalettedContainer<Holder<Biome>>) section.getBiomes();
 
-            biomes.getAndSetUnchecked(localX, 0, localZ, biome);
-            biomes.getAndSetUnchecked(localX, 1, localZ, biome);
-            biomes.getAndSetUnchecked(localX, 2, localZ, biome);
-            biomes.getAndSetUnchecked(localX, 3, localZ, biome);
+            biomes.set(localX, 0, localZ, biome);
+            biomes.set(localX, 1, localZ, biome);
+            biomes.set(localX, 2, localZ, biome);
+            biomes.set(localX, 3, localZ, biome);
         }
 
         chunk.setUnsaved(true);

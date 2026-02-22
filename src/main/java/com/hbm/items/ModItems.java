@@ -15,6 +15,10 @@ import com.hbm.items.machine.BatteryPackItem.BatteryPackType;
 import com.hbm.items.special.*;
 import com.hbm.items.tools.*;
 import com.hbm.items.tools.BombCallerItem.BomberType;
+import com.hbm.items.weapon.MissileItem;
+import com.hbm.items.weapon.MissileItem.MissileFormFactor;
+import com.hbm.items.weapon.MissileItem.MissileFuel;
+import com.hbm.items.weapon.MissileItem.MissileTier;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -223,6 +227,9 @@ public class ModItems {
 
     public static final DeferredItem<Item> BLOWTORCH = ITEMS.register("blowtorch", () -> new BlowtorchItem(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> ACETYLENE_TORCH = ITEMS.register("acetylene_torch", () -> new BlowtorchItem(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> MISSILE_GENERIC = ITEMS.register("missile_generic", () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
+    public static final DeferredItem<Item> MISSILE_DECOY = ITEMS.register("missile_decoy", () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
 
     public static final DeferredItem<Item> SATELLITE_RADAR = ITEMS.register("satellite_radar", () -> new SatChipItem(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> SATELLITE_LASER = ITEMS.register("satellite_laser", () -> new SatChipItem(new Item.Properties().stacksTo(1)));

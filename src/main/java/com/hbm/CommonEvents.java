@@ -1,5 +1,6 @@
 package com.hbm;
 
+import com.hbm.blockentity.bomb.LaunchPadBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.commands.ChunkRadCommand;
 import com.hbm.commands.LivingPropsCommand;
@@ -77,6 +78,7 @@ public class CommonEvents {
         FluidContainerRegistry.register();
         ArmorUtil.register();
         Satellite.register();
+        LaunchPadBlockEntity.registerLaunchables();
     }
 
     @SubscribeEvent

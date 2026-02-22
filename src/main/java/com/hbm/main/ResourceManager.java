@@ -74,6 +74,11 @@ public class ResourceManager {
 
     //Missiles
     public static final ResourceLocation MISSILE_V2_HE_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_v2.png");
+    public static final ResourceLocation MISSILE_V2_IN_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_v2_inc.png");
+    public static final ResourceLocation MISSILE_V2_CL_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_v2_cl.png");
+    public static final ResourceLocation MISSILE_V2_BU_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_v2_bu.png");
+    public static final ResourceLocation MISSILE_V2_DECOY_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_v2_decoy.png");
+    public static final ResourceLocation MISSILE_DOOMSDAY_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_atlas_doomsday.png");
 
     public static final ResourceLocation BOMBLET_ZETA_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bomblet_zeta.png");
 
@@ -114,6 +119,7 @@ public class ResourceManager {
     public static IModelCustom c130;
 
     public static IModelCustom missileV2;
+    public static IModelCustom missileNuclear;
 
     public static IModelCustom bomblet_zeta;
 
@@ -157,15 +163,20 @@ public class ResourceManager {
         c130 = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/weapon/c130.obj")).asVBO();
 
         missileV2 = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/missile_v2.obj")).asVBO();
+        missileNuclear = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/missile_atlas.obj")).asVBO();
 
         bomblet_zeta = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomblet_zeta.obj")).asVBO();
 
         detonator_laser = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/weapon/detonator_laser.obj")).asVBO();
 
         barrel = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/block/barrel.obj")).asVBO();
+
+        yomiModel = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/trinkets/yomi.obj"), false).asVBO();
+        hundunModel = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/trinkets/hundun.obj"), false).asVBO();
+        dergModel = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/trinkets/derg.obj"), false).asVBO();
     }
 
-    public static final IModelCustom yomiModel = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/trinkets/yomi.obj"), false).asVBO();
-    public static final IModelCustom hundunModel = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/trinkets/hundun.obj"), false).asVBO();
-    public static final IModelCustom dergModel = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/trinkets/derg.obj"), false).asVBO();
+    public static IModelCustom yomiModel;
+    public static IModelCustom hundunModel;
+    public static IModelCustom dergModel;
 }

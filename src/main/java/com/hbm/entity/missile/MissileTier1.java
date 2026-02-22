@@ -38,7 +38,7 @@ public abstract class MissileTier1 extends MissileBaseNT {
     public static class MissileDecoy extends MissileTier1 {
         public MissileDecoy(EntityType<? extends MissileDecoy> entityType, Level level) { super(entityType, level); }
         public MissileDecoy(EntityType<? extends MissileDecoy> entityType, Level level, double x, double y, double z, int a, int b) { super(entityType, level, x, y, z, a, b); }
-        @Override public void onMissileImpact(RayTraceResult mop) { ExplosionVNT.newExplosion(this.level(), this.position.x, this.position.y, this.position.z, 4F, false, false); }
+        @Override public void onMissileImpact(RayTraceResult mop) { ExplosionVNT.newExplosion(this.level(), null, this.position.x, this.position.y, this.position.z, 4F, false, false); }
         @Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.NOTHING.get()); }
         @Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.NOTHING.get()); }
     }

@@ -6,6 +6,7 @@ import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockMutatorDebris;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
+import com.hbm.lib.ModDamageTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -21,8 +22,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-
-import static com.hbm.lib.ModDamageTypes.SHRAPNEL;
 
 public class Shrapnel extends ThrowableProjectile {
 
@@ -41,7 +40,7 @@ public class Shrapnel extends ThrowableProjectile {
     public void tick() {
         super.tick();
 
-        if (this.level() instanceof ServerLevel serverLevel) {
+        if (this.level() instanceof ServerLevel serverLevel && this.entityData.get(TYPE) == 1) {
             serverLevel.sendParticles(ParticleTypes.FLAME, this.getX(), this.getY(), this.getZ(), 1, 0.0, 0.0, 0.0, 0.0);
         }
     }
@@ -51,7 +50,7 @@ public class Shrapnel extends ThrowableProjectile {
         super.onHit(result);
 
         if (result instanceof EntityHitResult ehr) {
-            ehr.getEntity().hurt(this.level().damageSources().source(SHRAPNEL), 15);
+            ehr.getEntity().hurt(this.level().damageSources().source(ModDamageTypes.SHRAPNEL), 15);
         }
 
         if (this.tickCount > 5) {

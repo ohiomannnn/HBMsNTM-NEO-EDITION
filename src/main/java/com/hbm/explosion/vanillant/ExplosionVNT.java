@@ -57,6 +57,7 @@ public class ExplosionVNT {
             }
 
             @Override
+            @Nullable
             public Entity getDirectSourceEntity() {
                 return ExplosionVNT.this.exploder;
             }
@@ -131,8 +132,14 @@ public class ExplosionVNT {
         return this;
     }
 
-    public static void newExplosion(Level level, double x, double y, double z, float strength, boolean fire, boolean isSmoking) {
-        ExplosionVNT vnt = new ExplosionVNT(level, x, y, z, strength)
+    // old 1.7.10 methods for explosions
+
+    public static void createExplosion(Level level, @Nullable Entity exploder, double x, double y, double z, float strength, boolean isSmoking) {
+        newExplosion(level, exploder, x, y, z, strength, false, isSmoking);
+    }
+
+    public static void newExplosion(Level level, @Nullable Entity exploder, double x, double y, double z, float strength, boolean fire, boolean isSmoking) {
+        ExplosionVNT vnt = new ExplosionVNT(level, x, y, z, strength, exploder)
                 .setBlockAllocator(isSmoking ? new BlockAllocatorStandard() : null)
                 .setBlockProcessor(isSmoking ? new BlockProcessorStandard().withBlockEffect(fire ? new BlockMutatorFire() : null) : null)
                 .setEntityProcessor(new EntityProcessorStandard())

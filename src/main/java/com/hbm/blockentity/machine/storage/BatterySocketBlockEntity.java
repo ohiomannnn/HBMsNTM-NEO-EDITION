@@ -70,10 +70,10 @@ public class BatterySocketBlockEntity extends BatteryBaseBlockEntity {
     }
 
     @Override
-    public boolean canTakeItemThroughFace(int i, ItemStack itemStack, Direction direction) {
-        if (itemStack.getItem() instanceof IBatteryItem batteryItem) {
-            if (i == mode_input && batteryItem.getCharge(itemStack) == 0) return true;
-            if (i == mode_output && batteryItem.getCharge(itemStack) == batteryItem.getMaxCharge(itemStack)) return true;
+    public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {
+        if (stack.getItem() instanceof IBatteryItem batteryItem) {
+            if (index == mode_input && batteryItem.getCharge(stack) == 0) return true;
+            if (index == mode_output && batteryItem.getCharge(stack) == batteryItem.getMaxCharge(stack)) return true;
         }
         return false;
     }
