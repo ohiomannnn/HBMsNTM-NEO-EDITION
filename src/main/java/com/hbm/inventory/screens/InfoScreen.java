@@ -1,6 +1,7 @@
 package com.hbm.inventory.screens;
 
 import com.hbm.HBMsNTM;
+import com.hbm.util.BobMathUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -21,6 +22,10 @@ public abstract class InfoScreen<T extends AbstractContainerMenu> extends Abstra
 
     public InfoScreen(T menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
+    }
+
+    public void drawElectricityInfo(GuiGraphics guiGraphics, int mouseX, int mouseY, int x, int y, int width, int height, long power, long maxPower) {
+        this.drawCustomInfoStat(guiGraphics, mouseX, mouseY, x, y, width, height, mouseX, mouseY, Component.translatable("gui.energy.he", BobMathUtil.getShortNumber(power) + "/" + BobMathUtil.getShortNumber(maxPower)));
     }
 
     public void drawCustomInfoStat(GuiGraphics guiGraphics, int mouseX, int mouseY, int x, int y, int width, int height, int tPosX, int tPosY, Component... text) {

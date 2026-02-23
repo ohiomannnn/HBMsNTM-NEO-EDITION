@@ -152,6 +152,7 @@ public abstract class ThrowableNT extends Entity implements IProjectile {
             } else {
 
                 inGround = false;
+                this.deltaMovement = new Vec3(this.deltaMovement.x * (this.random.nextDouble() * 0.2D), this.deltaMovement.y * (this.random.nextDouble() * 0.2D), this.deltaMovement.z * (this.random.nextDouble() * 0.2D));
                 ticksInGround = 0;
                 ticksInAir = 0;
             }

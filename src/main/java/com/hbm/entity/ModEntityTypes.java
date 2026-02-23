@@ -13,11 +13,9 @@ import com.hbm.entity.logic.NukeExplosionBalefire;
 import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.entity.mob.CreeperNuclear;
 import com.hbm.entity.mob.Duck;
-import com.hbm.entity.projectile.BombletZeta;
+import com.hbm.entity.projectile.*;
 import com.hbm.entity.missile.MissileTier1.*;
-import com.hbm.entity.projectile.Meteor;
-import com.hbm.entity.projectile.Rubble;
-import com.hbm.entity.projectile.Shrapnel;
+import com.hbm.entity.missile.MissileTier4.*;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -74,19 +72,10 @@ public class ModEntityTypes {
                     .updateInterval(10)
                     .build("tnt_primed_base"));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<Shrapnel>> SHRAPNEL = REGISTER.register(
-            "shrapnel",
-            () -> EntityType.Builder.of(Shrapnel::new, MobCategory.MISC)
-                    .sized(0.25F, 0.25F)
-                    .fireImmune()
-                    .setTrackingRange(1000)
-                    .build("shrapnel"));
-    public static final DeferredHolder<EntityType<?>, EntityType<Rubble>> RUBBLE = REGISTER.register(
-            "rubble",
-            () -> EntityType.Builder.of(Rubble::new, MobCategory.MISC)
-                    .sized(0.25F, 0.25F)
-                    .setTrackingRange(1000)
-                    .build("rubble"));
+    public static final DeferredHolder<EntityType<?>, EntityType<Shrapnel>> SHRAPNEL = REGISTER.register("shrapnel", () -> EntityType.Builder.of(Shrapnel::new, MobCategory.MISC).sized(0.25F, 0.25F).fireImmune().build("shrapnel"));
+    public static final DeferredHolder<EntityType<?>, EntityType<Rubble>> RUBBLE = REGISTER.register("rubble", () -> EntityType.Builder.of(Rubble::new, MobCategory.MISC).sized(0.25F, 0.25F).build("rubble"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<Rocket>> ROCKET = REGISTER.register("rocket", () -> EntityType.Builder.of(Rocket::new, MobCategory.MISC).sized(0.5F, 0.5F).build("rocket"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<DeathBlast>> DEATH_BLAST = REGISTER.register(
             "death_blast",
@@ -101,7 +90,13 @@ public class ModEntityTypes {
                     .setTrackingRange(250)
                     .build("bomber"));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<MissileGeneric>> MISSILE_GENERIC = REGISTER.register("missile_generic", () -> EntityType.Builder.<MissileGeneric>of(MissileGeneric::new, MobCategory.MISC).sized(1.5F, 1.5F).setTrackingRange(500).build("missile_generic"));
+    public static final DeferredHolder<EntityType<?>, EntityType<MissileGeneric>> MISSILE_GENERIC = REGISTER.register("missile_generic",                  () -> EntityType.Builder.of(MissileGeneric::new, MobCategory.MISC).sized(1.5F, 1.5F).setTrackingRange(500).build("missile_generic"));
+    public static final DeferredHolder<EntityType<?>, EntityType<MissileDecoy>> MISSILE_DECOY = REGISTER.register("missile_decoy",                        () -> EntityType.Builder.of(MissileDecoy::new, MobCategory.MISC).sized(1.5F, 1.5F).setTrackingRange(500).build("missile_decoy"));
+    public static final DeferredHolder<EntityType<?>, EntityType<MissileIncendiary>> MISSILE_INCENDIARY = REGISTER.register("missile_incendiary",         () -> EntityType.Builder.of(MissileIncendiary::new, MobCategory.MISC).sized(1.5F, 1.5F).setTrackingRange(500).build("missile_incendiary"));
+    public static final DeferredHolder<EntityType<?>, EntityType<MissileCluster>> MISSILE_CLUSTER = REGISTER.register("missile_cluster",                  () -> EntityType.Builder.of(MissileCluster::new, MobCategory.MISC).sized(1.5F, 1.5F).setTrackingRange(500).build("missile_cluster"));
+    public static final DeferredHolder<EntityType<?>, EntityType<MissileBunkerBuster>> MISSILE_BUNKER_BUSTER = REGISTER.register("missile_bunker_buster", () -> EntityType.Builder.of(MissileBunkerBuster::new, MobCategory.MISC).sized(1.5F, 1.5F).setTrackingRange(500).build("missile_bunker_buster"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<MissileDoomsday>> MISSILE_DOOMSDAY = REGISTER.register("missile_doomsday", () -> EntityType.Builder.of(MissileDoomsday::new, MobCategory.MISC).sized(1.5F, 1.5F).setTrackingRange(500).build("missile_doomsday"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<BombletZeta>> BOMBLET_ZETA = REGISTER.register(
             "bomblet_zeta",

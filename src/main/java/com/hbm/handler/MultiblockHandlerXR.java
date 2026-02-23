@@ -69,7 +69,7 @@ public class MultiblockHandlerXR {
             for (int b = y - rot[1]; b <= y + rot[0]; b++) {
                 for (int c = z - rot[2]; c <= z + rot[3]; c++) {
 
-                    Direction facingDir = null;
+                    Direction facingDir;
 
                     if (b < y) {
                         facingDir = Direction.DOWN;

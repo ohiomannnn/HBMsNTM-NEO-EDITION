@@ -21,7 +21,7 @@ public abstract class NukeBaseBlock extends BaseEntityBlock implements IBomb {
 
     public NukeBaseBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(((this.stateDefinition.any()).setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH)));
+        this.registerDefaultState(this.stateDefinition.any().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH));
     }
 
     @Override
@@ -42,6 +42,15 @@ public abstract class NukeBaseBlock extends BaseEntityBlock implements IBomb {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(BlockStateProperties.HORIZONTAL_FACING);
+    }
+
+    @Override
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
+        if (!level.isClientSide) {
+            if (level.hasNeighborSignal(pos)) {
+                this.explode(level, pos);
+            }
+        }
     }
 
     @Override

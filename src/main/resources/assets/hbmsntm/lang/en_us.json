@@ -730,10 +730,17 @@
   "fluid.info.mb_out": "%s/%smB",
   "fluid.info.mb.name": "%s/%smB %s",
 
+  "gui.energy.he": "%sHE",
+
+  "gui.launchPad.notReady": "Not ready",
+  "gui.launchPad.loading": "Loading...",
+  "gui.launchPad.ready": "Ready",
+
   "container.satLinker": "SatLink Device",
   "container.fluidTank": "Tank",
   "container.batterySocket": "Battery Socket",
   "container.batteryREDD": "FEnSU",
+  "container.launchPad": "Launch Pad",
   "container.nukeGadget": "The Gadget",
   "gui.nukeGadget.desc": "§1Requires:§r$ * 4 Arrays of First-Generation$   High-Explosive Lenses$ * Heavy Plutonium Core$ * Wiring",
   "container.nukeFatMan": "Fat Man",

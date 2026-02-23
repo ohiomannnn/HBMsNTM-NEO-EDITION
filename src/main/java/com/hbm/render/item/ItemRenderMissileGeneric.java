@@ -137,6 +137,11 @@ public class ItemRenderMissileGeneric extends BlockEntityWithoutLevelRenderer {
 
     public static void init() {
         renderers.put(ModItems.MISSILE_GENERIC.get(), generateStandard(ResourceManager.MISSILE_V2_HE_TEX, ResourceManager.missileV2));
-        renderers.put(ModItems.MISSILE_DECOY.get(), generateStandard(ResourceManager.MISSILE_DOOMSDAY_TEX, ResourceManager.missileNuclear));
+        renderers.put(ModItems.MISSILE_DECOY.get(), generateStandard(ResourceManager.MISSILE_V2_DECOY_TEX, ResourceManager.missileV2));
+        renderers.put(ModItems.MISSILE_INCENDIARY.get(), generateStandard(ResourceManager.MISSILE_V2_IN_TEX, ResourceManager.missileV2));
+        renderers.put(ModItems.MISSILE_CLUSTER.get(), generateStandard(ResourceManager.MISSILE_V2_CL_TEX, ResourceManager.missileV2));
+        renderers.put(ModItems.MISSILE_BUNKER_BUSTER.get(), generateStandard(ResourceManager.MISSILE_V2_BU_TEX, ResourceManager.missileV2));
+
+        renderers.put(ModItems.MISSILE_DOOMSDAY.get(), generateStandard(ResourceManager.MISSILE_DOOMSDAY_TEX, ResourceManager.missileNuclear));
     }
 }

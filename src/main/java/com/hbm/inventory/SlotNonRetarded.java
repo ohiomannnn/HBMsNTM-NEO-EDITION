@@ -7,6 +7,7 @@ import net.minecraft.world.item.ItemStack;
 
 /**
  * Because vanilla slots have shit idiot brain fungus that prevent them from working as expected.
+ * and its still dont fixed in 1.21.1, why??
  * @author hbm
  */
 @NotableComments

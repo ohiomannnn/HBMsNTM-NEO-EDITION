@@ -1,6 +1,7 @@
 package com.hbm.blockentity.bomb;
 
 import com.hbm.blockentity.ModBlockEntityTypes;
+import com.hbm.blockentity.Tickable;
 import com.hbm.blocks.bomb.CrashedBombBlock.DudType;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
@@ -15,7 +16,7 @@ import net.minecraft.world.phys.AABB;
 import java.util.List;
 import java.util.function.BiConsumer;
 
-public class CrashedBombBlockEntity extends BlockEntity {
+public class CrashedBombBlockEntity extends BlockEntity implements Tickable {
 
     public DudType type;
 
@@ -23,6 +24,7 @@ public class CrashedBombBlockEntity extends BlockEntity {
         super(ModBlockEntityTypes.CRASHED_BOMB.get(), pos, state);
     }
 
+    @Override
     public void updateEntity() {
         if (level != null && !level.isClientSide) {
             BlockPos pos = this.getBlockPos();

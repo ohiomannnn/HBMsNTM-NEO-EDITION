@@ -47,6 +47,8 @@ public abstract class ParticleNT {
     protected float roll;
     protected float oRoll;
     protected float friction;
+    public boolean verticalCollision;
+    public boolean horizontalCollision;
     protected boolean speedUpWhenYMotionIsBlocked;
 
     protected ParticleNT(ClientLevel level, double x, double y, double z) {
@@ -67,6 +69,8 @@ public abstract class ParticleNT {
         this.yo = y;
         this.zo = z;
         this.lifetime = (int)(4.0F / (this.random.nextFloat() * 0.9F + 0.1F));
+        this.verticalCollision = false;
+        this.horizontalCollision = false;
     }
 
     public ParticleNT(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
@@ -127,7 +131,12 @@ public abstract class ParticleNT {
         double d2 = z;
 
         if (!this.noClip && (x != 0.0 || y != 0.0 || z != 0.0) && x * x + y * y + z * z < MAXIMUM_COLLISION_VELOCITY_SQUARED) {
-            Vec3 vec3 = Entity.collideBoundingBox(null, new Vec3(x, y, z), this.getBoundingBox(), this.level, List.of());
+            Vec3 pos = new Vec3(x, y, z);
+            Vec3 vec3 = Entity.collideBoundingBox(null, pos, this.getBoundingBox(), this.level, List.of());
+            boolean xEqual = Mth.equal(pos.x, vec3.x);
+            boolean zEqual = Mth.equal(pos.z, vec3.z);
+            this.horizontalCollision = !xEqual || !zEqual;
+            this.verticalCollision = pos.y != vec3.y;
             x = vec3.x;
             y = vec3.y;
             z = vec3.z;

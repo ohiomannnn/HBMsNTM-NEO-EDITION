@@ -2,7 +2,7 @@ package com.hbm.render.entity.rocket;
 
 import com.hbm.entity.missile.MissileBaseNT;
 import com.hbm.entity.missile.MissileTier1;
-import com.hbm.entity.missile.MissileTier1.*;
+import com.hbm.entity.missile.MissileTier4;
 import com.hbm.main.ResourceManager;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -16,14 +16,14 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
-public class RenderMissileGeneric extends EntityRenderer<MissileTier1> {
+public class RenderMissileNuclear extends EntityRenderer<MissileTier4> {
 
-    public RenderMissileGeneric(EntityRendererProvider.Context context) {
+    public RenderMissileNuclear(EntityRendererProvider.Context context) {
         super(context);
     }
 
     @Override
-    public void render(MissileTier1 entity, float yaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+    public void render(MissileTier4 entity, float yaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         poseStack.pushPose();
 
         poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTicks, entity.yRotO, entity.yRot) - 90.0F));
@@ -41,21 +41,14 @@ public class RenderMissileGeneric extends EntityRenderer<MissileTier1> {
 
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
 
-        VertexConsumer consumer = switch (entity) {
-            case MissileDecoy ignored ->        buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_V2_DECOY_TEX));
-            case MissileIncendiary ignored ->   buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_V2_IN_TEX));
-            case MissileCluster ignored ->      buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_V2_CL_TEX));
-            case MissileBunkerBuster ignored -> buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_V2_BU_TEX));
-            default -> buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_V2_HE_TEX));
-        };
-
-        ResourceManager.missileV2.renderAll(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY);
+        VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_DOOMSDAY_TEX));
+        ResourceManager.missileNuclear.renderAll(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY);
 
         poseStack.popPose();
     }
 
     @Override
-    public ResourceLocation getTextureLocation(MissileTier1 entityMissileTier1) {
+    public ResourceLocation getTextureLocation(MissileTier4 entityMissileTier1) {
         return ResourceManager.MISSILE_V2_HE_TEX;
     }
 }

@@ -31,7 +31,7 @@ public class AnimationLoader {
     // See ntm-animator.blend for a JSON format creation script
 
     // "How do I make animations?"
-    // See ntm-animator.blend, it has the Colt/Python already setup and animated as an example, it'll generate JSON data that this can load
+    // See ntm-animator.blend, it has the Colt/Python already setup and animated as an example, it'll generate JSON data that this can setPosAndTarget
 
     public static final Gson gson = new Gson();
 

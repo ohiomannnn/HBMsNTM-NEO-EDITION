@@ -1,15 +1,22 @@
 package com.hbm.items.tools;
 
+import com.hbm.HBMsNTM;
+import com.hbm.HBMsNTMClient;
 import com.hbm.blocks.ITooltipProvider;
-import com.hbm.entity.ModEntityTypes;
-import com.hbm.entity.missile.MissileTier1.MissileGeneric;
+import com.hbm.config.MainConfig;
+import com.hbm.interfaces.IBomb;
+import com.hbm.interfaces.IBomb.BombReturnCode;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.lib.Library;
+import com.hbm.lib.ModSounds;
+import com.hbm.network.toclient.InformPlayer;
 import com.hbm.util.RayTraceResult;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -17,7 +24,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.List;
 
@@ -41,26 +50,24 @@ public class LaserDetonatorItem extends Item implements IHoldableWeapon {
 
         BlockPos pos = ray.getBlockPos();
         if (!level.isClientSide) {
-            MissileGeneric generic = new MissileGeneric(ModEntityTypes.MISSILE_GENERIC.get(), level, player.getX(), player.getY(), player.getZ(), pos.getX(), pos.getZ());
-            level.addFreshEntity(generic);
-//            Block block = level.getBlockState(pos).getBlock();
-//            if (block instanceof IBomb ib) {
-//                BombReturnCode ret = ib.explode(level, pos);
-//
-//                if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
-//                    HBMsNTM.LOGGER.info("[LASER DETONATOR] {} detonated {} at {} / {} / {}!", player.getName().getString(), block.getName().getString(), pos.getX(), pos.getY(), pos.getZ());
-//                }
-//
-//                level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.TECH_BLEEP.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
-//                if (player instanceof ServerPlayer serverPlayer) {
-//                    PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(Component.translatable(ret.getUnlocalizedMessage()).withStyle(ret.wasSuccessful() ? ChatFormatting.YELLOW : ChatFormatting.RED), HBMsNTMClient.ID_DETONATOR, 500));
-//                }
-//            } else {
-//                level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.TECH_BOOP.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
-//                if (player instanceof ServerPlayer serverPlayer) {
-//                    PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(Component.translatable(BombReturnCode.ERROR_NO_BOMB.getUnlocalizedMessage()).withStyle( ChatFormatting.RED), HBMsNTMClient.ID_DETONATOR, 500));
-//                }
-//            }
+            Block block = level.getBlockState(pos).getBlock();
+            if (block instanceof IBomb ib) {
+                IBomb.BombReturnCode ret = ib.explode(level, pos);
+
+                if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
+                    HBMsNTM.LOGGER.info("[LASER DETONATOR] {} detonated {} at {} / {} / {}!", player.getName().getString(), block.getName().getString(), pos.getX(), pos.getY(), pos.getZ());
+                }
+
+                level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.TECH_BLEEP.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
+                if (player instanceof ServerPlayer serverPlayer) {
+                    PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(Component.translatable(ret.getUnlocalizedMessage()).withStyle(ret.wasSuccessful() ? ChatFormatting.YELLOW : ChatFormatting.RED), HBMsNTMClient.ID_DETONATOR, 500));
+                }
+            } else {
+                level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.TECH_BOOP.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
+                if (player instanceof ServerPlayer serverPlayer) {
+                    PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(Component.translatable(BombReturnCode.ERROR_NO_BOMB.getUnlocalizedMessage()).withStyle( ChatFormatting.RED), HBMsNTMClient.ID_DETONATOR, 500));
+                }
+            }
         } else {
             Vec3 vec = new Vec3(pos.getX() + 0.5 - player.getX(), pos.getY() + 0.5 - player.getEyeY(), pos.getZ() + 0.5 - player.getZ());
             double len = Math.min(vec.length(), 15D);

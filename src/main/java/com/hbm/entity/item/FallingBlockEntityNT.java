@@ -188,7 +188,7 @@ public class FallingBlockEntityNT extends Entity {
                                             try {
                                                 blockentity.loadWithComponents(compoundtag, this.level().registryAccess());
                                             } catch (Exception exception) {
-                                                LOGGER.error("Failed to load block entity from falling block", exception);
+                                                LOGGER.error("Failed to setPosAndTarget block entity from falling block", exception);
                                             }
 
                                             blockentity.setChanged();

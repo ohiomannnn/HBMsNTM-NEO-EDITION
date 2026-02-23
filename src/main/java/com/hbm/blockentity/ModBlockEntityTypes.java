@@ -94,7 +94,9 @@ public class ModBlockEntityTypes {
                             ModBlocks.MACHINE_FLUID_TANK.get(),
 
                             ModBlocks.MACHINE_BATTERY_SOCKET.get(),
-                            ModBlocks.MACHINE_BATTERY_REDD.get()
+                            ModBlocks.MACHINE_BATTERY_REDD.get(),
+
+                            ModBlocks.LAUNCH_PAD.get()
                     ).build(null));
 
     public static final Supplier<BlockEntityType<PlushieBlockEntity>> PLUSHIE = REGISTER.register("plushie", () -> BlockEntityType.Builder.of(PlushieBlockEntity::new, ModBlocks.PLUSHIE_YOMI.get(), ModBlocks.PLUSHIE_NUMBERNINE.get(), ModBlocks.PLUSHIE_HUNDUN.get(), ModBlocks.PLUSHIE_DERG.get()).build(null));
@@ -125,6 +127,8 @@ public class ModBlockEntityTypes {
     public static final Supplier<BlockEntityType<NukeIvyMikeBlockEntity>> NUKE_IVY_MIKE = REGISTER.register("nuke_ivy_mike", () -> BlockEntityType.Builder.of(NukeIvyMikeBlockEntity::new, ModBlocks.NUKE_IVY_MIKE.get()).build(null));
     public static final Supplier<BlockEntityType<NukeTsarBombaBlockEntity>> NUKE_TSAR_BOMBA = REGISTER.register("nuke_tsar_bomba", () -> BlockEntityType.Builder.of(NukeTsarBombaBlockEntity::new, ModBlocks.NUKE_TSAR_BOMBA.get()).build(null));
     public static final Supplier<BlockEntityType<NukeN2BlockEntity>> NUKE_N2 = REGISTER.register("nuke_n2", () -> BlockEntityType.Builder.of(NukeN2BlockEntity::new, ModBlocks.NUKE_N2.get()).build(null));
+
+    public static final Supplier<BlockEntityType<LaunchPadBlockEntity>> LAUNCH_PAD = REGISTER.register("launch_pad", () -> BlockEntityType.Builder.of(LaunchPadBlockEntity::new, ModBlocks.LAUNCH_PAD.get()).build(null));
 
     public static final Supplier<BlockEntityType<GeigerBlockEntity>> GEIGER_COUNTER = REGISTER.register("geiger_counter", () -> BlockEntityType.Builder.of((pos, state) -> new GeigerBlockEntity(ModBlockEntityTypes.GEIGER_COUNTER.get(), pos, state), ModBlocks.GEIGER.get()).build(null));
 

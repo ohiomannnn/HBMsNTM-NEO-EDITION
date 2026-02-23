@@ -258,7 +258,7 @@ public class FluidTank {
         tag.putShort(s + "_p", (short) pressure);
     }
 
-    // Called by BE to load fillstate
+    // Called by BE to setPosAndTarget fillstate
     public void readFromNBT(CompoundTag tag, String s) {
         fluid = tag.getInt(s);
         int max = tag.getInt(s + "_max");

@@ -260,6 +260,8 @@ public class ModBlocks {
     public static final DeferredBlock<Block> C4 =           registerBlock("c4",           () -> new C4Block(          BlockBehaviour.Properties.of().instabreak().ignitedByLava().isRedstoneConductor(ModBlocks::never).sound(SoundType.GRASS).mapColor(MapColor.FIRE)));
     public static final DeferredBlock<Block> FISSURE_BOMB = registerBlock("fissure_bomb", () -> new FissureBombBlock( BlockBehaviour.Properties.of().instabreak().ignitedByLava().isRedstoneConductor(ModBlocks::never).sound(SoundType.GRASS).mapColor(MapColor.FIRE)));
 
+    public static final DeferredBlock<Block> LAUNCH_PAD = registerBlock("launch_pad", () -> new LaunchPadBlock(BlockBehaviour.Properties.of().noOcclusion().strength(5.0F, 10.0F).mapColor(MapColor.METAL)));
+
     public static final DeferredBlock<StairBlock> BRICK_CONCRETE_STAIRS = registerBlock(
             "brick_concrete_stairs",
             () -> new StairBlock(ModBlocks.BRICK_CONCRETE.get().defaultBlockState(), BlockBehaviour.Properties.of()

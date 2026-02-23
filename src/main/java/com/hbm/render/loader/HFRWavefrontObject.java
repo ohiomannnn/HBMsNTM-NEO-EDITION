@@ -40,7 +40,7 @@ public class HFRWavefrontObject implements IModelCustomNamed {
                 loadObjModel(stream);
             }
         } catch (IOException e) {
-            throw new RuntimeException("Failed to load OBJ model: " + resource, e);
+            throw new RuntimeException("Failed to setPosAndTarget OBJ model: " + resource, e);
         }
     }
 

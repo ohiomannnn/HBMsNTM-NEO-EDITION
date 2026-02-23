@@ -20,7 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 
-public abstract class MachineBaseBlockEntity extends LoadedBaseBlockEntity implements WorldlyContainer, Nameable, MenuProvider {
+public abstract class MachineBaseBlockEntity extends LoadedBaseBlockEntity implements WorldlyContainer, Nameable, MenuProvider, Tickable {
 
     public NonNullList<ItemStack> slots;
 
@@ -133,8 +133,6 @@ public abstract class MachineBaseBlockEntity extends LoadedBaseBlockEntity imple
     public int[] getSlotsForFace(Direction direction) {
         return new int[] { };
     }
-
-    public abstract void updateEntity();
 
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {

@@ -14,6 +14,7 @@ import com.hbm.util.RayTraceResult;
 import com.hbm.util.Vec3NT;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -51,18 +52,16 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
     public MissileBaseNT(EntityType<? extends MissileBaseNT> entityType, Level level) {
         super(entityType, level);
 
-        startX = (int) this.getX();
-        startZ = (int) this.getZ();
-        targetX = (int) this.getX();
-        targetZ = (int) this.getZ();
+        startX = (int) this.position.x;
+        startZ = (int) this.position.z;
+        targetX = (int) this.position.x;
+        targetZ = (int) this.position.z;
     }
 
-    public MissileBaseNT(EntityType<? extends MissileBaseNT> entityType, Level level, double x, double y, double z, int a, int b) {
-        this(entityType, level);
-
+    public MissileBaseNT setPosAndTarget(double x, double y, double z, int a, int b) {
         this.moveTo(x, y, z, 0, 0);
-        startX = (int) this.getX();
-        startZ = (int) this.getZ();
+        startX = (int) this.position.x;
+        startZ = (int) this.position.z;
         targetX = a;
         targetZ = b;
 
@@ -74,6 +73,7 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
         velocity = 0;
 
         this.yRot = (float) (Math.atan2(targetX - this.position.x, targetZ - this.position.z) * 180.0D / Math.PI);
+        return this;
     }
 
     /** Auto-generates radar blip level and all that from the item */
@@ -92,6 +92,14 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
     @Override
     public boolean suppliesRedstone(RadarScanParams params) {
         return !params.smartMode || !(this.deltaMovement.y >= 0);
+    }
+
+    @Override
+    public void recreateFromPacket(ClientboundAddEntityPacket packet) {
+        super.recreateFromPacket(packet);
+        // synchronizing server rots with client
+        this.xRotO = this.xRot;
+        this.yRotO = this.yRot;
     }
 
     @Override
@@ -207,16 +215,16 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
         tag.putDouble("moX", this.deltaMovement.x);
         tag.putDouble("moY", this.deltaMovement.y);
         tag.putDouble("moZ", this.deltaMovement.z);
-        tag.putDouble("poX", this.position.x);
-        tag.putDouble("poY", this.position.y);
-        tag.putDouble("poZ", this.position.z);
+        tag.putDouble("posX", this.position.x);
+        tag.putDouble("posY", this.position.y);
+        tag.putDouble("posZ", this.position.z);
         tag.putDouble("decel", this.decelY);
         tag.putDouble("accel", this.accelXZ);
         tag.putInt("tX", this.targetX);
         tag.putInt("tZ", this.targetZ);
         tag.putInt("sX", this.startX);
         tag.putInt("sZ", this.startZ);
-        tag.putDouble("veloc", this.velocity);
+        tag.putDouble("velocity", this.velocity);
     }
 
     @Override

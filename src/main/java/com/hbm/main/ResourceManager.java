@@ -62,7 +62,6 @@ public class ResourceManager {
     public static final ResourceLocation FUSION_PLASMA_GLOW_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/fusion/plasma_glow.png");
     public static final ResourceLocation FUSION_PLASMA_SPARKLE_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/fusion/plasma_sparkle.png");
 
-    //Bomber
     public static final ResourceLocation DORNIER_1_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/dornier_1.png");
     public static final ResourceLocation DORNIER_2_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/dornier_2.png");
     public static final ResourceLocation DORNIER_4_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/dornier_4.png");
@@ -72,13 +71,14 @@ public class ResourceManager {
     public static final ResourceLocation B29_3_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/b29_3.png");
     public static final ResourceLocation C130_0_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/weapon/c130_0.png");
 
-    //Missiles
     public static final ResourceLocation MISSILE_V2_HE_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_v2.png");
     public static final ResourceLocation MISSILE_V2_IN_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_v2_inc.png");
     public static final ResourceLocation MISSILE_V2_CL_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_v2_cl.png");
     public static final ResourceLocation MISSILE_V2_BU_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_v2_bu.png");
     public static final ResourceLocation MISSILE_V2_DECOY_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_v2_decoy.png");
     public static final ResourceLocation MISSILE_DOOMSDAY_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_atlas_doomsday.png");
+
+    public static final ResourceLocation MISSILE_PAD_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/launchpad/silo.png");
 
     public static final ResourceLocation BOMBLET_ZETA_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bomblet_zeta.png");
 
@@ -114,12 +114,17 @@ public class ResourceManager {
     public static IModelCustom battery_socket;
     public static IModelCustom battery_redd;
 
+    //Bomber
     public static IModelCustom dornier;
     public static IModelCustom b29;
     public static IModelCustom c130;
 
+    //Missiles
     public static IModelCustom missileV2;
     public static IModelCustom missileNuclear;
+
+    //Missile Parts
+    public static IModelCustom missile_pad;
 
     public static IModelCustom bomblet_zeta;
 
@@ -160,14 +165,16 @@ public class ResourceManager {
 
         dornier = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/dornier.obj")).asVBO();
         b29 = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/b29.obj")).asVBO();
-        c130 = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/weapon/c130.obj")).asVBO();
+        c130 = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/weapons/c130.obj")).asVBO();
 
         missileV2 = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/missile_v2.obj")).asVBO();
         missileNuclear = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/missile_atlas.obj")).asVBO();
 
+        missile_pad = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/weapons/launch_pad_silo.obj")).asVBO();
+
         bomblet_zeta = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomblet_zeta.obj")).asVBO();
 
-        detonator_laser = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/weapon/detonator_laser.obj")).asVBO();
+        detonator_laser = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/weapons/detonator_laser.obj")).asVBO();
 
         barrel = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/block/barrel.obj")).asVBO();
 

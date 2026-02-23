@@ -1,6 +1,6 @@
 package com.hbm.blocks.bomb;
 
-import com.hbm.blockentity.ModBlockEntityTypes;
+import com.hbm.blockentity.Tickable;
 import com.hbm.blockentity.bomb.LandMineBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MainConfig;
@@ -71,7 +71,9 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide ? null : BaseEntityBlock.createTickerHelper(type, ModBlockEntityTypes.LANDMINE.get(), LandMineBlockEntity::serverTick);
+        return (lvl, pos, st, be) -> {
+            if (be instanceof Tickable tickable) tickable.updateEntity();
+        };
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.hbm;
 
-import com.hbm.blockentity.bomb.LaunchPadBlockEntity;
+import com.hbm.blockentity.bomb.LaunchPadBaseBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.commands.ChunkRadCommand;
 import com.hbm.commands.LivingPropsCommand;
@@ -78,7 +78,7 @@ public class CommonEvents {
         FluidContainerRegistry.register();
         ArmorUtil.register();
         Satellite.register();
-        LaunchPadBlockEntity.registerLaunchables();
+        LaunchPadBaseBlockEntity.registerLaunchables();
     }
 
     @SubscribeEvent
@@ -175,6 +175,8 @@ public class CommonEvents {
         event.register(ModMenuTypes.NUKE_IVY_MIKE.get(), NukeIvyMikeScreen::new);
         event.register(ModMenuTypes.NUKE_TSAR_BOMBA.get(), NukeTsarBombaScreen::new);
         event.register(ModMenuTypes.NUKE_N2.get(), NukeN2Screen::new);
+
+        event.register(ModMenuTypes.LAUNCH_PAD_LARGE.get(), LaunchPadLargeScreen::new);
     }
 
     @SubscribeEvent

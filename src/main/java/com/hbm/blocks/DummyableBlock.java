@@ -5,13 +5,11 @@ import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.interfaces.ICopiable;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
@@ -25,7 +23,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -128,38 +126,17 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
         // core blocks are never orphans
         if (type == DummyBlockType.CORE) return;
 
-        Direction pointingDir = state.getValue(FACING).getOpposite();
-        BlockPos neighborPos = pos.relative(pointingDir);
-        Block neighborBlock = level.getBlockState(neighborPos).getBlock();
+        Direction dir = state.getValue(FACING).getOpposite();
+        Block b = level.getBlockState(pos.relative(dir)).getBlock();
 
         // An extra precaution against multiblocks on chunk borders being erroneously deleted.
         // Technically, this might be used to persist ghost dummy blocks by manipulating
         // loaded chunks and block destruction, but this gives no benefit to the player,
         // cannot be done accidentally, and is definitely preferable to multiblocks
         // just vanishing when their chunks are unloaded in an unlucky way.
-        if (neighborBlock != this && level.hasChunksAt(pos.offset(-1, -1, -1), pos.offset(1, 1, 1))) {
-            if (isLegacyMonoblock(level, pos, state)) {
-                fixLegacyMonoblock(level, pos, state);
-            } else {
-                level.removeBlock(pos, false);
-            }
+        if (b != this && level.hasChunksAt(pos.offset(-1, -1, -1), pos.offset(1, 1, 1))) {
+            level.removeBlock(pos, false);
         }
-    }
-
-    /**
-     * Override this when turning a single block into a pseudo-multiblock.
-     * If this returns true, instead of being deleted as an orphan, the block
-     * will be promoted to a core of a dummyable, however without any dummies.
-     * This is only called if the block is presumed an orphan, so you don't
-     * need to check that here.
-     */
-    protected boolean isLegacyMonoblock(Level level, BlockPos pos, BlockState state) {
-        return false;
-    }
-
-    protected void fixLegacyMonoblock(Level level, BlockPos pos, BlockState state) {
-        // Promote to a lone core block with the same effective rotation as before the change
-        level.setBlock(pos, createCoreState(state.getValue(FACING)), 3);
     }
 
     List<BlockPos> positions = new ArrayList<>();
@@ -352,6 +329,11 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
             dropResources(state, level, corePos, level.getBlockEntity(corePos), player, player.getMainHandItem());
         }
         return super.playerWillDestroy(level, pos, state, player);
+    }
+
+    @Override
+    protected RenderShape getRenderShape(BlockState state) {
+        return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
     public List<AABB> bounding = new ArrayList<>();

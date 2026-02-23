@@ -276,13 +276,19 @@ public class ModCreativeTabs {
 
     public static final Supplier<CreativeModeTab> MISSILES = CREATIVE_MODE_TABS.register(
             "missiles",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.SATELLITE_LASER.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.MISSILE_DOOMSDAY.get()))
                     .withTabsBefore(HBMsNTM.withDefaultNamespaceNT("bombs"))
                     .title(Component.translatable("creative_tab.hbmsntm.missiles"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.SATELLITE_RADAR);
                         output.accept(ModItems.SATELLITE_LASER);
                         output.accept(ModItems.SATELLITE_INTERFACE);
+
+                        output.accept(ModItems.MISSILE_GENERIC);
+                        output.accept(ModItems.MISSILE_DECOY);
+                        output.accept(ModItems.MISSILE_INCENDIARY);
+                        output.accept(ModItems.MISSILE_CLUSTER);
+                        output.accept(ModItems.MISSILE_BUNKER_BUSTER);
                     }).build());
 
     public static final Supplier<CreativeModeTab> CONSUMABLES_AND_GEAR = CREATIVE_MODE_TABS.register(

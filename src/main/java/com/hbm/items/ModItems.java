@@ -223,13 +223,20 @@ public class ModItems {
     public static final DeferredItem<Item> BOMB_CALLER_NAPALM = ITEMS.register("bomb_caller_napalm", () -> new BombCallerItem(new Item.Properties().stacksTo(1), BomberType.NAPALM));
     public static final DeferredItem<Item> BOMB_CALLER_ATOMIC = ITEMS.register("bomb_caller_atomic", () -> new BombCallerItem(new Item.Properties().stacksTo(1), BomberType.ATOMIC_BOMB));
 
+    public static final DeferredItem<Item> DESIGNATOR_RANGE = ITEMS.register("designator_range", () -> new DesignatorRangeItem(new Item.Properties().stacksTo(1)));
+
     public static final DeferredItem<Item> FLUID_IDENTIFIER_MULTI = ITEMS.register("fluid_identifier_multi", () -> new FluidIDMultiItem(new Item.Properties()));
 
     public static final DeferredItem<Item> BLOWTORCH = ITEMS.register("blowtorch", () -> new BlowtorchItem(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> ACETYLENE_TORCH = ITEMS.register("acetylene_torch", () -> new BlowtorchItem(new Item.Properties().stacksTo(1)));
 
-    public static final DeferredItem<Item> MISSILE_GENERIC = ITEMS.register("missile_generic", () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
-    public static final DeferredItem<Item> MISSILE_DECOY = ITEMS.register("missile_decoy", () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
+    public static final DeferredItem<Item> MISSILE_GENERIC =       ITEMS.register("missile_generic", () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
+    public static final DeferredItem<Item> MISSILE_DECOY =         ITEMS.register("missile_decoy", () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
+    public static final DeferredItem<Item> MISSILE_INCENDIARY =    ITEMS.register("missile_incendiary", () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
+    public static final DeferredItem<Item> MISSILE_CLUSTER =       ITEMS.register("missile_cluster", () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
+    public static final DeferredItem<Item> MISSILE_BUNKER_BUSTER = ITEMS.register("missile_bunker_buster", () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
+
+    public static final DeferredItem<Item> MISSILE_DOOMSDAY = ITEMS.register("missile_doomsday", () -> new MissileItem(MissileFormFactor.ATLAS, MissileTier.TIER4));
 
     public static final DeferredItem<Item> SATELLITE_RADAR = ITEMS.register("satellite_radar", () -> new SatChipItem(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> SATELLITE_LASER = ITEMS.register("satellite_laser", () -> new SatChipItem(new Item.Properties().stacksTo(1)));

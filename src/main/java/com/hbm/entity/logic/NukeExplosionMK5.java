@@ -147,6 +147,23 @@ public class NukeExplosionMK5 extends ChunkloadingEntity {
         return explosionMK5;
     }
 
+    // FUCK
+    public static NukeExplosionMK5 statFacNoSpawn(Level level, int strength, double x, double y, double z) {
+        if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get() && !level.isClientSide) {
+            HBMsNTM.LOGGER.info("[NUKE] Initialized explosion at {} / {} / {} with strength {}!", x, y, z, strength);
+        }
+
+        if (strength == 0) strength = 25;
+        strength *= 2;
+
+        NukeExplosionMK5 explosionMK5 = new NukeExplosionMK5(ModEntityTypes.NUKE_MK5.get(), level);
+        explosionMK5.strength = strength;
+        explosionMK5.speed = (int) Math.ceil(100000D / explosionMK5.strength);
+        explosionMK5.setPos(x, y, z);
+        explosionMK5.length = explosionMK5.strength / 2;
+        return explosionMK5;
+    }
+
     public NukeExplosionMK5 setNoRad() {
         fallout = false;
         return this;

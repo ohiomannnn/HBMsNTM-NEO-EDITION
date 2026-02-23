@@ -35,6 +35,7 @@ import com.hbm.render.entity.mob.CreeperNuclearRenderer;
 import com.hbm.render.entity.mob.DuckRenderer;
 import com.hbm.render.entity.projectile.*;
 import com.hbm.render.entity.rocket.RenderMissileGeneric;
+import com.hbm.render.entity.rocket.RenderMissileNuclear;
 import com.hbm.render.item.ItemRenderMissileGeneric;
 import com.hbm.render.item.ItemRenderMissileGeneric.RenderMissileType;
 import com.hbm.render.item.RenderBatteryPackItem;
@@ -70,6 +71,7 @@ import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -246,7 +248,7 @@ public class HBMsNTMClient {
         Minecraft mc = Minecraft.getInstance();
 
         /// NUKE FLASH ///
-        if (MainConfig.CLIENT.ENABLE_NUKE_HUD_FLASH.get() && (flashTimestamp + flashDuration - Clock.get_ms()) > 0) {
+        if (MainConfig.CLIENT.ENABLE_NUKE_HUD_FLASH.get() && (flashTimestamp + flashDuration - Clock.get_ms()) > 0 && !mc.options.hideGui) {
             float brightness = (flashTimestamp + flashDuration - Clock.get_ms()) / (float) flashDuration;
             int alpha = (int)(brightness * 255.0F);
             int width = mc.getWindow().getGuiScaledWidth();
@@ -533,6 +535,7 @@ public class HBMsNTMClient {
         event.registerEntityRenderer(ModEntityTypes.NUKE_FALLOUT_RAIN.get(), RenderFallout::new);
         event.registerEntityRenderer(ModEntityTypes.SHRAPNEL.get(), RenderShrapnel::new);
         event.registerEntityRenderer(ModEntityTypes.RUBBLE.get(), RenderRubble::new);
+        event.registerEntityRenderer(ModEntityTypes.ROCKET.get(), ThrownItemRenderer::new);
         
         event.registerEntityRenderer(ModEntityTypes.BLACK_HOLE.get(), RenderBlackHole::new);
         event.registerEntityRenderer(ModEntityTypes.VORTEX.get(), RenderBlackHole::new);
@@ -548,6 +551,12 @@ public class HBMsNTMClient {
         event.registerEntityRenderer(ModEntityTypes.BOMBER.get(), RenderBomber::new);
 
         event.registerEntityRenderer(ModEntityTypes.MISSILE_GENERIC.get(), RenderMissileGeneric::new);
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_DECOY.get(), RenderMissileGeneric::new);
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_INCENDIARY.get(), RenderMissileGeneric::new);
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_CLUSTER.get(), RenderMissileGeneric::new);
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_BUNKER_BUSTER.get(), RenderMissileGeneric::new);
+
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_DOOMSDAY.get(), RenderMissileNuclear::new);
         event.registerEntityRenderer(ModEntityTypes.BOMBLET_ZETA.get(), RenderBombletZeta::new);
 
         ItemProperties.register(ModItems.POLAROID.get(), HBMsNTM.withDefaultNamespaceNT("polaroid_id"), (stack, level, entity, seed) -> PolaroidItem.polaroidID);
@@ -561,6 +570,8 @@ public class HBMsNTMClient {
 
         BlockEntityRenderers.register(ModBlockEntityTypes.BATTERY_SOCKET.get(), new RenderBatterySocket(null));
         BlockEntityRenderers.register(ModBlockEntityTypes.BATTERY_REDD.get(), new RenderBatteryREDD(null));
+
+        BlockEntityRenderers.register(ModBlockEntityTypes.LAUNCH_PAD.get(), new RenderLaunchPad(null));
 
         BlockEntityRenderers.register(ModBlockEntityTypes.NETWORK_CABLE.get(), new RenderCable(null));
         BlockEntityRenderers.register(ModBlockEntityTypes.DET_CORD.get(), new RenderDetCord(null));
@@ -602,11 +613,15 @@ public class HBMsNTMClient {
         );
 
         registerItemRenderer(event, () -> new ItemRenderMissileGeneric(RenderMissileType.TYPE_NUCLEAR),
-                ModItems.MISSILE_DECOY.get()
+                ModItems.MISSILE_DOOMSDAY.get()
         );
 
         registerItemRenderer(event, () -> new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER0),
-                ModItems.MISSILE_GENERIC.get()
+                ModItems.MISSILE_GENERIC.get(),
+                ModItems.MISSILE_DECOY.get(),
+                ModItems.MISSILE_INCENDIARY.get(),
+                ModItems.MISSILE_CLUSTER.get(),
+                ModItems.MISSILE_BUNKER_BUSTER.get()
         );
     }
 
@@ -712,6 +727,14 @@ public class HBMsNTMClient {
             if ("radFog".equals(type)) {
                 RadiationFogParticle fx = new RadiationFogParticle(level, x, y, z);
                 innerMc.particleEngine.add(fx);
+            }
+
+            if ("launchSmoke".equals(type)) {
+                SmokePlumeParticle contrail = new SmokePlumeParticle(level, x, y, z);
+                contrail.xd = data.getDouble("moX");
+                contrail.yd = data.getDouble("moY");
+                contrail.zd = data.getDouble("moZ");
+                ParticleEngineNT.INSTANCE.add(contrail);
             }
 
             if ("missileContrail".equals(type)) {
