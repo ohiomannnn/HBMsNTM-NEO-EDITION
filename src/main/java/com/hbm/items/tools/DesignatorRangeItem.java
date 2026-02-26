@@ -51,11 +51,11 @@ public class DesignatorRangeItem extends Item implements IDesignatorItem {
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
         if (TagsUtilDegradation.containsAnyTag(stack)) {
             CompoundTag tag = TagsUtilDegradation.getTag(stack);
-            components.add(Component.translatable(this.getDescriptionId() + ".targetPos").withStyle(ChatFormatting.GRAY));
+            components.add(Component.translatable("item.hbmsntm.designator.desc.targetPos").withStyle(ChatFormatting.GRAY));
             components.add(Component.literal("X: " + tag.getInt("x")).withStyle(ChatFormatting.GRAY));
             components.add(Component.literal("Z: " + tag.getInt("z")).withStyle(ChatFormatting.GRAY));
         } else {
-            components.add(Component.translatable(this.getDescriptionId() + ".selectTarget").withStyle(ChatFormatting.GRAY));
+            components.add(Component.translatable("item.hbmsntm.designator.desc.selectTarget").withStyle(ChatFormatting.GRAY));
         }
     }
 

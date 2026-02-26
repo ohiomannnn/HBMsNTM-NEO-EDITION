@@ -20,7 +20,6 @@ public class FluidContainer {
 
     public FluidContainer(ItemStack full, ItemStack empty, FluidType type, int amount) {
         full.set(ModDataComponents.FLUID_TYPE.get(), new FluidTypeComponent(type.getID()));
-        empty.set(ModDataComponents.FLUID_TYPE.get(), new FluidTypeComponent(type.getID()));
         this.fullContainer = full;
         this.emptyContainer = empty;
         this.type = type;

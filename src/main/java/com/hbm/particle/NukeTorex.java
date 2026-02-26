@@ -22,6 +22,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.fml.ModList;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
@@ -582,8 +583,14 @@ public class NukeTorex extends ParticleNT {
         poseStack.translate(this.x - camPos.x, this.y - camPos.y, this.z - camPos.z);
         FogRenderer.setupNoFog();
         MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
-        if (this.age < 101) flashWrapper(partialTicks, poseStack, buffer);
-        cloudletWrapper(partialTicks, poseStack, buffer);
+        // i guess?
+        if (ModList.get().isLoaded("iris")) {
+            if (this.age < 101) flashWrapper(partialTicks, poseStack, buffer);
+            cloudletWrapper(partialTicks, poseStack, buffer);
+        } else {
+            cloudletWrapper(partialTicks, poseStack, buffer);
+            if (this.age < 101) flashWrapper(partialTicks, poseStack, buffer);
+        }
         if (this.age < 10 && System.currentTimeMillis() - HBMsNTMClient.flashTimestamp > 1_000) HBMsNTMClient.flashTimestamp = System.currentTimeMillis();
         if (this.didPlaySound && !this.didShake && System.currentTimeMillis() - HBMsNTMClient.shakeTimestamp > 1_000) {
             HBMsNTMClient.shakeTimestamp = System.currentTimeMillis();

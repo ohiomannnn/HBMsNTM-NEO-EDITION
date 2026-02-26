@@ -204,6 +204,8 @@
   "block.hbmsntm.machine_battery_redd": "FEnSU",
   "block.hbmsntm.machine_battery_socket.desc": "Allows battery items to be connected$to the power grid directly.$Acts as a cable, all ports are connected$to the same network.",
 
+  "block.hbmsntm.launch_pad": "Silo Launch Pad",
+
   "block.hbmsntm.machine_satlinker": "Satellite ID Manager",
 
   "item.hbmsntm.nothing": "Nothing",
@@ -273,6 +275,13 @@
 
   "item.hbmsntm.early_explosive_lenses": "Array of First-Generation High-Explosive Lenses",
   "item.hbmsntm.early_explosive_lenses.desc": "Assembly of 8 high-explosive lenses with an aluminium$pusher, duraluminium shell, and bridgewire detonators.",
+
+  "item.hbmsntm.designator": "Short Range Target Designator",
+  "item.hbmsntm.designator.posSet": "Position set!",
+  "item.hbmsntm.designator.desc.targetPos": "Target Coordinates:",
+  "item.hbmsntm.designator.desc.selectTarget": "Please select a target.",
+  "item.hbmsntm.designator_range": "Long Range Target Designator",
+  "item.hbmsntm.designator_range.posSet": "Position set to X: %s, Z: %s",
 
   "item.missile.desc.fuel": "Fuel",
   "item.missile.desc.fuelCapacity": "Fuel capacity",
