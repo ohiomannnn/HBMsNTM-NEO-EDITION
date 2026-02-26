@@ -76,7 +76,23 @@ public class ResourceManager {
     public static final ResourceLocation MISSILE_V2_CL_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_v2_cl.png");
     public static final ResourceLocation MISSILE_V2_BU_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_v2_bu.png");
     public static final ResourceLocation MISSILE_V2_DECOY_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_v2_decoy.png");
+    public static final ResourceLocation MISSILE_AA_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_abm.png");
+    public static final ResourceLocation MISSILE_STEALTH_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_stealth.png");
+    public static final ResourceLocation MISSILE_STRONG_HE_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_strong.png");
+    public static final ResourceLocation MISSILE_STRONG_EMP_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_strong_emp.png");
+    public static final ResourceLocation MISSILE_STRONG_IN_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_strong_inc.png");
+    public static final ResourceLocation MISSILE_STRONG_CL_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_strong_cl.png");
+    public static final ResourceLocation MISSILE_STRONG_BU_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_strong_bu.png");
+    public static final ResourceLocation MISSILE_HUGE_HE_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_huge.png");
+    public static final ResourceLocation MISSILE_HUGE_IN_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_huge_inc.png");
+    public static final ResourceLocation MISSILE_HUGE_CL_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_huge_cl.png");
+    public static final ResourceLocation MISSILE_HUGE_BU_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_huge_bu.png");
+    public static final ResourceLocation MISSILE_NUCLEAR_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_atlas_nuclear.png");
+    public static final ResourceLocation MISSILE_THERMO_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_atlas_thermo.png");
+    public static final ResourceLocation MISSILE_VOLCANO_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_atlas_tectonic.png");
     public static final ResourceLocation MISSILE_DOOMSDAY_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_atlas_doomsday.png");
+    public static final ResourceLocation MISSILE_DOOMSDAY_RUSTED_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_atlas_doomsday_weathered.png");
+    public static final ResourceLocation MISSILE_SHUTTLE_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_shuttle.png");
 
     public static final ResourceLocation MISSILE_PAD_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/launchpad/silo.png");
 
@@ -121,7 +137,13 @@ public class ResourceManager {
 
     //Missiles
     public static IModelCustom missileV2;
+    public static IModelCustom missileABM;
+    public static IModelCustom missileStealth;
+    public static IModelCustom missileStrong;
+    public static IModelCustom missileHuge;
     public static IModelCustom missileNuclear;
+    public static IModelCustom missileMicro;
+    public static IModelCustom missileShuttle;
 
     //Missile Parts
     public static IModelCustom missile_pad;
@@ -168,7 +190,13 @@ public class ResourceManager {
         c130 = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/weapons/c130.obj")).asVBO();
 
         missileV2 = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/missile_v2.obj")).asVBO();
+        missileABM = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/missile_abm.obj")).asVBO();
+        missileStealth = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/missile_stealth.obj"), false).asVBO();
+        missileStrong = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/missile_strong.obj")).asVBO();
+        missileHuge = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/missile_huge.obj")).asVBO();
         missileNuclear = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/missile_atlas.obj")).asVBO();
+        missileMicro = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/missile_micro.obj")).asVBO();
+        missileShuttle = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/missile_shuttle.obj")).asVBO();
 
         missile_pad = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/weapons/launch_pad_silo.obj")).asVBO();
 

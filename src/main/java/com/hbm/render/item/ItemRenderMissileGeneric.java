@@ -52,22 +52,22 @@ public class ItemRenderMissileGeneric extends BlockEntityWithoutLevelRenderer {
         float guiOffset = 0;
 
         switch (this.type) {
-            case TYPE_TIER0 -> { guiScale = 3.75F; guiOffset = 13F; }
-            case TYPE_TIER1 -> { guiScale = 2.5F; guiOffset = 8.5F; }
-            case TYPE_TIER2 -> {  guiScale = 2F; guiOffset = 6.5F; }
-            case TYPE_TIER3 -> {  guiScale = 1.25F; guiOffset = 1F; }
-            case TYPE_STEALTH -> {  guiScale = 1.75F; guiOffset = 4.75F; }
+            case TYPE_TIER0 -> { guiScale = 4F; guiOffset = 15F; }
+            case TYPE_TIER1 -> { guiScale = 3.75F; guiOffset = 13F; }
+            case TYPE_TIER2 -> {  guiScale = 2.75F; guiOffset = 12F; }
+            case TYPE_TIER3 -> {  guiScale = 1.85F; guiOffset = 10F; }
+            case TYPE_STEALTH -> {  guiScale = 2.4F; guiOffset = 11F; }
             case TYPE_ABM -> {  guiScale = 2.25F; guiOffset = 7F; }
             case TYPE_NUCLEAR -> {  guiScale = 1.8F; guiOffset = 9F; }
-            case TYPE_ROBIN -> {  guiScale = 1.25F; guiOffset = 2F; }
+            case TYPE_ROBIN -> {  guiScale = 1.6F; guiOffset = 11F; }
         }
 
         poseStack.translate(0.5F, 0F, 0.5F);
         switch (displayContext) {
             case FIRST_PERSON_RIGHT_HAND -> {
-                poseStack.translate(0.2F, 0.41F, 0.2F);
+                poseStack.translate(0.25F, 0.41F, 0.2F);
                 poseStack.scale(0.35F, 0.35F, 0.35F);
-                poseStack.mulPose(Axis.XP.rotationDegrees(-25F));
+                poseStack.mulPose(Axis.XP.rotationDegrees(-30F));
                 poseStack.mulPose(Axis.YP.rotationDegrees(90F));
 
                 float s = 0.3F;
@@ -75,16 +75,17 @@ public class ItemRenderMissileGeneric extends BlockEntityWithoutLevelRenderer {
                 poseStack.scale(s, s, s);
             }
             case FIRST_PERSON_LEFT_HAND -> {
-                poseStack.translate(-0.2F, 0.41F, 0.2F);
+                poseStack.translate(-0.25F, 0.41F, 0.2F);
                 poseStack.scale(0.35F, 0.35F, 0.35F);
-                poseStack.mulPose(Axis.XP.rotationDegrees(-25F));
+                poseStack.mulPose(Axis.XP.rotationDegrees(-30F));
                 poseStack.mulPose(Axis.YP.rotationDegrees(90F));
 
                 float s = 0.3F;
                 poseStack.translate(0.5F, 0.25F, 0F);
                 poseStack.scale(s, s, s);
+                poseStack.mulPose(Axis.YP.rotationDegrees(180F));
             }
-            case THIRD_PERSON_RIGHT_HAND, HEAD, THIRD_PERSON_LEFT_HAND -> {
+            case THIRD_PERSON_RIGHT_HAND, HEAD -> {
                 poseStack.translate(0F, 0.55F, -0.18F);
                 poseStack.scale(0.35F, 0.35F, 0.35F);
 
@@ -92,6 +93,20 @@ public class ItemRenderMissileGeneric extends BlockEntityWithoutLevelRenderer {
                 poseStack.translate(0F, -0.5F, 0.5F);
                 poseStack.scale(s, s, s);
                 poseStack.mulPose(Axis.YP.rotationDegrees(90F));
+                poseStack.mulPose(Axis.YN.rotationDegrees(15F));
+                poseStack.mulPose(Axis.XN.rotationDegrees(15F));
+            }
+            case THIRD_PERSON_LEFT_HAND -> {
+                poseStack.translate(0F, 0.55F, -0.18F);
+                poseStack.scale(0.35F, 0.35F, 0.35F);
+
+                float s = 0.15F;
+                poseStack.translate(0F, -0.5F, 0.5F);
+                poseStack.scale(s, s, s);
+                poseStack.mulPose(Axis.YP.rotationDegrees(90F));
+                poseStack.mulPose(Axis.YP.rotationDegrees(180F));
+                poseStack.mulPose(Axis.YN.rotationDegrees(15F));
+                poseStack.mulPose(Axis.XN.rotationDegrees(15F));
             }
             case GROUND -> {
                 poseStack.translate(0F, 0.3F, 0F);
@@ -140,8 +155,30 @@ public class ItemRenderMissileGeneric extends BlockEntityWithoutLevelRenderer {
         renderers.put(ModItems.MISSILE_DECOY.get(), generateStandard(ResourceManager.MISSILE_V2_DECOY_TEX, ResourceManager.missileV2));
         renderers.put(ModItems.MISSILE_INCENDIARY.get(), generateStandard(ResourceManager.MISSILE_V2_IN_TEX, ResourceManager.missileV2));
         renderers.put(ModItems.MISSILE_CLUSTER.get(), generateStandard(ResourceManager.MISSILE_V2_CL_TEX, ResourceManager.missileV2));
-        renderers.put(ModItems.MISSILE_BUNKER_BUSTER.get(), generateStandard(ResourceManager.MISSILE_V2_BU_TEX, ResourceManager.missileV2));
+        renderers.put(ModItems.MISSILE_BUSTER.get(), generateStandard(ResourceManager.MISSILE_V2_BU_TEX, ResourceManager.missileV2));
 
+        renderers.put(ModItems.MISSILE_STEALTH.get(), x -> {
+            VertexConsumer consumer = x.bufferSource().getBuffer(RenderType.entityCutout(ResourceManager.MISSILE_STEALTH_TEX));
+            ResourceManager.missileStealth.renderAll(x.poseStack(), consumer, x.packedLight(), x.packedOverlay());
+        });
+
+        renderers.put(ModItems.MISSILE_STRONG.get(), generateLarge(ResourceManager.MISSILE_STRONG_HE_TEX, ResourceManager.missileStrong));
+        renderers.put(ModItems.MISSILE_INCENDIARY_STRONG.get(), generateLarge(ResourceManager.MISSILE_STRONG_IN_TEX, ResourceManager.missileStrong));
+        renderers.put(ModItems.MISSILE_CLUSTER_STRONG.get(), generateLarge(ResourceManager.MISSILE_STRONG_CL_TEX, ResourceManager.missileStrong));
+        renderers.put(ModItems.MISSILE_BUSTER_STRONG.get(), generateLarge(ResourceManager.MISSILE_STRONG_BU_TEX, ResourceManager.missileStrong));
+        renderers.put(ModItems.MISSILE_EMP_STRONG.get(), generateLarge(ResourceManager.MISSILE_STRONG_EMP_TEX, ResourceManager.missileStrong));
+
+        renderers.put(ModItems.MISSILE_BURST.get(), generateStandard(ResourceManager.MISSILE_HUGE_HE_TEX, ResourceManager.missileHuge));
+        renderers.put(ModItems.MISSILE_INFERNO.get(), generateStandard(ResourceManager.MISSILE_HUGE_IN_TEX, ResourceManager.missileHuge));
+        renderers.put(ModItems.MISSILE_RAIN.get(), generateStandard(ResourceManager.MISSILE_HUGE_CL_TEX, ResourceManager.missileHuge));
+        renderers.put(ModItems.MISSILE_DRILL.get(), generateStandard(ResourceManager.MISSILE_HUGE_BU_TEX, ResourceManager.missileHuge));
+
+        renderers.put(ModItems.MISSILE_NUCLEAR.get(), generateStandard(ResourceManager.MISSILE_NUCLEAR_TEX, ResourceManager.missileNuclear));
+        renderers.put(ModItems.MISSILE_NUCLEAR_CLUSTER.get(), generateStandard(ResourceManager.MISSILE_THERMO_TEX, ResourceManager.missileNuclear));
+        renderers.put(ModItems.MISSILE_VOLCANO.get(), generateStandard(ResourceManager.MISSILE_VOLCANO_TEX, ResourceManager.missileNuclear));
         renderers.put(ModItems.MISSILE_DOOMSDAY.get(), generateStandard(ResourceManager.MISSILE_DOOMSDAY_TEX, ResourceManager.missileNuclear));
+        renderers.put(ModItems.MISSILE_DOOMSDAY_RUSTED.get(), generateStandard(ResourceManager.MISSILE_DOOMSDAY_RUSTED_TEX, ResourceManager.missileNuclear));
+
+        renderers.put(ModItems.MISSILE_SHUTTLE.get(), generateStandard(ResourceManager.MISSILE_SHUTTLE_TEX, ResourceManager.missileShuttle));
     }
 }

@@ -115,6 +115,12 @@
   "bomb_whistle": {
     "sounds": ["hbmsntm:entity/bomb_whistle"]
   },
+  "weapon.missile_take_off": {
+    "sounds": ["hbmsntm:weapon/missile_take_off"]
+  },
+  "weapon.robin_explosion": {
+    "sounds": ["hbmsntm:weapon/robin_explosion"]
+  },
   "block.hunduns_magnificent_howl": {
     "sounds": ["hbmsntm:block/hunduns_magnificent_howl"]
   },

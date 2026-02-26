@@ -34,7 +34,7 @@ public class Rocket extends ThrowableNT implements ItemSupplier {
 
         if (result.typeOfHit == RayTraceResult.Type.BLOCK) {
             if (this.level instanceof ServerLevel serverLevel) {
-                ExplosionLarge.explode(serverLevel, this.position.x, this.position.y, this.position.z, 3, true, false, true);
+                ExplosionLarge.explode(serverLevel, this.position.x, this.position.y, this.position.z, 5, true, false, true);
             }
             this.discard();
         }

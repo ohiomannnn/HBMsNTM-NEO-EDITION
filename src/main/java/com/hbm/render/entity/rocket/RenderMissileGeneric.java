@@ -41,21 +41,22 @@ public class RenderMissileGeneric extends EntityRenderer<MissileTier1> {
 
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
 
-        VertexConsumer consumer = switch (entity) {
-            case MissileDecoy ignored ->        buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_V2_DECOY_TEX));
-            case MissileIncendiary ignored ->   buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_V2_IN_TEX));
-            case MissileCluster ignored ->      buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_V2_CL_TEX));
-            case MissileBunkerBuster ignored -> buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_V2_BU_TEX));
-            default -> buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_V2_HE_TEX));
-        };
+        VertexConsumer consumer = null;
 
+        if (entity instanceof MissileGeneric) consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_V2_HE_TEX));
+        if (entity instanceof MissileDecoy) consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_V2_DECOY_TEX));
+        if (entity instanceof MissileIncendiary) consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_V2_IN_TEX));
+        if (entity instanceof MissileCluster) consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_V2_CL_TEX));
+        if (entity instanceof MissileBunkerBuster) consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_V2_BU_TEX));
+
+        if (consumer == null) return;
         ResourceManager.missileV2.renderAll(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY);
 
         poseStack.popPose();
     }
 
     @Override
-    public ResourceLocation getTextureLocation(MissileTier1 entityMissileTier1) {
+    public ResourceLocation getTextureLocation(MissileTier1 entity) {
         return ResourceManager.MISSILE_V2_HE_TEX;
     }
 }

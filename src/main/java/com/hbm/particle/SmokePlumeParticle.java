@@ -1,6 +1,7 @@
 package com.hbm.particle;
 
 import com.hbm.HBMsNTM;
+import com.hbm.blocks.bomb.LaunchPadBlock;
 import com.hbm.particle.engine.ParticleNT;
 import com.hbm.render.CustomRenderTypes;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -8,6 +9,7 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -26,11 +28,11 @@ public class SmokePlumeParticle extends ParticleNT {
 
     @Override
     public void tick() {
-        this.noClip = this.age <= 20;
-
         this.xo = this.x;
         this.yo = this.y;
         this.zo = this.z;
+
+        this.noClip = this.level.getBlockState(BlockPos.containing(x, y, z)).getBlock() instanceof LaunchPadBlock;
 
         this.alpha = 1 - ((float) age / (float) lifetime);
         float prevScale = this.quadSize;

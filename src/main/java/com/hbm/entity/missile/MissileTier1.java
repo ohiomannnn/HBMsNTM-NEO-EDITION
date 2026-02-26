@@ -45,14 +45,14 @@ public abstract class MissileTier1 extends MissileBaseNT {
         @Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.NOTHING.get()); }
         @Override public String getUnlocalizedName() { return "radar.target.tier4"; }
         @Override public int getBlipLevel() { return IRadarDetectableNT.TIER4; }
-        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.NOTHING.get()); }
+        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.MISSILE_DECOY.get()); }
     }
 
     public static class MissileIncendiary extends MissileTier1 {
         public MissileIncendiary(EntityType<? extends MissileIncendiary> entityType, Level level) { super(entityType, level); }
         @Override public void onMissileImpact(RayTraceResult mop) { ExplosionCreator.composeEffectSmall(level, this.position.x, this.position.y, this.position.z); this.explodeStandard(15F, 24, true); }
         @Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.NOTHING.get()); }
-        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.MISSILE_GENERIC.get()); }
+        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.MISSILE_INCENDIARY.get()); }
     }
 
     public static class MissileCluster extends MissileTier1 {
@@ -63,7 +63,7 @@ public abstract class MissileTier1 extends MissileBaseNT {
         }
         @Override public void cluster() { this.onMissileImpact(null); }
         @Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.NOTHING.get()); }
-        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.MISSILE_GENERIC.get()); }
+        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.MISSILE_CLUSTER.get()); }
     }
 
     public static class MissileBunkerBuster extends MissileTier1 {
@@ -78,6 +78,6 @@ public abstract class MissileTier1 extends MissileBaseNT {
         }
         @Override public void cluster() { this.onMissileImpact(null); }
         @Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.NOTHING.get()); }
-        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.MISSILE_GENERIC.get()); }
+        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.MISSILE_BUSTER.get()); }
     }
 }

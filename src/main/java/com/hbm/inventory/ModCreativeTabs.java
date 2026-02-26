@@ -7,7 +7,6 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.BatteryPackItem;
 import com.hbm.items.machine.FluidIDMultiItem;
-import com.hbm.items.machine.FluidIconItem;
 import com.hbm.items.machine.FluidTankItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -268,7 +267,7 @@ public class ModCreativeTabs {
                         output.accept(ModItems.N2_CHARGE);
 
                         output.accept(ModItems.DETONATOR);
-                        output.accept(ModItems.MULTI_DETONATOR);
+                        output.accept(ModItems.DETONATOR_ITEM);
                         output.accept(ModItems.DETONATOR_LASER);
                         output.accept(ModItems.DETONATOR_DEADMAN);
                         output.accept(ModItems.DETONATOR_DE);
@@ -280,15 +279,37 @@ public class ModCreativeTabs {
                     .withTabsBefore(HBMsNTM.withDefaultNamespaceNT("bombs"))
                     .title(Component.translatable("creative_tab.hbmsntm.missiles"))
                     .displayItems((itemDisplayParameters, output) -> {
-                        output.accept(ModItems.SATELLITE_RADAR);
-                        output.accept(ModItems.SATELLITE_LASER);
-                        output.accept(ModItems.SATELLITE_INTERFACE);
+
+                        output.accept(ModBlocks.LAUNCH_PAD);
+
+                        output.accept(ModItems.DESIGNATOR);
+                        output.accept(ModItems.DESIGNATOR_RANGE);
 
                         output.accept(ModItems.MISSILE_GENERIC);
                         output.accept(ModItems.MISSILE_DECOY);
                         output.accept(ModItems.MISSILE_INCENDIARY);
                         output.accept(ModItems.MISSILE_CLUSTER);
-                        output.accept(ModItems.MISSILE_BUNKER_BUSTER);
+                        output.accept(ModItems.MISSILE_BUSTER);
+                        output.accept(ModItems.MISSILE_STEALTH);
+                        output.accept(ModItems.MISSILE_STRONG);
+                        output.accept(ModItems.MISSILE_INCENDIARY_STRONG);
+                        output.accept(ModItems.MISSILE_CLUSTER_STRONG);
+                        output.accept(ModItems.MISSILE_BUSTER_STRONG);
+                        output.accept(ModItems.MISSILE_EMP_STRONG);
+                        output.accept(ModItems.MISSILE_BURST);
+                        output.accept(ModItems.MISSILE_INFERNO);
+                        output.accept(ModItems.MISSILE_RAIN);
+                        output.accept(ModItems.MISSILE_DRILL);
+                        output.accept(ModItems.MISSILE_SHUTTLE);
+                        output.accept(ModItems.MISSILE_NUCLEAR);
+                        output.accept(ModItems.MISSILE_NUCLEAR_CLUSTER);
+                        output.accept(ModItems.MISSILE_VOLCANO);
+                        output.accept(ModItems.MISSILE_DOOMSDAY);
+                        output.accept(ModItems.MISSILE_DOOMSDAY_RUSTED);
+
+                        output.accept(ModItems.SATELLITE_RADAR);
+                        output.accept(ModItems.SATELLITE_LASER);
+                        output.accept(ModItems.SATELLITE_INTERFACE);
                     }).build());
 
     public static final Supplier<CreativeModeTab> CONSUMABLES_AND_GEAR = CREATIVE_MODE_TABS.register(

@@ -4,6 +4,7 @@ import com.hbm.HBMsNTM;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.LayeringBlock;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
+import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
@@ -34,6 +35,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
         this.particleOnlyBlock(ModBlocks.PLUSHIE_NUMBERNINE.get(), blockTexture(Blocks.WHITE_WOOL));
         this.particleOnlyBlock(ModBlocks.PLUSHIE_HUNDUN.get(), blockTexture(Blocks.WHITE_WOOL));
         this.particleOnlyBlock(ModBlocks.PLUSHIE_DERG.get(), blockTexture(Blocks.WHITE_WOOL));
+
+        this.particleOnlyBlock(ModBlocks.LAUNCH_PAD.get(), modLoc("block/launch_pad"));
 
         cubeTop(ModBlocks.MACHINE_SATLINKER.get());
 
@@ -305,8 +308,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
     }
 
     private void particleOnlyBlock(Block block, ResourceLocation particleTexture) {
-        ModelFile model = models().getBuilder(name(block) + "_particle").texture("particle", particleTexture);
-        this.simpleBlock(block, model);
+        this.simpleBlock(block, this.models().getBuilder(name(block) + "_particle").texture("particle", particleTexture));
+        this.entityBlockItem(block, false);
     }
 
     public void cubeSideBottomTop(Block block) {
@@ -319,6 +322,10 @@ public class ModBlockStateProvider extends BlockStateProvider {
         String blockName = name(block);
         this.simpleBlock(block, this.models().cubeTop(blockName, modLoc("block/" + blockName + "_side"), modLoc("block/" + blockName + "_top")));
         this.simpleBlockItem(block, this.models().cubeTop(blockName, modLoc("block/" + blockName + "_side"), modLoc("block/" + blockName + "_top")));
+    }
+
+    private void entityBlockItem(Block block, boolean frontLight) {
+        this.itemModels().getBuilder(this.key(block).getPath()).parent(new ModelFile.UncheckedModelFile("builtin/entity")).guiLight(frontLight ? BlockModel.GuiLight.FRONT : BlockModel.GuiLight.SIDE);
     }
 
     private String name(Block block) { return this.key(block).getPath(); }

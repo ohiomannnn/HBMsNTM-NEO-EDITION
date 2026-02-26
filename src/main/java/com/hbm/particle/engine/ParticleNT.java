@@ -109,20 +109,37 @@ public abstract class ParticleNT {
         }
     }
 
+    /**
+     * particle render method, simple enough
+     * @param consumer vertex consumer from getRenderType();
+     * @param camera camera of the player
+     * @param partialTicks float value used for interpolation
+     */
     public abstract void render(VertexConsumer consumer, Camera camera, float partialTicks);
     public abstract RenderType getRenderType();
 
     public String toString() {
-        return this.getClass().getSimpleName() + ", Pos (" + this.x + "," + this.y + "," + this.z + "), RGBA (" + this.rCol + "," + this.gCol + "," + this.bCol + "," + this.alpha + "), Age " + this.age;
+        return this.getClass().getSimpleName() +
+                ", Pos (" +
+                this.x + "," +
+                this.y + "," +
+                this.z +
+                "), RGBA (" +
+                this.rCol + "," +
+                this.gCol + "," +
+                this.bCol + "," +
+                this.alpha +
+                "), Age " +
+                this.age;
     }
 
     public void setPos(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
-        float f = this.bbWidth / 2.0F;
-        float f1 = this.bbHeight;
-        this.setBoundingBox(new AABB(x - (double)f, y, z - (double)f, x + (double)f, y + (double)f1, z + (double)f));
+        double f = this.bbWidth / 2.0D;
+        double f1 = this.bbHeight;
+        this.setBoundingBox(new AABB(x - f, y, z - f, x + f, y + f1, z + f));
     }
 
     public void move(double x, double y, double z) {

@@ -34,8 +34,7 @@ import com.hbm.render.entity.item.RenderTNTPrimedBase;
 import com.hbm.render.entity.mob.CreeperNuclearRenderer;
 import com.hbm.render.entity.mob.DuckRenderer;
 import com.hbm.render.entity.projectile.*;
-import com.hbm.render.entity.rocket.RenderMissileGeneric;
-import com.hbm.render.entity.rocket.RenderMissileNuclear;
+import com.hbm.render.entity.rocket.*;
 import com.hbm.render.item.ItemRenderMissileGeneric;
 import com.hbm.render.item.ItemRenderMissileGeneric.RenderMissileType;
 import com.hbm.render.item.RenderBatteryPackItem;
@@ -66,6 +65,7 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.GameRenderer;
@@ -111,6 +111,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.*;
+import net.neoforged.neoforge.client.extensions.common.IClientBlockExtensions;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
@@ -551,13 +552,31 @@ public class HBMsNTMClient {
         event.registerEntityRenderer(ModEntityTypes.BOMBER.get(), RenderBomber::new);
 
         event.registerEntityRenderer(ModEntityTypes.MISSILE_GENERIC.get(), RenderMissileGeneric::new);
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_DECOY.get(), RenderMissileGeneric::new);
         event.registerEntityRenderer(ModEntityTypes.MISSILE_INCENDIARY.get(), RenderMissileGeneric::new);
         event.registerEntityRenderer(ModEntityTypes.MISSILE_CLUSTER.get(), RenderMissileGeneric::new);
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_BUNKER_BUSTER.get(), RenderMissileGeneric::new);
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_BUSTER.get(), RenderMissileGeneric::new);
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_DECOY.get(), RenderMissileGeneric::new);
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_STEALTH.get(), RenderMissileStealth::new);
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_STRONG.get(), RenderMissileStrong::new);
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_INCENDIARY_STRONG.get(), RenderMissileStrong::new);
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_CLUSTER_STRONG.get(), RenderMissileStrong::new);
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_BUSTER_STRONG.get(), RenderMissileStrong::new);
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_EMP_STRONG.get(), RenderMissileStrong::new);
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_BURST.get(), RenderMissileHuge::new);
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_INFERNO.get(), RenderMissileHuge::new);
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_RAIN.get(), RenderMissileHuge::new);
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_DRILL.get(), RenderMissileHuge::new);
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_SHUTTLE.get(), RenderMissileShuttle::new);
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_NUCLEAR.get(), RenderMissileNuclear::new);
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_NUCLEAR_CLUSTER.get(), RenderMissileNuclear::new);
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_VOLCANO.get(), RenderMissileNuclear::new);
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_DOOMSDAY.get(), RenderMissileNuclear::new);
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_DOOMSDAY_RUSTED.get(), RenderMissileNuclear::new);
 
         event.registerEntityRenderer(ModEntityTypes.MISSILE_DOOMSDAY.get(), RenderMissileNuclear::new);
         event.registerEntityRenderer(ModEntityTypes.BOMBLET_ZETA.get(), RenderBombletZeta::new);
+
+        event.registerEntityRenderer(ModEntityTypes.EMP.get(), EmptyEntityRenderer::new);
 
         ItemProperties.register(ModItems.POLAROID.get(), HBMsNTM.withDefaultNamespaceNT("polaroid_id"), (stack, level, entity, seed) -> PolaroidItem.polaroidID);
     }
@@ -612,16 +631,38 @@ public class HBMsNTMClient {
                 ModItems.CAPACITOR_SPARK.get()
         );
 
-        registerItemRenderer(event, () -> new ItemRenderMissileGeneric(RenderMissileType.TYPE_NUCLEAR),
-                ModItems.MISSILE_DOOMSDAY.get()
-        );
-
-        registerItemRenderer(event, () -> new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER0),
+        registerItemRenderer(event, () -> new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER1),
                 ModItems.MISSILE_GENERIC.get(),
                 ModItems.MISSILE_DECOY.get(),
                 ModItems.MISSILE_INCENDIARY.get(),
                 ModItems.MISSILE_CLUSTER.get(),
-                ModItems.MISSILE_BUNKER_BUSTER.get()
+                ModItems.MISSILE_BUSTER.get()
+        );
+        registerItemRenderer(event, () -> new ItemRenderMissileGeneric(RenderMissileType.TYPE_STEALTH),
+                ModItems.MISSILE_STEALTH.get()
+        );
+        registerItemRenderer(event, () -> new ItemRenderMissileGeneric(RenderMissileType.TYPE_ROBIN),
+                ModItems.MISSILE_SHUTTLE.get()
+        );
+        registerItemRenderer(event, () -> new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER2),
+                ModItems.MISSILE_STRONG.get(),
+                ModItems.MISSILE_INCENDIARY_STRONG.get(),
+                ModItems.MISSILE_CLUSTER_STRONG.get(),
+                ModItems.MISSILE_BUSTER_STRONG.get(),
+                ModItems.MISSILE_EMP_STRONG.get()
+        );
+        registerItemRenderer(event, () -> new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER3),
+                ModItems.MISSILE_BURST.get(),
+                ModItems.MISSILE_INFERNO.get(),
+                ModItems.MISSILE_RAIN.get(),
+                ModItems.MISSILE_DRILL.get()
+        );
+        registerItemRenderer(event, () -> new ItemRenderMissileGeneric(RenderMissileType.TYPE_NUCLEAR),
+                ModItems.MISSILE_NUCLEAR.get(),
+                ModItems.MISSILE_NUCLEAR_CLUSTER.get(),
+                ModItems.MISSILE_VOLCANO.get(),
+                ModItems.MISSILE_DOOMSDAY.get(),
+                ModItems.MISSILE_DOOMSDAY_RUSTED.get()
         );
     }
 
@@ -955,6 +996,11 @@ public class HBMsNTMClient {
                     player.hurtDuration = 15;
                     player.hurtDir = 0.0F;
                 }
+            }
+
+            if ("rbmkmush".equals(type)) {
+                float scale = data.getFloat("scale");
+                innerMc.particleEngine.add(new RBMKMushParticle(level, x, y, z, scale));
             }
 
             if ("tower".equals(type)) {

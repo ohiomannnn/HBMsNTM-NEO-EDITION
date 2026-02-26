@@ -3,19 +3,18 @@ package com.hbm.inventory.screens;
 import com.hbm.HBMsNTM;
 import com.hbm.blockentity.bomb.LaunchPadBaseBlockEntity;
 import com.hbm.inventory.menus.LaunchPadLargeMenu;
+import com.hbm.items.ModItems;
 import com.hbm.items.weapon.MissileItem;
 import com.hbm.render.item.ItemRenderMissileGeneric;
 import com.hbm.render.item.RenderStarter;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.math.Axis;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import org.lwjgl.opengl.GL11;
 
 import java.util.function.Consumer;
 
@@ -81,7 +80,7 @@ public class LaunchPadLargeScreen extends InfoScreen<LaunchPadLargeMenu> {
                         case ATLAS: scale = 0.875F; break;
                         case OTHER: break;
                     }
-                   // if(missile == ModItems.missile_stealth) scale = 1.125D;
+                    if (be.slots.get(0).getItem() == ModItems.MISSILE_STEALTH.get()) scale = 1.125F;
                 }
 
                 guiGraphics.pose().mulPose(Axis.YP.rotationDegrees(90F));
@@ -109,7 +108,7 @@ public class LaunchPadLargeScreen extends InfoScreen<LaunchPadLargeMenu> {
             text = "notReady";
             color = 0xff0000;
         }
-        if( be.state == LaunchPadBaseBlockEntity.STATE_LOADING) {
+        if (be.state == LaunchPadBaseBlockEntity.STATE_LOADING) {
             guiGraphics.pose().scale(0.6F, 0.6F, 1F);
             text = "loading";
             color = 0xff8000;
@@ -119,7 +118,7 @@ public class LaunchPadLargeScreen extends InfoScreen<LaunchPadLargeMenu> {
             text = "ready";
             color = 0x00ff000;
         }
-        guiGraphics.drawString(this.font, Component.translatable("gui.launchPad." + text).withColor(color), - this.font.width(text) / 2, - this.font.lineHeight / 2, color, false);
+        guiGraphics.drawString(this.font, Component.translatable("gui.launchPad." + text).withColor(color), -this.font.width(Component.translatable("gui.launchPad." + text)) / 2, -this.font.lineHeight / 2, color, false);
         guiGraphics.pose().popPose();
     }
 

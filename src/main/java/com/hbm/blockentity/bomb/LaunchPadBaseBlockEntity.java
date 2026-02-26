@@ -51,14 +51,37 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
     public static final HashMap<ComparableStack, EntityType<? extends MissileBaseNT>> missiles = new HashMap<>();
 
     public static void registerLaunchables() {
+
         //Tier 1
         missiles.put(new ComparableStack(ModItems.MISSILE_GENERIC.get()), ModEntityTypes.MISSILE_GENERIC.get());
         missiles.put(new ComparableStack(ModItems.MISSILE_DECOY.get()), ModEntityTypes.MISSILE_DECOY.get());
         missiles.put(new ComparableStack(ModItems.MISSILE_INCENDIARY.get()), ModEntityTypes.MISSILE_INCENDIARY.get());
         missiles.put(new ComparableStack(ModItems.MISSILE_CLUSTER.get()), ModEntityTypes.MISSILE_CLUSTER.get());
-        missiles.put(new ComparableStack(ModItems.MISSILE_BUNKER_BUSTER.get()), ModEntityTypes.MISSILE_BUNKER_BUSTER.get());
+        missiles.put(new ComparableStack(ModItems.MISSILE_BUSTER.get()), ModEntityTypes.MISSILE_BUSTER.get());
 
+        missiles.put(new ComparableStack(ModItems.MISSILE_STEALTH.get()), ModEntityTypes.MISSILE_STEALTH.get());
+
+        //Tier 2
+        missiles.put(new ComparableStack(ModItems.MISSILE_STRONG.get()), ModEntityTypes.MISSILE_STRONG.get());
+        missiles.put(new ComparableStack(ModItems.MISSILE_INCENDIARY_STRONG.get()), ModEntityTypes.MISSILE_INCENDIARY_STRONG.get());
+        missiles.put(new ComparableStack(ModItems.MISSILE_CLUSTER_STRONG.get()), ModEntityTypes.MISSILE_CLUSTER_STRONG.get());
+        missiles.put(new ComparableStack(ModItems.MISSILE_BUSTER_STRONG.get()), ModEntityTypes.MISSILE_BUSTER_STRONG.get());
+        missiles.put(new ComparableStack(ModItems.MISSILE_EMP_STRONG.get()), ModEntityTypes.MISSILE_EMP_STRONG.get());
+
+        //Tier 3
+        missiles.put(new ComparableStack(ModItems.MISSILE_BURST.get()), ModEntityTypes.MISSILE_BURST.get());
+        missiles.put(new ComparableStack(ModItems.MISSILE_INFERNO.get()), ModEntityTypes.MISSILE_INFERNO.get());
+        missiles.put(new ComparableStack(ModItems.MISSILE_RAIN.get()), ModEntityTypes.MISSILE_RAIN.get());
+        missiles.put(new ComparableStack(ModItems.MISSILE_DRILL.get()), ModEntityTypes.MISSILE_DRILL.get());
+
+        missiles.put(new ComparableStack(ModItems.MISSILE_SHUTTLE.get()), ModEntityTypes.MISSILE_SHUTTLE.get());
+
+        //Tier 4
+        missiles.put(new ComparableStack(ModItems.MISSILE_NUCLEAR.get()), ModEntityTypes.MISSILE_NUCLEAR.get());
+        missiles.put(new ComparableStack(ModItems.MISSILE_NUCLEAR_CLUSTER.get()), ModEntityTypes.MISSILE_NUCLEAR_CLUSTER.get());
+        missiles.put(new ComparableStack(ModItems.MISSILE_VOLCANO.get()), ModEntityTypes.MISSILE_VOLCANO.get());
         missiles.put(new ComparableStack(ModItems.MISSILE_DOOMSDAY.get()), ModEntityTypes.MISSILE_DOOMSDAY.get());
+        missiles.put(new ComparableStack(ModItems.MISSILE_DOOMSDAY_RUSTED.get()), ModEntityTypes.MISSILE_DOOMSDAY_RUSTED.get());
     }
 
     public ItemStack toRender = ItemStack.EMPTY;
@@ -279,14 +302,18 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
         return false;
     }
 
+    @Nullable
     public Entity instantiateMissile(int targetX, int targetZ) {
+        if (this.level == null) return null;
 
         if (slots.get(0).isEmpty()) return null;
 
         EntityType<? extends MissileBaseNT> entityType = missiles.get(new ComparableStack(slots.get(0)).makeSingular());
 
         if (entityType != null) {
-            MissileBaseNT missile = entityType.create(level).setPosAndTarget(this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + getLaunchOffset() /* Position arguments need to be -floats- (doubles, whatever), jackass */, this.getBlockPos().getZ() + 0.5, targetX, targetZ);
+            MissileBaseNT missile = entityType.create(level);
+            if (missile == null) return null;
+            missile.setPosAndTarget(this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + getLaunchOffset() /* Position arguments need to be -floats- (doubles, whatever), jackass */, this.getBlockPos().getZ() + 0.5, targetX, targetZ);
             if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) HBMsNTM.LOGGER.info("[MISSILE] Tried to launch missile at {} / {} / {} to {} / {}!", this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(), targetX, targetZ);
             missile.getEntityData().set(MissileBaseNT.ROT, this.getBlockState().getValue(DummyableBlock.FACING));
             return missile;
@@ -297,6 +324,7 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
 
     public void finalizeLaunch(Entity missile) {
         if (this.level == null) return;
+
         level.addFreshEntity(missile);
         level.playSound(null, this.getBlockPos().getX() + 0.5, this.getBlockPos().getY(), this.getBlockPos().getZ() + 0.5, ModSounds.MISSILE_TAKE_OFF.get(), SoundSource.BLOCKS, 2.0F, 1.0F);
 
@@ -308,6 +336,7 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
         }
 
         this.removeItem(0, 1);
+        this.setChanged();
     }
 
     public BombReturnCode launchFromDesignator() {

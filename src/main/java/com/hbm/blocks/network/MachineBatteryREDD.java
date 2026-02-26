@@ -3,6 +3,7 @@ package com.hbm.blocks.network;
 import com.hbm.blockentity.IPersistentNBT;
 import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blockentity.ProxyComboBlockEntity;
+import com.hbm.blockentity.Tickable;
 import com.hbm.blockentity.machine.storage.BatteryREDDBlockEntity;
 import com.hbm.blocks.DummyBlockType;
 import com.hbm.blocks.DummyableBlock;
@@ -95,6 +96,8 @@ public class MachineBatteryREDD extends DummyableBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         if (state.getValue(TYPE) != DummyBlockType.CORE) return null;
-        return BaseEntityBlock.createTickerHelper(type, ModBlockEntityTypes.BATTERY_REDD.get(), BatteryREDDBlockEntity::tick);
+        return (lvl, pos, st, be) -> {
+            if (be instanceof Tickable tickable) tickable.updateEntity();
+        };
     }
 }

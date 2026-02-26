@@ -33,7 +33,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static net.minecraft.world.item.Item.BASE_ATTACK_DAMAGE_ID;
@@ -45,7 +44,7 @@ public class ModItems {
     public static final DeferredItem<Item> NOTHING = ITEMS.register("nothing", () -> new Item(new Item.Properties()));
 
     public static final DeferredItem<Item> DETONATOR = ITEMS.register("detonator", () -> new DetonatorItem(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> MULTI_DETONATOR = ITEMS.register("multi_detonator", () -> new MultiDetonatorItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> DETONATOR_ITEM = ITEMS.register("detonator_multi", () -> new MultiDetonatorItem(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> DETONATOR_LASER = ITEMS.register("detonator_laser", () -> new LaserDetonatorItem(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> DETONATOR_DEADMAN = ITEMS.register("detonator_deadman", () -> new DangerousDropItem(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> DETONATOR_DE = ITEMS.register("detonator_de", () -> new DangerousDropItem(new Item.Properties().stacksTo(1)));
@@ -223,20 +222,35 @@ public class ModItems {
     public static final DeferredItem<Item> BOMB_CALLER_NAPALM = ITEMS.register("bomb_caller_napalm", () -> new BombCallerItem(new Item.Properties().stacksTo(1), BomberType.NAPALM));
     public static final DeferredItem<Item> BOMB_CALLER_ATOMIC = ITEMS.register("bomb_caller_atomic", () -> new BombCallerItem(new Item.Properties().stacksTo(1), BomberType.ATOMIC_BOMB));
 
-    public static final DeferredItem<Item> DESIGNATOR_RANGE = ITEMS.register("designator_range", () -> new DesignatorRangeItem(new Item.Properties().stacksTo(1)));
-
     public static final DeferredItem<Item> FLUID_IDENTIFIER_MULTI = ITEMS.register("fluid_identifier_multi", () -> new FluidIDMultiItem(new Item.Properties()));
 
     public static final DeferredItem<Item> BLOWTORCH = ITEMS.register("blowtorch", () -> new BlowtorchItem(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> ACETYLENE_TORCH = ITEMS.register("acetylene_torch", () -> new BlowtorchItem(new Item.Properties().stacksTo(1)));
 
-    public static final DeferredItem<Item> MISSILE_GENERIC =       ITEMS.register("missile_generic", () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
-    public static final DeferredItem<Item> MISSILE_DECOY =         ITEMS.register("missile_decoy", () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
-    public static final DeferredItem<Item> MISSILE_INCENDIARY =    ITEMS.register("missile_incendiary", () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
-    public static final DeferredItem<Item> MISSILE_CLUSTER =       ITEMS.register("missile_cluster", () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
-    public static final DeferredItem<Item> MISSILE_BUNKER_BUSTER = ITEMS.register("missile_bunker_buster", () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
+    public static final DeferredItem<Item> DESIGNATOR = ITEMS.register("designator", () -> new DesignatorItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> DESIGNATOR_RANGE = ITEMS.register("designator_range", () -> new DesignatorRangeItem(new Item.Properties().stacksTo(1)));
 
-    public static final DeferredItem<Item> MISSILE_DOOMSDAY = ITEMS.register("missile_doomsday", () -> new MissileItem(MissileFormFactor.ATLAS, MissileTier.TIER4));
+    public static final DeferredItem<Item> MISSILE_GENERIC =       ITEMS.register("missile_generic",    () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
+    public static final DeferredItem<Item> MISSILE_INCENDIARY =    ITEMS.register("missile_incendiary", () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
+    public static final DeferredItem<Item> MISSILE_CLUSTER =       ITEMS.register("missile_cluster",    () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
+    public static final DeferredItem<Item> MISSILE_BUSTER =        ITEMS.register("missile_buster",     () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
+    public static final DeferredItem<Item> MISSILE_DECOY =         ITEMS.register("missile_decoy",      () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
+    public static final DeferredItem<Item> MISSILE_STRONG =               ITEMS.register("missile_strong",            () -> new MissileItem(MissileFormFactor.STRONG, MissileTier.TIER2));
+    public static final DeferredItem<Item> MISSILE_INCENDIARY_STRONG =    ITEMS.register("missile_incendiary_strong", () -> new MissileItem(MissileFormFactor.STRONG, MissileTier.TIER2));
+    public static final DeferredItem<Item> MISSILE_CLUSTER_STRONG =       ITEMS.register("missile_cluster_strong",    () -> new MissileItem(MissileFormFactor.STRONG, MissileTier.TIER2));
+    public static final DeferredItem<Item> MISSILE_BUSTER_STRONG =        ITEMS.register("missile_buster_strong",     () -> new MissileItem(MissileFormFactor.STRONG, MissileTier.TIER2));
+    public static final DeferredItem<Item> MISSILE_EMP_STRONG =           ITEMS.register("missile_emp_strong",        () -> new MissileItem(MissileFormFactor.STRONG, MissileTier.TIER2));
+    public static final DeferredItem<Item> MISSILE_BURST =   ITEMS.register("missile_burst",   () -> new MissileItem(MissileFormFactor.HUGE, MissileTier.TIER3));
+    public static final DeferredItem<Item> MISSILE_INFERNO = ITEMS.register("missile_inferno", () -> new MissileItem(MissileFormFactor.HUGE, MissileTier.TIER3));
+    public static final DeferredItem<Item> MISSILE_RAIN =    ITEMS.register("missile_rain",    () -> new MissileItem(MissileFormFactor.HUGE, MissileTier.TIER3));
+    public static final DeferredItem<Item> MISSILE_DRILL =   ITEMS.register("missile_drill",   () -> new MissileItem(MissileFormFactor.HUGE, MissileTier.TIER3));
+    public static final DeferredItem<Item> MISSILE_NUCLEAR =         ITEMS.register("missile_nuclear",         () -> new MissileItem(MissileFormFactor.ATLAS, MissileTier.TIER4));
+    public static final DeferredItem<Item> MISSILE_NUCLEAR_CLUSTER = ITEMS.register("missile_nuclear_cluster", () -> new MissileItem(MissileFormFactor.ATLAS, MissileTier.TIER4));
+    public static final DeferredItem<Item> MISSILE_VOLCANO =         ITEMS.register("missile_volcano",         () -> new MissileItem(MissileFormFactor.ATLAS, MissileTier.TIER4));
+    public static final DeferredItem<Item> MISSILE_DOOMSDAY =        ITEMS.register("missile_doomsday",        () -> new MissileItem(MissileFormFactor.ATLAS, MissileTier.TIER4));
+    public static final DeferredItem<Item> MISSILE_DOOMSDAY_RUSTED = ITEMS.register("missile_doomsday_rusted", () -> new MissileItem(MissileFormFactor.ATLAS, MissileTier.TIER4).notLaunchable());
+    public static final DeferredItem<Item> MISSILE_SHUTTLE = ITEMS.register("missile_shuttle", () -> new MissileItem(MissileFormFactor.OTHER, MissileTier.TIER3, MissileFuel.KEROSENE_PEROXIDE));
+    public static final DeferredItem<Item> MISSILE_STEALTH = ITEMS.register("missile_stealth", () -> new MissileItem(MissileFormFactor.STRONG, MissileTier.TIER1));
 
     public static final DeferredItem<Item> SATELLITE_RADAR = ITEMS.register("satellite_radar", () -> new SatChipItem(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> SATELLITE_LASER = ITEMS.register("satellite_laser", () -> new SatChipItem(new Item.Properties().stacksTo(1)));

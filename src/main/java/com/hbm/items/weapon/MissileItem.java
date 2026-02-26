@@ -41,13 +41,13 @@ public class MissileItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
-        components.add(Component.translatable("item.missile.tier." + this.tier.name().toLowerCase(Locale.US)).withStyle(ChatFormatting.ITALIC));
+        components.add(Component.translatable("item.missile.tier." + this.tier.name().toLowerCase(Locale.US)).withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY));
 
         if (!this.launchable) {
             components.add(Component.translatable("item.missile.desc.notLaunchable").withStyle(ChatFormatting.RED));
         } else {
-            components.add(Component.translatable("item.missile.desc.fuel").append(": ").append(Component.translatable(this.fuel.key)));
-            if (this.fuelCap > 0) components.add(Component.translatable("item.missile.desc.fuelCapacity").append(": ").append(Component.translatable("fluid.info.mb", this.fuelCap)));
+            components.add(Component.translatable("item.missile.desc.fuel").withStyle(ChatFormatting.GRAY).append(": ").append(Component.translatable(this.fuel.key).withStyle(this.fuel.color)));
+            if (this.fuelCap > 0) components.add(Component.translatable("item.missile.desc.fuelCapacity").withStyle(ChatFormatting.GRAY).append(": ").append(Component.translatable("fluid.info.mb", this.fuelCap)).withStyle(ChatFormatting.GRAY));
         }
     }
 

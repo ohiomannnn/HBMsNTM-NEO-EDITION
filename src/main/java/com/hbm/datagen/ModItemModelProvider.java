@@ -3,6 +3,7 @@ package com.hbm.datagen;
 import com.hbm.HBMsNTM;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
+import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -30,7 +31,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.FLINT_AND_BALEFIRE.get());
         handheldItem(ModItems.REACHER.get());
         handheldItem(ModItems.DETONATOR.get());
-        handheldItem(ModItems.MULTI_DETONATOR.get());
+        handheldItem(ModItems.DETONATOR_ITEM.get());
         handheldItem(ModItems.SCHRABIDIUM_PICKAXE.get());
         bombCallerItem(ModItems.BOMB_CALLER_ATOMIC.get());
         bombCallerItem(ModItems.BOMB_CALLER_CARPET.get());
@@ -101,6 +102,31 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         handheldItem(ModItems.ALLOY_PICKAXE.get());
 
+        this.basicItem(ModItems.DESIGNATOR.get());
+        this.handheldItem(ModItems.DESIGNATOR_RANGE.get());
+
+        this.entityItem(ModItems.MISSILE_GENERIC.get(), true);
+        this.entityItem(ModItems.MISSILE_INCENDIARY.get(), true);
+        this.entityItem(ModItems.MISSILE_CLUSTER.get(), true);
+        this.entityItem(ModItems.MISSILE_BUSTER.get(), true);
+        this.entityItem(ModItems.MISSILE_DECOY.get(), true);
+        this.entityItem(ModItems.MISSILE_STRONG.get(), true);
+        this.entityItem(ModItems.MISSILE_INCENDIARY_STRONG.get(), true);
+        this.entityItem(ModItems.MISSILE_CLUSTER_STRONG.get(), true);
+        this.entityItem(ModItems.MISSILE_BUSTER_STRONG.get(), true);
+        this.entityItem(ModItems.MISSILE_EMP_STRONG.get(), true);
+        this.entityItem(ModItems.MISSILE_BURST.get(), true);
+        this.entityItem(ModItems.MISSILE_INFERNO.get(), true);
+        this.entityItem(ModItems.MISSILE_RAIN.get(), true);
+        this.entityItem(ModItems.MISSILE_DRILL.get(), true);
+        this.entityItem(ModItems.MISSILE_NUCLEAR.get(), true);
+        this.entityItem(ModItems.MISSILE_NUCLEAR_CLUSTER.get(), true);
+        this.entityItem(ModItems.MISSILE_VOLCANO.get(), true);
+        this.entityItem(ModItems.MISSILE_DOOMSDAY.get(), true);
+        this.entityItem(ModItems.MISSILE_DOOMSDAY_RUSTED.get(), true);
+        this.entityItem(ModItems.MISSILE_SHUTTLE.get(), true);
+        this.entityItem(ModItems.MISSILE_STEALTH.get(), true);
+
         this.basicItem(ModBlocks.GAS_RADON.asItem());
         this.basicItem(ModBlocks.GAS_RADON_DENSE.asItem());
         this.basicItem(ModBlocks.GAS_RADON_TOMB.asItem());
@@ -166,6 +192,9 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .texture("layer0", modLoc("item/" + layer0));
     }
 
+    private void entityItem(Item item, boolean frontLight) {
+        this.getBuilder(BuiltInRegistries.ITEM.getKey(item).toString()).parent(new ModelFile.UncheckedModelFile("builtin/entity")).guiLight(frontLight ? BlockModel.GuiLight.FRONT : BlockModel.GuiLight.SIDE);
+    }
 
     public ItemModelBuilder bombCallerItem(Item item) {
         ResourceLocation loc = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));

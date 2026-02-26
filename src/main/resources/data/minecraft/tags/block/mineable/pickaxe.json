@@ -19,6 +19,7 @@
     "hbmsntm:machine_fluid_tank",
     "hbmsntm:machine_battery_redd",
     "hbmsntm:machine_battery_socket",
+    "hbmsntm:launch_pad",
     "hbmsntm:machine_satlinker"
   ]
 }

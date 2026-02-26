@@ -1,8 +1,8 @@
 package com.hbm.render.entity.rocket;
 
 import com.hbm.entity.missile.MissileBaseNT;
-import com.hbm.entity.missile.MissileTier1;
 import com.hbm.entity.missile.MissileTier4;
+import com.hbm.entity.missile.MissileTier4.*;
 import com.hbm.main.ResourceManager;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -41,14 +41,22 @@ public class RenderMissileNuclear extends EntityRenderer<MissileTier4> {
 
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
 
-        VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_DOOMSDAY_TEX));
+        VertexConsumer consumer = null;
+
+        if (entity instanceof MissileNuclear) consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_NUCLEAR_TEX));
+        if (entity instanceof MissileMirv) consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_THERMO_TEX));
+        if (entity instanceof MissileVolcano) consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_VOLCANO_TEX));
+        if (entity instanceof MissileDoomsday) consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_DOOMSDAY_TEX));
+        if (entity instanceof MissileDoomsdayRusted) consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_DOOMSDAY_RUSTED_TEX));
+
+        if (consumer == null) return;
         ResourceManager.missileNuclear.renderAll(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY);
 
         poseStack.popPose();
     }
 
     @Override
-    public ResourceLocation getTextureLocation(MissileTier4 entityMissileTier1) {
+    public ResourceLocation getTextureLocation(MissileTier4 entity) {
         return ResourceManager.MISSILE_V2_HE_TEX;
     }
 }

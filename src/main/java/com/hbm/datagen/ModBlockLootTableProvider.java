@@ -125,6 +125,8 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.MACHINE_BATTERY_SOCKET.get());
         this.dropSelf(ModBlocks.MACHINE_BATTERY_REDD.get());
 
+        this.dropSelf(ModBlocks.LAUNCH_PAD.get());
+
         dropSelf(ModBlocks.SELLAFIELD_SLAKED.get());
 
         dropSelf(ModBlocks.FALLOUT.get());

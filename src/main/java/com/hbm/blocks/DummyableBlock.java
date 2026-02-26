@@ -5,6 +5,7 @@ import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.interfaces.ICopiable;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
@@ -21,6 +22,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
@@ -51,7 +53,7 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
     public static boolean safeRem = false;
 
     public DummyableBlock(Properties properties) {
-        super(properties.randomTicks());
+        super(properties.randomTicks().isSuffocating(((blockState, blockGetter, blockPos) -> false)).isViewBlocking(((blockState, blockGetter, blockPos) -> false)));
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(TYPE, DummyBlockType.CORE));
     }
 
@@ -142,13 +144,13 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
     List<BlockPos> positions = new ArrayList<>();
 
     @Nullable
-    public BlockPos findCore(Level level, BlockPos pos) {
+    public BlockPos findCore(BlockGetter level, BlockPos pos) {
         positions.clear();
         return findCoreRecursive(level, pos);
     }
 
     @Nullable
-    private BlockPos findCoreRecursive(Level level, BlockPos pos) {
+    private BlockPos findCoreRecursive(BlockGetter level, BlockPos pos) {
         BlockState state = level.getBlockState(pos);
 
         if (state.getBlock() != this) {
@@ -348,11 +350,7 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
             return Shapes.block();
         }
 
-        if (!(getter instanceof Level level)) {
-            return Shapes.block();
-        }
-
-        BlockPos corePos = findCore(level, pos);
+        BlockPos corePos = findCore(getter, pos);
         if (corePos == null) {
             return Shapes.block();
         }
@@ -374,6 +372,11 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
 
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return getShape(state, level, pos, context);
+    }
+
+    @Override
+    protected VoxelShape getVisualShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return getShape(state, level, pos, context);
     }
 

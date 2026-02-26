@@ -226,7 +226,7 @@ public class ExplosionLarge {
     }
 
     public static int cloudFunction(int i) {
-        return (int) (850 * (1 - Math.pow(Math.E, -i / 15.0)) + 15);
+        return (int)(850 * (1 - Math.pow(Math.E, -i/15)) + 15);
     }
 
     public static int rubbleFunction(int i) {

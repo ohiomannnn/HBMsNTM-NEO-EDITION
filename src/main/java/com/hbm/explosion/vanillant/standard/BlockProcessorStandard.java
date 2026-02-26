@@ -61,7 +61,7 @@ public class BlockProcessorStandard implements IBlockProcessor {
             Block block = state.getBlock();
 
             if (!state.isAir()) {
-                if (state.canDropFromExplosion(level, pos, null)) {
+                if (state.canDropFromExplosion(level, pos, explosion.compat)) {
 
                     level.getProfiler().push("explosion_blocks");
 

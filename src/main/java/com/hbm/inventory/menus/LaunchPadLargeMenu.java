@@ -87,11 +87,8 @@ public class LaunchPadLargeMenu extends AbstractContainerMenu {
                         return ItemStack.EMPTY;
                     }
                 } else if (newStack.is(ModItems.FLUID_BARREL_INFINITE.get())) {
-                    if (!this.moveItemStackTo(stack, 3, 4, false)) {
-                        return ItemStack.EMPTY;
-                    }
-                    if (!this.moveItemStackTo(stack, 5, 6, false)) {
-                        return ItemStack.EMPTY;
+                    if (!this.moveItemStackTo(stack, 3, 4, false)) if (!this.moveItemStackTo(stack, 5, 6, false)) {
+                            return ItemStack.EMPTY;
                     }
                 } else if (FluidContainerRegistry.getFluidContent(newStack, be.tanks[0].getTankType()) > 0) {
                     if (!this.moveItemStackTo(stack, 3, 4, false)) {

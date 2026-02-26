@@ -84,32 +84,33 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(Blocks.DIRT);
 
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
-                .add(ModBlocks.BRICK_CONCRETE.get())
-                .add(ModBlocks.BRICK_CONCRETE_MOSSY.get())
-                .add(ModBlocks.BRICK_CONCRETE_CRACKED.get())
-                .add(ModBlocks.BRICK_CONCRETE_BROKEN.get())
-                .add(ModBlocks.BRICK_CONCRETE_MARKED.get())
+                .add(
+                        ModBlocks.BRICK_CONCRETE.get(),
+                        ModBlocks.BRICK_CONCRETE_MOSSY.get(),
+                        ModBlocks.BRICK_CONCRETE_CRACKED.get(),
+                        ModBlocks.BRICK_CONCRETE_BROKEN.get(),
+                        ModBlocks.BRICK_CONCRETE_MARKED.get(),
 
-                .add(ModBlocks.BRICK_CONCRETE_STAIRS.get())
-                .add(ModBlocks.BRICK_CONCRETE_MOSSY_STAIRS.get())
-                .add(ModBlocks.BRICK_CONCRETE_CRACKED_STAIRS.get())
-                .add(ModBlocks.BRICK_CONCRETE_BROKEN_STAIRS.get())
+                        ModBlocks.BRICK_CONCRETE_STAIRS.get(),
+                        ModBlocks.BRICK_CONCRETE_MOSSY_STAIRS.get(),
+                        ModBlocks.BRICK_CONCRETE_CRACKED_STAIRS.get(),
+                        ModBlocks.BRICK_CONCRETE_BROKEN_STAIRS.get(),
 
-                .add(ModBlocks.BRICK_CONCRETE_SLAB.get())
-                .add(ModBlocks.BRICK_CONCRETE_MOSSY_SLAB.get())
-                .add(ModBlocks.BRICK_CONCRETE_CRACKED_SLAB.get())
-                .add(ModBlocks.BRICK_CONCRETE_BROKEN_SLAB.get())
+                        ModBlocks.BRICK_CONCRETE_SLAB.get(),
+                        ModBlocks.BRICK_CONCRETE_MOSSY_SLAB.get(),
+                        ModBlocks.BRICK_CONCRETE_CRACKED_SLAB.get(),
+                        ModBlocks.BRICK_CONCRETE_BROKEN_SLAB.get(),
 
-                .add(ModBlocks.SELLAFIELD_SLAKED.get())
-                .add(ModBlocks.ORE_SELLAFIELD_EMERALD.get())
-                .add(ModBlocks.ORE_SELLAFIELD_DIAMOND.get())
+                        ModBlocks.SELLAFIELD_SLAKED.get(),
+                        ModBlocks.ORE_SELLAFIELD_EMERALD.get(),
+                        ModBlocks.ORE_SELLAFIELD_DIAMOND.get(),
 
-                .add(ModBlocks.MACHINE_FLUID_TANK.get())
-
-                .add(ModBlocks.MACHINE_BATTERY_REDD.get())
-                .add(ModBlocks.MACHINE_BATTERY_SOCKET.get())
-
-                .add(ModBlocks.MACHINE_SATLINKER.get());
+                        ModBlocks.MACHINE_FLUID_TANK.get(),
+                        ModBlocks.MACHINE_BATTERY_REDD.get(),
+                        ModBlocks.MACHINE_BATTERY_SOCKET.get(),
+                        ModBlocks.LAUNCH_PAD.get(),
+                        ModBlocks.MACHINE_SATLINKER.get()
+                );
 
         this.tag(BlockTags.MINEABLE_WITH_AXE)
                 .add(

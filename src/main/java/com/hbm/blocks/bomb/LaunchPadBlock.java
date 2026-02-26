@@ -17,12 +17,19 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 
 public class LaunchPadBlock extends DummyableBlock implements IBomb {
 
     public LaunchPadBlock(Properties properties) {
         super(properties);
+        this.bounding.add(new AABB(-1.5D, 0D, -1.5D, -0.5D, 1D, -0.5D));
+        this.bounding.add(new AABB(0.5D, 0D, -1.5D, 1.5D, 1D, -0.5D));
+        this.bounding.add(new AABB(-1.5D, 0D, 0.5D, -0.5D, 1D, 1.5D));
+        this.bounding.add(new AABB(0.5D, 0D, 0.5D, 1.5D, 1D, 1.5D));
+        this.bounding.add(new AABB(-0.5D, 0.5D, -1.5D, 0.5D, 1D, 1.5D));
+        this.bounding.add(new AABB(-1.5D, 0.5D, -0.5D, 1.5D, 1D, 0.5D));
     }
 
     public static final MapCodec<LaunchPadBlock> CODEC = simpleCodec(LaunchPadBlock::new);
@@ -40,6 +47,7 @@ public class LaunchPadBlock extends DummyableBlock implements IBomb {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        if (state.getValue(TYPE) != DummyBlockType.CORE) return null;
         return (lvl, pos, st, be) -> {
             if (be instanceof Tickable tickable) tickable.updateEntity();
         };
@@ -71,6 +79,7 @@ public class LaunchPadBlock extends DummyableBlock implements IBomb {
 
     @Override
     public void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
+        super.neighborChanged(state, level, pos, neighborBlock, neighborPos, movedByPiston);
         if (!level.isClientSide) {
             BlockPos corePos = this.findCore(level, pos);
             if (corePos != null) {
