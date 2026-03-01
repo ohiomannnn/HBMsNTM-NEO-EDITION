@@ -27,16 +27,9 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class ModEntityTypes {
     public static final DeferredRegister<EntityType<?>> REGISTER = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, HBMsNTM.MODID);
 
-    public static final DeferredHolder<EntityType<?>, EntityType<NukeExplosionMK5>> NUKE_MK5 = REGISTER.register(
-            "nuke_explosion_mk5",
-            () -> EntityType.Builder.of(NukeExplosionMK5::new, MobCategory.MISC)
-                    .sized(1.0F, 1.0F)
-                    .build("nuke_explosion_mk5"));
-    public static final DeferredHolder<EntityType<?>, EntityType<NukeExplosionBalefire>> NUKE_BALEFIRE = REGISTER.register(
-            "nuke_balefire",
-            () -> EntityType.Builder.of(NukeExplosionBalefire::new, MobCategory.MISC)
-                    .sized(1.0F, 1.0F)
-                    .build("nuke_balefire"));
+    public static final DeferredHolder<EntityType<?>, EntityType<NukeExplosionMK5>> NUKE_MK5 = REGISTER.register("nuke_explosion_mk5", () -> EntityType.Builder.of(NukeExplosionMK5::new, MobCategory.MISC).sized(1.0F, 1.0F).build("nuke_explosion_mk5"));
+    public static final DeferredHolder<EntityType<?>, EntityType<NukeExplosionMK3>> NUKE_MK3 = REGISTER.register("nuke_explosion_mk3", () -> EntityType.Builder.of(NukeExplosionMK3::new, MobCategory.MISC).sized(1.0F, 1.0F).build("nuke_explosion_mk3"));
+    public static final DeferredHolder<EntityType<?>, EntityType<NukeExplosionBalefire>> NUKE_BALEFIRE = REGISTER.register("nuke_explosion_balefire", () -> EntityType.Builder.of(NukeExplosionBalefire::new, MobCategory.MISC).sized(1.0F, 1.0F).build("nuke_explosion_balefire"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<FalloutRain>> NUKE_FALLOUT_RAIN = REGISTER.register(
             "nuke_fallout_rain",

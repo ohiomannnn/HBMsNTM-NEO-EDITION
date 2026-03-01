@@ -5,7 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 
-public class ExplosionFleija {
+public class ExplosionSolinium {
 
     public int posX;
     public int posY;
@@ -57,7 +57,7 @@ public class ExplosionFleija {
         explosionCoefficient2 = tag.getFloat(name + "explosionCoefficient2");
     }
 
-    public ExplosionFleija(int x, int y, int z, Level level, int rad, float coefficient, float coefficient2) {
+    public ExplosionSolinium(int x, int y, int z, Level level, int rad, float coefficient, float coefficient2) {
         this.posX = x;
         this.posY = y;
         this.posZ = z;
@@ -76,8 +76,7 @@ public class ExplosionFleija {
     public boolean update() {
         breakColumn(this.lastposX, this.lastposZ);
         this.shell = (int) Math.floor((Math.sqrt(n) + 1) / 2);
-        int shell2 = this.shell * 2;
-        if(shell2 == 0) return true; // end explosion if the shell size is 0 to prevent division by zero crash
+        int shell2 = Math.max(this.shell * 2,1);
         this.leg = (int) Math.floor((this.n - (shell2 - 1) * (shell2 - 1)) / shell2);
         this.element = (this.n - (shell2 - 1) * (shell2 - 1)) - shell2 * this.leg - this.shell + 1;
         this.lastposX = this.leg == 0 ? this.shell : this.leg == 1 ? -this.element : this.leg == 2 ? -this.shell : this.element;
@@ -88,12 +87,10 @@ public class ExplosionFleija {
 
     private void breakColumn(int x, int z) {
         int dist = this.radius2 - (x * x + z * z);
-        if(dist > 0) {
+        if (dist > 0) {
             dist = (int) Math.sqrt(dist);
-            for(int y = (int) (dist / this.explosionCoefficient2); y > -dist / this.explosionCoefficient; y--) {
-                if(this.posY + y > this.level.getMinBuildHeight()) {
-                    this.level.setBlock(new BlockPos(this.posX + x, this.posY + y, this.posZ + z), Blocks.AIR.defaultBlockState(), 3);
-                }
+            for (int y = (int) (dist / this.explosionCoefficient2); y > -dist / this.explosionCoefficient; y--) {
+                ExplosionNukeGeneric.solinium(this.level, new BlockPos(this.posX + x, this.posY + y, this.posZ + z));
             }
         }
     }

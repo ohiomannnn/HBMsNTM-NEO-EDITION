@@ -109,15 +109,12 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
         super.neighborChanged(state, level, pos, block, fromPos, isMoving);
 
         if (safeRem) return;
-
-        destroyIfOrphan(level, pos, state);
+        this.destroyIfOrphan(level, pos, state);
     }
 
     @Override
     public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        super.tick(state, level, pos, random);
-
-        destroyIfOrphan(level, pos, state);
+        this.destroyIfOrphan(level, pos, state);
     }
 
     private void destroyIfOrphan(Level level, BlockPos pos, BlockState state) {
@@ -331,6 +328,11 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
             dropResources(state, level, corePos, level.getBlockEntity(corePos), player, player.getMainHandItem());
         }
         return super.playerWillDestroy(level, pos, state, player);
+    }
+
+    @Override
+    protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {
+        return 1.0F;
     }
 
     @Override

@@ -19,13 +19,13 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 
-public class RenderLandMine extends BlockEntityRendererNT<LandMineBlockEntity> implements IBEWLRProvider {
+public class RenderLandmine extends BlockEntityRendererNT<LandMineBlockEntity> implements IBEWLRProvider {
 
-    public RenderLandMine(Context context) { }
+    public RenderLandmine(Context context) { }
 
     @Override
     public BlockEntityRenderer<LandMineBlockEntity> create(Context context) {
-        return new RenderLandMine(context);
+        return new RenderLandmine(context);
     }
 
     @Override

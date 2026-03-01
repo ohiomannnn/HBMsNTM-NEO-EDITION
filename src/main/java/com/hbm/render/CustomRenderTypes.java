@@ -5,6 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.Util;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderStateShard.ShaderStateShard;
 import net.minecraft.client.renderer.RenderStateShard.TextureStateShard;
@@ -128,10 +129,58 @@ public class CustomRenderTypes {
                         .setLightmapState(RenderType.NO_LIGHTMAP)
                         .setOverlayState(RenderType.NO_OVERLAY)
                         .setWriteMaskState(RenderType.COLOR_WRITE)
-                        .setOutputState(RenderType.CLOUDS_TARGET)
+                        .setOutputState(RenderType.TRANSLUCENT_TARGET)
                         .createCompositeState(false);
-                return RenderType.create("smoth2", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, true, true, state);
+                return RenderType.create("smoth2", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 3123124, false, false, state);
             }
+    );
+
+    public static final ShaderStateShard POSITION_TEX_COLOR_SHADER = new ShaderStateShard(GameRenderer::getPositionTexColorShader);
+
+    public static final Function<ResourceLocation, RenderType> CLOUD = Util.memoize(
+            texture -> {
+                RenderType.CompositeState state = RenderType.CompositeState.builder()
+                        .setShaderState(POSITION_TEX_COLOR_SHADER)
+                        .setTextureState(new TextureStateShard(texture, false, false))
+                        .setCullState(RenderType.NO_CULL)
+                        .setLightmapState(RenderType.NO_LIGHTMAP)
+                        .setOverlayState(RenderType.NO_OVERLAY)
+                        .setWriteMaskState(RenderType.COLOR_WRITE)
+                        .setOutputState(RenderType.TRANSLUCENT_TARGET)
+                        .createCompositeState(false);
+                return RenderType.create("cloud", DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS, 234256, false, false, state);
+            }
+    );
+
+    public static final RenderType CLOUD_RAINBOW = RenderType.create(
+            "cloud_rainbow",
+            DefaultVertexFormat.POSITION_COLOR,
+            VertexFormat.Mode.QUADS,
+            234256, false, false,
+            RenderType.CompositeState.builder()
+                    .setShaderState(RenderType.POSITION_COLOR_SHADER)
+                    .setCullState(RenderType.NO_CULL)
+                    .setLightmapState(RenderType.NO_LIGHTMAP)
+                    .setOverlayState(RenderType.NO_OVERLAY)
+                    .setWriteMaskState(RenderType.COLOR_WRITE)
+                    .setOutputState(RenderType.TRANSLUCENT_TARGET)
+                    .createCompositeState(false)
+    );
+
+    public static final RenderType CLOUD_RAINBOW_ADDITIVE = RenderType.create(
+            "cloud_rainbow_addtive",
+            DefaultVertexFormat.POSITION_COLOR,
+            VertexFormat.Mode.QUADS,
+            234256, false, false,
+            RenderType.CompositeState.builder()
+                    .setShaderState(RenderType.POSITION_COLOR_SHADER)
+                    .setTransparencyState(ADDITIVE_BLEND)
+                    .setCullState(RenderType.NO_CULL)
+                    .setLightmapState(RenderType.NO_LIGHTMAP)
+                    .setOverlayState(RenderType.NO_OVERLAY)
+                    .setWriteMaskState(RenderType.COLOR_WRITE)
+                    .setOutputState(RenderType.TRANSLUCENT_TARGET)
+                    .createCompositeState(false)
     );
 
     public static final Function<ResourceLocation, RenderType> NUKE_CLOUDS = Util.memoize(
@@ -168,10 +217,6 @@ public class CustomRenderTypes {
 
     public static RenderType entitySmoth(ResourceLocation location) {
         return SMOTH.apply(location);
-    }
-
-    public static RenderType entitySmothNoLight(ResourceLocation location) {
-        return SMOTH_NO_LIGHT.apply(location);
     }
 
     public static RenderType entitySmothNoDepth(ResourceLocation location) {

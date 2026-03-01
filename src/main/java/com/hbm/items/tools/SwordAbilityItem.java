@@ -18,7 +18,7 @@ import java.util.List;
 
 public class SwordAbilityItem extends SwordItem {
 
-    private AvailableAbilities abilities = new AvailableAbilities();
+    private final AvailableAbilities abilities = new AvailableAbilities();
 
     public SwordAbilityItem(Properties properties, Tier tier, float damage, float attackSpeed) {
         super(tier, properties.attributes(ItemAttributeModifiers.builder()

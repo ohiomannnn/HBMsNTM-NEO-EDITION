@@ -154,6 +154,8 @@ public class ResourceManager {
 
     public static IModelCustom barrel;
 
+    public static IModelCustom sphere;
+
     public static void init() {
         mine_ap = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/mine_ap.obj")).asVBO();
         mine_he = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/mine_he.obj")).asVBO();
@@ -205,6 +207,8 @@ public class ResourceManager {
         detonator_laser = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/weapons/detonator_laser.obj")).asVBO();
 
         barrel = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/block/barrel.obj")).asVBO();
+
+        sphere = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/sphere.obj")).asVBO();
 
         yomiModel = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/trinkets/yomi.obj"), false).asVBO();
         hundunModel = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/trinkets/hundun.obj"), false).asVBO();

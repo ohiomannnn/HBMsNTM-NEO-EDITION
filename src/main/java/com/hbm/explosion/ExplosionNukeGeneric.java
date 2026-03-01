@@ -83,7 +83,7 @@ public class ExplosionNukeGeneric {
                 return;
             }
 
-            if (state.is(ModTags.Blocks.PLANTS) || state.is(BlockTags.LEAVES) || state.is(BlockTags.PLANKS)) {
+            if (state.is(ModTags.Blocks.PLANTS) || state.is(BlockTags.LEAVES) || state.is(BlockTags.PLANKS) || state.is(BlockTags.LOGS)) {
                 level.removeBlock(pos, false);
             }
         }

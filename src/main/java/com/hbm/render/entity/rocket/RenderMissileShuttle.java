@@ -41,7 +41,7 @@ public class RenderMissileShuttle extends EntityRenderer<MissileShuttle> {
 
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
 
-        VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.MISSILE_SHUTTLE_TEX));
+        VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_SHUTTLE_TEX));
         ResourceManager.missileShuttle.renderAll(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY);
 
         poseStack.popPose();

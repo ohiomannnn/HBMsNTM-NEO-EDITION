@@ -1,13 +1,15 @@
 ## Added
-* Missiles!
-  * Launch pads, designators
-  * All missiles except for tier 0 missiles and tectonic missile (placeholder currently)
-* Liquid oxygen and taint barrel
-* Some liquids for missiles
-* Some blocks
+* ANY vanilla explosion now create cloud and smoke particles
+  * For some reason this effect was in the old versions of minecraft but not in 1.21.1
+  * Check this video for showcase https://www.reddit.com/r/Minecraft/comments/1mp049m/after_6_years_mojang_has_finally_fixed_the/
 
 ## Changed
-* Explosion effect for vanilla explosions changed
+* Some collisions
+* Improved gibbing
+  * Iron golems now also turn into metal instead of fleshy chunks
+  * Slimes can now be gibbed, turning into slime globs
+  * Creepers now also gib into slime instead of blood
 
 ## Fixed
-* Fallout rain incorrectly processing leaves
+* Lightning issues in multiblocks
+* 256k tank's render crashing on clients without iris

@@ -135,7 +135,7 @@ dependencies {
 
     // Sodium and Iris
     implementation "curse.maven:sodium-394468:6382651" // 0.6.13
-    implementation "curse.maven:irisshaders-455508:6661598" // 1.8.12
+    //implementation "curse.maven:irisshaders-455508:6661598" // 1.8.12
 }
 
 tasks.withType(ProcessResources).configureEach {

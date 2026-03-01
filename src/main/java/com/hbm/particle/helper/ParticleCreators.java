@@ -14,5 +14,6 @@ public class ParticleCreators {
         particleCreators.put("ashes", new AshesCreator());
         particleCreators.put("skeleton", new SkeletonCreator());
         particleCreators.put("nuke", new NukeTorexCreator());
+        particleCreators.put("cloud", new CloudCreator());
     }
 }

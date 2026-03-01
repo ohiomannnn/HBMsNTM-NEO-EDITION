@@ -69,6 +69,7 @@ public abstract class ParticleNT {
         this.yo = y;
         this.zo = z;
         this.lifetime = (int)(4.0F / (this.random.nextFloat() * 0.9F + 0.1F));
+        this.quadSize = 0.1F * (this.random.nextFloat() * 0.5F + 0.5F) * 2.0F;
         this.verticalCollision = false;
         this.horizontalCollision = false;
     }

@@ -68,8 +68,8 @@ public class RenderLaserDetonator extends BlockEntityWithoutLevelRenderer {
         VertexConsumer mainConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.DETONATOR_LASER_TEX));
         ResourceManager.detonator_laser.renderPart("Main", poseStack, mainConsumer, packedLight, packedOverlay);
 
-        VertexConsumer lightsConsumer = buffer.getBuffer(CustomRenderTypes.entitySmothNoLight(ResourceManager.DETONATOR_LASER_TEX));
-        ((WavefrontObjVBO) ResourceManager.detonator_laser).renderPart("Lights", poseStack, lightsConsumer, 240, packedOverlay, 1F, 0F, 0F, 1F);
+        VertexConsumer lightsConsumer = buffer.getBuffer(CustomRenderTypes.SMOTH_NO_LIGHT.apply(ResourceManager.DETONATOR_LASER_TEX));
+        ResourceManager.detonator_laser.renderPart("Lights", poseStack, lightsConsumer, 240, packedOverlay, 1F, 0F, 0F, 1F);
 
         poseStack.pushPose();
 

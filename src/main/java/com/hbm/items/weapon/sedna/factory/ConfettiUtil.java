@@ -11,7 +11,11 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.AbstractGolem;
+import net.minecraft.world.entity.animal.Ocelot;
 import net.minecraft.world.entity.monster.AbstractSkeleton;
+import net.minecraft.world.entity.monster.Blaze;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -44,18 +48,23 @@ public class ConfettiUtil {
     }
 
     public static void gib(LivingEntity entity) {
-        Level level = entity.level();
+        if (entity instanceof Ocelot) return;
 
-        if (entity instanceof Slime) return;
+        int type = 0;
+        if (entity instanceof Slime) type = 1;
+        if (entity instanceof Creeper) type = 1;
+        if (entity instanceof AbstractGolem) type = 2;
+        if (entity instanceof Blaze) type = 2;
 
-        SkeletonCreator.composeEffectGib(level, entity, 0.25F);
+        SkeletonCreator.composeEffectGib(entity.level, entity, 0.25F);
 
         if (entity instanceof AbstractSkeleton) return;
 
         CompoundTag tag = new CompoundTag();
         tag.putString("type", "giblets");
         tag.putInt("ent", entity.getId());
-        if (level instanceof ServerLevel serverLevel) {
+        tag.putInt("gibType", type);
+        if (entity.level instanceof ServerLevel serverLevel) {
             PacketDistributor.sendToPlayersNear(serverLevel, null, entity.getX(), entity.getY() + entity.getBbHeight() * 0.5, entity.getZ(), 150, new AuxParticle(tag, entity.getX(), entity.getY() + entity.getBbHeight() * 0.5, entity.getZ()));
             serverLevel.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ZOMBIE_BREAK_WOODEN_DOOR, SoundSource.BLOCKS, 2.0F, 0.95F + entity.getRandom().nextFloat() * 0.2F);
         }

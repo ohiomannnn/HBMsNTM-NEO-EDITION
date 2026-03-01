@@ -39,8 +39,10 @@ public class CommonConfig {
 
     // EXPLOSIONS (06)
     public final ModConfigSpec.IntValue MK5;
+    public final ModConfigSpec.IntValue BLAST_SPEED;
     public final ModConfigSpec.IntValue FALLOUT_RANGE;
     public final ModConfigSpec.IntValue FALLOUT_DELAY;
+    public final ModConfigSpec.IntValue LIMIT_EXPLOSION_LIFESPAN;
 
     // RADIATION (13)
     public final ModConfigSpec.IntValue FOG_RAD;
@@ -222,6 +224,10 @@ public class CommonConfig {
                 .comment("Minimum amount of milliseconds per tick allocated for mk5 chunk processing.")
                 .translation("hbmsntm.configuration.mk5BlastTime")
                 .defineInRange("mk5BlastTime", 50, 0, Integer.MAX_VALUE);
+        BLAST_SPEED = builder
+                .comment("Base speed of MK3 system (old and schrabidium) detonations (Blocks / tick)")
+                .translation("hbmsntm.configuration.propBlastSpeed")
+                .defineInRange("propBlastSpeed", 1024, 0, Integer.MAX_VALUE);
         FALLOUT_RANGE = builder
                 .comment("Radius of fallout area (base radius * value in percent)")
                 .translation("hbmsntm.configuration.falloutRange")
@@ -230,6 +236,10 @@ public class CommonConfig {
                 .comment("How many ticks to wait for the next fallout chunk computation")
                 .translation("hbmsntm.configuration.falloutDelay")
                 .defineInRange("falloutDelay", 4, 0, Integer.MAX_VALUE);
+        LIMIT_EXPLOSION_LIFESPAN = builder
+                .comment("How long an explosion can be unloaded until it dies in seconds. Based of system time. 0 disables the effect.")
+                .translation("hbmsntm.configuration.limitExplosionLifespan")
+                .defineInRange("limitExplosionLifespan", 0, 0, Integer.MAX_VALUE);
 
         builder.pop();
 

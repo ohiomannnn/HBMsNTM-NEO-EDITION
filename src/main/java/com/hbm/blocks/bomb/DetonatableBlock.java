@@ -19,12 +19,7 @@ public abstract class DetonatableBlock extends FlammableBlock implements IFuckin
     protected boolean detonateOnCollision;
     protected boolean detonateOnShot;
 
-    public DetonatableBlock(Properties properties,
-                            int encouragement,
-                            int flammability,
-                            int popFuse,
-                            boolean detonateOnCollision,
-                            boolean detonateOnShot) {
+    public DetonatableBlock(Properties properties, int encouragement, int flammability, int popFuse, boolean detonateOnCollision, boolean detonateOnShot) {
         super(properties, encouragement, flammability);
         this.popFuse = popFuse;
         this.detonateOnCollision = detonateOnCollision;
@@ -45,6 +40,14 @@ public abstract class DetonatableBlock extends FlammableBlock implements IFuckin
     @Override
     public boolean canDropFromExplosion(BlockState state, BlockGetter level, BlockPos pos, Explosion explosion) {
         return false;
+    }
+
+    @Override
+    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
+        if (!level.isClientSide && shouldIgnite(level, pos)) {
+            level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+            wasExploded(level, pos, null);
+        }
     }
 
     @Override

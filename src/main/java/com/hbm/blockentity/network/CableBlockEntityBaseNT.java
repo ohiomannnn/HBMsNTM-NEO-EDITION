@@ -5,11 +5,11 @@ import api.hbm.energymk2.Nodespace;
 import api.hbm.energymk2.Nodespace.PowerNode;
 import com.hbm.blockentity.LoadedBaseBlockEntity;
 import com.hbm.blockentity.ModBlockEntityTypes;
+import com.hbm.blockentity.Tickable;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class CableBlockEntityBaseNT extends LoadedBaseBlockEntity implements IEnergyConductorMK2 {
+public class CableBlockEntityBaseNT extends LoadedBaseBlockEntity implements IEnergyConductorMK2, Tickable {
 
     public PowerNode node;
 
@@ -17,16 +17,19 @@ public class CableBlockEntityBaseNT extends LoadedBaseBlockEntity implements IEn
         super(ModBlockEntityTypes.NETWORK_CABLE.get(), pos, state);
     }
 
-    public static void serverTick(Level level, BlockPos pos, BlockState ignored, CableBlockEntityBaseNT be) {
+    @Override
+    public void updateEntity() {
+        if (level == null) return;
+
         if (!level.isClientSide) {
-            if (be.node == null || be.node.expired) {
+            if (this.node == null || this.node.expired) {
 
-                if (be.shouldCreateNode()) {
-                    be.node = Nodespace.getNode(level, pos);
+                if (this.shouldCreateNode()) {
+                    this.node = Nodespace.getNode(level, this.getBlockPos());
 
-                    if (be.node == null || be.node.expired) {
-                        be.node = be.createNode();
-                        Nodespace.createNode(level, be.node);
+                    if (this.node == null || this.node.expired) {
+                        this.node = this.createNode();
+                        Nodespace.createNode(level, this.node);
                     }
                 }
             }
@@ -42,11 +45,9 @@ public class CableBlockEntityBaseNT extends LoadedBaseBlockEntity implements IEn
         super.setRemoved();
 
         if (this.level != null && !this.level.isClientSide) {
-            //if (level.getBlockEntity(this.getBlockPos()) instanceof CableBlockEntityBaseNT be) { FUCK
-                if (this.node != null) {
-                    Nodespace.destroyNode(level, this.getBlockPos());
-                }
-            //}
+            if (this.node != null) {
+                Nodespace.destroyNode(level, this.getBlockPos());
+            }
         }
     }
 }

@@ -24,6 +24,7 @@ import com.hbm.main.ResourceManager;
 import com.hbm.network.toserver.Ducc;
 import com.hbm.particle.*;
 import com.hbm.particle.engine.ParticleEngineNT;
+import com.hbm.particle.engine.ParticleNT;
 import com.hbm.particle.helper.ParticleCreators;
 import com.hbm.particle.vanilla.PlayerCloudParticle;
 import com.hbm.render.blockentity.*;
@@ -65,7 +66,6 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.GameRenderer;
@@ -111,7 +111,6 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.*;
-import net.neoforged.neoforge.client.extensions.common.IClientBlockExtensions;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
@@ -532,6 +531,7 @@ public class HBMsNTMClient {
         event.registerEntityRenderer(ModEntityTypes.CREEPER_NUCLEAR.get(), CreeperNuclearRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.TNT_PRIMED_BASE.get(), RenderTNTPrimedBase::new);
         event.registerEntityRenderer(ModEntityTypes.NUKE_MK5.get(), EmptyEntityRenderer::new);
+        event.registerEntityRenderer(ModEntityTypes.NUKE_MK3.get(), EmptyEntityRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.NUKE_BALEFIRE.get(), EmptyEntityRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.NUKE_FALLOUT_RAIN.get(), RenderFallout::new);
         event.registerEntityRenderer(ModEntityTypes.SHRAPNEL.get(), RenderShrapnel::new);
@@ -606,7 +606,7 @@ public class HBMsNTMClient {
         BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_FAT_MAN.get(), new RenderNukeFatMan(null));
         BlockEntityRenderers.register(ModBlockEntityTypes.BARREL.get(), new RenderBarrel(null));
         BlockEntityRenderers.register(ModBlockEntityTypes.CRASHED_BOMB.get(), new RenderCrashedBomb(null));
-        BlockEntityRenderers.register(ModBlockEntityTypes.LANDMINE.get(), new RenderLandMine(null));
+        BlockEntityRenderers.register(ModBlockEntityTypes.LANDMINE.get(), new RenderLandmine(null));
 
         for (Entry<BlockEntityType<?>, BlockEntityRendererProvider<?>> entry : BlockEntityRenderers.PROVIDERS.entrySet()) {
             if (entry.getValue() instanceof IBEWLRProvider provider) {
@@ -1188,6 +1188,7 @@ public class HBMsNTMClient {
 
             if ("giblets".equals(type)) {
                 int ent = data.getInt("ent");
+                int gibType = data.getInt("gibType");
                 Entity e = level.getEntity(ent);
 
                 if (e == null) return;
@@ -1209,7 +1210,7 @@ public class HBMsNTMClient {
                 if (blowMeIntoTheGodDamnStratosphere) mult *= 10;
 
                 for (int i = 0; i < count; i++) {
-                    innerMc.particleEngine.add(new ParticleGiblet(level, x, y, z, rand.nextGaussian() * 0.25 * mult, rand.nextDouble() * mult, rand.nextGaussian() * 0.25 * mult));
+                    ParticleEngineNT.INSTANCE.add(new ParticleGibletNT(level, x, y, z, rand.nextGaussian() * 0.25 * mult, rand.nextDouble() * mult, rand.nextGaussian() * 0.25 * mult, gibType));
                 }
             }
         });
