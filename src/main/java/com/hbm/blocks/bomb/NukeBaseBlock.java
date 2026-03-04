@@ -7,6 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -17,7 +18,7 @@ import net.minecraft.world.phys.BlockHitResult;
 
 // now were thinking with abstraction
 // is it was too hard, or bob was too lazy?
-public abstract class NukeBaseBlock extends BaseEntityBlock implements IBomb {
+public abstract class NukeBaseBlock extends Block implements EntityBlock, IBomb {
 
     public NukeBaseBlock(Properties properties) {
         super(properties);
@@ -40,24 +41,40 @@ public abstract class NukeBaseBlock extends BaseEntityBlock implements IBomb {
     }
 
     @Override
+    protected RenderShape getRenderShape(BlockState state) {
+        return RenderShape.ENTITYBLOCK_ANIMATED;
+    }
+
+    @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(BlockStateProperties.HORIZONTAL_FACING);
     }
 
     @Override
-    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
-        if (!level.isClientSide) {
-            if (level.hasNeighborSignal(pos)) {
-                this.explode(level, pos);
-            }
+    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
+        if (level.hasNeighborSignal(pos)) {
+            this.explode(level, pos);
+        }
+    }
+
+    @Override
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
+        if (level.hasNeighborSignal(pos)) {
+            this.explode(level, pos);
         }
     }
 
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (level.getBlockEntity(pos) instanceof Container container) {
-            Containers.dropContents(level, pos, container);
-            level.updateNeighbourForOutputSignal(pos, this);
+        if (!state.is(newState.getBlock())) {
+            if (level.getBlockEntity(pos) instanceof Container container) {
+                Containers.dropContents(level, pos, container);
+
+                super.onRemove(state, level, pos, newState, isMoving);
+                level.updateNeighbourForOutputSignal(pos, this);
+            } else {
+                super.onRemove(state, level, pos, newState, isMoving);
+            }
         }
     }
 

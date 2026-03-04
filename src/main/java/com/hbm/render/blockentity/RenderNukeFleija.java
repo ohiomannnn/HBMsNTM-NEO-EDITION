@@ -1,6 +1,6 @@
 package com.hbm.render.blockentity;
 
-import com.hbm.blockentity.bomb.NukeN2BlockEntity;
+import com.hbm.blockentity.bomb.NukeFleijaBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
@@ -15,34 +15,33 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
-public class RenderNukeN2 extends BlockEntityRendererNT<NukeN2BlockEntity> implements IBEWLRProvider {
+public class RenderNukeFleija extends BlockEntityRendererNT<NukeFleijaBlockEntity> implements IBEWLRProvider {
 
-    public RenderNukeN2(Context ignored) { }
+    public RenderNukeFleija(Context ignored) { }
 
     @Override
-    public BlockEntityRenderer<NukeN2BlockEntity> create(Context context) {
-        return new RenderNukeN2(context);
+    public BlockEntityRenderer<NukeFleijaBlockEntity> create(Context context) {
+        return new RenderNukeFleija(context);
     }
 
     @Override
-    public void render(NukeN2BlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+    public void render(NukeFleijaBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
 
         Direction facing = be.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
         float rot = switch (facing) {
             case DOWN, UP -> 0.0F;
-            case WEST -> 90F;
-            case SOUTH -> 180F;
-            case EAST -> 270F;
-            case NORTH -> 0F;
+            case WEST -> 180F;
+            case SOUTH -> 270F;
+            case EAST -> 0F;
+            case NORTH -> 90F;
         };
 
         poseStack.pushPose();
         poseStack.translate(0.5, 0.0, 0.5);
-        poseStack.mulPose(Axis.YP.rotationDegrees(90F));
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
 
-        VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.NUKE_N2_TEX));
-        ResourceManager.nuke_n2.renderAll(poseStack, consumer, packedLight, packedOverlay);
+        VertexConsumer consumer = buffer.getBuffer(RenderType.entitySmoothCutout(ResourceManager.NUKE_FLEIJA_TEX));
+        ResourceManager.nuke_fleija.renderAll(poseStack, consumer, packedLight, packedOverlay);
 
         poseStack.popPose();
     }
@@ -54,7 +53,7 @@ public class RenderNukeN2 extends BlockEntityRendererNT<NukeN2BlockEntity> imple
 
     @Override
     public Item getItemForRenderer() {
-        return ModBlocks.NUKE_N2.asItem();
+        return ModBlocks.NUKE_FLEIJA.asItem();
     }
 
     @Override
@@ -62,14 +61,15 @@ public class RenderNukeN2 extends BlockEntityRendererNT<NukeN2BlockEntity> imple
         return new ItemRenderBase() {
             @Override
             public void renderInventory(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                poseStack.translate(0F, -5F, 0F);
-                poseStack.scale(2.25F, 2.25F, 2.25F);
+                poseStack.scale(6.8F, 6.8F, 6.8F);
             }
 
             @Override
             public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.NUKE_N2_TEX));
-                ResourceManager.nuke_n2.renderAll(poseStack, consumer, packedLight, packedOverlay);
+                poseStack.translate(0.125F, 0F, 0F);
+                poseStack.mulPose(Axis.YP.rotationDegrees(90F));
+                VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.NUKE_FLEIJA_TEX));
+                ResourceManager.nuke_fleija.renderAll(poseStack, consumer, packedLight, packedOverlay);
             }
         };
     }

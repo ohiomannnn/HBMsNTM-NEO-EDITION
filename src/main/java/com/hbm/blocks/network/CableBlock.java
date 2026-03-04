@@ -52,10 +52,10 @@ public class CableBlock extends Block implements EntityBlock {
         boolean posZ = Library.canConnect(level, pos.relative(Library.POS_Z), Library.POS_Z);
         boolean negZ = Library.canConnect(level, pos.relative(Library.NEG_Z), Library.NEG_Z);
 
-        return this.setBlockBounds(posX, negX, posY, negY, posZ, negZ);
+        return this.getBlockBounds(posX, negX, posY, negY, posZ, negZ);
     }
 
-    private VoxelShape setBlockBounds(boolean posX, boolean negX, boolean posY, boolean negY, boolean posZ, boolean negZ) {
+    private VoxelShape getBlockBounds(boolean posX, boolean negX, boolean posY, boolean negY, boolean posZ, boolean negZ) {
 
         double pixel = 0.0625D;
         double min = pixel * 5.5D;

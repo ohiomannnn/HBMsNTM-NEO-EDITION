@@ -16,11 +16,13 @@ public class BeamPronter {
     public static RandomSource rand = RandomSource.create();
 
     public enum WaveType {
-        RANDOM, SPIRAL
+        RANDOM,
+        SPIRAL
     }
 
     public enum BeamType {
-        SOLID, LINE
+        SOLID,
+        LINE
     }
 
     public static void prontBeam(PoseStack poseStack, MultiBufferSource buffer, Vec3NT skeleton, WaveType wave, BeamType beam, int outerColor, int innerColor, int start, int segments, float size, int layers, float thickness) {
@@ -122,7 +124,6 @@ public class BeamPronter {
             lastY = pY;
             lastZ = pZ;
         }
-
         if (beam == BeamType.LINE) {
             consumer.addVertex(matrix, 0, 0, 0).setColor(innerColor).setNormal(0, 1, 0);
             consumer.addVertex(matrix, 0, (float) skeleton.length(), 0).setColor(innerColor).setNormal(0, 1, 0);

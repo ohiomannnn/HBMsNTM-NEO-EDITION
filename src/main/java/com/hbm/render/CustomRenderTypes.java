@@ -21,7 +21,7 @@ public class CustomRenderTypes {
             "7710",
             () -> {
                 RenderSystem.enableBlend();
-                RenderSystem.blendFuncSeparate(770, 771, 1, 0);
+                RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
             },
             () -> {
                 RenderSystem.defaultBlendFunc();

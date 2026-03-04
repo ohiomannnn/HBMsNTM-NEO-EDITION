@@ -223,8 +223,8 @@
 
   "item.hbmsntm.detonator": "Detonator",
   "item.hbmsntm.detonator.desc": "Shift right-click to set position, right-click to detonate!",
-  "item.hbmsntm.multi_detonator": "Multi Detonator",
-  "item.hbmsntm.multi_detonator.desc": "Shift right-click block to add position, right-click to detonate!$Shift right-click in the air to clear positions.",
+  "item.hbmsntm.detonator_multi": "Multi Detonator",
+  "item.hbmsntm.detonator_multi.desc": "Shift right-click block to add position, right-click to detonate!$Shift right-click in the air to clear positions.",
   "item.hbmsntm.detonator_laser": "Laser Detonator",
   "item.hbmsntm.detonator_laser.desc": "Aim & click to detonate!",
   "item.hbmsntm.detonator_de": "Dead Man's Explosive",

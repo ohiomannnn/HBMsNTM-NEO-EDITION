@@ -36,7 +36,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         this.particleOnlyBlock(ModBlocks.PLUSHIE_HUNDUN.get(), blockTexture(Blocks.WHITE_WOOL));
         this.particleOnlyBlock(ModBlocks.PLUSHIE_DERG.get(), blockTexture(Blocks.WHITE_WOOL));
 
-        this.particleOnlyBlock(ModBlocks.LAUNCH_PAD.get(), modLoc("block/launch_pad"));
+        this.particleOnlyBlock(ModBlocks.LAUNCH_PAD.get(), blockTexture(ModBlocks.LAUNCH_PAD.get()));
 
         cubeTop(ModBlocks.MACHINE_SATLINKER.get());
 
@@ -44,6 +44,14 @@ public class ModBlockStateProvider extends BlockStateProvider {
         this.particleOnlyBlock(ModBlocks.DET_CORD.get(), blockTexture(ModBlocks.DET_CORD.get()));
         this.cubeTop(ModBlocks.DET_NUKE.get());
         this.cubeTop(ModBlocks.DET_MINER.get());
+
+        this.particleOnlyBlock(ModBlocks.NUKE_GADGET.get(), blockTexture(ModBlocks.NUKE_GADGET.get()));
+        this.particleOnlyBlock(ModBlocks.NUKE_LITTLE_BOY.get(), blockTexture(ModBlocks.NUKE_LITTLE_BOY.get()));
+        this.particleOnlyBlock(ModBlocks.NUKE_FAT_MAN.get(), blockTexture(ModBlocks.NUKE_FAT_MAN.get()));
+        this.particleOnlyBlock(ModBlocks.NUKE_IVY_MIKE.get(), blockTexture(ModBlocks.NUKE_IVY_MIKE.get()));
+        this.particleOnlyBlock(ModBlocks.NUKE_TSAR_BOMBA.get(), blockTexture(ModBlocks.NUKE_TSAR_BOMBA.get()));
+        this.particleOnlyBlock(ModBlocks.NUKE_N2.get(), blockTexture(ModBlocks.NUKE_N2.get()));
+        this.particleOnlyBlock(ModBlocks.NUKE_FLEIJA.get(), blockTexture(ModBlocks.NUKE_FLEIJA.get()));
 
         this.particleOnlyBlock(ModBlocks.BARREL_RED.get(), blockTexture(ModBlocks.BARREL_RED.get()));
         this.particleOnlyBlock(ModBlocks.BARREL_PINK.get(), blockTexture(ModBlocks.BARREL_PINK.get()));
@@ -308,8 +316,12 @@ public class ModBlockStateProvider extends BlockStateProvider {
     }
 
     private void particleOnlyBlock(Block block, ResourceLocation particleTexture) {
+        this.particleOnlyBlock(block, particleTexture, false);
+    }
+
+    private void particleOnlyBlock(Block block, ResourceLocation particleTexture, boolean frontLight) {
         this.simpleBlock(block, this.models().getBuilder(name(block) + "_particle").texture("particle", particleTexture));
-        this.entityBlockItem(block, false);
+        this.entityBlockItem(block, frontLight);
     }
 
     public void cubeSideBottomTop(Block block) {

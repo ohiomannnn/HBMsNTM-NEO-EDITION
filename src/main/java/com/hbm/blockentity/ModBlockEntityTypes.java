@@ -9,6 +9,7 @@ import com.hbm.blockentity.machine.MachineSatLinkerBlockEntity;
 import com.hbm.blockentity.machine.storage.*;
 import com.hbm.blockentity.network.CableBlockEntityBaseNT;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.bomb.NukeFleijaBlock;
 import com.hbm.blocks.generic.PlushieBlock.PlushieBlockEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -127,6 +128,7 @@ public class ModBlockEntityTypes {
     public static final Supplier<BlockEntityType<NukeIvyMikeBlockEntity>> NUKE_IVY_MIKE = REGISTER.register("nuke_ivy_mike", () -> BlockEntityType.Builder.of(NukeIvyMikeBlockEntity::new, ModBlocks.NUKE_IVY_MIKE.get()).build(null));
     public static final Supplier<BlockEntityType<NukeTsarBombaBlockEntity>> NUKE_TSAR_BOMBA = REGISTER.register("nuke_tsar_bomba", () -> BlockEntityType.Builder.of(NukeTsarBombaBlockEntity::new, ModBlocks.NUKE_TSAR_BOMBA.get()).build(null));
     public static final Supplier<BlockEntityType<NukeN2BlockEntity>> NUKE_N2 = REGISTER.register("nuke_n2", () -> BlockEntityType.Builder.of(NukeN2BlockEntity::new, ModBlocks.NUKE_N2.get()).build(null));
+    public static final Supplier<BlockEntityType<NukeFleijaBlockEntity>> NUKE_FLEIJA = REGISTER.register("fleija", () -> BlockEntityType.Builder.of(NukeFleijaBlockEntity::new, ModBlocks.NUKE_FLEIJA.get()).build(null));
 
     public static final Supplier<BlockEntityType<LaunchPadBlockEntity>> LAUNCH_PAD = REGISTER.register("launch_pad", () -> BlockEntityType.Builder.of(LaunchPadBlockEntity::new, ModBlocks.LAUNCH_PAD.get()).build(null));
 

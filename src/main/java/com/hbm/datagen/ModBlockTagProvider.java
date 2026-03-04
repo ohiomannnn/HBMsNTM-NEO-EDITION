@@ -101,6 +101,14 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                         ModBlocks.BRICK_CONCRETE_CRACKED_SLAB.get(),
                         ModBlocks.BRICK_CONCRETE_BROKEN_SLAB.get(),
 
+                        ModBlocks.NUKE_GADGET.get(),
+                        ModBlocks.NUKE_LITTLE_BOY.get(),
+                        ModBlocks.NUKE_FAT_MAN.get(),
+                        ModBlocks.NUKE_IVY_MIKE.get(),
+                        ModBlocks.NUKE_TSAR_BOMBA.get(),
+                        ModBlocks.NUKE_N2.get(),
+                        ModBlocks.NUKE_FLEIJA.get(),
+
                         ModBlocks.SELLAFIELD_SLAKED.get(),
                         ModBlocks.ORE_SELLAFIELD_EMERALD.get(),
                         ModBlocks.ORE_SELLAFIELD_DIAMOND.get(),

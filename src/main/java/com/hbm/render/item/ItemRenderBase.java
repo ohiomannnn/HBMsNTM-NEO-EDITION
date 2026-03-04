@@ -25,6 +25,7 @@ public class ItemRenderBase extends BlockEntityWithoutLevelRenderer {
                 poseStack.translate(0.2F, 0.44F, 0F);
                 poseStack.scale(0.2F, 0.2F, 0.2F);
                 poseStack.mulPose(Axis.YP.rotationDegrees(180F));
+                poseStack.mulPose(Axis.YP.rotationDegrees(3F));
                 poseStack.mulPose(Axis.XP.rotationDegrees(25F));
                 renderNonInv(itemStackIn, poseStack, buffer, packedLight, packedOverlay, true);
                 renderFirstPersonRightHand(poseStack, buffer, packedLight, packedOverlay);
@@ -32,22 +33,25 @@ public class ItemRenderBase extends BlockEntityWithoutLevelRenderer {
             case FIRST_PERSON_LEFT_HAND -> {
                 poseStack.translate(-0.2F, 0.44F, 0F);
                 poseStack.scale(0.2F, 0.2F, 0.2F);
+                poseStack.mulPose(Axis.YN.rotationDegrees(3F));
                 poseStack.mulPose(Axis.XN.rotationDegrees(25F));
                 renderNonInv(itemStackIn, poseStack, buffer, packedLight, packedOverlay, false);
             }
             case THIRD_PERSON_RIGHT_HAND, HEAD -> {
-                poseStack.translate(0F, 0.52F, 0F);
-                poseStack.scale(0.1575F, 0.1575F, 0.1575F);
-                poseStack.mulPose(Axis.YN.rotationDegrees(15F));
+                poseStack.translate(-0.05F, 0.55F, 0F);
+                poseStack.scale(0.145F, 0.145F, 0.145F);
                 poseStack.mulPose(Axis.YP.rotationDegrees(180F));
+                poseStack.mulPose(Axis.YN.rotationDegrees(15F));
                 poseStack.mulPose(Axis.XN.rotationDegrees(15F));
+                poseStack.mulPose(Axis.ZN.rotationDegrees(15F));
                 renderNonInv(itemStackIn, poseStack, buffer, packedLight, packedOverlay, true);
             }
             case THIRD_PERSON_LEFT_HAND -> {
-                poseStack.translate(0F, 0.52F, 0F);
-                poseStack.scale(0.1575F, 0.1575F, 0.1575F);
+                poseStack.translate(0.05F, 0.55F, 0F);
+                poseStack.scale(0.145F, 0.145F, 0.145F);
                 poseStack.mulPose(Axis.YP.rotationDegrees(15F));
                 poseStack.mulPose(Axis.XP.rotationDegrees(15F));
+                poseStack.mulPose(Axis.ZN.rotationDegrees(15F));
                 renderNonInv(itemStackIn, poseStack, buffer, packedLight, packedOverlay, false);
             }
             case GROUND -> {

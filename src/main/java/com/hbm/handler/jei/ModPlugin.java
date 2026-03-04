@@ -1,6 +1,8 @@
 package com.hbm.handler.jei;
 
 import com.hbm.HBMsNTM;
+import com.hbm.handler.jei.subtypes.CustomDataSubtypeInterpreter;
+import com.hbm.handler.jei.subtypes.FluidTypeSubtypeInterpreter;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
@@ -25,30 +27,6 @@ import java.util.Set;
 @JeiPlugin
 @SuppressWarnings("unused")
 public class ModPlugin implements IModPlugin {
-
-    private static final ISubtypeInterpreter<ItemStack> ignoreCustomData = new ISubtypeInterpreter<>() {
-        @Override
-        public Object getSubtypeData(ItemStack stack, UidContext context) {
-            return stack.get(DataComponents.CUSTOM_DATA);
-        }
-
-        @Override
-        public String getLegacyStringSubtypeInfo(ItemStack ingredient, UidContext context) {
-            return " ";
-        }
-    };
-
-    private static final ISubtypeInterpreter<ItemStack> ignoreFluidType = new ISubtypeInterpreter<>() {
-        @Override
-        public Object getSubtypeData(ItemStack stack, UidContext context) {
-            return stack.get(ModDataComponents.FLUID_TYPE);
-        }
-
-        @Override
-        public String getLegacyStringSubtypeInfo(ItemStack ingredient, UidContext context) {
-            return " ";
-        }
-    };
 
     @Override public ResourceLocation getPluginUid() { return HBMsNTM.withDefaultNamespaceNT("jei_plugin"); }
 
@@ -83,10 +61,10 @@ public class ModPlugin implements IModPlugin {
         );
 
         for (Item item : ignoreCD) {
-            regs.registerSubtypeInterpreter(item, ignoreCustomData);
+            regs.registerSubtypeInterpreter(item, CustomDataSubtypeInterpreter.INSTANCE);
         }
         for (Item item : ignoreFT) {
-            regs.registerSubtypeInterpreter(item, ignoreFluidType);
+            regs.registerSubtypeInterpreter(item, FluidTypeSubtypeInterpreter.INSTANCE);
         }
     }
 

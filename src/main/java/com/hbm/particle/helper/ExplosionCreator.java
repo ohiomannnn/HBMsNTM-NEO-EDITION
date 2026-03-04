@@ -20,6 +20,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.fml.ModList;
 
 public class ExplosionCreator implements IParticleCreator {
 
@@ -88,26 +89,51 @@ public class ExplosionCreator implements IParticleCreator {
             Minecraft.getInstance().getSoundManager().playDelayed(instance, (int) (dist / SPEED_OF_SOUND));
         }
 
-        // SMOKE PLUME
-        for (int i = 0; i < cloudCount; i++) {
-            RocketFlameParticle particle = new RocketFlameParticle(level, x, y, z);
-            particle.xo = particle.x;
-            particle.yo = particle.y;
-            particle.zo = particle.z;
-            particle.quadSize = cloudScale;
-            particle.xd = rand.nextGaussian() * 0.5 * cloudSpeedMultiplier;
-            particle.yd = rand.nextDouble() * 3 * cloudSpeedMultiplier;
-            particle.zd = rand.nextGaussian() * 0.5 * cloudSpeedMultiplier;
-            particle.lifetime = 70 + rand.nextInt(20);
-            particle.noClip = true;
+        if (ModList.get().isLoaded("iris")) {
 
-            ParticleEngineNT.INSTANCE.add(particle);
+            // SMOKE PLUME
+            for (int i = 0; i < cloudCount; i++) {
+                RocketFlameParticle particle = new RocketFlameParticle(level, x, y, z);
+                particle.xo = particle.x;
+                particle.yo = particle.y;
+                particle.zo = particle.z;
+                particle.quadSize = cloudScale;
+                particle.xd = rand.nextGaussian() * 0.5 * cloudSpeedMultiplier;
+                particle.yd = rand.nextDouble() * 3 * cloudSpeedMultiplier;
+                particle.zd = rand.nextGaussian() * 0.5 * cloudSpeedMultiplier;
+                particle.lifetime = 70 + rand.nextInt(20);
+                particle.noClip = true;
+
+                ParticleEngineNT.INSTANCE.add(particle);
+            }
+
+            // WAVE
+            MukeWaveParticle wave = new MukeWaveParticle(level, x, y + 2, z);
+            wave.setup(waveScale, (int) (25F * waveScale / 45));
+            ParticleEngineNT.INSTANCE.add(wave);
+        } else {
+
+            // WAVE
+            MukeWaveParticle wave = new MukeWaveParticle(level, x, y + 2, z);
+            wave.setup(waveScale, (int) (25F * waveScale / 45));
+            ParticleEngineNT.INSTANCE.add(wave);
+
+            // SMOKE PLUME
+            for (int i = 0; i < cloudCount; i++) {
+                RocketFlameParticle particle = new RocketFlameParticle(level, x, y, z);
+                particle.xo = particle.x;
+                particle.yo = particle.y;
+                particle.zo = particle.z;
+                particle.quadSize = cloudScale;
+                particle.xd = rand.nextGaussian() * 0.5 * cloudSpeedMultiplier;
+                particle.yd = rand.nextDouble() * 3 * cloudSpeedMultiplier;
+                particle.zd = rand.nextGaussian() * 0.5 * cloudSpeedMultiplier;
+                particle.lifetime = 70 + rand.nextInt(20);
+                particle.noClip = true;
+
+                ParticleEngineNT.INSTANCE.add(particle);
+            }
         }
-
-        // WAVE
-        MukeWaveParticle wave = new MukeWaveParticle(level, x, y + 2, z);
-        wave.setup(waveScale, (int) (25F * waveScale / 45));
-        ParticleEngineNT.INSTANCE.add(wave);
 
         // DEBRIS
         for (int c = 0; c < debrisCount; c++) {

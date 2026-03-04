@@ -230,16 +230,16 @@ public class ModItems {
     public static final DeferredItem<Item> DESIGNATOR = ITEMS.register("designator", () -> new DesignatorItem(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> DESIGNATOR_RANGE = ITEMS.register("designator_range", () -> new DesignatorRangeItem(new Item.Properties().stacksTo(1)));
 
-    public static final DeferredItem<Item> MISSILE_GENERIC =       ITEMS.register("missile_generic",    () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
-    public static final DeferredItem<Item> MISSILE_INCENDIARY =    ITEMS.register("missile_incendiary", () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
-    public static final DeferredItem<Item> MISSILE_CLUSTER =       ITEMS.register("missile_cluster",    () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
-    public static final DeferredItem<Item> MISSILE_BUSTER =        ITEMS.register("missile_buster",     () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
-    public static final DeferredItem<Item> MISSILE_DECOY =         ITEMS.register("missile_decoy",      () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
-    public static final DeferredItem<Item> MISSILE_STRONG =               ITEMS.register("missile_strong",            () -> new MissileItem(MissileFormFactor.STRONG, MissileTier.TIER2));
-    public static final DeferredItem<Item> MISSILE_INCENDIARY_STRONG =    ITEMS.register("missile_incendiary_strong", () -> new MissileItem(MissileFormFactor.STRONG, MissileTier.TIER2));
-    public static final DeferredItem<Item> MISSILE_CLUSTER_STRONG =       ITEMS.register("missile_cluster_strong",    () -> new MissileItem(MissileFormFactor.STRONG, MissileTier.TIER2));
-    public static final DeferredItem<Item> MISSILE_BUSTER_STRONG =        ITEMS.register("missile_buster_strong",     () -> new MissileItem(MissileFormFactor.STRONG, MissileTier.TIER2));
-    public static final DeferredItem<Item> MISSILE_EMP_STRONG =           ITEMS.register("missile_emp_strong",        () -> new MissileItem(MissileFormFactor.STRONG, MissileTier.TIER2));
+    public static final DeferredItem<Item> MISSILE_GENERIC =    ITEMS.register("missile_generic",    () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
+    public static final DeferredItem<Item> MISSILE_INCENDIARY = ITEMS.register("missile_incendiary", () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
+    public static final DeferredItem<Item> MISSILE_CLUSTER =    ITEMS.register("missile_cluster",    () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
+    public static final DeferredItem<Item> MISSILE_BUSTER =     ITEMS.register("missile_buster",     () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
+    public static final DeferredItem<Item> MISSILE_DECOY =      ITEMS.register("missile_decoy",      () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
+    public static final DeferredItem<Item> MISSILE_STRONG =            ITEMS.register("missile_strong",            () -> new MissileItem(MissileFormFactor.STRONG, MissileTier.TIER2));
+    public static final DeferredItem<Item> MISSILE_INCENDIARY_STRONG = ITEMS.register("missile_incendiary_strong", () -> new MissileItem(MissileFormFactor.STRONG, MissileTier.TIER2));
+    public static final DeferredItem<Item> MISSILE_CLUSTER_STRONG =    ITEMS.register("missile_cluster_strong",    () -> new MissileItem(MissileFormFactor.STRONG, MissileTier.TIER2));
+    public static final DeferredItem<Item> MISSILE_BUSTER_STRONG =     ITEMS.register("missile_buster_strong",     () -> new MissileItem(MissileFormFactor.STRONG, MissileTier.TIER2));
+    public static final DeferredItem<Item> MISSILE_EMP_STRONG =        ITEMS.register("missile_emp_strong",        () -> new MissileItem(MissileFormFactor.STRONG, MissileTier.TIER2));
     public static final DeferredItem<Item> MISSILE_BURST =   ITEMS.register("missile_burst",   () -> new MissileItem(MissileFormFactor.HUGE, MissileTier.TIER3));
     public static final DeferredItem<Item> MISSILE_INFERNO = ITEMS.register("missile_inferno", () -> new MissileItem(MissileFormFactor.HUGE, MissileTier.TIER3));
     public static final DeferredItem<Item> MISSILE_RAIN =    ITEMS.register("missile_rain",    () -> new MissileItem(MissileFormFactor.HUGE, MissileTier.TIER3));
@@ -257,26 +257,27 @@ public class ModItems {
 
     public static final DeferredItem<Item> SATELLITE_INTERFACE = ITEMS.register("satellite_interface", () -> new SatelliteInterfaceItem(new Item.Properties().stacksTo(1)));
 
+    // NUKE THINGS
     public static final DeferredItem<Item> EARLY_EXPLOSIVE_LENSES = ITEMS.register("early_explosive_lenses", () -> new LoreItem(new Item.Properties()));
-
     public static final DeferredItem<Item> GADGET_WIREING = ITEMS.register("gadget_wireing", () -> new Item(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> GADGET_CORE = ITEMS.register("gadget_core", () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
-
-    public static final DeferredItem<Item> LITTLE_BOY_SHIELDING = ITEMS.register("little_boy_shielding", () -> new Item(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> LITTLE_BOY_TARGET = ITEMS.register("little_boy_target", () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
-    public static final DeferredItem<Item> LITTLE_BOY_BULLET = ITEMS.register("little_boy_bullet", () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
+    public static final DeferredItem<Item> GADGET_CORE =    ITEMS.register("gadget_core",    () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
+    public static final DeferredItem<Item> LITTLE_BOY_SHIELDING =  ITEMS.register("little_boy_shielding",  () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> LITTLE_BOY_TARGET =     ITEMS.register("little_boy_target",     () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
+    public static final DeferredItem<Item> LITTLE_BOY_BULLET =     ITEMS.register("little_boy_bullet",     () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
     public static final DeferredItem<Item> LITTLE_BOY_PROPELLANT = ITEMS.register("little_boy_propellant", () -> new Item(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> LITTLE_BOY_IGNITER = ITEMS.register("little_boy_igniter", () -> new Item(new Item.Properties().stacksTo(1)));
-
+    public static final DeferredItem<Item> LITTLE_BOY_IGNITER =    ITEMS.register("little_boy_igniter",    () -> new Item(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> FAT_MAN_IGNITER = ITEMS.register("fat_man_igniter", () -> new Item(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> FAT_MAN_CORE = ITEMS.register("fat_man_core", () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
-
-    public static final DeferredItem<Item> IVY_MIKE_CORE = ITEMS.register("ivy_mike_core", () -> new Item(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> IVY_MIKE_DEUT = ITEMS.register("ivy_mike_deut", () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> FAT_MAN_CORE =    ITEMS.register("fat_man_core",    () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
+    public static final DeferredItem<Item> IVY_MIKE_CORE =         ITEMS.register("ivy_mike_core",         () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> IVY_MIKE_DEUT =         ITEMS.register("ivy_mike_deut",         () -> new Item(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> IVY_MIKE_COOLING_UNIT = ITEMS.register("ivy_mike_cooling_unit", () -> new Item(new Item.Properties().stacksTo(1)));
-
     public static final DeferredItem<Item> TSAR_BOMBA_CORE = ITEMS.register("tsar_bomba_core", () -> new Item(new Item.Properties().stacksTo(1)));
-
+    public static final DeferredItem<Item> FLEIJA_IGNITER =    ITEMS.register("fleija_igniter",    () -> new UsedInItem(new Item.Properties().stacksTo(1), List.of(ModBlocks.NUKE_FLEIJA.get())));
+    public static final DeferredItem<Item> FLEIJA_PROPELLANT = ITEMS.register("fleija_propellant", () -> new UsedInItem(new Item.Properties().stacksTo(1), List.of(ModBlocks.NUKE_FLEIJA.get())));
+    public static final DeferredItem<Item> FLEIJA_CORE =       ITEMS.register("fleija_core",       () -> new UsedInItem(new Item.Properties().stacksTo(1), List.of(ModBlocks.NUKE_FLEIJA.get())));
+    public static final DeferredItem<Item> SOLINIUM_IGNITER =    ITEMS.register("solinium_igniter",    () -> new UsedInItem(new Item.Properties().stacksTo(1), List.of(ModBlocks.NUKE_FLEIJA.get())));
+    public static final DeferredItem<Item> SOLINIUM_PROPELLANT = ITEMS.register("solinium_propellant", () -> new UsedInItem(new Item.Properties().stacksTo(1), List.of(ModBlocks.NUKE_FLEIJA.get())));
+    public static final DeferredItem<Item> SOLINIUM_CORE =       ITEMS.register("solinium_core",       () -> new UsedInItem(new Item.Properties().stacksTo(1), List.of(ModBlocks.NUKE_FLEIJA.get())));
     public static final DeferredItem<Item> N2_CHARGE = ITEMS.register("n2_charge", () -> new UsedInItem(new Item.Properties().stacksTo(1), List.of(ModBlocks.NUKE_N2.get())));
 
     public static void register(IEventBus eventBus) { ITEMS.register(eventBus); }

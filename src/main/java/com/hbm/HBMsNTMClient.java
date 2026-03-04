@@ -24,7 +24,6 @@ import com.hbm.main.ResourceManager;
 import com.hbm.network.toserver.Ducc;
 import com.hbm.particle.*;
 import com.hbm.particle.engine.ParticleEngineNT;
-import com.hbm.particle.engine.ParticleNT;
 import com.hbm.particle.helper.ParticleCreators;
 import com.hbm.particle.vanilla.PlayerCloudParticle;
 import com.hbm.render.blockentity.*;
@@ -604,6 +603,7 @@ public class HBMsNTMClient {
         BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_GADGET.get(), new RenderNukeGadget(null));
         BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_LITTLE_BOY.get(), new RenderNukeLittleBoy(null));
         BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_FAT_MAN.get(), new RenderNukeFatMan(null));
+        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_FLEIJA.get(), new RenderNukeFleija(null));
         BlockEntityRenderers.register(ModBlockEntityTypes.BARREL.get(), new RenderBarrel(null));
         BlockEntityRenderers.register(ModBlockEntityTypes.CRASHED_BOMB.get(), new RenderCrashedBomb(null));
         BlockEntityRenderers.register(ModBlockEntityTypes.LANDMINE.get(), new RenderLandmine(null));
@@ -724,7 +724,6 @@ public class HBMsNTMClient {
         event.registerSpecial(ModParticles.DIGAMMA_SMOKE.get(), new DigammaSmokeParticle.Provider());
         event.registerSpriteSet(ModParticles.RBMK_MUSH.get(), RBMKMushParticle.Provider::new);
         event.registerSpriteSet(ModParticles.HAZE.get(), HazeParticle.Provider::new);
-        event.registerSpriteSet(ModParticles.GIBLET.get(), ParticleGiblet.Provider::new);
         event.registerSpecial(ModParticles.DEBRIS.get(), new ParticleDebris.Provider());
         event.registerSpecial(ModParticles.FOAM.get(), new ParticleFoam.Provider());
         event.registerSpecial(ModParticles.ASHES.get(), new AshesParticle.Provider());
@@ -1210,7 +1209,7 @@ public class HBMsNTMClient {
                 if (blowMeIntoTheGodDamnStratosphere) mult *= 10;
 
                 for (int i = 0; i < count; i++) {
-                    ParticleEngineNT.INSTANCE.add(new ParticleGibletNT(level, x, y, z, rand.nextGaussian() * 0.25 * mult, rand.nextDouble() * mult, rand.nextGaussian() * 0.25 * mult, gibType));
+                    ParticleEngineNT.INSTANCE.add(new GibletParticle(level, x, y, z, rand.nextGaussian() * 0.25 * mult, rand.nextDouble() * mult, rand.nextGaussian() * 0.25 * mult, gibType));
                 }
             }
         });

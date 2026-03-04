@@ -1,7 +1,7 @@
 package com.hbm.handler;
 
 import com.hbm.HBMsNTM;
-import com.hbm.config.MainConfig;
+import com.hbm.blockentity.IGUIProvider;
 import com.hbm.inventory.screens.CalculatorScreen;
 import com.hbm.items.IKeybindReceiver;
 import com.hbm.network.toserver.KeybindReceiver;
@@ -17,10 +17,9 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.lwjgl.glfw.GLFW;
-
-import java.util.Map.Entry;
 
 @EventBusSubscriber(modid = HBMsNTM.MODID, value = Dist.CLIENT)
 public class HbmKeybinds {
@@ -64,6 +63,24 @@ public class HbmKeybinds {
         handleProps(event.getAction() == GLFW.GLFW_PRESS, event.getKey());
     }
 
+//    @SubscribeEvent
+//    public static void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
+//        Minecraft mc = Minecraft.getInstance();
+//        LocalPlayer player = mc.player;
+//        if (player == null || mc.screen != null) return;
+//
+//        if (mc.options.keyUse.getKey() == ABILITY_CYCLE.getKey()) {
+//            boolean last = clientKeysPressed[EnumKeybind.ABILITY_CYCLE.ordinal()];
+//            boolean current = ABILITY_CYCLE.isDown();
+//
+//            if (last != current) {
+//                clientKeysPressed[EnumKeybind.ABILITY_CYCLE.ordinal()] = current;
+//                PacketDistributor.sendToServer(new KeybindReceiver(EnumKeybind.ABILITY_CYCLE, current));
+//                onPressedClient(player, EnumKeybind.ABILITY_CYCLE, current);
+//            }
+//        }
+//    }
+
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post event) {
         Minecraft mc = Minecraft.getInstance();
@@ -89,21 +106,21 @@ public class HbmKeybinds {
 
     // unused for now, maybe will be used in future
     /** Handles keybind overlap. Make sure this runs first before referencing the keybinds set by the extprops */
-    public static void handleOverlap(boolean state, int keyCode) {
-        Minecraft mc = Minecraft.getInstance();
-        if (MainConfig.COMMON.ENABLE_KEYBIND_OVERLAP.get() && mc.screen == null) {
-            for (Entry<String, KeyMapping> entry : KeyMapping.ALL.entrySet()) {
-                KeyMapping key = entry.getValue();
-
-                if (keyCode != -1 && key.getKey().getValue() == keyCode && !KeyMapping.ALL.containsValue(key)) {
-                    key.setDown(state);
-                    if (state && key.clickCount == 0) {
-                        key.clickCount = 1;
-                    }
-                }
-            }
-        }
-    }
+//    public static void handleOverlap(boolean state, int keyCode) {
+//        Minecraft mc = Minecraft.getInstance();
+//        if (MainConfig.COMMON.ENABLE_KEYBIND_OVERLAP.get() && mc.screen == null) {
+//            for (Entry<String, KeyMapping> entry : KeyMapping.ALL.entrySet()) {
+//                KeyMapping key = entry.getValue();
+//
+//                if (keyCode != -1 && key.getKey().getValue() == keyCode && !KeyMapping.ALL.containsValue(key)) {
+//                    key.setDown(state);
+//                    if (state && key.clickCount == 0) {
+//                        key.clickCount = 1;
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     private static final boolean[] clientKeysPressed = new boolean[EnumKeybind.values().length];
 

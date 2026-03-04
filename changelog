@@ -1,4 +1,5 @@
 ## Added
+* F.L.E.I.J.A nuke
 * ANY vanilla explosion now create cloud and smoke particles
   * For some reason this effect was in the old versions of minecraft but not in 1.21.1
   * Check this video for showcase https://www.reddit.com/r/Minecraft/comments/1mp049m/after_6_years_mojang_has_finally_fixed_the/
@@ -9,7 +10,10 @@
   * Iron golems now also turn into metal instead of fleshy chunks
   * Slimes can now be gibbed, turning into slime globs
   * Creepers now also gib into slime instead of blood
+* Item renderer translations
 
 ## Fixed
 * Lightning issues in multiblocks
-* 256k tank's render crashing on clients without iris
+* 256k fluid tank's render crashing on clients without iris
+* Multi detonator missing name and description
+* Some exploding block not being ignited by redstone on place

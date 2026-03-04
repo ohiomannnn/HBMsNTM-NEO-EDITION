@@ -21,8 +21,7 @@ public class NukeFatManBlockEntity extends NukeBaseBlockEntity {
 
     @Override public Component getDefaultName() { return Component.translatable("container.nukeFatMan"); }
 
-    @Override
-    public int getMaxStackSize() {
+    @Override public int getMaxStackSize() {
         return 1;
     }
 

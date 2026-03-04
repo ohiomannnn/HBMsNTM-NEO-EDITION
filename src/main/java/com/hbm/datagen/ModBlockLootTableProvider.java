@@ -49,6 +49,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.NUKE_IVY_MIKE.get());
         this.dropSelf(ModBlocks.NUKE_TSAR_BOMBA.get());
         this.dropSelf(ModBlocks.NUKE_N2.get());
+        this.dropSelf(ModBlocks.NUKE_FLEIJA.get());
 
         this.dropSelf(ModBlocks.DET_CORD.get());
         this.dropSelf(ModBlocks.DET_CHARGE.get());

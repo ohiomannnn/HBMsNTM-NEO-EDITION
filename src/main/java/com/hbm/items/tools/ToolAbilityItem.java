@@ -28,6 +28,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -167,18 +168,13 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItem
         BlockState state = level.getBlockState(pos);
         BlockState refState = level.getBlockState(refPos);
 
-        if (state.isAir()) return;
+        if (state.isAir() || refState.isAir()) return;
         if (!(player instanceof ServerPlayer)) return;
 
         float refStrength = refState.getDestroyProgress(player, level, refPos);
         float strength = state.getDestroyProgress(player, level, pos);
 
-        HBMsNTM.LOGGER.info("ref = {}, s = {}", refStrength, strength);
-
-        if (!player.hasCorrectToolForDrops(state) || refStrength / strength > 2f || refState.getDestroyProgress(player, level, refPos) < 0) return;
-
-        BlockEvent.BreakEvent event = CommonHooks.fireBlockBreak(level, ((ServerPlayer) player).gameMode.getGameModeForPlayer(), (ServerPlayer) player, pos, state);
-        if (event.isCanceled()) return;
+        if (!player.hasCorrectToolForDrops(state) || refStrength / strength > 2f) return;
 
         Configuration config = this.getConfiguration(player.getMainHandItem());
         ToolPreset preset = config.getActivePreset();

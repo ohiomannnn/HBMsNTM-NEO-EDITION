@@ -5,7 +5,6 @@ import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.interfaces.ICopiable;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
@@ -22,7 +21,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
@@ -293,7 +291,7 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
 
     @Override
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (state.getBlock() != newState.getBlock()) {
+        if (!state.is(newState.getBlock())) {
 
             if (!safeRem) {
                 Direction dir = state.getValue(FACING);
@@ -305,14 +303,16 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
             }
 
             // Drop inventory contents
-            BlockEntity blockEntity = level.getBlockEntity(pos);
-            if (blockEntity instanceof Container container) {
+            BlockEntity be = level.getBlockEntity(pos);
+            if (be instanceof Container container) {
                 Containers.dropContents(level, pos, container);
+
+                super.onRemove(state, level, pos, newState, isMoving);
                 level.updateNeighbourForOutputSignal(pos, this);
+            } else {
+                super.onRemove(state, level, pos, newState, isMoving);
             }
         }
-
-        super.onRemove(state, level, pos, newState, isMoving);
     }
 
     @Override

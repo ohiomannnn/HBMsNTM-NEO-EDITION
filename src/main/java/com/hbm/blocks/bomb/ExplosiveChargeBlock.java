@@ -54,11 +54,6 @@ public class ExplosiveChargeBlock extends DetonatableBlock implements IBomb, IDe
             if (this == ModBlocks.DET_NUKE.get()) {
                 NukeExplosionMK5.statFac(level, MainConfig.COMMON.MISSLE_RADIUS.get(), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
                 NukeTorexCreator.statFacStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, MainConfig.COMMON.MISSLE_RADIUS.get());
-//                NukeExplosionMK3 ex = NukeExplosionMK3.statFacFleija(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, MainConfig.COMMON.FLEIJA_RADIUS.get());
-//                if (!ex.isRemoved()) {
-//                    WorldUtil.loadAndSpawnEntityInWorld(ex);
-//                    CloudCreator.composeEffect(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, CloudCreator.CloudType.RAINBOW);
-//                }
             }
         }
         return BombReturnCode.DETONATED;
@@ -66,7 +61,14 @@ public class ExplosiveChargeBlock extends DetonatableBlock implements IBomb, IDe
 
     @Override
     public void explodeEntity(Level level, double x, double y, double z, TNTPrimedBase entity) {
-        explode(level, BlockPos.containing(x, y, z));
+        this.explode(level, BlockPos.containing(x, y, z));
+    }
+
+    @Override
+    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
+        if (level.hasNeighborSignal(pos)) {
+            this.explode(level, pos);
+        }
     }
 
     @Override

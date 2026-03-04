@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
-public class ParticleGibletNT extends ParticleNT {
+public class GibletParticle extends ParticleNT {
 
     private static final ResourceLocation TEXTURE_MEAT = HBMsNTM.withDefaultNamespaceNT("textures/particle/meat.png");
     private static final ResourceLocation TEXTURE_SLIME = HBMsNTM.withDefaultNamespaceNT("textures/particle/slime.png");
@@ -23,7 +23,7 @@ public class ParticleGibletNT extends ParticleNT {
     private float momentumRoll;
     private int gibType;
 
-    public ParticleGibletNT(ClientLevel level, double x, double y, double z, double mX, double mY, double mZ, int gibType) {
+    public GibletParticle(ClientLevel level, double x, double y, double z, double mX, double mY, double mZ, int gibType) {
         super(level, x, y, z);
         this.xd = mX;
         this.yd = mY;
@@ -95,9 +95,9 @@ public class ParticleGibletNT extends ParticleNT {
     @Override
     public RenderType getRenderType() {
         return switch (gibType) {
-            case 1 -> RenderType.entityCutoutNoCull(TEXTURE_SLIME);
-            case 2 -> RenderType.entityCutoutNoCull(TEXTURE_METAL);
-            default -> RenderType.entityCutoutNoCull(TEXTURE_MEAT);
+            case 1 -> RenderType.entityTranslucent(TEXTURE_SLIME);
+            case 2 -> RenderType.entityTranslucent(TEXTURE_METAL);
+            default -> RenderType.entityTranslucent(TEXTURE_MEAT);
         };
     }
 }

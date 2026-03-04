@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -24,7 +25,12 @@ public interface IToolHarvestAbility extends IBaseAbility {
     default void onHarvestBlock(Level level, BlockPos pos, Player player, BlockPos refPos) {
         BlockState state = level.getBlockState(pos);
 
-        state.getBlock().playerDestroy(level, player, pos, state, level.getBlockEntity(pos), player.getMainHandItem());
+        List<ItemStack> drops = Block.getDrops(state, (ServerLevel) level, refPos, level.getBlockEntity(refPos), player, player.getMainHandItem());
+        for (ItemStack stack : drops) {
+            if (!stack.isEmpty()) {
+                Block.popResource(level, pos, stack);
+            }
+        }
         level.removeBlock(pos, false);
 
         player.getMainHandItem().hurtAndBreak(1, player, EquipmentSlot.MAINHAND);
