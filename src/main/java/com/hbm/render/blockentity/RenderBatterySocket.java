@@ -7,6 +7,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.BatteryPackItem;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.CustomRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.util.BeamPronter;
 import com.hbm.render.util.BeamPronter.BeamType;
@@ -32,38 +33,32 @@ public class RenderBatterySocket extends BlockEntityRendererNT<BatterySocketBloc
 
     private static final ResourceLocation blorbo = HBMsNTM.withDefaultNamespaceNT("textures/models/horse/sunburst.png");
 
-    public RenderBatterySocket(Context context) { }
-
-
-    @Override
-    public BlockEntityRenderer<BatterySocketBlockEntity> create(Context context) {
-        return new RenderBatterySocket(context);
-    }
+    @Override public BlockEntityRenderer<BatterySocketBlockEntity> create(Context context) { return new RenderBatterySocket(); }
 
     @Override
     public void render(BatterySocketBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
 
         Direction facing = be.getBlockState().getValue(DummyableBlock.FACING);
         float rot = switch (facing) {
-            case NORTH -> 270f;
-            case SOUTH -> 90f;
-            case WEST -> 0f;
-            default -> 180f;
+            case DOWN, UP -> 0.0F;
+            case WEST -> 90F;
+            case SOUTH -> 180F;
+            case EAST -> 270F;
+            case NORTH -> 0F;
         };
 
-
         poseStack.pushPose();
-        poseStack.translate(0.5, 0, 0.5);
+        poseStack.translate(0.5F, 0F, 0.5F);
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
         poseStack.translate(0.5, 0, -0.5);
 
-        VertexConsumer consumerSocket = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.BATTERY_SOCKET_TEX));
+        VertexConsumer consumerSocket = buffer.getBuffer(CustomRenderTypes.EC_NC_NC.apply(ResourceManager.BATTERY_SOCKET_TEX));
         ResourceManager.battery_socket.renderPart("Socket", poseStack, consumerSocket, packedLight, packedOverlay);
 
         ItemStack render = be.syncStack;
         if (!render.isEmpty()) {
             if (render.getItem() instanceof BatteryPackItem packItem) {
-                VertexConsumer consumerPack = buffer.getBuffer(RenderType.entityCutoutNoCull(packItem.getPack().texture));
+                VertexConsumer consumerPack = buffer.getBuffer(CustomRenderTypes.EC_NC_NC.apply(packItem.getPack().texture));
                 ResourceManager.battery_socket.renderPart(packItem.getPack().isCapacitor() ? "Capacitor" : "Battery", poseStack, consumerPack, packedLight, packedOverlay);
             } else if (render.is(ModItems.BATTERY_CREATIVE)) {
                 poseStack.pushPose();
@@ -98,25 +93,24 @@ public class RenderBatterySocket extends BlockEntityRendererNT<BatterySocketBloc
     private AABB bb = null;
 
     @Override
-    public AABB getRenderBoundingBox(BatterySocketBlockEntity blockEntity) {
+    public AABB getRenderBoundingBox(BatterySocketBlockEntity be) {
 
         if (bb == null) {
+            int x = be.getBlockPos().getX();
+            int y = be.getBlockPos().getY();
+            int z = be.getBlockPos().getZ();
+
             bb = new AABB(
-                    blockEntity.getBlockPos().getX() - 1,
-                    blockEntity.getBlockPos().getY(),
-                    blockEntity.getBlockPos().getZ() - 1,
-                    blockEntity.getBlockPos().getX() - 2,
-                    blockEntity.getBlockPos().getY() - 2,
-                    blockEntity.getBlockPos().getZ() - 2
+                    x - 1,
+                    y - 0,
+                    z - 1,
+                    x - 2,
+                    y - 2,
+                    z - 2
             );
         }
 
         return bb;
-    }
-
-    @Override
-    public int getViewDistance() {
-        return 256;
     }
 
     @Override
@@ -135,7 +129,7 @@ public class RenderBatterySocket extends BlockEntityRendererNT<BatterySocketBloc
 
             @Override
             public void renderCommon(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.BATTERY_SOCKET_TEX));
+                VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC.apply(ResourceManager.BATTERY_SOCKET_TEX));
                 ResourceManager.battery_socket.renderPart("Socket", poseStack, consumer, packedLight, packedOverlay);
             }
         };

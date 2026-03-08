@@ -17,12 +17,7 @@ import net.minecraft.world.level.block.Block;
 
 public class RenderBarrel extends BlockEntityRendererNT<EmptyBlockEntity> implements IBEWLRProvider {
 
-    public RenderBarrel(Context context) { }
-
-    @Override
-    public BlockEntityRenderer<EmptyBlockEntity> create(Context context) {
-        return new RenderBarrel(context);
-    }
+    @Override public BlockEntityRenderer<EmptyBlockEntity> create(Context context) { return new RenderBarrel(); }
 
     @Override
     public void render(EmptyBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
@@ -43,16 +38,6 @@ public class RenderBarrel extends BlockEntityRendererNT<EmptyBlockEntity> implem
     }
 
     @Override
-    public int getViewDistance() {
-        return 256;
-    }
-
-    @Override
-    public Item getItemForRenderer() {
-        return null;
-    }
-
-    @Override
     public Item[] getItemsForRenderer() {
         return new Item[] {
                 ModBlocks.BARREL_RED.asItem(),
@@ -67,9 +52,7 @@ public class RenderBarrel extends BlockEntityRendererNT<EmptyBlockEntity> implem
         return new ItemRenderBaseStandard() {
             @Override
             public void renderInventory(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                poseStack.scale(10F, 10F, 10F);
                 poseStack.translate(0F, -0.3F, 0F);
-                poseStack.mulPose(Axis.YP.rotationDegrees(90F));
             }
 
             @Override

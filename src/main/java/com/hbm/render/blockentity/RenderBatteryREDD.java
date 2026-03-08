@@ -30,12 +30,7 @@ import java.util.Random;
 
 public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEntity> implements IBEWLRProvider {
 
-    public RenderBatteryREDD(Context context) { }
-
-    @Override
-    public BlockEntityRenderer<BatteryREDDBlockEntity> create(Context context) {
-        return new RenderBatteryREDD(context);
-    }
+    @Override public BlockEntityRenderer<BatteryREDDBlockEntity> create(Context context) { return new RenderBatteryREDD(); }
 
     @Override
     public void render(BatteryREDDBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
@@ -53,7 +48,7 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
         poseStack.translate(0.5, 0, 0.5);
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
 
-        VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.BATTERY_REDD_TEX));
+        VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC_NC.apply(ResourceManager.BATTERY_REDD_TEX));
         ResourceManager.battery_redd.renderPart("Base", poseStack, consumer, packedLight, packedOverlay);
 
         poseStack.pushPose();
@@ -64,8 +59,8 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
         poseStack.mulPose(Axis.XP.rotationDegrees(wheelRot));
         poseStack.translate(0F, -5.5F, 0F);
 
-        ResourceManager.battery_redd.renderPart("Wheel",  poseStack, consumer, packedLight, packedOverlay);
-        ResourceManager.battery_redd.renderPart("Lights",  poseStack, consumer, 240, packedOverlay);
+        ResourceManager.battery_redd.renderPart("Wheel", poseStack, consumer, packedLight, packedOverlay);
+        ResourceManager.battery_redd.renderPart("Lights", poseStack, consumer, 240, packedOverlay);
 
         poseStack.pushPose();
         poseStack.translate(0F, 5.5F, 0F);
@@ -202,11 +197,6 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
         }
 
         return bb;
-    }
-
-    @Override
-    public int getViewDistance() {
-        return 256;
     }
 
     @Override

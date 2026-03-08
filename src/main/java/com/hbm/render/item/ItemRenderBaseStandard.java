@@ -21,7 +21,7 @@ public class ItemRenderBaseStandard extends BlockEntityWithoutLevelRenderer {
         if (displayContext != ItemDisplayContext.GUI) poseStack.translate(0.5F, 0F, 0.5F);
         switch (displayContext) {
             case FIRST_PERSON_RIGHT_HAND -> {
-                poseStack.translate(-0.05F, 0.41F, 0.1F);
+                poseStack.translate(-0.08F, 0.41F, 0.1F);
                 poseStack.scale(0.35F, 0.35F, 0.35F);
                 poseStack.mulPose(Axis.YP.rotationDegrees(180F));
                 poseStack.mulPose(Axis.YN.rotationDegrees(135F));
@@ -29,7 +29,7 @@ public class ItemRenderBaseStandard extends BlockEntityWithoutLevelRenderer {
                 renderFirstPerson(poseStack, buffer, packedLight, packedOverlay, true);
             }
             case FIRST_PERSON_LEFT_HAND -> {
-                poseStack.translate(0.05F, 0.41F, 0.1F);
+                poseStack.translate(0.08F, 0.41F, 0.1F);
                 poseStack.scale(0.35F, 0.35F, 0.35F);
                 poseStack.mulPose(Axis.YP.rotationDegrees(135F));
                 renderNonInv(itemStackIn, poseStack, buffer, packedLight, packedOverlay, false);
@@ -41,6 +41,7 @@ public class ItemRenderBaseStandard extends BlockEntityWithoutLevelRenderer {
                 poseStack.mulPose(Axis.XP.rotationDegrees(70F));
                 poseStack.mulPose(Axis.YN.rotationDegrees(135F));
                 renderNonInv(itemStackIn, poseStack, buffer, packedLight, packedOverlay, true);
+                poseStack.mulPose(Axis.YP.rotationDegrees(90F));
             }
             case THIRD_PERSON_LEFT_HAND -> {
                 poseStack.translate(0F, 0.55F, -0.18F);
@@ -48,6 +49,7 @@ public class ItemRenderBaseStandard extends BlockEntityWithoutLevelRenderer {
                 poseStack.mulPose(Axis.XP.rotationDegrees(70F));
                 poseStack.mulPose(Axis.YP.rotationDegrees(135F));
                 renderNonInv(itemStackIn, poseStack, buffer, packedLight, packedOverlay, false);
+                poseStack.mulPose(Axis.YP.rotationDegrees(90F));
             }
             case GROUND -> {
                 poseStack.translate(0F, 0.3F, 0F);
@@ -66,6 +68,8 @@ public class ItemRenderBaseStandard extends BlockEntityWithoutLevelRenderer {
                 poseStack.mulPose(Axis.YP.rotationDegrees(225F));  // 45 + 180
                 poseStack.scale(0.0620F, 0.0620F, 0.0620F);
                 poseStack.translate(0F, 11.6F, -11.6F);
+                poseStack.scale(10F, 10F, 10F);
+                poseStack.mulPose(Axis.YP.rotationDegrees(90F));
                 renderInventory(itemStackIn, poseStack, buffer, packedLight, packedOverlay);
             }
             case NONE -> {}

@@ -4,4 +4,10 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-public abstract class BlockEntityRendererNT<T extends BlockEntity> implements BlockEntityRendererProvider<T>, BlockEntityRenderer<T> { }
+public abstract class BlockEntityRendererNT<T extends BlockEntity> implements BlockEntityRendererProvider<T>, BlockEntityRenderer<T> {
+
+    @Override
+    public int getViewDistance() {
+        return 256;
+    }
+}

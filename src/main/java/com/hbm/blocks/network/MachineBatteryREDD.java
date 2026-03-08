@@ -1,7 +1,6 @@
 package com.hbm.blocks.network;
 
 import com.hbm.blockentity.IPersistentNBT;
-import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blockentity.ProxyComboBlockEntity;
 import com.hbm.blockentity.Tickable;
 import com.hbm.blockentity.machine.storage.BatteryREDDBlockEntity;
@@ -21,7 +20,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -46,6 +44,12 @@ public class MachineBatteryREDD extends DummyableBlock {
             case EXTRA -> new ProxyComboBlockEntity(pos, state).power().conductor();
             default -> null;
         };
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        if (state.getValue(TYPE) != DummyBlockType.CORE) return null;
+        return (lvl, pos, st, be) -> { if (be instanceof Tickable tickable) tickable.updateEntity(); };
     }
 
     @Override public int[] getDimensions() { return new int[] {9, 0, 2, 2, 4, 4}; }
@@ -91,13 +95,5 @@ public class MachineBatteryREDD extends DummyableBlock {
         if (persistent.contains("power")) {
             components.add(Component.literal(BobMathUtil.format(new BigInteger(persistent.getByteArray("power"))) + " HE").withStyle(ChatFormatting.YELLOW));
         }
-    }
-
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        if (state.getValue(TYPE) != DummyBlockType.CORE) return null;
-        return (lvl, pos, st, be) -> {
-            if (be instanceof Tickable tickable) tickable.updateEntity();
-        };
     }
 }

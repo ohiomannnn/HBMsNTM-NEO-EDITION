@@ -26,6 +26,9 @@ import com.hbm.particle.*;
 import com.hbm.particle.engine.ParticleEngineNT;
 import com.hbm.particle.helper.ParticleCreators;
 import com.hbm.particle.vanilla.PlayerCloudParticle;
+import com.hbm.render.block.RenderCableBlock;
+import com.hbm.render.block.loader.BlockRendererDispatcher;
+import com.hbm.render.block.loader.BlockRenderers;
 import com.hbm.render.blockentity.*;
 import com.hbm.render.entity.EmptyEntityRenderer;
 import com.hbm.render.entity.effect.*;
@@ -122,7 +125,6 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.function.Supplier;
 
 @Spaghetti("die")
 @Mod(value = HBMsNTM.MODID, dist = Dist.CLIENT)
@@ -289,11 +291,14 @@ public class HBMsNTMClient {
     }
 
     private static boolean checkForGeiger(Player player) {
-        if (player.getOffhandItem().getItem() instanceof GeigerCounterItem) { return true; }
         for (ItemStack stack : player.getInventory().items) {
-            if (stack.getItem() instanceof GeigerCounterItem) {
-                return true;
+            if (stack.getItem() instanceof GeigerCounterItem) return true;
             }
+        for (ItemStack stack : player.getInventory().armor) {
+            if (stack.getItem() instanceof GeigerCounterItem) return true;
+        }
+        for (ItemStack stack : player.getInventory().offhand) {
+            if (stack.getItem() instanceof GeigerCounterItem) return true;
         }
         return false;
     }
@@ -584,39 +589,44 @@ public class HBMsNTMClient {
     @SubscribeEvent
     public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
 
-        BlockEntityRenderers.register(ModBlockEntityTypes.PLUSHIE.get(), new RenderPlushie(null));
+        BlockEntityRenderers.register(ModBlockEntityTypes.PLUSHIE.get(), new RenderPlushie());
 
-        BlockEntityRenderers.register(ModBlockEntityTypes.BATTERY_SOCKET.get(), new RenderBatterySocket(null));
-        BlockEntityRenderers.register(ModBlockEntityTypes.BATTERY_REDD.get(), new RenderBatteryREDD(null));
+        BlockEntityRenderers.register(ModBlockEntityTypes.BATTERY_SOCKET.get(), new RenderBatterySocket());
+        BlockEntityRenderers.register(ModBlockEntityTypes.BATTERY_REDD.get(), new RenderBatteryREDD());
 
-        BlockEntityRenderers.register(ModBlockEntityTypes.LAUNCH_PAD.get(), new RenderLaunchPad(null));
+        BlockEntityRenderers.register(ModBlockEntityTypes.LAUNCH_PAD.get(), new RenderLaunchPad());
 
-        BlockEntityRenderers.register(ModBlockEntityTypes.NETWORK_CABLE.get(), new RenderCable(null));
-        BlockEntityRenderers.register(ModBlockEntityTypes.DET_CORD.get(), new RenderDetCord(null));
+       // BlockEntityRenderers.register(ModBlockEntityTypes.NETWORK_CABLE.get(), new RenderCable());
+        BlockEntityRenderers.register(ModBlockEntityTypes.DET_CORD.get(), new RenderDetCord());
 
-        BlockEntityRenderers.register(ModBlockEntityTypes.FLUID_TANK.get(), new RenderFluidTank(null));
-        BlockEntityRenderers.register(ModBlockEntityTypes.GEIGER_COUNTER.get(), new RenderGeigerBlock(null));
+        BlockEntityRenderers.register(ModBlockEntityTypes.FLUID_TANK.get(), new RenderFluidTank());
+        BlockEntityRenderers.register(ModBlockEntityTypes.GEIGER_COUNTER.get(), new RenderGeigerBlock());
 
-        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_IVY_MIKE.get(), new RenderNukeIvyMike(null));
-        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_TSAR_BOMBA.get(), new RenderNukeTsarBomba(null));
-        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_N2.get(), new RenderNukeN2(null));
-        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_GADGET.get(), new RenderNukeGadget(null));
-        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_LITTLE_BOY.get(), new RenderNukeLittleBoy(null));
-        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_FAT_MAN.get(), new RenderNukeFatMan(null));
-        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_FLEIJA.get(), new RenderNukeFleija(null));
-        BlockEntityRenderers.register(ModBlockEntityTypes.BARREL.get(), new RenderBarrel(null));
-        BlockEntityRenderers.register(ModBlockEntityTypes.CRASHED_BOMB.get(), new RenderCrashedBomb(null));
-        BlockEntityRenderers.register(ModBlockEntityTypes.LANDMINE.get(), new RenderLandmine(null));
+        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_IVY_MIKE.get(), new RenderNukeIvyMike());
+        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_TSAR_BOMBA.get(), new RenderNukeTsarBomba());
+        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_N2.get(), new RenderNukeN2());
+        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_GADGET.get(), new RenderNukeGadget());
+        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_LITTLE_BOY.get(), new RenderNukeLittleBoy());
+        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_FAT_MAN.get(), new RenderNukeFatMan());
+        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_FLEIJA.get(), new RenderNukeFleija());
+        BlockEntityRenderers.register(ModBlockEntityTypes.BARREL.get(), new RenderBarrel());
+        BlockEntityRenderers.register(ModBlockEntityTypes.CRASHED_BOMB.get(), new RenderCrashedBomb());
+        BlockEntityRenderers.register(ModBlockEntityTypes.LANDMINE.get(), new RenderLandmine());
 
         for (Entry<BlockEntityType<?>, BlockEntityRendererProvider<?>> entry : BlockEntityRenderers.PROVIDERS.entrySet()) {
             if (entry.getValue() instanceof IBEWLRProvider provider) {
-                registerItemRenderer(event, provider::getRenderer, provider.getItemsForRenderer());
+                registerItemRenderer(event, provider.getRenderer(), provider.getItemsForRenderer());
             }
         }
 
-        registerItemRenderer(event, RenderLaserDetonator::new, ModItems.DETONATOR_LASER.get());
+        BlockRenderers.register(ModBlocks.RED_CABLE.get(), RenderCableBlock::new);
 
-        registerItemRenderer(event, RenderBatteryPackItem::new,
+        BlockRendererDispatcher.INSTANCE.init();
+        BlockRendererDispatcher.INSTANCE.registerItemRenderers(event);
+
+        registerItemRenderer(event, new RenderLaserDetonator(), ModItems.DETONATOR_LASER.get());
+
+        registerItemRenderer(event, new RenderBatteryPackItem(),
                 ModItems.BATTERY_PACK_REDSTONE.get(),
                 ModItems.BATTERY_PACK_LEAD.get(),
                 ModItems.BATTERY_PACK_LITHIUM.get(),
@@ -631,33 +641,33 @@ public class HBMsNTMClient {
                 ModItems.CAPACITOR_SPARK.get()
         );
 
-        registerItemRenderer(event, () -> new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER1),
+        registerItemRenderer(event, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER1),
                 ModItems.MISSILE_GENERIC.get(),
                 ModItems.MISSILE_DECOY.get(),
                 ModItems.MISSILE_INCENDIARY.get(),
                 ModItems.MISSILE_CLUSTER.get(),
                 ModItems.MISSILE_BUSTER.get()
         );
-        registerItemRenderer(event, () -> new ItemRenderMissileGeneric(RenderMissileType.TYPE_STEALTH),
+        registerItemRenderer(event, new ItemRenderMissileGeneric(RenderMissileType.TYPE_STEALTH),
                 ModItems.MISSILE_STEALTH.get()
         );
-        registerItemRenderer(event, () -> new ItemRenderMissileGeneric(RenderMissileType.TYPE_ROBIN),
+        registerItemRenderer(event, new ItemRenderMissileGeneric(RenderMissileType.TYPE_ROBIN),
                 ModItems.MISSILE_SHUTTLE.get()
         );
-        registerItemRenderer(event, () -> new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER2),
+        registerItemRenderer(event, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER2),
                 ModItems.MISSILE_STRONG.get(),
                 ModItems.MISSILE_INCENDIARY_STRONG.get(),
                 ModItems.MISSILE_CLUSTER_STRONG.get(),
                 ModItems.MISSILE_BUSTER_STRONG.get(),
                 ModItems.MISSILE_EMP_STRONG.get()
         );
-        registerItemRenderer(event, () -> new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER3),
+        registerItemRenderer(event, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER3),
                 ModItems.MISSILE_BURST.get(),
                 ModItems.MISSILE_INFERNO.get(),
                 ModItems.MISSILE_RAIN.get(),
                 ModItems.MISSILE_DRILL.get()
         );
-        registerItemRenderer(event, () -> new ItemRenderMissileGeneric(RenderMissileType.TYPE_NUCLEAR),
+        registerItemRenderer(event, new ItemRenderMissileGeneric(RenderMissileType.TYPE_NUCLEAR),
                 ModItems.MISSILE_NUCLEAR.get(),
                 ModItems.MISSILE_NUCLEAR_CLUSTER.get(),
                 ModItems.MISSILE_VOLCANO.get(),
@@ -666,14 +676,14 @@ public class HBMsNTMClient {
         );
     }
 
-    private static void registerItemRenderer(RegisterClientExtensionsEvent event, Supplier<BlockEntityWithoutLevelRenderer> rendererFactory, Item... items) {
+    private static void registerItemRenderer(RegisterClientExtensionsEvent event, BlockEntityWithoutLevelRenderer rendererFactory, Item... items) {
         event.registerItem(new IClientItemExtensions() {
             private BlockEntityWithoutLevelRenderer renderer;
 
             @Override
             public BlockEntityWithoutLevelRenderer getCustomRenderer() {
                 if (renderer == null) {
-                    renderer = rendererFactory.get();
+                    renderer = rendererFactory;
                 }
                 return renderer;
             }

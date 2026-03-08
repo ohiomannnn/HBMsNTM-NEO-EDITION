@@ -27,21 +27,21 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
     @Override
     protected void generate() {
-        dropSelf(ModBlocks.BRICK_CONCRETE.get());
-        dropSelf(ModBlocks.BRICK_CONCRETE_MOSSY.get());
-        dropSelf(ModBlocks.BRICK_CONCRETE_BROKEN.get());
-        dropSelf(ModBlocks.BRICK_CONCRETE_CRACKED.get());
-        dropSelf(ModBlocks.BRICK_CONCRETE_MARKED.get());
+        this.dropSelf(ModBlocks.BRICK_CONCRETE.get());
+        this.dropSelf(ModBlocks.BRICK_CONCRETE_MOSSY.get());
+        this.dropSelf(ModBlocks.BRICK_CONCRETE_BROKEN.get());
+        this.dropSelf(ModBlocks.BRICK_CONCRETE_CRACKED.get());
+        this.dropSelf(ModBlocks.BRICK_CONCRETE_MARKED.get());
 
-        dropSelf(ModBlocks.BRICK_LIGHT.get());
-        dropSelf(ModBlocks.BRICK_OBSIDIAN.get());
-        dropSelf(ModBlocks.GRAVEL_OBSIDIAN.get());
-        dropSelf(ModBlocks.BLOCK_SCRAP.get());
+        this.dropSelf(ModBlocks.BRICK_LIGHT.get());
+        this.dropSelf(ModBlocks.BRICK_OBSIDIAN.get());
+        this.dropSelf(ModBlocks.GRAVEL_OBSIDIAN.get());
+        this.dropSelf(ModBlocks.BLOCK_SCRAP.get());
 
-        dropSelf(ModBlocks.BRICK_CONCRETE_STAIRS.get());
-        dropSelf(ModBlocks.BRICK_CONCRETE_MOSSY_STAIRS.get());
-        dropSelf(ModBlocks.BRICK_CONCRETE_BROKEN_STAIRS.get());
-        dropSelf(ModBlocks.BRICK_CONCRETE_CRACKED_STAIRS.get());
+        this.dropSelf(ModBlocks.BRICK_CONCRETE_STAIRS.get());
+        this.dropSelf(ModBlocks.BRICK_CONCRETE_MOSSY_STAIRS.get());
+        this.dropSelf(ModBlocks.BRICK_CONCRETE_BROKEN_STAIRS.get());
+        this.dropSelf(ModBlocks.BRICK_CONCRETE_CRACKED_STAIRS.get());
 
         this.dropSelf(ModBlocks.NUKE_GADGET.get());
         this.dropSelf(ModBlocks.NUKE_LITTLE_BOY.get());
@@ -75,18 +75,18 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.PLUSHIE_HUNDUN.get());
         this.dropSelf(ModBlocks.PLUSHIE_DERG.get());
 
-        dropSelf(ModBlocks.ORE_OIL.get());
-        dropSelf(ModBlocks.ORE_URANIUM.get());
-        dropSelf(ModBlocks.ORE_URANIUM_SCORCHED.get());
-        dropSelf(ModBlocks.ORE_SCHRABIDIUM.get());
-        dropSelf(ModBlocks.ORE_NETHER_URANIUM.get());
-        dropSelf(ModBlocks.ORE_NETHER_URANIUM_SCORCHED.get());
-        dropSelf(ModBlocks.ORE_NETHER_PLUTONIUM.get());
-        dropSelf(ModBlocks.ORE_NETHER_SCHRABIDIUM.get());
-        dropSelf(ModBlocks.ORE_TIKITE.get());
-        dropSelf(ModBlocks.ORE_GNEISS_URANIUM.get());
-        dropSelf(ModBlocks.ORE_GNEISS_URANIUM_SCORCHED.get());
-        dropSelf(ModBlocks.ORE_GNEISS_SCHRABIDIUM.get());
+        this.dropSelf(ModBlocks.ORE_OIL.get());
+        this.dropSelf(ModBlocks.ORE_URANIUM.get());
+        this.dropSelf(ModBlocks.ORE_URANIUM_SCORCHED.get());
+        this.dropSelf(ModBlocks.ORE_SCHRABIDIUM.get());
+        this.dropSelf(ModBlocks.ORE_NETHER_URANIUM.get());
+        this.dropSelf(ModBlocks.ORE_NETHER_URANIUM_SCORCHED.get());
+        this.dropSelf(ModBlocks.ORE_NETHER_PLUTONIUM.get());
+        this.dropSelf(ModBlocks.ORE_NETHER_SCHRABIDIUM.get());
+        this.dropSelf(ModBlocks.ORE_TIKITE.get());
+        this.dropSelf(ModBlocks.ORE_GNEISS_URANIUM.get());
+        this.dropSelf(ModBlocks.ORE_GNEISS_URANIUM_SCORCHED.get());
+        this.dropSelf(ModBlocks.ORE_GNEISS_SCHRABIDIUM.get());
 
         this.add(ModBlocks.WASTE_EARTH.get(), block -> createSingleItemTable(Blocks.DIRT));
         this.add(ModBlocks.FROZEN_DIRT.get(), block -> createSingleItemTable(Items.SNOWBALL));
@@ -111,13 +111,15 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         this.add(ModBlocks.LEAVES_LAYER.get(), BlockLootSubProvider::createShearsOnlyDrop);
         this.add(ModBlocks.WASTE_LEAVES.get(), BlockLootSubProvider::createShearsOnlyDrop);
 
-        dropSelf(ModBlocks.WASTE_PLANKS.get());
-        dropSelf(ModBlocks.WASTE_MYCELIUM.get());
-        dropSelf(ModBlocks.WASTE_TRINITITE_RED.get());
-        dropSelf(ModBlocks.WASTE_TRINITITE.get());
+        this.dropSelf(ModBlocks.WASTE_PLANKS.get());
+        this.dropSelf(ModBlocks.WASTE_MYCELIUM.get());
+        this.dropSelf(ModBlocks.WASTE_TRINITITE_RED.get());
+        this.dropSelf(ModBlocks.WASTE_TRINITITE.get());
 
-        dropSelf(ModBlocks.GEIGER.get());
-        dropSelf(ModBlocks.CABLE.get());
+        this.dropSelf(ModBlocks.GEIGER.get());
+
+        this.dropSelf(ModBlocks.RED_CABLE.get());
+        this.dropSelf(ModBlocks.FLUID_DUCT_NEO.get());
 
         this.dropSelf(ModBlocks.MACHINE_PRESS.get());
 
@@ -128,9 +130,9 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         this.dropSelf(ModBlocks.LAUNCH_PAD.get());
 
-        dropSelf(ModBlocks.SELLAFIELD_SLAKED.get());
+        this.dropSelf(ModBlocks.SELLAFIELD_SLAKED.get());
 
-        dropSelf(ModBlocks.FALLOUT.get());
+        this.dropSelf(ModBlocks.FALLOUT.get());
 
         this.dropSelf(ModBlocks.DECONTAMINATOR.get());
 

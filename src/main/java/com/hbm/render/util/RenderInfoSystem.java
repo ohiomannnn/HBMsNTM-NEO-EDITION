@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.GameType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -55,6 +56,7 @@ public class RenderInfoSystem {
 
         Minecraft mc = Minecraft.getInstance();
         if (mc.options.hideGui) return;
+        if (mc.gameMode.getPlayerMode() == GameType.SPECTATOR) return;
         GuiGraphics graphics = event.getGuiGraphics();
         int width = mc.getWindow().getGuiScaledWidth();
         int height = mc.getWindow().getGuiScaledHeight();
@@ -82,18 +84,15 @@ public class RenderInfoSystem {
         int infoHeight = messages.size() * 10 + pZ + 2;
         int z = 0;
 
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
-
-        Tesselator tess = Tesselator.getInstance();
-        BufferBuilder buf = tess.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-
         Matrix4f matrix = event.getGuiGraphics().pose().last().pose();
 
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        Tesselator tess = Tesselator.getInstance();
+        BufferBuilder buf = tess.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
         buf.addVertex(matrix, pX - 5, pZ - 5, z).setColor(0.25F, 0.25F, 0.25F, 0.5F);
         buf.addVertex(matrix, pX - 5, infoHeight, z).setColor(0.25F, 0.25F, 0.25F, 0.5F);
         buf.addVertex(matrix, side, infoHeight, z).setColor(0.25F, 0.25F, 0.25F, 0.5F);
         buf.addVertex(matrix, side, pZ - 5, z).setColor(0.25F, 0.25F, 0.25F, 0.5F);
-
         BufferUploader.drawWithShader(buf.buildOrThrow());
 
         int off = 0;

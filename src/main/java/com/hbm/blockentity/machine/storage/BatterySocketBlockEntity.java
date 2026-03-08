@@ -8,14 +8,12 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class BatterySocketBlockEntity extends BatteryBaseBlockEntity {
@@ -48,8 +46,6 @@ public class BatterySocketBlockEntity extends BatteryBaseBlockEntity {
 
         this.log[19] = avg;
     }
-
-    public static void serverTick(Level ignored, BlockPos ignored1, BlockState ignored2, BatterySocketBlockEntity be) { be.updateEntity(); }
 
     @Override
     public void serialize(ByteBuf buf) {

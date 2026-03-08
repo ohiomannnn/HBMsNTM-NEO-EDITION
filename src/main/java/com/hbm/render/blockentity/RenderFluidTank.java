@@ -29,12 +29,7 @@ import java.util.Locale;
 
 public class RenderFluidTank extends BlockEntityRendererNT<MachineFluidTankBlockEntity> implements IBEWLRProvider {
 
-    public RenderFluidTank(Context context) { }
-
-    @Override
-    public BlockEntityRenderer<MachineFluidTankBlockEntity> create(Context context) {
-        return new RenderFluidTank(context);
-    }
+    @Override public BlockEntityRenderer<MachineFluidTankBlockEntity> create(Context context) { return new RenderFluidTank(); }
 
     @Override
     public void render(MachineFluidTankBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
@@ -53,7 +48,6 @@ public class RenderFluidTank extends BlockEntityRendererNT<MachineFluidTankBlock
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
 
         FluidType type = be.tank.getTankType();
-
 
         if (!be.hasExploded) {
             VertexConsumer frameConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.TANK_TEX));
@@ -96,11 +90,6 @@ public class RenderFluidTank extends BlockEntityRendererNT<MachineFluidTankBlock
         }
 
         return "textures/models/tank/tank_" + s + ".png";
-    }
-
-    @Override
-    public int getViewDistance() {
-        return 256;
     }
 
     @Override

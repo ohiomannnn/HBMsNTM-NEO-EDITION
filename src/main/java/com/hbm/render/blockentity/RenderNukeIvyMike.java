@@ -3,13 +3,13 @@ package com.hbm.render.blockentity;
 import com.hbm.blockentity.bomb.NukeIvyMikeBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.CustomRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;
@@ -17,12 +17,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public class RenderNukeIvyMike extends BlockEntityRendererNT<NukeIvyMikeBlockEntity> implements IBEWLRProvider {
 
-    public RenderNukeIvyMike(Context ignored) { }
-
-    @Override
-    public BlockEntityRenderer<NukeIvyMikeBlockEntity> create(Context context) {
-        return new RenderNukeIvyMike(context);
-    }
+    @Override public BlockEntityRenderer<NukeIvyMikeBlockEntity> create(Context context) { return new RenderNukeIvyMike(); }
 
     @Override
     public void render(NukeIvyMikeBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
@@ -40,15 +35,10 @@ public class RenderNukeIvyMike extends BlockEntityRendererNT<NukeIvyMikeBlockEnt
         poseStack.translate(0.5, 0.0, 0.5);
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
 
-        VertexConsumer consumer = buffer.getBuffer(RenderType.entitySmoothCutout(ResourceManager.NUKE_IVY_MIKE));
+        VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC_NC.apply(ResourceManager.NUKE_IVY_MIKE));
         ResourceManager.nuke_ivy_mike.renderAll(poseStack, consumer, packedLight, packedOverlay);
 
         poseStack.popPose();
-    }
-
-    @Override
-    public int getViewDistance() {
-        return 256;
     }
 
     @Override
@@ -67,7 +57,7 @@ public class RenderNukeIvyMike extends BlockEntityRendererNT<NukeIvyMikeBlockEnt
 
             @Override
             public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.NUKE_IVY_MIKE));
+                VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC.apply(ResourceManager.NUKE_IVY_MIKE));
                 ResourceManager.nuke_ivy_mike.renderAll(poseStack, consumer, packedLight, packedOverlay);
             }
         };

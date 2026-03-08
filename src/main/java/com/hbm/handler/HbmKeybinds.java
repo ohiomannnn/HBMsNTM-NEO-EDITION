@@ -47,18 +47,12 @@ public class HbmKeybinds {
 
     @SubscribeEvent
     public static void onMouseInput(InputEvent.MouseButton.Pre event) {
-        /// OVERLAP HANDLING ///
-        //handleOverlap(event.getAction() == GLFW.GLFW_PRESS, event.getButton());
-
         /// KEYBIND PROPS ///
         handleProps(event.getAction() == GLFW.GLFW_PRESS, event.getButton());
     }
 
     @SubscribeEvent
     public static void onKeyInput(InputEvent.Key event) {
-        /// OVERLAP HANDLING ///
-        //handleOverlap(event.getAction() == GLFW.GLFW_PRESS, event.getKey());
-
         /// KEYBIND PROPS ///
         handleProps(event.getAction() == GLFW.GLFW_PRESS, event.getKey());
     }

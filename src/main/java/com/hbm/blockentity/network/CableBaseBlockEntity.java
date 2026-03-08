@@ -9,11 +9,11 @@ import com.hbm.blockentity.Tickable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class CableBlockEntityBaseNT extends LoadedBaseBlockEntity implements IEnergyConductorMK2, Tickable {
+public class CableBaseBlockEntity extends LoadedBaseBlockEntity implements IEnergyConductorMK2, Tickable {
 
     public PowerNode node;
 
-    public CableBlockEntityBaseNT(BlockPos pos, BlockState state) {
+    public CableBaseBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.NETWORK_CABLE.get(), pos, state);
     }
 

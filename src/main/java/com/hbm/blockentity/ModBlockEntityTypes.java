@@ -7,9 +7,9 @@ import com.hbm.blockentity.machine.GeigerBlockEntity;
 import com.hbm.blockentity.machine.MachinePressBlockEntity;
 import com.hbm.blockentity.machine.MachineSatLinkerBlockEntity;
 import com.hbm.blockentity.machine.storage.*;
-import com.hbm.blockentity.network.CableBlockEntityBaseNT;
+import com.hbm.blockentity.network.CableBaseBlockEntity;
+import com.hbm.blockentity.network.PipeBaseBlockEntity;
 import com.hbm.blocks.ModBlocks;
-import com.hbm.blocks.bomb.NukeFleijaBlock;
 import com.hbm.blocks.generic.PlushieBlock.PlushieBlockEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -102,12 +102,8 @@ public class ModBlockEntityTypes {
 
     public static final Supplier<BlockEntityType<PlushieBlockEntity>> PLUSHIE = REGISTER.register("plushie", () -> BlockEntityType.Builder.of(PlushieBlockEntity::new, ModBlocks.PLUSHIE_YOMI.get(), ModBlocks.PLUSHIE_NUMBERNINE.get(), ModBlocks.PLUSHIE_HUNDUN.get(), ModBlocks.PLUSHIE_DERG.get()).build(null));
 
-    public static final Supplier<BlockEntityType<CableBlockEntityBaseNT>> NETWORK_CABLE = REGISTER.register(
-            "network_cable",
-            () -> BlockEntityType.Builder.of(
-                            CableBlockEntityBaseNT::new,
-                            ModBlocks.CABLE.get())
-                    .build(null));
+    public static final Supplier<BlockEntityType<CableBaseBlockEntity>> NETWORK_CABLE = REGISTER.register("network_cable", () -> BlockEntityType.Builder.of(CableBaseBlockEntity::new, ModBlocks.RED_CABLE.get()).build(null));
+    public static final Supplier<BlockEntityType<PipeBaseBlockEntity>> FLUID_DUCT = REGISTER.register("fluid_duct", () -> BlockEntityType.Builder.of(PipeBaseBlockEntity::new, ModBlocks.FLUID_DUCT_NEO.get()).build(null));
 
     public static final Supplier<BlockEntityType<DecontaminatorBlockEntity>> DECONTAMINATOR = REGISTER.register(
             "decontaminator",

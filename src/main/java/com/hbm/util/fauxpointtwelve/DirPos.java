@@ -1,5 +1,6 @@
 package com.hbm.util.fauxpointtwelve;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -15,6 +16,11 @@ public class DirPos extends BlockPosNT {
 
     public DirPos(BlockEntity be, Direction dir) {
         super(be);
+        this.dir = dir;
+    }
+
+    public DirPos(BlockPos pos, Direction dir) {
+        super(pos);
         this.dir = dir;
     }
 

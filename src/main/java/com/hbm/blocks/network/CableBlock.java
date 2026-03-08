@@ -1,7 +1,7 @@
 package com.hbm.blocks.network;
 
 import com.hbm.blockentity.Tickable;
-import com.hbm.blockentity.network.CableBlockEntityBaseNT;
+import com.hbm.blockentity.network.CableBaseBlockEntity;
 import com.hbm.lib.Library;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -29,7 +29,7 @@ public class CableBlock extends Block implements EntityBlock {
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new CableBlockEntityBaseNT(pos, state);
+        return new CableBaseBlockEntity(pos, state);
     }
 
     @Override

@@ -171,8 +171,9 @@ public class FluidType {
     public ResourceLocation getTexture() {
         return this.texture;
     }
+
     public String getUnlocalizedName() {
-        return this.unlocalized;
+        return this.localizedOverride != null ? localizedOverride : this.unlocalized;
     }
 
     /** Returns the localized override name if present, or otherwise the I18n converted name */

@@ -3,6 +3,7 @@ package com.hbm.render.blockentity;
 import com.hbm.blockentity.bomb.NukeGadgetBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.CustomRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -11,7 +12,6 @@ import net.minecraft.client.GraphicsStatus;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;
@@ -19,12 +19,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public class RenderNukeGadget extends BlockEntityRendererNT<NukeGadgetBlockEntity> implements IBEWLRProvider {
 
-    public RenderNukeGadget(Context ignored) { }
-
-    @Override
-    public BlockEntityRenderer<NukeGadgetBlockEntity> create(Context context) {
-        return new RenderNukeGadget(context);
-    }
+    @Override public BlockEntityRenderer<NukeGadgetBlockEntity> create(Context context) { return new RenderNukeGadget(); }
 
     @Override
     public void render(NukeGadgetBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
@@ -42,7 +37,7 @@ public class RenderNukeGadget extends BlockEntityRendererNT<NukeGadgetBlockEntit
         poseStack.translate(0.5, 0.0, 0.5);
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
 
-        VertexConsumer consumer = buffer.getBuffer(RenderType.entitySmoothCutout(ResourceManager.NUKE_GADGET_TEX));
+        VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC_NC.apply(ResourceManager.NUKE_GADGET_TEX));
         ResourceManager.nuke_gadget.renderPart("Body", poseStack, consumer, packedLight, packedOverlay);
 
         GraphicsStatus graphics = Minecraft.getInstance().options.graphicsMode().get();
@@ -52,11 +47,6 @@ public class RenderNukeGadget extends BlockEntityRendererNT<NukeGadgetBlockEntit
         }
 
         poseStack.popPose();
-    }
-
-    @Override
-    public int getViewDistance() {
-        return 256;
     }
 
     @Override
@@ -76,7 +66,7 @@ public class RenderNukeGadget extends BlockEntityRendererNT<NukeGadgetBlockEntit
             @Override
             public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
                 poseStack.mulPose(Axis.YN.rotationDegrees(90F));
-                VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.NUKE_GADGET_TEX));
+                VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC.apply(ResourceManager.NUKE_GADGET_TEX));
                 ResourceManager.nuke_gadget.renderPart("Body", poseStack, consumer, packedLight, packedOverlay);
 
                 GraphicsStatus graphics = Minecraft.getInstance().options.graphicsMode().get();

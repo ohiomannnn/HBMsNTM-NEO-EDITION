@@ -39,19 +39,30 @@ public class CustomRenderTypes {
                 RenderSystem.disableBlend();
             });
 
-    public static final Function<ResourceLocation, RenderType> HAZE = Util.memoize(
+    // Entity Cutout, No Crumbling
+    public static final Function<ResourceLocation, RenderType> EC_NC = Util.memoize(
             texture -> {
                 RenderType.CompositeState state = RenderType.CompositeState.builder()
-                        .setShaderState(RenderType.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
-                        .setTextureState(new TextureStateShard(texture, false, false))
-                        .setTransparencyState(SEVEN_SEVEN10)
-                        .setCullState(RenderType.NO_CULL)
+                        .setShaderState(RenderType.RENDERTYPE_ENTITY_SMOOTH_CUTOUT_SHADER)
+                        .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
                         .setLightmapState(RenderType.LIGHTMAP)
-                        .setOverlayState(RenderType.NO_OVERLAY)
-                        .setWriteMaskState(RenderType.COLOR_WRITE)
-                        .setOutputState(RenderType.TRANSLUCENT_TARGET)
+                        .setOverlayState(RenderType.OVERLAY)
                         .createCompositeState(false);
-                return RenderType.create("haze", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 24325, false, false, state);
+                return RenderType.create("ec_nc", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 15346, false, false, state);
+            }
+    );
+
+    // Entity Cutout, No Crumbling, No Cull
+    public static final Function<ResourceLocation, RenderType> EC_NC_NC = Util.memoize(
+            texture -> {
+                RenderType.CompositeState state = RenderType.CompositeState.builder()
+                        .setShaderState(RenderType.RENDERTYPE_ENTITY_SMOOTH_CUTOUT_SHADER)
+                        .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
+                        .setLightmapState(RenderType.LIGHTMAP)
+                        .setCullState(RenderStateShard.NO_CULL)
+                        .setOverlayState(RenderType.OVERLAY)
+                        .createCompositeState(false);
+                return RenderType.create("ec_nc_nc", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 15346, false, false, state);
             }
     );
 

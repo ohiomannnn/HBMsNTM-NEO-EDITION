@@ -2,26 +2,31 @@ package com.hbm.blockentity.machine;
 
 import com.hbm.HBMsNTMClient;
 import com.hbm.blockentity.ModBlockEntityTypes;
+import com.hbm.blockentity.Tickable;
 import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.lib.ModEffect;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
 import java.util.List;
 
-public class DecontaminatorBlockEntity extends BlockEntity {
+public class DecontaminatorBlockEntity extends BlockEntity implements Tickable {
 
     public DecontaminatorBlockEntity(BlockPos pos, BlockState blockState) {
         super(ModBlockEntityTypes.DECONTAMINATOR.get(), pos, blockState);
     }
 
-    public static void tick(Level level, BlockPos pos, BlockState ignored, DecontaminatorBlockEntity ignored1) {
+    @Override
+    public void updateEntity() {
+        if (level == null) return;
+
+        BlockPos pos = this.worldPosition;
+
         if (!level.isClientSide) {
             List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, new AABB(pos.getX() - 0.5, pos.getY(), pos.getZ() - 0.5, pos.getX() + 1.5, pos.getY() + 2, pos.getZ() + 1.5));
 

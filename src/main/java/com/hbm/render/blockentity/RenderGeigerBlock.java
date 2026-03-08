@@ -3,7 +3,9 @@ package com.hbm.render.blockentity;
 import com.hbm.blockentity.machine.GeigerBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.CustomRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
+import com.hbm.render.item.ItemRenderBaseStandard;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -17,37 +19,28 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public class RenderGeigerBlock extends BlockEntityRendererNT<GeigerBlockEntity> implements IBEWLRProvider {
 
-    public RenderGeigerBlock(Context context) { }
-
-    @Override
-    public BlockEntityRenderer<GeigerBlockEntity> create(Context context) {
-        return new RenderGeigerBlock(context);
-    }
+    @Override public BlockEntityRenderer<GeigerBlockEntity> create(Context context) { return new RenderGeigerBlock(); }
 
     @Override
     public void render(GeigerBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
 
         Direction facing = be.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
         float rot = switch (facing) {
-            case EAST -> 90f;
-            case NORTH -> 180f;
+            case DOWN, UP -> 0.0F;
             case WEST -> 270f;
-            default -> 0f;
+            case SOUTH -> 0F;
+            case EAST -> 90F;
+            case NORTH -> 180f;
         };
 
         poseStack.pushPose();
         poseStack.translate(0.5, 0.0, 0.5);
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
 
-        VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.GEIGER_TEX));
+        VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC_NC.apply(ResourceManager.GEIGER_TEX));
         ResourceManager.geiger.renderAll(poseStack, consumer, packedLight, packedOverlay);
 
         poseStack.popPose();
-    }
-
-    @Override
-    public int getViewDistance() {
-        return 256;
     }
 
     @Override
@@ -67,7 +60,7 @@ public class RenderGeigerBlock extends BlockEntityRendererNT<GeigerBlockEntity> 
             public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
                 poseStack.translate(0.2F, 0F, 0F);
                 poseStack.mulPose(Axis.YP.rotationDegrees(90F));
-                VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.GEIGER_TEX));
+                VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC_NC.apply(ResourceManager.GEIGER_TEX));
                 ResourceManager.geiger.renderAll(poseStack, consumer, packedLight, packedOverlay);
             }
         };

@@ -8,6 +8,7 @@ import com.hbm.blocks.generic.*;
 import com.hbm.blocks.generic.PlushieBlock.PlushieType;
 import com.hbm.blocks.machine.*;
 import com.hbm.blocks.network.CableBlock;
+import com.hbm.blocks.network.FluidDuctStandardBlock;
 import com.hbm.blocks.network.MachineBatteryREDD;
 import com.hbm.blocks.network.MachineBatterySocketBlock;
 import com.hbm.blocks.special.ConcreteBrickMBlock;
@@ -47,13 +48,13 @@ public class ModBlocks {
     public static final DeferredBlock<Block> WASTE_MYCELIUM =      registerBlock("waste_mycelium",      () -> new WasteMyceliumBlock(  BlockBehaviour.Properties.of().strength(0.6F).lightLevel(value -> 10).sound(SoundType.GRASS).mapColor(MapColor.COLOR_LIGHT_GREEN)));
     public static final DeferredBlock<Block> WASTE_TRINITITE =     registerBlock("waste_trinitite",     () -> new WasteTrinititeBlock( BlockBehaviour.Properties.of().strength(0.5F, 2.5F).sound(SoundType.SAND).mapColor(MapColor.SAND).instrument(NoteBlockInstrument.SNARE)));
     public static final DeferredBlock<Block> WASTE_TRINITITE_RED = registerBlock("waste_trinitite_red", () -> new WasteTrinititeBlock( BlockBehaviour.Properties.of().strength(0.5F, 2.5F).sound(SoundType.SAND).mapColor(MapColor.COLOR_RED).instrument(NoteBlockInstrument.SNARE)));
-    public static final DeferredBlock<RotatedPillarBlock> WASTE_LOG =    registerBlock("waste_log",    () -> new RotatedPillarBlock( BlockBehaviour.Properties.of().strength(5.0F, 2.5F).sound(SoundType.WOOD).mapColor(MapColor.COLOR_BLACK)));
-    public static final DeferredBlock<Block> WASTE_LEAVES =              registerBlock("waste_leaves", () -> new WasteLeavesBlock(   BlockBehaviour.Properties.of().strength(0.2F).randomTicks().mapColor(MapColor.COLOR_BROWN).sound(SoundType.GRASS).noOcclusion().isValidSpawn(Blocks::never).isSuffocating(ModBlocks::never).isViewBlocking(ModBlocks::never).ignitedByLava().pushReaction(PushReaction.DESTROY).isRedstoneConductor(ModBlocks::never)));
-    public static final DeferredBlock<Block> WASTE_PLANKS =              registerBlock("waste_planks", () -> new Block(              BlockBehaviour.Properties.of().strength(0.5F, 2.5F).sound(SoundType.WOOD).mapColor(MapColor.COLOR_BLACK)));
-    public static final DeferredBlock<Block> FROZEN_DIRT =                registerBlock("frozen_dirt",   () -> new FrozenBlock(        BlockBehaviour.Properties.of().strength(0.5F, 2.5F).sound(SoundType.GLASS).mapColor(DyeColor.LIGHT_BLUE)));
-    public static final DeferredBlock<Block> FROZEN_GRASS =               registerBlock("frozen_grass",  () -> new FrozenBlock(        BlockBehaviour.Properties.of().strength(0.5F, 2.5F).sound(SoundType.GLASS).mapColor(DyeColor.WHITE)));
-    public static final DeferredBlock<RotatedPillarBlock> FROZEN_LOG =    registerBlock("frozen_log",    () -> new RotatedPillarBlock( BlockBehaviour.Properties.of().strength(0.5F, 2.5F).sound(SoundType.GLASS).mapColor(DyeColor.LIGHT_BLUE)));
-    public static final DeferredBlock<Block> FROZEN_PLANKS =              registerBlock("frozen_planks", () -> new Block(              BlockBehaviour.Properties.of().strength(0.5F, 2.5F).sound(SoundType.GLASS).mapColor(DyeColor.LIGHT_BLUE)));
+    public static final DeferredBlock<RotatedPillarBlock> WASTE_LOG = registerBlock("waste_log",    () -> new RotatedPillarBlock( BlockBehaviour.Properties.of().strength(5.0F, 2.5F).sound(SoundType.WOOD).mapColor(MapColor.COLOR_BLACK)));
+    public static final DeferredBlock<Block> WASTE_LEAVES =           registerBlock("waste_leaves", () -> new WasteLeavesBlock(   BlockBehaviour.Properties.of().strength(0.2F).randomTicks().mapColor(MapColor.COLOR_BROWN).sound(SoundType.GRASS).noOcclusion().isValidSpawn(Blocks::never).isSuffocating(ModBlocks::never).isViewBlocking(ModBlocks::never).ignitedByLava().pushReaction(PushReaction.DESTROY).isRedstoneConductor(ModBlocks::never)));
+    public static final DeferredBlock<Block> WASTE_PLANKS =           registerBlock("waste_planks", () -> new Block(              BlockBehaviour.Properties.of().strength(0.5F, 2.5F).sound(SoundType.WOOD).mapColor(MapColor.COLOR_BLACK)));
+    public static final DeferredBlock<Block> FROZEN_DIRT =             registerBlock("frozen_dirt",   () -> new FrozenBlock(        BlockBehaviour.Properties.of().strength(0.5F, 2.5F).sound(SoundType.GLASS).mapColor(DyeColor.LIGHT_BLUE)));
+    public static final DeferredBlock<Block> FROZEN_GRASS =            registerBlock("frozen_grass",  () -> new FrozenBlock(        BlockBehaviour.Properties.of().strength(0.5F, 2.5F).sound(SoundType.GLASS).mapColor(DyeColor.WHITE)));
+    public static final DeferredBlock<RotatedPillarBlock> FROZEN_LOG = registerBlock("frozen_log",    () -> new RotatedPillarBlock( BlockBehaviour.Properties.of().strength(0.5F, 2.5F).sound(SoundType.GLASS).mapColor(DyeColor.LIGHT_BLUE)));
+    public static final DeferredBlock<Block> FROZEN_PLANKS =           registerBlock("frozen_planks", () -> new Block(              BlockBehaviour.Properties.of().strength(0.5F, 2.5F).sound(SoundType.GLASS).mapColor(DyeColor.LIGHT_BLUE)));
 
     public static final DeferredBlock<Block> LEAVES_LAYER = registerBlock("leaves_layer",
             () -> new LayeringBlock(BlockBehaviour.Properties.of()
@@ -69,7 +70,7 @@ public class ModBlocks {
                     .pushReaction(PushReaction.DESTROY)
                     .isRedstoneConductor(ModBlocks::never)));
 
-    public static final DeferredBlock<Block> FALLOUT = registerBlock("fallout", () -> new FalloutBlock(BlockBehaviour.Properties.of().strength(0.1F).sound(SoundType.GRAVEL).mapColor(MapColor.STONE)));
+    public static final DeferredBlock<Block> FALLOUT = registerBlock("fallout", () -> new FalloutBlock(BlockBehaviour.Properties.of().replaceable().strength(0.1F).sound(SoundType.GRAVEL).mapColor(MapColor.STONE)));
     public static final DeferredBlock<Block> SELLAFIELD_SLAKED = registerBlock("sellafield_slaked", () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).isValidSpawn(Blocks::never).requiresCorrectToolForDrops().strength(3.0F, 10.0F).sound(SoundType.STONE)));
     public static final DeferredBlock<Block> ORE_SELLAFIELD_DIAMOND = registerBlock("ore_sellafield_diamond", () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).isValidSpawn(Blocks::never).requiresCorrectToolForDrops().strength(3.0F, 10.0F).sound(SoundType.STONE)));
     public static final DeferredBlock<Block> ORE_SELLAFIELD_EMERALD = registerBlock("ore_sellafield_emerald", () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).isValidSpawn(Blocks::never).requiresCorrectToolForDrops().strength(3.0F, 10.0F).sound(SoundType.STONE)));
@@ -142,13 +143,8 @@ public class ModBlocks {
                     .explosionResistance(10.0F)
                     .sound(SoundType.STONE)));
 
-    public static final DeferredBlock<Block> CABLE = registerBlock(
-            "red_cable",
-            () -> new CableBlock(BlockBehaviour.Properties.of()
-                    .strength(5.0F)
-                    .explosionResistance(10.0F)
-                    .noOcclusion()
-                    .sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> RED_CABLE = registerBlock("red_cable", () -> new CableBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(10.0F).noOcclusion().sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> FLUID_DUCT_NEO = registerBlock("fluid_duct_neo", () -> new FluidDuctStandardBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(10.0F).noOcclusion().sound(SoundType.METAL)));
 
     public static final DeferredBlock<Block> MACHINE_SATLINKER = registerBlock(
             "machine_satlinker",

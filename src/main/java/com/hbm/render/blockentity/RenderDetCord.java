@@ -20,12 +20,7 @@ import net.minecraft.world.level.Level;
 
 public class RenderDetCord extends BlockEntityRendererNT<EmptyBlockEntity> implements IBEWLRProvider {
 
-    public RenderDetCord(Context context) { }
-
-    @Override
-    public BlockEntityRenderer<EmptyBlockEntity> create(Context context) {
-        return new RenderDetCord(context);
-    }
+    @Override public BlockEntityRenderer<EmptyBlockEntity> create(Context context) { return new RenderDetCord(); }
 
     @Override
     public void render(EmptyBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
@@ -67,11 +62,6 @@ public class RenderDetCord extends BlockEntityRendererNT<EmptyBlockEntity> imple
     }
 
     @Override
-    public int getViewDistance() {
-        return 256;
-    }
-
-    @Override
     public Item getItemForRenderer() {
         return ModBlocks.DET_CORD.asItem();
     }
@@ -81,25 +71,18 @@ public class RenderDetCord extends BlockEntityRendererNT<EmptyBlockEntity> imple
         return new ItemRenderBaseStandard() {
             @Override
             public void renderInventory(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                poseStack.scale(10F, 10F, 10F);
-                poseStack.translate(0F, 0.05F, 0F);
+                poseStack.translate(0F, 0.15F, 0F);
             }
 
             @Override
             public void renderNonInv(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay, boolean righthand) {
-                poseStack.translate(0F, 0.4F, 0F);
-            }
-
-            @Override
-            public void renderFirstPerson(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay, boolean righthand) {
-                poseStack.mulPose(Axis.YP.rotationDegrees(90F));
+                poseStack.translate(0F, 0.5F, 0F);
             }
 
             @Override
             public void renderCommon(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                poseStack.mulPose(Axis.YP.rotationDegrees(90F));
+                poseStack.mulPose(Axis.YP.rotationDegrees(180F));
                 poseStack.scale(1.25F, 1.25F, 1.25F);
-                poseStack.translate(0F, 0.1F, 0F);
                 VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.DET_CORD_TEX));
                 ResourceManager.cable_neo.renderPart("CZ", poseStack, consumer, packedLight, packedOverlay);
             }

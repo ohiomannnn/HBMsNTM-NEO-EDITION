@@ -21,12 +21,7 @@ import net.minecraft.world.level.levelgen.Heightmap;
 
 public class RenderLandmine extends BlockEntityRendererNT<LandMineBlockEntity> implements IBEWLRProvider {
 
-    public RenderLandmine(Context context) { }
-
-    @Override
-    public BlockEntityRenderer<LandMineBlockEntity> create(Context context) {
-        return new RenderLandmine(context);
-    }
+    @Override public BlockEntityRenderer<LandMineBlockEntity> create(Context context) { return new RenderLandmine(); }
 
     @Override
     public void render(LandMineBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
@@ -82,16 +77,6 @@ public class RenderLandmine extends BlockEntityRendererNT<LandMineBlockEntity> i
         }
 
         poseStack.popPose();
-    }
-
-    @Override
-    public int getViewDistance() {
-        return 256;
-    }
-
-    @Override
-    public Item getItemForRenderer() {
-        return null;
     }
 
     @Override

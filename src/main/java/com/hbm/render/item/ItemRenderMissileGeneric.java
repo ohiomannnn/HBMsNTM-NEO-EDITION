@@ -2,6 +2,7 @@ package com.hbm.render.item;
 
 import com.hbm.items.ModItems;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.CustomRenderTypes;
 import com.hbm.render.loader.IModelCustom;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -136,12 +137,11 @@ public class ItemRenderMissileGeneric extends BlockEntityWithoutLevelRenderer {
 
     public static Consumer<RenderStarter> generateStandard(ResourceLocation texture, IModelCustom model) { return generateWithScale(texture, model, 1F); }
     public static Consumer<RenderStarter> generateLarge(ResourceLocation texture, IModelCustom model) { return generateWithScale(texture, model, 1.5F); }
-    public static Consumer<RenderStarter> generateDouble(ResourceLocation texture, IModelCustom model) { return generateWithScale(texture, model, 2F); }
 
     public static Consumer<RenderStarter> generateWithScale(ResourceLocation texture, IModelCustom model, float scale) {
         return x -> {
             x.poseStack().scale(scale, scale, scale);
-            VertexConsumer consumer = x.bufferSource().getBuffer(RenderType.entityCutoutNoCull(texture));
+            VertexConsumer consumer = x.bufferSource().getBuffer(CustomRenderTypes.EC_NC_NC.apply(texture));
             model.renderAll(x.poseStack(), consumer, x.packedLight(), x.packedOverlay());
         };
     }

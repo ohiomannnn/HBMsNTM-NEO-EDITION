@@ -29,12 +29,7 @@ import javax.annotation.Nullable;
 
 public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> implements IBEWLRProvider {
 
-    public RenderPlushie(Context context) { }
-
-    @Override
-    public BlockEntityRenderer<PlushieBlockEntity> create(Context context) {
-        return new RenderPlushie(context);
-    }
+    @Override public BlockEntityRenderer<PlushieBlockEntity> create(Context context) { return new RenderPlushie(); }
 
     public static final ResourceLocation yomiTex = HBMsNTM.withDefaultNamespaceNT("textures/models/trinkets/yomi.png");
     public static final ResourceLocation numbernineTex = HBMsNTM.withDefaultNamespaceNT("textures/models/horse/numbernine.png");
@@ -118,16 +113,6 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
                 ResourceManager.dergModel.renderPart(squish ? "Blep" : "ColonThree", poseStack, consumer, packedLight, packedOverlay);
             }
         }
-    }
-
-    @Override
-    public int getViewDistance() {
-        return 256;
-    }
-
-    @Override
-    public Item getItemForRenderer() {
-        return null;
     }
 
     @Override

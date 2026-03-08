@@ -31,8 +31,8 @@ public interface ILookOverlay {
 
         Font font = mc.font;
 
-        event.getGuiGraphics().drawString(font, title.copy().withColor(bgCol), pX + 1, pZ - 9, 0xFFFFFF, false);
-        event.getGuiGraphics().drawString(font, title.copy().withColor(titleCol), pX, pZ - 10, 0xFFFFFF, false);
+        event.getGuiGraphics().drawString(font, title.getString(), pX + 1, pZ - 9, bgCol, false);
+        event.getGuiGraphics().drawString(font, title.getString(), pX, pZ - 10, titleCol, false);
 
         for (Component c : text) {
             event.getGuiGraphics().drawString(font, c, pX, pZ, 0xFFFFFF);

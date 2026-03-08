@@ -122,6 +122,7 @@ public class ResourceManager {
     public static IModelCustom armor_no9;
 
     public static IModelCustom cable_neo;
+    public static IModelCustom pipe_neo;
     public static IModelCustom difurnace_extension;
 
     public static IModelCustom fluid_tank;
@@ -180,6 +181,7 @@ public class ResourceManager {
         armor_no9 = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/armor/no9.obj")).asVBO();
 
         cable_neo = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/block/cable_neo.obj")).asVBO();
+        pipe_neo = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/block/pipe_neo.obj")).asVBO();
         difurnace_extension = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/block/difurnace_extension.obj")).asVBO();
 
         fluid_tank = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/machines/fluid_tank.obj")).asVBO();

@@ -1,7 +1,7 @@
 package com.hbm.blocks.network;
 
-import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blockentity.ProxyComboBlockEntity;
+import com.hbm.blockentity.Tickable;
 import com.hbm.blockentity.machine.storage.BatterySocketBlockEntity;
 import com.hbm.blocks.DummyBlockType;
 import com.hbm.blocks.DummyableBlock;
@@ -18,7 +18,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -48,7 +47,7 @@ public class MachineBatterySocketBlock extends DummyableBlock implements IToolti
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         if (state.getValue(TYPE) != DummyBlockType.CORE) return null;
-        return level.isClientSide ? null : BaseEntityBlock.createTickerHelper(type, ModBlockEntityTypes.BATTERY_SOCKET.get(), BatterySocketBlockEntity::serverTick);
+        return (lvl, pos, st, be) -> { if (be instanceof Tickable tickable) tickable.updateEntity(); };
     }
 
     @Override public int[] getDimensions() { return new int[] {1, 0, 1, 0, 1, 0}; }

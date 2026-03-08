@@ -9,6 +9,7 @@
   ],
   "client": [
     "LevelRendererMixin",
-    "ParticleEngineMixin"
+    "LevelChunkMixin",
+    "ClientChunkCacheMixin"
   ]
 }
