@@ -40,15 +40,14 @@ public class RenderBatterySocket extends BlockEntityRendererNT<BatterySocketBloc
 
         Direction facing = be.getBlockState().getValue(DummyableBlock.FACING);
         float rot = switch (facing) {
-            case DOWN, UP -> 0.0F;
-            case WEST -> 90F;
-            case SOUTH -> 180F;
-            case EAST -> 270F;
-            case NORTH -> 0F;
+            case NORTH -> 270f;
+            case SOUTH -> 90f;
+            case WEST -> 0f;
+            default -> 180f;
         };
 
         poseStack.pushPose();
-        poseStack.translate(0.5F, 0F, 0.5F);
+        poseStack.translate(0.5, 0, 0.5);
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
         poseStack.translate(0.5, 0, -0.5);
 

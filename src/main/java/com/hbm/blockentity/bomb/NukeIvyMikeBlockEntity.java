@@ -21,14 +21,12 @@ public class NukeIvyMikeBlockEntity extends NukeBaseBlockEntity {
 
     @Override public Component getDefaultName() { return Component.translatable("container.nukeIvyMike"); }
 
-    @Override public int getMaxStackSize() {
-        return 1;
-    }
+    @Override public int getMaxStackSize() { return 1; }
 
     @Override
     public boolean canPlaceItem(int slot, ItemStack stack) {
         Item item = stack.getItem();
-        return item == ModItems.EARLY_EXPLOSIVE_LENSES.get() ||
+        return item == ModItems.EXPLOSIVE_LENSES.get() ||
                 item == ModItems.FAT_MAN_CORE.get() ||
                 item == ModItems.IVY_MIKE_CORE.get() ||
                 item == ModItems.IVY_MIKE_DEUT.get() ||
@@ -36,10 +34,10 @@ public class NukeIvyMikeBlockEntity extends NukeBaseBlockEntity {
     }
     @Override
     public boolean isReady() {
-        return slots.get(0).getItem() == ModItems.EARLY_EXPLOSIVE_LENSES.get() &&
-                slots.get(1).getItem() == ModItems.EARLY_EXPLOSIVE_LENSES.get() &&
-                slots.get(2).getItem() == ModItems.EARLY_EXPLOSIVE_LENSES.get() &&
-                slots.get(3).getItem() == ModItems.EARLY_EXPLOSIVE_LENSES.get() &&
+        return slots.get(0).getItem() == ModItems.EXPLOSIVE_LENSES.get() &&
+                slots.get(1).getItem() == ModItems.EXPLOSIVE_LENSES.get() &&
+                slots.get(2).getItem() == ModItems.EXPLOSIVE_LENSES.get() &&
+                slots.get(3).getItem() == ModItems.EXPLOSIVE_LENSES.get() &&
                 slots.get(4).getItem() == ModItems.FAT_MAN_CORE.get() &&
                 slots.get(5).getItem() == ModItems.IVY_MIKE_CORE.get() &&
                 slots.get(6).getItem() == ModItems.IVY_MIKE_DEUT.get() &&
@@ -48,10 +46,10 @@ public class NukeIvyMikeBlockEntity extends NukeBaseBlockEntity {
 
     @Override
     public boolean isFilled() {
-        return slots.get(0).getItem() == ModItems.EARLY_EXPLOSIVE_LENSES.get() &&
-                slots.get(1).getItem() == ModItems.EARLY_EXPLOSIVE_LENSES.get() &&
-                slots.get(2).getItem() == ModItems.EARLY_EXPLOSIVE_LENSES.get() &&
-                slots.get(3).getItem() == ModItems.EARLY_EXPLOSIVE_LENSES.get() &&
+        return slots.get(0).getItem() == ModItems.EXPLOSIVE_LENSES.get() &&
+                slots.get(1).getItem() == ModItems.EXPLOSIVE_LENSES.get() &&
+                slots.get(2).getItem() == ModItems.EXPLOSIVE_LENSES.get() &&
+                slots.get(3).getItem() == ModItems.EXPLOSIVE_LENSES.get() &&
                 slots.get(4).getItem() == ModItems.FAT_MAN_CORE.get();
     }
 

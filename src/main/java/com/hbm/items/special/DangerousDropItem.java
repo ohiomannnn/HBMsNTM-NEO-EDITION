@@ -175,7 +175,7 @@ public class DangerousDropItem extends Item {
             return super.useOn(context);
         }
         Player player = context.getPlayer();
-        if (player == null) return InteractionResult.FAIL;
+        if (player == null) return InteractionResult.PASS;
         Level level = context.getLevel();
         ItemStack stack = context.getItemInHand();
 
@@ -193,6 +193,6 @@ public class DangerousDropItem extends Item {
                 return InteractionResult.SUCCESS;
             }
         }
-        return InteractionResult.FAIL;
+        return InteractionResult.PASS;
     }
 }

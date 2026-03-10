@@ -183,6 +183,7 @@
   "block.hbmsntm.nuke_fat_man": "Fat Man",
   "block.hbmsntm.nuke_ivy_mike": "Ivy Mike",
   "block.hbmsntm.nuke_tsar_bomba": "Tsar Bomba",
+  "block.hbmsntm.nuke_fleija": "F.L.E.I.J.A.",
   "block.hbmsntm.nuke_n2": "N² Mine",
 
   "block.hbmsntm.gas_coal": "Airborne Coal Dust",
@@ -273,9 +274,6 @@
 
   "item.hbmsntm.battery_creative": "Infinite Battery",
 
-  "item.hbmsntm.early_explosive_lenses": "Array of First-Generation High-Explosive Lenses",
-  "item.hbmsntm.early_explosive_lenses.desc": "Assembly of 8 high-explosive lenses with an aluminium$pusher, duraluminium shell, and bridgewire detonators.",
-
   "item.hbmsntm.designator": "Short Range Target Designator",
   "item.hbmsntm.designator.posSet": "Position set!",
   "item.hbmsntm.designator.desc.targetPos": "Target Coordinates:",
@@ -320,6 +318,14 @@
   "item.hbmsntm.missile_doomsday": "Doomsday Missile",
   "item.hbmsntm.missile_doomsday_rusted": "Damaged Doomsday Missile",
 
+  "item.hbmsntm.battery_spark": "Spark Battery",
+  "item.hbmsntm.battery_trixite": "Off-Brand Spark Battery",
+
+  "item.hbmsntm.early_explosive_lenses": "Array of First-Generation High-Explosive Lenses",
+  "item.hbmsntm.early_explosive_lenses.desc": "Assembly of 8 high-explosive lenses with an aluminium$pusher, duraluminium shell, and bridgewire detonators.",
+  "item.hbmsntm.explosive_lenses": "Array of High-Explosive Lenses",
+  "item.hbmsntm.explosive_lenses.desc": "Assembly of 8 PBX lenses with a thin$aluminium pusher, duraluminium shell, and$miniaturized bridgewire detonators.",
+
   "item.hbmsntm.gadget_wireing": "Wiring",
   "item.hbmsntm.gadget_core": "Large Plutonium Core",
 
@@ -338,21 +344,28 @@
 
   "item.hbmsntm.tsar_bomba_core": "Tsar Bomba Core",
 
-  "item.hbmsntm.n2_charge": "Large Explosive Charge",
+  "item.hbmsntm.flejia_igniter": "Pulse Igniter",
+  "item.hbmsntm.fleija_propellant": "Schrabidium Propellant",
+  "item.hbmsntm.flejia_core": "F.L.E.I.J.A. Uranium 235 Charge",
 
   "item.hbmsntm.used_in": "Used in:",
 
-  "satchip.frequency": "Satellite frequency: %s",
-  "item.hbmsntm.satellite_laser": "Orbital Death Ray",
-  "item.hbmsntm.satellite_laser.desc": "Allows to summon lasers with a 15 second cooldown.",
-  "item.hbmsntm.satellite_radar": "Radar Survey Satellite",
-  "item.hbmsntm.satellite_radar.desc": "Shows a map of active entities.",
+  "item.hbmsntm.n2_charge": "Large Explosive Charge",
 
   "detonator.no_pos": "No position set!",
   "detonator.no_pos.multi": "No positions set!",
   "detonator.pos_set": "Position set!",
   "detonator.set_to": "Linked to %s, %s, %s",
   "detonator.set_to.multi": "Linked positions: ",
+
+  "item.hbmsntm.egg_balefire": "Balefire Egg",
+  "item.hbmsntm.egg_balefire_shard": "Balefire Shard",
+
+  "satchip.frequency": "Satellite frequency: %s",
+  "item.hbmsntm.satellite_laser": "Orbital Death Ray",
+  "item.hbmsntm.satellite_laser.desc": "Allows to summon lasers with a 15 second cooldown.",
+  "item.hbmsntm.satellite_radar": "Radar Survey Satellite",
+  "item.hbmsntm.satellite_radar.desc": "Shows a map of active entities.",
 
   "item.hbmsntm.polaroid": "The Polaroid",
   "item.hbmsntm.polaroid.fate": "Fate chosen",
@@ -787,7 +800,7 @@
   "gui.launchPad.loading": "Loading...",
   "gui.launchPad.ready": "Ready",
   "container.nukeGadget": "The Gadget",
-  "gui.nukeGadget.desc": "§1Requires:§r$ * 4 Arrays of First-Generation$   High-Explosive Lenses$ * Heavy Plutonium Core$ * Wiring",
+  "gui.nukeGadget.desc": "§1Requires:§r$ * 4 Arrays of First-Generation$   High-Explosive Lenses$ * Large Plutonium Core$ * Wiring",
   "container.nukeFatMan": "Fat Man",
   "gui.nukeFatMan.desc": "§1Requires:§r$ * 4 Arrays of First-Generation$   High-Explosive Lenses$ * Plutonium Core$ * Bomb Firing Unit",
   "container.nukeLittleBoy": "Little Boy",
@@ -796,5 +809,6 @@
   "gui.nukeIvyMike.desc": "§1Requires:§r$ * 4 Arrays of High-Explosive Lenses$ * Plutonium Core$ * Deuterium Cooling Unit$ * Uranium Coated Deuterium Tank$ * Deuterium Tank",
   "container.nukeTsarBomba": "Tsar Bomba",
   "gui.nukeTsarBomba.desc": "§1Requires:§r$ * 4 Arrays of High-Explosive Lenses$ * Plutonium Core$§9Optional:§r$ * Tsar Bomba Core",
+  "container.nukeFleija": "F.L.E.I.J.A.",
   "container.nukeN2": "N² Mine"
 }

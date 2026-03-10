@@ -38,7 +38,6 @@ public abstract class FluidDuctBaseBlock extends Block implements EntityBlock, I
         return (lvl, pos, st, be) -> { if (be instanceof Tickable tickable) tickable.updateEntity(); };
     }
 
-
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
 

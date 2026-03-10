@@ -128,7 +128,7 @@ public class BlowtorchItem extends Item implements IFillableItem {
     @Override
     public InteractionResult useOn(UseOnContext context) {
         Player player = context.getPlayer();
-        if (player == null) return InteractionResult.FAIL;
+        if (player == null) return InteractionResult.PASS;
         Level level = context.getLevel();
         BlockPos pos = context.getClickedPos();
         Direction clickedDir = context.getClickedFace();

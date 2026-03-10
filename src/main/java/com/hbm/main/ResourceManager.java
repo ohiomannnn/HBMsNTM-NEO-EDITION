@@ -38,6 +38,9 @@ public class ResourceManager {
     public static final ResourceLocation CABLE_CLASSIC_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/red_cable_classic.png");
     public static final ResourceLocation DET_CORD_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/det_cord.png");
 
+    public static final ResourceLocation PIPE_NEO_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/pipe_neo.png");
+    public static final ResourceLocation PIPE_NEO_OVERLAY_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/pipe_neo_overlay.png");
+
     public static final ResourceLocation BARREL_ANTIMATTER_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/barrel_antimatter.png");
     public static final ResourceLocation BARREL_CORRODED_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/barrel_corroded.png");
     public static final ResourceLocation BARREL_IRON_TEX = HBMsNTM.withDefaultNamespaceNT("textures/block/barrel_iron.png");

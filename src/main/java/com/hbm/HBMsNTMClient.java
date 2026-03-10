@@ -598,6 +598,7 @@ public class HBMsNTMClient {
 
        // BlockEntityRenderers.register(ModBlockEntityTypes.NETWORK_CABLE.get(), new RenderCable());
         BlockEntityRenderers.register(ModBlockEntityTypes.DET_CORD.get(), new RenderDetCord());
+        BlockEntityRenderers.register(ModBlockEntityTypes.FLUID_DUCT.get(), new RenderPipe());
 
         BlockEntityRenderers.register(ModBlockEntityTypes.FLUID_TANK.get(), new RenderFluidTank());
         BlockEntityRenderers.register(ModBlockEntityTypes.GEIGER_COUNTER.get(), new RenderGeigerBlock());

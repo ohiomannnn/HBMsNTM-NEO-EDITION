@@ -28,7 +28,7 @@ public class DesignatorItem extends Item implements IDesignatorItem {
     @Override
     public InteractionResult useOn(UseOnContext context) {
         Player player = context.getPlayer();
-        if (player == null) return InteractionResult.FAIL;
+        if (player == null) return InteractionResult.PASS;
         BlockPos pos = context.getClickedPos();
         Level level = context.getLevel();
         ItemStack stack = context.getItemInHand();
@@ -41,9 +41,11 @@ public class DesignatorItem extends Item implements IDesignatorItem {
 
             player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".posSet", pos.getX(), pos.getZ()), false);
             level.playSound(null, player.position.x, player.position.y, player.position.z, ModSounds.TECH_BLEEP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+
+            return InteractionResult.CONSUME;
         }
 
-        return InteractionResult.CONSUME;
+        return InteractionResult.PASS;
     }
 
     @Override

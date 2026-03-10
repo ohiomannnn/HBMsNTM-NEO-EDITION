@@ -174,8 +174,9 @@ public class CommonEvents {
         event.register(ModMenuTypes.NUKE_FAT_MAN.get(), NukeFatManScreen::new);
         event.register(ModMenuTypes.NUKE_IVY_MIKE.get(), NukeIvyMikeScreen::new);
         event.register(ModMenuTypes.NUKE_TSAR_BOMBA.get(), NukeTsarBombaScreen::new);
-        event.register(ModMenuTypes.NUKE_N2.get(), NukeN2Screen::new);
         event.register(ModMenuTypes.NUKE_FLEIJA.get(), NukeFleijaScreen::new);
+        event.register(ModMenuTypes.NUKE_N2.get(), NukeN2Screen::new);
+        event.register(ModMenuTypes.NUKE_FSTBMB.get(), NukeFstbmbScreen::new);
 
         event.register(ModMenuTypes.LAUNCH_PAD_LARGE.get(), LaunchPadLargeScreen::new);
     }

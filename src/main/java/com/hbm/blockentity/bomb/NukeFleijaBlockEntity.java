@@ -21,9 +21,7 @@ public class NukeFleijaBlockEntity extends NukeBaseBlockEntity {
 
     @Override public Component getDefaultName() { return Component.translatable("container.nukeFleija"); }
 
-    @Override public int getMaxStackSize() {
-        return 1;
-    }
+    @Override public int getMaxStackSize() { return 1; }
 
     @Override
     public boolean canPlaceItem(int slot, ItemStack stack) {

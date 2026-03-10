@@ -158,7 +158,11 @@ public class ModItemModelProvider extends ItemModelProvider {
                     .end();
         }
 
+        this.basicItem(ModItems.BATTERY_SPARK.get());
+        this.basicItem(ModItems.BATTERY_TRIXITE.get());
+
         this.basicItem(ModItems.EARLY_EXPLOSIVE_LENSES.get());
+        this.basicItem(ModItems.EXPLOSIVE_LENSES.get());
 
         this.basicItem(ModItems.GADGET_WIREING.get());
         this.basicItem(ModItems.GADGET_CORE.get());
@@ -178,7 +182,14 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         this.basicItem(ModItems.TSAR_BOMBA_CORE.get());
 
+        this.basicItem(ModItems.FLEIJA_IGNITER.get());
+        this.basicItem(ModItems.FLEIJA_PROPELLANT.get());
+        this.basicItem(ModItems.FLEIJA_CORE.get());
+
         this.basicItem(ModItems.N2_CHARGE.get());
+
+        this.basicItem(ModItems.EGG_BALEFIRE_SHARD.get());
+        this.basicItem(ModItems.EGG_BALEFIRE.get());
     }
 
     private ItemModelBuilder layeredItem(Item item, String layer0, String layer1) {

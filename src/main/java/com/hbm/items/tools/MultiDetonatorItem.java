@@ -35,7 +35,7 @@ public class MultiDetonatorItem extends Item {
     @Override
     public InteractionResult useOn(UseOnContext context) {
         Player player = context.getPlayer();
-        if (player == null) return InteractionResult.FAIL;
+        if (player == null) return InteractionResult.PASS;
         Level level = context.getLevel();
         ItemStack stack = context.getItemInHand();
 
@@ -51,7 +51,7 @@ public class MultiDetonatorItem extends Item {
             return InteractionResult.SUCCESS;
         }
 
-        return InteractionResult.FAIL;
+        return InteractionResult.PASS;
     }
 
     @Override

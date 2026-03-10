@@ -1,7 +1,6 @@
 package com.hbm.inventory.menus;
 
 import com.hbm.blockentity.bomb.NukeFleijaBlockEntity;
-import com.hbm.blockentity.bomb.NukeN2BlockEntity;
 import com.hbm.inventory.ModMenuTypes;
 import com.hbm.inventory.SlotNonRetarded;
 import net.minecraft.network.FriendlyByteBuf;

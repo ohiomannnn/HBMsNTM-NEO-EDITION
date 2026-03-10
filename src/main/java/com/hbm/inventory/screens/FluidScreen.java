@@ -54,7 +54,7 @@ public class FluidScreen extends Screen {
         this.guiLeft = (this.width - this.xSize) / 2;
         this.guiTop = (this.height - this.ySize) / 2;
 
-        search = new EditBox(this.font,  guiLeft + 46, guiTop + 11, 210, 13, Component.empty());
+        search = new EditBox(this.font, guiLeft + 46, guiTop + 11, 210, 13, Component.empty());
         search.setTextColor(-1);
         search.setBordered(false);
         search.setFocused(true);

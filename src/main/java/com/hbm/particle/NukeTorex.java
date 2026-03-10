@@ -579,7 +579,7 @@ public class NukeTorex extends ParticleNT {
     public void render(VertexConsumer ignored, Camera camera, float partialTicks) {
         PoseStack poseStack = new PoseStack();
         poseStack.pushPose();
-        Vec3 camPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+        Vec3 camPos = camera.getPosition();
         poseStack.translate(this.x - camPos.x, this.y - camPos.y, this.z - camPos.z);
         FogRenderer.setupNoFog();
         MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();

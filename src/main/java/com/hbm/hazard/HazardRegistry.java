@@ -3,8 +3,12 @@ package com.hbm.hazard;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.hazard.type.*;
 import com.hbm.items.ModItems;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
+import net.neoforged.neoforge.registries.DeferredItem;
+
+import static com.hbm.items.ModItems.*;
 
 @SuppressWarnings("unused") //shut the fuck up
 public class HazardRegistry {
@@ -140,6 +144,9 @@ public class HazardRegistry {
         HazardSystem.register(Items.PUMPKIN_PIE, makeData(EXPLOSIVE, 1F));
         HazardSystem.register(Blocks.TNT, makeData(EXPLOSIVE, 4F));
 
+        HazardSystem.register(item(EGG_BALEFIRE_SHARD), makeData(RADIATION, bf * nugget));
+        HazardSystem.register(item(EGG_BALEFIRE), makeData(RADIATION, bf * ingot));
+
         HazardSystem.register(Items.GOLD_INGOT, makeData(BLINDING, 4F));
 
         HazardSystem.register(Items.BLAZE_POWDER, makeData(HOT, 4F));
@@ -151,17 +158,21 @@ public class HazardRegistry {
 
         HazardSystem.register(ModItems.PARTICLE_DIGAMMA.get(), makeData(DIGAMMA, 0.3333F));
 
-
         /*
          * Nuke parts
          */
-        HazardSystem.register(ModItems.LITTLE_BOY_PROPELLANT.get(), makeData(EXPLOSIVE, 2F));
-        HazardSystem.register(ModItems.GADGET_CORE.get(), makeData(RADIATION, pu239 * nugget * 10));
-        HazardSystem.register(ModItems.LITTLE_BOY_TARGET.get(), makeData(RADIATION, u235 * ingot * 2));
-        HazardSystem.register(ModItems.LITTLE_BOY_BULLET.get(), makeData(RADIATION, u235 * ingot));
-        HazardSystem.register(ModItems.IVY_MIKE_CORE.get(), makeData(RADIATION, u238 * nugget * 10));
-        HazardSystem.register(ModItems.FAT_MAN_CORE.get(), makeData(RADIATION, pu239 * nugget * 10));
+        HazardSystem.register(item(LITTLE_BOY_PROPELLANT), makeData(EXPLOSIVE, 2F));
+        HazardSystem.register(item(GADGET_CORE), makeData(RADIATION, pu239 * nugget * 10));
+        HazardSystem.register(item(LITTLE_BOY_TARGET), makeData(RADIATION, u235 * ingot * 2));
+        HazardSystem.register(item(LITTLE_BOY_BULLET), makeData(RADIATION, u235 * ingot));
+        HazardSystem.register(item(IVY_MIKE_CORE), makeData(RADIATION, u238 * nugget * 10));
+        HazardSystem.register(item(FAT_MAN_CORE), makeData(RADIATION, pu239 * nugget * 10));
+
+        HazardSystem.register(item(FLEIJA_PROPELLANT), makeData().addEntry(RADIATION, 15F).addEntry(EXPLOSIVE, 8F).addEntry(BLINDING, 50F));
+        HazardSystem.register(item(FLEIJA_CORE), makeData(RADIATION, 10F));
     }
+
+    private static Item item(DeferredItem<Item> item) { return item.get(); }
 
     private static HazardData makeData() { return new HazardData(); }
     private static HazardData makeData(HazardTypeBase hazard) { return new HazardData().addEntry(hazard); }

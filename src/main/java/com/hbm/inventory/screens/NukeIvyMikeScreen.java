@@ -61,7 +61,7 @@ public class NukeIvyMikeScreen extends InfoScreen<NukeIvyMikeMenu> {
         }
 
         for (int index = 0; index < 4; index++) {
-            if (be.slots.get(index).getItem() == ModItems.EARLY_EXPLOSIVE_LENSES.get()) {
+            if (be.slots.get(index).getItem() == ModItems.EXPLOSIVE_LENSES.get()) {
                 switch (index) {
                     case 0 -> guiGraphics.blit(TEXTURE, this.leftPos + 24, this.topPos + 20, 209, 1, 23, 23);
                     case 1 -> guiGraphics.blit(TEXTURE, this.leftPos + 47, this.topPos + 20, 232, 1, 23, 23);

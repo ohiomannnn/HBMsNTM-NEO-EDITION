@@ -216,6 +216,7 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.NUKE_FAT_MAN);
                         output.accept(ModBlocks.NUKE_IVY_MIKE);
                         output.accept(ModBlocks.NUKE_TSAR_BOMBA);
+                        output.accept(ModBlocks.NUKE_FLEIJA);
                         output.accept(ModBlocks.NUKE_N2);
 
                         output.accept(ModBlocks.CRASHED_BOMB_BALEFIRE);
@@ -245,6 +246,12 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.BARREL_LOX);
                         output.accept(ModBlocks.BARREL_TAINT);
 
+                        output.accept(ModItems.BATTERY_SPARK);
+                        output.accept(ModItems.BATTERY_TRIXITE);
+
+                        output.accept(ModItems.EARLY_EXPLOSIVE_LENSES);
+                        output.accept(ModItems.EXPLOSIVE_LENSES);
+
                         output.accept(ModItems.GADGET_WIREING);
                         output.accept(ModItems.GADGET_CORE);
 
@@ -254,7 +261,6 @@ public class ModCreativeTabs {
                         output.accept(ModItems.LITTLE_BOY_PROPELLANT);
                         output.accept(ModItems.LITTLE_BOY_IGNITER);
 
-                        output.accept(ModItems.EARLY_EXPLOSIVE_LENSES);
                         output.accept(ModItems.FAT_MAN_CORE);
                         output.accept(ModItems.FAT_MAN_IGNITER);
 
@@ -264,7 +270,14 @@ public class ModCreativeTabs {
 
                         output.accept(ModItems.TSAR_BOMBA_CORE);
 
+                        output.accept(ModItems.FLEIJA_IGNITER);
+                        output.accept(ModItems.FLEIJA_PROPELLANT);
+                        output.accept(ModItems.FLEIJA_CORE);
+
                         output.accept(ModItems.N2_CHARGE);
+
+                        output.accept(ModItems.EGG_BALEFIRE_SHARD);
+                        output.accept(ModItems.EGG_BALEFIRE);
 
                         output.accept(ModItems.DETONATOR);
                         output.accept(ModItems.DETONATOR_ITEM);

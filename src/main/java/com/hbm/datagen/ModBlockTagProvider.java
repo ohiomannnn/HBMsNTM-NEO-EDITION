@@ -106,8 +106,9 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                         ModBlocks.NUKE_FAT_MAN.get(),
                         ModBlocks.NUKE_IVY_MIKE.get(),
                         ModBlocks.NUKE_TSAR_BOMBA.get(),
-                        ModBlocks.NUKE_N2.get(),
                         ModBlocks.NUKE_FLEIJA.get(),
+                        ModBlocks.NUKE_N2.get(),
+                        ModBlocks.NUKE_FSTBMB.get(),
 
                         ModBlocks.SELLAFIELD_SLAKED.get(),
                         ModBlocks.ORE_SELLAFIELD_EMERALD.get(),

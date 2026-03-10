@@ -42,21 +42,21 @@ public class RenderCrashedBomb extends BlockEntityRendererNT<CrashedBombBlockEnt
         DudType type = be.type;
 
         if (type == DudType.BALEFIRE) {
-            VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC_NC.apply(ResourceManager.DUD_BALEFIRE_TEX));
+            VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC.apply(ResourceManager.DUD_BALEFIRE_TEX));
             ResourceManager.dud_balefire.renderAll(poseStack, consumer, packedLight, packedOverlay);
         }
         if (type == DudType.CONVENTIONAL) {
-            VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC_NC.apply(ResourceManager.DUD_CONVENTIONAL_TEX));
+            VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC.apply(ResourceManager.DUD_CONVENTIONAL_TEX));
             ResourceManager.dud_conventional.renderAll(poseStack, consumer, packedLight, packedOverlay);
         }
         if (type == DudType.NUKE) {
             poseStack.translate(0, 0, 1.25);
-            VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC_NC.apply(ResourceManager.DUD_NUKE_TEX));
+            VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC.apply(ResourceManager.DUD_NUKE_TEX));
             ResourceManager.dud_nuke.renderAll(poseStack, consumer, packedLight, packedOverlay);
         }
         if (type == DudType.SALTED) {
             poseStack.translate(0, 0, 0.5);
-            VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC_NC.apply(ResourceManager.DUD_SALTED_TEX));
+            VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC.apply(ResourceManager.DUD_SALTED_TEX));
             ResourceManager.dud_salted.renderAll(poseStack, consumer, packedLight, packedOverlay);
         }
 
@@ -92,7 +92,7 @@ public class RenderCrashedBomb extends BlockEntityRendererNT<CrashedBombBlockEnt
                 }
                 if (stack.is(ModBlocks.CRASHED_BOMB_CONVENTIONAL.asItem())) {
                     poseStack.translate(0F, 0F, -0.5F);
-                    VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC_NC.apply(ResourceManager.DUD_CONVENTIONAL_TEX));
+                    VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC.apply(ResourceManager.DUD_CONVENTIONAL_TEX));
                     ResourceManager.dud_conventional.renderAll(poseStack, consumer, packedLight, packedOverlay);
                 }
                 if (stack.is(ModBlocks.CRASHED_BOMB_NUKE.asItem())) {

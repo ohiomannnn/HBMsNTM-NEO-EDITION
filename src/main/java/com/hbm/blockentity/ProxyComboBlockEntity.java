@@ -126,7 +126,7 @@ public class ProxyComboBlockEntity extends ProxyBaseBlockEntity implements IEner
             return con.canConnect(dir);
         }
 
-        return true;
+        return false;
     }
 
     @Override

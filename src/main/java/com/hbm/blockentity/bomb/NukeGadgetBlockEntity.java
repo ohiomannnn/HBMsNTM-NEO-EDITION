@@ -21,9 +21,7 @@ public class NukeGadgetBlockEntity extends NukeBaseBlockEntity {
 
     @Override public Component getDefaultName() { return Component.translatable("container.nukeGadget"); }
 
-    @Override public int getMaxStackSize() {
-        return 1;
-    }
+    @Override public int getMaxStackSize() { return 1; }
 
     @Override
     public boolean canPlaceItem(int slot, ItemStack stack) {

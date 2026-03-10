@@ -3,7 +3,10 @@ package com.hbm.lib;
 import api.hbm.energymk2.IBatteryItem;
 import api.hbm.energymk2.IEnergyConnectorBlock;
 import api.hbm.energymk2.IEnergyConnectorMK2;
+import api.hbm.fluidmk2.IFluidConnectorBlockMK2;
+import api.hbm.fluidmk2.IFluidConnectorMK2;
 import com.hbm.interfaces.Spaghetti;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.util.RayTraceResult;
 import com.hbm.util.VoxelShapeUtils;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
@@ -68,6 +71,31 @@ public class Library {
         if (be instanceof IEnergyConnectorMK2 con) {
 
             if (con.canConnect(dir.getOpposite() /* machine's connecting side */)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /** dir is the direction along the fluid duct entering the block */
+    public static boolean canConnectFluid(BlockGetter level, BlockPos pos, Direction dir /* duct's connecting side */, FluidType type) {
+        if (pos.getY() > level.getMaxBuildHeight() || pos.getY() < level.getMinBuildHeight()) return false;
+
+        Block b = level.getBlockState(pos).getBlock();
+
+        if (b instanceof IFluidConnectorBlockMK2 con) {
+
+            if (con.canConnect(type, level, pos, dir.getOpposite() /* machine's connecting side */)) {
+                return true;
+            }
+        }
+
+        BlockEntity te = level.getBlockEntity(pos);
+
+        if (te instanceof IFluidConnectorMK2 con) {
+
+            if (con.canConnect(type, dir.getOpposite() /* machine's connecting side */)) {
                 return true;
             }
         }
