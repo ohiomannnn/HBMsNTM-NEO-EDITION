@@ -57,8 +57,8 @@ public abstract class InfoScreen<T extends AbstractContainerMenu> extends Abstra
         }
     }
 
-    protected boolean checkClick(int x, int y, int left, int top, int sizeX, int sizeY) {
-        return leftPos + left <= x && leftPos + left + sizeX > x && topPos + top < y && topPos + top + sizeY >= y;
+    protected boolean checkClick(double mouseX, double mouseY, int left, int top, int sizeX, int sizeY) {
+        return leftPos + left <= mouseX && leftPos + left + sizeX > mouseX && topPos + top < mouseY && topPos + top + sizeY >= mouseY;
     }
 
     public void click() {

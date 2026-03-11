@@ -48,31 +48,17 @@ public abstract class FluidDuctBaseBlock extends Block implements EntityBlock, I
 
             if (!data.getKeyPressed(EnumKeybind.TOOL_CTRL) && !player.isShiftKeyDown()) {
                 if (level.getBlockEntity(pos) instanceof PipeBaseBlockEntity pipe) {
-//                    if (data.getKeyPressed(EnumKeybind.TOOL_ALT)) {
-//                        if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof IItemFluidIdentifier) {
-//                            FluidIDMultiItem.setType(player.getMainHandItem(), pipe.getFluidType(), true);
-//                            level.playSound(null, player.position.x, player.position.y, player.position.z, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.AMBIENT, 0.25F, 0.75F);
-//                            return InteractionResult.CONSUME;
-//                        }
-//                    }
-
                     if (pipe.getFluidType() != type) {
                         pipe.setFluidType(type);
-                        return ItemInteractionResult.CONSUME;
+                        if (level.getBlockState(pos).getBlock() instanceof FluidDuctConnectingBlock connectingDuct) connectingDuct.updateConnections(level, pos, type);
+
+                        return ItemInteractionResult.SUCCESS;
                     }
                 }
             } else {
                 if (level.getBlockEntity(pos) instanceof PipeBaseBlockEntity) {
-//                    if (data.getKeyPressed(EnumKeybind.TOOL_ALT)) {
-//                        if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof IItemFluidIdentifier) {
-//                            FluidIDMultiItem.setType(player.getMainHandItem(), pipe.getFluidType(), true);
-//                            level.playSound(null, player.position.x, player.position.y, player.position.z, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.AMBIENT, 0.25F, 0.75F);
-//                            return InteractionResult.CONSUME;
-//                        }
-//                    }
-
                     this.changeTypeRecursively(level, pos, type, 64);
-                    return ItemInteractionResult.CONSUME;
+                    return ItemInteractionResult.SUCCESS;
                 }
             }
         }
@@ -86,6 +72,7 @@ public abstract class FluidDuctBaseBlock extends Block implements EntityBlock, I
         if (level.getBlockEntity(pos) instanceof PipeBaseBlockEntity pipe) {
             if (pipe.getFluidType() != type) {
                 pipe.setFluidType(type);
+                if (level.getBlockState(pos).getBlock() instanceof FluidDuctConnectingBlock connectingDuct) connectingDuct.updateConnections(level, pos, type);
 
                 if (loopsRemaining > 0) {
                     for (Direction dir : Direction.values()) {

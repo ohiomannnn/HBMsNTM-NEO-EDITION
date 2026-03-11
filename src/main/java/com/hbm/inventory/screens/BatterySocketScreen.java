@@ -75,9 +75,9 @@ public class BatterySocketScreen extends InfoScreen<BatterySocketMenu> {
 
         CompoundTag tag = new CompoundTag();
 
-        if (this.checkClick((int) x, (int) y, 106, 16, 18, 18)) { this.click(); tag.putBoolean("low", true); }
-        if (this.checkClick((int) x, (int) y, 106, 52, 18, 18)) { this.click(); tag.putBoolean("high", true); }
-        if (this.checkClick((int) x, (int) y, 125, 35, 16, 16)) { this.click(); tag.putBoolean("priority", true); }
+        if (this.checkClick(x, y, 106, 16, 18, 18)) { this.click(); tag.putBoolean("low", true); }
+        if (this.checkClick(x, y, 106, 52, 18, 18)) { this.click(); tag.putBoolean("high", true); }
+        if (this.checkClick(x, y, 125, 35, 16, 16)) { this.click(); tag.putBoolean("priority", true); }
 
         if (!tag.isEmpty()) PacketDistributor.sendToServer(new CompoundTagControl(tag, be.getBlockPos()));
 

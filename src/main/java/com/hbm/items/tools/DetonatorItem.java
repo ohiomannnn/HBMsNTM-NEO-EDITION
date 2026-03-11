@@ -51,11 +51,10 @@ public class DetonatorItem extends Item {
                 player.displayClientMessage(Component.literal("[" + this.getName(stack).getString() + "] ").withStyle(ChatFormatting.DARK_AQUA)
                         .append(Component.translatable("detonator.pos_set").withStyle(ChatFormatting.GREEN)), false);
 
-                return InteractionResult.SUCCESS;
             }
         }
 
-        return InteractionResult.PASS;
+        return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
     @Override

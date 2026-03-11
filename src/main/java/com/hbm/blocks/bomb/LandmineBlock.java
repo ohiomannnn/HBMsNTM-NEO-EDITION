@@ -18,15 +18,14 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -36,7 +35,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-public class LandmineBlock extends BaseEntityBlock implements IBomb {
+public class LandmineBlock extends Block implements EntityBlock, IBomb {
 
     private static final VoxelShape SHAPE_AP = Block.box(5, 0, 5, 11, 1, 11);
     private static final VoxelShape SHAPE_HE = Block.box(4, 0, 4, 12, 2, 12);
@@ -83,11 +82,6 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
     }
 
     @Override
-    protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return this.getShape(state, level, pos, context);
-    }
-
-    @Override
     protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
         if (!level.isClientSide) {
             if (level.hasNeighborSignal(pos)) {
@@ -108,8 +102,6 @@ public class LandmineBlock extends BaseEntityBlock implements IBomb {
     protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         if (this == ModBlocks.MINE_NAVAL.get()) return true;
         BlockPos below = pos.below();
-        if (level.getBlockState(below).is(BlockTags.LEAVES)) return false;
-        if (level.getBlockState(below).getBlock() instanceof LandmineBlock) return false;
         if (!level.getBlockState(below).isFaceSturdy(level, below, Direction.UP)) return false;
         return true;
     }

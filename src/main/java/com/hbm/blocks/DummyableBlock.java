@@ -103,6 +103,16 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
     }
 
     @Override
+    protected MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
+        BlockPos corePos = this.findCore(level, pos);
+        if (corePos == null) return null;
+        if (level.getBlockEntity(corePos) instanceof MenuProvider prov) {
+            return prov;
+        }
+        return null;
+    }
+
+    @Override
     public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
         super.neighborChanged(state, level, pos, block, fromPos, isMoving);
 

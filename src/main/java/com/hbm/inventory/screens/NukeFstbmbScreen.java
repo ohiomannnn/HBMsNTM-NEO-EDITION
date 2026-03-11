@@ -5,6 +5,7 @@ import com.hbm.blockentity.bomb.NukeBalefireBlockEntity;
 import com.hbm.interfaces.Placeholder;
 import com.hbm.inventory.menus.NukeFstbmbMenu;
 import com.hbm.network.toserver.CompoundTagControl;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.nbt.CompoundTag;
@@ -53,9 +54,18 @@ public class NukeFstbmbScreen extends InfoScreen<NukeFstbmbMenu> {
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
 
-        CompoundTag tag = new CompoundTag();
-        if (this.checkClick((int) mouseY, (int) mouseY, 142 , 35, 18, 18)) { tag.putInt("Meta", 0); }
-        if (!tag.isEmpty()) PacketDistributor.sendToServer(new CompoundTagControl(tag, be.getBlockPos()));
+        if (this.timer.mouseClicked(mouseX, mouseY, button)) {
+            this.timer.setFocused(true);
+            return true;
+        } else {
+            this.timer.setFocused(false);
+        }
+
+        if (!be.started) {
+            CompoundTag tag = new CompoundTag();
+            if (this.checkClick(mouseX, mouseY, 142, 35, 18, 18)) tag.putBoolean("start", true);
+            if (!tag.isEmpty()) PacketDistributor.sendToServer(new CompoundTagControl(tag, be.getBlockPos()));
+        }
 
         return super.mouseClicked(mouseX, mouseY, button);
     }
@@ -63,6 +73,17 @@ public class NukeFstbmbScreen extends InfoScreen<NukeFstbmbMenu> {
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
         guiGraphics.blit(TEXTURE, this.leftPos, this.topPos, 0, 0, imageWidth, imageHeight);
+
+        if (be.hasEgg()) guiGraphics.blit(TEXTURE, this.leftPos + 19, this.topPos + 90, 176, 0, 30, 16);
+
+        int battery = be.getBattery();
+
+        if (battery == 1)      guiGraphics.blit(TEXTURE, this.leftPos + 88, this.topPos + 93, 176, 16, 18, 10);
+        else if (battery == 2) guiGraphics.blit(TEXTURE, this.leftPos + 88, this.topPos + 93, 194, 16, 18, 10);
+
+        if (be.started) guiGraphics.blit(TEXTURE, this.leftPos + 142, this.topPos + 35, 176, 26, 18, 18);
+
+        this.timer.render(guiGraphics, mouseX, mouseY, partialTicks);
     }
 
     @Override
@@ -75,10 +96,10 @@ public class NukeFstbmbScreen extends InfoScreen<NukeFstbmbMenu> {
     public boolean charTyped(char codePoint, int modifiers) {
         if (this.timer.charTyped(codePoint, modifiers)) {
             if (NumberUtils.isNumber(timer.getValue())) {
-                int j = Mth.clamp((int) Double.parseDouble(timer.getValue()), 1, 999);
+                int val = Mth.clamp((int) Double.parseDouble(timer.getValue()), 1, 999);
                 CompoundTag tag = new CompoundTag();
-                tag.putInt("Meta", 1);
-                tag.putInt("Value", j);
+                tag.putBoolean("setTimer", true);
+                tag.putInt("timer", val);
                 PacketDistributor.sendToServer(new CompoundTagControl(tag, be.getBlockPos()));
             }
         }
@@ -90,5 +111,13 @@ public class NukeFstbmbScreen extends InfoScreen<NukeFstbmbMenu> {
     protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         guiGraphics.drawString(this.font, this.title, this.imageWidth / 2 - font.width(this.title) / 2, 6, 4210752, false);
         guiGraphics.drawString(this.font, this.playerInventoryTitle, 8, this.imageHeight - 96 + 2, 4210752, false);
+
+        if (be.hasBattery()) {
+            String timer = be.getMinutes() + ":" + be.getSeconds();
+            float scale = 0.75F;
+            guiGraphics.pose().scale(scale, scale, scale);
+            guiGraphics.drawString(font, timer, (int) ((69 - this.font.width(timer) / 2) * (1 / scale)), (int) (95.5 * (1 / scale)), 0xff0000);
+            guiGraphics.pose().scale(1 / scale, 1 / scale, 1 / scale);
+        }
     }
 }

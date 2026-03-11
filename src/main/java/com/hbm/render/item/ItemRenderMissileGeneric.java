@@ -94,6 +94,8 @@ public class ItemRenderMissileGeneric extends BlockEntityWithoutLevelRenderer {
                 poseStack.translate(0F, -0.5F, 0.5F);
                 poseStack.scale(s, s, s);
                 poseStack.mulPose(Axis.YP.rotationDegrees(90F));
+                poseStack.mulPose(Axis.YN.rotationDegrees(15F));
+                poseStack.mulPose(Axis.XN.rotationDegrees(15F));
             }
             case THIRD_PERSON_LEFT_HAND -> {
                 poseStack.translate(0F, 0.55F, -0.18F);
@@ -104,6 +106,9 @@ public class ItemRenderMissileGeneric extends BlockEntityWithoutLevelRenderer {
                 poseStack.scale(s, s, s);
                 poseStack.mulPose(Axis.YP.rotationDegrees(90F));
                 poseStack.mulPose(Axis.YP.rotationDegrees(180F));
+                poseStack.mulPose(Axis.YN.rotationDegrees(15F));
+                poseStack.mulPose(Axis.XN.rotationDegrees(15F));
+
             }
             case GROUND -> {
                 poseStack.translate(0F, 0.3F, 0F);

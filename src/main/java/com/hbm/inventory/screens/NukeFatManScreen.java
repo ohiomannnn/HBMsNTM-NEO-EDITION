@@ -2,7 +2,6 @@ package com.hbm.inventory.screens;
 
 import com.hbm.HBMsNTM;
 import com.hbm.blockentity.bomb.NukeFatManBlockEntity;
-import com.hbm.blockentity.bomb.NukeGadgetBlockEntity;
 import com.hbm.inventory.menus.NukeFatManMenu;
 import com.hbm.items.ModItems;
 import com.hbm.util.i18n.I18nUtil;

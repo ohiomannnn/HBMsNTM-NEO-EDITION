@@ -52,6 +52,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         this.particleOnlyBlock(ModBlocks.NUKE_TSAR_BOMBA.get(), blockTexture(ModBlocks.NUKE_TSAR_BOMBA.get()));
         this.particleOnlyBlock(ModBlocks.NUKE_FLEIJA.get(), blockTexture(ModBlocks.NUKE_FLEIJA.get()));
         this.particleOnlyBlock(ModBlocks.NUKE_N2.get(), blockTexture(ModBlocks.NUKE_N2.get()));
+        this.particleOnlyBlock(ModBlocks.NUKE_FSTBMB.get(), blockTexture(ModBlocks.NUKE_FSTBMB.get()));
 
         this.particleOnlyBlock(ModBlocks.BARREL_RED.get(), blockTexture(ModBlocks.BARREL_RED.get()));
         this.particleOnlyBlock(ModBlocks.BARREL_PINK.get(), blockTexture(ModBlocks.BARREL_PINK.get()));

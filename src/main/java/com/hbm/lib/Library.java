@@ -9,7 +9,6 @@ import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.util.RayTraceResult;
 import com.hbm.util.VoxelShapeUtils;
-import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import net.minecraft.client.multiplayer.ClientChunkCache;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -20,7 +19,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -31,7 +29,9 @@ import net.minecraft.world.level.chunk.ChunkSource;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
-import net.minecraft.world.phys.*;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.entity.PartEntity;
@@ -43,12 +43,13 @@ import java.util.function.Predicate;
 
 @Spaghetti("this whole class")
 public class Library {
-    public static final Direction POS_X = Direction.EAST;
-    public static final Direction NEG_X = Direction.WEST;
-    public static final Direction POS_Y = Direction.UP;
-    public static final Direction NEG_Y = Direction.DOWN;
-    public static final Direction POS_Z = Direction.SOUTH;
-    public static final Direction NEG_Z = Direction.NORTH;
+    // what even is this
+    @Deprecated public static final Direction POS_X = Direction.EAST;
+    @Deprecated public static final Direction NEG_X = Direction.WEST;
+    @Deprecated public static final Direction POS_Y = Direction.UP;
+    @Deprecated public static final Direction NEG_Y = Direction.DOWN;
+    @Deprecated public static final Direction POS_Z = Direction.SOUTH;
+    @Deprecated public static final Direction NEG_Z = Direction.NORTH;
 
     /**
      * Is putting this into this trash can a good idea? No. Do I have a better idea? Not currently.

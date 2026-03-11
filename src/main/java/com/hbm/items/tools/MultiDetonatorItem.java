@@ -51,7 +51,7 @@ public class MultiDetonatorItem extends Item {
             return InteractionResult.SUCCESS;
         }
 
-        return InteractionResult.PASS;
+        return InteractionResult.FAIL;
     }
 
     @Override

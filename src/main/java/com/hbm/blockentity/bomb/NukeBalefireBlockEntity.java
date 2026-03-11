@@ -8,6 +8,7 @@ import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.menus.NukeFstbmbMenu;
 import com.hbm.items.ModItems;
 import com.hbm.lib.ModSounds;
+import com.hbm.particle.helper.NukeTorexCreator;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -89,15 +90,12 @@ public class NukeBalefireBlockEntity extends MachineBaseBlockEntity implements I
     public void receiveControl(CompoundTag tag) {
         if (level == null) return;
 
-        int meta = tag.getInt("Meta");
-        int value = tag.getInt("Value");
-
-        if (meta == 0 && this.isLoaded()) {
+        if (tag.contains("start") && this.isLoaded()) {
             level.playSound(null, this.worldPosition, ModSounds.FSTBMB_START.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
             started = true;
         }
-        if (meta == 1) {
-            timer = value * 20;
+        if (tag.contains("setTimer")) {
+            timer = tag.getInt("timer") * 20;
         }
     }
 
@@ -138,6 +136,7 @@ public class NukeBalefireBlockEntity extends MachineBaseBlockEntity implements I
         bf.setPos(Vec3.atCenterOf(this.worldPosition));
         bf.destructionRange = 250;
         level.addFreshEntity(bf);
+        NukeTorexCreator.statFacBale(level, this.worldPosition.getX() + 0.5, this.worldPosition.getY() + 0.5, this.worldPosition.getZ() + 0.5, 250);
     }
 
     public String getMinutes() {

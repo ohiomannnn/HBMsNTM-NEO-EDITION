@@ -28,7 +28,6 @@ public class ItemRenderBase extends BlockEntityWithoutLevelRenderer {
                 poseStack.mulPose(Axis.YP.rotationDegrees(3F));
                 poseStack.mulPose(Axis.XP.rotationDegrees(25F));
                 renderNonInv(itemStackIn, poseStack, buffer, packedLight, packedOverlay, true);
-                renderFirstPersonRightHand(poseStack, buffer, packedLight, packedOverlay);
             }
             case FIRST_PERSON_LEFT_HAND -> {
                 poseStack.translate(-0.2F, 0.44F, 0F);
@@ -87,5 +86,4 @@ public class ItemRenderBase extends BlockEntityWithoutLevelRenderer {
     public void renderInventory(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) { }
     public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) { }
     public void renderGround(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) { }
-    public void renderFirstPersonRightHand(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) { }
 }

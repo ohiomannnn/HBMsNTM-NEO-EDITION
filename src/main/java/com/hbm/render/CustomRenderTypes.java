@@ -81,6 +81,26 @@ public class CustomRenderTypes {
                     .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
                     .createCompositeState(false)
     );
+
+    public static final ShaderStateShard POSITION_TEX_COLOR_SHADER = new ShaderStateShard(GameRenderer::getPositionTexColorShader);
+
+    public static final Function<ResourceLocation, RenderType> GLINT_NT = Util.memoize(
+            texture -> {
+                RenderType.CompositeState state = RenderType.CompositeState.builder()
+                        .setShaderState(POSITION_TEX_COLOR_SHADER)
+                        .setTextureState(new TextureStateShard(texture, false, false))
+                        .setTransparencyState(ADDITIVE_BLEND)
+                        .setCullState(RenderType.NO_CULL)
+                        .setLightmapState(RenderType.NO_LIGHTMAP)
+                        .setOverlayState(RenderType.NO_OVERLAY)
+                        .setWriteMaskState(RenderType.COLOR_WRITE)
+                        .setOutputState(RenderType.TRANSLUCENT_TARGET)
+                        .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
+                        .createCompositeState(false);
+                return RenderType.create("glint_nt", DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS, 234256, false, false, state);
+            }
+    );
+
     public static final Function<ResourceLocation, RenderType> ADDITIVE = Util.memoize(
             texture -> {
                 RenderType.CompositeState state = RenderType.CompositeState.builder()
@@ -145,8 +165,6 @@ public class CustomRenderTypes {
                 return RenderType.create("smoth2", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 3123124, false, false, state);
             }
     );
-
-    public static final ShaderStateShard POSITION_TEX_COLOR_SHADER = new ShaderStateShard(GameRenderer::getPositionTexColorShader);
 
     public static final Function<ResourceLocation, RenderType> CLOUD = Util.memoize(
             texture -> {

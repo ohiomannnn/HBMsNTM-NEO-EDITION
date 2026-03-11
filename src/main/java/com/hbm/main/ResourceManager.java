@@ -20,8 +20,9 @@ public class ResourceManager {
     public static final ResourceLocation NUKE_FAT_MAN_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/nuke_fatman.png");
     public static final ResourceLocation NUKE_IVY_MIKE = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/nuke_ivy_mike.png");
     public static final ResourceLocation NUKE_TSAR_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/nuke_tsar.png");
-    public static final ResourceLocation NUKE_N2_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/nuke_n2.png");
     public static final ResourceLocation NUKE_FLEIJA_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/nuke_fleija.png");
+    public static final ResourceLocation NUKE_N2_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/nuke_n2.png");
+    public static final ResourceLocation NUKE_FSTBMB_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/nuke_fstbmb.png");
 
     public static final ResourceLocation DUD_BALEFIRE_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/dud_balefire.png");
     public static final ResourceLocation DUD_CONVENTIONAL_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/dud_conventional.png");
@@ -114,8 +115,9 @@ public class ResourceManager {
     public static IModelCustom nuke_fat_man;
     public static IModelCustom nuke_ivy_mike;
     public static IModelCustom nuke_tsar;
-    public static IModelCustom nuke_n2;
     public static IModelCustom nuke_fleija;
+    public static IModelCustom nuke_n2;
+    public static IModelCustom nuke_fstbmb;
 
     public static IModelCustom dud_balefire;
     public static IModelCustom dud_conventional;
@@ -173,8 +175,9 @@ public class ResourceManager {
         nuke_fat_man = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/nuke_fatman.obj")).asVBO();
         nuke_ivy_mike = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/nuke_ivy_mike.obj")).asVBO();
         nuke_tsar = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/nuke_tsar.obj")).asVBO();
-        nuke_n2 = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/nuke_n2.obj")).asVBO();
         nuke_fleija = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/nuke_fleija.obj")).asVBO();
+        nuke_n2 = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/nuke_n2.obj")).asVBO();
+        nuke_fstbmb = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/nuke_fstbmb.obj")).asVBO();
 
         dud_balefire = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/dud_balefire.obj")).asVBO();
         dud_conventional = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/bomb/dud_conventional.obj")).asVBO();

@@ -19,6 +19,7 @@ import java.util.function.Supplier;
 
 import static net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB;
 
+@SuppressWarnings("unused")
 public class ModCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(CREATIVE_MODE_TAB, HBMsNTM.MODID);
 
@@ -218,6 +219,7 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.NUKE_TSAR_BOMBA);
                         output.accept(ModBlocks.NUKE_FLEIJA);
                         output.accept(ModBlocks.NUKE_N2);
+                        output.accept(ModBlocks.NUKE_FSTBMB);
 
                         output.accept(ModBlocks.CRASHED_BOMB_BALEFIRE);
                         output.accept(ModBlocks.CRASHED_BOMB_CONVENTIONAL);

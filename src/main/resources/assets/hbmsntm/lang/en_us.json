@@ -185,6 +185,7 @@
   "block.hbmsntm.nuke_tsar_bomba": "Tsar Bomba",
   "block.hbmsntm.nuke_fleija": "F.L.E.I.J.A.",
   "block.hbmsntm.nuke_n2": "N² Mine",
+  "block.hbmsntm.nuke_fstbmb": "Balefire Bomb",
 
   "block.hbmsntm.gas_coal": "Airborne Coal Dust",
   "block.hbmsntm.gas_asbestos": "Airborne Asbestos Particles",
@@ -810,5 +811,6 @@
   "container.nukeTsarBomba": "Tsar Bomba",
   "gui.nukeTsarBomba.desc": "§1Requires:§r$ * 4 Arrays of High-Explosive Lenses$ * Plutonium Core$§9Optional:§r$ * Tsar Bomba Core",
   "container.nukeFleija": "F.L.E.I.J.A.",
-  "container.nukeN2": "N² Mine"
+  "container.nukeN2": "N² Mine",
+  "container.nukeFstbmb": "Balefire Bomb"
 }

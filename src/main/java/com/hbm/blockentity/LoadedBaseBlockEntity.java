@@ -7,17 +7,13 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.network.PacketDistributor;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 
@@ -79,7 +75,7 @@ public class LoadedBaseBlockEntity extends BlockEntity implements ILoadedTile, I
 
     /** Sends a sync packet that uses ByteBuf for efficient information-cramming */
     public void networkPackNT(int range) {
-        if (level == null || level.isClientSide()) return;
+        if (level == null || level.isClientSide) return;
 
         FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
         this.serialize(buf);

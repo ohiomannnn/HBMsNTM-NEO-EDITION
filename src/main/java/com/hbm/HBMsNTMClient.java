@@ -18,6 +18,7 @@ import com.hbm.inventory.screens.LoadingScreenRendererNT;
 import com.hbm.items.IItemHUD;
 import com.hbm.items.ModItems;
 import com.hbm.items.datacomps.FluidTypeComponent;
+import com.hbm.items.datacomps.ModDataComponents;
 import com.hbm.items.special.PolaroidItem;
 import com.hbm.items.tools.GeigerCounterItem;
 import com.hbm.main.ResourceManager;
@@ -59,6 +60,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.SplashRenderer;
 import net.minecraft.client.gui.screens.LevelLoadingScreen;
 import net.minecraft.client.gui.screens.ReceivingLevelScreen;
@@ -247,6 +249,7 @@ public class HBMsNTMClient {
     @SubscribeEvent
     public static void onRenderGuiPost(RenderGuiEvent.Post event) {
         Minecraft mc = Minecraft.getInstance();
+        GuiGraphics guiGraphics = event.getGuiGraphics();
 
         /// NUKE FLASH ///
         if (MainConfig.CLIENT.ENABLE_NUKE_HUD_FLASH.get() && (flashTimestamp + flashDuration - Clock.get_ms()) > 0 && !mc.options.hideGui) {
@@ -280,7 +283,7 @@ public class HBMsNTMClient {
         if (checkForGeiger(mc.player)) {
             float rads = HbmLivingAttachments.getRadiation(mc.player);
 
-            RenderScreenOverlay.renderRadCounter(event.getGuiGraphics(), rads);
+            RenderScreenOverlay.renderRadCounter(guiGraphics, rads);
         }
 
         if (!ducked && InputConstants.isKeyDown(mc.getWindow().getWindow(), InputConstants.KEY_O) && mc.screen == null) {
@@ -585,6 +588,12 @@ public class HBMsNTMClient {
         ItemProperties.register(ModItems.POLAROID.get(), HBMsNTM.withDefaultNamespaceNT("polaroid_id"), (stack, level, entity, seed) -> PolaroidItem.polaroidID);
     }
 
+    private static void registerMetaItemProperties(Item... items) {
+        for (Item item : items) {
+            ItemProperties.register(item, HBMsNTM.withDefaultNamespaceNT("item_meta"), (itemStack, level, livingEntity, seed) -> itemStack.getOrDefault(ModDataComponents.META.get(), 0));
+        }
+    }
+
     // happens before EntityRenderersEvent.RegisterRenderers so we gotta use that
     @SubscribeEvent
     public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
@@ -610,6 +619,7 @@ public class HBMsNTMClient {
         BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_LITTLE_BOY.get(), new RenderNukeLittleBoy());
         BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_FAT_MAN.get(), new RenderNukeFatMan());
         BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_FLEIJA.get(), new RenderNukeFleija());
+        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_FSTBMB.get(), new RenderNukeFstbmb());
         BlockEntityRenderers.register(ModBlockEntityTypes.BARREL.get(), new RenderBarrel());
         BlockEntityRenderers.register(ModBlockEntityTypes.CRASHED_BOMB.get(), new RenderCrashedBomb());
         BlockEntityRenderers.register(ModBlockEntityTypes.LANDMINE.get(), new RenderLandmine());

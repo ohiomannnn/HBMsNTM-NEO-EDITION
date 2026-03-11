@@ -25,7 +25,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_balefire_shard", has(ModItems.EGG_BALEFIRE_SHARD.get()))
                 .save(recipeOutput);
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.EGG_BALEFIRE_SHARD.get(), 9)
-                .requires(ModItems.EGG_BALEFIRE_SHARD.get())
+                .requires(ModItems.EGG_BALEFIRE.get())
                 .unlockedBy("has_balefire_egg", has(ModItems.EGG_BALEFIRE.get()))
                 .save(recipeOutput);
 

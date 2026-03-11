@@ -5,10 +5,13 @@ import com.hbm.hazard.type.*;
 import com.hbm.items.ModItems;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 
 import static com.hbm.items.ModItems.*;
+import static com.hbm.blocks.ModBlocks.*;
 
 @SuppressWarnings("unused") //shut the fuck up
 public class HazardRegistry {
@@ -170,9 +173,12 @@ public class HazardRegistry {
 
         HazardSystem.register(item(FLEIJA_PROPELLANT), makeData().addEntry(RADIATION, 15F).addEntry(EXPLOSIVE, 8F).addEntry(BLINDING, 50F));
         HazardSystem.register(item(FLEIJA_CORE), makeData(RADIATION, 10F));
+
+        HazardSystem.register(block(NUKE_FSTBMB), makeData(DIGAMMA, 0.01F));
     }
 
     private static Item item(DeferredItem<Item> item) { return item.get(); }
+    private static Block block(DeferredBlock<Block> block) { return block.get(); }
 
     private static HazardData makeData() { return new HazardData(); }
     private static HazardData makeData(HazardTypeBase hazard) { return new HazardData().addEntry(hazard); }
