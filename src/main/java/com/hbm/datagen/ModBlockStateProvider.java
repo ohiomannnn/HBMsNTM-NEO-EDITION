@@ -31,6 +31,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
         simpleColumnBlockWithItem(ModBlocks.BRICK_CONCRETE_MARKED.get(), modLoc("block/brick_concrete_marked"), modLoc("block/brick_concrete"));
 
+        this.particleOnlyBlock(ModBlocks.FLUID_DUCT_NEO.get(), modLoc("block/pipe_neo"));
+
         this.particleOnlyBlock(ModBlocks.PLUSHIE_YOMI.get(), blockTexture(Blocks.WHITE_WOOL));
         this.particleOnlyBlock(ModBlocks.PLUSHIE_NUMBERNINE.get(), blockTexture(Blocks.WHITE_WOOL));
         this.particleOnlyBlock(ModBlocks.PLUSHIE_HUNDUN.get(), blockTexture(Blocks.WHITE_WOOL));

@@ -121,10 +121,6 @@ public class FluidDuctStandardBlock extends FluidDuctConnectingBlock implements 
         }
     }
 
-    public boolean canConnectTo(BlockGetter level, BlockPos pos, Direction dir, FluidType type) {
-        return Library.canConnectFluid(level, pos.relative(dir), dir, type);
-    }
-
     @Override
     public void printHook(RenderGuiEvent.Pre event, Level level, BlockPos pos) {
         BlockEntity be = level.getBlockEntity(pos);

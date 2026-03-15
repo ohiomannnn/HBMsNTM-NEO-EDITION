@@ -56,7 +56,7 @@ public class RenderNukeFstbmb extends BlockEntityRendererNT<NukeBalefireBlockEnt
             poseStack.mulPose(Axis.YP.rotationDegrees(90F));
             poseStack.translate(0F, 1F, 0F);
             Matrix4f matrix = poseStack.last().pose();
-            font.drawInBatch(be.getMinutes() + ":" + be.getSeconds(), 0, 0, 0xff0000, false, matrix, buffer, Font.DisplayMode.SEE_THROUGH, 0, 240);
+            font.drawInBatch(be.getMinutes() + ":" + be.getSeconds(), 0, 0, 0xff0000, false, matrix, buffer, Font.DisplayMode.SEE_THROUGH, 0, packedLight);
         }
 
         poseStack.popPose();

@@ -232,6 +232,11 @@ public class ModItems {
     public static final DeferredItem<Item> DESIGNATOR = ITEMS.register("designator", () -> new DesignatorItem(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> DESIGNATOR_RANGE = ITEMS.register("designator_range", () -> new DesignatorRangeItem(new Item.Properties().stacksTo(1)));
 
+    public static final DeferredItem<Item> MISSILE_TAINT =       ITEMS.register("missile_taint",       () -> new MissileItem(MissileFormFactor.MICRO, MissileTier.TIER0));
+    public static final DeferredItem<Item> MISSILE_MICRO =       ITEMS.register("missile_micro",       () -> new MissileItem(MissileFormFactor.MICRO, MissileTier.TIER0));
+    public static final DeferredItem<Item> MISSILE_BHOLE =       ITEMS.register("missile_bhole",       () -> new MissileItem(MissileFormFactor.MICRO, MissileTier.TIER0));
+    public static final DeferredItem<Item> MISSILE_SCHRABIDIUM = ITEMS.register("missile_schrabidium", () -> new MissileItem(MissileFormFactor.MICRO, MissileTier.TIER0));
+    public static final DeferredItem<Item> MISSILE_EMP =         ITEMS.register("missile_emp",         () -> new MissileItem(MissileFormFactor.MICRO, MissileTier.TIER0));
     public static final DeferredItem<Item> MISSILE_GENERIC =    ITEMS.register("missile_generic",    () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
     public static final DeferredItem<Item> MISSILE_INCENDIARY = ITEMS.register("missile_incendiary", () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
     public static final DeferredItem<Item> MISSILE_CLUSTER =    ITEMS.register("missile_cluster",    () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));

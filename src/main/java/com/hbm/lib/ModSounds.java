@@ -21,6 +21,7 @@ public class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> FIRE_DISINTEGRATION = reg("weapon.fire.disintegration");
 
     public static final DeferredHolder<SoundEvent, SoundEvent> FSTBMB_START = reg("weapon.fstbmb_start");
+    public static final DeferredHolder<SoundEvent, SoundEvent> FSTBMB_PING = reg("weapon.fstbmb_ping");
 
     public static final DeferredHolder<SoundEvent, SoundEvent> DEBRIS = reg("block.debris");
 
@@ -29,6 +30,8 @@ public class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> DUCK = reg("duck");
     public static final DeferredHolder<SoundEvent, SoundEvent> VOMIT = reg("vomit");
     public static final DeferredHolder<SoundEvent, SoundEvent> COUGH = reg("player.cough");
+
+    public static final DeferredHolder<SoundEvent, SoundEvent> PIPE_PLACED = reg("block.pipe_placed");
 
     public static final DeferredHolder<SoundEvent, SoundEvent> FENSU_HUM = reg("block.fensu_hum");
 

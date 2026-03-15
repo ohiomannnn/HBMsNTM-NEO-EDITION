@@ -81,7 +81,6 @@ public class RedBarrelBlock extends DetonatableBlock implements EntityBlock, Sim
     }
 
     @Override protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) { return SHAPE; }
-    @Override protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) { return SHAPE; }
 
     @Override
     public void explodeEntity(Level level, double x, double y, double z, TNTPrimedBase entity) {

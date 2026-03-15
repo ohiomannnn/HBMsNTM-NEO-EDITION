@@ -137,6 +137,7 @@
   "block.hbmsntm.geiger": "Geiger Counter",
 
   "block.hbmsntm.red_cable": "Red Copper Cable",
+  "block.hbmsntm.fluid_duct_neo": "Universal Fluid Duct",
 
   "block.hbmsntm.det_charge": "Explosive Charge",
   "block.hbmsntm.det_cord": "Det Cord",
@@ -345,9 +346,9 @@
 
   "item.hbmsntm.tsar_bomba_core": "Tsar Bomba Core",
 
-  "item.hbmsntm.flejia_igniter": "Pulse Igniter",
+  "item.hbmsntm.fleija_igniter": "Pulse Igniter",
   "item.hbmsntm.fleija_propellant": "Schrabidium Propellant",
-  "item.hbmsntm.flejia_core": "F.L.E.I.J.A. Uranium 235 Charge",
+  "item.hbmsntm.fleija_core": "F.L.E.I.J.A. Uranium 235 Charge",
 
   "item.hbmsntm.used_in": "Used in:",
 

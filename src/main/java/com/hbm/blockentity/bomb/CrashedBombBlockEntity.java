@@ -29,9 +29,9 @@ public class CrashedBombBlockEntity extends BlockEntity implements Tickable {
         if (level != null && !level.isClientSide) {
             BlockPos pos = this.getBlockPos();
             if (level.getGameTime() % 2 == 0) {
-                if (type == DudType.BALEFIRE)	 affectEntities(level, pos, (entity, intensity) -> ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, 1F * intensity), 15D);
-                if (type == DudType.NUKE)		 affectEntities(level, pos, (entity, intensity) -> ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, 0.25F * intensity), 10D);
-                if (type == DudType.SALTED)		 affectEntities(level, pos, (entity, intensity) -> ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, 0.5F * intensity), 10D);
+                if (type == DudType.BALEFIRE) affectEntities(level, pos, (entity, intensity) -> ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, 1F * intensity), 15D);
+                if (type == DudType.NUKE)	  affectEntities(level, pos, (entity, intensity) -> ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, 0.25F * intensity), 10D);
+                if (type == DudType.SALTED)	  affectEntities(level, pos, (entity, intensity) -> ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, 0.5F * intensity), 10D);
             }
         }
     }

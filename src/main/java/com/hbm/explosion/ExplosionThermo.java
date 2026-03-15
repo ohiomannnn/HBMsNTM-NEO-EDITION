@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
-@Spaghetti("5 years of shitty code")
+@Spaghetti("10* years of shitty code")
 public class ExplosionThermo {
 
     public static void freeze(Level level, BlockPos pos, int bombStartStrength) {

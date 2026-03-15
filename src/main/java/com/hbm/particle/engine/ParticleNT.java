@@ -6,15 +6,14 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleGroup;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
+import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Optional;
 
 public abstract class ParticleNT {
     private static final AABB INITIAL_AABB = new AABB(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
@@ -117,7 +116,7 @@ public abstract class ParticleNT {
      * @param partialTicks float value used for interpolation
      */
     public abstract void render(VertexConsumer consumer, Camera camera, float partialTicks);
-    public abstract RenderType getRenderType();
+    @Nullable public abstract RenderType getRenderType();
 
     public String toString() {
         return this.getClass().getSimpleName() +

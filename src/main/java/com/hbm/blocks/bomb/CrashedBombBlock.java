@@ -49,9 +49,7 @@ public class CrashedBombBlock extends Block implements EntityBlock, IBomb {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return (lvl, pos, st, be) -> {
-            if (be instanceof Tickable tickable) tickable.updateEntity();
-        };
+        return (lvl, pos, st, be) -> { if (be instanceof Tickable tickable) tickable.updateEntity(); };
     }
 
     @Override

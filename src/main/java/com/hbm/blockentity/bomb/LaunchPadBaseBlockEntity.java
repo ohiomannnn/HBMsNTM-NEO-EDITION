@@ -255,9 +255,7 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
     @Override public FluidTank[] getAllTanks() { return this.tanks; }
     @Override public FluidTank[] getReceivingTanks() { return this.tanks; }
 
-    @Override public boolean canConnect(Direction dir) {
-        return dir != Direction.UP && dir != Direction.DOWN;
-    }
+    @Override public boolean canConnect(Direction dir) { return dir != Direction.UP && dir != Direction.DOWN; }
 
     public void setFuel(MissileItem missile) {
         switch (missile.fuel) {

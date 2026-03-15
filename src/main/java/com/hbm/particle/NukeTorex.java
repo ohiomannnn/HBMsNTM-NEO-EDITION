@@ -21,6 +21,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.ModList;
 import org.joml.Matrix4f;
@@ -716,7 +717,5 @@ public class NukeTorex extends ParticleNT {
     }
 
     @Override
-    public RenderType getRenderType() {
-        return RenderType.cutout();
-    }
+    public RenderType getRenderType() { return RenderType.cutout(); }
 }

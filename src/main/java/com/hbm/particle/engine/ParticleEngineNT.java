@@ -4,11 +4,12 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Sure why not
@@ -21,41 +22,66 @@ public class ParticleEngineNT {
 
     public static final ParticleEngineNT INSTANCE = new ParticleEngineNT();
 
-    private final List<ParticleNT> particles;
+    private final List<ParticleNT> pendingParticles = new ArrayList<>();
+    private final List<ParticleNT> particles = new ArrayList<>();
 
-    public ParticleEngineNT() {
-        this.particles = new ArrayList<>();
-    }
+    public ParticleEngineNT() { }
 
     public void add(ParticleNT effect) {
-        this.particles.add(effect);
+        this.pendingParticles.add(effect);
     }
 
     public void clear() {
+        this.pendingParticles.clear();
         this.particles.clear();
     }
 
     public void render(BufferSource buffer, Camera camera, DeltaTracker deltaTracker) {
-        float f = deltaTracker.getGameTimeDeltaPartialTick(false);
-        for (ParticleNT particle : particles) {
-            VertexConsumer consumer = buffer.getBuffer(particle.getRenderType());
-            particle.render(consumer, camera, f);
+        if (!this.particles.isEmpty()) {
+            Map<RenderType, List<ParticleNT>> renderTypes = new HashMap<>();
+
+            float f = deltaTracker.getGameTimeDeltaPartialTick(false);
+            for (ParticleNT particle : this.particles) {
+                if (particle == null || particle.dead) continue;
+                RenderType type = particle.getRenderType();
+                if (type == null) continue;
+                renderTypes.computeIfAbsent(type, t -> new ArrayList<>()).add(particle);
+            }
+
+            for (Entry<RenderType, List<ParticleNT>> entry : renderTypes.entrySet()) {
+                RenderType type = entry.getKey();
+                List<ParticleNT> particles = entry.getValue();
+
+                VertexConsumer consumer = buffer.getBuffer(type);
+                for (ParticleNT particle : particles) {
+                    particle.render(consumer, camera, f);
+                }
+            }
         }
     }
 
     public void tick() {
-        this.tickParticleList(this.particles);
-    }
+        // we dont need to process empty lists
+        if (this.particles.isEmpty() && pendingParticles.isEmpty()) return;
 
-    private void tickParticleList(List<ParticleNT> particles) {
-        if (particles.isEmpty()) return;
+        if (!pendingParticles.isEmpty()) {
+            particles.addAll(pendingParticles);
+            pendingParticles.clear();
+        }
 
-        for (ParticleNT particle : new ArrayList<>(particles)) {
-            if (particle == null) continue;
+        Iterator<ParticleNT> iterator = particles.iterator();
+        while (iterator.hasNext()) {
+            ParticleNT particle = iterator.next();
+
             particle.tick();
             if (particle.dead) {
-                particles.remove(particle);
+                iterator.remove();
             }
+        }
+
+        if (!pendingParticles.isEmpty()) {
+            particles.addAll(pendingParticles);
+            pendingParticles.clear();
         }
     }
 }

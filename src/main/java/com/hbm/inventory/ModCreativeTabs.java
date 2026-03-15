@@ -191,6 +191,7 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.MACHINE_BATTERY_SOCKET);
                         output.accept(ModBlocks.MACHINE_BATTERY_REDD);
                         output.accept(ModBlocks.RED_CABLE);
+                        output.accept(ModBlocks.FLUID_DUCT_NEO);
                         output.accept(ModBlocks.MACHINE_FLUID_TANK);
 
                         output.accept(ModBlocks.DECONTAMINATOR);

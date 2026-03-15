@@ -54,7 +54,7 @@ public class NukeBalefireBlockEntity extends MachineBaseBlockEntity implements I
                 timer--;
 
                 if (timer % 20 == 0) {
-                    level.playSound(null, this.worldPosition, ModSounds.TECH_BLEEP.get(), SoundSource.AMBIENT, 5.0F, 1.0F);
+                    level.playSound(null, this.worldPosition, ModSounds.FSTBMB_PING.get(), SoundSource.AMBIENT, 5.0F, 1.0F);
                 }
             }
 

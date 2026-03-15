@@ -3,7 +3,7 @@ package com.hbm.render.blockentity;
 import com.hbm.blockentity.network.PipeBaseBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.lib.Library;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBaseStandard;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -13,12 +13,14 @@ import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.awt.*;
+
+import static com.hbm.blocks.network.FluidDuctConnectingBlock.*;
 
 public class RenderPipe extends BlockEntityRendererNT<PipeBaseBlockEntity> implements IBEWLRProvider {
 
@@ -27,19 +29,19 @@ public class RenderPipe extends BlockEntityRendererNT<PipeBaseBlockEntity> imple
     @Override
     public void render(PipeBaseBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
 
-        BlockPos pos = be.getBlockPos();
         Level level = be.getLevel();
+        BlockState state = be.getBlockState();
         if (level == null) return;
 
         FluidType type = be.getFluidType();
         int color = type.getColor();
 
-        boolean pX = Library.canConnectFluid(level, pos.relative(Library.POS_X), Library.POS_X, type);
-        boolean nX = Library.canConnectFluid(level, pos.relative(Library.NEG_X), Library.NEG_X, type);
-        boolean pY = Library.canConnectFluid(level, pos.relative(Library.POS_Y), Library.POS_Y, type);
-        boolean nY = Library.canConnectFluid(level, pos.relative(Library.NEG_Y), Library.NEG_Y, type);
-        boolean pZ = Library.canConnectFluid(level, pos.relative(Library.POS_Z), Library.POS_Z, type);
-        boolean nZ = Library.canConnectFluid(level, pos.relative(Library.NEG_Z), Library.NEG_Z, type);
+        boolean nX = state.getValue(WEST);
+        boolean pX = state.getValue(EAST);
+        boolean nY = state.getValue(DOWN);
+        boolean pY = state.getValue(UP);
+        boolean nZ = state.getValue(NORTH);
+        boolean pZ = state.getValue(SOUTH);
 
         int mask = 0 + (pX ? 32 : 0) + (nX ? 16 : 0) + (pY ? 8 : 0) + (nY ? 4 : 0) + (pZ ? 2 : 0) + (nZ ? 1 : 0);
 
@@ -115,7 +117,16 @@ public class RenderPipe extends BlockEntityRendererNT<PipeBaseBlockEntity> imple
                 poseStack.mulPose(Axis.YP.rotationDegrees(180F));
                 poseStack.scale(1.25F, 1.25F, 1.25F);
                 VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.PIPE_NEO_TEX));
+                ResourceManager.pipe_neo.renderPart("pX", poseStack, consumer, packedLight, packedOverlay);
                 ResourceManager.pipe_neo.renderPart("nX", poseStack, consumer, packedLight, packedOverlay);
+                ResourceManager.pipe_neo.renderPart("pZ", poseStack, consumer, packedLight, packedOverlay);
+                ResourceManager.pipe_neo.renderPart("nZ", poseStack, consumer, packedLight, packedOverlay);
+                VertexConsumer consumerOverlay = buffer.getBuffer(RenderType.entityCutout(ResourceManager.PIPE_NEO_OVERLAY_TEX));
+                Color col = new Color(Fluids.NONE.getColor());
+                ResourceManager.pipe_neo.renderPart("pX", poseStack, consumerOverlay, packedLight, packedOverlay, col);
+                ResourceManager.pipe_neo.renderPart("nX", poseStack, consumerOverlay, packedLight, packedOverlay, col);
+                ResourceManager.pipe_neo.renderPart("pZ", poseStack, consumerOverlay, packedLight, packedOverlay, col);
+                ResourceManager.pipe_neo.renderPart("nZ", poseStack, consumerOverlay, packedLight, packedOverlay, col);
             }
         };
     }

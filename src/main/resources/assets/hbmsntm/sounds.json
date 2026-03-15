@@ -30,11 +30,14 @@
       "hbmsntm:weapon/explosion_tiny2"
     ]
   },
+  "weapon.fire.disintegration": {
+    "sounds": ["hbmsntm:weapon/fire/disintegration"]
+  },
   "weapon.fstbmb_start": {
     "sounds": ["hbmsntm:weapon/fstbmb_start"]
   },
-  "weapon.fire.disintegration": {
-    "sounds": ["hbmsntm:weapon/fire/disintegration"]
+  "weapon.fstbmb_ping": {
+    "sounds": ["hbmsntm:weapon/fstbmb_ping"]
   },
   "grenade_bounce": {
     "sounds": [
@@ -51,6 +54,9 @@
   },
   "block.fensu_hum": {
     "sounds": ["hbmsntm:block/fensu_hum"]
+  },
+  "block.pipe_placed": {
+    "sounds": ["hbmsntm:block/pipe_placed"]
   },
   "vomit": {
     "sounds": ["hbmsntm:entity/vomit"]

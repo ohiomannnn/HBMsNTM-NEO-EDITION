@@ -25,7 +25,7 @@ public class FissureBombBlock extends TNTBaseBlock {
     public void explodeEntity(Level level, double x, double y, double z, TNTPrimedBase entity) {
 
         // this has to be the single worst solution ever
-        level.playSound(null, x, y, z, ModSounds.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 25.0F, 0.9F);
+        level.playSound(null, x, y, z, ModSounds.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 25.0F, 1F);
         CompoundTag tag = new CompoundTag();
         tag.putString("type", "muke");
         tag.putBoolean("balefire", PolaroidItem.polaroidID == 11 || level.random.nextInt(100) == 0);

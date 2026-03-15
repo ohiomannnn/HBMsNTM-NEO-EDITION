@@ -144,7 +144,7 @@ public class ModBlocks {
                     .sound(SoundType.STONE)));
 
     public static final DeferredBlock<Block> RED_CABLE = registerBlock("red_cable", () -> new CableBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(10.0F).noOcclusion().sound(SoundType.METAL)));
-    public static final DeferredBlock<Block> FLUID_DUCT_NEO = registerBlock("fluid_duct_neo", () -> new FluidDuctStandardBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(10.0F).noOcclusion().sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> FLUID_DUCT_NEO = registerBlock("fluid_duct_neo", () -> new FluidDuctStandardBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(10.0F).noOcclusion().sound(ModSoundTypes.PIPE)));
 
     public static final DeferredBlock<Block> MACHINE_SATLINKER = registerBlock(
             "machine_satlinker",
