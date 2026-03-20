@@ -558,6 +558,11 @@ public class HBMsNTMClient {
 
         event.registerEntityRenderer(ModEntityTypes.BOMBER.get(), RenderBomber::new);
 
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_MICRO.get(), RenderMissileMicro::new);
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_SCHRABIDIUM.get(), RenderMissileMicro::new);
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_BHOLE.get(), RenderMissileMicro::new);
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_TAINT.get(), RenderMissileMicro::new);
+        event.registerEntityRenderer(ModEntityTypes.MISSILE_EMP.get(), RenderMissileMicro::new);
         event.registerEntityRenderer(ModEntityTypes.MISSILE_GENERIC.get(), RenderMissileGeneric::new);
         event.registerEntityRenderer(ModEntityTypes.MISSILE_INCENDIARY.get(), RenderMissileGeneric::new);
         event.registerEntityRenderer(ModEntityTypes.MISSILE_CLUSTER.get(), RenderMissileGeneric::new);
@@ -652,6 +657,13 @@ public class HBMsNTMClient {
                 ModItems.CAPACITOR_SPARK.get()
         );
 
+        registerItemRenderer(event, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER0),
+                ModItems.MISSILE_TAINT.get(),
+                ModItems.MISSILE_MICRO.get(),
+                ModItems.MISSILE_BHOLE.get(),
+                ModItems.MISSILE_SCHRABIDIUM.get(),
+                ModItems.MISSILE_EMP.get()
+        );
         registerItemRenderer(event, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER1),
                 ModItems.MISSILE_GENERIC.get(),
                 ModItems.MISSILE_DECOY.get(),

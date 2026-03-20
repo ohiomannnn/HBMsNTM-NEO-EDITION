@@ -6,6 +6,8 @@ import com.hbm.render.loader.IModelCustom;
 import net.minecraft.resources.ResourceLocation;
 
 public class ResourceManager {
+    public static final ResourceLocation EMPTY = ResourceLocation.withDefaultNamespace("");
+
     public static final ResourceLocation MINE_AP_STONE_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/mine_ap.png");
     public static final ResourceLocation MINE_AP_SNOW_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/mine_ap_snow.png");
     public static final ResourceLocation MINE_AP_GRASS_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/bombs/mine_ap_grass.png");
@@ -76,6 +78,11 @@ public class ResourceManager {
     public static final ResourceLocation B29_3_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/b29_3.png");
     public static final ResourceLocation C130_0_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/weapon/c130_0.png");
 
+    public static final ResourceLocation MISSILE_MICRO_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_micro.png");
+    public static final ResourceLocation MISSILE_MICRO_TAINT_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_micro_taint.png");
+    public static final ResourceLocation MISSILE_MICRO_BHOLE_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_micro_bhole.png");
+    public static final ResourceLocation MISSILE_MICRO_SCHRABIDIUM_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_micro_schrab.png");
+    public static final ResourceLocation MISSILE_MICRO_EMP_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_micro_emp.png");
     public static final ResourceLocation MISSILE_V2_HE_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_v2.png");
     public static final ResourceLocation MISSILE_V2_IN_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_v2_inc.png");
     public static final ResourceLocation MISSILE_V2_CL_TEX = HBMsNTM.withDefaultNamespaceNT("textures/models/missile/missile_v2_cl.png");

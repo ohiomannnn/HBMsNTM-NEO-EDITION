@@ -1,8 +1,8 @@
 package com.hbm.render.entity.rocket;
 
 import com.hbm.entity.missile.MissileBaseNT;
-import com.hbm.entity.missile.MissileTier3;
-import com.hbm.entity.missile.MissileTier3.*;
+import com.hbm.entity.missile.MissileTier0;
+import com.hbm.entity.missile.MissileTier0.*;
 import com.hbm.main.ResourceManager;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -16,14 +16,14 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
-public class RenderMissileHuge extends EntityRenderer<MissileTier3> {
+public class RenderMissileMicro extends EntityRenderer<MissileTier0> {
 
-    public RenderMissileHuge(EntityRendererProvider.Context context) {
+    public RenderMissileMicro(EntityRendererProvider.Context context) {
         super(context);
     }
 
     @Override
-    public void render(MissileTier3 missile, float yaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+    public void render(MissileTier0 missile, float yaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         poseStack.pushPose();
 
         poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTicks, missile.yRotO, missile.yRot) - 90.0F));
@@ -42,17 +42,18 @@ public class RenderMissileHuge extends EntityRenderer<MissileTier3> {
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
 
         VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutout(this.getTextureLocation(missile)));
-        ResourceManager.missileHuge.renderAll(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY);
+        ResourceManager.missileMicro.renderAll(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY);
 
         poseStack.popPose();
     }
 
     @Override
-    public ResourceLocation getTextureLocation(MissileTier3 missile) {
-        if (missile instanceof MissileBurst)   return ResourceManager.MISSILE_HUGE_HE_TEX;
-        if (missile instanceof MissileInferno) return ResourceManager.MISSILE_HUGE_IN_TEX;
-        if (missile instanceof MissileRain)    return ResourceManager.MISSILE_HUGE_CL_TEX;
-        if (missile instanceof MissileDrill)   return ResourceManager.MISSILE_HUGE_BU_TEX;
+    public ResourceLocation getTextureLocation(MissileTier0 missile) {
+        if (missile instanceof MissileMicro)       return ResourceManager.MISSILE_MICRO_TEX;
+        if (missile instanceof MissileSchrabidium) return ResourceManager.MISSILE_MICRO_SCHRABIDIUM_TEX;
+        if (missile instanceof MissileBHole)       return ResourceManager.MISSILE_MICRO_BHOLE_TEX;
+        if (missile instanceof MissileTaint)       return ResourceManager.MISSILE_MICRO_TAINT_TEX;
+        if (missile instanceof MissileEMP)         return ResourceManager.MISSILE_MICRO_EMP_TEX;
         return ResourceManager.EMPTY;
     }
 }

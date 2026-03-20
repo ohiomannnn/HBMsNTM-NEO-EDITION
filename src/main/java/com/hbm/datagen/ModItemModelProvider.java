@@ -105,7 +105,11 @@ public class ModItemModelProvider extends ItemModelProvider {
         this.basicItem(ModItems.DESIGNATOR.get());
         this.handheldItem(ModItems.DESIGNATOR_RANGE.get());
 
-        this.entityItem(ModItems.MISSILE_GENERIC.get(), true);
+        this.entityItem(ModItems.MISSILE_TAINT.get(), true);
+        this.entityItem(ModItems.MISSILE_MICRO.get(), true);
+        this.entityItem(ModItems.MISSILE_BHOLE.get(), true);
+        this.entityItem(ModItems.MISSILE_SCHRABIDIUM.get(), true);
+        this.entityItem(ModItems.MISSILE_EMP.get(), true);
         this.entityItem(ModItems.MISSILE_INCENDIARY.get(), true);
         this.entityItem(ModItems.MISSILE_CLUSTER.get(), true);
         this.entityItem(ModItems.MISSILE_BUSTER.get(), true);

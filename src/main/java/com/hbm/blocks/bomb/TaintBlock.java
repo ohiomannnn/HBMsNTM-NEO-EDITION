@@ -18,7 +18,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
@@ -43,22 +42,16 @@ public class TaintBlock extends Block {
     }
 
     public static final MapCodec<TaintBlock> CODEC = simpleCodec(TaintBlock::new);
-    @Override protected MapCodec<TaintBlock> codec() {
-        return CODEC;
-    }
+    @Override protected MapCodec<TaintBlock> codec() { return CODEC; }
 
     protected static final VoxelShape SHAPE = Block.box(0.0, 0.0, 0.0, 16.0, 12.0, 16.0);
+    @Override public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) { return SHAPE; }
 
     @Override
-    public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return SHAPE;
-    }
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
 
-    @Override
-    public void randomTick(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource random) {
-
-        int taintLevel = state.getValue(TAINT_LEVEL);
-        if (taintLevel >= 15) return;
+        int lvl = state.getValue(TAINT_LEVEL);
+        if (lvl >= 15) return;
 
         for (int i = -3; i <= 3; i++) {
             for (int j = -3; j <= 3; j++) {
@@ -67,24 +60,25 @@ public class TaintBlock extends Block {
                     if (random.nextFloat() > 0.25F) continue;
 
                     BlockPos targetPos = pos.offset(i, j, k);
-                    BlockState targetState = serverLevel.getBlockState(targetPos);
+                    BlockState targetState = level.getBlockState(targetPos);
+                    Block block = targetState.getBlock();
 
-                    if (targetState.isAir() || targetState.is(Blocks.BEDROCK)) continue;
-
-                    int targetLevel = taintLevel + 1;
-
+                    if (targetState.isAir() || block == Blocks.BEDROCK) continue;
+                    int targetLvl = lvl + 1;
                     boolean hasAir = false;
+
                     for (Direction dir : Direction.values()) {
-                        if (serverLevel.getBlockState(targetPos.relative(dir)).isAir()) {
+                        if (level.getBlockState(targetPos.relative(dir)).isAir()) {
                             hasAir = true;
                             break;
                         }
                     }
-                    if (!hasAir) targetLevel = taintLevel + 3;
-                    if (targetLevel > 15) continue;
-                    if (targetState.is(this) && targetState.getValue(TAINT_LEVEL) >= targetLevel) continue;
 
-                    serverLevel.setBlock(targetPos, this.defaultBlockState().setValue(TAINT_LEVEL, taintLevel), 3);
+                    if (!hasAir) targetLvl = lvl + 3;
+                    if (targetLvl > 15) continue;
+                    if (block == this && targetState.getValue(TAINT_LEVEL) >= targetLvl) continue;
+
+                    level.setBlock(targetPos, this.defaultBlockState().setValue(TAINT_LEVEL, targetLvl), 3);
                 }
             }
         }

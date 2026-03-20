@@ -53,7 +53,7 @@ public class ItemRenderMissileGeneric extends BlockEntityWithoutLevelRenderer {
         float guiOffset = 0;
 
         switch (this.type) {
-            case TYPE_TIER0 -> { guiScale = 4F; guiOffset = 15F; }
+            case TYPE_TIER0 -> { guiScale = 5F; guiOffset = 13.5F; }
             case TYPE_TIER1 -> { guiScale = 3.75F; guiOffset = 13F; }
             case TYPE_TIER2 -> {  guiScale = 2.75F; guiOffset = 12F; }
             case TYPE_TIER3 -> {  guiScale = 1.85F; guiOffset = 10F; }
@@ -152,6 +152,13 @@ public class ItemRenderMissileGeneric extends BlockEntityWithoutLevelRenderer {
     }
 
     public static void init() {
+
+        renderers.put(ModItems.MISSILE_TAINT.get(), generateStandard(ResourceManager.MISSILE_MICRO_TAINT_TEX, ResourceManager.missileMicro));
+        renderers.put(ModItems.MISSILE_MICRO.get(), generateStandard(ResourceManager.MISSILE_MICRO_TEX, ResourceManager.missileMicro));
+        renderers.put(ModItems.MISSILE_BHOLE.get(), generateStandard(ResourceManager.MISSILE_MICRO_BHOLE_TEX, ResourceManager.missileMicro));
+        renderers.put(ModItems.MISSILE_SCHRABIDIUM.get(), generateStandard(ResourceManager.MISSILE_MICRO_SCHRABIDIUM_TEX, ResourceManager.missileMicro));
+        renderers.put(ModItems.MISSILE_EMP.get(), generateStandard(ResourceManager.MISSILE_MICRO_EMP_TEX, ResourceManager.missileMicro));
+
         renderers.put(ModItems.MISSILE_GENERIC.get(), generateStandard(ResourceManager.MISSILE_V2_HE_TEX, ResourceManager.missileV2));
         renderers.put(ModItems.MISSILE_DECOY.get(), generateStandard(ResourceManager.MISSILE_V2_DECOY_TEX, ResourceManager.missileV2));
         renderers.put(ModItems.MISSILE_INCENDIARY.get(), generateStandard(ResourceManager.MISSILE_V2_IN_TEX, ResourceManager.missileV2));

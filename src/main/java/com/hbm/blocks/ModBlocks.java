@@ -194,15 +194,7 @@ public class ModBlocks {
     public static final DeferredBlock<Block> GAS_FLAMMABLE =   registerBlock("gas_flammable",   () -> new GasFlammableBlock(  BlockBehaviour.Properties.of().noOcclusion().replaceable().noCollission().noLootTable()));
     public static final DeferredBlock<Block> GAS_EXPLOSIVE =   registerBlock("gas_explosive",   () -> new GasExplosiveBlock(  BlockBehaviour.Properties.of().noOcclusion().replaceable().noCollission().noLootTable()));
 
-    public static final DeferredBlock<Block> TAINT = registerBlock(
-            "taint",
-            () -> new TaintBlock(BlockBehaviour.Properties.of()
-                    .strength(15.0F)
-                    .explosionResistance(10.0F)
-                    .randomTicks()
-                    .noLootTable()
-            )
-    );
+    public static final DeferredBlock<Block> TAINT = registerBlock("taint", () -> new TaintBlock(BlockBehaviour.Properties.of().randomTicks().strength(15.0F, 10.0F).noLootTable().mapColor(DyeColor.GRAY)));
 
     public static final DeferredBlock<Block> PLUSHIE_YOMI =       registerBlock("plushie_yomi",       () -> new PlushieBlock(BlockBehaviour.Properties.of().noOcclusion().instabreak().sound(SoundType.WOOL).mapColor(DyeColor.WHITE), PlushieType.YOMI));
     public static final DeferredBlock<Block> PLUSHIE_NUMBERNINE = registerBlock("plushie_numbernine", () -> new PlushieBlock(BlockBehaviour.Properties.of().noOcclusion().instabreak().sound(SoundType.WOOL).mapColor(DyeColor.WHITE), PlushieType.NUMBERNINE));

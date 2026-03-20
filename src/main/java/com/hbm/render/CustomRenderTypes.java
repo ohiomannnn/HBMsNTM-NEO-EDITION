@@ -43,7 +43,7 @@ public class CustomRenderTypes {
     public static final Function<ResourceLocation, RenderType> EC_NC = Util.memoize(
             texture -> {
                 RenderType.CompositeState state = RenderType.CompositeState.builder()
-                        .setShaderState(RenderType.RENDERTYPE_ENTITY_SMOOTH_CUTOUT_SHADER)
+                        .setShaderState(RenderType.RENDERTYPE_ENTITY_CUTOUT_SHADER)
                         .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
                         .setLightmapState(RenderType.LIGHTMAP)
                         .setOverlayState(RenderType.OVERLAY)
@@ -56,7 +56,7 @@ public class CustomRenderTypes {
     public static final Function<ResourceLocation, RenderType> EC_NC_NC = Util.memoize(
             texture -> {
                 RenderType.CompositeState state = RenderType.CompositeState.builder()
-                        .setShaderState(RenderType.RENDERTYPE_ENTITY_SMOOTH_CUTOUT_SHADER)
+                        .setShaderState(RenderType.RENDERTYPE_ENTITY_CUTOUT_SHADER)
                         .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
                         .setLightmapState(RenderType.LIGHTMAP)
                         .setCullState(RenderStateShard.NO_CULL)

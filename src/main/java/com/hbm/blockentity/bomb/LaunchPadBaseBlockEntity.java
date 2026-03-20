@@ -52,31 +52,40 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
 
     public static void registerLaunchables() {
 
-        //Tier 1
+        //Tier 0
+        missiles.put(new ComparableStack(ModItems.MISSILE_MICRO.get()), ModEntityTypes.MISSILE_MICRO.get());
+        missiles.put(new ComparableStack(ModItems.MISSILE_SCHRABIDIUM.get()), ModEntityTypes.MISSILE_SCHRABIDIUM.get());
+        missiles.put(new ComparableStack(ModItems.MISSILE_BHOLE.get()), ModEntityTypes.MISSILE_BHOLE.get());
+        missiles.put(new ComparableStack(ModItems.MISSILE_TAINT.get()), ModEntityTypes.MISSILE_TAINT.get());
+        missiles.put(new ComparableStack(ModItems.MISSILE_EMP.get()), ModEntityTypes.MISSILE_EMP.get());
+
+        // Tier 1
         missiles.put(new ComparableStack(ModItems.MISSILE_GENERIC.get()), ModEntityTypes.MISSILE_GENERIC.get());
         missiles.put(new ComparableStack(ModItems.MISSILE_DECOY.get()), ModEntityTypes.MISSILE_DECOY.get());
         missiles.put(new ComparableStack(ModItems.MISSILE_INCENDIARY.get()), ModEntityTypes.MISSILE_INCENDIARY.get());
         missiles.put(new ComparableStack(ModItems.MISSILE_CLUSTER.get()), ModEntityTypes.MISSILE_CLUSTER.get());
         missiles.put(new ComparableStack(ModItems.MISSILE_BUSTER.get()), ModEntityTypes.MISSILE_BUSTER.get());
 
+        // Stealth missile
         missiles.put(new ComparableStack(ModItems.MISSILE_STEALTH.get()), ModEntityTypes.MISSILE_STEALTH.get());
 
-        //Tier 2
+        // Tier 2
         missiles.put(new ComparableStack(ModItems.MISSILE_STRONG.get()), ModEntityTypes.MISSILE_STRONG.get());
         missiles.put(new ComparableStack(ModItems.MISSILE_INCENDIARY_STRONG.get()), ModEntityTypes.MISSILE_INCENDIARY_STRONG.get());
         missiles.put(new ComparableStack(ModItems.MISSILE_CLUSTER_STRONG.get()), ModEntityTypes.MISSILE_CLUSTER_STRONG.get());
         missiles.put(new ComparableStack(ModItems.MISSILE_BUSTER_STRONG.get()), ModEntityTypes.MISSILE_BUSTER_STRONG.get());
         missiles.put(new ComparableStack(ModItems.MISSILE_EMP_STRONG.get()), ModEntityTypes.MISSILE_EMP_STRONG.get());
 
-        //Tier 3
+        // Tier 3
         missiles.put(new ComparableStack(ModItems.MISSILE_BURST.get()), ModEntityTypes.MISSILE_BURST.get());
         missiles.put(new ComparableStack(ModItems.MISSILE_INFERNO.get()), ModEntityTypes.MISSILE_INFERNO.get());
         missiles.put(new ComparableStack(ModItems.MISSILE_RAIN.get()), ModEntityTypes.MISSILE_RAIN.get());
         missiles.put(new ComparableStack(ModItems.MISSILE_DRILL.get()), ModEntityTypes.MISSILE_DRILL.get());
 
+        // Shuttle missile
         missiles.put(new ComparableStack(ModItems.MISSILE_SHUTTLE.get()), ModEntityTypes.MISSILE_SHUTTLE.get());
 
-        //Tier 4
+        // Tier 4
         missiles.put(new ComparableStack(ModItems.MISSILE_NUCLEAR.get()), ModEntityTypes.MISSILE_NUCLEAR.get());
         missiles.put(new ComparableStack(ModItems.MISSILE_NUCLEAR_CLUSTER.get()), ModEntityTypes.MISSILE_NUCLEAR_CLUSTER.get());
         missiles.put(new ComparableStack(ModItems.MISSILE_VOLCANO.get()), ModEntityTypes.MISSILE_VOLCANO.get());

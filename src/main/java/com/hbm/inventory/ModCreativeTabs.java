@@ -301,6 +301,11 @@ public class ModCreativeTabs {
                         output.accept(ModItems.DESIGNATOR);
                         output.accept(ModItems.DESIGNATOR_RANGE);
 
+                        output.accept(ModItems.MISSILE_TAINT);
+                        output.accept(ModItems.MISSILE_MICRO);
+                        output.accept(ModItems.MISSILE_BHOLE);
+                        output.accept(ModItems.MISSILE_SCHRABIDIUM);
+                        output.accept(ModItems.MISSILE_EMP);
                         output.accept(ModItems.MISSILE_GENERIC);
                         output.accept(ModItems.MISSILE_DECOY);
                         output.accept(ModItems.MISSILE_INCENDIARY);

@@ -137,18 +137,20 @@ public class ModSoundType extends SoundType {
 
         @Override
         public float getVolume() {
-            if (volumeEnvelope == null)
+            if (volumeEnvelope == null) {
                 return super.getVolume();
-            else
+            } else {
                 return volumeEnvelope.compute(super.getVolume(), random, probableSubType);
+            }
         }
 
         @Override
         public float getPitch() {
-            if (pitchEnvelope == null)
+            if (pitchEnvelope == null) {
                 return super.getPitch();
-            else
+            } else {
                 return pitchEnvelope.compute(super.getPitch(), random, probableSubType);
+            }
         }
 
         @FunctionalInterface
