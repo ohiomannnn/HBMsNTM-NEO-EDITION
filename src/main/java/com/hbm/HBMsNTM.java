@@ -31,7 +31,7 @@ public class HBMsNTM {
     // V -> next release version
     // T -> build type
     // X -> days since 10/10/2010
-    public static final String VERSION = "0.0.12 ALPHA (5618)";
+    public static final String VERSION = "0.0.13 ALPHA (5640)";
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
     public static File configDir;

@@ -1,7 +1,7 @@
 ## Added
 * F.L.E.I.J.A nuke, Balefire nuke
 * Tier 0 missiles
-* Fluid duct
+* Fluid ducts
 * ANY vanilla explosion now create cloud and smoke particles
   * For some reason this effect was in the old versions of minecraft but not in 1.21.1
   * Check this video for showcase https://www.reddit.com/r/Minecraft/comments/1mp049m/after_6_years_mojang_has_finally_fixed_the/
@@ -22,4 +22,4 @@
 * Spectator now can access multiblock's menu from any part
 * 256k fluid tank's render crashing on clients without iris
 * Multi detonator missing name and description
-* Some explosion block not being ignited by redstone on place
+* Some explosive block not being ignited by redstone on place
