@@ -146,7 +146,7 @@ public class ItemRenderMissileGeneric extends BlockEntityWithoutLevelRenderer {
     public static Consumer<RenderStarter> generateWithScale(ResourceLocation texture, IModelCustom model, float scale) {
         return x -> {
             x.poseStack().scale(scale, scale, scale);
-            VertexConsumer consumer = x.bufferSource().getBuffer(CustomRenderTypes.EC_NC_NC.apply(texture));
+            VertexConsumer consumer = x.bufferSource().getBuffer(RenderType.entityCutout(texture));
             model.renderAll(x.poseStack(), consumer, x.packedLight(), x.packedOverlay());
         };
     }

@@ -1,6 +1,6 @@
 package com.hbm.util;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 
 public class LoggingUtil {
 
@@ -18,6 +18,6 @@ public class LoggingUtil {
     public static final String ANSI_WHITE =		"\u001B[37m";
 
     public static void errorWithHighlight(String error) {
-        HBMsNTM.LOGGER.error(ANSI_RED + "{}" + ANSI_RESET, error);
+        NuclearTechMod.LOGGER.error(ANSI_RED + "{}" + ANSI_RESET, error);
     }
 }

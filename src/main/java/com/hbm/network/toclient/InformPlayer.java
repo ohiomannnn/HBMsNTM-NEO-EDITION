@@ -1,18 +1,17 @@
 package com.hbm.network.toclient;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.HBMsNTMClient;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record InformPlayer(Component component, int id, int millis) implements CustomPacketPayload {
 
-    public static final Type<InformPlayer> TYPE = new Type<>(HBMsNTM.withDefaultNamespaceNT("inform_player_packet"));
+    public static final Type<InformPlayer> TYPE = new Type<>(NuclearTechMod.withDefaultNamespace("inform_player_packet"));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, InformPlayer> STREAM_CODEC = new StreamCodec<>() {
         @Override

@@ -14,11 +14,11 @@ import com.hbm.handler.HazmatRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.Spaghetti;
+import com.hbm.inventory.MetaHelper;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.screens.LoadingScreenRendererNT;
 import com.hbm.items.IItemHUD;
 import com.hbm.items.ModItems;
-import com.hbm.items.datacomps.FluidTypeComponent;
-import com.hbm.items.datacomps.ModDataComponents;
 import com.hbm.items.special.PolaroidItem;
 import com.hbm.items.tools.GeigerCounterItem;
 import com.hbm.main.ResourceManager;
@@ -129,7 +129,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 @Spaghetti("die")
-@Mod(value = HBMsNTM.MODID, dist = Dist.CLIENT)
+@Mod(value = NuclearTechMod.MODID, dist = Dist.CLIENT)
 @EventBusSubscriber(value = Dist.CLIENT)
 public class HBMsNTMClient {
     public HBMsNTMClient(ModContainer modContainer) {
@@ -190,20 +190,6 @@ public class HBMsNTMClient {
         } else {
             RenderInfoSystem.push(entry);
         }
-    }
-
-    public static AudioWrapper getLoopedSound(SoundEvent event, SoundSource source, float x, float y, float z, float volume, float range, float pitch) {
-        AudioWrapperClient audio = new AudioWrapperClient(event, source);
-        audio.updatePosition(x, y, z);
-        audio.updateVolume(volume);
-        audio.updateRange(range);
-        return audio;
-    }
-
-    public static AudioWrapper getLoopedSound(SoundEvent event, SoundSource source, float x, float y, float z, float volume, float range, float pitch, int keepAlive) {
-        AudioWrapper audio = getLoopedSound(event, source, x, y, z, volume, range, pitch);
-        audio.setKeepAlive(keepAlive);
-        return audio;
     }
 
     public static final int flashDuration = 5_000;
@@ -431,13 +417,13 @@ public class HBMsNTMClient {
                 ModBlocks.ORE_SELLAFIELD_EMERALD.get()
         );
         event.register(
-                (stack, tintIndex) -> 0xFF000000 | FluidTypeComponent.getFluidType(stack).getColor(),
+                (stack, tintIndex) -> 0xFF000000 | Fluids.fromID(MetaHelper.getMeta(stack)).getColor(),
                 ModItems.FLUID_ICON.get()
         );
         event.register(
                 (stack, tintIndex) -> {
                     if (tintIndex == 1) {
-                        return 0xFF000000 | FluidTypeComponent.getFluidType(stack).getColor();
+                        return 0xFF000000 | Fluids.fromID(MetaHelper.getMeta(stack)).getColor();
                     }
                     return 0xFFFFFFFF;
                 },
@@ -590,12 +576,12 @@ public class HBMsNTMClient {
 
         event.registerEntityRenderer(ModEntityTypes.EMP.get(), EmptyEntityRenderer::new);
 
-        ItemProperties.register(ModItems.POLAROID.get(), HBMsNTM.withDefaultNamespaceNT("polaroid_id"), (stack, level, entity, seed) -> PolaroidItem.polaroidID);
+        ItemProperties.register(ModItems.POLAROID.get(), NuclearTechMod.withDefaultNamespace("polaroid_id"), (stack, level, entity, seed) -> PolaroidItem.polaroidID);
     }
 
     private static void registerMetaItemProperties(Item... items) {
         for (Item item : items) {
-            ItemProperties.register(item, HBMsNTM.withDefaultNamespaceNT("item_meta"), (itemStack, level, livingEntity, seed) -> itemStack.getOrDefault(ModDataComponents.META.get(), 0));
+            ItemProperties.register(item, NuclearTechMod.withDefaultNamespace("item_meta"), (itemStack, level, livingEntity, seed) -> MetaHelper.getMeta(itemStack));
         }
     }
 

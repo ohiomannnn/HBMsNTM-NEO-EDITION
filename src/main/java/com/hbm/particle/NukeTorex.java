@@ -1,6 +1,6 @@
 package com.hbm.particle;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.HBMsNTMClient;
 import com.hbm.lib.ModSounds;
 import com.hbm.particle.engine.ParticleNT;
@@ -21,7 +21,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.ModList;
 import org.joml.Matrix4f;
@@ -607,8 +606,8 @@ public class NukeTorex extends ParticleNT {
         poseStack.popPose();
     }
 
-    private static final ResourceLocation CLOUDLET = HBMsNTM.withDefaultNamespaceNT("textures/particle/base_particle.png");
-    private static final ResourceLocation FLASH = HBMsNTM.withDefaultNamespaceNT("textures/particle/flare.png");
+    private static final ResourceLocation CLOUDLET = NuclearTechMod.withDefaultNamespace("textures/particle/base_particle.png");
+    private static final ResourceLocation FLASH = NuclearTechMod.withDefaultNamespace("textures/particle/flare.png");
 
     private void cloudletWrapper(float partialTicks, PoseStack poseStack, MultiBufferSource buffer) {
         VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.NUKE_CLOUDS.apply(CLOUDLET));

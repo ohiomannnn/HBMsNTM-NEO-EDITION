@@ -1,6 +1,6 @@
 package com.hbm.inventory.screens;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.util.BobMathUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -18,7 +18,7 @@ import java.util.List;
 
 public abstract class InfoScreen<T extends AbstractContainerMenu> extends AbstractContainerScreen<T> {
 
-    private static final ResourceLocation GUI_UTIL = HBMsNTM.withDefaultNamespaceNT("textures/gui/gui_utility.png");
+    private static final ResourceLocation GUI_UTIL = NuclearTechMod.withDefaultNamespace("textures/gui/gui_utility.png");
 
     public InfoScreen(T menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);

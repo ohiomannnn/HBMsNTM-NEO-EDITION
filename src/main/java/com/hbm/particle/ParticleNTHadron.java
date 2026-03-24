@@ -1,6 +1,6 @@
 package com.hbm.particle;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.particle.engine.ParticleNT;
 import com.hbm.render.CustomRenderTypes;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -15,7 +15,7 @@ import org.joml.Vector3f;
 
 public class ParticleNTHadron extends ParticleNT {
 
-    private static final ResourceLocation TEXTURE = HBMsNTM.withDefaultNamespaceNT("textures/particle/hadron.png");
+    private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/particle/hadron.png");
 
     public ParticleNTHadron(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);

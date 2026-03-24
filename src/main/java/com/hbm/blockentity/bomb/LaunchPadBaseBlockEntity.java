@@ -2,7 +2,7 @@ package com.hbm.blockentity.bomb;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.blockentity.IFluidCopiable;
 import com.hbm.blockentity.IRadarCommandReceiver;
 import com.hbm.blockentity.MachineBaseBlockEntity;
@@ -321,7 +321,7 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
             MissileBaseNT missile = entityType.create(level);
             if (missile == null) return null;
             missile.setPosAndTarget(this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + getLaunchOffset() /* Position arguments need to be -floats- (doubles, whatever), jackass */, this.getBlockPos().getZ() + 0.5, targetX, targetZ);
-            if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) HBMsNTM.LOGGER.info("[MISSILE] Tried to launch missile at {} / {} / {} to {} / {}!", this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(), targetX, targetZ);
+            if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) NuclearTechMod.LOGGER.info("[MISSILE] Tried to launch missile at {} / {} / {} to {} / {}!", this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(), targetX, targetZ);
             missile.getEntityData().set(MissileBaseNT.ROT, this.getBlockState().getValue(DummyableBlock.FACING));
             return missile;
         }

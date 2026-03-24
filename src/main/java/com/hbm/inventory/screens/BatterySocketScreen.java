@@ -1,7 +1,7 @@
 package com.hbm.inventory.screens;
 
 import api.hbm.energymk2.IBatteryItem;
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.blockentity.machine.storage.BatterySocketBlockEntity;
 import com.hbm.inventory.menus.BatterySocketMenu;
 import com.hbm.network.toserver.CompoundTagControl;
@@ -20,7 +20,7 @@ import java.util.List;
 
 public class BatterySocketScreen extends InfoScreen<BatterySocketMenu> {
 
-    private static final ResourceLocation TEXTURE = HBMsNTM.withDefaultNamespaceNT("textures/gui/storage/gui_battery_socket.png");
+    private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/gui/storage/gui_battery_socket.png");
 
     public BatterySocketBlockEntity be;
 

@@ -1,6 +1,6 @@
 package com.hbm.datagen;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.LayeringBlock;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
@@ -20,7 +20,7 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 
 public class ModBlockStateProvider extends BlockStateProvider {
     public ModBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
-        super(output, HBMsNTM.MODID, exFileHelper);
+        super(output, NuclearTechMod.MODID, exFileHelper);
     }
     @Override
     protected void registerStatesAndModels() {

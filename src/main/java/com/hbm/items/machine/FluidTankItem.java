@@ -1,9 +1,7 @@
 package com.hbm.items.machine;
 
-import com.hbm.inventory.fluid.FluidType;
+import com.hbm.inventory.MetaHelper;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.items.datacomps.FluidTypeComponent;
-import com.hbm.items.datacomps.ModDataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -16,12 +14,6 @@ public class FluidTankItem extends Item {
 
     @Override
     public Component getName(ItemStack stack) {
-        return Component.translatable(this.getDescriptionId(), FluidTypeComponent.getFluidType(stack).getName());
-    }
-
-    public static ItemStack createStack(Item item, FluidType type) {
-        ItemStack stack = new ItemStack(item);
-        stack.set(ModDataComponents.FLUID_TYPE.get(), new FluidTypeComponent(type.getID()));
-        return stack;
+        return Component.translatable(this.getDescriptionId(), Fluids.fromID(MetaHelper.getMeta(stack)).getName());
     }
 }

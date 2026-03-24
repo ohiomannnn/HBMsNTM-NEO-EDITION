@@ -1,6 +1,6 @@
 package com.hbm.inventory.screens;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.blockentity.bomb.NukeN2BlockEntity;
 import com.hbm.inventory.menus.NukeN2Menu;
 import com.hbm.items.ModItems;
@@ -11,7 +11,7 @@ import net.minecraft.world.entity.player.Inventory;
 
 public class NukeN2Screen extends InfoScreen<NukeN2Menu> {
 
-    private static final ResourceLocation TEXTURE = HBMsNTM.withDefaultNamespaceNT("textures/gui/weapon/n2_schematic.png");
+    private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/gui/weapon/n2_schematic.png");
 
     private final NukeN2BlockEntity be;
 

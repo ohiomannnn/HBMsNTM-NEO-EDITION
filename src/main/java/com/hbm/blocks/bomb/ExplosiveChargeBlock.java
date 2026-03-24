@@ -12,7 +12,7 @@ import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
 import com.hbm.interfaces.IBomb;
 import com.hbm.particle.helper.ExplosionCreator;
 import com.hbm.particle.helper.NukeTorexCreator;
-import com.hbm.util.DamageResistanceHandler;
+import com.hbm.util.DamageResistanceHandler.DamageClass;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -47,7 +47,7 @@ public class ExplosiveChargeBlock extends DetonatableBlock implements IBomb, IDe
                 ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 15F)
                         .setBlockAllocator(new BlockAllocatorStandard(64))
                         .setBlockProcessor(new BlockProcessorStandard())
-                        .setEntityProcessor(new EntityProcessorCrossSmooth(2.0, 999).setDamageClass(DamageResistanceHandler.DamageClass.LASER));
+                        .setEntityProcessor(new EntityProcessorCrossSmooth(2.0, 999).setDamageClass(DamageClass.LASER));
                 ExplosionCreator.composeEffectStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
                 vnt.explode();
             }

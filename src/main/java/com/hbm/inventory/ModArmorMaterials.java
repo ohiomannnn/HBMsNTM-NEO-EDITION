@@ -1,6 +1,6 @@
 package com.hbm.inventory;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import net.minecraft.Util;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
@@ -27,7 +27,7 @@ public class ModArmorMaterials {
             }), 12, SoundEvents.ARMOR_EQUIP_GENERIC, 0.0F, 0.0F, () -> Ingredient.of());
 
     private static Holder<ArmorMaterial> register(String name, EnumMap<ArmorItem.Type, Integer> defense, int enchantmentValue, Holder<SoundEvent> equipSound, float toughness, float knockbackResistance, Supplier<Ingredient> repairIngredient) {
-        List<ArmorMaterial.Layer> list = List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, name)));
+        List<ArmorMaterial.Layer> list = List.of(new ArmorMaterial.Layer(ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, name)));
         return register(name, defense, enchantmentValue, equipSound, toughness, knockbackResistance, repairIngredient, list);
     }
 
@@ -38,6 +38,6 @@ public class ModArmorMaterials {
             enummap.put(armoritem$type, defense.get(armoritem$type));
         }
 
-        return Registry.registerForHolder(BuiltInRegistries.ARMOR_MATERIAL, ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, name), new ArmorMaterial(enummap, enchantmentValue, equipSound, repairIngridient, layers, toughness, knockbackResistance));
+        return Registry.registerForHolder(BuiltInRegistries.ARMOR_MATERIAL, ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, name), new ArmorMaterial(enummap, enchantmentValue, equipSound, repairIngridient, layers, toughness, knockbackResistance));
     }
 }

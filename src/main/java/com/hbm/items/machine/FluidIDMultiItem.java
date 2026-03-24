@@ -1,13 +1,12 @@
 package com.hbm.items.machine;
 
 import com.hbm.blockentity.IGUIProvider;
+import com.hbm.inventory.MetaHelper;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.screens.FluidScreen;
 import com.hbm.items.IItemControlReceiver;
 import com.hbm.items.ModItems;
-import com.hbm.items.datacomps.FluidTypeComponent;
-import com.hbm.items.datacomps.ModDataComponents;
 import com.hbm.network.toclient.InformPlayer;
 import com.hbm.util.TagsUtilDegradation;
 import net.minecraft.ChatFormatting;
@@ -58,18 +57,14 @@ public class FluidIDMultiItem extends Item implements IGUIProvider, IItemControl
 
     @Override
     public void receiveControl(ItemStack stack, CompoundTag tag) {
-        if (tag.contains("Primary")) {
-            setType(stack, Fluids.fromID(tag.getInt("Primary")), true);
-        }
-        if (tag.contains("Secondary")) {
-            setType(stack, Fluids.fromID(tag.getInt("Secondary")), false);
-        }
+        if (tag.contains("Primary")) setType(stack, Fluids.fromID(tag.getInt("Primary")), true);
+        if (tag.contains("Secondary")) setType(stack, Fluids.fromID(tag.getInt("Secondary")), false);
 
         this.update(stack);
     }
 
     public ItemStack update(ItemStack stack) {
-        stack.set(ModDataComponents.FLUID_TYPE.get(), new FluidTypeComponent(TagsUtilDegradation.getTag(stack).getInt("Fluid1")));
+        MetaHelper.setMeta(stack, TagsUtilDegradation.getTag(stack).getInt("Fluid1"));
         return stack;
     }
 

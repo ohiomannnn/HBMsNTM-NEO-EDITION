@@ -1,7 +1,7 @@
 package com.hbm.datagen;
 
-import com.hbm.HBMsNTM;
-import com.hbm.lib.ModDamageTypes;
+import com.hbm.NuclearTechMod;
+import com.hbm.registry.NtmDamageTypes;
 import com.hbm.world.biome.ModBiomes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
-@EventBusSubscriber(modid = HBMsNTM.MODID)
+@EventBusSubscriber(modid = NuclearTechMod.MODID)
 public class DataGenerators {
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
@@ -43,13 +43,14 @@ public class DataGenerators {
         BlockTagsProvider blockTagsProvider = new ModBlockTagProvider(output, lookup, helper);
         generator.addProvider(event.includeServer(), blockTagsProvider);
         generator.addProvider(event.includeServer(), new ModItemTagProvider(output, lookup, blockTagsProvider.contentsGetter(), helper));
+        generator.addProvider(event.includeServer(), new ModDamageTypeTagsProvider(output, lookup, helper));
         generator.addProvider(event.includeServer(), new ModRecipeProvider(output, lookup));
 
         // Datapack things
         RegistrySetBuilder builder = new RegistrySetBuilder();
-        builder.add(Registries.DAMAGE_TYPE, ModDamageTypes::bootstrap);
+        builder.add(Registries.DAMAGE_TYPE, NtmDamageTypes::bootstrap);
         builder.add(Registries.BIOME, ModBiomes::bootstrap);
-        DatapackBuiltinEntriesProvider datapackProvider = new DatapackBuiltinEntriesProvider(output, lookup, builder, Set.of(HBMsNTM.MODID));
+        DatapackBuiltinEntriesProvider datapackProvider = new DatapackBuiltinEntriesProvider(output, lookup, builder, Set.of(NuclearTechMod.MODID));
         generator.addProvider(event.includeServer(), datapackProvider);
     }
 }

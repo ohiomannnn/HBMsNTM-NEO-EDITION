@@ -1,6 +1,6 @@
 package com.hbm.particle;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.particle.engine.ParticleEngineNT;
 import com.hbm.particle.engine.ParticleNT;
 import com.hbm.render.CustomRenderTypes;
@@ -20,7 +20,7 @@ public class MukeFlashParticle extends ParticleNT {
 
     private final boolean bf;
 
-    private static final ResourceLocation TEXTURE = HBMsNTM.withDefaultNamespaceNT("textures/particle/flare.png");
+    private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/particle/flare.png");
 
     public MukeFlashParticle(ClientLevel level, double x, double y, double z, boolean bf) {
         super(level, x, y, z);

@@ -1,6 +1,6 @@
 package com.hbm.inventory.screens;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
@@ -26,7 +26,7 @@ import java.util.Locale;
 
 public class FluidScreen extends Screen {
 
-    private static final ResourceLocation TEXTURE = HBMsNTM.withDefaultNamespaceNT("textures/gui/machine/gui_fluid.png");
+    private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/gui/machine/gui_fluid.png");
     protected int xSize = 176;
     protected int ySize = 54;
     protected int guiLeft;

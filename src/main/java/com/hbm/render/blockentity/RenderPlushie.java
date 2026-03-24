@@ -1,6 +1,6 @@
 package com.hbm.render.blockentity;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.PlushieBlock;
 import com.hbm.blocks.generic.PlushieBlock.PlushieBlockEntity;
@@ -31,10 +31,10 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
 
     @Override public BlockEntityRenderer<PlushieBlockEntity> create(Context context) { return new RenderPlushie(); }
 
-    public static final ResourceLocation yomiTex = HBMsNTM.withDefaultNamespaceNT("textures/models/trinkets/yomi.png");
-    public static final ResourceLocation numbernineTex = HBMsNTM.withDefaultNamespaceNT("textures/models/horse/numbernine.png");
-    public static final ResourceLocation hundunTex = HBMsNTM.withDefaultNamespaceNT("textures/models/trinkets/hundun.png");
-    public static final ResourceLocation dergTex = HBMsNTM.withDefaultNamespaceNT("textures/models/trinkets/derg.png");
+    public static final ResourceLocation yomiTex = NuclearTechMod.withDefaultNamespace("textures/models/trinkets/yomi.png");
+    public static final ResourceLocation numbernineTex = NuclearTechMod.withDefaultNamespace("textures/models/horse/numbernine.png");
+    public static final ResourceLocation hundunTex = NuclearTechMod.withDefaultNamespace("textures/models/trinkets/hundun.png");
+    public static final ResourceLocation dergTex = NuclearTechMod.withDefaultNamespace("textures/models/trinkets/derg.png");
 
     @Override
     public void render(PlushieBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {

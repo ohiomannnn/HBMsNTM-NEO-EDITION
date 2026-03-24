@@ -1,6 +1,6 @@
 package com.hbm.entity;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.entity.effect.BlackHole;
 import com.hbm.entity.effect.FalloutRain;
 import com.hbm.entity.effect.RagingVortex;
@@ -26,7 +26,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ModEntityTypes {
-    public static final DeferredRegister<EntityType<?>> REGISTER = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, HBMsNTM.MODID);
+    public static final DeferredRegister<EntityType<?>> REGISTER = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, NuclearTechMod.MODID);
 
     public static final DeferredHolder<EntityType<?>, EntityType<NukeExplosionMK5>> NUKE_MK5 = REGISTER.register("nuke_explosion_mk5", () -> EntityType.Builder.of(NukeExplosionMK5::new, MobCategory.MISC).sized(1.0F, 1.0F).build("nuke_explosion_mk5"));
     public static final DeferredHolder<EntityType<?>, EntityType<NukeExplosionMK3>> NUKE_MK3 = REGISTER.register("nuke_explosion_mk3", () -> EntityType.Builder.of(NukeExplosionMK3::new, MobCategory.MISC).sized(1.0F, 1.0F).build("nuke_explosion_mk3"));

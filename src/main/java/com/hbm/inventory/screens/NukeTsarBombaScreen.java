@@ -1,6 +1,6 @@
 package com.hbm.inventory.screens;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.blockentity.bomb.NukeTsarBombaBlockEntity;
 import com.hbm.inventory.menus.NukeTsarBombaMenu;
 import com.hbm.items.ModItems;
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class NukeTsarBombaScreen extends InfoScreen<NukeTsarBombaMenu> {
 
-    private static final ResourceLocation TEXTURE = HBMsNTM.withDefaultNamespaceNT("textures/gui/weapon/tsar_bomba_schematic.png");
+    private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/gui/weapon/tsar_bomba_schematic.png");
 
     private final NukeTsarBombaBlockEntity be;
 

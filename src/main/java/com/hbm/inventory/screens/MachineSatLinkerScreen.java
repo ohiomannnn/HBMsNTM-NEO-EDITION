@@ -1,6 +1,6 @@
 package com.hbm.inventory.screens;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.inventory.menus.MachineSatLinkerMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class MachineSatLinkerScreen extends InfoScreen<MachineSatLinkerMenu> {
 
-    private static final ResourceLocation TEXTURE = HBMsNTM.withDefaultNamespaceNT("textures/gui/gui_linker.png");
+    private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/gui/gui_linker.png");
 
     public MachineSatLinkerScreen(MachineSatLinkerMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);

@@ -1,7 +1,7 @@
 package com.hbm.items.machine;
 
 import api.hbm.energymk2.IBatteryItem;
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.TagsUtilDegradation;
 import net.minecraft.ChatFormatting;
@@ -50,7 +50,7 @@ public class BatteryPackItem extends Item implements IBatteryItem {
         }
 
         BatteryPackType(String tex, long capacity, long chargeRate, long dischargeRate) {
-            this.texture = HBMsNTM.withDefaultNamespaceNT("textures/models/machines/" + tex + ".png");
+            this.texture = NuclearTechMod.withDefaultNamespace("textures/models/machines/" + tex + ".png");
             this.capacity = capacity;
             this.chargeRate = chargeRate;
             this.dischargeRate = dischargeRate;

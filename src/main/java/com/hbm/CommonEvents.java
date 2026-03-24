@@ -56,17 +56,17 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.io.File;
 
-@EventBusSubscriber(modid = HBMsNTM.MODID)
+@EventBusSubscriber(modid = NuclearTechMod.MODID)
 public class CommonEvents {
 
     @SubscribeEvent
     public static void commonSetup(FMLCommonSetupEvent event) {
 
-        HBMsNTM.configDir = FMLPaths.CONFIGDIR.get().toFile();
-        HBMsNTM.configHbmDir = new File(HBMsNTM.configDir, "hbmConfig");
+        NuclearTechMod.configDir = FMLPaths.CONFIGDIR.get().toFile();
+        NuclearTechMod.configHbmDir = new File(NuclearTechMod.configDir, "hbmConfig");
 
-        if (!HBMsNTM.configHbmDir.exists()) {
-            HBMsNTM.configHbmDir.mkdirs();
+        if (!NuclearTechMod.configHbmDir.exists()) {
+            NuclearTechMod.configHbmDir.mkdirs();
         }
 
         HTTPHandler.loadStats();
@@ -94,7 +94,7 @@ public class CommonEvents {
 
         if (MainConfig.COMMON.ENABLE_MOTD.get()) {
 
-            player.sendSystemMessage(Component.translatable("message.hbmsntm.loaded", HBMsNTM.VERSION));
+            player.sendSystemMessage(Component.translatable("message.hbmsntm.loaded", NuclearTechMod.VERSION));
 
             if (HTTPHandler.newVersion) {
                 player.sendSystemMessage(

@@ -1,6 +1,6 @@
 package com.hbm.inventory.screens;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
@@ -14,7 +14,7 @@ import java.util.Locale;
 import java.util.Stack;
 
 public class CalculatorScreen extends Screen {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/gui/calculator.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "textures/gui/calculator.png");
     private int xSize = 220;
     private int ySize = 50;
     private EditBox inputBox;

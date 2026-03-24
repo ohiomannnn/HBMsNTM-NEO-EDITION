@@ -1,6 +1,6 @@
 package com.hbm.render.util;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.render.CustomRenderTypes;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -11,7 +11,7 @@ import org.joml.Matrix4f;
 
 public class DiamondPronter {
 
-    private static final ResourceLocation TEXTURE = HBMsNTM.withDefaultNamespaceNT("textures/models/misc/danger_diamond.png");
+    private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/models/misc/danger_diamond.png");
 
     public static void pront(MultiBufferSource buffer, PoseStack poseStack, int brightness, int poison, int flammability, int reactivity, EnumSymbol symbol) {
 

@@ -1,6 +1,6 @@
 package com.hbm.particle;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.particle.engine.ParticleNT;
 import com.hbm.render.CustomRenderTypes;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -17,7 +17,7 @@ public class MukeWaveParticle extends ParticleNT {
 
     private float waveScale = 45F;
 
-    private static final ResourceLocation TEXTURE = HBMsNTM.withDefaultNamespaceNT("textures/particle/shockwave.png");
+    private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/particle/shockwave.png");
 
     public MukeWaveParticle(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);

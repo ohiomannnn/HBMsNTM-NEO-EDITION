@@ -1,6 +1,6 @@
 package com.hbm.network.toserver;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.interfaces.IControlReceiver;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record CompoundTagControl(CompoundTag tag, BlockPos pos) implements CustomPacketPayload {
-    public static final Type<CompoundTagControl> TYPE = new Type<>(HBMsNTM.withDefaultNamespaceNT("compound_tag_control"));
+    public static final Type<CompoundTagControl> TYPE = new Type<>(NuclearTechMod.withDefaultNamespace("compound_tag_control"));
 
     public static final StreamCodec<FriendlyByteBuf, CompoundTagControl> STREAM_CODEC = new StreamCodec<>() {
         @Override

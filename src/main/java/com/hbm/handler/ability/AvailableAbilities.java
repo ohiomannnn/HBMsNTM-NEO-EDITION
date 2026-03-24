@@ -1,6 +1,6 @@
 package com.hbm.handler.ability;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 
@@ -16,12 +16,12 @@ public class AvailableAbilities {
 
     public AvailableAbilities addAbility(IBaseAbility ability, int level) {
         if (level < 0 || level >= ability.levels()) {
-            HBMsNTM.LOGGER.warn("Illegal level {} for ability {}", level, ability.getName());
+            NuclearTechMod.LOGGER.warn("Illegal level {} for ability {}", level, ability.getName());
             level = ability.levels() - 1;
         }
 
         if (abilities.containsKey(ability)) {
-            HBMsNTM.LOGGER.warn("Ability {} already had level {}, overwriting with level {}", ability.getName(), abilities.get(ability), level);
+            NuclearTechMod.LOGGER.warn("Ability {} already had level {}, overwriting with level {}", ability.getName(), abilities.get(ability), level);
         }
 
         abilities.put(ability, level);

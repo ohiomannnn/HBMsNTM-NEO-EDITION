@@ -1,6 +1,6 @@
 package com.hbm.render.entity.mob;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.CreeperRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -13,7 +13,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class CreeperNuclearRenderer extends CreeperRenderer {
 
-    private static final ResourceLocation CREEPER_LOCATION = HBMsNTM.withDefaultNamespaceNT("textures/entity/creeper_nuclear.png");
+    private static final ResourceLocation CREEPER_LOCATION = NuclearTechMod.withDefaultNamespace("textures/entity/creeper_nuclear.png");
     private float swellMod = 1.0F;
 
     public CreeperNuclearRenderer(EntityRendererProvider.Context context) { super(context); }

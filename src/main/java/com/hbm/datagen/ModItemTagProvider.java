@@ -1,6 +1,6 @@
 package com.hbm.datagen;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.items.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -15,7 +15,7 @@ import static com.hbm.inventory.ModTags.Items.*;
 public class ModItemTagProvider extends ItemTagsProvider {
 
     public ModItemTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> provider, CompletableFuture<TagLookup<Block>> blockTags, ExistingFileHelper helper) {
-        super(output, provider, blockTags, HBMsNTM.MODID, helper);
+        super(output, provider, blockTags, NuclearTechMod.MODID, helper);
     }
 
     @Override

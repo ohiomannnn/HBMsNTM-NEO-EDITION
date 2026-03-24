@@ -1,12 +1,12 @@
 package com.hbm.extprop;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.HBMsNTMClient;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.mob.Duck;
 import com.hbm.lib.ModAttachments;
-import com.hbm.lib.ModDamageTypes;
 import com.hbm.network.toclient.InformPlayer;
+import com.hbm.registry.NtmDamageTypes;
 import com.mojang.serialization.Codec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HbmLivingAttachments {
-    private static final ResourceLocation DIGAMMA_MOD = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "digamma");
+    private static final ResourceLocation DIGAMMA_MOD = ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "digamma");
 
     public static final StreamCodec<RegistryFriendlyByteBuf, HbmLivingAttachments> STREAM_CODEC = StreamCodec.of(
             (buf, props) -> buf.writeNbt(props.saveNBTData()),
@@ -136,7 +136,7 @@ public class HbmLivingAttachments {
             }
         }
         if ((entity.getMaxHealth() <= 0 || digamma >= 10.0F) && entity.isAlive()) {
-            entity.hurt(entity.damageSources().source(ModDamageTypes.DIGAMMA), Float.MAX_VALUE);
+            entity.hurt(entity.damageSources().source(NtmDamageTypes.DIGAMMA), Float.MAX_VALUE);
         }
     }
 
@@ -166,7 +166,7 @@ public class HbmLivingAttachments {
 
         if (asbestos >= maxAsbestos) {
             getData(entity).asbestos = 0;
-            entity.hurt(entity.damageSources().source(ModDamageTypes.ASBESTOS), Float.MAX_VALUE);
+            entity.hurt(entity.damageSources().source(NtmDamageTypes.ASBESTOS), Float.MAX_VALUE);
         }
     }
 
@@ -193,7 +193,7 @@ public class HbmLivingAttachments {
 
         if (blacklung >= maxBlacklung) {
             getData(entity).blacklung = 0;
-            entity.hurt(entity.damageSources().source(ModDamageTypes.BLACKLUNG), Float.MAX_VALUE);
+            entity.hurt(entity.damageSources().source(NtmDamageTypes.BLACKLUNG), Float.MAX_VALUE);
         }
     }
 

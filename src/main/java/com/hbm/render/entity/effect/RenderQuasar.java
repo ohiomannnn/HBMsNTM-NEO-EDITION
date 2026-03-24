@@ -1,6 +1,6 @@
 package com.hbm.render.entity.effect;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -10,7 +10,7 @@ import net.minecraft.world.entity.Entity;
 import org.joml.Matrix4f;
 
 public class RenderQuasar<T extends Entity> extends RenderBlackHole<T> {
-    protected static final ResourceLocation QUASAR = HBMsNTM.withDefaultNamespaceNT("textures/entity/bholed.png");
+    protected static final ResourceLocation QUASAR = NuclearTechMod.withDefaultNamespace("textures/entity/bholed.png");
 
     public RenderQuasar(EntityRendererProvider.Context context) { super(context); }
 

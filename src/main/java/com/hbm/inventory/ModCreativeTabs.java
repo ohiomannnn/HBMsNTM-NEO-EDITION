@@ -1,13 +1,12 @@
 package com.hbm.inventory;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.BatteryPackItem;
 import com.hbm.items.machine.FluidIDMultiItem;
-import com.hbm.items.machine.FluidTankItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -21,7 +20,7 @@ import static net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB;
 
 @SuppressWarnings("unused")
 public class ModCreativeTabs {
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(CREATIVE_MODE_TAB, HBMsNTM.MODID);
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(CREATIVE_MODE_TAB, NuclearTechMod.MODID);
 
     public static final Supplier<CreativeModeTab> MACHINE_ITEMS_AND_FUEL = CREATIVE_MODE_TABS.register(
             "machine_items_and_fuel",
@@ -45,36 +44,40 @@ public class ModCreativeTabs {
                         output.accept(ModItems.FLUID_TANK_EMPTY.get());
                         for (int i = 1; i < types.length; ++i) {
                             FluidType type = types[i];
+                            int id = type.getID();
 
                             if (type.hasNoContainer()) continue;
                             if (type.needsLeadContainer()) continue;
-                            output.accept(FluidTankItem.createStack(ModItems.FLUID_TANK_FULL.get(), type));
+                            output.accept(MetaHelper.metaStack(new ItemStack(ModItems.FLUID_TANK_FULL.get(), 1), id));
                         }
                         // lead tanks
                         output.accept(ModItems.FLUID_TANK_LEAD_EMPTY.get());
                         for (int i = 1; i < types.length; ++i) {
                             FluidType type = types[i];
+                            int id = type.getID();
 
                             if (type.hasNoContainer()) continue;
-                            output.accept(FluidTankItem.createStack(ModItems.FLUID_TANK_LEAD_FULL.get(), type));
+                            output.accept(MetaHelper.metaStack(new ItemStack(ModItems.FLUID_TANK_LEAD_FULL.get(), 1), id));
                         }
                         // barrels
                         output.accept(ModItems.FLUID_BARREL_EMPTY.get());
                         for (int i = 1; i < types.length; ++i) {
                             FluidType type = types[i];
+                            int id = type.getID();
 
                             if (type.hasNoContainer()) continue;
                             if (type.needsLeadContainer()) continue;
-                            output.accept(FluidTankItem.createStack(ModItems.FLUID_BARREL_FULL.get(), type));
+                            output.accept(MetaHelper.metaStack(new ItemStack(ModItems.FLUID_BARREL_FULL.get(), 1), id));
                         }
                         // fluid packs
                         output.accept(ModItems.FLUID_PACK_EMPTY.get());
                         for (int i = 1; i < types.length; ++i) {
                             FluidType type = types[i];
+                            int id = type.getID();
 
                             if (type.hasNoContainer()) continue;
                             if (type.needsLeadContainer()) continue;
-                            output.accept(FluidTankItem.createStack(ModItems.FLUID_PACK_FULL.get(), type));
+                            output.accept(MetaHelper.metaStack(new ItemStack(ModItems.FLUID_PACK_FULL.get(), 1), id));
                         }
                         output.accept(ModItems.FLUID_BARREL_INFINITE.get());
                         output.accept(ModItems.INF_WATER.get());
@@ -174,7 +177,7 @@ public class ModCreativeTabs {
     public static final Supplier<CreativeModeTab> MACHINES = CREATIVE_MODE_TABS.register(
             "machines",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.PWR_CONTROLLER.get()))
-                    .withTabsBefore(HBMsNTM.withDefaultNamespaceNT("ores_and_blocks"))
+                    .withTabsBefore(NuclearTechMod.withDefaultNamespace("ores_and_blocks"))
                     .title(Component.translatable("creative_tab.hbmsntm.machines"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModBlocks.GAS_RADON);
@@ -209,9 +212,9 @@ public class ModCreativeTabs {
     public static final Supplier<CreativeModeTab> BOMBS = CREATIVE_MODE_TABS.register(
             "bombs",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.NUKE_FAT_MAN.get()))
-                    .withTabsBefore(HBMsNTM.withDefaultNamespaceNT("machines"))
+                    .withTabsBefore(NuclearTechMod.withDefaultNamespace("machines"))
                     .title(Component.translatable("creative_tab.hbmsntm.bombs"))
-                    .backgroundTexture(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/gui/nuke_tab.png"))
+                    .backgroundTexture(ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "textures/gui/nuke_tab.png"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModBlocks.NUKE_GADGET);
                         output.accept(ModBlocks.NUKE_LITTLE_BOY);
@@ -292,7 +295,7 @@ public class ModCreativeTabs {
     public static final Supplier<CreativeModeTab> MISSILES = CREATIVE_MODE_TABS.register(
             "missiles",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.MISSILE_DOOMSDAY.get()))
-                    .withTabsBefore(HBMsNTM.withDefaultNamespaceNT("bombs"))
+                    .withTabsBefore(NuclearTechMod.withDefaultNamespace("bombs"))
                     .title(Component.translatable("creative_tab.hbmsntm.missiles"))
                     .displayItems((itemDisplayParameters, output) -> {
 
@@ -336,7 +339,7 @@ public class ModCreativeTabs {
     public static final Supplier<CreativeModeTab> CONSUMABLES_AND_GEAR = CREATIVE_MODE_TABS.register(
             "consumables_and_gear",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.BOTTLE_NUKA.get()))
-                    .withTabsBefore(HBMsNTM.withDefaultNamespaceNT("missiles"))
+                    .withTabsBefore(NuclearTechMod.withDefaultNamespace("missiles"))
                     .title(Component.translatable("creative_tab.hbmsntm.consumables_and_gear"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModItems.DUCK_SPAWN_EGG);

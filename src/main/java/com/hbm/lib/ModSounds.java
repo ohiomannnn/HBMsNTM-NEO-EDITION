@@ -1,6 +1,6 @@
 package com.hbm.lib;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvent;
 import net.neoforged.bus.api.IEventBus;
@@ -8,7 +8,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ModSounds {
-    public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, HBMsNTM.MODID);
+    public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, NuclearTechMod.MODID);
 
     public static final DeferredHolder<SoundEvent, SoundEvent> MUKE_EXPLOSION = reg("muke_explosion");
     public static final DeferredHolder<SoundEvent, SoundEvent> NUCLEAR_EXPLOSION = reg("nuclear_explosion");
@@ -75,7 +75,7 @@ public class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> DOOR_ALARM_6 = reg("door.alarm6");
 
     private static DeferredHolder<SoundEvent, SoundEvent> reg(String name) {
-        return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(HBMsNTM.withDefaultNamespaceNT(name)));
+        return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(NuclearTechMod.withDefaultNamespace(name)));
     }
 
     public static void register(IEventBus eventBus) {

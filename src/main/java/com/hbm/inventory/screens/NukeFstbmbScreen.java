@@ -1,11 +1,10 @@
 package com.hbm.inventory.screens;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.blockentity.bomb.NukeBalefireBlockEntity;
 import com.hbm.interfaces.Placeholder;
 import com.hbm.inventory.menus.NukeFstbmbMenu;
 import com.hbm.network.toserver.CompoundTagControl;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.nbt.CompoundTag;
@@ -19,7 +18,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 @Placeholder(reason = "...")
 public class NukeFstbmbScreen extends InfoScreen<NukeFstbmbMenu> {
 
-    private static final ResourceLocation TEXTURE = HBMsNTM.withDefaultNamespaceNT("textures/gui/weapon/fstbmb_schematic.png");
+    private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/gui/weapon/fstbmb_schematic.png");
 
     private EditBox timer;
     private final NukeBalefireBlockEntity be;

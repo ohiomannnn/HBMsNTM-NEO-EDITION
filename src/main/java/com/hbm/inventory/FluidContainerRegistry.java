@@ -3,8 +3,6 @@ package com.hbm.inventory;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
-import com.hbm.items.datacomps.FluidTypeComponent;
-import com.hbm.items.datacomps.ModDataComponents;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
@@ -14,8 +12,8 @@ import java.util.List;
 public class FluidContainerRegistry {
 
     // TODO: continue incorporating hashmaps into this
-    public static List<FluidContainer> allContainers = new ArrayList<>();
-    private static HashMap<FluidType, List<FluidContainer>> containerMap = new HashMap<>();
+    public static final List<FluidContainer> allContainers = new ArrayList<>();
+    private static final HashMap<FluidType, List<FluidContainer>> containerMap = new HashMap<>();
 
     public static void clearRegistry() {
         allContainers.clear();
@@ -28,15 +26,16 @@ public class FluidContainerRegistry {
         for (int i = 1; i < fluids.length; i++) {
 
             FluidType type = fluids[i];
+            int id = type.getID();
 
             if (type.hasNoContainer()) continue;
 
-            FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.FLUID_TANK_LEAD_FULL.get(), 1), new ItemStack(ModItems.FLUID_TANK_LEAD_EMPTY.get()), type, 1000));
+            FluidContainerRegistry.registerContainer(new FluidContainer(MetaHelper.metaStack(new ItemStack(ModItems.FLUID_TANK_LEAD_FULL.get(), 1), id), new ItemStack(ModItems.FLUID_TANK_LEAD_EMPTY.get()), type, 1000));
 
             if (type.needsLeadContainer()) continue;
 
-            FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.FLUID_TANK_FULL.get(), 1), new ItemStack(ModItems.FLUID_TANK_EMPTY.get()), type, 1000));
-            FluidContainerRegistry.registerContainer(new FluidContainer(new ItemStack(ModItems.FLUID_BARREL_FULL.get(), 1), new ItemStack(ModItems.FLUID_BARREL_EMPTY.get()), type, 16000));
+            FluidContainerRegistry.registerContainer(new FluidContainer(MetaHelper.metaStack(new ItemStack(ModItems.FLUID_TANK_FULL.get(), 1), id), new ItemStack(ModItems.FLUID_TANK_EMPTY.get()), type, 1000));
+            FluidContainerRegistry.registerContainer(new FluidContainer(MetaHelper.metaStack(new ItemStack(ModItems.FLUID_BARREL_FULL.get(), 1), id), new ItemStack(ModItems.FLUID_BARREL_EMPTY.get()), type, 16000));
         }
     }
 
@@ -57,19 +56,20 @@ public class FluidContainerRegistry {
         }
 
         ItemStack sta = stack.copyWithCount(1);
-        FluidTypeComponent staC = sta.get(ModDataComponents.FLUID_TYPE.get());
-        if (staC == null) return 0;
+        int meta = MetaHelper.getMeta(sta);
 
         if (!containerMap.containsKey(type)) {
             return 0;
         }
 
         for (FluidContainer container : containerMap.get(type)) {
-            if (container.fullContainer.is(sta.getItem()) &&
-                    container.fullContainer.get(ModDataComponents.FLUID_TYPE.get()).fluidId() == staC.fluidId()) {
+            int containerMeta = MetaHelper.getMeta(container.fullContainer);
+
+            if (container.fullContainer.is(sta.getItem()) && meta == containerMeta) {
                 return container.content;
             }
         }
+
         return 0;
     }
 
@@ -77,14 +77,11 @@ public class FluidContainerRegistry {
         if (stack.isEmpty()) return ItemStack.EMPTY;
 
         ItemStack sta = stack.copyWithCount(1);
-        FluidTypeComponent staC = sta.get(ModDataComponents.FLUID_TYPE.get());
-        if (staC == null) return ItemStack.EMPTY;
 
         if (!containerMap.containsKey(type)) return ItemStack.EMPTY;
 
         for (FluidContainer container : containerMap.get(type)) {
-            if (!container.emptyContainer.isEmpty() && container.emptyContainer.is(sta.getItem())
-                    && container.emptyContainer.get(ModDataComponents.FLUID_TYPE.get()).fluidId() == staC.fluidId()) {
+            if (!container.emptyContainer.isEmpty() && container.emptyContainer.is(sta.getItem())) {
                 return container.fullContainer.copy();
             }
         }
@@ -96,12 +93,12 @@ public class FluidContainerRegistry {
         if (stack.isEmpty()) return ItemStack.EMPTY;
 
         ItemStack sta = stack.copyWithCount(1);
-        FluidTypeComponent staC = sta.get(ModDataComponents.FLUID_TYPE.get());
-        if (staC == null) return ItemStack.EMPTY;
+        int meta = MetaHelper.getMeta(sta);
 
         for (FluidContainer container : allContainers) {
-            if (container.fullContainer.is(sta.getItem()) &&
-                    container.fullContainer.get(ModDataComponents.FLUID_TYPE.get()).fluidId() == staC.fluidId()) {
+            int containerMeta = MetaHelper.getMeta(container.fullContainer);
+
+            if (container.fullContainer.is(sta.getItem()) && meta == containerMeta) {
                 return container.emptyContainer.isEmpty() ? ItemStack.EMPTY : container.emptyContainer.copy();
             }
         }

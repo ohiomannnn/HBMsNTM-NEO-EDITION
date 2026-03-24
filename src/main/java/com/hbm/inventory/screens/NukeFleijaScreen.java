@@ -1,6 +1,6 @@
 package com.hbm.inventory.screens;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.blockentity.bomb.NukeFleijaBlockEntity;
 import com.hbm.inventory.menus.NukeFleijaMenu;
 import com.hbm.items.ModItems;
@@ -11,7 +11,7 @@ import net.minecraft.world.entity.player.Inventory;
 
 public class NukeFleijaScreen extends InfoScreen<NukeFleijaMenu> {
 
-    private static final ResourceLocation TEXTURE = HBMsNTM.withDefaultNamespaceNT("textures/gui/weapon/fleija_schematic.png");
+    private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/gui/weapon/fleija_schematic.png");
 
     private final NukeFleijaBlockEntity be;
 

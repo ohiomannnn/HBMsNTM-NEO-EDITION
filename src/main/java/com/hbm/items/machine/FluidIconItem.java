@@ -1,11 +1,10 @@
 package com.hbm.items.machine;
 
 import com.hbm.inventory.FluidStack;
+import com.hbm.inventory.MetaHelper;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
-import com.hbm.items.datacomps.FluidTypeComponent;
-import com.hbm.items.datacomps.ModDataComponents;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.TagsUtilDegradation;
 import net.minecraft.ChatFormatting;
@@ -25,7 +24,7 @@ public class FluidIconItem extends Item {
 
     @Override
     public Component getName(ItemStack stack) {
-        return FluidTypeComponent.getFluidType(stack).getName();
+        return Fluids.fromID(MetaHelper.getMeta(stack)).getName();
     }
 
     @Override
@@ -38,7 +37,7 @@ public class FluidIconItem extends Item {
             }
         }
 
-        FluidType type = FluidTypeComponent.getFluidType(stack);
+        FluidType type = Fluids.fromID(MetaHelper.getMeta(stack));
         if (type != null) {
             type.addInfo(components);
         }
@@ -76,8 +75,7 @@ public class FluidIconItem extends Item {
     }
 
     public static ItemStack create(FluidType type, int amount, int pressure) {
-        ItemStack stack = new ItemStack(ModItems.FLUID_ICON.get());
-        stack.set(ModDataComponents.FLUID_TYPE.get(), new FluidTypeComponent(type.getID()));
+        ItemStack stack = MetaHelper.metaStack(new ItemStack(ModItems.FLUID_ICON.get()), type.getID());
         addQuantity(stack, amount);
         addPressure(stack, pressure);
         return stack;

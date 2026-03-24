@@ -1,6 +1,6 @@
 package com.hbm.render.util;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.util.Clock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -9,7 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.GameType;
 
 public class RenderScreenOverlay {
-    public static final ResourceLocation MISC_TEXTURE = HBMsNTM.withDefaultNamespaceNT("textures/misc/overlay_misc.png");
+    public static final ResourceLocation MISC_TEXTURE = NuclearTechMod.withDefaultNamespace("textures/misc/overlay_misc.png");
 
     private static long lastSurvey;
     private static float prevResult;

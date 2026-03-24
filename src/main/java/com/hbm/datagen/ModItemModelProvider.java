@@ -1,6 +1,6 @@
 package com.hbm.datagen;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import net.minecraft.client.renderer.block.model.BlockModel;
@@ -17,7 +17,7 @@ import java.util.Objects;
 
 public class ModItemModelProvider extends ItemModelProvider {
     public ModItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
-        super(output, HBMsNTM.MODID, existingFileHelper);
+        super(output, NuclearTechMod.MODID, existingFileHelper);
     }
 
     @Override
@@ -155,7 +155,7 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .parent(getExistingFile(mcLoc("item/generated")));
         for (int i = 1; i <= 18; i++) {
             builder.override()
-                    .predicate(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "polaroid_id"), i)
+                    .predicate(ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "polaroid_id"), i)
                     .model(getBuilder("polaroid_" + i)
                             .parent(getExistingFile(mcLoc("item/generated")))
                             .texture("layer0", modLoc("item/polaroids/polaroid_" + i)))

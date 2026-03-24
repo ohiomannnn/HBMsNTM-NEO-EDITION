@@ -1,6 +1,6 @@
 package com.hbm.handler;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.blocks.DummyableBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -40,7 +40,7 @@ public class MultiblockHandlerXR {
                     count++;
 
                     if (count > 2000) {
-                        HBMsNTM.LOGGER.warn("checkspace: ded {} {} {} {} {} {}", a, b, c, x, y, z);
+                        NuclearTechMod.LOGGER.warn("checkspace: ded {} {} {} {} {} {}", a, b, c, x, y, z);
                         return false;
                     }
                 }
@@ -95,7 +95,7 @@ public class MultiblockHandlerXR {
                     count++;
 
                     if (count > 2000) {
-                        HBMsNTM.LOGGER.warn("checkspace: ded {} {} {} {} {} {}", a, b, c, x, y, z);
+                        NuclearTechMod.LOGGER.warn("checkspace: ded {} {} {} {} {} {}", a, b, c, x, y, z);
                         return;
                     }
                 }

@@ -1,6 +1,6 @@
 package com.hbm.handler;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,7 +28,7 @@ public class HTTPHandler {
                     loadSoyuz();
                     loadTips();
                 } catch(IOException e) {
-                    HBMsNTM.LOGGER.warn("Version checker failed!");
+                    NuclearTechMod.LOGGER.warn("Version checker failed!");
                 }
             }
 
@@ -42,7 +42,7 @@ public class HTTPHandler {
         URL github = URI.create("https://raw.githubusercontent.com/ohiomannnn/HBMsNTM-NEO-EDITION/refs/heads/master/src/main/java/com/hbm/HBMsNTM.java").toURL();
         BufferedReader in = new BufferedReader(new InputStreamReader(github.openStream()));
 
-        HBMsNTM.LOGGER.info("Searching for new versions...");
+        NuclearTechMod.LOGGER.info("Searching for new versions...");
         String line;
 
         while((line = in.readLine()) != null) {
@@ -54,14 +54,14 @@ public class HTTPHandler {
 
                 String sub = line.substring(begin + 1, end);
 
-                newVersion = !HBMsNTM.VERSION.equals(sub);
+                newVersion = !NuclearTechMod.VERSION.equals(sub);
                 versionNumber = sub;
-                HBMsNTM.LOGGER.info("Found version {}", sub);
+                NuclearTechMod.LOGGER.info("Found version {}", sub);
                 break;
             }
         }
 
-        HBMsNTM.LOGGER.info("Version checker ended.");
+        NuclearTechMod.LOGGER.info("Version checker ended.");
         in.close();
     }
 

@@ -1,6 +1,6 @@
 package com.hbm.render.block.loader;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -45,7 +45,7 @@ public class BlockRendererDispatcher {
         BlockRenderers.getProviders().forEach((block, provider) -> {
             renderers.put(block, provider.create());
         });
-        HBMsNTM.LOGGER.info("Initialized {} custom block renderers", renderers.size());
+        NuclearTechMod.LOGGER.info("Initialized {} custom block renderers", renderers.size());
     }
 
     public BlockRenderer getRenderer(Block block) {
@@ -67,7 +67,7 @@ public class BlockRendererDispatcher {
 
             Item item = block.asItem();
             if (item == Items.AIR) {
-                HBMsNTM.LOGGER.warn("Block {} has an item renderer but no BlockItem!", block);
+                NuclearTechMod.LOGGER.warn("Block {} has an item renderer but no BlockItem!", block);
                 continue;
             }
 
@@ -199,7 +199,7 @@ public class BlockRendererDispatcher {
                 try {
                     renderer.render(pos, state, poseStack, buffer, partialTicks, packedLight, OverlayTexture.NO_OVERLAY);
                 } catch (Exception e) {
-                    HBMsNTM.LOGGER.error("Error rendering block renderer at {}", pos, e);
+                    NuclearTechMod.LOGGER.error("Error rendering block renderer at {}", pos, e);
                 }
 
                 poseStack.popPose();

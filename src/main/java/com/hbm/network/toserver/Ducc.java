@@ -1,26 +1,20 @@
 package com.hbm.network.toserver;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.mob.Duck;
 import com.hbm.extprop.HbmPlayerAttachments;
-import com.hbm.interfaces.IControlReceiver;
 import com.hbm.lib.ModAttachments;
 import com.hbm.lib.ModSounds;
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record Ducc() implements CustomPacketPayload {
-    public static final Type<Ducc> TYPE = new Type<>(HBMsNTM.withDefaultNamespaceNT("ducc"));
+    public static final Type<Ducc> TYPE = new Type<>(NuclearTechMod.withDefaultNamespace("ducc"));
 
     public static final StreamCodec<FriendlyByteBuf, Ducc> STREAM_CODEC = new StreamCodec<>() {
         @Override public Ducc decode(FriendlyByteBuf buf) { return new Ducc(); }

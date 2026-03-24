@@ -1,6 +1,6 @@
 package com.hbm.particle;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -11,7 +11,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ModParticles {
-    public static final DeferredRegister<ParticleType<?>> REGISTER = DeferredRegister.create(BuiltInRegistries.PARTICLE_TYPE, HBMsNTM.MODID);
+    public static final DeferredRegister<ParticleType<?>> REGISTER = DeferredRegister.create(BuiltInRegistries.PARTICLE_TYPE, NuclearTechMod.MODID);
 
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> BASE_PARTICLE = REGISTER.register(
             "base_particle", () -> new SimpleParticleType(true));
@@ -54,7 +54,7 @@ public class ModParticles {
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> VANILLA_CLOUD = REGISTER.register(
             "vanilla_cloud", () -> new SimpleParticleType(true));
 
-    public static final ResourceLocation BASE = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/particle/base_particle.png");
+    public static final ResourceLocation BASE = ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "textures/particle/base_particle.png");
 
     public static SpriteSet BASE_PARTICLE_SPRITES;
     public static SpriteSet RBMK_MUSH_SPRITES;

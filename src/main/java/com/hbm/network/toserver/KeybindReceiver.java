@@ -1,6 +1,6 @@
 package com.hbm.network.toserver;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.handler.HbmKeybindsServer;
 import net.minecraft.network.FriendlyByteBuf;
@@ -10,7 +10,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record KeybindReceiver(EnumKeybind keybind, boolean pressed) implements CustomPacketPayload {
 
-    public static final Type<KeybindReceiver> TYPE = new Type<>(HBMsNTM.withDefaultNamespaceNT("keybind"));
+    public static final Type<KeybindReceiver> TYPE = new Type<>(NuclearTechMod.withDefaultNamespace("keybind"));
 
     public static final StreamCodec<FriendlyByteBuf, KeybindReceiver> STREAM_CODEC = new StreamCodec<>() {
         @Override

@@ -1,6 +1,6 @@
 package com.hbm.inventory.screens;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.blockentity.machine.storage.MachineFluidTankBlockEntity;
 import com.hbm.inventory.menus.MachineFluidTankMenu;
 import com.hbm.network.toserver.CompoundTagControl;
@@ -13,7 +13,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 public class MachineFluidTankScreen extends InfoScreen<MachineFluidTankMenu> {
 
-    private static final ResourceLocation TEXTURE = HBMsNTM.withDefaultNamespaceNT("textures/gui/storage/gui_tank.png");
+    private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/gui/storage/gui_tank.png");
 
     public MachineFluidTankBlockEntity be;
 

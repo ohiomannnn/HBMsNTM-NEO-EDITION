@@ -1,6 +1,6 @@
 package com.hbm.inventory.screens;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.blockentity.bomb.LaunchPadBaseBlockEntity;
 import com.hbm.inventory.menus.LaunchPadLargeMenu;
 import com.hbm.items.ModItems;
@@ -20,7 +20,7 @@ import java.util.function.Consumer;
 
 public class LaunchPadLargeScreen extends InfoScreen<LaunchPadLargeMenu> {
 
-    private static final ResourceLocation TEXTURE = HBMsNTM.withDefaultNamespaceNT("textures/gui/weapon/gui_launch_pad_large.png");
+    private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/gui/weapon/gui_launch_pad_large.png");
 
     public LaunchPadBaseBlockEntity be;
 

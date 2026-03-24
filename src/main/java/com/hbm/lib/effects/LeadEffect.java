@@ -1,6 +1,6 @@
 package com.hbm.lib.effects;
 
-import com.hbm.lib.ModDamageTypes;
+import com.hbm.registry.NtmDamageTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
@@ -15,7 +15,7 @@ public class LeadEffect extends MobEffect {
     @Override
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
         DamageSource src = new DamageSource(
-                entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageTypes.LEAD)
+                entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(NtmDamageTypes.LEAD)
         );
         entity.hurt(src, amplifier + 1);
         return true;

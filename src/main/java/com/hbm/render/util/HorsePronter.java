@@ -1,6 +1,6 @@
 package com.hbm.render.util;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.loader.IModelCustom;
 import com.hbm.util.Vec3NT;
@@ -12,9 +12,9 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
 public class HorsePronter {
-    public static final IModelCustom horse = new HFRWavefrontObject(HBMsNTM.withDefaultNamespaceNT("models/obj/mobs/horse.obj")).asVBO();
+    public static final IModelCustom horse = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/mobs/horse.obj")).asVBO();
 
-    public static final ResourceLocation tex_demohorse = HBMsNTM.withDefaultNamespaceNT("textures/models/horse/horse_demo.png");
+    public static final ResourceLocation tex_demohorse = NuclearTechMod.withDefaultNamespace("textures/models/horse/horse_demo.png");
 
     private static Vec3NT[] pose = new Vec3NT[] {
             new Vec3NT(0, 0, 0), //head

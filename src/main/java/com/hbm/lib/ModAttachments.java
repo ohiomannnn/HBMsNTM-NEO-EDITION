@@ -1,6 +1,6 @@
 package com.hbm.lib;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.extprop.HbmPlayerAttachments;
 import net.neoforged.bus.api.IEventBus;
@@ -11,7 +11,7 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import java.util.function.Supplier;
 
 public class ModAttachments {
-    public static final DeferredRegister<AttachmentType<?>> ATTACHMENTS = DeferredRegister.create(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, HBMsNTM.MODID);
+    public static final DeferredRegister<AttachmentType<?>> ATTACHMENTS = DeferredRegister.create(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, NuclearTechMod.MODID);
 
     public static final Supplier<AttachmentType<HbmLivingAttachments>> LIVING_ATTACHMENT = ATTACHMENTS.register(
             "ntm_living_attachments",

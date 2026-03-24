@@ -1,11 +1,8 @@
 package com.hbm.network.toclient;
 
-import com.hbm.HBMsNTM;
-import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
+import com.hbm.NuclearTechMod;
 import com.hbm.items.tools.SatelliteInterfaceItem;
 import com.hbm.saveddata.satellite.Satellite;
-import net.minecraft.client.Minecraft;
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -13,11 +10,8 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public record SatellitePanel(int satType, CompoundTag tag) implements CustomPacketPayload {
-    public static final Type<SatellitePanel> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "satellite_panel_packet"));
+    public static final Type<SatellitePanel> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "satellite_panel_packet"));
 
     public static final StreamCodec<FriendlyByteBuf, SatellitePanel> STREAM_CODEC = new StreamCodec<>() {
                 @Override

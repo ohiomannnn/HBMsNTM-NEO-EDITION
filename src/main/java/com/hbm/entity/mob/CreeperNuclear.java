@@ -7,9 +7,9 @@ import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockMutatorFire;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.items.special.PolaroidItem;
-import com.hbm.lib.ModDamageTypes;
 import com.hbm.lib.ModSounds;
 import com.hbm.network.toclient.AuxParticle;
+import com.hbm.registry.NtmDamageTypes;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
@@ -54,7 +54,7 @@ public class CreeperNuclear extends Creeper {
         // for some reason the nuclear explosion would damage the already dead entity, reviving it and forcing it to play the death animation
         if (this.dead) return false;
 
-        if (source.is(ModDamageTypes.RADIATION)) {
+        if (source.is(NtmDamageTypes.RADIATION)) {
             if (this.isAlive()) {
                 this.heal(amount);
             }

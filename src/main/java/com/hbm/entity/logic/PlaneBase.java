@@ -1,9 +1,9 @@
 package com.hbm.entity.logic;
 
 import com.hbm.explosion.vanillant.ExplosionVNT;
-import com.hbm.lib.ModDamageTypes;
 import com.hbm.lib.ModSounds;
 import com.hbm.particle.helper.ExplosionSmallCreator;
+import com.hbm.registry.NtmDamageTypes;
 import com.hbm.util.ParticleUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -41,9 +41,9 @@ public abstract class PlaneBase extends ChunkloadingEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (source.is(ModDamageTypes.NUCLEAR_BLAST)) return false;
+        if (source.is(NtmDamageTypes.NUCLEAR_BLAST)) return false;
         if (this.isInvulnerable()) return false;
-        if (this.isAlive() && !level().isClientSide && this.getHealth() > 0) {
+        if (this.isAlive() && !level.isClientSide && this.getHealth() > 0) {
             setHealth(getHealth() - amount);
             if (this.getHealth() <= 0) this.killPlane();
         }

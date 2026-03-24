@@ -1,6 +1,6 @@
 package com.hbm.blockentity.machine;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.blockentity.LoadedBaseBlockEntity;
 import com.hbm.items.ModItems;
 import com.hbm.items.tools.KeyItem;
@@ -8,7 +8,6 @@ import com.hbm.lib.ModSounds;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
@@ -32,7 +31,7 @@ public abstract class LockableBaseBlockEntity extends LoadedBaseBlockEntity {
 
     public void lock() {
         if (lock == 0) {
-            HBMsNTM.LOGGER.error("A block has been set to locked pressed before setting pins, this should not happen and may cause errors! {}", this);
+            NuclearTechMod.LOGGER.error("A block has been set to locked pressed before setting pins, this should not happen and may cause errors! {}", this);
         }
         isLocked = true;
         setChanged();

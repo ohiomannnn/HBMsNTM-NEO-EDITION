@@ -4,7 +4,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.inventory.ModTags;
 import com.hbm.lib.Library;
-import com.hbm.lib.ModDamageTypes;
+import com.hbm.registry.NtmDamageTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
@@ -49,7 +49,7 @@ public class ExplosionNukeGeneric {
                 if (!isExplosionExempt(entity) && !Library.isObstructed(level, x, y, z, entX, entY, entZ)) {
                     double dist = Math.sqrt(distSq);
                     double damage = maxDamage * (radius - dist) / radius;
-                    entity.hurt(level.damageSources().source(ModDamageTypes.NUCLEAR_BLAST), (float) damage);
+                    entity.hurt(level.damageSources().source(NtmDamageTypes.NUCLEAR_BLAST), (float) damage);
                     entity.setRemainingFireTicks(100);
 
                     double knockX = entX - x;

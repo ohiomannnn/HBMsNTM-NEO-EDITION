@@ -1,7 +1,7 @@
 package com.hbm.render.entity.effect;
 
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.entity.effect.BlackHole;
 import com.hbm.entity.effect.RagingVortex;
 import com.hbm.entity.effect.Vortex;
@@ -17,15 +17,12 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import org.joml.Matrix4f;
-import org.joml.Vector3f;
-
-import java.util.Random;
 
 public class RenderBlackHole<T extends Entity> extends EntityRenderer<T> {
 
-    protected static final ResourceLocation HOLE = HBMsNTM.withDefaultNamespaceNT("textures/models/blackhole.png");
-    protected static final ResourceLocation SWIRL = HBMsNTM.withDefaultNamespaceNT("textures/entity/bhole.png");
-    protected static final ResourceLocation DISC = HBMsNTM.withDefaultNamespaceNT("textures/entity/bholedisc.png");
+    protected static final ResourceLocation HOLE = NuclearTechMod.withDefaultNamespace("textures/models/blackhole.png");
+    protected static final ResourceLocation SWIRL = NuclearTechMod.withDefaultNamespace("textures/entity/bhole.png");
+    protected static final ResourceLocation DISC = NuclearTechMod.withDefaultNamespace("textures/entity/bholedisc.png");
 
     public RenderBlackHole(EntityRendererProvider.Context context) { super(context); }
 

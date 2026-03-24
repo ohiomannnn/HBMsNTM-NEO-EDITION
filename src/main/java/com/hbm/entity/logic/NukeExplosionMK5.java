@@ -1,6 +1,6 @@
 package com.hbm.entity.logic;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.effect.FalloutRain;
@@ -71,7 +71,7 @@ public class NukeExplosionMK5 extends ChunkloadingEntity {
             explosion.destructionTick(MainConfig.COMMON.MK5.get());
         } else {
             if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get() && explosionStart != 0) {
-                HBMsNTM.LOGGER.info("[NUKE] Explosion complete. Time elapsed: {}ms", (System.currentTimeMillis() - explosionStart));
+                NuclearTechMod.LOGGER.info("[NUKE] Explosion complete. Time elapsed: {}ms", (System.currentTimeMillis() - explosionStart));
             }
             if (fallout) {
                 FalloutRain fallout = new FalloutRain(ModEntityTypes.NUKE_FALLOUT_RAIN.get(), level());
@@ -132,7 +132,7 @@ public class NukeExplosionMK5 extends ChunkloadingEntity {
 
     public static NukeExplosionMK5 statFac(Level level, int strength, double x, double y, double z) {
         if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get() && !level.isClientSide) {
-            HBMsNTM.LOGGER.info("[NUKE] Initialized explosion at {} / {} / {} with strength {}!", x, y, z, strength);
+            NuclearTechMod.LOGGER.info("[NUKE] Initialized explosion at {} / {} / {} with strength {}!", x, y, z, strength);
         }
 
         if (strength == 0) strength = 25;
@@ -150,7 +150,7 @@ public class NukeExplosionMK5 extends ChunkloadingEntity {
     // FUCK
     public static NukeExplosionMK5 statFacNoSpawn(Level level, int strength, double x, double y, double z) {
         if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get() && !level.isClientSide) {
-            HBMsNTM.LOGGER.info("[NUKE] Initialized explosion at {} / {} / {} with strength {}!", x, y, z, strength);
+            NuclearTechMod.LOGGER.info("[NUKE] Initialized explosion at {} / {} / {} with strength {}!", x, y, z, strength);
         }
 
         if (strength == 0) strength = 25;

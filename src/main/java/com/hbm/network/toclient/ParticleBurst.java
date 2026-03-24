@@ -1,6 +1,6 @@
 package com.hbm.network.toclient;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -14,7 +14,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record ParticleBurst(BlockPos pos, Block block) implements CustomPacketPayload {
 
-    public static final Type<ParticleBurst> TYPE = new Type<>(HBMsNTM.withDefaultNamespaceNT("particle_burst_packet"));
+    public static final Type<ParticleBurst> TYPE = new Type<>(NuclearTechMod.withDefaultNamespace("particle_burst_packet"));
 
     public static final StreamCodec<FriendlyByteBuf, ParticleBurst> STREAM_CODEC =
             new StreamCodec<>() {

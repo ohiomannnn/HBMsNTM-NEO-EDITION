@@ -1,6 +1,6 @@
 package com.hbm.render.util;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.render.CustomRenderTypes;
 import com.hbm.render.loader.IModelCustom;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -12,8 +12,8 @@ import net.minecraft.resources.ResourceLocation;
 
 public class RenderMiscEffects {
 
-    public static final ResourceLocation GLINT = HBMsNTM.withDefaultNamespaceNT("textures/misc/glint.png");
-    public static final ResourceLocation GLINT_BF = HBMsNTM.withDefaultNamespaceNT("textures/misc/glint_bf.png");
+    public static final ResourceLocation GLINT = NuclearTechMod.withDefaultNamespace("textures/misc/glint.png");
+    public static final ResourceLocation GLINT_BF = NuclearTechMod.withDefaultNamespace("textures/misc/glint_bf.png");
 
     public static void renderClassicGlint(MultiBufferSource buffer, PoseStack poseStack, int packedLight, int packedOverlay, float partialTicks, ResourceLocation texture, IModelCustom model, String part, float colorMod, float r, float g, float b, float speed, float scale) {
         LocalPlayer player = Minecraft.getInstance().player;

@@ -1,6 +1,6 @@
 package com.hbm.render.blockentity;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.blockentity.IPersistentNBT;
 import com.hbm.blockentity.machine.storage.MachineFluidTankBlockEntity;
 import com.hbm.blocks.DummyableBlock;
@@ -52,14 +52,14 @@ public class RenderFluidTank extends BlockEntityRendererNT<MachineFluidTankBlock
         if (!be.hasExploded) {
             VertexConsumer frameConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.TANK_TEX));
             ResourceManager.fluid_tank.renderPart("Frame", poseStack, frameConsumer, packedLight, packedOverlay);
-            VertexConsumer tankConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(HBMsNTM.withDefaultNamespaceNT(getTextureFromType(type))));
+            VertexConsumer tankConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(NuclearTechMod.withDefaultNamespace(getTextureFromType(type))));
             ResourceManager.fluid_tank.renderPart("Tank", poseStack, tankConsumer, packedLight, packedOverlay);
         } else {
             VertexConsumer frameConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.TANK_TEX));
             ResourceManager.fluid_tank_exploded.renderPart("Frame", poseStack, frameConsumer, packedLight, packedOverlay);
             VertexConsumer innerConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.TANK_INNER_TEX));
             ResourceManager.fluid_tank_exploded.renderPart("TankInner", poseStack, innerConsumer, packedLight, packedOverlay);
-            VertexConsumer tankConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(HBMsNTM.withDefaultNamespaceNT(getTextureFromType(type))));
+            VertexConsumer tankConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(NuclearTechMod.withDefaultNamespace(getTextureFromType(type))));
             ResourceManager.fluid_tank_exploded.renderPart("Tank", poseStack, tankConsumer, packedLight, packedOverlay);
         }
 
@@ -124,13 +124,13 @@ public class RenderFluidTank extends BlockEntityRendererNT<MachineFluidTankBlock
                 VertexConsumer frameConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.TANK_TEX));
                 if (!exploded) {
                     ResourceManager.fluid_tank.renderPart("Frame", poseStack, frameConsumer, packedLight, packedOverlay);
-                    VertexConsumer tankConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(HBMsNTM.withDefaultNamespaceNT(RenderFluidTank.getTextureFromType(type))));
+                    VertexConsumer tankConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(NuclearTechMod.withDefaultNamespace(RenderFluidTank.getTextureFromType(type))));
                     ResourceManager.fluid_tank.renderPart("Tank", poseStack, tankConsumer, packedLight, packedOverlay);
                 } else {
                     ResourceManager.fluid_tank_exploded.renderPart("Frame", poseStack, frameConsumer, packedLight, packedOverlay);
                     VertexConsumer innerConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.TANK_INNER_TEX));
                     ResourceManager.fluid_tank_exploded.renderPart("TankInner", poseStack, innerConsumer, packedLight, packedOverlay);
-                    VertexConsumer tankConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(HBMsNTM.withDefaultNamespaceNT(RenderFluidTank.getTextureFromType(type))));
+                    VertexConsumer tankConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(NuclearTechMod.withDefaultNamespace(RenderFluidTank.getTextureFromType(type))));
                     ResourceManager.fluid_tank_exploded.renderPart("Tank", poseStack, tankConsumer, packedLight, packedOverlay);
                 }
             }

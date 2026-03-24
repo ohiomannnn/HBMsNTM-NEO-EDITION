@@ -1,6 +1,6 @@
 package com.hbm.lib;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.lib.effects.*;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.effect.MobEffect;
@@ -10,7 +10,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ModEffect {
-    public static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(BuiltInRegistries.MOB_EFFECT, HBMsNTM.MODID);
+    public static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(BuiltInRegistries.MOB_EFFECT, NuclearTechMod.MODID);
 
     public static final DeferredHolder<MobEffect, TaintEffect>      TAINT = MOB_EFFECTS.register("taint", () -> new TaintEffect(MobEffectCategory.HARMFUL, 0x800080));
     public static final DeferredHolder<MobEffect, RadiationEffect>  RADIATION = MOB_EFFECTS.register("radiation", () -> new RadiationEffect(MobEffectCategory.HARMFUL, 0x84C128));

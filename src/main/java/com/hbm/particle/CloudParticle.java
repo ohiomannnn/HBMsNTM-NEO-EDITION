@@ -1,6 +1,6 @@
 package com.hbm.particle;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.main.ResourceManager;
 import com.hbm.particle.engine.ParticleNT;
 import com.hbm.particle.helper.CloudCreator.CloudType;
@@ -20,8 +20,8 @@ import net.minecraft.world.phys.Vec3;
 
 public class CloudParticle extends ParticleNT {
 
-    private static final ResourceLocation TEXTURE_FLEIJA = HBMsNTM.withDefaultNamespaceNT("textures/models/blast_fleija.png");
-    private static final ResourceLocation TEXTURE_SOLINIUM = HBMsNTM.withDefaultNamespaceNT("textures/models/blast_solinium.png");
+    private static final ResourceLocation TEXTURE_FLEIJA = NuclearTechMod.withDefaultNamespace("textures/models/blast_fleija.png");
+    private static final ResourceLocation TEXTURE_SOLINIUM = NuclearTechMod.withDefaultNamespace("textures/models/blast_solinium.png");
 
     public CloudType type;
 

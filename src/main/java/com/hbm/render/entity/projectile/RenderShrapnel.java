@@ -1,6 +1,6 @@
 package com.hbm.render.entity.projectile;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.entity.projectile.Shrapnel;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -13,7 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class RenderShrapnel extends EntityRenderer<Shrapnel> {
 
-    private static final ResourceLocation SHRAPNEL_LOCATION = HBMsNTM.withDefaultNamespaceNT("textures/entity/shrapnel.png");
+    private static final ResourceLocation SHRAPNEL_LOCATION = NuclearTechMod.withDefaultNamespace("textures/entity/shrapnel.png");
 
     private final ModelShrapnel<Shrapnel> model;
 

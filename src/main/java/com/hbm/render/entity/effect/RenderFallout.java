@@ -1,6 +1,6 @@
 package com.hbm.render.entity.effect;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.entity.effect.FalloutRain;
 import com.hbm.render.CustomRenderTypes;
 import com.hbm.util.old.TessColorUtil;
@@ -29,7 +29,7 @@ import java.util.Random;
 @OnlyIn(Dist.CLIENT)
 public class RenderFallout extends EntityRenderer<FalloutRain> {
 
-    private static final ResourceLocation FALLOUT = ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "textures/entity/fallout.png");
+    private static final ResourceLocation FALLOUT = ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "textures/entity/fallout.png");
 
     private final Random random = new Random();
     private float[] rainXCoords;

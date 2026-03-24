@@ -137,7 +137,7 @@ public class Meteor extends Entity {
 
         // Sound
         if (level().isClientSide) {
-            if (this.audioFly == null) this.audioFly = HBMsNTMClient.getLoopedSound(ModSounds.METEORITE_FALLING_LOOP.get(), SoundSource.AMBIENT,  0, 0, 0, 1F, 200F, 0.9F + this.random.nextFloat() * 0.2F, 10);
+            if (this.audioFly == null) this.audioFly = AudioWrapper.getLoopedSound(ModSounds.METEORITE_FALLING_LOOP.get(), SoundSource.AMBIENT,  0, 0, 0, 1F, 200F, 0.9F + this.random.nextFloat() * 0.2F, 10);
 
             if (this.audioFly.isPlaying()) {
                 // Update sound

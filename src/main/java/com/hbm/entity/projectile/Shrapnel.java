@@ -6,7 +6,7 @@ import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockMutatorDebris;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
-import com.hbm.lib.ModDamageTypes;
+import com.hbm.registry.NtmDamageTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -50,7 +50,7 @@ public class Shrapnel extends ThrowableProjectile {
         super.onHit(result);
 
         if (result instanceof EntityHitResult ehr) {
-            ehr.getEntity().hurt(this.level().damageSources().source(ModDamageTypes.SHRAPNEL), 15);
+            ehr.getEntity().hurt(this.level.damageSources().source(NtmDamageTypes.SHRAPNEL), 15);
         }
 
         if (this.tickCount > 5) {

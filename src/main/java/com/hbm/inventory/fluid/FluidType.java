@@ -1,7 +1,7 @@
 package com.hbm.inventory.fluid;
 
 import api.hbm.fluidmk2.FluidNetMK2;
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Corrosive;
 import com.hbm.inventory.fluid.trait.FluidTrait;
@@ -9,9 +9,7 @@ import com.hbm.inventory.fluid.trait.FluidTraitSimple.*;
 import com.hbm.render.util.EnumSymbol;
 import com.hbm.uninos.INetworkProvider;
 import com.hbm.uninos.networkproviders.FluidNetProvider;
-import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -65,7 +63,7 @@ public class FluidType {
         this.flammability = f;
         this.reactivity = r;
         this.symbol = symbol;
-        this.texture = HBMsNTM.withDefaultNamespaceNT("textures/gui/fluids/" + name.toLowerCase(Locale.US) + ".png");
+        this.texture = NuclearTechMod.withDefaultNamespace("textures/gui/fluids/" + name.toLowerCase(Locale.US) + ".png");
 
         this.id = Fluids.registerSelf(this);
     }
@@ -83,7 +81,7 @@ public class FluidType {
         this.flammability = f;
         this.reactivity = r;
         this.symbol = symbol;
-        this.texture = HBMsNTM.withDefaultNamespaceNT("textures/gui/fluids/" + texName + ".png");
+        this.texture = NuclearTechMod.withDefaultNamespace("textures/gui/fluids/" + texName + ".png");
         this.guiTint = tint;
         this.localizedOverride = displayName;
         this.renderWithTint = true;

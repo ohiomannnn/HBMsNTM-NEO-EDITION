@@ -1,7 +1,7 @@
 package com.hbm.items;
 
 import api.hbm.block.IToolable.ToolType;
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.ability.IToolAreaAbility;
 import com.hbm.handler.ability.IToolHarvestAbility;
@@ -40,7 +40,7 @@ import static net.minecraft.world.item.Item.BASE_ATTACK_DAMAGE_ID;
 import static net.minecraft.world.item.Item.BASE_ATTACK_SPEED_ID;
 
 public class ModItems {
-    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(HBMsNTM.MODID);
+    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(NuclearTechMod.MODID);
 
     public static final DeferredItem<Item> NOTHING = ITEMS.register("nothing", () -> new Item(new Item.Properties()));
 

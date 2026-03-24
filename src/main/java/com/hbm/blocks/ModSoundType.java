@@ -1,6 +1,6 @@
 package com.hbm.blocks;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
@@ -71,11 +71,11 @@ public class ModSoundType extends SoundType {
     }
 
     private static SoundEvent modDig(String soundName) {
-        return sound(HBMsNTM.MODID + ":dig." + soundName);
+        return sound(NuclearTechMod.MODID + ":dig." + soundName);
     }
 
     private static SoundEvent modStep(String soundName) {
-        return sound(HBMsNTM.MODID + ":step." + soundName);
+        return sound(NuclearTechMod.MODID + ":step." + soundName);
     }
 
     public static class ModEnvelopedSoundType extends ModSoundType {

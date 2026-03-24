@@ -1,34 +1,28 @@
 package com.hbm.handler.jei;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.handler.jei.subtypes.CustomDataSubtypeInterpreter;
-import com.hbm.handler.jei.subtypes.FluidTypeSubtypeInterpreter;
+import com.hbm.handler.jei.subtypes.MetaSubtypeInterpreter;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
-import com.hbm.items.datacomps.ModDataComponents;
 import com.hbm.items.machine.FluidIconItem;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
-import mezz.jei.api.ingredients.subtypes.ISubtypeInterpreter;
-import mezz.jei.api.ingredients.subtypes.UidContext;
 import mezz.jei.api.registration.IExtraIngredientRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @JeiPlugin
 @SuppressWarnings("unused")
 public class ModPlugin implements IModPlugin {
 
-    @Override public ResourceLocation getPluginUid() { return HBMsNTM.withDefaultNamespaceNT("jei_plugin"); }
+    @Override public ResourceLocation getPluginUid() { return NuclearTechMod.withDefaultNamespace("jei_plugin"); }
 
     @Override
     public void registerItemSubtypes(ISubtypeRegistration regs) {
@@ -64,7 +58,7 @@ public class ModPlugin implements IModPlugin {
             regs.registerSubtypeInterpreter(item, CustomDataSubtypeInterpreter.INSTANCE);
         }
         for (Item item : ignoreFT) {
-            regs.registerSubtypeInterpreter(item, FluidTypeSubtypeInterpreter.INSTANCE);
+            regs.registerSubtypeInterpreter(item, MetaSubtypeInterpreter.INSTANCE);
         }
     }
 

@@ -1,15 +1,13 @@
 package com.hbm.blocks.gas;
 
-import com.hbm.lib.ModDamageTypes;
+import com.hbm.registry.NtmDamageTypes;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.ArmorRegistry.HazardClass;
 import com.hbm.util.ArmorUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -30,8 +28,7 @@ public class GasMonoxideBlock extends GasBaseBlock {
             if (ArmorRegistry.hasProtection(livingEntity, EquipmentSlot.HEAD, HazardClass.GAS_MONOXIDE)) {
                 ArmorUtil.damageGasMaskFilter(livingEntity, 1);
             } else {
-                DamageSource src = new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageTypes.MONOXIDE));
-                livingEntity.hurt(src, 1);
+                livingEntity.hurt(livingEntity.damageSources().source(NtmDamageTypes.MONOXIDE), 1);
             }
         }
     }

@@ -1,9 +1,7 @@
 package com.hbm.render.entity.projectile;
 
-import com.hbm.HBMsNTM;
-import com.hbm.HBMsNTMClient;
+import com.hbm.NuclearTechMod;
 import com.hbm.entity.projectile.Meteor;
-import com.hbm.entity.projectile.Shrapnel;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
@@ -11,13 +9,12 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix4f;
 
 public class RenderMeteor extends EntityRenderer<Meteor> {
 
-    private static final ResourceLocation METEOR_LOCATION = HBMsNTM.withDefaultNamespaceNT("textures/block/block_meteor_molten.png");
+    private static final ResourceLocation METEOR_LOCATION = NuclearTechMod.withDefaultNamespace("textures/block/block_meteor_molten.png");
 
     public RenderMeteor(EntityRendererProvider.Context context) { super(context); }
 

@@ -5,8 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
-import com.hbm.CommonEvents;
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.items.ModItems;
 import com.hbm.items.armor.ItemModCladding;
 import com.hbm.lib.ModEffect;
@@ -127,7 +126,7 @@ public class HazmatRegistry {
     public static final Gson gson = new Gson();
 
     public static void registerHazmats() {
-        File folder = HBMsNTM.configHbmDir;
+        File folder = NuclearTechMod.configHbmDir;
 
         File config = new File(folder.getAbsolutePath() + File.separatorChar + "hbmRadResist.json");
         File template = new File(folder.getAbsolutePath() + File.separatorChar + "_hbmRadResist.json");

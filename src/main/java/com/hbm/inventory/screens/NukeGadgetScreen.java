@@ -1,10 +1,8 @@
 package com.hbm.inventory.screens;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.blockentity.bomb.NukeGadgetBlockEntity;
-import com.hbm.blockentity.bomb.NukeLittleBoyBlockEntity;
 import com.hbm.inventory.menus.NukeGadgetMenu;
-import com.hbm.inventory.menus.NukeLittleBoyMenu;
 import com.hbm.items.ModItems;
 import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.client.gui.GuiGraphics;
@@ -17,7 +15,7 @@ import java.util.List;
 
 public class NukeGadgetScreen extends InfoScreen<NukeGadgetMenu> {
 
-    private static final ResourceLocation TEXTURE = HBMsNTM.withDefaultNamespaceNT("textures/gui/weapon/gadget_schematic.png");
+    private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/gui/weapon/gadget_schematic.png");
 
     private final NukeGadgetBlockEntity be;
 

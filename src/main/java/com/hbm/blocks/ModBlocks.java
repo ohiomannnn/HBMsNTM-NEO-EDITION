@@ -1,6 +1,6 @@
 package com.hbm.blocks;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.blocks.bomb.*;
 import com.hbm.blocks.bomb.CrashedBombBlock.DudType;
 import com.hbm.blocks.gas.*;
@@ -32,7 +32,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import java.util.function.Supplier;
 
 public class ModBlocks {
-    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(HBMsNTM.MODID);
+    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(NuclearTechMod.MODID);
 
     public static final DeferredBlock<Block> BRICK_CONCRETE = registerBlock("brick_concrete", () -> new Block(BlockBehaviour.Properties.of().strength(15.0F).explosionResistance(160.0F).requiresCorrectToolForDrops().sound(SoundType.STONE)));
     public static final DeferredBlock<Block> BRICK_CONCRETE_MOSSY = registerBlock("brick_concrete_mossy", () -> new Block(BlockBehaviour.Properties.of().strength(15.0F).explosionResistance(160.0F).requiresCorrectToolForDrops().sound(SoundType.STONE)));

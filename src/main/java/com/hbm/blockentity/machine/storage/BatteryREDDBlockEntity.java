@@ -79,7 +79,7 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
 
             if (this.prevRotation != this.rotation && HBMsNTMClient.me().distanceToSqr(this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 5.5, this.getBlockPos().getZ() + 0.5) < 30 * 30) {
                 if (this.audio == null || !this.audio.isPlaying()) {
-                    this.audio = HBMsNTMClient.getLoopedSound(ModSounds.FENSU_HUM.get(), SoundSource.AMBIENT, this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(), this.getVolume(1.5F), 25F, pitch, 5);
+                    this.audio = AudioWrapper.getLoopedSound(ModSounds.FENSU_HUM.get(), SoundSource.AMBIENT, this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(), this.getVolume(1.5F), 25F, pitch, 5);
                     this.audio.startSound();
                 }
 

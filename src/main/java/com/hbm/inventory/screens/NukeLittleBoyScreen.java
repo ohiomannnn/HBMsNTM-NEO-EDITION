@@ -1,6 +1,6 @@
 package com.hbm.inventory.screens;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.blockentity.bomb.NukeLittleBoyBlockEntity;
 import com.hbm.inventory.menus.NukeLittleBoyMenu;
 import com.hbm.items.ModItems;
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class NukeLittleBoyScreen extends InfoScreen<NukeLittleBoyMenu> {
 
-    private static final ResourceLocation TEXTURE = HBMsNTM.withDefaultNamespaceNT("textures/gui/weapon/lil_boy_schematic.png");
+    private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/gui/weapon/lil_boy_schematic.png");
 
     private final NukeLittleBoyBlockEntity be;
 

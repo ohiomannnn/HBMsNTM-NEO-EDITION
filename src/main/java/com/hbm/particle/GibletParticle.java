@@ -1,6 +1,6 @@
 package com.hbm.particle;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.particle.engine.ParticleNT;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
@@ -16,9 +16,9 @@ import org.joml.Vector3f;
 
 public class GibletParticle extends ParticleNT {
 
-    private static final ResourceLocation TEXTURE_MEAT = HBMsNTM.withDefaultNamespaceNT("textures/particle/meat.png");
-    private static final ResourceLocation TEXTURE_SLIME = HBMsNTM.withDefaultNamespaceNT("textures/particle/slime.png");
-    private static final ResourceLocation TEXTURE_METAL = HBMsNTM.withDefaultNamespaceNT("textures/particle/metal.png");
+    private static final ResourceLocation TEXTURE_MEAT = NuclearTechMod.withDefaultNamespace("textures/particle/meat.png");
+    private static final ResourceLocation TEXTURE_SLIME = NuclearTechMod.withDefaultNamespace("textures/particle/slime.png");
+    private static final ResourceLocation TEXTURE_METAL = NuclearTechMod.withDefaultNamespace("textures/particle/metal.png");
 
     private float momentumRoll;
     private int gibType;

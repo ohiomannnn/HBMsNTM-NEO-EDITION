@@ -1,6 +1,6 @@
 package com.hbm.blockentity;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.blockentity.bomb.*;
 import com.hbm.blockentity.machine.DecontaminatorBlockEntity;
 import com.hbm.blockentity.machine.GeigerBlockEntity;
@@ -20,7 +20,7 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("DataFlowIssue") // kill yourself
 public class ModBlockEntityTypes {
-    public static final DeferredRegister<BlockEntityType<?>> REGISTER = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, HBMsNTM.MODID);
+    public static final DeferredRegister<BlockEntityType<?>> REGISTER = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, NuclearTechMod.MODID);
 
     public static final Supplier<BlockEntityType<EmptyBlockEntity>> BARREL = REGISTER.register(
             "barrel",

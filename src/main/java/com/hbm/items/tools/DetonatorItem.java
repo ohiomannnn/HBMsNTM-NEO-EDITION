@@ -1,6 +1,6 @@
 package com.hbm.items.tools;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.config.MainConfig;
 import com.hbm.interfaces.IBomb;
@@ -21,7 +21,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 
 import java.util.List;
@@ -79,7 +78,7 @@ public class DetonatorItem extends Item {
                     BombReturnCode ret = bomb.explode(level, pos);
 
                     if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
-                        HBMsNTM.LOGGER.info("[DETONATOR] {} detonated {} at {} / {} / {}!", player.getName().getString(), block.getName().getString(), x, y, z);
+                        NuclearTechMod.LOGGER.info("[DETONATOR] {} detonated {} at {} / {} / {}!", player.getName().getString(), block.getName().getString(), x, y, z);
                     }
 
                     player.displayClientMessage(Component.literal("[" + this.getName(stack).getString() + "] ").withStyle(ChatFormatting.DARK_AQUA)

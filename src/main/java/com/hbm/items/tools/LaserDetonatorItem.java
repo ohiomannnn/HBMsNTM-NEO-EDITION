@@ -1,6 +1,6 @@
 package com.hbm.items.tools;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.HBMsNTMClient;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.config.MainConfig;
@@ -55,7 +55,7 @@ public class LaserDetonatorItem extends Item implements IHoldableWeapon {
                 IBomb.BombReturnCode ret = ib.explode(level, pos);
 
                 if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
-                    HBMsNTM.LOGGER.info("[LASER DETONATOR] {} detonated {} at {} / {} / {}!", player.getName().getString(), block.getName().getString(), pos.getX(), pos.getY(), pos.getZ());
+                    NuclearTechMod.LOGGER.info("[LASER DETONATOR] {} detonated {} at {} / {} / {}!", player.getName().getString(), block.getName().getString(), pos.getX(), pos.getY(), pos.getZ());
                 }
 
                 level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.TECH_BLEEP.get(), SoundSource.AMBIENT, 1.0F, 1.0F);

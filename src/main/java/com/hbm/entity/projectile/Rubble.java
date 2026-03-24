@@ -1,8 +1,8 @@
 package com.hbm.entity.projectile;
 
-import com.hbm.lib.ModDamageTypes;
 import com.hbm.lib.ModSounds;
 import com.hbm.network.toclient.ParticleBurst;
+import com.hbm.registry.NtmDamageTypes;
 import com.hbm.util.RayTraceResult;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -37,7 +37,7 @@ public class Rubble extends ThrowableNT {
         Level level = this.level();
 
         if (result.entityHit != null) {
-            result.entityHit.hurt(level.damageSources().source(ModDamageTypes.RUBBLE), 15);
+            result.entityHit.hurt(level.damageSources().source(NtmDamageTypes.RUBBLE), 15);
         }
 
         if (this.tickCount > 2) {

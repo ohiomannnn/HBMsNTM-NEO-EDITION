@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.inventory.fluid.trait.FT_Corrosive;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.fluid.trait.FluidTrait;
@@ -94,7 +94,7 @@ public class Fluids {
         // ^ ^ ^ ^ ^ ^ ^ ^
         //ADD NEW FLUIDS HERE
 
-        File folder = HBMsNTM.configHbmDir;
+        File folder = NuclearTechMod.configHbmDir;
         File customTypes = new File(folder.getAbsolutePath() + File.separatorChar + "hbmFluidTypes.json");
         if (!customTypes.exists()) initDefaultFluids(customTypes);
         readCustomFluids(customTypes);
@@ -247,7 +247,7 @@ public class Fluids {
     public static HashMap<String, FluidType> fluidMigration = new HashMap<>(); // since reloading would create new fluid instances, and those break existing machines
 
     public static void reloadFluids() {
-        File folder = HBMsNTM.configHbmDir;
+        File folder = NuclearTechMod.configHbmDir;
         File customTypes = new File(folder.getAbsolutePath() + File.separatorChar + "hbmFluidTypes.json");
         if (!customTypes.exists()) initDefaultFluids(customTypes);
 
@@ -271,8 +271,8 @@ public class Fluids {
 
         readCustomFluids(customTypes);
         metaOrder.addAll(customFluids);
-        File config = new File(HBMsNTM.configHbmDir.getAbsolutePath() + File.separatorChar + "hbmFluidTraits.json");
-        File template = new File(HBMsNTM.configHbmDir.getAbsolutePath() + File.separatorChar + "_hbmFluidTraits.json");
+        File config = new File(NuclearTechMod.configHbmDir.getAbsolutePath() + File.separatorChar + "hbmFluidTraits.json");
+        File template = new File(NuclearTechMod.configHbmDir.getAbsolutePath() + File.separatorChar + "_hbmFluidTraits.json");
 
         if (!config.exists()) {
             writeDefaultTraits(template);

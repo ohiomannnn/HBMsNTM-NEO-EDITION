@@ -1,6 +1,6 @@
 package com.hbm.particle;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.particle.engine.ParticleNT;
 import com.hbm.render.CustomRenderTypes;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -18,7 +18,7 @@ import org.joml.Vector3f;
 @OnlyIn(Dist.CLIENT)
 public class MukeCloudParticle extends ParticleNT {
 
-    private static final ResourceLocation TEXTURE = HBMsNTM.withDefaultNamespaceNT("textures/particle/explosion.png");
+    private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/particle/explosion.png");
 
     public MukeCloudParticle(ClientLevel level, double x, double y, double z, double xd, double yd, double zd) {
         super(level, x, y, z);

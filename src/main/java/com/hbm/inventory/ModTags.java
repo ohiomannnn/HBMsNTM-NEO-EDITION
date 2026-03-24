@@ -1,6 +1,6 @@
 package com.hbm.inventory;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -19,7 +19,7 @@ public class ModTags {
         public static final TagKey<Block> PLANTS = crateTag("plants");
 
         private static TagKey<Block> crateTag(String name) {
-            return BlockTags.create(HBMsNTM.withDefaultNamespaceNT(name));
+            return BlockTags.create(NuclearTechMod.withDefaultNamespace(name));
         }
     }
 
@@ -33,7 +33,7 @@ public class ModTags {
         public static final TagKey<Item> UNIVERSAL_BARREL = crateTag("ntm_universal_barrel");
 
         private static TagKey<Item> crateTag(String name) {
-            return ItemTags.create(HBMsNTM.withDefaultNamespaceNT(name));
+            return ItemTags.create(NuclearTechMod.withDefaultNamespace(name));
         }
         private static TagKey<Item> commonTag(String name) {
             return ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", name));

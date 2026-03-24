@@ -1,6 +1,6 @@
 package com.hbm.inventory.screens;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.blockentity.bomb.NukeIvyMikeBlockEntity;
 import com.hbm.inventory.menus.NukeIvyMikeMenu;
 import com.hbm.items.ModItems;
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class NukeIvyMikeScreen extends InfoScreen<NukeIvyMikeMenu> {
 
-    public static final ResourceLocation TEXTURE = HBMsNTM.withDefaultNamespaceNT("textures/gui/weapon/ivy_mike_schematic.png");
+    public static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/gui/weapon/ivy_mike_schematic.png");
 
     private final NukeIvyMikeBlockEntity be;
 

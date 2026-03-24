@@ -1,8 +1,8 @@
 package com.hbm.inventory.fluid.tank;
 
 import com.hbm.inventory.FluidContainerRegistry;
+import com.hbm.inventory.MetaHelper;
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.items.datacomps.ModDataComponents;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
@@ -34,7 +34,7 @@ public class FluidLoaderStandard extends FluidLoadingHandler {
                 if (name != null) slots.get(out).set(DataComponents.CUSTOM_NAME, name);
 
             } else if (slots.get(out).getItem() == full.getItem() &&
-                    slots.get(out).get(ModDataComponents.FLUID_TYPE.get()) == full.get(ModDataComponents.FLUID_TYPE.get()) &&
+                    MetaHelper.getMeta(slots.get(out)) == MetaHelper.getMeta(full) &&
                     slots.get(out).getCount() < slots.get(out).getMaxStackSize()
             ) {
                 tank.setFill(tank.getFill() - FluidContainerRegistry.getFluidContent(full, type));
@@ -78,7 +78,7 @@ public class FluidLoaderStandard extends FluidLoadingHandler {
                     slots.set(in, ItemStack.EMPTY);
                 }
             } else if (!slots.get(out).isEmpty() && (emptyContainer.isEmpty() || (slots.get(out).getItem() == emptyContainer.getItem() &&
-                    slots.get(out).get(ModDataComponents.FLUID_TYPE.get()) == emptyContainer.get(ModDataComponents.FLUID_TYPE.get()) &&
+                    MetaHelper.getMeta(slots.get(out)) == MetaHelper.getMeta(emptyContainer) &&
                     slots.get(out).getCount() < slots.get(out).getMaxStackSize()))
             ) {
                 tank.setFill(tank.getFill() + amount);

@@ -4,7 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.neoforged.neoforge.client.model.geometry.IGeometryLoader;
@@ -15,7 +15,7 @@ import java.util.List;
 public class HFRObjGeometryLoader implements IGeometryLoader<HFRObjGeometry> {
 
     public static final HFRObjGeometryLoader INSTANCE = new HFRObjGeometryLoader();
-    public static final ResourceLocation ID = HBMsNTM.withDefaultNamespaceNT("hfr_obj");
+    public static final ResourceLocation ID = NuclearTechMod.withDefaultNamespace("hfr_obj");
 
     private HFRObjGeometryLoader() {}
 

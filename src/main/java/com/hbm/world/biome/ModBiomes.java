@@ -1,6 +1,6 @@
 package com.hbm.world.biome;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.particle.ModParticles;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
@@ -10,23 +10,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.*;
 import net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarver;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ModBiomes {
-    public static final DeferredRegister<Biome> BIOMES =
-            DeferredRegister.create(Registries.BIOME, HBMsNTM.MODID);
 
-    public static final ResourceKey<Biome> CRATER =
-            ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "crater"));
-    public static final ResourceKey<Biome> CRATER_INNER =
-            ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "crater_inner"));
-    public static final ResourceKey<Biome> CRATER_OUTER =
-            ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "crater_outer"));
-
-    public static void register(IEventBus eventBus) {
-        BIOMES.register(eventBus);
-    }
+    public static final ResourceKey<Biome> CRATER = ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "crater"));
+    public static final ResourceKey<Biome> CRATER_INNER = ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "crater_inner"));
+    public static final ResourceKey<Biome> CRATER_OUTER = ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "crater_outer"));
 
     public static void bootstrap(BootstrapContext<Biome> context) {
         HolderGetter<PlacedFeature> placed = context.lookup(Registries.PLACED_FEATURE);

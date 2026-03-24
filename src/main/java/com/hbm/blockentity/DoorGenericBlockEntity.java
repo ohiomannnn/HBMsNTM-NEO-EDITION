@@ -185,7 +185,7 @@ public class DoorGenericBlockEntity extends LockableBaseBlockEntity {
                 }
 
                 if (doorType.getOpenSoundLoop() != null) {
-                    audio = HBMsNTMClient.getLoopedSound(doorType.getOpenSoundLoop(), SoundSource.BLOCKS, x, y, z, doorType.getSoundVolume(), 10F, 1F);
+                    audio = AudioWrapper.getLoopedSound(doorType.getOpenSoundLoop(), SoundSource.BLOCKS, x, y, z, doorType.getSoundVolume(), 10F, 1F);
                     audio.startSound();
                 }
 
@@ -196,7 +196,7 @@ public class DoorGenericBlockEntity extends LockableBaseBlockEntity {
                 if (doorType.getSoundLoop2() != null) {
                     if (audio2 != null) audio2.stopSound();
 
-                    audio2 = HBMsNTMClient.getLoopedSound(doorType.getSoundLoop2(), SoundSource.BLOCKS, x, y, z, doorType.getSoundVolume(), 10F, 1F);
+                    audio2 = AudioWrapper.getLoopedSound(doorType.getSoundLoop2(), SoundSource.BLOCKS, x, y, z, doorType.getSoundVolume(), 10F, 1F);
                     audio2.startSound();
                 }
             }
@@ -207,7 +207,7 @@ public class DoorGenericBlockEntity extends LockableBaseBlockEntity {
                 }
 
                 if (doorType.getCloseSoundLoop() != null) {
-                    audio = HBMsNTMClient.getLoopedSound(doorType.getCloseSoundLoop(), SoundSource.BLOCKS, x, y, z, doorType.getSoundVolume(), 10F, 1F);
+                    audio = AudioWrapper.getLoopedSound(doorType.getCloseSoundLoop(), SoundSource.BLOCKS, x, y, z, doorType.getSoundVolume(), 10F, 1F);
                     audio.startSound();
                 }
 
@@ -218,7 +218,7 @@ public class DoorGenericBlockEntity extends LockableBaseBlockEntity {
                 if (doorType.getSoundLoop2() != null) {
                     if (audio2 != null) audio2.stopSound();
 
-                    audio2 = HBMsNTMClient.getLoopedSound(doorType.getSoundLoop2(), SoundSource.BLOCKS, x, y, z, doorType.getSoundVolume(), 10F, 1F);
+                    audio2 = AudioWrapper.getLoopedSound(doorType.getSoundLoop2(), SoundSource.BLOCKS, x, y, z, doorType.getSoundVolume(), 10F, 1F);
                     audio2.startSound();
                 }
             }

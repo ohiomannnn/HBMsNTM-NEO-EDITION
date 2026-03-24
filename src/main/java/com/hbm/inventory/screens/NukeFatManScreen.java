@@ -1,6 +1,6 @@
 package com.hbm.inventory.screens;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.blockentity.bomb.NukeFatManBlockEntity;
 import com.hbm.inventory.menus.NukeFatManMenu;
 import com.hbm.items.ModItems;
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class NukeFatManScreen extends InfoScreen<NukeFatManMenu> {
 
-    private static final ResourceLocation TEXTURE = HBMsNTM.withDefaultNamespaceNT("textures/gui/weapon/fat_man_schematic.png");
+    private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/gui/weapon/fat_man_schematic.png");
 
     private final NukeFatManBlockEntity be;
 

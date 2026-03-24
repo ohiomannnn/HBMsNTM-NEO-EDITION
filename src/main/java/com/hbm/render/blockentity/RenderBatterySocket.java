@@ -1,6 +1,6 @@
 package com.hbm.render.blockentity;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.blockentity.machine.storage.BatterySocketBlockEntity;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.blocks.ModBlocks;
@@ -19,7 +19,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -31,7 +30,7 @@ import java.util.Random;
 
 public class RenderBatterySocket extends BlockEntityRendererNT<BatterySocketBlockEntity> implements IBEWLRProvider {
 
-    private static final ResourceLocation blorbo = HBMsNTM.withDefaultNamespaceNT("textures/models/horse/sunburst.png");
+    private static final ResourceLocation blorbo = NuclearTechMod.withDefaultNamespace("textures/models/horse/sunburst.png");
 
     @Override public BlockEntityRenderer<BatterySocketBlockEntity> create(Context context) { return new RenderBatterySocket(); }
 

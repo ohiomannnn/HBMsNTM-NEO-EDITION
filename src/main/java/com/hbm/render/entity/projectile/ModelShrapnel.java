@@ -1,6 +1,6 @@
 package com.hbm.render.entity.projectile;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.EntityModel;
@@ -12,12 +12,11 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 
 public class ModelShrapnel<T extends Entity> extends EntityModel<T> {
 
-    public static final ModelLayerLocation LAYER = new ModelLayerLocation(HBMsNTM.withDefaultNamespaceNT("shrapnel"), "main");
+    public static final ModelLayerLocation LAYER = new ModelLayerLocation(NuclearTechMod.withDefaultNamespace("shrapnel"), "main");
 
     private final ModelPart root;
 

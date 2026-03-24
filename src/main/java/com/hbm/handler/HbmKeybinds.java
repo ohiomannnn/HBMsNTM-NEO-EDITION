@@ -1,7 +1,6 @@
 package com.hbm.handler;
 
-import com.hbm.HBMsNTM;
-import com.hbm.blockentity.IGUIProvider;
+import com.hbm.NuclearTechMod;
 import com.hbm.inventory.screens.CalculatorScreen;
 import com.hbm.items.IKeybindReceiver;
 import com.hbm.network.toserver.KeybindReceiver;
@@ -17,11 +16,10 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.lwjgl.glfw.GLFW;
 
-@EventBusSubscriber(modid = HBMsNTM.MODID, value = Dist.CLIENT)
+@EventBusSubscriber(modid = NuclearTechMod.MODID, value = Dist.CLIENT)
 public class HbmKeybinds {
 
     private static final String category = "hbmsntm.keys";

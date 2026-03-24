@@ -1,6 +1,6 @@
 package com.hbm.render.util;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.util.Vec3NT;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -11,13 +11,13 @@ import net.minecraft.util.Mth;
 public class GaugeUtil {
 
     public enum Gauge {
-        ROUND_SMALL(HBMsNTM.withDefaultNamespaceNT("textures/gui/gauges/small_round.png"), 18, 18, 13),
-        ROUND_LARGE(HBMsNTM.withDefaultNamespaceNT("textures/gui/gauges/large_round.png"), 36, 36, 13),
-        BOW_SMALL(HBMsNTM.withDefaultNamespaceNT("textures/gui/gauges/small_bow.png"), 18, 18, 13),
-        BOW_LARGE(HBMsNTM.withDefaultNamespaceNT("textures/gui/gauges/large_bow.png"), 36, 36, 13),
-        WIDE_SMALL(HBMsNTM.withDefaultNamespaceNT("textures/gui/gauges/small_wide.png"), 18, 12, 7),
-        WIDE_LARGE(HBMsNTM.withDefaultNamespaceNT("textures/gui/gauges/large_wide.png"), 36, 24, 11),
-        BAR_SMALL(HBMsNTM.withDefaultNamespaceNT("textures/gui/gauges/small_bar.png"), 36, 12, 16);
+        ROUND_SMALL(NuclearTechMod.withDefaultNamespace("textures/gui/gauges/small_round.png"), 18, 18, 13),
+        ROUND_LARGE(NuclearTechMod.withDefaultNamespace("textures/gui/gauges/large_round.png"), 36, 36, 13),
+        BOW_SMALL(NuclearTechMod.withDefaultNamespace("textures/gui/gauges/small_bow.png"), 18, 18, 13),
+        BOW_LARGE(NuclearTechMod.withDefaultNamespace("textures/gui/gauges/large_bow.png"), 36, 36, 13),
+        WIDE_SMALL(NuclearTechMod.withDefaultNamespace("textures/gui/gauges/small_wide.png"), 18, 12, 7),
+        WIDE_LARGE(NuclearTechMod.withDefaultNamespace("textures/gui/gauges/large_wide.png"), 36, 24, 11),
+        BAR_SMALL(NuclearTechMod.withDefaultNamespace("textures/gui/gauges/small_bar.png"), 36, 12, 16);
 
         ResourceLocation texture;
         int width;

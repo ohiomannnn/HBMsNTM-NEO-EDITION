@@ -1,6 +1,6 @@
 package com.hbm.particle;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.blocks.bomb.LaunchPadBlock;
 import com.hbm.particle.engine.ParticleNT;
 import com.hbm.render.CustomRenderTypes;
@@ -18,7 +18,7 @@ import org.joml.Vector3f;
 
 public class SmokePlumeParticle extends ParticleNT {
 
-    private static final ResourceLocation TEXTURE = HBMsNTM.withDefaultNamespaceNT("textures/particle/contrail.png");
+    private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/particle/contrail.png");
 
     public SmokePlumeParticle(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);

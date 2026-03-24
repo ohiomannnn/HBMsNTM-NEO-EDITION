@@ -6,10 +6,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
-import com.hbm.CommonEvents;
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.items.ModItems;
-import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.util.Tuple.Pair;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -39,7 +37,7 @@ public abstract class SerializableRecipe {
     }
 
     public static void initialize() {
-        File recDir = new File(HBMsNTM.configDir.getAbsolutePath() + File.separatorChar + "hbmRecipes");
+        File recDir = new File(NuclearTechMod.configDir.getAbsolutePath() + File.separatorChar + "hbmRecipes");
 
         if (!recDir.exists()) {
             if (!recDir.mkdir()) {
@@ -50,7 +48,7 @@ public abstract class SerializableRecipe {
         File info = new File(recDir.getAbsolutePath() + File.separatorChar + "REMOVE UNDERSCORE TO ENABLE RECIPE LOADING - RECIPES WILL RESET TO DEFAULT OTHERWISE");
         try { info.createNewFile(); } catch(IOException ignored) { }
 
-        HBMsNTM.LOGGER.info("Starting recipe init!");
+        NuclearTechMod.LOGGER.info("Starting recipe init!");
 
         GenericRecipes.clearPools();
 
@@ -60,7 +58,7 @@ public abstract class SerializableRecipe {
 
             File recFile = new File(recDir.getAbsolutePath() + File.separatorChar + recipe.getFileName());
             if (recipeSyncHandlers.containsKey(recipe.getFileName())) {
-                HBMsNTM.LOGGER.info("Reading synced recipe file {}", recipe.getFileName());
+                NuclearTechMod.LOGGER.info("Reading synced recipe file {}", recipe.getFileName());
                 InputStream stream = recipeSyncHandlers.get(recipe.getFileName());
 
                 try {
@@ -69,14 +67,14 @@ public abstract class SerializableRecipe {
                     recipe.readRecipeStream(reader);
                     recipe.modified = true;
                 } catch (Throwable ex) {
-                    HBMsNTM.LOGGER.error("Failed to reset synced recipe stream", ex);
+                    NuclearTechMod.LOGGER.error("Failed to reset synced recipe stream", ex);
                 }
             } else if (recFile.exists() && recFile.isFile()) {
-                HBMsNTM.LOGGER.info("Reading recipe file " + recFile.getName());
+                NuclearTechMod.LOGGER.info("Reading recipe file " + recFile.getName());
                 recipe.readRecipeFile(recFile);
                 recipe.modified = true;
             } else {
-                HBMsNTM.LOGGER.info("No recipe file found, registering defaults for " + recipe.getFileName());
+                NuclearTechMod.LOGGER.info("No recipe file found, registering defaults for " + recipe.getFileName());
                 recipe.registerDefaults();
 
                 for(IRecipeRegisterListener listener : additionalListeners) {
@@ -84,7 +82,7 @@ public abstract class SerializableRecipe {
                 }
 
                 File recTemplate = new File(recDir.getAbsolutePath() + File.separatorChar + "_" + recipe.getFileName());
-                HBMsNTM.LOGGER.info("Writing template file " + recTemplate.getName());
+                NuclearTechMod.LOGGER.info("Writing template file " + recTemplate.getName());
                 recipe.writeTemplateFile(recTemplate);
                 recipe.modified = false;
             }
@@ -92,7 +90,7 @@ public abstract class SerializableRecipe {
             recipe.registerPost();
         }
 
-        HBMsNTM.LOGGER.info("Finished recipe init!");
+        NuclearTechMod.LOGGER.info("Finished recipe init!");
     }
 
     public static void receiveRecipes(String filename, byte[] data) {
@@ -256,7 +254,7 @@ public abstract class SerializableRecipe {
             int stackSize = array.size() > 1 ? array.get(1).getAsInt() : 1;
             return new ItemStack(item, stackSize);
         } catch(Exception ignored) { }
-        HBMsNTM.LOGGER.error("Error reading stack array {} - defaulting to NOTHING item!", array.toString());
+        NuclearTechMod.LOGGER.error("Error reading stack array {} - defaulting to NOTHING item!", array.toString());
         return new ItemStack(ModItems.NOTHING.get());
     }
 
@@ -267,7 +265,7 @@ public abstract class SerializableRecipe {
             float chance = array.get(array.size() - 1).getAsFloat();
             return new Pair(new ItemStack(item, stackSize), chance);
         } catch (Exception ignored) { }
-        HBMsNTM.LOGGER.error("Error reading stack array {} - defaulting to NOTHING item!", array.toString());
+        NuclearTechMod.LOGGER.error("Error reading stack array {} - defaulting to NOTHING item!", array.toString());
         return new Pair(new ItemStack(ModItems.NOTHING.get()), 1F);
     }
 

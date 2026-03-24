@@ -7,21 +7,19 @@ import com.hbm.extprop.HbmLivingAttachments.ContaminationEffect;
 import com.hbm.extprop.HbmPlayerAttachments;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.lib.ModAttachments;
-import com.hbm.lib.ModDamageTypes;
 import com.hbm.lib.ModSounds;
 import com.hbm.network.toclient.AuxParticle;
+import com.hbm.registry.NtmDamageTypes;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
 import com.hbm.world.biome.ModBiomes;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -148,8 +146,7 @@ public class EntityEffectHandler {
 
         /// EFFECTS ///
         if (eRad >= 1000) {
-            DamageSource src = new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ModDamageTypes.RADIATION));
-            entity.hurt(src, Float.MAX_VALUE);
+            entity.hurt(entity.damageSources().source(NtmDamageTypes.RADIATION), Float.MAX_VALUE);
             HbmLivingAttachments.setRadiation(entity, 0);
         } else if (eRad >= 800) {
             if (level.random.nextInt(300) == 0) entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 5 * 30, 0));

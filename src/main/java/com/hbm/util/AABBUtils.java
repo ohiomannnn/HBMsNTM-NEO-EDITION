@@ -1,6 +1,5 @@
 package com.hbm.util;
 
-import com.hbm.HBMsNTM;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.phys.AABB;

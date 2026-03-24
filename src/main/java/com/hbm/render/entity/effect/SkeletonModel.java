@@ -1,10 +1,9 @@
 package com.hbm.render.entity.effect;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.particle.helper.SkeletonCreator.EnumSkeletonType;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.VillagerModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
@@ -16,7 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class SkeletonModel {
 
-    public static ModelLayerLocation SKELETON_PART_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(HBMsNTM.MODID, "particle_skeleton_part"), "main");
+    public static ModelLayerLocation SKELETON_PART_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "particle_skeleton_part"), "main");
 
     private final ModelPart root;
 

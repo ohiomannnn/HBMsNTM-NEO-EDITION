@@ -1,13 +1,10 @@
 package com.hbm.lib.effects;
 
 import com.hbm.lib.ModEffect;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.world.damagesource.DamageSource;
+import com.hbm.registry.NtmDamageTypes;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
-
-import static com.hbm.lib.ModDamageTypes.BANG;
 
 public class BangEffect extends MobEffect {
 
@@ -19,10 +16,7 @@ public class BangEffect extends MobEffect {
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
         if (entity.level().isClientSide) return false;
 
-        DamageSource src = new DamageSource(
-                entity.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(BANG)
-        );
-        entity.hurt(src, Float.MAX_VALUE);
+        entity.hurt(entity.damageSources().source(NtmDamageTypes.BANG), Float.MAX_VALUE);
         entity.kill();
 
         // entity.level().playSound(null, entity.getX(), entity.getY(), entity.getZ(), ModSounds.LASER_BANG.get(), entity.getSoundSource(), 100.0F, 1.0F);

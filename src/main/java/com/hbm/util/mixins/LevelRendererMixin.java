@@ -1,6 +1,6 @@
 package com.hbm.util.mixins;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.HBMsNTMClient;
 import com.hbm.config.MainConfig;
 import com.hbm.extprop.HbmLivingAttachments;
@@ -32,9 +32,9 @@ import javax.annotation.Nullable;
 public abstract class LevelRendererMixin {
 
     // CUSTOM SKY BOX
-    @Unique private static final ResourceLocation DIGAMMA_STAR = HBMsNTM.withDefaultNamespaceNT("textures/misc/star_digamma.png");
-    @Unique private static final ResourceLocation LODESTAR = HBMsNTM.withDefaultNamespaceNT("textures/misc/star_lode.png");
-    @Unique private static final ResourceLocation BOBMAZON_SATELLITE = HBMsNTM.withDefaultNamespaceNT("textures/misc/bobmazon_sat.png");
+    @Unique private static final ResourceLocation DIGAMMA_STAR = NuclearTechMod.withDefaultNamespace("textures/misc/star_digamma.png");
+    @Unique private static final ResourceLocation LODESTAR = NuclearTechMod.withDefaultNamespace("textures/misc/star_lode.png");
+    @Unique private static final ResourceLocation BOBMAZON_SATELLITE = NuclearTechMod.withDefaultNamespace("textures/misc/bobmazon_sat.png");
 
     @Inject(method = "renderSky", at = @At("TAIL"))
     private void renderSky(Matrix4f frustumMatrix, Matrix4f projectionMatrix, float partialTick, Camera camera, boolean isFoggy, Runnable skyFogSetup, CallbackInfo ci) {

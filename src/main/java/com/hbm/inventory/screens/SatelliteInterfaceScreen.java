@@ -1,6 +1,6 @@
 package com.hbm.inventory.screens;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.items.ISatChip;
 import com.hbm.items.tools.SatelliteInterfaceItem;
 import com.hbm.lib.ModSounds;
@@ -15,7 +15,6 @@ import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.FastColor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
@@ -31,7 +30,7 @@ import java.util.UUID;
 
 public class SatelliteInterfaceScreen extends Screen {
 
-    protected static final ResourceLocation TEXTURE = HBMsNTM.withDefaultNamespaceNT("textures/gui/satellites/gui_sat_interface.png");
+    protected static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/gui/satellites/gui_sat_interface.png");
     protected int xSize = 216;
     protected int ySize = 216;
     protected int guiLeft;

@@ -9,41 +9,32 @@ displayURL="https://github.com/ohiomannnn/HBMsNTM-NEO-EDITION"
 issueTrackerURL="https://github.com/ohiomannnn/HBMsNTM-NEO-EDITION/issues"
 
 [[mods]]
-modId="${mod_id}"
-
-version="${mod_version}"
-
-displayName="${mod_name}"
-
-# haha, kill yourself
-#updateJSONURL="https://change.me.example.invalid/updates.json"
-
-logoFile= "logo.png"
-
-#credits=""
-
-authors="${mod_authors}"
-
-description='''${mod_description}'''
+    modId="${mod_id}"
+    version="${mod_version}"
+    displayName="${mod_name}"
+    logoFile= "logo.png"
+    #credits=""
+    authors="${mod_authors}"
+    description='''${mod_description}'''
 
 [[mixins]]
-config="hbmsntm.mixins.json"
+    config="hbmsntm.mixins.json"
 
 # The [[accessTransformers]] block allows you to declare where your AT file is.
 # If this block is omitted, a fallback attempt will be made to setPosAndTarget an AT from META-INF/accesstransformer.cfg
 [[accessTransformers]]
-file="META-INF/accesstransformer.cfg"
+    file="META-INF/accesstransformer.cfg"
 
 [[dependencies.${mod_id}]]
-modId="neoforge"
-type="required"
-versionRange="[${neo_version},)"
-ordering="NONE"
-side="BOTH"
+    modId="neoforge"
+    type="required"
+    versionRange="[${neo_version},)"
+    ordering="NONE"
+    side="BOTH"
 
 [[dependencies.${mod_id}]]
-modId="minecraft"
-type="required"
-versionRange="${minecraft_version_range}"
-ordering="NONE"
-side="BOTH"
+    modId="minecraft"
+    type="required"
+    versionRange="${minecraft_version_range}"
+    ordering="NONE"
+    side="BOTH"

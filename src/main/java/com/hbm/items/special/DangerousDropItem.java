@@ -1,6 +1,6 @@
 package com.hbm.items.special;
 
-import com.hbm.HBMsNTM;
+import com.hbm.NuclearTechMod;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntityTypes;
@@ -10,7 +10,6 @@ import com.hbm.entity.effect.Vortex;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
-import com.hbm.hazard.type.HazardTypeDigamma;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
@@ -69,7 +68,7 @@ public class DangerousDropItem extends Item {
                         bomb.explode(level, pos);
 
                         if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
-                            HBMsNTM.LOGGER.info("[DEAD MAN'S DETONATOR] {} detonated {} at {} / {} / {}!", throwerName, block.getName().getString(), x, y, z);
+                            NuclearTechMod.LOGGER.info("[DEAD MAN'S DETONATOR] {} detonated {} at {} / {} / {}!", throwerName, block.getName().getString(), x, y, z);
                         }
                     }
                 }
