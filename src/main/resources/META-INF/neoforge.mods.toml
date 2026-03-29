@@ -16,6 +16,7 @@ issueTrackerURL="https://github.com/ohiomannnn/HBMsNTM-NEO-EDITION/issues"
     #credits=""
     authors="${mod_authors}"
     description='''${mod_description}'''
+    enumExtensions="META-INF/enumextensions.json"
 
 [[mixins]]
     config="hbmsntm.mixins.json"

@@ -1,6 +1,6 @@
 package com.hbm.inventory.screens;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;

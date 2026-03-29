@@ -1,11 +1,10 @@
 package com.hbm.entity.logic;
 
-import com.hbm.HBMsNTMClient;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.projectile.BombletZeta;
 import com.hbm.interfaces.NotableComments;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.util.Vec3NT;
 import net.minecraft.nbt.CompoundTag;
@@ -45,7 +44,7 @@ public class Bomber extends PlaneBase {
             if (this.getHealth() > 0) {
                 if (audio == null || !audio.isPlaying()) {
                     int bomberType = getBomberStyle();
-                    audio = AudioWrapper.getLoopedSound(bomberType <= 4 ? ModSounds.BOMBER_SMALL_LOOP.get() : ModSounds.BOMBER_LOOP.get(), SoundSource.AMBIENT, (float) this.getX(), (float) this.getY(), (float) this.getZ(), 2F, 250F, 1F, 20);
+                    audio = AudioWrapper.getLoopedSound(bomberType <= 4 ? NtmSoundEvents.BOMBER_SMALL_LOOP.get() : NtmSoundEvents.BOMBER_LOOP.get(), SoundSource.AMBIENT, (float) this.getX(), (float) this.getY(), (float) this.getZ(), 2F, 250F, 1F, 20);
                     audio.startSound();
                 }
                 audio.keepAlive();
@@ -59,7 +58,7 @@ public class Bomber extends PlaneBase {
         }
 
         if (!level().isClientSide && this.getHealth() > 0 && this.tickCount > bombStart && this.tickCount < bombStop && this.tickCount % bombRate == 0) {
-            level().playSound(null, this.getX() + 0.5, this.getY() + 0.5, this.getZ() + 0.5, ModSounds.BOMB_WHISTLE.get(), SoundSource.AMBIENT, 10.0F, 0.9F + random.nextFloat() * 0.2F);
+            level().playSound(null, this.getX() + 0.5, this.getY() + 0.5, this.getZ() + 0.5, NtmSoundEvents.BOMB_WHISTLE.get(), SoundSource.AMBIENT, 10.0F, 0.9F + random.nextFloat() * 0.2F);
             BombletZeta zeta = new BombletZeta(ModEntityTypes.BOMBLET_ZETA.get(), level());
             zeta.rotation();
             zeta.type = type;

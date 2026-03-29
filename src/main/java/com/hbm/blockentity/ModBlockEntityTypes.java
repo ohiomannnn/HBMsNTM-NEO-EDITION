@@ -1,6 +1,6 @@
 package com.hbm.blockentity;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.blockentity.bomb.*;
 import com.hbm.blockentity.machine.DecontaminatorBlockEntity;
 import com.hbm.blockentity.machine.GeigerBlockEntity;

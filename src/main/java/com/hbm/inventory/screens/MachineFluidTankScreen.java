@@ -1,6 +1,6 @@
 package com.hbm.inventory.screens;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.blockentity.machine.storage.MachineFluidTankBlockEntity;
 import com.hbm.inventory.menus.MachineFluidTankMenu;
 import com.hbm.network.toserver.CompoundTagControl;

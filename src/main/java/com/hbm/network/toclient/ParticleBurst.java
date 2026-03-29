@@ -1,6 +1,6 @@
 package com.hbm.network.toclient;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;

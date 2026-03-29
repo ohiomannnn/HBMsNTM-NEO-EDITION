@@ -12,7 +12,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public abstract class ParticleNT {
@@ -116,7 +115,7 @@ public abstract class ParticleNT {
      * @param partialTicks float value used for interpolation
      */
     public abstract void render(VertexConsumer consumer, Camera camera, float partialTicks);
-    @Nullable public abstract RenderType getRenderType();
+    public abstract RenderType getRenderType();
 
     public String toString() {
         return this.getClass().getSimpleName() +

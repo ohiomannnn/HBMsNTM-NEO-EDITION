@@ -1,6 +1,6 @@
 package com.hbm.handler;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.inventory.screens.CalculatorScreen;
 import com.hbm.items.IKeybindReceiver;
 import com.hbm.network.toserver.KeybindReceiver;

@@ -1,13 +1,13 @@
-package com.hbm.lib;
+package com.hbm.registry;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-public class ModSounds {
+public class NtmSoundEvents {
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, NuclearTechMod.MODID);
 
     public static final DeferredHolder<SoundEvent, SoundEvent> MUKE_EXPLOSION = reg("muke_explosion");

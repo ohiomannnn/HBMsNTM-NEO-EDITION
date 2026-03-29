@@ -1,6 +1,6 @@
 package com.hbm.util;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 
 public class LoggingUtil {
 

@@ -21,12 +21,14 @@ import com.hbm.items.IItemHUD;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.PolaroidItem;
 import com.hbm.items.tools.GeigerCounterItem;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.main.ResourceManager;
 import com.hbm.network.toserver.Ducc;
 import com.hbm.particle.*;
 import com.hbm.particle.engine.ParticleEngineNT;
 import com.hbm.particle.helper.ParticleCreators;
 import com.hbm.particle.vanilla.PlayerCloudParticle;
+import com.hbm.registry.NtmBiomes;
 import com.hbm.render.block.RenderCableBlock;
 import com.hbm.render.block.loader.BlockRendererDispatcher;
 import com.hbm.render.block.loader.BlockRenderers;
@@ -43,11 +45,8 @@ import com.hbm.render.item.ItemRenderMissileGeneric;
 import com.hbm.render.item.ItemRenderMissileGeneric.RenderMissileType;
 import com.hbm.render.item.RenderBatteryPackItem;
 import com.hbm.render.item.RenderLaserDetonator;
-import com.hbm.render.loader.bakedLoader.HFRObjGeometryLoader;
 import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.render.util.RenderScreenOverlay;
-import com.hbm.sound.AudioWrapper;
-import com.hbm.sound.AudioWrapperClient;
 import com.hbm.util.ArmorRegistry;
 import com.hbm.util.Clock;
 import com.hbm.util.DamageResistanceHandler;
@@ -78,14 +77,13 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -99,6 +97,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -297,37 +296,38 @@ public class HBMsNTMClient {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onClientTickLast(ClientTickEvent.Pre event) {
-        Minecraft mc = Minecraft.getInstance();
+        Player player = Minecraft.getInstance().player;
+        if (player == null) return;
+
         long millis = Clock.get_ms();
         if (millis == 0) millis = System.currentTimeMillis();
 
-        Player player = mc.player;
+
+        Holder<Biome> biome = player.level.getBiome(player.blockPosition);
+        if (biome.is(NtmBiomes.CRATER) || biome.is(NtmBiomes.CRATER)) {
+            RandomSource rand = player.random;
+            for(int i = 0; i < 3; i++) {
+                Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.MYCELIUM, player.position.x + rand.nextGaussian() * 3, player.position.y + rand.nextGaussian() * 2, player.position.z + rand.nextGaussian() * 3, 0, 0, 0);
+            }
+        }
 
         if (lastStarCheck + 100 < millis) {
             renderLodeStar = false;
             lastStarCheck = millis;
 
-            if (player != null) {
-                Vec3 pos = player.position();
-                Vec3 lodestarHeading = new Vec3(0, 0, -1).xRot((float) Math.toRadians(-15)).scale(25);
+            Vec3 pos = player.position();
+            Vec3 lodestarHeading = new Vec3(0, 0, -1).xRot((float) Math.toRadians(-15)).scale(25);
 
-                Vec3 nextPos = pos.add(lodestarHeading);
-                ClipContext context = new ClipContext(
-                        pos,
-                        nextPos,
-                        ClipContext.Block.COLLIDER,
-                        ClipContext.Fluid.NONE,
-                        player
-                );
+            Vec3 nextPos = pos.add(lodestarHeading);
+            ClipContext context = new ClipContext(pos, nextPos, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, player);
 
-                BlockHitResult hit = player.level().clip(context);
-                if (hit.getType() == HitResult.Type.BLOCK) {
-                    BlockPos blockPos = hit.getBlockPos();
-                    BlockState state = player.level().getBlockState(blockPos);
+            BlockHitResult hit = player.level.clip(context);
+            if (hit.getType() == Type.BLOCK) {
+                BlockPos blockPos = hit.getBlockPos();
+                BlockState state = player.level.getBlockState(blockPos);
 
-                    if (state.is(Blocks.GLASS)) {
-                        renderLodeStar = true;
-                    }
+                if (state.is(Blocks.GLASS)) {
+                    renderLodeStar = true;
                 }
             }
         }
@@ -511,11 +511,6 @@ public class HBMsNTMClient {
         event.registerLayerDefinition(ModelRubble.LAYER, ModelRubble::createBodyLayer);
 
         event.registerLayerDefinition(SkeletonModel.SKELETON_PART_LAYER, SkeletonModel::createLayer);
-    }
-
-    @SubscribeEvent
-    public static void registerGeometryLoaders(ModelEvent.RegisterGeometryLoaders event) {
-        event.register(HFRObjGeometryLoader.ID, HFRObjGeometryLoader.INSTANCE);
     }
 
     @SubscribeEvent

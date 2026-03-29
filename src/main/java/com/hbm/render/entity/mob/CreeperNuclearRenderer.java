@@ -1,6 +1,6 @@
 package com.hbm.render.entity.mob;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.CreeperRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

@@ -1,23 +1,23 @@
 package com.hbm.render.blockentity;
 
-import com.hbm.HBMsNTMClient;
 import com.hbm.blockentity.machine.storage.BatteryREDDBlockEntity;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.CustomRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
-import com.hbm.render.util.BeamPronter;
+import com.hbm.render.util.*;
 import com.hbm.render.util.BeamPronter.BeamType;
 import com.hbm.render.util.BeamPronter.WaveType;
-import com.hbm.render.util.OffsetVertexConsumer;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.Clock;
 import com.hbm.util.Vec3NT;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -48,25 +48,32 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
         poseStack.translate(0.5, 0, 0.5);
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
 
-        VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC_NC.apply(ResourceManager.BATTERY_REDD_TEX));
-        ResourceManager.battery_redd.renderPart("Base", poseStack, consumer, packedLight, packedOverlay);
+        int tPackedLight = LevelRenderer.getLightColor(be.getLevel(), be.getBlockPos().above(9));
 
-        poseStack.pushPose();
+        RenderType type = CustomRenderTypes.TEST.apply(ResourceManager.BATTERY_REDD_TEX);
 
-        poseStack.translate(0F, 5.5F, 0F);
+        RenderContext.setup(type, poseStack, tPackedLight, packedOverlay);
+        ResourceManager.battery_redd.renderPart("Base");
+
+        RenderContext.pushPose();
+
+        RenderContext.translate(0F, 5.5F, 0F);
         float speed = be.getSpeed();
         float wheelRot = be.prevRotation + (be.rotation - be.prevRotation) * partialTicks;
-        poseStack.mulPose(Axis.XP.rotationDegrees(wheelRot));
-        poseStack.translate(0F, -5.5F, 0F);
+        RenderContext.rotateX(wheelRot);
+        RenderContext.translate(0F, -5.5F, 0F);
 
-        ResourceManager.battery_redd.renderPart("Wheel", poseStack, consumer, packedLight, packedOverlay);
-        ResourceManager.battery_redd.renderPart("Lights", poseStack, consumer, 240, packedOverlay);
+        ResourceManager.battery_redd.renderPart("Wheel");
 
-        poseStack.pushPose();
-        poseStack.translate(0F, 5.5F, 0F);
+        FullBright.enable();
+        ResourceManager.battery_redd.renderPart("Lights");
+        FullBright.disable();
+
+        RenderContext.pushPose();
+        RenderContext.translate(0F, 5.5F, 0F);
 
         Vec3NT vec = new Vec3NT(0, 0, 4);
-        Matrix4f matrix = poseStack.last().pose();
+        Matrix4f matrix = RenderContext.pose().pose();
 
         double len = 4.25D;
         double width = 0.125D;
@@ -102,18 +109,20 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
             }
         }
 
-        poseStack.popPose();
+        RenderContext.popPose();
 
-        this.renderSparkle(be, poseStack, buffer, packedOverlay);
+        //this.renderSparkle(be, buffer);
 
-        poseStack.popPose();
+        RenderContext.popPose();
 
         if (speed > 0) renderZaps(be, buffer, poseStack);
+
+        RenderContext.end();
 
         poseStack.popPose();
     }
 
-    protected void renderSparkle(BatteryREDDBlockEntity be, PoseStack poseStack, MultiBufferSource buffer, int packedOverlay) {
+    protected void renderSparkle(BatteryREDDBlockEntity be, MultiBufferSource buffer) {
         long time = Clock.get_ms();
         float alpha = 0.45F + (float) (Math.sin(time / 1000D) * 0.15F);
         float alphaMult = be.getSpeed() / 15F;
@@ -125,17 +134,26 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
         double sparkleSpin = time / 250D * -1 % 1D;
         double sparkleOsc = Math.sin(time / 1000D) * 0.5D % 1D;
 
-        // why did i start using shaders...
+        FullBright.enable();
+
         VertexConsumer plasmaConsumer = buffer.getBuffer(CustomRenderTypes.entityAdditive(ResourceManager.FUSION_PLASMA_TEX));
         VertexConsumer offsetConsumer = new OffsetVertexConsumer(plasmaConsumer, 0, (float) mainOsc);
-        ResourceManager.battery_redd.renderPart("Plasma", poseStack, offsetConsumer, 240, packedOverlay, r, g, b, alpha * alphaMult);
+        //RenderContext.switchConsumer(offsetConsumer);
+
+        //RenderContext.setColor(r, g, b, alpha * alphaMult);
+        ResourceManager.battery_redd.renderPart("Plasma");
 
         // cost-cutting measure, don't render extra layers from more than 100m away
-        if (HBMsNTMClient.me().distanceToSqr(be.getBlockPos().getX() + 0.5, be.getBlockPos().getY() + 2.5, be.getBlockPos().getZ()) < 100 * 100) {
+        if (Minecraft.getInstance().player.distanceToSqr(be.getBlockPos().getX() + 0.5, be.getBlockPos().getY() + 2.5, be.getBlockPos().getZ()) < 100 * 100) {
             VertexConsumer sparkleConsumer = buffer.getBuffer(CustomRenderTypes.entityAdditive(ResourceManager.FUSION_PLASMA_SPARKLE_TEX));
             VertexConsumer offsetSparkleConsumer = new OffsetVertexConsumer(sparkleConsumer, (float) sparkleSpin, (float) sparkleOsc);
-            ResourceManager.battery_redd.renderPart("Plasma", poseStack, offsetSparkleConsumer, 240, packedOverlay, r * 2, g * 2, b * 2, 0.75F * alphaMult);
+            //RenderContext.switchConsumer(offsetSparkleConsumer);
+
+            //RenderContext.setColor(r * 2, g * 2, b * 2, 0.75F * alphaMult);
+            ResourceManager.battery_redd.renderPart("Plasma");
         }
+
+        FullBright.disable();
     }
 
     protected void renderZaps(BatteryREDDBlockEntity be, MultiBufferSource buffer, PoseStack poseStack) {
@@ -217,10 +235,15 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
             public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
                 poseStack.mulPose(Axis.YN.rotationDegrees(-90F));
                 poseStack.scale(0.5F, 0.5F, 0.5F);
-                VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.BATTERY_REDD_TEX));
-                ResourceManager.battery_redd.renderPart("Base", poseStack, consumer, packedLight, packedOverlay);
-                ResourceManager.battery_redd.renderPart("Wheel", poseStack, consumer, packedLight, packedOverlay);
-                ResourceManager.battery_redd.renderPart("Lights", poseStack, consumer, 240, packedOverlay);
+                RenderType type = CustomRenderTypes.TEST.apply(ResourceManager.BATTERY_REDD_TEX);
+
+                RenderContext.setup(type, poseStack, packedLight, packedOverlay);
+                ResourceManager.battery_redd.renderPart("Base");
+                ResourceManager.battery_redd.renderPart("Wheel");
+                FullBright.enable();
+                ResourceManager.battery_redd.renderPart("Lights");
+                FullBright.disable();
+                RenderContext.end();
             }
         };
     }

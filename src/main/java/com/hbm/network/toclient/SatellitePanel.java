@@ -1,6 +1,6 @@
 package com.hbm.network.toclient;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.items.tools.SatelliteInterfaceItem;
 import com.hbm.saveddata.satellite.Satellite;
 import net.minecraft.nbt.CompoundTag;

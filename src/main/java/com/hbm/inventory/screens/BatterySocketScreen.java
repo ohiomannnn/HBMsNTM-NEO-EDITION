@@ -1,7 +1,7 @@
 package com.hbm.inventory.screens;
 
 import api.hbm.energymk2.IBatteryItem;
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.blockentity.machine.storage.BatterySocketBlockEntity;
 import com.hbm.inventory.menus.BatterySocketMenu;
 import com.hbm.network.toserver.CompoundTagControl;

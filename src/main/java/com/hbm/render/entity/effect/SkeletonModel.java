@@ -1,6 +1,6 @@
 package com.hbm.render.entity.effect;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.particle.helper.SkeletonCreator.EnumSkeletonType;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;

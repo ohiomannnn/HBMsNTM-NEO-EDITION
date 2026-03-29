@@ -1,6 +1,6 @@
 package com.hbm.datagen;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import net.minecraft.client.renderer.block.model.BlockModel;

@@ -2,7 +2,7 @@ package com.hbm.items.tools;
 
 import com.hbm.entity.logic.Bomber;
 import com.hbm.lib.Library;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.RayTraceResult;
 import com.hbm.util.i18n.I18nUtil;
 import com.hbm.world.WorldUtil;
@@ -16,8 +16,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 
 import java.util.List;
 
@@ -49,7 +47,7 @@ public class BombCallerItem extends Item {
             WorldUtil.loadAndSpawnEntityInWorld(bomber);
 
             player.sendSystemMessage(Component.translatable("item.hbmsntm.bomb_caller.message.call"));
-            level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.TECH_BLEEP, SoundSource.PLAYERS, 1.0F, 1.0F);
+            level.playSound(null, player.getX(), player.getY(), player.getZ(), NtmSoundEvents.TECH_BLEEP, SoundSource.PLAYERS, 1.0F, 1.0F);
 
             if (!player.isCreative()) {
                 stack.setCount(stack.getCount() - 1);

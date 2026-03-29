@@ -5,11 +5,9 @@ import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.*;
 import com.hbm.items.special.PolaroidItem;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.network.toclient.AuxParticle;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -62,7 +60,7 @@ public class BombletZeta extends ThrowableProjectile {
                     NukeExplosionMK5.statFac(this.level(), (int) (MainConfig.COMMON.FATMAN_RADIUS.get() * 1.5), this.getX(), this.getY(), this.getZ());
 
                     // this has to be the single worst solution ever
-                    this.level().playSound(null, this.getX(), this.getY() + 0.5F, this.getZ(), ModSounds.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 15.0F, 1.0F);
+                    this.level().playSound(null, this.getX(), this.getY() + 0.5F, this.getZ(), NtmSoundEvents.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 15.0F, 1.0F);
                     CompoundTag tag = new CompoundTag();
                     tag.putString("type", "muke");
                     tag.putBoolean("balefire", PolaroidItem.polaroidID == 11 || random.nextInt(100) == 0);

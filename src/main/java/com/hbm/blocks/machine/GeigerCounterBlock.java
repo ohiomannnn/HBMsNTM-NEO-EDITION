@@ -3,7 +3,7 @@ package com.hbm.blocks.machine;
 import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blockentity.machine.GeigerBlockEntity;
 import com.hbm.handler.radiation.ChunkRadiationManager;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.ContaminationUtil;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -119,7 +119,7 @@ public class GeigerCounterBlock extends BaseEntityBlock implements SimpleWaterlo
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (!level.isClientSide) {
-            level.playSound(null, pos, ModSounds.TECH_BOOP.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
+            level.playSound(null, pos, NtmSoundEvents.TECH_BOOP.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
             ContaminationUtil.printGeigerDataFromCoords(player, pos);
         }
         return InteractionResult.SUCCESS;

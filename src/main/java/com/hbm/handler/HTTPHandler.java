@@ -1,6 +1,6 @@
 package com.hbm.handler;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -39,7 +39,7 @@ public class HTTPHandler {
 
     private static void loadVersion() throws IOException {
 
-        URL github = URI.create("https://raw.githubusercontent.com/ohiomannnn/HBMsNTM-NEO-EDITION/refs/heads/master/src/main/java/com/hbm/HBMsNTM.java").toURL();
+        URL github = URI.create("https://raw.githubusercontent.com/ohiomannnn/HBMsNTM-NEO-EDITION/refs/heads/master/src/main/java/com/hbm/main/NuclearTechMod.java").toURL();
         BufferedReader in = new BufferedReader(new InputStreamReader(github.openStream()));
 
         NuclearTechMod.LOGGER.info("Searching for new versions...");

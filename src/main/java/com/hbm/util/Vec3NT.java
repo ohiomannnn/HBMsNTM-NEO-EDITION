@@ -31,6 +31,10 @@ public class Vec3NT {
         this(vec.x, vec.y, vec.z);
     }
 
+    public Vec3NT crossProduct(Vec3NT other) {
+        return new Vec3NT(this.yCoord * other.zCoord - this.zCoord * other.yCoord, this.zCoord * other.xCoord - this.xCoord * other.zCoord, this.xCoord * other.yCoord - this.yCoord * other.xCoord);
+    }
+
     public Vec3NT normalizeSelf() {
         double len = Mth.sqrt((float) (this.xCoord * this.xCoord + this.yCoord * this.yCoord + this.zCoord * this.zCoord));
         if(len < 1.0E-4D) {

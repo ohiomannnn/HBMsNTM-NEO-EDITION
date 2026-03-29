@@ -5,7 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
 import com.hbm.inventory.ModTags;

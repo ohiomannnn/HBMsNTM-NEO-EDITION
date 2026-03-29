@@ -2,7 +2,7 @@ package com.hbm.blockentity.bomb;
 
 import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluidmk2.IFluidStandardReceiverMK2;
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.blockentity.IFluidCopiable;
 import com.hbm.blockentity.IRadarCommandReceiver;
 import com.hbm.blockentity.MachineBaseBlockEntity;
@@ -20,7 +20,7 @@ import com.hbm.items.ModItems;
 import com.hbm.items.weapon.MissileItem;
 import com.hbm.items.weapon.MissileItem.MissileFuel;
 import com.hbm.lib.Library;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
@@ -333,7 +333,7 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
         if (this.level == null) return;
 
         level.addFreshEntity(missile);
-        level.playSound(null, this.getBlockPos().getX() + 0.5, this.getBlockPos().getY(), this.getBlockPos().getZ() + 0.5, ModSounds.MISSILE_TAKE_OFF.get(), SoundSource.BLOCKS, 2.0F, 1.0F);
+        level.playSound(null, this.getBlockPos().getX() + 0.5, this.getBlockPos().getY(), this.getBlockPos().getZ() + 0.5, NtmSoundEvents.MISSILE_TAKE_OFF.get(), SoundSource.BLOCKS, 2.0F, 1.0F);
 
         this.power -= 75_000;
 

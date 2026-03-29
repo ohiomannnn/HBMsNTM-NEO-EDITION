@@ -1,6 +1,6 @@
 package com.hbm.items.special;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntityTypes;
@@ -13,7 +13,7 @@ import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.items.ModItems;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.TagsUtilDegradation;
 import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
@@ -187,7 +187,7 @@ public class DangerousDropItem extends Item {
                 tag.putString("lastUser", player.getName().getString());
                 TagsUtilDegradation.putTag(stack, tag);
 
-                level.playSound(null, player.blockPosition(), ModSounds.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+                level.playSound(null, player.blockPosition(), NtmSoundEvents.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 
                 return InteractionResult.SUCCESS;
             }

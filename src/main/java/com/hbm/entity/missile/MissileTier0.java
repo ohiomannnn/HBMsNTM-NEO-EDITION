@@ -10,7 +10,7 @@ import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.items.ModItems;
 import com.hbm.items.special.PolaroidItem;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.network.toclient.AuxParticle;
 import com.hbm.particle.helper.CloudCreator;
 import com.hbm.util.RayTraceResult;
@@ -55,7 +55,7 @@ public abstract class MissileTier0 extends MissileBaseNT {
             WorldUtil.loadAndSpawnEntityInWorld(NukeExplosionMK5.statFacNoSpawn(level, MainConfig.COMMON.FATMAN_RADIUS.get(), this.position.x, this.position.y, this.position.z));
 
             // this has to be the single worst solution ever
-            level.playSound(null, this.position.x, this.position.y, this.position.z, ModSounds.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 25.0F, 1F);
+            level.playSound(null, this.position.x, this.position.y, this.position.z, NtmSoundEvents.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 25.0F, 1F);
             CompoundTag tag = new CompoundTag();
             tag.putString("type", "muke");
             tag.putBoolean("balefire", PolaroidItem.polaroidID == 11 || level.random.nextInt(100) == 0);

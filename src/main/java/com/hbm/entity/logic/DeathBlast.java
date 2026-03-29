@@ -1,6 +1,6 @@
 package com.hbm.entity.logic;
 
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.network.toclient.AuxParticle;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -31,7 +31,7 @@ public class DeathBlast extends Entity {
 
             NukeExplosionMK5.statFac(level(), 40, getX(), getY(), getZ()).setNoRad();
 
-            this.level().playSound(null, this.getX() + 0.5, this.getY() + 0.5, this.getZ() + 0.5, ModSounds.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 25.0F, 0.9F);
+            this.level().playSound(null, this.getX() + 0.5, this.getY() + 0.5, this.getZ() + 0.5, NtmSoundEvents.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 25.0F, 0.9F);
             CompoundTag tag = new CompoundTag();
             tag.putString("type", "muke");
             if (this.level() instanceof ServerLevel serverLevel) {

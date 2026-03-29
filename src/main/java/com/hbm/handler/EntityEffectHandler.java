@@ -7,13 +7,13 @@ import com.hbm.extprop.HbmLivingAttachments.ContaminationEffect;
 import com.hbm.extprop.HbmPlayerAttachments;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.lib.ModAttachments;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.network.toclient.AuxParticle;
 import com.hbm.registry.NtmDamageTypes;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
-import com.hbm.world.biome.ModBiomes;
+import com.hbm.registry.NtmBiomes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
@@ -51,9 +51,9 @@ public class EntityEffectHandler {
         ResourceKey<Biome> biome = entity.level().getBiome(new BlockPos((int) entity.getX(), (int) entity.getY(), (int) entity.getZ())).getKey();
         double radiation = 0;
 
-        if (biome == ModBiomes.CRATER_OUTER) radiation = MainConfig.COMMON.CRATER_OUTER_RAD.get();
-        if (biome == ModBiomes.CRATER) radiation = MainConfig.COMMON.CRATER_RAD.get();
-        if (biome == ModBiomes.CRATER_INNER) radiation = MainConfig.COMMON.CRATER_INNER_RAD.get();
+        if (biome == NtmBiomes.CRATER_OUTER) radiation = MainConfig.COMMON.CRATER_OUTER_RAD.get();
+        if (biome == NtmBiomes.CRATER) radiation = MainConfig.COMMON.CRATER_RAD.get();
+        if (biome == NtmBiomes.CRATER_INNER) radiation = MainConfig.COMMON.CRATER_INNER_RAD.get();
 
         if (entity.isInWater()) radiation *= MainConfig.COMMON.CRATER_WATER_MULT.get();
 
@@ -205,7 +205,7 @@ public class EntityEffectHandler {
                     }
 
                     if ((level.getGameTime() + r600) % 600 == 1) {
-                        level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), ModSounds.VOMIT, SoundSource.PLAYERS, 1.0F, 1.0F);
+                        level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), NtmSoundEvents.VOMIT, SoundSource.PLAYERS, 1.0F, 1.0F);
                         entity.addEffect(new MobEffectInstance(MobEffects.HUNGER, 60, 19));
                     }
                 }
@@ -222,7 +222,7 @@ public class EntityEffectHandler {
                 }
 
                 if ((level.getGameTime() + r1200) % 1200 == 1) {
-                    level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), ModSounds.VOMIT, SoundSource.PLAYERS, 1.0F, 1.0F);
+                    level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), NtmSoundEvents.VOMIT, SoundSource.PLAYERS, 1.0F, 1.0F);
                     entity.addEffect(new MobEffectInstance(MobEffects.HUNGER, 60, 19));
                 }
             }
@@ -319,7 +319,7 @@ public class EntityEffectHandler {
 
 
             if (level.getGameTime() % freq == entity.getId() % freq) {
-                level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), ModSounds.COUGH, SoundSource.PLAYERS, 1.0F, 1.0F);
+                level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), NtmSoundEvents.COUGH, SoundSource.PLAYERS, 1.0F, 1.0F);
 
                 if (coughsBlood) {
                     CompoundTag tag = new CompoundTag();

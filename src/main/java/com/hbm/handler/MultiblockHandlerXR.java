@@ -1,6 +1,6 @@
 package com.hbm.handler;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.blocks.DummyableBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

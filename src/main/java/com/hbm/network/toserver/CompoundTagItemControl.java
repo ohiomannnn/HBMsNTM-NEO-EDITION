@@ -1,6 +1,6 @@
 package com.hbm.network.toserver;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.items.IItemControlReceiver;
 import com.hbm.util.InventoryUtil;
 import net.minecraft.nbt.CompoundTag;

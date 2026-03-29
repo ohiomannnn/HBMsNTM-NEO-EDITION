@@ -1,19 +1,19 @@
 package com.hbm.render.loader;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
-import org.joml.Matrix4f;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
-public class HFRWavefrontObject implements IModelCustomNamed {
+public class HFRWavefrontObject {
 
     public final List<Vertex> vertices = new ArrayList<>();
     public final List<Vertex> vertexNormals = new ArrayList<>();
@@ -23,15 +23,9 @@ public class HFRWavefrontObject implements IModelCustomNamed {
 
     private S_GroupObject currentGroupObject;
     private final String fileName;
-    private final boolean smoothing;
 
     public HFRWavefrontObject(ResourceLocation resource) {
-        this(resource, true);
-    }
-
-    public HFRWavefrontObject(ResourceLocation resource, boolean smoothing) {
         this.fileName = resource.toString();
-        this.smoothing = smoothing;
 
         try {
             Resource res = Minecraft.getInstance().getResourceManager().getResourceOrThrow(resource);
@@ -44,9 +38,8 @@ public class HFRWavefrontObject implements IModelCustomNamed {
         }
     }
 
-    public HFRWavefrontObject(InputStream inputStream, String fileName, boolean smoothing) {
+    public HFRWavefrontObject(InputStream inputStream, String fileName) {
         this.fileName = fileName;
-        this.smoothing = smoothing;
         loadObjModel(inputStream);
     }
 
@@ -94,91 +87,6 @@ public class HFRWavefrontObject implements IModelCustomNamed {
             throw new RuntimeException("IO Exception reading model: " + fileName, e);
         }
     }
-
-    @Override
-    public void renderAll(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay) {
-        renderAll(poseStack, buffer, packedLight, packedOverlay, 1.0f, 1.0f, 1.0f, 1.0f);
-    }
-
-    public void renderAll(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float r, float g, float b, float a) {
-        for (S_GroupObject group : groupObjects) {
-            renderGroup(group, poseStack, buffer, packedLight, packedOverlay, r, g, b, a);
-        }
-    }
-
-    @Override
-    public void renderPart(String partName, PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay) {
-        renderPart(partName, poseStack, buffer, packedLight, packedOverlay, 1.0f, 1.0f, 1.0f, 1.0f);
-    }
-
-    public void renderPart(String partName, PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float r, float g, float b, float a) {
-        S_GroupObject group = groupObjectsMap.get(partName);
-        if (group != null) {
-            renderGroup(group, poseStack, buffer, packedLight, packedOverlay, r, g, b, a);
-        }
-    }
-
-    @Override
-    public void renderOnly(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, String... groupNames) {
-        Set<String> names = new HashSet<>(Arrays.asList(groupNames));
-        for (S_GroupObject group : groupObjects) {
-            if (names.contains(group.name)) {
-                renderGroup(group, poseStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
-            }
-        }
-    }
-
-    @Override
-    public void renderAllExcept(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, String... excludedGroupNames) {
-        Set<String> excluded = new HashSet<>(Arrays.asList(excludedGroupNames));
-        for (S_GroupObject group : groupObjects) {
-            if (!excluded.contains(group.name)) {
-                renderGroup(group, poseStack, buffer, packedLight, packedOverlay, 1, 1, 1, 1);
-            }
-        }
-    }
-
-    private void renderGroup(S_GroupObject group, PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float r, float g, float b, float a) {
-        Matrix4f matrix = poseStack.last().pose();
-        PoseStack.Pose pose = poseStack.last();
-
-        for (S_Face face : group.faces) {
-            renderFace(face, matrix, pose, buffer, packedLight, packedOverlay, r, g, b, a);
-        }
-    }
-
-    private void renderFace(S_Face face, Matrix4f matrix, PoseStack.Pose pose, VertexConsumer buffer, int packedLight, int packedOverlay, float r, float g, float b, float a) {
-        if (face.vertices == null) return;
-
-        Vertex faceNormal = face.faceNormal != null ? face.faceNormal : new Vertex(0, 1, 0);
-
-        int vertexCount = face.vertices.length;
-        int[] indices = vertexCount == 3 ? new int[]{0, 1, 2, 2} : new int[]{0, 1, 2, 3};
-
-        for (int idx : indices) {
-            int i = Math.min(idx, vertexCount - 1);
-            Vertex v = face.vertices[i];
-
-            float u = 0, vCoord = 0;
-            if (face.textureCoordinates != null && i < face.textureCoordinates.length) {
-                u = face.textureCoordinates[i].u;
-                vCoord = face.textureCoordinates[i].v;
-            }
-
-            Vertex normal = faceNormal;
-            if (smoothing && face.vertexNormals != null && i < face.vertexNormals.length) {
-                normal = face.vertexNormals[i];
-            }
-
-            buffer.addVertex(matrix, v.x, v.y, v.z)
-                    .setColor(r, g, b, a)
-                    .setUv(u, vCoord)
-                    .setOverlay(packedOverlay)
-                    .setLight(packedLight)
-                    .setNormal(pose, normal.x, normal.y, normal.z);
-        }
-    }
-
 
     private Vertex parseVertex(String line) {
         String[] tokens = line.substring(2).trim().split(" ");
@@ -252,16 +160,6 @@ public class HFRWavefrontObject implements IModelCustomNamed {
         return face;
     }
 
-    public WavefrontObjVBO asVBO() {
-        return new WavefrontObjVBO(this);
-    }
-
-    @Override
-    public List<String> getPartNames() {
-        List<String> names = new ArrayList<>();
-        for(S_GroupObject data : groupObjects) {
-            names.add(data.name);
-        }
-        return names;
-    }
+    public WavefrontObjRender render() { return new WavefrontObjRender(this); }
+    public HFRWavefrontObjectVBO asVBO() { return new HFRWavefrontObjectVBO(this); }
 }

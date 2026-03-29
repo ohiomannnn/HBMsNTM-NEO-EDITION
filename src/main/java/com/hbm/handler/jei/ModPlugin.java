@@ -1,6 +1,6 @@
 package com.hbm.handler.jei;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.handler.jei.subtypes.CustomDataSubtypeInterpreter;
 import com.hbm.handler.jei.subtypes.MetaSubtypeInterpreter;
 import com.hbm.inventory.fluid.FluidType;

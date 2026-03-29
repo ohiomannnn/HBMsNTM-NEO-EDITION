@@ -3,7 +3,7 @@ package com.hbm.items.special;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.items.ModItems;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.network.toclient.AuxParticle;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -61,7 +61,7 @@ public class CigaretteItem extends Item {
                 drinker.heal(10F);
             }
 
-            level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.COUGH.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+            level.playSound(null, player.getX(), player.getY(), player.getZ(), NtmSoundEvents.COUGH.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 
             CompoundTag tag = new CompoundTag();
             tag.putString("type", "vomit");

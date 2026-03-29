@@ -1,6 +1,6 @@
 package com.hbm.inventory.screens;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.blockentity.bomb.NukeN2BlockEntity;
 import com.hbm.inventory.menus.NukeN2Menu;
 import com.hbm.items.ModItems;

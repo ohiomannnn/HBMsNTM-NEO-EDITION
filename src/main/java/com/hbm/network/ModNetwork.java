@@ -1,6 +1,6 @@
 package com.hbm.network;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.network.toclient.*;
 import com.hbm.network.toserver.*;
 import net.neoforged.bus.api.SubscribeEvent;

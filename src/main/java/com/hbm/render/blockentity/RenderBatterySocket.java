@@ -1,6 +1,6 @@
 package com.hbm.render.blockentity;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.blockentity.machine.storage.BatterySocketBlockEntity;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.blocks.ModBlocks;

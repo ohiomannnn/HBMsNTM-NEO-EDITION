@@ -7,7 +7,7 @@ import com.hbm.config.MainConfig;
 import com.hbm.entity.item.FallingBlockEntityNT;
 import com.hbm.entity.logic.ChunkloadingEntity;
 import com.hbm.world.WorldUtil;
-import com.hbm.world.biome.ModBiomes;
+import com.hbm.registry.NtmBiomes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -60,9 +60,9 @@ public class FalloutRain extends ChunkloadingEntity {
                 if (chunksToProcess.isEmpty() && outerChunksToProcess.isEmpty()) gatherChunks();
 
                 if (MainConfig.COMMON.ENABLE_CRATER_BIOMES.get()) {
-                    biomeCache.put(ModBiomes.CRATER_INNER, getCachedHolder(ModBiomes.CRATER_INNER));
-                    biomeCache.put(ModBiomes.CRATER, getCachedHolder(ModBiomes.CRATER));
-                    biomeCache.put(ModBiomes.CRATER_OUTER, getCachedHolder(ModBiomes.CRATER_OUTER));
+                    biomeCache.put(NtmBiomes.CRATER_INNER, getCachedHolder(NtmBiomes.CRATER_INNER));
+                    biomeCache.put(NtmBiomes.CRATER, getCachedHolder(NtmBiomes.CRATER));
+                    biomeCache.put(NtmBiomes.CRATER_OUTER, getCachedHolder(NtmBiomes.CRATER_OUTER));
                 }
 
                 firstTick = false;
@@ -140,13 +140,13 @@ public class FalloutRain extends ChunkloadingEntity {
         if (!MainConfig.COMMON.ENABLE_CRATER_BIOMES.get()) return null;
 
         if (scale >= 150 && dist < 15) {
-            return ModBiomes.CRATER_INNER;
+            return NtmBiomes.CRATER_INNER;
         }
-        if (scale >= 100 && dist < 55 && original != ModBiomes.CRATER_INNER) {
-            return ModBiomes.CRATER;
+        if (scale >= 100 && dist < 55 && original != NtmBiomes.CRATER_INNER) {
+            return NtmBiomes.CRATER;
         }
-        if (scale >= 25 && original != ModBiomes.CRATER_INNER && original != ModBiomes.CRATER) {
-            return ModBiomes.CRATER_OUTER;
+        if (scale >= 25 && original != NtmBiomes.CRATER_INNER && original != NtmBiomes.CRATER) {
+            return NtmBiomes.CRATER_OUTER;
         }
         return null;
     }

@@ -3,7 +3,7 @@ package com.hbm.blockentity.bomb;
 import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blockentity.Tickable;
 import com.hbm.blocks.bomb.LandmineBlock;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -12,7 +12,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -76,7 +75,7 @@ public class LandMineBlockEntity extends BlockEntity implements Tickable {
         // The mine will prime itself only after all entities have left its trigger radius * 2
         // I'm leaving this note because I made a dumb assumption on what this was meant to do
         if (!this.isPrimed && !this.waitingForPlayer) {
-            level.playSound(null, this.getBlockPos(), ModSounds.FSTBMB_START.get(), SoundSource.BLOCKS, 3.0F, 1.0F);
+            level.playSound(null, this.getBlockPos(), NtmSoundEvents.FSTBMB_START.get(), SoundSource.BLOCKS, 3.0F, 1.0F);
             this.isPrimed = true;
         }
     }

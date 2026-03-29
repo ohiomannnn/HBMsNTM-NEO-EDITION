@@ -1,6 +1,6 @@
 package com.hbm.registry;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;

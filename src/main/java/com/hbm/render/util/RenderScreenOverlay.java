@@ -1,6 +1,6 @@
 package com.hbm.render.util;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.util.Clock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;

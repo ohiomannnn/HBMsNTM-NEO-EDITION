@@ -1,8 +1,8 @@
 package com.hbm.render.util;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.render.loader.HFRWavefrontObject;
-import com.hbm.render.loader.IModelCustom;
+import com.hbm.render.loader.IModelCustomOld;
 import com.hbm.util.Vec3NT;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
 public class HorsePronter {
-    public static final IModelCustom horse = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/mobs/horse.obj")).asVBO();
+    public static final IModelCustomOld horse = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/mobs/horse.obj")).render();
 
     public static final ResourceLocation tex_demohorse = NuclearTechMod.withDefaultNamespace("textures/models/horse/horse_demo.png");
 

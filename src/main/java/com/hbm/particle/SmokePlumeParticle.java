@@ -1,6 +1,6 @@
 package com.hbm.particle;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.blocks.bomb.LaunchPadBlock;
 import com.hbm.particle.engine.ParticleNT;
 import com.hbm.render.CustomRenderTypes;

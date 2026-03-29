@@ -7,7 +7,7 @@ import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockMutatorFire;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.items.special.PolaroidItem;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.network.toclient.AuxParticle;
 import com.hbm.registry.NtmDamageTypes;
 import com.hbm.util.ContaminationUtil;
@@ -98,7 +98,7 @@ public class CreeperNuclear extends Creeper {
             boolean mobGriefing = level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING);
 
             // this has to be the single worst solution ever
-            level.playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 25.0F, 1F);
+            level.playSound(null, this.getX(), this.getY(), this.getZ(), NtmSoundEvents.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 25.0F, 1F);
             CompoundTag tag = new CompoundTag();
             tag.putString("type", "muke");
             tag.putBoolean("balefire", PolaroidItem.polaroidID == 11 || level.random.nextInt(100) == 0);

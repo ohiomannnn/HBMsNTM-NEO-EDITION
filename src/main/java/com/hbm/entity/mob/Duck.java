@@ -1,7 +1,7 @@
 package com.hbm.entity.mob;
 
 import com.hbm.entity.ModEntityTypes;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
@@ -25,17 +25,17 @@ public class Duck extends Chicken {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return ModSounds.DUCK.get();
+        return NtmSoundEvents.DUCK.get();
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSource) {
-        return ModSounds.DUCK.get();
+        return NtmSoundEvents.DUCK.get();
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return ModSounds.DUCK.get();
+        return NtmSoundEvents.DUCK.get();
     }
 
     @Override

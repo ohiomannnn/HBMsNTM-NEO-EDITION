@@ -1,10 +1,10 @@
 package com.hbm.blockentity.machine;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.blockentity.LoadedBaseBlockEntity;
 import com.hbm.items.ModItems;
 import com.hbm.items.tools.KeyItem;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -87,12 +87,12 @@ public abstract class LockableBaseBlockEntity extends LoadedBaseBlockEntity {
             ItemStack stack = player.getMainHandItem();
 
             if (stack.getItem() instanceof KeyItem && KeyItem.getPins(stack) == this.lock) {
-                level.playSound(null, this.getBlockPos(), ModSounds.LOCK_OPEN.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                level.playSound(null, this.getBlockPos(), NtmSoundEvents.LOCK_OPEN.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
                 return true;
             }
 
             if (stack.is(ModItems.KEY_RED)) {
-                level.playSound(null, this.getBlockPos(), ModSounds.LOCK_OPEN.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                level.playSound(null, this.getBlockPos(), NtmSoundEvents.LOCK_OPEN.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
                 return true;
             }
 
@@ -126,11 +126,11 @@ public abstract class LockableBaseBlockEntity extends LoadedBaseBlockEntity {
             double rand = player.level().random.nextDouble() * 100;
 
             if (chanceOfSuccess > rand) {
-                level.playSound(null, getBlockPos(), ModSounds.PIN_UNLOCK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                level.playSound(null, getBlockPos(), NtmSoundEvents.PIN_UNLOCK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
                 return true;
             }
 
-            level.playSound(null, getBlockPos(), ModSounds.PIN_BREAK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+            level.playSound(null, getBlockPos(), NtmSoundEvents.PIN_BREAK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         }
 
         return false;

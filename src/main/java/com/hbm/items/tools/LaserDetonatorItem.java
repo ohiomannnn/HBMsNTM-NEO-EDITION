@@ -1,6 +1,6 @@
 package com.hbm.items.tools;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.HBMsNTMClient;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.config.MainConfig;
@@ -8,7 +8,7 @@ import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IBomb.BombReturnCode;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.lib.Library;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.network.toclient.InformPlayer;
 import com.hbm.util.RayTraceResult;
 import net.minecraft.ChatFormatting;
@@ -58,12 +58,12 @@ public class LaserDetonatorItem extends Item implements IHoldableWeapon {
                     NuclearTechMod.LOGGER.info("[LASER DETONATOR] {} detonated {} at {} / {} / {}!", player.getName().getString(), block.getName().getString(), pos.getX(), pos.getY(), pos.getZ());
                 }
 
-                level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.TECH_BLEEP.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
+                level.playSound(null, player.getX(), player.getY(), player.getZ(), NtmSoundEvents.TECH_BLEEP.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
                 if (player instanceof ServerPlayer serverPlayer) {
                     PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(Component.translatable(ret.getUnlocalizedMessage()).withStyle(ret.wasSuccessful() ? ChatFormatting.YELLOW : ChatFormatting.RED), HBMsNTMClient.ID_DETONATOR, 500));
                 }
             } else {
-                level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.TECH_BOOP.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
+                level.playSound(null, player.getX(), player.getY(), player.getZ(), NtmSoundEvents.TECH_BOOP.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
                 if (player instanceof ServerPlayer serverPlayer) {
                     PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(Component.translatable(BombReturnCode.ERROR_NO_BOMB.getUnlocalizedMessage()).withStyle( ChatFormatting.RED), HBMsNTMClient.ID_DETONATOR, 500));
                 }

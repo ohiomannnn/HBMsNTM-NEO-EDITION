@@ -1,6 +1,5 @@
 package com.hbm.blocks;
 
-import com.hbm.NuclearTechMod;
 import com.hbm.blocks.bomb.*;
 import com.hbm.blocks.bomb.CrashedBombBlock.DudType;
 import com.hbm.blocks.gas.*;
@@ -13,6 +12,7 @@ import com.hbm.blocks.network.MachineBatteryREDD;
 import com.hbm.blocks.network.MachineBatterySocketBlock;
 import com.hbm.blocks.special.ConcreteBrickMBlock;
 import com.hbm.items.ModItems;
+import com.hbm.main.NuclearTechMod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.ColorRGBA;
 import net.minecraft.world.item.BlockItem;

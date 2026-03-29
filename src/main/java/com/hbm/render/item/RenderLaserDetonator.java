@@ -2,7 +2,6 @@ package com.hbm.render.item;
 
 import com.hbm.main.ResourceManager;
 import com.hbm.render.CustomRenderTypes;
-import com.hbm.render.loader.WavefrontObjVBO;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;

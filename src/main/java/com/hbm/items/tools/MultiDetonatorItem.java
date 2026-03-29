@@ -1,11 +1,11 @@
 package com.hbm.items.tools;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.config.MainConfig;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IBomb.BombReturnCode;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.TagsUtilDegradation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -43,7 +43,7 @@ public class MultiDetonatorItem extends Item {
             if (player.isShiftKeyDown()) {
                 addLocation(stack, context.getClickedPos().getX(), context.getClickedPos().getY(), context.getClickedPos().getZ());
 
-                level.playSound(null, player.blockPosition(), ModSounds.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+                level.playSound(null, player.blockPosition(), NtmSoundEvents.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
                 player.sendSystemMessage(Component.literal("[" + this.getName(stack).getString() + "] ").withStyle(ChatFormatting.DARK_AQUA)
                         .append(Component.translatable("detonator.pos_set").withStyle(ChatFormatting.GREEN)));
             }
@@ -87,7 +87,7 @@ public class MultiDetonatorItem extends Item {
                         }
                     }
 
-                    level.playSound(null, player.blockPosition(), ModSounds.TECH_BLEEP.get(), SoundSource.PLAYERS, 2.0F, 1.0F);
+                    level.playSound(null, player.blockPosition(), NtmSoundEvents.TECH_BLEEP.get(), SoundSource.PLAYERS, 2.0F, 1.0F);
 
                     player.sendSystemMessage(Component.literal("[" + this.getName(stack).getString() + "] ").withStyle(ChatFormatting.DARK_AQUA).append(Component.literal("Triggered " + success + "/" + locs[0].length + "!").withStyle(ChatFormatting.YELLOW)));
                 } else {
@@ -97,7 +97,7 @@ public class MultiDetonatorItem extends Item {
                     tag.putIntArray("zValues", new int[0]);
                     TagsUtilDegradation.putTag(stack, tag);
 
-                    level.playSound(null, player.blockPosition(), ModSounds.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+                    level.playSound(null, player.blockPosition(), NtmSoundEvents.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 
                     player.sendSystemMessage(Component.literal("[" + this.getName(stack).getString() + "] ").withStyle(ChatFormatting.DARK_AQUA).append(Component.literal("Positions cleared!").withStyle(ChatFormatting.RED)));
                 }

@@ -1,6 +1,6 @@
 package com.hbm.render.blockentity;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.blockentity.IPersistentNBT;
 import com.hbm.blockentity.machine.storage.MachineFluidTankBlockEntity;
 import com.hbm.blocks.DummyableBlock;

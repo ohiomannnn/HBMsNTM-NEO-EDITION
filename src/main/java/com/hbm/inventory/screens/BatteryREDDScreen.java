@@ -1,6 +1,6 @@
 package com.hbm.inventory.screens;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.blockentity.machine.storage.BatteryREDDBlockEntity;
 import com.hbm.inventory.menus.BatteryREDDMenu;
 import com.hbm.network.toserver.CompoundTagControl;

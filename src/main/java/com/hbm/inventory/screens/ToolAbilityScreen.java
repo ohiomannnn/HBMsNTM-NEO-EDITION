@@ -1,10 +1,10 @@
 package com.hbm.inventory.screens;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.HBMsNTMClient;
 import com.hbm.handler.ability.*;
 import com.hbm.items.tools.ToolAbilityItem;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.network.toserver.CompoundTagItemControl;
 import com.hbm.util.TagsUtilDegradation;
 import com.hbm.util.Tuple.Pair;
@@ -306,7 +306,7 @@ public class ToolAbilityScreen extends Screen {
                 int availableLevels = availableAbilities.maxLevel(hoveredAbility) + 1;
 
                 if (hoveredAbility != selectedAbility || availableLevels > 1) {
-                    this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(ModSounds.TECH_BOOP.get(), 2.0F));
+                    this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(NtmSoundEvents.TECH_BOOP.get(), 2.0F));
                 }
 
                 if (hoveredAbility == selectedAbility) {

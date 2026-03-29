@@ -2,7 +2,7 @@ package com.hbm.blocks.generic;
 
 import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blocks.ITooltipProvider;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.EnumUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -81,9 +81,9 @@ public class PlushieBlock extends Block implements EntityBlock, ITooltipProvider
             plushie.squishTimer = 11;
         } else {
             if (plushie.type == PlushieType.HUNDUN) {
-                level.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, ModSounds.HUNDUN.get(), SoundSource.BLOCKS, 100F, 1F);
+                level.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, NtmSoundEvents.HUNDUN.get(), SoundSource.BLOCKS, 100F, 1F);
             } else {
-                level.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, ModSounds.SQUEAKY_TOY.get(), SoundSource.BLOCKS, 100F, 1F);
+                level.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, NtmSoundEvents.SQUEAKY_TOY.get(), SoundSource.BLOCKS, 100F, 1F);
             }
         }
 

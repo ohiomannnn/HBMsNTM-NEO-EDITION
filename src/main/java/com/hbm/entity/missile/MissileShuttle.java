@@ -1,9 +1,8 @@
 package com.hbm.entity.missile;
 
 import com.hbm.items.ModItems;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.network.toclient.AuxParticle;
-import com.hbm.particle.helper.ExplosionCreator;
 import com.hbm.util.RayTraceResult;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -41,7 +40,7 @@ public class MissileShuttle extends MissileBaseNT {
         if (this.level instanceof ServerLevel serverLevel) {
             PacketDistributor.sendToPlayersNear(serverLevel, null, this.position.x, this.position.y, this.position.z, 250, new AuxParticle(tag, this.position.x, this.position.y + 1, this.position.z));
         }
-        level.playSound(null, this.position.x, this.position.y, this.position.z, ModSounds.ROBIN_EXPLOSION.get(), SoundSource.BLOCKS, 4.0F, (1.0F + (this.level.random.nextFloat() - this.level.random.nextFloat()) * 0.2F) * 0.7F);
+        level.playSound(null, this.position.x, this.position.y, this.position.z, NtmSoundEvents.ROBIN_EXPLOSION.get(), SoundSource.BLOCKS, 4.0F, (1.0F + (this.level.random.nextFloat() - this.level.random.nextFloat()) * 0.2F) * 0.7F);
     }
     @Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.MISSILE_GENERIC.get()); }
 }

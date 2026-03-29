@@ -1,6 +1,6 @@
 package com.hbm.network.toserver;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.items.ISatChip;
 import com.hbm.items.tools.SatelliteInterfaceItem;
 import com.hbm.saveddata.SatelliteSavedData;

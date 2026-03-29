@@ -7,7 +7,7 @@ import com.hbm.entity.logic.NukeExplosionBalefire;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.menus.NukeFstbmbMenu;
 import com.hbm.items.ModItems;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.particle.helper.NukeTorexCreator;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
@@ -54,7 +54,7 @@ public class NukeBalefireBlockEntity extends MachineBaseBlockEntity implements I
                 timer--;
 
                 if (timer % 20 == 0) {
-                    level.playSound(null, this.worldPosition, ModSounds.FSTBMB_PING.get(), SoundSource.AMBIENT, 5.0F, 1.0F);
+                    level.playSound(null, this.worldPosition, NtmSoundEvents.FSTBMB_PING.get(), SoundSource.AMBIENT, 5.0F, 1.0F);
                 }
             }
 
@@ -91,7 +91,7 @@ public class NukeBalefireBlockEntity extends MachineBaseBlockEntity implements I
         if (level == null) return;
 
         if (tag.contains("start") && this.isLoaded()) {
-            level.playSound(null, this.worldPosition, ModSounds.FSTBMB_START.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
+            level.playSound(null, this.worldPosition, NtmSoundEvents.FSTBMB_START.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
             started = true;
         }
         if (tag.contains("setTimer")) {

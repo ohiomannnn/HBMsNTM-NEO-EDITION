@@ -66,6 +66,11 @@ public class ItemRenderBase extends BlockEntityWithoutLevelRenderer {
                 renderNonInv(itemStackIn, poseStack, buffer, packedLight, packedOverlay, false);
             }
             case GUI -> {
+                //Vector3f light0 = RenderSystem.shaderLightDirections[0];
+                //Vector3f light1 = RenderSystem.shaderLightDirections[1];
+//
+                //NuclearTechMod.LOGGER.info("g l0 = {}", light0);
+                //NuclearTechMod.LOGGER.info("g l1 = {}", light1);
                 poseStack.mulPose(Axis.XP.rotationDegrees(30F));
                 poseStack.mulPose(Axis.YP.rotationDegrees(225F));  // 45 + 180
                 poseStack.scale(0.0620F, 0.0620F, 0.0620F);

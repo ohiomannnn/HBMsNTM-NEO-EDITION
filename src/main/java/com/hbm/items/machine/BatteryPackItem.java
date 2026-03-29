@@ -1,7 +1,7 @@
 package com.hbm.items.machine;
 
 import api.hbm.energymk2.IBatteryItem;
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.TagsUtilDegradation;
 import net.minecraft.ChatFormatting;

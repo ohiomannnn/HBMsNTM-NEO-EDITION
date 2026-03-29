@@ -1,6 +1,6 @@
 package com.hbm.render.entity.projectile;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.entity.projectile.Meteor;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;

@@ -1,6 +1,6 @@
 package com.hbm.lib;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.extprop.HbmPlayerAttachments;
 import net.neoforged.bus.api.IEventBus;

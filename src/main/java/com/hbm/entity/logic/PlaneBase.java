@@ -1,7 +1,7 @@
 package com.hbm.entity.logic;
 
 import com.hbm.explosion.vanillant.ExplosionVNT;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.particle.helper.ExplosionSmallCreator;
 import com.hbm.registry.NtmDamageTypes;
 import com.hbm.util.ParticleUtil;
@@ -52,7 +52,7 @@ public abstract class PlaneBase extends ChunkloadingEntity {
 
     protected void killPlane() {
         ExplosionSmallCreator.composeEffect(level(), this.getX(), this.getY(), this.getZ(), 25, 3.5F, 2F);
-        level().playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.PLANE_SHOT_DOWN, SoundSource.AMBIENT, 25.0F, 1.0F);
+        level().playSound(null, this.getX(), this.getY(), this.getZ(), NtmSoundEvents.PLANE_SHOT_DOWN, SoundSource.AMBIENT, 25.0F, 1.0F);
     }
 
     @Override
@@ -131,7 +131,7 @@ public abstract class PlaneBase extends ChunkloadingEntity {
                 if ((!level().getBlockState(this.blockPosition()).isAir()) || this.getY() < this.level().getMinBuildHeight()) {
                     this.discard();
                     new ExplosionVNT(this.level(), this.getX(), this.getY(), this.getZ(), 15F).makeStandard().explode();
-                    level().playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.PLANE_CRASH, SoundSource.AMBIENT, 25.0F, 1.0F);
+                    level().playSound(null, this.getX(), this.getY(), this.getZ(), NtmSoundEvents.PLANE_CRASH, SoundSource.AMBIENT, 25.0F, 1.0F);
                 }
             } else {
                 this.setDeltaMovement(this.getDeltaMovement().x, 0, this.getDeltaMovement().z);

@@ -1,5 +1,6 @@
 package com.hbm.render;
 
+import com.hbm.render.util.NtmShaders;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
@@ -63,6 +64,21 @@ public class CustomRenderTypes {
                         .setOverlayState(RenderType.OVERLAY)
                         .createCompositeState(false);
                 return RenderType.create("ec_nc_nc", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 15346, false, false, state);
+            }
+    );
+
+    public static final ShaderStateShard A_SHADER = new ShaderStateShard(NtmShaders::getAShader);
+
+    public static final Function<ResourceLocation, RenderType> TEST = Util.memoize(
+            texture -> {
+                RenderType.CompositeState state = RenderType.CompositeState.builder()
+                        .setShaderState(A_SHADER)
+                        .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
+                        .setLightmapState(RenderType.LIGHTMAP)
+                        .setOverlayState(RenderType.OVERLAY)
+                        .setCullState(RenderStateShard.NO_CULL)
+                        .createCompositeState(false);
+                return RenderType.create("test", NtmShaders.NtmVertexFormat.POSITION_TEX_NORMAL, VertexFormat.Mode.QUADS, 15346, false, false, state);
             }
     );
 

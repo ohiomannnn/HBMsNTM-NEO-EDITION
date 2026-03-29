@@ -2,8 +2,7 @@ package com.hbm.render.item;
 
 import com.hbm.items.ModItems;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.CustomRenderTypes;
-import com.hbm.render.loader.IModelCustom;
+import com.hbm.render.loader.IModelCustomOld;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -140,10 +139,10 @@ public class ItemRenderMissileGeneric extends BlockEntityWithoutLevelRenderer {
         poseStack.popPose();
     }
 
-    public static Consumer<RenderStarter> generateStandard(ResourceLocation texture, IModelCustom model) { return generateWithScale(texture, model, 1F); }
-    public static Consumer<RenderStarter> generateLarge(ResourceLocation texture, IModelCustom model) { return generateWithScale(texture, model, 1.5F); }
+    public static Consumer<RenderStarter> generateStandard(ResourceLocation texture, IModelCustomOld model) { return generateWithScale(texture, model, 1F); }
+    public static Consumer<RenderStarter> generateLarge(ResourceLocation texture, IModelCustomOld model) { return generateWithScale(texture, model, 1.5F); }
 
-    public static Consumer<RenderStarter> generateWithScale(ResourceLocation texture, IModelCustom model, float scale) {
+    public static Consumer<RenderStarter> generateWithScale(ResourceLocation texture, IModelCustomOld model, float scale) {
         return x -> {
             x.poseStack().scale(scale, scale, scale);
             VertexConsumer consumer = x.bufferSource().getBuffer(RenderType.entityCutout(texture));

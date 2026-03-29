@@ -1,6 +1,6 @@
 package com.hbm.inventory;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import net.minecraft.Util;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;

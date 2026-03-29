@@ -1,19 +1,30 @@
 package com.hbm.blocks.network;
 
 import com.hbm.blockentity.network.PipeBaseBlockEntity;
+import com.hbm.blocks.IMetaBlock;
+import com.hbm.inventory.MetaHelper;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.lib.Library;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.phys.HitResult;
 
-public class FluidDuctConnectingBlock extends FluidDuctBaseBlock {
+import java.util.List;
+
+public class FluidDuctConnectingBlock extends FluidDuctBaseBlock implements IMetaBlock {
 
     public static final BooleanProperty NORTH = BlockStateProperties.NORTH;
     public static final BooleanProperty SOUTH = BlockStateProperties.SOUTH;
@@ -21,6 +32,8 @@ public class FluidDuctConnectingBlock extends FluidDuctBaseBlock {
     public static final BooleanProperty WEST  = BlockStateProperties.WEST;
     public static final BooleanProperty UP    = BlockStateProperties.UP;
     public static final BooleanProperty DOWN  = BlockStateProperties.DOWN;
+
+    public static final IntegerProperty META = IntegerProperty.create("pipe_meta", 0, 15);
 
     public FluidDuctConnectingBlock(Properties properties) {
         super(properties);
@@ -30,12 +43,38 @@ public class FluidDuctConnectingBlock extends FluidDuctBaseBlock {
                 .setValue(EAST,  Boolean.FALSE)
                 .setValue(WEST,  Boolean.FALSE)
                 .setValue(UP,    Boolean.FALSE)
-                .setValue(DOWN,  Boolean.FALSE));
+                .setValue(DOWN,  Boolean.FALSE)
+                .setValue(META, 0));
+    }
+
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return this.defaultBlockState().setValue(META, MetaHelper.getMeta(context.getItemInHand()));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(NORTH, SOUTH, EAST, WEST, UP, DOWN);
+        builder.add(NORTH, SOUTH, EAST, WEST, UP, DOWN, META);
+    }
+
+    @Override
+    public int getMeta(BlockState state) {
+        return state.getValue(META);
+    }
+
+    @Override
+    public int getMaxMeta() {
+        return 3;
+    }
+
+    @Override
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
+        return MetaHelper.metaStack(new ItemStack(this), this.getMeta(state));
+    }
+
+    @Override
+    protected List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
+        return List.of(MetaHelper.metaStack(new ItemStack(this), this.getMeta(state)));
     }
 
     @Override

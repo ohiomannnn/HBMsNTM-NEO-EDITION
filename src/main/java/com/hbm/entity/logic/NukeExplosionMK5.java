@@ -1,6 +1,6 @@
 package com.hbm.entity.logic;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.effect.FalloutRain;

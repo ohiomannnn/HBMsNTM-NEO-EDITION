@@ -6,14 +6,13 @@ import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.inventory.menus.BatteryREDDMenu;
 import com.hbm.lib.Library;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
@@ -79,7 +78,7 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
 
             if (this.prevRotation != this.rotation && HBMsNTMClient.me().distanceToSqr(this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 5.5, this.getBlockPos().getZ() + 0.5) < 30 * 30) {
                 if (this.audio == null || !this.audio.isPlaying()) {
-                    this.audio = AudioWrapper.getLoopedSound(ModSounds.FENSU_HUM.get(), SoundSource.AMBIENT, this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(), this.getVolume(1.5F), 25F, pitch, 5);
+                    this.audio = AudioWrapper.getLoopedSound(NtmSoundEvents.FENSU_HUM.get(), SoundSource.AMBIENT, this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(), this.getVolume(1.5F), 25F, pitch, 5);
                     this.audio.startSound();
                 }
 

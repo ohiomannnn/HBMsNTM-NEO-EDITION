@@ -1,6 +1,6 @@
 package com.hbm.handler.ability;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 

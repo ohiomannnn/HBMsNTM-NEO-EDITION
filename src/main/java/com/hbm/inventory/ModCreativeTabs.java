@@ -1,12 +1,12 @@
 package com.hbm.inventory;
 
-import com.hbm.NuclearTechMod;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.BatteryPackItem;
 import com.hbm.items.machine.FluidIDMultiItem;
+import com.hbm.main.NuclearTechMod;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -194,7 +194,11 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.MACHINE_BATTERY_SOCKET);
                         output.accept(ModBlocks.MACHINE_BATTERY_REDD);
                         output.accept(ModBlocks.RED_CABLE);
-                        output.accept(ModBlocks.FLUID_DUCT_NEO);
+
+                        output.accept(MetaHelper.metaStack(new ItemStack(ModBlocks.FLUID_DUCT_NEO.asItem()), 1));
+                        output.accept(MetaHelper.metaStack(new ItemStack(ModBlocks.FLUID_DUCT_NEO.asItem()), 2));
+                        output.accept(MetaHelper.metaStack(new ItemStack(ModBlocks.FLUID_DUCT_NEO.asItem()), 3));
+
                         output.accept(ModBlocks.MACHINE_FLUID_TANK);
 
                         output.accept(ModBlocks.DECONTAMINATOR);

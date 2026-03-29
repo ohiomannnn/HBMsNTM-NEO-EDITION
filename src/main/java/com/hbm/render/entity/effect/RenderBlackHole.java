@@ -1,7 +1,7 @@
 package com.hbm.render.entity.effect;
 
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.entity.effect.BlackHole;
 import com.hbm.entity.effect.RagingVortex;
 import com.hbm.entity.effect.Vortex;

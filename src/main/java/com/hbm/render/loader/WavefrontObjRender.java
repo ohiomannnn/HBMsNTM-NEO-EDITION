@@ -7,7 +7,7 @@ import org.joml.Matrix4f;
 import java.util.*;
 
 // not actual gpu vbo, were just caching everything and whats all
-public class WavefrontObjVBO implements IModelCustomNamed {
+public class WavefrontObjRender implements IModelCustomOldNamed {
 
     private static class VertexVBO {
         final float x, y, z;
@@ -39,7 +39,7 @@ public class WavefrontObjVBO implements IModelCustomNamed {
     private final List<GroupVBO> groups = new ArrayList<>();
     private final Map<String, GroupVBO> groupMap = new HashMap<>();
 
-    public WavefrontObjVBO(HFRWavefrontObject object) {
+    public WavefrontObjRender(HFRWavefrontObject object) {
         for (S_GroupObject group : object.groupObjects) {
             List<VertexVBO> vertexList = new ArrayList<>();
 

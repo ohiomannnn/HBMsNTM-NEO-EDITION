@@ -1,0 +1,31 @@
+{
+  "entries": [
+    {
+      "enum": "net/minecraft/world/level/biome/BiomeSpecialEffects$GrassColorModifier",
+      "name": "HBMSNTM_CRATER_COLOR_MOD",
+      "constructor": "(Ljava/lang/String;Lnet/minecraft/world/level/biome/BiomeSpecialEffects$GrassColorModifier$ColorModifier;)V",
+      "parameters": {
+        "class": "com/hbm/registry/NtmBiomes",
+        "field": "CRATER_COLOR_MOD"
+      }
+    },
+    {
+      "enum": "net/minecraft/world/level/biome/BiomeSpecialEffects$GrassColorModifier",
+      "name": "HBMSNTM_CRATER_OUTER_COLOR_MOD",
+      "constructor": "(Ljava/lang/String;Lnet/minecraft/world/level/biome/BiomeSpecialEffects$GrassColorModifier$ColorModifier;)V",
+      "parameters": {
+        "class": "com/hbm/registry/NtmBiomes",
+        "field": "CRATER_OUTER_COLOR_MOD"
+      }
+    },
+    {
+      "enum": "net/minecraft/world/level/biome/BiomeSpecialEffects$GrassColorModifier",
+      "name": "HBMSNTM_CRATER_INNER_COLOR_MOD",
+      "constructor": "(Ljava/lang/String;Lnet/minecraft/world/level/biome/BiomeSpecialEffects$GrassColorModifier$ColorModifier;)V",
+      "parameters": {
+        "class": "com/hbm/registry/NtmBiomes",
+        "field": "CRATER_INNER_COLOR_MOD"
+      }
+    }
+  ]
+}

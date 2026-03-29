@@ -21,6 +21,7 @@ import com.hbm.inventory.ModMenuTypes;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.screens.*;
 import com.hbm.items.ModItems;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.network.toclient.InformPlayer;
 import com.hbm.saveddata.satellite.Satellite;
 import com.hbm.uninos.UniNodespace;

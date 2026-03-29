@@ -1,6 +1,6 @@
 package com.hbm.network.toclient;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectStandard;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;

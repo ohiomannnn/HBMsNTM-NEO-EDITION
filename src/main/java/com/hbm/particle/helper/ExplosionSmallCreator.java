@@ -1,6 +1,6 @@
 package com.hbm.particle.helper;
 
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.particle.ExplosionSmallParticle;
 import com.hbm.particle.ParticleDust;
 import com.hbm.particle.engine.ParticleEngineNT;
@@ -52,7 +52,7 @@ public class ExplosionSmallCreator implements IParticleCreator {
 
         if (distSq <= soundRange * soundRange) {
             double dist = Math.sqrt(distSq);
-            SoundEvent sound = dist <= soundRange * 0.4 ? ModSounds.EXPLOSION_SMALL_NEAR.get() : ModSounds.EXPLOSION_SMALL_FAR.get();
+            SoundEvent sound = dist <= soundRange * 0.4 ? NtmSoundEvents.EXPLOSION_SMALL_NEAR.get() : NtmSoundEvents.EXPLOSION_SMALL_FAR.get();
             SimpleSoundInstance instance = new SimpleSoundInstance(sound, SoundSource.BLOCKS, 100.0F, 0.9F + rand.nextFloat() * 0.2F, rand, x,y,z);
             Minecraft.getInstance().getSoundManager().playDelayed(instance, (int) (dist / SPEED_OF_SOUND));
         }

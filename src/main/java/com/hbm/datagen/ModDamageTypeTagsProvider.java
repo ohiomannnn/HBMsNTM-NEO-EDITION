@@ -1,6 +1,6 @@
 package com.hbm.datagen;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.registry.NtmDamageTypes;
 import com.hbm.registry.tags.NtmDamageTypeTags;
 import net.minecraft.core.HolderLookup;

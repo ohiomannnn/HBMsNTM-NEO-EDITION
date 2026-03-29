@@ -1,7 +1,7 @@
 package com.hbm.blockentity.machine.storage;
 
 import com.hbm.blockentity.machine.LockableBaseBlockEntity;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -118,11 +118,11 @@ public abstract class CrateBaseBlockEntity extends LockableBaseBlockEntity imple
 
     @Override
     public void startOpen(Player player) {
-        player.level().playSound(null, this.getBlockPos(), ModSounds.CRATE_OPEN.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+        player.level().playSound(null, this.getBlockPos(), NtmSoundEvents.CRATE_OPEN.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
     }
     @Override
     public void stopOpen(Player player) {
-        player.level().playSound(null, this.getBlockPos(), ModSounds.CRATE_CLOSE.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+        player.level().playSound(null, this.getBlockPos(), NtmSoundEvents.CRATE_CLOSE.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
     }
 
     @Override

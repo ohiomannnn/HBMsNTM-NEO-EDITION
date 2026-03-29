@@ -1,11 +1,11 @@
 package com.hbm.network.toserver;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.mob.Duck;
 import com.hbm.extprop.HbmPlayerAttachments;
 import com.hbm.lib.ModAttachments;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -33,7 +33,7 @@ public record Ducc() implements CustomPacketPayload {
                 ducc.fallDistance = 0.0F;
 
                 player.level().addFreshEntity(ducc);
-                player.level().playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.DUCK, SoundSource.NEUTRAL, 1.0F, 1.0F);
+                player.level().playSound(null, player.getX(), player.getY(), player.getZ(), NtmSoundEvents.DUCK, SoundSource.NEUTRAL, 1.0F, 1.0F);
 
                 props.ducked = true;
                 player.setData(ModAttachments.PLAYER_ATTACHMENT, props);

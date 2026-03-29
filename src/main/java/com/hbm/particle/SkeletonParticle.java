@@ -1,6 +1,6 @@
 package com.hbm.particle;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.particle.helper.SkeletonCreator.EnumSkeletonType;
 import com.hbm.render.entity.effect.SkeletonModel;
 import com.hbm.util.old.TessColorUtil;

@@ -1,7 +1,7 @@
 package com.hbm.inventory.fluid;
 
 import api.hbm.fluidmk2.FluidNetMK2;
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Corrosive;
 import com.hbm.inventory.fluid.trait.FluidTrait;

@@ -1,6 +1,6 @@
 package com.hbm.entity.projectile;
 
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.network.toclient.ParticleBurst;
 import com.hbm.registry.NtmDamageTypes;
 import com.hbm.util.RayTraceResult;
@@ -43,7 +43,7 @@ public class Rubble extends ThrowableNT {
         if (this.tickCount > 2) {
             this.discard();
 
-            level.playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.DEBRIS, SoundSource.BLOCKS, 1.5F, 1.0F);
+            level.playSound(null, this.getX(), this.getY(), this.getZ(), NtmSoundEvents.DEBRIS, SoundSource.BLOCKS, 1.5F, 1.0F);
 
             if (level instanceof ServerLevel serverLevel) {
                 PacketDistributor.sendToPlayersNear(serverLevel, null, this.getX(), this.getY(), this.getZ(), 50, new ParticleBurst(BlockPos.containing(this.getX(), this.getY(), this.getZ()), this.getBlock()));

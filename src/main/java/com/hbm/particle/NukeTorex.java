@@ -1,8 +1,8 @@
 package com.hbm.particle;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.HBMsNTMClient;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.particle.engine.ParticleNT;
 import com.hbm.render.CustomRenderTypes;
 import com.hbm.util.Vec3NT;
@@ -115,7 +115,7 @@ public class NukeTorex extends ParticleNT {
                     double dist = Math.sqrt(player.distanceToSqr(x, y, z));
                     double radius = (age * 1.5 + 1) * 1.5;
                     if (dist < radius) {
-                        level.playLocalSound(x, y, z, ModSounds.NUCLEAR_EXPLOSION.get(), SoundSource.AMBIENT, 10_000F, 1F, false);
+                        level.playLocalSound(x, y, z, NtmSoundEvents.NUCLEAR_EXPLOSION.get(), SoundSource.AMBIENT, 10_000F, 1F, false);
                         didPlaySound = true;
                     }
                 }

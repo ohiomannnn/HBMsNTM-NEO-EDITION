@@ -1,6 +1,6 @@
 package com.hbm.network.toserver;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.handler.HbmKeybindsServer;
 import net.minecraft.network.FriendlyByteBuf;

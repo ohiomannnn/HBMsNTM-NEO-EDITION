@@ -1,8 +1,8 @@
 package com.hbm.render.util;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.render.CustomRenderTypes;
-import com.hbm.render.loader.IModelCustom;
+import com.hbm.render.loader.IModelCustomOld;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
@@ -15,7 +15,7 @@ public class RenderMiscEffects {
     public static final ResourceLocation GLINT = NuclearTechMod.withDefaultNamespace("textures/misc/glint.png");
     public static final ResourceLocation GLINT_BF = NuclearTechMod.withDefaultNamespace("textures/misc/glint_bf.png");
 
-    public static void renderClassicGlint(MultiBufferSource buffer, PoseStack poseStack, int packedLight, int packedOverlay, float partialTicks, ResourceLocation texture, IModelCustom model, String part, float colorMod, float r, float g, float b, float speed, float scale) {
+    public static void renderClassicGlint(MultiBufferSource buffer, PoseStack poseStack, int packedLight, int packedOverlay, float partialTicks, ResourceLocation texture, IModelCustomOld model, String part, float colorMod, float r, float g, float b, float speed, float scale) {
         LocalPlayer player = Minecraft.getInstance().player;
         if (player == null) return;
 
@@ -37,11 +37,11 @@ public class RenderMiscEffects {
         }
     }
 
-    public static void renderClassicGlint(MultiBufferSource buffer, PoseStack poseStack, int packedLight, int packedOverlay, float partialTicks, ResourceLocation texture, IModelCustom model, String part, float r, float g, float b, float speed, float scale) {
+    public static void renderClassicGlint(MultiBufferSource buffer, PoseStack poseStack, int packedLight, int packedOverlay, float partialTicks, ResourceLocation texture, IModelCustomOld model, String part, float r, float g, float b, float speed, float scale) {
         renderClassicGlint(buffer, poseStack, packedLight, packedOverlay, partialTicks, texture, model, part, 0.5F, r, g, b, speed, scale);
     }
 
-    public static void renderClassicGlint(MultiBufferSource buffer, PoseStack poseStack, int packedLight, int packedOverlay, float partialTicks, ResourceLocation texture, IModelCustom model, String part) {
+    public static void renderClassicGlint(MultiBufferSource buffer, PoseStack poseStack, int packedLight, int packedOverlay, float partialTicks, ResourceLocation texture, IModelCustomOld model, String part) {
         renderClassicGlint(buffer, poseStack, packedLight, packedOverlay, partialTicks, texture, model, part, 0.5F, 0.25F, 0.8F, 20.0F, 1F / 3F);
     }
 }

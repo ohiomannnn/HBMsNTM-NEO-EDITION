@@ -2,7 +2,7 @@ package com.hbm.items.tools;
 
 import com.hbm.items.IDesignatorItem;
 import com.hbm.lib.Library;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.RayTraceResult;
 import com.hbm.util.TagsUtilDegradation;
 import net.minecraft.ChatFormatting;
@@ -41,7 +41,7 @@ public class DesignatorRangeItem extends Item implements IDesignatorItem {
             TagsUtilDegradation.putTag(stack, tag);
 
             player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".posSet", pos.getX(), pos.getZ()), false);
-            level.playSound(null, player.position.x, player.position.y, player.position.z, ModSounds.TECH_BLEEP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+            level.playSound(null, player.position.x, player.position.y, player.position.z, NtmSoundEvents.TECH_BLEEP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
         }
 
         return InteractionResultHolder.pass(player.getItemInHand(usedHand));

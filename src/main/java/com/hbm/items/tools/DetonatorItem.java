@@ -1,11 +1,11 @@
 package com.hbm.items.tools;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.config.MainConfig;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IBomb.BombReturnCode;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.TagsUtilDegradation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -46,7 +46,7 @@ public class DetonatorItem extends Item {
                 tag.putInt("z", context.getClickedPos().getZ());
                 TagsUtilDegradation.putTag(stack, tag);
 
-                level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+                level.playSound(null, player.getX(), player.getY(), player.getZ(), NtmSoundEvents.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
                 player.displayClientMessage(Component.literal("[" + this.getName(stack).getString() + "] ").withStyle(ChatFormatting.DARK_AQUA)
                         .append(Component.translatable("detonator.pos_set").withStyle(ChatFormatting.GREEN)), false);
 
@@ -74,7 +74,7 @@ public class DetonatorItem extends Item {
                 Block block = level.getBlockState(pos).getBlock();
 
                 if (block instanceof IBomb bomb) {
-                    level.playSound(null, player.blockPosition(), ModSounds.TECH_BLEEP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+                    level.playSound(null, player.blockPosition(), NtmSoundEvents.TECH_BLEEP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
                     BombReturnCode ret = bomb.explode(level, pos);
 
                     if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {

@@ -1,6 +1,6 @@
 package com.hbm.particle;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.main.ResourceManager;
 import com.hbm.particle.engine.ParticleNT;
 import com.hbm.particle.helper.CloudCreator.CloudType;

@@ -13,7 +13,7 @@ import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCross;
 import com.hbm.interfaces.IBomb;
 import com.hbm.items.special.PolaroidItem;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.network.toclient.AuxParticle;
 import com.hbm.particle.helper.ExplosionCreator;
 import net.minecraft.core.BlockPos;
@@ -90,7 +90,7 @@ public class CrashedBombBlock extends Block implements EntityBlock, IBomb {
     }
 
     public static void spawnMush(Level level, BlockPos pos, boolean balefire) {
-        level.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, ModSounds.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 15.0F, 1.0F);
+        level.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, NtmSoundEvents.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 15.0F, 1.0F);
         CompoundTag tag = new CompoundTag();
         tag.putString("type", "muke");
         tag.putBoolean("balefire", balefire);

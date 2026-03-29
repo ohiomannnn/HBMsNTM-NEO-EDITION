@@ -1,4 +1,4 @@
-package com.hbm;
+package com.hbm.main;
 
 import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blocks.ModBlocks;
@@ -8,9 +8,10 @@ import com.hbm.inventory.MetaHelper;
 import com.hbm.inventory.ModCreativeTabs;
 import com.hbm.inventory.ModMenuTypes;
 import com.hbm.items.ModItems;
+import com.hbm.items.component.NtmDataComponents;
 import com.hbm.lib.ModAttachments;
 import com.hbm.lib.ModEffect;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.particle.ModParticles;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
@@ -25,12 +26,13 @@ import java.io.File;
 public class NuclearTechMod {
     public static final String MODID = "hbmsntm";
     public static ResourceLocation withDefaultNamespace(String path) { return ResourceLocation.fromNamespaceAndPath(MODID, path); }
+    public static final String VERSION = "0.0.13 ALPHA (5640)";
+    //                                       ^ ^ ^ ^ ^ ^
     // HBM's -Beta- ALPHA Naming Convention:
     // V T (X)
     // V -> next release version
     // T -> build type
     // X -> days since 10/10/2010
-    public static final String VERSION = "0.0.13 ALPHA (5640)";
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
     public static File configDir;
@@ -39,9 +41,9 @@ public class NuclearTechMod {
     public NuclearTechMod(IEventBus modEventBus, ModContainer modContainer) {
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
-        MetaHelper.register(modEventBus);
+        NtmDataComponents.register(modEventBus);
         ModEntityTypes.register(modEventBus);
-        ModSounds.register(modEventBus);
+        NtmSoundEvents.register(modEventBus);
         ModCreativeTabs.register(modEventBus);
         ModAttachments.register(modEventBus);
         ModEffect.register(modEventBus);

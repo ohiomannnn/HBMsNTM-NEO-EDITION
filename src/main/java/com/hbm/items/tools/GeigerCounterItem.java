@@ -1,7 +1,7 @@
 package com.hbm.items.tools;
 
 import com.hbm.extprop.HbmLivingAttachments;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.ContaminationUtil;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -46,19 +46,19 @@ public class GeigerCounterItem extends Item {
 
                         if (r > 0) {
                             switch (r) {
-                                case 1 -> level.playSound(null, user.getX(), user.getY(), user.getZ(), ModSounds.GEIGER1, SoundSource.AMBIENT, 1.0F, 1.0F);
-                                case 2 -> level.playSound(null, user.getX(), user.getY(), user.getZ(), ModSounds.GEIGER2, SoundSource.AMBIENT, 1.0F, 1.0F);
-                                case 3 -> level.playSound(null, user.getX(), user.getY(), user.getZ(), ModSounds.GEIGER3, SoundSource.AMBIENT, 1.0F, 1.0F);
-                                case 4 -> level.playSound(null, user.getX(), user.getY(), user.getZ(), ModSounds.GEIGER4, SoundSource.AMBIENT, 1.0F, 1.0F);
-                                case 5 -> level.playSound(null, user.getX(), user.getY(), user.getZ(), ModSounds.GEIGER5, SoundSource.AMBIENT, 1.0F, 1.0F);
-                                case 6 -> level.playSound(null, user.getX(), user.getY(), user.getZ(), ModSounds.GEIGER6, SoundSource.AMBIENT, 1.0F, 1.0F);
+                                case 1 -> level.playSound(null, user.getX(), user.getY(), user.getZ(), NtmSoundEvents.GEIGER1, SoundSource.AMBIENT, 1.0F, 1.0F);
+                                case 2 -> level.playSound(null, user.getX(), user.getY(), user.getZ(), NtmSoundEvents.GEIGER2, SoundSource.AMBIENT, 1.0F, 1.0F);
+                                case 3 -> level.playSound(null, user.getX(), user.getY(), user.getZ(), NtmSoundEvents.GEIGER3, SoundSource.AMBIENT, 1.0F, 1.0F);
+                                case 4 -> level.playSound(null, user.getX(), user.getY(), user.getZ(), NtmSoundEvents.GEIGER4, SoundSource.AMBIENT, 1.0F, 1.0F);
+                                case 5 -> level.playSound(null, user.getX(), user.getY(), user.getZ(), NtmSoundEvents.GEIGER5, SoundSource.AMBIENT, 1.0F, 1.0F);
+                                case 6 -> level.playSound(null, user.getX(), user.getY(), user.getZ(), NtmSoundEvents.GEIGER6, SoundSource.AMBIENT, 1.0F, 1.0F);
                             }
                         }
                     } else if (rand.nextInt(50) == 0) {
                         int i = 1 + rand.nextInt(1);
                         switch (i) {
-                            case 1 -> level.playSound(null, user.getX(), user.getY(), user.getZ(), ModSounds.GEIGER1.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
-                            case 2 -> level.playSound(null, user.getX(), user.getY(), user.getZ(), ModSounds.GEIGER2.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
+                            case 1 -> level.playSound(null, user.getX(), user.getY(), user.getZ(), NtmSoundEvents.GEIGER1.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
+                            case 2 -> level.playSound(null, user.getX(), user.getY(), user.getZ(), NtmSoundEvents.GEIGER2.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
                         }
                     }
                 }
@@ -71,7 +71,7 @@ public class GeigerCounterItem extends Item {
         ItemStack stack = player.getItemInHand(hand);
 
         if (!level.isClientSide) {
-            level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0f, 1.0f);
+            level.playSound(null, player.getX(), player.getY(), player.getZ(), NtmSoundEvents.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0f, 1.0f);
             ContaminationUtil.printGeigerData(player);
         }
 

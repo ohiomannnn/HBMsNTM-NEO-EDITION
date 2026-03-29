@@ -1,6 +1,6 @@
 package com.hbm.render.entity.effect;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.entity.effect.FalloutRain;
 import com.hbm.render.CustomRenderTypes;
 import com.hbm.util.old.TessColorUtil;

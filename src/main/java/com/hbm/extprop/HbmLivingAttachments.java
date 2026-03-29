@@ -1,6 +1,6 @@
 package com.hbm.extprop;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.HBMsNTMClient;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.mob.Duck;

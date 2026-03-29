@@ -1,7 +1,7 @@
 package com.hbm.items;
 
 import api.hbm.block.IToolable.ToolType;
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.ability.IToolAreaAbility;
 import com.hbm.handler.ability.IToolHarvestAbility;

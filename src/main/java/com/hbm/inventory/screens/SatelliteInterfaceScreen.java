@@ -1,9 +1,9 @@
 package com.hbm.inventory.screens;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.items.ISatChip;
 import com.hbm.items.tools.SatelliteInterfaceItem;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.network.toserver.SatelliteLaser;
 import com.hbm.saveddata.satellite.Satellite;
 import com.hbm.saveddata.satellite.Satellite.Interfaces;
@@ -80,7 +80,7 @@ public class SatelliteInterfaceScreen extends Screen {
                 int x = (int) (this.x - guiLeft + mouseX - 8 - 100);
                 int z = (int) (this.z - guiTop + mouseY - 8 - 100);
 
-                this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(ModSounds.TECH_BLEEP, 1.0F));
+                this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(NtmSoundEvents.TECH_BLEEP, 1.0F));
 
                 PacketDistributor.sendToServer(new SatelliteLaser(x, z, ISatChip.getFreqS(player.getMainHandItem())));
             }

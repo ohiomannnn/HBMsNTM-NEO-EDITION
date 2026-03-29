@@ -1,8 +1,8 @@
 package com.hbm.datagen;
 
-import com.hbm.NuclearTechMod;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.registry.NtmDamageTypes;
-import com.hbm.world.biome.ModBiomes;
+import com.hbm.registry.NtmBiomes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
@@ -49,7 +49,7 @@ public class DataGenerators {
         // Datapack things
         RegistrySetBuilder builder = new RegistrySetBuilder();
         builder.add(Registries.DAMAGE_TYPE, NtmDamageTypes::bootstrap);
-        builder.add(Registries.BIOME, ModBiomes::bootstrap);
+        builder.add(Registries.BIOME, NtmBiomes::bootstrap);
         DatapackBuiltinEntriesProvider datapackProvider = new DatapackBuiltinEntriesProvider(output, lookup, builder, Set.of(NuclearTechMod.MODID));
         generator.addProvider(event.includeServer(), datapackProvider);
     }

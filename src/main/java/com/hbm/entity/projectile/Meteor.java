@@ -3,7 +3,7 @@ package com.hbm.entity.projectile;
 import com.hbm.HBMsNTMClient;
 import com.hbm.config.MainConfig;
 import com.hbm.explosion.ExplosionLarge;
-import com.hbm.lib.ModSounds;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.sound.AudioWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -127,7 +127,7 @@ public class Meteor extends Entity {
 
                     clearMeteorPath(level(), spawnPos);
 
-                    this.level().playSound(null, this.getX(), this.getY(), this.getZ(), ModSounds.OLD_EXPLOSION, SoundSource.AMBIENT, 10000.0F, 0.5F + this.random.nextFloat() * 0.1F);
+                    this.level().playSound(null, this.getX(), this.getY(), this.getZ(), NtmSoundEvents.OLD_EXPLOSION, SoundSource.AMBIENT, 10000.0F, 0.5F + this.random.nextFloat() * 0.1F);
 
                     this.discard();
                     return;
@@ -137,7 +137,7 @@ public class Meteor extends Entity {
 
         // Sound
         if (level().isClientSide) {
-            if (this.audioFly == null) this.audioFly = AudioWrapper.getLoopedSound(ModSounds.METEORITE_FALLING_LOOP.get(), SoundSource.AMBIENT,  0, 0, 0, 1F, 200F, 0.9F + this.random.nextFloat() * 0.2F, 10);
+            if (this.audioFly == null) this.audioFly = AudioWrapper.getLoopedSound(NtmSoundEvents.METEORITE_FALLING_LOOP.get(), SoundSource.AMBIENT,  0, 0, 0, 1F, 200F, 0.9F + this.random.nextFloat() * 0.2F, 10);
 
             if (this.audioFly.isPlaying()) {
                 // Update sound
