@@ -1,5 +1,7 @@
 package com.hbm.render.loader;
 
+import com.hbm.render.newloader.old.TextureCoordinate;
+import com.hbm.render.newloader.old.Vertex;
 import org.joml.Vector3f;
 
 public class S_Face {

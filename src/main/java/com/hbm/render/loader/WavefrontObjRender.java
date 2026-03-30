@@ -1,5 +1,6 @@
 package com.hbm.render.loader;
 
+import com.hbm.render.newloader.old.Vertex;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import org.joml.Matrix4f;

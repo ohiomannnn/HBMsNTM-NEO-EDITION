@@ -13,6 +13,7 @@ uniform sampler2D Sampler2;
 uniform mat4 ModelViewMat;
 uniform mat4 ProjMat;
 uniform mat4 NormalMat;
+uniform mat4 TextureMat;
 uniform int FogShape;
 
 uniform ivec2 UV1; // overlay
@@ -37,5 +38,5 @@ void main() {
     vertexColor = minecraft_mix_light(Light0_Direction, Light1_Direction, transformedNormal, Col);
     lightMapColor = texelFetch(Sampler2, UV2 / 16, 0);
     overlayColor = texelFetch(Sampler1, UV1, 0);
-    texCoord0 = UV0;
+    texCoord0 = (TextureMat * vec4(UV0, 0.0, 1.0)).xy;
 }

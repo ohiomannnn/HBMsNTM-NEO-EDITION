@@ -3,7 +3,7 @@ package com.hbm.render.blockentity;
 import com.hbm.blockentity.bomb.NukeN2BlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.CustomRenderTypes;
+import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -36,7 +36,7 @@ public class RenderNukeN2 extends BlockEntityRendererNT<NukeN2BlockEntity> imple
         poseStack.mulPose(Axis.YP.rotationDegrees(90F));
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
 
-        VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC.apply(ResourceManager.NUKE_N2_TEX));
+        VertexConsumer consumer = buffer.getBuffer(NtmRenderTypes.EC_NC.apply(ResourceManager.NUKE_N2_TEX));
         ResourceManager.nuke_n2.renderAll(poseStack, consumer, packedLight, packedOverlay);
 
         poseStack.popPose();
@@ -58,7 +58,7 @@ public class RenderNukeN2 extends BlockEntityRendererNT<NukeN2BlockEntity> imple
 
             @Override
             public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC.apply(ResourceManager.NUKE_N2_TEX));
+                VertexConsumer consumer = buffer.getBuffer(NtmRenderTypes.EC_NC.apply(ResourceManager.NUKE_N2_TEX));
                 ResourceManager.nuke_n2.renderAll(poseStack, consumer, packedLight, packedOverlay);
             }
         };

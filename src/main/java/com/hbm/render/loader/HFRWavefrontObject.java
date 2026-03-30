@@ -1,5 +1,7 @@
 package com.hbm.render.loader;
 
+import com.hbm.render.newloader.old.TextureCoordinate;
+import com.hbm.render.newloader.old.Vertex;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
@@ -161,5 +163,4 @@ public class HFRWavefrontObject {
     }
 
     public WavefrontObjRender render() { return new WavefrontObjRender(this); }
-    public HFRWavefrontObjectVBO asVBO() { return new HFRWavefrontObjectVBO(this); }
 }

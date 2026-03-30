@@ -3,7 +3,7 @@ package com.hbm.render.blockentity;
 import com.hbm.blockentity.bomb.NukeFleijaBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.CustomRenderTypes;
+import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -35,7 +35,7 @@ public class RenderNukeFleija extends BlockEntityRendererNT<NukeFleijaBlockEntit
         poseStack.translate(0.5, 0.0, 0.5);
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
 
-        VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC.apply(ResourceManager.NUKE_FLEIJA_TEX));
+        VertexConsumer consumer = buffer.getBuffer(NtmRenderTypes.EC_NC.apply(ResourceManager.NUKE_FLEIJA_TEX));
         ResourceManager.nuke_fleija.renderAll(poseStack, consumer, packedLight, packedOverlay);
 
         poseStack.popPose();
@@ -58,7 +58,7 @@ public class RenderNukeFleija extends BlockEntityRendererNT<NukeFleijaBlockEntit
             public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
                 poseStack.translate(0.125F, 0F, 0F);
                 poseStack.mulPose(Axis.YP.rotationDegrees(90F));
-                VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC.apply(ResourceManager.NUKE_FLEIJA_TEX));
+                VertexConsumer consumer = buffer.getBuffer(NtmRenderTypes.EC_NC.apply(ResourceManager.NUKE_FLEIJA_TEX));
                 ResourceManager.nuke_fleija.renderAll(poseStack, consumer, packedLight, packedOverlay);
             }
         };

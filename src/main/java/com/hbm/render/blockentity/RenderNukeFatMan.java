@@ -3,9 +3,9 @@ package com.hbm.render.blockentity;
 import com.hbm.blockentity.bomb.NukeFatManBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.CustomRenderTypes;
+import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
-import com.hbm.render.util.RenderContext;
+import com.hbm.render.util.RenderStateManager;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -36,11 +36,11 @@ public class RenderNukeFatMan extends BlockEntityRendererNT<NukeFatManBlockEntit
         poseStack.translate(0.5, 0.0, 0.5);
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
 
-        RenderType type = CustomRenderTypes.TEST.apply(ResourceManager.NUKE_FAT_MAN_TEX);
+        RenderType type = NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_FAT_MAN_TEX);
 
-        RenderContext.setup(type, poseStack, packedLight, packedOverlay);
+        RenderStateManager.setupR(type, poseStack, packedLight, packedOverlay);
         ResourceManager.nuke_fat_man.renderAll();
-        RenderContext.end();
+        RenderStateManager.end();
 
         poseStack.popPose();
     }
@@ -63,11 +63,11 @@ public class RenderNukeFatMan extends BlockEntityRendererNT<NukeFatManBlockEntit
             public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
                 poseStack.mulPose(Axis.YP.rotationDegrees(180F));
                 poseStack.translate(-0.75F, 0F, 0F);
-                RenderType type = CustomRenderTypes.TEST.apply(ResourceManager.NUKE_FAT_MAN_TEX);
+                RenderType type = NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_FAT_MAN_TEX);
 
-                RenderContext.setup(type, poseStack, packedLight, packedOverlay);
+                RenderStateManager.setupR(type, poseStack, packedLight, packedOverlay);
                 ResourceManager.nuke_fat_man.renderAll();
-                RenderContext.end();
+                RenderStateManager.end();
             }
         };
     }

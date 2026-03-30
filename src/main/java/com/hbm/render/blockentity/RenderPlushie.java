@@ -7,18 +7,17 @@ import com.hbm.blocks.generic.PlushieBlock.PlushieBlockEntity;
 import com.hbm.blocks.generic.PlushieBlock.PlushieType;
 import com.hbm.items.ModItems;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.util.HorsePronter;
+import com.hbm.render.util.RenderStateManager;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -38,13 +37,14 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
 
     @Override
     public void render(PlushieBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-        poseStack.pushPose();
-        poseStack.translate(0.5F, 0F, 0.5F);
-        poseStack.mulPose(Axis.YN.rotationDegrees((float) (22.5D * be.getBlockState().getValue(PlushieBlock.DIRECTION) + 90)));
+
+        RenderStateManager.setupR(null, poseStack, packedLight, packedOverlay);
+        RenderStateManager.translate(0.5F, 0F, 0.5F);
+        RenderStateManager.mulPose(Axis.YN.rotationDegrees((float) (22.5D * be.getBlockState().getValue(PlushieBlock.DIRECTION) + 90)));
 
         if (be.squishTimer > 0) {
             double squish = be.squishTimer - partialTicks;
-            poseStack.scale(1F,  (float) (1F + (-(Math.sin(squish)) * squish) * 0.025F), 1F);
+            RenderStateManager.scale(1F,  (float) (1F + (-(Math.sin(squish)) * squish) * 0.025F), 1F);
         }
 
         switch (be.type) {
@@ -53,22 +53,22 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
             case HUNDUN -> poseStack.scale(1F, 1F, 1F);
         }
 
-        renderPlushie(poseStack, buffer, packedLight, packedOverlay, be.type, be.squishTimer > 0);
+        renderPlushie(be.type, be.squishTimer > 0);
 
-        poseStack.popPose();
+        RenderStateManager.end();
     }
 
-    public static void renderPlushie(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay, PlushieType type, boolean squish) {
+    public static void renderPlushie(PlushieType type, boolean squish) {
 
         switch (type) {
             case YOMI -> {
-                VertexConsumer consumer = buffer.getBuffer(RenderType.entitySmoothCutout(yomiTex));
-                ResourceManager.yomiModel.renderAll(poseStack, consumer, packedLight, packedOverlay);
+                RenderStateManager.setRenderType(NtmRenderTypes.FVBO.apply(yomiTex));
+                ResourceManager.yomiModel.renderAll();
             }
             case NUMBERNINE -> {
-                poseStack.mulPose(Axis.YP.rotationDegrees(90F));
-                poseStack.mulPose(Axis.XN.rotationDegrees(15));
-                poseStack.translate(0F, -0.25F, 0.75F);
+                RenderStateManager.mulPose(Axis.YP.rotationDegrees(90F));
+                RenderStateManager.mulPose(Axis.XN.rotationDegrees(15));
+                RenderStateManager.translate(0F, -0.25F, 0.75F);
                 HorsePronter.reset();
                 double r = 45;
                 HorsePronter.pose(HorsePronter.id_body, 0, -r, 0);
@@ -78,39 +78,41 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
                 HorsePronter.pose(HorsePronter.id_lfl, 0, r - 25, 5);
                 HorsePronter.pose(HorsePronter.id_rfl, 0, r - 25, -5);
                 HorsePronter.pose(HorsePronter.id_head, 0, r + 15, 0);
-                HorsePronter.pront(buffer, poseStack, packedLight, packedOverlay, numbernineTex);
-                poseStack.mulPose(Axis.XP.rotationDegrees(15F));
+                RenderStateManager.setRenderType(NtmRenderTypes.FVBO_NC.apply(numbernineTex));
+                HorsePronter.pront();
+                RenderStateManager.mulPose(Axis.XP.rotationDegrees(15F));
 
-                poseStack.pushPose();
-                poseStack.translate(0F, 1F, -0.6875F);
+                RenderStateManager.pushPose();
+                RenderStateManager.translate(0F, 1F, -0.6875F);
                 float s = 1.125F;
-                poseStack.scale(0.0625F * s, 0.0625F * s, 0.0625F * s);
-                poseStack.mulPose(Axis.XP.rotationDegrees(180F));
-                VertexConsumer consumerHelmet = buffer.getBuffer(RenderType.entitySmoothCutout(ResourceManager.NO9));
-                ResourceManager.armor_no9.renderPart("Helmet", poseStack, consumerHelmet, packedLight, packedOverlay);
-                VertexConsumer consumerInsignia = buffer.getBuffer(RenderType.entitySmoothCutout(ResourceManager.NO9_INSIGNIA));
-                ResourceManager.armor_no9.renderPart("Insignia", poseStack, consumerInsignia, packedLight, packedOverlay);
-                poseStack.popPose();
+                RenderStateManager.scale(0.0625F * s, 0.0625F * s, 0.0625F * s);
+                RenderStateManager.mulPose(Axis.XP.rotationDegrees(180F));
+                RenderStateManager.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NO9));
+                ResourceManager.armor_no9.renderPart("Helmet");
+                RenderStateManager.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NO9_INSIGNIA));
+                ResourceManager.armor_no9.renderPart("Insignia");
+                RenderStateManager.popPose();
 
                 ItemStack stack = new ItemStack(ModItems.CIGARETTE.get());
                 float scale = 0.25F;
-                poseStack.translate(-0.06F, 1.13F, -0.28F);
-                poseStack.scale(scale, scale, scale);
-                poseStack.mulPose(Axis.YN.rotationDegrees(90F));
-                poseStack.mulPose(Axis.ZN.rotationDegrees(60F));
+                RenderStateManager.translate(-0.06F, 1.13F, -0.28F);
+                RenderStateManager.scale(scale, scale, scale);
+                RenderStateManager.mulPose(Axis.YN.rotationDegrees(90F));
+                RenderStateManager.mulPose(Axis.ZN.rotationDegrees(60F));
                 Minecraft mc = Minecraft.getInstance();
                 ItemRenderer itemRenderer = mc.getItemRenderer();
                 BakedModel model = itemRenderer.getModel(stack, null, null, 0);
-                itemRenderer.render(stack, ItemDisplayContext.FIXED, false, poseStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, model);
+                MultiBufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+                itemRenderer.render(stack, ItemDisplayContext.FIXED, false, RenderStateManager.poseStack(), buffer, RenderStateManager.light(), RenderStateManager.overlay(), model);
             }
             case HUNDUN -> {
-                VertexConsumer consumer = buffer.getBuffer(RenderType.entitySmoothCutout(hundunTex));
-                ResourceManager.hundunModel.renderPart("goober_posed", poseStack, consumer, packedLight, packedOverlay);
+                RenderStateManager.setRenderType(NtmRenderTypes.FVBO.apply(hundunTex));
+                ResourceManager.hundunModel.renderPart("goober_posed");
             }
             case DERG -> {
-                VertexConsumer consumer = buffer.getBuffer(RenderType.entitySmoothCutout(dergTex));
-                ResourceManager.dergModel.renderPart("Derg", poseStack, consumer, packedLight, packedOverlay);
-                ResourceManager.dergModel.renderPart(squish ? "Blep" : "ColonThree", poseStack, consumer, packedLight, packedOverlay);
+                RenderStateManager.setRenderType(NtmRenderTypes.FVBO.apply(dergTex));
+                ResourceManager.dergModel.renderPart("Derg");
+                ResourceManager.dergModel.renderPart(squish ? "Blep" : "ColonThree");
             }
         }
     }
@@ -136,26 +138,29 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
 
             @Override
             public void renderCommon(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                poseStack.translate(0F, 0.25F, 0F);
+
+                RenderStateManager.setupR(null, poseStack, packedLight, packedOverlay);
+                RenderStateManager.translate(0F, 0.25F, 0F);
 
                 PlushieType type = getType(stack);
 
                 if (type == null) return;
 
                 switch (type) {
-                    case YOMI -> poseStack.scale(1.25F, 1.25F, 1.25F);
+                    case YOMI -> RenderStateManager.scale(1.25F, 1.25F, 1.25F);
                     case NUMBERNINE -> {
-                        poseStack.translate(0F, 0.25F, 0.25F);
-                        poseStack.scale(1.25F, 1.25F, 1.25F);
+                        RenderStateManager.translate(0F, 0.25F, 0.25F);
+                        RenderStateManager.scale(1.25F, 1.25F, 1.25F);
                     }
                     case HUNDUN -> {
-                        poseStack.translate(0.5F, 0.5F, 0);
-                        poseStack.scale(1.25F, 1.25F, 1.25F);
+                        RenderStateManager.translate(0.5F, 0.5F, 0);
+                        RenderStateManager.scale(1.25F, 1.25F, 1.25F);
                     }
-                    case DERG -> poseStack.scale(1.5F, 1.5F, 1.5F);
+                    case DERG -> RenderStateManager.scale(1.5F, 1.5F, 1.5F);
                 }
 
-                renderPlushie(poseStack, buffer, packedLight, packedOverlay, type, false);
+                renderPlushie(type, false);
+                RenderStateManager.end();
             }
         };
     }

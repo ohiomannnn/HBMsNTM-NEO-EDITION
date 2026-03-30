@@ -1,6 +1,6 @@
 package com.hbm.particle;
 
-import com.hbm.render.CustomRenderTypes;
+import com.hbm.render.NtmRenderTypes;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -52,7 +52,7 @@ public class RBMKMushParticle extends TextureSheetParticle {
         Vector3f u = new Vector3f(camera.getUpVector()).mul(this.quadSize);
 
         MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
-        VertexConsumer consumer = bufferSource.getBuffer(CustomRenderTypes.entityAdditive(TextureAtlas.LOCATION_PARTICLES));
+        VertexConsumer consumer = bufferSource.getBuffer(NtmRenderTypes.entityAdditive(TextureAtlas.LOCATION_PARTICLES));
 
         consumer.addVertex(pX - l.x - u.x, pY - l.y - u.y, pZ - l.z - u.z)
                 .setColor(this.rCol, this.bCol, this.gCol, this.alpha)

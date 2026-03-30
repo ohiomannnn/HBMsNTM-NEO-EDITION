@@ -3,10 +3,10 @@ package com.hbm.render.blockentity;
 import com.hbm.blockentity.bomb.NukeLittleBoyBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.CustomRenderTypes;
+import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
+import com.hbm.render.util.RenderStateManager;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -32,15 +32,14 @@ public class RenderNukeLittleBoy extends BlockEntityRendererNT<NukeLittleBoyBloc
             case NORTH -> 0F;
         };
 
-        poseStack.pushPose();
-        poseStack.translate(0.5, 0.0, 0.5);
-        poseStack.mulPose(Axis.YP.rotationDegrees(rot));
-        poseStack.translate(-2.0F, 0.0F, 0.0F);
+        RenderStateManager.setupR(NtmRenderTypes.FVBO.apply(ResourceManager.NUKE_LITTLE_BOY_TEX), poseStack, packedLight, packedOverlay);
+        RenderStateManager.translate(0.5, 0.0, 0.5);
+        RenderStateManager.mulPose(Axis.YP.rotationDegrees(rot));
+        RenderStateManager.translate(-2.0F, 0.0F, 0.0F);
 
-        VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC.apply(ResourceManager.NUKE_LITTLE_BOY_TEX));
-        ResourceManager.nuke_little_boy.renderAll(poseStack, consumer, packedLight, packedOverlay);
+        ResourceManager.nuke_little_boy.renderAll();
 
-        poseStack.popPose();
+        RenderStateManager.end();
     }
 
     @Override
@@ -59,8 +58,9 @@ public class RenderNukeLittleBoy extends BlockEntityRendererNT<NukeLittleBoyBloc
             @Override
             public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
                 poseStack.translate(-1F, 0F, 0F);
-                VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC.apply(ResourceManager.NUKE_LITTLE_BOY_TEX));
-                ResourceManager.nuke_little_boy.renderAll(poseStack, consumer, packedLight, packedOverlay);
+                RenderStateManager.setupR(NtmRenderTypes.FVBO.apply(ResourceManager.NUKE_LITTLE_BOY_TEX), poseStack, packedLight, packedOverlay);
+                ResourceManager.nuke_little_boy.renderAll();
+                RenderStateManager.end();
             }
         };
     }

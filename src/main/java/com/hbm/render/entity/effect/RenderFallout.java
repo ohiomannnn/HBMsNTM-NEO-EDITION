@@ -2,7 +2,7 @@ package com.hbm.render.entity.effect;
 
 import com.hbm.main.NuclearTechMod;
 import com.hbm.entity.effect.FalloutRain;
-import com.hbm.render.CustomRenderTypes;
+import com.hbm.render.NtmRenderTypes;
 import com.hbm.util.old.TessColorUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -99,7 +99,7 @@ public class RenderFallout extends EntityRenderer<FalloutRain> {
         pose.pushPose();
         pose.translate(-camX, -camY, -camZ);
 
-        VertexConsumer consumer = buffers.getBuffer(CustomRenderTypes.entitySmoth(FALLOUT));
+        VertexConsumer consumer = buffers.getBuffer(NtmRenderTypes.entitySmoth(FALLOUT));
         int overlay = OverlayTexture.NO_OVERLAY;
 
         for (int layerZ = playerZ - renderLayerCount; layerZ <= playerZ + renderLayerCount; ++layerZ) {

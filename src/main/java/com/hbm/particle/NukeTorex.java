@@ -4,7 +4,7 @@ import com.hbm.main.NuclearTechMod;
 import com.hbm.HBMsNTMClient;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.particle.engine.ParticleNT;
-import com.hbm.render.CustomRenderTypes;
+import com.hbm.render.NtmRenderTypes;
 import com.hbm.util.Vec3NT;
 import com.hbm.util.old.TessColorUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -378,7 +378,7 @@ public class NukeTorex extends ParticleNT {
             float angle = (float) (func * Math.PI * 0.5D); // [0;90°]
 
             /* vector going from the ring center in the direction of the cloudlet, stopping at the perimeter */
-            /* rotate by the approximate angle */
+            /* mulPose by the approximate angle */
             Vec3 rot = new Vec3(-delta.x / dist, -delta.y / dist, -delta.z / dist).zRot(angle);
 
             /* the direction from the cloudlet to the target position on the perimeter */
@@ -424,7 +424,7 @@ public class NukeTorex extends ParticleNT {
             float angle = (float) (func * Math.PI * 0.5D); // [0;90°]
 
             /* vector going from the ring center in the direction of the cloudlet, stopping at the perimeter */
-            /* rotate by the approximate angle */
+            /* mulPose by the approximate angle */
             Vec3 rot = new Vec3(-delta.x / dist, -delta.y / dist, -delta.z / dist).zRot(angle);
 
             /* the direction from the cloudlet to the target position on the perimeter */
@@ -610,7 +610,7 @@ public class NukeTorex extends ParticleNT {
     private static final ResourceLocation FLASH = NuclearTechMod.withDefaultNamespace("textures/particle/flare.png");
 
     private void cloudletWrapper(float partialTicks, PoseStack poseStack, MultiBufferSource buffer) {
-        VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.NUKE_CLOUDS.apply(CLOUDLET));
+        VertexConsumer consumer = buffer.getBuffer(NtmRenderTypes.NUKE_CLOUDS.apply(CLOUDLET));
 
         for (Cloudlet cloudlet : cloudlets) {
             Vec3 vec = cloudlet.getInterpPos(partialTicks);
@@ -623,7 +623,7 @@ public class NukeTorex extends ParticleNT {
     }
 
     private void flashWrapper(float partialTicks, PoseStack poseStack, MultiBufferSource buffer) {
-        VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.NUKE_FLASH.apply(FLASH));
+        VertexConsumer consumer = buffer.getBuffer(NtmRenderTypes.NUKE_FLASH.apply(FLASH));
 
         double age = Math.min(this.age + partialTicks, 100);
         float alpha = (float) ((100D - age) / 100F);

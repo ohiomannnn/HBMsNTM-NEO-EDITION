@@ -1,18 +1,13 @@
 package com.hbm.render.util;
 
 import com.hbm.main.NuclearTechMod;
-import com.hbm.render.loader.HFRWavefrontObject;
-import com.hbm.render.loader.IModelCustomOld;
+import com.hbm.render.newloader.HFRWavefrontObject;
+import com.hbm.render.loader.IModelCustom;
 import com.hbm.util.Vec3NT;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
 public class HorsePronter {
-    public static final IModelCustomOld horse = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/mobs/horse.obj")).render();
+    public static final IModelCustom horse = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/mobs/horse.obj")).asVBO();
 
     public static final ResourceLocation tex_demohorse = NuclearTechMod.withDefaultNamespace("textures/models/horse/horse_demo.png");
 
@@ -89,50 +84,47 @@ public class HorsePronter {
         pose[id].zCoord = roll;
     }
 
-    public static void pront(MultiBufferSource buffer, PoseStack poseStack, int packedLight, int packedOverlay, ResourceLocation tex) {
-        poseStack.pushPose();
-        doTransforms(poseStack, id_body);
+    /** Use no-cull render type for render*/
+    public static void pront() {
+        RenderStateManager.pushPose();
+        doTransforms(id_body);
 
-        VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(tex));
-        horse.renderPart("Body", poseStack, consumer, packedLight, packedOverlay);
+        horse.renderPart("Body");
 
         if (horn) {
-            renderWithTransform(buffer, poseStack, packedLight, packedOverlay, tex, id_head, "Head", "Mane", maleSnoot ? "NoseMale" : "NoseFemale", "HornPointy");
+            renderWithTransform(id_head, "Head", "Mane", maleSnoot ? "NoseMale" : "NoseFemale", "HornPointy");
         } else {
-            renderWithTransform(buffer, poseStack, packedLight, packedOverlay, tex, id_head, "Head", "Mane", maleSnoot ? "NoseMale" : "NoseFemale");
+            renderWithTransform(id_head, "Head", "Mane", maleSnoot ? "NoseMale" : "NoseFemale");
         }
 
-        renderWithTransform(buffer, poseStack, packedLight, packedOverlay, tex, id_lfl, "LeftFrontLeg");
-        renderWithTransform(buffer, poseStack, packedLight, packedOverlay, tex, id_rfl, "RightFrontLeg");
-        renderWithTransform(buffer, poseStack, packedLight, packedOverlay, tex, id_lbl, "LeftBackLeg");
-        renderWithTransform(buffer, poseStack, packedLight, packedOverlay, tex, id_rbl, "RightBackLeg");
-        renderWithTransform(buffer, poseStack, packedLight, packedOverlay, tex, id_tail,"Tail");
+        renderWithTransform(id_lfl, "LeftFrontLeg");
+        renderWithTransform(id_rfl, "RightFrontLeg");
+        renderWithTransform(id_lbl, "LeftBackLeg");
+        renderWithTransform(id_rbl, "RightBackLeg");
+        renderWithTransform(id_tail,"Tail");
 
         if (wings) {
-            horse.renderPart("LeftWing", poseStack, consumer, packedLight, packedOverlay);
-            horse.renderPart("RightWing", poseStack, consumer, packedLight, packedOverlay);
+            horse.renderPart("LeftWing");
+            horse.renderPart("RightWing");
         }
 
-        poseStack.popPose();
+        RenderStateManager.popPose();
     }
 
-    private static void doTransforms(PoseStack poseStack, int id) {
+    private static void doTransforms(int id) {
         Vec3NT rotation = pose[id];
         Vec3NT offset = offsets[id];
-        poseStack.translate(offset.xCoord, offset.yCoord, offset.zCoord);
-        poseStack.mulPose(Axis.YP.rotationDegrees((float) rotation.xCoord));
-        poseStack.mulPose(Axis.XP.rotationDegrees((float) rotation.yCoord));
-        poseStack.mulPose(Axis.ZP.rotationDegrees((float) rotation.zCoord));
-        poseStack.translate(-offset.xCoord, -offset.yCoord, -offset.zCoord);
+        RenderStateManager.translate(offset.xCoord, offset.yCoord, offset.zCoord);
+        RenderStateManager.rotateY((float) rotation.xCoord);
+        RenderStateManager.rotateX((float) rotation.yCoord);
+        RenderStateManager.rotateZ((float) rotation.zCoord);
+        RenderStateManager.translate(-offset.xCoord, -offset.yCoord, -offset.zCoord);
     }
 
-    private static void renderWithTransform(MultiBufferSource buffer, PoseStack poseStack, int packedLight, int packedOverlay, ResourceLocation tex, int id, String... parts) {
-        poseStack.pushPose();
-        doTransforms(poseStack, id);
-        for (String part : parts) {
-            VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(tex));
-            horse.renderPart(part, poseStack, consumer, packedLight, packedOverlay);
-        }
-        poseStack.popPose();
+    private static void renderWithTransform(int id, String... parts) {
+        RenderStateManager.pushPose();
+        doTransforms(id);
+        for (String part : parts) horse.renderPart(part);
+        RenderStateManager.popPose();
     }
 }

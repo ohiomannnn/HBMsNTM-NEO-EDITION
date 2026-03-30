@@ -54,7 +54,7 @@ public interface INBTBlockTransformable {
 
     static Direction rotateDirection(Direction direction, Rotation rotation) {
         if (direction.getAxis() == Direction.Axis.Y) {
-            return direction; // Don't rotate UP/DOWN
+            return direction; // Don't mulPose UP/DOWN
         }
         return rotation.rotate(direction);
     }

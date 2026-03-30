@@ -1,7 +1,7 @@
 package com.hbm.render.util;
 
 import com.hbm.main.NuclearTechMod;
-import com.hbm.render.CustomRenderTypes;
+import com.hbm.render.NtmRenderTypes;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -17,7 +17,7 @@ public class DiamondPronter {
 
         poseStack.pushPose();
 
-        VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.entitySmoth(TEXTURE));
+        VertexConsumer consumer = buffer.getBuffer(NtmRenderTypes.entitySmoth(TEXTURE));
 
         float p = 1F/256F;
         float s = 1F/139F;

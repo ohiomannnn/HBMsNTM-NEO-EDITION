@@ -1,18 +1,19 @@
-package com.hbm.render.loader;
+package com.hbm.render.newloader;
 
+import com.hbm.render.loader.IModelCustomNamed;
+import com.hbm.render.newloader.old.TextureCoordinate;
+import com.hbm.render.newloader.old.Vertex;
 import com.hbm.render.util.NtmShaders.NtmVertexFormat;
-import com.hbm.render.util.RenderContext;
+import com.hbm.render.util.RenderStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
 import org.joml.Matrix4f;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * YES FINALLY
- */
 public class HFRWavefrontObjectVBO implements IModelCustomNamed {
 
     private static class GroupVBO {
@@ -26,7 +27,6 @@ public class HFRWavefrontObjectVBO implements IModelCustomNamed {
     }
 
     private final List<GroupVBO> groups = new ArrayList<>();
-    private final Map<String, GroupVBO> groupMap = new HashMap<>();
 
     public HFRWavefrontObjectVBO(HFRWavefrontObject obj) {
         for (S_GroupObject g : obj.groupObjects) {
@@ -34,39 +34,25 @@ public class HFRWavefrontObjectVBO implements IModelCustomNamed {
 
             GroupVBO cachedGroup = new GroupVBO(g.name, buffer);
             groups.add(cachedGroup);
-            groupMap.put(g.name.toLowerCase(), cachedGroup);
         }
     }
 
     private VertexBuffer buildGroupBuffer(S_GroupObject g) {
         Tesselator tess = Tesselator.getInstance();
-        BufferBuilder builder = tess.begin(VertexFormat.Mode.QUADS, NtmVertexFormat.POSITION_TEX_NORMAL);
+        BufferBuilder builder = tess.begin(VertexFormat.Mode.TRIANGLES, NtmVertexFormat.POSITION_TEX_NORMAL);
 
-        for (S_Face face : g.faces) {
-            if (face.vertices == null) continue;
+        for(S_Face face : g.faces) {
+            for(int i = 0; i < face.vertices.length; i++) {
+                Vertex vert = face.vertices[i];
+                TextureCoordinate tex = new TextureCoordinate(0, 0);
+                Vertex normal = face.vertexNormals[i];
 
-            Vertex faceNormal = face.faceNormal != null ? face.faceNormal : new Vertex(0, 1, 0);
-            int vertexCount = face.vertices.length;
-
-            int[] indices = vertexCount == 3 ? new int[]{0, 1, 2, 2} : new int[]{0, 1, 2, 3};
-
-            for (int idx : indices) {
-                int i = Math.min(idx, vertexCount - 1);
-                Vertex v = face.vertices[i];
-
-                float u = 0, vCoord = 0;
-                if (face.textureCoordinates != null && i < face.textureCoordinates.length) {
-                    u = face.textureCoordinates[i].u;
-                    vCoord = face.textureCoordinates[i].v;
+                if(face.textureCoordinates != null && face.textureCoordinates.length > 0) {
+                    tex = face.textureCoordinates[i];
                 }
 
-                Vertex normal = faceNormal;
-                if (face.vertexNormals != null && i < face.vertexNormals.length) {
-                    normal = face.vertexNormals[i];
-                }
-
-                builder.addVertex(v.x, v.y, v.z)
-                        .setUv(u, vCoord)
+                builder.addVertex(vert.x, vert.y, vert.z)
+                        .setUv(tex.u, tex.v)
                         .setNormal(normal.x, normal.y, normal.z);
             }
         }
@@ -80,17 +66,28 @@ public class HFRWavefrontObjectVBO implements IModelCustomNamed {
         return buffer;
     }
 
+    // truth be told, i have no fucking idea what i'm doing
+    // i know the VBO sends data to the GPU to be saved there directly which is where the optimization comes from in the first place
+    // so logically, if we want to get rid of this, we need to blow the data up
+    // documentation on GL15 functions seems nonexistant so fuck it we ball i guess
+    public void destroy() {
+        for(GroupVBO data : groups) {
+            data.vertexBuffer.close();
+        }
+        groups.clear();
+    }
+
     private void renderGroup(GroupVBO groupVBO) {
 
-        RenderType type = RenderContext.renderType();
-        PoseStack poseStack = RenderContext.poseStack();
+        RenderType type = RenderStateManager.renderType();
+        PoseStack poseStack = RenderStateManager.poseStack();
 
-        int packedLight = RenderContext.light();
-        int packedOverlay = RenderContext.overlay();
-        float r = RenderContext.r();
-        float g = RenderContext.g();
-        float b = RenderContext.b();
-        float a = RenderContext.a();
+        int packedLight = RenderStateManager.light();
+        int packedOverlay = RenderStateManager.overlay();
+        float r = RenderStateManager.r();
+        float g = RenderStateManager.g();
+        float b = RenderStateManager.b();
+        float a = RenderStateManager.a();
 
         type.setupRenderState();
         ShaderInstance shader = RenderSystem.getShader();
@@ -114,27 +111,26 @@ public class HFRWavefrontObjectVBO implements IModelCustomNamed {
 
     @Override
     public void renderAll() {
-        for (GroupVBO group : groups) {
-            renderGroup(group);
-        }
-    }
-
-    public void renderPart(String partName) {
-        GroupVBO group = groupMap.get(partName.toLowerCase());
-        if (group != null) {
+        for(GroupVBO group : groups) {
             renderGroup(group);
         }
     }
 
     @Override
     public void renderOnly(String... groupNames) {
-        Set<String> names = new HashSet<>();
-        for (String name : groupNames) {
-            names.add(name.toLowerCase());
+        for(GroupVBO group : groups) {
+            for(String name : groupNames) {
+                if(group.name.equalsIgnoreCase(name)) {
+                    renderGroup(group);
+                }
+            }
         }
+    }
 
-        for (GroupVBO group : groups) {
-            if (names.contains(group.name.toLowerCase())) {
+    @Override
+    public void renderPart(String partName) {
+        for(GroupVBO group : groups) {
+            if(group.name.equalsIgnoreCase(partName)) {
                 renderGroup(group);
             }
         }
@@ -142,13 +138,15 @@ public class HFRWavefrontObjectVBO implements IModelCustomNamed {
 
     @Override
     public void renderAllExcept(String... excludedGroupNames) {
-        Set<String> excluded = new HashSet<>();
-        for (String name : excludedGroupNames) {
-            excluded.add(name.toLowerCase());
-        }
-
-        for (GroupVBO group : groups) {
-            if (!excluded.contains(group.name.toLowerCase())) {
+        for(GroupVBO group : groups) {
+            boolean skip = false;
+            for(String name : excludedGroupNames) {
+                if(group.name.equalsIgnoreCase(name)) {
+                    skip = true;
+                    break;
+                }
+            }
+            if(!skip) {
                 renderGroup(group);
             }
         }

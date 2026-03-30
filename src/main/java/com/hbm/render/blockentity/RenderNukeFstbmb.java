@@ -3,16 +3,17 @@ package com.hbm.render.blockentity;
 import com.hbm.blockentity.bomb.NukeBalefireBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.CustomRenderTypes;
+import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
+import com.hbm.render.util.RenderStateManager;
 import com.hbm.render.util.RenderMiscEffects;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;
@@ -40,12 +41,13 @@ public class RenderNukeFstbmb extends BlockEntityRendererNT<NukeBalefireBlockEnt
         poseStack.translate(0.5, 0.0, 0.5);
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
 
-        VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC_NC.apply(ResourceManager.NUKE_FSTBMB_TEX));
-        ResourceManager.nuke_fstbmb.renderPart("Body", poseStack, consumer, packedLight, packedOverlay);
-        ResourceManager.nuke_fstbmb.renderPart("Balefire", poseStack, consumer, packedLight, packedOverlay);
+        RenderStateManager.setupR(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_FSTBMB_TEX), poseStack, packedLight, packedOverlay);
+        ResourceManager.nuke_fstbmb.renderPart("Body");
+        ResourceManager.nuke_fstbmb.renderPart("Balefire");
 
         if (be.hasEgg()) {
-            RenderMiscEffects.renderClassicGlint(buffer, poseStack, packedLight, packedOverlay, partialTicks, RenderMiscEffects.GLINT_BF, ResourceManager.nuke_fstbmb, "Balefire", 0.0F, 0.8F, 0.15F, 5, 2F);
+            RenderStateManager.setRenderType(NtmRenderTypes.FVBO_ADDITIVE.apply(RenderMiscEffects.GLINT_BF));
+            RenderMiscEffects.renderClassicGlint(partialTicks, ResourceManager.nuke_fstbmb, "Balefire", 0.0F, 0.8F, 0.15F, 5, 2F);
         }
 
         if (be.hasBattery()) {
@@ -56,9 +58,10 @@ public class RenderNukeFstbmb extends BlockEntityRendererNT<NukeBalefireBlockEnt
             poseStack.mulPose(Axis.YP.rotationDegrees(90F));
             poseStack.translate(0F, 1F, 0F);
             Matrix4f matrix = poseStack.last().pose();
-            font.drawInBatch(be.getMinutes() + ":" + be.getSeconds(), 0, 0, 0xff0000, false, matrix, buffer, Font.DisplayMode.SEE_THROUGH, 0, packedLight);
+            font.drawInBatch(be.getMinutes() + ":" + be.getSeconds(), 0, 0, 0xff0000, false, matrix, buffer, Font.DisplayMode.NORMAL, 0, packedLight);
         }
 
+        RenderStateManager.end();
         poseStack.popPose();
     }
 
@@ -79,9 +82,12 @@ public class RenderNukeFstbmb extends BlockEntityRendererNT<NukeBalefireBlockEnt
             public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
                 poseStack.translate(1F, 0F, 0F);
                 poseStack.mulPose(Axis.YP.rotationDegrees(90F));
-                VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC.apply(ResourceManager.NUKE_FSTBMB_TEX));
-                ResourceManager.nuke_fstbmb.renderPart("Body", poseStack, consumer, packedLight, packedOverlay);
-                ResourceManager.nuke_fstbmb.renderPart("Balefire", poseStack, consumer, packedLight, packedOverlay);
+                RenderType type = NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_FSTBMB_TEX);
+
+                RenderStateManager.setupR(type, poseStack, packedLight, packedOverlay);
+                ResourceManager.nuke_fstbmb.renderPart("Body");
+                ResourceManager.nuke_fstbmb.renderPart("Balefire");
+                RenderStateManager.end();
             }
         };
     }

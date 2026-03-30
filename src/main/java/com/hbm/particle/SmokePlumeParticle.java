@@ -3,7 +3,7 @@ package com.hbm.particle;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.blocks.bomb.LaunchPadBlock;
 import com.hbm.particle.engine.ParticleNT;
-import com.hbm.render.CustomRenderTypes;
+import com.hbm.render.NtmRenderTypes;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -103,6 +103,6 @@ public class SmokePlumeParticle extends ParticleNT {
 
     @Override
     public RenderType getRenderType() {
-        return CustomRenderTypes.SMOTH_NO_DEPTH.apply(TEXTURE);
+        return NtmRenderTypes.SMOTH_NO_DEPTH.apply(TEXTURE);
     }
 }

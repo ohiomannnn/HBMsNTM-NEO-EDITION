@@ -4,7 +4,7 @@ import com.hbm.blockentity.bomb.LaunchPadBlockEntity;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.CustomRenderTypes;
+import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.item.ItemRenderMissileGeneric;
 import com.hbm.render.item.RenderStarter;
@@ -41,7 +41,7 @@ public class RenderLaunchPad extends BlockEntityRendererNT<LaunchPadBlockEntity>
         poseStack.translate(0.5, 0.0, 0.5);
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
 
-        VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC.apply(ResourceManager.MISSILE_PAD_TEX));
+        VertexConsumer consumer = buffer.getBuffer(NtmRenderTypes.EC_NC.apply(ResourceManager.MISSILE_PAD_TEX));
         ResourceManager.missile_pad.renderAll(poseStack, consumer, packedLight, packedOverlay);
 
         ItemStack toRender = be.toRender;

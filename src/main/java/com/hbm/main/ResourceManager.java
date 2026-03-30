@@ -1,8 +1,9 @@
 package com.hbm.main;
 
 import com.hbm.render.loader.HFRWavefrontObject;
-import com.hbm.render.loader.IModelCustomOld;
 import com.hbm.render.loader.IModelCustom;
+import com.hbm.render.loader.IModelCustomOld;
+import com.hbm.render.newloader.old.ModelFormatException;
 import net.minecraft.resources.ResourceLocation;
 
 public class ResourceManager {
@@ -117,26 +118,26 @@ public class ResourceManager {
 
     public static final ResourceLocation DETONATOR_LASER_TEX = NuclearTechMod.withDefaultNamespace("textures/models/weapon/detonator_laser.png");
 
-    public static IModelCustomOld mine_ap;
-    public static IModelCustomOld mine_he;
-    public static IModelCustomOld mine_naval;
-    public static IModelCustomOld mine_fat;
+    public static IModelCustom mine_ap;
+    public static IModelCustom mine_he;
+    public static IModelCustom mine_naval;
+    public static IModelCustom mine_fat;
 
-    public static IModelCustomOld nuke_gadget;
-    public static IModelCustomOld nuke_little_boy;
+    public static IModelCustom nuke_gadget;
+    public static IModelCustom nuke_little_boy;
     public static IModelCustom nuke_fat_man;
-    public static IModelCustomOld nuke_ivy_mike;
-    public static IModelCustomOld nuke_tsar;
+    public static IModelCustom nuke_ivy_mike;
+    public static IModelCustom nuke_tsar;
     public static IModelCustomOld nuke_fleija;
     public static IModelCustomOld nuke_n2;
-    public static IModelCustomOld nuke_fstbmb;
+    public static IModelCustom nuke_fstbmb;
 
-    public static IModelCustomOld dud_balefire;
-    public static IModelCustomOld dud_conventional;
-    public static IModelCustomOld dud_nuke;
-    public static IModelCustomOld dud_salted;
+    public static IModelCustom dud_balefire;
+    public static IModelCustom dud_conventional;
+    public static IModelCustom dud_nuke;
+    public static IModelCustom dud_salted;
 
-    public static IModelCustomOld armor_no9;
+    public static IModelCustom armor_no9;
 
     public static IModelCustomOld cable_neo;
     public static IModelCustomOld pipe_neo;
@@ -147,7 +148,7 @@ public class ResourceManager {
 
     public static IModelCustomOld geiger;
 
-    public static IModelCustomOld battery_socket;
+    public static IModelCustom battery_socket;
     public static IModelCustom battery_redd;
 
     //Bomber
@@ -176,27 +177,27 @@ public class ResourceManager {
 
     public static IModelCustomOld sphere;
 
-    public static void init() {
-        mine_ap = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/mine_ap.obj")).render();
-        mine_he = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/mine_he.obj")).render();
-        mine_naval = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/mine_naval.obj")).render();
-        mine_fat = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/mine_fat.obj")).render();
+    public static void init() throws ModelFormatException {
+        mine_ap = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/mine_ap.obj")).asVBO();
+        mine_he = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/mine_he.obj")).asVBO();
+        mine_naval = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/mine_naval.obj")).asVBO();
+        mine_fat = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/mine_fat.obj")).asVBO();
 
-        nuke_gadget = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/nuke_gadget.obj")).render();
-        nuke_little_boy = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/nuke_little_boy.obj")).render();
-        nuke_fat_man = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/nuke_fatman.obj")).asVBO();
-        nuke_ivy_mike = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/nuke_ivy_mike.obj")).render();
-        nuke_tsar = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/nuke_tsar.obj")).render();
+        nuke_gadget = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/nuke_gadget.obj")).asVBO();
+        nuke_little_boy = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/nuke_little_boy.obj")).asVBO();
+        nuke_fat_man = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/nuke_fatman.obj")).asVBO();
+        nuke_ivy_mike = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/nuke_ivy_mike.obj")).asVBO();
+        nuke_tsar = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/nuke_tsar.obj")).asVBO();
         nuke_fleija = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/nuke_fleija.obj")).render();
         nuke_n2 = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/nuke_n2.obj")).render();
-        nuke_fstbmb = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/nuke_fstbmb.obj")).render();
+        nuke_fstbmb = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/nuke_fstbmb.obj")).asVBO();
 
-        dud_balefire = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/dud_balefire.obj")).render();
-        dud_conventional = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/dud_conventional.obj")).render();
-        dud_nuke = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/dud_nuke.obj")).render();
-        dud_salted = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/dud_salted.obj")).render();
+        dud_balefire = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/dud_balefire.obj")).asVBO();
+        dud_conventional = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/dud_conventional.obj")).asVBO();
+        dud_nuke = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/dud_nuke.obj")).asVBO();
+        dud_salted = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/dud_salted.obj")).asVBO();
 
-        armor_no9 = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/armor/no9.obj")).render();
+        armor_no9 = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/armor/no9.obj")).asVBO();
 
         cable_neo = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/block/cable_neo.obj")).render();
         pipe_neo = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/block/pipe_neo.obj")).render();
@@ -207,8 +208,8 @@ public class ResourceManager {
 
         geiger = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/block/geiger.obj")).render();
 
-        battery_socket = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/machines/battery.obj")).render();
-        battery_redd = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/machines/fensu2.obj")).asVBO();
+        battery_socket = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/machines/battery.obj")).asVBO();
+        battery_redd = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/machines/fensu2.obj")).asVBO();
 
         dornier = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/dornier.obj")).render();
         b29 = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/b29.obj")).render();
@@ -233,12 +234,12 @@ public class ResourceManager {
 
         sphere = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/sphere.obj")).render();
 
-        yomiModel = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/trinkets/yomi.obj")).render();
-        hundunModel = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/trinkets/hundun.obj")).render();
-        dergModel = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/trinkets/derg.obj")).render();
+        yomiModel = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/trinkets/yomi.obj")).asVBO();
+        hundunModel = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/trinkets/hundun.obj")).asVBO();
+        dergModel = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/trinkets/derg.obj")).asVBO();
     }
 
-    public static IModelCustomOld yomiModel;
-    public static IModelCustomOld hundunModel;
-    public static IModelCustomOld dergModel;
+    public static IModelCustom yomiModel;
+    public static IModelCustom hundunModel;
+    public static IModelCustom dergModel;
 }

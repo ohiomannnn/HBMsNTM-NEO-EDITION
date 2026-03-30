@@ -1,10 +1,10 @@
 package com.hbm.render.util;
 
-import com.hbm.render.CustomRenderTypes;
+import com.hbm.render.NtmRenderTypes;
 import com.hbm.util.Vec3NT;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.util.FastColor.ARGB32;
@@ -25,27 +25,29 @@ public class BeamPronter {
         LINE
     }
 
-    public static void prontBeam(PoseStack poseStack, MultiBufferSource buffer, Vec3NT skeleton, WaveType wave, BeamType beam, int outerColor, int innerColor, int start, int segments, float size, int layers, float thickness) {
+    public static void prontBeam(Vec3NT skeleton, WaveType wave, BeamType beam, int outerColor, int innerColor, int start, int segments, float size, int layers, float thickness) {
 
-        poseStack.pushPose();
+        RenderStateManager.pushPose();
 
         float sYRot = (float) (Math.atan2(skeleton.xCoord, skeleton.zCoord) * 180F / Math.PI);
         float sqrt = (float) Math.sqrt(skeleton.xCoord * skeleton.xCoord + skeleton.zCoord * skeleton.zCoord);
         float sXRot = (float) (Math.atan2(skeleton.yCoord, sqrt) * 180F / Math.PI);
 
-        poseStack.mulPose(Axis.YP.rotationDegrees(180F));
-        poseStack.mulPose(Axis.YP.rotationDegrees(sYRot));
-        poseStack.mulPose(Axis.XP.rotationDegrees(sXRot - 90));
+        RenderStateManager.mulPose(Axis.YP.rotationDegrees(180F));
+        RenderStateManager.mulPose(Axis.YP.rotationDegrees(sYRot));
+        RenderStateManager.mulPose(Axis.XP.rotationDegrees(sXRot - 90));
+
+        MultiBufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
 
         VertexConsumer consumer;
         if (beam == BeamType.SOLID) {
-            consumer = buffer.getBuffer(CustomRenderTypes.GLOW);
+            consumer = buffer.getBuffer(NtmRenderTypes.GLOW);
         } else {
             consumer = buffer.getBuffer(RenderType.lines());
         }
 
-        poseStack.pushPose();
-        Matrix4f matrix = poseStack.last().pose();
+        RenderStateManager.pushPose();
+        Matrix4f matrix = RenderStateManager.poseStack().last().pose();
 
         Vec3NT unit = new Vec3NT(0, 1, 0);
         rand.setSeed(start);
@@ -129,8 +131,8 @@ public class BeamPronter {
             consumer.addVertex(matrix, 0, (float) skeleton.length(), 0).setColor(innerColor).setNormal(0, 1, 0);
         }
 
-        poseStack.popPose();
+        RenderStateManager.popPose();
 
-        poseStack.popPose();
+        RenderStateManager.popPose();
     }
 }

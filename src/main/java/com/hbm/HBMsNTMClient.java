@@ -45,6 +45,7 @@ import com.hbm.render.item.ItemRenderMissileGeneric;
 import com.hbm.render.item.ItemRenderMissileGeneric.RenderMissileType;
 import com.hbm.render.item.RenderBatteryPackItem;
 import com.hbm.render.item.RenderLaserDetonator;
+import com.hbm.render.newloader.old.ModelFormatException;
 import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.util.ArmorRegistry;
@@ -142,7 +143,11 @@ public class HBMsNTMClient {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
-            ResourceManager.init();
+            try {
+                ResourceManager.init();
+            } catch (ModelFormatException e) {
+                throw new RuntimeException(e);
+            }
             ItemRenderMissileGeneric.init();
         });
     }

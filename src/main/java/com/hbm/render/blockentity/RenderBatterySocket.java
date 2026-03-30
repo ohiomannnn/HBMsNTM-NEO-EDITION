@@ -1,23 +1,24 @@
 package com.hbm.render.blockentity;
 
-import com.hbm.main.NuclearTechMod;
 import com.hbm.blockentity.machine.storage.BatterySocketBlockEntity;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.BatteryPackItem;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.CustomRenderTypes;
+import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.util.BeamPronter;
 import com.hbm.render.util.BeamPronter.BeamType;
 import com.hbm.render.util.BeamPronter.WaveType;
 import com.hbm.render.util.HorsePronter;
+import com.hbm.render.util.RenderStateManager;
 import com.hbm.util.Vec3NT;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.core.Direction;
@@ -45,28 +46,29 @@ public class RenderBatterySocket extends BlockEntityRendererNT<BatterySocketBloc
             default -> 180f;
         };
 
-        poseStack.pushPose();
-        poseStack.translate(0.5, 0, 0.5);
-        poseStack.mulPose(Axis.YP.rotationDegrees(rot));
-        poseStack.translate(0.5, 0, -0.5);
+        int tPackedLight = LevelRenderer.getLightColor(be.getLevel(), be.getBlockPos().above(1));
 
-        VertexConsumer consumerSocket = buffer.getBuffer(CustomRenderTypes.EC_NC_NC.apply(ResourceManager.BATTERY_SOCKET_TEX));
-        ResourceManager.battery_socket.renderPart("Socket", poseStack, consumerSocket, packedLight, packedOverlay);
+        RenderStateManager.setupR(NtmRenderTypes.FVBO.apply(ResourceManager.BATTERY_SOCKET_TEX), poseStack, tPackedLight, packedOverlay);
+        RenderStateManager.translate(0.5, 0, 0.5);
+        RenderStateManager.mulPose(Axis.YP.rotationDegrees(rot));
+        RenderStateManager.translate(0.5, 0, -0.5);
+
+        ResourceManager.battery_socket.renderPart("Socket");
 
         ItemStack render = be.syncStack;
         if (!render.isEmpty()) {
             if (render.getItem() instanceof BatteryPackItem packItem) {
-                VertexConsumer consumerPack = buffer.getBuffer(CustomRenderTypes.EC_NC_NC.apply(packItem.getPack().texture));
-                ResourceManager.battery_socket.renderPart(packItem.getPack().isCapacitor() ? "Capacitor" : "Battery", poseStack, consumerPack, packedLight, packedOverlay);
+                RenderStateManager.setRenderType(NtmRenderTypes.FVBO.apply(packItem.getPack().texture));
+                ResourceManager.battery_socket.renderPart(packItem.getPack().isCapacitor() ? "Capacitor" : "Battery");
             } else if (render.is(ModItems.BATTERY_CREATIVE)) {
-                poseStack.pushPose();
-                poseStack.scale(0.75F, 0.75F, 0.75F);
-                poseStack.mulPose(Axis.YN.rotationDegrees((be.getLevel().getGameTime() % 360 + partialTicks) * 25F));
+                RenderStateManager.setupR(NtmRenderTypes.FVBO_NC.apply(blorbo), poseStack, packedLight, packedOverlay);
+                RenderStateManager.scale(0.75F, 0.75F, 0.75F);
+                RenderStateManager.mulPose(Axis.YN.rotationDegrees((be.getLevel().getGameTime() % 360 + partialTicks) * 25F));
 
                 HorsePronter.reset();
                 HorsePronter.enableHorn();
-                HorsePronter.pront(buffer, poseStack, packedLight, packedOverlay, blorbo);
-                poseStack.popPose();
+                HorsePronter.pront();
+                RenderStateManager.end();
 
                 Random rand = new Random(be.getLevel().getGameTime() / 5);
                 rand.nextBoolean();
@@ -74,18 +76,18 @@ public class RenderBatterySocket extends BlockEntityRendererNT<BatterySocketBloc
                 for (int i = -1; i <= 1; i += 2) {
                     for (int j = -1; j <= 1; j += 2) {
                         if (rand.nextInt(4) == 0) {
-                            poseStack.pushPose();
-                            poseStack.translate(0, 0.75, 0);
-                            BeamPronter.prontBeam(poseStack, buffer, new Vec3NT(0.4375 * i, 1.1875, 0.4375 * j), WaveType.RANDOM, BeamType.SOLID, 0x404040, 0x002040, (int) (System.currentTimeMillis() % 1000) / 50, 15, 0.0625F, 3, 0.025F);
-                            BeamPronter.prontBeam(poseStack, buffer, new Vec3NT(0.4375 * i, 1.1875, 0.4375 * j), WaveType.RANDOM, BeamType.SOLID, 0x404040, 0x002040, (int) (System.currentTimeMillis() % 1000) / 50, 1, 0, 3, 0.025F);
-                            poseStack.popPose();
+                            RenderStateManager.pushPose();
+                            RenderStateManager.translate(0, 0.75, 0);
+                            BeamPronter.prontBeam(new Vec3NT(0.4375 * i, 1.1875, 0.4375 * j), WaveType.RANDOM, BeamType.SOLID, 0x404040, 0x002040, (int) (System.currentTimeMillis() % 1000) / 50, 15, 0.0625F, 3, 0.025F);
+                            BeamPronter.prontBeam(new Vec3NT(0.4375 * i, 1.1875, 0.4375 * j), WaveType.RANDOM, BeamType.SOLID, 0x404040, 0x002040, (int) (System.currentTimeMillis() % 1000) / 50, 1, 0, 3, 0.025F);
+                            RenderStateManager.popPose();
                         }
                     }
                 }
             }
         }
 
-        poseStack.popPose();
+        RenderStateManager.end();
     }
 
     private AABB bb = null;
@@ -127,8 +129,9 @@ public class RenderBatterySocket extends BlockEntityRendererNT<BatterySocketBloc
 
             @Override
             public void renderCommon(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC.apply(ResourceManager.BATTERY_SOCKET_TEX));
-                ResourceManager.battery_socket.renderPart("Socket", poseStack, consumer, packedLight, packedOverlay);
+                RenderStateManager.setupR(NtmRenderTypes.FVBO.apply(ResourceManager.BATTERY_SOCKET_TEX), poseStack, packedLight, packedOverlay);
+                ResourceManager.battery_socket.renderPart("Socket");
+                RenderStateManager.end();
             }
         };
     }

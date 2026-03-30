@@ -3,10 +3,10 @@ package com.hbm.render.blockentity;
 import com.hbm.blockentity.bomb.NukeTsarBombaBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.CustomRenderTypes;
+import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
+import com.hbm.render.util.RenderStateManager;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -32,14 +32,13 @@ public class RenderNukeTsarBomba extends BlockEntityRendererNT<NukeTsarBombaBloc
             case NORTH -> 0F;
         };
 
-        poseStack.pushPose();
-        poseStack.translate(0.5, 0.0, 0.5);
-        poseStack.mulPose(Axis.YP.rotationDegrees(rot));
+        RenderStateManager.setupR(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_TSAR_TEX), poseStack, packedLight, packedOverlay);
+        RenderStateManager.translate(0.5, 0.0, 0.5);
+        RenderStateManager.mulPose(Axis.YP.rotationDegrees(rot));
 
-        VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC_NC.apply(ResourceManager.NUKE_TSAR_TEX));
-        ResourceManager.nuke_tsar.renderAll(poseStack, consumer, packedLight, packedOverlay);
+        ResourceManager.nuke_tsar.renderAll();
 
-        poseStack.popPose();
+        RenderStateManager.end();
     }
 
     @Override
@@ -58,8 +57,9 @@ public class RenderNukeTsarBomba extends BlockEntityRendererNT<NukeTsarBombaBloc
             @Override
             public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
                 poseStack.translate(1.5F, 0F, 0F);
-                VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC_NC.apply(ResourceManager.NUKE_TSAR_TEX));
-                ResourceManager.nuke_tsar.renderAll(poseStack, consumer, packedLight, packedOverlay);
+                RenderStateManager.setupR(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_TSAR_TEX), poseStack, packedLight, packedOverlay);
+                ResourceManager.nuke_tsar.renderAll();
+                RenderStateManager.end();
             }
         };
     }

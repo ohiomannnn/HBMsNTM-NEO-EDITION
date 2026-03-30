@@ -1,7 +1,7 @@
 package com.hbm.render.item;
 
 import com.hbm.main.ResourceManager;
-import com.hbm.render.CustomRenderTypes;
+import com.hbm.render.NtmRenderTypes;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -67,7 +67,7 @@ public class RenderLaserDetonator extends BlockEntityWithoutLevelRenderer {
         VertexConsumer mainConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.DETONATOR_LASER_TEX));
         ResourceManager.detonator_laser.renderPart("Main", poseStack, mainConsumer, packedLight, packedOverlay);
 
-        VertexConsumer lightsConsumer = buffer.getBuffer(CustomRenderTypes.SMOTH_NO_LIGHT.apply(ResourceManager.DETONATOR_LASER_TEX));
+        VertexConsumer lightsConsumer = buffer.getBuffer(NtmRenderTypes.SMOTH_NO_LIGHT.apply(ResourceManager.DETONATOR_LASER_TEX));
         ResourceManager.detonator_laser.renderPart("Lights", poseStack, lightsConsumer, 240, packedOverlay, 1F, 0F, 0F, 1F);
 
         poseStack.pushPose();
@@ -75,7 +75,7 @@ public class RenderLaserDetonator extends BlockEntityWithoutLevelRenderer {
         float px = 0.0625F;
         poseStack.translate(0.5626F, px * 18, -px * 14);
 
-        VertexConsumer sinConsumer = buffer.getBuffer(CustomRenderTypes.GLOW);
+        VertexConsumer sinConsumer = buffer.getBuffer(NtmRenderTypes.GLOW);
 
         int sub = 32;
         double width = px * 8;

@@ -4,10 +4,10 @@ import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.CrashedBombBlock.DudType;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.CustomRenderTypes;
+import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
+import com.hbm.render.util.RenderStateManager;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -22,9 +22,10 @@ public class RenderCrashedBomb extends BlockEntityRendererNT<CrashedBombBlockEnt
 
     @Override
     public void render(CrashedBombBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-        poseStack.pushPose();
 
-        poseStack.translate(0.5, 0.0, 0.5);
+        RenderStateManager.setupR(null, poseStack, packedLight, packedOverlay);
+
+        RenderStateManager.translate(0.5, 0.0, 0.5);
 
         RandomSource rand = RandomSource.create(be.getBlockPos().asLong());
 
@@ -33,34 +34,34 @@ public class RenderCrashedBomb extends BlockEntityRendererNT<CrashedBombBlockEnt
         float roll = rand.nextFloat() * 360f;
         float offset = rand.nextFloat() * 2f - 1f;
 
-        poseStack.mulPose(Axis.YP.rotationDegrees(yaw));
-        poseStack.mulPose(Axis.XP.rotationDegrees(pitch));
-        poseStack.mulPose(Axis.ZP.rotationDegrees(roll));
+        RenderStateManager.mulPose(Axis.YP.rotationDegrees(yaw));
+        RenderStateManager.mulPose(Axis.XP.rotationDegrees(pitch));
+        RenderStateManager.mulPose(Axis.ZP.rotationDegrees(roll));
 
-        poseStack.translate(0.0, 0.0, -offset);
+        RenderStateManager.translate(0.0, 0.0, -offset);
 
         DudType type = be.type;
 
         if (type == DudType.BALEFIRE) {
-            VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC.apply(ResourceManager.DUD_BALEFIRE_TEX));
-            ResourceManager.dud_balefire.renderAll(poseStack, consumer, packedLight, packedOverlay);
+            RenderStateManager.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.DUD_BALEFIRE_TEX));
+            ResourceManager.dud_balefire.renderAll();
         }
         if (type == DudType.CONVENTIONAL) {
-            VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC.apply(ResourceManager.DUD_CONVENTIONAL_TEX));
-            ResourceManager.dud_conventional.renderAll(poseStack, consumer, packedLight, packedOverlay);
+            RenderStateManager.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.DUD_CONVENTIONAL_TEX));
+            ResourceManager.dud_conventional.renderAll();
         }
         if (type == DudType.NUKE) {
-            poseStack.translate(0, 0, 1.25);
-            VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC.apply(ResourceManager.DUD_NUKE_TEX));
-            ResourceManager.dud_nuke.renderAll(poseStack, consumer, packedLight, packedOverlay);
+            RenderStateManager.translate(0, 0, 1.25);
+            RenderStateManager.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.DUD_NUKE_TEX));
+            ResourceManager.dud_nuke.renderAll();
         }
         if (type == DudType.SALTED) {
-            poseStack.translate(0, 0, 0.5);
-            VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC.apply(ResourceManager.DUD_SALTED_TEX));
-            ResourceManager.dud_salted.renderAll(poseStack, consumer, packedLight, packedOverlay);
+            RenderStateManager.translate(0, 0, 0.5);
+            RenderStateManager.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.DUD_SALTED_TEX));
+            ResourceManager.dud_salted.renderAll();
         }
 
-        poseStack.popPose();
+        RenderStateManager.end();
     }
 
     @Override
@@ -86,25 +87,27 @@ public class RenderCrashedBomb extends BlockEntityRendererNT<CrashedBombBlockEnt
             @Override
             public void renderCommon(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
                 poseStack.mulPose(Axis.YP.rotationDegrees(90F));
+                RenderStateManager.setupR(null, poseStack, packedLight, packedOverlay);
                 if (stack.is(ModBlocks.CRASHED_BOMB_BALEFIRE.asItem())) {
-                    VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC.apply(ResourceManager.DUD_BALEFIRE_TEX));
-                    ResourceManager.dud_balefire.renderAll(poseStack, consumer, packedLight, packedOverlay);
+                    RenderStateManager.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.DUD_BALEFIRE_TEX));
+                    ResourceManager.dud_balefire.renderAll();
                 }
                 if (stack.is(ModBlocks.CRASHED_BOMB_CONVENTIONAL.asItem())) {
                     poseStack.translate(0F, 0F, -0.5F);
-                    VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC.apply(ResourceManager.DUD_CONVENTIONAL_TEX));
-                    ResourceManager.dud_conventional.renderAll(poseStack, consumer, packedLight, packedOverlay);
+                    RenderStateManager.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.DUD_CONVENTIONAL_TEX));
+                    ResourceManager.dud_conventional.renderAll();
                 }
                 if (stack.is(ModBlocks.CRASHED_BOMB_NUKE.asItem())) {
                     poseStack.translate(0F, 0F, 1.25F);
-                    VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC.apply(ResourceManager.DUD_NUKE_TEX));
-                    ResourceManager.dud_nuke.renderAll(poseStack, consumer, packedLight, packedOverlay);
+                    RenderStateManager.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.DUD_NUKE_TEX));
+                    ResourceManager.dud_nuke.renderAll();
                 }
                 if (stack.is(ModBlocks.CRASHED_BOMB_SALTED.asItem())) {
                     poseStack.translate(0F, 0F, 0.5F);
-                    VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC.apply(ResourceManager.DUD_SALTED_TEX));
-                    ResourceManager.dud_salted.renderAll(poseStack, consumer, packedLight, packedOverlay);
+                    RenderStateManager.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.DUD_SALTED_TEX));
+                    ResourceManager.dud_salted.renderAll();
                 }
+                RenderStateManager.end();
             }
         };
     }

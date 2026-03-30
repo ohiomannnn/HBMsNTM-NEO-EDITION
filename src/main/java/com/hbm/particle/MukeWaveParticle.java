@@ -2,7 +2,7 @@ package com.hbm.particle;
 
 import com.hbm.main.NuclearTechMod;
 import com.hbm.particle.engine.ParticleNT;
-import com.hbm.render.CustomRenderTypes;
+import com.hbm.render.NtmRenderTypes;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -71,6 +71,6 @@ public class MukeWaveParticle extends ParticleNT {
 
     @Override
     public RenderType getRenderType() {
-        return CustomRenderTypes.entityAdditive(TEXTURE);
+        return NtmRenderTypes.entityAdditive(TEXTURE);
     }
 }

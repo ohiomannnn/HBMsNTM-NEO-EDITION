@@ -4,7 +4,7 @@ import com.hbm.main.NuclearTechMod;
 import com.hbm.main.ResourceManager;
 import com.hbm.particle.engine.ParticleNT;
 import com.hbm.particle.helper.CloudCreator.CloudType;
-import com.hbm.render.CustomRenderTypes;
+import com.hbm.render.NtmRenderTypes;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
@@ -66,7 +66,7 @@ public class CloudParticle extends ParticleNT {
             for (float i = 0.6F; i <= 1F; i += 0.1F) {
 
                 poseStack.scale(i, i, i);
-                VertexConsumer addConsumer = buffer.getBuffer(CustomRenderTypes.CLOUD_RAINBOW_ADDITIVE);
+                VertexConsumer addConsumer = buffer.getBuffer(NtmRenderTypes.CLOUD_RAINBOW_ADDITIVE);
                 ResourceManager.sphere.renderAll(poseStack, addConsumer, 240, OverlayTexture.NO_OVERLAY, this.level.random.nextInt(0x100), this.level.random.nextInt(0x100), this.level.random.nextInt(0x100), 1.0F);
                 poseStack.scale(1/i, 1/i, 1/i);
             }
@@ -80,9 +80,9 @@ public class CloudParticle extends ParticleNT {
     @Override
     public RenderType getRenderType() {
         return switch (type) {
-            case FLEIJA -> CustomRenderTypes.CLOUD.apply(TEXTURE_FLEIJA);
-            case SOLINIUM -> CustomRenderTypes.CLOUD.apply(TEXTURE_SOLINIUM);
-            case RAINBOW -> CustomRenderTypes.CLOUD_RAINBOW;
+            case FLEIJA -> NtmRenderTypes.CLOUD.apply(TEXTURE_FLEIJA);
+            case SOLINIUM -> NtmRenderTypes.CLOUD.apply(TEXTURE_SOLINIUM);
+            case RAINBOW -> NtmRenderTypes.CLOUD_RAINBOW;
         };
     }
 }

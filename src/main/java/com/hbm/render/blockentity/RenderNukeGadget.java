@@ -3,10 +3,10 @@ package com.hbm.render.blockentity;
 import com.hbm.blockentity.bomb.NukeGadgetBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.CustomRenderTypes;
+import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
+import com.hbm.render.util.RenderStateManager;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.GraphicsStatus;
 import net.minecraft.client.Minecraft;
@@ -33,20 +33,18 @@ public class RenderNukeGadget extends BlockEntityRendererNT<NukeGadgetBlockEntit
             case NORTH -> 270F;
         };
 
-        poseStack.pushPose();
-        poseStack.translate(0.5, 0.0, 0.5);
-        poseStack.mulPose(Axis.YP.rotationDegrees(rot));
+        RenderStateManager.setupR(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_GADGET_TEX), poseStack, packedLight, packedOverlay);
+        RenderStateManager.translate(0.5, 0.0, 0.5);
+        RenderStateManager.mulPose(Axis.YP.rotationDegrees(rot));
 
-        VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC_NC.apply(ResourceManager.NUKE_GADGET_TEX));
-        ResourceManager.nuke_gadget.renderPart("Body", poseStack, consumer, packedLight, packedOverlay);
+        ResourceManager.nuke_gadget.renderPart("Body");
 
         GraphicsStatus graphics = Minecraft.getInstance().options.graphicsMode().get();
-
         if (graphics == GraphicsStatus.FANCY || graphics == GraphicsStatus.FABULOUS) {
-            ResourceManager.nuke_gadget.renderPart("Wires", poseStack, consumer, packedLight, packedOverlay);
+            ResourceManager.nuke_gadget.renderPart("Wires");
         }
 
-        poseStack.popPose();
+        RenderStateManager.end();
     }
 
     @Override
@@ -66,14 +64,15 @@ public class RenderNukeGadget extends BlockEntityRendererNT<NukeGadgetBlockEntit
             @Override
             public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
                 poseStack.mulPose(Axis.YN.rotationDegrees(90F));
-                VertexConsumer consumer = buffer.getBuffer(CustomRenderTypes.EC_NC.apply(ResourceManager.NUKE_GADGET_TEX));
-                ResourceManager.nuke_gadget.renderPart("Body", poseStack, consumer, packedLight, packedOverlay);
+
+                RenderStateManager.setupR(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_GADGET_TEX), poseStack, packedLight, packedOverlay);
+                ResourceManager.nuke_gadget.renderPart("Body");
 
                 GraphicsStatus graphics = Minecraft.getInstance().options.graphicsMode().get();
-
                 if (graphics == GraphicsStatus.FANCY || graphics == GraphicsStatus.FABULOUS) {
-                    ResourceManager.nuke_gadget.renderPart("Wires", poseStack, consumer, packedLight, packedOverlay);
+                    ResourceManager.nuke_gadget.renderPart("Wires");
                 }
+                RenderStateManager.end();
             }
         };
     }
