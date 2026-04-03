@@ -1,14 +1,13 @@
 package com.hbm.render.newloader.old;
 
-import java.io.IOException;
-
+// code from minecraft 1.7.10 (net.minecraftforge.client.model)
 /**
  * Thrown if there is a problem parsing the model
  *
  * @author cpw
  *
  */
-public class ModelFormatException extends IOException {
+public class ModelFormatException extends RuntimeException {
 
     public ModelFormatException()
     {

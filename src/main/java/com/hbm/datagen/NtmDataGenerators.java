@@ -24,7 +24,8 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 @EventBusSubscriber(modid = NuclearTechMod.MODID)
-public class DataGenerators {
+public class NtmDataGenerators {
+
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
@@ -44,7 +45,7 @@ public class DataGenerators {
         generator.addProvider(event.includeServer(), blockTagsProvider);
         generator.addProvider(event.includeServer(), new ModItemTagProvider(output, lookup, blockTagsProvider.contentsGetter(), helper));
         generator.addProvider(event.includeServer(), new ModDamageTypeTagsProvider(output, lookup, helper));
-        generator.addProvider(event.includeServer(), new ModRecipeProvider(output, lookup));
+        generator.addProvider(event.includeServer(), new NtmRecipeProvider(output, lookup));
 
         // Datapack things
         RegistrySetBuilder builder = new RegistrySetBuilder();

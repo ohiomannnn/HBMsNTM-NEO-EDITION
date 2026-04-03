@@ -17,11 +17,19 @@ public class NtmShaders {
     private static ShaderInstance aShader;
     public static ShaderInstance getAShader() { return aShader; }
 
+    private static ShaderInstance aShaderNL;
+    public static ShaderInstance getAShaderNL() { return aShaderNL; }
+
     @SubscribeEvent
     public static void register(RegisterShadersEvent event) throws IOException {
         event.registerShader(
                 new ShaderInstance(event.getResourceProvider(), NuclearTechMod.withDefaultNamespace("a_shader"), NtmVertexFormat.POSITION_TEX_NORMAL),
                 shader -> aShader = shader
+        );
+
+        event.registerShader(
+                new ShaderInstance(event.getResourceProvider(), NuclearTechMod.withDefaultNamespace("a_shader_nl"), NtmVertexFormat.POSITION_TEX_NORMAL),
+                shader -> aShaderNL = shader
         );
     }
 

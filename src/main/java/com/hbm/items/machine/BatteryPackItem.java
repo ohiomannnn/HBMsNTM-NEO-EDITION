@@ -1,8 +1,12 @@
 package com.hbm.items.machine;
 
 import api.hbm.energymk2.IBatteryItem;
+import com.hbm.interfaces.IOrderedEnum;
+import com.hbm.inventory.MetaHelper;
+import com.hbm.items.EnumMultiItem;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.util.BobMathUtil;
+import com.hbm.util.EnumUtil;
 import com.hbm.util.TagsUtilDegradation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
@@ -16,7 +20,7 @@ import net.minecraft.world.item.TooltipFlag;
 
 import java.util.List;
 
-public class BatteryPackItem extends Item implements IBatteryItem {
+public class BatteryPackItem extends EnumMultiItem implements IBatteryItem {
 
     public enum BatteryPackType {
         BATTERY_REDSTONE	("battery_redstone",	      100L, false),
@@ -33,10 +37,10 @@ public class BatteryPackItem extends Item implements IBatteryItem {
         CAPACITOR_BISMUTH	("capacitor_bismuth",	 2_500_000L, true),
         CAPACITOR_SPARK		("capacitor_spark",		10_000_000L, true);
 
-        public ResourceLocation texture;
-        public long capacity;
-        public long chargeRate;
-        public long dischargeRate;
+        public final ResourceLocation texture;
+        public final long capacity;
+        public final long chargeRate;
+        public final long dischargeRate;
 
         BatteryPackType(String tex, long dischargeRate, boolean capacitor) {
             this(tex,
@@ -59,12 +63,8 @@ public class BatteryPackItem extends Item implements IBatteryItem {
         public boolean isCapacitor() { return this.ordinal() > BATTERY_QUANTUM.ordinal(); }
     }
 
-    private BatteryPackType pack;
-    public BatteryPackType getPack() { return this.pack; }
-
-    public BatteryPackItem(Properties properties, BatteryPackType batteryPack) {
-        super(properties.stacksTo(1));
-        this.pack = batteryPack;
+    public BatteryPackItem(Properties properties) {
+        super(properties.stacksTo(1), BatteryPackType.class, true, false);
     }
 
     @Override
@@ -118,16 +118,19 @@ public class BatteryPackItem extends Item implements IBatteryItem {
 
     @Override
     public long getMaxCharge(ItemStack stack) {
+        BatteryPackType pack = EnumUtil.grabEnumSafely(BatteryPackType.class, MetaHelper.getMeta(stack));
         return pack.capacity;
     }
 
     @Override
     public long getChargeRate(ItemStack stack) {
+        BatteryPackType pack = EnumUtil.grabEnumSafely(BatteryPackType.class, MetaHelper.getMeta(stack));
         return pack.chargeRate;
     }
 
     @Override
     public long getDischargeRate(ItemStack stack) {
+        BatteryPackType pack = EnumUtil.grabEnumSafely(BatteryPackType.class, MetaHelper.getMeta(stack));
         return pack.dischargeRate;
     }
 
@@ -172,6 +175,17 @@ public class BatteryPackItem extends Item implements IBatteryItem {
         TagsUtilDegradation.putTag(stack, tag);
         return stack;
     }
+
+    @Override
+    public void getSubItems(Item item, List<ItemStack> stacks) {
+
+        Enum<?>[] order = theEnum.getEnumConstants();
+        if(order[0] instanceof IOrderedEnum ord) order = ord.getOrder();
+
+        for(int i = 0; i < order.length; i++) {
+            ItemStack stack = MetaHelper.metaStack(new ItemStack(item, 1), order[i].ordinal());
+            stacks.add(makeEmptyBattery(stack.copy()));
+            stacks.add(makeFullBattery(stack.copy()));
+        }
+    }
 }
-
-

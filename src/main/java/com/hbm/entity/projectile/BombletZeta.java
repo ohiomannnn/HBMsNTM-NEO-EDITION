@@ -5,8 +5,8 @@ import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.*;
 import com.hbm.items.special.PolaroidItem;
-import com.hbm.registry.NtmSoundEvents;
 import com.hbm.network.toclient.AuxParticle;
+import com.hbm.registry.NtmSoundEvents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
@@ -24,7 +24,6 @@ public class BombletZeta extends ThrowableProjectile {
 
     public BombletZeta(EntityType<BombletZeta> entityType, Level level) {
         super(entityType, level);
-        this.rotation();
     }
 
     @Override

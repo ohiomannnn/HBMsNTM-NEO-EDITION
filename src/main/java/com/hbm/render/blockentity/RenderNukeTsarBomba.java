@@ -5,7 +5,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
-import com.hbm.render.util.RenderStateManager;
+import com.hbm.render.util.RenderContext;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -32,13 +32,13 @@ public class RenderNukeTsarBomba extends BlockEntityRendererNT<NukeTsarBombaBloc
             case NORTH -> 0F;
         };
 
-        RenderStateManager.setupR(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_TSAR_TEX), poseStack, packedLight, packedOverlay);
-        RenderStateManager.translate(0.5, 0.0, 0.5);
-        RenderStateManager.mulPose(Axis.YP.rotationDegrees(rot));
+        RenderContext.setup(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_TSAR_TEX), poseStack, packedLight, packedOverlay);
+        RenderContext.translate(0.5, 0.0, 0.5);
+        RenderContext.mulPose(Axis.YP.rotationDegrees(rot));
 
         ResourceManager.nuke_tsar.renderAll();
 
-        RenderStateManager.end();
+        RenderContext.end();
     }
 
     @Override
@@ -57,9 +57,9 @@ public class RenderNukeTsarBomba extends BlockEntityRendererNT<NukeTsarBombaBloc
             @Override
             public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
                 poseStack.translate(1.5F, 0F, 0F);
-                RenderStateManager.setupR(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_TSAR_TEX), poseStack, packedLight, packedOverlay);
+                RenderContext.setup(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_TSAR_TEX), poseStack, packedLight, packedOverlay);
                 ResourceManager.nuke_tsar.renderAll();
-                RenderStateManager.end();
+                RenderContext.end();
             }
         };
     }

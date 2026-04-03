@@ -1,12 +1,12 @@
 package com.hbm.handler.jei;
 
-import com.hbm.main.NuclearTechMod;
 import com.hbm.handler.jei.subtypes.CustomDataSubtypeInterpreter;
 import com.hbm.handler.jei.subtypes.MetaSubtypeInterpreter;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.FluidIconItem;
+import com.hbm.main.NuclearTechMod;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.IExtraIngredientRegistration;
@@ -28,23 +28,10 @@ public class ModPlugin implements IModPlugin {
     public void registerItemSubtypes(ISubtypeRegistration regs) {
 
         List<Item> ignoreCD = List.of(
-                // battery packs
-                ModItems.BATTERY_PACK_REDSTONE.get(),
-                ModItems.BATTERY_PACK_LEAD.get(),
-                ModItems.BATTERY_PACK_LITHIUM.get(),
-                ModItems.BATTERY_PACK_SODIUM.get(),
-                ModItems.BATTERY_PACK_SCHRABIDIUM.get(),
-                ModItems.BATTERY_PACK_QUANTUM.get(),
-                // capacitors
-                ModItems.CAPACITOR_COPPER.get(),
-                ModItems.CAPACITOR_GOLD.get(),
-                ModItems.CAPACITOR_NIOBIUM.get(),
-                ModItems.CAPACITOR_TANTALUM.get(),
-                ModItems.CAPACITOR_BISMUTH.get(),
-                ModItems.CAPACITOR_SPARK.get()
+                ModItems.BATTERY_PACK.get()
         );
 
-        List<Item> ignoreFT = List.of(
+        List<Item> ignoreMeta = List.of(
                 ModItems.FLUID_TANK_FULL.get(),
                 ModItems.FLUID_TANK_LEAD_FULL.get(),
                 ModItems.FLUID_BARREL_FULL.get(),
@@ -57,7 +44,7 @@ public class ModPlugin implements IModPlugin {
         for (Item item : ignoreCD) {
             regs.registerSubtypeInterpreter(item, CustomDataSubtypeInterpreter.INSTANCE);
         }
-        for (Item item : ignoreFT) {
+        for (Item item : ignoreMeta) {
             regs.registerSubtypeInterpreter(item, MetaSubtypeInterpreter.INSTANCE);
         }
     }

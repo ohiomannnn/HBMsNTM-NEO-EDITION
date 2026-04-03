@@ -3,6 +3,7 @@ package com.hbm.blockentity.machine.storage;
 import api.hbm.energymk2.IBatteryItem;
 import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blocks.DummyableBlock;
+import com.hbm.inventory.MetaHelper;
 import com.hbm.inventory.menus.BatterySocketMenu;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import io.netty.buffer.ByteBuf;
@@ -53,7 +54,9 @@ public class BatterySocketBlockEntity extends BatteryBaseBlockEntity {
         buf.writeLong(this.delta);
         buf.writeLong(this.getPower());
         buf.writeLong(this.getMaxPower());
+
         buf.writeInt(Item.getId(slots.get(0).getItem()));
+        buf.writeInt(MetaHelper.getMeta(slots.get(0)));
     }
 
     @Override
@@ -62,7 +65,7 @@ public class BatterySocketBlockEntity extends BatteryBaseBlockEntity {
         this.delta = buf.readLong();
         this.syncPower = buf.readLong();
         this.syncMaxPower = buf.readLong();
-        this.syncStack = new ItemStack(Item.byId(buf.readInt()), 1);
+        this.syncStack = MetaHelper.metaStack(new ItemStack(Item.byId(buf.readInt()), 1), buf.readInt());
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.hbm.render.loader;
+package com.hbm.render.newloader;
 
 public interface IModelCustom {
     void renderAll();

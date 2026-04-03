@@ -1,8 +1,10 @@
 package com.hbm.datagen;
 
-import com.hbm.main.NuclearTechMod;
 import com.hbm.blocks.ModBlocks;
+import com.hbm.items.ICustomModelRegister;
+import com.hbm.items.IMetaItem;
 import com.hbm.items.ModItems;
+import com.hbm.main.NuclearTechMod;
 import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
@@ -105,6 +107,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         this.basicItem(ModItems.DESIGNATOR.get());
         this.handheldItem(ModItems.DESIGNATOR_RANGE.get());
 
+        this.entityItem(ModItems.BATTERY_PACK.get(), false);
+
         this.entityItem(ModItems.MISSILE_TAINT.get(), true);
         this.entityItem(ModItems.MISSILE_MICRO.get(), true);
         this.entityItem(ModItems.MISSILE_BHOLE.get(), true);
@@ -151,16 +155,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         getBuilder(ModBlocks.FROZEN_LOG.getId().getPath())
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/frozen_log")));
 
-        ItemModelBuilder builder = getBuilder("polaroid")
-                .parent(getExistingFile(mcLoc("item/generated")));
-        for (int i = 1; i <= 18; i++) {
-            builder.override()
-                    .predicate(ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "polaroid_id"), i)
-                    .model(getBuilder("polaroid_" + i)
-                            .parent(getExistingFile(mcLoc("item/generated")))
-                            .texture("layer0", modLoc("item/polaroids/polaroid_" + i)))
-                    .end();
-        }
+        this.registerPolaroid();
+
+        this.registerMetaItem(ModItems.BATTERY_SC.get());
 
         this.basicItem(ModItems.BATTERY_SPARK.get());
         this.basicItem(ModItems.BATTERY_TRIXITE.get());
@@ -195,6 +192,26 @@ public class ModItemModelProvider extends ItemModelProvider {
         this.basicItem(ModItems.EGG_BALEFIRE_SHARD.get());
         this.basicItem(ModItems.EGG_BALEFIRE.get());
     }
+
+    private void registerPolaroid() {
+        ItemModelBuilder builder = getBuilder("polaroid");
+        for (int i = 1; i <= 18; i++) {
+            builder.override()
+                    .predicate(NuclearTechMod.withDefaultNamespace("polaroid_id"), i)
+                    .model(getBuilder("polaroid_" + i)
+                            .parent(getExistingFile(mcLoc("item/generated")))
+                            .texture("layer0", modLoc("item/polaroids/polaroid_" + i)))
+                    .end();
+        }
+    }
+
+    private void registerMetaItem(Item item) {
+        if (item instanceof ICustomModelRegister modelRegister) {
+            ResourceLocation loc = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
+            modelRegister.registerModel(this, loc);
+        }
+    }
+
 
     private ItemModelBuilder layeredItem(Item item, String layer0, String layer1) {
         return this.getBuilder(BuiltInRegistries.ITEM.getKey(item).toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))

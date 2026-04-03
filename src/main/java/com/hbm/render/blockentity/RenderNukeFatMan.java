@@ -5,7 +5,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
-import com.hbm.render.util.RenderStateManager;
+import com.hbm.render.util.RenderContext;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -38,9 +38,9 @@ public class RenderNukeFatMan extends BlockEntityRendererNT<NukeFatManBlockEntit
 
         RenderType type = NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_FAT_MAN_TEX);
 
-        RenderStateManager.setupR(type, poseStack, packedLight, packedOverlay);
+        RenderContext.setup(type, poseStack, packedLight, packedOverlay);
         ResourceManager.nuke_fat_man.renderAll();
-        RenderStateManager.end();
+        RenderContext.end();
 
         poseStack.popPose();
     }
@@ -65,9 +65,9 @@ public class RenderNukeFatMan extends BlockEntityRendererNT<NukeFatManBlockEntit
                 poseStack.translate(-0.75F, 0F, 0F);
                 RenderType type = NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_FAT_MAN_TEX);
 
-                RenderStateManager.setupR(type, poseStack, packedLight, packedOverlay);
+                RenderContext.setup(type, poseStack, packedLight, packedOverlay);
                 ResourceManager.nuke_fat_man.renderAll();
-                RenderStateManager.end();
+                RenderContext.end();
             }
         };
     }

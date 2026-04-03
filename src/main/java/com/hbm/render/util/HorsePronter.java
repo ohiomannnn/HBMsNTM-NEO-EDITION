@@ -2,7 +2,7 @@ package com.hbm.render.util;
 
 import com.hbm.main.NuclearTechMod;
 import com.hbm.render.newloader.HFRWavefrontObject;
-import com.hbm.render.loader.IModelCustom;
+import com.hbm.render.newloader.IModelCustom;
 import com.hbm.util.Vec3NT;
 import net.minecraft.resources.ResourceLocation;
 
@@ -86,7 +86,7 @@ public class HorsePronter {
 
     /** Use no-cull render type for render*/
     public static void pront() {
-        RenderStateManager.pushPose();
+        RenderContext.pushPose();
         doTransforms(id_body);
 
         horse.renderPart("Body");
@@ -108,23 +108,23 @@ public class HorsePronter {
             horse.renderPart("RightWing");
         }
 
-        RenderStateManager.popPose();
+        RenderContext.popPose();
     }
 
     private static void doTransforms(int id) {
         Vec3NT rotation = pose[id];
         Vec3NT offset = offsets[id];
-        RenderStateManager.translate(offset.xCoord, offset.yCoord, offset.zCoord);
-        RenderStateManager.rotateY((float) rotation.xCoord);
-        RenderStateManager.rotateX((float) rotation.yCoord);
-        RenderStateManager.rotateZ((float) rotation.zCoord);
-        RenderStateManager.translate(-offset.xCoord, -offset.yCoord, -offset.zCoord);
+        RenderContext.translate(offset.xCoord, offset.yCoord, offset.zCoord);
+        RenderContext.rotateY((float) rotation.xCoord);
+        RenderContext.rotateX((float) rotation.yCoord);
+        RenderContext.rotateZ((float) rotation.zCoord);
+        RenderContext.translate(-offset.xCoord, -offset.yCoord, -offset.zCoord);
     }
 
     private static void renderWithTransform(int id, String... parts) {
-        RenderStateManager.pushPose();
+        RenderContext.pushPose();
         doTransforms(id);
         for (String part : parts) horse.renderPart(part);
-        RenderStateManager.popPose();
+        RenderContext.popPose();
     }
 }

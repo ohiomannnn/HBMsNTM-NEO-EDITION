@@ -45,7 +45,7 @@ import com.hbm.render.item.ItemRenderMissileGeneric;
 import com.hbm.render.item.ItemRenderMissileGeneric.RenderMissileType;
 import com.hbm.render.item.RenderBatteryPackItem;
 import com.hbm.render.item.RenderLaserDetonator;
-import com.hbm.render.newloader.old.ModelFormatException;
+import com.hbm.render.newloader.HFRModelReloader;
 import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.util.ArmorRegistry;
@@ -143,13 +143,14 @@ public class HBMsNTMClient {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
-            try {
-                ResourceManager.init();
-            } catch (ModelFormatException e) {
-                throw new RuntimeException(e);
-            }
+            ResourceManager.init();
             ItemRenderMissileGeneric.init();
         });
+    }
+
+    @SubscribeEvent
+    public static void onRegisterClientReloadListeners(RegisterClientReloadListenersEvent event) {
+        event.registerReloadListener(new HFRModelReloader());
     }
 
     private static final I18nClient I18N = new I18nClient();
@@ -579,7 +580,7 @@ public class HBMsNTMClient {
         ItemProperties.register(ModItems.POLAROID.get(), NuclearTechMod.withDefaultNamespace("polaroid_id"), (stack, level, entity, seed) -> PolaroidItem.polaroidID);
     }
 
-    private static void registerMetaItemProperties(Item... items) {
+    public static void registerMetaItemProperties(Item... items) {
         for (Item item : items) {
             ItemProperties.register(item, NuclearTechMod.withDefaultNamespace("item_meta"), (itemStack, level, livingEntity, seed) -> MetaHelper.getMeta(itemStack));
         }
@@ -628,20 +629,7 @@ public class HBMsNTMClient {
 
         registerItemRenderer(event, new RenderLaserDetonator(), ModItems.DETONATOR_LASER.get());
 
-        registerItemRenderer(event, new RenderBatteryPackItem(),
-                ModItems.BATTERY_PACK_REDSTONE.get(),
-                ModItems.BATTERY_PACK_LEAD.get(),
-                ModItems.BATTERY_PACK_LITHIUM.get(),
-                ModItems.BATTERY_PACK_SODIUM.get(),
-                ModItems.BATTERY_PACK_SCHRABIDIUM.get(),
-                ModItems.BATTERY_PACK_QUANTUM.get(),
-                ModItems.CAPACITOR_COPPER.get(),
-                ModItems.CAPACITOR_GOLD.get(),
-                ModItems.CAPACITOR_NIOBIUM.get(),
-                ModItems.CAPACITOR_TANTALUM.get(),
-                ModItems.CAPACITOR_BISMUTH.get(),
-                ModItems.CAPACITOR_SPARK.get()
-        );
+        registerItemRenderer(event, new RenderBatteryPackItem(), ModItems.BATTERY_PACK.get());
 
         registerItemRenderer(event, new ItemRenderMissileGeneric(RenderMissileType.TYPE_TIER0),
                 ModItems.MISSILE_TAINT.get(),

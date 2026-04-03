@@ -1,10 +1,9 @@
 package com.hbm.render.newloader;
 
-import com.hbm.render.loader.IModelCustomNamed;
 import com.hbm.render.newloader.old.TextureCoordinate;
 import com.hbm.render.newloader.old.Vertex;
 import com.hbm.render.util.NtmShaders.NtmVertexFormat;
-import com.hbm.render.util.RenderStateManager;
+import com.hbm.render.util.RenderContext;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.renderer.RenderType;
@@ -29,41 +28,40 @@ public class HFRWavefrontObjectVBO implements IModelCustomNamed {
     private final List<GroupVBO> groups = new ArrayList<>();
 
     public HFRWavefrontObjectVBO(HFRWavefrontObject obj) {
+        this.load(obj);
+    }
+
+    public void load(HFRWavefrontObject obj) {
         for (S_GroupObject g : obj.groupObjects) {
-            VertexBuffer buffer = buildGroupBuffer(g);
+            Tesselator tess = Tesselator.getInstance();
+            BufferBuilder builder = tess.begin(g.mode, NtmVertexFormat.POSITION_TEX_NORMAL);
+
+            for(S_Face face : g.faces) {
+                for(int i = 0; i < face.vertices.length; i++) {
+                    Vertex vert = face.vertices[i];
+                    TextureCoordinate tex = new TextureCoordinate(0, 0);
+                    Vertex normal = face.vertexNormals[i];
+
+                    if(face.textureCoordinates != null && face.textureCoordinates.length > 0) {
+                        tex = face.textureCoordinates[i];
+                    }
+
+                    builder.addVertex(vert.x, vert.y, vert.z)
+                            .setUv(tex.u, tex.v)
+                            .setNormal(normal.x, normal.y, normal.z);
+                }
+            }
+
+            MeshData meshData = builder.buildOrThrow();
+
+            VertexBuffer buffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
+            buffer.bind();
+            buffer.upload(meshData);
+            VertexBuffer.unbind();
 
             GroupVBO cachedGroup = new GroupVBO(g.name, buffer);
             groups.add(cachedGroup);
         }
-    }
-
-    private VertexBuffer buildGroupBuffer(S_GroupObject g) {
-        Tesselator tess = Tesselator.getInstance();
-        BufferBuilder builder = tess.begin(VertexFormat.Mode.TRIANGLES, NtmVertexFormat.POSITION_TEX_NORMAL);
-
-        for(S_Face face : g.faces) {
-            for(int i = 0; i < face.vertices.length; i++) {
-                Vertex vert = face.vertices[i];
-                TextureCoordinate tex = new TextureCoordinate(0, 0);
-                Vertex normal = face.vertexNormals[i];
-
-                if(face.textureCoordinates != null && face.textureCoordinates.length > 0) {
-                    tex = face.textureCoordinates[i];
-                }
-
-                builder.addVertex(vert.x, vert.y, vert.z)
-                        .setUv(tex.u, tex.v)
-                        .setNormal(normal.x, normal.y, normal.z);
-            }
-        }
-
-        MeshData meshData = builder.buildOrThrow();
-
-        VertexBuffer buffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
-        buffer.bind();
-        buffer.upload(meshData);
-        VertexBuffer.unbind();
-        return buffer;
     }
 
     // truth be told, i have no fucking idea what i'm doing
@@ -71,23 +69,23 @@ public class HFRWavefrontObjectVBO implements IModelCustomNamed {
     // so logically, if we want to get rid of this, we need to blow the data up
     // documentation on GL15 functions seems nonexistant so fuck it we ball i guess
     public void destroy() {
-        for(GroupVBO data : groups) {
-            data.vertexBuffer.close();
+        for(GroupVBO group : groups) {
+            group.vertexBuffer.close();
         }
         groups.clear();
     }
 
-    private void renderGroup(GroupVBO groupVBO) {
+    private void renderGroup(GroupVBO group) {
 
-        RenderType type = RenderStateManager.renderType();
-        PoseStack poseStack = RenderStateManager.poseStack();
+        RenderType type = RenderContext.renderType();
+        PoseStack poseStack = RenderContext.poseStack();
 
-        int packedLight = RenderStateManager.light();
-        int packedOverlay = RenderStateManager.overlay();
-        float r = RenderStateManager.r();
-        float g = RenderStateManager.g();
-        float b = RenderStateManager.b();
-        float a = RenderStateManager.a();
+        int packedLight = RenderContext.light();
+        int packedOverlay = RenderContext.overlay();
+        float r = RenderContext.r();
+        float g = RenderContext.g();
+        float b = RenderContext.b();
+        float a = RenderContext.a();
 
         type.setupRenderState();
         ShaderInstance shader = RenderSystem.getShader();
@@ -102,8 +100,8 @@ public class HFRWavefrontObjectVBO implements IModelCustomNamed {
         shader.safeGetUniform("Col").set(r, g, b, a);
         shader.safeGetUniform("NormalMat").set(normalMatrix);
 
-        groupVBO.vertexBuffer.bind();
-        groupVBO.vertexBuffer.drawWithShader(modelViewMatrix, projectionMatrix, shader);
+        group.vertexBuffer.bind();
+        group.vertexBuffer.drawWithShader(modelViewMatrix, projectionMatrix, shader);
         VertexBuffer.unbind();
 
         type.clearRenderState();

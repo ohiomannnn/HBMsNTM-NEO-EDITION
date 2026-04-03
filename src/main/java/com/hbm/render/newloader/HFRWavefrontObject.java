@@ -14,13 +14,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * You cant use it directly for renderer lmao
  */
-public class HFRWavefrontObject {
+public class HFRWavefrontObject implements IModelCustomNamed {
+
+    /** For resource reloading */
+    public static final LinkedHashSet<HFRWavefrontObject> allModels = new LinkedHashSet<>();
+    public static final LinkedHashMap<HFRWavefrontObjectVBO, HFRWavefrontObject> allVBOs = new LinkedHashMap<>();
 
     private static final Pattern vertexPattern = Pattern.compile("(v( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *\\n)|(v( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *$)");
     private static final Pattern vertexNormalPattern = Pattern.compile("(vn( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *\\n)|(vn( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *$)");
@@ -45,12 +52,12 @@ public class HFRWavefrontObject {
     private boolean smoothing = true;
     private boolean allowMixedMode = false;
 
-    public HFRWavefrontObject(String name) {
-        this(NuclearTechMod.withDefaultNamespace(name), false);
+    public HFRWavefrontObject(String path) throws ModelFormatException {
+        this(NuclearTechMod.withDefaultNamespace(path), false);
     }
 
-    public HFRWavefrontObject(String name, boolean mixedMode) {
-        this(NuclearTechMod.withDefaultNamespace(name), mixedMode);
+    public HFRWavefrontObject(String path, boolean mixedMode) throws ModelFormatException {
+        this(NuclearTechMod.withDefaultNamespace(path), mixedMode);
     }
 
     public HFRWavefrontObject noSmooth() {
@@ -62,11 +69,11 @@ public class HFRWavefrontObject {
      * Useful for ISBRHs which access vertices manually, allowing the quad to tri trick without forcing the entire model to be redundant tris. */
     public void mixedMode() { this.allowMixedMode = true; }
 
-    public HFRWavefrontObject(ResourceLocation resource) {
+    public HFRWavefrontObject(ResourceLocation resource) throws ModelFormatException {
         this(resource, false);
     }
 
-    public HFRWavefrontObject(ResourceLocation resource, boolean mixedMode) {
+    public HFRWavefrontObject(ResourceLocation resource, boolean mixedMode) throws ModelFormatException {
         if(mixedMode) this.mixedMode();
 
         this.resource = resource;
@@ -79,8 +86,10 @@ public class HFRWavefrontObject {
                 loadObjModel(stream);
             }
         } catch (IOException e) {
-            throw new RuntimeException("Failed to load OBJ model: " + resource, e);
+            throw new ModelFormatException("Failed to load OBJ model: " + resource, e);
         }
+
+        allModels.add(this);
     }
 
     public void destroy() {
@@ -129,9 +138,8 @@ public class HFRWavefrontObject {
 
                     S_Face face = parseFace(currentLine, lineCount);
 
-                    if(face != null) {
-                        currentGroupObject.faces.add(face);
-                    }
+                    currentGroupObject.faces.add(face);
+
                 } else if(currentLine.startsWith("g ") | currentLine.startsWith("o ")) {
                     S_GroupObject group = parseGroupObject(currentLine, lineCount);
 
@@ -147,7 +155,7 @@ public class HFRWavefrontObject {
 
             groupObjects.add(currentGroupObject);
         } catch (IOException e) {
-            throw new ModelFormatException("IO Exception reading model format", e);
+            throw new ModelFormatException("caught IO Exception while reading model format", e);
         } finally {
             try {
                 reader.close();
@@ -161,6 +169,26 @@ public class HFRWavefrontObject {
                 // hush
             }
         }
+    }
+
+    @Override
+    public void renderAll() {
+        throw new RuntimeException("You cant render models with just HFRWavefrontObject, render with vbo!");
+    }
+
+    @Override
+    public void renderPart(String partName) {
+        throw new RuntimeException("You cant render models with just HFRWavefrontObject, render with vbo!");
+    }
+
+    @Override
+    public void renderOnly(String... groupNames) {
+        throw new RuntimeException("You cant render models with just HFRWavefrontObject, render with vbo!");
+    }
+
+    @Override
+    public void renderAllExcept(String... excludedGroupNames) {
+        throw new RuntimeException("You cant render models with just HFRWavefrontObject, render with vbo!");
     }
 
     private Vertex parseVertex(String line, int lineCount) throws ModelFormatException {
@@ -411,5 +439,18 @@ public class HFRWavefrontObject {
         return groupObjectMatcher.matches();
     }
 
-    public HFRWavefrontObjectVBO asVBO() { return new HFRWavefrontObjectVBO(this); }
+    @Override
+    public List<String> getPartNames() {
+        List<String> names = new ArrayList<>();
+        for(S_GroupObject data : groupObjects) {
+            names.add(data.name);
+        }
+        return names;
+    }
+
+    public HFRWavefrontObjectVBO asVBO() {
+        HFRWavefrontObjectVBO vbo = new HFRWavefrontObjectVBO(this);
+        allVBOs.put(vbo, this);
+        return vbo;
+    }
 }

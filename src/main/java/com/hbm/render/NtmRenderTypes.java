@@ -54,21 +54,8 @@ public class NtmRenderTypes {
             }
     );
 
-    // Entity Cutout, No Crumbling, No Cull
-    public static final Function<ResourceLocation, RenderType> EC_NC_NC = Util.memoize(
-            texture -> {
-                RenderType.CompositeState state = RenderType.CompositeState.builder()
-                        .setShaderState(RenderType.RENDERTYPE_ENTITY_CUTOUT_SHADER)
-                        .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
-                        .setLightmapState(RenderType.LIGHTMAP)
-                        .setCullState(RenderStateShard.NO_CULL)
-                        .setOverlayState(RenderType.OVERLAY)
-                        .createCompositeState(false);
-                return RenderType.create("ec_nc_nc", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 15346, false, false, state);
-            }
-    );
-
     public static final ShaderStateShard A_SHADER = new ShaderStateShard(NtmShaders::getAShader);
+    public static final ShaderStateShard A_SHADER_NL = new ShaderStateShard(NtmShaders::getAShaderNL);
 
     // for vbo
     public static final Function<ResourceLocation, RenderType> FVBO = Util.memoize(
@@ -83,7 +70,7 @@ public class NtmRenderTypes {
             }
     );
 
-    // for vbo
+    // for vbo, no cull
     public static final Function<ResourceLocation, RenderType> FVBO_NC = Util.memoize(
             texture -> {
                 RenderType.CompositeState state = RenderType.CompositeState.builder()
@@ -97,11 +84,23 @@ public class NtmRenderTypes {
             }
     );
 
-
-    public static final Function<ResourceLocation, RenderType> FVBO_ADDITIVE = Util.memoize(
+    // for vbo, no light
+    public static final Function<ResourceLocation, RenderType> FVBO_NL = Util.memoize(
             texture -> {
                 RenderType.CompositeState state = RenderType.CompositeState.builder()
-                        .setShaderState(A_SHADER)
+                        .setShaderState(A_SHADER_NL)
+                        .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
+                        .setLightmapState(RenderType.LIGHTMAP)
+                        .setOverlayState(RenderType.OVERLAY)
+                        .createCompositeState(false);
+                return RenderType.create("fvbo_nl", NtmVertexFormat.POSITION_TEX_NORMAL, VertexFormat.Mode.QUADS, 15346, false, false, state);
+            }
+    );
+
+    public static final Function<ResourceLocation, RenderType> FVBO_ADDITIVE_NL = Util.memoize(
+            texture -> {
+                RenderType.CompositeState state = RenderType.CompositeState.builder()
+                        .setShaderState(A_SHADER_NL)
                         .setTransparencyState(ADDITIVE_BLEND)
                         .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
                         .setLightmapState(RenderType.LIGHTMAP)
@@ -111,6 +110,23 @@ public class NtmRenderTypes {
                 return RenderType.create("test_additive", NtmVertexFormat.POSITION_TEX_NORMAL, VertexFormat.Mode.QUADS, 15346, false, false, state);
             }
     );
+
+    // for vbo, no light, no cull, no tex
+    public static final RenderType FVBO_NL_NC_NT = RenderType.create(
+            "fvbo_nl_nc_nt",
+            NtmVertexFormat.POSITION_TEX_NORMAL,
+            VertexFormat.Mode.QUADS,
+            15346,
+            false,
+            false,
+            RenderType.CompositeState.builder()
+                    .setShaderState(A_SHADER_NL)
+                    .setLightmapState(RenderType.LIGHTMAP)
+                    .setOverlayState(RenderType.OVERLAY)
+                    .setCullState(RenderStateShard.NO_CULL)
+                    .createCompositeState(false)
+    );
+
 
     public static final RenderType GLOW = RenderType.create(
             "glow",
@@ -176,22 +192,6 @@ public class NtmRenderTypes {
                         .setOutputState(RenderType.CLOUDS_TARGET)
                         .createCompositeState(false);
                 return RenderType.create("smoth", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, false, state);
-            }
-    );
-
-    public static final Function<ResourceLocation, RenderType> SMOTH_NO_LIGHT = Util.memoize(
-            texture -> {
-                RenderType.CompositeState state = RenderType.CompositeState.builder()
-                        .setShaderState(RenderType.POSITION_COLOR_SHADER)
-                        .setTextureState(new TextureStateShard(texture, false, false))
-                        .setTransparencyState(SEVEN_SEVEN10)
-                        .setCullState(RenderType.NO_CULL)
-                        .setLightmapState(RenderType.NO_LIGHTMAP)
-                        .setOverlayState(RenderType.NO_OVERLAY)
-                        .setWriteMaskState(RenderType.COLOR_WRITE)
-                        .setOutputState(RenderType.TRANSLUCENT_TARGET)
-                        .createCompositeState(false);
-                return RenderType.create("smoth2", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 3123124, false, false, state);
             }
     );
 

@@ -5,7 +5,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
-import com.hbm.render.util.RenderStateManager;
+import com.hbm.render.util.RenderContext;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.GraphicsStatus;
@@ -33,9 +33,9 @@ public class RenderNukeGadget extends BlockEntityRendererNT<NukeGadgetBlockEntit
             case NORTH -> 270F;
         };
 
-        RenderStateManager.setupR(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_GADGET_TEX), poseStack, packedLight, packedOverlay);
-        RenderStateManager.translate(0.5, 0.0, 0.5);
-        RenderStateManager.mulPose(Axis.YP.rotationDegrees(rot));
+        RenderContext.setup(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_GADGET_TEX), poseStack, packedLight, packedOverlay);
+        RenderContext.translate(0.5, 0.0, 0.5);
+        RenderContext.mulPose(Axis.YP.rotationDegrees(rot));
 
         ResourceManager.nuke_gadget.renderPart("Body");
 
@@ -44,7 +44,7 @@ public class RenderNukeGadget extends BlockEntityRendererNT<NukeGadgetBlockEntit
             ResourceManager.nuke_gadget.renderPart("Wires");
         }
 
-        RenderStateManager.end();
+        RenderContext.end();
     }
 
     @Override
@@ -65,14 +65,14 @@ public class RenderNukeGadget extends BlockEntityRendererNT<NukeGadgetBlockEntit
             public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
                 poseStack.mulPose(Axis.YN.rotationDegrees(90F));
 
-                RenderStateManager.setupR(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_GADGET_TEX), poseStack, packedLight, packedOverlay);
+                RenderContext.setup(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_GADGET_TEX), poseStack, packedLight, packedOverlay);
                 ResourceManager.nuke_gadget.renderPart("Body");
 
                 GraphicsStatus graphics = Minecraft.getInstance().options.graphicsMode().get();
                 if (graphics == GraphicsStatus.FANCY || graphics == GraphicsStatus.FABULOUS) {
                     ResourceManager.nuke_gadget.renderPart("Wires");
                 }
-                RenderStateManager.end();
+                RenderContext.end();
             }
         };
     }

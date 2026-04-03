@@ -1,9 +1,11 @@
 package com.hbm.render.item;
 
-import com.hbm.items.machine.BatteryPackItem;
+import com.hbm.inventory.MetaHelper;
+import com.hbm.items.machine.BatteryPackItem.BatteryPackType;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
-import com.hbm.render.util.RenderStateManager;
+import com.hbm.render.util.RenderContext;
+import com.hbm.util.EnumUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.item.ItemStack;
@@ -18,10 +20,10 @@ public class RenderBatteryPackItem extends ItemRenderBase {
 
     @Override
     public void renderCommon(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-        if (stack.getItem() instanceof BatteryPackItem item) {
-            RenderStateManager.setupR(NtmRenderTypes.FVBO.apply(item.getPack().texture), poseStack, packedLight, packedOverlay);
-            ResourceManager.battery_socket.renderPart(item.getPack().isCapacitor() ? "Capacitor" : "Battery");
-            RenderStateManager.end();
-        }
+        BatteryPackType pack = EnumUtil.grabEnumSafely(BatteryPackType.class, MetaHelper.getMeta(stack));
+
+        RenderContext.setup(NtmRenderTypes.FVBO.apply(pack.texture), poseStack, packedLight, packedOverlay);
+        ResourceManager.battery_socket.renderPart(pack.isCapacitor() ? "Capacitor" : "Battery");
+        RenderContext.end();
     }
 }

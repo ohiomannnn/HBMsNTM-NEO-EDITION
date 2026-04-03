@@ -5,8 +5,8 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
+import com.hbm.render.util.RenderContext;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -31,14 +31,13 @@ public class RenderGeigerBlock extends BlockEntityRendererNT<GeigerBlockEntity> 
             case NORTH -> 180f;
         };
 
-        poseStack.pushPose();
-        poseStack.translate(0.5, 0.0, 0.5);
-        poseStack.mulPose(Axis.YP.rotationDegrees(rot));
+        RenderContext.setup(NtmRenderTypes.FVBO_NC.apply(ResourceManager.GEIGER_TEX), poseStack, packedLight, packedOverlay);
+        RenderContext.translate(0.5, 0.0, 0.5);
+        RenderContext.mulPose(Axis.YP.rotationDegrees(rot));
 
-        VertexConsumer consumer = buffer.getBuffer(NtmRenderTypes.EC_NC_NC.apply(ResourceManager.GEIGER_TEX));
-        ResourceManager.geiger.renderAll(poseStack, consumer, packedLight, packedOverlay);
+        ResourceManager.geiger.renderAll();
 
-        poseStack.popPose();
+        RenderContext.end();
     }
 
     @Override
@@ -58,8 +57,10 @@ public class RenderGeigerBlock extends BlockEntityRendererNT<GeigerBlockEntity> 
             public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
                 poseStack.translate(0.2F, 0F, 0F);
                 poseStack.mulPose(Axis.YP.rotationDegrees(90F));
-                VertexConsumer consumer = buffer.getBuffer(NtmRenderTypes.EC_NC_NC.apply(ResourceManager.GEIGER_TEX));
-                ResourceManager.geiger.renderAll(poseStack, consumer, packedLight, packedOverlay);
+
+                RenderContext.setup(NtmRenderTypes.FVBO_NC.apply(ResourceManager.GEIGER_TEX), poseStack, packedLight, packedOverlay);
+                ResourceManager.geiger.renderAll();
+                RenderContext.end();
             }
         };
     }

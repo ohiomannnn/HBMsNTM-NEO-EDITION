@@ -1,12 +1,14 @@
 package com.hbm.inventory.screens;
 
-import com.hbm.main.NuclearTechMod;
 import com.hbm.blockentity.bomb.LaunchPadBaseBlockEntity;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.menus.LaunchPadLargeMenu;
 import com.hbm.items.ModItems;
 import com.hbm.items.weapon.MissileItem;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.render.item.ItemRenderMissileGeneric;
-import com.hbm.render.item.RenderStarter;
+import com.hbm.render.item.ItemRenderMissileGeneric.RocketModelData;
+import com.hbm.render.util.RenderContext;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.math.Axis;
 import net.minecraft.client.gui.GuiGraphics;
@@ -15,8 +17,6 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-
-import java.util.function.Consumer;
 
 public class LaunchPadLargeScreen extends InfoScreen<LaunchPadLargeMenu> {
 
@@ -63,7 +63,7 @@ public class LaunchPadLargeScreen extends InfoScreen<LaunchPadLargeMenu> {
         be.tanks[1].renderTank(this.leftPos + 143, this.topPos + 88, 0, 16, 52);
 
         if (!be.slots.get(0).isEmpty()) {
-            Consumer<RenderStarter> render = ItemRenderMissileGeneric.renderers.get(be.slots.get(0).getItem());
+            RocketModelData render = ItemRenderMissileGeneric.renderers.get(new ComparableStack(be.slots.get(0)).makeSingular());
             if (render != null) {
                 guiGraphics.pose().pushPose();
                 guiGraphics.pose().translate(this.leftPos + 70F, this.topPos + 120F, 100F);
@@ -92,7 +92,10 @@ public class LaunchPadLargeScreen extends InfoScreen<LaunchPadLargeMenu> {
                 guiGraphics.pose().mulPose(Axis.YP.rotationDegrees(75F));
                 guiGraphics.pose().popPose();
 
-                render.accept(new RenderStarter(guiGraphics.bufferSource(), guiGraphics.pose(), LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY));
+                RenderContext.setup(guiGraphics.pose(), LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
+                render.render(true);
+                RenderContext.end();
+
                 Lighting.setupFor3DItems();
 
                 guiGraphics.pose().popPose();

@@ -1,7 +1,7 @@
 package com.hbm.render.util;
 
 import com.hbm.main.NuclearTechMod;
-import com.hbm.render.loader.IModelCustom;
+import com.hbm.render.newloader.IModelCustom;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -18,16 +18,14 @@ public class RenderMiscEffects {
         if (player == null) return;
 
         float color = colorMod;
-        RenderStateManager.setColor(color, color, color, 1.0F);
+        RenderContext.setColor(color, color, color, 1.0F);
 
         float offset = player.tickCount + partialTicks;
-
-        FullBright.enable();
 
         for (int k = 0; k < 2; ++k) {
 
             float glintColor = 0.76F;
-            RenderStateManager.setColor(r * glintColor, g * glintColor, b * glintColor, 1.0F);
+            RenderContext.setColor(r * glintColor, g * glintColor, b * glintColor, 1.0F);
 
             float movement = offset * (0.001F + (float) k * 0.003F) * speed;
 
@@ -45,8 +43,6 @@ public class RenderMiscEffects {
 
             RenderSystem.resetTextureMatrix();
         }
-
-        FullBright.disable();
     }
 
     public static void renderClassicGlint(float interpol, IModelCustom model, String part, float r, float g, float b, float speed, float scale) {

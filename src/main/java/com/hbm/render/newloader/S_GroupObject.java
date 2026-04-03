@@ -22,5 +22,4 @@ public class S_GroupObject {
         this.name = name;
         this.mode = mode;
     }
-
 }

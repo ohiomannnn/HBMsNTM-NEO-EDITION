@@ -1,3 +1,11 @@
+## Added
+* Self-charging batteries
+* OBJ model reloader
+
 ## Changed
 * Improved obj model renderer optimization A LOT
 * Crater biomes now will have grass noise
+
+## Fixed
+* Lightning on fensu's lights
+* 256k tank, fensu and battery socket cull bounding box

@@ -37,20 +37,14 @@ public class ItemRenderBase extends BlockEntityWithoutLevelRenderer {
                 renderNonInv(itemStackIn, poseStack, buffer, packedLight, packedOverlay, false);
             }
             case THIRD_PERSON_RIGHT_HAND, HEAD -> {
-                poseStack.translate(-0.05F, 0.55F, 0F);
+                poseStack.translate(-0.05F, 0.5F, 0F);
                 poseStack.scale(0.145F, 0.145F, 0.145F);
                 poseStack.mulPose(Axis.YP.rotationDegrees(180F));
-                poseStack.mulPose(Axis.YN.rotationDegrees(15F));
-                poseStack.mulPose(Axis.XN.rotationDegrees(15F));
-                poseStack.mulPose(Axis.ZN.rotationDegrees(15F));
                 renderNonInv(itemStackIn, poseStack, buffer, packedLight, packedOverlay, true);
             }
             case THIRD_PERSON_LEFT_HAND -> {
-                poseStack.translate(0.05F, 0.55F, 0F);
+                poseStack.translate(0.05F, 0.5F, 0F);
                 poseStack.scale(0.145F, 0.145F, 0.145F);
-                poseStack.mulPose(Axis.YP.rotationDegrees(15F));
-                poseStack.mulPose(Axis.XP.rotationDegrees(15F));
-                poseStack.mulPose(Axis.ZN.rotationDegrees(15F));
                 renderNonInv(itemStackIn, poseStack, buffer, packedLight, packedOverlay, false);
             }
             case GROUND -> {
@@ -66,11 +60,6 @@ public class ItemRenderBase extends BlockEntityWithoutLevelRenderer {
                 renderNonInv(itemStackIn, poseStack, buffer, packedLight, packedOverlay, false);
             }
             case GUI -> {
-                //Vector3f light0 = RenderSystem.shaderLightDirections[0];
-                //Vector3f light1 = RenderSystem.shaderLightDirections[1];
-//
-                //NuclearTechMod.LOGGER.info("g l0 = {}", light0);
-                //NuclearTechMod.LOGGER.info("g l1 = {}", light1);
                 poseStack.mulPose(Axis.XP.rotationDegrees(30F));
                 poseStack.mulPose(Axis.YP.rotationDegrees(225F));  // 45 + 180
                 poseStack.scale(0.0620F, 0.0620F, 0.0620F);

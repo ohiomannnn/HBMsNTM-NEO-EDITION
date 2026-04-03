@@ -27,15 +27,15 @@ public class BeamPronter {
 
     public static void prontBeam(Vec3NT skeleton, WaveType wave, BeamType beam, int outerColor, int innerColor, int start, int segments, float size, int layers, float thickness) {
 
-        RenderStateManager.pushPose();
+        RenderContext.pushPose();
 
         float sYRot = (float) (Math.atan2(skeleton.xCoord, skeleton.zCoord) * 180F / Math.PI);
         float sqrt = (float) Math.sqrt(skeleton.xCoord * skeleton.xCoord + skeleton.zCoord * skeleton.zCoord);
         float sXRot = (float) (Math.atan2(skeleton.yCoord, sqrt) * 180F / Math.PI);
 
-        RenderStateManager.mulPose(Axis.YP.rotationDegrees(180F));
-        RenderStateManager.mulPose(Axis.YP.rotationDegrees(sYRot));
-        RenderStateManager.mulPose(Axis.XP.rotationDegrees(sXRot - 90));
+        RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
+        RenderContext.mulPose(Axis.YP.rotationDegrees(sYRot));
+        RenderContext.mulPose(Axis.XP.rotationDegrees(sXRot - 90));
 
         MultiBufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
 
@@ -46,8 +46,8 @@ public class BeamPronter {
             consumer = buffer.getBuffer(RenderType.lines());
         }
 
-        RenderStateManager.pushPose();
-        Matrix4f matrix = RenderStateManager.poseStack().last().pose();
+        RenderContext.pushPose();
+        Matrix4f matrix = RenderContext.poseStack().last().pose();
 
         Vec3NT unit = new Vec3NT(0, 1, 0);
         rand.setSeed(start);
@@ -131,8 +131,8 @@ public class BeamPronter {
             consumer.addVertex(matrix, 0, (float) skeleton.length(), 0).setColor(innerColor).setNormal(0, 1, 0);
         }
 
-        RenderStateManager.popPose();
+        RenderContext.popPose();
 
-        RenderStateManager.popPose();
+        RenderContext.popPose();
     }
 }

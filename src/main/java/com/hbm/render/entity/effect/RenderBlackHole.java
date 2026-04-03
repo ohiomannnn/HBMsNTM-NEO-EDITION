@@ -18,7 +18,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import org.joml.Matrix4f;
 
-public class RenderBlackHole<T extends Entity> extends EntityRenderer<T> {
+public class RenderBlackHole<T extends BlackHole> extends EntityRenderer<T> {
 
     protected static final ResourceLocation HOLE = NuclearTechMod.withDefaultNamespace("textures/models/blackhole.png");
     protected static final ResourceLocation SWIRL = NuclearTechMod.withDefaultNamespace("textures/entity/bhole.png");

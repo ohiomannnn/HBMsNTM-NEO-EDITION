@@ -10,7 +10,7 @@ import com.hbm.render.util.BeamPronter;
 import com.hbm.render.util.BeamPronter.BeamType;
 import com.hbm.render.util.BeamPronter.WaveType;
 import com.hbm.render.util.FullBright;
-import com.hbm.render.util.RenderStateManager;
+import com.hbm.render.util.RenderContext;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.Clock;
 import com.hbm.util.Vec3NT;
@@ -22,7 +22,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;
@@ -41,27 +40,27 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
         Direction facing = be.getBlockState().getValue(DummyableBlock.FACING);
         float rot = switch (facing) {
             case DOWN, UP -> 0.0F;
-            case WEST -> 180F;
-            case SOUTH -> 90F;
-            case EAST -> 0F;
             case NORTH -> 270F;
+            case EAST -> 0F;
+            case SOUTH -> 90F;
+            case WEST -> 180F;
         };
 
         int tPackedLight = LevelRenderer.getLightColor(be.getLevel(), be.getBlockPos().above(9));
 
-        RenderStateManager.setupR(NtmRenderTypes.FVBO.apply(ResourceManager.BATTERY_REDD_TEX), poseStack, tPackedLight, packedOverlay);
-        RenderStateManager.translate(0.5, 0, 0.5);
-        RenderStateManager.mulPose(Axis.YP.rotationDegrees(rot));
+        RenderContext.setup(NtmRenderTypes.FVBO.apply(ResourceManager.BATTERY_REDD_TEX), poseStack, tPackedLight, packedOverlay);
+        RenderContext.translate(0.5, 0, 0.5);
+        RenderContext.mulPose(Axis.YP.rotationDegrees(rot));
 
         ResourceManager.battery_redd.renderPart("Base");
 
-        RenderStateManager.pushPose();
+        RenderContext.pushPose();
 
-        RenderStateManager.translate(0F, 5.5F, 0F);
+        RenderContext.translate(0F, 5.5F, 0F);
         float speed = be.getSpeed();
         float wheelRot = be.prevRotation + (be.rotation - be.prevRotation) * partialTicks;
-        RenderStateManager.rotateX(wheelRot);
-        RenderStateManager.translate(0F, -5.5F, 0F);
+        RenderContext.rotateX(wheelRot);
+        RenderContext.translate(0F, -5.5F, 0F);
 
         ResourceManager.battery_redd.renderPart("Wheel");
 
@@ -69,11 +68,11 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
         ResourceManager.battery_redd.renderPart("Lights");
         FullBright.disable();
 
-        RenderStateManager.pushPose();
-        RenderStateManager.translate(0F, 5.5F, 0F);
+        RenderContext.pushPose();
+        RenderContext.translate(0F, 5.5F, 0F);
 
         Vec3NT vec = new Vec3NT(0, 0, 4);
-        Matrix4f matrix = RenderStateManager.pose().pose();
+        Matrix4f matrix = RenderContext.pose().pose();
 
         double len = 4.25D;
         double width = 0.125D;
@@ -109,15 +108,15 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
             }
         }
 
-        RenderStateManager.popPose();
+        RenderContext.popPose();
 
         this.renderSparkle(be);
 
-        RenderStateManager.popPose();
+        RenderContext.popPose();
 
-        if (speed > 0) renderZaps(be);
+        if (speed > 0) this.renderZaps(be);
 
-        RenderStateManager.end();
+        RenderContext.end();
     }
 
     protected void renderSparkle(BatteryREDDBlockEntity be) {
@@ -134,17 +133,17 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
 
         FullBright.enable();
 
-        RenderStateManager.setRenderType(NtmRenderTypes.FVBO_ADDITIVE.apply(ResourceManager.FUSION_PLASMA_TEX));
+        RenderContext.setRenderType(NtmRenderTypes.FVBO_ADDITIVE_NL.apply(ResourceManager.FUSION_PLASMA_TEX));
         RenderSystem.setTextureMatrix(new Matrix4f().translate(0f, (float) mainOsc, 0f));
-        RenderStateManager.setColor(r, g, b, alpha * alphaMult);
+        RenderContext.setColor(r, g, b, alpha * alphaMult);
         ResourceManager.battery_redd.renderPart("Plasma");
         RenderSystem.resetTextureMatrix();
 
         // cost-cutting measure, don't render extra layers from more than 100m away
         if (Minecraft.getInstance().player.distanceToSqr(be.getBlockPos().getX() + 0.5, be.getBlockPos().getY() + 2.5, be.getBlockPos().getZ()) < 100 * 100) {
-            RenderStateManager.setRenderType(NtmRenderTypes.FVBO_ADDITIVE.apply(ResourceManager.FUSION_PLASMA_SPARKLE_TEX));
+            RenderContext.setRenderType(NtmRenderTypes.FVBO_ADDITIVE_NL.apply(ResourceManager.FUSION_PLASMA_SPARKLE_TEX));
             RenderSystem.setTextureMatrix(new Matrix4f().translate((float) sparkleSpin, (float) sparkleOsc, 0f));
-            RenderStateManager.setColor(r * 2, g * 2, b * 2, 0.75F * alphaMult);
+            RenderContext.setColor(r * 2, g * 2, b * 2, 0.75F * alphaMult);
             ResourceManager.battery_redd.renderPart("Plasma");
             RenderSystem.resetTextureMatrix();
         }
@@ -158,35 +157,35 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
         rand.nextBoolean();
 
         if (rand.nextBoolean()) {
-            RenderStateManager.pushPose();
-            RenderStateManager.translate(3.125, 5.5, 0);
+            RenderContext.pushPose();
+            RenderContext.translate(3.125, 5.5, 0);
             BeamPronter.prontBeam(new Vec3NT(-1.375, -2.625, 3.75), WaveType.RANDOM, BeamType.SOLID, 0x404040, 0x002040, (int)(System.currentTimeMillis() % 1000) / 50, 15, 0.25F, 3, 0.0625F);
             BeamPronter.prontBeam(new Vec3NT(-1.375, -2.625, 3.75), WaveType.RANDOM, BeamType.SOLID, 0x404040, 0x002040, (int)(System.currentTimeMillis() % 1000) / 50, 1, 0, 3, 0.0625F);
-            RenderStateManager.popPose();
+            RenderContext.popPose();
         }
 
         if (rand.nextBoolean()) {
-            RenderStateManager.pushPose();
-            RenderStateManager.translate(-3.125, 5.5, 0);
+            RenderContext.pushPose();
+            RenderContext.translate(-3.125, 5.5, 0);
             BeamPronter.prontBeam(new Vec3NT(1.375, -2.625, 3.75), WaveType.RANDOM, BeamType.SOLID, 0x404040, 0x002040, (int)(System.currentTimeMillis() % 1000) / 50, 15, 0.25F, 3, 0.0625F);
             BeamPronter.prontBeam(new Vec3NT(1.375, -2.625, 3.75), WaveType.RANDOM, BeamType.SOLID, 0x404040, 0x002040, (int)(System.currentTimeMillis() % 1000) / 50, 1, 0, 3, 0.0625F);
-            RenderStateManager.popPose();
+            RenderContext.popPose();
         }
 
         if (rand.nextBoolean()) {
-            RenderStateManager.pushPose();
-            RenderStateManager.translate(3.125, 5.5, 0);
+            RenderContext.pushPose();
+            RenderContext.translate(3.125, 5.5, 0);
             BeamPronter.prontBeam(new Vec3NT(-1.375, -2.625, -3.75), WaveType.RANDOM, BeamType.SOLID, 0x404040, 0x002040, (int)(System.currentTimeMillis() % 1000) / 50, 15, 0.25F, 3, 0.0625F);
             BeamPronter.prontBeam(new Vec3NT(-1.375, -2.625, -3.75), WaveType.RANDOM, BeamType.SOLID, 0x404040, 0x002040, (int)(System.currentTimeMillis() % 1000) / 50, 1, 0, 3, 0.0625F);
-            RenderStateManager.popPose();
+            RenderContext.popPose();
         }
 
         if (rand.nextBoolean()) {
-            RenderStateManager.pushPose();
-            RenderStateManager.translate(-3.125, 5.5, 0);
+            RenderContext.pushPose();
+            RenderContext.translate(-3.125, 5.5, 0);
             BeamPronter.prontBeam(new Vec3NT(1.375, -2.625, -3.75), WaveType.RANDOM, BeamType.SOLID, 0x404040, 0x002040, (int)(System.currentTimeMillis() % 1000) / 50, 15, 0.25F, 3, 0.0625F);
             BeamPronter.prontBeam(new Vec3NT(1.375, -2.625, -3.75), WaveType.RANDOM, BeamType.SOLID, 0x404040, 0x002040, (int)(System.currentTimeMillis() % 1000) / 50, 1, 0, 3, 0.0625F);
-            RenderStateManager.popPose();
+            RenderContext.popPose();
         }
     }
 
@@ -197,16 +196,16 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
 
         if (bb == null) {
             int x = be.getBlockPos().getX();
-            int y = be.getBlockPos().getX();
-            int z = be.getBlockPos().getX();
+            int y = be.getBlockPos().getY();
+            int z = be.getBlockPos().getZ();
 
             bb = new AABB(
                     x - 4,
                     y - 0,
                     z - 4,
-                    x - 5,
-                    y - 10,
-                    z - 5
+                    x + 5,
+                    y + 10,
+                    z + 5
             );
         }
 
@@ -231,15 +230,13 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
             public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
                 poseStack.mulPose(Axis.YN.rotationDegrees(-90F));
                 poseStack.scale(0.5F, 0.5F, 0.5F);
-                RenderType type = NtmRenderTypes.FVBO.apply(ResourceManager.BATTERY_REDD_TEX);
 
-                RenderStateManager.setupR(type, poseStack, packedLight, packedOverlay);
+                RenderContext.setup(NtmRenderTypes.FVBO.apply(ResourceManager.BATTERY_REDD_TEX), poseStack, packedLight, packedOverlay);
                 ResourceManager.battery_redd.renderPart("Base");
                 ResourceManager.battery_redd.renderPart("Wheel");
-                FullBright.enable();
+                RenderContext.setRenderType(NtmRenderTypes.FVBO_NL.apply(ResourceManager.BATTERY_REDD_TEX));
                 ResourceManager.battery_redd.renderPart("Lights");
-                FullBright.disable();
-                RenderStateManager.end();
+                RenderContext.end();
             }
         };
     }

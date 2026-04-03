@@ -3,17 +3,20 @@ package com.hbm.inventory;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.items.IMetaItem;
 import com.hbm.items.ModItems;
-import com.hbm.items.machine.BatteryPackItem;
 import com.hbm.items.machine.FluidIDMultiItem;
 import com.hbm.main.NuclearTechMod;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
 
 import static net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB;
@@ -83,44 +86,8 @@ public class ModCreativeTabs {
                         output.accept(ModItems.INF_WATER.get());
                         output.accept(ModItems.INF_WATER_MK2.get());
 
-                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.BATTERY_PACK_REDSTONE.get())));
-                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_REDSTONE.get())));
-
-                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.BATTERY_PACK_LEAD.get())));
-                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_LEAD.get())));
-
-                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.BATTERY_PACK_LITHIUM.get())));
-                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_LITHIUM.get())));
-
-                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.BATTERY_PACK_SODIUM.get())));
-                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_SODIUM.get())));
-
-                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.BATTERY_PACK_SCHRABIDIUM.get())));
-                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_SCHRABIDIUM.get())));
-
-                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.BATTERY_PACK_QUANTUM.get())));
-                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.BATTERY_PACK_QUANTUM.get())));
-
-                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.CAPACITOR_COPPER.get())));
-                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.CAPACITOR_COPPER.get())));
-
-                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.CAPACITOR_GOLD.get())));
-                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.CAPACITOR_GOLD.get())));
-
-                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.CAPACITOR_NIOBIUM.get())));
-                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.CAPACITOR_NIOBIUM.get())));
-
-                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.CAPACITOR_NIOBIUM.get())));
-                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.CAPACITOR_NIOBIUM.get())));
-
-                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.CAPACITOR_TANTALUM.get())));
-                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.CAPACITOR_TANTALUM.get())));
-
-                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.CAPACITOR_BISMUTH.get())));
-                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.CAPACITOR_BISMUTH.get())));
-
-                        output.accept(BatteryPackItem.makeFullBattery(new ItemStack(ModItems.CAPACITOR_SPARK.get())));
-                        output.accept(BatteryPackItem.makeEmptyBattery(new ItemStack(ModItems.CAPACITOR_SPARK.get())));
+                        addMetaItems(output, ModItems.BATTERY_PACK.get());
+                        addMetaItems(output, ModItems.BATTERY_SC.get());
 
                         output.accept(ModItems.BATTERY_CREATIVE);
 
@@ -375,6 +342,17 @@ public class ModCreativeTabs {
                         output.accept(ModItems.BOMB_CALLER_NAPALM);
                         output.accept(ModItems.BOMB_CALLER_ATOMIC);
                     }).build());
+
+    private static void addMetaItems(CreativeModeTab.Output output, Item item) {
+        if (item instanceof IMetaItem metaItem) {
+            List<ItemStack> stacks = new ArrayList<>();
+            metaItem.getSubItems(item, stacks);
+
+            for (ItemStack stack : stacks) {
+                output.accept(stack);
+            }
+        }
+    }
 
     public static void register(IEventBus eventBus) {
         CREATIVE_MODE_TABS.register(eventBus);

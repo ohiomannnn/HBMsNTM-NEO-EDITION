@@ -5,7 +5,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
-import com.hbm.render.util.RenderStateManager;
+import com.hbm.render.util.RenderContext;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -31,13 +31,13 @@ public class RenderNukeIvyMike extends BlockEntityRendererNT<NukeIvyMikeBlockEnt
             case NORTH -> 270F;
         };
 
-        RenderStateManager.setupR(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_IVY_MIKE), poseStack, packedLight, packedOverlay);
-        RenderStateManager.translate(0.5, 0.0, 0.5);
-        RenderStateManager.mulPose(Axis.YP.rotationDegrees(rot));
+        RenderContext.setup(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_IVY_MIKE), poseStack, packedLight, packedOverlay);
+        RenderContext.translate(0.5, 0.0, 0.5);
+        RenderContext.mulPose(Axis.YP.rotationDegrees(rot));
 
         ResourceManager.nuke_ivy_mike.renderAll();
 
-        RenderStateManager.end();
+        RenderContext.end();
     }
 
     @Override
@@ -56,11 +56,9 @@ public class RenderNukeIvyMike extends BlockEntityRendererNT<NukeIvyMikeBlockEnt
 
             @Override
             public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                RenderStateManager.setupR(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_IVY_MIKE), poseStack, packedLight, packedOverlay);
-
+                RenderContext.setup(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_IVY_MIKE), poseStack, packedLight, packedOverlay);
                 ResourceManager.nuke_ivy_mike.renderAll();
-
-                RenderStateManager.end();
+                RenderContext.end();
             }
         };
     }

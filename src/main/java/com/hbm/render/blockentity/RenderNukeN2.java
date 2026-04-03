@@ -5,8 +5,8 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
+import com.hbm.render.util.RenderContext;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -31,15 +31,14 @@ public class RenderNukeN2 extends BlockEntityRendererNT<NukeN2BlockEntity> imple
             case NORTH -> 0F;
         };
 
-        poseStack.pushPose();
-        poseStack.translate(0.5, 0.0, 0.5);
-        poseStack.mulPose(Axis.YP.rotationDegrees(90F));
-        poseStack.mulPose(Axis.YP.rotationDegrees(rot));
+        RenderContext.setup(NtmRenderTypes.FVBO.apply(ResourceManager.NUKE_N2_TEX), poseStack, packedLight, packedOverlay);
+        RenderContext.translate(0.5, 0.0, 0.5);
+        RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
+        RenderContext.mulPose(Axis.YP.rotationDegrees(rot));
 
-        VertexConsumer consumer = buffer.getBuffer(NtmRenderTypes.EC_NC.apply(ResourceManager.NUKE_N2_TEX));
-        ResourceManager.nuke_n2.renderAll(poseStack, consumer, packedLight, packedOverlay);
+        ResourceManager.nuke_n2.renderAll();
 
-        poseStack.popPose();
+        RenderContext.end();
     }
 
     @Override
@@ -58,8 +57,9 @@ public class RenderNukeN2 extends BlockEntityRendererNT<NukeN2BlockEntity> imple
 
             @Override
             public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                VertexConsumer consumer = buffer.getBuffer(NtmRenderTypes.EC_NC.apply(ResourceManager.NUKE_N2_TEX));
-                ResourceManager.nuke_n2.renderAll(poseStack, consumer, packedLight, packedOverlay);
+                RenderContext.setup(NtmRenderTypes.FVBO.apply(ResourceManager.NUKE_N2_TEX), poseStack, packedLight, packedOverlay);
+                ResourceManager.nuke_n2.renderAll();
+                RenderContext.end();
             }
         };
     }

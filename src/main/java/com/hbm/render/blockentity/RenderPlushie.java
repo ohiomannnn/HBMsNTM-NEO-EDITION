@@ -10,7 +10,7 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.util.HorsePronter;
-import com.hbm.render.util.RenderStateManager;
+import com.hbm.render.util.RenderContext;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
@@ -38,13 +38,13 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
     @Override
     public void render(PlushieBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
 
-        RenderStateManager.setupR(null, poseStack, packedLight, packedOverlay);
-        RenderStateManager.translate(0.5F, 0F, 0.5F);
-        RenderStateManager.mulPose(Axis.YN.rotationDegrees((float) (22.5D * be.getBlockState().getValue(PlushieBlock.DIRECTION) + 90)));
+        RenderContext.setup(poseStack, packedLight, packedOverlay);
+        RenderContext.translate(0.5F, 0F, 0.5F);
+        RenderContext.mulPose(Axis.YN.rotationDegrees((float) (22.5D * be.getBlockState().getValue(PlushieBlock.DIRECTION) + 90)));
 
         if (be.squishTimer > 0) {
             double squish = be.squishTimer - partialTicks;
-            RenderStateManager.scale(1F,  (float) (1F + (-(Math.sin(squish)) * squish) * 0.025F), 1F);
+            RenderContext.scale(1F,  (float) (1F + (-(Math.sin(squish)) * squish) * 0.025F), 1F);
         }
 
         switch (be.type) {
@@ -55,20 +55,20 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
 
         renderPlushie(be.type, be.squishTimer > 0);
 
-        RenderStateManager.end();
+        RenderContext.end();
     }
 
     public static void renderPlushie(PlushieType type, boolean squish) {
 
         switch (type) {
             case YOMI -> {
-                RenderStateManager.setRenderType(NtmRenderTypes.FVBO.apply(yomiTex));
+                RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(yomiTex));
                 ResourceManager.yomiModel.renderAll();
             }
             case NUMBERNINE -> {
-                RenderStateManager.mulPose(Axis.YP.rotationDegrees(90F));
-                RenderStateManager.mulPose(Axis.XN.rotationDegrees(15));
-                RenderStateManager.translate(0F, -0.25F, 0.75F);
+                RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
+                RenderContext.mulPose(Axis.XN.rotationDegrees(15));
+                RenderContext.translate(0F, -0.25F, 0.75F);
                 HorsePronter.reset();
                 double r = 45;
                 HorsePronter.pose(HorsePronter.id_body, 0, -r, 0);
@@ -78,39 +78,40 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
                 HorsePronter.pose(HorsePronter.id_lfl, 0, r - 25, 5);
                 HorsePronter.pose(HorsePronter.id_rfl, 0, r - 25, -5);
                 HorsePronter.pose(HorsePronter.id_head, 0, r + 15, 0);
-                RenderStateManager.setRenderType(NtmRenderTypes.FVBO_NC.apply(numbernineTex));
+                RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(numbernineTex));
                 HorsePronter.pront();
-                RenderStateManager.mulPose(Axis.XP.rotationDegrees(15F));
+                RenderContext.mulPose(Axis.XP.rotationDegrees(15F));
 
-                RenderStateManager.pushPose();
-                RenderStateManager.translate(0F, 1F, -0.6875F);
+                RenderContext.pushPose();
+                RenderContext.translate(0F, 1F, -0.6875F);
                 float s = 1.125F;
-                RenderStateManager.scale(0.0625F * s, 0.0625F * s, 0.0625F * s);
-                RenderStateManager.mulPose(Axis.XP.rotationDegrees(180F));
-                RenderStateManager.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NO9));
+                RenderContext.scale(0.0625F * s, 0.0625F * s, 0.0625F * s);
+                RenderContext.mulPose(Axis.XP.rotationDegrees(180F));
+                RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NO9));
                 ResourceManager.armor_no9.renderPart("Helmet");
-                RenderStateManager.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NO9_INSIGNIA));
+                RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NO9_INSIGNIA));
                 ResourceManager.armor_no9.renderPart("Insignia");
-                RenderStateManager.popPose();
+                RenderContext.popPose();
 
                 ItemStack stack = new ItemStack(ModItems.CIGARETTE.get());
                 float scale = 0.25F;
-                RenderStateManager.translate(-0.06F, 1.13F, -0.28F);
-                RenderStateManager.scale(scale, scale, scale);
-                RenderStateManager.mulPose(Axis.YN.rotationDegrees(90F));
-                RenderStateManager.mulPose(Axis.ZN.rotationDegrees(60F));
+                RenderContext.translate(-0.06F, 1.13F, -0.28F);
+                RenderContext.scale(scale, scale, scale);
+                RenderContext.mulPose(Axis.YN.rotationDegrees(90F));
+                RenderContext.mulPose(Axis.ZN.rotationDegrees(60F));
                 Minecraft mc = Minecraft.getInstance();
                 ItemRenderer itemRenderer = mc.getItemRenderer();
                 BakedModel model = itemRenderer.getModel(stack, null, null, 0);
-                MultiBufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
-                itemRenderer.render(stack, ItemDisplayContext.FIXED, false, RenderStateManager.poseStack(), buffer, RenderStateManager.light(), RenderStateManager.overlay(), model);
+                MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+                itemRenderer.render(stack, ItemDisplayContext.FIXED, false, RenderContext.poseStack(), buffer, RenderContext.light(), RenderContext.overlay(), model);
+                buffer.endBatch();
             }
             case HUNDUN -> {
-                RenderStateManager.setRenderType(NtmRenderTypes.FVBO.apply(hundunTex));
+                RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(hundunTex));
                 ResourceManager.hundunModel.renderPart("goober_posed");
             }
             case DERG -> {
-                RenderStateManager.setRenderType(NtmRenderTypes.FVBO.apply(dergTex));
+                RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(dergTex));
                 ResourceManager.dergModel.renderPart("Derg");
                 ResourceManager.dergModel.renderPart(squish ? "Blep" : "ColonThree");
             }
@@ -139,28 +140,28 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
             @Override
             public void renderCommon(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
 
-                RenderStateManager.setupR(null, poseStack, packedLight, packedOverlay);
-                RenderStateManager.translate(0F, 0.25F, 0F);
+                RenderContext.setup(poseStack, packedLight, packedOverlay);
+                RenderContext.translate(0F, 0.25F, 0F);
 
                 PlushieType type = getType(stack);
 
                 if (type == null) return;
 
                 switch (type) {
-                    case YOMI -> RenderStateManager.scale(1.25F, 1.25F, 1.25F);
+                    case YOMI -> RenderContext.scale(1.25F, 1.25F, 1.25F);
                     case NUMBERNINE -> {
-                        RenderStateManager.translate(0F, 0.25F, 0.25F);
-                        RenderStateManager.scale(1.25F, 1.25F, 1.25F);
+                        RenderContext.translate(0F, 0.25F, 0.25F);
+                        RenderContext.scale(1.25F, 1.25F, 1.25F);
                     }
                     case HUNDUN -> {
-                        RenderStateManager.translate(0.5F, 0.5F, 0);
-                        RenderStateManager.scale(1.25F, 1.25F, 1.25F);
+                        RenderContext.translate(0.5F, 0.5F, 0);
+                        RenderContext.scale(1.25F, 1.25F, 1.25F);
                     }
-                    case DERG -> RenderStateManager.scale(1.5F, 1.5F, 1.5F);
+                    case DERG -> RenderContext.scale(1.5F, 1.5F, 1.5F);
                 }
 
                 renderPlushie(type, false);
-                RenderStateManager.end();
+                RenderContext.end();
             }
         };
     }

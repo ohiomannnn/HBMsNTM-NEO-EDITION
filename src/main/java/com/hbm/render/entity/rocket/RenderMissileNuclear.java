@@ -4,11 +4,11 @@ import com.hbm.entity.missile.MissileBaseNT;
 import com.hbm.entity.missile.MissileTier4;
 import com.hbm.entity.missile.MissileTier4.*;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.NtmRenderTypes;
+import com.hbm.render.util.RenderContext;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -23,14 +23,14 @@ public class RenderMissileNuclear extends EntityRenderer<MissileTier4> {
     }
 
     @Override
-    public void render(MissileTier4 entity, float yaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-        poseStack.pushPose();
+    public void render(MissileTier4 missile, float yaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+        RenderContext.setup(NtmRenderTypes.FVBO.apply(this.getTextureLocation(missile)), poseStack, packedLight, OverlayTexture.NO_OVERLAY);
 
-        poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTicks, entity.yRotO, entity.yRot) - 90.0F));
-        poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTicks, entity.xRotO, entity.xRot)));
-        poseStack.mulPose(Axis.YN.rotationDegrees(Mth.lerp(partialTicks, entity.yRotO, entity.yRot) - 90.0F));
+        RenderContext.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTicks, missile.yRotO, missile.yRot) - 90.0F));
+        RenderContext.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTicks, missile.xRotO, missile.xRot)));
+        RenderContext.mulPose(Axis.YN.rotationDegrees(Mth.lerp(partialTicks, missile.yRotO, missile.yRot) - 90.0F));
 
-        Direction facing = entity.getEntityData().get(MissileBaseNT.ROT);
+        Direction facing = missile.getEntityData().get(MissileBaseNT.ROT);
         float rot = switch (facing) {
             case DOWN, UP -> 0.0F;
             case WEST -> 90F;
@@ -39,24 +39,20 @@ public class RenderMissileNuclear extends EntityRenderer<MissileTier4> {
             case NORTH -> 0F;
         };
 
-        poseStack.mulPose(Axis.YP.rotationDegrees(rot));
+        RenderContext.mulPose(Axis.YP.rotationDegrees(rot));
 
-        VertexConsumer consumer = null;
+        ResourceManager.missileNuclear.renderAll();
 
-        if (entity instanceof MissileNuclear) consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_NUCLEAR_TEX));
-        if (entity instanceof MissileMirv) consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_THERMO_TEX));
-        if (entity instanceof MissileVolcano) consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_VOLCANO_TEX));
-        if (entity instanceof MissileDoomsday) consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_DOOMSDAY_TEX));
-        if (entity instanceof MissileDoomsdayRusted) consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.MISSILE_DOOMSDAY_RUSTED_TEX));
-
-        if (consumer == null) return;
-        ResourceManager.missileNuclear.renderAll(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY);
-
-        poseStack.popPose();
+        RenderContext.end();
     }
 
     @Override
-    public ResourceLocation getTextureLocation(MissileTier4 entity) {
-        return ResourceManager.MISSILE_V2_HE_TEX;
+    public ResourceLocation getTextureLocation(MissileTier4 missile) {
+        if (missile instanceof MissileNuclear)        return ResourceManager.MISSILE_NUCLEAR_TEX;
+        if (missile instanceof MissileMirv)           return ResourceManager.MISSILE_THERMO_TEX;
+        if (missile instanceof MissileVolcano)        return ResourceManager.MISSILE_VOLCANO_TEX;
+        if (missile instanceof MissileDoomsday)       return ResourceManager.MISSILE_DOOMSDAY_TEX;
+        if (missile instanceof MissileDoomsdayRusted) return ResourceManager.MISSILE_DOOMSDAY_RUSTED_TEX;
+        return ResourceManager.EMPTY;
     }
 }

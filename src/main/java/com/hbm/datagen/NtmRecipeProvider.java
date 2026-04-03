@@ -10,10 +10,12 @@ import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.concurrent.CompletableFuture;
 
-public class ModRecipeProvider extends RecipeProvider {
-    public ModRecipeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
+public class NtmRecipeProvider extends RecipeProvider {
+
+    public NtmRecipeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
         super(output, registries);
     }
+
     @Override
     protected void buildRecipes(RecipeOutput recipeOutput) {
 

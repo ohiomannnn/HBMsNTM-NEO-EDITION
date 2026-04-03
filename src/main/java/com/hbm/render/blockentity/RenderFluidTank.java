@@ -1,5 +1,6 @@
 package com.hbm.render.blockentity;
 
+import com.hbm.blockentity.machine.storage.BatteryREDDBlockEntity;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.blockentity.IPersistentNBT;
 import com.hbm.blockentity.machine.storage.MachineFluidTankBlockEntity;
@@ -10,20 +11,21 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Corrosive;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.util.DiamondPronter;
+import com.hbm.render.util.RenderContext;
 import com.hbm.util.TagsUtilDegradation;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.AABB;
 
 import java.util.Locale;
 
@@ -43,43 +45,43 @@ public class RenderFluidTank extends BlockEntityRendererNT<MachineFluidTankBlock
             case WEST -> 270F;
         };
 
-        poseStack.pushPose();
-        poseStack.translate(0.5F, 0F, 0.5F);
-        poseStack.mulPose(Axis.YP.rotationDegrees(rot));
+        RenderContext.setup(poseStack, packedLight, packedOverlay);
+        RenderContext.translate(0.5F, 0F, 0.5F);
+        RenderContext.mulPose(Axis.YP.rotationDegrees(rot));
 
         FluidType type = be.tank.getTankType();
 
         if (!be.hasExploded) {
-            VertexConsumer frameConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.TANK_TEX));
-            ResourceManager.fluid_tank.renderPart("Frame", poseStack, frameConsumer, packedLight, packedOverlay);
-            VertexConsumer tankConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(NuclearTechMod.withDefaultNamespace(getTextureFromType(type))));
-            ResourceManager.fluid_tank.renderPart("Tank", poseStack, tankConsumer, packedLight, packedOverlay);
+            RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.TANK_TEX));
+            ResourceManager.fluid_tank.renderPart("Frame");
+            RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(NuclearTechMod.withDefaultNamespace(getTextureFromType(type))));
+            ResourceManager.fluid_tank.renderPart("Tank");
         } else {
-            VertexConsumer frameConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.TANK_TEX));
-            ResourceManager.fluid_tank_exploded.renderPart("Frame", poseStack, frameConsumer, packedLight, packedOverlay);
-            VertexConsumer innerConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.TANK_INNER_TEX));
-            ResourceManager.fluid_tank_exploded.renderPart("TankInner", poseStack, innerConsumer, packedLight, packedOverlay);
-            VertexConsumer tankConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(NuclearTechMod.withDefaultNamespace(getTextureFromType(type))));
-            ResourceManager.fluid_tank_exploded.renderPart("Tank", poseStack, tankConsumer, packedLight, packedOverlay);
+            RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.TANK_TEX));
+            ResourceManager.fluid_tank_exploded.renderPart("Frame");
+            RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.TANK_INNER_TEX));
+            ResourceManager.fluid_tank_exploded.renderPart("TankInner");
+            RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(NuclearTechMod.withDefaultNamespace(getTextureFromType(type))));
+            ResourceManager.fluid_tank_exploded.renderPart("Tank");
         }
 
         if (type != Fluids.NONE) {
-            poseStack.pushPose();
-            poseStack.translate(-0.25F, 0.5F, -1.501F);
-            poseStack.mulPose(Axis.YP.rotationDegrees(90));
-            poseStack.scale(1.0F, 0.375F, 0.375F);
-            DiamondPronter.pront(buffer, poseStack, packedLight, type.poison, type.flammability, type.reactivity, type.symbol);
-            poseStack.popPose();
+            RenderContext.pushPose();
+            RenderContext.translate(-0.25F, 0.5F, -1.501F);
+            RenderContext.mulPose(Axis.YP.rotationDegrees(90));
+            RenderContext.scale(1.0F, 0.375F, 0.375F);
+            DiamondPronter.pront(buffer, type.poison, type.flammability, type.reactivity, type.symbol);
+            RenderContext.popPose();
 
-            poseStack.pushPose();
-            poseStack.translate(0.25F, 0.5F, 1.501F);
-            poseStack.mulPose(Axis.YN.rotationDegrees(90));
-            poseStack.scale(1.0F, 0.375F, 0.375F);
-            DiamondPronter.pront(buffer, poseStack, packedLight, type.poison, type.flammability, type.reactivity, type.symbol);
-            poseStack.popPose();
+            RenderContext.pushPose();
+            RenderContext.translate(0.25F, 0.5F, 1.501F);
+            RenderContext.mulPose(Axis.YN.rotationDegrees(90));
+            RenderContext.scale(1.0F, 0.375F, 0.375F);
+            DiamondPronter.pront(buffer, type.poison, type.flammability, type.reactivity, type.symbol);
+            RenderContext.popPose();
         }
 
-        poseStack.popPose();
+        RenderContext.end();
     }
 
     public static String getTextureFromType(FluidType type) {
@@ -91,6 +93,30 @@ public class RenderFluidTank extends BlockEntityRendererNT<MachineFluidTankBlock
 
         return "textures/models/tank/tank_" + s + ".png";
     }
+
+    private AABB bb = null;
+
+    @Override
+    public AABB getRenderBoundingBox(MachineFluidTankBlockEntity be) {
+
+        if (bb == null) {
+            int x = be.getBlockPos().getX();
+            int y = be.getBlockPos().getY();
+            int z = be.getBlockPos().getZ();
+
+            bb = new AABB(
+                    x - 2,
+                    y - 0,
+                    z - 2,
+                    x + 3,
+                    y + 3,
+                    z + 3
+            );
+        }
+
+        return bb;
+    }
+
 
     @Override
     public Item getItemForRenderer() {
@@ -121,18 +147,23 @@ public class RenderFluidTank extends BlockEntityRendererNT<MachineFluidTankBlock
 
                 FluidType type = tank.getTankType();
 
-                VertexConsumer frameConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.TANK_TEX));
+                RenderContext.setup(poseStack, packedLight, packedOverlay);
+
                 if (!exploded) {
-                    ResourceManager.fluid_tank.renderPart("Frame", poseStack, frameConsumer, packedLight, packedOverlay);
-                    VertexConsumer tankConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(NuclearTechMod.withDefaultNamespace(RenderFluidTank.getTextureFromType(type))));
-                    ResourceManager.fluid_tank.renderPart("Tank", poseStack, tankConsumer, packedLight, packedOverlay);
+                    RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.TANK_TEX));
+                    ResourceManager.fluid_tank.renderPart("Frame");
+                    RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(NuclearTechMod.withDefaultNamespace(getTextureFromType(type))));
+                    ResourceManager.fluid_tank.renderPart("Tank");
                 } else {
-                    ResourceManager.fluid_tank_exploded.renderPart("Frame", poseStack, frameConsumer, packedLight, packedOverlay);
-                    VertexConsumer innerConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(ResourceManager.TANK_INNER_TEX));
-                    ResourceManager.fluid_tank_exploded.renderPart("TankInner", poseStack, innerConsumer, packedLight, packedOverlay);
-                    VertexConsumer tankConsumer = buffer.getBuffer(RenderType.entityCutoutNoCull(NuclearTechMod.withDefaultNamespace(RenderFluidTank.getTextureFromType(type))));
-                    ResourceManager.fluid_tank_exploded.renderPart("Tank", poseStack, tankConsumer, packedLight, packedOverlay);
+                    RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.TANK_TEX));
+                    ResourceManager.fluid_tank_exploded.renderPart("Frame");
+                    RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.TANK_INNER_TEX));
+                    ResourceManager.fluid_tank_exploded.renderPart("TankInner");
+                    RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(NuclearTechMod.withDefaultNamespace(getTextureFromType(type))));
+                    ResourceManager.fluid_tank_exploded.renderPart("Tank");
                 }
+
+                RenderContext.end();
             }
         };
     }

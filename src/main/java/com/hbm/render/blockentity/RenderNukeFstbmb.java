@@ -5,7 +5,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
-import com.hbm.render.util.RenderStateManager;
+import com.hbm.render.util.RenderContext;
 import com.hbm.render.util.RenderMiscEffects;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -41,12 +41,12 @@ public class RenderNukeFstbmb extends BlockEntityRendererNT<NukeBalefireBlockEnt
         poseStack.translate(0.5, 0.0, 0.5);
         poseStack.mulPose(Axis.YP.rotationDegrees(rot));
 
-        RenderStateManager.setupR(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_FSTBMB_TEX), poseStack, packedLight, packedOverlay);
+        RenderContext.setup(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_FSTBMB_TEX), poseStack, packedLight, packedOverlay);
         ResourceManager.nuke_fstbmb.renderPart("Body");
         ResourceManager.nuke_fstbmb.renderPart("Balefire");
 
         if (be.hasEgg()) {
-            RenderStateManager.setRenderType(NtmRenderTypes.FVBO_ADDITIVE.apply(RenderMiscEffects.GLINT_BF));
+            RenderContext.setRenderType(NtmRenderTypes.FVBO_ADDITIVE_NL.apply(RenderMiscEffects.GLINT_BF));
             RenderMiscEffects.renderClassicGlint(partialTicks, ResourceManager.nuke_fstbmb, "Balefire", 0.0F, 0.8F, 0.15F, 5, 2F);
         }
 
@@ -61,7 +61,7 @@ public class RenderNukeFstbmb extends BlockEntityRendererNT<NukeBalefireBlockEnt
             font.drawInBatch(be.getMinutes() + ":" + be.getSeconds(), 0, 0, 0xff0000, false, matrix, buffer, Font.DisplayMode.NORMAL, 0, packedLight);
         }
 
-        RenderStateManager.end();
+        RenderContext.end();
         poseStack.popPose();
     }
 
@@ -84,10 +84,10 @@ public class RenderNukeFstbmb extends BlockEntityRendererNT<NukeBalefireBlockEnt
                 poseStack.mulPose(Axis.YP.rotationDegrees(90F));
                 RenderType type = NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_FSTBMB_TEX);
 
-                RenderStateManager.setupR(type, poseStack, packedLight, packedOverlay);
+                RenderContext.setup(type, poseStack, packedLight, packedOverlay);
                 ResourceManager.nuke_fstbmb.renderPart("Body");
                 ResourceManager.nuke_fstbmb.renderPart("Balefire");
-                RenderStateManager.end();
+                RenderContext.end();
             }
         };
     }

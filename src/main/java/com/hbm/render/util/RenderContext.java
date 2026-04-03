@@ -9,9 +9,9 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import org.joml.Quaternionf;
 
 /** I need more context */
-public class RenderStateManager {
+public class RenderContext {
 
-    private static final ThreadLocal<RenderStateManager> INSTANCE = ThreadLocal.withInitial(RenderStateManager::new);
+    private static final ThreadLocal<RenderContext> INSTANCE = ThreadLocal.withInitial(RenderContext::new);
 
     private RenderType renderType;
     private VertexConsumer consumer;
@@ -23,7 +23,7 @@ public class RenderStateManager {
     private float b = 1.0F;
     private float a = 1.0F;
 
-    private RenderStateManager() { }
+    private RenderContext() { }
 
     public static void setLight(int packedLight) {
         INSTANCE.get().packedLight = packedLight;
@@ -34,7 +34,7 @@ public class RenderStateManager {
     }
 
     public static void setColor(float r, float g, float b, float a) {
-        RenderStateManager context = INSTANCE.get();
+        RenderContext context = INSTANCE.get();
         context.r = r;
         context.g = g;
         context.b = b;
@@ -49,8 +49,16 @@ public class RenderStateManager {
         setColor(r, g, b, a);
     }
 
-    public static void setupR(RenderType renderType, PoseStack poseStack, int packedLight, int packedOverlay) {
-        RenderStateManager context = INSTANCE.get();
+    public static void setup(PoseStack poseStack, int packedLight, int packedOverlay) {
+        RenderContext context = INSTANCE.get();
+        context.poseStack = poseStack;
+        context.packedLight = packedLight;
+        context.packedOverlay = packedOverlay;
+        context.poseStack.pushPose();
+    }
+
+    public static void setup(RenderType renderType, PoseStack poseStack, int packedLight, int packedOverlay) {
+        RenderContext context = INSTANCE.get();
         context.renderType = renderType;
         context.poseStack = poseStack;
         context.packedLight = packedLight;
@@ -58,8 +66,8 @@ public class RenderStateManager {
         context.poseStack.pushPose();
     }
 
-    public static void setupC(VertexConsumer consumer, PoseStack poseStack, int packedLight, int packedOverlay) {
-        RenderStateManager context = INSTANCE.get();
+    public static void setup(VertexConsumer consumer, PoseStack poseStack, int packedLight, int packedOverlay) {
+        RenderContext context = INSTANCE.get();
         context.consumer = consumer;
         context.poseStack = poseStack;
         context.packedLight = packedLight;
@@ -68,7 +76,7 @@ public class RenderStateManager {
     }
 
     public static void end() {
-        RenderStateManager context = INSTANCE.get();
+        RenderContext context = INSTANCE.get();
         context.consumer = null;
         context.renderType = null;
         context.packedLight = LightTexture.FULL_BRIGHT;

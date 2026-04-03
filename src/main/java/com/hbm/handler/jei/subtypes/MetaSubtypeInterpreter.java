@@ -1,6 +1,6 @@
 package com.hbm.handler.jei.subtypes;
 
-import com.hbm.inventory.MetaHelper;
+import com.hbm.items.component.NtmDataComponents;
 import mezz.jei.api.ingredients.subtypes.ISubtypeInterpreter;
 import mezz.jei.api.ingredients.subtypes.UidContext;
 import net.minecraft.world.item.ItemStack;
@@ -14,11 +14,11 @@ public class MetaSubtypeInterpreter implements ISubtypeInterpreter<ItemStack> {
 
     @Override
     public @Nullable Object getSubtypeData(ItemStack stack, UidContext context) {
-        return MetaHelper.getMeta(stack);
+        return stack.get(NtmDataComponents.META);
     }
 
     @Override
     public String getLegacyStringSubtypeInfo(ItemStack stack, UidContext context) {
-        return String.valueOf(MetaHelper.getMeta(stack));
+        return String.valueOf(NtmDataComponents.META);
     }
 }

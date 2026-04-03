@@ -1,5 +1,6 @@
 package com.hbm.render.newloader.old;
 
+// code from minecraft 1.7.10 (net.minecraftforge.client.model.obj)
 public class Vertex
 {
     public float x, y, z;

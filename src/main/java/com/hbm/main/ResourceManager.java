@@ -1,7 +1,7 @@
 package com.hbm.main;
 
 import com.hbm.render.loader.HFRWavefrontObject;
-import com.hbm.render.loader.IModelCustom;
+import com.hbm.render.newloader.IModelCustom;
 import com.hbm.render.loader.IModelCustomOld;
 import com.hbm.render.newloader.old.ModelFormatException;
 import net.minecraft.resources.ResourceLocation;
@@ -67,6 +67,7 @@ public class ResourceManager {
     public static final ResourceLocation TANK_INNER_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/tank_inner.png");
 
     public static final ResourceLocation BATTERY_SOCKET_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/battery_socket.png");
+    public static final ResourceLocation BATTERY_SC_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/battery_sc.png");
     public static final ResourceLocation BATTERY_REDD_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/fensu2.png");
 
     public static final ResourceLocation GEIGER_TEX = NuclearTechMod.withDefaultNamespace("textures/block/geiger.png");
@@ -128,8 +129,8 @@ public class ResourceManager {
     public static IModelCustom nuke_fat_man;
     public static IModelCustom nuke_ivy_mike;
     public static IModelCustom nuke_tsar;
-    public static IModelCustomOld nuke_fleija;
-    public static IModelCustomOld nuke_n2;
+    public static IModelCustom nuke_fleija;
+    public static IModelCustom nuke_n2;
     public static IModelCustom nuke_fstbmb;
 
     public static IModelCustom dud_balefire;
@@ -141,55 +142,55 @@ public class ResourceManager {
 
     public static IModelCustomOld cable_neo;
     public static IModelCustomOld pipe_neo;
-    public static IModelCustomOld difurnace_extension;
+    //public static IModelCustomOld difurnace_extension;
 
-    public static IModelCustomOld fluid_tank;
-    public static IModelCustomOld fluid_tank_exploded;
+    public static IModelCustom fluid_tank;
+    public static IModelCustom fluid_tank_exploded;
 
-    public static IModelCustomOld geiger;
+    public static IModelCustom geiger;
 
     public static IModelCustom battery_socket;
     public static IModelCustom battery_redd;
 
     //Bomber
-    public static IModelCustomOld dornier;
-    public static IModelCustomOld b29;
-    public static IModelCustomOld c130;
+    public static IModelCustom dornier;
+    public static IModelCustom b29;
+    public static IModelCustom c130;
 
     //Missiles
-    public static IModelCustomOld missileV2;
-    public static IModelCustomOld missileABM;
-    public static IModelCustomOld missileStealth;
-    public static IModelCustomOld missileStrong;
-    public static IModelCustomOld missileHuge;
-    public static IModelCustomOld missileNuclear;
-    public static IModelCustomOld missileMicro;
-    public static IModelCustomOld missileShuttle;
+    public static IModelCustom missileV2;
+    public static IModelCustom missileABM;
+    public static IModelCustom missileStealth;
+    public static IModelCustom missileStrong;
+    public static IModelCustom missileHuge;
+    public static IModelCustom missileNuclear;
+    public static IModelCustom missileMicro;
+    public static IModelCustom missileShuttle;
 
     //Missile Parts
-    public static IModelCustomOld missile_pad;
+    public static IModelCustom missile_pad;
 
-    public static IModelCustomOld bomblet_zeta;
+    public static IModelCustom bomblet_zeta;
 
-    public static IModelCustomOld detonator_laser;
+    public static IModelCustom detonator_laser;
 
     public static IModelCustomOld barrel;
 
     public static IModelCustomOld sphere;
 
     public static void init() throws ModelFormatException {
-        mine_ap = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/mine_ap.obj")).asVBO();
-        mine_he = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/mine_he.obj")).asVBO();
-        mine_naval = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/mine_naval.obj")).asVBO();
-        mine_fat = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/mine_fat.obj")).asVBO();
+        mine_ap = new com.hbm.render.newloader.HFRWavefrontObject("models/obj/bomb/mine_ap.obj").asVBO();
+        mine_he = new com.hbm.render.newloader.HFRWavefrontObject("models/obj/bomb/mine_he.obj").asVBO();
+        mine_naval = new com.hbm.render.newloader.HFRWavefrontObject("models/obj/bomb/mine_naval.obj").asVBO();
+        mine_fat = new com.hbm.render.newloader.HFRWavefrontObject("models/obj/bomb/mine_fat.obj").asVBO();
 
         nuke_gadget = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/nuke_gadget.obj")).asVBO();
         nuke_little_boy = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/nuke_little_boy.obj")).asVBO();
         nuke_fat_man = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/nuke_fatman.obj")).asVBO();
         nuke_ivy_mike = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/nuke_ivy_mike.obj")).asVBO();
         nuke_tsar = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/nuke_tsar.obj")).asVBO();
-        nuke_fleija = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/nuke_fleija.obj")).render();
-        nuke_n2 = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/nuke_n2.obj")).render();
+        nuke_fleija = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/nuke_fleija.obj")).asVBO();
+        nuke_n2 = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/nuke_n2.obj")).asVBO();
         nuke_fstbmb = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/nuke_fstbmb.obj")).asVBO();
 
         dud_balefire = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomb/dud_balefire.obj")).asVBO();
@@ -201,34 +202,34 @@ public class ResourceManager {
 
         cable_neo = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/block/cable_neo.obj")).render();
         pipe_neo = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/block/pipe_neo.obj")).render();
-        difurnace_extension = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/block/difurnace_extension.obj")).render();
+        //difurnace_extension = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/block/difurnace_extension.obj")).render();
 
-        fluid_tank = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/machines/fluid_tank.obj")).render();
-        fluid_tank_exploded = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/machines/fluid_tank_exploded.obj")).render();
+        fluid_tank = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/machines/fluid_tank.obj")).asVBO();
+        fluid_tank_exploded = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/machines/fluid_tank_exploded.obj")).asVBO();
 
-        geiger = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/block/geiger.obj")).render();
+        geiger = new com.hbm.render.newloader.HFRWavefrontObject("models/obj/block/geiger.obj").asVBO();
 
-        battery_socket = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/machines/battery.obj")).asVBO();
-        battery_redd = new com.hbm.render.newloader.HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/machines/fensu2.obj")).asVBO();
+        battery_socket = new com.hbm.render.newloader.HFRWavefrontObject("models/obj/machines/battery.obj").asVBO();
+        battery_redd = new com.hbm.render.newloader.HFRWavefrontObject("models/obj/machines/fensu2.obj").asVBO();
 
-        dornier = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/dornier.obj")).render();
-        b29 = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/b29.obj")).render();
-        c130 = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/weapons/c130.obj")).render();
+        dornier = new com.hbm.render.newloader.HFRWavefrontObject("models/obj/dornier.obj").asVBO();
+        b29 = new com.hbm.render.newloader.HFRWavefrontObject("models/obj/b29.obj").asVBO();
+        c130 = new com.hbm.render.newloader.HFRWavefrontObject("models/obj/weapons/c130.obj").asVBO();
 
-        missileV2 = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/missile_v2.obj")).render();
-        missileABM = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/missile_abm.obj")).render();
-        missileStealth = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/missile_stealth.obj")).render();
-        missileStrong = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/missile_strong.obj")).render();
-        missileHuge = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/missile_huge.obj")).render();
-        missileNuclear = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/missile_atlas.obj")).render();
-        missileMicro = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/missile_micro.obj")).render();
-        missileShuttle = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/missile_shuttle.obj")).render();
+        missileV2 = new com.hbm.render.newloader.HFRWavefrontObject("models/obj/missile_v2.obj").asVBO();
+        missileABM = new com.hbm.render.newloader.HFRWavefrontObject("models/obj/missile_abm.obj").asVBO();
+        missileStealth = new com.hbm.render.newloader.HFRWavefrontObject("models/obj/missile_stealth.obj").asVBO();
+        missileStrong = new com.hbm.render.newloader.HFRWavefrontObject("models/obj/missile_strong.obj").asVBO();
+        missileHuge = new com.hbm.render.newloader.HFRWavefrontObject("models/obj/missile_huge.obj").asVBO();
+        missileNuclear = new com.hbm.render.newloader.HFRWavefrontObject("models/obj/missile_atlas.obj").asVBO();
+        missileMicro = new com.hbm.render.newloader.HFRWavefrontObject("models/obj/missile_micro.obj").asVBO();
+        missileShuttle = new com.hbm.render.newloader.HFRWavefrontObject("models/obj/missile_shuttle.obj").asVBO();
 
-        missile_pad = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/weapons/launch_pad_silo.obj")).render();
+        missile_pad = new com.hbm.render.newloader.HFRWavefrontObject("models/obj/weapons/launch_pad_silo.obj").asVBO();
 
-        bomblet_zeta = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/bomblet_zeta.obj")).render();
+        bomblet_zeta = new com.hbm.render.newloader.HFRWavefrontObject("models/obj/bomblet_zeta.obj").asVBO();
 
-        detonator_laser = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/weapons/detonator_laser.obj")).render();
+        detonator_laser = new com.hbm.render.newloader.HFRWavefrontObject("models/obj/weapons/detonator_laser.obj").asVBO();
 
         barrel = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/block/barrel.obj")).render();
 

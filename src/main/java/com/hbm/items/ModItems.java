@@ -1,7 +1,6 @@
 package com.hbm.items;
 
 import api.hbm.block.IToolable.ToolType;
-import com.hbm.main.NuclearTechMod;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.handler.ability.IToolAreaAbility;
 import com.hbm.handler.ability.IToolHarvestAbility;
@@ -12,7 +11,6 @@ import com.hbm.inventory.ModTiers;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.food.ItemEnergy;
 import com.hbm.items.machine.*;
-import com.hbm.items.machine.BatteryPackItem.BatteryPackType;
 import com.hbm.items.special.*;
 import com.hbm.items.tools.*;
 import com.hbm.items.tools.BombCallerItem.BomberType;
@@ -20,6 +18,7 @@ import com.hbm.items.weapon.MissileItem;
 import com.hbm.items.weapon.MissileItem.MissileFormFactor;
 import com.hbm.items.weapon.MissileItem.MissileFuel;
 import com.hbm.items.weapon.MissileItem.MissileTier;
+import com.hbm.main.NuclearTechMod;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EquipmentSlotGroup;
@@ -84,19 +83,8 @@ public class ModItems {
     public static final DeferredItem<Item> SCREWDRIVER_DESH = ITEMS.register("screwdriver_desh",
             () -> new Item(new Item.Properties().stacksTo(8)));
 
-    public static final DeferredItem<Item> BATTERY_PACK_REDSTONE = ITEMS.register("battery_pack_redstone",       () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.BATTERY_REDSTONE));
-    public static final DeferredItem<Item> BATTERY_PACK_LEAD = ITEMS.register("battery_pack_lead",               () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.BATTERY_LEAD));
-    public static final DeferredItem<Item> BATTERY_PACK_LITHIUM = ITEMS.register("battery_pack_lithium",         () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.BATTERY_LITHIUM));
-    public static final DeferredItem<Item> BATTERY_PACK_SODIUM = ITEMS.register("battery_pack_sodium",           () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.BATTERY_SODIUM));
-    public static final DeferredItem<Item> BATTERY_PACK_SCHRABIDIUM = ITEMS.register("battery_pack_schrabidium", () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.BATTERY_SCHRABIDIUM));
-    public static final DeferredItem<Item> BATTERY_PACK_QUANTUM = ITEMS.register("battery_pack_quantum",         () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.BATTERY_QUANTUM));
-
-    public static final DeferredItem<Item> CAPACITOR_COPPER = ITEMS.register("capacitor_copper",            () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.CAPACITOR_COPPER));
-    public static final DeferredItem<Item> CAPACITOR_GOLD = ITEMS.register("capacitor_gold",                () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.CAPACITOR_GOLD));
-    public static final DeferredItem<Item> CAPACITOR_NIOBIUM = ITEMS.register("capacitor_niobium",          () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.CAPACITOR_NIOBIUM));
-    public static final DeferredItem<Item> CAPACITOR_TANTALUM = ITEMS.register("capacitor_tantalum",        () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.CAPACITOR_TANTALUM));
-    public static final DeferredItem<Item> CAPACITOR_BISMUTH = ITEMS.register("capacitor_bismuth",          () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.CAPACITOR_BISMUTH));
-    public static final DeferredItem<Item> CAPACITOR_SPARK = ITEMS.register("capacitor_spark",              () -> new BatteryPackItem(new Item.Properties().stacksTo(1), BatteryPackType.CAPACITOR_SPARK));
+    public static final DeferredItem<Item> BATTERY_PACK = ITEMS.register("battery_pack", () -> new BatteryPackItem(new Item.Properties()));
+    public static final DeferredItem<Item> BATTERY_SC = ITEMS.register("battery_sc", () -> new BatterySCItem(new Item.Properties()));
 
     public static final DeferredItem<Item> BATTERY_CREATIVE = ITEMS.register("battery_creative", () -> new BatteryCreativeItem(new Item.Properties().stacksTo(1)));
 

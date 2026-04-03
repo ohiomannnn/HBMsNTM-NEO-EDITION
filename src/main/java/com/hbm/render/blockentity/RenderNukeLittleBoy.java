@@ -5,7 +5,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
-import com.hbm.render.util.RenderStateManager;
+import com.hbm.render.util.RenderContext;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -32,14 +32,14 @@ public class RenderNukeLittleBoy extends BlockEntityRendererNT<NukeLittleBoyBloc
             case NORTH -> 0F;
         };
 
-        RenderStateManager.setupR(NtmRenderTypes.FVBO.apply(ResourceManager.NUKE_LITTLE_BOY_TEX), poseStack, packedLight, packedOverlay);
-        RenderStateManager.translate(0.5, 0.0, 0.5);
-        RenderStateManager.mulPose(Axis.YP.rotationDegrees(rot));
-        RenderStateManager.translate(-2.0F, 0.0F, 0.0F);
+        RenderContext.setup(NtmRenderTypes.FVBO.apply(ResourceManager.NUKE_LITTLE_BOY_TEX), poseStack, packedLight, packedOverlay);
+        RenderContext.translate(0.5, 0.0, 0.5);
+        RenderContext.mulPose(Axis.YP.rotationDegrees(rot));
+        RenderContext.translate(-2.0F, 0.0F, 0.0F);
 
         ResourceManager.nuke_little_boy.renderAll();
 
-        RenderStateManager.end();
+        RenderContext.end();
     }
 
     @Override
@@ -58,9 +58,9 @@ public class RenderNukeLittleBoy extends BlockEntityRendererNT<NukeLittleBoyBloc
             @Override
             public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
                 poseStack.translate(-1F, 0F, 0F);
-                RenderStateManager.setupR(NtmRenderTypes.FVBO.apply(ResourceManager.NUKE_LITTLE_BOY_TEX), poseStack, packedLight, packedOverlay);
+                RenderContext.setup(NtmRenderTypes.FVBO.apply(ResourceManager.NUKE_LITTLE_BOY_TEX), poseStack, packedLight, packedOverlay);
                 ResourceManager.nuke_little_boy.renderAll();
-                RenderStateManager.end();
+                RenderContext.end();
             }
         };
     }

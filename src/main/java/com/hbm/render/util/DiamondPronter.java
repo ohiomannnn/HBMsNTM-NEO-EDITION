@@ -2,10 +2,8 @@ package com.hbm.render.util;
 
 import com.hbm.main.NuclearTechMod;
 import com.hbm.render.NtmRenderTypes;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix4f;
 
@@ -13,40 +11,43 @@ public class DiamondPronter {
 
     private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/models/misc/danger_diamond.png");
 
-    public static void pront(MultiBufferSource buffer, PoseStack poseStack, int brightness, int poison, int flammability, int reactivity, EnumSymbol symbol) {
+    public static void pront(MultiBufferSource buffer, int poison, int flammability, int reactivity, EnumSymbol symbol) {
 
-        poseStack.pushPose();
+        RenderContext.pushPose();
+
+        int packedLight = RenderContext.light();
+        int packedOverlay = RenderContext.overlay();
 
         VertexConsumer consumer = buffer.getBuffer(NtmRenderTypes.entitySmoth(TEXTURE));
 
         float p = 1F/256F;
         float s = 1F/139F;
 
-        Matrix4f matrix = poseStack.last().pose();
+        Matrix4f matrix = RenderContext.poseStack().last().pose();
 
         consumer.addVertex(matrix, 0.0F, 0.5F, -0.5F)
                 .setColor(1F, 1F, 1F, 1F)
                 .setUv(p * 144, p * 45)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(brightness)
+                .setOverlay(packedOverlay)
+                .setLight(packedLight)
                 .setNormal(0.0F, 1.0F, 0.0F);
         consumer.addVertex(matrix, 0.0F, 0.5F, 0.5F)
                 .setColor(1F, 1F, 1F, 1F)
                 .setUv(p * 5, p * 45)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(brightness)
+                .setOverlay(packedOverlay)
+                .setLight(packedLight)
                 .setNormal(0.0F, 1.0F, 0.0F);
         consumer.addVertex(matrix, 0.0F, -0.5F, 0.5F)
                 .setColor(1F, 1F, 1F, 1F)
                 .setUv(p * 5, p * 184)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(brightness)
+                .setOverlay(packedOverlay)
+                .setLight(packedLight)
                 .setNormal(0.0F, 1.0F, 0.0F);
         consumer.addVertex(matrix, 0.0F, -0.5F, -0.5F)
                 .setColor(1F, 1F, 1F, 1F)
                 .setUv(p * 144, p * 184)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(brightness)
+                .setOverlay(packedOverlay)
+                .setLight(packedLight)
                 .setNormal(0.0F, 1.0F, 0.0F);
 
         float width = 10F * s;
@@ -65,26 +66,26 @@ public class DiamondPronter {
             consumer.addVertex(matrix, 0.01F, height + oY, -width + oZ)
                     .setColor(1F, 1F, 1F, 1F)
                     .setUv((x + 20) * p, y * p)
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
-                    .setLight(brightness)
+                    .setOverlay(packedOverlay)
+                    .setLight(packedLight)
                     .setNormal(0.0F, 1.0F, 0.0F);
             consumer.addVertex(matrix, 0.01F, height + oY, width + oZ)
                     .setColor(1F, 1F, 1F, 1F)
                     .setUv(x * p, y * p)
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
-                    .setLight(brightness)
+                    .setOverlay(packedOverlay)
+                    .setLight(packedLight)
                     .setNormal(0.0F, 1.0F, 0.0F);
             consumer.addVertex(matrix, 0.01F, -height + oY, width + oZ)
                     .setColor(1F, 1F, 1F, 1F)
                     .setUv(x * p, (y + 28) * p)
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
-                    .setLight(brightness)
+                    .setOverlay(packedOverlay)
+                    .setLight(packedLight)
                     .setNormal(0.0F, 1.0F, 0.0F);
             consumer.addVertex(matrix, 0.01F, -height + oY, -width + oZ)
                     .setColor(1F, 1F, 1F, 1F)
                     .setUv((x + 20) * p, (y + 28) * p)
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
-                    .setLight(brightness)
+                    .setOverlay(packedOverlay)
+                    .setLight(packedLight)
                     .setNormal(0.0F, 1.0F, 0.0F);
         }
 
@@ -101,26 +102,26 @@ public class DiamondPronter {
             consumer.addVertex(matrix, 0.01F, height + oY, -width + oZ)
                     .setColor(1F, 1F, 1F, 1F)
                     .setUv((x + 20) * p, y * p)
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
-                    .setLight(brightness)
+                    .setOverlay(packedOverlay)
+                    .setLight(packedLight)
                     .setNormal(0.0F, 1.0F, 0.0F);
             consumer.addVertex(matrix, 0.01F, height + oY, width + oZ)
                     .setColor(1F, 1F, 1F, 1F)
                     .setUv(x * p, y * p)
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
-                    .setLight(brightness)
+                    .setOverlay(packedOverlay)
+                    .setLight(packedLight)
                     .setNormal(0.0F, 1.0F, 0.0F);
             consumer.addVertex(matrix, 0.01F, -height + oY, width + oZ)
                     .setColor(1F, 1F, 1F, 1F)
                     .setUv(x * p, (y + 28) * p)
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
-                    .setLight(brightness)
+                    .setOverlay(packedOverlay)
+                    .setLight(packedLight)
                     .setNormal(0.0F, 1.0F, 0.0F);
             consumer.addVertex(matrix, 0.01F, -height + oY, -width + oZ)
                     .setColor(1F, 1F, 1F, 1F)
                     .setUv((x + 20) * p, (y + 28) * p)
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
-                    .setLight(brightness)
+                    .setOverlay(packedOverlay)
+                    .setLight(packedLight)
                     .setNormal(0.0F, 1.0F, 0.0F);
         }
 
@@ -137,26 +138,26 @@ public class DiamondPronter {
             consumer.addVertex(matrix, 0.01F, height + oY, -width + oZ)
                     .setColor(1F, 1F, 1F, 1F)
                     .setUv((x + 20) * p, y * p)
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
-                    .setLight(brightness)
+                    .setOverlay(packedOverlay)
+                    .setLight(packedLight)
                     .setNormal(0.0F, 1.0F, 0.0F);
             consumer.addVertex(matrix, 0.01F, height + oY, width + oZ)
                     .setColor(1F, 1F, 1F, 1F)
                     .setUv(x * p, y * p)
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
-                    .setLight(brightness)
+                    .setOverlay(packedOverlay)
+                    .setLight(packedLight)
                     .setNormal(0.0F, 1.0F, 0.0F);
             consumer.addVertex(matrix, 0.01F, -height + oY, width + oZ)
                     .setColor(1F, 1F, 1F, 1F)
                     .setUv(x * p, (y + 28) * p)
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
-                    .setLight(brightness)
+                    .setOverlay(packedOverlay)
+                    .setLight(packedLight)
                     .setNormal(0.0F, 1.0F, 0.0F);
             consumer.addVertex(matrix, 0.01F, -height + oY, -width + oZ)
                     .setColor(1F, 1F, 1F, 1F)
                     .setUv((x + 20) * p, (y + 28) * p)
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
-                    .setLight(brightness)
+                    .setOverlay(packedOverlay)
+                    .setLight(packedLight)
                     .setNormal(0.0F, 1.0F, 0.0F);
         }
 
@@ -173,29 +174,29 @@ public class DiamondPronter {
             consumer.addVertex(matrix, 0.01F, symSize + oY, -symSize + oZ)
                     .setColor(1F, 1F, 1F, 1F)
                     .setUv((x + 59) * p, y * p)
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
-                    .setLight(brightness)
+                    .setOverlay(packedOverlay)
+                    .setLight(packedLight)
                     .setNormal(0.0F, 1.0F, 0.0F);
             consumer.addVertex(matrix, 0.01F, symSize + oY, symSize + oZ)
                     .setColor(1F, 1F, 1F, 1F)
                     .setUv(x * p, y * p)
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
-                    .setLight(brightness)
+                    .setOverlay(packedOverlay)
+                    .setLight(packedLight)
                     .setNormal(0.0F, 1.0F, 0.0F);
             consumer.addVertex(matrix, 0.01F, -symSize + oY, symSize + oZ)
                     .setColor(1F, 1F, 1F, 1F)
                     .setUv(x * p, (y + 59) * p)
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
-                    .setLight(brightness)
+                    .setOverlay(packedOverlay)
+                    .setLight(packedLight)
                     .setNormal(0.0F, 1.0F, 0.0F);
             consumer.addVertex(matrix, 0.01F, -symSize + oY, -symSize + oZ)
                     .setColor(1F, 1F, 1F, 1F)
                     .setUv((x + 59) * p, (y + 59) * p)
-                    .setOverlay(OverlayTexture.NO_OVERLAY)
-                    .setLight(brightness)
+                    .setOverlay(packedOverlay)
+                    .setLight(packedLight)
                     .setNormal(0.0F, 1.0F, 0.0F);
         }
 
-        poseStack.popPose();
+        RenderContext.popPose();
     }
 }

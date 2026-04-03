@@ -1,9 +1,9 @@
 package com.hbm.entity.logic;
 
 import com.hbm.explosion.vanillant.ExplosionVNT;
-import com.hbm.registry.NtmSoundEvents;
 import com.hbm.particle.helper.ExplosionSmallCreator;
 import com.hbm.registry.NtmDamageTypes;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.ParticleUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
