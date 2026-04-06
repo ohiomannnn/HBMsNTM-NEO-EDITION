@@ -19,7 +19,7 @@ import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Gaseous_ART;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.FT_Liquid;
 import com.hbm.inventory.menus.MachineFluidTankMenu;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import com.hbm.lib.Library;
 import com.hbm.lib.ModAttachments;
 import com.hbm.uninos.UniNodespace;
@@ -28,7 +28,6 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;
@@ -373,7 +372,7 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
     @Override
     public List<AStack> getRepairMaterials() {
         if (!repair.isEmpty()) return repair;
-        repair.add(new ComparableStack(ModItems.NOTHING.get(), 6));
+        repair.add(new ComparableStack(NtmItems.NOTHING.get(), 6));
         return repair;
     }
 

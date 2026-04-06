@@ -1,6 +1,6 @@
 package com.hbm.blockentity;
 
-import com.hbm.HBMsNTMClient;
+import com.hbm.main.NuclearTechModClient;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.inventory.RecipesCommon.AStack;
@@ -66,7 +66,7 @@ public interface IRepairable {
     @OnlyIn(Dist.CLIENT)
     static void addGenericOverlay(RenderGuiEvent.Pre event, Level level, BlockPos pos, DummyableBlock dummy) {
 
-        List<AStack> materials = IRepairable.getRepairMaterials(level, pos, dummy, HBMsNTMClient.me());
+        List<AStack> materials = IRepairable.getRepairMaterials(level, pos, dummy, NuclearTechModClient.me());
         if (materials == null) return;
 
         List<Component> text = new ArrayList<>();

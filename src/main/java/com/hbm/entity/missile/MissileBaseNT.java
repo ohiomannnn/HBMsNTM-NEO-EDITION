@@ -1,7 +1,7 @@
 package com.hbm.entity.missile;
 
 import api.hbm.entity.IRadarDetectableNT;
-import com.hbm.HBMsNTMClient;
+import com.hbm.main.NuclearTechModClient;
 import com.hbm.entity.projectile.ThrowableInterp;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.vanillant.ExplosionVNT;
@@ -184,7 +184,7 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
             tag.putDouble("moY", -thrust.yCoord);
             tag.putDouble("moZ", -thrust.zCoord);
             tag.putInt("maxAge", 60 + random.nextInt(20));
-            HBMsNTMClient.effectNT(tag);
+            NuclearTechModClient.effectNT(tag);
         }
     }
 

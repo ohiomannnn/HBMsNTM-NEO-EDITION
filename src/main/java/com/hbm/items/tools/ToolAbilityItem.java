@@ -1,7 +1,7 @@
 package com.hbm.items.tools;
 
 import api.hbm.item.IDepthRockTool;
-import com.hbm.HBMsNTMClient;
+import com.hbm.main.NuclearTechModClient;
 import com.hbm.config.MainConfig;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.handler.ability.*;
@@ -200,7 +200,7 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItem
 
             this.setConfiguration(stack, config);
             if (player instanceof ServerPlayer serverPlayer) {
-                PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(config.getActivePreset().getMessage(), HBMsNTMClient.ID_TOOLABILITY, 1000));
+                PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(config.getActivePreset().getMessage(), NuclearTechModClient.ID_TOOLABILITY, 1000));
             }
             player.level().playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 0.25F, config.getActivePreset().isNone() ? 0.75F : 1.25F);
         }

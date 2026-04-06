@@ -1,7 +1,7 @@
 package com.hbm.entity.projectile;
 
 import com.hbm.explosion.ExplosionLarge;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import com.hbm.util.RayTraceResult;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -52,6 +52,6 @@ public class Rocket extends ThrowableNT implements ItemSupplier {
 
     @Override
     public ItemStack getItem() {
-        return new ItemStack(ModItems.FAT_MAN_CORE.get());
+        return new ItemStack(NtmItems.FAT_MAN_CORE.get());
     }
 }

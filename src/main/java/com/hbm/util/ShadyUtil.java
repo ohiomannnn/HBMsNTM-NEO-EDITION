@@ -85,47 +85,4 @@ public class ShadyUtil {
         }
         return new String(bytes);
     }
-
-    /** Encryptor for the h-cat answer strings */
-    public static String smoosh(String s1, String s2, String s3, String s4) {
-
-        Random rand = new Random();
-        String s = "";
-
-        byte[] b1 = s1.getBytes();
-        byte[] b2 = s2.getBytes();
-        byte[] b3 = s3.getBytes();
-        byte[] b4 = s4.getBytes();
-
-        if (b1.length == 0 || b2.length == 0 || b3.length == 0 || b4.length == 0) return "";
-
-        s += s1;
-        rand.setSeed(b1[0]);
-        s += rand.nextInt(0xffffff);
-        s += s2;
-        rand.setSeed(rand.nextInt(0xffffff) + b2[0]);
-        rand.setSeed(b2[0]);
-        s += rand.nextInt(0xffffff);
-        s += s3;
-        rand.setSeed(rand.nextInt(0xffffff) + b3[0]);
-        rand.setSeed(b3[0]);
-        s += rand.nextInt(0xffffff);
-        s += s4;
-        rand.setSeed(rand.nextInt(0xffffff) + b4[0]);
-        rand.setSeed(b4[0]);
-        s += rand.nextInt(0xffffff);
-        return getHash(s);
-    }
-
-    /** Simple SHA256 call */
-    public static String getHash(String inp) {
-        try {
-            MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
-            byte[] bytes = sha256.digest(inp.getBytes());
-            StringBuilder str = new StringBuilder();
-            for (int b : bytes) str.append(Integer.toString((b & 0xFF) + 256, 16).substring(1));
-            return str.toString();
-        } catch(NoSuchAlgorithmException ignored) { }
-        return "";
-    }
 }

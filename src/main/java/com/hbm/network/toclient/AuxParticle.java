@@ -1,7 +1,7 @@
 package com.hbm.network.toclient;
 
 import com.hbm.main.NuclearTechMod;
-import com.hbm.HBMsNTMClient;
+import com.hbm.main.NuclearTechModClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -41,7 +41,7 @@ public record AuxParticle(CompoundTag nbt, double x, double y, double z) impleme
             packet.nbt().putDouble("posY", packet.y());
             packet.nbt().putDouble("posZ", packet.z());
             if (mc.level != null) {
-                HBMsNTMClient.effectNT(packet.nbt());
+                NuclearTechModClient.effectNT(packet.nbt());
             }
         });
     }

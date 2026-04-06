@@ -1,6 +1,6 @@
 package com.hbm.particle.helper;
 
-import com.hbm.HBMsNTMClient;
+import com.hbm.main.NuclearTechModClient;
 import com.hbm.particle.AshesParticle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -35,7 +35,7 @@ public class AshesCreator implements IParticleCreator {
         Entity entity = level.getEntity(entityID);
         if (entity == null) return;
 
-        HBMsNTMClient.vanish(entityID);
+        NuclearTechModClient.vanish(entityID);
 
         int amount = tag.getInt("ashesCount");
         float scale = tag.getFloat("ashesScale");

@@ -4,7 +4,7 @@ import api.hbm.entity.IRadarDetectableNT;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.vanillant.ExplosionVNT;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import com.hbm.particle.helper.ExplosionCreator;
 import com.hbm.util.RayTraceResult;
 import com.hbm.util.Vec3NT;
@@ -23,9 +23,9 @@ public abstract class MissileTier3 extends MissileBaseNT {
     @Override
     public List<ItemStack> getDebris() {
         List<ItemStack> list = new ArrayList<>();
-        list.add(new ItemStack(ModItems.NOTHING.get(), 16));
-        list.add(new ItemStack(ModItems.NOTHING.get(), 10));
-        list.add(new ItemStack(ModItems.NOTHING.get(), 1));
+        list.add(new ItemStack(NtmItems.NOTHING.get(), 16));
+        list.add(new ItemStack(NtmItems.NOTHING.get(), 10));
+        list.add(new ItemStack(NtmItems.NOTHING.get(), 1));
         return list;
     }
 
@@ -58,8 +58,8 @@ public abstract class MissileTier3 extends MissileBaseNT {
             ExplosionCreator.composeEffectLarge(level, this.position.x, this.position.y, this.position.z);
             this.explodeStandard(50F, 48, false);
         }
-        @Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.NOTHING.get()); }
-        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.MISSILE_BURST.get()); }
+        @Override public ItemStack getDebrisRareDrop() { return new ItemStack(NtmItems.NOTHING.get()); }
+        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(NtmItems.MISSILE_BURST.get()); }
     }
 
     public static class MissileInferno extends MissileTier3 {
@@ -70,8 +70,8 @@ public abstract class MissileTier3 extends MissileBaseNT {
             ExplosionChaos.burn(level, (int) (this.position.x + 0.5), (int) (this.position.y + 0.5), (int) (this.position.z + 0.5), 10);
             ExplosionChaos.flameDeath(level, (int) (this.position.x + 0.5), (int) (this.position.y + 0.5), (int) (this.position.z + 0.5), 25);
         }
-        @Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.NOTHING.get()); }
-        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.MISSILE_INFERNO.get()); }
+        @Override public ItemStack getDebrisRareDrop() { return new ItemStack(NtmItems.NOTHING.get()); }
+        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(NtmItems.MISSILE_INFERNO.get()); }
     }
 
     public static class MissileRain extends MissileTier3 {
@@ -81,8 +81,8 @@ public abstract class MissileTier3 extends MissileBaseNT {
             ExplosionChaos.cluster(level, this.position.x, this.position.y, this.position.z, 100);
         }
         @Override public void cluster() { this.onMissileImpact(null); }
-        @Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.NOTHING.get()); }
-        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.MISSILE_RAIN.get()); }
+        @Override public ItemStack getDebrisRareDrop() { return new ItemStack(NtmItems.NOTHING.get()); }
+        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(NtmItems.MISSILE_RAIN.get()); }
     }
 
     public static class MissileDrill extends MissileTier3 {
@@ -96,7 +96,7 @@ public abstract class MissileTier3 extends MissileBaseNT {
             }
         }
         @Override public void cluster() { this.onMissileImpact(null); }
-        @Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.NOTHING.get()); }
-        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.MISSILE_DRILL.get()); }
+        @Override public ItemStack getDebrisRareDrop() { return new ItemStack(NtmItems.NOTHING.get()); }
+        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(NtmItems.MISSILE_DRILL.get()); }
     }
 }

@@ -2,7 +2,7 @@ package com.hbm.hazard.type;
 
 import com.hbm.config.MainConfig;
 import com.hbm.hazard.modifier.HazardModifier;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -22,7 +22,7 @@ public class HazardTypeHot extends HazardTypeBase {
         boolean reacher = false;
 
         if (target instanceof Player && !MainConfig.COMMON.ENABLE_528.get()) {
-            if (target.getMainHandItem().is(ModItems.REACHER.get()) || target.getOffhandItem().is(ModItems.REACHER.get())) {
+            if (target.getMainHandItem().is(NtmItems.REACHER.get()) || target.getOffhandItem().is(NtmItems.REACHER.get())) {
                 reacher = true;
             }
         }

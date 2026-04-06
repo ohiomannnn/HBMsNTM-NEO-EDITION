@@ -1,7 +1,7 @@
 package com.hbm.extprop;
 
 import com.hbm.main.NuclearTechMod;
-import com.hbm.HBMsNTMClient;
+import com.hbm.main.NuclearTechModClient;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.mob.Duck;
 import com.hbm.lib.ModAttachments;
@@ -175,7 +175,7 @@ public class HbmLivingAttachments {
         setAsbestos(entity, getAsbestos(entity) + asbestos);
 
         if (entity instanceof ServerPlayer player) {
-            PacketDistributor.sendToPlayer(player, new InformPlayer(Component.translatable("info.asbestos").withStyle(ChatFormatting.RED), HBMsNTMClient.ID_GAS_HAZARD, 3000));
+            PacketDistributor.sendToPlayer(player, new InformPlayer(Component.translatable("info.asbestos").withStyle(ChatFormatting.RED), NuclearTechModClient.ID_GAS_HAZARD, 3000));
         }
     }
 
@@ -202,7 +202,7 @@ public class HbmLivingAttachments {
         setBlackLung(entity, getBlackLung(entity) + blacklung);
 
         if (entity instanceof ServerPlayer player) {
-            PacketDistributor.sendToPlayer(player, new InformPlayer(Component.translatable("info.coaldust").withStyle(ChatFormatting.RED), HBMsNTMClient.ID_GAS_HAZARD, 3000));
+            PacketDistributor.sendToPlayer(player, new InformPlayer(Component.translatable("info.coaldust").withStyle(ChatFormatting.RED), NuclearTechModClient.ID_GAS_HAZARD, 3000));
         }
     }
 

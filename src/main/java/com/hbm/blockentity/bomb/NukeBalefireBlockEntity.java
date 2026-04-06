@@ -6,7 +6,7 @@ import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.logic.NukeExplosionBalefire;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.menus.NukeFstbmbMenu;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.particle.helper.NukeTorexCreator;
 import io.netty.buffer.ByteBuf;
@@ -102,9 +102,9 @@ public class NukeBalefireBlockEntity extends MachineBaseBlockEntity implements I
     @Override
     public boolean canPlaceItem(int slot, ItemStack stack) {
         Item item = stack.getItem();
-        return item == ModItems.EGG_BALEFIRE.get() ||
-                item == ModItems.BATTERY_SPARK.get() ||
-                item == ModItems.BATTERY_TRIXITE.get();
+        return item == NtmItems.EGG_BALEFIRE.get() ||
+                item == NtmItems.BATTERY_SPARK.get() ||
+                item == NtmItems.BATTERY_TRIXITE.get();
     }
 
     @Override
@@ -113,7 +113,7 @@ public class NukeBalefireBlockEntity extends MachineBaseBlockEntity implements I
     }
 
     public boolean hasEgg() {
-        return slots.get(0).is(ModItems.EGG_BALEFIRE.get());
+        return slots.get(0).is(NtmItems.EGG_BALEFIRE.get());
     }
 
     public boolean hasBattery() {
@@ -121,8 +121,8 @@ public class NukeBalefireBlockEntity extends MachineBaseBlockEntity implements I
     }
 
     public int getBattery() {
-        if (slots.get(1).is(ModItems.BATTERY_SPARK.get())) return 1;
-        if (slots.get(1).is(ModItems.BATTERY_TRIXITE.get())) return 2;
+        if (slots.get(1).is(NtmItems.BATTERY_SPARK.get())) return 1;
+        if (slots.get(1).is(NtmItems.BATTERY_TRIXITE.get())) return 2;
         return 0;
     }
 

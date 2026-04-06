@@ -34,7 +34,7 @@ public class NtmDataGenerators {
         CompletableFuture<HolderLookup.Provider> lookup = event.getLookupProvider();
 
         // Client things
-        generator.addProvider(event.includeClient(), new ModItemModelProvider(output, helper));
+        generator.addProvider(event.includeClient(), new NtmItemModelProvider(output, helper));
         generator.addProvider(event.includeClient(), new ModBlockStateProvider(output, helper));
 
         // Server things

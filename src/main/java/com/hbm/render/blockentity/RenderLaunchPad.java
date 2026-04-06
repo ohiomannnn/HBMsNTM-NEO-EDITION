@@ -18,6 +18,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.AABB;
 
 public class RenderLaunchPad extends BlockEntityRendererNT<LaunchPadBlockEntity> implements IBEWLRProvider {
 
@@ -50,6 +51,29 @@ public class RenderLaunchPad extends BlockEntityRendererNT<LaunchPadBlockEntity>
         }
 
         RenderContext.end();
+    }
+
+    private AABB bb = null;
+
+    @Override
+    public AABB getRenderBoundingBox(LaunchPadBlockEntity be) {
+
+        if (bb == null) {
+            int x = be.getBlockPos().getX();
+            int y = be.getBlockPos().getY();
+            int z = be.getBlockPos().getZ();
+
+            bb = new AABB(
+                    x - 2,
+                    y - 0,
+                    z - 2,
+                    x + 3,
+                    y + 15,
+                    z + 3
+            );
+        }
+
+        return bb;
     }
 
     @Override

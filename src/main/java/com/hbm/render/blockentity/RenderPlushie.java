@@ -5,7 +5,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.PlushieBlock;
 import com.hbm.blocks.generic.PlushieBlock.PlushieBlockEntity;
 import com.hbm.blocks.generic.PlushieBlock.PlushieType;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
@@ -93,7 +93,7 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
                 ResourceManager.armor_no9.renderPart("Insignia");
                 RenderContext.popPose();
 
-                ItemStack stack = new ItemStack(ModItems.CIGARETTE.get());
+                ItemStack stack = new ItemStack(NtmItems.CIGARETTE.get());
                 float scale = 0.25F;
                 RenderContext.translate(-0.06F, 1.13F, -0.28F);
                 RenderContext.scale(scale, scale, scale);

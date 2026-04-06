@@ -3,7 +3,7 @@ package com.hbm.inventory.screens;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import com.hbm.items.machine.FluidIDMultiItem;
 import com.hbm.network.toserver.CompoundTagItemControl;
 import com.hbm.util.InventoryUtil;
@@ -45,7 +45,7 @@ public class FluidScreen extends Screen {
 
     @Override
     public void tick() {
-        boolean close = InventoryUtil.getItemSteamFromBothHands(player).noneMatch(stack -> stack.is(ModItems.FLUID_IDENTIFIER_MULTI.get()));
+        boolean close = InventoryUtil.getItemSteamFromBothHands(player).noneMatch(stack -> stack.is(NtmItems.FLUID_IDENTIFIER_MULTI.get()));
         if (close) this.onClose();
     }
 

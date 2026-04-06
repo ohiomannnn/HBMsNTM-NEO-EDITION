@@ -5,7 +5,7 @@ import api.hbm.block.IToolable.ToolType;
 import api.hbm.fluidmk2.IFillableItem;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import com.hbm.network.toclient.AuxParticle;
 import com.hbm.util.TagsUtilDegradation;
 import net.minecraft.ChatFormatting;
@@ -40,8 +40,8 @@ public class BlowtorchItem extends Item implements IFillableItem {
     @Override
     public boolean acceptsFluid(FluidType type, ItemStack stack) {
 
-        if (this == ModItems.BLOWTORCH.get()) return type == Fluids.GAS;
-        if (this == ModItems.ACETYLENE_TORCH.get()) return type == Fluids.UNSATURATEDS || type == Fluids.OXYGEN;
+        if (this == NtmItems.BLOWTORCH.get()) return type == Fluids.GAS;
+        if (this == NtmItems.ACETYLENE_TORCH.get()) return type == Fluids.UNSATURATEDS || type == Fluids.OXYGEN;
 
         return false;
     }
@@ -101,10 +101,10 @@ public class BlowtorchItem extends Item implements IFillableItem {
 
         TagsUtilDegradation.putTag(stack, new CompoundTag());
 
-        if (this == ModItems.BLOWTORCH.get()) {
+        if (this == NtmItems.BLOWTORCH.get()) {
             this.setFill(stack, Fluids.GAS, this.getMaxFill(Fluids.GAS));
         }
-        if (this == ModItems.ACETYLENE_TORCH.get()) {
+        if (this == NtmItems.ACETYLENE_TORCH.get()) {
             this.setFill(stack, Fluids.UNSATURATEDS, this.getMaxFill(Fluids.UNSATURATEDS));
             this.setFill(stack, Fluids.OXYGEN, this.getMaxFill(Fluids.OXYGEN));
         }
@@ -114,10 +114,10 @@ public class BlowtorchItem extends Item implements IFillableItem {
         BlowtorchItem tool = (BlowtorchItem) item;
         ItemStack stack = new ItemStack(item);
 
-        if (item == ModItems.BLOWTORCH.get()) {
+        if (item == NtmItems.BLOWTORCH.get()) {
             tool.setFill(stack, Fluids.GAS, 0);
         }
-        if (item == ModItems.ACETYLENE_TORCH.get()) {
+        if (item == NtmItems.ACETYLENE_TORCH.get()) {
             tool.setFill(stack, Fluids.UNSATURATEDS, 0);
             tool.setFill(stack, Fluids.OXYGEN, 0);
         }
@@ -138,22 +138,22 @@ public class BlowtorchItem extends Item implements IFillableItem {
         Block usedBlock = level.getBlockState(pos).getBlock();
 
         if (usedBlock instanceof IToolable it) {
-            if (this == ModItems.BLOWTORCH.get()) {
+            if (this == NtmItems.BLOWTORCH.get()) {
                 if (this.getFill(stack, Fluids.GAS) < 250) return InteractionResult.FAIL;
             }
 
-            if (this == ModItems.ACETYLENE_TORCH.get()) {
+            if (this == NtmItems.ACETYLENE_TORCH.get()) {
                 if (this.getFill(stack, Fluids.UNSATURATEDS) < 20) return InteractionResult.FAIL;
                 if (this.getFill(stack, Fluids.OXYGEN) < 10) return InteractionResult.FAIL;
             }
 
             if (it.onScrew(level, player, pos, clickedDir, ToolType.TORCH)) {
                 if (!level.isClientSide) {
-                    if (this == ModItems.BLOWTORCH.get()) {
+                    if (this == NtmItems.BLOWTORCH.get()) {
                         this.setFill(stack, Fluids.GAS, this.getFill(stack, Fluids.GAS) - 250);
                     }
 
-                    if (this == ModItems.ACETYLENE_TORCH.get()) {
+                    if (this == NtmItems.ACETYLENE_TORCH.get()) {
                         this.setFill(stack, Fluids.UNSATURATEDS, this.getFill(stack, Fluids.UNSATURATEDS) - 20);
                         this.setFill(stack, Fluids.OXYGEN, this.getFill(stack, Fluids.OXYGEN) - 10);
                     }
@@ -174,11 +174,11 @@ public class BlowtorchItem extends Item implements IFillableItem {
     }
 
     private float getFillFraction(ItemStack stack) {
-        if (this == ModItems.BLOWTORCH.get()) {
+        if (this == NtmItems.BLOWTORCH.get()) {
             return (float) this.getFill(stack, Fluids.GAS) / (float) this.getMaxFill(Fluids.GAS);
         }
 
-        if (this == ModItems.ACETYLENE_TORCH.get()) {
+        if (this == NtmItems.ACETYLENE_TORCH.get()) {
             return Math.min(
                     (float) this.getFill(stack, Fluids.UNSATURATEDS) / (float) this.getMaxFill(Fluids.UNSATURATEDS),
                     (float) this.getFill(stack, Fluids.OXYGEN) / (float) this.getMaxFill(Fluids.OXYGEN)
@@ -195,11 +195,11 @@ public class BlowtorchItem extends Item implements IFillableItem {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
 
-        if (this == ModItems.BLOWTORCH.get()) {
+        if (this == NtmItems.BLOWTORCH.get()) {
             components.add(Component.literal(this.getFillGauge(stack, Fluids.GAS)).withStyle(ChatFormatting.YELLOW));
         }
 
-        if (this == ModItems.ACETYLENE_TORCH.get()) {
+        if (this == NtmItems.ACETYLENE_TORCH.get()) {
             components.add(Component.literal(this.getFillGauge(stack, Fluids.UNSATURATEDS)).withStyle(ChatFormatting.YELLOW));
             components.add(Component.literal(this.getFillGauge(stack, Fluids.OXYGEN)).withStyle(ChatFormatting.AQUA));
         }

@@ -1,6 +1,6 @@
 package com.hbm.items;
 
-import com.hbm.HBMsNTMClient;
+import com.hbm.main.NuclearTechModClient;
 import com.hbm.interfaces.IOrderedEnum;
 import com.hbm.inventory.MetaHelper;
 import com.hbm.main.NuclearTechMod;
@@ -26,7 +26,7 @@ public class EnumMultiItem extends Item implements IMetaItem {
         super(properties);
         this.theEnum = theEnum;
         this.multiName = multiName;
-        if (multiTexture) HBMsNTMClient.registerMetaItemProperties(this);
+        if (multiTexture) NuclearTechModClient.registerMetaItemProperties(this);
         this.multiTexture = multiTexture;
     }
 
@@ -42,20 +42,20 @@ public class EnumMultiItem extends Item implements IMetaItem {
     }
 
     @Override
-    public void registerModel(ModelProvider<ItemModelBuilder> provider, ResourceLocation loc) {
+    public void registerModel(ModelProvider<ItemModelBuilder> provider, ResourceLocation modelLocation) {
         if (multiTexture) {
             Enum<?>[] enums = theEnum.getEnumConstants();
 
-            ItemModelBuilder builder = provider.getBuilder(loc.toString());
+            ItemModelBuilder builder = provider.getBuilder(modelLocation.toString());
 
             for(int i = 0; i < enums.length; i++) {
                 Enum<?> num = enums[i];
 
                 builder.override()
                         .predicate(NuclearTechMod.withDefaultNamespace("item_meta"), i)
-                        .model(provider.getBuilder(loc.getPath() + "_" + i)
+                        .model(provider.getBuilder(modelLocation.getPath() + "_" + i)
                                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                                .texture("layer0", ResourceLocation.fromNamespaceAndPath(loc.getNamespace(), "item/" + loc.getPath() + "_" + num.name().toLowerCase(Locale.US))))
+                                .texture("layer0", ResourceLocation.fromNamespaceAndPath(modelLocation.getNamespace(), "item/" + modelLocation.getPath() + "_" + num.name().toLowerCase(Locale.US))))
                         .end();
             }
         }

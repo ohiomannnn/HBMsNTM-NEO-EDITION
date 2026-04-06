@@ -1,9 +1,9 @@
 package com.hbm.inventory.screens;
 
+import com.hbm.items.NtmItems;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.blockentity.bomb.NukeTsarBombaBlockEntity;
 import com.hbm.inventory.menus.NukeTsarBombaMenu;
-import com.hbm.items.ModItems;
 import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -51,7 +51,7 @@ public class NukeTsarBombaScreen extends InfoScreen<NukeTsarBombaMenu> {
         }
 
         for (int index = 0; index < 4; index++) {
-            if (be.slots.get(index).getItem() == ModItems.EXPLOSIVE_LENSES.get()) {
+            if (be.slots.get(index).getItem() == NtmItems.EXPLOSIVE_LENSES.get()) {
                 switch (index) {
                     case 0 -> guiGraphics.blit(NukeIvyMikeScreen.TEXTURE, this.leftPos + 24 + 16, this.topPos + 20 + 16, 209, 1, 23, 23);
                     case 1 -> guiGraphics.blit(NukeIvyMikeScreen.TEXTURE, this.leftPos + 47 + 16, this.topPos + 20 + 16, 232, 1, 23, 23);
@@ -61,7 +61,7 @@ public class NukeTsarBombaScreen extends InfoScreen<NukeTsarBombaMenu> {
             }
         }
 
-        if (be.slots.get(5).getItem() == ModItems.TSAR_BOMBA_CORE.get()) guiGraphics.blit(NukeIvyMikeScreen.TEXTURE, this.leftPos + 75 + 16, this.topPos + 25 + 16, 176, 220, 80, 36);
+        if (be.slots.get(5).getItem() == NtmItems.TSAR_BOMBA_CORE.get()) guiGraphics.blit(NukeIvyMikeScreen.TEXTURE, this.leftPos + 75 + 16, this.topPos + 25 + 16, 176, 220, 80, 36);
 
         this.drawInfoPanel(guiGraphics, this.leftPos - 16, this.topPos + 16, 2);
     }

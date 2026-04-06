@@ -1,8 +1,8 @@
 package com.hbm.main;
 
 import com.hbm.render.loader.HFRWavefrontObject;
-import com.hbm.render.newloader.IModelCustom;
 import com.hbm.render.loader.IModelCustomOld;
+import com.hbm.render.newloader.IModelCustom;
 import com.hbm.render.newloader.old.ModelFormatException;
 import net.minecraft.resources.ResourceLocation;
 

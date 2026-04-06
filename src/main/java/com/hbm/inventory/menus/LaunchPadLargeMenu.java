@@ -2,13 +2,11 @@ package com.hbm.inventory.menus;
 
 import api.hbm.energymk2.IBatteryItem;
 import com.hbm.blockentity.bomb.LaunchPadBaseBlockEntity;
-import com.hbm.blockentity.machine.storage.BatteryREDDBlockEntity;
 import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.ModMenuTypes;
-import com.hbm.inventory.SlotNonRetarded;
 import com.hbm.inventory.SlotTakeOnly;
 import com.hbm.items.IDesignatorItem;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import com.hbm.util.CompatExternal;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -78,7 +76,7 @@ public class LaunchPadLargeMenu extends AbstractContainerMenu {
                     return ItemStack.EMPTY;
                 }
             } else {
-                if (newStack.getItem() instanceof IBatteryItem || newStack.is(ModItems.BATTERY_CREATIVE.get())) {
+                if (newStack.getItem() instanceof IBatteryItem || newStack.is(NtmItems.BATTERY_CREATIVE.get())) {
                     if (!this.moveItemStackTo(stack, 2, 3, false)) {
                         return ItemStack.EMPTY;
                     }
@@ -86,7 +84,7 @@ public class LaunchPadLargeMenu extends AbstractContainerMenu {
                     if (!this.moveItemStackTo(stack, 0, 1, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else if (newStack.is(ModItems.FLUID_BARREL_INFINITE.get())) {
+                } else if (newStack.is(NtmItems.FLUID_BARREL_INFINITE.get())) {
                     if (!this.moveItemStackTo(stack, 3, 4, false)) if (!this.moveItemStackTo(stack, 5, 6, false)) {
                             return ItemStack.EMPTY;
                     }

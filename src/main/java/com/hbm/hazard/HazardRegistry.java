@@ -2,7 +2,7 @@ package com.hbm.hazard;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.hazard.type.*;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 
-import static com.hbm.items.ModItems.*;
+import static com.hbm.items.NtmItems.*;
 import static com.hbm.blocks.ModBlocks.*;
 
 @SuppressWarnings("unused") //shut the fuck up
@@ -159,7 +159,7 @@ public class HazardRegistry {
 
         HazardSystem.register(ModBlocks.FALLOUT.get(), makeData(RADIATION, 60F));
 
-        HazardSystem.register(ModItems.PARTICLE_DIGAMMA.get(), makeData(DIGAMMA, 0.3333F));
+        HazardSystem.register(NtmItems.PARTICLE_DIGAMMA.get(), makeData(DIGAMMA, 0.3333F));
 
         /*
          * Nuke parts

@@ -4,10 +4,9 @@ import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntityTypes;
-import com.hbm.inventory.MetaHelper;
 import com.hbm.inventory.ModCreativeTabs;
 import com.hbm.inventory.ModMenuTypes;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import com.hbm.items.component.NtmDataComponents;
 import com.hbm.lib.ModAttachments;
 import com.hbm.lib.ModEffect;
@@ -39,7 +38,7 @@ public class NuclearTechMod {
     public static File configHbmDir;
 
     public NuclearTechMod(IEventBus modEventBus, ModContainer modContainer) {
-        ModItems.register(modEventBus);
+        NtmItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         NtmDataComponents.register(modEventBus);
         ModEntityTypes.register(modEventBus);

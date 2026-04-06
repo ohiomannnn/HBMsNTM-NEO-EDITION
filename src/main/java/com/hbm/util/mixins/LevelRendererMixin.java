@@ -1,7 +1,7 @@
 package com.hbm.util.mixins;
 
 import com.hbm.main.NuclearTechMod;
-import com.hbm.HBMsNTMClient;
+import com.hbm.main.NuclearTechModClient;
 import com.hbm.config.MainConfig;
 import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.render.block.loader.BlockRendererDispatcher;
@@ -142,7 +142,7 @@ public abstract class LevelRendererMixin {
         Level level = mc.level;
         if (level == null) return;
         if (level.dimension() != Level.OVERWORLD) return;
-        if (!HBMsNTMClient.renderLodeStar) return;
+        if (!NuclearTechModClient.renderLodeStar) return;
 
         RenderSystem.depthMask(false);
         RenderSystem.enableBlend();

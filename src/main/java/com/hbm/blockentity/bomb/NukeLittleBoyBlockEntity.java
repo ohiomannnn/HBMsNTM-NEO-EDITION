@@ -3,7 +3,7 @@ package com.hbm.blockentity.bomb;
 import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blockentity.NukeBaseBlockEntity;
 import com.hbm.inventory.menus.NukeLittleBoyMenu;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -26,20 +26,20 @@ public class NukeLittleBoyBlockEntity extends NukeBaseBlockEntity {
     @Override
     public boolean canPlaceItem(int slot, ItemStack stack) {
         Item item = stack.getItem();
-        return item == ModItems.LITTLE_BOY_SHIELDING.get() ||
-                item == ModItems.LITTLE_BOY_TARGET.get() ||
-                item == ModItems.LITTLE_BOY_BULLET.get() ||
-                item == ModItems.LITTLE_BOY_PROPELLANT.get() ||
-                item == ModItems.LITTLE_BOY_IGNITER.get();
+        return item == NtmItems.LITTLE_BOY_SHIELDING.get() ||
+                item == NtmItems.LITTLE_BOY_TARGET.get() ||
+                item == NtmItems.LITTLE_BOY_BULLET.get() ||
+                item == NtmItems.LITTLE_BOY_PROPELLANT.get() ||
+                item == NtmItems.LITTLE_BOY_IGNITER.get();
     }
 
     @Override
     public boolean isReady() {
-        return slots.get(0).getItem() == ModItems.LITTLE_BOY_SHIELDING.get() &&
-                slots.get(1).getItem() == ModItems.LITTLE_BOY_TARGET.get() &&
-                slots.get(2).getItem() == ModItems.LITTLE_BOY_BULLET.get() &&
-                slots.get(3).getItem() == ModItems.LITTLE_BOY_PROPELLANT.get() &&
-                slots.get(4).getItem() == ModItems.LITTLE_BOY_IGNITER.get();
+        return slots.get(0).getItem() == NtmItems.LITTLE_BOY_SHIELDING.get() &&
+                slots.get(1).getItem() == NtmItems.LITTLE_BOY_TARGET.get() &&
+                slots.get(2).getItem() == NtmItems.LITTLE_BOY_BULLET.get() &&
+                slots.get(3).getItem() == NtmItems.LITTLE_BOY_PROPELLANT.get() &&
+                slots.get(4).getItem() == NtmItems.LITTLE_BOY_IGNITER.get();
     }
 
     @Override

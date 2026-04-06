@@ -1,6 +1,6 @@
 package com.hbm.extprop;
 
-import com.hbm.HBMsNTMClient;
+import com.hbm.main.NuclearTechModClient;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.lib.ModAttachments;
 import com.hbm.network.toclient.InformPlayer;
@@ -83,9 +83,9 @@ public class HbmPlayerAttachments {
                     props.enableBackpack = !props.enableBackpack;
 
                     if (props.enableBackpack) {
-                        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayer(Component.literal("Jetpack ON").withStyle(ChatFormatting.GREEN), HBMsNTMClient.ID_JETPACK, 1000));
+                        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayer(Component.literal("Jetpack ON").withStyle(ChatFormatting.GREEN), NuclearTechModClient.ID_JETPACK, 1000));
                     } else {
-                        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayer(Component.literal("Jetpack OFF").withStyle(ChatFormatting.RED), HBMsNTMClient.ID_JETPACK, 1000));
+                        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayer(Component.literal("Jetpack OFF").withStyle(ChatFormatting.RED), NuclearTechModClient.ID_JETPACK, 1000));
                     }
                 }
             }
@@ -96,9 +96,9 @@ public class HbmPlayerAttachments {
                     props.enableMagnet = !props.enableMagnet;
 
                     if (props.enableMagnet) {
-                        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayer(Component.literal("Magnet ON").withStyle(ChatFormatting.GREEN), HBMsNTMClient.ID_MAGNET, 1000));
+                        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayer(Component.literal("Magnet ON").withStyle(ChatFormatting.GREEN), NuclearTechModClient.ID_MAGNET, 1000));
                     } else {
-                        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayer(Component.literal("Magnet OFF").withStyle(ChatFormatting.RED), HBMsNTMClient.ID_MAGNET, 1000));
+                        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayer(Component.literal("Magnet OFF").withStyle(ChatFormatting.RED), NuclearTechModClient.ID_MAGNET, 1000));
                     }
                 }
             }
@@ -109,9 +109,9 @@ public class HbmPlayerAttachments {
                     props.enableHUD = !props.enableHUD;
 
                     if (props.enableHUD) {
-                        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayer(Component.literal("HUD ON").withStyle(ChatFormatting.GREEN), HBMsNTMClient.ID_HUD, 1000));
+                        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayer(Component.literal("HUD ON").withStyle(ChatFormatting.GREEN), NuclearTechModClient.ID_HUD, 1000));
                     } else {
-                        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayer(Component.literal("HUD OFF").withStyle(ChatFormatting.RED), HBMsNTMClient.ID_HUD, 1000));
+                        PacketDistributor.sendToPlayer((ServerPlayer) player, new InformPlayer(Component.literal("HUD OFF").withStyle(ChatFormatting.RED), NuclearTechModClient.ID_HUD, 1000));
                     }
                 }
             }

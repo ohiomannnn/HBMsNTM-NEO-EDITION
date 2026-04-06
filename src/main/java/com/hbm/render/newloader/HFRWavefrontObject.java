@@ -20,9 +20,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * You cant use it directly for renderer lmao
- */
 public class HFRWavefrontObject implements IModelCustomNamed {
 
     /** For resource reloading */

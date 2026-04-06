@@ -3,7 +3,7 @@ package com.hbm.blockentity.bomb;
 import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blockentity.NukeBaseBlockEntity;
 import com.hbm.inventory.menus.NukeN2Menu;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -26,23 +26,23 @@ public class NukeN2BlockEntity extends NukeBaseBlockEntity {
     @Override
     public boolean canPlaceItem(int slot, ItemStack stack) {
         Item item = stack.getItem();
-        return item == ModItems.N2_CHARGE.get();
+        return item == NtmItems.N2_CHARGE.get();
     }
 
     @Override
     public boolean isReady() {
-        return slots.get(0).getItem() == ModItems.N2_CHARGE.get() &&
-                slots.get(1).getItem() == ModItems.N2_CHARGE.get() &&
-                slots.get(2).getItem() == ModItems.N2_CHARGE.get() &&
-                slots.get(3).getItem() == ModItems.N2_CHARGE.get() &&
-                slots.get(4).getItem() == ModItems.N2_CHARGE.get() &&
-                slots.get(5).getItem() == ModItems.N2_CHARGE.get() &&
-                slots.get(6).getItem() == ModItems.N2_CHARGE.get() &&
-                slots.get(7).getItem() == ModItems.N2_CHARGE.get() &&
-                slots.get(8).getItem() == ModItems.N2_CHARGE.get() &&
-                slots.get(9).getItem() == ModItems.N2_CHARGE.get() &&
-                slots.get(10).getItem() == ModItems.N2_CHARGE.get() &&
-                slots.get(11).getItem() == ModItems.N2_CHARGE.get();
+        return slots.get(0).getItem() == NtmItems.N2_CHARGE.get() &&
+                slots.get(1).getItem() == NtmItems.N2_CHARGE.get() &&
+                slots.get(2).getItem() == NtmItems.N2_CHARGE.get() &&
+                slots.get(3).getItem() == NtmItems.N2_CHARGE.get() &&
+                slots.get(4).getItem() == NtmItems.N2_CHARGE.get() &&
+                slots.get(5).getItem() == NtmItems.N2_CHARGE.get() &&
+                slots.get(6).getItem() == NtmItems.N2_CHARGE.get() &&
+                slots.get(7).getItem() == NtmItems.N2_CHARGE.get() &&
+                slots.get(8).getItem() == NtmItems.N2_CHARGE.get() &&
+                slots.get(9).getItem() == NtmItems.N2_CHARGE.get() &&
+                slots.get(10).getItem() == NtmItems.N2_CHARGE.get() &&
+                slots.get(11).getItem() == NtmItems.N2_CHARGE.get();
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.hbm.datagen;
 
+import com.hbm.items.NtmItems;
 import com.hbm.main.NuclearTechMod;
-import com.hbm.items.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
@@ -24,8 +24,8 @@ public class ModItemTagProvider extends ItemTagsProvider {
         /*
          * TANKS
          */
-        this.tag(UNIVERSAL_TANK).add(ModItems.FLUID_TANK_FULL.get());
-        this.tag(HAZARD_TANK).add(ModItems.FLUID_TANK_LEAD_FULL.get());
-        this.tag(UNIVERSAL_BARREL).add(ModItems.FLUID_BARREL_FULL.get());
+        this.tag(UNIVERSAL_TANK).add(NtmItems.FLUID_TANK_FULL.get());
+        this.tag(HAZARD_TANK).add(NtmItems.FLUID_TANK_LEAD_FULL.get());
+        this.tag(UNIVERSAL_BARREL).add(NtmItems.FLUID_BARREL_FULL.get());
     }
 }

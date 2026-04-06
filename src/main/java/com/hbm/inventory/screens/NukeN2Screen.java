@@ -3,7 +3,7 @@ package com.hbm.inventory.screens;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.blockentity.bomb.NukeN2BlockEntity;
 import com.hbm.inventory.menus.NukeN2Menu;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -37,7 +37,7 @@ public class NukeN2Screen extends InfoScreen<NukeN2Menu> {
         int count = 0;
 
         for (int i = 0; i < 12; i++) {
-            if (this.be.slots.get(i).getItem() == ModItems.N2_CHARGE.get()) {
+            if (this.be.slots.get(i).getItem() == NtmItems.N2_CHARGE.get()) {
                 count++;
             }
         }

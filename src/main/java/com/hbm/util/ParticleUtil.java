@@ -1,6 +1,6 @@
 package com.hbm.util;
 
-import com.hbm.HBMsNTMClient;
+import com.hbm.main.NuclearTechModClient;
 import com.hbm.network.toclient.AuxParticle;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -22,7 +22,7 @@ public class ParticleUtil {
             tag.putDouble("posX", x);
             tag.putDouble("posY", y);
             tag.putDouble("posZ", z);
-            HBMsNTMClient.effectNT(tag);
+            NuclearTechModClient.effectNT(tag);
         }
     }
 }

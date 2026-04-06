@@ -1,7 +1,7 @@
 package com.hbm.datagen;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.BlockLootSubProvider;
@@ -100,7 +100,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                         LootPool.lootPool()
                                 .setRolls(ConstantValue.exactly(1))
                                 .add(AlternativesEntry.alternatives(
-                                        LootItem.lootTableItem(ModItems.BURNT_BARK.get())
+                                        LootItem.lootTableItem(NtmItems.BURNT_BARK.get())
                                                 .when(LootItemRandomChanceCondition.randomChance(0.001f))
                                                 .apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 4))),
                                         LootItem.lootTableItem(Items.COAL)

@@ -1,7 +1,7 @@
 package com.hbm.render.item;
 
 import com.hbm.inventory.RecipesCommon.ComparableStack;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.newloader.IModelCustom;
@@ -142,19 +142,19 @@ public class ItemRenderMissileGeneric extends BlockEntityWithoutLevelRenderer {
 
     public static void init() {
 
-        renderers.put(new ComparableStack(ModItems.MISSILE_TAINT.get()), generateStandard(ResourceManager.MISSILE_MICRO_TAINT_TEX, ResourceManager.missileMicro));
-        renderers.put(new ComparableStack(ModItems.MISSILE_MICRO.get()), generateStandard(ResourceManager.MISSILE_MICRO_TEX, ResourceManager.missileMicro));
-        renderers.put(new ComparableStack(ModItems.MISSILE_BHOLE.get()), generateStandard(ResourceManager.MISSILE_MICRO_BHOLE_TEX, ResourceManager.missileMicro));
-        renderers.put(new ComparableStack(ModItems.MISSILE_SCHRABIDIUM.get()), generateStandard(ResourceManager.MISSILE_MICRO_SCHRABIDIUM_TEX, ResourceManager.missileMicro));
-        renderers.put(new ComparableStack(ModItems.MISSILE_EMP.get()), generateStandard(ResourceManager.MISSILE_MICRO_EMP_TEX, ResourceManager.missileMicro));
+        renderers.put(new ComparableStack(NtmItems.MISSILE_TAINT.get()), generateStandard(ResourceManager.MISSILE_MICRO_TAINT_TEX, ResourceManager.missileMicro));
+        renderers.put(new ComparableStack(NtmItems.MISSILE_MICRO.get()), generateStandard(ResourceManager.MISSILE_MICRO_TEX, ResourceManager.missileMicro));
+        renderers.put(new ComparableStack(NtmItems.MISSILE_BHOLE.get()), generateStandard(ResourceManager.MISSILE_MICRO_BHOLE_TEX, ResourceManager.missileMicro));
+        renderers.put(new ComparableStack(NtmItems.MISSILE_SCHRABIDIUM.get()), generateStandard(ResourceManager.MISSILE_MICRO_SCHRABIDIUM_TEX, ResourceManager.missileMicro));
+        renderers.put(new ComparableStack(NtmItems.MISSILE_EMP.get()), generateStandard(ResourceManager.MISSILE_MICRO_EMP_TEX, ResourceManager.missileMicro));
 
-        renderers.put(new ComparableStack(ModItems.MISSILE_GENERIC.get()), generateStandard(ResourceManager.MISSILE_V2_HE_TEX, ResourceManager.missileV2));
-        renderers.put(new ComparableStack(ModItems.MISSILE_DECOY.get()), generateStandard(ResourceManager.MISSILE_V2_DECOY_TEX, ResourceManager.missileV2));
-        renderers.put(new ComparableStack(ModItems.MISSILE_INCENDIARY.get()), generateStandard(ResourceManager.MISSILE_V2_IN_TEX, ResourceManager.missileV2));
-        renderers.put(new ComparableStack(ModItems.MISSILE_CLUSTER.get()), generateStandard(ResourceManager.MISSILE_V2_CL_TEX, ResourceManager.missileV2));
-        renderers.put(new ComparableStack(ModItems.MISSILE_BUSTER.get()), generateStandard(ResourceManager.MISSILE_V2_BU_TEX, ResourceManager.missileV2));
+        renderers.put(new ComparableStack(NtmItems.MISSILE_GENERIC.get()), generateStandard(ResourceManager.MISSILE_V2_HE_TEX, ResourceManager.missileV2));
+        renderers.put(new ComparableStack(NtmItems.MISSILE_DECOY.get()), generateStandard(ResourceManager.MISSILE_V2_DECOY_TEX, ResourceManager.missileV2));
+        renderers.put(new ComparableStack(NtmItems.MISSILE_INCENDIARY.get()), generateStandard(ResourceManager.MISSILE_V2_IN_TEX, ResourceManager.missileV2));
+        renderers.put(new ComparableStack(NtmItems.MISSILE_CLUSTER.get()), generateStandard(ResourceManager.MISSILE_V2_CL_TEX, ResourceManager.missileV2));
+        renderers.put(new ComparableStack(NtmItems.MISSILE_BUSTER.get()), generateStandard(ResourceManager.MISSILE_V2_BU_TEX, ResourceManager.missileV2));
 
-        renderers.put(new ComparableStack(ModItems.MISSILE_STEALTH.get()), new RocketModelData(null, null, 0F) {
+        renderers.put(new ComparableStack(NtmItems.MISSILE_STEALTH.get()), new RocketModelData(null, null, 0F) {
             @Override
             public void render(boolean cullFace) {
                 RenderContext.setRenderType(cullFace ? NtmRenderTypes.FVBO.apply(ResourceManager.MISSILE_STEALTH_TEX) : NtmRenderTypes.FVBO_NC.apply(ResourceManager.MISSILE_STEALTH_TEX));
@@ -162,24 +162,24 @@ public class ItemRenderMissileGeneric extends BlockEntityWithoutLevelRenderer {
             }
         });
 
-        renderers.put(new ComparableStack(ModItems.MISSILE_STRONG.get()), generateLarge(ResourceManager.MISSILE_STRONG_HE_TEX, ResourceManager.missileStrong));
-        renderers.put(new ComparableStack(ModItems.MISSILE_INCENDIARY_STRONG.get()), generateLarge(ResourceManager.MISSILE_STRONG_IN_TEX, ResourceManager.missileStrong));
-        renderers.put(new ComparableStack(ModItems.MISSILE_CLUSTER_STRONG.get()), generateLarge(ResourceManager.MISSILE_STRONG_CL_TEX, ResourceManager.missileStrong));
-        renderers.put(new ComparableStack(ModItems.MISSILE_BUSTER_STRONG.get()), generateLarge(ResourceManager.MISSILE_STRONG_BU_TEX, ResourceManager.missileStrong));
-        renderers.put(new ComparableStack(ModItems.MISSILE_EMP_STRONG.get()), generateLarge(ResourceManager.MISSILE_STRONG_EMP_TEX, ResourceManager.missileStrong));
+        renderers.put(new ComparableStack(NtmItems.MISSILE_STRONG.get()), generateLarge(ResourceManager.MISSILE_STRONG_HE_TEX, ResourceManager.missileStrong));
+        renderers.put(new ComparableStack(NtmItems.MISSILE_INCENDIARY_STRONG.get()), generateLarge(ResourceManager.MISSILE_STRONG_IN_TEX, ResourceManager.missileStrong));
+        renderers.put(new ComparableStack(NtmItems.MISSILE_CLUSTER_STRONG.get()), generateLarge(ResourceManager.MISSILE_STRONG_CL_TEX, ResourceManager.missileStrong));
+        renderers.put(new ComparableStack(NtmItems.MISSILE_BUSTER_STRONG.get()), generateLarge(ResourceManager.MISSILE_STRONG_BU_TEX, ResourceManager.missileStrong));
+        renderers.put(new ComparableStack(NtmItems.MISSILE_EMP_STRONG.get()), generateLarge(ResourceManager.MISSILE_STRONG_EMP_TEX, ResourceManager.missileStrong));
 
-        renderers.put(new ComparableStack(ModItems.MISSILE_BURST.get()), generateStandard(ResourceManager.MISSILE_HUGE_HE_TEX, ResourceManager.missileHuge));
-        renderers.put(new ComparableStack(ModItems.MISSILE_INFERNO.get()), generateStandard(ResourceManager.MISSILE_HUGE_IN_TEX, ResourceManager.missileHuge));
-        renderers.put(new ComparableStack(ModItems.MISSILE_RAIN.get()), generateStandard(ResourceManager.MISSILE_HUGE_CL_TEX, ResourceManager.missileHuge));
-        renderers.put(new ComparableStack(ModItems.MISSILE_DRILL.get()), generateStandard(ResourceManager.MISSILE_HUGE_BU_TEX, ResourceManager.missileHuge));
+        renderers.put(new ComparableStack(NtmItems.MISSILE_BURST.get()), generateStandard(ResourceManager.MISSILE_HUGE_HE_TEX, ResourceManager.missileHuge));
+        renderers.put(new ComparableStack(NtmItems.MISSILE_INFERNO.get()), generateStandard(ResourceManager.MISSILE_HUGE_IN_TEX, ResourceManager.missileHuge));
+        renderers.put(new ComparableStack(NtmItems.MISSILE_RAIN.get()), generateStandard(ResourceManager.MISSILE_HUGE_CL_TEX, ResourceManager.missileHuge));
+        renderers.put(new ComparableStack(NtmItems.MISSILE_DRILL.get()), generateStandard(ResourceManager.MISSILE_HUGE_BU_TEX, ResourceManager.missileHuge));
 
-        renderers.put(new ComparableStack(ModItems.MISSILE_NUCLEAR.get()), generateStandard(ResourceManager.MISSILE_NUCLEAR_TEX, ResourceManager.missileNuclear));
-        renderers.put(new ComparableStack(ModItems.MISSILE_NUCLEAR_CLUSTER.get()), generateStandard(ResourceManager.MISSILE_THERMO_TEX, ResourceManager.missileNuclear));
-        renderers.put(new ComparableStack(ModItems.MISSILE_VOLCANO.get()), generateStandard(ResourceManager.MISSILE_VOLCANO_TEX, ResourceManager.missileNuclear));
-        renderers.put(new ComparableStack(ModItems.MISSILE_DOOMSDAY.get()), generateStandard(ResourceManager.MISSILE_DOOMSDAY_TEX, ResourceManager.missileNuclear));
-        renderers.put(new ComparableStack(ModItems.MISSILE_DOOMSDAY_RUSTED.get()), generateStandard(ResourceManager.MISSILE_DOOMSDAY_RUSTED_TEX, ResourceManager.missileNuclear));
+        renderers.put(new ComparableStack(NtmItems.MISSILE_NUCLEAR.get()), generateStandard(ResourceManager.MISSILE_NUCLEAR_TEX, ResourceManager.missileNuclear));
+        renderers.put(new ComparableStack(NtmItems.MISSILE_NUCLEAR_CLUSTER.get()), generateStandard(ResourceManager.MISSILE_THERMO_TEX, ResourceManager.missileNuclear));
+        renderers.put(new ComparableStack(NtmItems.MISSILE_VOLCANO.get()), generateStandard(ResourceManager.MISSILE_VOLCANO_TEX, ResourceManager.missileNuclear));
+        renderers.put(new ComparableStack(NtmItems.MISSILE_DOOMSDAY.get()), generateStandard(ResourceManager.MISSILE_DOOMSDAY_TEX, ResourceManager.missileNuclear));
+        renderers.put(new ComparableStack(NtmItems.MISSILE_DOOMSDAY_RUSTED.get()), generateStandard(ResourceManager.MISSILE_DOOMSDAY_RUSTED_TEX, ResourceManager.missileNuclear));
 
-        renderers.put(new ComparableStack(ModItems.MISSILE_SHUTTLE.get()), generateStandard(ResourceManager.MISSILE_SHUTTLE_TEX, ResourceManager.missileShuttle));
+        renderers.put(new ComparableStack(NtmItems.MISSILE_SHUTTLE.get()), generateStandard(ResourceManager.MISSILE_SHUTTLE_TEX, ResourceManager.missileShuttle));
     }
 
     public static class RocketModelData {

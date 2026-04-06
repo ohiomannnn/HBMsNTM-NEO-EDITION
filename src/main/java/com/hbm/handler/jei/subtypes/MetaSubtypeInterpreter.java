@@ -19,6 +19,10 @@ public class MetaSubtypeInterpreter implements ISubtypeInterpreter<ItemStack> {
 
     @Override
     public String getLegacyStringSubtypeInfo(ItemStack stack, UidContext context) {
-        return String.valueOf(NtmDataComponents.META);
+        Integer amplifier = stack.get(NtmDataComponents.META);
+        if (amplifier == null) {
+            return "";
+        }
+        return amplifier.toString();
     }
 }

@@ -1,6 +1,6 @@
 package com.hbm.handler;
 
-import com.hbm.HBMsNTMClient;
+import com.hbm.main.NuclearTechModClient;
 import com.hbm.config.MainConfig;
 import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.extprop.HbmLivingAttachments.ContaminationEffect;
@@ -243,7 +243,7 @@ public class EntityEffectHandler {
                 CompoundTag tag = new CompoundTag();
                 tag.putString("type", "radiation");
                 tag.putInt("count", radiation > 900 ? 4 : radiation > 800 ? 2 : 1);
-                HBMsNTMClient.effectNT(tag);
+                NuclearTechModClient.effectNT(tag);
             }
         }
     }

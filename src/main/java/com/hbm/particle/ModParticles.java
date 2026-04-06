@@ -1,6 +1,7 @@
 package com.hbm.particle;
 
 import com.hbm.main.NuclearTechMod;
+import com.hbm.particle.engine.util.SpriteSetNT;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;

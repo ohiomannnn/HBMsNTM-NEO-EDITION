@@ -5,8 +5,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
+import com.hbm.items.NtmItems;
 import com.hbm.main.NuclearTechMod;
-import com.hbm.items.ModItems;
 import com.hbm.items.armor.ItemModCladding;
 import com.hbm.lib.ModEffect;
 import com.hbm.util.ShadyUtil;
@@ -56,10 +56,10 @@ public class HazmatRegistry {
         HazmatRegistry.registerHazmat(Items.IRON_LEGGINGS, iron * legs);
         HazmatRegistry.registerHazmat(Items.IRON_BOOTS, iron * boots);
 
-        HazmatRegistry.registerHazmat(ModItems.ALLOY_HELMET.get(), alloy * helmet);
-        HazmatRegistry.registerHazmat(ModItems.ALLOY_CHESTPLATE.get(), alloy * chest);
-        HazmatRegistry.registerHazmat(ModItems.ALLOY_LEGGINGS.get(), alloy * legs);
-        HazmatRegistry.registerHazmat(ModItems.ALLOY_BOOTS.get(), alloy * boots);
+        HazmatRegistry.registerHazmat(NtmItems.ALLOY_HELMET.get(), alloy * helmet);
+        HazmatRegistry.registerHazmat(NtmItems.ALLOY_CHESTPLATE.get(), alloy * chest);
+        HazmatRegistry.registerHazmat(NtmItems.ALLOY_LEGGINGS.get(), alloy * legs);
+        HazmatRegistry.registerHazmat(NtmItems.ALLOY_BOOTS.get(), alloy * boots);
     }
 
     private static final HashMap<Item, Double> ENTRIES = new HashMap<>();

@@ -9,6 +9,9 @@ public abstract class HazardModifier {
 
     public abstract float modify(ItemStack stack, LivingEntity holder, float level);
 
+    /**
+     * Returns the level after applying all modifiers to it, in order.
+     */
     public static float evalAllModifiers(ItemStack stack, LivingEntity entity, float level, List<HazardModifier> mods) {
 
         for (HazardModifier mod : mods) {

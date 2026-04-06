@@ -1,6 +1,6 @@
 package com.hbm.entity.projectile;
 
-import com.hbm.HBMsNTMClient;
+import com.hbm.main.NuclearTechModClient;
 import com.hbm.config.MainConfig;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.registry.NtmSoundEvents;
@@ -159,7 +159,7 @@ public class Meteor extends Entity {
                 tag.putDouble("posY", getY() - getDeltaMovement().y);
                 tag.putDouble("posZ", getZ() - getDeltaMovement().z);
 
-                HBMsNTMClient.effectNT(tag);
+                NuclearTechModClient.effectNT(tag);
             }
         }
     }

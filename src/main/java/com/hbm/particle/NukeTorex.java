@@ -1,9 +1,9 @@
 package com.hbm.particle;
 
 import com.hbm.main.NuclearTechMod;
-import com.hbm.HBMsNTMClient;
-import com.hbm.registry.NtmSoundEvents;
+import com.hbm.main.NuclearTechModClient;
 import com.hbm.particle.engine.ParticleNT;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.util.Vec3NT;
 import com.hbm.util.old.TessColorUtil;
@@ -591,9 +591,9 @@ public class NukeTorex extends ParticleNT {
             cloudletWrapper(partialTicks, poseStack, buffer);
             if (this.age < 101) flashWrapper(partialTicks, poseStack, buffer);
         }
-        if (this.age < 10 && System.currentTimeMillis() - HBMsNTMClient.flashTimestamp > 1_000) HBMsNTMClient.flashTimestamp = System.currentTimeMillis();
-        if (this.didPlaySound && !this.didShake && System.currentTimeMillis() - HBMsNTMClient.shakeTimestamp > 1_000) {
-            HBMsNTMClient.shakeTimestamp = System.currentTimeMillis();
+        if (this.age < 10 && System.currentTimeMillis() - NuclearTechModClient.flashTimestamp > 1_000) NuclearTechModClient.flashTimestamp = System.currentTimeMillis();
+        if (this.didPlaySound && !this.didShake && System.currentTimeMillis() - NuclearTechModClient.shakeTimestamp > 1_000) {
+            NuclearTechModClient.shakeTimestamp = System.currentTimeMillis();
             this.didShake = true;
             Player player = Minecraft.getInstance().player;
             if (player != null) {
@@ -716,5 +716,5 @@ public class NukeTorex extends ParticleNT {
     }
 
     @Override
-    public RenderType getRenderType() { return RenderType.cutout(); }
+    public RenderType getRenderType() { return null; }
 }

@@ -3,7 +3,7 @@ package com.hbm.inventory.fluid.tank;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.util.BobMathUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -101,7 +101,7 @@ public class FluidTank {
     public boolean loadTank(Level level, int in, int out, NonNullList<ItemStack> slots) {
         if (slots.get(in).isEmpty()) return false;
 
-        boolean isInfiniteBarrel = slots.get(in).getItem() == ModItems.FLUID_BARREL_INFINITE.get();
+        boolean isInfiniteBarrel = slots.get(in).getItem() == NtmItems.FLUID_BARREL_INFINITE.get();
         if (!isInfiniteBarrel && pressure != 0) return false;
 
         int prev = this.getFill();

@@ -4,7 +4,7 @@ import com.hbm.blockentity.machine.storage.BatterySocketBlockEntity;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.MetaHelper;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import com.hbm.items.machine.BatteryPackItem.BatteryPackType;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.main.ResourceManager;
@@ -60,21 +60,23 @@ public class RenderBatterySocket extends BlockEntityRendererNT<BatterySocketBloc
 
         ItemStack render = be.syncStack;
         if (!render.isEmpty()) {
-            if (render.is(ModItems.BATTERY_PACK.get())) {
+            if (render.is(NtmItems.BATTERY_PACK.get())) {
                 BatteryPackType pack = EnumUtil.grabEnumSafely(BatteryPackType.class, MetaHelper.getMeta(render));
                 RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(pack.texture));
                 ResourceManager.battery_socket.renderPart(pack.isCapacitor() ? "Capacitor" : "Battery");
-            } else if (render.is(ModItems.BATTERY_SC.get())) {
+            } else if (render.is(NtmItems.BATTERY_SC.get())) {
                 RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.BATTERY_SC_TEX));
                 ResourceManager.battery_socket.renderPart("Battery");
-            } else if (render.is(ModItems.BATTERY_CREATIVE.get())) {
-                RenderContext.setup(NtmRenderTypes.FVBO_NC.apply(blorbo), poseStack, packedLight, packedOverlay);
+            } else if (render.is(NtmItems.BATTERY_CREATIVE.get())) {
+                RenderContext.pushPose();
+                RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(blorbo));
                 RenderContext.scale(0.75F, 0.75F, 0.75F);
                 RenderContext.mulPose(Axis.YN.rotationDegrees((be.getLevel().getGameTime() % 360 + partialTicks) * 25F));
 
                 HorsePronter.reset();
                 HorsePronter.enableHorn();
                 HorsePronter.pront();
+                RenderContext.popPose();
 
                 Random rand = new Random(be.getLevel().getGameTime() / 5);
                 rand.nextBoolean();

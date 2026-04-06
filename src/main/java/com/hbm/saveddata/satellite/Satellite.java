@@ -1,6 +1,6 @@
 package com.hbm.saveddata.satellite;
 
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import com.hbm.saveddata.SatelliteSavedData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -40,8 +40,8 @@ public abstract class Satellite {
     public Interfaces satIface = Interfaces.NONE;
 
     public static void register() {
-        registerSatellite(SatelliteLaser.class, ModItems.SATELLITE_LASER.get());
-        registerSatellite(SatelliteRadar.class, ModItems.SATELLITE_RADAR.get());
+        registerSatellite(SatelliteLaser.class, NtmItems.SATELLITE_LASER.get());
+        registerSatellite(SatelliteRadar.class, NtmItems.SATELLITE_RADAR.get());
     }
 
     /**

@@ -1,6 +1,5 @@
 package com.hbm.blockentity;
 
-import com.hbm.HBMsNTMClient;
 import com.hbm.blockentity.machine.LockableBaseBlockEntity;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.lib.Library;
@@ -11,7 +10,6 @@ import com.hbm.util.fauxpointtwelve.RotationNT;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Rotation;

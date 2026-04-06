@@ -11,7 +11,7 @@ import com.hbm.blocks.network.FluidDuctStandardBlock;
 import com.hbm.blocks.network.MachineBatteryREDD;
 import com.hbm.blocks.network.MachineBatterySocketBlock;
 import com.hbm.blocks.special.ConcreteBrickMBlock;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import com.hbm.main.NuclearTechMod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.ColorRGBA;
@@ -330,7 +330,7 @@ public class ModBlocks {
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> defBlock = BLOCKS.register(name, block);
-        ModItems.ITEMS.register(name, () -> new BlockItem(defBlock.get(), new Item.Properties()));
+        NtmItems.ITEMS.register(name, () -> new BlockItem(defBlock.get(), new Item.Properties()));
         return defBlock;
     }
 

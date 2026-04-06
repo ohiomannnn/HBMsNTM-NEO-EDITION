@@ -1,6 +1,6 @@
 package com.hbm.entity.missile;
 
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.network.toclient.AuxParticle;
 import com.hbm.util.RayTraceResult;
@@ -23,14 +23,14 @@ public class MissileShuttle extends MissileBaseNT {
     @Override
     public List<ItemStack> getDebris() {
         List<ItemStack> list = new ArrayList<>();
-        list.add(new ItemStack(ModItems.NOTHING.get(), 8));
-        list.add(new ItemStack(ModItems.NOTHING.get(), 2));
-        list.add(new ItemStack(ModItems.NOTHING.get(), 1));
+        list.add(new ItemStack(NtmItems.NOTHING.get(), 8));
+        list.add(new ItemStack(NtmItems.NOTHING.get(), 2));
+        list.add(new ItemStack(NtmItems.NOTHING.get(), 1));
         list.add(new ItemStack(Blocks.GLASS_PANE, 2));
         return list;
     }
 
-    @Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.MISSILE_SHUTTLE.get()); }
+    @Override public ItemStack getMissileItemForInfo() { return new ItemStack(NtmItems.MISSILE_SHUTTLE.get()); }
 
     @Override public void onMissileImpact(RayTraceResult result) {
         this.explodeStandard(20F, 64, false);
@@ -42,5 +42,5 @@ public class MissileShuttle extends MissileBaseNT {
         }
         level.playSound(null, this.position.x, this.position.y, this.position.z, NtmSoundEvents.ROBIN_EXPLOSION.get(), SoundSource.BLOCKS, 4.0F, (1.0F + (this.level.random.nextFloat() - this.level.random.nextFloat()) * 0.2F) * 0.7F);
     }
-    @Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.MISSILE_GENERIC.get()); }
+    @Override public ItemStack getDebrisRareDrop() { return new ItemStack(NtmItems.MISSILE_GENERIC.get()); }
 }

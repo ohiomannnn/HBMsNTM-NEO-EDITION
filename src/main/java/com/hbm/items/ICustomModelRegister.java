@@ -6,5 +6,5 @@ import net.neoforged.neoforge.client.model.generators.ModelProvider;
 
 public interface ICustomModelRegister {
 
-    void registerModel(ModelProvider<ItemModelBuilder> provider, ResourceLocation loc);
+    void registerModel(ModelProvider<ItemModelBuilder> provider, ResourceLocation modelLocation);
 }

@@ -1,9 +1,9 @@
 package com.hbm.inventory.screens;
 
+import com.hbm.items.NtmItems;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.blockentity.bomb.NukeFatManBlockEntity;
 import com.hbm.inventory.menus.NukeFatManMenu;
-import com.hbm.items.ModItems;
 import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -46,7 +46,7 @@ public class NukeFatManScreen extends InfoScreen<NukeFatManMenu> {
         if (be.isReady()) guiGraphics.blit(TEXTURE, this.leftPos + 134, this.topPos + 35, 176, 48, 16, 16);
 
         for (int index = 0; index < 4; index++) {
-            if (be.slots.get(index).getItem() == ModItems.EARLY_EXPLOSIVE_LENSES.get()) {
+            if (be.slots.get(index).getItem() == NtmItems.EARLY_EXPLOSIVE_LENSES.get()) {
                 switch (index) {
                     case 0 -> guiGraphics.blit(TEXTURE, this.leftPos + 82, this.topPos + 19, 176, 0, 24, 24);
                     case 1 -> guiGraphics.blit(TEXTURE, this.leftPos + 106, this.topPos + 19, 200, 0, 24, 24);

@@ -2,7 +2,7 @@ package com.hbm.entity.effect;
 
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.projectile.Rubble;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import com.hbm.registry.NtmDamageTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -116,7 +116,7 @@ public class BlackHole extends Entity {
 
                 if (entity instanceof ItemEntity itemEntity && !level.isClientSide) {
                     ItemStack stack = itemEntity.getItem();
-                    if (stack.getItem() == ModItems.PELLET_ANTIMATTER.get()) {
+                    if (stack.getItem() == NtmItems.PELLET_ANTIMATTER.get()) {
                         this.discard();
                         level.explode(null, this.getX(), this.getY(), this.getZ(), 5F, Level.ExplosionInteraction.BLOCK);
                         return;

@@ -1,8 +1,8 @@
 package com.hbm.blockentity.machine;
 
+import com.hbm.items.NtmItems;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.blockentity.LoadedBaseBlockEntity;
-import com.hbm.items.ModItems;
 import com.hbm.items.tools.KeyItem;
 import com.hbm.registry.NtmSoundEvents;
 import io.netty.buffer.ByteBuf;
@@ -91,7 +91,7 @@ public abstract class LockableBaseBlockEntity extends LoadedBaseBlockEntity {
                 return true;
             }
 
-            if (stack.is(ModItems.KEY_RED)) {
+            if (stack.is(NtmItems.KEY_RED)) {
                 level.playSound(null, this.getBlockPos(), NtmSoundEvents.LOCK_OPEN.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
                 return true;
             }
@@ -105,15 +105,15 @@ public abstract class LockableBaseBlockEntity extends LoadedBaseBlockEntity {
         ItemStack stack = player.getMainHandItem();
         double chanceOfSuccess = this.lockMod * 100;
 
-        if (stack.is(ModItems.PIN.get()) && (player.getInventory().contains(new ItemStack(ModItems.SCREWDRIVER.get())) || player.getInventory().contains(new ItemStack(ModItems.SCREWDRIVER_DESH.get())))) {
+        if (stack.is(NtmItems.PIN.get()) && (player.getInventory().contains(new ItemStack(NtmItems.SCREWDRIVER.get())) || player.getInventory().contains(new ItemStack(NtmItems.SCREWDRIVER_DESH.get())))) {
 
             stack.shrink(1);
             canPick = true;
         }
 
-        if ((stack.is(ModItems.SCREWDRIVER.get()) || stack.is(ModItems.SCREWDRIVER_DESH.get())) && player.getInventory().contains(new ItemStack(ModItems.PIN.get()))) {
+        if ((stack.is(NtmItems.SCREWDRIVER.get()) || stack.is(NtmItems.SCREWDRIVER_DESH.get())) && player.getInventory().contains(new ItemStack(NtmItems.PIN.get()))) {
 
-            removeOne(player, ModItems.PIN.get());
+            removeOne(player, NtmItems.PIN.get());
             canPick = true;
         }
 

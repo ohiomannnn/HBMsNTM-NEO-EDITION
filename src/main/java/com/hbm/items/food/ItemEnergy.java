@@ -2,7 +2,7 @@ package com.hbm.items.food;
 
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.explosion.ExplosionLarge;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
@@ -60,31 +60,31 @@ public class ItemEnergy extends PotionItem {
         }
 
         if (!level.isClientSide) {
-            if (this == ModItems.CHOCOLATE_MILK.get()) {
+            if (this == NtmItems.CHOCOLATE_MILK.get()) {
                 if (level instanceof ServerLevel serverLevel) {
                     ExplosionLarge.explode(serverLevel, drinker.getX(), drinker.getY(), drinker.getZ(), 50, true, false, false, drinker);
                 }
             }
-            if (this == ModItems.BOTTLE_NUKA.get()) {
+            if (this == NtmItems.BOTTLE_NUKA.get()) {
                 drinker.heal(4F);
                 drinker.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 30 * 20, 1));
                 drinker.addEffect(new MobEffectInstance(MobEffects.JUMP, 30 * 20, 1));
                 ContaminationUtil.contaminate(drinker, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 5.0F);
             }
-            if (this == ModItems.BOTTLE_CHERRY.get()) {
+            if (this == NtmItems.BOTTLE_CHERRY.get()) {
                 drinker.heal(6F);
                 drinker.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 30 * 20, 0));
                 drinker.addEffect(new MobEffectInstance(MobEffects.JUMP, 30 * 20, 2));
                 ContaminationUtil.contaminate(drinker, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 5.0F);
             }
-            if (this == ModItems.BOTTLE_QUANTUM.get()) {
+            if (this == NtmItems.BOTTLE_QUANTUM.get()) {
                 drinker.heal(10F);
                 drinker.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 30 * 20, 1));
                 drinker.addEffect(new MobEffectInstance(MobEffects.JUMP, 30 * 20, 2));
                 drinker.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 30 * 20, 1));
                 ContaminationUtil.contaminate(drinker, HazardType.RADIATION, ContaminationType.RAD_BYPASS, 15.0F);
             }
-            if (this == ModItems.BOTTLE_SPARKLE.get()) {
+            if (this == NtmItems.BOTTLE_SPARKLE.get()) {
                 drinker.heal(10F);
                 drinker.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 30 * 20, 1));
                 drinker.addEffect(new MobEffectInstance(MobEffects.JUMP, 30 * 20, 2));
@@ -117,7 +117,7 @@ public class ItemEnergy extends PotionItem {
         if (!this.requiresOpener) return super.use(level, player, hand);
 
         for (ItemStack stack : player.getInventory().items) {
-            if (stack.is(ModItems.BOTTLE_OPENER)) {
+            if (stack.is(NtmItems.BOTTLE_OPENER)) {
                 return super.use(level, player, hand);
             }
         }

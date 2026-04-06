@@ -3,7 +3,7 @@ package com.hbm.blockentity.bomb;
 import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blockentity.NukeBaseBlockEntity;
 import com.hbm.inventory.menus.NukeIvyMikeMenu;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -26,31 +26,31 @@ public class NukeIvyMikeBlockEntity extends NukeBaseBlockEntity {
     @Override
     public boolean canPlaceItem(int slot, ItemStack stack) {
         Item item = stack.getItem();
-        return item == ModItems.EXPLOSIVE_LENSES.get() ||
-                item == ModItems.FAT_MAN_CORE.get() ||
-                item == ModItems.IVY_MIKE_CORE.get() ||
-                item == ModItems.IVY_MIKE_DEUT.get() ||
-                item == ModItems.IVY_MIKE_COOLING_UNIT.get();
+        return item == NtmItems.EXPLOSIVE_LENSES.get() ||
+                item == NtmItems.FAT_MAN_CORE.get() ||
+                item == NtmItems.IVY_MIKE_CORE.get() ||
+                item == NtmItems.IVY_MIKE_DEUT.get() ||
+                item == NtmItems.IVY_MIKE_COOLING_UNIT.get();
     }
     @Override
     public boolean isReady() {
-        return slots.get(0).getItem() == ModItems.EXPLOSIVE_LENSES.get() &&
-                slots.get(1).getItem() == ModItems.EXPLOSIVE_LENSES.get() &&
-                slots.get(2).getItem() == ModItems.EXPLOSIVE_LENSES.get() &&
-                slots.get(3).getItem() == ModItems.EXPLOSIVE_LENSES.get() &&
-                slots.get(4).getItem() == ModItems.FAT_MAN_CORE.get() &&
-                slots.get(5).getItem() == ModItems.IVY_MIKE_CORE.get() &&
-                slots.get(6).getItem() == ModItems.IVY_MIKE_DEUT.get() &&
-                slots.get(7).getItem() == ModItems.IVY_MIKE_COOLING_UNIT.get();
+        return slots.get(0).getItem() == NtmItems.EXPLOSIVE_LENSES.get() &&
+                slots.get(1).getItem() == NtmItems.EXPLOSIVE_LENSES.get() &&
+                slots.get(2).getItem() == NtmItems.EXPLOSIVE_LENSES.get() &&
+                slots.get(3).getItem() == NtmItems.EXPLOSIVE_LENSES.get() &&
+                slots.get(4).getItem() == NtmItems.FAT_MAN_CORE.get() &&
+                slots.get(5).getItem() == NtmItems.IVY_MIKE_CORE.get() &&
+                slots.get(6).getItem() == NtmItems.IVY_MIKE_DEUT.get() &&
+                slots.get(7).getItem() == NtmItems.IVY_MIKE_COOLING_UNIT.get();
     }
 
     @Override
     public boolean isFilled() {
-        return slots.get(0).getItem() == ModItems.EXPLOSIVE_LENSES.get() &&
-                slots.get(1).getItem() == ModItems.EXPLOSIVE_LENSES.get() &&
-                slots.get(2).getItem() == ModItems.EXPLOSIVE_LENSES.get() &&
-                slots.get(3).getItem() == ModItems.EXPLOSIVE_LENSES.get() &&
-                slots.get(4).getItem() == ModItems.FAT_MAN_CORE.get();
+        return slots.get(0).getItem() == NtmItems.EXPLOSIVE_LENSES.get() &&
+                slots.get(1).getItem() == NtmItems.EXPLOSIVE_LENSES.get() &&
+                slots.get(2).getItem() == NtmItems.EXPLOSIVE_LENSES.get() &&
+                slots.get(3).getItem() == NtmItems.EXPLOSIVE_LENSES.get() &&
+                slots.get(4).getItem() == NtmItems.FAT_MAN_CORE.get();
     }
 
     @Override

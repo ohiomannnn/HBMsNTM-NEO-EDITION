@@ -1,6 +1,6 @@
 package com.hbm.blockentity.bomb;
 
-import com.hbm.HBMsNTMClient;
+import com.hbm.main.NuclearTechModClient;
 import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.entity.missile.MissileBaseNT;
@@ -71,7 +71,7 @@ public class LaunchPadBlockEntity extends LaunchPadBaseBlockEntity {
                     tag.putDouble("moX", moX);
                     tag.putDouble("moY", 0);
                     tag.putDouble("moZ", moZ);
-                    HBMsNTMClient.effectNT(tag);
+                    NuclearTechModClient.effectNT(tag);
                 }
             }
         }

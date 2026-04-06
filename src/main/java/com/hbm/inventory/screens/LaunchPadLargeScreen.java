@@ -3,7 +3,7 @@ package com.hbm.inventory.screens;
 import com.hbm.blockentity.bomb.LaunchPadBaseBlockEntity;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.menus.LaunchPadLargeMenu;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import com.hbm.items.weapon.MissileItem;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.render.item.ItemRenderMissileGeneric;
@@ -80,7 +80,7 @@ public class LaunchPadLargeScreen extends InfoScreen<LaunchPadLargeMenu> {
                         case ATLAS: scale = 0.875F; break;
                         case OTHER: break;
                     }
-                    if (be.slots.get(0).getItem() == ModItems.MISSILE_STEALTH.get()) scale = 1.125F;
+                    if (be.slots.get(0).getItem() == NtmItems.MISSILE_STEALTH.get()) scale = 1.125F;
                 }
 
                 guiGraphics.pose().mulPose(Axis.YP.rotationDegrees(90F));

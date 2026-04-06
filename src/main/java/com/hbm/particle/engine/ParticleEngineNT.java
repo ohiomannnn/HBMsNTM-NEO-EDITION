@@ -44,7 +44,6 @@ public class ParticleEngineNT {
             for (ParticleNT particle : this.particles) {
                 if (particle == null || particle.dead) continue;
                 RenderType type = particle.getRenderType();
-                if (type == null) continue;
                 renderTypes.computeIfAbsent(type, t -> new ArrayList<>()).add(particle);
             }
 
@@ -52,7 +51,7 @@ public class ParticleEngineNT {
                 RenderType type = entry.getKey();
                 List<ParticleNT> particles = entry.getValue();
 
-                VertexConsumer consumer = buffer.getBuffer(type);
+                VertexConsumer consumer = type != null ? buffer.getBuffer(type) : null;
                 for (ParticleNT particle : particles) {
                     particle.render(consumer, camera, f);
                 }

@@ -18,7 +18,7 @@ import org.joml.Vector3f;
 @OnlyIn(Dist.CLIENT)
 public class MukeCloudParticle extends ParticleNT {
 
-    private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/particle/explosion.png");
+    private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/particle_ss/explosion.png");
 
     public MukeCloudParticle(ClientLevel level, double x, double y, double z, double xd, double yd, double zd) {
         super(level, x, y, z);

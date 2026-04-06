@@ -1,9 +1,9 @@
 package com.hbm.inventory.screens;
 
+import com.hbm.items.NtmItems;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.blockentity.bomb.NukeLittleBoyBlockEntity;
 import com.hbm.inventory.menus.NukeLittleBoyMenu;
-import com.hbm.items.ModItems;
 import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -47,19 +47,19 @@ public class NukeLittleBoyScreen extends InfoScreen<NukeLittleBoyMenu> {
             guiGraphics.blit(TEXTURE, this.leftPos + 142, this.topPos + 90, 176, 0, 16, 16);
         }
 
-        if (be.slots.get(0).getItem() == ModItems.LITTLE_BOY_SHIELDING.get()) {
+        if (be.slots.get(0).getItem() == NtmItems.LITTLE_BOY_SHIELDING.get()) {
             guiGraphics.blit(TEXTURE, this.leftPos + 27, this.topPos + 87, 176, 16, 21, 22);
         }
-        if (be.slots.get(1).getItem() == ModItems.LITTLE_BOY_TARGET.get()) {
+        if (be.slots.get(1).getItem() == NtmItems.LITTLE_BOY_TARGET.get()) {
             guiGraphics.blit(TEXTURE, this.leftPos + 27, this.topPos + 89, 176, 38, 21, 18);
         }
-        if (be.slots.get(2).getItem() == ModItems.LITTLE_BOY_BULLET.get()) {
+        if (be.slots.get(2).getItem() == NtmItems.LITTLE_BOY_BULLET.get()) {
             guiGraphics.blit(TEXTURE, this.leftPos + 74, this.topPos + 94, 176, 57, 19, 8);
         }
-        if (be.slots.get(3).getItem() == ModItems.LITTLE_BOY_PROPELLANT.get()) {
+        if (be.slots.get(3).getItem() == NtmItems.LITTLE_BOY_PROPELLANT.get()) {
             guiGraphics.blit(TEXTURE, this.leftPos + 92, this.topPos + 95, 176, 66, 12, 6);
         }
-        if (be.slots.get(4).getItem() == ModItems.LITTLE_BOY_IGNITER.get()) {
+        if (be.slots.get(4).getItem() == NtmItems.LITTLE_BOY_IGNITER.get()) {
             guiGraphics.blit(TEXTURE, this.leftPos + 107, this.topPos + 91, 176, 75, 16, 14);
         }
 

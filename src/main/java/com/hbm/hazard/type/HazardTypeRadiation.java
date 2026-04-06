@@ -2,7 +2,7 @@ package com.hbm.hazard.type;
 
 import com.hbm.config.MainConfig;
 import com.hbm.hazard.modifier.HazardModifier;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
@@ -24,7 +24,7 @@ public class HazardTypeRadiation extends HazardTypeBase {
         boolean reacher = false;
 
         if (target instanceof Player player) {
-            reacher = player.getInventory().contains(new ItemStack(ModItems.REACHER.get()));
+            reacher = player.getInventory().contains(new ItemStack(NtmItems.REACHER.get()));
         }
 
         level *= stack.getCount();

@@ -1,6 +1,6 @@
 package com.hbm.items.tools;
 
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import com.hbm.util.TagsUtilDegradation;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -24,7 +24,7 @@ public class KeyPinItem extends Item {
             tooltipComponents.add(Component.literal("Pins not set!"));
         }
 
-        if (this == ModItems.KEY_FAKE.get()) {
+        if (this == NtmItems.KEY_FAKE.get()) {
             tooltipComponents.add(Component.empty());
             tooltipComponents.add(Component.literal("Pins can neither be changed, nor copied."));
         }
@@ -42,6 +42,6 @@ public class KeyPinItem extends Item {
     }
 
     public boolean canTransfer() {
-        return this != ModItems.KEY_FAKE.get();
+        return this != NtmItems.KEY_FAKE.get();
     }
 }

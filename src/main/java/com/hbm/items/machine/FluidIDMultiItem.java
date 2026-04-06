@@ -6,7 +6,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.screens.FluidScreen;
 import com.hbm.items.IItemControlReceiver;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import com.hbm.network.toclient.InformPlayer;
 import com.hbm.util.TagsUtilDegradation;
 import net.minecraft.ChatFormatting;
@@ -101,7 +101,7 @@ public class FluidIDMultiItem extends Item implements IGUIProvider, IItemControl
     }
 
     public static ItemStack createStack(FluidType type) {
-        FluidIDMultiItem item = (FluidIDMultiItem) ModItems.FLUID_IDENTIFIER_MULTI.get();
+        FluidIDMultiItem item = (FluidIDMultiItem) NtmItems.FLUID_IDENTIFIER_MULTI.get();
         ItemStack stack = new ItemStack(item);
         setType(stack, type, true);
         item.update(stack);

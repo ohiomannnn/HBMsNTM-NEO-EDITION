@@ -1,6 +1,6 @@
 package com.hbm.blocks.generic;
 
-import com.hbm.HBMsNTMClient;
+import com.hbm.main.NuclearTechModClient;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.entity.item.FallingBlockEntityNT;
 import net.minecraft.core.BlockPos;
@@ -39,7 +39,7 @@ public class WasteLeavesBlock extends Block {
             tag.putDouble("posX", pos.getX() + rand.nextDouble());
             tag.putDouble("posY", pos.getY() - 0.05);
             tag.putDouble("posZ", pos.getZ() + rand.nextDouble());
-            HBMsNTMClient.effectNT(tag);
+            NuclearTechModClient.effectNT(tag);
         }
     }
 }

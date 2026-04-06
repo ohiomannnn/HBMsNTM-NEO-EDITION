@@ -1,6 +1,6 @@
 package com.hbm.blockentity.machine;
 
-import com.hbm.HBMsNTMClient;
+import com.hbm.main.NuclearTechModClient;
 import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blockentity.Tickable;
 import com.hbm.extprop.HbmLivingAttachments;
@@ -49,7 +49,7 @@ public class DecontaminatorBlockEntity extends BlockEntity implements Tickable {
             tag.putDouble("mX", 0.0);
             tag.putDouble("mY", 0.04);
             tag.putDouble("mZ", 0.0);
-            HBMsNTMClient.effectNT(tag);
+            NuclearTechModClient.effectNT(tag);
         }
     }
 }

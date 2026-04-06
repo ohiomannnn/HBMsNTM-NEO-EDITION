@@ -4,7 +4,7 @@ import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.MetaHelper;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.TagsUtilDegradation;
 import net.minecraft.ChatFormatting;
@@ -75,7 +75,7 @@ public class FluidIconItem extends Item {
     }
 
     public static ItemStack create(FluidType type, int amount, int pressure) {
-        ItemStack stack = MetaHelper.metaStack(new ItemStack(ModItems.FLUID_ICON.get()), type.getID());
+        ItemStack stack = MetaHelper.metaStack(new ItemStack(NtmItems.FLUID_ICON.get()), type.getID());
         addQuantity(stack, amount);
         addPressure(stack, pressure);
         return stack;

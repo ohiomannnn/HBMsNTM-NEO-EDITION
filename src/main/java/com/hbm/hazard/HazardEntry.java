@@ -11,8 +11,8 @@ import net.minecraft.world.item.ItemStack;
 
 public class HazardEntry {
 
-    HazardTypeBase type;
-    float baseLevel;
+    protected final HazardTypeBase type;
+    protected final float baseLevel;
 
     List<HazardModifier> mods = new ArrayList<>();
 
@@ -38,6 +38,7 @@ public class HazardEntry {
         return this.type;
     }
 
+    @Override
     public HazardEntry clone() {
         return clone(1F);
     }

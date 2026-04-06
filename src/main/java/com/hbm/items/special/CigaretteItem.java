@@ -2,7 +2,7 @@ package com.hbm.items.special;
 
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.extprop.HbmLivingAttachments;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.network.toclient.AuxParticle;
 import net.minecraft.ChatFormatting;
@@ -50,12 +50,12 @@ public class CigaretteItem extends Item {
         }
 
         if (!level.isClientSide) {
-            if (this == ModItems.CIGARETTE.get()) {
+            if (this == NtmItems.CIGARETTE.get()) {
                 HbmLivingAttachments.incrementBlackLung(drinker, 2000);
                 HbmLivingAttachments.incrementAsbestos(drinker, 2000);
                 HbmLivingAttachments.incrementRadiation(drinker, 100F);
             }
-            if (this == ModItems.CRACKPIPE.get()) {
+            if (this == NtmItems.CRACKPIPE.get()) {
                 HbmLivingAttachments.incrementBlackLung(drinker, 500);
                 drinker.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 200, 0));
                 drinker.heal(10F);
@@ -84,12 +84,12 @@ public class CigaretteItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
-        if (this == ModItems.CIGARETTE.get()) {
+        if (this == NtmItems.CIGARETTE.get()) {
             for (String s : ITooltipProvider.getDescription(stack)) {
                 components.add(Component.translatable(s).withStyle(ChatFormatting.RED));
             }
         }
-        if (this == ModItems.CRACKPIPE.get()) {
+        if (this == NtmItems.CRACKPIPE.get()) {
             ChatFormatting[] formattings = new ChatFormatting[] {
                     ChatFormatting.RED,
                     ChatFormatting.GOLD,

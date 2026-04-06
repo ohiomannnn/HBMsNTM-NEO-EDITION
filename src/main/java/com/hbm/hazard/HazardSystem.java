@@ -7,7 +7,6 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,8 +15,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,35 +23,50 @@ import java.util.List;
 
 public class HazardSystem {
 
+    /*
+     * Map for OreDict entries, always evaluated first. Avoid registering HazardData with 'doesOverride', as internal order is based on the item's ore dict keys.
+     */
     public static final HashMap<TagKey<Item>, HazardData> tagMap = new HashMap<>();
+    /*
+     * Map for items, either with wildcard meta or stuff that's expected to have a variety of damage values, like tools.
+     */
     public static final HashMap<Item, HazardData> itemMap = new HashMap<>();
+    /*
+     * Very specific stacks with item and meta matching. ComparableStack does not support NBT matching, to scale hazards with NBT please use HazardModifiers.
+     */
     public static final HashMap<ComparableStack, HazardData> stackMap = new HashMap<>();
+    /*
+     * For items that should, for whichever reason, be completely exempt from the hazard system.
+     */
     public static final HashSet<ComparableStack> stackBlacklist = new HashSet<>();
     public static final HashSet<TagKey<Item>> tagBlacklist = new HashSet<>();
+    /*
+     * List of hazard transformers, called in order before and after unrolling all the HazardEntries.
+     */
     public static final List<HazardTransformerBase> trafos = new ArrayList<>();
 
-    public static void register(Object obj, HazardData data) {
-        if (obj instanceof Item item) {
-            itemMap.put(item, data);
-        } else if (obj instanceof Block block) {
-            itemMap.put(block.asItem(), data);
-        } else if (obj instanceof ItemStack stack) {
-            stackMap.put(new ComparableStack(stack), data);
-        } else if (obj instanceof ComparableStack comp) {
-            stackMap.put(comp, data);
-        }
+    /**
+     * Automatically casts the first parameter and registers it to the HazSys
+     */
+    @SuppressWarnings("unchecked")
+    public static void register(Object o, HazardData data) {
+
+        if (o instanceof TagKey<?> tagKey && tagKey.isFor(Registries.ITEM)) tagMap.put((TagKey<Item>) tagKey, data);
+
+        if (o instanceof Item item)   itemMap.put(item, data);
+        if (o instanceof Block block) itemMap.put(block.asItem(), data);
+
+        if (o instanceof ItemStack stack)       stackMap.put(new ComparableStack(stack), data);
+        if (o instanceof ComparableStack stack) stackMap.put(stack, data);
     }
 
-    public static void blacklist(Object obj) {
-        if (obj instanceof TagKey<?> tagKey && tagKey.isFor(Registries.ITEM)) {
-            tagBlacklist.add((TagKey<Item>) tagKey);
-        } else if (obj instanceof ItemStack stack) {
-            stackBlacklist.add(new ComparableStack(stack).makeSingular());
-        }
-    }
-
-    public static void blacklist(ResourceLocation tagLocation) {
-        blacklist(TagKey.create(Registries.ITEM, tagLocation));
+    /**
+     * Prevents the stack from returning any HazardData
+     */
+    @SuppressWarnings("unchecked")
+    public static void blacklist(Object o) {
+        if (o instanceof ItemStack stack)       stackBlacklist.add(new ComparableStack(stack).makeSingular());
+        if (o instanceof TagKey<?> tagKey && tagKey.isFor(Registries.ITEM)) tagBlacklist.add((TagKey<Item>) tagKey);
     }
 
     public static boolean isItemBlacklisted(ItemStack stack) {
@@ -115,6 +127,7 @@ public class HazardSystem {
 
         return entries;
     }
+
     public static float getHazardLevelFromStack(ItemStack stack, HazardTypeBase hazard) {
         List<HazardEntry> entries = getHazardsFromStack(stack);
 
@@ -128,6 +141,7 @@ public class HazardSystem {
 
     public static void applyHazards(ItemStack stack, LivingEntity entity) {
         List<HazardEntry> hazards = getHazardsFromStack(stack);
+
         for (HazardEntry hazard : hazards) {
             hazard.applyHazard(stack, entity);
         }
@@ -146,8 +160,10 @@ public class HazardSystem {
     }
 
     public static void updateLivingInventory(LivingEntity entity) {
+
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             ItemStack stack = entity.getItemBySlot(slot);
+
             if (!stack.isEmpty()) {
                 applyHazards(stack, entity);
             }
@@ -155,6 +171,7 @@ public class HazardSystem {
     }
 
     public static void updateDroppedItem(ItemEntity entity) {
+
         if (entity.isRemoved()) return;
         ItemStack stack = entity.getItem();
         if (stack.isEmpty()) return;
@@ -165,8 +182,9 @@ public class HazardSystem {
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
+    /** Only in client! */
     public static void addFullTooltip(ItemStack stack, List<Component> list) {
+
         Player player = Minecraft.getInstance().player;
         List<HazardEntry> hazards = getHazardsFromStack(stack);
 

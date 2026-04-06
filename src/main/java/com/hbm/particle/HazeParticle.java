@@ -1,16 +1,17 @@
 package com.hbm.particle;
 
+import com.hbm.main.NuclearTechMod;
+import com.hbm.particle.engine.ParticleNT;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.*;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -18,11 +19,12 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
-public class HazeParticle extends TextureSheetParticle {
+public class HazeParticle extends ParticleNT {
+
+    private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/particle_ss/haze.png");
 
     public HazeParticle(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
-        this.setSpriteFromAge(ModParticles.HAZE_SPRITES);
 
         this.lifetime = 600 + random.nextInt(100);
 
@@ -36,7 +38,6 @@ public class HazeParticle extends TextureSheetParticle {
         this.zo = this.z;
 
         this.age++;
-
         if (this.age >= this.lifetime) {
             this.remove();
         }
@@ -65,14 +66,9 @@ public class HazeParticle extends TextureSheetParticle {
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.enableBlend();
-        RenderSystem.blendFuncSeparate(
-                GlStateManager.SourceFactor.SRC_ALPHA,
-                GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
-                GlStateManager.SourceFactor.ONE,
-                GlStateManager.DestFactor.ZERO
-        );
+        RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
         RenderSystem.depthMask(false);
-        RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
+        RenderSystem.setShaderTexture(0, TEXTURE);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha * 0.1F);
 
         RandomSource random = RandomSource.create(50);
@@ -95,17 +91,12 @@ public class HazeParticle extends TextureSheetParticle {
 
             Matrix4f matrix = poseStack.last().pose();
 
-            float u0 = sprite.getU0();
-            float u1 = sprite.getU1();
-            float v0 = sprite.getV0();
-            float v1 = sprite.getV1();
-
             Tesselator tess = Tesselator.getInstance();
             BufferBuilder buf = tess.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-            buf.addVertex(matrix, pX - l.x - u.x, pY - l.y - u.y, pZ - l.z - u.z).setUv(u1, v1);
-            buf.addVertex(matrix, pX - l.x + u.x, pY - l.y + u.y, pZ - l.z + u.z).setUv(u1, v0);
-            buf.addVertex(matrix, pX + l.x + u.x, pY + l.y + u.y, pZ + l.z + u.z).setUv(u0, v0);
-            buf.addVertex(matrix, pX + l.x - u.x, pY + l.y - u.y, pZ + l.z - u.z).setUv(u0, v1);
+            buf.addVertex(matrix, pX - l.x - u.x, pY - l.y - u.y, pZ - l.z - u.z).setUv(1, 1);
+            buf.addVertex(matrix, pX - l.x + u.x, pY - l.y + u.y, pZ - l.z + u.z).setUv(1, 0);
+            buf.addVertex(matrix, pX + l.x + u.x, pY + l.y + u.y, pZ + l.z + u.z).setUv(0, 0);
+            buf.addVertex(matrix, pX + l.x - u.x, pY + l.y - u.y, pZ + l.z - u.z).setUv(0, 1);
             BufferUploader.drawWithShader(buf.buildOrThrow());
         }
         poseStack.popPose();
@@ -117,19 +108,7 @@ public class HazeParticle extends TextureSheetParticle {
     }
 
     @Override
-    public ParticleRenderType getRenderType() {
-        return ModParticleRenderTypes.NONE;
-    }
-
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
-
-        public Provider(SpriteSet sprites) {
-            ModParticles.HAZE_SPRITES = sprites;
-        }
-
-        @Override
-        public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new HazeParticle(level, x, y, z);
-        }
+    public RenderType getRenderType() {
+        return null;
     }
 }

@@ -2,7 +2,7 @@ package com.hbm.items.special;
 
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.mob.Duck;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
@@ -96,7 +96,7 @@ public class EntitySpawnerItem extends Item {
 //            ((EntityUFO) entity).scanCooldown = 100;
 //            y += 35;
 //        }
-        if (stack.is(ModItems.DUCK_SPAWN_EGG.get())) {
+        if (stack.is(NtmItems.DUCK_SPAWN_EGG.get())) {
             Duck duck = ModEntityTypes.DUCK.get().create(level);
             if (duck != null) {
                 duck.moveTo(x, y, z, level.random.nextFloat() * 360F, 0.0F);

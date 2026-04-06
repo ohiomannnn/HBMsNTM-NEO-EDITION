@@ -1,7 +1,7 @@
 package com.hbm.datagen;
 
 import com.hbm.blocks.ModBlocks;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
@@ -19,16 +19,16 @@ public class NtmRecipeProvider extends RecipeProvider {
     @Override
     protected void buildRecipes(RecipeOutput recipeOutput) {
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.EGG_BALEFIRE.get(), 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.EGG_BALEFIRE.get(), 1)
                 .pattern("###")
                 .pattern("###")
                 .pattern("###")
-                .define('#', ModItems.EGG_BALEFIRE_SHARD.get())
-                .unlockedBy("has_balefire_shard", has(ModItems.EGG_BALEFIRE_SHARD.get()))
+                .define('#', NtmItems.EGG_BALEFIRE_SHARD.get())
+                .unlockedBy("has_balefire_shard", has(NtmItems.EGG_BALEFIRE_SHARD.get()))
                 .save(recipeOutput);
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.EGG_BALEFIRE_SHARD.get(), 9)
-                .requires(ModItems.EGG_BALEFIRE.get())
-                .unlockedBy("has_balefire_egg", has(ModItems.EGG_BALEFIRE.get()))
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, NtmItems.EGG_BALEFIRE_SHARD.get(), 9)
+                .requires(NtmItems.EGG_BALEFIRE.get())
+                .unlockedBy("has_balefire_egg", has(NtmItems.EGG_BALEFIRE.get()))
                 .save(recipeOutput);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.BRICK_CONCRETE_MOSSY.get(), 8)

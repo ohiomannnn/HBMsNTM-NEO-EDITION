@@ -3,7 +3,7 @@ package com.hbm.inventory.screens;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.blockentity.bomb.NukeIvyMikeBlockEntity;
 import com.hbm.inventory.menus.NukeIvyMikeMenu;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -50,18 +50,18 @@ public class NukeIvyMikeScreen extends InfoScreen<NukeIvyMikeMenu> {
             guiGraphics.blit(TEXTURE, this.leftPos + 5, this.topPos + 35, 177, 19, 16, 16);
         }
 
-        if (be.slots.get(5).getItem() == ModItems.IVY_MIKE_CORE.get()) {
+        if (be.slots.get(5).getItem() == NtmItems.IVY_MIKE_CORE.get()) {
             guiGraphics.blit(TEXTURE, this.leftPos + 75, this.topPos + 25, 176, 49, 80, 36);
         }
-        if (be.slots.get(6).getItem() == ModItems.IVY_MIKE_DEUT.get()) {
+        if (be.slots.get(6).getItem() == NtmItems.IVY_MIKE_DEUT.get()) {
             guiGraphics.blit(TEXTURE, this.leftPos + 79, this.topPos + 30, 180, 88, 58, 26);
         }
-        if (be.slots.get(7).getItem() == ModItems.IVY_MIKE_COOLING_UNIT.get()) {
+        if (be.slots.get(7).getItem() == NtmItems.IVY_MIKE_COOLING_UNIT.get()) {
             guiGraphics.blit(TEXTURE, this.leftPos + 140, this.topPos + 30, 240, 88, 12, 26);
         }
 
         for (int index = 0; index < 4; index++) {
-            if (be.slots.get(index).getItem() == ModItems.EXPLOSIVE_LENSES.get()) {
+            if (be.slots.get(index).getItem() == NtmItems.EXPLOSIVE_LENSES.get()) {
                 switch (index) {
                     case 0 -> guiGraphics.blit(TEXTURE, this.leftPos + 24, this.topPos + 20, 209, 1, 23, 23);
                     case 1 -> guiGraphics.blit(TEXTURE, this.leftPos + 47, this.topPos + 20, 232, 1, 23, 23);

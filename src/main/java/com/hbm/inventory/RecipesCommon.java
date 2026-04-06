@@ -1,6 +1,6 @@
 package com.hbm.inventory;
 
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -35,7 +35,7 @@ public class RecipesCommon {
             List<ItemStack> list = extractForJEI();
             cycle *= 50;
 
-            if (list.isEmpty()) return new ItemStack(ModItems.NOTHING.get());
+            if (list.isEmpty()) return new ItemStack(NtmItems.NOTHING.get());
             return list.get((int)(System.currentTimeMillis() % (cycle * list.size()) / cycle));
         }
 
@@ -47,7 +47,7 @@ public class RecipesCommon {
 
         public ComparableStack(ItemStack stack) {
             if (stack.isEmpty()) {
-                this.item = ModItems.NOTHING.get();
+                this.item = NtmItems.NOTHING.get();
                 this.size = 1;
                 return;
             }

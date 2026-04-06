@@ -1,7 +1,7 @@
 package com.hbm.items.tools;
 
 import com.hbm.main.NuclearTechMod;
-import com.hbm.HBMsNTMClient;
+import com.hbm.main.NuclearTechModClient;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.config.MainConfig;
 import com.hbm.interfaces.IBomb;
@@ -60,12 +60,12 @@ public class LaserDetonatorItem extends Item implements IHoldableWeapon {
 
                 level.playSound(null, player.getX(), player.getY(), player.getZ(), NtmSoundEvents.TECH_BLEEP.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
                 if (player instanceof ServerPlayer serverPlayer) {
-                    PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(Component.translatable(ret.getUnlocalizedMessage()).withStyle(ret.wasSuccessful() ? ChatFormatting.YELLOW : ChatFormatting.RED), HBMsNTMClient.ID_DETONATOR, 500));
+                    PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(Component.translatable(ret.getUnlocalizedMessage()).withStyle(ret.wasSuccessful() ? ChatFormatting.YELLOW : ChatFormatting.RED), NuclearTechModClient.ID_DETONATOR, 500));
                 }
             } else {
                 level.playSound(null, player.getX(), player.getY(), player.getZ(), NtmSoundEvents.TECH_BOOP.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
                 if (player instanceof ServerPlayer serverPlayer) {
-                    PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(Component.translatable(BombReturnCode.ERROR_NO_BOMB.getUnlocalizedMessage()).withStyle( ChatFormatting.RED), HBMsNTMClient.ID_DETONATOR, 500));
+                    PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(Component.translatable(BombReturnCode.ERROR_NO_BOMB.getUnlocalizedMessage()).withStyle( ChatFormatting.RED), NuclearTechModClient.ID_DETONATOR, 500));
                 }
             }
         } else {

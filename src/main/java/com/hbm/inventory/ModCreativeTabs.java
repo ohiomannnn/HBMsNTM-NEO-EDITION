@@ -4,7 +4,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.IMetaItem;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import com.hbm.items.machine.FluidIDMultiItem;
 import com.hbm.main.NuclearTechMod;
 import net.minecraft.network.chat.Component;
@@ -25,73 +25,167 @@ import static net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB;
 public class ModCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(CREATIVE_MODE_TAB, NuclearTechMod.MODID);
 
+    // ingots, nuggets, wires, machine parts
+    public static final Supplier<CreativeModeTab> PARTS = CREATIVE_MODE_TABS.register(
+            "parts",
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(NtmItems.INGOT_URANIUM.get()))
+                    .title(Component.translatable("creative_tab.hbmsntm.parts"))
+                    .displayItems((itemDisplayParameters, output) -> {
+                        output.accept(NtmItems.INGOT_URANIUM.get());
+                        output.accept(NtmItems.INGOT_U233.get());
+                        output.accept(NtmItems.INGOT_U235.get());
+                        output.accept(NtmItems.INGOT_U238.get());
+                        output.accept(NtmItems.INGOT_PLUTONIUM.get());
+                        output.accept(NtmItems.INGOT_PU238.get());
+                        output.accept(NtmItems.INGOT_PU239.get());
+                        output.accept(NtmItems.INGOT_PU240.get());
+                        output.accept(NtmItems.INGOT_PU241.get());
+                        output.accept(NtmItems.INGOT_PU_MIX.get());
+                        output.accept(NtmItems.INGOT_AM241.get());
+                        output.accept(NtmItems.INGOT_AM242.get());
+                        output.accept(NtmItems.INGOT_AM_MIX.get());
+                        output.accept(NtmItems.INGOT_NEPTUNIUM.get());
+                        output.accept(NtmItems.INGOT_POLONIUM.get());
+                        output.accept(NtmItems.INGOT_TECHNETIUM.get());
+                        output.accept(NtmItems.INGOT_CO60.get());
+                        output.accept(NtmItems.INGOT_SR90.get());
+                        output.accept(NtmItems.INGOT_AU198.get());
+                        output.accept(NtmItems.INGOT_PB209.get());
+                        output.accept(NtmItems.INGOT_RA226.get());
+                        output.accept(NtmItems.INGOT_TITANIUM.get());
+                        output.accept(NtmItems.INGOT_INDUSTRIAL_COPPER.get());
+                        output.accept(NtmItems.INGOT_RED_COPPER.get());
+                        output.accept(NtmItems.INGOT_ADVANCED_ALLOY.get());
+                        output.accept(NtmItems.INGOT_TUNGSTEN.get());
+                        output.accept(NtmItems.INGOT_ALUMINIUM.get());
+                        output.accept(NtmItems.INGOT_STEEL.get());
+                        output.accept(NtmItems.INGOT_TCALLOY.get());
+                        output.accept(NtmItems.INGOT_CDALLOY.get());
+                        output.accept(NtmItems.INGOT_BISMUTH_BRONZE.get());
+                        output.accept(NtmItems.INGOT_ARSENIC_BRONZE.get());
+                        output.accept(NtmItems.INGOT_BSCCO.get());
+                        output.accept(NtmItems.INGOT_LEAD.get());
+                        output.accept(NtmItems.INGOT_BISMUTH.get());
+                        output.accept(NtmItems.INGOT_ARSENIC.get());
+                        output.accept(NtmItems.INGOT_CALCIUM.get());
+                        output.accept(NtmItems.INGOT_CADMIUM.get());
+                        output.accept(NtmItems.INGOT_TANTALIUM.get());
+                        output.accept(NtmItems.INGOT_SILICON.get());
+                        output.accept(NtmItems.INGOT_NIOBIUM.get());
+                        output.accept(NtmItems.INGOT_BERYLLIUM.get());
+                        output.accept(NtmItems.INGOT_COBALT.get());
+                        output.accept(NtmItems.INGOT_BORON.get());
+                        output.accept(NtmItems.INGOT_GRAPHITE.get());
+                        output.accept(NtmItems.INGOT_FIREBRICK.get());
+                        output.accept(NtmItems.INGOT_DURA_STEEL.get());
+                        output.accept(NtmItems.INGOT_POLYMER.get());
+                        output.accept(NtmItems.INGOT_BAKELITE.get());
+                        output.accept(NtmItems.INGOT_BIORUBBER.get());
+                        output.accept(NtmItems.INGOT_RUBBER.get());
+                        output.accept(NtmItems.INGOT_PC.get());
+                        output.accept(NtmItems.INGOT_PVC.get());
+                        output.accept(NtmItems.INGOT_MUD.get());
+                        output.accept(NtmItems.INGOT_CTF.get());
+                        output.accept(NtmItems.INGOT_SCHRARANIUM.get());
+                        output.accept(NtmItems.INGOT_SCHRABIDIUM.get());
+                        output.accept(NtmItems.INGOT_SCHRABIDATE.get());
+                        output.accept(NtmItems.INGOT_MAGNETIZED_TUNGSTEN.get());
+                        output.accept(NtmItems.INGOT_COMBINE_STEEL.get());
+                        output.accept(NtmItems.INGOT_SOLINIUM.get());
+                        output.accept(NtmItems.INGOT_GH336.get());
+                        output.accept(NtmItems.INGOT_URANIUM_FUEL.get());
+                        output.accept(NtmItems.INGOT_THORIUM_FUEL.get());
+                        output.accept(NtmItems.INGOT_PLUTONIUM_FUEL.get());
+                        output.accept(NtmItems.INGOT_NEPTUNIUM_FUEL.get());
+                        output.accept(NtmItems.INGOT_MOX_FUEL.get());
+                        output.accept(NtmItems.INGOT_AMERICIUM_FUEL.get());
+                        output.accept(NtmItems.INGOT_SCHRABIDIUM_FUEL.get());
+                        output.accept(NtmItems.INGOT_HES.get());
+                        output.accept(NtmItems.INGOT_LES.get());
+                        output.accept(NtmItems.INGOT_AUSTRALIUM.get());
+                        output.accept(NtmItems.INGOT_LANTHANIUM.get());
+                        output.accept(NtmItems.INGOT_ACTINIUM.get());
+                        output.accept(NtmItems.INGOT_DESH.get());
+                        output.accept(NtmItems.INGOT_FERROURANIUM.get());
+                        output.accept(NtmItems.INGOT_STARMETAL.get());
+                        output.accept(NtmItems.INGOT_GUNMETAL.get());
+                        output.accept(NtmItems.INGOT_WEAPONSTEEL.get());
+                        output.accept(NtmItems.INGOT_SATURNITE.get());
+                        output.accept(NtmItems.INGOT_EUPHEMIUM.get());
+                        output.accept(NtmItems.INGOT_DINEUTRONIUM.get());
+                        output.accept(NtmItems.INGOT_ELECTRONIUM.get());
+                        output.accept(NtmItems.INGOT_SMORE.get());
+                        output.accept(NtmItems.INGOT_OSMIRIDIUM.get());
+                    }).build());
+
     public static final Supplier<CreativeModeTab> MACHINE_ITEMS_AND_FUEL = CREATIVE_MODE_TABS.register(
             "machine_items_and_fuel",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.PELLET_RTG.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(NtmItems.PELLET_RTG.get()))
+                    .withTabsBefore(NuclearTechMod.withDefaultNamespace("parts"))
                     .title(Component.translatable("creative_tab.hbmsntm.machine_items_and_fuel"))
                     .displayItems((itemDisplayParameters, output) -> {
-                        output.accept(ModItems.PARTICLE_DIGAMMA);
-                        output.accept(ModItems.PARTICLE_LUTECE);
+                        output.accept(NtmItems.PARTICLE_DIGAMMA);
+                        output.accept(NtmItems.PARTICLE_LUTECE);
 
-                        output.accept(ModItems.CELL_ANTIMATTER);
+                        output.accept(NtmItems.CELL_ANTIMATTER);
 
-                        output.accept(ModItems.SINGULARITY);
-                        output.accept(ModItems.SINGULARITY_COUNTER_RESONANT);
-                        output.accept(ModItems.SINGULARITY_SUPER_HEATED);
-                        output.accept(ModItems.BLACK_HOLE);
-                        output.accept(ModItems.SINGULARITY_SPARK);
-                        output.accept(ModItems.PELLET_ANTIMATTER);
+                        output.accept(NtmItems.SINGULARITY);
+                        output.accept(NtmItems.SINGULARITY_COUNTER_RESONANT);
+                        output.accept(NtmItems.SINGULARITY_SUPER_HEATED);
+                        output.accept(NtmItems.BLACK_HOLE);
+                        output.accept(NtmItems.SINGULARITY_SPARK);
+                        output.accept(NtmItems.PELLET_ANTIMATTER);
 
                         FluidType[] types = Fluids.getInNiceOrder();
                         // tanks
-                        output.accept(ModItems.FLUID_TANK_EMPTY.get());
+                        output.accept(NtmItems.FLUID_TANK_EMPTY.get());
                         for (int i = 1; i < types.length; ++i) {
                             FluidType type = types[i];
                             int id = type.getID();
 
                             if (type.hasNoContainer()) continue;
                             if (type.needsLeadContainer()) continue;
-                            output.accept(MetaHelper.metaStack(new ItemStack(ModItems.FLUID_TANK_FULL.get(), 1), id));
+                            output.accept(MetaHelper.metaStack(new ItemStack(NtmItems.FLUID_TANK_FULL.get(), 1), id));
                         }
                         // lead tanks
-                        output.accept(ModItems.FLUID_TANK_LEAD_EMPTY.get());
+                        output.accept(NtmItems.FLUID_TANK_LEAD_EMPTY.get());
                         for (int i = 1; i < types.length; ++i) {
                             FluidType type = types[i];
                             int id = type.getID();
 
                             if (type.hasNoContainer()) continue;
-                            output.accept(MetaHelper.metaStack(new ItemStack(ModItems.FLUID_TANK_LEAD_FULL.get(), 1), id));
+                            output.accept(MetaHelper.metaStack(new ItemStack(NtmItems.FLUID_TANK_LEAD_FULL.get(), 1), id));
                         }
                         // barrels
-                        output.accept(ModItems.FLUID_BARREL_EMPTY.get());
+                        output.accept(NtmItems.FLUID_BARREL_EMPTY.get());
                         for (int i = 1; i < types.length; ++i) {
                             FluidType type = types[i];
                             int id = type.getID();
 
                             if (type.hasNoContainer()) continue;
                             if (type.needsLeadContainer()) continue;
-                            output.accept(MetaHelper.metaStack(new ItemStack(ModItems.FLUID_BARREL_FULL.get(), 1), id));
+                            output.accept(MetaHelper.metaStack(new ItemStack(NtmItems.FLUID_BARREL_FULL.get(), 1), id));
                         }
                         // fluid packs
-                        output.accept(ModItems.FLUID_PACK_EMPTY.get());
+                        output.accept(NtmItems.FLUID_PACK_EMPTY.get());
                         for (int i = 1; i < types.length; ++i) {
                             FluidType type = types[i];
                             int id = type.getID();
 
                             if (type.hasNoContainer()) continue;
                             if (type.needsLeadContainer()) continue;
-                            output.accept(MetaHelper.metaStack(new ItemStack(ModItems.FLUID_PACK_FULL.get(), 1), id));
+                            output.accept(MetaHelper.metaStack(new ItemStack(NtmItems.FLUID_PACK_FULL.get(), 1), id));
                         }
-                        output.accept(ModItems.FLUID_BARREL_INFINITE.get());
-                        output.accept(ModItems.INF_WATER.get());
-                        output.accept(ModItems.INF_WATER_MK2.get());
+                        output.accept(NtmItems.FLUID_BARREL_INFINITE.get());
+                        output.accept(NtmItems.INF_WATER.get());
+                        output.accept(NtmItems.INF_WATER_MK2.get());
 
-                        addMetaItems(output, ModItems.BATTERY_PACK.get());
-                        addMetaItems(output, ModItems.BATTERY_SC.get());
+                        addMetaItems(output, NtmItems.BATTERY_PACK.get());
+                        addMetaItems(output, NtmItems.BATTERY_SC.get());
 
-                        output.accept(ModItems.BATTERY_CREATIVE);
+                        output.accept(NtmItems.BATTERY_CREATIVE);
 
-                        output.accept(ModItems.REACHER);
+                        output.accept(NtmItems.REACHER);
                     }).build());
 
     public static final Supplier<CreativeModeTab> ORES_AND_BLOCKS = CREATIVE_MODE_TABS.register(
@@ -223,124 +317,124 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.BARREL_LOX);
                         output.accept(ModBlocks.BARREL_TAINT);
 
-                        output.accept(ModItems.BATTERY_SPARK);
-                        output.accept(ModItems.BATTERY_TRIXITE);
+                        output.accept(NtmItems.BATTERY_SPARK);
+                        output.accept(NtmItems.BATTERY_TRIXITE);
 
-                        output.accept(ModItems.EARLY_EXPLOSIVE_LENSES);
-                        output.accept(ModItems.EXPLOSIVE_LENSES);
+                        output.accept(NtmItems.EARLY_EXPLOSIVE_LENSES);
+                        output.accept(NtmItems.EXPLOSIVE_LENSES);
 
-                        output.accept(ModItems.GADGET_WIREING);
-                        output.accept(ModItems.GADGET_CORE);
+                        output.accept(NtmItems.GADGET_WIREING);
+                        output.accept(NtmItems.GADGET_CORE);
 
-                        output.accept(ModItems.LITTLE_BOY_SHIELDING);
-                        output.accept(ModItems.LITTLE_BOY_TARGET);
-                        output.accept(ModItems.LITTLE_BOY_BULLET);
-                        output.accept(ModItems.LITTLE_BOY_PROPELLANT);
-                        output.accept(ModItems.LITTLE_BOY_IGNITER);
+                        output.accept(NtmItems.LITTLE_BOY_SHIELDING);
+                        output.accept(NtmItems.LITTLE_BOY_TARGET);
+                        output.accept(NtmItems.LITTLE_BOY_BULLET);
+                        output.accept(NtmItems.LITTLE_BOY_PROPELLANT);
+                        output.accept(NtmItems.LITTLE_BOY_IGNITER);
 
-                        output.accept(ModItems.FAT_MAN_CORE);
-                        output.accept(ModItems.FAT_MAN_IGNITER);
+                        output.accept(NtmItems.FAT_MAN_CORE);
+                        output.accept(NtmItems.FAT_MAN_IGNITER);
 
-                        output.accept(ModItems.IVY_MIKE_CORE);
-                        output.accept(ModItems.IVY_MIKE_DEUT);
-                        output.accept(ModItems.IVY_MIKE_COOLING_UNIT);
+                        output.accept(NtmItems.IVY_MIKE_CORE);
+                        output.accept(NtmItems.IVY_MIKE_DEUT);
+                        output.accept(NtmItems.IVY_MIKE_COOLING_UNIT);
 
-                        output.accept(ModItems.TSAR_BOMBA_CORE);
+                        output.accept(NtmItems.TSAR_BOMBA_CORE);
 
-                        output.accept(ModItems.FLEIJA_IGNITER);
-                        output.accept(ModItems.FLEIJA_PROPELLANT);
-                        output.accept(ModItems.FLEIJA_CORE);
+                        output.accept(NtmItems.FLEIJA_IGNITER);
+                        output.accept(NtmItems.FLEIJA_PROPELLANT);
+                        output.accept(NtmItems.FLEIJA_CORE);
 
-                        output.accept(ModItems.N2_CHARGE);
+                        output.accept(NtmItems.N2_CHARGE);
 
-                        output.accept(ModItems.EGG_BALEFIRE_SHARD);
-                        output.accept(ModItems.EGG_BALEFIRE);
+                        output.accept(NtmItems.EGG_BALEFIRE_SHARD);
+                        output.accept(NtmItems.EGG_BALEFIRE);
 
-                        output.accept(ModItems.DETONATOR);
-                        output.accept(ModItems.DETONATOR_ITEM);
-                        output.accept(ModItems.DETONATOR_LASER);
-                        output.accept(ModItems.DETONATOR_DEADMAN);
-                        output.accept(ModItems.DETONATOR_DE);
+                        output.accept(NtmItems.DETONATOR);
+                        output.accept(NtmItems.DETONATOR_ITEM);
+                        output.accept(NtmItems.DETONATOR_LASER);
+                        output.accept(NtmItems.DETONATOR_DEADMAN);
+                        output.accept(NtmItems.DETONATOR_DE);
                     }).build());
 
     public static final Supplier<CreativeModeTab> MISSILES = CREATIVE_MODE_TABS.register(
             "missiles",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.MISSILE_DOOMSDAY.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(NtmItems.MISSILE_DOOMSDAY.get()))
                     .withTabsBefore(NuclearTechMod.withDefaultNamespace("bombs"))
                     .title(Component.translatable("creative_tab.hbmsntm.missiles"))
                     .displayItems((itemDisplayParameters, output) -> {
 
                         output.accept(ModBlocks.LAUNCH_PAD);
 
-                        output.accept(ModItems.DESIGNATOR);
-                        output.accept(ModItems.DESIGNATOR_RANGE);
+                        output.accept(NtmItems.DESIGNATOR);
+                        output.accept(NtmItems.DESIGNATOR_RANGE);
 
-                        output.accept(ModItems.MISSILE_TAINT);
-                        output.accept(ModItems.MISSILE_MICRO);
-                        output.accept(ModItems.MISSILE_BHOLE);
-                        output.accept(ModItems.MISSILE_SCHRABIDIUM);
-                        output.accept(ModItems.MISSILE_EMP);
-                        output.accept(ModItems.MISSILE_GENERIC);
-                        output.accept(ModItems.MISSILE_DECOY);
-                        output.accept(ModItems.MISSILE_INCENDIARY);
-                        output.accept(ModItems.MISSILE_CLUSTER);
-                        output.accept(ModItems.MISSILE_BUSTER);
-                        output.accept(ModItems.MISSILE_STEALTH);
-                        output.accept(ModItems.MISSILE_STRONG);
-                        output.accept(ModItems.MISSILE_INCENDIARY_STRONG);
-                        output.accept(ModItems.MISSILE_CLUSTER_STRONG);
-                        output.accept(ModItems.MISSILE_BUSTER_STRONG);
-                        output.accept(ModItems.MISSILE_EMP_STRONG);
-                        output.accept(ModItems.MISSILE_BURST);
-                        output.accept(ModItems.MISSILE_INFERNO);
-                        output.accept(ModItems.MISSILE_RAIN);
-                        output.accept(ModItems.MISSILE_DRILL);
-                        output.accept(ModItems.MISSILE_SHUTTLE);
-                        output.accept(ModItems.MISSILE_NUCLEAR);
-                        output.accept(ModItems.MISSILE_NUCLEAR_CLUSTER);
-                        output.accept(ModItems.MISSILE_VOLCANO);
-                        output.accept(ModItems.MISSILE_DOOMSDAY);
-                        output.accept(ModItems.MISSILE_DOOMSDAY_RUSTED);
+                        output.accept(NtmItems.MISSILE_TAINT);
+                        output.accept(NtmItems.MISSILE_MICRO);
+                        output.accept(NtmItems.MISSILE_BHOLE);
+                        output.accept(NtmItems.MISSILE_SCHRABIDIUM);
+                        output.accept(NtmItems.MISSILE_EMP);
+                        output.accept(NtmItems.MISSILE_GENERIC);
+                        output.accept(NtmItems.MISSILE_DECOY);
+                        output.accept(NtmItems.MISSILE_INCENDIARY);
+                        output.accept(NtmItems.MISSILE_CLUSTER);
+                        output.accept(NtmItems.MISSILE_BUSTER);
+                        output.accept(NtmItems.MISSILE_STEALTH);
+                        output.accept(NtmItems.MISSILE_STRONG);
+                        output.accept(NtmItems.MISSILE_INCENDIARY_STRONG);
+                        output.accept(NtmItems.MISSILE_CLUSTER_STRONG);
+                        output.accept(NtmItems.MISSILE_BUSTER_STRONG);
+                        output.accept(NtmItems.MISSILE_EMP_STRONG);
+                        output.accept(NtmItems.MISSILE_BURST);
+                        output.accept(NtmItems.MISSILE_INFERNO);
+                        output.accept(NtmItems.MISSILE_RAIN);
+                        output.accept(NtmItems.MISSILE_DRILL);
+                        output.accept(NtmItems.MISSILE_SHUTTLE);
+                        output.accept(NtmItems.MISSILE_NUCLEAR);
+                        output.accept(NtmItems.MISSILE_NUCLEAR_CLUSTER);
+                        output.accept(NtmItems.MISSILE_VOLCANO);
+                        output.accept(NtmItems.MISSILE_DOOMSDAY);
+                        output.accept(NtmItems.MISSILE_DOOMSDAY_RUSTED);
 
-                        output.accept(ModItems.SATELLITE_RADAR);
-                        output.accept(ModItems.SATELLITE_LASER);
-                        output.accept(ModItems.SATELLITE_INTERFACE);
+                        output.accept(NtmItems.SATELLITE_RADAR);
+                        output.accept(NtmItems.SATELLITE_LASER);
+                        output.accept(NtmItems.SATELLITE_INTERFACE);
                     }).build());
 
     public static final Supplier<CreativeModeTab> CONSUMABLES_AND_GEAR = CREATIVE_MODE_TABS.register(
             "consumables_and_gear",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.BOTTLE_NUKA.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(NtmItems.BOTTLE_NUKA.get()))
                     .withTabsBefore(NuclearTechMod.withDefaultNamespace("missiles"))
                     .title(Component.translatable("creative_tab.hbmsntm.consumables_and_gear"))
                     .displayItems((itemDisplayParameters, output) -> {
-                        output.accept(ModItems.DUCK_SPAWN_EGG);
+                        output.accept(NtmItems.DUCK_SPAWN_EGG);
 
-                        output.accept(ModItems.DOSIMETER);
-                        output.accept(ModItems.GEIGER_COUNTER);
-                        output.accept(ModItems.DIGAMMA_DIAGNOSTIC);
+                        output.accept(NtmItems.DOSIMETER);
+                        output.accept(NtmItems.GEIGER_COUNTER);
+                        output.accept(NtmItems.DIGAMMA_DIAGNOSTIC);
 
-                        output.accept(ModItems.KEY);
-                        output.accept(ModItems.KEY_KIT);
-                        output.accept(ModItems.KEY_FAKE);
-                        output.accept(ModItems.PIN);
-                        output.accept(ModItems.FLINT_AND_BALEFIRE);
-                        output.accept(ModItems.POLAROID);
+                        output.accept(NtmItems.KEY);
+                        output.accept(NtmItems.KEY_KIT);
+                        output.accept(NtmItems.KEY_FAKE);
+                        output.accept(NtmItems.PIN);
+                        output.accept(NtmItems.FLINT_AND_BALEFIRE);
+                        output.accept(NtmItems.POLAROID);
 
-                        output.accept(ModItems.BOTTLE_OPENER);
-                        output.accept(ModItems.BOTTLE_NUKA);
-                        output.accept(ModItems.BOTTLE_CHERRY);
-                        output.accept(ModItems.BOTTLE_QUANTUM);
-                        output.accept(ModItems.BOTTLE_SPARKLE);
-                        output.accept(ModItems.CAP_NUKA);
-                        output.accept(ModItems.CAP_QUANTUM);
-                        output.accept(ModItems.CAP_SPARKLE);
+                        output.accept(NtmItems.BOTTLE_OPENER);
+                        output.accept(NtmItems.BOTTLE_NUKA);
+                        output.accept(NtmItems.BOTTLE_CHERRY);
+                        output.accept(NtmItems.BOTTLE_QUANTUM);
+                        output.accept(NtmItems.BOTTLE_SPARKLE);
+                        output.accept(NtmItems.CAP_NUKA);
+                        output.accept(NtmItems.CAP_QUANTUM);
+                        output.accept(NtmItems.CAP_SPARKLE);
 
-                        output.accept(ModItems.CIGARETTE);
-                        output.accept(ModItems.CRACKPIPE);
+                        output.accept(NtmItems.CIGARETTE);
+                        output.accept(NtmItems.CRACKPIPE);
 
-                        output.accept(ModItems.BOMB_CALLER_CARPET);
-                        output.accept(ModItems.BOMB_CALLER_NAPALM);
-                        output.accept(ModItems.BOMB_CALLER_ATOMIC);
+                        output.accept(NtmItems.BOMB_CALLER_CARPET);
+                        output.accept(NtmItems.BOMB_CALLER_NAPALM);
+                        output.accept(NtmItems.BOMB_CALLER_ATOMIC);
                     }).build());
 
     private static void addMetaItems(CreativeModeTab.Output output, Item item) {

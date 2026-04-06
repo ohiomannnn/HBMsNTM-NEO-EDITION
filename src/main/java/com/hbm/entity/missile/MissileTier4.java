@@ -4,7 +4,7 @@ import api.hbm.entity.IRadarDetectableNT;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.explosion.ExplosionLarge;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import com.hbm.particle.helper.NukeTorexCreator;
 import com.hbm.util.RayTraceResult;
 import com.hbm.util.Vec3NT;
@@ -26,10 +26,10 @@ public abstract class MissileTier4 extends MissileBaseNT {
     @Override
     public List<ItemStack> getDebris() {
         List<ItemStack> list = new ArrayList<>();
-        list.add(new ItemStack(ModItems.NOTHING.get(), 16));
-        list.add(new ItemStack(ModItems.NOTHING.get(), 20));
-        list.add(new ItemStack(ModItems.NOTHING.get(), 12));
-        list.add(new ItemStack(ModItems.NOTHING.get(), 1));
+        list.add(new ItemStack(NtmItems.NOTHING.get(), 16));
+        list.add(new ItemStack(NtmItems.NOTHING.get(), 20));
+        list.add(new ItemStack(NtmItems.NOTHING.get(), 12));
+        list.add(new ItemStack(NtmItems.NOTHING.get(), 1));
         return list;
     }
 
@@ -68,8 +68,8 @@ public abstract class MissileTier4 extends MissileBaseNT {
             WorldUtil.loadAndSpawnEntityInWorld(NukeExplosionMK5.statFacNoSpawn(this.level, MainConfig.COMMON.MISSLE_RADIUS.get(), this.position.x, this.position.y, this.position.z));
             NukeTorexCreator.statFacStandard(this.level, this.position.x, this.position.y, this.position.z, MainConfig.COMMON.MISSLE_RADIUS.get());
         }
-        @Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.NOTHING.get()); }
-        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.MISSILE_NUCLEAR.get()); }
+        @Override public ItemStack getDebrisRareDrop() { return new ItemStack(NtmItems.NOTHING.get()); }
+        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(NtmItems.MISSILE_NUCLEAR.get()); }
     }
 
     public static class MissileMirv extends MissileTier4 {
@@ -80,14 +80,14 @@ public abstract class MissileTier4 extends MissileBaseNT {
         }
         @Override public List<ItemStack> getDebris() {
             List<ItemStack> list = new ArrayList<>();
-            list.add(new ItemStack(ModItems.NOTHING.get(), 16));
-            list.add(new ItemStack(ModItems.NOTHING.get(), 20));
-            list.add(new ItemStack(ModItems.NOTHING.get(), 12));
-            list.add(new ItemStack(ModItems.NOTHING.get(), 1));
+            list.add(new ItemStack(NtmItems.NOTHING.get(), 16));
+            list.add(new ItemStack(NtmItems.NOTHING.get(), 20));
+            list.add(new ItemStack(NtmItems.NOTHING.get(), 12));
+            list.add(new ItemStack(NtmItems.NOTHING.get(), 1));
             return list;
         }
-        @Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.NOTHING.get()); }
-        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.MISSILE_NUCLEAR_CLUSTER.get()); }
+        @Override public ItemStack getDebrisRareDrop() { return new ItemStack(NtmItems.NOTHING.get()); }
+        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(NtmItems.MISSILE_NUCLEAR_CLUSTER.get()); }
     }
 
     public static class MissileVolcano extends MissileTier4 {
@@ -100,8 +100,8 @@ public abstract class MissileTier4 extends MissileBaseNT {
                 }
             }
         }
-        @Override public ItemStack getDebrisRareDrop() { return new ItemStack(ModItems.NOTHING.get()); }
-        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.MISSILE_VOLCANO.get()); }
+        @Override public ItemStack getDebrisRareDrop() { return new ItemStack(NtmItems.NOTHING.get()); }
+        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(NtmItems.MISSILE_VOLCANO.get()); }
     }
 
     public static class MissileDoomsday extends MissileTier4 {
@@ -112,7 +112,7 @@ public abstract class MissileTier4 extends MissileBaseNT {
         }
         @Override public List<ItemStack> getDebris() { return null; }
         @Override public ItemStack getDebrisRareDrop() { return null; }
-        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.MISSILE_DOOMSDAY.get()); }
+        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(NtmItems.MISSILE_DOOMSDAY.get()); }
     }
 
     public static class MissileDoomsdayRusted extends MissileDoomsday {
@@ -121,6 +121,6 @@ public abstract class MissileTier4 extends MissileBaseNT {
             WorldUtil.loadAndSpawnEntityInWorld(NukeExplosionMK5.statFacNoSpawn(this.level, MainConfig.COMMON.MISSLE_RADIUS.get(), this.position.x, this.position.y, this.position.z).setMoreFallout(100));
             NukeTorexCreator.statFacStandard(this.level, this.position.x, this.position.y, this.position.z, MainConfig.COMMON.MISSLE_RADIUS.get());
         }
-        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(ModItems.MISSILE_DOOMSDAY_RUSTED.get()); }
+        @Override public ItemStack getMissileItemForInfo() { return new ItemStack(NtmItems.MISSILE_DOOMSDAY_RUSTED.get()); }
     }
 }

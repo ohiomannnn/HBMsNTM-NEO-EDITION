@@ -1,7 +1,7 @@
 package com.hbm.inventory.screens;
 
 import com.hbm.main.NuclearTechMod;
-import com.hbm.HBMsNTMClient;
+import com.hbm.main.NuclearTechModClient;
 import com.hbm.handler.ability.*;
 import com.hbm.items.tools.ToolAbilityItem;
 import com.hbm.registry.NtmSoundEvents;
@@ -391,7 +391,7 @@ public class ToolAbilityScreen extends Screen {
         ((ToolAbilityItem) this.toolStack.getItem()).setConfiguration(toolStack, config);
         PacketDistributor.sendToServer(new CompoundTagItemControl(TagsUtilDegradation.getTag(this.toolStack)));
 
-        HBMsNTMClient.displayTooltip(config.getActivePreset().getMessage(), 1000, HBMsNTMClient.ID_TOOLABILITY);
+        NuclearTechModClient.displayTooltip(config.getActivePreset().getMessage(), 1000, NuclearTechModClient.ID_TOOLABILITY);
 
         this.minecraft.level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS, 0.25F, config.getActivePreset().isNone() ? 0.75F : 1.25F);
     }

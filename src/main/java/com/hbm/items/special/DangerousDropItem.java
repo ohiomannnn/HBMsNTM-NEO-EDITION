@@ -1,5 +1,6 @@
 package com.hbm.items.special;
 
+import com.hbm.items.NtmItems;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.config.MainConfig;
@@ -12,7 +13,6 @@ import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.Spaghetti;
-import com.hbm.items.ModItems;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.TagsUtilDegradation;
 import com.hbm.util.i18n.I18nUtil;
@@ -55,7 +55,7 @@ public class DangerousDropItem extends Item {
         if (TagsUtilDegradation.getTag(stack).contains("lastUser")) throwerName = TagsUtilDegradation.getTag(stack).getString("lastUser");
 
         if (itemEntity.getAge() > 5) {
-            if (stack.is(ModItems.DETONATOR_DEADMAN.get())) {
+            if (stack.is(NtmItems.DETONATOR_DEADMAN.get())) {
                 if (TagsUtilDegradation.containsAnyTag(stack)) {
                     CompoundTag tag = TagsUtilDegradation.getTag(stack);
                     int x = tag.getInt("x");
@@ -76,7 +76,7 @@ public class DangerousDropItem extends Item {
                 itemEntity.discard();
                 return true;
             }
-            if (stack.is(ModItems.DETONATOR_DE.get()) && MainConfig.COMMON.DROP_DEAD_MANS_EXPLOSIVE.get()) {
+            if (stack.is(NtmItems.DETONATOR_DE.get()) && MainConfig.COMMON.DROP_DEAD_MANS_EXPLOSIVE.get()) {
                 level.explode(null, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), 15.0F, Level.ExplosionInteraction.TNT);
                 itemEntity.discard();
                 return true;
@@ -85,50 +85,50 @@ public class DangerousDropItem extends Item {
 
         if (itemEntity.onGround()) {
 
-            if (stack.is(ModItems.PARTICLE_DIGAMMA.get()) && MainConfig.COMMON.DROP_SINGULARITY.get()) {
+            if (stack.is(NtmItems.PARTICLE_DIGAMMA.get()) && MainConfig.COMMON.DROP_SINGULARITY.get()) {
                 BlackHole quasar = new BlackHole(ModEntityTypes.QUASAR.get(), level);
                 quasar.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
                 quasar.setSize(5F);
                 level.addFreshEntity(quasar);
             }
 
-            if (stack.is(ModItems.CELL_ANTIMATTER.get()) && MainConfig.COMMON.DROP_CELL.get()) {
+            if (stack.is(NtmItems.CELL_ANTIMATTER.get()) && MainConfig.COMMON.DROP_CELL.get()) {
                 new ExplosionVNT(level, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), 5F).makeAmat().explode();
             }
 
-            if (stack.is(ModItems.PELLET_ANTIMATTER.get()) && MainConfig.COMMON.DROP_CELL.get()) {
+            if (stack.is(NtmItems.PELLET_ANTIMATTER.get()) && MainConfig.COMMON.DROP_CELL.get()) {
                 new ExplosionVNT(level, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), 20F).makeAmat().explode();
             }
 
-            if (stack.is(ModItems.SINGULARITY.get()) && MainConfig.COMMON.DROP_SINGULARITY.get()) {
+            if (stack.is(NtmItems.SINGULARITY.get()) && MainConfig.COMMON.DROP_SINGULARITY.get()) {
                 Vortex vortex = new Vortex(ModEntityTypes.VORTEX.get(), level);
                 vortex.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
                 vortex.setSize(1.5F);
                 level.addFreshEntity(vortex);
             }
 
-            if (stack.is(ModItems.SINGULARITY_COUNTER_RESONANT.get()) && MainConfig.COMMON.DROP_SINGULARITY.get()) {
+            if (stack.is(NtmItems.SINGULARITY_COUNTER_RESONANT.get()) && MainConfig.COMMON.DROP_SINGULARITY.get()) {
                 Vortex vortex = new Vortex(ModEntityTypes.VORTEX.get(), level);
                 vortex.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
                 vortex.setSize(2.5F);
                 level.addFreshEntity(vortex);
             }
 
-            if (stack.is(ModItems.SINGULARITY_SUPER_HEATED.get()) && MainConfig.COMMON.DROP_SINGULARITY.get()) {
+            if (stack.is(NtmItems.SINGULARITY_SUPER_HEATED.get()) && MainConfig.COMMON.DROP_SINGULARITY.get()) {
                 Vortex vortex = new Vortex(ModEntityTypes.VORTEX.get(), level);
                 vortex.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
                 vortex.setSize(2.5F);
                 level.addFreshEntity(vortex);
             }
 
-            if (stack.is(ModItems.BLACK_HOLE.get()) && MainConfig.COMMON.DROP_SINGULARITY.get()) {
+            if (stack.is(NtmItems.BLACK_HOLE.get()) && MainConfig.COMMON.DROP_SINGULARITY.get()) {
                 BlackHole blackHole = new BlackHole(ModEntityTypes.BLACK_HOLE.get(), level);
                 blackHole.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
                 blackHole.setSize(1.5F);
                 level.addFreshEntity(blackHole);
             }
 
-            if (stack.is(ModItems.SINGULARITY_SPARK.get()) && MainConfig.COMMON.DROP_SINGULARITY.get()) {
+            if (stack.is(NtmItems.SINGULARITY_SPARK.get()) && MainConfig.COMMON.DROP_SINGULARITY.get()) {
                 RagingVortex ragingVortex = new RagingVortex(ModEntityTypes.RAGING_VORTEX.get(), level);
                 ragingVortex.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
                 ragingVortex.setSize(3.5F);
@@ -149,7 +149,7 @@ public class DangerousDropItem extends Item {
                 components.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
             }
         }
-        if (this == ModItems.DETONATOR_DEADMAN.get()) {
+        if (this == NtmItems.DETONATOR_DEADMAN.get()) {
             if (!TagsUtilDegradation.containsAnyTag(stack)) {
                 components.add(Component.translatable("detonator.no_pos"));
             } else {
@@ -160,7 +160,7 @@ public class DangerousDropItem extends Item {
                 components.add(Component.translatable("detonator.set_to", x, y, z));
             }
         }
-        if (this == ModItems.PARTICLE_DIGAMMA.get()) {
+        if (this == NtmItems.PARTICLE_DIGAMMA.get()) {
             components.add(Component.translatable("trait.hlParticle", "1.67*10³⁴a").withStyle(ChatFormatting.GOLD));
             components.add(Component.translatable("trait.hlPlayer", (HazardSystem.getHazardLevelFromStack(stack, HazardRegistry.DIGAMMA) / 20F) + "s").withStyle(ChatFormatting.RED));
         }
@@ -170,7 +170,7 @@ public class DangerousDropItem extends Item {
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
-        if (this != ModItems.DETONATOR_DEADMAN.get()) {
+        if (this != NtmItems.DETONATOR_DEADMAN.get()) {
             return super.useOn(context);
         }
         Player player = context.getPlayer();

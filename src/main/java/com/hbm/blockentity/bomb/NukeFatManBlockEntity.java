@@ -3,7 +3,7 @@ package com.hbm.blockentity.bomb;
 import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blockentity.NukeBaseBlockEntity;
 import com.hbm.inventory.menus.NukeFatManMenu;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -26,19 +26,19 @@ public class NukeFatManBlockEntity extends NukeBaseBlockEntity {
     @Override
     public boolean canPlaceItem(int slot, ItemStack stack) {
         Item item = stack.getItem();
-        return item == ModItems.EARLY_EXPLOSIVE_LENSES.get() ||
-                item == ModItems.FAT_MAN_IGNITER.get() ||
-                item == ModItems.FAT_MAN_CORE.get();
+        return item == NtmItems.EARLY_EXPLOSIVE_LENSES.get() ||
+                item == NtmItems.FAT_MAN_IGNITER.get() ||
+                item == NtmItems.FAT_MAN_CORE.get();
     }
 
     @Override
     public boolean isReady() {
-        return slots.get(0).getItem() == ModItems.EARLY_EXPLOSIVE_LENSES.get() &&
-                slots.get(1).getItem() == ModItems.EARLY_EXPLOSIVE_LENSES.get() &&
-                slots.get(2).getItem() == ModItems.EARLY_EXPLOSIVE_LENSES.get() &&
-                slots.get(3).getItem() == ModItems.EARLY_EXPLOSIVE_LENSES.get() &&
-                slots.get(4).getItem() == ModItems.FAT_MAN_IGNITER.get() &&
-                slots.get(5).getItem() == ModItems.FAT_MAN_CORE.get();
+        return slots.get(0).getItem() == NtmItems.EARLY_EXPLOSIVE_LENSES.get() &&
+                slots.get(1).getItem() == NtmItems.EARLY_EXPLOSIVE_LENSES.get() &&
+                slots.get(2).getItem() == NtmItems.EARLY_EXPLOSIVE_LENSES.get() &&
+                slots.get(3).getItem() == NtmItems.EARLY_EXPLOSIVE_LENSES.get() &&
+                slots.get(4).getItem() == NtmItems.FAT_MAN_IGNITER.get() &&
+                slots.get(5).getItem() == NtmItems.FAT_MAN_CORE.get();
     }
 
     @Override

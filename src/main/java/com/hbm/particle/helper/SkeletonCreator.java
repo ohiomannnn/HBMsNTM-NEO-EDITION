@@ -1,6 +1,6 @@
 package com.hbm.particle.helper;
 
-import com.hbm.HBMsNTMClient;
+import com.hbm.main.NuclearTechModClient;
 import com.hbm.particle.SkeletonParticle;
 import com.hbm.util.Vec3NT;
 import net.minecraft.client.Minecraft;
@@ -63,7 +63,7 @@ public class SkeletonCreator implements IParticleCreator {
         if (!(entity instanceof LivingEntity living)) return;
         boolean isSkeleton = entity instanceof Skeleton;
 
-        HBMsNTMClient.vanish(entityID);
+        NuclearTechModClient.vanish(entityID);
 
         Function<LivingEntity, BoneDefinition[]> bonealizer = skullanizer.get(entity.getClass().getSimpleName());
 

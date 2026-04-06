@@ -1,7 +1,7 @@
 package com.hbm.network.toclient;
 
 import com.hbm.main.NuclearTechMod;
-import com.hbm.HBMsNTMClient;
+import com.hbm.main.NuclearTechModClient;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
@@ -30,7 +30,7 @@ public record InformPlayer(Component component, int id, int millis) implements C
     };
 
     public static void handleClient(InformPlayer packet, IPayloadContext context) {
-        context.enqueueWork(() -> HBMsNTMClient.displayTooltip(packet.component(), packet.millis(), packet.id()));
+        context.enqueueWork(() -> NuclearTechModClient.displayTooltip(packet.component(), packet.millis(), packet.id()));
     }
 
     @Override public Type<? extends CustomPacketPayload> type() { return TYPE; }

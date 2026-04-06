@@ -1,7 +1,7 @@
 package com.hbm.items.tools;
 
 import com.hbm.blockentity.machine.LockableBaseBlockEntity;
-import com.hbm.items.ModItems;
+import com.hbm.items.NtmItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
@@ -30,7 +30,7 @@ public class CounterfitKeysItem extends KeyItem {
         BlockEntity blockEntity = level.getBlockEntity(pos);
 
         if (blockEntity instanceof LockableBaseBlockEntity locked) {
-            ItemStack stack = new ItemStack(ModItems.KEY_FAKE.get());
+            ItemStack stack = new ItemStack(NtmItems.KEY_FAKE.get());
             KeyPinItem.setPins(stack, locked.getPins());
 
             player.setItemInHand(context.getHand(), stack.copy());
