@@ -55,10 +55,10 @@ public class CloudParticle extends ParticleNT {
         poseStack.scale(this.age, this.age, this.age);
 
         if (type != CloudType.RAINBOW) {
-            ResourceManager.sphere.renderAll(poseStack, consumer, 240, OverlayTexture.NO_OVERLAY);
+            //ResourceManager.sphere.renderAll(poseStack, consumer, 240, OverlayTexture.NO_OVERLAY);
         } else {
             poseStack.scale(0.5F, 0.5F, 0.5F);
-            ResourceManager.sphere.renderAll(poseStack, consumer, 240, OverlayTexture.NO_OVERLAY, this.level.random.nextInt(0x100), this.level.random.nextInt(0x100), this.level.random.nextInt(0x100), 1.0F);
+            //ResourceManager.sphere.renderAll(poseStack, consumer, 240, OverlayTexture.NO_OVERLAY, this.level.random.nextInt(0x100), this.level.random.nextInt(0x100), this.level.random.nextInt(0x100), 1.0F);
             poseStack.scale(1/0.5F, 1/0.5F, 1/0.5F);
 
             MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
@@ -67,7 +67,7 @@ public class CloudParticle extends ParticleNT {
 
                 poseStack.scale(i, i, i);
                 VertexConsumer addConsumer = buffer.getBuffer(NtmRenderTypes.CLOUD_RAINBOW_ADDITIVE);
-                ResourceManager.sphere.renderAll(poseStack, addConsumer, 240, OverlayTexture.NO_OVERLAY, this.level.random.nextInt(0x100), this.level.random.nextInt(0x100), this.level.random.nextInt(0x100), 1.0F);
+                //ResourceManager.sphere.renderAll(poseStack, addConsumer, 240, OverlayTexture.NO_OVERLAY, this.level.random.nextInt(0x100), this.level.random.nextInt(0x100), this.level.random.nextInt(0x100), 1.0F);
                 poseStack.scale(1/i, 1/i, 1/i);
             }
 

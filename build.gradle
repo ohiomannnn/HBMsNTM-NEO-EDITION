@@ -131,7 +131,7 @@ dependencies {
     compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
     runtimeOnly "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
 
-    // Sodium and Iris
+    // Sodium
     implementation "curse.maven:sodium-394468:6382651" // 0.6.13
 }
 

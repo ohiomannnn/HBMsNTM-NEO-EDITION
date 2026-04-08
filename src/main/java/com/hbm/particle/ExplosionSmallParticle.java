@@ -1,10 +1,12 @@
 package com.hbm.particle;
 
 import com.hbm.main.NuclearTechMod;
-import com.hbm.render.NtmRenderTypes;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -19,6 +21,17 @@ public class ExplosionSmallParticle extends RotatingParticleNT {
     private final float hue;
 
     private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/particle/base_particle.png");
+
+    private static final RenderType EXP_SMALL = RenderType.create(
+            "explosion_small_render_type", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 43241,
+            RenderType.CompositeState.builder()
+                    .setShaderState(RenderType.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
+                    .setTextureState(new RenderStateShard.TextureStateShard(TEXTURE, false, false))
+                    .setTransparencyState(RenderType.TRANSLUCENT_TRANSPARENCY)
+                    .setLightmapState(RenderType.LIGHTMAP)
+                    .setWriteMaskState(RenderType.COLOR_DEPTH_WRITE)
+                    .createCompositeState(false)
+    );
 
     public ExplosionSmallParticle(ClientLevel level, double x, double y, double z, float scale, float speedMultiplier) {
         super(level, x, y, z);
@@ -81,7 +94,5 @@ public class ExplosionSmallParticle extends RotatingParticleNT {
     }
 
     @Override
-    public RenderType getRenderType() {
-        return NtmRenderTypes.entitySmothNoDepth(TEXTURE);
-    }
+    public RenderType getRenderType() { return EXP_SMALL; }
 }

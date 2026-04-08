@@ -28,9 +28,6 @@ import com.hbm.particle.engine.util.SpriteSetNT;
 import com.hbm.particle.helper.ParticleCreators;
 import com.hbm.particle.vanilla.PlayerCloudParticle;
 import com.hbm.registry.NtmBiomes;
-import com.hbm.render.block.RenderCableBlock;
-import com.hbm.render.block.loader.BlockRendererDispatcher;
-import com.hbm.render.block.loader.BlockRenderers;
 import com.hbm.render.blockentity.*;
 import com.hbm.render.entity.EmptyEntityRenderer;
 import com.hbm.render.entity.effect.*;
@@ -44,7 +41,7 @@ import com.hbm.render.item.ItemRenderMissileGeneric;
 import com.hbm.render.item.ItemRenderMissileGeneric.RenderMissileType;
 import com.hbm.render.item.RenderBatteryPackItem;
 import com.hbm.render.item.RenderLaserDetonator;
-import com.hbm.render.newloader.HFRModelReloader;
+import com.hbm.render.loader.HFRModelReloader;
 import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.util.ArmorRegistry;
@@ -287,7 +284,7 @@ public class NuclearTechModClient {
     private static boolean checkForGeiger(Player player) {
         for (ItemStack stack : player.getInventory().items) {
             if (stack.getItem() instanceof GeigerCounterItem) return true;
-            }
+        }
         for (ItemStack stack : player.getInventory().armor) {
             if (stack.getItem() instanceof GeigerCounterItem) return true;
         }
@@ -621,11 +618,6 @@ public class NuclearTechModClient {
                 registerItemRenderer(event, provider.getRenderer(), provider.getItemsForRenderer());
             }
         }
-
-        BlockRenderers.register(ModBlocks.RED_CABLE.get(), RenderCableBlock::new);
-
-        BlockRendererDispatcher.INSTANCE.init();
-        BlockRendererDispatcher.INSTANCE.registerItemRenderers(event);
 
         registerItemRenderer(event, new RenderLaserDetonator(), NtmItems.DETONATOR_LASER.get());
 

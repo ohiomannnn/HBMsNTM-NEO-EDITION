@@ -1,0 +1,106 @@
+{
+  "overrides": [
+    {
+      "model": "hbmsntm:item/rod_quad_0",
+      "predicate": {
+        "hbmsntm:item_meta": 0.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/rod_quad_1",
+      "predicate": {
+        "hbmsntm:item_meta": 1.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/rod_quad_2",
+      "predicate": {
+        "hbmsntm:item_meta": 2.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/rod_quad_3",
+      "predicate": {
+        "hbmsntm:item_meta": 3.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/rod_quad_4",
+      "predicate": {
+        "hbmsntm:item_meta": 4.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/rod_quad_5",
+      "predicate": {
+        "hbmsntm:item_meta": 5.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/rod_quad_6",
+      "predicate": {
+        "hbmsntm:item_meta": 6.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/rod_quad_7",
+      "predicate": {
+        "hbmsntm:item_meta": 7.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/rod_quad_8",
+      "predicate": {
+        "hbmsntm:item_meta": 8.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/rod_quad_9",
+      "predicate": {
+        "hbmsntm:item_meta": 9.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/rod_quad_10",
+      "predicate": {
+        "hbmsntm:item_meta": 10.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/rod_quad_11",
+      "predicate": {
+        "hbmsntm:item_meta": 11.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/rod_quad_12",
+      "predicate": {
+        "hbmsntm:item_meta": 12.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/rod_quad_13",
+      "predicate": {
+        "hbmsntm:item_meta": 13.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/rod_quad_14",
+      "predicate": {
+        "hbmsntm:item_meta": 14.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/rod_quad_15",
+      "predicate": {
+        "hbmsntm:item_meta": 15.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/rod_quad_16",
+      "predicate": {
+        "hbmsntm:item_meta": 16.0
+      }
+    }
+  ]
+}

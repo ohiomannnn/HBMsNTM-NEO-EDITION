@@ -1,5 +1,6 @@
 package com.hbm.render;
 
+import com.hbm.main.ResourceManager;
 import com.hbm.render.util.NtmShaders;
 import com.hbm.render.util.NtmShaders.NtmVertexFormat;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -19,7 +20,7 @@ import java.util.function.Function;
 
 public class NtmRenderTypes {
 
-    public static final TransparencyStateShard SEVEN_SEVEN10 = new TransparencyStateShard(
+    public static final TransparencyStateShard SEVEN_SEVEN_ONE_ZERO = new TransparencyStateShard(
             "7710",
             () -> {
                 RenderSystem.enableBlend();
@@ -40,19 +41,6 @@ public class NtmRenderTypes {
                 RenderSystem.defaultBlendFunc();
                 RenderSystem.disableBlend();
             });
-
-    // Entity Cutout, No Crumbling
-    public static final Function<ResourceLocation, RenderType> EC_NC = Util.memoize(
-            texture -> {
-                RenderType.CompositeState state = RenderType.CompositeState.builder()
-                        .setShaderState(RenderType.RENDERTYPE_ENTITY_CUTOUT_SHADER)
-                        .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
-                        .setLightmapState(RenderType.LIGHTMAP)
-                        .setOverlayState(RenderType.OVERLAY)
-                        .createCompositeState(false);
-                return RenderType.create("ec_nc", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 15346, false, false, state);
-            }
-    );
 
     public static final ShaderStateShard A_SHADER = new ShaderStateShard(NtmShaders::getAShader);
     public static final ShaderStateShard A_SHADER_NL = new ShaderStateShard(NtmShaders::getAShaderNL);
@@ -97,6 +85,7 @@ public class NtmRenderTypes {
             }
     );
 
+    // for vbo, no light, no cull, additive
     public static final Function<ResourceLocation, RenderType> FVBO_ADDITIVE_NL = Util.memoize(
             texture -> {
                 RenderType.CompositeState state = RenderType.CompositeState.builder()
@@ -107,7 +96,7 @@ public class NtmRenderTypes {
                         .setOverlayState(RenderType.OVERLAY)
                         .setCullState(RenderStateShard.NO_CULL)
                         .createCompositeState(false);
-                return RenderType.create("test_additive", NtmVertexFormat.POSITION_TEX_NORMAL, VertexFormat.Mode.QUADS, 15346, false, false, state);
+                return RenderType.create("fvbo_additive", NtmVertexFormat.POSITION_TEX_NORMAL, VertexFormat.Mode.QUADS, 15346, false, false, state);
             }
     );
 
@@ -121,6 +110,7 @@ public class NtmRenderTypes {
             false,
             RenderType.CompositeState.builder()
                     .setShaderState(A_SHADER_NL)
+                    .setTextureState(new TextureStateShard(ResourceManager.WHITE_TEX, false, false))
                     .setLightmapState(RenderType.LIGHTMAP)
                     .setOverlayState(RenderType.OVERLAY)
                     .setCullState(RenderStateShard.NO_CULL)
@@ -168,7 +158,7 @@ public class NtmRenderTypes {
                 RenderType.CompositeState state = RenderType.CompositeState.builder()
                         .setShaderState(RenderType.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
                         .setTextureState(new TextureStateShard(texture, false, true))
-                        .setTransparencyState(SEVEN_SEVEN10)
+                        .setTransparencyState(SEVEN_SEVEN_ONE_ZERO)
                         .setCullState(RenderType.NO_CULL)
                         .setLightmapState(RenderType.LIGHTMAP)
                         .setOverlayState(RenderType.OVERLAY)
@@ -184,7 +174,7 @@ public class NtmRenderTypes {
                 RenderType.CompositeState state = RenderType.CompositeState.builder()
                         .setShaderState(RenderType.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
                         .setTextureState(new TextureStateShard(texture, false, false))
-                        .setTransparencyState(SEVEN_SEVEN10)
+                        .setTransparencyState(SEVEN_SEVEN_ONE_ZERO)
                         .setCullState(RenderType.NO_CULL)
                         .setLightmapState(RenderType.LIGHTMAP)
                         .setOverlayState(RenderType.NO_OVERLAY)
@@ -246,7 +236,7 @@ public class NtmRenderTypes {
                 RenderType.CompositeState state = RenderType.CompositeState.builder()
                         .setShaderState(RenderType.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
                         .setTextureState(new TextureStateShard(texture, false, false))
-                        .setTransparencyState(SEVEN_SEVEN10)
+                        .setTransparencyState(SEVEN_SEVEN_ONE_ZERO)
                         .setCullState(RenderType.NO_CULL)
                         .setLightmapState(RenderType.LIGHTMAP)
                         .setOverlayState(RenderType.NO_OVERLAY)

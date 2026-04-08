@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "hbmsntm:item/battery_sc_empty"
+    "layer0": "hbmsntm:item/battery_sc.empty"
   }
 }

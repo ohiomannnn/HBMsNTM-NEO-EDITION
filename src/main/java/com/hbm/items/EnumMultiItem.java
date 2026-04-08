@@ -43,7 +43,7 @@ public class EnumMultiItem extends Item implements IMetaItem {
 
     @Override
     public void registerModel(ModelProvider<ItemModelBuilder> provider, ResourceLocation modelLocation) {
-        if (multiTexture) {
+        if(multiTexture) {
             Enum<?>[] enums = theEnum.getEnumConstants();
 
             ItemModelBuilder builder = provider.getBuilder(modelLocation.toString());
@@ -55,7 +55,7 @@ public class EnumMultiItem extends Item implements IMetaItem {
                         .predicate(NuclearTechMod.withDefaultNamespace("item_meta"), i)
                         .model(provider.getBuilder(modelLocation.getPath() + "_" + i)
                                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                                .texture("layer0", ResourceLocation.fromNamespaceAndPath(modelLocation.getNamespace(), "item/" + modelLocation.getPath() + "_" + num.name().toLowerCase(Locale.US))))
+                                .texture("layer0", ResourceLocation.fromNamespaceAndPath(modelLocation.getNamespace(), "item/" + modelLocation.getPath() + "." + num.name().toLowerCase(Locale.US))))
                         .end();
             }
         }

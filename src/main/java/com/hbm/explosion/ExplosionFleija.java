@@ -77,7 +77,7 @@ public class ExplosionFleija {
         breakColumn(this.lastposX, this.lastposZ);
         this.shell = (int) Math.floor((Math.sqrt(n) + 1) / 2);
         int shell2 = this.shell * 2;
-        if(shell2 == 0) return true; // end explosion if the shell size is 0 to prevent division by zero crash
+        if(shell2 == 0) return true; // end explosion if the shell stacksize is 0 to prevent division by zero crash
         this.leg = (int) Math.floor((this.n - (shell2 - 1) * (shell2 - 1)) / shell2);
         this.element = (this.n - (shell2 - 1) * (shell2 - 1)) - shell2 * this.leg - this.shell + 1;
         this.lastposX = this.leg == 0 ? this.shell : this.leg == 1 ? -this.element : this.leg == 2 ? -this.shell : this.element;

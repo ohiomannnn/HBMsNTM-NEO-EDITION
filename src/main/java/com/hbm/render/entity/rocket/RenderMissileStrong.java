@@ -26,10 +26,10 @@ public class RenderMissileStrong extends EntityRenderer<MissileTier2> {
     public void render(MissileTier2 missile, float yaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         RenderContext.setup(NtmRenderTypes.FVBO.apply(this.getTextureLocation(missile)), poseStack, packedLight, OverlayTexture.NO_OVERLAY);
 
-        poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTicks, missile.yRotO, missile.yRot) - 90.0F));
-        poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTicks, missile.xRotO, missile.xRot)));
-        poseStack.mulPose(Axis.YN.rotationDegrees(Mth.lerp(partialTicks, missile.yRotO, missile.yRot) - 90.0F));
-        poseStack.scale(1.5F, 1.5F, 1.5F);
+        RenderContext.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTicks, missile.yRotO, missile.yRot) - 90.0F));
+        RenderContext.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTicks, missile.xRotO, missile.xRot)));
+        RenderContext.mulPose(Axis.YN.rotationDegrees(Mth.lerp(partialTicks, missile.yRotO, missile.yRot) - 90.0F));
+        RenderContext.scale(1.5F, 1.5F, 1.5F);
 
         Direction facing = missile.getEntityData().get(MissileBaseNT.ROT);
         float rot = switch (facing) {
@@ -40,20 +40,20 @@ public class RenderMissileStrong extends EntityRenderer<MissileTier2> {
             case NORTH -> 0F;
         };
 
-        poseStack.mulPose(Axis.YP.rotationDegrees(rot));
+        RenderContext.mulPose(Axis.YP.rotationDegrees(rot));
 
         ResourceManager.missileStrong.renderAll();
 
-        poseStack.popPose();
+        RenderContext.end();
     }
 
     @Override
     public ResourceLocation getTextureLocation(MissileTier2 missile) {
-        if (missile instanceof MissileStrong)           return ResourceManager.MISSILE_V2_HE_TEX;
-        if (missile instanceof MissileIncendiaryStrong) return ResourceManager.MISSILE_V2_DECOY_TEX;
-        if (missile instanceof MissileClusterStrong)    return ResourceManager.MISSILE_V2_IN_TEX;
-        if (missile instanceof MissileBusterStrong)     return ResourceManager.MISSILE_V2_CL_TEX;
-        if (missile instanceof MissileEMPStrong)        return ResourceManager.MISSILE_V2_BU_TEX;
+        if (missile instanceof MissileStrong)           return ResourceManager.MISSILE_STRONG_HE_TEX;
+        if (missile instanceof MissileIncendiaryStrong) return ResourceManager.MISSILE_STRONG_IN_TEX;
+        if (missile instanceof MissileClusterStrong)    return ResourceManager.MISSILE_STRONG_CL_TEX;
+        if (missile instanceof MissileBusterStrong)     return ResourceManager.MISSILE_STRONG_BU_TEX;
+        if (missile instanceof MissileEMPStrong)        return ResourceManager.MISSILE_STRONG_EMP_TEX;
         return ResourceManager.EMPTY;
     }
 }

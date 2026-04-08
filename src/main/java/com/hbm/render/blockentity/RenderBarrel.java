@@ -32,7 +32,7 @@ public class RenderBarrel extends BlockEntityRendererNT<EmptyBlockEntity> implem
         else if (block == ModBlocks.BARREL_LOX.get()) consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.BARREL_LOX_TEX));
         else if (block == ModBlocks.BARREL_TAINT.get()) consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.BARREL_TAINT_TEX));
         else consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.BARREL_RED_TEX));
-        ResourceManager.barrel.renderAll(poseStack, consumer, packedLight, packedOverlay);
+        //ResourceManager.barrel.renderAll(poseStack, consumer, packedLight, packedOverlay);
 
         poseStack.popPose();
     }
@@ -62,7 +62,7 @@ public class RenderBarrel extends BlockEntityRendererNT<EmptyBlockEntity> implem
                 else if (stack.is(ModBlocks.BARREL_LOX.asItem())) consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.BARREL_LOX_TEX));
                 else if (stack.is(ModBlocks.BARREL_TAINT.asItem())) consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.BARREL_TAINT_TEX));
                 else consumer = buffer.getBuffer(RenderType.entityCutout(ResourceManager.BARREL_RED_TEX));
-                ResourceManager.barrel.renderAll(poseStack, consumer, packedLight, packedOverlay);
+                //ResourceManager.barrel.renderAll(poseStack, consumer, packedLight, packedOverlay);
             }
         };
     }

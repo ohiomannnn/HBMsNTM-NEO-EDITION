@@ -2,7 +2,6 @@ package com.hbm.render.util;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -134,19 +133,11 @@ public class RenderContext {
         INSTANCE.get().poseStack.mulPose(quaternionf);
     }
 
-    public static void rotateX(float degrees) {
-        INSTANCE.get().poseStack.mulPose(Axis.XP.rotationDegrees(degrees));
-    }
-
-    public static void rotateY(float degrees) {
-        INSTANCE.get().poseStack.mulPose(Axis.YP.rotationDegrees(degrees));
-    }
-
-    public static void rotateZ(float degrees) {
-        INSTANCE.get().poseStack.mulPose(Axis.ZP.rotationDegrees(degrees));
-    }
-
     public static void setRenderType(RenderType type) {
         INSTANCE.get().renderType = type;
+    }
+
+    public static void setConsumer(VertexConsumer consumer) {
+        INSTANCE.get().consumer = consumer;
     }
 }

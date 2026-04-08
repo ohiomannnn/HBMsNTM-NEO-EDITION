@@ -159,9 +159,9 @@ public class FalloutRain extends ChunkloadingEntity {
         Set<Long> chunks = new LinkedHashSet<>(); // LinkedHashSet preserves insertion order
         Set<Long> outerChunks = new LinkedHashSet<>();
         int outerRange = getScale();
-        // Basically defines something like the step size, but as indirect proportion. The actual angle used for rotation will always end up at 360° for angle == adjustedMaxAngle
+        // Basically defines something like the step stacksize, but as indirect proportion. The actual angle used for rotation will always end up at 360° for angle == adjustedMaxAngle
         // So yea, I mathematically worked out that 20 is a good value for this, with the minimum possible being 18 in order to reach all chunks
-        int adjustedMaxAngle = 20 * outerRange / 32; // step size = 20 * chunks / 2
+        int adjustedMaxAngle = 20 * outerRange / 32; // step stacksize = 20 * chunks / 2
         for (int angle = 0; angle <= adjustedMaxAngle; angle++) {
             Vec3 vector = new Vec3(outerRange, 0, 0)
                     .yRot((float) (angle * Math.PI / 180.0 / (adjustedMaxAngle / 360.0))); // Ugh, mutable data classes (also, ugh, radians; it uses degrees in 1.18; took me two hours to debug)

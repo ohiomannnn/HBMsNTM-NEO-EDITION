@@ -1,13 +1,25 @@
 package com.hbm.render.loader;
 
+import com.mojang.blaze3d.vertex.VertexFormat;
+
 import java.util.ArrayList;
-import java.util.List;
 
 public class S_GroupObject {
+
     public String name;
-    public List<S_Face> faces = new ArrayList<>();
+    public ArrayList<S_Face> faces = new ArrayList<>();
+    public VertexFormat.Mode mode;
+
+    public S_GroupObject() {
+        this("");
+    }
 
     public S_GroupObject(String name) {
+        this(name, null);
+    }
+
+    public S_GroupObject(String name, VertexFormat.Mode mode) {
         this.name = name;
+        this.mode = mode;
     }
 }

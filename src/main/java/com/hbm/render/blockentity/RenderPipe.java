@@ -95,9 +95,9 @@ public class RenderPipe extends BlockEntityRendererNT<PipeBaseBlockEntity> imple
     private void renderDuct(MultiBufferSource buffer, PoseStack poseStack, int color, int packedLight, int packedOverlay, String part, ResourceLocation tex, ResourceLocation texOverlay) {
         Color col = new Color(color);
         VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutout(tex));
-        ResourceManager.pipe_neo.renderPart(part, poseStack, consumer, packedLight, packedOverlay);
+        //ResourceManager.pipe_neo.renderPart(part, poseStack, consumer, packedLight, packedOverlay);
         VertexConsumer consumerOverlay = buffer.getBuffer(RenderType.entityCutout(texOverlay));
-        ResourceManager.pipe_neo.renderPart(part, poseStack, consumerOverlay, packedLight, packedOverlay, col);
+        //ResourceManager.pipe_neo.renderPart(part, poseStack, consumerOverlay, packedLight, packedOverlay, col);
     }
 
     @Override
@@ -126,16 +126,16 @@ public class RenderPipe extends BlockEntityRendererNT<PipeBaseBlockEntity> imple
                 ResourceLocation tex = getTexture(meta);
                 ResourceLocation texOverlay = getOverlayTexture(meta);
                 VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutout(tex));
-                ResourceManager.pipe_neo.renderPart("pX", poseStack, consumer, packedLight, packedOverlay);
-                ResourceManager.pipe_neo.renderPart("nX", poseStack, consumer, packedLight, packedOverlay);
-                ResourceManager.pipe_neo.renderPart("pZ", poseStack, consumer, packedLight, packedOverlay);
-                ResourceManager.pipe_neo.renderPart("nZ", poseStack, consumer, packedLight, packedOverlay);
-                VertexConsumer consumerOverlay = buffer.getBuffer(RenderType.entityCutout(texOverlay));
-                Color col = new Color(Fluids.NONE.getColor());
-                ResourceManager.pipe_neo.renderPart("pX", poseStack, consumerOverlay, packedLight, packedOverlay, col);
-                ResourceManager.pipe_neo.renderPart("nX", poseStack, consumerOverlay, packedLight, packedOverlay, col);
-                ResourceManager.pipe_neo.renderPart("pZ", poseStack, consumerOverlay, packedLight, packedOverlay, col);
-                ResourceManager.pipe_neo.renderPart("nZ", poseStack, consumerOverlay, packedLight, packedOverlay, col);
+                //ResourceManager.pipe_neo.renderPart("pX", poseStack, consumer, packedLight, packedOverlay);
+                //ResourceManager.pipe_neo.renderPart("nX", poseStack, consumer, packedLight, packedOverlay);
+                //ResourceManager.pipe_neo.renderPart("pZ", poseStack, consumer, packedLight, packedOverlay);
+                //ResourceManager.pipe_neo.renderPart("nZ", poseStack, consumer, packedLight, packedOverlay);
+                //VertexConsumer consumerOverlay = buffer.getBuffer(RenderType.entityCutout(texOverlay));
+                //Color col = new Color(Fluids.NONE.getColor());
+                //ResourceManager.pipe_neo.renderPart("pX", poseStack, consumerOverlay, packedLight, packedOverlay, col);
+                //ResourceManager.pipe_neo.renderPart("nX", poseStack, consumerOverlay, packedLight, packedOverlay, col);
+                //ResourceManager.pipe_neo.renderPart("pZ", poseStack, consumerOverlay, packedLight, packedOverlay, col);
+                //ResourceManager.pipe_neo.renderPart("nZ", poseStack, consumerOverlay, packedLight, packedOverlay, col);
             }
         };
     }

@@ -1,38 +1,24 @@
 package com.hbm.render.loader;
 
-import com.hbm.render.newloader.old.TextureCoordinate;
-import com.hbm.render.newloader.old.Vertex;
-import org.joml.Vector3f;
+import com.hbm.render.loader.old.TextureCoordinate;
+import com.hbm.render.loader.old.Vertex;
+import net.minecraft.world.phys.Vec3;
 
 public class S_Face {
+
     public Vertex[] vertices;
-    public TextureCoordinate[] textureCoordinates;
     public Vertex[] vertexNormals;
     public Vertex faceNormal;
+    public TextureCoordinate[] textureCoordinates;
 
-    public S_Face() { }
+    public S_Face(boolean ignored) { }
 
     public Vertex calculateFaceNormal() {
-        if (vertices == null || vertices.length < 3) {
-            return new Vertex(0, 1, 0);
-        }
 
-        Vector3f v1 = new Vector3f(
-                vertices[1].x - vertices[0].x,
-                vertices[1].y - vertices[0].y,
-                vertices[1].z - vertices[0].z
-        );
+        Vec3 v1 = new Vec3(this.vertices[1].x - this.vertices[0].x, this.vertices[1].y - this.vertices[0].y, this.vertices[1].z - this.vertices[0].z);
+        Vec3 v2 = new Vec3(this.vertices[2].x - this.vertices[0].x, this.vertices[2].y - this.vertices[0].y, this.vertices[2].z - this.vertices[0].z);
+        Vec3 normalVector = v1.cross(v2).normalize();
 
-        Vector3f v2 = new Vector3f(
-                vertices[2].x - vertices[0].x,
-                vertices[2].y - vertices[0].y,
-                vertices[2].z - vertices[0].z
-        );
-
-        Vector3f normal = new Vector3f();
-        v1.cross(v2, normal);
-        normal.normalize();
-
-        return new Vertex(normal.x, normal.y, normal.z);
+        return new Vertex((float) normalVector.x, (float) normalVector.y, (float) normalVector.z);
     }
 }

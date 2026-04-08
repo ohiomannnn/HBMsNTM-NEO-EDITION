@@ -59,7 +59,7 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
         RenderContext.translate(0F, 5.5F, 0F);
         float speed = be.getSpeed();
         float wheelRot = be.prevRotation + (be.rotation - be.prevRotation) * partialTicks;
-        RenderContext.rotateX(wheelRot);
+        RenderContext.mulPose(Axis.XP.rotationDegrees(wheelRot));
         RenderContext.translate(0F, -5.5F, 0F);
 
         ResourceManager.battery_redd.renderPart("Wheel");
@@ -199,14 +199,7 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
             int y = be.getBlockPos().getY();
             int z = be.getBlockPos().getZ();
 
-            bb = new AABB(
-                    x - 4,
-                    y - 0,
-                    z - 4,
-                    x + 5,
-                    y + 10,
-                    z + 5
-            );
+            bb = new AABB(x - 2, y, z - 2, x + 2, y + 10, z + 2);
         }
 
         return bb;

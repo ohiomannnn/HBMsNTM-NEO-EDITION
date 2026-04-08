@@ -43,7 +43,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
@@ -54,28 +53,23 @@ import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-import java.io.File;
-
 @EventBusSubscriber(modid = NuclearTechMod.MODID)
 public class CommonEvents {
 
     @SubscribeEvent
     public static void commonSetup(FMLCommonSetupEvent event) {
 
-        NuclearTechMod.configDir = FMLPaths.CONFIGDIR.get().toFile();
-        NuclearTechMod.configHbmDir = new File(NuclearTechMod.configDir, "hbmConfig");
-
-        if (!NuclearTechMod.configHbmDir.exists()) {
-            NuclearTechMod.configHbmDir.mkdirs();
-        }
+        // to make sure that foreign registered fluids are accounted for,
+        // even when the reload listener is registered too late due to load order
+        // IMPORTANT: fluids have to load before recipes. weird shit happens if not.
+        Fluids.reloadFluids();
+        FluidContainerRegistry.register();
 
         HTTPHandler.loadStats();
         FalloutConfigJSON.initialize();
         DamageResistanceHandler.init();
-        Fluids.init();
         HazardRegistry.registerItems();
         HazmatRegistry.registerHazmats();
-        FluidContainerRegistry.register();
         ArmorUtil.register();
         Satellite.register();
         LaunchPadBaseBlockEntity.registerLaunchables();

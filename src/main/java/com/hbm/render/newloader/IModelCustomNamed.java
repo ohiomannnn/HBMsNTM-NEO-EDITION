@@ -1,9 +1,0 @@
-package com.hbm.render.newloader;
-
-import java.util.List;
-
-public interface IModelCustomNamed extends IModelCustom {
-
-    // A little messy, but this is the cleanest refactor, and can be useful in the future
-    List<String> getPartNames();
-}

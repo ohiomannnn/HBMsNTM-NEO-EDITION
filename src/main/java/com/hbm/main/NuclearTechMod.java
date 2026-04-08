@@ -6,6 +6,7 @@ import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.inventory.ModCreativeTabs;
 import com.hbm.inventory.ModMenuTypes;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.NtmItems;
 import com.hbm.items.component.NtmDataComponents;
 import com.hbm.lib.ModAttachments;
@@ -16,6 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.loading.FMLPaths;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +40,15 @@ public class NuclearTechMod {
     public static File configHbmDir;
 
     public NuclearTechMod(IEventBus modEventBus, ModContainer modContainer) {
+
+        configDir = FMLPaths.CONFIGDIR.get().toFile();
+        configHbmDir = new File(NuclearTechMod.configDir, "hbmConfig");
+
+        if (!NuclearTechMod.configHbmDir.exists()) {
+            NuclearTechMod.configHbmDir.mkdirs();
+        }
+
+        Fluids.init();
         NtmItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         NtmDataComponents.register(modEventBus);

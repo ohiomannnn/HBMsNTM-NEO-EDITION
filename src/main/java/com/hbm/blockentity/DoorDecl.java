@@ -2,7 +2,7 @@ package com.hbm.blockentity;
 
 import com.hbm.blockentity.door.IRenderDoors;
 import com.hbm.render.anim.BusAnimation;
-import com.hbm.render.loader.IModelCustomOldNamed;
+import com.hbm.render.loader.IModelCustomNamed;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.Clock;
 import net.minecraft.resources.ResourceLocation;
@@ -48,7 +48,7 @@ public abstract class DoorDecl {
     }
 
     @OnlyIn(Dist.CLIENT) public ResourceLocation getTextureForPart(int skinIndex, String partName) { return null; }
-    @OnlyIn(Dist.CLIENT) public IModelCustomOldNamed getModel() { return null; }
+    @OnlyIn(Dist.CLIENT) public IModelCustomNamed getModel() { return null; }
 //    @OnlyIn(Dist.CLIENT) public AnimatedModel getAnimatedModel() { return null; }
 //    @OnlyIn(Dist.CLIENT) public Animation getAnim() { return null; }
 

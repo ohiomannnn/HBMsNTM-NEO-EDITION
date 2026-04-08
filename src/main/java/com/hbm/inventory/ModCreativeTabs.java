@@ -118,11 +118,12 @@ public class ModCreativeTabs {
                         output.accept(NtmItems.INGOT_OSMIRIDIUM.get());
                     }).build());
 
-    public static final Supplier<CreativeModeTab> MACHINE_ITEMS_AND_FUEL = CREATIVE_MODE_TABS.register(
-            "machine_items_and_fuel",
+    // items that belong in machines, fuels, etc
+    public static final Supplier<CreativeModeTab> CONTROL = CREATIVE_MODE_TABS.register(
+            "control",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(NtmItems.PELLET_RTG.get()))
                     .withTabsBefore(NuclearTechMod.withDefaultNamespace("parts"))
-                    .title(Component.translatable("creative_tab.hbmsntm.machine_items_and_fuel"))
+                    .title(Component.translatable("creative_tab.hbmsntm.control"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(NtmItems.PARTICLE_DIGAMMA);
                         output.accept(NtmItems.PARTICLE_LUTECE);
@@ -185,13 +186,25 @@ public class ModCreativeTabs {
 
                         output.accept(NtmItems.BATTERY_CREATIVE);
 
+                        output.accept(NtmItems.ROD_EMPTY);
+                        addMetaItems(output, NtmItems.ROD.get());
+                        output.accept(NtmItems.ROD_DUAL_EMPTY);
+                        addMetaItems(output, NtmItems.ROD_DUAL.get());
+                        output.accept(NtmItems.ROD_QUAD_EMPTY);
+                        addMetaItems(output, NtmItems.ROD_QUAD.get());
+
                         output.accept(NtmItems.REACHER);
                     }).build());
 
-    public static final Supplier<CreativeModeTab> ORES_AND_BLOCKS = CREATIVE_MODE_TABS.register(
-            "ores_and_blocks",
+    // templates, siren tracks
+    /** SKIP */
+
+    // ore and mineral blocks
+    public static final Supplier<CreativeModeTab> BLOCKS = CREATIVE_MODE_TABS.register(
+            "blocks",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.ORE_URANIUM.get()))
-                    .title(Component.translatable("creative_tab.hbmsntm.ores_and_blocks"))
+                    .withTabsBefore(NuclearTechMod.withDefaultNamespace("control"))
+                    .title(Component.translatable("creative_tab.hbmsntm.blocks"))
                     .displayItems((itemDisplayParameters, output) -> {
 
                         output.accept(ModBlocks.PLUSHIE_YOMI);
@@ -235,11 +248,12 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.ORE_SELLAFIELD_EMERALD);
                     }).build());
 
-    public static final Supplier<CreativeModeTab> MACHINES = CREATIVE_MODE_TABS.register(
-            "machines",
+    // machines, structure parts
+    public static final Supplier<CreativeModeTab> MACHINE = CREATIVE_MODE_TABS.register(
+            "machine",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.PWR_CONTROLLER.get()))
-                    .withTabsBefore(NuclearTechMod.withDefaultNamespace("ores_and_blocks"))
-                    .title(Component.translatable("creative_tab.hbmsntm.machines"))
+                    .withTabsBefore(NuclearTechMod.withDefaultNamespace("blocks"))
+                    .title(Component.translatable("creative_tab.hbmsntm.machine"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModBlocks.GAS_RADON);
                         output.accept(ModBlocks.GAS_RADON_DENSE);
@@ -274,11 +288,12 @@ public class ModCreativeTabs {
                         }
                     }).build());
 
-    public static final Supplier<CreativeModeTab> BOMBS = CREATIVE_MODE_TABS.register(
-            "bombs",
+    // bombs
+    public static final Supplier<CreativeModeTab> NUKE = CREATIVE_MODE_TABS.register(
+            "nuke",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.NUKE_FAT_MAN.get()))
-                    .withTabsBefore(NuclearTechMod.withDefaultNamespace("machines"))
-                    .title(Component.translatable("creative_tab.hbmsntm.bombs"))
+                    .withTabsBefore(NuclearTechMod.withDefaultNamespace("machine"))
+                    .title(Component.translatable("creative_tab.hbmsntm.nuke"))
                     .backgroundTexture(ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "textures/gui/nuke_tab.png"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModBlocks.NUKE_GADGET);
@@ -357,11 +372,12 @@ public class ModCreativeTabs {
                         output.accept(NtmItems.DETONATOR_DE);
                     }).build());
 
-    public static final Supplier<CreativeModeTab> MISSILES = CREATIVE_MODE_TABS.register(
-            "missiles",
+    // missiles, satellites
+    public static final Supplier<CreativeModeTab> MISSILE = CREATIVE_MODE_TABS.register(
+            "missile",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(NtmItems.MISSILE_DOOMSDAY.get()))
-                    .withTabsBefore(NuclearTechMod.withDefaultNamespace("bombs"))
-                    .title(Component.translatable("creative_tab.hbmsntm.missiles"))
+                    .withTabsBefore(NuclearTechMod.withDefaultNamespace("nuke"))
+                    .title(Component.translatable("creative_tab.hbmsntm.missile"))
                     .displayItems((itemDisplayParameters, output) -> {
 
                         output.accept(ModBlocks.LAUNCH_PAD);
@@ -401,11 +417,15 @@ public class ModCreativeTabs {
                         output.accept(NtmItems.SATELLITE_INTERFACE);
                     }).build());
 
-    public static final Supplier<CreativeModeTab> CONSUMABLES_AND_GEAR = CREATIVE_MODE_TABS.register(
-            "consumables_and_gear",
+    // turrets, weapons, ammo
+    /** SKIP */
+
+    // drinks, kits, tools
+    public static final Supplier<CreativeModeTab> CONSUMABLE = CREATIVE_MODE_TABS.register(
+            "consumable",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(NtmItems.BOTTLE_NUKA.get()))
-                    .withTabsBefore(NuclearTechMod.withDefaultNamespace("missiles"))
-                    .title(Component.translatable("creative_tab.hbmsntm.consumables_and_gear"))
+                    .withTabsBefore(NuclearTechMod.withDefaultNamespace("missile"))
+                    .title(Component.translatable("creative_tab.hbmsntm.consumable"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(NtmItems.DUCK_SPAWN_EGG);
 

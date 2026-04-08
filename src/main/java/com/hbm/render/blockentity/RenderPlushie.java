@@ -1,14 +1,16 @@
 package com.hbm.render.blockentity;
 
-import com.hbm.main.NuclearTechMod;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.PlushieBlock;
 import com.hbm.blocks.generic.PlushieBlock.PlushieBlockEntity;
 import com.hbm.blocks.generic.PlushieBlock.PlushieType;
 import com.hbm.items.NtmItems;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
+import com.hbm.render.loader.HFRWavefrontObject;
+import com.hbm.render.loader.IModelCustom;
 import com.hbm.render.util.HorsePronter;
 import com.hbm.render.util.RenderContext;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -28,7 +30,19 @@ import javax.annotation.Nullable;
 
 public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> implements IBEWLRProvider {
 
-    @Override public BlockEntityRenderer<PlushieBlockEntity> create(Context context) { return new RenderPlushie(); }
+    @Override
+    public BlockEntityRenderer<PlushieBlockEntity> create(Context context) {
+
+        yomiModel = new HFRWavefrontObject("models/obj/trinkets/yomi.obj").asVBO();
+        hundunModel = new HFRWavefrontObject("models/obj/trinkets/hundun.obj").asVBO();
+        dergModel = new HFRWavefrontObject("models/obj/trinkets/derg.obj").asVBO();
+
+        return new RenderPlushie();
+    }
+
+    public static IModelCustom yomiModel;
+    public static IModelCustom hundunModel;
+    public static IModelCustom dergModel;
 
     public static final ResourceLocation yomiTex = NuclearTechMod.withDefaultNamespace("textures/models/trinkets/yomi.png");
     public static final ResourceLocation numbernineTex = NuclearTechMod.withDefaultNamespace("textures/models/horse/numbernine.png");
@@ -63,7 +77,7 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
         switch (type) {
             case YOMI -> {
                 RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(yomiTex));
-                ResourceManager.yomiModel.renderAll();
+                yomiModel.renderAll();
             }
             case NUMBERNINE -> {
                 RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
@@ -108,12 +122,12 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
             }
             case HUNDUN -> {
                 RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(hundunTex));
-                ResourceManager.hundunModel.renderPart("goober_posed");
+                hundunModel.renderPart("goober_posed");
             }
             case DERG -> {
                 RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(dergTex));
-                ResourceManager.dergModel.renderPart("Derg");
-                ResourceManager.dergModel.renderPart(squish ? "Blep" : "ColonThree");
+                dergModel.renderPart("Derg");
+                dergModel.renderPart(squish ? "Blep" : "ColonThree");
             }
         }
     }

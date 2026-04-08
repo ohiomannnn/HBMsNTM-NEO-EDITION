@@ -1,5 +1,7 @@
 package com.hbm.blockentity.machine;
 
+import com.hbm.blockentity.ModBlockEntityTypes;
+import com.hbm.blockentity.Tickable;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.registry.NtmSoundEvents;
 import net.minecraft.core.BlockPos;
@@ -13,42 +15,47 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GeigerBlockEntity extends BlockEntity {
+public class GeigerBlockEntity extends BlockEntity implements Tickable {
 
-    public GeigerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
-        super(type, pos, blockState);
+    public GeigerBlockEntity(BlockPos pos, BlockState blockState) {
+        super(ModBlockEntityTypes.GEIGER_COUNTER.get(), pos, blockState);
     }
 
     public int timer = 0;
     public float radiation = 0;
 
-    public static void serverTick(Level level, BlockPos pos, BlockState state, GeigerBlockEntity be) {
-        RandomSource random = level.random;
-        be.timer++;
+    @Override
+    public void updateEntity() {
+        if (this.level == null) return;
+        if (this.level.isClientSide) return;
 
-        if (be.timer == 10) {
-            be.timer = 0;
-            be.radiation = ChunkRadiationManager.proxy.getRadiation(level, pos);
+        RandomSource random = level.random;
+        this.timer++;
+
+        if (this.timer == 10) {
+            this.timer = 0;
+            this.radiation = ChunkRadiationManager.proxy.getRadiation(level, this.getBlockPos());
 
             // To update the adjacent comparators
-            level.updateNeighborsAt(pos, state.getBlock());
+            level.updateNeighborsAt(this.getBlockPos(), this.getBlockState().getBlock());
         }
 
         if (level.getGameTime() % 5 == 0) {
+            BlockPos pos = this.getBlockPos();
             double x = pos.getX() + 0.5;
             double y = pos.getY() + 0.5;
             double z = pos.getZ() + 0.5;
-            if (be.radiation > 0) {
+            if (this.radiation > 0) {
                 List<Integer> list = new ArrayList<>();
 
-                if (be.radiation < 1) list.add(0);
-                if (be.radiation < 5) list.add(0);
-                if (be.radiation < 10) list.add(1);
-                if (be.radiation > 5 && be.radiation < 15) list.add(2);
-                if (be.radiation > 10 && be.radiation < 20) list.add(3);
-                if (be.radiation > 15 && be.radiation < 25) list.add(4);
-                if (be.radiation > 20 && be.radiation < 30) list.add(5);
-                if (be.radiation > 25) list.add(6);
+                if (this.radiation < 1) list.add(0);
+                if (this.radiation < 5) list.add(0);
+                if (this.radiation < 10) list.add(1);
+                if (this.radiation > 5 && this.radiation < 15) list.add(2);
+                if (this.radiation > 10 && this.radiation < 20) list.add(3);
+                if (this.radiation > 15 && this.radiation < 25) list.add(4);
+                if (this.radiation > 20 && this.radiation < 30) list.add(5);
+                if (this.radiation > 25) list.add(6);
 
                 int r = list.get(random.nextInt(list.size()));
 

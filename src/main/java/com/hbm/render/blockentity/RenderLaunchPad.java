@@ -63,14 +63,7 @@ public class RenderLaunchPad extends BlockEntityRendererNT<LaunchPadBlockEntity>
             int y = be.getBlockPos().getY();
             int z = be.getBlockPos().getZ();
 
-            bb = new AABB(
-                    x - 2,
-                    y - 0,
-                    z - 2,
-                    x + 3,
-                    y + 15,
-                    z + 3
-            );
+            bb = new AABB(x - 2, y, z - 2, x + 2, y + 15, z + 2);
         }
 
         return bb;

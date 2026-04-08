@@ -2,8 +2,11 @@ package com.hbm.hazard;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.hazard.type.*;
+import com.hbm.inventory.MetaHelper;
 import com.hbm.items.NtmItems;
+import com.hbm.items.machine.BreedingRodItem.BreedingRodType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -161,6 +164,21 @@ public class HazardRegistry {
 
         HazardSystem.register(NtmItems.PARTICLE_DIGAMMA.get(), makeData(DIGAMMA, 0.3333F));
 
+        registerBreedingRodRadiation(BreedingRodType.TRITIUM, 0.001F);
+        registerBreedingRodRadiation(BreedingRodType.CO60, co60);
+        registerBreedingRodRadiation(BreedingRodType.RA226, ra226);
+        registerBreedingRodRadiation(BreedingRodType.AC227, ac227);
+        registerBreedingRodRadiation(BreedingRodType.TH232, th232);
+        registerBreedingRodRadiation(BreedingRodType.THF, thf);
+        registerBreedingRodRadiation(BreedingRodType.U235, u235);
+        registerBreedingRodRadiation(BreedingRodType.NP237, np237);
+        registerBreedingRodRadiation(BreedingRodType.U238, u238);
+        registerBreedingRodRadiation(BreedingRodType.PU238, pu238); //it's in a container :)
+        registerBreedingRodRadiation(BreedingRodType.PU239, pu239);
+        registerBreedingRodRadiation(BreedingRodType.RGP, purg);
+        registerBreedingRodRadiation(BreedingRodType.WASTE, wst);
+        registerBreedingRodRadiation(BreedingRodType.URANIUM, u);
+
         /*
          * Nuke parts
          */
@@ -175,6 +193,12 @@ public class HazardRegistry {
         HazardSystem.register(item(FLEIJA_CORE), makeData(RADIATION, 10F));
 
         HazardSystem.register(block(NUKE_FSTBMB), makeData(DIGAMMA, 0.01F));
+    }
+
+    private static void registerBreedingRodRadiation(BreedingRodType type, float base) {
+        HazardSystem.register(MetaHelper.newStack(ROD, 1, type.ordinal()), makeData(RADIATION, base));
+        HazardSystem.register(MetaHelper.newStack(ROD_DUAL, 1, type.ordinal()), makeData(RADIATION, base * rod_dual));
+        HazardSystem.register(MetaHelper.newStack(ROD_QUAD, 1, type.ordinal()), makeData(RADIATION, base * rod_quad));
     }
 
     private static Item item(DeferredItem<Item> item) { return item.get(); }

@@ -127,7 +127,7 @@ public class Fluids {
         metaOrder.addAll(foreignFluids);
 
         if (idMapping.size() != metaOrder.size()) {
-            throw new IllegalStateException("A severe error has occurred during NTM's fluid registering process! The MetaOrder and Mappings are inconsistent! Mapping size: " + idMapping.size()+ " / MetaOrder size: " + metaOrder.size());
+            throw new IllegalStateException("A severe error has occurred during NTM's fluid registering process! The MetaOrder and Mappings are inconsistent! Mapping stacksize: " + idMapping.size()+ " / MetaOrder stacksize: " + metaOrder.size());
         }
     }
 

@@ -27,7 +27,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.AABB;
 
 import java.util.Random;
 
@@ -96,29 +95,6 @@ public class RenderBatterySocket extends BlockEntityRendererNT<BatterySocketBloc
         }
 
         RenderContext.end();
-    }
-
-    private AABB bb = null;
-
-    @Override
-    public AABB getRenderBoundingBox(BatterySocketBlockEntity be) {
-
-        if (bb == null) {
-            int x = be.getBlockPos().getX();
-            int y = be.getBlockPos().getY();
-            int z = be.getBlockPos().getZ();
-
-            bb = new AABB(
-                    x - 1,
-                    y - 0,
-                    z - 1,
-                    x + 2,
-                    y + 2,
-                    z + 2
-            );
-        }
-
-        return bb;
     }
 
     @Override

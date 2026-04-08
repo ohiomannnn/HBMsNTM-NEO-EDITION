@@ -71,8 +71,8 @@ public class RenderLaserDetonator extends BlockEntityWithoutLevelRenderer {
         ResourceManager.detonator_laser.renderPart("Main");
 
         RenderContext.setColor(1F, 0F, 0F, 1F);
-        RenderContext.setRenderType(NtmRenderTypes.FVBO_NL_NC_NT);
         FullBright.enable();
+        RenderContext.setRenderType(NtmRenderTypes.FVBO_NL_NC_NT);
         ResourceManager.detonator_laser.renderPart("Lights");
         FullBright.disable();
         RenderContext.setColor(1F, 1F, 1F, 1F);

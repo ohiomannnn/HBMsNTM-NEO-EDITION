@@ -58,16 +58,16 @@ public class InventoryUtil {
 
                 ItemStack inv = inventory.get(j);
 
-                //we check if it matches but ignore stack size for now
+                //we check if it matches but ignore stack stacksize for now
                 if (stack.matchesRecipe(inv, true)) {
-                    //and NOW we care about the stack size
-                    int size = Math.min(stack.size, inv.getCount());
-                    stack.size -= size;
+                    //and NOW we care about the stack stacksize
+                    int size = Math.min(stack.stacksize, inv.getCount());
+                    stack.stacksize -= size;
                     inv.shrink(size);
                     modified[j] = true;
 
                     //spent stacks are removed from the equation so that we don't cross ourselves later on
-                    if (stack.size <= 0) {
+                    if (stack.stacksize <= 0) {
                         input[i] = null;
                         break;
                     }

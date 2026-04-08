@@ -4,7 +4,7 @@ import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.NtmItems;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
-import com.hbm.render.newloader.IModelCustom;
+import com.hbm.render.loader.IModelCustom;
 import com.hbm.render.util.RenderContext;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;

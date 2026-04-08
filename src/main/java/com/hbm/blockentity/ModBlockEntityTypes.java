@@ -129,7 +129,7 @@ public class ModBlockEntityTypes {
 
     public static final Supplier<BlockEntityType<LaunchPadBlockEntity>> LAUNCH_PAD = REGISTER.register("launch_pad", () -> BlockEntityType.Builder.of(LaunchPadBlockEntity::new, ModBlocks.LAUNCH_PAD.get()).build(null));
 
-    public static final Supplier<BlockEntityType<GeigerBlockEntity>> GEIGER_COUNTER = REGISTER.register("geiger_counter", () -> BlockEntityType.Builder.of((pos, state) -> new GeigerBlockEntity(ModBlockEntityTypes.GEIGER_COUNTER.get(), pos, state), ModBlocks.GEIGER.get()).build(null));
+    public static final Supplier<BlockEntityType<GeigerBlockEntity>> GEIGER_COUNTER = REGISTER.register("geiger_counter", () -> BlockEntityType.Builder.of(GeigerBlockEntity::new, ModBlocks.GEIGER.get()).build(null));
 
     public static final Supplier<BlockEntityType<LandMineBlockEntity>> LANDMINE = REGISTER.register(
             "landmine",

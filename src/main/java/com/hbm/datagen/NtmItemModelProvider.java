@@ -111,6 +111,13 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.basicItem(NtmItems.INGOT_SMORE.get());
         this.basicItem(NtmItems.INGOT_OSMIRIDIUM.get());
 
+        this.basicItem(NtmItems.ROD_EMPTY.get());
+        this.registerMetaItem(NtmItems.ROD.get());
+        this.basicItem(NtmItems.ROD_DUAL_EMPTY.get());
+        this.registerMetaItem(NtmItems.ROD_DUAL.get());
+        this.basicItem(NtmItems.ROD_QUAD_EMPTY.get());
+        this.registerMetaItem(NtmItems.ROD_QUAD.get());
+
         basicItem(NtmItems.GEIGER_COUNTER.get());
         basicItem(NtmItems.DOSIMETER.get());
         basicItem(NtmItems.DIGAMMA_DIAGNOSTIC.get());

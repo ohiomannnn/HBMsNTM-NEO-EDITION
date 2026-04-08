@@ -1,32 +1,25 @@
 package com.hbm.util.mixins;
 
-import com.hbm.main.NuclearTechMod;
-import com.hbm.main.NuclearTechModClient;
 import com.hbm.config.MainConfig;
 import com.hbm.extprop.HbmLivingAttachments;
-import com.hbm.render.block.loader.BlockRendererDispatcher;
+import com.hbm.main.NuclearTechMod;
+import com.hbm.main.NuclearTechModClient;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 import net.minecraft.client.Camera;
-import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import javax.annotation.Nullable;
 
 @Mixin(LevelRenderer.class)
 public abstract class LevelRendererMixin {
@@ -175,28 +168,5 @@ public abstract class LevelRendererMixin {
         RenderSystem.depthMask(true);
         RenderSystem.disableBlend();
         RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-    }
-
-    @Shadow @Final private RenderBuffers renderBuffers;
-    @Shadow @Nullable private ClientLevel level;
-
-    @Inject(method = "renderLevel", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiling/ProfilerFiller;popPush(Ljava/lang/String;)V", args = "ldc=destroyProgress"))
-    private void renderLevel(DeltaTracker deltaTracker, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f frustumMatrix, Matrix4f projectionMatrix, CallbackInfo ci) {
-        if (this.level == null) return;
-
-        MultiBufferSource.BufferSource buffer = this.renderBuffers.bufferSource();
-        Vec3 cameraPos = camera.getPosition();
-
-        BlockRendererDispatcher.INSTANCE.renderAll(this.level, deltaTracker.getGameTimeDeltaTicks(), buffer, cameraPos);
-    }
-
-    @Inject(method = "setLevel", at = @At("HEAD"))
-    private void setLevel(@Nullable ClientLevel level, CallbackInfo ci) {
-        BlockRendererDispatcher.INSTANCE.clear();
-    }
-
-    @Inject(method = "allChanged", at = @At("HEAD"))
-    private void allChanged(CallbackInfo ci) {
-        BlockRendererDispatcher.INSTANCE.rescanAllChunks(this.level);
     }
 }

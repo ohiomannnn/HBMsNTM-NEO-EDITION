@@ -14,12 +14,12 @@ public class RecipesCommon {
 
     public static abstract class AStack implements Comparable<AStack> {
 
-        public int size;
+        public int stacksize;
 
         /**
          * Whether the supplied item stack is applicable for a recipe (e.g. anvils). Slightly different from {@code isApplicable}.
          * @param stack the ItemStack to check
-         * @param ignoreSize whether size should be ignored entirely or if the ItemStack needs to be >at least< the same size as this' size
+         * @param ignoreSize whether stacksize should be ignored entirely or if the ItemStack needs to be >at least< the same stacksize as this' stacksize
          */
         public abstract boolean matchesRecipe(ItemStack stack, boolean ignoreSize);
 
@@ -44,44 +44,46 @@ public class RecipesCommon {
     public static class ComparableStack extends AStack {
 
         public Item item;
+        public int meta;
 
         public ComparableStack(ItemStack stack) {
             if (stack.isEmpty()) {
                 this.item = NtmItems.NOTHING.get();
-                this.size = 1;
+                this.stacksize = 1;
                 return;
             }
             this.item = stack.getItem();
-            this.size = stack.getCount();
+            this.stacksize = stack.getCount();
+            this.meta = MetaHelper.getMeta(stack);
         }
 
         public ComparableStack makeSingular() {
-            size = 1;
+            this.stacksize = 1;
             return this;
         }
 
         public ComparableStack(Item item) {
             this.item = item;
-            this.size = 1;
+            this.stacksize = 1;
         }
 
         public ComparableStack(Block item) {
             this.item = item.asItem();
-            this.size = 1;
+            this.stacksize = 1;
         }
 
-        public ComparableStack(Block item, int stackSize) {
+        public ComparableStack(Block item, int stacksize) {
             this.item = item.asItem();
-            this.size = stackSize;
+            this.stacksize = stacksize;
         }
 
-        public ComparableStack(Item item, int stackSize) {
+        public ComparableStack(Item item, int stacksize) {
             this(item);
-            this.size = stackSize;
+            this.stacksize = stacksize;
         }
 
         public ItemStack toStack() {
-            return new ItemStack(item, size);
+            return new ItemStack(item, stacksize);
         }
 
         @Override
@@ -89,22 +91,24 @@ public class RecipesCommon {
             final int prime = 31;
             int result = 1;
             result = prime * result + BuiltInRegistries.ITEM.getKey(item).hashCode(); //using the int ID will cause fucky-wuckys if IDs are scrambled
-            result = prime * result + size;
+            result = prime * result + stacksize;
             return result;
         }
 
         @Override
         public boolean equals(Object obj) {
-            if (this == obj) return true;
-            if (obj == null) return false;
-            if (getClass() != obj.getClass()) return false;
+            if(this == obj) return true;
+            if(obj == null) return false;
+            if(getClass() != obj.getClass()) return false;
             ComparableStack other = (ComparableStack) obj;
             if (item == null) {
                 if (other.item != null) return false;
             } else if (!item.equals(other.item)) {
                 return false;
             }
-            return size == other.size;
+            if(meta != MetaHelper.WILDCARD_VALUE && other.meta != MetaHelper.WILDCARD_VALUE && meta != other.meta) return false;
+            if(stacksize != other.stacksize) return false;
+            return true;
         }
 
         @Override
@@ -122,7 +126,7 @@ public class RecipesCommon {
 
         @Override
         public ComparableStack copy() {
-            return new ComparableStack(item, size);
+            return new ComparableStack(item, stacksize);
         }
 
         @Override
@@ -135,7 +139,7 @@ public class RecipesCommon {
 
             if (stack == null) return false;
             if (stack.getItem() != this.item) return false;
-            if (!ignoreSize && stack.getCount() < this.size) return false;
+            if (!ignoreSize && stack.getCount() < this.stacksize) return false;
 
             return true;
         }

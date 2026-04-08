@@ -1,7 +1,7 @@
 package com.hbm.render.util;
 
 import com.hbm.main.NuclearTechMod;
-import com.hbm.render.newloader.IModelCustom;
+import com.hbm.render.loader.IModelCustom;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;

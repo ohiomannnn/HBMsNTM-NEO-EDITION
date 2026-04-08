@@ -1,6 +1,6 @@
 package com.hbm.blocks.machine;
 
-import com.hbm.blockentity.ModBlockEntityTypes;
+import com.hbm.blockentity.Tickable;
 import com.hbm.blockentity.machine.GeigerBlockEntity;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.registry.NtmSoundEvents;
@@ -28,7 +28,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class GeigerCounterBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
+public class GeigerCounterBlock extends Block implements EntityBlock, SimpleWaterloggedBlock {
 
     public GeigerCounterBlock(Properties properties) {
         super(properties);
@@ -55,6 +55,20 @@ public class GeigerCounterBlock extends BaseEntityBlock implements SimpleWaterlo
         builder.add(BlockStateProperties.HORIZONTAL_FACING, BlockStateProperties.WATERLOGGED);
     }
 
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        return (lvl, pos, st, be) -> { if (be instanceof Tickable tickable) tickable.updateEntity(); };
+    }
+
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new GeigerBlockEntity(pos, state);
+    }
+
+    public static final MapCodec<GeigerCounterBlock> CODEC = simpleCodec(GeigerCounterBlock::new);
+    @Override protected MapCodec<GeigerCounterBlock> codec() { return CODEC; }
+
     @Override
     protected BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
         if (state.getValue(BlockStateProperties.WATERLOGGED)) {
@@ -68,11 +82,6 @@ public class GeigerCounterBlock extends BaseEntityBlock implements SimpleWaterlo
     @Override
     protected FluidState getFluidState(BlockState state) {
         return state.getValue(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
-    }
-
-    public static final MapCodec<GeigerCounterBlock> CODEC = simpleCodec(GeigerCounterBlock::new);
-    @Override protected MapCodec<GeigerCounterBlock> codec() {
-        return CODEC;
     }
 
     @Override
@@ -92,11 +101,11 @@ public class GeigerCounterBlock extends BaseEntityBlock implements SimpleWaterlo
         return getShape(blockState, level, pos, context);
     }
 
-    public boolean hasAnalogOutputSignal(BlockState blockState) {
+    public boolean hasAnalogOutputSignal(BlockState state) {
         return true;
     }
 
-    public int getAnalogOutputSignal(BlockState blockState, Level level, BlockPos pos) {
+    public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
 
         float rad = ChunkRadiationManager.proxy.getRadiation(level, pos);
 
@@ -104,16 +113,6 @@ public class GeigerCounterBlock extends BaseEntityBlock implements SimpleWaterlo
         // +1 per 5 rads/sec
         // 15 at 75+ rads/sec
         return Math.min((int) Math.ceil(rad / 5f), 15);
-    }
-
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide ? null : BaseEntityBlock.createTickerHelper(type, ModBlockEntityTypes.GEIGER_COUNTER.get(), GeigerBlockEntity::serverTick);
-    }
-
-    @Override
-    public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return new GeigerBlockEntity(ModBlockEntityTypes.GEIGER_COUNTER.get(), blockPos, blockState);
     }
 
     @Override
