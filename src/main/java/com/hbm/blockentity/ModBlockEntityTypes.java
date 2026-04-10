@@ -1,11 +1,8 @@
 package com.hbm.blockentity;
 
+import com.hbm.blockentity.machine.*;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.blockentity.bomb.*;
-import com.hbm.blockentity.machine.DecontaminatorBlockEntity;
-import com.hbm.blockentity.machine.GeigerBlockEntity;
-import com.hbm.blockentity.machine.MachinePressBlockEntity;
-import com.hbm.blockentity.machine.MachineSatLinkerBlockEntity;
 import com.hbm.blockentity.machine.storage.*;
 import com.hbm.blockentity.network.CableBaseBlockEntity;
 import com.hbm.blockentity.network.PipeBaseBlockEntity;
@@ -83,6 +80,13 @@ public class ModBlockEntityTypes {
             "battery_redd",
             () -> BlockEntityType.Builder.of(
                             BatteryREDDBlockEntity::new,
+                            ModBlocks.MACHINE_BATTERY_REDD.get())
+                    .build(null));
+
+    public static final Supplier<BlockEntityType<MachineAssemblyMachineBlockEntity>> ASSEMBLY_MACHINE = REGISTER.register(
+            "assembly_machine",
+            () -> BlockEntityType.Builder.of(
+                            MachineAssemblyMachineBlockEntity::new,
                             ModBlocks.MACHINE_BATTERY_REDD.get())
                     .build(null));
 

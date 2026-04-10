@@ -1,7 +1,6 @@
 package com.hbm.inventory;
 
 import com.hbm.items.component.NtmDataComponents;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 
@@ -18,8 +17,7 @@ public class MetaHelper {
     public static ItemStack metaStack(ItemStack stack, int meta) { stack.set(NtmDataComponents.META.get(), meta); return stack; }
 
     public static ItemStack newStack(ItemLike item, int meta) {
-        ItemStack stack = new ItemStack(item, 1);
-        return metaStack(stack, meta);
+        return newStack(item, 1, meta);
     }
 
     public static ItemStack newStack(ItemLike item, int count, int meta) {

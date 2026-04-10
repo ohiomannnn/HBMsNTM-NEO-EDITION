@@ -49,8 +49,6 @@ public abstract class DoorDecl {
 
     @OnlyIn(Dist.CLIENT) public ResourceLocation getTextureForPart(int skinIndex, String partName) { return null; }
     @OnlyIn(Dist.CLIENT) public IModelCustomNamed getModel() { return null; }
-//    @OnlyIn(Dist.CLIENT) public AnimatedModel getAnimatedModel() { return null; }
-//    @OnlyIn(Dist.CLIENT) public Animation getAnim() { return null; }
 
     @OnlyIn(Dist.CLIENT) public void getTranslation(String partName, float openTicks, boolean child, float[] trans) { set(trans, 0, 0, 0); }
     @OnlyIn(Dist.CLIENT) public void getRotation(String partName, float openTicks, float[] rot) { set(rot, 0, 0, 0); }

@@ -82,8 +82,14 @@ public class RecipesCommon {
             this.stacksize = stacksize;
         }
 
+        public ComparableStack(Item item, int stacksize, int meta) {
+            this(item);
+            this.stacksize = stacksize;
+            this.meta = meta;
+        }
+
         public ItemStack toStack() {
-            return new ItemStack(item, stacksize);
+            return MetaHelper.newStack(item, stacksize, meta);
         }
 
         @Override

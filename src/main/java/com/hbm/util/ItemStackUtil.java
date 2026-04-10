@@ -3,9 +3,7 @@ package com.hbm.util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.*;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
@@ -154,5 +152,14 @@ public class ItemStackUtil {
 
     public static boolean areStacksCompatible(ItemStack a, ItemStack b) {
         return ItemStack.isSameItemSameComponents(a, b);
+    }
+
+    public static void addNBTFromString(ItemStack stack, String nbt) {
+        try {
+            Tag tag = TagParser.parseTag(nbt);
+            if (tag instanceof CompoundTag compound) {
+                TagsUtilDegradation.putTag(stack, compound);
+            }
+        } catch (Exception ignored) { }
     }
 }

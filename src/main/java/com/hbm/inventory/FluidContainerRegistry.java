@@ -30,12 +30,12 @@ public class FluidContainerRegistry {
 
             if (type.hasNoContainer()) continue;
 
-            FluidContainerRegistry.registerContainer(new FluidContainer(MetaHelper.metaStack(new ItemStack(NtmItems.FLUID_TANK_LEAD_FULL.get(), 1), id), new ItemStack(NtmItems.FLUID_TANK_LEAD_EMPTY.get()), type, 1000));
+            FluidContainerRegistry.registerContainer(new FluidContainer(MetaHelper.newStack(NtmItems.FLUID_TANK_LEAD_FULL.get(), 1, id), new ItemStack(NtmItems.FLUID_TANK_LEAD_EMPTY.get()), type, 1000));
 
             if (type.needsLeadContainer()) continue;
 
-            FluidContainerRegistry.registerContainer(new FluidContainer(MetaHelper.metaStack(new ItemStack(NtmItems.FLUID_TANK_FULL.get(), 1), id), new ItemStack(NtmItems.FLUID_TANK_EMPTY.get()), type, 1000));
-            FluidContainerRegistry.registerContainer(new FluidContainer(MetaHelper.metaStack(new ItemStack(NtmItems.FLUID_BARREL_FULL.get(), 1), id), new ItemStack(NtmItems.FLUID_BARREL_EMPTY.get()), type, 16000));
+            FluidContainerRegistry.registerContainer(new FluidContainer(MetaHelper.newStack(NtmItems.FLUID_TANK_FULL.get(), 1, id), new ItemStack(NtmItems.FLUID_TANK_EMPTY.get()), type, 1000));
+            FluidContainerRegistry.registerContainer(new FluidContainer(MetaHelper.newStack(NtmItems.FLUID_BARREL_FULL.get(), 1, id), new ItemStack(NtmItems.FLUID_BARREL_EMPTY.get()), type, 16000));
         }
     }
 

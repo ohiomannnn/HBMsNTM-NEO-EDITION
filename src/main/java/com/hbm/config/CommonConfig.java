@@ -12,6 +12,8 @@ public class CommonConfig {
     public final ModConfigSpec.BooleanValue ENABLE_SILENT_COMPSTACK_ERRORS;
     public final ModConfigSpec.BooleanValue ENABLE_KEYBIND_OVERLAP;
 
+    public final ModConfigSpec.BooleanValue ENABLE_EXPENSIVE_MODE;
+
     // NUKES (03)
     public final ModConfigSpec.IntValue GADGET_RADIUS;
     public final ModConfigSpec.IntValue BOY_RADIUS;
@@ -118,6 +120,11 @@ public class CommonConfig {
                 .comment("If enabled, will handle keybinds that would otherwise be ignored due to overlapping.")
                 .translation("hbmsntm.configuration.enableKeybindOverlap")
                 .define("enableKeybindOverlap", true);
+
+        ENABLE_EXPENSIVE_MODE = builder
+                .comment("It does what the name implies.")
+                .translation("hbmsntm.configuration.enableExpensiveMode")
+                .define("enableExpensiveMode", false);
 
         builder.pop();
 
