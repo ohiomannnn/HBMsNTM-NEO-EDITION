@@ -18,7 +18,7 @@ import java.util.Random;
 
 public class RadiationFogParticle extends ParticleNT {
 
-    private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/particle_ss/rad_fog.png");
+    private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/particle_no_sheet/rad_fog.png");
 
     public RadiationFogParticle(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);

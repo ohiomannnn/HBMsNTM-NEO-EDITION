@@ -1,12 +1,16 @@
 package com.hbm.inventory;
 
+import com.hbm.items.IMetaItem;
 import com.hbm.items.NtmItems;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -153,6 +157,108 @@ public class RecipesCommon {
         @Override
         public List<ItemStack> extractForJEI() {
             return Collections.singletonList(this.toStack());
+        }
+    }
+
+    public static class TagStack extends AStack {
+
+        public TagKey<Item> tag;
+
+        public TagStack(TagKey<Item> tag) {
+            this.tag = tag;
+            this.stacksize = 1;
+        }
+
+        public TagStack(TagKey<Item> tag, int stacksize) {
+            this(tag);
+            this.stacksize = stacksize;
+        }
+
+        @Override
+        public int compareTo(AStack stack) {
+
+            if(stack instanceof TagStack comp) {
+                return this.tag.location().compareTo(comp.tag.location());
+            }
+
+            //if compared with a TStack, the ODStack will yield
+            if(stack instanceof ComparableStack) return -1;
+
+            return 0;
+        }
+
+        @Override
+        public AStack copy() {
+            return new TagStack(tag, stacksize);
+        }
+
+        @Override
+        public AStack copy(int stacksize) {
+            return new TagStack(tag, stacksize);
+        }
+
+        @Override
+        public boolean matchesRecipe(ItemStack stack, boolean ignoreSize) {
+
+            if(stack.isEmpty()) return false;
+
+            if(!ignoreSize && stack.getCount() < this.stacksize) return false;
+
+            for(TagKey<Item> tagKey : stack.getTags().toList()) {
+                if(tagKey.location().equals(this.tag.location())) return true;
+            }
+
+            return false;
+        }
+
+        @Override
+        public List<ItemStack> extractForJEI() {
+
+            List<ItemStack> itemStacks = new ArrayList<>();
+
+            for (Holder<Item> itemHolder : BuiltInRegistries.ITEM.getTagOrEmpty(this.tag)) {
+                Item item = itemHolder.value();
+
+                if(item instanceof IMetaItem) {
+                    itemStacks.add(new ItemStack(item, 1));
+                }
+            }
+
+            return itemStacks;
+        }
+
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + this.tag.location().hashCode();
+            result = prime * result + this.stacksize;
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if(this == obj)
+                return true;
+            if(obj == null)
+                return false;
+            if(getClass() != obj.getClass())
+                return false;
+            TagStack other = (TagStack) obj;
+            if(tag == null) {
+                if(other.tag != null)
+                    return false;
+            } else if(!tag.location().equals(other.tag.location())) {
+                return false;
+            }
+            if(this.stacksize != other.stacksize)
+                return false;
+            return true;
+        }
+
+        @Override
+        public String toString() {
+            return this.stacksize + "x" + this.tag.location();
         }
     }
 

@@ -30,6 +30,7 @@ public class RenderLandmine extends BlockEntityRendererNT<LandMineBlockEntity> i
         RenderContext.setup(poseStack, packedLight, packedOverlay);
         RenderContext.translate(0.5, 0.0, 0.5);
         RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
+        RenderContext.enableCull(false);
 
         BlockState state = be.getBlockState();
 
@@ -49,36 +50,37 @@ public class RenderLandmine extends BlockEntityRendererNT<LandMineBlockEntity> i
             else if (biome.getBaseTemperature() >= 1.5F && biome.getPrecipitationAt(pos) == Biome.Precipitation.NONE) texture = ResourceManager.MINE_AP_DESERT_TEX;
             else                                                                                                      texture = ResourceManager.MINE_AP_GRASS_TEX;
 
-            RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(texture));
+            RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(texture));
             ResourceManager.mine_ap.renderAll();
         }
 
         if (state.getBlock() == ModBlocks.MINE_HE.get()) {
             RenderContext.mulPose(Axis.YN.rotationDegrees(90F));
-            RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.MINE_HE_TEX));
+            RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.MINE_HE_TEX));
             ResourceManager.mine_he.renderAll();
         }
 
         if (state.getBlock() == ModBlocks.MINE_SHRAP.get()) {
             RenderContext.scale(0.375F, 0.375F, 0.375F);
             RenderContext.translate(0, -0.0625F * 3.5F, 0);
-            RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.MINE_SHRAPNEL_TEX));
+            RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.MINE_SHRAPNEL_TEX));
             ResourceManager.mine_ap.renderAll();
         }
 
         if (state.getBlock() == ModBlocks.MINE_FAT.get()) {
             RenderContext.scale(0.25F, 0.25F, 0.25F);
-            RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.MINE_FAT_TEX));
+            RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.MINE_FAT_TEX));
             ResourceManager.mine_fat.renderAll();
         }
 
         if (state.getBlock() == ModBlocks.MINE_NAVAL.get()) {
             RenderContext.scale(1F, 1F, 1F);
             RenderContext.translate(0, 0.5F, 0);
-            RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.MINE_NAVAL_TEX));
+            RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.MINE_NAVAL_TEX));
             ResourceManager.mine_naval.renderAll();
         }
 
+        RenderContext.enableCull(true);
         RenderContext.end();
     }
 
@@ -97,41 +99,41 @@ public class RenderLandmine extends BlockEntityRendererNT<LandMineBlockEntity> i
     public BlockEntityWithoutLevelRenderer getRenderer() {
         return new ItemRenderBase() {
             @Override
-            public void renderInventory(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+            public void renderInventory(ItemStack stack, MultiBufferSource buffer) {
                 if (stack.is(ModBlocks.MINE_AP.asItem()) || stack.is(ModBlocks.MINE_SHRAP.asItem())) {
-                    poseStack.scale(8F, 8F, 8F);
+                    RenderContext.scale(8F, 8F, 8F);
                 }
                 if (stack.is(ModBlocks.MINE_HE.asItem())) {
-                    poseStack.scale(6F, 6F, 6F);
+                    RenderContext.scale(6F, 6F, 6F);
                 }
                 if (stack.is(ModBlocks.MINE_NAVAL.asItem())) {
-                    poseStack.translate(0F, 2F, -1F);
-                    poseStack.scale(5F, 5F, 5F);
+                    RenderContext.translate(0F, 2F, -1F);
+                    RenderContext.scale(5F, 5F, 5F);
                 }
                 if (stack.is(ModBlocks.MINE_FAT.asItem())) {
-                    poseStack.translate(0F, -1F, 0F);
-                    poseStack.scale(7F, 7F, 7F);
+                    RenderContext.translate(0F, -1F, 0F);
+                    RenderContext.scale(7F, 7F, 7F);
                 }
             }
 
             @Override
-            public void renderNonInv(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay, boolean righthand) {
+            public void renderNonInv(ItemStack stack, MultiBufferSource buffer, boolean rightHand) {
                 if (stack.is(ModBlocks.MINE_HE.asItem())) {
-                    if (righthand) {
-                        poseStack.translate(0.25F, 0.6F, 0F);
-                        poseStack.mulPose(Axis.YP.rotationDegrees(45F));
-                        poseStack.mulPose(Axis.ZN.rotationDegrees(15F));
+                    if (rightHand) {
+                        RenderContext.translate(0.25F, 0.6F, 0F);
+                        RenderContext.mulPose(Axis.YP.rotationDegrees(45F));
+                        RenderContext.mulPose(Axis.ZN.rotationDegrees(15F));
                     } else {
-                        poseStack.translate(0.25F, 0.6F, 0F);
-                        poseStack.mulPose(Axis.YN.rotationDegrees(45F));
-                        poseStack.mulPose(Axis.ZN.rotationDegrees(15F));
+                        RenderContext.translate(0.25F, 0.6F, 0F);
+                        RenderContext.mulPose(Axis.YN.rotationDegrees(45F));
+                        RenderContext.mulPose(Axis.ZN.rotationDegrees(15F));
                     }
                 }
             }
 
             @Override
-            public void renderCommon(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                RenderContext.setup(poseStack, packedLight, packedOverlay);
+            public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
+                RenderContext.enableCull(false);
                 if (stack.is(ModBlocks.MINE_AP.asItem())) {
                     RenderContext.scale(1.25F, 1.25F, 1.25F);
                     RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.MINE_AP_GRASS_TEX));
@@ -157,7 +159,7 @@ public class RenderLandmine extends BlockEntityRendererNT<LandMineBlockEntity> i
                     RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.MINE_FAT_TEX));
                     ResourceManager.mine_fat.renderAll();
                 }
-                RenderContext.end();
+                RenderContext.enableCull(true);
             }
         };
     }

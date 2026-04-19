@@ -78,36 +78,34 @@ public class RenderCrashedBomb extends BlockEntityRendererNT<CrashedBombBlockEnt
     public BlockEntityWithoutLevelRenderer getRenderer() {
         return new ItemRenderBase() {
             @Override
-            public void renderInventory(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                poseStack.translate(0, 3, 0);
-                poseStack.scale(2.125F, 2.125F, 2.125F);
-                poseStack.mulPose(Axis.ZP.rotationDegrees(90F));
+            public void renderInventory(ItemStack stack, MultiBufferSource buffer) {
+                RenderContext.translate(0, 3, 0);
+                RenderContext.scale(2.125F, 2.125F, 2.125F);
+                RenderContext.mulPose(Axis.ZP.rotationDegrees(90F));
             }
 
             @Override
-            public void renderCommon(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                poseStack.mulPose(Axis.YP.rotationDegrees(90F));
-                RenderContext.setup(poseStack, packedLight, packedOverlay);
+            public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
+                RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
                 if (stack.is(ModBlocks.CRASHED_BOMB_BALEFIRE.asItem())) {
                     RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.DUD_BALEFIRE_TEX));
                     ResourceManager.dud_balefire.renderAll();
                 }
                 if (stack.is(ModBlocks.CRASHED_BOMB_CONVENTIONAL.asItem())) {
-                    poseStack.translate(0F, 0F, -0.5F);
+                    RenderContext.translate(0F, 0F, -0.5F);
                     RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.DUD_CONVENTIONAL_TEX));
                     ResourceManager.dud_conventional.renderAll();
                 }
                 if (stack.is(ModBlocks.CRASHED_BOMB_NUKE.asItem())) {
-                    poseStack.translate(0F, 0F, 1.25F);
+                    RenderContext.translate(0F, 0F, 1.25F);
                     RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.DUD_NUKE_TEX));
                     ResourceManager.dud_nuke.renderAll();
                 }
                 if (stack.is(ModBlocks.CRASHED_BOMB_SALTED.asItem())) {
-                    poseStack.translate(0F, 0F, 0.5F);
+                    RenderContext.translate(0F, 0F, 0.5F);
                     RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.DUD_SALTED_TEX));
                     ResourceManager.dud_salted.renderAll();
                 }
-                RenderContext.end();
             }
         };
     }

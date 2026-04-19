@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public class RenderNukeLittleBoy extends BlockEntityRendererNT<NukeLittleBoyBlockEntity> implements IBEWLRProvider {
@@ -51,16 +52,15 @@ public class RenderNukeLittleBoy extends BlockEntityRendererNT<NukeLittleBoyBloc
     public BlockEntityWithoutLevelRenderer getRenderer() {
         return new ItemRenderBase() {
             @Override
-            public void renderInventory(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                poseStack.scale(5F, 5F, 5F);
+            public void renderInventory(ItemStack stack, MultiBufferSource buffer) {
+                RenderContext.scale(5F, 5F, 5F);
             }
 
             @Override
-            public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                poseStack.translate(-1F, 0F, 0F);
-                RenderContext.setup(NtmRenderTypes.FVBO.apply(ResourceManager.NUKE_LITTLE_BOY_TEX), poseStack, packedLight, packedOverlay);
+            public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
+                RenderContext.translate(-1F, 0F, 0F);
+                RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.NUKE_LITTLE_BOY_TEX));
                 ResourceManager.nuke_little_boy.renderAll();
-                RenderContext.end();
             }
         };
     }

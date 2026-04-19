@@ -68,7 +68,7 @@ public class RenderBatterySocket extends BlockEntityRendererNT<BatterySocketBloc
                 ResourceManager.battery_socket.renderPart("Battery");
             } else if (render.is(NtmItems.BATTERY_CREATIVE.get())) {
                 RenderContext.pushPose();
-                RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(blorbo));
+                RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(blorbo));
                 RenderContext.scale(0.75F, 0.75F, 0.75F);
                 RenderContext.mulPose(Axis.YN.rotationDegrees((be.getLevel().getGameTime() % 360 + partialTicks) * 25F));
 
@@ -106,16 +106,15 @@ public class RenderBatterySocket extends BlockEntityRendererNT<BatterySocketBloc
     public BlockEntityWithoutLevelRenderer getRenderer() {
         return new ItemRenderBase() {
             @Override
-            public void renderInventory(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                poseStack.translate(0F, -2F, 0F);
-                poseStack.scale(5F, 5F, 5F);
+            public void renderInventory(ItemStack stack, MultiBufferSource buffer) {
+                RenderContext.translate(0F, -2F, 0F);
+                RenderContext.scale(5F, 5F, 5F);
             }
 
             @Override
-            public void renderCommon(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                RenderContext.setup(NtmRenderTypes.FVBO.apply(ResourceManager.BATTERY_SOCKET_TEX), poseStack, packedLight, packedOverlay);
+            public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
+                RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.BATTERY_SOCKET_TEX));
                 ResourceManager.battery_socket.renderPart("Socket");
-                RenderContext.end();
             }
         };
     }

@@ -67,12 +67,12 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
             case HUNDUN -> poseStack.scale(1F, 1F, 1F);
         }
 
-        renderPlushie(be.type, be.squishTimer > 0);
+        renderPlushie(be.type, buffer, be.squishTimer > 0);
 
         RenderContext.end();
     }
 
-    public static void renderPlushie(PlushieType type, boolean squish) {
+    public static void renderPlushie(PlushieType type, MultiBufferSource buffer, boolean squish) {
 
         switch (type) {
             case YOMI -> {
@@ -92,7 +92,7 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
                 HorsePronter.pose(HorsePronter.id_lfl, 0, r - 25, 5);
                 HorsePronter.pose(HorsePronter.id_rfl, 0, r - 25, -5);
                 HorsePronter.pose(HorsePronter.id_head, 0, r + 15, 0);
-                RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(numbernineTex));
+                RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(numbernineTex));
                 HorsePronter.pront();
                 RenderContext.mulPose(Axis.XP.rotationDegrees(15F));
 
@@ -116,9 +116,7 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
                 Minecraft mc = Minecraft.getInstance();
                 ItemRenderer itemRenderer = mc.getItemRenderer();
                 BakedModel model = itemRenderer.getModel(stack, null, null, 0);
-                MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
                 itemRenderer.render(stack, ItemDisplayContext.FIXED, false, RenderContext.poseStack(), buffer, RenderContext.light(), RenderContext.overlay(), model);
-                buffer.endBatch();
             }
             case HUNDUN -> {
                 RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(hundunTex));
@@ -146,20 +144,17 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
     public BlockEntityWithoutLevelRenderer getRenderer() {
         return new ItemRenderBase() {
             @Override
-            public void renderInventory(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                poseStack.translate(0F, -6F, 0F);
-                poseStack.scale(6F, 6F, 6F);
+            public void renderInventory(ItemStack stack, MultiBufferSource buffer) {
+                RenderContext.translate(0F, -6F, 0F);
+                RenderContext.scale(6F, 6F, 6F);
             }
 
             @Override
-            public void renderCommon(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-
-                RenderContext.setup(poseStack, packedLight, packedOverlay);
+            public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
                 RenderContext.translate(0F, 0.25F, 0F);
 
                 PlushieType type = getType(stack);
-
-                if (type == null) return;
+                if(type == null) return;
 
                 switch (type) {
                     case YOMI -> RenderContext.scale(1.25F, 1.25F, 1.25F);
@@ -174,8 +169,7 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
                     case DERG -> RenderContext.scale(1.5F, 1.5F, 1.5F);
                 }
 
-                renderPlushie(type, false);
-                RenderContext.end();
+                renderPlushie(type, buffer, false);
             }
         };
     }

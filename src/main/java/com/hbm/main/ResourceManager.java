@@ -176,7 +176,7 @@ public class ResourceManager {
 
     public static IModelCustom barrel;
 
-    public static IModelCustom sphere;
+    public static IModelCustom sphere_new;
 
     public static void init() {
         mine_ap = new HFRWavefrontObject("models/obj/bomb/mine_ap.obj").asVBO();
@@ -233,14 +233,6 @@ public class ResourceManager {
 
         barrel = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/block/barrel.obj"));
 
-        sphere = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/sphere.obj"));
-
-        //yomiModel = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/trinkets/yomi.obj")).asVBO();
-        //hundunModel = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/trinkets/hundun.obj")).asVBO();
-        //dergModel = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/trinkets/derg.obj")).asVBO();
+        sphere_new = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/sphere_new.obj")).asVBO();
     }
-
-    //public static IModelCustom yomiModel;
-    //public static IModelCustom hundunModel;
-    //public static IModelCustom dergModel;
 }

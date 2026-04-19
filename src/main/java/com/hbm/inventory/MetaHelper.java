@@ -6,6 +6,7 @@ import net.minecraft.world.level.ItemLike;
 
 public class MetaHelper {
 
+    // pro tip: if item is vanilla or is from other mod, use this
     public static final int WILDCARD_VALUE = Short.MAX_VALUE;
 
     /** Gets meta from the stack */

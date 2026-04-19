@@ -42,6 +42,7 @@ import com.hbm.render.item.ItemRenderMissileGeneric.RenderMissileType;
 import com.hbm.render.item.RenderBatteryPackItem;
 import com.hbm.render.item.RenderLaserDetonator;
 import com.hbm.render.loader.HFRModelReloader;
+import com.hbm.render.model.loader.PipeGeometryLoader;
 import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.util.ArmorRegistry;
@@ -143,6 +144,11 @@ public class NuclearTechModClient {
             ResourceManager.init();
             ItemRenderMissileGeneric.init();
         });
+    }
+
+    @SubscribeEvent
+    public static void registerGeometryLoaders(ModelEvent.RegisterGeometryLoaders event) {
+        event.register(PipeGeometryLoader.ID, PipeGeometryLoader.INSTANCE);
     }
 
     @SubscribeEvent
@@ -293,6 +299,9 @@ public class NuclearTechModClient {
         }
         return false;
     }
+
+
+
 
     public static boolean renderLodeStar = false;
     public static long lastStarCheck = 0L;
@@ -721,6 +730,17 @@ public class NuclearTechModClient {
     public static void onTextureAtlasStitched(TextureAtlasStitchedEvent event) {
         if (event.getAtlas().location().equals(TextureAtlas.LOCATION_PARTICLES)) {
             ModParticles.BASE_PARTICLE_SPRITES = new SpriteSetNT(event.getAtlas(), NuclearTechMod.withDefaultNamespace("base_particle"));
+
+            ModParticles.VANILLA_CLOUD_SPRITES = new SpriteSetNT(event.getAtlas(), new ResourceLocation[] {
+                    ResourceLocation.withDefaultNamespace("generic_7"),
+                    ResourceLocation.withDefaultNamespace("generic_6"),
+                    ResourceLocation.withDefaultNamespace("generic_5"),
+                    ResourceLocation.withDefaultNamespace("generic_4"),
+                    ResourceLocation.withDefaultNamespace("generic_3"),
+                    ResourceLocation.withDefaultNamespace("generic_2"),
+                    ResourceLocation.withDefaultNamespace("generic_1"),
+                    ResourceLocation.withDefaultNamespace("generic_0"),
+            });
         }
     }
 
@@ -728,7 +748,6 @@ public class NuclearTechModClient {
     public static void registerParticles(RegisterParticleProvidersEvent event) {
         event.registerSpecial(ModParticles.COOLING_TOWER.get(), new CoolingTowerParticle.Provider());
         event.registerSpecial(ModParticles.DIGAMMA_SMOKE.get(), new DigammaSmokeParticle.Provider());
-        event.registerSpriteSet(ModParticles.RBMK_MUSH.get(), RBMKMushParticle.Provider::new);
         event.registerSpecial(ModParticles.DEBRIS.get(), new ParticleDebris.Provider());
         event.registerSpecial(ModParticles.FOAM.get(), new ParticleFoam.Provider());
         event.registerSpecial(ModParticles.ASHES.get(), new AshesParticle.Provider());
@@ -741,7 +760,7 @@ public class NuclearTechModClient {
         event.registerSpriteSet(ModParticles.FLUID_DEBUG.get(), DebugParticle.FluidProvider::new);
         event.registerSpecial(ModParticles.SPARK.get(), new SparkParticle.Provider());
 
-        event.registerSpriteSet(ModParticles.VANILLA_CLOUD.get(), PlayerCloudParticle.Provider::new);
+        event.registerSpecial(ModParticles.VANILLA_CLOUD.get(), new PlayerCloudParticle.Provider());
     }
 
     public static void effectNT(CompoundTag data) {
@@ -1002,7 +1021,7 @@ public class NuclearTechModClient {
 
             if ("rbmkmush".equals(type)) {
                 float scale = data.getFloat("scale");
-                innerMc.particleEngine.add(new RBMKMushParticle(level, x, y, z, scale));
+                ParticleEngineNT.INSTANCE.add(new RBMKMushParticle(level, x, y, z, scale));
             }
 
             if ("tower".equals(type)) {
@@ -1185,7 +1204,7 @@ public class NuclearTechModClient {
             if ("tau".equals(type)) {
                 for (int i = 0; i < data.getByte("count"); i++)
                     innerMc.particleEngine.add(new SparkParticle(level, x, y, z, rand.nextGaussian() * 0.05, 0.05, rand.nextGaussian() * 0.05));
-                ParticleEngineNT.INSTANCE.add(new ParticleNTHadron(level, x, y, z));
+                ParticleEngineNT.INSTANCE.add(new HadronParticle(level, x, y, z));
             }
 
             if ("giblets".equals(type)) {

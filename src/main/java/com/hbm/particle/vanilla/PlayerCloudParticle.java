@@ -62,9 +62,6 @@ public class PlayerCloudParticle extends TextureSheetParticle {
 
     @OnlyIn(Dist.CLIENT)
     public static class Provider implements ParticleProvider<SimpleParticleType> {
-        public Provider(SpriteSet sprites) { ModParticles.VANILLA_CLOUD_SPRITES = sprites; }
-        public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return null;
-        }
+        public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) { return null; }
     }
 }

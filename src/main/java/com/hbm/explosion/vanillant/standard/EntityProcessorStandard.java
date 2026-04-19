@@ -26,6 +26,7 @@ import net.neoforged.neoforge.event.EventHooks;
 import java.util.HashMap;
 import java.util.List;
 
+@Deprecated // an inferior version to the cross processors, so there is no actual reason to ever use this one
 public class EntityProcessorStandard implements IEntityProcessor {
 
     protected IEntityRangeMutator range;

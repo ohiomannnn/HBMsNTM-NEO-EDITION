@@ -1,7 +1,5 @@
 package com.hbm.render.blockentity;
 
-import com.hbm.blockentity.machine.storage.BatteryREDDBlockEntity;
-import com.hbm.main.NuclearTechMod;
 import com.hbm.blockentity.IPersistentNBT;
 import com.hbm.blockentity.machine.storage.MachineFluidTankBlockEntity;
 import com.hbm.blocks.DummyableBlock;
@@ -10,6 +8,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Corrosive;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
@@ -127,15 +126,15 @@ public class RenderFluidTank extends BlockEntityRendererNT<MachineFluidTankBlock
     public BlockEntityWithoutLevelRenderer getRenderer() {
         return new ItemRenderBase() {
             @Override
-            public void renderInventory(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                poseStack.translate(0, -2, 0);
-                poseStack.scale(3.5F, 3.5F, 3.5F);
+            public void renderInventory(ItemStack stack, MultiBufferSource buffer) {
+                RenderContext.translate(0, -2, 0);
+                RenderContext.scale(3.5F, 3.5F, 3.5F);
             }
 
             @Override
-            public void renderCommon(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                poseStack.mulPose(Axis.YP.rotationDegrees(90F));
-                poseStack.scale(0.75F, 0.75F, 0.75F);
+            public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
+                RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
+                RenderContext.scale(0.75F, 0.75F, 0.75F);
 
                 FluidTank tank = new FluidTank(Fluids.NONE, 0);
                 boolean exploded = false;
@@ -146,8 +145,6 @@ public class RenderFluidTank extends BlockEntityRendererNT<MachineFluidTankBlock
                 }
 
                 FluidType type = tank.getTankType();
-
-                RenderContext.setup(poseStack, packedLight, packedOverlay);
 
                 if (!exploded) {
                     RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.TANK_TEX));
@@ -162,8 +159,6 @@ public class RenderFluidTank extends BlockEntityRendererNT<MachineFluidTankBlock
                     RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(NuclearTechMod.withDefaultNamespace(getTextureFromType(type))));
                     ResourceManager.fluid_tank_exploded.renderPart("Tank");
                 }
-
-                RenderContext.end();
             }
         };
     }

@@ -22,14 +22,15 @@ public class RenderContext {
     private float b = 1.0F;
     private float a = 1.0F;
 
+    private boolean cullFace = true;
+
     private RenderContext() { }
 
-    public static void setLight(int packedLight) {
-        INSTANCE.get().packedLight = packedLight;
-    }
+    public static void setLight(int packedLight) { INSTANCE.get().packedLight = packedLight; }
+    public static void setOverlay(int packedOverlay) { INSTANCE.get().packedOverlay = packedOverlay; }
 
-    public static void setOverlay(int packedOverlay) {
-        INSTANCE.get().packedOverlay = packedOverlay;
+    public static void enableCull(boolean cull) {
+        INSTANCE.get().cullFace = cull;
     }
 
     public static void setColor(float r, float g, float b, float a) {
@@ -38,14 +39,6 @@ public class RenderContext {
         context.g = g;
         context.b = b;
         context.a = a;
-    }
-
-    public static void setColor(int color) {
-        float a = ((color >> 24) & 0xFF) / 255.0F;
-        float r = ((color >> 16) & 0xFF) / 255.0F;
-        float g = ((color >> 8) & 0xFF) / 255.0F;
-        float b = (color & 0xFF) / 255.0F;
-        setColor(r, g, b, a);
     }
 
     public static void setup(PoseStack poseStack, int packedLight, int packedOverlay) {
@@ -96,8 +89,8 @@ public class RenderContext {
         return INSTANCE.get().poseStack;
     }
 
-    public static PoseStack.Pose pose() {
-        return INSTANCE.get().poseStack.last();
+    public static boolean cullFace() {
+        return INSTANCE.get().cullFace;
     }
 
     public static int light() {
@@ -113,31 +106,13 @@ public class RenderContext {
     public static float b() { return INSTANCE.get().b; }
     public static float a() { return INSTANCE.get().a; }
 
-    public static void pushPose() {
-        INSTANCE.get().poseStack.pushPose();
-    }
+    public static void pushPose() { INSTANCE.get().poseStack.pushPose(); }
+    public static void popPose() { INSTANCE.get().poseStack.popPose(); }
+    public static void translate(double x, double y, double z) { INSTANCE.get().poseStack.translate(x, y, z); }
+    public static void scale(float x, float y, float z) { INSTANCE.get().poseStack.scale(x, y, z); }
+    public static void mulPose(Quaternionf quaternionf) { INSTANCE.get().poseStack.mulPose(quaternionf); }
 
-    public static void popPose() {
-        INSTANCE.get().poseStack.popPose();
-    }
+    public static void setRenderType(RenderType type) { INSTANCE.get().renderType = type; }
 
-    public static void translate(double x, double y, double z) {
-        INSTANCE.get().poseStack.translate(x, y, z);
-    }
-
-    public static void scale(float x, float y, float z) {
-        INSTANCE.get().poseStack.scale(x, y, z);
-    }
-
-    public static void mulPose(Quaternionf quaternionf) {
-        INSTANCE.get().poseStack.mulPose(quaternionf);
-    }
-
-    public static void setRenderType(RenderType type) {
-        INSTANCE.get().renderType = type;
-    }
-
-    public static void setConsumer(VertexConsumer consumer) {
-        INSTANCE.get().consumer = consumer;
-    }
+    public static void setConsumer(VertexConsumer consumer) { INSTANCE.get().consumer = consumer; }
 }

@@ -6,6 +6,8 @@
 ## Changed
 * Improved obj model renderer optimization A LOT
 * Crater biomes now will have grass noise
+* Revamped fölkvanger field
+* Calculator now will have history
 
 ## Fixed
 * Lightning on fensu's lights

@@ -82,27 +82,27 @@ public class HFRWavefrontObjectVBO implements IModelCustomNamed {
 
         int packedLight = RenderContext.light();
         int packedOverlay = RenderContext.overlay();
-        float r = RenderContext.r();
-        float g = RenderContext.g();
-        float b = RenderContext.b();
-        float a = RenderContext.a();
 
         type.setupRenderState();
         ShaderInstance shader = RenderSystem.getShader();
-        if (shader == null) return;
+        if(shader == null) return;
 
-        Matrix4f modelViewMatrix = RenderSystem.getModelViewMatrix().mul(poseStack.last().pose(), new Matrix4f());
+        if(!RenderContext.cullFace()) RenderSystem.disableCull();
+
+        Matrix4f normalMatrix = poseStack.last().pose();
+        Matrix4f modelViewMatrix = RenderSystem.getModelViewMatrix().mul(normalMatrix, new Matrix4f());
         Matrix4f projectionMatrix = RenderSystem.getProjectionMatrix();
-        Matrix4f normalMatrix = new Matrix4f(poseStack.last().pose());
 
         shader.safeGetUniform("UV1").set(packedOverlay & '\uffff', packedOverlay >> 16 & '\uffff');
         shader.safeGetUniform("UV2").set(packedLight & '\uffff', packedLight >> 16 & '\uffff');
-        shader.safeGetUniform("Col").set(r, g, b, a);
+        shader.safeGetUniform("Col").set(RenderContext.r(), RenderContext.g(), RenderContext.b(), RenderContext.a());
         shader.safeGetUniform("NormalMat").set(normalMatrix);
 
         group.vertexBuffer.bind();
         group.vertexBuffer.drawWithShader(modelViewMatrix, projectionMatrix, shader);
         VertexBuffer.unbind();
+
+        if(!RenderContext.cullFace()) RenderSystem.enableCull();
 
         type.clearRenderState();
     }

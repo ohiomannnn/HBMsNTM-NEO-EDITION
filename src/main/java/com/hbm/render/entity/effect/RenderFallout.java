@@ -1,180 +1,176 @@
 package com.hbm.render.entity.effect;
 
-import com.hbm.main.NuclearTechMod;
 import com.hbm.entity.effect.FalloutRain;
-import com.hbm.render.NtmRenderTypes;
-import com.hbm.util.old.TessColorUtil;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.GraphicsStatus;
+import com.hbm.main.NuclearTechMod;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-
-import java.util.Random;
+import org.joml.Matrix4f;
 
 @OnlyIn(Dist.CLIENT)
 public class RenderFallout extends EntityRenderer<FalloutRain> {
 
-    private static final ResourceLocation FALLOUT = ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "textures/entity/fallout.png");
+    private static final ResourceLocation FALLOUT_LOCATION = NuclearTechMod.withDefaultNamespace("textures/entity/fallout.png");
 
-    private final Random random = new Random();
-    private float[] rainXCoords;
-    private float[] rainYCoords;
+    private final float[] rainSizeX;
+    private final float[] rainSizeZ;
     private long lastTime = System.nanoTime();
 
     public RenderFallout(EntityRendererProvider.Context context) {
         super(context);
-    }
 
-    @Override
-    public void render(FalloutRain entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
-        Minecraft mc = Minecraft.getInstance();
-        LivingEntity camera = mc.player;
-        ClientLevel world = mc.level;
-        if (camera == null || world == null) return;
-        long time = System.nanoTime();
-        float dt = (time - lastTime) / 50_000_000f;
-        float interp = Math.min(dt, 1.0f);
-        lastTime = time;
+        this.rainSizeX = new float[1024];
+        this.rainSizeZ = new float[1024];
 
-        PoseStack globalPose = new PoseStack();
-        renderRainSnow(interp, globalPose, bufferSource, world, camera);
-    }
-
-    @Override
-    public ResourceLocation getTextureLocation(FalloutRain falloutRain) {
-        return FALLOUT;
-    }
-
-    @Override
-    public boolean shouldRender(FalloutRain livingEntity, Frustum camera, double camX, double camY, double camZ) {
-        return true;
-    }
-
-    public void renderRainSnow(float interp, PoseStack pose, MultiBufferSource buffers, ClientLevel level, LivingEntity camera) {
-
-        int timer = camera.tickCount;
-        float intensity = 1.0F;
-
-        if (this.rainXCoords == null) {
-            this.rainXCoords = new float[1024];
-            this.rainYCoords = new float[1024];
-            for (int i = 0; i < 32; ++i) {
-                for (int j = 0; j < 32; ++j) {
-                    float f2 = j - 16;
-                    float f3 = i - 16;
-                    float f4 = Mth.sqrt(f2 * f2 + f3 * f3);
-                    this.rainXCoords[i << 5 | j] = -f3 / f4;
-                    this.rainYCoords[i << 5 | j] = f2 / f4;
-                }
+        for(int i = 0; i < 32; ++i) {
+            for(int j = 0; j < 32; ++j) {
+                float f = (float)(j - 16);
+                float f1 = (float)(i - 16);
+                float f2 = Mth.sqrt(f * f + f1 * f1);
+                this.rainSizeX[i << 5 | j] = -f1 / f2;
+                this.rainSizeZ[i << 5 | j] = f / f2;
             }
         }
+    }
 
-        var graphics = Minecraft.getInstance().options.graphicsMode().get();
-        boolean fancy = graphics == GraphicsStatus.FANCY || graphics == GraphicsStatus.FABULOUS;
-        int renderLayerCount = fancy ? 10 : 5;
+    @Override
+    public void render(FalloutRain rain, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
 
-        double camX = camera.xOld + (camera.getX() - camera.xOld) * interp;
-        double camY = camera.yOld + (camera.getY() - camera.yOld) * interp;
-        double camZ = camera.zOld + (camera.getZ() - camera.zOld) * interp;
+        Entity camera = Minecraft.getInstance().getCameraEntity();
+        if (camera == null) return;
 
-        int playerX = Mth.floor(camera.getX());
-        int playerY = Mth.floor(camera.getY());
-        int playerZ = Mth.floor(camera.getZ());
+        Vec3 vec = new Vec3(camera.position.x - rain.position.x, camera.position.y - rain.position.y, camera.position.z - rain.position.z);
 
-        pose.pushPose();
-        pose.translate(-camX, -camY, -camZ);
+        if (vec.length() <= rain.getScale()) {
+            long time = System.nanoTime();
+            float t = (time - lastTime) / 50_000_000;
+            if(t <= 1.0F)
+                renderSnowAndRain(t);
+            else
+                renderSnowAndRain(1.0F);
 
-        VertexConsumer consumer = buffers.getBuffer(NtmRenderTypes.entitySmoth(FALLOUT));
-        int overlay = OverlayTexture.NO_OVERLAY;
+            lastTime = time;
+        }
+    }
 
-        for (int layerZ = playerZ - renderLayerCount; layerZ <= playerZ + renderLayerCount; ++layerZ) {
-            for (int layerX = playerX - renderLayerCount; layerX <= playerX + renderLayerCount; ++layerX) {
+    @Override public ResourceLocation getTextureLocation(FalloutRain rain) { return FALLOUT_LOCATION; }
+
+    private void renderSnowAndRain(float partialTicks) {
+        Minecraft minecraft = Minecraft.getInstance();
+        int timer = minecraft.player.tickCount;
+
+        minecraft.gameRenderer.lightTexture().turnOnLightLayer();
+        Level level = minecraft.level;
+
+        Entity camera = Minecraft.getInstance().getCameraEntity();
+        if (camera == null) return;
+
+        int playerX = Mth.floor(camera.position.x);
+        int playerY = Mth.floor(camera.position.y);
+        int playerZ = Mth.floor(camera.position.z);
+        double dX = Mth.lerp(partialTicks, camera.xo, camera.position.x);
+        double dY = Mth.lerp(partialTicks, camera.yo, camera.position.y);
+        double dZ = Mth.lerp(partialTicks, camera.zo, camera.position.z);
+
+        Tesselator tesselator = Tesselator.getInstance();
+        BufferBuilder bufferbuilder = null;
+        RenderSystem.disableCull();
+        RenderSystem.enableBlend();
+        RenderSystem.blendFuncSeparate(770, 771, 1, 0);
+        RenderSystem.enableDepthTest();
+        int playerHeight = Mth.floor(dY);
+        byte renderLayerCount = 5;
+        byte layer = -1;
+        if(Minecraft.useFancyGraphics()) renderLayerCount = 10;
+
+        RenderSystem.depthMask(true);
+        RenderSystem.setShader(GameRenderer::getParticleShader);
+        BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
+
+        for(int layerZ = playerZ - renderLayerCount; layerZ <= playerZ + renderLayerCount; ++layerZ) {
+            for(int layerX = playerX - renderLayerCount; layerX <= playerX + renderLayerCount; ++layerX) {
 
                 int rainCoord = (layerZ - playerZ + 16) * 32 + layerX - playerX + 16;
-                float rainCoordX = this.rainXCoords[rainCoord] * 0.5F;
-                float rainCoordY = this.rainYCoords[rainCoord] * 0.5F;
+                float rainCoordX = this.rainSizeX[rainCoord] * 0.5F;
+                float rainCoordY = this.rainSizeZ[rainCoord] * 0.5F;
 
                 int rainHeight = level.getHeight(Heightmap.Types.MOTION_BLOCKING, layerX, layerZ);
                 int minHeight = playerY - renderLayerCount;
                 int maxHeight = playerY + renderLayerCount;
+
                 if (minHeight < rainHeight) minHeight = rainHeight;
                 if (maxHeight < rainHeight) maxHeight = rainHeight;
-                if (minHeight == maxHeight) continue;
 
-                this.random.setSeed(layerX * layerX * 3121L + layerX * 45238971L ^ layerZ * layerZ * 418711L + layerZ * 13761L);
+                int layerY = rainHeight;
+                if(rainHeight < playerHeight) layerY = playerHeight;
 
-                float swayLoop = ((timer & 511) + interp) / 512.0F;
-                float fallVariation = 0.4F + this.random.nextFloat() * 0.2F;
-                float swayVariation = this.random.nextFloat();
+                if(minHeight != maxHeight) {
+                    RandomSource random = RandomSource.create((layerX * layerX * 3121L + layerX * 45238971L ^ layerZ * layerZ * 418711L + layerZ * 13761L));
 
-                double distX = layerX + 0.5D - camera.getX();
-                double distZ = layerZ + 0.5D - camera.getZ();
-                float intensityMod = Mth.sqrt((float) (distX * distX + distZ * distZ)) / renderLayerCount;
+                    if(layer != 1) {
+                        if(layer >= 0) {
+                            BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
+                        }
+                        layer = 1;
+                        RenderSystem.setShaderTexture(0, FALLOUT_LOCATION);
+                        bufferbuilder = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+                    }
 
-                float alpha = ((1.0F - intensityMod * intensityMod) * 0.3F + 0.5F) * intensity;
-                float colorMod = 1.0F;
+                    float fallSpeed = 1.0F;
+                    float swayLoop = ((timer & 511) + partialTicks) / 512.0F;
+                    float fallVariation = 0.4F + random.nextFloat() * 0.2F;
+                    float swayVariation = random.nextFloat();
+                    double distX = layerX + 0.5F - camera.position.x;
+                    double distZ = layerZ + 0.5F - camera.position.z;
+                    float intensityMod = Mth.sqrt((float) (distX * distX + distZ * distZ)) / renderLayerCount;
+                    float colorMod = 1.0F;
+                    float alpha = Math.clamp(((1.0F - intensityMod * intensityMod * 0.3F) + 0.5F) * 1.0F, 0.0F, 1.0F);
 
-                float u0 = 0.0F + fallVariation;
-                float u1 = 1.0F + fallVariation;
-                float vMin = minHeight / 4.0F + swayLoop + swayVariation;
-                float vMax = maxHeight / 4.0F + swayLoop + swayVariation;
+                    //the light
+                    mutablePos.set(layerX, layerY, layerZ);
+                    int packedLight = LevelRenderer.getLightColor(level, mutablePos);
 
-                int color = TessColorUtil.getColorRGBA_F(colorMod, colorMod, colorMod, alpha);
+                    PoseStack poseStack = new PoseStack();
+                    poseStack.pushPose();
 
-                float vx0 = (float) (layerX - rainCoordX + 0.5D);
-                float vz0 = (float) (layerZ - rainCoordY + 0.5D);
-                float vx1 = (float) (layerX + rainCoordX + 0.5D);
-                float vz1 = (float) (layerZ + rainCoordY + 0.5D);
+                    poseStack.translate(-dX * 1.0F, -dY * 1.0F, -dZ * 1.0F);
+                    Matrix4f matrix = poseStack.last().pose();
 
-                int light = getLightColor(level, vx0, minHeight, vz0);
+                    bufferbuilder.addVertex(matrix, layerX - rainCoordX + 0.5F, minHeight, layerZ - rainCoordY + 0.5F).setUv(0.0F * fallSpeed + fallVariation, minHeight * fallSpeed / 4.0F + swayLoop * fallSpeed + swayVariation).setColor(colorMod, colorMod, colorMod, alpha).setLight(packedLight);
+                    bufferbuilder.addVertex(matrix, layerX + rainCoordX + 0.5F, minHeight, layerZ + rainCoordY + 0.5F).setUv(1.0F * fallSpeed + fallVariation, minHeight * fallSpeed / 4.0F + swayLoop * fallSpeed + swayVariation).setColor(colorMod, colorMod, colorMod, alpha).setLight(packedLight);
+                    bufferbuilder.addVertex(matrix, layerX + rainCoordX + 0.5F, maxHeight, layerZ + rainCoordY + 0.5F).setUv(1.0F * fallSpeed + fallVariation, maxHeight * fallSpeed / 4.0F + swayLoop * fallSpeed + swayVariation).setColor(colorMod, colorMod, colorMod, alpha).setLight(packedLight);
+                    bufferbuilder.addVertex(matrix, layerX - rainCoordX + 0.5F, maxHeight, layerZ - rainCoordY + 0.5F).setUv(0.0F * fallSpeed + fallVariation, maxHeight * fallSpeed / 4.0F + swayLoop * fallSpeed + swayVariation).setColor(colorMod, colorMod, colorMod, alpha).setLight(packedLight);
 
-                consumer.addVertex(pose.last().pose(), vx0, minHeight, vz0)
-                        .setColor(color)
-                        .setUv(u0, vMin)
-                        .setOverlay(overlay)
-                        .setLight(light)
-                        .setNormal(0, 1, 0);
-                consumer.addVertex(pose.last().pose(), vx1, minHeight, vz1)
-                        .setColor(color)
-                        .setUv(u1, vMin)
-                        .setOverlay(overlay)
-                        .setLight(light)
-                        .setNormal(0, 1, 0);
-                consumer.addVertex(pose.last().pose(), vx1, maxHeight, vz1)
-                        .setColor(color)
-                        .setUv(u1, vMax)
-                        .setOverlay(overlay)
-                        .setLight(light)
-                        .setNormal(0, 1, 0);
-                consumer.addVertex(pose.last().pose(), vx0, maxHeight, vz0)
-                        .setColor(color)
-                        .setUv(u0, vMax)
-                        .setOverlay(overlay)
-                        .setLight(light)
-                        .setNormal(0, 1, 0);
+                    poseStack.popPose();
+                }
             }
         }
 
-        pose.popPose();
+        if (layer >= 0) {
+            BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
+        }
+
+        RenderSystem.enableCull();
+        RenderSystem.disableBlend();
+        minecraft.gameRenderer.lightTexture().turnOffLightLayer();
     }
 
-    protected int getLightColor(Level level, double x, double y, double z) {
-        BlockPos blockpos = BlockPos.containing(x, y, z);
-        return level.hasChunkAt(blockpos) ? LevelRenderer.getLightColor(level, blockpos) : 0;
-    }
+    @Override
+    public boolean shouldRender(FalloutRain rain, Frustum camera, double camX, double camY, double camZ) { return true; }
 }

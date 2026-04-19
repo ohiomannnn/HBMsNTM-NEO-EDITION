@@ -21,7 +21,7 @@ import org.joml.Vector3f;
 
 public class HazeParticle extends ParticleNT {
 
-    private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/particle_ss/haze.png");
+    private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/particle_no_sheet/haze.png");
 
     public HazeParticle(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);

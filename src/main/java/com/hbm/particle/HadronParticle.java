@@ -13,11 +13,11 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
-public class ParticleNTHadron extends ParticleNT {
+public class HadronParticle extends ParticleNT {
 
     private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/particle/hadron.png");
 
-    public ParticleNTHadron(ClientLevel level, double x, double y, double z) {
+    public HadronParticle(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
 
         this.lifetime = 10;

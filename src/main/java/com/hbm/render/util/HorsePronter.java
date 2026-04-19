@@ -87,6 +87,7 @@ public class HorsePronter {
 
     public static void pront() {
         RenderContext.pushPose();
+        RenderContext.enableCull(false);
         doTransforms(id_body);
 
         horse.renderPart("Body");
@@ -108,6 +109,7 @@ public class HorsePronter {
             horse.renderPart("RightWing");
         }
 
+        RenderContext.enableCull(true);
         RenderContext.popPose();
     }
 

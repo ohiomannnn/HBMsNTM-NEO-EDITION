@@ -100,7 +100,7 @@ public class HFRWavefrontObject implements IModelCustomNamed {
     public void loadObjModel(InputStream inputStream) throws ModelFormatException {
         BufferedReader reader = null;
 
-        String currentLine = null;
+        String currentLine;
         int lineCount = 0;
 
         try {

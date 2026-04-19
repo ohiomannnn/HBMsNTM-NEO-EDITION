@@ -78,16 +78,15 @@ public class RenderLaunchPad extends BlockEntityRendererNT<LaunchPadBlockEntity>
     public BlockEntityWithoutLevelRenderer getRenderer() {
         return new ItemRenderBase() {
             @Override
-            public void renderInventory(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                poseStack.translate(0F, -1F, 0F);
-                poseStack.scale(3F, 3F, 3F);
+            public void renderInventory(ItemStack stack, MultiBufferSource buffer) {
+                RenderContext.translate(0F, -1F, 0F);
+                RenderContext.scale(3F, 3F, 3F);
             }
 
             @Override
-            public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                RenderContext.setup(NtmRenderTypes.FVBO.apply(ResourceManager.MISSILE_PAD_TEX), poseStack, packedLight, packedOverlay);
+            public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
+                RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.MISSILE_PAD_TEX));
                 ResourceManager.missile_pad.renderAll();
-                RenderContext.end();
             }
         };
     }

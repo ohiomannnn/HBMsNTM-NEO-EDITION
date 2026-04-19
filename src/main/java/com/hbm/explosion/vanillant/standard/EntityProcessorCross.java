@@ -4,6 +4,7 @@ import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.interfaces.ICustomDamageHandler;
 import com.hbm.explosion.vanillant.interfaces.IEntityProcessor;
 import com.hbm.explosion.vanillant.interfaces.IEntityRangeMutator;
+import com.hbm.interfaces.NotableComments;
 import net.minecraft.core.Direction;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageSources;
@@ -21,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+@NotableComments
 /** The amount of good decisions in NTM is few and far between, but the VNT explosion surely is one of them. */
 public class EntityProcessorCross implements IEntityProcessor {
 
@@ -65,11 +67,17 @@ public class EntityProcessorCross implements IEntityProcessor {
         List<Entity> list = level.getEntities(allowSelfDamage ? null : explosion.exploder, new AABB(minX, minY, minZ, maxX, maxY, maxZ));
         EventHooks.onExplosionDetonate(level, explosion.compat, list, size);
 
-        Vec3[] nodes = new Vec3[7];
+        Vec3[] nodes;
 
-        for (int i = 0; i < 7; i++) {
-            Direction dir = Direction.from3DDataValue(i);
-            nodes[i] = new Vec3(x + dir.getStepX() * nodeDist, y + dir.getStepY() * nodeDist, z + dir.getStepZ() * nodeDist);
+        if(this.nodeDist > 0) {
+            nodes = new Vec3[7];
+            for(int i = 0; i < 7; i++) {
+                Direction dir = Direction.from3DDataValue(i);
+                nodes[i] = new Vec3(x + dir.getStepX() * nodeDist, y + dir.getStepY() * nodeDist, z + dir.getStepZ() * nodeDist);
+            }
+        } else {
+            nodes = new Vec3[1];
+            nodes[0] = new Vec3(x, y, z);
         }
 
         HashMap<Entity, Float> damageMap = new HashMap<>();

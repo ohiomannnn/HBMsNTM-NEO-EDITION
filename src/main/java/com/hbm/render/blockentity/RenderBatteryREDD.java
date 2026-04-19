@@ -25,6 +25,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 import org.joml.Matrix4f;
 
@@ -72,7 +73,7 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
         RenderContext.translate(0F, 5.5F, 0F);
 
         Vec3NT vec = new Vec3NT(0, 0, 4);
-        Matrix4f matrix = RenderContext.pose().pose();
+        Matrix4f matrix = RenderContext.poseStack().last().pose();
 
         double len = 4.25D;
         double width = 0.125D;
@@ -214,22 +215,21 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
     public BlockEntityWithoutLevelRenderer getRenderer() {
         return new ItemRenderBase() {
             @Override
-            public void renderInventory(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                poseStack.translate(0, -3, 0);
-                poseStack.scale(2.5F, 2.5F, 2.5F);
+            public void renderInventory(ItemStack stack, MultiBufferSource buffer) {
+                RenderContext.translate(0, -3, 0);
+                RenderContext.scale(2.5F, 2.5F, 2.5F);
             }
 
             @Override
-            public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                poseStack.mulPose(Axis.YN.rotationDegrees(-90F));
-                poseStack.scale(0.5F, 0.5F, 0.5F);
+            public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
+                RenderContext.mulPose(Axis.YN.rotationDegrees(-90F));
+                RenderContext.scale(0.5F, 0.5F, 0.5F);
 
-                RenderContext.setup(NtmRenderTypes.FVBO.apply(ResourceManager.BATTERY_REDD_TEX), poseStack, packedLight, packedOverlay);
+                RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.BATTERY_REDD_TEX));
                 ResourceManager.battery_redd.renderPart("Base");
                 ResourceManager.battery_redd.renderPart("Wheel");
                 RenderContext.setRenderType(NtmRenderTypes.FVBO_NL.apply(ResourceManager.BATTERY_REDD_TEX));
                 ResourceManager.battery_redd.renderPart("Lights");
-                RenderContext.end();
             }
         };
     }

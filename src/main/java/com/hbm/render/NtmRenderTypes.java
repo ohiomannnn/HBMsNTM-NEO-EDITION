@@ -58,7 +58,7 @@ public class NtmRenderTypes {
             }
     );
 
-    // for vbo, no cull
+    // for vbo, no cullFace
     public static final Function<ResourceLocation, RenderType> FVBO_NC = Util.memoize(
             texture -> {
                 RenderType.CompositeState state = RenderType.CompositeState.builder()
@@ -85,7 +85,7 @@ public class NtmRenderTypes {
             }
     );
 
-    // for vbo, no light, no cull, additive
+    // for vbo, no light, no cullFace, additive
     public static final Function<ResourceLocation, RenderType> FVBO_ADDITIVE_NL = Util.memoize(
             texture -> {
                 RenderType.CompositeState state = RenderType.CompositeState.builder()
@@ -100,9 +100,9 @@ public class NtmRenderTypes {
             }
     );
 
-    // for vbo, no light, no cull, no tex
-    public static final RenderType FVBO_NL_NC_NT = RenderType.create(
-            "fvbo_nl_nc_nt",
+    // for vbo, no light, no tex
+    public static final RenderType FVBO_NL_NT = RenderType.create(
+            "fvbo_nl_nt",
             NtmVertexFormat.POSITION_TEX_NORMAL,
             VertexFormat.Mode.QUADS,
             15346,
@@ -113,10 +113,25 @@ public class NtmRenderTypes {
                     .setTextureState(new TextureStateShard(ResourceManager.WHITE_TEX, false, false))
                     .setLightmapState(RenderType.LIGHTMAP)
                     .setOverlayState(RenderType.OVERLAY)
-                    .setCullState(RenderStateShard.NO_CULL)
                     .createCompositeState(false)
     );
 
+    // for vbo, no light, no tex
+    public static final RenderType FVBO_ADD_NL_NT = RenderType.create(
+            "fvbo_add_nl_nt",
+            NtmVertexFormat.POSITION_TEX_NORMAL,
+            VertexFormat.Mode.QUADS,
+            15346,
+            false,
+            false,
+            RenderType.CompositeState.builder()
+                    .setShaderState(A_SHADER_NL)
+                    .setTransparencyState(ADDITIVE_BLEND)
+                    .setTextureState(new TextureStateShard(ResourceManager.WHITE_TEX, false, false))
+                    .setLightmapState(RenderType.LIGHTMAP)
+                    .setOverlayState(RenderType.OVERLAY)
+                    .createCompositeState(false)
+    );
 
     public static final RenderType GLOW = RenderType.create(
             "glow",
@@ -133,8 +148,6 @@ public class NtmRenderTypes {
                     .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
                     .createCompositeState(false)
     );
-
-    public static final ShaderStateShard POSITION_TEX_COLOR_SHADER = new ShaderStateShard(GameRenderer::getPositionTexColorShader);
 
     public static final Function<ResourceLocation, RenderType> ADDITIVE = Util.memoize(
             texture -> {
@@ -183,52 +196,6 @@ public class NtmRenderTypes {
                         .createCompositeState(false);
                 return RenderType.create("smoth", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, false, state);
             }
-    );
-
-    public static final Function<ResourceLocation, RenderType> CLOUD = Util.memoize(
-            texture -> {
-                RenderType.CompositeState state = RenderType.CompositeState.builder()
-                        .setShaderState(POSITION_TEX_COLOR_SHADER)
-                        .setTextureState(new TextureStateShard(texture, false, false))
-                        .setCullState(RenderType.NO_CULL)
-                        .setLightmapState(RenderType.NO_LIGHTMAP)
-                        .setOverlayState(RenderType.NO_OVERLAY)
-                        .setWriteMaskState(RenderType.COLOR_WRITE)
-                        .setOutputState(RenderType.TRANSLUCENT_TARGET)
-                        .createCompositeState(false);
-                return RenderType.create("cloud", DefaultVertexFormat.POSITION_TEX_COLOR, VertexFormat.Mode.QUADS, 234256, false, false, state);
-            }
-    );
-
-    public static final RenderType CLOUD_RAINBOW = RenderType.create(
-            "cloud_rainbow",
-            DefaultVertexFormat.POSITION_COLOR,
-            VertexFormat.Mode.QUADS,
-            234256, false, false,
-            RenderType.CompositeState.builder()
-                    .setShaderState(RenderType.POSITION_COLOR_SHADER)
-                    .setCullState(RenderType.NO_CULL)
-                    .setLightmapState(RenderType.NO_LIGHTMAP)
-                    .setOverlayState(RenderType.NO_OVERLAY)
-                    .setWriteMaskState(RenderType.COLOR_WRITE)
-                    .setOutputState(RenderType.TRANSLUCENT_TARGET)
-                    .createCompositeState(false)
-    );
-
-    public static final RenderType CLOUD_RAINBOW_ADDITIVE = RenderType.create(
-            "cloud_rainbow_addtive",
-            DefaultVertexFormat.POSITION_COLOR,
-            VertexFormat.Mode.QUADS,
-            234256, false, false,
-            RenderType.CompositeState.builder()
-                    .setShaderState(RenderType.POSITION_COLOR_SHADER)
-                    .setTransparencyState(ADDITIVE_BLEND)
-                    .setCullState(RenderType.NO_CULL)
-                    .setLightmapState(RenderType.NO_LIGHTMAP)
-                    .setOverlayState(RenderType.NO_OVERLAY)
-                    .setWriteMaskState(RenderType.COLOR_WRITE)
-                    .setOutputState(RenderType.TRANSLUCENT_TARGET)
-                    .createCompositeState(false)
     );
 
     public static final Function<ResourceLocation, RenderType> NUKE_CLOUDS = Util.memoize(

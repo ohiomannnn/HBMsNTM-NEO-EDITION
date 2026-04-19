@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public class RenderNukeIvyMike extends BlockEntityRendererNT<NukeIvyMikeBlockEntity> implements IBEWLRProvider {
@@ -49,16 +50,15 @@ public class RenderNukeIvyMike extends BlockEntityRendererNT<NukeIvyMikeBlockEnt
     public BlockEntityWithoutLevelRenderer getRenderer() {
         return new ItemRenderBase() {
             @Override
-            public void renderInventory(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                poseStack.translate(0F, -5F, 0F);
-                poseStack.scale(2.25F, 2.25F, 2.25F);
+            public void renderInventory(ItemStack stack, MultiBufferSource buffer) {
+                RenderContext.translate(0F, -5F, 0F);
+                RenderContext.scale(2.25F, 2.25F, 2.25F);
             }
 
             @Override
-            public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                RenderContext.setup(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_IVY_MIKE), poseStack, packedLight, packedOverlay);
+            public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
+                RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_IVY_MIKE));
                 ResourceManager.nuke_ivy_mike.renderAll();
-                RenderContext.end();
             }
         };
     }

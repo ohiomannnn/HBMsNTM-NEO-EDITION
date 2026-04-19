@@ -10,10 +10,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public class RenderNukeFatMan extends BlockEntityRendererNT<NukeFatManBlockEntity> implements IBEWLRProvider {
@@ -32,17 +32,15 @@ public class RenderNukeFatMan extends BlockEntityRendererNT<NukeFatManBlockEntit
             default -> 0f;
         };
 
-        poseStack.pushPose();
-        poseStack.translate(0.5, 0.0, 0.5);
-        poseStack.mulPose(Axis.YP.rotationDegrees(rot));
+        RenderContext.setup(NtmRenderTypes.FVBO.apply(ResourceManager.NUKE_FAT_MAN_TEX), poseStack, packedLight, packedOverlay);
+        RenderContext.translate(0.5, 0.0, 0.5);
+        RenderContext.mulPose(Axis.YP.rotationDegrees(rot));
 
-        RenderType type = NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_FAT_MAN_TEX);
-
-        RenderContext.setup(type, poseStack, packedLight, packedOverlay);
+        RenderContext.enableCull(false);
         ResourceManager.nuke_fat_man.renderAll();
-        RenderContext.end();
+        RenderContext.enableCull(true);
 
-        poseStack.popPose();
+        RenderContext.end();
     }
 
     @Override
@@ -53,21 +51,24 @@ public class RenderNukeFatMan extends BlockEntityRendererNT<NukeFatManBlockEntit
     @Override
     public BlockEntityWithoutLevelRenderer getRenderer() {
         return new ItemRenderBase() {
+
             @Override
-            public void renderInventory(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                poseStack.translate(0, -2, 0);
-                poseStack.scale(5F, 5F, 5F);
+            public void renderInventory(ItemStack stack, MultiBufferSource buffer) {
+                RenderContext.translate(0, -2, 0);
+                RenderContext.scale(5F, 5F, 5F);
             }
 
             @Override
-            public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                poseStack.mulPose(Axis.YP.rotationDegrees(180F));
-                poseStack.translate(-0.75F, 0F, 0F);
-                RenderType type = NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_FAT_MAN_TEX);
+            public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
+                RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
+                RenderContext.translate(-0.75F, 0F, 0F);
 
-                RenderContext.setup(type, poseStack, packedLight, packedOverlay);
+                RenderContext.enableCull(false);
+
+                RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.NUKE_FAT_MAN_TEX));
                 ResourceManager.nuke_fat_man.renderAll();
-                RenderContext.end();
+
+                RenderContext.enableCull(true);
             }
         };
     }

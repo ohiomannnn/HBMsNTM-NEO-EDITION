@@ -1,5 +1,6 @@
 package com.hbm.render.item;
 
+import com.hbm.render.util.RenderContext;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
@@ -16,68 +17,68 @@ public class ItemRenderBase extends BlockEntityWithoutLevelRenderer {
     }
 
     @Override
-    public void renderByItem(ItemStack itemStackIn, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-        poseStack.pushPose();
+    public void renderByItem(ItemStack stack, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+        RenderContext.setup(poseStack, packedLight, packedOverlay);
 
-        if (displayContext != ItemDisplayContext.GUI) poseStack.translate(0.5F, 0F, 0.5F);
+        if (displayContext != ItemDisplayContext.GUI) RenderContext.translate(0.5F, 0F, 0.5F);
         switch (displayContext) {
             case FIRST_PERSON_RIGHT_HAND -> {
-                poseStack.translate(0.2F, 0.44F, 0F);
-                poseStack.scale(0.2F, 0.2F, 0.2F);
-                poseStack.mulPose(Axis.YP.rotationDegrees(180F));
-                poseStack.mulPose(Axis.YP.rotationDegrees(3F));
-                poseStack.mulPose(Axis.XP.rotationDegrees(25F));
-                renderNonInv(itemStackIn, poseStack, buffer, packedLight, packedOverlay, true);
+                RenderContext.translate(0.2F, 0.44F, 0F);
+                RenderContext.scale(0.2F, 0.2F, 0.2F);
+                RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
+                RenderContext.mulPose(Axis.YP.rotationDegrees(3F));
+                RenderContext.mulPose(Axis.XP.rotationDegrees(25F));
+                renderNonInv(stack, buffer, true);
             }
             case FIRST_PERSON_LEFT_HAND -> {
-                poseStack.translate(-0.2F, 0.44F, 0F);
-                poseStack.scale(0.2F, 0.2F, 0.2F);
-                poseStack.mulPose(Axis.YN.rotationDegrees(3F));
-                poseStack.mulPose(Axis.XN.rotationDegrees(25F));
-                renderNonInv(itemStackIn, poseStack, buffer, packedLight, packedOverlay, false);
+                RenderContext.translate(-0.2F, 0.44F, 0F);
+                RenderContext.scale(0.2F, 0.2F, 0.2F);
+                RenderContext.mulPose(Axis.YN.rotationDegrees(3F));
+                RenderContext.mulPose(Axis.XN.rotationDegrees(25F));
+                renderNonInv(stack, buffer, false);
             }
             case THIRD_PERSON_RIGHT_HAND, HEAD -> {
-                poseStack.translate(-0.05F, 0.5F, 0F);
-                poseStack.scale(0.145F, 0.145F, 0.145F);
-                poseStack.mulPose(Axis.YP.rotationDegrees(180F));
-                renderNonInv(itemStackIn, poseStack, buffer, packedLight, packedOverlay, true);
+                RenderContext.translate(-0.05F, 0.5F, 0F);
+                RenderContext.scale(0.145F, 0.145F, 0.145F);
+                RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
+                renderNonInv(stack, buffer, true);
             }
             case THIRD_PERSON_LEFT_HAND -> {
-                poseStack.translate(0.05F, 0.5F, 0F);
-                poseStack.scale(0.145F, 0.145F, 0.145F);
-                renderNonInv(itemStackIn, poseStack, buffer, packedLight, packedOverlay, false);
+                RenderContext.translate(0.05F, 0.5F, 0F);
+                RenderContext.scale(0.145F, 0.145F, 0.145F);
+                renderNonInv(stack, buffer, false);
             }
             case GROUND -> {
-                poseStack.translate(0F, 0.3F, 0F);
-                poseStack.scale(0.125F, 0.125F, 0.125F);
-                poseStack.mulPose(Axis.YP.rotationDegrees(90F));
-                renderGround(poseStack, buffer, packedLight, packedOverlay);
+                RenderContext.translate(0F, 0.3F, 0F);
+                RenderContext.scale(0.125F, 0.125F, 0.125F);
+                RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
+                //renderGround(stack, buffer);
             }
             case FIXED -> {
-                poseStack.translate(0F, 0.3F, 0F);
-                poseStack.scale(0.25F, 0.25F, 0.25F);
-                poseStack.mulPose(Axis.YP.rotationDegrees(90F));
-                renderNonInv(itemStackIn, poseStack, buffer, packedLight, packedOverlay, false);
+                RenderContext.translate(0F, 0.3F, 0F);
+                RenderContext.scale(0.25F, 0.25F, 0.25F);
+                RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
+                renderNonInv(stack, buffer, false);
             }
             case GUI -> {
-                poseStack.mulPose(Axis.XP.rotationDegrees(30F));
-                poseStack.mulPose(Axis.YP.rotationDegrees(225F));  // 45 + 180
-                poseStack.scale(0.0620F, 0.0620F, 0.0620F);
-                poseStack.translate(0F, 11.6F, -11.6F);
-                renderInventory(itemStackIn, poseStack, buffer, packedLight, packedOverlay);
+                RenderContext.mulPose(Axis.XP.rotationDegrees(30F));
+                RenderContext.mulPose(Axis.YP.rotationDegrees(225F));  // 45 + 180
+                RenderContext.scale(0.0620F, 0.0620F, 0.0620F);
+                RenderContext.translate(0F, 11.6F, -11.6F);
+                renderInventory(stack, buffer);
             }
-            case NONE -> {}
+            default -> { }
         }
 
-        renderCommon(itemStackIn, poseStack, buffer, packedLight, packedOverlay);
-        poseStack.popPose();
+        renderCommon(stack, buffer);
+
+        RenderContext.end();
     }
 
-    public void renderNonInv(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay, boolean righthand) { renderNonInv(poseStack, buffer, packedLight, packedOverlay, righthand); }
-    public void renderInventory(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) { renderInventory(poseStack, buffer, packedLight, packedOverlay); }
-    public void renderCommon(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) { renderCommon(poseStack, buffer, packedLight, packedOverlay); }
-    public void renderNonInv(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay,  boolean righthand) { }
-    public void renderInventory(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) { }
-    public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) { }
-    public void renderGround(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) { }
+    public void renderNonInv(ItemStack stack, MultiBufferSource buffer, boolean rightHand) { }
+    public void renderInventory(ItemStack stack, MultiBufferSource buffer) { }
+    public void renderCommon(ItemStack stack, MultiBufferSource buffer) { }
+
+    // nothing overriding it anyway
+    //public void renderGround(ItemStack stack, MultiBufferSource buffer) { }
 }

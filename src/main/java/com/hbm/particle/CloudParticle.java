@@ -1,29 +1,23 @@
 package com.hbm.particle;
 
-import com.hbm.main.NuclearTechMod;
 import com.hbm.main.ResourceManager;
 import com.hbm.particle.engine.ParticleNT;
 import com.hbm.particle.helper.CloudCreator.CloudType;
 import com.hbm.render.NtmRenderTypes;
+import com.hbm.render.util.RenderContext;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.phys.Vec3;
 
 public class CloudParticle extends ParticleNT {
 
-    private static final ResourceLocation TEXTURE_FLEIJA = NuclearTechMod.withDefaultNamespace("textures/models/blast_fleija.png");
-    private static final ResourceLocation TEXTURE_SOLINIUM = NuclearTechMod.withDefaultNamespace("textures/models/blast_solinium.png");
-
-    public CloudType type;
+    public CloudType type = CloudType.FLEIJA;
 
     public CloudParticle(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
@@ -34,9 +28,7 @@ public class CloudParticle extends ParticleNT {
     @Override
     public void tick() {
 
-        this.level.playLocalSound(this.x, this.y, this.z, SoundEvents.LIGHTNING_BOLT_THUNDER, SoundSource.WEATHER, 10000.0F, 0.8F + this.random.nextFloat() * 0.2F, false);
-        this.level.playLocalSound(this.x, this.y, this.z, SoundEvents.LIGHTNING_BOLT_IMPACT, SoundSource.WEATHER, 2.0F, 0.5F + this.random.nextFloat() * 0.2F, false);
-        this.level.setSkyFlashTime(2);
+        this.level.setSkyFlashTime(5);
 
         if (this.age++ >= this.lifetime) {
             this.dead = true;
@@ -47,42 +39,52 @@ public class CloudParticle extends ParticleNT {
     public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
 
         PoseStack poseStack = new PoseStack();
-        poseStack.pushPose();
-
         Vec3 camPos = camera.getPosition();
         poseStack.translate(this.x - camPos.x, this.y - camPos.y, this.z - camPos.z);
+        RenderContext.setup(poseStack, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
 
-        poseStack.scale(this.age, this.age, this.age);
+        RenderSystem.depthMask(false);
+        RenderContext.enableCull(true);
 
-        if (type != CloudType.RAINBOW) {
-            //ResourceManager.sphere.renderAll(poseStack, consumer, 240, OverlayTexture.NO_OVERLAY);
-        } else {
-            poseStack.scale(0.5F, 0.5F, 0.5F);
-            //ResourceManager.sphere.renderAll(poseStack, consumer, 240, OverlayTexture.NO_OVERLAY, this.level.random.nextInt(0x100), this.level.random.nextInt(0x100), this.level.random.nextInt(0x100), 1.0F);
-            poseStack.scale(1/0.5F, 1/0.5F, 1/0.5F);
+        float baseScale = (this.age + partialTicks) * 2;
+        float ageScale = baseScale / this.lifetime;
 
-            MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+        RenderContext.pushPose();
+        RenderContext.setRenderType(NtmRenderTypes.FVBO_NL_NT);
 
-            for (float i = 0.6F; i <= 1F; i += 0.1F) {
+        float scale = ageScale * 1.2F;
+        if(scale > 1) scale = Math.max(1 - (scale - 1) * 5, 0);
+        scale *= 2 * baseScale;
+        RenderContext.scale(scale, scale, scale);
 
-                poseStack.scale(i, i, i);
-                VertexConsumer addConsumer = buffer.getBuffer(NtmRenderTypes.CLOUD_RAINBOW_ADDITIVE);
-                //ResourceManager.sphere.renderAll(poseStack, addConsumer, 240, OverlayTexture.NO_OVERLAY, this.level.random.nextInt(0x100), this.level.random.nextInt(0x100), this.level.random.nextInt(0x100), 1.0F);
-                poseStack.scale(1/i, 1/i, 1/i);
-            }
+        RenderContext.setColor(0F, 1F, 1F, 1F);
+        ResourceManager.sphere_new.renderAll();
 
-            buffer.endBatch();
+        RenderContext.setRenderType(NtmRenderTypes.FVBO_ADD_NL_NT);
+
+        RenderContext.setColor(0F, 0.125F, 0.125F, 1F);
+        float outerScale = 1.05F;
+        for(int i = 0; i < 3; i++) {
+            RenderContext.scale(outerScale, outerScale, outerScale);
+            ResourceManager.sphere_new.renderAll();
         }
 
-        poseStack.popPose();
+        RenderContext.popPose();
+
+        RenderContext.pushPose();
+
+        float shockwave = 5 * baseScale;
+        RenderContext.scale(shockwave, shockwave, shockwave);
+        float shockTint = (1F - ageScale) * 0.75F;
+        RenderContext.setColor(shockTint, shockTint, shockTint, 1.0F);
+        ResourceManager.sphere_new.renderAll();
+
+        RenderContext.popPose();
+
+        RenderSystem.depthMask(true);
+
+        RenderContext.end();
     }
 
-    @Override
-    public RenderType getRenderType() {
-        return switch (type) {
-            case FLEIJA -> NtmRenderTypes.CLOUD.apply(TEXTURE_FLEIJA);
-            case SOLINIUM -> NtmRenderTypes.CLOUD.apply(TEXTURE_SOLINIUM);
-            case RAINBOW -> NtmRenderTypes.CLOUD_RAINBOW;
-        };
-    }
+    @Override public RenderType getRenderType() { return null; }
 }

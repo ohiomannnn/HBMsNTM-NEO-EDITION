@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public class RenderNukeGadget extends BlockEntityRendererNT<NukeGadgetBlockEntity> implements IBEWLRProvider {
@@ -56,23 +57,22 @@ public class RenderNukeGadget extends BlockEntityRendererNT<NukeGadgetBlockEntit
     public BlockEntityWithoutLevelRenderer getRenderer() {
         return new ItemRenderBase() {
             @Override
-            public void renderInventory(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                poseStack.translate(0F, -3F, 0F);
-                poseStack.scale(5F, 5F, 5F);
+            public void renderInventory(ItemStack stack, MultiBufferSource buffer) {
+                RenderContext.translate(0F, -3F, 0F);
+                RenderContext.scale(5F, 5F, 5F);
             }
 
             @Override
-            public void renderCommon(PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-                poseStack.mulPose(Axis.YN.rotationDegrees(90F));
+            public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
+                RenderContext.mulPose(Axis.YN.rotationDegrees(90F));
 
-                RenderContext.setup(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_GADGET_TEX), poseStack, packedLight, packedOverlay);
+                RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_GADGET_TEX));
                 ResourceManager.nuke_gadget.renderPart("Body");
 
                 GraphicsStatus graphics = Minecraft.getInstance().options.graphicsMode().get();
                 if (graphics == GraphicsStatus.FANCY || graphics == GraphicsStatus.FABULOUS) {
                     ResourceManager.nuke_gadget.renderPart("Wires");
                 }
-                RenderContext.end();
             }
         };
     }
