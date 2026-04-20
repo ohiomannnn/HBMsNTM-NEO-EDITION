@@ -2,6 +2,7 @@ package com.hbm.main;
 
 import com.hbm.blockentity.IGUIProvider;
 import com.hbm.blockentity.ModBlockEntityTypes;
+import com.hbm.blockentity.network.PipeBaseBlockEntity;
 import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.ModBlocks;
@@ -15,6 +16,7 @@ import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.MetaHelper;
+import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.screens.LoadingScreenRendererNT;
 import com.hbm.items.IItemHUD;
@@ -99,6 +101,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -300,9 +303,6 @@ public class NuclearTechModClient {
         return false;
     }
 
-
-
-
     public static boolean renderLodeStar = false;
     public static long lastStarCheck = 0L;
 
@@ -414,6 +414,21 @@ public class NuclearTechModClient {
                 },
                 ModBlocks.BALEFIRE.get()
         );
+
+        event.register(
+                (state, level, pos, tintIndex) -> {
+                    // overlay quads use tintIndex 1
+                    if (tintIndex != 1) return 0xFFFFFF;
+                    if (level == null || pos == null) return 0xFFFFFF;
+
+                    BlockEntity te = level.getBlockEntity(pos);
+                    if (!(te instanceof PipeBaseBlockEntity pipe)) return 0xFFFFFF;
+                    FluidType type = pipe.getFluidType();
+                    if (type == null) return 0xFFFFFF;
+                    return type.getColor();
+                },
+                ModBlocks.FLUID_DUCT_NEO.get()
+        );
     }
 
     @SubscribeEvent
@@ -427,6 +442,10 @@ public class NuclearTechModClient {
                 ModBlocks.SELLAFIELD_BEDROCK.get(),
                 ModBlocks.ORE_SELLAFIELD_DIAMOND.get(),
                 ModBlocks.ORE_SELLAFIELD_EMERALD.get()
+        );
+        event.register(
+                (stack, tintIndex) -> tintIndex == 1 ?  0xFF000000 | Fluids.NONE.getColor() : 0xFFFFFFFF,
+                ModBlocks.FLUID_DUCT_NEO.get()
         );
         event.register(
                 (stack, tintIndex) -> 0xFF000000 | Fluids.fromID(MetaHelper.getMeta(stack)).getColor(),

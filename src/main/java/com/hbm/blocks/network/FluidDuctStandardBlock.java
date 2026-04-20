@@ -29,11 +29,6 @@ public class FluidDuctStandardBlock extends FluidDuctConnectingBlock implements 
     }
 
     @Override
-    protected RenderShape getRenderShape(BlockState state) {
-        return RenderShape.ENTITYBLOCK_ANIMATED;
-    }
-
-    @Override
     public BlockState updateShape(BlockState state, Direction dir, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         if (level.getBlockEntity(pos) instanceof PipeBaseBlockEntity pipe) {
             FluidType type = pipe.getFluidType();

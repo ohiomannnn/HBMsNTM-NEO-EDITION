@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "hbmsntm:block/fluid_duct_neo_particle"
+      "model": "hbmsntm:block/fluid_duct_neo"
     }
   }
 }

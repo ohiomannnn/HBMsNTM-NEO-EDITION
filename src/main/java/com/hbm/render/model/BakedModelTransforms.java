@@ -14,9 +14,9 @@ public class BakedModelTransforms {
 
     private static ItemTransforms buildPipeItem() {
         ItemTransform gui = new ItemTransform(
-                new Vector3f(30, -45, 0),
-                new Vector3f(0, 0.3f, 0),
-                new Vector3f(0.8f, 0.8f, 0.8f)
+                new Vector3f(30F, -45F, 0F),
+                new Vector3f(0F, 0.05F, 0F),
+                new Vector3f(0.8F, 0.8F, 0.8F)
         );
 
         ItemTransform thirdPerson = new ItemTransform(

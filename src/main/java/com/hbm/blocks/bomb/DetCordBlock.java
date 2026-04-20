@@ -30,11 +30,6 @@ public class DetCordBlock extends DetonatableBlock implements IDetConnectible, E
         return 1.0F;
     }
 
-    @Override
-    protected RenderShape getRenderShape(BlockState state) {
-        return RenderShape.ENTITYBLOCK_ANIMATED;
-    }
-
     public void explode(Level level, BlockPos pos) {
         if (!level.isClientSide) {
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
