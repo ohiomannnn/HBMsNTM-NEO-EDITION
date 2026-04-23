@@ -14,7 +14,6 @@ import org.joml.Vector3f;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public abstract class AbstractWavefrontBakedModel extends AbstractBakedModel {
 
@@ -25,16 +24,16 @@ public abstract class AbstractWavefrontBakedModel extends AbstractBakedModel {
         this.model = model;
     }
 
-    protected List<BakedQuad> bakeSimpleQuads(List<String> partNames, float roll, float pitch, float yaw, boolean applyShading, boolean centerToBlock, TextureAtlasSprite sprite) {
-        return bakeSimpleQuads(partNames, roll, pitch, yaw, applyShading, centerToBlock, sprite, -1);
+    protected List<BakedQuad> bakeSimpleQuads(List<String> partNames, float roll, float pitch, float yaw, boolean applyShading, BlockTranslate translate, TextureAtlasSprite sprite) {
+        return bakeSimpleQuads(partNames, roll, pitch, yaw, applyShading, translate, sprite, -1);
     }
 
-    protected List<BakedQuad> bakeSimpleQuads(List<String> partNames, float roll, float pitch, float yaw, boolean applyShading, boolean centerToBlock, TextureAtlasSprite sprite, int tintIndex) {
-        return bakeSimpleQuads(partNames, roll, pitch, yaw, applyShading, centerToBlock, sprite, tintIndex, 0.0F, 0.0F, 0.0F);
+    protected List<BakedQuad> bakeSimpleQuads(List<String> partNames, float roll, float pitch, float yaw, boolean applyShading, BlockTranslate translate, TextureAtlasSprite sprite, int tintIndex) {
+        return bakeSimpleQuads(partNames, roll, pitch, yaw, applyShading, translate, sprite, tintIndex, 1.0F, 1.0F, 1.0F);
     }
 
-    protected List<BakedQuad> bakeSimpleQuads(List<String> partNames, float roll, float pitch, float yaw, boolean applyShading, boolean centerToBlock, TextureAtlasSprite sprite, int tintIndex, float extraTx, float extraTy, float extraTz) {
-        List<FaceGeometry> geometries = buildGeometry(partNames, roll, pitch, yaw, applyShading, centerToBlock, extraTx, extraTy, extraTz);
+    protected List<BakedQuad> bakeSimpleQuads(List<String> partNames, float roll, float pitch, float yaw, boolean applyShading, BlockTranslate translate, TextureAtlasSprite sprite, int tintIndex, float extraTx, float extraTy, float extraTz) {
+        List<FaceGeometry> geometries = buildGeometry(partNames, roll, pitch, yaw, applyShading, translate, extraTx, extraTy, extraTz);
         List<BakedQuad> quads = new ArrayList<>(geometries.size());
         for(FaceGeometry geometry : geometries) {
             quads.add(geometry.buildQuad(sprite, tintIndex));
@@ -42,17 +41,15 @@ public abstract class AbstractWavefrontBakedModel extends AbstractBakedModel {
         return quads;
     }
 
-    protected List<FaceGeometry> buildGeometry(List<String> partNames, float roll, float pitch, float yaw, boolean applyShading, boolean centerToBlock) {
-        return buildGeometry(partNames, roll, pitch, yaw, applyShading, centerToBlock, 1.0F, 1.0F, 1.0F);
+    protected List<FaceGeometry> buildGeometry(List<String> partNames, float roll, float pitch, float yaw, boolean applyShading, BlockTranslate translate) {
+        return buildGeometry(partNames, roll, pitch, yaw, applyShading, translate, 1.0F, 1.0F, 1.0F);
     }
 
-    protected List<FaceGeometry> buildGeometry(List<String> partNames, float roll, float pitch, float yaw, boolean applyShading, boolean centerToBlock, float extraTx, float extraTy, float extraTz) {
+    protected List<FaceGeometry> buildGeometry(List<String> partNames, float roll, float pitch, float yaw, boolean applyShading, BlockTranslate translate, float extraTx, float extraTy, float extraTz) {
         List<FaceGeometry> geometries = new ArrayList<>();
 
         for(S_GroupObject group : model.groupObjects) {
-            if(partNames != null && !partNames.contains(group.name)) {
-                continue;
-            }
+            if(partNames != null && !partNames.contains(group.name)) continue;
 
             for(S_Face face : group.faces) {
                 Vertex normal = face.faceNormal;
@@ -85,10 +82,17 @@ public abstract class AbstractWavefrontBakedModel extends AbstractBakedModel {
                     float y = p3[1];
                     float z = p3[2];
 
-                    if(centerToBlock) {
-                        x += 0.5F;
-                        y += 0.5F;
-                        z += 0.5F;
+                    switch(translate) {
+                        case CENTER -> {
+                            x += 0.5F;
+                            y += 0.5F;
+                            z += 0.5F;
+                        }
+                        case CENTER_NO_Y_OFFSET -> {
+                            x += 0.5F;
+                            x += 0F;
+                            z += 0.5F;
+                        }
                     }
 
                     x = x * extraTx;
@@ -128,6 +132,12 @@ public abstract class AbstractWavefrontBakedModel extends AbstractBakedModel {
         return geometries;
     }
 
+    protected enum BlockTranslate {
+        CENTER,
+        CENTER_NO_Y_OFFSET,
+        NONE
+    }
+
     protected static class FaceGeometry {
 
         private final Direction direction;
@@ -137,7 +147,6 @@ public abstract class AbstractWavefrontBakedModel extends AbstractBakedModel {
         private final float[] uu;
         private final float[] vv;
         private final Vector3f[] vertexNormals;
-        private final boolean applyShading;
 
         FaceGeometry(Direction direction, float[] px, float[] py, float[] pz, float[] uu, float[] vv, Vector3f[] vertexNormals, boolean applyShading) {
             this.direction = direction;
@@ -147,7 +156,6 @@ public abstract class AbstractWavefrontBakedModel extends AbstractBakedModel {
             this.uu = uu;
             this.vv = vv;
             this.vertexNormals = vertexNormals;
-            this.applyShading = applyShading;
         }
 
         public BakedQuad buildQuad(TextureAtlasSprite sprite, int tintIndex) {
@@ -157,7 +165,7 @@ public abstract class AbstractWavefrontBakedModel extends AbstractBakedModel {
         public BakedQuad buildQuad(TextureAtlasSprite sprite, int tintIndex, float uScale, float vScale) {
             int[] vertexData = new int[32];
             for(int i = 0; i < 4; i++) GeometryBakeUtil.putVertex(vertexData, i, px[i], py[i], pz[i], uu[i] * uScale, vv[i] * vScale, vertexNormals[i], sprite);
-            return new BakedQuad(vertexData, tintIndex, direction, sprite, applyShading, false);
+            return new BakedQuad(vertexData, tintIndex, direction, sprite, true, true);
         }
     }
 }

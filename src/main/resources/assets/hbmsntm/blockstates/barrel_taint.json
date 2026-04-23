@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "hbmsntm:block/barrel_taint_particle"
+      "model": "hbmsntm:block/barrel_taint"
     }
   }
 }

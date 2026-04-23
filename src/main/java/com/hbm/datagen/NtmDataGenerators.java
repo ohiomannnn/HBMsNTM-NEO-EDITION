@@ -33,25 +33,25 @@ public class NtmDataGenerators {
         ExistingFileHelper helper = event.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> lookup = event.getLookupProvider();
 
-        // Client things
-        generator.addProvider(event.includeClient(), new NtmItemModelProvider(output, helper));
-        generator.addProvider(event.includeClient(), new ModBlockStateProvider(output, helper));
-
-        // Server things
-        LootTableProvider.SubProviderEntry blockLootTableSubProvider = new LootTableProvider.SubProviderEntry(ModBlockLootTableProvider::new, LootContextParamSets.BLOCK);
-        generator.addProvider(event.includeServer(), (DataProvider.Factory<LootTableProvider>) lootTableOutput -> new LootTableProvider(lootTableOutput, Collections.emptySet(), List.of(blockLootTableSubProvider), event.getLookupProvider()));
-
-        BlockTagsProvider blockTagsProvider = new ModBlockTagProvider(output, lookup, helper);
-        generator.addProvider(event.includeServer(), blockTagsProvider);
-        generator.addProvider(event.includeServer(), new ModItemTagProvider(output, lookup, blockTagsProvider.contentsGetter(), helper));
-        generator.addProvider(event.includeServer(), new ModDamageTypeTagsProvider(output, lookup, helper));
-        generator.addProvider(event.includeServer(), new NtmRecipeProvider(output, lookup));
-
         // Datapack things
         RegistrySetBuilder builder = new RegistrySetBuilder();
         builder.add(Registries.DAMAGE_TYPE, NtmDamageTypes::bootstrap);
         builder.add(Registries.BIOME, NtmBiomes::bootstrap);
         DatapackBuiltinEntriesProvider datapackProvider = new DatapackBuiltinEntriesProvider(output, lookup, builder, Set.of(NuclearTechMod.MODID));
         generator.addProvider(event.includeServer(), datapackProvider);
+
+        // Client things
+        generator.addProvider(event.includeClient(), new NtmItemModelProvider(output, helper));
+        generator.addProvider(event.includeClient(), new NtmBlockStateProvider(output, helper));
+
+        // Server things
+        LootTableProvider.SubProviderEntry blockLootTableSubProvider = new LootTableProvider.SubProviderEntry(NtmBlockLootTableProvider::new, LootContextParamSets.BLOCK);
+        generator.addProvider(event.includeServer(), (DataProvider.Factory<LootTableProvider>) lootTableOutput -> new LootTableProvider(lootTableOutput, Collections.emptySet(), List.of(blockLootTableSubProvider), event.getLookupProvider()));
+
+        BlockTagsProvider blockTagsProvider = new NtmBlockTagProvider(output, lookup, helper);
+        generator.addProvider(event.includeServer(), blockTagsProvider);
+        generator.addProvider(event.includeServer(), new NtmItemTagProvider(output, lookup, blockTagsProvider.contentsGetter(), helper));
+        generator.addProvider(event.includeServer(), new NtmDamageTypeTagsProvider(output, lookup, helper));
+        generator.addProvider(event.includeServer(), new NtmRecipeProvider(output, lookup));
     }
 }

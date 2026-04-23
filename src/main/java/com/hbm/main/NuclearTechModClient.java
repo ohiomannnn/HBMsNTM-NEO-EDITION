@@ -44,6 +44,8 @@ import com.hbm.render.item.ItemRenderMissileGeneric.RenderMissileType;
 import com.hbm.render.item.RenderBatteryPackItem;
 import com.hbm.render.item.RenderLaserDetonator;
 import com.hbm.render.loader.HFRModelReloader;
+import com.hbm.render.model.loader.BarrelGeometryLoader;
+import com.hbm.render.model.loader.CableGeometryLoader;
 import com.hbm.render.model.loader.PipeGeometryLoader;
 import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.render.util.RenderScreenOverlay;
@@ -152,6 +154,8 @@ public class NuclearTechModClient {
     @SubscribeEvent
     public static void registerGeometryLoaders(ModelEvent.RegisterGeometryLoaders event) {
         event.register(PipeGeometryLoader.ID, PipeGeometryLoader.INSTANCE);
+        event.register(CableGeometryLoader.ID, CableGeometryLoader.INSTANCE);
+        event.register(BarrelGeometryLoader.ID, BarrelGeometryLoader.INSTANCE);
     }
 
     @SubscribeEvent
@@ -414,18 +418,17 @@ public class NuclearTechModClient {
                 },
                 ModBlocks.BALEFIRE.get()
         );
-
         event.register(
                 (state, level, pos, tintIndex) -> {
                     // overlay quads use tintIndex 1
-                    if (tintIndex != 1) return 0xFFFFFF;
-                    if (level == null || pos == null) return 0xFFFFFF;
+                    if (tintIndex != 1) return 0xFFFFFFFF;
+                    if (level == null || pos == null) return 0xFFFFFFFF;
 
                     BlockEntity te = level.getBlockEntity(pos);
-                    if (!(te instanceof PipeBaseBlockEntity pipe)) return 0xFFFFFF;
+                    if (!(te instanceof PipeBaseBlockEntity pipe)) return 0xFFFFFFFF;
                     FluidType type = pipe.getFluidType();
-                    if (type == null) return 0xFFFFFF;
-                    return type.getColor();
+                    if (type == null) return 0xFFFFFFFF;
+                    return 0xFF000000 | type.getColor();
                 },
                 ModBlocks.FLUID_DUCT_NEO.get()
         );
@@ -444,7 +447,7 @@ public class NuclearTechModClient {
                 ModBlocks.ORE_SELLAFIELD_EMERALD.get()
         );
         event.register(
-                (stack, tintIndex) -> tintIndex == 1 ?  0xFF000000 | Fluids.NONE.getColor() : 0xFFFFFFFF,
+                (stack, tintIndex) -> tintIndex == 1 ? 0xFF000000 | Fluids.NONE.getColor() : 0xFFFFFFFF,
                 ModBlocks.FLUID_DUCT_NEO.get()
         );
         event.register(
@@ -622,8 +625,6 @@ public class NuclearTechModClient {
 
         BlockEntityRenderers.register(ModBlockEntityTypes.LAUNCH_PAD.get(), new RenderLaunchPad());
 
-       // BlockEntityRenderers.register(ModBlockEntityTypes.NETWORK_CABLE.get(), new RenderCable());
-        BlockEntityRenderers.register(ModBlockEntityTypes.DET_CORD.get(), new RenderDetCord());
         BlockEntityRenderers.register(ModBlockEntityTypes.FLUID_DUCT.get(), new RenderPipe());
 
         BlockEntityRenderers.register(ModBlockEntityTypes.FLUID_TANK.get(), new RenderFluidTank());
@@ -637,7 +638,6 @@ public class NuclearTechModClient {
         BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_FAT_MAN.get(), new RenderNukeFatMan());
         BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_FLEIJA.get(), new RenderNukeFleija());
         BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_FSTBMB.get(), new RenderNukeFstbmb());
-        BlockEntityRenderers.register(ModBlockEntityTypes.BARREL.get(), new RenderBarrel());
         BlockEntityRenderers.register(ModBlockEntityTypes.CRASHED_BOMB.get(), new RenderCrashedBomb());
         BlockEntityRenderers.register(ModBlockEntityTypes.LANDMINE.get(), new RenderLandmine());
 

@@ -32,7 +32,7 @@ public class HFRWavefrontObjectVBO implements IModelCustomNamed {
     }
 
     public void load(HFRWavefrontObject obj) {
-        for (S_GroupObject g : obj.groupObjects) {
+        for(S_GroupObject g : obj.groupObjects) {
             Tesselator tess = Tesselator.getInstance();
             BufferBuilder builder = tess.begin(g.mode, NtmVertexFormat.POSITION_TEX_NORMAL);
 

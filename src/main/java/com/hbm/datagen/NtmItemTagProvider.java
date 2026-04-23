@@ -12,9 +12,9 @@ import java.util.concurrent.CompletableFuture;
 
 import static com.hbm.inventory.ModTags.Items.*;
 
-public class ModItemTagProvider extends ItemTagsProvider {
+public class NtmItemTagProvider extends ItemTagsProvider {
 
-    public ModItemTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> provider, CompletableFuture<TagLookup<Block>> blockTags, ExistingFileHelper helper) {
+    public NtmItemTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> provider, CompletableFuture<TagLookup<Block>> blockTags, ExistingFileHelper helper) {
         super(output, provider, blockTags, NuclearTechMod.MODID, helper);
     }
 

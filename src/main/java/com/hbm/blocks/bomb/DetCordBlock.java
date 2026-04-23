@@ -1,7 +1,5 @@
 package com.hbm.blocks.bomb;
 
-import com.hbm.blockentity.EmptyBlockEntity;
-import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.entity.item.TNTPrimedBase;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import net.minecraft.core.BlockPos;
@@ -9,20 +7,12 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class DetCordBlock extends DetonatableBlock implements IDetConnectible, EntityBlock {
+public class DetCordBlock extends DetonatableBlock implements IDetConnectible {
 
     public DetCordBlock(Properties properties) {
         super(properties, 0, 0, 0, false, false);
-    }
-
-    @Override
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new EmptyBlockEntity(ModBlockEntityTypes.DET_CORD.get(), pos, state);
     }
 
     @Override

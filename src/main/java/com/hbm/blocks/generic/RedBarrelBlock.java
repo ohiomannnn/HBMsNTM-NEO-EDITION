@@ -1,7 +1,5 @@
 package com.hbm.blocks.generic;
 
-import com.hbm.blockentity.EmptyBlockEntity;
-import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.bomb.DetonatableBlock;
 import com.hbm.blocks.bomb.TaintBlock;
@@ -21,8 +19,9 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -33,7 +32,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.List;
 
-public class RedBarrelBlock extends DetonatableBlock implements EntityBlock, SimpleWaterloggedBlock {
+public class RedBarrelBlock extends DetonatableBlock implements SimpleWaterloggedBlock {
 
     private static final VoxelShape SHAPE = Block.box(2.0, 0.0, 2.0, 14.0, 16.0, 14.0);
 
@@ -41,11 +40,6 @@ public class RedBarrelBlock extends DetonatableBlock implements EntityBlock, Sim
     public RedBarrelBlock(Properties properties, boolean flammable) {
         super(properties, flammable ? 2 : 0, flammable ? 15 : 0, 100, true, flammable);
         this.registerDefaultState(this.stateDefinition.any().setValue(BlockStateProperties.WATERLOGGED, Boolean.FALSE));
-    }
-
-    @Override
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new EmptyBlockEntity(ModBlockEntityTypes.BARREL.get(), pos, state);
     }
 
     @Override
@@ -73,11 +67,6 @@ public class RedBarrelBlock extends DetonatableBlock implements EntityBlock, Sim
     @Override
     protected FluidState getFluidState(BlockState state) {
         return state.getValue(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
-    }
-
-    @Override
-    protected RenderShape getRenderShape(BlockState state) {
-        return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
     @Override protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) { return SHAPE; }

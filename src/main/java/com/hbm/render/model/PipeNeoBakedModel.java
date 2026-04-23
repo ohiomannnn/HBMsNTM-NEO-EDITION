@@ -22,7 +22,7 @@ public class PipeNeoBakedModel extends AbstractWavefrontBakedModel {
     private List<BakedQuad> itemQuads;
 
     public PipeNeoBakedModel(HFRWavefrontObject model, TextureAtlasSprite baseSprite, TextureAtlasSprite overlaySprite, boolean forBlock) {
-        super(model, BakedModelTransforms.pipeItem());
+        super(model, BakedModelTransforms.PIPE_ITEM);
         this.baseSprite = baseSprite;
         this.overlaySprite = overlaySprite;
         this.forBlock = forBlock;
@@ -110,7 +110,7 @@ public class PipeNeoBakedModel extends AbstractWavefrontBakedModel {
     }
 
     private List<BakedQuad> bakeWithOverlay(List<String> parts, boolean centerToBlock) {
-        List<FaceGeometry> geometry = buildGeometry(parts, 0.0F, 0.0F, 0.0F, true, centerToBlock);
+        List<FaceGeometry> geometry = buildGeometry(parts, 0.0F, 0.0F, 0.0F, true, centerToBlock ? BlockTranslate.CENTER : BlockTranslate.NONE);
         List<BakedQuad> quads = new ArrayList<>(geometry.size() * 2);
         for(FaceGeometry geo : geometry) {
             quads.add(geo.buildQuad(baseSprite, -1));

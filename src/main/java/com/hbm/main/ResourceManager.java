@@ -174,8 +174,6 @@ public class ResourceManager {
 
     public static IModelCustom detonator_laser;
 
-    public static IModelCustom barrel;
-
     public static IModelCustom sphere_new;
 
     public static void init() {
@@ -230,8 +228,6 @@ public class ResourceManager {
         bomblet_zeta = new HFRWavefrontObject("models/obj/bomblet_zeta.obj").asVBO();
 
         detonator_laser = new HFRWavefrontObject("models/obj/weapons/detonator_laser.obj").asVBO();
-
-        barrel = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/block/barrel.obj"));
 
         sphere_new = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/sphere_new.obj")).asVBO();
     }

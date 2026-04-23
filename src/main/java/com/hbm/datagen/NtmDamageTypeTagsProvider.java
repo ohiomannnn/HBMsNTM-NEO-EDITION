@@ -12,9 +12,9 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import javax.annotation.Nullable;
 import java.util.concurrent.CompletableFuture;
 
-public class ModDamageTypeTagsProvider extends DamageTypeTagsProvider {
+public class NtmDamageTypeTagsProvider extends DamageTypeTagsProvider {
 
-    public ModDamageTypeTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> provider, @Nullable ExistingFileHelper helper) {
+    public NtmDamageTypeTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> provider, @Nullable ExistingFileHelper helper) {
         super(output, provider, NuclearTechMod.MODID, helper);
     }
 

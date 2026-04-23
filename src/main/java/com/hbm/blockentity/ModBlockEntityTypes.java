@@ -1,13 +1,13 @@
 package com.hbm.blockentity;
 
-import com.hbm.blockentity.machine.*;
-import com.hbm.main.NuclearTechMod;
 import com.hbm.blockentity.bomb.*;
+import com.hbm.blockentity.machine.*;
 import com.hbm.blockentity.machine.storage.*;
 import com.hbm.blockentity.network.CableBaseBlockEntity;
 import com.hbm.blockentity.network.PipeBaseBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.PlushieBlock.PlushieBlockEntity;
+import com.hbm.main.NuclearTechMod;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
@@ -18,15 +18,6 @@ import java.util.function.Supplier;
 @SuppressWarnings("DataFlowIssue") // kill yourself
 public class ModBlockEntityTypes {
     public static final DeferredRegister<BlockEntityType<?>> REGISTER = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, NuclearTechMod.MODID);
-
-    public static final Supplier<BlockEntityType<EmptyBlockEntity>> BARREL = REGISTER.register(
-            "barrel",
-            () -> BlockEntityType.Builder.of((pos, state) -> new EmptyBlockEntity(ModBlockEntityTypes.BARREL.get(), pos, state),
-                    ModBlocks.BARREL_RED.get(),
-                    ModBlocks.BARREL_PINK.get(),
-                    ModBlocks.BARREL_LOX.get(),
-                    ModBlocks.BARREL_TAINT.get()
-            ).build(null));
 
     // Machines
     public static final Supplier<BlockEntityType<MachineSatLinkerBlockEntity>> MACHINE_SATLINKER = REGISTER.register(
@@ -115,12 +106,6 @@ public class ModBlockEntityTypes {
                             DecontaminatorBlockEntity::new,
                             ModBlocks.DECONTAMINATOR.get())
                     .build(null));
-
-    public static final Supplier<BlockEntityType<EmptyBlockEntity>> DET_CORD = REGISTER.register(
-            "det_cord",
-            () -> BlockEntityType.Builder.of((pos, state) -> new EmptyBlockEntity(ModBlockEntityTypes.DET_CORD.get(), pos, state),
-                    ModBlocks.DET_CORD.get()
-            ).build(null));
 
     public static final Supplier<BlockEntityType<NukeGadgetBlockEntity>> NUKE_GADGET = REGISTER.register("nuke_gadget", () -> BlockEntityType.Builder.of(NukeGadgetBlockEntity::new, ModBlocks.NUKE_GADGET.get()).build(null));
     public static final Supplier<BlockEntityType<NukeLittleBoyBlockEntity>> NUKE_LITTLE_BOY = REGISTER.register("nuke_little_boy", () -> BlockEntityType.Builder.of(NukeLittleBoyBlockEntity::new, ModBlocks.NUKE_LITTLE_BOY.get()).build(null));

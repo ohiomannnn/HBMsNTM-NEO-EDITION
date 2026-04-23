@@ -1,5 +1,7 @@
 package com.hbm.datagen;
 
+import com.hbm.datagen.loaders.BarrelBlockModelBuilder;
+import com.hbm.datagen.loaders.BarrelItemModelBuilder;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.LayeringBlock;
@@ -18,10 +20,12 @@ import net.neoforged.neoforge.client.model.generators.MultiPartBlockStateBuilder
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
 
-public class ModBlockStateProvider extends BlockStateProvider {
-    public ModBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
+public class NtmBlockStateProvider extends BlockStateProvider {
+
+    public NtmBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
         super(output, NuclearTechMod.MODID, exFileHelper);
     }
+
     @Override
     protected void registerStatesAndModels() {
         cub3All(ModBlocks.BRICK_CONCRETE.get());
@@ -56,10 +60,10 @@ public class ModBlockStateProvider extends BlockStateProvider {
         this.particleOnlyBlock(ModBlocks.NUKE_N2.get(), blockTexture(ModBlocks.NUKE_N2.get()));
         this.particleOnlyBlock(ModBlocks.NUKE_FSTBMB.get(), blockTexture(ModBlocks.NUKE_FSTBMB.get()));
 
-        this.particleOnlyBlock(ModBlocks.BARREL_RED.get(), blockTexture(ModBlocks.BARREL_RED.get()));
-        this.particleOnlyBlock(ModBlocks.BARREL_PINK.get(), blockTexture(ModBlocks.BARREL_PINK.get()));
-        this.particleOnlyBlock(ModBlocks.BARREL_LOX.get(), blockTexture(ModBlocks.BARREL_LOX.get()));
-        this.particleOnlyBlock(ModBlocks.BARREL_TAINT.get(), blockTexture(ModBlocks.BARREL_TAINT.get()));
+        this.barrelLoaderBlockItem(ModBlocks.BARREL_RED.get(), blockTexture(ModBlocks.BARREL_RED.get()));
+        this.barrelLoaderBlockItem(ModBlocks.BARREL_PINK.get(), blockTexture(ModBlocks.BARREL_PINK.get()));
+        this.barrelLoaderBlockItem(ModBlocks.BARREL_LOX.get(), blockTexture(ModBlocks.BARREL_LOX.get()));
+        this.barrelLoaderBlockItem(ModBlocks.BARREL_TAINT.get(), blockTexture(ModBlocks.BARREL_TAINT.get()));
 
         this.cubeSideBottomTop(ModBlocks.DYNAMITE.get());
         this.cubeSideBottomTop(ModBlocks.TNT.get());
@@ -225,6 +229,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 .partialState().setModels(new ConfiguredModel(falloutModel));
 
     }
+
     private void generateLayeringBlock(Block block) {
         ResourceLocation texture = modLoc("block/waste_leaves");
 
@@ -341,6 +346,11 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     private void entityBlockItem(Block block, boolean frontLight) {
         this.itemModels().getBuilder(this.key(block).getPath()).parent(new ModelFile.UncheckedModelFile("builtin/entity")).guiLight(frontLight ? BlockModel.GuiLight.FRONT : BlockModel.GuiLight.SIDE);
+    }
+
+    private void barrelLoaderBlockItem(Block block, ResourceLocation texture) {
+        this.models().getBuilder(this.key(block).getPath()).customLoader(BarrelBlockModelBuilder::new).texture("texture", texture);
+        this.itemModels().getBuilder(this.key(block).getPath()).customLoader(BarrelItemModelBuilder::new).texture("texture", texture);
     }
 
     private String name(Block block) { return this.key(block).getPath(); }
