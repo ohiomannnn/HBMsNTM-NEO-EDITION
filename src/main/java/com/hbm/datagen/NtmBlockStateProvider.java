@@ -1,7 +1,9 @@
 package com.hbm.datagen;
 
+import com.hbm.blocks.network.FluidDuctConnectingBlock;
 import com.hbm.datagen.loaders.BarrelBlockModelBuilder;
 import com.hbm.datagen.loaders.BarrelItemModelBuilder;
+import com.hbm.datagen.loaders.DuctBlockLoaderBuilder;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.LayeringBlock;
@@ -34,8 +36,6 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         cub3All(ModBlocks.BRICK_CONCRETE_BROKEN.get());
 
         simpleColumnBlockWithItem(ModBlocks.BRICK_CONCRETE_MARKED.get(), modLoc("block/brick_concrete_marked"), modLoc("block/brick_concrete"));
-
-        this.particleOnlyBlock(ModBlocks.FLUID_DUCT_NEO.get(), modLoc("block/pipe_neo"));
 
         this.particleOnlyBlock(ModBlocks.PLUSHIE_YOMI.get(), blockTexture(Blocks.WHITE_WOOL));
         this.particleOnlyBlock(ModBlocks.PLUSHIE_NUMBERNINE.get(), blockTexture(Blocks.WHITE_WOOL));
@@ -228,6 +228,26 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         getVariantBuilder(ModBlocks.FALLOUT.get())
                 .partialState().setModels(new ConfiguredModel(falloutModel));
 
+        this.registerFluidDuct();
+    }
+
+    private void registerFluidDuct() {
+        Block block = ModBlocks.FLUID_DUCT_NEO.get();
+
+        this.getVariantBuilder(block).forAllStatesExcept(state -> {
+
+            int meta = state.getValue(FluidDuctConnectingBlock.META);
+            
+            ModelFile model;
+
+            switch(meta) {
+                case 2 -> model = this.models().getBuilder(this.name(block)).customLoader(DuctBlockLoaderBuilder::new).texture("texture", modLoc("blocks/pipe_silver")).texture("overlay", modLoc("blocks/pipe_silver_overlay")).end();
+                case 3 -> model = this.models().getBuilder(this.name(block)).customLoader(DuctBlockLoaderBuilder::new).texture("texture", modLoc("blocks/pipe_colored")).texture("overlay", modLoc("blocks/pipe_colored_overlay")).end();
+                default -> model = this.models().getBuilder(this.name(block)).customLoader(DuctBlockLoaderBuilder::new).texture("texture", modLoc("blocks/pipe_neo")).texture("overlay", modLoc("blocks/pipe_neo_overlay")).end();
+            }
+
+            return ConfiguredModel.builder().modelFile(model).build();
+        }, FluidDuctConnectingBlock.NORTH, FluidDuctConnectingBlock.SOUTH, FluidDuctConnectingBlock.EAST, FluidDuctConnectingBlock.WEST, FluidDuctConnectingBlock.UP, FluidDuctConnectingBlock.DOWN);
     }
 
     private void generateLayeringBlock(Block block) {

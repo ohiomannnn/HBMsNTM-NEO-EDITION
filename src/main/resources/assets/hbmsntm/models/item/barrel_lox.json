@@ -1,6 +1,3 @@
 {
-  "loader": "hbmsntm:barrel_geometry_loader",
-  "textures": {
-    "texture": "hbmsntm:block/barrel_lox"
-  }
+  "parent": "builtin/entity"
 }

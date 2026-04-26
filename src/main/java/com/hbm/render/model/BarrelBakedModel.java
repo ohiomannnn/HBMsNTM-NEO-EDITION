@@ -1,7 +1,9 @@
 package com.hbm.render.model;
 
 import com.hbm.render.loader.HFRWavefrontObject;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -17,7 +19,7 @@ public class BarrelBakedModel extends AbstractWavefrontBakedModel {
     private List<BakedQuad> quads;
 
     public BarrelBakedModel(HFRWavefrontObject model, TextureAtlasSprite baseSprite) {
-        super(model, BakedModelTransforms.BLOCK_ITEM);
+        super(model, ItemTransforms.NO_TRANSFORMS);
         this.baseSprite = baseSprite;
     }
 

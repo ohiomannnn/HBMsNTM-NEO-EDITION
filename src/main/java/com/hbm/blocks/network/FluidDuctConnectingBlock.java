@@ -33,7 +33,7 @@ public class FluidDuctConnectingBlock extends FluidDuctBaseBlock implements IMet
     public static final BooleanProperty UP    = BlockStateProperties.UP;
     public static final BooleanProperty DOWN  = BlockStateProperties.DOWN;
 
-    public static final IntegerProperty META = IntegerProperty.create("pipe_meta", 0, 15);
+    public static final IntegerProperty META = IntegerProperty.create("pipe_meta", 0, 3);
 
     public FluidDuctConnectingBlock(Properties properties) {
         super(properties);

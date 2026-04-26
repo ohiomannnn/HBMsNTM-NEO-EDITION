@@ -1,14 +1,30 @@
 package com.hbm.render.item;
 
+import com.hbm.main.NuclearTechMod;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.client.model.data.ModelData;
+
+import java.util.List;
 
 public class ItemRenderBaseStandard extends BlockEntityWithoutLevelRenderer {
+
+    public static final RandomSource RANDOM = RandomSource.create(42);
+
+    public TextureAtlasSprite[] sprites;
+    public BakedModel[] models;
 
     public ItemRenderBaseStandard() {
         super(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());
@@ -77,6 +93,22 @@ public class ItemRenderBaseStandard extends BlockEntityWithoutLevelRenderer {
 
         renderCommon(itemStackIn, poseStack, buffer, packedLight, packedOverlay);
         poseStack.popPose();
+    }
+
+    protected TextureAtlasSprite getSprite(String path) {
+        return Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(NuclearTechMod.withDefaultNamespace(path));
+    }
+
+    public void renderQuadList(PoseStack poseStack, VertexConsumer consumer, List<BakedQuad> quads, int combinedLight, int combinedOverlay) {
+        for(BakedQuad bakedquad : quads) {
+            consumer.putBulkData(poseStack.last(), bakedquad, 1.0F, 1.0F, 1.0F, 1.0F, combinedLight, combinedOverlay, true);
+        }
+    }
+
+    public void renderModel(PoseStack poseStack, MultiBufferSource buffer, BakedModel model, int packedLight, int packedOverlay) {
+        VertexConsumer consumer = buffer.getBuffer(RenderType.entitySolid(TextureAtlas.LOCATION_BLOCKS));
+
+        this.renderQuadList(poseStack, consumer, model.getQuads(null, null, RANDOM, ModelData.EMPTY, null), packedLight, packedOverlay);
     }
 
     public void renderNonInv(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay, boolean righthand) { renderNonInv(poseStack, buffer, packedLight, packedOverlay, righthand); }

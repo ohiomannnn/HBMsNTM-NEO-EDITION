@@ -2,7 +2,9 @@ package com.hbm.render.model;
 
 import com.hbm.blocks.network.FluidDuctConnectingBlock;
 import com.hbm.render.loader.HFRWavefrontObject;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -22,7 +24,7 @@ public class PipeNeoBakedModel extends AbstractWavefrontBakedModel {
     private List<BakedQuad> itemQuads;
 
     public PipeNeoBakedModel(HFRWavefrontObject model, TextureAtlasSprite baseSprite, TextureAtlasSprite overlaySprite, boolean forBlock) {
-        super(model, BakedModelTransforms.PIPE_ITEM);
+        super(model, ItemTransforms.NO_TRANSFORMS);
         this.baseSprite = baseSprite;
         this.overlaySprite = overlaySprite;
         this.forBlock = forBlock;
@@ -86,8 +88,8 @@ public class PipeNeoBakedModel extends AbstractWavefrontBakedModel {
                 if (nX) parts.add("nX");
                 if (pY) parts.add("pY");
                 if (nY) parts.add("nY");
-                if (pZ) parts.add("nZ"); // mirrors original (pZ -> nZ)
-                if (nZ) parts.add("pZ"); // mirrors original (nZ -> pZ)
+                if (pZ) parts.add("nZ");
+                if (nZ) parts.add("pZ");
 
                 if (!pX && !pY && !pZ) parts.add("ppn");
                 if (!pX && !pY && !nZ) parts.add("ppp");

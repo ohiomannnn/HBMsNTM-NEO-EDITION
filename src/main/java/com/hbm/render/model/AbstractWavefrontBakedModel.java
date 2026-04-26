@@ -5,11 +5,15 @@ import com.hbm.render.loader.S_Face;
 import com.hbm.render.loader.S_GroupObject;
 import com.hbm.render.loader.old.TextureCoordinate;
 import com.hbm.render.loader.old.Vertex;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemDisplayContext;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
@@ -24,28 +28,66 @@ public abstract class AbstractWavefrontBakedModel extends AbstractBakedModel {
         this.model = model;
     }
 
+    @Override
+    public BakedModel applyTransform(ItemDisplayContext displayContext, PoseStack poseStack, boolean applyLeftHandTransform) {
+
+        switch(displayContext) {
+            case FIRST_PERSON_RIGHT_HAND -> {
+                poseStack.translate(-0.08F, 0.4F, 0.1F);
+                poseStack.scale(0.35F, 0.35F, 0.35F);
+                poseStack.mulPose(Axis.YP.rotationDegrees(180F));
+                poseStack.mulPose(Axis.YN.rotationDegrees(135F));
+            }
+            case FIRST_PERSON_LEFT_HAND -> {
+                poseStack.translate(0.08F, 0.4F, 0.1F);
+                poseStack.scale(0.35F, 0.35F, 0.35F);
+                poseStack.mulPose(Axis.YP.rotationDegrees(135F));
+            }
+            case THIRD_PERSON_RIGHT_HAND -> {
+                poseStack.translate(-0.33F, 0.15F, 0.2F);
+                poseStack.scale(0.45F, 0.45F, 0.45F);
+                poseStack.mulPose(Axis.XP.rotationDegrees(70F));
+                poseStack.mulPose(Axis.YN.rotationDegrees(135F));
+            }
+            case THIRD_PERSON_LEFT_HAND -> {
+                poseStack.translate(0F, 0.45F, 0.1F);
+                poseStack.scale(0.45F, 0.45F, 0.45F);
+                poseStack.mulPose(Axis.XP.rotationDegrees(70F));
+                poseStack.mulPose(Axis.YP.rotationDegrees(135F));
+            }
+            case GROUND -> {
+                poseStack.scale(0.35F, 0.35F, 0.35F);
+                poseStack.mulPose(Axis.YP.rotationDegrees(90F));
+            }
+            case FIXED -> {
+                poseStack.translate(0F, 0.3F, 0F);
+                poseStack.scale(0.25F, 0.25F, 0.25F);
+                poseStack.mulPose(Axis.YP.rotationDegrees(90F));
+            }
+            case GUI -> {
+                poseStack.scale(0.62F, 0.62F, 0.62F);
+                poseStack.translate(0.6F, 0F, 0F);
+                poseStack.mulPose(Axis.XP.rotationDegrees(30F));
+                poseStack.mulPose(Axis.YP.rotationDegrees(225F));
+            }
+        }
+
+        return this;
+    }
+
     protected List<BakedQuad> bakeSimpleQuads(List<String> partNames, float roll, float pitch, float yaw, boolean applyShading, BlockTranslate translate, TextureAtlasSprite sprite) {
         return bakeSimpleQuads(partNames, roll, pitch, yaw, applyShading, translate, sprite, -1);
     }
 
     protected List<BakedQuad> bakeSimpleQuads(List<String> partNames, float roll, float pitch, float yaw, boolean applyShading, BlockTranslate translate, TextureAtlasSprite sprite, int tintIndex) {
-        return bakeSimpleQuads(partNames, roll, pitch, yaw, applyShading, translate, sprite, tintIndex, 1.0F, 1.0F, 1.0F);
-    }
-
-    protected List<BakedQuad> bakeSimpleQuads(List<String> partNames, float roll, float pitch, float yaw, boolean applyShading, BlockTranslate translate, TextureAtlasSprite sprite, int tintIndex, float extraTx, float extraTy, float extraTz) {
-        List<FaceGeometry> geometries = buildGeometry(partNames, roll, pitch, yaw, applyShading, translate, extraTx, extraTy, extraTz);
+        List<FaceGeometry> geometries = buildGeometry(partNames, roll, pitch, yaw, applyShading, translate);
         List<BakedQuad> quads = new ArrayList<>(geometries.size());
-        for(FaceGeometry geometry : geometries) {
-            quads.add(geometry.buildQuad(sprite, tintIndex));
-        }
+
+        for(FaceGeometry geometry : geometries) quads.add(geometry.buildQuad(sprite, tintIndex));
         return quads;
     }
 
     protected List<FaceGeometry> buildGeometry(List<String> partNames, float roll, float pitch, float yaw, boolean applyShading, BlockTranslate translate) {
-        return buildGeometry(partNames, roll, pitch, yaw, applyShading, translate, 1.0F, 1.0F, 1.0F);
-    }
-
-    protected List<FaceGeometry> buildGeometry(List<String> partNames, float roll, float pitch, float yaw, boolean applyShading, BlockTranslate translate, float extraTx, float extraTy, float extraTz) {
         List<FaceGeometry> geometries = new ArrayList<>();
 
         for(S_GroupObject group : model.groupObjects) {
@@ -94,10 +136,6 @@ public abstract class AbstractWavefrontBakedModel extends AbstractBakedModel {
                             z += 0.5F;
                         }
                     }
-
-                    x = x * extraTx;
-                    y = y * extraTy;
-                    z = z * extraTz;
 
                     TextureCoordinate tex = face.textureCoordinates[idx];
                     uu[v] = tex.u;

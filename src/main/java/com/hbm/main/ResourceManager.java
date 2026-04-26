@@ -49,19 +49,6 @@ public class ResourceManager {
     public static final ResourceLocation PIPE_SILVER_OVERLAY_TEX = NuclearTechMod.withDefaultNamespace("textures/block/pipe_silver_overlay.png");
     public static final ResourceLocation PIPE_COLORED_OVERLAY_TEX = NuclearTechMod.withDefaultNamespace("textures/block/pipe_colored_overlay.png");
 
-    public static final ResourceLocation BARREL_ANTIMATTER_TEX = NuclearTechMod.withDefaultNamespace("textures/block/barrel_antimatter.png");
-    public static final ResourceLocation BARREL_CORRODED_TEX = NuclearTechMod.withDefaultNamespace("textures/block/barrel_corroded.png");
-    public static final ResourceLocation BARREL_IRON_TEX = NuclearTechMod.withDefaultNamespace("textures/block/barrel_iron.png");
-    public static final ResourceLocation BARREL_LOX_TEX = NuclearTechMod.withDefaultNamespace("textures/block/barrel_lox.png");
-    public static final ResourceLocation BARREL_PINK_TEX = NuclearTechMod.withDefaultNamespace("textures/block/barrel_pink.png");
-    public static final ResourceLocation BARREL_PLASTIC_TEX = NuclearTechMod.withDefaultNamespace("textures/block/barrel_plastic.png");
-    public static final ResourceLocation BARREL_RED_TEX = NuclearTechMod.withDefaultNamespace("textures/block/barrel_red.png");
-    public static final ResourceLocation BARREL_STEEL_TEX = NuclearTechMod.withDefaultNamespace("textures/block/barrel_steel.png");
-    public static final ResourceLocation BARREL_TAINT_TEX = NuclearTechMod.withDefaultNamespace("textures/block/barrel_taint.png");
-    public static final ResourceLocation BARREL_TCALLOY_TEX = NuclearTechMod.withDefaultNamespace("textures/block/barrel_tcalloy.png");
-    public static final ResourceLocation BARREL_VITRIFIED_TEX = NuclearTechMod.withDefaultNamespace("textures/block/barrel_vitrified.png");
-    public static final ResourceLocation BARREL_YELLOW_TEX = NuclearTechMod.withDefaultNamespace("textures/block/barrel_yellow.png");
-
     public static final ResourceLocation TANK_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/tank.png");
     public static final ResourceLocation TANK_INNER_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/tank_inner.png");
 
@@ -140,7 +127,8 @@ public class ResourceManager {
 
     public static IModelCustom armor_no9;
 
-    public static IModelCustom cable_neo;
+    public static HFRWavefrontObject barrel;
+    public static HFRWavefrontObject cable_neo;
     public static IModelCustom pipe_neo;
     public static IModelCustom difurnace_extension;
 
@@ -198,7 +186,8 @@ public class ResourceManager {
 
         armor_no9 = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/armor/no9.obj")).asVBO();
 
-        cable_neo = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/block/cable_neo.obj"));
+        barrel = new HFRWavefrontObject("models/obj/block/barrel.obj");
+        cable_neo = new HFRWavefrontObject("models/obj/block/cable_neo.obj");
         pipe_neo = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/block/pipe_neo.obj"));
         difurnace_extension = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/block/difurnace_extension.obj"));
 

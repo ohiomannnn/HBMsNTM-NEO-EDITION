@@ -39,13 +39,12 @@ import com.hbm.render.entity.mob.CreeperNuclearRenderer;
 import com.hbm.render.entity.mob.DuckRenderer;
 import com.hbm.render.entity.projectile.*;
 import com.hbm.render.entity.rocket.*;
-import com.hbm.render.item.ItemRenderMissileGeneric;
+import com.hbm.render.item.*;
 import com.hbm.render.item.ItemRenderMissileGeneric.RenderMissileType;
-import com.hbm.render.item.RenderBatteryPackItem;
-import com.hbm.render.item.RenderLaserDetonator;
 import com.hbm.render.loader.HFRModelReloader;
 import com.hbm.render.model.loader.BarrelGeometryLoader;
 import com.hbm.render.model.loader.CableGeometryLoader;
+import com.hbm.render.model.loader.DetCordGeometryLoader;
 import com.hbm.render.model.loader.PipeGeometryLoader;
 import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.render.util.RenderScreenOverlay;
@@ -156,6 +155,7 @@ public class NuclearTechModClient {
         event.register(PipeGeometryLoader.ID, PipeGeometryLoader.INSTANCE);
         event.register(CableGeometryLoader.ID, CableGeometryLoader.INSTANCE);
         event.register(BarrelGeometryLoader.ID, BarrelGeometryLoader.INSTANCE);
+        event.register(DetCordGeometryLoader.ID, DetCordGeometryLoader.INSTANCE);
     }
 
     @SubscribeEvent
@@ -648,6 +648,16 @@ public class NuclearTechModClient {
         }
 
         registerItemRenderer(event, new RenderLaserDetonator(), NtmItems.DETONATOR_LASER.get());
+
+        registerItemRenderer(event, new RenderCableItem(), ModBlocks.RED_CABLE.asItem());
+        registerItemRenderer(event, new RenderDetCordItem(), ModBlocks.DET_CORD.asItem());
+
+        registerItemRenderer(event, new RenderBarrelItem(),
+                ModBlocks.BARREL_RED.asItem(),
+                ModBlocks.BARREL_PINK.asItem(),
+                ModBlocks.BARREL_LOX.asItem(),
+                ModBlocks.BARREL_TAINT.asItem()
+        );
 
         registerItemRenderer(event, new RenderBatteryPackItem(), NtmItems.BATTERY_PACK.get());
 
