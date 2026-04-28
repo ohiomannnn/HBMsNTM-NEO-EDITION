@@ -1,7 +1,13 @@
 {
   "variants": {
-    "": {
-      "model": "hbmsntm:block/fluid_duct_neo_particle"
+    "pipe_meta=1": {
+      "model": "hbmsntm:block/fluid_duct_neo"
+    },
+    "pipe_meta=2": {
+      "model": "hbmsntm:block/fluid_duct_colored"
+    },
+    "pipe_meta=3": {
+      "model": "hbmsntm:block/fluid_duct_silver"
     }
   }
 }

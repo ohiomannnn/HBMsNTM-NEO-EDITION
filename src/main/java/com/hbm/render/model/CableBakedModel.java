@@ -53,7 +53,7 @@ public class CableBakedModel extends AbstractWavefrontBakedModel {
             } catch(Exception ignored) {}
         }
 
-        int mask = (pX ? 1 : 0) | (nX ? 2 : 0) | (pY ? 4 : 0) | (nY ? 8 : 0) | (pZ ? 16 : 0) | (nZ ? 32 : 0);
+        int mask = 0 + (pX ? 32 : 0) + (nX ? 16 : 0) + (pY ? 8 : 0) + (nY ? 4 : 0) + (pZ ? 2 : 0) + (nZ ? 1 : 0);
         List<BakedQuad> quads = cache[mask];
         if (quads != null) return quads;
 
@@ -80,7 +80,6 @@ public class CableBakedModel extends AbstractWavefrontBakedModel {
             if(pZ) parts.add("negZ");
         }
 
-        NuclearTechMod.LOGGER.debug("Build world quads with list of {}", parts);
         return bakeSimpleQuads(parts, 0.0F, 0.0F, 0.0F, true, BlockTranslate.CENTER, sprite);
     }
 

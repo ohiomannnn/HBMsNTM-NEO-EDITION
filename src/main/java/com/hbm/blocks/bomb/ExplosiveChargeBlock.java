@@ -3,7 +3,6 @@ package com.hbm.blocks.bomb;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.item.TNTPrimedBase;
-import com.hbm.entity.logic.NukeExplosionMK3;
 import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.vanillant.ExplosionVNT;
@@ -11,11 +10,9 @@ import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
 import com.hbm.interfaces.IBomb;
-import com.hbm.particle.helper.CloudCreator;
 import com.hbm.particle.helper.ExplosionCreator;
 import com.hbm.particle.helper.NukeTorexCreator;
 import com.hbm.util.DamageResistanceHandler.DamageClass;
-import com.hbm.world.WorldUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -55,14 +52,8 @@ public class ExplosiveChargeBlock extends DetonatableBlock implements IBomb, IDe
                 vnt.explode();
             }
             if (this == ModBlocks.DET_NUKE.get()) {
-                //NukeExplosionMK5.statFac(level, MainConfig.COMMON.MISSLE_RADIUS.get(), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-                //NukeTorexCreator.statFacStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, MainConfig.COMMON.MISSLE_RADIUS.get());
-
-                NukeExplosionMK3 ex = NukeExplosionMK3.statFacFleija(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, MainConfig.COMMON.FLEIJA_RADIUS.get());
-                if (!ex.isRemoved()) {
-                    WorldUtil.loadAndSpawnEntityInWorld(ex);
-                    CloudCreator.composeEffect(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, CloudCreator.CloudType.FLEIJA);
-                }
+                NukeExplosionMK5.statFac(level, MainConfig.COMMON.MISSLE_RADIUS.get(), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+                NukeTorexCreator.statFacStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, MainConfig.COMMON.MISSLE_RADIUS.get());
             }
         }
         return BombReturnCode.DETONATED;

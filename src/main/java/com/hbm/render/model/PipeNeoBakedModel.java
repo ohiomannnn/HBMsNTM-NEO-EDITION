@@ -2,13 +2,16 @@ package com.hbm.render.model;
 
 import com.hbm.blocks.network.FluidDuctConnectingBlock;
 import com.hbm.render.loader.HFRWavefrontObject;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.client.ChunkRenderTypeSet;
+import net.neoforged.neoforge.client.model.data.ModelData;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -52,7 +55,7 @@ public class PipeNeoBakedModel extends AbstractWavefrontBakedModel {
                 nZ = state.getValue(FluidDuctConnectingBlock.NORTH);
             } catch (Exception ignored) {}
         }
-        int mask = (pX ? 32 : 0) | (nX ? 16 : 0) | (pY ? 8 : 0) | (nY ? 4 : 0) | (pZ ? 2 : 0) | (nZ ? 1 : 0);
+        int mask = 0 + (pX ? 32 : 0) + (nX ? 16 : 0) + (pY ? 8 : 0) + (nY ? 4 : 0) + (pZ ? 2 : 0) + (nZ ? 1 : 0);
         List<BakedQuad> quads = cache[mask];
         if(quads != null) return quads;
         quads = buildWorldQuads(pX, nX, pY, nY, pZ, nZ, mask);
@@ -71,15 +74,15 @@ public class PipeNeoBakedModel extends AbstractWavefrontBakedModel {
                 parts.add("pZ");
                 parts.add("nZ");
             }
-            case 32, 16 -> {
+            case 0b100000, 0b010000 -> {
                 parts.add("pX");
                 parts.add("nX");
             }
-            case 8, 4 -> {
+            case 0b001000, 0b000100 -> {
                 parts.add("pY");
                 parts.add("nY");
             }
-            case 2, 1 -> {
+            case 0b000010, 0b000001 -> {
                 parts.add("pZ");
                 parts.add("nZ");
             }
@@ -119,6 +122,13 @@ public class PipeNeoBakedModel extends AbstractWavefrontBakedModel {
             quads.add(geo.buildQuad(overlaySprite, 1));
         }
         return quads;
+    }
+
+    private static final ChunkRenderTypeSet RENDER_TYPE = ChunkRenderTypeSet.of(RenderType.cutout());
+
+    @Override
+    public ChunkRenderTypeSet getRenderTypes(BlockState state, RandomSource rand, ModelData data) {
+        return RENDER_TYPE;
     }
 
     @Override

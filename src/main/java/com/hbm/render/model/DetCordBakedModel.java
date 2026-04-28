@@ -1,8 +1,6 @@
 package com.hbm.render.model;
 
 import com.hbm.blocks.bomb.DetCordBlock;
-import com.hbm.blocks.network.CableBlock;
-import com.hbm.main.NuclearTechMod;
 import com.hbm.render.loader.HFRWavefrontObject;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
@@ -52,9 +50,8 @@ public class DetCordBakedModel extends AbstractWavefrontBakedModel {
             } catch(Exception ignored) {}
         }
 
-        int mask = (pX ? 1 : 0) | (nX ? 2 : 0) | (pY ? 4 : 0) | (nY ? 8 : 0) | (pZ ? 16 : 0) | (nZ ? 32 : 0);
+        int mask = 0 + (pX ? 32 : 0) + (nX ? 16 : 0) + (pY ? 8 : 0) + (nY ? 4 : 0) + (pZ ? 2 : 0) + (nZ ? 1 : 0);
         List<BakedQuad> quads = cache[mask];
-        NuclearTechMod.LOGGER.debug("Quads = {}", quads);
         if(quads != null) return quads;
 
         quads = buildWorldQuads(pX, nX, pY, nY, pZ, nZ, mask);
@@ -85,8 +82,7 @@ public class DetCordBakedModel extends AbstractWavefrontBakedModel {
             }
         }
 
-        NuclearTechMod.LOGGER.debug("Build world quads with list of {}", parts);
-        return bakeSimpleQuads(parts, 0.0F, 0.0F, 0.0F, true, BlockTranslate.CENTER, sprite);
+        return bakeSimpleQuads(parts, 0.0F, 0.0F, 0.0F, false, BlockTranslate.CENTER, sprite);
     }
 
     private List<BakedQuad> buildItemQuads() {

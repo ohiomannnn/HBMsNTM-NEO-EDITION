@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "hbmsntm:block/det_cord_particle"
+      "model": "hbmsntm:block/det_cord"
     }
   }
 }

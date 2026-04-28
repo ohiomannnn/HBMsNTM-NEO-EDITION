@@ -27,6 +27,14 @@ public class DetCordBlock extends DetonatableBlock implements IDetConnectible {
 
     public DetCordBlock(Properties properties) {
         super(properties, 0, 0, 0, false, false);
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(NORTH, Boolean.FALSE)
+                .setValue(SOUTH, Boolean.FALSE)
+                .setValue(EAST,  Boolean.FALSE)
+                .setValue(WEST,  Boolean.FALSE)
+                .setValue(UP,    Boolean.FALSE)
+                .setValue(DOWN,  Boolean.FALSE)
+        );
     }
 
     @Override

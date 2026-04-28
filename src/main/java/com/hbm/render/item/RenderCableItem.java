@@ -4,6 +4,7 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.model.CableBakedModel;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.item.ItemStack;
@@ -35,6 +36,7 @@ public class RenderCableItem extends ItemRenderBaseStandard {
         poseStack.scale(1.25F, 1.25F, 1.25F);
         poseStack.translate(0F, 0.1F, 0F);
 
-        this.renderModel(poseStack, buffer, models[0], packedLight, packedOverlay);
+        VertexConsumer consumer = buffer.getBuffer(CUTOUT);
+        this.renderModel(poseStack, consumer, models[0], packedLight, packedOverlay);
     }
 }

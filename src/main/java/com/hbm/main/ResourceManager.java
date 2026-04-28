@@ -2,7 +2,6 @@ package com.hbm.main;
 
 import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.loader.IModelCustom;
-import com.hbm.render.loader.old.ModelFormatException;
 import net.minecraft.resources.ResourceLocation;
 
 public class ResourceManager {
@@ -33,13 +32,6 @@ public class ResourceManager {
 
     public static final ResourceLocation NO9 = NuclearTechMod.withDefaultNamespace("textures/armor/no9.png");
     public static final ResourceLocation NO9_INSIGNIA = NuclearTechMod.withDefaultNamespace("textures/armor/no9_insignia.png");
-
-    public static final ResourceLocation CABLE_NEO_TEX = NuclearTechMod.withDefaultNamespace("textures/block/red_cable.png");
-    public static final ResourceLocation DIFURNACE_EXTENSION_TEX = NuclearTechMod.withDefaultNamespace("textures/block/difurnace_extension.png");
-    public static final ResourceLocation DIFURNACE_EXTENSION_TOP_TEX = NuclearTechMod.withDefaultNamespace("textures/block/difurnace_top_off_alt.png");
-    public static final ResourceLocation DIFURNACE_EXTENSION_BOTTOM_TEX = NuclearTechMod.withDefaultNamespace("textures/block/brick_fire.png");
-    public static final ResourceLocation CABLE_CLASSIC_TEX = NuclearTechMod.withDefaultNamespace("textures/block/red_cable_classic.png");
-    public static final ResourceLocation DET_CORD_TEX = NuclearTechMod.withDefaultNamespace("textures/block/det_cord.png");
 
     public static final ResourceLocation PIPE_NEO_TEX = NuclearTechMod.withDefaultNamespace("textures/block/pipe_neo.png");
     public static final ResourceLocation PIPE_SILVER_TEX = NuclearTechMod.withDefaultNamespace("textures/block/pipe_silver.png");
@@ -129,7 +121,7 @@ public class ResourceManager {
 
     public static HFRWavefrontObject barrel;
     public static HFRWavefrontObject cable_neo;
-    public static IModelCustom pipe_neo;
+    public static HFRWavefrontObject pipe_neo;
     public static IModelCustom difurnace_extension;
 
     public static IModelCustom fluid_tank;

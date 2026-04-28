@@ -625,7 +625,7 @@ public class NuclearTechModClient {
 
         BlockEntityRenderers.register(ModBlockEntityTypes.LAUNCH_PAD.get(), new RenderLaunchPad());
 
-        BlockEntityRenderers.register(ModBlockEntityTypes.FLUID_DUCT.get(), new RenderPipe());
+        //BlockEntityRenderers.register(ModBlockEntityTypes.FLUID_DUCT.get(), new RenderPipe());
 
         BlockEntityRenderers.register(ModBlockEntityTypes.FLUID_TANK.get(), new RenderFluidTank());
         BlockEntityRenderers.register(ModBlockEntityTypes.GEIGER_COUNTER.get(), new RenderGeigerBlock());
@@ -651,6 +651,8 @@ public class NuclearTechModClient {
 
         registerItemRenderer(event, new RenderCableItem(), ModBlocks.RED_CABLE.asItem());
         registerItemRenderer(event, new RenderDetCordItem(), ModBlocks.DET_CORD.asItem());
+
+        registerItemRenderer(event, new RenderPipeItem(), ModBlocks.FLUID_DUCT_NEO.asItem());
 
         registerItemRenderer(event, new RenderBarrelItem(),
                 ModBlocks.BARREL_RED.asItem(),

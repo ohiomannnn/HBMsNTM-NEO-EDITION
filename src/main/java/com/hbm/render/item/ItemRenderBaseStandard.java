@@ -1,25 +1,62 @@
 package com.hbm.render.item;
 
 import com.hbm.main.NuclearTechMod;
+import com.hbm.main.ResourceManager;
+import com.hbm.render.util.NtmShaders.NtmVertexFormat;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderStateShard.TextureStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.util.FastColor;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.model.data.ModelData;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemRenderBaseStandard extends BlockEntityWithoutLevelRenderer {
+public abstract class ItemRenderBaseStandard extends BlockEntityWithoutLevelRenderer {
+
+    public static final RenderType SOLID = RenderType.create(
+            "solid_nt",
+            DefaultVertexFormat.NEW_ENTITY,
+            VertexFormat.Mode.QUADS,
+            15346,
+            true,
+            false,
+            RenderType.CompositeState.builder()
+                    .setShaderState(RenderType.RENDERTYPE_ENTITY_SOLID_SHADER)
+                    .setTextureState(RenderType.BLOCK_SHEET_MIPPED)
+                    .setLightmapState(RenderType.LIGHTMAP)
+                    .createCompositeState(true)
+    );
+
+    public static final RenderType CUTOUT = RenderType.create(
+            "cutout_nt",
+            DefaultVertexFormat.NEW_ENTITY,
+            VertexFormat.Mode.QUADS,
+            15346,
+            true,
+            false,
+            RenderType.CompositeState.builder()
+                    .setShaderState(RenderType.RENDERTYPE_ENTITY_CUTOUT_SHADER)
+                    .setTextureState(RenderType.BLOCK_SHEET_MIPPED)
+                    .setLightmapState(RenderType.LIGHTMAP)
+                    .createCompositeState(true)
+    );
 
     public static final RandomSource RANDOM = RandomSource.create(42);
 
@@ -99,16 +136,29 @@ public class ItemRenderBaseStandard extends BlockEntityWithoutLevelRenderer {
         return Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(NuclearTechMod.withDefaultNamespace(path));
     }
 
-    public void renderQuadList(PoseStack poseStack, VertexConsumer consumer, List<BakedQuad> quads, int combinedLight, int combinedOverlay) {
+    public void renderQuadList(@Nullable ItemStack stack, PoseStack poseStack, VertexConsumer consumer, List<BakedQuad> quads, int combinedLight, int combinedOverlay) {
+
+        ItemColors itemColors = Minecraft.getInstance().getItemColors();
+
         for(BakedQuad bakedquad : quads) {
-            consumer.putBulkData(poseStack.last(), bakedquad, 1.0F, 1.0F, 1.0F, 1.0F, combinedLight, combinedOverlay, true);
+            int i = -1;
+            if(bakedquad.isTinted()) {
+                if(stack != null) i = itemColors.getColor(stack, bakedquad.getTintIndex());
+            }
+
+            float a = (float) FastColor.ARGB32.alpha(i) / 255.0F;
+            float r = (float) FastColor.ARGB32.red(i) / 255.0F;
+            float g = (float) FastColor.ARGB32.green(i) / 255.0F;
+            float b = (float) FastColor.ARGB32.blue(i) / 255.0F;
+            consumer.putBulkData(poseStack.last(), bakedquad, r, g, b, a, combinedLight, combinedOverlay, true);
         }
     }
 
-    public void renderModel(PoseStack poseStack, MultiBufferSource buffer, BakedModel model, int packedLight, int packedOverlay) {
-        VertexConsumer consumer = buffer.getBuffer(RenderType.entitySolid(TextureAtlas.LOCATION_BLOCKS));
-
-        this.renderQuadList(poseStack, consumer, model.getQuads(null, null, RANDOM, ModelData.EMPTY, null), packedLight, packedOverlay);
+    public void renderModel(ItemStack stack, PoseStack poseStack, VertexConsumer consumer, BakedModel model, int packedLight, int packedOverlay) {
+        this.renderQuadList(stack, poseStack, consumer, model.getQuads(null, null, RANDOM, ModelData.EMPTY, null), packedLight, packedOverlay);
+    }
+    public void renderModel(PoseStack poseStack, VertexConsumer consumer, BakedModel model, int packedLight, int packedOverlay) {
+        this.renderModel(null, poseStack, consumer, model, packedLight, packedOverlay);
     }
 
     public void renderNonInv(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay, boolean righthand) { renderNonInv(poseStack, buffer, packedLight, packedOverlay, righthand); }
