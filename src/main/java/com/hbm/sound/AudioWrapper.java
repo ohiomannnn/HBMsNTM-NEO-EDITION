@@ -3,6 +3,7 @@ package com.hbm.sound;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class AudioWrapper {
 
@@ -40,6 +41,12 @@ public class AudioWrapper {
 
     public static AudioWrapper getLoopedSound(SoundEvent event, SoundSource source, float x, float y, float z, float volume, float range, float pitch, int keepAlive) {
         AudioWrapper audio = getLoopedSound(event, source, x, y, z, volume, range, pitch);
+        audio.setKeepAlive(keepAlive);
+        return audio;
+    }
+
+    public static AudioWrapper getLoopedSound(SoundEvent event, SoundSource source, BlockEntity be, float volume, float range, float pitch, int keepAlive) {
+        AudioWrapper audio = getLoopedSound(event, source, be.getBlockPos().getX(), be.getBlockPos().getY(), be.getBlockPos().getZ(), volume, range, pitch);
         audio.setKeepAlive(keepAlive);
         return audio;
     }

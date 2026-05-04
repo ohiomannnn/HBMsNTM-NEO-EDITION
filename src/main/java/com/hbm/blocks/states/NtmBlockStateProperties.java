@@ -1,6 +1,7 @@
 package com.hbm.blocks.states;
 
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 
 public class NtmBlockStateProperties {
 
@@ -10,4 +11,6 @@ public class NtmBlockStateProperties {
     public static final BooleanProperty EAST =  BooleanProperty.create("connected_east");
     public static final BooleanProperty SOUTH = BooleanProperty.create("connected_south");
     public static final BooleanProperty WEST =  BooleanProperty.create("connected_west");
+
+    public static final IntegerProperty META =  IntegerProperty.create("meta", 0, 15);
 }

@@ -33,7 +33,7 @@ public record Ducc() implements CustomPacketPayload {
                 ducc.fallDistance = 0.0F;
 
                 player.level().addFreshEntity(ducc);
-                player.level().playSound(null, player.getX(), player.getY(), player.getZ(), NtmSoundEvents.DUCK, SoundSource.NEUTRAL, 1.0F, 1.0F);
+                player.level().playSound(null, player.getX(), player.getY(), player.getZ(), NtmSoundEvents.DUCC, SoundSource.NEUTRAL, 1.0F, 1.0F);
 
                 props.ducked = true;
                 player.setData(ModAttachments.PLAYER_ATTACHMENT, props);

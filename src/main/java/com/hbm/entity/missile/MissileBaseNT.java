@@ -258,6 +258,8 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
         }
     }
 
+    @Override public boolean shouldRenderAtSqrDistance(double distance) { return true; }
+
     @Override
     protected void onImpact(RayTraceResult result) {
         if (result != null && result.typeOfHit == RayTraceResult.Type.BLOCK) {

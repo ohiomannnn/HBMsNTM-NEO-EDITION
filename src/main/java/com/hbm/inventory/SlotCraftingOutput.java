@@ -7,7 +7,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class SlotCraftingOutput extends Slot {
 
-    private Player player;
+    private final Player player;
     private int craftBuffer;
 
     public SlotCraftingOutput(Player player, Container container, int slot, int x, int y) {

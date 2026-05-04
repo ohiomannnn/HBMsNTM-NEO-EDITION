@@ -9,7 +9,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 
-public class NukeExplosionBalefire extends ChunkloadingEntity {
+public class NukeExplosionBalefire extends ExplosionChunkLoading {
 
     public int age = 0;
     public int destructionRange = 0;

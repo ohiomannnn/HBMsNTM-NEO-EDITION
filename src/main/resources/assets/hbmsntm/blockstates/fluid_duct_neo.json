@@ -1,5 +1,8 @@
 {
   "variants": {
+    "pipe_meta=0": {
+      "model": "hbmsntm:block/fluid_duct_neo"
+    },
     "pipe_meta=1": {
       "model": "hbmsntm:block/fluid_duct_neo"
     },

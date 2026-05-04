@@ -1,12 +1,12 @@
 package com.hbm.entity.logic;
 
-import com.hbm.main.NuclearTechMod;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.effect.FalloutRain;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeRayBatched;
 import com.hbm.interfaces.IExplosionRay;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
@@ -22,7 +22,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-public class NukeExplosionMK5 extends ChunkloadingEntity {
+public class NukeExplosionMK5 extends ExplosionChunkLoading {
 
     //Strength of the blast
     public int strength;
@@ -39,6 +39,16 @@ public class NukeExplosionMK5 extends ChunkloadingEntity {
         super(type, level);
     }
 
+    @Override
+    protected void readAdditionalSaveData(CompoundTag tag) {
+        this.tickCount = tag.getInt("age");
+    }
+
+    @Override
+    protected void addAdditionalSaveData(CompoundTag tag) {
+        tag.putInt("age", this.tickCount);
+    }
+
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder) {}
 
     @Override
@@ -49,13 +59,9 @@ public class NukeExplosionMK5 extends ChunkloadingEntity {
             this.discard();
         }
 
-        if (!level().isClientSide) {
-            updateChunkTicket();
-        }
+        this.updateChunkTicket();
 
-        //TODO: make advancement for this
-
-        if (!level().isClientSide && fallout && explosion != null && this.tickCount < 10 && strength >= 75) {
+        if (!level.isClientSide && fallout && explosion != null && this.tickCount < 10 && strength >= 75) {
             radiate(2_500_000F / (this.tickCount * 5 + 1), this.length * 2);
         }
 
@@ -118,16 +124,6 @@ public class NukeExplosionMK5 extends ChunkloadingEntity {
     public void remove(RemovalReason reason) {
         if (explosion != null) explosion.cancel();
         super.remove(reason);
-    }
-
-    @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {
-        this.tickCount = tag.getInt("age");
-    }
-
-    @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {
-        tag.putInt("age", this.tickCount);
     }
 
     public static NukeExplosionMK5 statFac(Level level, int strength, double x, double y, double z) {

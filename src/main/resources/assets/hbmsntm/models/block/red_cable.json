@@ -1,6 +1,6 @@
 {
   "loader": "hbmsntm:cable_geometry_loader",
   "textures": {
-    "texture": "hbmsntm:block/red_cable"
+    "texture": "hbmsntm:block/cable_neo"
   }
 }

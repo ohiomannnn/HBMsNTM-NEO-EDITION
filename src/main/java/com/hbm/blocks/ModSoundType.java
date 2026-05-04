@@ -61,8 +61,7 @@ public class ModSoundType extends SoundType {
         return new ModSoundType(from.getPlaceSound(), from.getBreakSound(), sound(stepSound), from.getHitSound(), from.getFallSound(), volume, pitch);
     }
 
-    public static ModSoundType customDig(SoundType from, String digSound, float volume, float pitch) {
-        SoundEvent dig = sound(digSound);
+    public static ModSoundType customDig(SoundType from, SoundEvent dig, float volume, float pitch) {
         return new ModSoundType(dig, dig, from.getStepSound(), from.getHitSound(), from.getFallSound(), volume, pitch);
     }
 

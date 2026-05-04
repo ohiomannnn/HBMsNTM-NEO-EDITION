@@ -1,8 +1,7 @@
 {
   "loader": "hbmsntm:pipe_geometry_loader",
-  "block": true,
   "textures": {
-    "texture": "hbmsntm:block/pipe_silver",
-    "overlay": "hbmsntm:block/pipe_silver_overlay"
+    "overlay": "hbmsntm:block/pipe_silver_overlay",
+    "texture": "hbmsntm:block/pipe_silver"
   }
 }

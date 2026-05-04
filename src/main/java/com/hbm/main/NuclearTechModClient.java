@@ -794,6 +794,27 @@ public class NuclearTechModClient {
         event.registerSpecial(ModParticles.VANILLA_CLOUD.get(), new PlayerCloudParticle.Provider());
     }
 
+    public static void effectNT2(CompoundTag tag) {
+        Minecraft mc = Minecraft.getInstance();
+
+        ClientLevel level = mc.level;
+        if(level == null) return;
+
+        Player player = mc.player;
+        int particleSetting = mc.options.particles().get().getId();
+        RandomSource rand = level.random;
+
+        String type = tag.getString("type");
+        double x = tag.getDouble("x");
+        double y = tag.getDouble("y");
+        double z = tag.getDouble("z");
+
+        if(ParticleCreators.particleCreators.containsKey(type)) {
+            ParticleCreators.particleCreators.get(type).makeParticle(level, player, rand, x, y, z, tag);
+            return;
+        }
+    }
+
     public static void effectNT(CompoundTag data) {
         Minecraft mc = Minecraft.getInstance();
 

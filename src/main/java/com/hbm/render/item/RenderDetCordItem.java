@@ -29,20 +29,20 @@ public class RenderDetCordItem extends ItemRenderBaseStandard {
 
     @Override
     public void renderCommon(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-
-        if(this.sprites == null || this.models == null) {
-            this.sprites = new TextureAtlasSprite[] {
-                    this.getSprite("block/det_cord")
-            };
-            this.models = new DetCordBakedModel[] {
-                new DetCordBakedModel(ResourceManager.cable_neo, sprites[0], false)
-            };
-        }
-
         poseStack.scale(1.25F, 1.25F, 1.25F);
         poseStack.translate(0F, 0.1F, 0F);
 
-        VertexConsumer consumer = buffer.getBuffer(CUTOUT);
+        VertexConsumer consumer = buffer.getBuffer(SOLID);
         this.renderModel(poseStack, consumer, models[0], packedLight, packedOverlay);
+    }
+
+    @Override
+    public void registerModelsAndSprites() {
+        this.sprites = new TextureAtlasSprite[] {
+                this.getSprite("block/det_cord")
+        };
+        this.models = new DetCordBakedModel[] {
+                new DetCordBakedModel(ResourceManager.cable_neo, sprites[0], false)
+        };
     }
 }

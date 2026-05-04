@@ -333,7 +333,7 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
         if (this.level == null) return;
 
         level.addFreshEntity(missile);
-        level.playSound(null, this.getBlockPos().getX() + 0.5, this.getBlockPos().getY(), this.getBlockPos().getZ() + 0.5, NtmSoundEvents.MISSILE_TAKE_OFF.get(), SoundSource.BLOCKS, 2.0F, 1.0F);
+        level.playSound(null, this.getBlockPos().getX() + 0.5, this.getBlockPos().getY(), this.getBlockPos().getZ() + 0.5, NtmSoundEvents.MISSILE_TAKEOFF.get(), SoundSource.PLAYERS, 2.0F, 1.0F);
 
         this.power -= 75_000;
 

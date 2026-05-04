@@ -5,7 +5,7 @@ import com.hbm.blocks.generic.FalloutBlock;
 import com.hbm.config.FalloutConfigJSON;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.item.FallingBlockEntityNT;
-import com.hbm.entity.logic.ChunkloadingEntity;
+import com.hbm.entity.logic.ExplosionChunkLoading;
 import com.hbm.world.WorldUtil;
 import com.hbm.registry.NtmBiomes;
 import net.minecraft.core.BlockPos;
@@ -29,7 +29,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.*;
 
-public class FalloutRain extends ChunkloadingEntity {
+public class FalloutRain extends ExplosionChunkLoading {
 
     private boolean firstTick = true;
 

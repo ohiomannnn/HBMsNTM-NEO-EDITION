@@ -71,6 +71,10 @@ public abstract class ItemRenderBaseStandard extends BlockEntityWithoutLevelRend
     public void renderByItem(ItemStack itemStackIn, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
         poseStack.pushPose();
 
+        if(this.sprites == null || this.models == null) {
+            this.registerModelsAndSprites();
+        }
+
         if (displayContext != ItemDisplayContext.GUI) poseStack.translate(0.5F, 0F, 0.5F);
         switch (displayContext) {
             case FIRST_PERSON_RIGHT_HAND -> {
@@ -160,6 +164,8 @@ public abstract class ItemRenderBaseStandard extends BlockEntityWithoutLevelRend
     public void renderModel(PoseStack poseStack, VertexConsumer consumer, BakedModel model, int packedLight, int packedOverlay) {
         this.renderModel(null, poseStack, consumer, model, packedLight, packedOverlay);
     }
+
+    public abstract void registerModelsAndSprites();
 
     public void renderNonInv(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay, boolean righthand) { renderNonInv(poseStack, buffer, packedLight, packedOverlay, righthand); }
     public void renderInventory(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) { renderInventory(poseStack, buffer, packedLight, packedOverlay); }

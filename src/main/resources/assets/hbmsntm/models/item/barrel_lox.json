@@ -1,3 +1,4 @@
 {
-  "parent": "builtin/entity"
+  "parent": "minecraft:builtin/entity",
+  "gui_light": "side"
 }

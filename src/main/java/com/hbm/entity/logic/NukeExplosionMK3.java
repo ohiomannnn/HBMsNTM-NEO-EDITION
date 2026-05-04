@@ -8,12 +8,19 @@ import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionSolinium;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
-public class NukeExplosionMK3 extends ChunkloadingEntity {
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
+
+public class NukeExplosionMK3 extends ExplosionChunkLoading {
 
     public int age = 0;
     public int destructionRange = 0;
@@ -128,6 +135,8 @@ public class NukeExplosionMK3 extends ChunkloadingEntity {
         if (sol != null) sol.saveToNbt(tag, "sol_");
     }
 
+    public static final HashMap<ATEntry, Long> at = new HashMap<>();
+
     public static NukeExplosionMK3 statFacFleija(Level level, double x, double y, double z, int range) {
 
         NukeExplosionMK3 entity = new NukeExplosionMK3(ModEntityTypes.NUKE_MK3.get(), level);
@@ -137,11 +146,55 @@ public class NukeExplosionMK3 extends ChunkloadingEntity {
         entity.coefficient = 1.0F;
         entity.waste = false;
 
+        Iterator<Entry<ATEntry, Long>> it = at.entrySet().iterator();
+
+        while(it.hasNext()) {
+
+            Entry<ATEntry, Long> next = it.next();
+            if (next.getValue() < level.getGameTime()) {
+                it.remove();
+                continue;
+            }
+
+            ATEntry entry = next.getKey();
+            if(entry.dim != level.dimension()) continue;
+
+            Vec3 vec = new Vec3(x - entry.x, y - entry.y, z - entry.z);
+
+            if(vec.length() < 300) {
+                entity.discard();
+
+                if(level instanceof ServerLevel serverLevel) {
+                    for (int i = 0; i < 2; i++) {
+                        double ix = i == 0 ? x : (entry.x + 0.5);
+                        double iy = i == 0 ? y : (entry.y + 0.5);
+                        double iz = i == 0 ? z : (entry.z + 0.5);
+
+
+                    }
+                }
+            }
+        }
+
         return entity;
     }
 
     public NukeExplosionMK3 makeSol() {
         this.extType = 1;
         return this;
+    }
+
+    public static class ATEntry {
+        public ResourceKey<Level> dim;
+        public int x;
+        public int y;
+        public int z;
+
+        public ATEntry(ResourceKey<Level> dim, int x, int y, int z) {
+            this.dim = dim;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
     }
 }

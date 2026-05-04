@@ -115,7 +115,7 @@ public class PipeNeoBakedModel extends AbstractWavefrontBakedModel {
     }
 
     private List<BakedQuad> bakeWithOverlay(List<String> parts, boolean centerToBlock) {
-        List<FaceGeometry> geometry = buildGeometry(parts, 0.0F, 0.0F, 0.0F, true, centerToBlock ? BlockTranslate.CENTER : BlockTranslate.NONE);
+        List<FaceGeometry> geometry = buildGeometry(parts, 0.0F, 0.0F, 0.0F, centerToBlock ? BlockTranslate.CENTER : BlockTranslate.NONE);
         List<BakedQuad> quads = new ArrayList<>(geometry.size() * 2);
         for(FaceGeometry geo : geometry) {
             quads.add(geo.buildQuad(baseSprite, -1));

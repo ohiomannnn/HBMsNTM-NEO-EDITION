@@ -75,7 +75,7 @@ public class LandMineBlockEntity extends BlockEntity implements Tickable {
         // The mine will prime itself only after all entities have left its trigger radius * 2
         // I'm leaving this note because I made a dumb assumption on what this was meant to do
         if (!this.isPrimed && !this.waitingForPlayer) {
-            level.playSound(null, this.getBlockPos(), NtmSoundEvents.FSTBMB_START.get(), SoundSource.BLOCKS, 3.0F, 1.0F);
+            level.playSound(null, this.getBlockPos(), NtmSoundEvents.FSTBMB_START.get(), SoundSource.PLAYERS, 3.0F, 1.0F);
             this.isPrimed = true;
         }
     }

@@ -43,6 +43,7 @@ public class NtmDataGenerators {
         // Client things
         generator.addProvider(event.includeClient(), new NtmItemModelProvider(output, helper));
         generator.addProvider(event.includeClient(), new NtmBlockStateProvider(output, helper));
+        generator.addProvider(event.includeClient(), new NtmSoundDefinitionsProvider(output, helper));
 
         // Server things
         LootTableProvider.SubProviderEntry blockLootTableSubProvider = new LootTableProvider.SubProviderEntry(NtmBlockLootTableProvider::new, LootContextParamSets.BLOCK);

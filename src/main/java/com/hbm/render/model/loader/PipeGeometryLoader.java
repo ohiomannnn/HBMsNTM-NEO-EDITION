@@ -17,9 +17,6 @@ public class PipeGeometryLoader implements IGeometryLoader<PipeGeometry> {
 
     @Override
     public PipeGeometry read(JsonObject object, JsonDeserializationContext context) throws JsonParseException {
-
-        boolean block = GsonHelper.getAsBoolean(object, "block", false);
-
-        return new PipeGeometry(block);
+        return new PipeGeometry();
     }
 }

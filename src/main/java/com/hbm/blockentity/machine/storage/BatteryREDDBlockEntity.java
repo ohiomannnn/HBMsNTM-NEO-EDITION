@@ -1,11 +1,11 @@
 package com.hbm.blockentity.machine.storage;
 
-import com.hbm.main.NuclearTechModClient;
 import com.hbm.blockentity.IPersistentNBT;
 import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.inventory.menus.BatteryREDDMenu;
 import com.hbm.lib.Library;
+import com.hbm.main.NuclearTechModClient;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -19,7 +19,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.math.BigInteger;
@@ -78,7 +77,7 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
 
             if (this.prevRotation != this.rotation && NuclearTechModClient.me().distanceToSqr(this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 5.5, this.getBlockPos().getZ() + 0.5) < 30 * 30) {
                 if (this.audio == null || !this.audio.isPlaying()) {
-                    this.audio = AudioWrapper.getLoopedSound(NtmSoundEvents.FENSU_HUM.get(), SoundSource.AMBIENT, this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(), this.getVolume(1.5F), 25F, pitch, 5);
+                    this.audio = AudioWrapper.getLoopedSound(NtmSoundEvents.FENSU_HUM.get(), SoundSource.BLOCKS, this, this.getVolume(1.5F), 25F, pitch, 5);
                     this.audio.startSound();
                 }
 
@@ -95,8 +94,6 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
         }
     }
 
-    public static void tick(Level ignored, BlockPos ignored1, BlockState ignored2, BatteryREDDBlockEntity be) { be.updateEntity(); }
-
     public float getSpeed() {
         return (float) Math.min(Math.pow(Math.log(this.power.doubleValue() * 0.05 + 1) * 0.05F, 5), 15F);
     }
@@ -104,6 +101,7 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
     @Override
     public void onChunkUnloaded() {
         super.onChunkUnloaded();
+
         if (audio != null) {
             audio.stopSound();
             audio = null;

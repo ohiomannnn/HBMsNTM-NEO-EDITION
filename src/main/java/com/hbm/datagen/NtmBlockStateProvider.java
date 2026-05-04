@@ -1,13 +1,11 @@
 package com.hbm.datagen;
 
-import com.hbm.blocks.network.FluidDuctConnectingBlock;
-import com.hbm.datagen.loaders.BarrelBlockModelBuilder;
-import com.hbm.datagen.loaders.BarrelItemModelBuilder;
-import com.hbm.datagen.loaders.DuctBlockLoaderBuilder;
-import com.hbm.main.NuclearTechMod;
+import com.google.gson.JsonObject;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.LayeringBlock;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
+import com.hbm.blocks.network.FluidDuctConnectingBlock;
+import com.hbm.main.NuclearTechMod;
 import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -15,12 +13,13 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
-import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.client.model.generators.MultiPartBlockStateBuilder;
+import net.neoforged.neoforge.client.model.generators.*;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class NtmBlockStateProvider extends BlockStateProvider {
 
@@ -47,7 +46,6 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         cubeTop(ModBlocks.MACHINE_SATLINKER.get());
 
         this.cubeAll(ModBlocks.DET_CHARGE.get());
-        this.particleOnlyBlock(ModBlocks.DET_CORD.get(), blockTexture(ModBlocks.DET_CORD.get()));
         this.cubeTop(ModBlocks.DET_NUKE.get());
         this.cubeTop(ModBlocks.DET_MINER.get());
 
@@ -225,10 +223,25 @@ public class NtmBlockStateProvider extends BlockStateProvider {
                 .face(Direction.EAST).texture("#all").end()
                 .end();
 
-        getVariantBuilder(ModBlocks.FALLOUT.get())
-                .partialState().setModels(new ConfiguredModel(falloutModel));
+        getVariantBuilder(ModBlocks.FALLOUT.get()).partialState().setModels(new ConfiguredModel(falloutModel));
 
+        this.registerCable();
+        this.registerDetCord();
         this.registerFluidDuct();
+    }
+
+    private void registerCable() {
+        Block block = ModBlocks.RED_CABLE.get();
+
+        this.simpleBlock(block, this.models().getBuilder(this.key(block).getPath()).customLoader(CableBlockLoaderBuilder::new).texture("texture", modLoc("block/cable_neo")).end());
+        this.entityBlockItem(block, false);
+    }
+
+    private void registerDetCord() {
+        Block block = ModBlocks.DET_CORD.get();
+
+        this.simpleBlock(block, this.models().getBuilder(this.key(block).getPath()).customLoader(DetCordBlockLoaderBuilder::new).texture("texture", modLoc("block/det_cord")).end());
+        this.entityBlockItem(block, false);
     }
 
     private void registerFluidDuct() {
@@ -241,13 +254,20 @@ public class NtmBlockStateProvider extends BlockStateProvider {
             ModelFile model;
 
             switch(meta) {
-                case 2 -> model = this.models().getBuilder(this.name(block)).customLoader(DuctBlockLoaderBuilder::new).texture("texture", modLoc("blocks/pipe_silver")).texture("overlay", modLoc("blocks/pipe_silver_overlay")).end();
-                case 3 -> model = this.models().getBuilder(this.name(block)).customLoader(DuctBlockLoaderBuilder::new).texture("texture", modLoc("blocks/pipe_colored")).texture("overlay", modLoc("blocks/pipe_colored_overlay")).end();
-                default -> model = this.models().getBuilder(this.name(block)).customLoader(DuctBlockLoaderBuilder::new).texture("texture", modLoc("blocks/pipe_neo")).texture("overlay", modLoc("blocks/pipe_neo_overlay")).end();
+                case 3 -> model = this.models().getBuilder("hbmsntm:block/fluid_duct_silver").customLoader(DuctBlockLoaderBuilder::new).texture("texture", modLoc("block/pipe_silver")).texture("overlay", modLoc("block/pipe_silver_overlay")).end();
+                case 2 -> model = this.models().getBuilder("hbmsntm:block/fluid_duct_colored").customLoader(DuctBlockLoaderBuilder::new).texture("texture", modLoc("block/pipe_colored")).texture("overlay", modLoc("block/pipe_colored_overlay")).end();
+                default -> model = this.models().getBuilder("hbmsntm:block/fluid_duct_neo").customLoader(DuctBlockLoaderBuilder::new).texture("texture", modLoc("block/pipe_neo")).texture("overlay", modLoc("block/pipe_neo_overlay")).end();
             }
 
             return ConfiguredModel.builder().modelFile(model).build();
         }, FluidDuctConnectingBlock.NORTH, FluidDuctConnectingBlock.SOUTH, FluidDuctConnectingBlock.EAST, FluidDuctConnectingBlock.WEST, FluidDuctConnectingBlock.UP, FluidDuctConnectingBlock.DOWN);
+
+        this.entityBlockItem(block, false);
+    }
+
+    private void barrelLoaderBlockItem(Block block, ResourceLocation texture) {
+        this.simpleBlock(block, this.models().getBuilder(this.key(block).getPath()).customLoader(BarrelBlockModelBuilder::new).texture("texture", texture).end());
+        this.entityBlockItem(block, false);
     }
 
     private void generateLayeringBlock(Block block) {
@@ -368,15 +388,59 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.itemModels().getBuilder(this.key(block).getPath()).parent(new ModelFile.UncheckedModelFile("builtin/entity")).guiLight(frontLight ? BlockModel.GuiLight.FRONT : BlockModel.GuiLight.SIDE);
     }
 
-    private void barrelLoaderBlockItem(Block block, ResourceLocation texture) {
-        this.models().getBuilder(this.key(block).getPath()).customLoader(BarrelBlockModelBuilder::new).texture("texture", texture);
-        this.itemModels().getBuilder(this.key(block).getPath()).customLoader(BarrelItemModelBuilder::new).texture("texture", texture);
-    }
-
     private String name(Block block) { return this.key(block).getPath(); }
     private ResourceLocation key(Block block) { return BuiltInRegistries.BLOCK.getKey(block); }
 
     private void blockItem(DeferredBlock<?> deferredBlock) {
         simpleBlockItem(deferredBlock.get(), new ModelFile.UncheckedModelFile("hbmsntm:block/" + deferredBlock.getId().getPath()));
     }
+
+    protected static class DuctBlockLoaderBuilder extends BlockModelBuilderBase {
+        public DuctBlockLoaderBuilder(BlockModelBuilder parent, ExistingFileHelper existingFileHelper) {
+            super(NuclearTechMod.withDefaultNamespace("pipe_geometry_loader"), parent, existingFileHelper);
+        }
+    }
+    protected static class BarrelBlockModelBuilder extends BlockModelBuilderBase {
+        public BarrelBlockModelBuilder(BlockModelBuilder parent, ExistingFileHelper existingFileHelper) {
+            super(NuclearTechMod.withDefaultNamespace("barrel_geometry_loader"), parent, existingFileHelper);
+        }
+    }
+    protected static class CableBlockLoaderBuilder extends BlockModelBuilderBase {
+        public CableBlockLoaderBuilder(BlockModelBuilder parent, ExistingFileHelper existingFileHelper) {
+            super(NuclearTechMod.withDefaultNamespace("cable_geometry_loader"), parent, existingFileHelper);
+        }
+    }
+    protected static class DetCordBlockLoaderBuilder extends BlockModelBuilderBase {
+        public DetCordBlockLoaderBuilder(BlockModelBuilder parent, ExistingFileHelper existingFileHelper) {
+            super(NuclearTechMod.withDefaultNamespace("det_cord_geometry_loader"), parent, existingFileHelper);
+        }
+    }
+
+    public static abstract class BlockModelBuilderBase extends CustomLoaderBuilder<BlockModelBuilder> {
+
+        private final Map<String, ResourceLocation> textures = new LinkedHashMap<>();
+
+        protected BlockModelBuilderBase(ResourceLocation loaderId, BlockModelBuilder parent, ExistingFileHelper existingFileHelper) {
+            super(loaderId, parent, existingFileHelper, false);
+        }
+
+        public BlockModelBuilderBase texture(String key, ResourceLocation location) {
+            this.textures.put(key, location);
+            return this;
+        }
+
+        @Override
+        public JsonObject toJson(JsonObject json) {
+            super.toJson(json);
+
+            JsonObject texturesObject = new JsonObject();
+            for(Entry<String, ResourceLocation> entry : this.textures.entrySet()) {
+                texturesObject.addProperty(entry.getKey(), entry.getValue().toString());
+            }
+            json.add("textures", texturesObject);
+
+            return json;
+        }
+    }
+
 }

@@ -40,7 +40,7 @@ public class MissileShuttle extends MissileBaseNT {
         if (this.level instanceof ServerLevel serverLevel) {
             PacketDistributor.sendToPlayersNear(serverLevel, null, this.position.x, this.position.y, this.position.z, 250, new AuxParticle(tag, this.position.x, this.position.y + 1, this.position.z));
         }
-        level.playSound(null, this.position.x, this.position.y, this.position.z, NtmSoundEvents.ROBIN_EXPLOSION.get(), SoundSource.BLOCKS, 4.0F, (1.0F + (this.level.random.nextFloat() - this.level.random.nextFloat()) * 0.2F) * 0.7F);
+        level.playSound(null, this.position.x, this.position.y, this.position.z, NtmSoundEvents.ROBIN_EXPLOSION.get(), SoundSource.PLAYERS, 4.0F, (1.0F + (this.level.random.nextFloat() - this.level.random.nextFloat()) * 0.2F) * 0.7F);
     }
     @Override public ItemStack getDebrisRareDrop() { return new ItemStack(NtmItems.MISSILE_GENERIC.get()); }
 }

@@ -11,12 +11,13 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
-public class ContainerMenuBase extends AbstractContainerMenu {
+public class ContainerMenuBase<T extends Container> extends AbstractContainerMenu {
 
-    public Container be;
+    public T be;
 
-    protected ContainerMenuBase(MenuType<?> menuType, int containerId) {
-        super(menuType, containerId);
+    public ContainerMenuBase(MenuType<?> menuType, T be, int id) {
+        super(menuType, id);
+        this.be = be;
     }
 
     @Override

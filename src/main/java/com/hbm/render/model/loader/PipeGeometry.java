@@ -15,12 +15,6 @@ import java.util.function.Function;
 
 public class PipeGeometry implements IUnbakedGeometry<PipeGeometry> {
 
-    protected final boolean forBlock;
-
-    public PipeGeometry(boolean forBlock) {
-        this.forBlock = forBlock;
-    }
-
     @Override
     public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState state, ItemOverrides overrides) {
 
@@ -32,6 +26,6 @@ public class PipeGeometry implements IUnbakedGeometry<PipeGeometry> {
 
         HFRWavefrontObject obj = new HFRWavefrontObject("models/obj/block/pipe_neo.obj");
 
-        return new PipeNeoBakedModel(obj, textureSprite, overlaySprite, forBlock);
+        return new PipeNeoBakedModel(obj, textureSprite, overlaySprite, true);
     }
 }

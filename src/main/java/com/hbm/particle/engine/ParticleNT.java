@@ -3,6 +3,7 @@ package com.hbm.particle.engine;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
@@ -42,6 +43,9 @@ public abstract class ParticleNT {
     public float gCol;
     public float bCol;
     public float alpha;
+    public float xRot; // pitch
+    public float yRot; // yaw
+    public float zRot; // roll
     protected float roll;
     protected float oRoll;
     protected float friction;
@@ -70,18 +74,6 @@ public abstract class ParticleNT {
         this.quadSize = 0.1F * (this.random.nextFloat() * 0.5F + 0.5F) * 2.0F;
         this.verticalCollision = false;
         this.horizontalCollision = false;
-    }
-
-    public ParticleNT(ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        this(level, x, y, z);
-        this.xd = xSpeed + (Math.random() * (double)2.0F - (double)1.0F) * (double)0.4F;
-        this.yd = ySpeed + (Math.random() * (double)2.0F - (double)1.0F) * (double)0.4F;
-        this.zd = zSpeed + (Math.random() * (double)2.0F - (double)1.0F) * (double)0.4F;
-        double d0 = (Math.random() + Math.random() + (double)1.0F) * (double)0.15F;
-        double d1 = Math.sqrt(this.xd * this.xd + this.yd * this.yd + this.zd * this.zd);
-        this.xd = this.xd / d1 * d0 * (double)0.4F;
-        this.yd = this.yd / d1 * d0 * (double)0.4F + (double)0.1F;
-        this.zd = this.zd / d1 * d0 * (double)0.4F;
     }
 
     public void tick() {

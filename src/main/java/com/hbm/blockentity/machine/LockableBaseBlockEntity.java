@@ -126,11 +126,11 @@ public abstract class LockableBaseBlockEntity extends LoadedBaseBlockEntity {
             double rand = player.level().random.nextDouble() * 100;
 
             if (chanceOfSuccess > rand) {
-                level.playSound(null, getBlockPos(), NtmSoundEvents.PIN_UNLOCK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+                level.playSound(null, getBlockPos(), NtmSoundEvents.PIN_UNLOCK.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
                 return true;
             }
 
-            level.playSound(null, getBlockPos(), NtmSoundEvents.PIN_BREAK.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+            level.playSound(null, getBlockPos(), NtmSoundEvents.PIN_BREAK.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
         }
 
         return false;

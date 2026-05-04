@@ -80,12 +80,12 @@ public class CableBakedModel extends AbstractWavefrontBakedModel {
             if(pZ) parts.add("negZ");
         }
 
-        return bakeSimpleQuads(parts, 0.0F, 0.0F, 0.0F, true, BlockTranslate.CENTER, sprite);
+        return bakeSimpleQuads(parts, 0.0F, 0.0F, 0.0F, BlockTranslate.CENTER, sprite);
     }
 
     private List<BakedQuad> buildItemQuads() {
         List<String> parts = List.of("Core", "posX", "negX", "posZ", "negZ");
-        return bakeSimpleQuads(parts, 0F, 0F, 0F, true, BlockTranslate.NONE, sprite);
+        return bakeSimpleQuads(parts, 0F, 0F, 0F, BlockTranslate.NONE, sprite);
     }
 
     @Override

@@ -92,7 +92,7 @@ public class HorsePronter {
 
         horse.renderPart("Body");
 
-        if (horn) {
+        if(horn) {
             renderWithTransform(id_head, "Head", "Mane", maleSnoot ? "NoseMale" : "NoseFemale", "HornPointy");
         } else {
             renderWithTransform(id_head, "Head", "Mane", maleSnoot ? "NoseMale" : "NoseFemale");
@@ -104,7 +104,7 @@ public class HorsePronter {
         renderWithTransform(id_rbl, "RightBackLeg");
         renderWithTransform(id_tail,"Tail");
 
-        if (wings) {
+        if(wings) {
             horse.renderPart("LeftWing");
             horse.renderPart("RightWing");
         }
@@ -126,7 +126,7 @@ public class HorsePronter {
     private static void renderWithTransform(int id, String... parts) {
         RenderContext.pushPose();
         doTransforms(id);
-        for (String part : parts) horse.renderPart(part);
+        for(String part : parts) horse.renderPart(part);
         RenderContext.popPose();
     }
 }

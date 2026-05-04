@@ -54,7 +54,7 @@ public class NukeBalefireBlockEntity extends MachineBaseBlockEntity implements I
                 timer--;
 
                 if (timer % 20 == 0) {
-                    level.playSound(null, this.worldPosition, NtmSoundEvents.FSTBMB_PING.get(), SoundSource.AMBIENT, 5.0F, 1.0F);
+                    level.playSound(null, this.worldPosition, NtmSoundEvents.FSTBMB_PING.get(), SoundSource.PLAYERS, 5.0F, 1.0F);
                 }
             }
 
@@ -91,7 +91,7 @@ public class NukeBalefireBlockEntity extends MachineBaseBlockEntity implements I
         if (level == null) return;
 
         if (tag.contains("start") && this.isLoaded()) {
-            level.playSound(null, this.worldPosition, NtmSoundEvents.FSTBMB_START.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
+            level.playSound(null, this.worldPosition, NtmSoundEvents.FSTBMB_START.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
             started = true;
         }
         if (tag.contains("setTimer")) {

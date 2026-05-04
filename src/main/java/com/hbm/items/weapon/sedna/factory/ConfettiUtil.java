@@ -37,7 +37,7 @@ public class ConfettiUtil {
         int amount = Mth.clamp((int) (entity.getBbWidth() * entity.getBbHeight() * entity.getBbWidth() * 25), 5, 50);
         AshesCreator.composeEffect(level, entity, amount, 0.125F);
         SkeletonCreator.composeEffect(level, entity, 1F);
-        level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), NtmSoundEvents.FIRE_DISINTEGRATION, SoundSource.AMBIENT, 2.0F, 0.9F + entity.getRandom().nextFloat() * 0.2F);
+        level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), NtmSoundEvents.FIRE_DISINTEGRATION, SoundSource.PLAYERS, 2.0F, 0.9F + entity.getRandom().nextFloat() * 0.2F);
     }
 
     public static void cremate(LivingEntity entity) {
@@ -46,7 +46,7 @@ public class ConfettiUtil {
         int amount = Mth.clamp((int) (entity.getBbWidth() * entity.getBbHeight() * entity.getBbWidth() * 25), 5, 50);
         AshesCreator.composeEffect(level, entity, amount, 0.125F);
         SkeletonCreator.composeEffect(level, entity, 0.25F);
-        level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), NtmSoundEvents.FIRE_DISINTEGRATION, SoundSource.AMBIENT, 2.0F, 0.9F + entity.getRandom().nextFloat() * 0.2F);
+        level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), NtmSoundEvents.FIRE_DISINTEGRATION, SoundSource.PLAYERS, 2.0F, 0.9F + entity.getRandom().nextFloat() * 0.2F);
     }
 
     public static void gib(LivingEntity entity) {

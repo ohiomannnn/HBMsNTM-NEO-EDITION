@@ -82,12 +82,12 @@ public class DetCordBakedModel extends AbstractWavefrontBakedModel {
             }
         }
 
-        return bakeSimpleQuads(parts, 0.0F, 0.0F, 0.0F, false, BlockTranslate.CENTER, sprite);
+        return bakeSimpleQuads(parts, 0.0F, 0.0F, 0.0F, BlockTranslate.CENTER, sprite);
     }
 
     private List<BakedQuad> buildItemQuads() {
         List<String> parts = List.of("CZ");
-        return bakeSimpleQuads(parts, 0F, 0F, 0F, true, BlockTranslate.NONE, sprite);
+        return bakeSimpleQuads(parts, 0F, 0F, 0F, BlockTranslate.NONE, sprite);
     }
 
     @Override

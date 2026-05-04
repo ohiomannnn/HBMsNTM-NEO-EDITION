@@ -136,27 +136,27 @@ public class RenderLandmine extends BlockEntityRendererNT<LandMineBlockEntity> i
                 RenderContext.enableCull(false);
                 if (stack.is(ModBlocks.MINE_AP.asItem())) {
                     RenderContext.scale(1.25F, 1.25F, 1.25F);
-                    RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.MINE_AP_GRASS_TEX));
+                    RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.MINE_AP_GRASS_TEX));
                     ResourceManager.mine_ap.renderAll();
                 }
                 if (stack.is(ModBlocks.MINE_HE.asItem())) {
                     RenderContext.scale(4F, 4F, 4F);
-                    RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.MINE_HE_TEX));
+                    RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.MINE_HE_TEX));
                     ResourceManager.mine_he.renderAll();
                 }
                 if (stack.is(ModBlocks.MINE_SHRAP.asItem())) {
                     RenderContext.scale(1.25F, 1.25F, 1.25F);
-                    RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.MINE_SHRAPNEL_TEX));
+                    RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.MINE_SHRAPNEL_TEX));
                     ResourceManager.mine_ap.renderAll();
                 }
                 if (stack.is(ModBlocks.MINE_NAVAL.asItem())) {
-                    RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.MINE_NAVAL_TEX));
+                    RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.MINE_NAVAL_TEX));
                     ResourceManager.mine_naval.renderAll();
                 }
                 if (stack.is(ModBlocks.MINE_FAT.asItem())) {
                     RenderContext.translate(0.25F, 0F, 0F);
                     RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
-                    RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.MINE_FAT_TEX));
+                    RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.MINE_FAT_TEX));
                     ResourceManager.mine_fat.renderAll();
                 }
                 RenderContext.enableCull(true);

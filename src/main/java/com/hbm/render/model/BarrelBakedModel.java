@@ -28,7 +28,7 @@ public class BarrelBakedModel extends AbstractWavefrontBakedModel {
         if(direction != null) return Collections.emptyList();
 
         if(quads == null) {
-            quads = bakeSimpleQuads(null, 0F, 0F, 0F, true, BlockTranslate.CENTER_NO_Y_OFFSET, baseSprite);
+            quads = bakeSimpleQuads(null, 0F, 0F, 0F, BlockTranslate.CENTER_NO_Y_OFFSET, baseSprite);
         }
 
         return quads;

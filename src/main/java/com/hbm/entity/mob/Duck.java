@@ -25,17 +25,17 @@ public class Duck extends Chicken {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return NtmSoundEvents.DUCK.get();
+        return NtmSoundEvents.DUCC.get();
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSource) {
-        return NtmSoundEvents.DUCK.get();
+        return NtmSoundEvents.DUCC.get();
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return NtmSoundEvents.DUCK.get();
+        return NtmSoundEvents.DUCC.get();
     }
 
     @Override

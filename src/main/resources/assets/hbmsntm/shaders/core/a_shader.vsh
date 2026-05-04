@@ -34,8 +34,7 @@ void main() {
     gl_Position = ProjMat * viewPos;
 
     vertexDistance = fog_distance(viewPos.xyz, FogShape);
-    vec3 transformedNormal = normalize(mat3(NormalMat) * Normal);
-    vertexColor = minecraft_mix_light(Light0_Direction, Light1_Direction, transformedNormal, Col);
+    vertexColor = minecraft_mix_light(Light0_Direction, Light1_Direction, normalize(mat3(NormalMat) * Normal), Col);
     lightMapColor = texelFetch(Sampler2, UV2 / 16, 0);
     overlayColor = texelFetch(Sampler1, UV1, 0);
     texCoord0 = (TextureMat * vec4(UV0, 0.0, 1.0)).xy;

@@ -22,22 +22,6 @@ public class RenderBarrelItem extends ItemRenderBaseStandard {
 
     @Override
     public void renderCommon(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-
-        if(this.sprites == null || this.models == null) {
-            this.sprites = new TextureAtlasSprite[] {
-                    this.getSprite("block/barrel_red"),
-                    this.getSprite("block/barrel_pink"),
-                    this.getSprite("block/barrel_lox"),
-                    this.getSprite("block/barrel_taint")
-            };
-            this.models = new BarrelBakedModel[] {
-                new BarrelBakedModel(ResourceManager.barrel, sprites[0]),
-                new BarrelBakedModel(ResourceManager.barrel, sprites[1]),
-                new BarrelBakedModel(ResourceManager.barrel, sprites[2]),
-                new BarrelBakedModel(ResourceManager.barrel, sprites[3]),
-            };
-        }
-
         poseStack.translate(-0.5, 0, -0.5);
 
         VertexConsumer consumer = buffer.getBuffer(SOLID);
@@ -50,5 +34,21 @@ public class RenderBarrelItem extends ItemRenderBaseStandard {
         if(stack.is(ModBlocks.BARREL_LOX.asItem()))   return 2;
         if(stack.is(ModBlocks.BARREL_TAINT.asItem())) return 3;
         return 0;
+    }
+
+    @Override
+    public void registerModelsAndSprites() {
+        this.sprites = new TextureAtlasSprite[] {
+                this.getSprite("block/barrel_red"),
+                this.getSprite("block/barrel_pink"),
+                this.getSprite("block/barrel_lox"),
+                this.getSprite("block/barrel_taint")
+        };
+        this.models = new BarrelBakedModel[] {
+                new BarrelBakedModel(ResourceManager.barrel, sprites[0]),
+                new BarrelBakedModel(ResourceManager.barrel, sprites[1]),
+                new BarrelBakedModel(ResourceManager.barrel, sprites[2]),
+                new BarrelBakedModel(ResourceManager.barrel, sprites[3]),
+        };
     }
 }
