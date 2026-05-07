@@ -4,6 +4,7 @@ import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.generic.FalloutBlock;
 import com.hbm.config.FalloutConfigJSON;
 import com.hbm.config.MainConfig;
+import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.item.FallingBlockEntityNT;
 import com.hbm.entity.logic.ExplosionChunkLoading;
 import com.hbm.world.WorldUtil;
@@ -35,8 +36,10 @@ public class FalloutRain extends ExplosionChunkLoading {
 
     private static final EntityDataAccessor<Integer> SCALE = SynchedEntityData.defineId(FalloutRain.class, EntityDataSerializers.INT);
 
-    public FalloutRain(EntityType<?> type, Level level) {
-        super(type, level);
+    public FalloutRain(EntityType<? extends FalloutRain> type, Level level) { super(type, level); }
+
+    public FalloutRain(Level level) {
+        super(ModEntityTypes.FALLOUT_RAIN.get(), level);
     }
 
     private final Map<ResourceKey<Biome>, Holder<Biome>> biomeCache = new HashMap<>();
@@ -46,7 +49,7 @@ public class FalloutRain extends ExplosionChunkLoading {
     }
 
     private int tickDelay = MainConfig.COMMON.FALLOUT_DELAY.get();
-    private int mk5 = MainConfig.COMMON.MK5.get();
+    private final int mk5 = MainConfig.COMMON.MK5.get();
 
     @Override
     public void tick() {

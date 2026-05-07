@@ -93,7 +93,7 @@ public class CommonEvents {
 
         if (MainConfig.COMMON.ENABLE_MOTD.get()) {
 
-            player.sendSystemMessage(Component.translatable("message.hbmsntm.loaded", NuclearTechMod.VERSION));
+            player.sendSystemMessage(Component.translatable("message.hbmsntm.loaded", Component.translatable("message.hbmsntm.neo").withStyle(ChatFormatting.LIGHT_PURPLE), NuclearTechMod.VERSION));
 
             if (HTTPHandler.newVersion) {
                 player.sendSystemMessage(
@@ -173,6 +173,7 @@ public class CommonEvents {
         event.register(ModMenuTypes.NUKE_FAT_MAN.get(), NukeFatManScreen::new);
         event.register(ModMenuTypes.NUKE_IVY_MIKE.get(), NukeIvyMikeScreen::new);
         event.register(ModMenuTypes.NUKE_TSAR_BOMBA.get(), NukeTsarBombaScreen::new);
+        event.register(ModMenuTypes.NUKE_PROTOTYPE.get(), NukePrototypeScreen::new);
         event.register(ModMenuTypes.NUKE_FLEIJA.get(), NukeFleijaScreen::new);
         event.register(ModMenuTypes.NUKE_N2.get(), NukeN2Screen::new);
         event.register(ModMenuTypes.NUKE_FSTBMB.get(), NukeFstbmbScreen::new);

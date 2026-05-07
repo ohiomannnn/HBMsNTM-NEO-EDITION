@@ -555,7 +555,7 @@ public class NuclearTechModClient {
         event.registerEntityRenderer(ModEntityTypes.NUKE_MK5.get(), EmptyEntityRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.NUKE_MK3.get(), EmptyEntityRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.NUKE_BALEFIRE.get(), EmptyEntityRenderer::new);
-        event.registerEntityRenderer(ModEntityTypes.NUKE_FALLOUT_RAIN.get(), RenderFallout::new);
+        event.registerEntityRenderer(ModEntityTypes.FALLOUT_RAIN.get(), RenderFallout::new);
         event.registerEntityRenderer(ModEntityTypes.SHRAPNEL.get(), RenderShrapnel::new);
         event.registerEntityRenderer(ModEntityTypes.RUBBLE.get(), RenderRubble::new);
         event.registerEntityRenderer(ModEntityTypes.ROCKET.get(), ThrownItemRenderer::new);
@@ -563,7 +563,7 @@ public class NuclearTechModClient {
         event.registerEntityRenderer(ModEntityTypes.BLACK_HOLE.get(), RenderBlackHole::new);
         event.registerEntityRenderer(ModEntityTypes.VORTEX.get(), RenderBlackHole::new);
         event.registerEntityRenderer(ModEntityTypes.RAGING_VORTEX.get(), RenderBlackHole::new);
-        event.registerEntityRenderer(ModEntityTypes.QUASAR.get(), RenderQuasar::new);
+        event.registerEntityRenderer(ModEntityTypes.DIGAMMA_QUASAR.get(), RenderQuasar::new);
 
         event.registerEntityRenderer(ModEntityTypes.METEOR.get(), RenderMeteor::new);
 
@@ -625,8 +625,6 @@ public class NuclearTechModClient {
 
         BlockEntityRenderers.register(ModBlockEntityTypes.LAUNCH_PAD.get(), new RenderLaunchPad());
 
-        //BlockEntityRenderers.register(ModBlockEntityTypes.FLUID_DUCT.get(), new RenderPipe());
-
         BlockEntityRenderers.register(ModBlockEntityTypes.FLUID_TANK.get(), new RenderFluidTank());
         BlockEntityRenderers.register(ModBlockEntityTypes.GEIGER_COUNTER.get(), new RenderGeigerBlock());
 
@@ -638,6 +636,7 @@ public class NuclearTechModClient {
         BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_FAT_MAN.get(), new RenderNukeFatMan());
         BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_FLEIJA.get(), new RenderNukeFleija());
         BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_FSTBMB.get(), new RenderNukeFstbmb());
+        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_PROTOTYPE.get(), new RenderNukePrototype());
         BlockEntityRenderers.register(ModBlockEntityTypes.CRASHED_BOMB.get(), new RenderCrashedBomb());
         BlockEntityRenderers.register(ModBlockEntityTypes.LANDMINE.get(), new RenderLandmine());
 

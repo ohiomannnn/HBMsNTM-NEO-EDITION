@@ -17,7 +17,7 @@ public class NukeExplosionBalefire extends ExplosionChunkLoading {
     public int speed = 1;
     public boolean did = false;
 
-    public NukeExplosionBalefire(EntityType<?> type, Level level) {
+    public NukeExplosionBalefire(EntityType<? extends NukeExplosionBalefire> type, Level level) {
         super(type, level);
     }
 

@@ -1,5 +1,6 @@
 package com.hbm.render.blockentity;
 
+import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blockentity.bomb.NukeIvyMikeBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
@@ -40,6 +41,8 @@ public class RenderNukeIvyMike extends BlockEntityRendererNT<NukeIvyMikeBlockEnt
 
         RenderContext.end();
     }
+
+    @Override public boolean shouldRenderOffScreen(NukeIvyMikeBlockEntity be) { return true; }
 
     @Override
     public Item getItemForRenderer() {

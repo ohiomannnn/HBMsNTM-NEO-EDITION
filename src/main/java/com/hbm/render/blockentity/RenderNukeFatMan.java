@@ -1,5 +1,6 @@
 package com.hbm.render.blockentity;
 
+import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blockentity.bomb.NukeFatManBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
@@ -42,6 +43,8 @@ public class RenderNukeFatMan extends BlockEntityRendererNT<NukeFatManBlockEntit
 
         RenderContext.end();
     }
+
+    @Override public boolean shouldRenderOffScreen(NukeFatManBlockEntity be) { return true; }
 
     @Override
     public Item getItemForRenderer() {

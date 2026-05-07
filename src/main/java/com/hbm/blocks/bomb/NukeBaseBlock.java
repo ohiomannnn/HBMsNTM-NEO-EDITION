@@ -7,7 +7,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -23,6 +22,11 @@ public abstract class NukeBaseBlock extends Block implements EntityBlock, IBomb 
     public NukeBaseBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH));
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(BlockStateProperties.HORIZONTAL_FACING);
     }
 
     @Override
@@ -46,8 +50,9 @@ public abstract class NukeBaseBlock extends Block implements EntityBlock, IBomb 
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(BlockStateProperties.HORIZONTAL_FACING);
+    protected MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
+        if(level.getBlockEntity(pos) instanceof MenuProvider provider) return provider;
+        return null;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.hbm.render.blockentity;
 
+import com.hbm.blockentity.bomb.NukePrototypeBlockEntity;
 import com.hbm.blockentity.bomb.NukeTsarBombaBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
@@ -41,6 +42,8 @@ public class RenderNukeTsarBomba extends BlockEntityRendererNT<NukeTsarBombaBloc
 
         RenderContext.end();
     }
+
+    @Override public boolean shouldRenderOffScreen(NukeTsarBombaBlockEntity be) { return true; }
 
     @Override
     public Item getItemForRenderer() {

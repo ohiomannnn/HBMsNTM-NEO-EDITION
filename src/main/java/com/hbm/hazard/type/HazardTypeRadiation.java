@@ -52,11 +52,11 @@ public class HazardTypeRadiation extends HazardTypeBase {
         components.add(Component.literal("[" + I18nUtil.resolveKey("trait.radioactive") + "]").withStyle(ChatFormatting.GREEN));
 
         String rad = "" + (Math.floor(lvl * 1000) / 1000);
-        components.add(Component.literal(rad + " RAD/s").withStyle(ChatFormatting.YELLOW));
+        components.add(Component.literal(rad + "RAD/s").withStyle(ChatFormatting.YELLOW));
 
         if (stack.getCount() > 1) {
             double total = Math.floor(lvl * 1000 * stack.getCount()) / 1000;
-            components.add(Component.literal("Stack: " + total + " RAD/s").withStyle(ChatFormatting.YELLOW));
+            components.add(Component.literal("Stack: " + total + "RAD/s").withStyle(ChatFormatting.YELLOW));
         }
     }
 }

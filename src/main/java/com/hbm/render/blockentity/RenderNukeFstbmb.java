@@ -1,5 +1,6 @@
 package com.hbm.render.blockentity;
 
+import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blockentity.bomb.NukeBalefireBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
@@ -22,8 +23,7 @@ import org.joml.Matrix4f;
 
 public class RenderNukeFstbmb extends BlockEntityRendererNT<NukeBalefireBlockEntity> implements IBEWLRProvider {
 
-    @Override
-    public BlockEntityRenderer<NukeBalefireBlockEntity> create(Context context) { return new RenderNukeFstbmb(); }
+    @Override public BlockEntityRenderer<NukeBalefireBlockEntity> create(Context context) { return new RenderNukeFstbmb(); }
 
     @Override
     public void render(NukeBalefireBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
@@ -62,6 +62,8 @@ public class RenderNukeFstbmb extends BlockEntityRendererNT<NukeBalefireBlockEnt
 
         RenderContext.end();
     }
+
+    @Override public boolean shouldRenderOffScreen(NukeBalefireBlockEntity be) { return true; }
 
     @Override
     public Item getItemForRenderer() {

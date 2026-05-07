@@ -6,6 +6,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
 
 public class TagsUtilDegradation {
+
     public static boolean containsAnyTag(ItemStack stack) {
         return stack.has(DataComponents.CUSTOM_DATA);
     }

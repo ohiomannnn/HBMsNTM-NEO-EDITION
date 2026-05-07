@@ -45,9 +45,7 @@ public class NukeExplosionMK3 extends ExplosionChunkLoading {
     public void tick() {
         super.tick();
 
-        if (!level().isClientSide) {
-            updateChunkTicket();
-        }
+        this.updateChunkTicket();
 
         if (!this.did) {
             if (extType == 0) expl = new ExplosionFleija((int) this.position.x, (int) this.position.y, (int) this.position.z, this.level, this.destructionRange, this.coefficient, this.coefficient2);

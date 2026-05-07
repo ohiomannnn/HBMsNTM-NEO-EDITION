@@ -6,15 +6,14 @@ import com.hbm.inventory.MetaHelper;
 import com.hbm.items.NtmItems;
 import com.hbm.items.machine.BreedingRodItem.BreedingRodType;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 
+import static com.hbm.blocks.ModBlocks.NUKE_FSTBMB;
 import static com.hbm.items.NtmItems.*;
-import static com.hbm.blocks.ModBlocks.*;
 
 @SuppressWarnings("unused") //shut the fuck up
 public class HazardRegistry {
@@ -150,6 +149,9 @@ public class HazardRegistry {
         HazardSystem.register(Items.PUMPKIN_PIE, makeData(EXPLOSIVE, 1F));
         HazardSystem.register(Blocks.TNT, makeData(EXPLOSIVE, 4F));
 
+        HazardSystem.register(item(CELL_TRITIUM), makeData(RADIATION, 0.001F));
+        HazardSystem.register(item(CELL_SAS3), makeData().addEntry(RADIATION, sas3).addEntry(BLINDING, 60F));
+        HazardSystem.register(item(CELL_BALEFIRE), makeData(RADIATION, 50F));
         HazardSystem.register(item(EGG_BALEFIRE_SHARD), makeData(RADIATION, bf * nugget));
         HazardSystem.register(item(EGG_BALEFIRE), makeData(RADIATION, bf * ingot));
 

@@ -125,10 +125,18 @@ public class ModCreativeTabs {
                     .withTabsBefore(NuclearTechMod.withDefaultNamespace("parts"))
                     .title(Component.translatable("creative_tab.hbmsntm.control"))
                     .displayItems((itemDisplayParameters, output) -> {
+                        output.accept(NtmItems.CELL_EMPTY);
+                        output.accept(NtmItems.CELL_UF6);
+                        output.accept(NtmItems.CELL_PUF6);
+                        output.accept(NtmItems.CELL_DEUTERIUM);
+                        output.accept(NtmItems.CELL_TRITIUM);
+                        output.accept(NtmItems.CELL_SAS3);
+                        output.accept(NtmItems.CELL_ANTIMATTER);
+                        output.accept(NtmItems.CELL_ANTI_SCHARBIDIUM);
+                        output.accept(NtmItems.CELL_BALEFIRE);
+
                         output.accept(NtmItems.PARTICLE_DIGAMMA);
                         output.accept(NtmItems.PARTICLE_LUTECE);
-
-                        output.accept(NtmItems.CELL_ANTIMATTER);
 
                         output.accept(NtmItems.SINGULARITY);
                         output.accept(NtmItems.SINGULARITY_COUNTER_RESONANT);
@@ -301,6 +309,7 @@ public class ModCreativeTabs {
                         output.accept(ModBlocks.NUKE_FAT_MAN);
                         output.accept(ModBlocks.NUKE_IVY_MIKE);
                         output.accept(ModBlocks.NUKE_TSAR_BOMBA);
+                        output.accept(ModBlocks.NUKE_PROTOTYPE);
                         output.accept(ModBlocks.NUKE_FLEIJA);
                         output.accept(ModBlocks.NUKE_N2);
                         output.accept(ModBlocks.NUKE_FSTBMB);
@@ -365,8 +374,9 @@ public class ModCreativeTabs {
                         output.accept(NtmItems.EGG_BALEFIRE_SHARD);
                         output.accept(NtmItems.EGG_BALEFIRE);
 
+                        output.accept(NtmItems.IGNITER);
                         output.accept(NtmItems.DETONATOR);
-                        output.accept(NtmItems.DETONATOR_ITEM);
+                        output.accept(NtmItems.DETONATOR_MULTI);
                         output.accept(NtmItems.DETONATOR_LASER);
                         output.accept(NtmItems.DETONATOR_DEADMAN);
                         output.accept(NtmItems.DETONATOR_DE);

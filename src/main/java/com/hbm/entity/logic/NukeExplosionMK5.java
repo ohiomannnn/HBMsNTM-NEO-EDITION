@@ -35,7 +35,7 @@ public class NukeExplosionMK5 extends ExplosionChunkLoading {
 
     private IExplosionRay explosion;
 
-    public NukeExplosionMK5(EntityType<?> type, Level level) {
+    public NukeExplosionMK5(EntityType<? extends NukeExplosionMK5> type, Level level) {
         super(type, level);
     }
 
@@ -65,11 +65,11 @@ public class NukeExplosionMK5 extends ExplosionChunkLoading {
             radiate(2_500_000F / (this.tickCount * 5 + 1), this.length * 2);
         }
 
-        ExplosionNukeGeneric.dealDamage(level(), getX(), getY(), getZ(), this.length * 2);
+        ExplosionNukeGeneric.dealDamage(this.level, this.position.x, this.position.y, this.position.z, this.length * 2);
 
         if (explosion == null) {
             explosionStart = System.currentTimeMillis();
-            explosion = new ExplosionNukeRayBatched(level(), (int) getX(), (int) getY(), (int) getZ(), strength, speed, length);
+            explosion = new ExplosionNukeRayBatched(this.level, this.blockPosition.getX(), this.blockPosition.getY(), this.blockPosition.getZ(), strength, speed, length);
         }
 
         if (!explosion.isComplete()) {
@@ -80,10 +80,10 @@ public class NukeExplosionMK5 extends ExplosionChunkLoading {
                 NuclearTechMod.LOGGER.info("[NUKE] Explosion complete. Time elapsed: {}ms", (System.currentTimeMillis() - explosionStart));
             }
             if (fallout) {
-                FalloutRain fallout = new FalloutRain(ModEntityTypes.NUKE_FALLOUT_RAIN.get(), level());
+                FalloutRain fallout = new FalloutRain(this.level);
                 fallout.setPos(getX(), getY(), getZ());
                 fallout.setScale((int) (this.length * 2.5 + falloutAdd) * MainConfig.COMMON.FALLOUT_RANGE.get() / 100);
-                this.level().addFreshEntity(fallout);
+                this.level.addFreshEntity(fallout);
             }
             this.discard();
         }
@@ -91,7 +91,7 @@ public class NukeExplosionMK5 extends ExplosionChunkLoading {
 
     private void radiate(float rads, double range) {
         AABB box = new AABB(getX(), getY(), getZ(), getX(), getY(), getZ()).inflate(range);
-        List<LivingEntity> entities = this.level().getEntitiesOfClass(LivingEntity.class, box);
+        List<LivingEntity> entities = this.level.getEntitiesOfClass(LivingEntity.class, box);
 
         for (LivingEntity e : entities) {
             Vec3 vec = new Vec3(e.getX() - getX(), (e.getEyeY()) - getY(), e.getZ() - getZ());

@@ -106,6 +106,7 @@ public class NtmBlockTagProvider extends BlockTagsProvider {
                         ModBlocks.NUKE_FAT_MAN.get(),
                         ModBlocks.NUKE_IVY_MIKE.get(),
                         ModBlocks.NUKE_TSAR_BOMBA.get(),
+                        ModBlocks.NUKE_PROTOTYPE.get(),
                         ModBlocks.NUKE_FLEIJA.get(),
                         ModBlocks.NUKE_N2.get(),
                         ModBlocks.NUKE_FSTBMB.get(),

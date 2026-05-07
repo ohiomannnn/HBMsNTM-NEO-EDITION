@@ -111,6 +111,13 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.basicItem(NtmItems.INGOT_SMORE.get());
         this.basicItem(NtmItems.INGOT_OSMIRIDIUM.get());
 
+        this.handheldItem(NtmItems.IGNITER.get());
+        this.handheldItem(NtmItems.REACHER.get());
+        this.handheldItem(NtmItems.DETONATOR.get());
+        this.handheldItem(NtmItems.DETONATOR_MULTI.get());
+        this.handheldItem(NtmItems.DETONATOR_DEADMAN.get());
+        this.handheldItem(NtmItems.DETONATOR_DE.get());
+
         this.basicItem(NtmItems.ROD_EMPTY.get());
         this.registerMetaItem(NtmItems.ROD.get());
         this.basicItem(NtmItems.ROD_DUAL_EMPTY.get());
@@ -121,12 +128,7 @@ public class NtmItemModelProvider extends ItemModelProvider {
         basicItem(NtmItems.GEIGER_COUNTER.get());
         basicItem(NtmItems.DOSIMETER.get());
         basicItem(NtmItems.DIGAMMA_DIAGNOSTIC.get());
-        basicItem(NtmItems.DETONATOR_DE.get());
-        basicItem(NtmItems.DETONATOR_DEADMAN.get());
         basicItem(NtmItems.FLINT_AND_BALEFIRE.get());
-        handheldItem(NtmItems.REACHER.get());
-        handheldItem(NtmItems.DETONATOR.get());
-        handheldItem(NtmItems.DETONATOR_ITEM.get());
         handheldItem(NtmItems.SCHRABIDIUM_PICKAXE.get());
         bombCallerItem(NtmItems.BOMB_CALLER_ATOMIC.get());
         bombCallerItem(NtmItems.BOMB_CALLER_CARPET.get());
@@ -138,7 +140,15 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.basicItem(NtmItems.PARTICLE_DIGAMMA.get());
         this.basicItem(NtmItems.PARTICLE_LUTECE.get());
 
+        this.basicItem(NtmItems.CELL_EMPTY.get());
+        this.basicItem(NtmItems.CELL_UF6.get());
+        this.basicItem(NtmItems.CELL_PUF6.get());
         this.basicItem(NtmItems.CELL_ANTIMATTER.get());
+        this.basicItem(NtmItems.CELL_DEUTERIUM.get());
+        this.basicItem(NtmItems.CELL_TRITIUM.get());
+        this.basicItem(NtmItems.CELL_SAS3.get());
+        this.basicItem(NtmItems.CELL_ANTI_SCHARBIDIUM.get());
+        this.basicItem(NtmItems.CELL_BALEFIRE.get());
 
         this.basicItem(NtmItems.BATTERY_CREATIVE.get());
 

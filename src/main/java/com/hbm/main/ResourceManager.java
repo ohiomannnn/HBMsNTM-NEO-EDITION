@@ -21,6 +21,7 @@ public class ResourceManager {
     public static final ResourceLocation NUKE_FAT_MAN_TEX = NuclearTechMod.withDefaultNamespace("textures/models/bombs/nuke_fatman.png");
     public static final ResourceLocation NUKE_IVY_MIKE = NuclearTechMod.withDefaultNamespace("textures/models/bombs/nuke_ivy_mike.png");
     public static final ResourceLocation NUKE_TSAR_TEX = NuclearTechMod.withDefaultNamespace("textures/models/bombs/nuke_tsar.png");
+    public static final ResourceLocation NUKE_PROTOTYPE = NuclearTechMod.withDefaultNamespace("textures/models/bombs/nuke_prototype.png");
     public static final ResourceLocation NUKE_FLEIJA_TEX = NuclearTechMod.withDefaultNamespace("textures/models/bombs/nuke_fleija.png");
     public static final ResourceLocation NUKE_N2_TEX = NuclearTechMod.withDefaultNamespace("textures/models/bombs/nuke_n2.png");
     public static final ResourceLocation NUKE_FSTBMB_TEX = NuclearTechMod.withDefaultNamespace("textures/models/bombs/nuke_fstbmb.png");
@@ -32,14 +33,6 @@ public class ResourceManager {
 
     public static final ResourceLocation NO9 = NuclearTechMod.withDefaultNamespace("textures/armor/no9.png");
     public static final ResourceLocation NO9_INSIGNIA = NuclearTechMod.withDefaultNamespace("textures/armor/no9_insignia.png");
-
-    public static final ResourceLocation PIPE_NEO_TEX = NuclearTechMod.withDefaultNamespace("textures/block/pipe_neo.png");
-    public static final ResourceLocation PIPE_SILVER_TEX = NuclearTechMod.withDefaultNamespace("textures/block/pipe_silver.png");
-    public static final ResourceLocation PIPE_COLORED_TEX = NuclearTechMod.withDefaultNamespace("textures/block/pipe_colored.png");
-
-    public static final ResourceLocation PIPE_NEO_OVERLAY_TEX = NuclearTechMod.withDefaultNamespace("textures/block/pipe_neo_overlay.png");
-    public static final ResourceLocation PIPE_SILVER_OVERLAY_TEX = NuclearTechMod.withDefaultNamespace("textures/block/pipe_silver_overlay.png");
-    public static final ResourceLocation PIPE_COLORED_OVERLAY_TEX = NuclearTechMod.withDefaultNamespace("textures/block/pipe_colored_overlay.png");
 
     public static final ResourceLocation TANK_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/tank.png");
     public static final ResourceLocation TANK_INNER_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/tank_inner.png");
@@ -108,6 +101,7 @@ public class ResourceManager {
     public static IModelCustom nuke_fat_man;
     public static IModelCustom nuke_ivy_mike;
     public static IModelCustom nuke_tsar;
+    public static IModelCustom nuke_prototype;
     public static IModelCustom nuke_fleija;
     public static IModelCustom nuke_n2;
     public static IModelCustom nuke_fstbmb;
@@ -122,7 +116,7 @@ public class ResourceManager {
     public static HFRWavefrontObject barrel;
     public static HFRWavefrontObject cable_neo;
     public static HFRWavefrontObject pipe_neo;
-    public static IModelCustom difurnace_extension;
+    public static HFRWavefrontObject difurnace_extension;
 
     public static IModelCustom fluid_tank;
     public static IModelCustom fluid_tank_exploded;
@@ -167,6 +161,7 @@ public class ResourceManager {
         nuke_fat_man = new HFRWavefrontObject("models/obj/bomb/nuke_fatman.obj").asVBO();
         nuke_ivy_mike = new HFRWavefrontObject("models/obj/bomb/nuke_ivy_mike.obj").asVBO();
         nuke_tsar = new HFRWavefrontObject("models/obj/bomb/nuke_tsar.obj").asVBO();
+        nuke_prototype = new HFRWavefrontObject("models/obj/bomb/nuke_prototype.obj").asVBO();
         nuke_fleija = new HFRWavefrontObject("models/obj/bomb/nuke_fleija.obj").asVBO();
         nuke_n2 = new HFRWavefrontObject("models/obj/bomb/nuke_n2.obj").asVBO();
         nuke_fstbmb = new HFRWavefrontObject("models/obj/bomb/nuke_fstbmb.obj").asVBO();

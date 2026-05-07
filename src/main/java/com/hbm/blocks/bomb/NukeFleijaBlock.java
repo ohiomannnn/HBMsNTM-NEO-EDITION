@@ -23,9 +23,9 @@ public class NukeFleijaBlock extends NukeBaseBlock {
 
     @Override
     protected void explode(Level level, double x, double y, double z) {
-        NukeExplosionMK3 ex = NukeExplosionMK3.statFacFleija(level, x, y, z, MainConfig.COMMON.FLEIJA_RADIUS.get());
-        if (!ex.isRemoved()) {
-            WorldUtil.loadAndSpawnEntityInWorld(ex);
+        NukeExplosionMK3 explosion = NukeExplosionMK3.statFacFleija(level, x, y, z, MainConfig.COMMON.FLEIJA_RADIUS.get());
+        if(!explosion.isRemoved()) {
+            level.addFreshEntity(explosion);
             CloudCreator.composeEffect(level, x, y, z, CloudType.FLEIJA);
         }
     }

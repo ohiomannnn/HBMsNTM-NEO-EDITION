@@ -31,7 +31,7 @@ public class Bomber extends PlaneBase {
 
     protected AudioWrapper audio;
 
-    public Bomber(EntityType<?> type, Level level) {
+    public Bomber(EntityType<? extends Bomber> type, Level level) {
         super(type, level);
     }
 

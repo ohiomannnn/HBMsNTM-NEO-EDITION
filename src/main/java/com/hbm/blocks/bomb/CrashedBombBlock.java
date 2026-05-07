@@ -16,6 +16,7 @@ import com.hbm.items.special.PolaroidItem;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.network.toclient.AuxParticle;
 import com.hbm.particle.helper.ExplosionCreator;
+import com.hbm.util.SoundUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -64,7 +65,7 @@ public class CrashedBombBlock extends Block implements EntityBlock, IBomb {
 
             if (this == ModBlocks.CRASHED_BOMB_BALEFIRE.get()) {
                 NukeExplosionBalefire balefire = new NukeExplosionBalefire(ModEntityTypes.NUKE_BALEFIRE.get(), level);
-                balefire.setPos(pos.getX(), pos.getY(), pos.getZ());
+                balefire.setPos(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
                 balefire.destructionRange = (int) (MainConfig.COMMON.FATMAN_RADIUS.get() * 1.25);
                 level.addFreshEntity(balefire);
                 spawnMush(level, pos, true);
@@ -90,11 +91,13 @@ public class CrashedBombBlock extends Block implements EntityBlock, IBomb {
     }
 
     public static void spawnMush(Level level, BlockPos pos, boolean balefire) {
-        level.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, NtmSoundEvents.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 15.0F, 1.0F);
+        SoundUtils.playAtBlockPosC(level, pos, NtmSoundEvents.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 15.0F, 1.0F);
         CompoundTag tag = new CompoundTag();
         tag.putString("type", "muke");
         tag.putBoolean("balefire", balefire);
-        PacketDistributor.sendToPlayersNear((ServerLevel) level, null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 250, new AuxParticle(tag, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5));
+        if(level instanceof ServerLevel serverLevel) {
+            PacketDistributor.sendToPlayersNear(serverLevel, null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 250, new AuxParticle(tag, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5));
+        }
     }
 
     public enum DudType {

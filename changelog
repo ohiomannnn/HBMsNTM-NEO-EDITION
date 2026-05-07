@@ -2,15 +2,19 @@
 * Self-charging batteries
 * Normal, dual, quad rods
 * OBJ model reloader
+* Prototype nuke
 
 ## Changed
+* Version naming
+  * Now its gonna be (days since 1/1/2026)(build type: A - Alpha, B - beta, etc) e.g 125A
 * Improved obj model renderer optimization A LOT
   * But render breaks when using Iris
   * And its breaks when using Create Aeronautics...
 * Crater biomes now will have grass noise
 * Revamped fölkvanger field
 * Calculator now will have history
+* Updated the fat man igniter and gadget wiring icons
 
 ## Fixed
-* Lightning on fensu's lights
-* 256k tank, fensu and battery socket cull bounding box
+* Fixed shading on fensu's lights
+* Fixed 256k tank, fensu, battery socket and nukes cull bounding box

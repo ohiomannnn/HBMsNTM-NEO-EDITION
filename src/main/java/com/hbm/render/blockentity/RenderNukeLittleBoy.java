@@ -1,5 +1,6 @@
 package com.hbm.render.blockentity;
 
+import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blockentity.bomb.NukeLittleBoyBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
@@ -18,8 +19,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public class RenderNukeLittleBoy extends BlockEntityRendererNT<NukeLittleBoyBlockEntity> implements IBEWLRProvider {
 
-    @Override
-    public BlockEntityRenderer<NukeLittleBoyBlockEntity> create(Context context) { return new RenderNukeLittleBoy(); }
+    @Override public BlockEntityRenderer<NukeLittleBoyBlockEntity> create(Context context) { return new RenderNukeLittleBoy(); }
 
     @Override
     public void render(NukeLittleBoyBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
@@ -42,6 +42,8 @@ public class RenderNukeLittleBoy extends BlockEntityRendererNT<NukeLittleBoyBloc
 
         RenderContext.end();
     }
+
+    @Override public boolean shouldRenderOffScreen(NukeLittleBoyBlockEntity be) { return true; }
 
     @Override
     public Item getItemForRenderer() {

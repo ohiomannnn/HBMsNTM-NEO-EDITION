@@ -64,6 +64,8 @@ public class RenderCrashedBomb extends BlockEntityRendererNT<CrashedBombBlockEnt
         RenderContext.end();
     }
 
+    @Override public boolean shouldRenderOffScreen(CrashedBombBlockEntity be) { return true; }
+
     @Override
     public Item[] getItemsForRenderer() {
         return new Item[] {

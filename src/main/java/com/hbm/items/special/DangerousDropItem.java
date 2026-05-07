@@ -1,5 +1,6 @@
 package com.hbm.items.special;
 
+import com.hbm.entity.logic.NukeExplosionMK3;
 import com.hbm.items.NtmItems;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.blocks.ITooltipProvider;
@@ -13,6 +14,8 @@ import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.Spaghetti;
+import com.hbm.particle.helper.CloudCreator;
+import com.hbm.particle.helper.CloudCreator.CloudType;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.TagsUtilDegradation;
 import com.hbm.util.i18n.I18nUtil;
@@ -86,7 +89,7 @@ public class DangerousDropItem extends Item {
         if (itemEntity.onGround()) {
 
             if (stack.is(NtmItems.PARTICLE_DIGAMMA.get()) && MainConfig.COMMON.DROP_SINGULARITY.get()) {
-                BlackHole quasar = new BlackHole(ModEntityTypes.QUASAR.get(), level);
+                BlackHole quasar = new BlackHole(ModEntityTypes.DIGAMMA_QUASAR.get(), level);
                 quasar.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
                 quasar.setSize(5F);
                 level.addFreshEntity(quasar);
@@ -98,6 +101,14 @@ public class DangerousDropItem extends Item {
 
             if (stack.is(NtmItems.PELLET_ANTIMATTER.get()) && MainConfig.COMMON.DROP_CELL.get()) {
                 new ExplosionVNT(level, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), 20F).makeAmat().explode();
+            }
+
+            if (stack.is(NtmItems.CELL_ANTI_SCHARBIDIUM.get()) && MainConfig.COMMON.DROP_CELL.get()) {
+                NukeExplosionMK3 explosion = NukeExplosionMK3.statFacFleija(level, itemEntity.position.x, itemEntity.position.y, itemEntity.position.z, MainConfig.COMMON.ASCHRAB_RADIUS.get());
+                if(!explosion.isRemoved()) {
+                    level.addFreshEntity(explosion);
+                    CloudCreator.composeEffect(level, itemEntity.position.x, itemEntity.position.y, itemEntity.position.z, CloudType.FLEIJA);
+                }
             }
 
             if (stack.is(NtmItems.SINGULARITY.get()) && MainConfig.COMMON.DROP_SINGULARITY.get()) {

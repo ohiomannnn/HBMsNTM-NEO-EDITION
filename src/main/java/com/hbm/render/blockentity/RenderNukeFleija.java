@@ -1,5 +1,6 @@
 package com.hbm.render.blockentity;
 
+import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blockentity.bomb.NukeFleijaBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
@@ -40,6 +41,8 @@ public class RenderNukeFleija extends BlockEntityRendererNT<NukeFleijaBlockEntit
 
         RenderContext.end();
     }
+
+    @Override public boolean shouldRenderOffScreen(NukeFleijaBlockEntity be) { return true; }
 
     @Override
     public Item getItemForRenderer() {

@@ -40,7 +40,7 @@ public class Duck extends Chicken {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (source.is(DamageTypes.FALL)) return false;
+        if(source.is(DamageTypes.FALL)) return false;
         return super.hurt(source, amount);
     }
 
@@ -57,12 +57,10 @@ public class Duck extends Chicken {
     }
 
     @Override
-    public void die(DamageSource damageSource) {
-        if (!this.level().isClientSide) {
-            MutableComponent message = this.getDisplayName().copy();
-            message.append(Component.literal(" died"));
-            this.level().getServer().getPlayerList().broadcastSystemMessage(message, false);
+    public void die(DamageSource source) {
+        if(this.level instanceof ServerLevel serverLevel) {
+            serverLevel.getServer().getPlayerList().broadcastSystemMessage(this.getCombatTracker().getDeathMessage(), false);
         }
-        super.die(damageSource);
+        super.die(source);
     }
 }

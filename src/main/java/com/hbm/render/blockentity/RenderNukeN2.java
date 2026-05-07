@@ -1,5 +1,6 @@
 package com.hbm.render.blockentity;
 
+import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blockentity.bomb.NukeN2BlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
@@ -41,6 +42,8 @@ public class RenderNukeN2 extends BlockEntityRendererNT<NukeN2BlockEntity> imple
 
         RenderContext.end();
     }
+
+    @Override public boolean shouldRenderOffScreen(NukeN2BlockEntity be) { return true; }
 
     @Override
     public Item getItemForRenderer() {

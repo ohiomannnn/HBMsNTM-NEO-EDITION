@@ -5,6 +5,7 @@ import com.hbm.particle.helper.ExplosionSmallCreator;
 import com.hbm.registry.NtmDamageTypes;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.ParticleUtil;
+import com.hbm.util.SoundUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -17,21 +18,20 @@ import net.minecraft.world.level.Level;
 
 public abstract class PlaneBase extends ExplosionChunkLoading {
 
+    private static final EntityDataAccessor<Float> HEALTH = SynchedEntityData.defineId(PlaneBase.class, EntityDataSerializers.FLOAT);
+
     protected int lerpSteps;
     protected double lerpX;
     protected double lerpY;
     protected double lerpZ;
-    protected double lerpYRot;
-    protected double lerpXRot;
+    protected float lerpYRot;
+    protected float lerpXRot;
 
-    protected PlaneBase(EntityType<?> type, Level level) {
+    protected PlaneBase(EntityType<? extends PlaneBase> type, Level level) {
         super(type, level);
-        this.rotation();
     }
 
-    private static final EntityDataAccessor<Float> HEALTH = SynchedEntityData.defineId(PlaneBase.class, EntityDataSerializers.FLOAT);
     public float getHealth() { return this.entityData.get(HEALTH); }
-    public void setHealth(float health) { this.entityData.set(HEALTH, health); }
     public int timer = getLifetime();
 
     public float getMaxHealth() { return 50F; }
@@ -41,18 +41,18 @@ public abstract class PlaneBase extends ExplosionChunkLoading {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (source.is(NtmDamageTypes.NUCLEAR_BLAST)) return false;
-        if (this.isInvulnerable()) return false;
-        if (this.isAlive() && !level.isClientSide && this.getHealth() > 0) {
-            setHealth(getHealth() - amount);
-            if (this.getHealth() <= 0) this.killPlane();
+        if(source.is(NtmDamageTypes.NUCLEAR_BLAST)) return false;
+        if(this.isInvulnerable()) return false;
+        if(this.isAlive() && !this.level.isClientSide && this.getHealth() > 0) {
+            this.entityData.set(HEALTH, this.entityData.get(HEALTH) - amount);
+            if(this.entityData.get(HEALTH) <= 0) this.killPlane();
         }
         return true;
     }
 
     protected void killPlane() {
-        ExplosionSmallCreator.composeEffect(level(), this.getX(), this.getY(), this.getZ(), 25, 3.5F, 2F);
-        level().playSound(null, this.getX(), this.getY(), this.getZ(), NtmSoundEvents.PLANE_SHOT_DOWN, SoundSource.HOSTILE, 25.0F, 1.0F);
+        ExplosionSmallCreator.composeEffect(this.level, this.position.x, this.position.y, this.position.z, 25, 3.5F, 2F);
+        SoundUtils.playAtEntity(this, NtmSoundEvents.PLANE_SHOT_DOWN.get(), SoundSource.HOSTILE, 25.0F, 1.0F);
     }
 
     @Override
@@ -62,7 +62,7 @@ public abstract class PlaneBase extends ExplosionChunkLoading {
         this.lerpZ = z;
         this.lerpYRot = yRot;
         this.lerpXRot = xRot;
-        this.lerpSteps = steps + 1;
+        this.lerpSteps = 10;
     }
 
     @Override
@@ -87,22 +87,20 @@ public abstract class PlaneBase extends ExplosionChunkLoading {
 
     @Override
     public float lerpTargetXRot() {
-        return this.lerpSteps > 0 ? (float) this.lerpXRot : this.xRot;
+        return this.lerpSteps > 0 ? this.lerpXRot : this.xRot;
     }
 
     @Override
     public float lerpTargetYRot() {
-        return this.lerpSteps > 0 ? (float) this.lerpYRot : this.yRot;
+        return this.lerpSteps > 0 ? this.lerpYRot : this.yRot;
     }
 
     @Override
     public void tick() {
 
-        if (!level().isClientSide) {
-            updateChunkTicket();
-        }
+        this.updateChunkTicket();
 
-        if (level().isClientSide) {
+        if (this.level.isClientSide) {
             if (this.lerpSteps > 0) {
                 this.lerpPositionAndRotationStep(this.lerpSteps, this.lerpX, this.lerpY, this.lerpZ, this.lerpYRot, this.lerpXRot);
                 --this.lerpSteps;
@@ -154,7 +152,7 @@ public abstract class PlaneBase extends ExplosionChunkLoading {
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        builder.define(HEALTH, getMaxHealth());
+        builder.define(HEALTH, this.getMaxHealth());
     }
 
     @Override
@@ -166,7 +164,7 @@ public abstract class PlaneBase extends ExplosionChunkLoading {
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
         tag.putInt("TickCount", this.tickCount);
-        tag.putFloat("Health", getHealth());
+        tag.putFloat("Health", this.getHealth());
     }
 
     @Override public boolean shouldRenderAtSqrDistance(double distance) { return true; }

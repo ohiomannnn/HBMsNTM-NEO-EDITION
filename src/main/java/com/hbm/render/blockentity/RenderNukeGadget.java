@@ -1,5 +1,6 @@
 package com.hbm.render.blockentity;
 
+import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blockentity.bomb.NukeGadgetBlockEntity;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
@@ -47,6 +48,8 @@ public class RenderNukeGadget extends BlockEntityRendererNT<NukeGadgetBlockEntit
 
         RenderContext.end();
     }
+
+    @Override public boolean shouldRenderOffScreen(NukeGadgetBlockEntity be) { return true; }
 
     @Override
     public Item getItemForRenderer() {

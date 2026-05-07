@@ -112,7 +112,8 @@ public class ModBlockEntityTypes {
     public static final Supplier<BlockEntityType<NukeFatManBlockEntity>> NUKE_FAT_MAN = REGISTER.register("nuke_fat_man", () -> BlockEntityType.Builder.of(NukeFatManBlockEntity::new, ModBlocks.NUKE_FAT_MAN.get()).build(null));
     public static final Supplier<BlockEntityType<NukeIvyMikeBlockEntity>> NUKE_IVY_MIKE = REGISTER.register("nuke_ivy_mike", () -> BlockEntityType.Builder.of(NukeIvyMikeBlockEntity::new, ModBlocks.NUKE_IVY_MIKE.get()).build(null));
     public static final Supplier<BlockEntityType<NukeTsarBombaBlockEntity>> NUKE_TSAR_BOMBA = REGISTER.register("nuke_tsar_bomba", () -> BlockEntityType.Builder.of(NukeTsarBombaBlockEntity::new, ModBlocks.NUKE_TSAR_BOMBA.get()).build(null));
-    public static final Supplier<BlockEntityType<NukeFleijaBlockEntity>> NUKE_FLEIJA = REGISTER.register("fleija", () -> BlockEntityType.Builder.of(NukeFleijaBlockEntity::new, ModBlocks.NUKE_FLEIJA.get()).build(null));
+    public static final Supplier<BlockEntityType<NukePrototypeBlockEntity>> NUKE_PROTOTYPE = REGISTER.register("nuke_prototype", () -> BlockEntityType.Builder.of(NukePrototypeBlockEntity::new, ModBlocks.NUKE_PROTOTYPE.get()).build(null));
+    public static final Supplier<BlockEntityType<NukeFleijaBlockEntity>> NUKE_FLEIJA = REGISTER.register("nuke_fleija", () -> BlockEntityType.Builder.of(NukeFleijaBlockEntity::new, ModBlocks.NUKE_FLEIJA.get()).build(null));
     public static final Supplier<BlockEntityType<NukeN2BlockEntity>> NUKE_N2 = REGISTER.register("nuke_n2", () -> BlockEntityType.Builder.of(NukeN2BlockEntity::new, ModBlocks.NUKE_N2.get()).build(null));
     public static final Supplier<BlockEntityType<NukeBalefireBlockEntity>> NUKE_FSTBMB = REGISTER.register("nuke_fstbmb", () -> BlockEntityType.Builder.of(NukeBalefireBlockEntity::new, ModBlocks.NUKE_FSTBMB.get()).build(null));
 

@@ -20,7 +20,7 @@ public interface IChunkLoader {
     }
     default void onRemovedFromLevel(Entity entity) {
 
-        if (this.getLoadedChunkPos() != null && entity.level instanceof ServerLevel serverLevel) {
+        if(entity.level instanceof ServerLevel serverLevel) {
             serverLevel.getChunkSource().updateChunkForced(this.getLoadedChunkPos(), false);
 
             this.setLoadedChunkPos(null);

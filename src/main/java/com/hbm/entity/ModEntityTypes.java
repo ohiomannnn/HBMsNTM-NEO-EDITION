@@ -28,17 +28,17 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class ModEntityTypes {
     public static final DeferredRegister<EntityType<?>> REGISTER = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, NuclearTechMod.MODID);
 
-    public static final DeferredHolder<EntityType<?>, EntityType<NukeExplosionMK5>> NUKE_MK5 = REGISTER.register("nuke_explosion_mk5", () -> EntityType.Builder.of(NukeExplosionMK5::new, MobCategory.MISC).sized(1.0F, 1.0F).build("nuke_explosion_mk5"));
-    public static final DeferredHolder<EntityType<?>, EntityType<NukeExplosionMK3>> NUKE_MK3 = REGISTER.register("nuke_explosion_mk3", () -> EntityType.Builder.of(NukeExplosionMK3::new, MobCategory.MISC).sized(1.0F, 1.0F).build("nuke_explosion_mk3"));
+    public static final DeferredHolder<EntityType<?>, EntityType<NukeExplosionMK5>> NUKE_MK5 = REGISTER.register("nuke_mk5", () -> EntityType.Builder.of(NukeExplosionMK5::new, MobCategory.MISC).sized(1.0F, 1.0F).build("nuke_mk5"));
+    public static final DeferredHolder<EntityType<?>, EntityType<NukeExplosionMK3>> NUKE_MK3 = REGISTER.register("nuke_mk3", () -> EntityType.Builder.of(NukeExplosionMK3::new, MobCategory.MISC).sized(1.0F, 1.0F).build("nuke_mk3"));
     public static final DeferredHolder<EntityType<?>, EntityType<NukeExplosionBalefire>> NUKE_BALEFIRE = REGISTER.register("nuke_explosion_balefire", () -> EntityType.Builder.of(NukeExplosionBalefire::new, MobCategory.MISC).sized(1.0F, 1.0F).build("nuke_explosion_balefire"));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<FalloutRain>> NUKE_FALLOUT_RAIN = REGISTER.register(
-            "nuke_fallout_rain",
-            () -> EntityType.Builder.of(FalloutRain::new, MobCategory.MISC)
+    public static final DeferredHolder<EntityType<?>, EntityType<FalloutRain>> FALLOUT_RAIN = REGISTER.register(
+            "fallout_rain",
+            () -> EntityType.Builder.<FalloutRain>of(FalloutRain::new, MobCategory.MISC)
                     .setTrackingRange(1000)
                     .sized(4F, 20F)
                     .fireImmune()
-                    .build("nuke_fallout_rain"));
+                    .build("fallout_rain"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<FallingBlockEntityNT>> FALLING_BLOCK = REGISTER.register(
             "falling_block",
@@ -46,11 +46,14 @@ public class ModEntityTypes {
                     .sized(0.98F, 0.98F).clientTrackingRange(10).updateInterval(20)
                     .build("falling_block"));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<Duck>> DUCK =
-            REGISTER.register("duck",
-                    () -> EntityType.Builder.of(Duck::new, MobCategory.CREATURE)
-                            .sized(0.4F, 0.7F)
-                            .build("duck"));
+    public static final DeferredHolder<EntityType<?>, EntityType<Duck>> DUCK = REGISTER.register(
+            "duck",
+            () -> EntityType.Builder.of(Duck::new, MobCategory.CREATURE)
+                    .sized(0.4F, 0.7F)
+                    .eyeHeight(0.644F)
+                    .clientTrackingRange(10)
+                    .build("duck"));
+
     public static final DeferredHolder<EntityType<?>, EntityType<CreeperNuclear>> CREEPER_NUCLEAR =
             REGISTER.register("creeper_nuclear",
                     () -> EntityType.Builder.of(CreeperNuclear::new, MobCategory.MONSTER)
@@ -80,7 +83,7 @@ public class ModEntityTypes {
 
     public static final DeferredHolder<EntityType<?>, EntityType<Bomber>> BOMBER = REGISTER.register(
             "bomber",
-            () -> EntityType.Builder.of(Bomber::new, MobCategory.MISC)
+            () -> EntityType.Builder.<Bomber>of(Bomber::new, MobCategory.MISC)
                     .sized(8F, 4F)
                     .setTrackingRange(250)
                     .build("bomber"));
@@ -123,30 +126,30 @@ public class ModEntityTypes {
             "black_hole",
             () -> EntityType.Builder.of(BlackHole::new, MobCategory.MISC)
                     .sized(1F, 1F)
-                    .setTrackingRange(1000)
+                    .setTrackingRange(250)
                     .fireImmune()
                     .build("black_hole"));
     public static final DeferredHolder<EntityType<?>, EntityType<Vortex>> VORTEX = REGISTER.register(
             "vortex",
             () -> EntityType.Builder.of(Vortex::new, MobCategory.MISC)
                     .sized(1F, 1F)
-                    .setTrackingRange(1000)
+                    .setTrackingRange(250)
                     .fireImmune()
                     .build("vortex"));
     public static final DeferredHolder<EntityType<?>, EntityType<RagingVortex>> RAGING_VORTEX = REGISTER.register(
             "raging_vortex",
             () -> EntityType.Builder.of(RagingVortex::new, MobCategory.MISC)
                     .sized(1F, 1F)
-                    .setTrackingRange(1000)
+                    .setTrackingRange(250)
                     .fireImmune()
                     .build("raging_vortex"));
-    public static final DeferredHolder<EntityType<?>, EntityType<BlackHole>> QUASAR = REGISTER.register(
-            "quasar",
+    public static final DeferredHolder<EntityType<?>, EntityType<BlackHole>> DIGAMMA_QUASAR = REGISTER.register(
+            "digamma_quasar",
             () -> EntityType.Builder.of(BlackHole::new, MobCategory.MISC)
                     .sized(1F, 1F)
-                    .setTrackingRange(1000)
+                    .setTrackingRange(250)
                     .fireImmune()
-                    .build("quasar"));
+                    .build("digamma_quasar"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<Meteor>> METEOR = REGISTER.register(
             "meteor",
