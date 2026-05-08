@@ -157,7 +157,7 @@ public class NtmRenderTypes {
                         .setTransparencyState(ADDITIVE_BLEND)
                         .setCullState(RenderType.NO_CULL)
                         .setLightmapState(RenderType.LIGHTMAP)
-                        .setOverlayState(RenderType.NO_OVERLAY)
+                        .setOverlayState(RenderType.OVERLAY)
                         .setWriteMaskState(RenderType.COLOR_WRITE)
                         .setOutputState(RenderType.TRANSLUCENT_TARGET)
                         .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
@@ -190,7 +190,7 @@ public class NtmRenderTypes {
                         .setTransparencyState(SEVEN_SEVEN_ONE_ZERO)
                         .setCullState(RenderType.NO_CULL)
                         .setLightmapState(RenderType.LIGHTMAP)
-                        .setOverlayState(RenderType.NO_OVERLAY)
+                        .setOverlayState(RenderType.OVERLAY)
                         .setWriteMaskState(RenderType.COLOR_WRITE)
                         .setOutputState(RenderType.CLOUDS_TARGET)
                         .createCompositeState(false);
@@ -206,11 +206,11 @@ public class NtmRenderTypes {
                         .setTransparencyState(SEVEN_SEVEN_ONE_ZERO)
                         .setCullState(RenderType.NO_CULL)
                         .setLightmapState(RenderType.LIGHTMAP)
-                        .setOverlayState(RenderType.NO_OVERLAY)
+                        .setOverlayState(RenderType.OVERLAY)
                         .setWriteMaskState(RenderType.COLOR_WRITE)
                         .setOutputState(RenderType.TRANSLUCENT_TARGET)
                         .createCompositeState(false);
-                return RenderType.create("nuke", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 239120, true, true, state);
+                return RenderType.create("nuke", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 23912, true, true, state);
             }
     );
 
@@ -222,11 +222,11 @@ public class NtmRenderTypes {
                         .setTransparencyState(ADDITIVE_BLEND)
                         .setCullState(RenderType.NO_CULL)
                         .setLightmapState(RenderType.LIGHTMAP)
-                        .setOverlayState(RenderType.NO_OVERLAY)
+                        .setOverlayState(RenderType.OVERLAY)
                         .setWriteMaskState(RenderType.COLOR_WRITE)
                         .setOutputState(RenderType.TRANSLUCENT_TARGET)
                         .createCompositeState(false);
-                return RenderType.create("nuke_flash", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 545234, true, true, state);
+                return RenderType.create("nuke_flash", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 2342, true, true, state);
             }
     );
 

@@ -55,6 +55,8 @@ public class FalloutRain extends ExplosionChunkLoading {
     public void tick() {
         super.tick();
 
+        this.updateChunkTicket();
+
         if (!level.isClientSide) {
 
             long start = System.currentTimeMillis();

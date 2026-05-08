@@ -41,6 +41,7 @@ public abstract class ItemRenderBaseStandard extends BlockEntityWithoutLevelRend
                     .setShaderState(RenderType.RENDERTYPE_ENTITY_SOLID_SHADER)
                     .setTextureState(RenderType.BLOCK_SHEET_MIPPED)
                     .setLightmapState(RenderType.LIGHTMAP)
+                    .setOverlayState(RenderType.OVERLAY)
                     .createCompositeState(true)
     );
 
@@ -55,6 +56,7 @@ public abstract class ItemRenderBaseStandard extends BlockEntityWithoutLevelRend
                     .setShaderState(RenderType.RENDERTYPE_ENTITY_CUTOUT_SHADER)
                     .setTextureState(RenderType.BLOCK_SHEET_MIPPED)
                     .setLightmapState(RenderType.LIGHTMAP)
+                    .setOverlayState(RenderType.OVERLAY)
                     .createCompositeState(true)
     );
 
