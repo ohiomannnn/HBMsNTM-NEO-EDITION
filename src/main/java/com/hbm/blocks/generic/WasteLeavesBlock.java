@@ -1,7 +1,7 @@
 package com.hbm.blocks.generic;
 
 import com.hbm.main.NuclearTechModClient;
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.entity.item.FallingBlockEntityNT;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -24,7 +24,7 @@ public class WasteLeavesBlock extends Block {
             serverLevel.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
 
             if (serverLevel.getBlockState(pos.below()).isAir()) {
-                FallingBlockEntityNT leaves = FallingBlockEntityNT.fall(serverLevel, pos, ModBlocks.LEAVES_LAYER.get().defaultBlockState());
+                FallingBlockEntityNT leaves = FallingBlockEntityNT.fall(serverLevel, pos, NtmBlocks.LEAVES_LAYER.get().defaultBlockState());
                 leaves.time = 2;
                 leaves.dropItem = false;
             }

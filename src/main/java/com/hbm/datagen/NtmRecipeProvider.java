@@ -1,6 +1,6 @@
 package com.hbm.datagen;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.items.NtmItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -31,44 +31,44 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_balefire_egg", has(NtmItems.EGG_BALEFIRE.get()))
                 .save(recipeOutput);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.BRICK_CONCRETE_MOSSY.get(), 8)
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, NtmBlocks.BRICK_CONCRETE_MOSSY.get(), 8)
                 .pattern("BBB")
                 .pattern("BVB")
                 .pattern("BBB")
-                .define('B', ModBlocks.BRICK_CONCRETE.get())
+                .define('B', NtmBlocks.BRICK_CONCRETE.get())
                 .define('V', Items.VINE)
-                .unlockedBy("can_craft_bricks", has(ModBlocks.BRICK_CONCRETE))
+                .unlockedBy("can_craft_bricks", has(NtmBlocks.BRICK_CONCRETE))
                 .save(recipeOutput);
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.BRICK_CONCRETE_CRACKED.get(), 6)
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, NtmBlocks.BRICK_CONCRETE_CRACKED.get(), 6)
                 .pattern(" B ")
                 .pattern("B B")
                 .pattern(" B ")
-                .define('B', ModBlocks.BRICK_CONCRETE.get())
-                .unlockedBy("can_craft_bricks", has(ModBlocks.BRICK_CONCRETE))
+                .define('B', NtmBlocks.BRICK_CONCRETE.get())
+                .unlockedBy("can_craft_bricks", has(NtmBlocks.BRICK_CONCRETE))
                 .save(recipeOutput);
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.BRICK_CONCRETE_BROKEN.get(), 6)
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, NtmBlocks.BRICK_CONCRETE_BROKEN.get(), 6)
                 .pattern(" B ")
                 .pattern("B B")
                 .pattern(" B ")
-                .define('B', ModBlocks.BRICK_CONCRETE_CRACKED.get())
-                .unlockedBy("can_craft_bricks", has(ModBlocks.BRICK_CONCRETE))
+                .define('B', NtmBlocks.BRICK_CONCRETE_CRACKED.get())
+                .unlockedBy("can_craft_bricks", has(NtmBlocks.BRICK_CONCRETE))
                 .save(recipeOutput);
-        stairBuilder(ModBlocks.BRICK_CONCRETE_STAIRS.get(), Ingredient.of(ModBlocks.BRICK_CONCRETE))
-                .unlockedBy("can_craft_bricks", has(ModBlocks.BRICK_CONCRETE))
+        stairBuilder(NtmBlocks.BRICK_CONCRETE_STAIRS.get(), Ingredient.of(NtmBlocks.BRICK_CONCRETE))
+                .unlockedBy("can_craft_bricks", has(NtmBlocks.BRICK_CONCRETE))
                 .save(recipeOutput);
-        stairBuilder(ModBlocks.BRICK_CONCRETE_MOSSY_STAIRS.get(), Ingredient.of(ModBlocks.BRICK_CONCRETE_MOSSY))
-                .unlockedBy("can_craft_bricks", has(ModBlocks.BRICK_CONCRETE))
+        stairBuilder(NtmBlocks.BRICK_CONCRETE_MOSSY_STAIRS.get(), Ingredient.of(NtmBlocks.BRICK_CONCRETE_MOSSY))
+                .unlockedBy("can_craft_bricks", has(NtmBlocks.BRICK_CONCRETE))
                 .save(recipeOutput);
-        stairBuilder(ModBlocks.BRICK_CONCRETE_CRACKED_STAIRS.get(), Ingredient.of(ModBlocks.BRICK_CONCRETE_CRACKED))
-                .unlockedBy("can_craft_bricks", has(ModBlocks.BRICK_CONCRETE))
+        stairBuilder(NtmBlocks.BRICK_CONCRETE_CRACKED_STAIRS.get(), Ingredient.of(NtmBlocks.BRICK_CONCRETE_CRACKED))
+                .unlockedBy("can_craft_bricks", has(NtmBlocks.BRICK_CONCRETE))
                 .save(recipeOutput);
-        stairBuilder(ModBlocks.BRICK_CONCRETE_BROKEN_STAIRS.get(), Ingredient.of(ModBlocks.BRICK_CONCRETE_BROKEN))
-                .unlockedBy("can_craft_bricks", has(ModBlocks.BRICK_CONCRETE))
+        stairBuilder(NtmBlocks.BRICK_CONCRETE_BROKEN_STAIRS.get(), Ingredient.of(NtmBlocks.BRICK_CONCRETE_BROKEN))
+                .unlockedBy("can_craft_bricks", has(NtmBlocks.BRICK_CONCRETE))
                 .save(recipeOutput);
 
-        slab(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.BRICK_CONCRETE_SLAB.get(), ModBlocks.BRICK_CONCRETE.get());
-        slab(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.BRICK_CONCRETE_MOSSY_SLAB.get(), ModBlocks.BRICK_CONCRETE_MOSSY.get());
-        slab(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.BRICK_CONCRETE_CRACKED_SLAB.get(), ModBlocks.BRICK_CONCRETE_CRACKED.get());
-        slab(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.BRICK_CONCRETE_BROKEN_SLAB.get(), ModBlocks.BRICK_CONCRETE_BROKEN.get());
+        slab(recipeOutput, RecipeCategory.BUILDING_BLOCKS, NtmBlocks.BRICK_CONCRETE_SLAB.get(), NtmBlocks.BRICK_CONCRETE.get());
+        slab(recipeOutput, RecipeCategory.BUILDING_BLOCKS, NtmBlocks.BRICK_CONCRETE_MOSSY_SLAB.get(), NtmBlocks.BRICK_CONCRETE_MOSSY.get());
+        slab(recipeOutput, RecipeCategory.BUILDING_BLOCKS, NtmBlocks.BRICK_CONCRETE_CRACKED_SLAB.get(), NtmBlocks.BRICK_CONCRETE_CRACKED.get());
+        slab(recipeOutput, RecipeCategory.BUILDING_BLOCKS, NtmBlocks.BRICK_CONCRETE_BROKEN_SLAB.get(), NtmBlocks.BRICK_CONCRETE_BROKEN.get());
     }
 }

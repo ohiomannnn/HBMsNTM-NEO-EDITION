@@ -1,6 +1,6 @@
 package com.hbm.blocks.gas;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.lib.ModEffect;
@@ -72,7 +72,7 @@ public class GasMeltdownBlock extends GasBaseBlock {
             BlockPos relative = pos.relative(dir);
 
             if (random.nextInt(7) == 0 && level.isEmptyBlock(relative)) {
-                level.setBlock(pos, ModBlocks.GAS_RADON_DENSE.get().defaultBlockState(), 3);
+                level.setBlock(pos, NtmBlocks.GAS_RADON_DENSE.get().defaultBlockState(), 3);
             }
 
             if (level.canSeeSky(pos)) {

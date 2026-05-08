@@ -1,6 +1,6 @@
 package com.hbm.explosion;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.inventory.ModTags;
 import com.hbm.lib.Library;
@@ -78,7 +78,7 @@ public class ExplosionNukeGeneric {
             BlockState state = level.getBlockState(pos);
             Block b = state.getBlock();
 
-            if (b == Blocks.GRASS_BLOCK || b == Blocks.MYCELIUM || b == ModBlocks.WASTE_EARTH.get() || b == ModBlocks.WASTE_MYCELIUM.get()) {
+            if (b == Blocks.GRASS_BLOCK || b == Blocks.MYCELIUM || b == NtmBlocks.WASTE_EARTH.get() || b == NtmBlocks.WASTE_MYCELIUM.get()) {
                 level.setBlock(pos, Blocks.DIRT.defaultBlockState(), 3);
                 return;
             }

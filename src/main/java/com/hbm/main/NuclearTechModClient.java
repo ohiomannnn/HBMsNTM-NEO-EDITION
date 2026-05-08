@@ -5,7 +5,7 @@ import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blockentity.network.PipeBaseBlockEntity;
 import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.blocks.ILookOverlay;
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.blocks.bomb.BalefireBlock;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
 import com.hbm.config.MainConfig;
@@ -406,17 +406,17 @@ public class NuclearTechModClient {
                     int variant = state.getValue(SellafieldSlakedBlock.COLOR_LEVEL);
                     return Color.HSBtoRGB(0F, 0F, 1F - variant / 15F);
                 },
-                ModBlocks.SELLAFIELD_SLAKED.get(),
-                ModBlocks.SELLAFIELD_BEDROCK.get(),
-                ModBlocks.ORE_SELLAFIELD_DIAMOND.get(),
-                ModBlocks.ORE_SELLAFIELD_EMERALD.get()
+                NtmBlocks.SELLAFIELD_SLAKED.get(),
+                NtmBlocks.SELLAFIELD_BEDROCK.get(),
+                NtmBlocks.ORE_SELLAFIELD_DIAMOND.get(),
+                NtmBlocks.ORE_SELLAFIELD_EMERALD.get()
         );
         event.register(
                 (state, world, pos, tintIndex) -> {
                     int age = state.getValue(BalefireBlock.AGE);
                     return Color.HSBtoRGB(0F, 0F, 1F - age / 30F);
                 },
-                ModBlocks.BALEFIRE.get()
+                NtmBlocks.BALEFIRE.get()
         );
         event.register(
                 (state, level, pos, tintIndex) -> {
@@ -430,7 +430,7 @@ public class NuclearTechModClient {
                     if (type == null) return 0xFFFFFFFF;
                     return 0xFF000000 | type.getColor();
                 },
-                ModBlocks.FLUID_DUCT_NEO.get()
+                NtmBlocks.FLUID_DUCT_NEO.get()
         );
     }
 
@@ -441,14 +441,14 @@ public class NuclearTechModClient {
                         ((BlockItem) stack.getItem()).getBlock().defaultBlockState(),
                         null, null, tintIndex
                 ),
-                ModBlocks.SELLAFIELD_SLAKED.get(),
-                ModBlocks.SELLAFIELD_BEDROCK.get(),
-                ModBlocks.ORE_SELLAFIELD_DIAMOND.get(),
-                ModBlocks.ORE_SELLAFIELD_EMERALD.get()
+                NtmBlocks.SELLAFIELD_SLAKED.get(),
+                NtmBlocks.SELLAFIELD_BEDROCK.get(),
+                NtmBlocks.ORE_SELLAFIELD_DIAMOND.get(),
+                NtmBlocks.ORE_SELLAFIELD_EMERALD.get()
         );
         event.register(
                 (stack, tintIndex) -> tintIndex == 1 ? 0xFF000000 | Fluids.NONE.getColor() : 0xFFFFFFFF,
-                ModBlocks.FLUID_DUCT_NEO.get()
+                NtmBlocks.FLUID_DUCT_NEO.get()
         );
         event.register(
                 (stack, tintIndex) -> 0xFF000000 | Fluids.fromID(MetaHelper.getMeta(stack)).getColor(),
@@ -648,16 +648,16 @@ public class NuclearTechModClient {
 
         registerItemRenderer(event, new RenderLaserDetonator(), NtmItems.DETONATOR_LASER.get());
 
-        registerItemRenderer(event, new RenderCableItem(), ModBlocks.RED_CABLE.asItem());
-        registerItemRenderer(event, new RenderDetCordItem(), ModBlocks.DET_CORD.asItem());
+        registerItemRenderer(event, new RenderCableItem(), NtmBlocks.RED_CABLE.asItem());
+        registerItemRenderer(event, new RenderDetCordItem(), NtmBlocks.DET_CORD.asItem());
 
-        registerItemRenderer(event, new RenderPipeItem(), ModBlocks.FLUID_DUCT_NEO.asItem());
+        registerItemRenderer(event, new RenderPipeItem(), NtmBlocks.FLUID_DUCT_NEO.asItem());
 
         registerItemRenderer(event, new RenderBarrelItem(),
-                ModBlocks.BARREL_RED.asItem(),
-                ModBlocks.BARREL_PINK.asItem(),
-                ModBlocks.BARREL_LOX.asItem(),
-                ModBlocks.BARREL_TAINT.asItem()
+                NtmBlocks.BARREL_RED.asItem(),
+                NtmBlocks.BARREL_PINK.asItem(),
+                NtmBlocks.BARREL_LOX.asItem(),
+                NtmBlocks.BARREL_TAINT.asItem()
         );
 
         registerItemRenderer(event, new RenderBatteryPackItem(), NtmItems.BATTERY_PACK.get());

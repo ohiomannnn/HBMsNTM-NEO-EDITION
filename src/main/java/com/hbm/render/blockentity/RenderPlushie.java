@@ -1,6 +1,6 @@
 package com.hbm.render.blockentity;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.blocks.generic.PlushieBlock;
 import com.hbm.blocks.generic.PlushieBlock.PlushieBlockEntity;
 import com.hbm.blocks.generic.PlushieBlock.PlushieType;
@@ -133,10 +133,10 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
     @Override
     public Item[] getItemsForRenderer() {
         return new Item[] {
-                ModBlocks.PLUSHIE_YOMI.asItem(),
-                ModBlocks.PLUSHIE_NUMBERNINE.asItem(),
-                ModBlocks.PLUSHIE_HUNDUN.asItem(),
-                ModBlocks.PLUSHIE_DERG.asItem()
+                NtmBlocks.PLUSHIE_YOMI.asItem(),
+                NtmBlocks.PLUSHIE_NUMBERNINE.asItem(),
+                NtmBlocks.PLUSHIE_HUNDUN.asItem(),
+                NtmBlocks.PLUSHIE_DERG.asItem()
         };
     }
 
@@ -176,10 +176,10 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
 
     @Nullable
     private static PlushieType getType(ItemStack stack) {
-        if (stack.is(ModBlocks.PLUSHIE_YOMI.asItem())) return PlushieType.YOMI;
-        if (stack.is(ModBlocks.PLUSHIE_NUMBERNINE.asItem())) return PlushieType.NUMBERNINE;
-        if (stack.is(ModBlocks.PLUSHIE_HUNDUN.asItem())) return PlushieType.HUNDUN;
-        if (stack.is(ModBlocks.PLUSHIE_DERG.asItem())) return PlushieType.DERG;
+        if (stack.is(NtmBlocks.PLUSHIE_YOMI.asItem())) return PlushieType.YOMI;
+        if (stack.is(NtmBlocks.PLUSHIE_NUMBERNINE.asItem())) return PlushieType.NUMBERNINE;
+        if (stack.is(NtmBlocks.PLUSHIE_HUNDUN.asItem())) return PlushieType.HUNDUN;
+        if (stack.is(NtmBlocks.PLUSHIE_DERG.asItem())) return PlushieType.DERG;
         return null;
     }
 }

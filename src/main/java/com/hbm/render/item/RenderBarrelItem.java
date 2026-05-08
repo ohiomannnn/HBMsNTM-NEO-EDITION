@@ -1,17 +1,13 @@
 package com.hbm.render.item;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.model.BarrelBakedModel;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.client.model.data.ModelData;
 
 public class RenderBarrelItem extends ItemRenderBaseStandard {
 
@@ -29,10 +25,10 @@ public class RenderBarrelItem extends ItemRenderBaseStandard {
     }
 
     private int getBarrelType(ItemStack stack) {
-        if(stack.is(ModBlocks.BARREL_RED.asItem()))   return 0;
-        if(stack.is(ModBlocks.BARREL_PINK.asItem()))  return 1;
-        if(stack.is(ModBlocks.BARREL_LOX.asItem()))   return 2;
-        if(stack.is(ModBlocks.BARREL_TAINT.asItem())) return 3;
+        if(stack.is(NtmBlocks.BARREL_RED.asItem()))   return 0;
+        if(stack.is(NtmBlocks.BARREL_PINK.asItem()))  return 1;
+        if(stack.is(NtmBlocks.BARREL_LOX.asItem()))   return 2;
+        if(stack.is(NtmBlocks.BARREL_TAINT.asItem())) return 3;
         return 0;
     }
 

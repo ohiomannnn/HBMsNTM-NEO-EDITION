@@ -1,6 +1,6 @@
 package com.hbm.entity.projectile;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockMutatorDebris;
@@ -64,7 +64,7 @@ public class Shrapnel extends ThrowableProjectile {
                     if (getDeltaMovement().y < -0.2D && result instanceof BlockHitResult bhr) {
                         BlockPos pos = bhr.getBlockPos().above();
                         if (level().getBlockState(pos).canBeReplaced()) {
-                            level().setBlock(pos, (b == 2 ? ModBlocks.VOLCANIC_LAVA_BLOCK.get().defaultBlockState() : ModBlocks.RAD_LAVA_BLOCK.get().defaultBlockState()), 3);
+                            level().setBlock(pos, (b == 2 ? NtmBlocks.VOLCANIC_LAVA_BLOCK.get().defaultBlockState() : NtmBlocks.RAD_LAVA_BLOCK.get().defaultBlockState()), 3);
                         }
                         BlockPos base = bhr.getBlockPos();
                         for (int x = -1; x <= 1; x++) {
@@ -72,7 +72,7 @@ public class Shrapnel extends ThrowableProjectile {
                                 for (int z = -1; z <= 1; z++) {
                                     BlockPos p = base.offset(x, y, z);
                                     if (level().getBlockState(p).isAir()) {
-                                        level().setBlock(p, ModBlocks.GAS_MONOXIDE.get().defaultBlockState(), 3);
+                                        level().setBlock(p, NtmBlocks.GAS_MONOXIDE.get().defaultBlockState(), 3);
                                     }
                                 }
                             }
@@ -83,7 +83,7 @@ public class Shrapnel extends ThrowableProjectile {
                         BlockPos pos = bhr.getBlockPos();
                         ExplosionVNT vnt = new ExplosionVNT(level(), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 7)
                                 .setBlockAllocator(new BlockAllocatorStandard())
-                                .setBlockProcessor(new BlockProcessorStandard().setNoDrop().withBlockEffect(new BlockMutatorDebris(b == 2 ? ModBlocks.VOLCANIC_LAVA_BLOCK.get() : ModBlocks.RAD_LAVA_BLOCK.get())))
+                                .setBlockProcessor(new BlockProcessorStandard().setNoDrop().withBlockEffect(new BlockMutatorDebris(b == 2 ? NtmBlocks.VOLCANIC_LAVA_BLOCK.get() : NtmBlocks.RAD_LAVA_BLOCK.get())))
                                 .setSFX(new ExplosionEffectStandard());
                         vnt.explode();
                     }
@@ -92,7 +92,7 @@ public class Shrapnel extends ThrowableProjectile {
                 BlockPos pos = bhr.getBlockPos().above();
                 if (level().getBlockState(pos).canBeReplaced()) {
                                                     //TODO: make mud_block
-                    level().setBlock(pos, ModBlocks.BLOCK_SCRAP.get().defaultBlockState(), 3);
+                    level().setBlock(pos, NtmBlocks.BLOCK_SCRAP.get().defaultBlockState(), 3);
                 }
             } else {
                 if (this.level() instanceof ServerLevel serverLevel) {

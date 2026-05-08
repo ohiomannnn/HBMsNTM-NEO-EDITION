@@ -1,8 +1,7 @@
 package com.hbm.render.blockentity;
 
-import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blockentity.bomb.NukeFleijaBlockEntity;
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
@@ -46,7 +45,7 @@ public class RenderNukeFleija extends BlockEntityRendererNT<NukeFleijaBlockEntit
 
     @Override
     public Item getItemForRenderer() {
-        return ModBlocks.NUKE_FLEIJA.asItem();
+        return NtmBlocks.NUKE_FLEIJA.asItem();
     }
 
     @Override

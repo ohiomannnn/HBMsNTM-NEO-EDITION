@@ -1,6 +1,6 @@
 package com.hbm.explosion;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -108,13 +108,13 @@ public class ExplosionBalefire {
             if (level.random.nextInt(10) == 0) {
                 BlockPos pos = new BlockPos(pX, depth + 1, pZ);
                 if (BaseFireBlock.canBePlacedAt(level, pos, Direction.UP)) {
-                    level.setBlock(pos, ModBlocks.BALEFIRE.get().defaultBlockState(), 3);
+                    level.setBlock(pos, NtmBlocks.BALEFIRE.get().defaultBlockState(), 3);
                 }
             }
 
             for (int i = depth; i > depth - 5; i--) {
                 if (level.getBlockState(new BlockPos(pX, i, pZ)).is(Blocks.STONE)) {
-                    level.setBlock(new BlockPos(pX, i, pZ), ModBlocks.SELLAFIELD_SLAKED.get().defaultBlockState(), 3);
+                    level.setBlock(new BlockPos(pX, i, pZ), NtmBlocks.SELLAFIELD_SLAKED.get().defaultBlockState(), 3);
                 }
             }
         }

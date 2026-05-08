@@ -2,7 +2,7 @@ package com.hbm.render.blockentity;
 
 import com.hbm.blockentity.machine.storage.BatteryREDDBlockEntity;
 import com.hbm.blocks.DummyableBlock;
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
@@ -208,7 +208,7 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
 
     @Override
     public Item getItemForRenderer() {
-        return ModBlocks.MACHINE_BATTERY_REDD.asItem();
+        return NtmBlocks.MACHINE_BATTERY_REDD.asItem();
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.hbm.render.blockentity;
 
 import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.blocks.bomb.CrashedBombBlock.DudType;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
@@ -69,10 +69,10 @@ public class RenderCrashedBomb extends BlockEntityRendererNT<CrashedBombBlockEnt
     @Override
     public Item[] getItemsForRenderer() {
         return new Item[] {
-                ModBlocks.CRASHED_BOMB_BALEFIRE.asItem(),
-                ModBlocks.CRASHED_BOMB_CONVENTIONAL.asItem(),
-                ModBlocks.CRASHED_BOMB_NUKE.asItem(),
-                ModBlocks.CRASHED_BOMB_SALTED.asItem()
+                NtmBlocks.CRASHED_BOMB_BALEFIRE.asItem(),
+                NtmBlocks.CRASHED_BOMB_CONVENTIONAL.asItem(),
+                NtmBlocks.CRASHED_BOMB_NUKE.asItem(),
+                NtmBlocks.CRASHED_BOMB_SALTED.asItem()
         };
     }
 
@@ -89,21 +89,21 @@ public class RenderCrashedBomb extends BlockEntityRendererNT<CrashedBombBlockEnt
             @Override
             public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
                 RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
-                if (stack.is(ModBlocks.CRASHED_BOMB_BALEFIRE.asItem())) {
+                if (stack.is(NtmBlocks.CRASHED_BOMB_BALEFIRE.asItem())) {
                     RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.DUD_BALEFIRE_TEX));
                     ResourceManager.dud_balefire.renderAll();
                 }
-                if (stack.is(ModBlocks.CRASHED_BOMB_CONVENTIONAL.asItem())) {
+                if (stack.is(NtmBlocks.CRASHED_BOMB_CONVENTIONAL.asItem())) {
                     RenderContext.translate(0F, 0F, -0.5F);
                     RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.DUD_CONVENTIONAL_TEX));
                     ResourceManager.dud_conventional.renderAll();
                 }
-                if (stack.is(ModBlocks.CRASHED_BOMB_NUKE.asItem())) {
+                if (stack.is(NtmBlocks.CRASHED_BOMB_NUKE.asItem())) {
                     RenderContext.translate(0F, 0F, 1.25F);
                     RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.DUD_NUKE_TEX));
                     ResourceManager.dud_nuke.renderAll();
                 }
-                if (stack.is(ModBlocks.CRASHED_BOMB_SALTED.asItem())) {
+                if (stack.is(NtmBlocks.CRASHED_BOMB_SALTED.asItem())) {
                     RenderContext.translate(0F, 0F, 0.5F);
                     RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.DUD_SALTED_TEX));
                     ResourceManager.dud_salted.renderAll();

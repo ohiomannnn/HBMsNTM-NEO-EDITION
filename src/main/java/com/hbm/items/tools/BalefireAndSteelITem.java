@@ -1,6 +1,6 @@
 package com.hbm.items.tools;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -29,7 +29,7 @@ public class BalefireAndSteelITem extends Item {
         if (player == null || !player.mayUseItemAt(pos, context.getClickedFace(), stack)) return InteractionResult.FAIL;
 
         if (level.isEmptyBlock(pos)) {
-            level.setBlock(pos, ModBlocks.BALEFIRE.get().defaultBlockState(), 3);
+            level.setBlock(pos, NtmBlocks.BALEFIRE.get().defaultBlockState(), 3);
             level.playSound(null, pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 1.0F, level.random.nextFloat() * 0.4F + 0.8F);
         }
 

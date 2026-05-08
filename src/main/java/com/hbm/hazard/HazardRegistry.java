@@ -1,6 +1,6 @@
 package com.hbm.hazard;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.hazard.type.*;
 import com.hbm.inventory.MetaHelper;
 import com.hbm.items.NtmItems;
@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 
-import static com.hbm.blocks.ModBlocks.NUKE_FSTBMB;
+import static com.hbm.blocks.NtmBlocks.NUKE_FSTBMB;
 import static com.hbm.items.NtmItems.*;
 
 @SuppressWarnings("unused") //shut the fuck up
@@ -162,7 +162,7 @@ public class HazardRegistry {
         HazardSystem.register(Blocks.WHITE_WOOL, makeData(ASBESTOS, 5F));
         HazardSystem.register(Items.COAL, makeData(COAL, 1F));
 
-        HazardSystem.register(ModBlocks.FALLOUT.get(), makeData(RADIATION, 60F));
+        HazardSystem.register(NtmBlocks.FALLOUT.get(), makeData(RADIATION, 60F));
 
         HazardSystem.register(NtmItems.PARTICLE_DIGAMMA.get(), makeData(DIGAMMA, 0.3333F));
 

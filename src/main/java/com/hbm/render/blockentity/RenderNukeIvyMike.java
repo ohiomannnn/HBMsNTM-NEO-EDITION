@@ -1,8 +1,7 @@
 package com.hbm.render.blockentity;
 
-import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blockentity.bomb.NukeIvyMikeBlockEntity;
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
@@ -46,7 +45,7 @@ public class RenderNukeIvyMike extends BlockEntityRendererNT<NukeIvyMikeBlockEnt
 
     @Override
     public Item getItemForRenderer() {
-        return ModBlocks.NUKE_IVY_MIKE.asItem();
+        return NtmBlocks.NUKE_IVY_MIKE.asItem();
     }
 
     @Override

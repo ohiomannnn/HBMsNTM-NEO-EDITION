@@ -1,6 +1,6 @@
 package com.hbm.lib.effects;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.config.MainConfig;
 import com.hbm.registry.NtmDamageTypes;
 import net.minecraft.core.BlockPos;
@@ -41,7 +41,7 @@ public class TaintEffect extends MobEffect {
                 BlockState stateBelow = level.getBlockState(posBelow);
 
                 if (posBelow.getY() > level.getMinBuildHeight() && stateBelow.canOcclude() && !stateBelow.isAir()) {
-                    level.setBlock(posBelow, ModBlocks.TAINT.get().defaultBlockState(), 3);
+                    level.setBlock(posBelow, NtmBlocks.TAINT.get().defaultBlockState(), 3);
                 }
             }
         }

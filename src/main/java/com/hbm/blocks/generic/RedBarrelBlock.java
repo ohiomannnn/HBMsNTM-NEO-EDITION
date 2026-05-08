@@ -1,6 +1,6 @@
 package com.hbm.blocks.generic;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.blocks.bomb.DetonatableBlock;
 import com.hbm.blocks.bomb.TaintBlock;
 import com.hbm.entity.item.TNTPrimedBase;
@@ -75,14 +75,14 @@ public class RedBarrelBlock extends DetonatableBlock implements SimpleWaterlogge
     public void explodeEntity(Level level, double x, double y, double z, TNTPrimedBase entity) {
         int ix = Mth.floor(x), iy = Mth.floor(y), iz = Mth.floor(z);
 
-        if (this == ModBlocks.BARREL_RED.get() || this == ModBlocks.BARREL_PINK.get()) {
+        if (this == NtmBlocks.BARREL_RED.get() || this == NtmBlocks.BARREL_PINK.get()) {
             ExplosionVNT.newExplosion(level, entity, x, y, z, 2.5F, true, true);
         }
-        if (this == ModBlocks.BARREL_LOX.get()) {
+        if (this == NtmBlocks.BARREL_LOX.get()) {
             ExplosionVNT.newExplosion(level, entity, x, y, z, 1F, false, false);
             ExplosionThermo.freeze(level, BlockPos.containing(x, y, z), 7);
         }
-        if (this == ModBlocks.BARREL_TAINT.get()) {
+        if (this == NtmBlocks.BARREL_TAINT.get()) {
             ExplosionVNT.newExplosion(level, entity, x, y, z, 1F, false, false);
 
             RandomSource rand = level.random;
@@ -93,7 +93,7 @@ public class RedBarrelBlock extends DetonatableBlock implements SimpleWaterlogge
                 BlockPos aPos = new BlockPos(a, b, c);
                 BlockState state = level.getBlockState(aPos);
                 if (state.isSolidRender(level, aPos) && state.getBlock() != Blocks.BEDROCK) {
-                    level.setBlock(aPos, ModBlocks.TAINT.get().defaultBlockState().setValue(TaintBlock.TAINT_LEVEL, rand.nextInt(3) + 4), 2);
+                    level.setBlock(aPos, NtmBlocks.TAINT.get().defaultBlockState().setValue(TaintBlock.TAINT_LEVEL, rand.nextInt(3) + 4), 2);
                 }
             }
         }

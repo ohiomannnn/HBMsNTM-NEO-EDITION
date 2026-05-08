@@ -1,8 +1,7 @@
 package com.hbm.render.blockentity;
 
-import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blockentity.bomb.NukeLittleBoyBlockEntity;
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
@@ -47,7 +46,7 @@ public class RenderNukeLittleBoy extends BlockEntityRendererNT<NukeLittleBoyBloc
 
     @Override
     public Item getItemForRenderer() {
-        return ModBlocks.NUKE_LITTLE_BOY.asItem();
+        return NtmBlocks.NUKE_LITTLE_BOY.asItem();
     }
 
     @Override

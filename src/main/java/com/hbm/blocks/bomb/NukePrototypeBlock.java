@@ -2,6 +2,7 @@ package com.hbm.blocks.bomb;
 
 import com.hbm.blockentity.bomb.NukePrototypeBlockEntity;
 import com.hbm.blockentity.bomb.NukeTsarBombaBlockEntity;
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.logic.NukeExplosionMK3;
 import com.hbm.items.NtmItems;
@@ -10,16 +11,22 @@ import com.hbm.particle.helper.CloudCreator.CloudType;
 import com.hbm.util.InventoryUtil;
 import com.hbm.util.ItemStackUtil;
 import com.mojang.serialization.MapCodec;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item.TooltipContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+
+import java.util.List;
 
 public class NukePrototypeBlock extends NukeBaseBlock {
 
@@ -49,6 +56,13 @@ public class NukePrototypeBlock extends NukeBaseBlock {
         }
 
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
+        for (String s : ITooltipProvider.getDescription(stack)) {
+            components.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
+        }
     }
 
     @Override

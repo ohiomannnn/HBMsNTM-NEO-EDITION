@@ -31,7 +31,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
 
-public class ModBlocks {
+public class NtmBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(NuclearTechMod.MODID);
 
     public static final DeferredBlock<Block> BRICK_CONCRETE = registerBlock("brick_concrete", () -> new Block(BlockBehaviour.Properties.of().strength(15.0F).explosionResistance(160.0F).requiresCorrectToolForDrops().sound(SoundType.STONE)));
@@ -49,7 +49,7 @@ public class ModBlocks {
     public static final DeferredBlock<Block> WASTE_TRINITITE =     registerBlock("waste_trinitite",     () -> new WasteTrinititeBlock( BlockBehaviour.Properties.of().strength(0.5F, 2.5F).sound(SoundType.SAND).mapColor(MapColor.SAND).instrument(NoteBlockInstrument.SNARE)));
     public static final DeferredBlock<Block> WASTE_TRINITITE_RED = registerBlock("waste_trinitite_red", () -> new WasteTrinititeBlock( BlockBehaviour.Properties.of().strength(0.5F, 2.5F).sound(SoundType.SAND).mapColor(MapColor.COLOR_RED).instrument(NoteBlockInstrument.SNARE)));
     public static final DeferredBlock<RotatedPillarBlock> WASTE_LOG = registerBlock("waste_log",    () -> new RotatedPillarBlock( BlockBehaviour.Properties.of().strength(5.0F, 2.5F).sound(SoundType.WOOD).mapColor(MapColor.COLOR_BLACK)));
-    public static final DeferredBlock<Block> WASTE_LEAVES =           registerBlock("waste_leaves", () -> new WasteLeavesBlock(   BlockBehaviour.Properties.of().strength(0.2F).randomTicks().mapColor(MapColor.COLOR_BROWN).sound(SoundType.GRASS).noOcclusion().isValidSpawn(Blocks::never).isSuffocating(ModBlocks::never).isViewBlocking(ModBlocks::never).ignitedByLava().pushReaction(PushReaction.DESTROY).isRedstoneConductor(ModBlocks::never)));
+    public static final DeferredBlock<Block> WASTE_LEAVES =           registerBlock("waste_leaves", () -> new WasteLeavesBlock(   BlockBehaviour.Properties.of().strength(0.2F).randomTicks().mapColor(MapColor.COLOR_BROWN).sound(SoundType.GRASS).noOcclusion().isValidSpawn(Blocks::never).isSuffocating(NtmBlocks::never).isViewBlocking(NtmBlocks::never).ignitedByLava().pushReaction(PushReaction.DESTROY).isRedstoneConductor(NtmBlocks::never)));
     public static final DeferredBlock<Block> WASTE_PLANKS =           registerBlock("waste_planks", () -> new Block(              BlockBehaviour.Properties.of().strength(0.5F, 2.5F).sound(SoundType.WOOD).mapColor(MapColor.COLOR_BLACK)));
     public static final DeferredBlock<Block> FROZEN_DIRT =             registerBlock("frozen_dirt",   () -> new FrozenBlock(        BlockBehaviour.Properties.of().strength(0.5F, 2.5F).sound(SoundType.GLASS).mapColor(DyeColor.LIGHT_BLUE)));
     public static final DeferredBlock<Block> FROZEN_GRASS =            registerBlock("frozen_grass",  () -> new FrozenBlock(        BlockBehaviour.Properties.of().strength(0.5F, 2.5F).sound(SoundType.GLASS).mapColor(DyeColor.WHITE)));
@@ -64,11 +64,11 @@ public class ModBlocks {
                     .sound(SoundType.GRASS)
                     .noOcclusion()
                     .isValidSpawn(Blocks::never)
-                    .isSuffocating(ModBlocks::never)
-                    .isViewBlocking(ModBlocks::never)
+                    .isSuffocating(NtmBlocks::never)
+                    .isViewBlocking(NtmBlocks::never)
                     .ignitedByLava()
                     .pushReaction(PushReaction.DESTROY)
-                    .isRedstoneConductor(ModBlocks::never)));
+                    .isRedstoneConductor(NtmBlocks::never)));
 
     public static final DeferredBlock<Block> FALLOUT = registerBlock("fallout", () -> new FalloutBlock(BlockBehaviour.Properties.of().replaceable().strength(0.1F).sound(SoundType.GRAVEL).mapColor(MapColor.STONE)));
     public static final DeferredBlock<Block> SELLAFIELD_SLAKED = registerBlock("sellafield_slaked", () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).isValidSpawn(Blocks::never).requiresCorrectToolForDrops().strength(3.0F, 10.0F).sound(SoundType.STONE)));
@@ -218,6 +218,7 @@ public class ModBlocks {
             "pwr_controller",
             () -> new Block(BlockBehaviour.Properties.of().noLootTable()));
 
+    //Nukes
     public static final DeferredBlock<Block> NUKE_GADGET =     registerBlock("nuke_gadget",     () -> new NukeGadgetBlock(    BlockBehaviour.Properties.of().strength(5.0F, 200.0F).requiresCorrectToolForDrops().noOcclusion().sound(SoundType.METAL).mapColor(MapColor.METAL)));
     public static final DeferredBlock<Block> NUKE_LITTLE_BOY = registerBlock("nuke_little_boy", () -> new NukeLittleBoyBlock( BlockBehaviour.Properties.of().strength(5.0F, 200.0F).requiresCorrectToolForDrops().noOcclusion().sound(SoundType.METAL).mapColor(MapColor.METAL)));
     public static final DeferredBlock<Block> NUKE_FAT_MAN =    registerBlock("nuke_fat_man",    () -> new NukeFatManBlock(    BlockBehaviour.Properties.of().strength(5.0F, 200.0F).requiresCorrectToolForDrops().noOcclusion().sound(SoundType.METAL).mapColor(MapColor.METAL)));
@@ -229,7 +230,7 @@ public class ModBlocks {
     public static final DeferredBlock<Block> NUKE_FSTBMB =     registerBlock("nuke_fstbmb",     () -> new NukeBalefireBlock(  BlockBehaviour.Properties.of().strength(5.0F, 200.0F).requiresCorrectToolForDrops().noOcclusion().sound(SoundType.METAL).mapColor(MapColor.METAL)));
 
     public static final DeferredBlock<Block> DET_CHARGE =  registerBlock("det_charge",  () -> new ExplosiveChargeBlock(BlockBehaviour.Properties.of().strength(0.1F).explosionResistance(0.0F).sound(SoundType.METAL)));
-    public static final DeferredBlock<Block> DET_CORD =    registerBlock("det_cord",    () -> new DetCordBlock(BlockBehaviour.Properties.of().strength(0.1F).explosionResistance(0.0F).noOcclusion().isSuffocating(ModBlocks::never).isViewBlocking(ModBlocks::never).sound(SoundType.METAL)));
+    public static final DeferredBlock<Block> DET_CORD =    registerBlock("det_cord",    () -> new DetCordBlock(BlockBehaviour.Properties.of().strength(0.1F).explosionResistance(0.0F).noOcclusion().isSuffocating(NtmBlocks::never).isViewBlocking(NtmBlocks::never).sound(SoundType.METAL)));
     public static final DeferredBlock<Block> DET_NUKE =    registerBlock("det_nuke",    () -> new ExplosiveChargeBlock(BlockBehaviour.Properties.of().strength(0.1F).explosionResistance(0.0F).sound(SoundType.METAL)));
     public static final DeferredBlock<Block> DET_MINER =   registerBlock("det_miner",   () -> new ExplosiveChargeBlock(BlockBehaviour.Properties.of().strength(0.1F).explosionResistance(0.0F).sound(SoundType.METAL)));
     public static final DeferredBlock<Block> BARREL_RED =   registerBlock("barrel_red",   () -> new RedBarrelBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.1F).explosionResistance(2.5F).sound(SoundType.METAL), true));
@@ -245,32 +246,32 @@ public class ModBlocks {
     public static final DeferredBlock<Block> MINE_SHRAP = registerBlock("mine_shrap", () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().strength(1.0F, 0.0F).sound(SoundType.METAL).mapColor(MapColor.METAL), 1.5D, 1D));
     public static final DeferredBlock<Block> MINE_FAT =   registerBlock("mine_fat",   () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().strength(1.0F, 0.0F).sound(SoundType.METAL).mapColor(MapColor.METAL), 2.5D, 1D));
     public static final DeferredBlock<Block> MINE_NAVAL = registerBlock("mine_naval", () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().strength(1.0F, 0.0F).sound(SoundType.METAL).mapColor(MapColor.METAL), 2.5D, 1D));
-    public static final DeferredBlock<Block> DYNAMITE =     registerBlock("dynamite",     () -> new DynamiteBlock(    BlockBehaviour.Properties.of().instabreak().ignitedByLava().isRedstoneConductor(ModBlocks::never).sound(SoundType.GRASS).mapColor(MapColor.FIRE)));
-    public static final DeferredBlock<Block> TNT =          registerBlock("tnt",          () -> new TNTBlock(         BlockBehaviour.Properties.of().instabreak().ignitedByLava().isRedstoneConductor(ModBlocks::never).sound(SoundType.GRASS).mapColor(MapColor.FIRE)));
-    public static final DeferredBlock<Block> SEMTEX =       registerBlock("semtex",       () -> new SemtexBlock(      BlockBehaviour.Properties.of().instabreak().ignitedByLava().isRedstoneConductor(ModBlocks::never).sound(SoundType.GRASS).mapColor(MapColor.FIRE)));
-    public static final DeferredBlock<Block> C4 =           registerBlock("c4",           () -> new C4Block(          BlockBehaviour.Properties.of().instabreak().ignitedByLava().isRedstoneConductor(ModBlocks::never).sound(SoundType.GRASS).mapColor(MapColor.FIRE)));
-    public static final DeferredBlock<Block> FISSURE_BOMB = registerBlock("fissure_bomb", () -> new FissureBombBlock( BlockBehaviour.Properties.of().instabreak().ignitedByLava().isRedstoneConductor(ModBlocks::never).sound(SoundType.GRASS).mapColor(MapColor.FIRE)));
+    public static final DeferredBlock<Block> DYNAMITE =     registerBlock("dynamite",     () -> new DynamiteBlock(    BlockBehaviour.Properties.of().instabreak().ignitedByLava().isRedstoneConductor(NtmBlocks::never).sound(SoundType.GRASS).mapColor(MapColor.FIRE)));
+    public static final DeferredBlock<Block> TNT =          registerBlock("tnt",          () -> new TNTBlock(         BlockBehaviour.Properties.of().instabreak().ignitedByLava().isRedstoneConductor(NtmBlocks::never).sound(SoundType.GRASS).mapColor(MapColor.FIRE)));
+    public static final DeferredBlock<Block> SEMTEX =       registerBlock("semtex",       () -> new SemtexBlock(      BlockBehaviour.Properties.of().instabreak().ignitedByLava().isRedstoneConductor(NtmBlocks::never).sound(SoundType.GRASS).mapColor(MapColor.FIRE)));
+    public static final DeferredBlock<Block> C4 =           registerBlock("c4",           () -> new C4Block(          BlockBehaviour.Properties.of().instabreak().ignitedByLava().isRedstoneConductor(NtmBlocks::never).sound(SoundType.GRASS).mapColor(MapColor.FIRE)));
+    public static final DeferredBlock<Block> FISSURE_BOMB = registerBlock("fissure_bomb", () -> new FissureBombBlock( BlockBehaviour.Properties.of().instabreak().ignitedByLava().isRedstoneConductor(NtmBlocks::never).sound(SoundType.GRASS).mapColor(MapColor.FIRE)));
 
     public static final DeferredBlock<Block> LAUNCH_PAD = registerBlock("launch_pad", () -> new LaunchPadBlock(BlockBehaviour.Properties.of().noOcclusion().strength(5.0F, 10.0F).mapColor(MapColor.METAL)));
 
     public static final DeferredBlock<StairBlock> BRICK_CONCRETE_STAIRS = registerBlock(
             "brick_concrete_stairs",
-            () -> new StairBlock(ModBlocks.BRICK_CONCRETE.get().defaultBlockState(), BlockBehaviour.Properties.of()
+            () -> new StairBlock(NtmBlocks.BRICK_CONCRETE.get().defaultBlockState(), BlockBehaviour.Properties.of()
                     .strength(15.0F)
                     .requiresCorrectToolForDrops()));
     public static final DeferredBlock<StairBlock> BRICK_CONCRETE_MOSSY_STAIRS = registerBlock(
             "brick_concrete_mossy_stairs",
-            () -> new StairBlock(ModBlocks.BRICK_CONCRETE_MOSSY.get().defaultBlockState(), BlockBehaviour.Properties.of()
+            () -> new StairBlock(NtmBlocks.BRICK_CONCRETE_MOSSY.get().defaultBlockState(), BlockBehaviour.Properties.of()
                     .strength(15.0F)
                     .requiresCorrectToolForDrops()));
     public static final DeferredBlock<StairBlock> BRICK_CONCRETE_CRACKED_STAIRS = registerBlock(
             "brick_concrete_cracked_stairs",
-            () -> new StairBlock(ModBlocks.BRICK_CONCRETE_CRACKED.get().defaultBlockState(), BlockBehaviour.Properties.of()
+            () -> new StairBlock(NtmBlocks.BRICK_CONCRETE_CRACKED.get().defaultBlockState(), BlockBehaviour.Properties.of()
                     .strength(15.0F)
                     .requiresCorrectToolForDrops()));
     public static final DeferredBlock<StairBlock> BRICK_CONCRETE_BROKEN_STAIRS = registerBlock(
             "brick_concrete_broken_stairs",
-            () -> new StairBlock(ModBlocks.BRICK_CONCRETE_BROKEN.get().defaultBlockState(), BlockBehaviour.Properties.of()
+            () -> new StairBlock(NtmBlocks.BRICK_CONCRETE_BROKEN.get().defaultBlockState(), BlockBehaviour.Properties.of()
                     .strength(15.0F)
                     .requiresCorrectToolForDrops()));
 

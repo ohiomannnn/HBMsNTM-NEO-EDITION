@@ -57,6 +57,7 @@ public class NtmSoundEvents {
     public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER6 = reg("item.geiger6"); // PLAYERS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> PIN_UNLOCK = reg("item.pin_unlock"); // PLAYERS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> PIN_BREAK = reg("item.pin_break"); // PLAYERS CATEGORY
+    public static final DeferredHolder<SoundEvent, SoundEvent> UNPACK = reg("item.unpack"); // PLAYERS CATEGORY
 
     private static DeferredHolder<SoundEvent, SoundEvent> reg(String name) {
         return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(NuclearTechMod.withDefaultNamespace(name)));

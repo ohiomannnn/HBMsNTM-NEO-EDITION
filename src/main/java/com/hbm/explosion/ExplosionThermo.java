@@ -1,6 +1,6 @@
 package com.hbm.explosion;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.interfaces.Spaghetti;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
@@ -43,16 +43,16 @@ public class ExplosionThermo {
         Block b = state.getBlock();
 
         if (b == Blocks.GRASS_BLOCK) {
-            level.setBlock(pos, ModBlocks.FROZEN_GRASS.get().defaultBlockState(), 3);
+            level.setBlock(pos, NtmBlocks.FROZEN_GRASS.get().defaultBlockState(), 3);
         }
         if (b == Blocks.DIRT) {
-            level.setBlock(pos, ModBlocks.FROZEN_DIRT.get().defaultBlockState(), 3);
+            level.setBlock(pos, NtmBlocks.FROZEN_DIRT.get().defaultBlockState(), 3);
         }
         if (state.is(BlockTags.LOGS)) {
-            level.setBlock(pos, ModBlocks.FROZEN_LOG.get().defaultBlockState(), 3);
+            level.setBlock(pos, NtmBlocks.FROZEN_LOG.get().defaultBlockState(), 3);
         }
         if (state.is(BlockTags.PLANKS)) {
-            level.setBlock(pos, ModBlocks.FROZEN_PLANKS.get().defaultBlockState(), 3);
+            level.setBlock(pos, NtmBlocks.FROZEN_PLANKS.get().defaultBlockState(), 3);
         }
         if (b == Blocks.STONE) {
             level.setBlock(pos, Blocks.PACKED_ICE.defaultBlockState(), 3);

@@ -2,7 +2,7 @@ package com.hbm.blocks.bomb;
 
 import com.hbm.blockentity.Tickable;
 import com.hbm.blockentity.bomb.LandMineBlockEntity;
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.config.MainConfig;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeGeneric;
@@ -74,10 +74,10 @@ public class LandmineBlock extends Block implements EntityBlock, IBomb {
 
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        if (this == ModBlocks.MINE_AP.get()) return SHAPE_AP;
-        if (this == ModBlocks.MINE_HE.get()) return SHAPE_HE;
-        if (this == ModBlocks.MINE_SHRAP.get()) return SHAPE_SHRAP;
-        if (this == ModBlocks.MINE_FAT.get()) return SHAPE_FAT;
+        if (this == NtmBlocks.MINE_AP.get()) return SHAPE_AP;
+        if (this == NtmBlocks.MINE_HE.get()) return SHAPE_HE;
+        if (this == NtmBlocks.MINE_SHRAP.get()) return SHAPE_SHRAP;
+        if (this == NtmBlocks.MINE_FAT.get()) return SHAPE_FAT;
         return Shapes.block();
     }
 
@@ -100,7 +100,7 @@ public class LandmineBlock extends Block implements EntityBlock, IBomb {
 
     @Override
     protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
-        if (this == ModBlocks.MINE_NAVAL.get()) return true;
+        if (this == NtmBlocks.MINE_NAVAL.get()) return true;
         BlockPos below = pos.below();
         if (!level.getBlockState(below).isFaceSturdy(level, below, Direction.UP)) return false;
         return true;
@@ -121,14 +121,14 @@ public class LandmineBlock extends Block implements EntityBlock, IBomb {
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
             LandmineBlock.safeMode = false;
 
-            if (this == ModBlocks.MINE_AP.get()) {
+            if (this == NtmBlocks.MINE_AP.get()) {
                 ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3F)
                         .setEntityProcessor(new EntityProcessorCrossSmooth(0.5, (float) MainConfig.SERVER.MINE_AP_DAMAGE.getAsDouble()).setupPiercing(5F, 0.2F))
                         .setSFX(new ExplosionEffectWeapon(5, 1F, 0.5F));
                 vnt.explode();
             }
 
-            if (this == ModBlocks.MINE_HE.get()) {
+            if (this == NtmBlocks.MINE_HE.get()) {
                 ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 4F)
                         .setBlockAllocator(new BlockAllocatorStandard())
                         .setBlockProcessor(new BlockProcessorStandard())
@@ -137,7 +137,7 @@ public class LandmineBlock extends Block implements EntityBlock, IBomb {
                 vnt.explode();
             }
 
-            if (this == ModBlocks.MINE_SHRAP.get()) {
+            if (this == NtmBlocks.MINE_SHRAP.get()) {
                 ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3F)
                         .setEntityProcessor(new EntityProcessorCrossSmooth(0.5, (float) MainConfig.SERVER.MINE_SHRAP_DAMAGE.getAsDouble()))
                         .setSFX(new ExplosionEffectWeapon(5, 1F, 0.5F));
@@ -149,7 +149,7 @@ public class LandmineBlock extends Block implements EntityBlock, IBomb {
                 }
             }
 
-            if (this == ModBlocks.MINE_FAT.get()) {
+            if (this == NtmBlocks.MINE_FAT.get()) {
                 ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 10)
                         .setBlockAllocator(new BlockAllocatorStandard(64))
                         .setBlockProcessor(new BlockProcessorStandard())
@@ -168,7 +168,7 @@ public class LandmineBlock extends Block implements EntityBlock, IBomb {
                 }
             }
 
-            if (this == ModBlocks.MINE_NAVAL.get()) {
+            if (this == NtmBlocks.MINE_NAVAL.get()) {
                 ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 5, pos.getY() + 5, pos.getZ() + 5, 25F)
                         .setBlockAllocator(new BlockAllocatorWater(32))
                         .setBlockProcessor(new BlockProcessorStandard())

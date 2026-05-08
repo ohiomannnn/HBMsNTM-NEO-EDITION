@@ -1,8 +1,7 @@
 package com.hbm.render.blockentity;
 
-import com.hbm.blockentity.bomb.NukePrototypeBlockEntity;
 import com.hbm.blockentity.bomb.NukeTsarBombaBlockEntity;
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
@@ -47,7 +46,7 @@ public class RenderNukeTsarBomba extends BlockEntityRendererNT<NukeTsarBombaBloc
 
     @Override
     public Item getItemForRenderer() {
-        return ModBlocks.NUKE_TSAR_BOMBA.asItem();
+        return NtmBlocks.NUKE_TSAR_BOMBA.asItem();
     }
 
     @Override

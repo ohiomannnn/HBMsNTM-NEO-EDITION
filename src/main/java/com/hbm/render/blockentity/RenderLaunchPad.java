@@ -2,7 +2,7 @@ package com.hbm.render.blockentity;
 
 import com.hbm.blockentity.bomb.LaunchPadBlockEntity;
 import com.hbm.blocks.DummyableBlock;
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
@@ -71,7 +71,7 @@ public class RenderLaunchPad extends BlockEntityRendererNT<LaunchPadBlockEntity>
 
     @Override
     public Item getItemForRenderer() {
-        return ModBlocks.LAUNCH_PAD.asItem();
+        return NtmBlocks.LAUNCH_PAD.asItem();
     }
 
     @Override

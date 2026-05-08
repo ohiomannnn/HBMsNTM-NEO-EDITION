@@ -1,6 +1,6 @@
 package com.hbm.blocks.gas;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.blocks.generic.FalloutBlock;
 import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.lib.ModEffect;
@@ -66,7 +66,7 @@ public class GasRadonDenseBlock extends GasBaseBlock {
         if (!level.isClientSide) {
             if (random.nextInt(20) == 0) {
                 if (level.getBlockState(pos.below()).is(Blocks.GRASS_BLOCK)) {
-                    level.setBlock(pos.below(), ModBlocks.WASTE_EARTH.get().defaultBlockState(), 3);
+                    level.setBlock(pos.below(), NtmBlocks.WASTE_EARTH.get().defaultBlockState(), 3);
                 }
             }
 
@@ -74,7 +74,7 @@ public class GasRadonDenseBlock extends GasBaseBlock {
                 level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
 
                 if (FalloutBlock.canPlaceBlockAt(level, pos)) {
-                    level.setBlock(pos, ModBlocks.FALLOUT.get().defaultBlockState(), 3);
+                    level.setBlock(pos, NtmBlocks.FALLOUT.get().defaultBlockState(), 3);
                 }
             }
         }

@@ -1,7 +1,7 @@
 package com.hbm.main;
 
 import com.hbm.blockentity.bomb.LaunchPadBaseBlockEntity;
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.commands.ChunkRadCommand;
 import com.hbm.commands.LivingPropsCommand;
 import com.hbm.commands.SatellitesCommand;
@@ -145,7 +145,7 @@ public class CommonEvents {
                     BlockPos offsetPos = pos.relative(dir);
 
                     if (level.random.nextInt(2) == 0 && level.getBlockState(offsetPos).isAir()) {
-                        level.setBlock(offsetPos, ModBlocks.GAS_COAL.get().defaultBlockState(), 3);
+                        level.setBlock(offsetPos, NtmBlocks.GAS_COAL.get().defaultBlockState(), 3);
                     }
                 }
             }

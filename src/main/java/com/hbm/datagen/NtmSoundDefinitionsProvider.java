@@ -152,5 +152,11 @@ public class NtmSoundDefinitionsProvider extends SoundDefinitionsProvider {
         this.add(NtmSoundEvents.PIN_BREAK, SoundDefinition.definition()
                 .with(sound("hbmsntm:tool/pin_break"))
         );
+        this.add(NtmSoundEvents.UNPACK, SoundDefinition.definition()
+                .with(
+                        sound("hbmsntm:tool/extract1"),
+                        sound("hbmsntm:tool/extract2")
+                )
+        );
     }
 }

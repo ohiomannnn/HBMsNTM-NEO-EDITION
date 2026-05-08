@@ -132,6 +132,12 @@
       "hbmsntm:tool/tech_boop"
     ]
   },
+  "item.unpack": {
+    "sounds": [
+      "hbmsntm:tool/extract1",
+      "hbmsntm:tool/extract2"
+    ]
+  },
   "player.cough": {
     "sounds": [
       "hbmsntm:player/cough1",

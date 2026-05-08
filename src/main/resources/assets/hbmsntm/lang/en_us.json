@@ -185,6 +185,7 @@
   "block.hbmsntm.nuke_ivy_mike": "Ivy Mike",
   "block.hbmsntm.nuke_tsar_bomba": "Tsar Bomba",
   "block.hbmsntm.nuke_prototype": "The Prototype",
+  "block.hbmsntm.nuke_prototype.desc": "It didn't have to be like this.$$You monster.",
   "block.hbmsntm.nuke_fleija": "F.L.E.I.J.A.",
   "block.hbmsntm.nuke_n2": "N² Mine",
   "block.hbmsntm.nuke_fstbmb": "Balefire Bomb",
@@ -270,6 +271,14 @@
   "item.hbmsntm.battery_sc.ra226": "Radium-226 Self-Charging Battery",
   "item.hbmsntm.battery_sc.tc99": "Technetium-99 Self-Charging Battery",
   "item.hbmsntm.battery_sc.waste": "Spent Fuel Self-Charging Battery",
+
+  "item.hbmsntm.starter_kit.gadget": "The Gadget Kit",
+  "item.hbmsntm.starter_kit.little_boy": "Little Boy Kit",
+  "item.hbmsntm.starter_kit.fat_man": "Fat Man Kit",
+  "item.hbmsntm.starter_kit.ivy_mike": "Ivy Mike Kit",
+  "item.hbmsntm.starter_kit.tsar_bomba": "Tsar Bomba Kit",
+  "item.hbmsntm.starter_kit.prototype": "Prototype Kit",
+  "item.hbmsntm.starter_kit.fleija": "F.L.E.I.J.A. Kit",
 
   "item.hbmsntm.rod_empty": "Empty Rod",
   "item.hbmsntm.rod.lithium": "Lithium Rod",

@@ -1,11 +1,12 @@
-## Added
-* Self-charging batteries
-* Normal, dual, quad rods
-* OBJ model reloader
-* Prototype nuke
+## ADDITIONS
+* Added Self-charging batteries
+* Added Normal, dual, quad rods
+* Added OBJ model reloader
+* Added Prototype nuke
+* Added nuke kits
 
-## Changed
-* Version naming
+## CHANGES
+* Changed version naming
   * Now its gonna be (days since 1/1/2026)(build type: A - Alpha, B - beta, etc) e.g 125A
 * Improved obj model renderer optimization A LOT
   * But render breaks when using Iris
@@ -15,6 +16,6 @@
 * Calculator now will have history
 * Updated the fat man igniter and gadget wiring icons
 
-## Fixed
-* Fixed shading on fensu's lights
+## FIXES
+* Fixed fensu's lights shading
 * Fixed 256k tank, fensu, battery socket and nukes cull bounding box

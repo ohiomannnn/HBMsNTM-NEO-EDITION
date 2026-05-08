@@ -1,7 +1,7 @@
 package com.hbm.datagen;
 
 import com.google.gson.JsonObject;
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.blocks.generic.LayeringBlock;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
 import com.hbm.blocks.network.FluidDuctConnectingBlock;
@@ -29,99 +29,99 @@ public class NtmBlockStateProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        cub3All(ModBlocks.BRICK_CONCRETE.get());
-        cub3All(ModBlocks.BRICK_CONCRETE_MOSSY.get());
-        cub3All(ModBlocks.BRICK_CONCRETE_CRACKED.get());
-        cub3All(ModBlocks.BRICK_CONCRETE_BROKEN.get());
+        cub3All(NtmBlocks.BRICK_CONCRETE.get());
+        cub3All(NtmBlocks.BRICK_CONCRETE_MOSSY.get());
+        cub3All(NtmBlocks.BRICK_CONCRETE_CRACKED.get());
+        cub3All(NtmBlocks.BRICK_CONCRETE_BROKEN.get());
 
-        simpleColumnBlockWithItem(ModBlocks.BRICK_CONCRETE_MARKED.get(), modLoc("block/brick_concrete_marked"), modLoc("block/brick_concrete"));
+        simpleColumnBlockWithItem(NtmBlocks.BRICK_CONCRETE_MARKED.get(), modLoc("block/brick_concrete_marked"), modLoc("block/brick_concrete"));
 
-        this.particleOnlyBlock(ModBlocks.PLUSHIE_YOMI.get(), blockTexture(Blocks.WHITE_WOOL));
-        this.particleOnlyBlock(ModBlocks.PLUSHIE_NUMBERNINE.get(), blockTexture(Blocks.WHITE_WOOL));
-        this.particleOnlyBlock(ModBlocks.PLUSHIE_HUNDUN.get(), blockTexture(Blocks.WHITE_WOOL));
-        this.particleOnlyBlock(ModBlocks.PLUSHIE_DERG.get(), blockTexture(Blocks.WHITE_WOOL));
+        this.particleOnlyBlock(NtmBlocks.PLUSHIE_YOMI.get(), blockTexture(Blocks.WHITE_WOOL));
+        this.particleOnlyBlock(NtmBlocks.PLUSHIE_NUMBERNINE.get(), blockTexture(Blocks.WHITE_WOOL));
+        this.particleOnlyBlock(NtmBlocks.PLUSHIE_HUNDUN.get(), blockTexture(Blocks.WHITE_WOOL));
+        this.particleOnlyBlock(NtmBlocks.PLUSHIE_DERG.get(), blockTexture(Blocks.WHITE_WOOL));
 
-        this.particleOnlyBlock(ModBlocks.LAUNCH_PAD.get(), blockTexture(ModBlocks.LAUNCH_PAD.get()));
+        this.particleOnlyBlock(NtmBlocks.LAUNCH_PAD.get(), blockTexture(NtmBlocks.LAUNCH_PAD.get()));
 
-        cubeTop(ModBlocks.MACHINE_SATLINKER.get());
+        cubeTop(NtmBlocks.MACHINE_SATLINKER.get());
 
-        this.cubeAll(ModBlocks.DET_CHARGE.get());
-        this.cubeTop(ModBlocks.DET_NUKE.get());
-        this.cubeTop(ModBlocks.DET_MINER.get());
+        this.cubeAll(NtmBlocks.DET_CHARGE.get());
+        this.cubeTop(NtmBlocks.DET_NUKE.get());
+        this.cubeTop(NtmBlocks.DET_MINER.get());
 
-        this.particleOnlyBlock(ModBlocks.NUKE_GADGET.get(), blockTexture(ModBlocks.NUKE_GADGET.get()));
-        this.particleOnlyBlock(ModBlocks.NUKE_LITTLE_BOY.get(), blockTexture(ModBlocks.NUKE_LITTLE_BOY.get()));
-        this.particleOnlyBlock(ModBlocks.NUKE_FAT_MAN.get(), blockTexture(ModBlocks.NUKE_FAT_MAN.get()));
-        this.particleOnlyBlock(ModBlocks.NUKE_IVY_MIKE.get(), blockTexture(ModBlocks.NUKE_IVY_MIKE.get()));
-        this.particleOnlyBlock(ModBlocks.NUKE_TSAR_BOMBA.get(), blockTexture(ModBlocks.NUKE_TSAR_BOMBA.get()));
-        this.particleOnlyBlock(ModBlocks.NUKE_PROTOTYPE.get(), blockTexture(ModBlocks.NUKE_PROTOTYPE.get()));
-        this.particleOnlyBlock(ModBlocks.NUKE_FLEIJA.get(), blockTexture(ModBlocks.NUKE_FLEIJA.get()));
-        this.particleOnlyBlock(ModBlocks.NUKE_N2.get(), blockTexture(ModBlocks.NUKE_N2.get()));
-        this.particleOnlyBlock(ModBlocks.NUKE_FSTBMB.get(), blockTexture(ModBlocks.NUKE_FSTBMB.get()));
+        this.particleOnlyBlock(NtmBlocks.NUKE_GADGET.get(), blockTexture(NtmBlocks.NUKE_GADGET.get()));
+        this.particleOnlyBlock(NtmBlocks.NUKE_LITTLE_BOY.get(), blockTexture(NtmBlocks.NUKE_LITTLE_BOY.get()));
+        this.particleOnlyBlock(NtmBlocks.NUKE_FAT_MAN.get(), blockTexture(NtmBlocks.NUKE_FAT_MAN.get()));
+        this.particleOnlyBlock(NtmBlocks.NUKE_IVY_MIKE.get(), blockTexture(NtmBlocks.NUKE_IVY_MIKE.get()));
+        this.particleOnlyBlock(NtmBlocks.NUKE_TSAR_BOMBA.get(), blockTexture(NtmBlocks.NUKE_TSAR_BOMBA.get()));
+        this.particleOnlyBlock(NtmBlocks.NUKE_PROTOTYPE.get(), blockTexture(NtmBlocks.NUKE_PROTOTYPE.get()));
+        this.particleOnlyBlock(NtmBlocks.NUKE_FLEIJA.get(), blockTexture(NtmBlocks.NUKE_FLEIJA.get()));
+        this.particleOnlyBlock(NtmBlocks.NUKE_N2.get(), blockTexture(NtmBlocks.NUKE_N2.get()));
+        this.particleOnlyBlock(NtmBlocks.NUKE_FSTBMB.get(), blockTexture(NtmBlocks.NUKE_FSTBMB.get()));
 
-        this.barrelLoaderBlockItem(ModBlocks.BARREL_RED.get(), blockTexture(ModBlocks.BARREL_RED.get()));
-        this.barrelLoaderBlockItem(ModBlocks.BARREL_PINK.get(), blockTexture(ModBlocks.BARREL_PINK.get()));
-        this.barrelLoaderBlockItem(ModBlocks.BARREL_LOX.get(), blockTexture(ModBlocks.BARREL_LOX.get()));
-        this.barrelLoaderBlockItem(ModBlocks.BARREL_TAINT.get(), blockTexture(ModBlocks.BARREL_TAINT.get()));
+        this.barrelLoaderBlockItem(NtmBlocks.BARREL_RED.get(), blockTexture(NtmBlocks.BARREL_RED.get()));
+        this.barrelLoaderBlockItem(NtmBlocks.BARREL_PINK.get(), blockTexture(NtmBlocks.BARREL_PINK.get()));
+        this.barrelLoaderBlockItem(NtmBlocks.BARREL_LOX.get(), blockTexture(NtmBlocks.BARREL_LOX.get()));
+        this.barrelLoaderBlockItem(NtmBlocks.BARREL_TAINT.get(), blockTexture(NtmBlocks.BARREL_TAINT.get()));
 
-        this.cubeSideBottomTop(ModBlocks.DYNAMITE.get());
-        this.cubeSideBottomTop(ModBlocks.TNT.get());
-        this.cubeSideBottomTop(ModBlocks.SEMTEX.get());
-        this.cubeSideBottomTop(ModBlocks.C4.get());
-        this.cubeSideBottomTop(ModBlocks.FISSURE_BOMB.get());
+        this.cubeSideBottomTop(NtmBlocks.DYNAMITE.get());
+        this.cubeSideBottomTop(NtmBlocks.TNT.get());
+        this.cubeSideBottomTop(NtmBlocks.SEMTEX.get());
+        this.cubeSideBottomTop(NtmBlocks.C4.get());
+        this.cubeSideBottomTop(NtmBlocks.FISSURE_BOMB.get());
 
-        cub3All(ModBlocks.BRICK_LIGHT.get());
-        cub3All(ModBlocks.BRICK_OBSIDIAN.get());
-        cub3All(ModBlocks.GRAVEL_OBSIDIAN.get());
+        cub3All(NtmBlocks.BRICK_LIGHT.get());
+        cub3All(NtmBlocks.BRICK_OBSIDIAN.get());
+        cub3All(NtmBlocks.GRAVEL_OBSIDIAN.get());
 
         sellafieldSlaked(
-                ModBlocks.SELLAFIELD_SLAKED.get(),
+                NtmBlocks.SELLAFIELD_SLAKED.get(),
                 "sellafield_slaked"
         );
 
         sellafieldSlaked(
-                ModBlocks.SELLAFIELD_BEDROCK.get(),
+                NtmBlocks.SELLAFIELD_BEDROCK.get(),
                 "sellafield_bedrock"
         );
 
-        sellafieldOre(ModBlocks.ORE_SELLAFIELD_DIAMOND.get(), "sellafield_ore_diamond", "block/ore_diamond_overlay");
-        sellafieldOre(ModBlocks.ORE_SELLAFIELD_EMERALD.get(), "sellafield_ore_emerald", "block/ore_emerald_overlay");
+        sellafieldOre(NtmBlocks.ORE_SELLAFIELD_DIAMOND.get(), "sellafield_ore_diamond", "block/ore_diamond_overlay");
+        sellafieldOre(NtmBlocks.ORE_SELLAFIELD_EMERALD.get(), "sellafield_ore_emerald", "block/ore_emerald_overlay");
 
-        this.logBlock(ModBlocks.WASTE_LOG.get());
-        this.logBlock(ModBlocks.FROZEN_LOG.get());
-        this.cub3All(ModBlocks.FROZEN_DIRT.get());
-        this.cub3All(ModBlocks.FROZEN_PLANKS.get());
+        this.logBlock(NtmBlocks.WASTE_LOG.get());
+        this.logBlock(NtmBlocks.FROZEN_LOG.get());
+        this.cub3All(NtmBlocks.FROZEN_DIRT.get());
+        this.cub3All(NtmBlocks.FROZEN_PLANKS.get());
 
-        simpleBlockWithItem(ModBlocks.FROZEN_GRASS.get(),
+        simpleBlockWithItem(NtmBlocks.FROZEN_GRASS.get(),
                 models().cubeBottomTop(
-                        ModBlocks.FROZEN_GRASS.getId().getPath(),
+                        NtmBlocks.FROZEN_GRASS.getId().getPath(),
                         modLoc("block/frozen_grass_side"),
                         modLoc("block/frozen_dirt"),
                         modLoc("block/frozen_grass_top")
                 )
         );
 
-        simpleBlockWithItem(ModBlocks.WASTE_EARTH.get(),
+        simpleBlockWithItem(NtmBlocks.WASTE_EARTH.get(),
                 models().cubeBottomTop(
-                        ModBlocks.WASTE_EARTH.getId().getPath(),
+                        NtmBlocks.WASTE_EARTH.getId().getPath(),
                         modLoc("block/waste_earth_side"),
                         modLoc("block/waste_earth_bottom"),
                         modLoc("block/waste_earth_top")
                 )
         );
 
-        simpleBlockWithItem(ModBlocks.DECONTAMINATOR.get(),
+        simpleBlockWithItem(NtmBlocks.DECONTAMINATOR.get(),
                 models().cubeBottomTop(
-                        ModBlocks.DECONTAMINATOR.getId().getPath(),
+                        NtmBlocks.DECONTAMINATOR.getId().getPath(),
                         modLoc("block/decontaminator_side"),
                         modLoc("block/decontaminator_side"),
                         modLoc("block/decontaminator_top")
                 )
         );
 
-        simpleBlockWithItem(ModBlocks.PWR_CONTROLLER.get(),
+        simpleBlockWithItem(NtmBlocks.PWR_CONTROLLER.get(),
                 models().cube(
-                        ModBlocks.PWR_CONTROLLER.getId().getPath(),
+                        NtmBlocks.PWR_CONTROLLER.getId().getPath(),
                         modLoc("block/pwr_casing_blank"),
                         modLoc("block/pwr_casing_blank"),
                         modLoc("block/pwr_controller"),
@@ -131,14 +131,14 @@ public class NtmBlockStateProvider extends BlockStateProvider {
                 )
         );
 
-        simpleBlockWithItem(ModBlocks.WASTE_LEAVES.get(),
+        simpleBlockWithItem(NtmBlocks.WASTE_LEAVES.get(),
                 models().cubeColumn("waste_leaves", modLoc("block/waste_leaves"), modLoc("block/waste_leaves"))
                         .renderType("cutout_mipped")
         );
-        simpleBlockWithItem(ModBlocks.WASTE_PLANKS.get(), cubeAll(ModBlocks.WASTE_PLANKS.get()));
-        simpleBlockWithItem(ModBlocks.WASTE_TRINITITE.get(), cubeAll(ModBlocks.WASTE_TRINITITE.get()));
-        simpleBlockWithItem(ModBlocks.WASTE_TRINITITE_RED.get(), cubeAll(ModBlocks.WASTE_TRINITITE_RED.get()));
-        simpleBlockWithItem(ModBlocks.WASTE_MYCELIUM.get(),
+        simpleBlockWithItem(NtmBlocks.WASTE_PLANKS.get(), cubeAll(NtmBlocks.WASTE_PLANKS.get()));
+        simpleBlockWithItem(NtmBlocks.WASTE_TRINITITE.get(), cubeAll(NtmBlocks.WASTE_TRINITITE.get()));
+        simpleBlockWithItem(NtmBlocks.WASTE_TRINITITE_RED.get(), cubeAll(NtmBlocks.WASTE_TRINITITE_RED.get()));
+        simpleBlockWithItem(NtmBlocks.WASTE_MYCELIUM.get(),
                 models().withExistingParent("waste_mycelium", mcLoc("block/block"))
                         .texture("particle", modLoc("block/waste_earth_bottom"))
                         .texture("bottom", modLoc("block/waste_earth_bottom"))
@@ -156,55 +156,55 @@ public class NtmBlockStateProvider extends BlockStateProvider {
                         .end()
         );
 
-        simpleBlockWithItem(ModBlocks.BLOCK_SCRAP.get(), cubeAll(ModBlocks.BLOCK_SCRAP.get()));
+        simpleBlockWithItem(NtmBlocks.BLOCK_SCRAP.get(), cubeAll(NtmBlocks.BLOCK_SCRAP.get()));
 
-        simpleBlockWithItem(ModBlocks.ORE_OIL.get(), cubeAll(ModBlocks.ORE_OIL.get()));
-        simpleBlockWithItem(ModBlocks.ORE_URANIUM.get(), cubeAll(ModBlocks.ORE_URANIUM.get()));
-        simpleBlockWithItem(ModBlocks.ORE_URANIUM_SCORCHED.get(), cubeAll(ModBlocks.ORE_URANIUM_SCORCHED.get()));
-        simpleBlockWithItem(ModBlocks.ORE_SCHRABIDIUM.get(), cubeAll(ModBlocks.ORE_SCHRABIDIUM.get()));
-        simpleBlockWithItem(ModBlocks.ORE_NETHER_URANIUM.get(), cubeAll(ModBlocks.ORE_NETHER_URANIUM.get()));
-        simpleBlockWithItem(ModBlocks.ORE_NETHER_URANIUM_SCORCHED.get(), cubeAll(ModBlocks.ORE_NETHER_URANIUM_SCORCHED.get()));
-        simpleBlockWithItem(ModBlocks.ORE_NETHER_SCHRABIDIUM.get(), cubeAll(ModBlocks.ORE_NETHER_SCHRABIDIUM.get()));
-        simpleBlockWithItem(ModBlocks.ORE_TIKITE.get(), cubeAll(ModBlocks.ORE_TIKITE.get()));
-        simpleBlockWithItem(ModBlocks.ORE_GNEISS_URANIUM.get(), cubeAll(ModBlocks.ORE_GNEISS_URANIUM.get()));
-        simpleBlockWithItem(ModBlocks.ORE_GNEISS_URANIUM_SCORCHED.get(), cubeAll(ModBlocks.ORE_GNEISS_URANIUM_SCORCHED.get()));
-        simpleBlockWithItem(ModBlocks.ORE_NETHER_PLUTONIUM.get(), cubeAll(ModBlocks.ORE_NETHER_PLUTONIUM.get()));
-        simpleBlockWithItem(ModBlocks.ORE_GNEISS_SCHRABIDIUM.get(), cubeAll(ModBlocks.ORE_GNEISS_SCHRABIDIUM.get()));
+        simpleBlockWithItem(NtmBlocks.ORE_OIL.get(), cubeAll(NtmBlocks.ORE_OIL.get()));
+        simpleBlockWithItem(NtmBlocks.ORE_URANIUM.get(), cubeAll(NtmBlocks.ORE_URANIUM.get()));
+        simpleBlockWithItem(NtmBlocks.ORE_URANIUM_SCORCHED.get(), cubeAll(NtmBlocks.ORE_URANIUM_SCORCHED.get()));
+        simpleBlockWithItem(NtmBlocks.ORE_SCHRABIDIUM.get(), cubeAll(NtmBlocks.ORE_SCHRABIDIUM.get()));
+        simpleBlockWithItem(NtmBlocks.ORE_NETHER_URANIUM.get(), cubeAll(NtmBlocks.ORE_NETHER_URANIUM.get()));
+        simpleBlockWithItem(NtmBlocks.ORE_NETHER_URANIUM_SCORCHED.get(), cubeAll(NtmBlocks.ORE_NETHER_URANIUM_SCORCHED.get()));
+        simpleBlockWithItem(NtmBlocks.ORE_NETHER_SCHRABIDIUM.get(), cubeAll(NtmBlocks.ORE_NETHER_SCHRABIDIUM.get()));
+        simpleBlockWithItem(NtmBlocks.ORE_TIKITE.get(), cubeAll(NtmBlocks.ORE_TIKITE.get()));
+        simpleBlockWithItem(NtmBlocks.ORE_GNEISS_URANIUM.get(), cubeAll(NtmBlocks.ORE_GNEISS_URANIUM.get()));
+        simpleBlockWithItem(NtmBlocks.ORE_GNEISS_URANIUM_SCORCHED.get(), cubeAll(NtmBlocks.ORE_GNEISS_URANIUM_SCORCHED.get()));
+        simpleBlockWithItem(NtmBlocks.ORE_NETHER_PLUTONIUM.get(), cubeAll(NtmBlocks.ORE_NETHER_PLUTONIUM.get()));
+        simpleBlockWithItem(NtmBlocks.ORE_GNEISS_SCHRABIDIUM.get(), cubeAll(NtmBlocks.ORE_GNEISS_SCHRABIDIUM.get()));
 
-        this.slabBlock(ModBlocks.BRICK_CONCRETE_SLAB.get(), blockTexture(ModBlocks.BRICK_CONCRETE.get()), blockTexture(ModBlocks.BRICK_CONCRETE.get()));
-        this.slabBlock(ModBlocks.BRICK_CONCRETE_MOSSY_SLAB.get(), blockTexture(ModBlocks.BRICK_CONCRETE_MOSSY.get()), blockTexture(ModBlocks.BRICK_CONCRETE_MOSSY.get()));
-        this.slabBlock(ModBlocks.BRICK_CONCRETE_CRACKED_SLAB.get(), blockTexture(ModBlocks.BRICK_CONCRETE_CRACKED.get()), blockTexture(ModBlocks.BRICK_CONCRETE_CRACKED.get()));
-        this.slabBlock(ModBlocks.BRICK_CONCRETE_BROKEN_SLAB.get(), blockTexture(ModBlocks.BRICK_CONCRETE_BROKEN.get()), blockTexture(ModBlocks.BRICK_CONCRETE_BROKEN.get()));
+        this.slabBlock(NtmBlocks.BRICK_CONCRETE_SLAB.get(), blockTexture(NtmBlocks.BRICK_CONCRETE.get()), blockTexture(NtmBlocks.BRICK_CONCRETE.get()));
+        this.slabBlock(NtmBlocks.BRICK_CONCRETE_MOSSY_SLAB.get(), blockTexture(NtmBlocks.BRICK_CONCRETE_MOSSY.get()), blockTexture(NtmBlocks.BRICK_CONCRETE_MOSSY.get()));
+        this.slabBlock(NtmBlocks.BRICK_CONCRETE_CRACKED_SLAB.get(), blockTexture(NtmBlocks.BRICK_CONCRETE_CRACKED.get()), blockTexture(NtmBlocks.BRICK_CONCRETE_CRACKED.get()));
+        this.slabBlock(NtmBlocks.BRICK_CONCRETE_BROKEN_SLAB.get(), blockTexture(NtmBlocks.BRICK_CONCRETE_BROKEN.get()), blockTexture(NtmBlocks.BRICK_CONCRETE_BROKEN.get()));
 
-        this.stairsBlock(ModBlocks.BRICK_CONCRETE_STAIRS.get(), blockTexture(ModBlocks.BRICK_CONCRETE.get()));
-        this.stairsBlock(ModBlocks.BRICK_CONCRETE_MOSSY_STAIRS.get(), blockTexture(ModBlocks.BRICK_CONCRETE_MOSSY.get()));
-        this.stairsBlock(ModBlocks.BRICK_CONCRETE_CRACKED_STAIRS.get(), blockTexture(ModBlocks.BRICK_CONCRETE_CRACKED.get()));
-        this.stairsBlock(ModBlocks.BRICK_CONCRETE_BROKEN_STAIRS.get(), blockTexture(ModBlocks.BRICK_CONCRETE_BROKEN.get()));
+        this.stairsBlock(NtmBlocks.BRICK_CONCRETE_STAIRS.get(), blockTexture(NtmBlocks.BRICK_CONCRETE.get()));
+        this.stairsBlock(NtmBlocks.BRICK_CONCRETE_MOSSY_STAIRS.get(), blockTexture(NtmBlocks.BRICK_CONCRETE_MOSSY.get()));
+        this.stairsBlock(NtmBlocks.BRICK_CONCRETE_CRACKED_STAIRS.get(), blockTexture(NtmBlocks.BRICK_CONCRETE_CRACKED.get()));
+        this.stairsBlock(NtmBlocks.BRICK_CONCRETE_BROKEN_STAIRS.get(), blockTexture(NtmBlocks.BRICK_CONCRETE_BROKEN.get()));
 
-        this.blockItem(ModBlocks.BRICK_CONCRETE_STAIRS);
-        this.blockItem(ModBlocks.BRICK_CONCRETE_MOSSY_STAIRS);
-        this.blockItem(ModBlocks.BRICK_CONCRETE_CRACKED_STAIRS);
-        this.blockItem(ModBlocks.BRICK_CONCRETE_BROKEN_STAIRS);
+        this.blockItem(NtmBlocks.BRICK_CONCRETE_STAIRS);
+        this.blockItem(NtmBlocks.BRICK_CONCRETE_MOSSY_STAIRS);
+        this.blockItem(NtmBlocks.BRICK_CONCRETE_CRACKED_STAIRS);
+        this.blockItem(NtmBlocks.BRICK_CONCRETE_BROKEN_STAIRS);
 
-        this.blockItem(ModBlocks.BRICK_CONCRETE_SLAB);
-        this.blockItem(ModBlocks.BRICK_CONCRETE_MOSSY_SLAB);
-        this.blockItem(ModBlocks.BRICK_CONCRETE_CRACKED_SLAB);
-        this.blockItem(ModBlocks.BRICK_CONCRETE_BROKEN_SLAB);
+        this.blockItem(NtmBlocks.BRICK_CONCRETE_SLAB);
+        this.blockItem(NtmBlocks.BRICK_CONCRETE_MOSSY_SLAB);
+        this.blockItem(NtmBlocks.BRICK_CONCRETE_CRACKED_SLAB);
+        this.blockItem(NtmBlocks.BRICK_CONCRETE_BROKEN_SLAB);
 
-        simpleBlockWithItem(ModBlocks.TAINT.get(), cubeAll(ModBlocks.TAINT.get()));
+        simpleBlockWithItem(NtmBlocks.TAINT.get(), cubeAll(NtmBlocks.TAINT.get()));
 
-        simpleBlockWithItem(ModBlocks.BALEFIRE.get(),
+        simpleBlockWithItem(NtmBlocks.BALEFIRE.get(),
                 models().withExistingParent("balefire", mcLoc("block/cross"))
                         .renderType("minecraft:cutout_mipped")
                         .texture("cross", modLoc("block/balefire"))
         );
-        simpleBlockWithItem(ModBlocks.FIRE_DIGAMMA.get(),
+        simpleBlockWithItem(NtmBlocks.FIRE_DIGAMMA.get(),
                 models().withExistingParent("fire_digamma", mcLoc("block/cross"))
                         .renderType("minecraft:cutout_mipped")
                         .texture("cross", modLoc("block/fire_digamma"))
         );
 
-        generateLayeringBlock(ModBlocks.LEAVES_LAYER.get());
+        generateLayeringBlock(NtmBlocks.LEAVES_LAYER.get());
 
         ResourceLocation texture = modLoc("block/ash");
 
@@ -224,7 +224,7 @@ public class NtmBlockStateProvider extends BlockStateProvider {
                 .face(Direction.EAST).texture("#all").end()
                 .end();
 
-        getVariantBuilder(ModBlocks.FALLOUT.get()).partialState().setModels(new ConfiguredModel(falloutModel));
+        getVariantBuilder(NtmBlocks.FALLOUT.get()).partialState().setModels(new ConfiguredModel(falloutModel));
 
         this.registerCable();
         this.registerDetCord();
@@ -232,21 +232,21 @@ public class NtmBlockStateProvider extends BlockStateProvider {
     }
 
     private void registerCable() {
-        Block block = ModBlocks.RED_CABLE.get();
+        Block block = NtmBlocks.RED_CABLE.get();
 
         this.simpleBlock(block, this.models().getBuilder(this.key(block).getPath()).customLoader(CableBlockLoaderBuilder::new).texture("texture", modLoc("block/cable_neo")).end());
         this.entityBlockItem(block, false);
     }
 
     private void registerDetCord() {
-        Block block = ModBlocks.DET_CORD.get();
+        Block block = NtmBlocks.DET_CORD.get();
 
         this.simpleBlock(block, this.models().getBuilder(this.key(block).getPath()).customLoader(DetCordBlockLoaderBuilder::new).texture("texture", modLoc("block/det_cord")).end());
         this.entityBlockItem(block, false);
     }
 
     private void registerFluidDuct() {
-        Block block = ModBlocks.FLUID_DUCT_NEO.get();
+        Block block = NtmBlocks.FLUID_DUCT_NEO.get();
 
         this.getVariantBuilder(block).forAllStatesExcept(state -> {
 

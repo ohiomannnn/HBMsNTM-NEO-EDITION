@@ -2,7 +2,7 @@ package com.hbm.blocks.bomb;
 
 import com.hbm.blockentity.Tickable;
 import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.logic.NukeExplosionBalefire;
@@ -63,14 +63,14 @@ public class CrashedBombBlock extends Block implements EntityBlock, IBomb {
         if (!level.isClientSide) {
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
 
-            if (this == ModBlocks.CRASHED_BOMB_BALEFIRE.get()) {
+            if (this == NtmBlocks.CRASHED_BOMB_BALEFIRE.get()) {
                 NukeExplosionBalefire balefire = new NukeExplosionBalefire(ModEntityTypes.NUKE_BALEFIRE.get(), level);
                 balefire.setPos(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
                 balefire.destructionRange = (int) (MainConfig.COMMON.FATMAN_RADIUS.get() * 1.25);
                 level.addFreshEntity(balefire);
                 spawnMush(level, pos, true);
             }
-            if (this == ModBlocks.CRASHED_BOMB_CONVENTIONAL.get()) {
+            if (this == NtmBlocks.CRASHED_BOMB_CONVENTIONAL.get()) {
                 ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 35F)
                         .setBlockAllocator(new BlockAllocatorStandard(24))
                         .setBlockProcessor(new BlockProcessorStandard().setNoDrop())
@@ -78,11 +78,11 @@ public class CrashedBombBlock extends Block implements EntityBlock, IBomb {
                 ExplosionCreator.composeEffectLarge(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
                 vnt.explode();
             }
-            if (this == ModBlocks.CRASHED_BOMB_NUKE.get()) {
+            if (this == NtmBlocks.CRASHED_BOMB_NUKE.get()) {
                 NukeExplosionMK5.statFac(level, 35, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
                 spawnMush(level, pos, PolaroidItem.polaroidID == 11 || level.random.nextInt(100) == 0);
             }
-            if (this == ModBlocks.CRASHED_BOMB_SALTED.get()) {
+            if (this == NtmBlocks.CRASHED_BOMB_SALTED.get()) {
                 NukeExplosionMK5.statFac(level, 25, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5).setMoreFallout(25);
                 spawnMush(level, pos, PolaroidItem.polaroidID == 11 || level.random.nextInt(100) == 0);
             }

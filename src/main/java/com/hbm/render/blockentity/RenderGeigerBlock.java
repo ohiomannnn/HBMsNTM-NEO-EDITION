@@ -1,7 +1,7 @@
 package com.hbm.render.blockentity;
 
 import com.hbm.blockentity.machine.GeigerBlockEntity;
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
@@ -43,7 +43,7 @@ public class RenderGeigerBlock extends BlockEntityRendererNT<GeigerBlockEntity> 
 
     @Override
     public Item getItemForRenderer() {
-        return ModBlocks.GEIGER.asItem();
+        return NtmBlocks.GEIGER.asItem();
     }
 
     @Override

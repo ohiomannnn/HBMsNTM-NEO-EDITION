@@ -1,6 +1,6 @@
 package com.hbm.blocks.generic;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.lib.ModEffect;
 import net.minecraft.core.BlockPos;
@@ -91,7 +91,7 @@ public class FalloutBlock extends Block {
 
         if (isPlant(belowState)) return false;
         if (level.getFluidState(pos).is(FluidTags.WATER)) return false;
-        if (belowState.is(ModBlocks.FALLOUT.get())) return false;
+        if (belowState.is(NtmBlocks.FALLOUT.get())) return false;
         if (belowState.isAir()) return false;
 
         return belowState.isSolidRender(level, below);

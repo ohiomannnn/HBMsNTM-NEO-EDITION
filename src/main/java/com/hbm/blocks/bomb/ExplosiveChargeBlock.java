@@ -1,6 +1,6 @@
 package com.hbm.blocks.bomb;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.item.TNTPrimedBase;
 import com.hbm.entity.logic.NukeExplosionMK5;
@@ -32,7 +32,7 @@ public class ExplosiveChargeBlock extends DetonatableBlock implements IBomb, IDe
     public BombReturnCode explode(Level level, BlockPos pos) {
         if (!level.isClientSide) {
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
-            if (this == ModBlocks.DET_MINER.get()) {
+            if (this == NtmBlocks.DET_MINER.get()) {
                 ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 4F)
                         .setBlockAllocator(new BlockAllocatorStandard())
                         .setBlockProcessor(new BlockProcessorStandard().setAllDrop());
@@ -43,7 +43,7 @@ public class ExplosiveChargeBlock extends DetonatableBlock implements IBomb, IDe
                     level.playSound(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 4.0F, (1.0F + (level.random.nextFloat() - level.random.nextFloat()) * 0.2F) * 0.7F);
                 }
             }
-            if (this == ModBlocks.DET_CHARGE.get()) {
+            if (this == NtmBlocks.DET_CHARGE.get()) {
                 ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 15F)
                         .setBlockAllocator(new BlockAllocatorStandard(64))
                         .setBlockProcessor(new BlockProcessorStandard())
@@ -51,7 +51,7 @@ public class ExplosiveChargeBlock extends DetonatableBlock implements IBomb, IDe
                 ExplosionCreator.composeEffectStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
                 vnt.explode();
             }
-            if (this == ModBlocks.DET_NUKE.get()) {
+            if (this == NtmBlocks.DET_NUKE.get()) {
                 NukeExplosionMK5.statFac(level, MainConfig.COMMON.MISSLE_RADIUS.get(), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
                 NukeTorexCreator.statFacStandard(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, MainConfig.COMMON.MISSLE_RADIUS.get());
             }

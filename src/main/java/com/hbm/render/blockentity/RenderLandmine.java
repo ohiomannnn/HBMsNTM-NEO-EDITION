@@ -1,7 +1,7 @@
 package com.hbm.render.blockentity;
 
 import com.hbm.blockentity.bomb.LandMineBlockEntity;
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
@@ -34,7 +34,7 @@ public class RenderLandmine extends BlockEntityRendererNT<LandMineBlockEntity> i
 
         BlockState state = be.getBlockState();
 
-        if (state.getBlock() == ModBlocks.MINE_AP.get()) {
+        if (state.getBlock() == NtmBlocks.MINE_AP.get()) {
             RenderContext.scale(0.375F, 0.375F, 0.375F);
             RenderContext.translate(0, -0.0625F * 3.5F, 0);
 
@@ -54,26 +54,26 @@ public class RenderLandmine extends BlockEntityRendererNT<LandMineBlockEntity> i
             ResourceManager.mine_ap.renderAll();
         }
 
-        if (state.getBlock() == ModBlocks.MINE_HE.get()) {
+        if (state.getBlock() == NtmBlocks.MINE_HE.get()) {
             RenderContext.mulPose(Axis.YN.rotationDegrees(90F));
             RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.MINE_HE_TEX));
             ResourceManager.mine_he.renderAll();
         }
 
-        if (state.getBlock() == ModBlocks.MINE_SHRAP.get()) {
+        if (state.getBlock() == NtmBlocks.MINE_SHRAP.get()) {
             RenderContext.scale(0.375F, 0.375F, 0.375F);
             RenderContext.translate(0, -0.0625F * 3.5F, 0);
             RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.MINE_SHRAPNEL_TEX));
             ResourceManager.mine_ap.renderAll();
         }
 
-        if (state.getBlock() == ModBlocks.MINE_FAT.get()) {
+        if (state.getBlock() == NtmBlocks.MINE_FAT.get()) {
             RenderContext.scale(0.25F, 0.25F, 0.25F);
             RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.MINE_FAT_TEX));
             ResourceManager.mine_fat.renderAll();
         }
 
-        if (state.getBlock() == ModBlocks.MINE_NAVAL.get()) {
+        if (state.getBlock() == NtmBlocks.MINE_NAVAL.get()) {
             RenderContext.scale(1F, 1F, 1F);
             RenderContext.translate(0, 0.5F, 0);
             RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.MINE_NAVAL_TEX));
@@ -87,11 +87,11 @@ public class RenderLandmine extends BlockEntityRendererNT<LandMineBlockEntity> i
     @Override
     public Item[] getItemsForRenderer() {
         return new Item[] {
-                ModBlocks.MINE_AP.asItem(),
-                ModBlocks.MINE_HE.asItem(),
-                ModBlocks.MINE_SHRAP.asItem(),
-                ModBlocks.MINE_FAT.asItem(),
-                ModBlocks.MINE_NAVAL.asItem()
+                NtmBlocks.MINE_AP.asItem(),
+                NtmBlocks.MINE_HE.asItem(),
+                NtmBlocks.MINE_SHRAP.asItem(),
+                NtmBlocks.MINE_FAT.asItem(),
+                NtmBlocks.MINE_NAVAL.asItem()
         };
     }
 
@@ -100,17 +100,17 @@ public class RenderLandmine extends BlockEntityRendererNT<LandMineBlockEntity> i
         return new ItemRenderBase() {
             @Override
             public void renderInventory(ItemStack stack, MultiBufferSource buffer) {
-                if (stack.is(ModBlocks.MINE_AP.asItem()) || stack.is(ModBlocks.MINE_SHRAP.asItem())) {
+                if (stack.is(NtmBlocks.MINE_AP.asItem()) || stack.is(NtmBlocks.MINE_SHRAP.asItem())) {
                     RenderContext.scale(8F, 8F, 8F);
                 }
-                if (stack.is(ModBlocks.MINE_HE.asItem())) {
+                if (stack.is(NtmBlocks.MINE_HE.asItem())) {
                     RenderContext.scale(6F, 6F, 6F);
                 }
-                if (stack.is(ModBlocks.MINE_NAVAL.asItem())) {
+                if (stack.is(NtmBlocks.MINE_NAVAL.asItem())) {
                     RenderContext.translate(0F, 2F, -1F);
                     RenderContext.scale(5F, 5F, 5F);
                 }
-                if (stack.is(ModBlocks.MINE_FAT.asItem())) {
+                if (stack.is(NtmBlocks.MINE_FAT.asItem())) {
                     RenderContext.translate(0F, -1F, 0F);
                     RenderContext.scale(7F, 7F, 7F);
                 }
@@ -118,7 +118,7 @@ public class RenderLandmine extends BlockEntityRendererNT<LandMineBlockEntity> i
 
             @Override
             public void renderNonInv(ItemStack stack, MultiBufferSource buffer, boolean rightHand) {
-                if (stack.is(ModBlocks.MINE_HE.asItem())) {
+                if (stack.is(NtmBlocks.MINE_HE.asItem())) {
                     if (rightHand) {
                         RenderContext.translate(0.25F, 0.6F, 0F);
                         RenderContext.mulPose(Axis.YP.rotationDegrees(45F));
@@ -134,26 +134,26 @@ public class RenderLandmine extends BlockEntityRendererNT<LandMineBlockEntity> i
             @Override
             public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
                 RenderContext.enableCull(false);
-                if (stack.is(ModBlocks.MINE_AP.asItem())) {
+                if (stack.is(NtmBlocks.MINE_AP.asItem())) {
                     RenderContext.scale(1.25F, 1.25F, 1.25F);
                     RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.MINE_AP_GRASS_TEX));
                     ResourceManager.mine_ap.renderAll();
                 }
-                if (stack.is(ModBlocks.MINE_HE.asItem())) {
+                if (stack.is(NtmBlocks.MINE_HE.asItem())) {
                     RenderContext.scale(4F, 4F, 4F);
                     RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.MINE_HE_TEX));
                     ResourceManager.mine_he.renderAll();
                 }
-                if (stack.is(ModBlocks.MINE_SHRAP.asItem())) {
+                if (stack.is(NtmBlocks.MINE_SHRAP.asItem())) {
                     RenderContext.scale(1.25F, 1.25F, 1.25F);
                     RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.MINE_SHRAPNEL_TEX));
                     ResourceManager.mine_ap.renderAll();
                 }
-                if (stack.is(ModBlocks.MINE_NAVAL.asItem())) {
+                if (stack.is(NtmBlocks.MINE_NAVAL.asItem())) {
                     RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.MINE_NAVAL_TEX));
                     ResourceManager.mine_naval.renderAll();
                 }
-                if (stack.is(ModBlocks.MINE_FAT.asItem())) {
+                if (stack.is(NtmBlocks.MINE_FAT.asItem())) {
                     RenderContext.translate(0.25F, 0F, 0F);
                     RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
                     RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.MINE_FAT_TEX));

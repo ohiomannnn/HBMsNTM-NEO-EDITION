@@ -1,6 +1,6 @@
 package com.hbm.blocks.bomb;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.lib.ModEffect;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -91,7 +91,7 @@ public class BalefireBlock extends BaseFireBlock {
                                         fireLimit += (iy - (y + 1)) * 100;
                                     }
 
-                                    if (level.getBlockState(posNew).is(ModBlocks.BALEFIRE.get()) && level.getBlockState(posNew).getValue(AGE) > age + 1) {
+                                    if (level.getBlockState(posNew).is(NtmBlocks.BALEFIRE.get()) && level.getBlockState(posNew).getValue(AGE) > age + 1) {
                                         level.setBlock(posNew, this.defaultBlockState().setValue(AGE, age + 1), 3);
                                         continue;
                                     }

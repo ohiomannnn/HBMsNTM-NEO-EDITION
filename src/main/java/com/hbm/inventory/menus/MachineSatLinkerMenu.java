@@ -1,7 +1,7 @@
 package com.hbm.inventory.menus;
 
 import com.hbm.blockentity.machine.MachineSatLinkerBlockEntity;
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.inventory.ModMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -45,7 +45,7 @@ public class MachineSatLinkerMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return stillValid(ContainerLevelAccess.create(player.level(), be.getBlockPos()), player, ModBlocks.MACHINE_SATLINKER.get());
+        return stillValid(ContainerLevelAccess.create(player.level(), be.getBlockPos()), player, NtmBlocks.MACHINE_SATLINKER.get());
     }
 
     @Override

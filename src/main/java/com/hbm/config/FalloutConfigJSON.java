@@ -6,7 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.main.NuclearTechMod;
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
 import com.hbm.inventory.ModTags;
 import com.hbm.inventory.RecipesCommon.StateBlock;
@@ -62,61 +62,61 @@ public class FalloutConfigJSON {
         double woodEffectRange = 65D;
 
         /* petrify all wooden things possible */
-        entries.add(new FalloutEntry()  .mT(BlockTags.LOGS)                                   .prim(new Pair(ModBlocks.WASTE_LOG.get().defaultBlockState(), 1))   .max(woodEffectRange));
-        entries.add(new FalloutEntry()  .mBS(Blocks.MUSHROOM_STEM.defaultBlockState())        .prim(new Pair(ModBlocks.WASTE_LOG.get().defaultBlockState(), 1))   .max(woodEffectRange));
+        entries.add(new FalloutEntry()  .mT(BlockTags.LOGS)                                   .prim(new Pair(NtmBlocks.WASTE_LOG.get().defaultBlockState(), 1))   .max(woodEffectRange));
+        entries.add(new FalloutEntry()  .mBS(Blocks.MUSHROOM_STEM.defaultBlockState())        .prim(new Pair(NtmBlocks.WASTE_LOG.get().defaultBlockState(), 1))   .max(woodEffectRange));
         entries.add(new FalloutEntry()  .mBS(Blocks.BROWN_MUSHROOM_BLOCK.defaultBlockState()) .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))                  .max(woodEffectRange));
         entries.add(new FalloutEntry()  .mBS(Blocks.RED_MUSHROOM_BLOCK.defaultBlockState())   .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))                  .max(woodEffectRange));
         entries.add(new FalloutEntry()  .mBS(Blocks.SNOW.defaultBlockState())                 .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))                  .max(woodEffectRange));
-        entries.add(new FalloutEntry()  .mT(BlockTags.PLANKS)                                 .prim(new Pair(ModBlocks.WASTE_PLANKS.get().defaultBlockState(), 1)).max(woodEffectRange));
+        entries.add(new FalloutEntry()  .mT(BlockTags.PLANKS)                                 .prim(new Pair(NtmBlocks.WASTE_PLANKS.get().defaultBlockState(), 1)).max(woodEffectRange));
         /* destroy all leaves within the radios, kill all leaves outside of it */
         entries.add(new FalloutEntry()  .mT(BlockTags.LEAVES)                                 .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))                     .max(woodEffectRange));
-        entries.add(new FalloutEntry()  .mBS(ModBlocks.WASTE_LEAVES.get().defaultBlockState()).prim(new Pair(Blocks.AIR.defaultBlockState(), 1))                     .max(woodEffectRange));
+        entries.add(new FalloutEntry()  .mBS(NtmBlocks.WASTE_LEAVES.get().defaultBlockState()).prim(new Pair(Blocks.AIR.defaultBlockState(), 1))                     .max(woodEffectRange));
         entries.add(new FalloutEntry()  .mT(ModTags.Blocks.PLANTS)                            .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))                     .max(woodEffectRange));
-        entries.add(new FalloutEntry()  .mT(BlockTags.LEAVES)                                 .prim(new Pair(ModBlocks.WASTE_LEAVES.get().defaultBlockState(), 1))   .max(woodEffectRange + 35D));
+        entries.add(new FalloutEntry()  .mT(BlockTags.LEAVES)                                 .prim(new Pair(NtmBlocks.WASTE_LEAVES.get().defaultBlockState(), 1))   .max(woodEffectRange + 35D));
 
         entries.add(new FalloutEntry().mBS(Blocks.MOSSY_COBBLESTONE.defaultBlockState()).prim(new Pair(Blocks.COAL_ORE.defaultBlockState(), 1)));
-        entries.add(new FalloutEntry().mBS(ModBlocks.ORE_NETHER_URANIUM.get().defaultBlockState()).prim(new Pair(ModBlocks.ORE_NETHER_SCHRABIDIUM.get().defaultBlockState(), 1), new Pair(ModBlocks.ORE_NETHER_URANIUM_SCORCHED.get().defaultBlockState(), 99)));
+        entries.add(new FalloutEntry().mBS(NtmBlocks.ORE_NETHER_URANIUM.get().defaultBlockState()).prim(new Pair(NtmBlocks.ORE_NETHER_SCHRABIDIUM.get().defaultBlockState(), 1), new Pair(NtmBlocks.ORE_NETHER_URANIUM_SCORCHED.get().defaultBlockState(), 99)));
 
         for (int i = 1; i <= 10; i++) {
             int m = 10 - i;
             entries.add(new FalloutEntry()
                     .prim(
-                            new Pair(ModBlocks.ORE_SELLAFIELD_DIAMOND.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), 3),
-                            new Pair(ModBlocks.ORE_SELLAFIELD_EMERALD.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), 2)
+                            new Pair(NtmBlocks.ORE_SELLAFIELD_DIAMOND.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), 3),
+                            new Pair(NtmBlocks.ORE_SELLAFIELD_EMERALD.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), 2)
                     )
                     .c(0.5)
                     .max(i * 5)
                     .sol(true)
                     .mBS(Blocks.COAL_ORE.defaultBlockState()));
             entries.add(new FalloutEntry()
-                    .prim(new Pair(ModBlocks.SELLAFIELD_BEDROCK.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), 1))
+                    .prim(new Pair(NtmBlocks.SELLAFIELD_BEDROCK.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), 1))
                     .max(i * 5)
                     .sol(true)
                     .mBS(Blocks.BEDROCK.defaultBlockState()));
             entries.add(new FalloutEntry()
-                    .prim(new Pair(ModBlocks.SELLAFIELD_BEDROCK.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), 1))
+                    .prim(new Pair(NtmBlocks.SELLAFIELD_BEDROCK.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), 1))
                     .max(i * 5)
                     .sol(true)
-                    .mBS(ModBlocks.SELLAFIELD_BEDROCK.get().defaultBlockState()));
+                    .mBS(NtmBlocks.SELLAFIELD_BEDROCK.get().defaultBlockState()));
             entries.add(new FalloutEntry()
-                    .prim(new Pair(ModBlocks.SELLAFIELD_SLAKED.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), 1))
+                    .prim(new Pair(NtmBlocks.SELLAFIELD_SLAKED.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), 1))
                     .max(i * 5)
                     .sol(true)
                     .mT(ModTags.Blocks.ACTUALLY_STONE));
             entries.add(new FalloutEntry()
-                    .prim(new Pair(ModBlocks.SELLAFIELD_SLAKED.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), 1))
+                    .prim(new Pair(NtmBlocks.SELLAFIELD_SLAKED.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), 1))
                     .max(i * 5)
                     .sol(true)
                     .mT(ModTags.Blocks.GROUND));
             if (i <= 9) entries.add(new FalloutEntry()
-                    .prim(new Pair(ModBlocks.SELLAFIELD_SLAKED.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), 1))
+                    .prim(new Pair(NtmBlocks.SELLAFIELD_SLAKED.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), 1))
                     .max(i * 5).sol(true)
                     .mBS(Blocks.GRASS_BLOCK.defaultBlockState()));
         }
 
-        entries.add(new FalloutEntry() .mBS(Blocks.MYCELIUM.defaultBlockState()) .prim(new Pair(ModBlocks.WASTE_MYCELIUM.get().defaultBlockState(), 1)));
-        entries.add(new FalloutEntry() .mBS(Blocks.SAND.defaultBlockState())     .prim(new Pair(ModBlocks.WASTE_TRINITITE.get().defaultBlockState(), 1))     .c(0.05));
-        entries.add(new FalloutEntry() .mBS(Blocks.RED_SAND.defaultBlockState()) .prim(new Pair(ModBlocks.WASTE_TRINITITE_RED.get().defaultBlockState(), 1)) .c(0.05));
+        entries.add(new FalloutEntry() .mBS(Blocks.MYCELIUM.defaultBlockState()) .prim(new Pair(NtmBlocks.WASTE_MYCELIUM.get().defaultBlockState(), 1)));
+        entries.add(new FalloutEntry() .mBS(Blocks.SAND.defaultBlockState())     .prim(new Pair(NtmBlocks.WASTE_TRINITITE.get().defaultBlockState(), 1))     .c(0.05));
+        entries.add(new FalloutEntry() .mBS(Blocks.RED_SAND.defaultBlockState()) .prim(new Pair(NtmBlocks.WASTE_TRINITITE_RED.get().defaultBlockState(), 1)) .c(0.05));
         entries.add(new FalloutEntry() .mBS(Blocks.CLAY.defaultBlockState())     .prim(new Pair(Blocks.TERRACOTTA.defaultBlockState(), 1)));
 
     }
@@ -219,10 +219,10 @@ public class FalloutConfigJSON {
             StateBlock conversion = chooseRandomOutcome((primaryChance == 1D || rand.nextDouble() < primaryChance) ? primaryBlocks : secondaryBlocks);
 
             if (conversion != null) {
-                if (conversion.state == ModBlocks.SELLAFIELD_SLAKED.get().defaultBlockState() && state == ModBlocks.SELLAFIELD_SLAKED.get().defaultBlockState()) return false;
-                if (conversion.state == ModBlocks.SELLAFIELD_BEDROCK.get().defaultBlockState() && state == ModBlocks.SELLAFIELD_BEDROCK.get().defaultBlockState()) return false;
-                if (state == ModBlocks.SELLAFIELD_BEDROCK.get().defaultBlockState() && conversion.state != ModBlocks.SELLAFIELD_BEDROCK.get().defaultBlockState()) return false;
-                if (pos.getY() == 0 && conversion.state != ModBlocks.SELLAFIELD_BEDROCK.get().defaultBlockState()) return false;
+                if (conversion.state == NtmBlocks.SELLAFIELD_SLAKED.get().defaultBlockState() && state == NtmBlocks.SELLAFIELD_SLAKED.get().defaultBlockState()) return false;
+                if (conversion.state == NtmBlocks.SELLAFIELD_BEDROCK.get().defaultBlockState() && state == NtmBlocks.SELLAFIELD_BEDROCK.get().defaultBlockState()) return false;
+                if (state == NtmBlocks.SELLAFIELD_BEDROCK.get().defaultBlockState() && conversion.state != NtmBlocks.SELLAFIELD_BEDROCK.get().defaultBlockState()) return false;
+                if (pos.getY() == 0 && conversion.state != NtmBlocks.SELLAFIELD_BEDROCK.get().defaultBlockState()) return false;
                 level.setBlock(pos, conversion.state, 3);
                 return true;
             }

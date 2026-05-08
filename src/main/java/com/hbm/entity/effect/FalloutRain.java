@@ -1,6 +1,6 @@
 package com.hbm.entity.effect;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.blocks.generic.FalloutBlock;
 import com.hbm.config.FalloutConfigJSON;
 import com.hbm.config.MainConfig;
@@ -199,7 +199,7 @@ public class FalloutRain extends ExplosionChunkLoading {
             BlockPos pos = new BlockPos(x, y, z);
             BlockState state = level.getBlockState(pos);
 
-            if (state.isAir() || state.is(ModBlocks.FALLOUT.get())) continue;
+            if (state.isAir() || state.is(NtmBlocks.FALLOUT.get())) continue;
 
 //            if (block == ModBlocks.VOLCANO_CORE.get()) {
 //                level.setBlock(pos, ModBlocks.VOLCANO_RAD_CORE.get().defaultBlockState(), 3);
@@ -209,13 +209,13 @@ public class FalloutRain extends ExplosionChunkLoading {
             BlockPos above = pos.above();
             BlockState aboveState = level.getBlockState(above);
 
-            if (depth == 0 && !state.is(ModBlocks.FALLOUT.get()) && (aboveState.isAir() || (aboveState.canBeReplaced() && !aboveState.getFluidState().isEmpty()))) {
+            if (depth == 0 && !state.is(NtmBlocks.FALLOUT.get()) && (aboveState.isAir() || (aboveState.canBeReplaced() && !aboveState.getFluidState().isEmpty()))) {
 
                 double d = dist / 100;
                 double chance = 0.1 - Math.pow((d - 0.7), 2);
 
                 if (chance >= random.nextDouble() && FalloutBlock.canPlaceBlockAt(level, above)) {
-                    level.setBlock(above, ModBlocks.FALLOUT.get().defaultBlockState(), 3);
+                    level.setBlock(above, NtmBlocks.FALLOUT.get().defaultBlockState(), 3);
                 }
             }
 

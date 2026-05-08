@@ -1,8 +1,7 @@
 package com.hbm.render.blockentity;
 
-import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blockentity.bomb.NukeN2BlockEntity;
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
@@ -47,7 +46,7 @@ public class RenderNukeN2 extends BlockEntityRendererNT<NukeN2BlockEntity> imple
 
     @Override
     public Item getItemForRenderer() {
-        return ModBlocks.NUKE_N2.asItem();
+        return NtmBlocks.NUKE_N2.asItem();
     }
 
     @Override

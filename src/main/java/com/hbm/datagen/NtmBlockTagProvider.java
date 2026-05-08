@@ -1,7 +1,7 @@
 package com.hbm.datagen;
 
 import com.hbm.main.NuclearTechMod;
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
@@ -63,12 +63,12 @@ public class NtmBlockTagProvider extends BlockTagsProvider {
                 .add(Blocks.COBBLESTONE)
                 .add(Blocks.SANDSTONE)
 
-                .add(ModBlocks.BRICK_CONCRETE.get())
-                .add(ModBlocks.BRICK_CONCRETE_CRACKED.get())
-                .add(ModBlocks.BRICK_CONCRETE_BROKEN.get())
-                .add(ModBlocks.BRICK_CONCRETE_MOSSY.get())
-                .add(ModBlocks.BRICK_CONCRETE_MARKED.get())
-                .add(ModBlocks.BRICK_LIGHT.get())
+                .add(NtmBlocks.BRICK_CONCRETE.get())
+                .add(NtmBlocks.BRICK_CONCRETE_CRACKED.get())
+                .add(NtmBlocks.BRICK_CONCRETE_BROKEN.get())
+                .add(NtmBlocks.BRICK_CONCRETE_MOSSY.get())
+                .add(NtmBlocks.BRICK_CONCRETE_MARKED.get())
+                .add(NtmBlocks.BRICK_LIGHT.get())
 
                 .add(Blocks.STONE);
 
@@ -85,66 +85,66 @@ public class NtmBlockTagProvider extends BlockTagsProvider {
 
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(
-                        ModBlocks.BRICK_CONCRETE.get(),
-                        ModBlocks.BRICK_CONCRETE_MOSSY.get(),
-                        ModBlocks.BRICK_CONCRETE_CRACKED.get(),
-                        ModBlocks.BRICK_CONCRETE_BROKEN.get(),
-                        ModBlocks.BRICK_CONCRETE_MARKED.get(),
+                        NtmBlocks.BRICK_CONCRETE.get(),
+                        NtmBlocks.BRICK_CONCRETE_MOSSY.get(),
+                        NtmBlocks.BRICK_CONCRETE_CRACKED.get(),
+                        NtmBlocks.BRICK_CONCRETE_BROKEN.get(),
+                        NtmBlocks.BRICK_CONCRETE_MARKED.get(),
 
-                        ModBlocks.BRICK_CONCRETE_STAIRS.get(),
-                        ModBlocks.BRICK_CONCRETE_MOSSY_STAIRS.get(),
-                        ModBlocks.BRICK_CONCRETE_CRACKED_STAIRS.get(),
-                        ModBlocks.BRICK_CONCRETE_BROKEN_STAIRS.get(),
+                        NtmBlocks.BRICK_CONCRETE_STAIRS.get(),
+                        NtmBlocks.BRICK_CONCRETE_MOSSY_STAIRS.get(),
+                        NtmBlocks.BRICK_CONCRETE_CRACKED_STAIRS.get(),
+                        NtmBlocks.BRICK_CONCRETE_BROKEN_STAIRS.get(),
 
-                        ModBlocks.BRICK_CONCRETE_SLAB.get(),
-                        ModBlocks.BRICK_CONCRETE_MOSSY_SLAB.get(),
-                        ModBlocks.BRICK_CONCRETE_CRACKED_SLAB.get(),
-                        ModBlocks.BRICK_CONCRETE_BROKEN_SLAB.get(),
+                        NtmBlocks.BRICK_CONCRETE_SLAB.get(),
+                        NtmBlocks.BRICK_CONCRETE_MOSSY_SLAB.get(),
+                        NtmBlocks.BRICK_CONCRETE_CRACKED_SLAB.get(),
+                        NtmBlocks.BRICK_CONCRETE_BROKEN_SLAB.get(),
 
-                        ModBlocks.NUKE_GADGET.get(),
-                        ModBlocks.NUKE_LITTLE_BOY.get(),
-                        ModBlocks.NUKE_FAT_MAN.get(),
-                        ModBlocks.NUKE_IVY_MIKE.get(),
-                        ModBlocks.NUKE_TSAR_BOMBA.get(),
-                        ModBlocks.NUKE_PROTOTYPE.get(),
-                        ModBlocks.NUKE_FLEIJA.get(),
-                        ModBlocks.NUKE_N2.get(),
-                        ModBlocks.NUKE_FSTBMB.get(),
+                        NtmBlocks.NUKE_GADGET.get(),
+                        NtmBlocks.NUKE_LITTLE_BOY.get(),
+                        NtmBlocks.NUKE_FAT_MAN.get(),
+                        NtmBlocks.NUKE_IVY_MIKE.get(),
+                        NtmBlocks.NUKE_TSAR_BOMBA.get(),
+                        NtmBlocks.NUKE_PROTOTYPE.get(),
+                        NtmBlocks.NUKE_FLEIJA.get(),
+                        NtmBlocks.NUKE_N2.get(),
+                        NtmBlocks.NUKE_FSTBMB.get(),
 
-                        ModBlocks.SELLAFIELD_SLAKED.get(),
-                        ModBlocks.ORE_SELLAFIELD_EMERALD.get(),
-                        ModBlocks.ORE_SELLAFIELD_DIAMOND.get(),
+                        NtmBlocks.SELLAFIELD_SLAKED.get(),
+                        NtmBlocks.ORE_SELLAFIELD_EMERALD.get(),
+                        NtmBlocks.ORE_SELLAFIELD_DIAMOND.get(),
 
-                        ModBlocks.MACHINE_FLUID_TANK.get(),
-                        ModBlocks.MACHINE_BATTERY_REDD.get(),
-                        ModBlocks.MACHINE_BATTERY_SOCKET.get(),
-                        ModBlocks.LAUNCH_PAD.get(),
-                        ModBlocks.MACHINE_SATLINKER.get()
+                        NtmBlocks.MACHINE_FLUID_TANK.get(),
+                        NtmBlocks.MACHINE_BATTERY_REDD.get(),
+                        NtmBlocks.MACHINE_BATTERY_SOCKET.get(),
+                        NtmBlocks.LAUNCH_PAD.get(),
+                        NtmBlocks.MACHINE_SATLINKER.get()
                 );
 
         this.tag(BlockTags.MINEABLE_WITH_AXE)
                 .add(
-                        ModBlocks.WASTE_LOG.get(),
-                        ModBlocks.WASTE_PLANKS.get(),
-                        ModBlocks.FROZEN_LOG.get(),
-                        ModBlocks.FROZEN_PLANKS.get()
+                        NtmBlocks.WASTE_LOG.get(),
+                        NtmBlocks.WASTE_PLANKS.get(),
+                        NtmBlocks.FROZEN_LOG.get(),
+                        NtmBlocks.FROZEN_PLANKS.get()
                 );
 
         this.tag(BlockTags.MINEABLE_WITH_SHOVEL)
                 .add(
-                        ModBlocks.WASTE_EARTH.get(),
-                        ModBlocks.WASTE_MYCELIUM.get(),
-                        ModBlocks.WASTE_TRINITITE.get(),
-                        ModBlocks.WASTE_TRINITITE_RED.get(),
-                        ModBlocks.FROZEN_DIRT.get(),
-                        ModBlocks.FROZEN_GRASS.get(),
-                        ModBlocks.FALLOUT.get()
+                        NtmBlocks.WASTE_EARTH.get(),
+                        NtmBlocks.WASTE_MYCELIUM.get(),
+                        NtmBlocks.WASTE_TRINITITE.get(),
+                        NtmBlocks.WASTE_TRINITITE_RED.get(),
+                        NtmBlocks.FROZEN_DIRT.get(),
+                        NtmBlocks.FROZEN_GRASS.get(),
+                        NtmBlocks.FALLOUT.get()
                 );
 
         this.tag(BlockTags.MINEABLE_WITH_HOE)
                 .add(
-                        ModBlocks.WASTE_LEAVES.get(),
-                        ModBlocks.LEAVES_LAYER.get()
+                        NtmBlocks.WASTE_LEAVES.get(),
+                        NtmBlocks.LEAVES_LAYER.get()
                 );
     }
 }

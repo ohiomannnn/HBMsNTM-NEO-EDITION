@@ -1,6 +1,6 @@
 package com.hbm.blocks.gas;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.lib.ModEffect;
 import com.hbm.util.ContaminationUtil;
@@ -86,7 +86,7 @@ public class GasRadonTombBlock extends GasBaseBlock {
                     if (random.nextInt(5) == 0) {
                         level.setBlock(below, Blocks.DIRT.defaultBlockState(), 3);
                     } else {
-                        level.setBlock(below, ModBlocks.WASTE_EARTH.get().defaultBlockState(), 3);
+                        level.setBlock(below, NtmBlocks.WASTE_EARTH.get().defaultBlockState(), 3);
                     }
                 }
 

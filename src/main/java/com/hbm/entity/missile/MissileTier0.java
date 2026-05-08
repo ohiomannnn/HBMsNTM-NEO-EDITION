@@ -1,6 +1,6 @@
 package com.hbm.entity.missile;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.effect.BlackHole;
@@ -107,7 +107,7 @@ public abstract class MissileTier0 extends MissileBaseNT {
                 BlockPos randPos = new BlockPos(a, b, c);
                 BlockState state = level.getBlockState(randPos);
                 if (state.isSolidRender(level, randPos) && !state.isAir()) {
-                    level.setBlock(randPos, ModBlocks.TAINT.get().defaultBlockState(), 3);
+                    level.setBlock(randPos, NtmBlocks.TAINT.get().defaultBlockState(), 3);
                 }
             }
         }

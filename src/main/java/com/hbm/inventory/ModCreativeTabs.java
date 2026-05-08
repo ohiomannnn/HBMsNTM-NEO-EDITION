@@ -1,11 +1,12 @@
 package com.hbm.inventory;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.IMetaItem;
 import com.hbm.items.NtmItems;
 import com.hbm.items.machine.FluidIDMultiItem;
+import com.hbm.items.special.StarterKitItem.KitType;
 import com.hbm.main.NuclearTechMod;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -210,82 +211,82 @@ public class ModCreativeTabs {
     // ore and mineral blocks
     public static final Supplier<CreativeModeTab> BLOCKS = CREATIVE_MODE_TABS.register(
             "blocks",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.ORE_URANIUM.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(NtmBlocks.ORE_URANIUM.get()))
                     .withTabsBefore(NuclearTechMod.withDefaultNamespace("control"))
                     .title(Component.translatable("creative_tab.hbmsntm.blocks"))
                     .displayItems((itemDisplayParameters, output) -> {
 
-                        output.accept(ModBlocks.PLUSHIE_YOMI);
-                        output.accept(ModBlocks.PLUSHIE_NUMBERNINE);
-                        output.accept(ModBlocks.PLUSHIE_HUNDUN);
-                        output.accept(ModBlocks.PLUSHIE_DERG);
+                        output.accept(NtmBlocks.PLUSHIE_YOMI);
+                        output.accept(NtmBlocks.PLUSHIE_NUMBERNINE);
+                        output.accept(NtmBlocks.PLUSHIE_HUNDUN);
+                        output.accept(NtmBlocks.PLUSHIE_DERG);
 
-                        output.accept(ModBlocks.BRICK_CONCRETE);
-                        output.accept(ModBlocks.BRICK_CONCRETE_MOSSY);
-                        output.accept(ModBlocks.BRICK_CONCRETE_CRACKED);
-                        output.accept(ModBlocks.BRICK_CONCRETE_BROKEN);
-                        output.accept(ModBlocks.BRICK_CONCRETE_MARKED);
+                        output.accept(NtmBlocks.BRICK_CONCRETE);
+                        output.accept(NtmBlocks.BRICK_CONCRETE_MOSSY);
+                        output.accept(NtmBlocks.BRICK_CONCRETE_CRACKED);
+                        output.accept(NtmBlocks.BRICK_CONCRETE_BROKEN);
+                        output.accept(NtmBlocks.BRICK_CONCRETE_MARKED);
 
-                        output.accept(ModBlocks.BRICK_CONCRETE_SLAB);
-                        output.accept(ModBlocks.BRICK_CONCRETE_MOSSY_SLAB);
-                        output.accept(ModBlocks.BRICK_CONCRETE_CRACKED_SLAB);
-                        output.accept(ModBlocks.BRICK_CONCRETE_BROKEN_SLAB);
+                        output.accept(NtmBlocks.BRICK_CONCRETE_SLAB);
+                        output.accept(NtmBlocks.BRICK_CONCRETE_MOSSY_SLAB);
+                        output.accept(NtmBlocks.BRICK_CONCRETE_CRACKED_SLAB);
+                        output.accept(NtmBlocks.BRICK_CONCRETE_BROKEN_SLAB);
 
-                        output.accept(ModBlocks.BRICK_CONCRETE_STAIRS);
-                        output.accept(ModBlocks.BRICK_CONCRETE_MOSSY_STAIRS);
-                        output.accept(ModBlocks.BRICK_CONCRETE_CRACKED_STAIRS);
-                        output.accept(ModBlocks.BRICK_CONCRETE_BROKEN_STAIRS);
+                        output.accept(NtmBlocks.BRICK_CONCRETE_STAIRS);
+                        output.accept(NtmBlocks.BRICK_CONCRETE_MOSSY_STAIRS);
+                        output.accept(NtmBlocks.BRICK_CONCRETE_CRACKED_STAIRS);
+                        output.accept(NtmBlocks.BRICK_CONCRETE_BROKEN_STAIRS);
 
-                        output.accept(ModBlocks.WASTE_EARTH);
-                        output.accept(ModBlocks.WASTE_MYCELIUM);
-                        output.accept(ModBlocks.WASTE_TRINITITE);
-                        output.accept(ModBlocks.WASTE_TRINITITE_RED);
-                        output.accept(ModBlocks.WASTE_LOG);
-                        output.accept(ModBlocks.WASTE_LEAVES);
-                        output.accept(ModBlocks.WASTE_PLANKS);
-                        output.accept(ModBlocks.FROZEN_GRASS);
-                        output.accept(ModBlocks.FROZEN_DIRT);
-                        output.accept(ModBlocks.FROZEN_PLANKS);
-                        output.accept(ModBlocks.FROZEN_LOG);
-                        output.accept(ModBlocks.FALLOUT);
-                        output.accept(ModBlocks.LEAVES_LAYER);
+                        output.accept(NtmBlocks.WASTE_EARTH);
+                        output.accept(NtmBlocks.WASTE_MYCELIUM);
+                        output.accept(NtmBlocks.WASTE_TRINITITE);
+                        output.accept(NtmBlocks.WASTE_TRINITITE_RED);
+                        output.accept(NtmBlocks.WASTE_LOG);
+                        output.accept(NtmBlocks.WASTE_LEAVES);
+                        output.accept(NtmBlocks.WASTE_PLANKS);
+                        output.accept(NtmBlocks.FROZEN_GRASS);
+                        output.accept(NtmBlocks.FROZEN_DIRT);
+                        output.accept(NtmBlocks.FROZEN_PLANKS);
+                        output.accept(NtmBlocks.FROZEN_LOG);
+                        output.accept(NtmBlocks.FALLOUT);
+                        output.accept(NtmBlocks.LEAVES_LAYER);
 
-                        output.accept(ModBlocks.SELLAFIELD_SLAKED);
-                        output.accept(ModBlocks.SELLAFIELD_BEDROCK);
-                        output.accept(ModBlocks.ORE_SELLAFIELD_DIAMOND);
-                        output.accept(ModBlocks.ORE_SELLAFIELD_EMERALD);
+                        output.accept(NtmBlocks.SELLAFIELD_SLAKED);
+                        output.accept(NtmBlocks.SELLAFIELD_BEDROCK);
+                        output.accept(NtmBlocks.ORE_SELLAFIELD_DIAMOND);
+                        output.accept(NtmBlocks.ORE_SELLAFIELD_EMERALD);
                     }).build());
 
     // machines, structure parts
     public static final Supplier<CreativeModeTab> MACHINE = CREATIVE_MODE_TABS.register(
             "machine",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.PWR_CONTROLLER.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(NtmBlocks.PWR_CONTROLLER.get()))
                     .withTabsBefore(NuclearTechMod.withDefaultNamespace("blocks"))
                     .title(Component.translatable("creative_tab.hbmsntm.machine"))
                     .displayItems((itemDisplayParameters, output) -> {
-                        output.accept(ModBlocks.GAS_RADON);
-                        output.accept(ModBlocks.GAS_RADON_DENSE);
-                        output.accept(ModBlocks.GAS_RADON_TOMB);
-                        output.accept(ModBlocks.GAS_MELTDOWN);
-                        output.accept(ModBlocks.GAS_MONOXIDE);
-                        output.accept(ModBlocks.GAS_ASBESTOS);
-                        output.accept(ModBlocks.GAS_COAL);
-                        output.accept(ModBlocks.GAS_FLAMMABLE);
-                        output.accept(ModBlocks.GAS_EXPLOSIVE);
+                        output.accept(NtmBlocks.GAS_RADON);
+                        output.accept(NtmBlocks.GAS_RADON_DENSE);
+                        output.accept(NtmBlocks.GAS_RADON_TOMB);
+                        output.accept(NtmBlocks.GAS_MELTDOWN);
+                        output.accept(NtmBlocks.GAS_MONOXIDE);
+                        output.accept(NtmBlocks.GAS_ASBESTOS);
+                        output.accept(NtmBlocks.GAS_COAL);
+                        output.accept(NtmBlocks.GAS_FLAMMABLE);
+                        output.accept(NtmBlocks.GAS_EXPLOSIVE);
 
-                        output.accept(ModBlocks.GEIGER);
-                        output.accept(ModBlocks.MACHINE_BATTERY_SOCKET);
-                        output.accept(ModBlocks.MACHINE_BATTERY_REDD);
-                        output.accept(ModBlocks.RED_CABLE);
+                        output.accept(NtmBlocks.GEIGER);
+                        output.accept(NtmBlocks.MACHINE_BATTERY_SOCKET);
+                        output.accept(NtmBlocks.MACHINE_BATTERY_REDD);
+                        output.accept(NtmBlocks.RED_CABLE);
 
-                        output.accept(MetaHelper.metaStack(new ItemStack(ModBlocks.FLUID_DUCT_NEO.asItem()), 1));
-                        output.accept(MetaHelper.metaStack(new ItemStack(ModBlocks.FLUID_DUCT_NEO.asItem()), 2));
-                        output.accept(MetaHelper.metaStack(new ItemStack(ModBlocks.FLUID_DUCT_NEO.asItem()), 3));
+                        output.accept(MetaHelper.metaStack(new ItemStack(NtmBlocks.FLUID_DUCT_NEO.asItem()), 1));
+                        output.accept(MetaHelper.metaStack(new ItemStack(NtmBlocks.FLUID_DUCT_NEO.asItem()), 2));
+                        output.accept(MetaHelper.metaStack(new ItemStack(NtmBlocks.FLUID_DUCT_NEO.asItem()), 3));
 
-                        output.accept(ModBlocks.MACHINE_FLUID_TANK);
+                        output.accept(NtmBlocks.MACHINE_FLUID_TANK);
 
-                        output.accept(ModBlocks.DECONTAMINATOR);
-                        output.accept(ModBlocks.MACHINE_SATLINKER);
+                        output.accept(NtmBlocks.DECONTAMINATOR);
+                        output.accept(NtmBlocks.MACHINE_SATLINKER);
 
                         FluidType[] types = Fluids.getInNiceOrder();
                         // multi identifiers
@@ -299,47 +300,47 @@ public class ModCreativeTabs {
     // bombs
     public static final Supplier<CreativeModeTab> NUKE = CREATIVE_MODE_TABS.register(
             "nuke",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModBlocks.NUKE_FAT_MAN.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(NtmBlocks.NUKE_FAT_MAN.get()))
                     .withTabsBefore(NuclearTechMod.withDefaultNamespace("machine"))
                     .title(Component.translatable("creative_tab.hbmsntm.nuke"))
                     .backgroundTexture(ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "textures/gui/nuke_tab.png"))
                     .displayItems((itemDisplayParameters, output) -> {
-                        output.accept(ModBlocks.NUKE_GADGET);
-                        output.accept(ModBlocks.NUKE_LITTLE_BOY);
-                        output.accept(ModBlocks.NUKE_FAT_MAN);
-                        output.accept(ModBlocks.NUKE_IVY_MIKE);
-                        output.accept(ModBlocks.NUKE_TSAR_BOMBA);
-                        output.accept(ModBlocks.NUKE_PROTOTYPE);
-                        output.accept(ModBlocks.NUKE_FLEIJA);
-                        output.accept(ModBlocks.NUKE_N2);
-                        output.accept(ModBlocks.NUKE_FSTBMB);
+                        output.accept(NtmBlocks.NUKE_GADGET);
+                        output.accept(NtmBlocks.NUKE_LITTLE_BOY);
+                        output.accept(NtmBlocks.NUKE_FAT_MAN);
+                        output.accept(NtmBlocks.NUKE_IVY_MIKE);
+                        output.accept(NtmBlocks.NUKE_TSAR_BOMBA);
+                        output.accept(NtmBlocks.NUKE_PROTOTYPE);
+                        output.accept(NtmBlocks.NUKE_FLEIJA);
+                        output.accept(NtmBlocks.NUKE_N2);
+                        output.accept(NtmBlocks.NUKE_FSTBMB);
 
-                        output.accept(ModBlocks.CRASHED_BOMB_BALEFIRE);
-                        output.accept(ModBlocks.CRASHED_BOMB_CONVENTIONAL);
-                        output.accept(ModBlocks.CRASHED_BOMB_NUKE);
-                        output.accept(ModBlocks.CRASHED_BOMB_SALTED);
+                        output.accept(NtmBlocks.CRASHED_BOMB_BALEFIRE);
+                        output.accept(NtmBlocks.CRASHED_BOMB_CONVENTIONAL);
+                        output.accept(NtmBlocks.CRASHED_BOMB_NUKE);
+                        output.accept(NtmBlocks.CRASHED_BOMB_SALTED);
 
-                        output.accept(ModBlocks.DYNAMITE);
-                        output.accept(ModBlocks.TNT);
-                        output.accept(ModBlocks.SEMTEX);
-                        output.accept(ModBlocks.C4);
-                        output.accept(ModBlocks.FISSURE_BOMB);
+                        output.accept(NtmBlocks.DYNAMITE);
+                        output.accept(NtmBlocks.TNT);
+                        output.accept(NtmBlocks.SEMTEX);
+                        output.accept(NtmBlocks.C4);
+                        output.accept(NtmBlocks.FISSURE_BOMB);
 
-                        output.accept(ModBlocks.MINE_AP);
-                        output.accept(ModBlocks.MINE_SHRAP);
-                        output.accept(ModBlocks.MINE_HE);
-                        output.accept(ModBlocks.MINE_FAT);
-                        output.accept(ModBlocks.MINE_NAVAL);
+                        output.accept(NtmBlocks.MINE_AP);
+                        output.accept(NtmBlocks.MINE_SHRAP);
+                        output.accept(NtmBlocks.MINE_HE);
+                        output.accept(NtmBlocks.MINE_FAT);
+                        output.accept(NtmBlocks.MINE_NAVAL);
 
-                        output.accept(ModBlocks.DET_CORD);
-                        output.accept(ModBlocks.DET_CHARGE);
-                        output.accept(ModBlocks.DET_NUKE);
-                        output.accept(ModBlocks.DET_MINER);
+                        output.accept(NtmBlocks.DET_CORD);
+                        output.accept(NtmBlocks.DET_CHARGE);
+                        output.accept(NtmBlocks.DET_NUKE);
+                        output.accept(NtmBlocks.DET_MINER);
 
-                        output.accept(ModBlocks.BARREL_RED);
-                        output.accept(ModBlocks.BARREL_PINK);
-                        output.accept(ModBlocks.BARREL_LOX);
-                        output.accept(ModBlocks.BARREL_TAINT);
+                        output.accept(NtmBlocks.BARREL_RED);
+                        output.accept(NtmBlocks.BARREL_PINK);
+                        output.accept(NtmBlocks.BARREL_LOX);
+                        output.accept(NtmBlocks.BARREL_TAINT);
 
                         output.accept(NtmItems.BATTERY_SPARK);
                         output.accept(NtmItems.BATTERY_TRIXITE);
@@ -380,6 +381,15 @@ public class ModCreativeTabs {
                         output.accept(NtmItems.DETONATOR_LASER);
                         output.accept(NtmItems.DETONATOR_DEADMAN);
                         output.accept(NtmItems.DETONATOR_DE);
+
+                        // this is sucks
+                        output.accept(MetaHelper.newStack(NtmItems.STARTER_KIT, KitType.GADGET));
+                        output.accept(MetaHelper.newStack(NtmItems.STARTER_KIT, KitType.LITTLE_BOY));
+                        output.accept(MetaHelper.newStack(NtmItems.STARTER_KIT, KitType.FAT_MAN));
+                        output.accept(MetaHelper.newStack(NtmItems.STARTER_KIT, KitType.IVY_MIKE));
+                        output.accept(MetaHelper.newStack(NtmItems.STARTER_KIT, KitType.TSAR_BOMBA));
+                        output.accept(MetaHelper.newStack(NtmItems.STARTER_KIT, KitType.FLEIJA));
+                        output.accept(MetaHelper.newStack(NtmItems.STARTER_KIT, KitType.PROTOTYPE));
                     }).build());
 
     // missiles, satellites
@@ -390,7 +400,7 @@ public class ModCreativeTabs {
                     .title(Component.translatable("creative_tab.hbmsntm.missile"))
                     .displayItems((itemDisplayParameters, output) -> {
 
-                        output.accept(ModBlocks.LAUNCH_PAD);
+                        output.accept(NtmBlocks.LAUNCH_PAD);
 
                         output.accept(NtmItems.DESIGNATOR);
                         output.accept(NtmItems.DESIGNATOR_RANGE);

@@ -1,8 +1,7 @@
 package com.hbm.render.blockentity;
 
-import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blockentity.bomb.NukeFatManBlockEntity;
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
@@ -48,7 +47,7 @@ public class RenderNukeFatMan extends BlockEntityRendererNT<NukeFatManBlockEntit
 
     @Override
     public Item getItemForRenderer() {
-        return ModBlocks.NUKE_FAT_MAN.asItem();
+        return NtmBlocks.NUKE_FAT_MAN.asItem();
     }
 
     @Override

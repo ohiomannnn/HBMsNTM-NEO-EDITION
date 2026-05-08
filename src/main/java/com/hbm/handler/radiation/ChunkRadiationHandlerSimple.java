@@ -1,6 +1,6 @@
 package com.hbm.handler.radiation;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.config.MainConfig;
 import com.hbm.network.toclient.AuxParticle;
 import net.minecraft.core.BlockPos;
@@ -227,14 +227,14 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
                                 BlockState state = level.getBlockState(pos);
 
                                 if (state.is(Blocks.GRASS_BLOCK)) {
-                                    level.setBlock(pos, ModBlocks.WASTE_EARTH.get().defaultBlockState(), 3);
+                                    level.setBlock(pos, NtmBlocks.WASTE_EARTH.get().defaultBlockState(), 3);
 
                                 } else if (state.is(Blocks.TALL_GRASS)) {
                                     level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
 
                                 } else if (state.is(BlockTags.LEAVES)) {
                                     if (level.random.nextInt(7) <= 5) {
-                                        level.setBlock(pos, ModBlocks.WASTE_LEAVES.get().defaultBlockState(), 3);
+                                        level.setBlock(pos, NtmBlocks.WASTE_LEAVES.get().defaultBlockState(), 3);
                                     } else {
                                         level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
                                     }

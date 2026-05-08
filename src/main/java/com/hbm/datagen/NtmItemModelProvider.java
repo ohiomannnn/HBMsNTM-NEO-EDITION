@@ -1,6 +1,6 @@
 package com.hbm.datagen;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.items.ICustomModelRegister;
 import com.hbm.items.NtmItems;
 import com.hbm.main.NuclearTechMod;
@@ -238,29 +238,31 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.entityItem(NtmItems.MISSILE_SHUTTLE.get(), true);
         this.entityItem(NtmItems.MISSILE_STEALTH.get(), true);
 
-        this.basicItem(ModBlocks.GAS_RADON.asItem());
-        this.basicItem(ModBlocks.GAS_RADON_DENSE.asItem());
-        this.basicItem(ModBlocks.GAS_RADON_TOMB.asItem());
-        this.basicItem(ModBlocks.GAS_MELTDOWN.asItem());
-        this.basicItem(ModBlocks.GAS_MONOXIDE.asItem());
-        this.basicItem(ModBlocks.GAS_ASBESTOS.asItem());
-        this.basicItem(ModBlocks.GAS_COAL.asItem());
-        this.basicItem(ModBlocks.GAS_FLAMMABLE.asItem());
-        this.basicItem(ModBlocks.GAS_EXPLOSIVE.asItem());
+        this.basicItem(NtmBlocks.GAS_RADON.asItem());
+        this.basicItem(NtmBlocks.GAS_RADON_DENSE.asItem());
+        this.basicItem(NtmBlocks.GAS_RADON_TOMB.asItem());
+        this.basicItem(NtmBlocks.GAS_MELTDOWN.asItem());
+        this.basicItem(NtmBlocks.GAS_MONOXIDE.asItem());
+        this.basicItem(NtmBlocks.GAS_ASBESTOS.asItem());
+        this.basicItem(NtmBlocks.GAS_COAL.asItem());
+        this.basicItem(NtmBlocks.GAS_FLAMMABLE.asItem());
+        this.basicItem(NtmBlocks.GAS_EXPLOSIVE.asItem());
 
-        getBuilder(ModBlocks.LEAVES_LAYER.getId().getPath())
+        getBuilder(NtmBlocks.LEAVES_LAYER.getId().getPath())
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/layering_1")));
-        getBuilder(ModBlocks.FALLOUT.getId().getPath())
+        getBuilder(NtmBlocks.FALLOUT.getId().getPath())
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/fallout")));
 
-        getBuilder(ModBlocks.WASTE_LOG.getId().getPath())
+        getBuilder(NtmBlocks.WASTE_LOG.getId().getPath())
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/waste_log")));
-        getBuilder(ModBlocks.FROZEN_LOG.getId().getPath())
+        getBuilder(NtmBlocks.FROZEN_LOG.getId().getPath())
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/frozen_log")));
 
         this.registerPolaroid();
 
         this.registerMetaItem(NtmItems.BATTERY_SC.get());
+
+        this.registerMetaItem(NtmItems.STARTER_KIT.get());
 
         this.basicItem(NtmItems.BATTERY_SPARK.get());
         this.basicItem(NtmItems.BATTERY_TRIXITE.get());

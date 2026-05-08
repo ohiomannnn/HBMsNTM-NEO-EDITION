@@ -1,7 +1,7 @@
 package com.hbm.main;
 
 import com.hbm.blockentity.ModBlockEntityTypes;
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.inventory.ModCreativeTabs;
@@ -28,12 +28,6 @@ public class NuclearTechMod {
     public static final String MODID = "hbmsntm";
     public static ResourceLocation withDefaultNamespace(String path) { return ResourceLocation.fromNamespaceAndPath(MODID, path); }
     public static final String VERSION = "0.0.13 ALPHA (5640)";
-    //                                       ^ ^ ^ ^ ^ ^
-    // HBM's -Beta- ALPHA Naming Convention:
-    // V T (X)
-    // V -> next release version
-    // T -> build type
-    // X -> days since 10/10/2010
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
     public static File configDir;
@@ -50,7 +44,7 @@ public class NuclearTechMod {
 
         Fluids.init();
         NtmItems.register(modEventBus);
-        ModBlocks.register(modEventBus);
+        NtmBlocks.register(modEventBus);
         NtmDataComponents.register(modEventBus);
         ModEntityTypes.register(modEventBus);
         NtmSoundEvents.register(modEventBus);

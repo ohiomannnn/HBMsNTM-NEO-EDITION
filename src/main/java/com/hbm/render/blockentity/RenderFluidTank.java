@@ -3,7 +3,7 @@ package com.hbm.render.blockentity;
 import com.hbm.blockentity.IPersistentNBT;
 import com.hbm.blockentity.machine.storage.MachineFluidTankBlockEntity;
 import com.hbm.blocks.DummyableBlock;
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
@@ -119,7 +119,7 @@ public class RenderFluidTank extends BlockEntityRendererNT<MachineFluidTankBlock
 
     @Override
     public Item getItemForRenderer() {
-        return ModBlocks.MACHINE_FLUID_TANK.asItem();
+        return NtmBlocks.MACHINE_FLUID_TANK.asItem();
     }
 
     @Override

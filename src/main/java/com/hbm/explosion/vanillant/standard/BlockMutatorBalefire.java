@@ -1,6 +1,6 @@
 package com.hbm.explosion.vanillant.standard;
 
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.interfaces.IBlockMutator;
 import net.minecraft.core.BlockPos;
@@ -17,7 +17,7 @@ public class BlockMutatorBalefire implements IBlockMutator {
         BlockState belowState = explosion.level.getBlockState(below);
 
         if (state.isAir() && belowState.isSolidRender(explosion.level, pos.below()) && explosion.level.getRandom().nextInt(3) == 0) {
-            explosion.level.setBlock(pos, ModBlocks.BALEFIRE.get().defaultBlockState(), 3);
+            explosion.level.setBlock(pos, NtmBlocks.BALEFIRE.get().defaultBlockState(), 3);
         }
     }
 }

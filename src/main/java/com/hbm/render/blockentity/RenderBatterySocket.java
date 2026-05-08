@@ -2,7 +2,7 @@ package com.hbm.render.blockentity;
 
 import com.hbm.blockentity.machine.storage.BatterySocketBlockEntity;
 import com.hbm.blocks.DummyableBlock;
-import com.hbm.blocks.ModBlocks;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.inventory.MetaHelper;
 import com.hbm.items.NtmItems;
 import com.hbm.items.machine.BatteryPackItem.BatteryPackType;
@@ -99,7 +99,7 @@ public class RenderBatterySocket extends BlockEntityRendererNT<BatterySocketBloc
 
     @Override
     public Item getItemForRenderer() {
-        return ModBlocks.MACHINE_BATTERY_SOCKET.asItem();
+        return NtmBlocks.MACHINE_BATTERY_SOCKET.asItem();
     }
 
     @Override
