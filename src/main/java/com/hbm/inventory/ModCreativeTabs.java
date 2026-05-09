@@ -388,8 +388,8 @@ public class ModCreativeTabs {
                         output.accept(MetaHelper.newStack(NtmItems.STARTER_KIT, KitType.FAT_MAN));
                         output.accept(MetaHelper.newStack(NtmItems.STARTER_KIT, KitType.IVY_MIKE));
                         output.accept(MetaHelper.newStack(NtmItems.STARTER_KIT, KitType.TSAR_BOMBA));
-                        output.accept(MetaHelper.newStack(NtmItems.STARTER_KIT, KitType.FLEIJA));
                         output.accept(MetaHelper.newStack(NtmItems.STARTER_KIT, KitType.PROTOTYPE));
+                        output.accept(MetaHelper.newStack(NtmItems.STARTER_KIT, KitType.FLEIJA));
                     }).build());
 
     // missiles, satellites

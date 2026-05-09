@@ -4,6 +4,7 @@
 * Added OBJ model reloader
 * Added Prototype nuke
 * Added nuke kits
+* Added some ingots (placeholder)
 
 ## CHANGES
 * Changed version naming
@@ -18,4 +19,5 @@
 
 ## FIXES
 * Fixed fensu's lights shading
+* Fixed particles being black on linux
 * Fixed 256k tank, fensu, battery socket and nukes cull bounding box

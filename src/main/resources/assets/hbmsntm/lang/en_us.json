@@ -279,6 +279,7 @@
   "item.hbmsntm.starter_kit.tsar_bomba": "Tsar Bomba Kit",
   "item.hbmsntm.starter_kit.prototype": "Prototype Kit",
   "item.hbmsntm.starter_kit.fleija": "F.L.E.I.J.A. Kit",
+  "item.hbmsntm.starter_kit.emptyInventory": "Please empty inventory before opening!",
 
   "item.hbmsntm.rod_empty": "Empty Rod",
   "item.hbmsntm.rod.lithium": "Lithium Rod",

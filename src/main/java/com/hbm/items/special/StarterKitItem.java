@@ -8,26 +8,37 @@ import com.hbm.items.machine.BreedingRodItem.BreedingRodType;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.SoundUtils;
+import com.hbm.util.i18n.I18nUtil;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+
+import java.util.List;
 
 public class StarterKitItem extends EnumMultiItem {
 
     // todo add more kits
     public enum KitType {
         /// NUKES
-        GADGET,
-        LITTLE_BOY,
-        FAT_MAN,
-        IVY_MIKE,
-        TSAR_BOMBA,
-        PROTOTYPE,
-        FLEIJA,
-        // No n2 or balefire bomb kit :(
+        GADGET(true),
+        LITTLE_BOY(true),
+        FAT_MAN(true),
+        IVY_MIKE(true),
+        TSAR_BOMBA(true),
+        PROTOTYPE(true),
+        FLEIJA(true);
+
+        public final boolean emptyInv;
+
+        KitType(boolean emptyInv) {
+            this.emptyInv = emptyInv;
+        }
     }
 
     public StarterKitItem(Properties properties) {
@@ -63,7 +74,7 @@ public class StarterKitItem extends EnumMultiItem {
             }
             case IVY_MIKE -> {
                 player.getInventory().add(new ItemStack(NtmBlocks.NUKE_IVY_MIKE.asItem(), 1));
-                player.getInventory().add(new ItemStack(NtmItems.EARLY_EXPLOSIVE_LENSES.get(), 4));
+                player.getInventory().add(new ItemStack(NtmItems.EXPLOSIVE_LENSES.get(), 4));
                 player.getInventory().add(new ItemStack(NtmItems.FAT_MAN_CORE.get(), 1));
                 player.getInventory().add(new ItemStack(NtmItems.IVY_MIKE_CORE.get(), 1));
                 player.getInventory().add(new ItemStack(NtmItems.IVY_MIKE_DEUT.get(), 1));
@@ -71,7 +82,7 @@ public class StarterKitItem extends EnumMultiItem {
             }
             case TSAR_BOMBA -> {
                 player.getInventory().add(new ItemStack(NtmBlocks.NUKE_TSAR_BOMBA.asItem(), 1));
-                player.getInventory().add(new ItemStack(NtmItems.EARLY_EXPLOSIVE_LENSES.get(), 4));
+                player.getInventory().add(new ItemStack(NtmItems.EXPLOSIVE_LENSES.get(), 4));
                 player.getInventory().add(new ItemStack(NtmItems.FAT_MAN_CORE.get(), 1));
                 player.getInventory().add(new ItemStack(NtmItems.TSAR_BOMBA_CORE.get(), 1));
             }
@@ -103,5 +114,13 @@ public class StarterKitItem extends EnumMultiItem {
         stack.shrink(1);
 
         return InteractionResultHolder.consume(stack);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
+        KitType type = EnumUtil.grabEnumSafely(KitType.class, MetaHelper.getMeta(stack));
+        if(type.emptyInv) {
+            for(String s : I18nUtil.resolveKeyArray("item.hbmsntm.starter_kit.emptyInventory")) components.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
+        }
     }
 }
