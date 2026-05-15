@@ -4,7 +4,7 @@ import api.hbm.energymk2.IEnergyReceiverMK2;
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
 import com.hbm.blockentity.IUpgradeInfoProvider;
 import com.hbm.blockentity.MachineBaseBlockEntity;
-import com.hbm.blockentity.ModBlockEntityTypes;
+import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.fluid.Fluids;
@@ -47,16 +47,16 @@ public class MachineAssemblyMachineBlockEntity extends MachineBaseBlockEntity im
     public ModuleMachineAssembler assemblerModule;
 
     public AssemblerArm[] arms = new AssemblerArm[2];
-    public double prevRing;
-    public double ring;
-    public double ringSpeed;
-    public double ringTarget;
+    public float prevRing;
+    public float ring;
+    public float ringSpeed;
+    public float ringTarget;
     public int ringDelay;
 
     public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 
     public MachineAssemblyMachineBlockEntity(BlockPos pos, BlockState blockState) {
-        super(ModBlockEntityTypes.BATTERY_REDD.get(), pos, blockState, 17);
+        super(NtmBlockEntityTypes.ASSEMBLY_MACHINE.get(), pos, blockState, 17);
 
         this.inputTank = new FluidTank(Fluids.NONE, 4_000);
         this.outputTank = new FluidTank(Fluids.NONE, 4_000);
@@ -152,8 +152,8 @@ public class MachineAssemblyMachineBlockEntity extends MachineBaseBlockEntity im
                 } else {
                     if(this.ringDelay > 0) this.ringDelay--;
                     if(this.ringDelay <= 0) {
-                        this.ringTarget += (level.random.nextDouble() * 2 - 1) * 135;
-                        this.ringSpeed = 10D + level.random.nextDouble() * 5D;
+                        this.ringTarget += (level.random.nextFloat() * 2 - 1) * 135;
+                        this.ringSpeed = 10F + level.random.nextFloat() * 5F;
                         //if(!this.muffled) MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, NTMSounds.ASSEMBLER_START, this.getVolume(0.25F), 1.25F + worldObj.rand.nextFloat() * 0.25F);
                     }
                 }
@@ -304,16 +304,16 @@ public class MachineAssemblyMachineBlockEntity extends MachineBaseBlockEntity im
 
     public static class AssemblerArm {
 
-        public double[] angles = new double[4];
-        public double[] prevAngles = new double[4];
-        public double[] targetAngles = new double[4];
-        public double[] speed = new double[4];
+        public float[] angles = new float[4];
+        public float[] prevAngles = new float[4];
+        public float[] targetAngles = new float[4];
+        public float[] speed = new float[4];
 
         RandomSource rand = RandomSource.create();
         ArmActionState state = ArmActionState.ASSUME_POSITION;
         int actionDelay = 0;
 
-        public static enum ArmActionState {
+        public enum ArmActionState {
             ASSUME_POSITION,
             EXTEND_STRIKER,
             RETRACT_STRIKER
@@ -332,17 +332,17 @@ public class MachineAssemblyMachineBlockEntity extends MachineBaseBlockEntity im
         private void returnToNullPos() {
             for(int i = 0; i < 4; i++) this.targetAngles[i] = 0;
             for(int i = 0; i < 3; i++) this.speed[i] = 3;
-            this.speed[3] = 0.25;
+            this.speed[3] = 0.25F;
             this.state = ArmActionState.RETRACT_STRIKER;
 
             this.move();
         }
 
         private void resetSpeed() {
-            speed[0] = 15;	//Pivot
-            speed[1] = 15;	//Arm
-            speed[2] = 15;	//Piston
-            speed[3] = 0.5;	//Striker
+            speed[0] = 15F;	    //Pivot
+            speed[1] = 15F;	    //Arm
+            speed[2] = 15F;	    //Piston
+            speed[3] = 0.5F;	//Striker
         }
 
         public void updateArm() {
@@ -359,13 +359,13 @@ public class MachineAssemblyMachineBlockEntity extends MachineBaseBlockEntity im
                     if(move()) {
                         actionDelay = 2;
                         state = ArmActionState.EXTEND_STRIKER;
-                        targetAngles[3] = -0.75D;
+                        targetAngles[3] = -0.75F;
                     }
                     break;
                 case EXTEND_STRIKER:
                     if(move()) {
                         state = ArmActionState.RETRACT_STRIKER;
-                        targetAngles[3] = 0D;
+                        targetAngles[3] = 0F;
                     }
                     break;
                 case RETRACT_STRIKER:
@@ -379,7 +379,7 @@ public class MachineAssemblyMachineBlockEntity extends MachineBaseBlockEntity im
             }
         }
 
-        private double[][] pos = new double[][] { // possible positions for the arms
+        private float[][] pos = new float[][] { // possible positions for the arms
                 {45, -15, -5},
                 {15, 15, -15},
                 {25, 10, -15},
@@ -403,10 +403,10 @@ public class MachineAssemblyMachineBlockEntity extends MachineBaseBlockEntity im
 
                 didMove = true;
 
-                double angle = angles[i];
-                double target = targetAngles[i];
-                double turn = speed[i];
-                double delta = Math.abs(angle - target);
+                float angle = angles[i];
+                float target = targetAngles[i];
+                float turn = speed[i];
+                float delta = Math.abs(angle - target);
 
                 if(delta <= turn) {
                     angles[i] = targetAngles[i];
@@ -423,8 +423,8 @@ public class MachineAssemblyMachineBlockEntity extends MachineBaseBlockEntity im
             return !didMove;
         }
 
-        public double[] getPositions(float interp) {
-            return new double[] {
+        public float[] getPositions(float interp) {
+            return new float[] {
                     BobMathUtil.interp(this.prevAngles[0], this.angles[0], interp),
                     BobMathUtil.interp(this.prevAngles[1], this.angles[1], interp),
                     BobMathUtil.interp(this.prevAngles[2], this.angles[2], interp),

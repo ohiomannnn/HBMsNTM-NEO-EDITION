@@ -1,7 +1,7 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.blockentity.ProxyComboBlockEntity;
-import com.hbm.blockentity.Tickable;
+import com.hbm.blockentity.ITickable;
 import com.hbm.blockentity.bomb.LaunchPadBlockEntity;
 import com.hbm.blocks.DummyBlockType;
 import com.hbm.blocks.DummyableBlock;
@@ -49,7 +49,7 @@ public class LaunchPadBlock extends DummyableBlock implements IBomb {
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         if (state.getValue(TYPE) != DummyBlockType.CORE) return null;
         return (lvl, pos, st, be) -> {
-            if (be instanceof Tickable tickable) tickable.updateEntity();
+            if (be instanceof ITickable tickable) tickable.updateEntity();
         };
     }
 

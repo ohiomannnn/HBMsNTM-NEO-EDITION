@@ -1,6 +1,6 @@
 package com.hbm.main;
 
-import com.hbm.blockentity.ModBlockEntityTypes;
+import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.config.MainConfig;
 import com.hbm.entity.ModEntityTypes;
@@ -51,7 +51,7 @@ public class NuclearTechMod {
         ModCreativeTabs.register(modEventBus);
         ModAttachments.register(modEventBus);
         ModEffect.register(modEventBus);
-        ModBlockEntityTypes.register(modEventBus);
+        NtmBlockEntityTypes.register(modEventBus);
         ModMenuTypes.register(modEventBus);
         ModParticles.register(modEventBus);
 

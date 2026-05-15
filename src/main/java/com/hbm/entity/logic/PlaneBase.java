@@ -4,6 +4,7 @@ import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.particle.helper.ExplosionSmallCreator;
 import com.hbm.registry.NtmDamageTypes;
 import com.hbm.registry.NtmSoundEvents;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.ParticleUtil;
 import com.hbm.util.SoundUtils;
 import net.minecraft.nbt.CompoundTag;
@@ -11,7 +12,6 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
@@ -142,12 +142,16 @@ public abstract class PlaneBase extends ExplosionChunkLoading {
     }
 
     protected void rotation() {
-        float motionHorizontal = Mth.sqrt((float) (this.deltaMovement.x * this.deltaMovement.x + this.deltaMovement.z * this.deltaMovement.z));
-        this.setYRot((float) (Math.atan2(this.deltaMovement.x, this.deltaMovement.z) * 180.0D / Math.PI));
-        for (this.setXRot((float) (Math.atan2(this.deltaMovement.y, motionHorizontal) * 180.0D / Math.PI) - 90); this.xRot - this.xRotO < -180.0F; this.xRotO -= 360.0F);
-        while (this.xRot - this.xRotO >= 180.0F) this.xRotO += 360.0F;
-        while (this.yRot - this.yRotO < -180.0F) this.yRotO -= 360.0F;
-        while (this.yRot - this.yRotO >= 180.0F) this.yRotO += 360.0F;
+        float motionHorizontal = BobMathUtil.sqrt(this.deltaMovement.x * this.deltaMovement.x + this.deltaMovement.z * this.deltaMovement.z);
+        this.yRot = BobMathUtil.atan2(this.deltaMovement.x, this.deltaMovement.z) * 180.0F / BobMathUtil.PI;
+        for(
+                this.xRot = (BobMathUtil.atan2(this.deltaMovement.y, motionHorizontal) * 180.0F / BobMathUtil.PI) - 90F;
+                this.xRot - this.xRotO < -180.0F;
+                this.xRotO -= 360.0F
+        );
+        while(this.xRot - this.xRotO >= 180.0F) this.xRotO += 360.0F;
+        while(this.yRot - this.yRotO < -180.0F) this.yRotO -= 360.0F;
+        while(this.yRot - this.yRotO >= 180.0F) this.yRotO += 360.0F;
     }
 
     @Override

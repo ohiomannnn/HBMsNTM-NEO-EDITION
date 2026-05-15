@@ -1,5 +1,5 @@
 package com.hbm.blockentity;
 
-public interface Tickable {
+public interface ITickable {
     void updateEntity();
 }

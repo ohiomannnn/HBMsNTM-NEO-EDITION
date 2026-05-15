@@ -1,6 +1,6 @@
 package com.hbm.blockentity.bomb;
 
-import com.hbm.blockentity.ModBlockEntityTypes;
+import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.blockentity.NukeBaseBlockEntity;
 import com.hbm.inventory.menus.NukeIvyMikeMenu;
 import com.hbm.items.NtmItems;
@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class NukeIvyMikeBlockEntity extends NukeBaseBlockEntity {
 
     public NukeIvyMikeBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntityTypes.NUKE_IVY_MIKE.get(), pos, state, 8);
+        super(NtmBlockEntityTypes.NUKE_IVY_MIKE.get(), pos, state, 8);
     }
 
     @Override public Component getDefaultName() { return Component.translatable("container.nukeIvyMike"); }

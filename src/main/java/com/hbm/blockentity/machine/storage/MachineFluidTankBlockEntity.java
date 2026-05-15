@@ -59,7 +59,7 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
     public int age = 0;
 
     public MachineFluidTankBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntityTypes.FLUID_TANK.get(), pos, state, 6);
+        super(NtmBlockEntityTypes.FLUID_TANK.get(), pos, state, 6);
         tank = new FluidTank(Fluids.NONE, 256000);
     }
 

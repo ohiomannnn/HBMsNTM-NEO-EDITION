@@ -4,34 +4,36 @@ import com.hbm.main.NuclearTechMod;
 import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.loader.IModelCustom;
 import com.hbm.util.Vec3NT;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.math.Axis;
 import net.minecraft.resources.ResourceLocation;
+import org.joml.Vector3f;
 
 public class HorsePronter {
     public static final IModelCustom horse = new HFRWavefrontObject("models/obj/mobs/horse.obj").asVBO();
 
     public static final ResourceLocation DEMOHORSE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/horse/horse_demo.png");
 
-    private static Vec3NT[] pose = new Vec3NT[] {
-            new Vec3NT(0, 0, 0), //head
-            new Vec3NT(0, 0, 0), //left front leg
-            new Vec3NT(0, 0, 0), //right front leg
-            new Vec3NT(0, 0, 0), //left back leg
-            new Vec3NT(0, 0, 0), //right back leg
-            new Vec3NT(0, 0, 0), //tail
-            new Vec3NT(0, 0, 0), //body
-            new Vec3NT(0, 0, 0) //body offset
+    private static Vector3f[] pose = new Vector3f[] {
+            new Vector3f(0F, 0F, 0F), //head
+            new Vector3f(0F, 0F, 0F), //left front leg
+            new Vector3f(0F, 0F, 0F), //right front leg
+            new Vector3f(0F, 0F, 0F), //left back leg
+            new Vector3f(0F, 0F, 0F), //right back leg
+            new Vector3f(0F, 0F, 0F), //tail
+            new Vector3f(0F, 0F, 0F), //body
+            new Vector3f(0F, 0F, 0F) //body offset
     };
 
-    private static Vec3NT[] offsets = new Vec3NT[] {
-            new Vec3NT(0, 1.125, 0.375), //head
-            new Vec3NT(0.125, 0.75, 0.3125), //left front leg
-            new Vec3NT(-0.125, 0.75, 0.3125), //right front leg
-            new Vec3NT(0.125, 0.75, -0.25), //left back leg
-            new Vec3NT(-0.125, 0.75, -0.25), //right back leg
-            new Vec3NT(0, 1.125, -0.4375), //tail
-            new Vec3NT(0, 0, 0), //body
-            new Vec3NT(0, 0, 0) //body offset
+    private static Vector3f[] offsets = new Vector3f[] {
+            new Vector3f(0F, 1.125F, 0.375F), //head
+            new Vector3f(0.125F, 0.75F, 0.3125F), //left front leg
+            new Vector3f(-0.125F, 0.75F, 0.3125F), //right front leg
+            new Vector3f(0.125F, 0.75F, -0.25F), //left back leg
+            new Vector3f(-0.125F, 0.75F, -0.25F), //right back leg
+            new Vector3f(0F, 1.125F, -0.4375F), //tail
+            new Vector3f(0F, 0F, 0F), //body
+            new Vector3f(0F, 0F, 0F) //body offset
     };
 
     public static final int id_head = 0;
@@ -52,10 +54,10 @@ public class HorsePronter {
         wings = false;
         horn = false;
 
-        for (Vec3NT angles : pose) {
-            angles.xCoord = 0;
-            angles.yCoord = 0;
-            angles.zCoord = 0;
+        for(Vector3f angles : pose) {
+            angles.x = 0;
+            angles.y = 0;
+            angles.z = 0;
         }
     }
 
@@ -69,7 +71,7 @@ public class HorsePronter {
     }
 
     public static void poseStandardSit() {
-        double r = 60;
+        float r = 60F;
         pose(HorsePronter.id_body, 0, -r, 0);
         pose(HorsePronter.id_tail, 0, 45, 90);
         pose(HorsePronter.id_lbl, 0, -90 + r, 35);
@@ -79,15 +81,15 @@ public class HorsePronter {
         pose(HorsePronter.id_head, 0, r, 0);
     }
 
-    public static void pose(int id, double yaw, double pitch, double roll) {
-        pose[id].xCoord = yaw;
-        pose[id].yCoord = pitch;
-        pose[id].zCoord = roll;
+    public static void pose(int id, float yaw, float pitch, float roll) {
+        pose[id].x = yaw;
+        pose[id].y = pitch;
+        pose[id].z = roll;
     }
 
     public static void pront() {
         RenderContext.pushPose();
-        RenderContext.enableCull(false);
+        RenderSystem.disableCull();
         doTransforms(id_body);
 
         horse.renderPart("Body");
@@ -109,18 +111,18 @@ public class HorsePronter {
             horse.renderPart("RightWing");
         }
 
-        RenderContext.enableCull(true);
+        RenderSystem.enableBlend();
         RenderContext.popPose();
     }
 
     private static void doTransforms(int id) {
-        Vec3NT rotation = pose[id];
-        Vec3NT offset = offsets[id];
-        RenderContext.translate(offset.xCoord, offset.yCoord, offset.zCoord);
-        RenderContext.mulPose(Axis.YP.rotationDegrees((float) rotation.xCoord));
-        RenderContext.mulPose(Axis.XP.rotationDegrees((float) rotation.yCoord));
-        RenderContext.mulPose(Axis.ZP.rotationDegrees((float) rotation.zCoord));
-        RenderContext.translate(-offset.xCoord, -offset.yCoord, -offset.zCoord);
+        Vector3f rotation = pose[id];
+        Vector3f offset = offsets[id];
+        RenderContext.translate(offset.x, offset.y, offset.z);
+        RenderContext.mulPose(Axis.YP.rotationDegrees(rotation.x));
+        RenderContext.mulPose(Axis.XP.rotationDegrees(rotation.y));
+        RenderContext.mulPose(Axis.ZP.rotationDegrees(rotation.z));
+        RenderContext.translate(-offset.x, -offset.y, -offset.z);
     }
 
     private static void renderWithTransform(int id, String... parts) {

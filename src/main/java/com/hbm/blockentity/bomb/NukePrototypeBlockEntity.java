@@ -1,6 +1,6 @@
 package com.hbm.blockentity.bomb;
 
-import com.hbm.blockentity.ModBlockEntityTypes;
+import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.blockentity.NukeBaseBlockEntity;
 import com.hbm.inventory.MetaHelper;
 import com.hbm.inventory.menus.NukePrototypeMenu;
@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class NukePrototypeBlockEntity extends NukeBaseBlockEntity {
 
     public NukePrototypeBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntityTypes.NUKE_PROTOTYPE.get(), pos, state, 14);
+        super(NtmBlockEntityTypes.NUKE_PROTOTYPE.get(), pos, state, 14);
     }
 
     @Override public Component getDefaultName() { return Component.translatable("container.nukePrototype"); }

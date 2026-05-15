@@ -6,6 +6,7 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.util.RenderContext;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -22,24 +23,22 @@ public class RenderNukePrototype extends BlockEntityRendererNT<NukePrototypeBloc
 
     @Override
     public void render(NukePrototypeBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+        RenderContext.setup(poseStack, packedLight, packedOverlay);
+        RenderContext.translate(0.5F, 0F, 0.5F);
+        RenderSystem.disableCull();
 
         Direction facing = be.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
-        float rot = switch (facing) {
-            case DOWN, UP -> 0.0F;
-            case WEST -> 180F;
-            case SOUTH -> 270F;
-            case EAST -> 0F;
-            case NORTH -> 90F;
-        };
+        switch(facing) {
+            case WEST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
+            case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
+            case EAST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
+            case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
+        }
 
-        RenderContext.setup(NtmRenderTypes.FVBO.apply(ResourceManager.NUKE_PROTOTYPE), poseStack, packedLight, packedOverlay);
-        RenderContext.translate(0.5, 0.0, 0.5);
-        RenderContext.mulPose(Axis.YP.rotationDegrees(rot));
-        RenderContext.enableCull(false);
-
+        bindTexture(ResourceManager.NUKE_PROTOTYPE);
         ResourceManager.nuke_prototype.renderAll();
 
-        RenderContext.enableCull(true);
+        RenderSystem.enableCull();
         RenderContext.end();
     }
 
@@ -63,10 +62,9 @@ public class RenderNukePrototype extends BlockEntityRendererNT<NukePrototypeBloc
             public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
                 RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
                 RenderContext.translate(0F, 0.125F, 0F);
-                RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.NUKE_PROTOTYPE));
-                RenderContext.enableCull(false);
-                ResourceManager.nuke_prototype.renderAll();
-                RenderContext.enableCull(true);
+                RenderSystem.disableCull();
+                bindTexture(ResourceManager.NUKE_PROTOTYPE); ResourceManager.nuke_prototype.renderAll();
+                RenderSystem.enableCull();
             }
         };
     }

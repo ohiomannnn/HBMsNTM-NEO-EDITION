@@ -1,6 +1,6 @@
 package com.hbm.blockentity.bomb;
 
-import com.hbm.blockentity.ModBlockEntityTypes;
+import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.blockentity.NukeBaseBlockEntity;
 import com.hbm.inventory.menus.NukeFleijaMenu;
 import com.hbm.items.NtmItems;
@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class NukeFleijaBlockEntity extends NukeBaseBlockEntity {
 
     public NukeFleijaBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntityTypes.NUKE_FLEIJA.get(), pos, state, 11);
+        super(NtmBlockEntityTypes.NUKE_FLEIJA.get(), pos, state, 11);
     }
 
     @Override public Component getDefaultName() { return Component.translatable("container.nukeFleija"); }

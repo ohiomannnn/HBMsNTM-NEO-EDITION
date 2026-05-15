@@ -4,8 +4,8 @@ import com.hbm.entity.missile.MissileBaseNT;
 import com.hbm.entity.missile.MissileTier2;
 import com.hbm.entity.missile.MissileTier2.*;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.util.RenderContext;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -24,7 +24,7 @@ public class RenderMissileStrong extends EntityRenderer<MissileTier2> {
 
     @Override
     public void render(MissileTier2 missile, float yaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-        RenderContext.setup(NtmRenderTypes.FVBO.apply(this.getTextureLocation(missile)), poseStack, packedLight, OverlayTexture.NO_OVERLAY);
+        RenderContext.setup(poseStack, packedLight, OverlayTexture.NO_OVERLAY);
 
         RenderContext.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTicks, missile.yRotO, missile.yRot) - 90.0F));
         RenderContext.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTicks, missile.xRotO, missile.xRot)));
@@ -32,16 +32,14 @@ public class RenderMissileStrong extends EntityRenderer<MissileTier2> {
         RenderContext.scale(1.5F, 1.5F, 1.5F);
 
         Direction facing = missile.getEntityData().get(MissileBaseNT.ROT);
-        float rot = switch (facing) {
-            case DOWN, UP -> 0.0F;
-            case WEST -> 90F;
-            case SOUTH -> 180F;
-            case EAST -> 270F;
-            case NORTH -> 0F;
-        };
+        switch(facing) {
+            case WEST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
+            case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
+            case EAST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
+            case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
+        }
 
-        RenderContext.mulPose(Axis.YP.rotationDegrees(rot));
-
+        RenderSystem.setShaderTexture(0, this.getTextureLocation(missile));
         ResourceManager.missileStrong.renderAll();
 
         RenderContext.end();
@@ -49,11 +47,11 @@ public class RenderMissileStrong extends EntityRenderer<MissileTier2> {
 
     @Override
     public ResourceLocation getTextureLocation(MissileTier2 missile) {
-        if (missile instanceof MissileStrong)           return ResourceManager.MISSILE_STRONG_HE_TEX;
-        if (missile instanceof MissileIncendiaryStrong) return ResourceManager.MISSILE_STRONG_IN_TEX;
-        if (missile instanceof MissileClusterStrong)    return ResourceManager.MISSILE_STRONG_CL_TEX;
-        if (missile instanceof MissileBusterStrong)     return ResourceManager.MISSILE_STRONG_BU_TEX;
-        if (missile instanceof MissileEMPStrong)        return ResourceManager.MISSILE_STRONG_EMP_TEX;
+        if(missile instanceof MissileStrong)           return ResourceManager.MISSILE_STRONG_HE_TEX;
+        if(missile instanceof MissileIncendiaryStrong) return ResourceManager.MISSILE_STRONG_IN_TEX;
+        if(missile instanceof MissileClusterStrong)    return ResourceManager.MISSILE_STRONG_CL_TEX;
+        if(missile instanceof MissileBusterStrong)     return ResourceManager.MISSILE_STRONG_BU_TEX;
+        if(missile instanceof MissileEMPStrong)        return ResourceManager.MISSILE_STRONG_EMP_TEX;
         return ResourceManager.EMPTY;
     }
 }

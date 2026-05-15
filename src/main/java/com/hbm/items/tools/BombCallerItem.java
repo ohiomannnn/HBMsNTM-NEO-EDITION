@@ -44,7 +44,7 @@ public class BombCallerItem extends Item {
                 default -> Bomber.statFacCarpet(level, x, y, z);
             };
 
-            WorldUtil.loadAndSpawnEntityInWorld(bomber);
+            WorldUtil.loadAndAddFreshEntity(bomber);
 
             player.sendSystemMessage(Component.translatable("item.hbmsntm.bomb_caller.message.call"));
             level.playSound(null, player.getX(), player.getY(), player.getZ(), NtmSoundEvents.TECH_BLEEP, SoundSource.PLAYERS, 1.0F, 1.0F);

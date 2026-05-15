@@ -1,11 +1,17 @@
 package com.hbm.blocks.machine;
 
+import com.hbm.blockentity.ITickable;
+import com.hbm.blockentity.ProxyComboBlockEntity;
+import com.hbm.blockentity.machine.MachineAssemblyMachineBlockEntity;
+import com.hbm.blocks.DummyBlockType;
 import com.hbm.blocks.DummyableBlock;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class MachineAssemblyMachineBlock extends DummyableBlock {
@@ -14,20 +20,27 @@ public class MachineAssemblyMachineBlock extends DummyableBlock {
         super(properties);
     }
 
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        DummyBlockType type = state.getValue(TYPE);
+        return switch(type) {
+            case CORE -> new MachineAssemblyMachineBlockEntity(pos, state);
+            case EXTRA -> new ProxyComboBlockEntity(pos, state).inventory().power().fluid();
+            default -> null;
+        };
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        if(state.getValue(TYPE) != DummyBlockType.CORE) return null;
+        return (lvl, pos, st, be) -> { if(be instanceof ITickable tickable) tickable.updateEntity(); };
+    }
+
     @Override public int[] getDimensions() { return new int[] {2, 0, 1, 1, 1, 1}; }
     @Override public int getOffset() { return 1; }
 
-    public static final MapCodec<MachineAssemblyMachine> CODEC = simpleCodec(MachineAssemblyMachine::new);
-    @Override public MapCodec<MachineAssemblyMachine> codec() { return CODEC; }
-
-    @Override
-    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        //            DummyBlockType type = pressed.getValue(TYPE);
-        //            case CORE -> new assBLOCKENT(pos, pressed);
-        //            case EXTRA -> new ProxyComboBlockEntity(pos, pressed)
-        //            case DUMMY -> null;
-        return null;
-    }
+    public static final MapCodec<MachineAssemblyMachineBlock> CODEC = simpleCodec(MachineAssemblyMachineBlock::new);
+    @Override public MapCodec<MachineAssemblyMachineBlock> codec() { return CODEC; }
 
     @Override
     protected void fillSpace(Level level, BlockPos pos, Direction dir, int offset) {

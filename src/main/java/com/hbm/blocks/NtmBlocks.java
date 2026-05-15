@@ -8,9 +8,9 @@ import com.hbm.blocks.generic.PlushieBlock.PlushieType;
 import com.hbm.blocks.machine.*;
 import com.hbm.blocks.network.CableBlock;
 import com.hbm.blocks.network.FluidDuctStandardBlock;
-import com.hbm.blocks.network.MachineBatteryREDD;
+import com.hbm.blocks.network.MachineBatteryREDDBlock;
 import com.hbm.blocks.network.MachineBatterySocketBlock;
-import com.hbm.blocks.special.ConcreteBrickMBlock;
+import com.hbm.blocks.generic.WritingBlock;
 import com.hbm.items.NtmItems;
 import com.hbm.main.NuclearTechMod;
 import net.minecraft.core.BlockPos;
@@ -34,11 +34,11 @@ import java.util.function.Supplier;
 public class NtmBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(NuclearTechMod.MODID);
 
-    public static final DeferredBlock<Block> BRICK_CONCRETE = registerBlock("brick_concrete", () -> new Block(BlockBehaviour.Properties.of().strength(15.0F).explosionResistance(160.0F).requiresCorrectToolForDrops().sound(SoundType.STONE)));
-    public static final DeferredBlock<Block> BRICK_CONCRETE_MOSSY = registerBlock("brick_concrete_mossy", () -> new Block(BlockBehaviour.Properties.of().strength(15.0F).explosionResistance(160.0F).requiresCorrectToolForDrops().sound(SoundType.STONE)));
-    public static final DeferredBlock<Block> BRICK_CONCRETE_CRACKED = registerBlock("brick_concrete_cracked", () -> new Block(BlockBehaviour.Properties.of().strength(15.0F).explosionResistance(60.0F).requiresCorrectToolForDrops().sound(SoundType.STONE)));
-    public static final DeferredBlock<Block> BRICK_CONCRETE_BROKEN = registerBlock("brick_concrete_broken", () -> new Block(BlockBehaviour.Properties.of().strength(15.0F).explosionResistance(45.0F).requiresCorrectToolForDrops().sound(SoundType.STONE)));
-    public static final DeferredBlock<Block> BRICK_CONCRETE_MARKED = registerBlock("brick_concrete_marked", () -> new ConcreteBrickMBlock(BlockBehaviour.Properties.of().strength(15.0F).explosionResistance(160.0F).requiresCorrectToolForDrops().sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> BRICK_CONCRETE =         registerBlock("brick_concrete",         () -> new Block(BlockBehaviour.Properties.of().strength(15.0F, 160.0F).requiresCorrectToolForDrops().sound(SoundType.STONE).mapColor(MapColor.STONE)));
+    public static final DeferredBlock<Block> BRICK_CONCRETE_MOSSY =   registerBlock("brick_concrete_mossy",   () -> new Block(BlockBehaviour.Properties.of().strength(15.0F, 160.0F).requiresCorrectToolForDrops().sound(SoundType.STONE).mapColor(MapColor.STONE)));
+    public static final DeferredBlock<Block> BRICK_CONCRETE_CRACKED = registerBlock("brick_concrete_cracked", () -> new Block(BlockBehaviour.Properties.of().strength(15.0F, 60.0F).requiresCorrectToolForDrops().sound(SoundType.STONE).mapColor(MapColor.STONE)));
+    public static final DeferredBlock<Block> BRICK_CONCRETE_BROKEN =  registerBlock("brick_concrete_broken",  () -> new Block(BlockBehaviour.Properties.of().strength(15.0F, 45.0F).requiresCorrectToolForDrops().sound(SoundType.STONE).mapColor(MapColor.STONE)));
+    public static final DeferredBlock<Block> BRICK_CONCRETE_MARKED =  registerBlock("brick_concrete_marked",  () -> new WritingBlock(BlockBehaviour.Properties.of().strength(15.0F, 160.0F).requiresCorrectToolForDrops().sound(SoundType.STONE).mapColor(MapColor.STONE)));
 
     public static final DeferredBlock<Block> BRICK_LIGHT = registerBlock("brick_light", () -> new Block(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(20.0F).requiresCorrectToolForDrops().sound(SoundType.STONE)));
     public static final DeferredBlock<Block> BRICK_OBSIDIAN = registerBlock("brick_obsidian", () -> new Block(BlockBehaviour.Properties.of().strength(15.0F).explosionResistance(120.0F).requiresCorrectToolForDrops().sound(SoundType.STONE)));
@@ -169,6 +169,14 @@ public class NtmBlocks {
                     .noOcclusion()
                     .sound(SoundType.METAL)));
 
+    public static final DeferredBlock<Block> MACHINE_ASSEMBLY_MACHINE = registerBlock(
+            "machine_assembly_machine",
+            () -> new MachineAssemblyMachineBlock(BlockBehaviour.Properties.of()
+                    .strength(5.0F)
+                    .explosionResistance(30.0F)
+                    .noOcclusion()
+                    .sound(SoundType.METAL)));
+
     public static final DeferredBlock<Block> MACHINE_BATTERY_SOCKET = registerBlock(
             "machine_battery_socket",
             () -> new MachineBatterySocketBlock(BlockBehaviour.Properties.of()
@@ -178,7 +186,7 @@ public class NtmBlocks {
                     .sound(SoundType.METAL)));
     public static final DeferredBlock<Block> MACHINE_BATTERY_REDD = registerBlock(
             "machine_battery_redd",
-            () -> new MachineBatteryREDD(BlockBehaviour.Properties.of()
+            () -> new MachineBatteryREDDBlock(BlockBehaviour.Properties.of()
                     .strength(5.0F)
                     .explosionResistance(10.0F)
                     .noOcclusion()

@@ -1,6 +1,6 @@
 package com.hbm.blocks.bomb;
 
-import com.hbm.blockentity.Tickable;
+import com.hbm.blockentity.ITickable;
 import com.hbm.blockentity.bomb.NukeBalefireBlockEntity;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -42,7 +42,7 @@ public class NukeBalefireBlock extends NukeBaseBlock {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return (lvl, pos, st, be) -> { if (be instanceof Tickable tickable) tickable.updateEntity(); };
+        return (lvl, pos, st, be) -> { if (be instanceof ITickable tickable) tickable.updateEntity(); };
     }
 
     @Override

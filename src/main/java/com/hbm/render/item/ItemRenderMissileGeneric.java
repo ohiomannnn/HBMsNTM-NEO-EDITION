@@ -3,9 +3,9 @@ package com.hbm.render.item;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.NtmItems;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.loader.IModelCustom;
 import com.hbm.render.util.RenderContext;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
@@ -128,7 +128,9 @@ public class ItemRenderMissileGeneric extends BlockEntityWithoutLevelRenderer {
             case NONE -> {}
         }
 
-        renderer.render(false);
+        RenderSystem.disableCull();
+        renderer.render();
+        RenderSystem.enableCull();
 
         RenderContext.end();
     }
@@ -156,8 +158,8 @@ public class ItemRenderMissileGeneric extends BlockEntityWithoutLevelRenderer {
 
         renderers.put(new ComparableStack(NtmItems.MISSILE_STEALTH.get()), new RocketModelData(null, null, 0F) {
             @Override
-            public void render(boolean cullFace) {
-                RenderContext.setRenderType(cullFace ? NtmRenderTypes.FVBO.apply(ResourceManager.MISSILE_STEALTH_TEX) : NtmRenderTypes.FVBO_NC.apply(ResourceManager.MISSILE_STEALTH_TEX));
+            public void render() {
+                RenderSystem.setShaderTexture(0, ResourceManager.MISSILE_STEALTH_TEX);
                 ResourceManager.missileStealth.renderAll();
             }
         });
@@ -193,9 +195,9 @@ public class ItemRenderMissileGeneric extends BlockEntityWithoutLevelRenderer {
             this.scale = scale;
         }
 
-        public void render(boolean cullFace) {
+        public void render() {
             RenderContext.scale(scale, scale, scale);
-            RenderContext.setRenderType(cullFace ? NtmRenderTypes.FVBO.apply(texture) : NtmRenderTypes.FVBO_NC.apply(texture));
+            RenderSystem.setShaderTexture(0, texture);
             model.renderAll();
         }
     }

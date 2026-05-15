@@ -6,6 +6,7 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.util.RenderContext;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.GraphicsStatus;
@@ -24,27 +25,24 @@ public class RenderNukeGadget extends BlockEntityRendererNT<NukeGadgetBlockEntit
 
     @Override
     public void render(NukeGadgetBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+        RenderContext.setup(poseStack, packedLight, packedOverlay);
+        RenderContext.translate(0.5F, 0, 0.5F);
+        RenderSystem.disableCull();
 
         Direction facing = be.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
-        float rot = switch (facing) {
-            case DOWN, UP -> 0.0F;
-            case WEST -> 0F;
-            case SOUTH -> 90F;
-            case EAST -> 180F;
-            case NORTH -> 270F;
-        };
-
-        RenderContext.setup(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_GADGET_TEX), poseStack, packedLight, packedOverlay);
-        RenderContext.translate(0.5, 0.0, 0.5);
-        RenderContext.mulPose(Axis.YP.rotationDegrees(rot));
-
-        ResourceManager.nuke_gadget.renderPart("Body");
-
-        GraphicsStatus graphics = Minecraft.getInstance().options.graphicsMode().get();
-        if (graphics == GraphicsStatus.FANCY || graphics == GraphicsStatus.FABULOUS) {
-            ResourceManager.nuke_gadget.renderPart("Wires");
+        switch(facing) {
+            case WEST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
+            case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
+            case EAST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(180));
+            case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
         }
 
+        bindTexture(ResourceManager.NUKE_GADGET_TEX);
+        ResourceManager.nuke_gadget.renderPart("Body");
+
+        if(Minecraft.useFancyGraphics()) ResourceManager.nuke_gadget.renderPart("Wires");
+
+        RenderSystem.enableCull();
         RenderContext.end();
     }
 
@@ -66,15 +64,12 @@ public class RenderNukeGadget extends BlockEntityRendererNT<NukeGadgetBlockEntit
 
             @Override
             public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
-                RenderContext.mulPose(Axis.YN.rotationDegrees(90F));
+                RenderContext.mulPose(Axis.YP.rotationDegrees(-90F));
 
-                RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_GADGET_TEX));
+                bindTexture(ResourceManager.NUKE_GADGET_TEX);
                 ResourceManager.nuke_gadget.renderPart("Body");
 
-                GraphicsStatus graphics = Minecraft.getInstance().options.graphicsMode().get();
-                if (graphics == GraphicsStatus.FANCY || graphics == GraphicsStatus.FABULOUS) {
-                    ResourceManager.nuke_gadget.renderPart("Wires");
-                }
+                if(Minecraft.useFancyGraphics()) ResourceManager.nuke_gadget.renderPart("Wires");
             }
         };
     }

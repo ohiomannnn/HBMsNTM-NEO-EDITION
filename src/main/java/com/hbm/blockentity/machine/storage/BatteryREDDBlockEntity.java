@@ -1,7 +1,7 @@
 package com.hbm.blockentity.machine.storage;
 
 import com.hbm.blockentity.IPersistentNBT;
-import com.hbm.blockentity.ModBlockEntityTypes;
+import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.inventory.menus.BatteryREDDMenu;
 import com.hbm.lib.Library;
@@ -36,7 +36,7 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
     private AudioWrapper audio;
 
     public BatteryREDDBlockEntity(BlockPos pos, BlockState blockState) {
-        super(ModBlockEntityTypes.BATTERY_REDD.get(), pos, blockState, 2);
+        super(NtmBlockEntityTypes.BATTERY_REDD.get(), pos, blockState, 2);
     }
 
     @Override public Component getDefaultName() { return Component.translatable("container.batteryREDD"); }

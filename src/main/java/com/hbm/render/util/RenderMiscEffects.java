@@ -2,6 +2,8 @@ package com.hbm.render.util;
 
 import com.hbm.main.NuclearTechMod;
 import com.hbm.render.loader.IModelCustom;
+import com.mojang.blaze3d.platform.GlStateManager.DestFactor;
+import com.mojang.blaze3d.platform.GlStateManager.SourceFactor;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -13,16 +15,17 @@ public class RenderMiscEffects {
     public static final ResourceLocation GLINT = NuclearTechMod.withDefaultNamespace("textures/misc/glint.png");
     public static final ResourceLocation GLINT_BF = NuclearTechMod.withDefaultNamespace("textures/misc/glint_bf.png");
 
-    public static void renderClassicGlint(float partialTicks, IModelCustom model, String part, float colorMod, float r, float g, float b, float speed, float scale) {
-        LocalPlayer player = Minecraft.getInstance().player;
-        if (player == null) return;
+    public static void renderClassicGlint(float partialTicks, IModelCustom model, String part, float r, float g, float b, float speed, float scale) {
 
-        float color = colorMod;
-        RenderContext.setColor(color, color, color, 1.0F);
+        LocalPlayer player = Minecraft.getInstance().player;
+        if(player == null) return;
 
         float offset = player.tickCount + partialTicks;
 
-        for (int k = 0; k < 2; ++k) {
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE);
+
+        for(int k = 0; k < 2; k++) {
 
             float glintColor = 0.76F;
             RenderContext.setColor(r * glintColor, g * glintColor, b * glintColor, 1.0F);
@@ -35,7 +38,7 @@ public class RenderMiscEffects {
                     .translate(0.0F, movement, 0.0F);
             RenderSystem.setTextureMatrix(texMat);
 
-            if ("all".equals(part)) {
+            if("all".equals(part)) {
                 model.renderAll();
             } else {
                 model.renderPart(part);
@@ -43,13 +46,12 @@ public class RenderMiscEffects {
 
             RenderSystem.resetTextureMatrix();
         }
+
+        RenderSystem.disableBlend();
+        RenderSystem.defaultBlendFunc();
     }
 
-    public static void renderClassicGlint(float interpol, IModelCustom model, String part, float r, float g, float b, float speed, float scale) {
-        renderClassicGlint(interpol, model, part, 0.5F, r, g, b, speed, scale);
-    }
-
-    public static void renderClassicGlint(float interpol, IModelCustom model, String part) {
-        renderClassicGlint(interpol, model, part, 0.5F, 0.25F, 0.8F, 20.0F, 1F / 3F);
+    public static void renderClassicGlint(float partialTicks, IModelCustom model, String part) {
+        renderClassicGlint(partialTicks, model, part, 0.5F, 0.25F, 0.8F, 20.0F, 1F / 3F);
     }
 }

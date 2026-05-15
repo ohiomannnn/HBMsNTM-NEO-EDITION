@@ -22,20 +22,18 @@ public class RenderNukeFleija extends BlockEntityRendererNT<NukeFleijaBlockEntit
 
     @Override
     public void render(NukeFleijaBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+        RenderContext.setup(poseStack, packedLight, packedOverlay);
+        RenderContext.translate(0.5F, 0F, 0.5F);
 
         Direction facing = be.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
-        float rot = switch (facing) {
-            case DOWN, UP -> 0.0F;
-            case WEST -> 180F;
-            case SOUTH -> 270F;
-            case EAST -> 0F;
-            case NORTH -> 90F;
-        };
+        switch(facing) {
+            case WEST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
+            case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
+            case EAST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
+            case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
+        }
 
-        RenderContext.setup(NtmRenderTypes.FVBO.apply(ResourceManager.NUKE_FLEIJA_TEX), poseStack, packedLight, packedOverlay);
-        RenderContext.translate(0.5, 0.0, 0.5);
-        RenderContext.mulPose(Axis.YP.rotationDegrees(rot));
-
+        bindTexture(ResourceManager.NUKE_FLEIJA_TEX);
         ResourceManager.nuke_fleija.renderAll();
 
         RenderContext.end();
@@ -61,7 +59,7 @@ public class RenderNukeFleija extends BlockEntityRendererNT<NukeFleijaBlockEntit
                 RenderContext.translate(0.125F, 0F, 0F);
                 RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
 
-                RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.NUKE_FLEIJA_TEX));
+                bindTexture(ResourceManager.NUKE_FLEIJA_TEX);
                 ResourceManager.nuke_fleija.renderAll();
             }
         };

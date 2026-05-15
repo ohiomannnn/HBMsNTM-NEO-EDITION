@@ -14,22 +14,15 @@ import java.io.IOException;
 @EventBusSubscriber(Dist.CLIENT)
 public class NtmShaders {
 
-    private static ShaderInstance aShader;
-    public static ShaderInstance getAShader() { return aShader; }
+    private static ShaderInstance vboShader;
+    public static ShaderInstance getVboShader() { return vboShader; }
 
-    private static ShaderInstance aShaderNL;
-    public static ShaderInstance getAShaderNL() { return aShaderNL; }
 
     @SubscribeEvent
     public static void register(RegisterShadersEvent event) throws IOException {
         event.registerShader(
-                new ShaderInstance(event.getResourceProvider(), NuclearTechMod.withDefaultNamespace("a_shader"), NtmVertexFormat.POSITION_TEX_NORMAL),
-                shader -> aShader = shader
-        );
-
-        event.registerShader(
-                new ShaderInstance(event.getResourceProvider(), NuclearTechMod.withDefaultNamespace("a_shader_nl"), NtmVertexFormat.POSITION_TEX_NORMAL),
-                shader -> aShaderNL = shader
+                new ShaderInstance(event.getResourceProvider(), NuclearTechMod.withDefaultNamespace("vbo_shader"), NtmVertexFormat.POSITION_TEX_NORMAL),
+                shader -> vboShader = shader
         );
     }
 

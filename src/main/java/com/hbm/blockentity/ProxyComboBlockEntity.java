@@ -29,15 +29,14 @@ public class ProxyComboBlockEntity extends ProxyBaseBlockEntity implements IEner
     private boolean heat;
     public boolean moltenMetal;
 
-    public ProxyComboBlockEntity(BlockPos pos, BlockState blockState) {
-        super(ModBlockEntityTypes.PROXY_COMBO.get(), pos, blockState);
+    public ProxyComboBlockEntity(BlockPos pos, BlockState state) {
+        super(NtmBlockEntityTypes.PROXY_COMBO.get(), pos, state);
     }
 
     public ProxyComboBlockEntity inventory() {
         this.inventory = true;
         return this;
     }
-
     public ProxyComboBlockEntity power() {
         this.power = true;
         return this;
@@ -54,7 +53,6 @@ public class ProxyComboBlockEntity extends ProxyBaseBlockEntity implements IEner
         this.fluid = true;
         return this;
     }
-
     public ProxyComboBlockEntity heatSource() {
         this.heat = true;
         return this;
@@ -62,22 +60,20 @@ public class ProxyComboBlockEntity extends ProxyBaseBlockEntity implements IEner
 
     /** Returns the actual tile entity that represents the core. Only for internal use, and EnergyControl. */
     public BlockEntity getBlockEntity() {
-        if (be == null || be.isRemoved() || (be instanceof LoadedBaseBlockEntity loadedBaseBE && !loadedBaseBE.isLoaded)) {
+        if(be == null || be.isRemoved() || (be instanceof LoadedBaseBlockEntity loadedBase && !loadedBase.isLoaded)) {
             be = this.getBE();
         }
         return be;
     }
 
     /** Returns the core tile entity, or a delegate object. */
-    protected Object getCoreObject() {
-        return this.getBlockEntity();
-    }
+    protected Object getCoreObject() { return this.getBlockEntity(); }
 
     @Override
     public void setPower(long i) {
-        if (!this.power) return;
+        if(!this.power) return;
 
-        if (getCoreObject() instanceof IEnergyReceiverMK2 rec) {
+        if(getCoreObject() instanceof IEnergyReceiverMK2 rec) {
             rec.setPower(i);
         }
     }

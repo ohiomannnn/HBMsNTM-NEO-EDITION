@@ -49,6 +49,11 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.cubeTop(NtmBlocks.DET_NUKE.get());
         this.cubeTop(NtmBlocks.DET_MINER.get());
 
+        this.particleOnlyBlock(NtmBlocks.MACHINE_ASSEMBLY_MACHINE.get(), modLoc("block/block_steel"));
+        this.particleOnlyBlock(NtmBlocks.MACHINE_BATTERY_REDD.get(), modLoc("block/block_steel"));
+        this.particleOnlyBlock(NtmBlocks.MACHINE_BATTERY_SOCKET.get(), modLoc("block/block_steel"));
+        this.particleOnlyBlock(NtmBlocks.MACHINE_FLUID_TANK.get(), modLoc("block/block_steel"));
+
         this.particleOnlyBlock(NtmBlocks.NUKE_GADGET.get(), blockTexture(NtmBlocks.NUKE_GADGET.get()));
         this.particleOnlyBlock(NtmBlocks.NUKE_LITTLE_BOY.get(), blockTexture(NtmBlocks.NUKE_LITTLE_BOY.get()));
         this.particleOnlyBlock(NtmBlocks.NUKE_FAT_MAN.get(), blockTexture(NtmBlocks.NUKE_FAT_MAN.get()));

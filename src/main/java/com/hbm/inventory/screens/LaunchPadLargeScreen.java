@@ -10,6 +10,7 @@ import com.hbm.render.item.ItemRenderMissileGeneric;
 import com.hbm.render.item.ItemRenderMissileGeneric.RocketModelData;
 import com.hbm.render.util.RenderContext;
 import com.mojang.blaze3d.platform.Lighting;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.math.Axis;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.LightTexture;
@@ -93,7 +94,7 @@ public class LaunchPadLargeScreen extends InfoScreen<LaunchPadLargeMenu> {
                 guiGraphics.pose().popPose();
 
                 RenderContext.setup(guiGraphics.pose(), LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
-                render.render(true);
+                render.render();
                 RenderContext.end();
 
                 Lighting.setupFor3DItems();

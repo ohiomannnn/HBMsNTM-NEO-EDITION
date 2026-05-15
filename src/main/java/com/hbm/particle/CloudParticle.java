@@ -3,8 +3,9 @@ package com.hbm.particle;
 import com.hbm.main.ResourceManager;
 import com.hbm.particle.engine.ParticleNT;
 import com.hbm.particle.helper.CloudCreator.CloudType;
-import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.util.RenderContext;
+import com.mojang.blaze3d.platform.GlStateManager.DestFactor;
+import com.mojang.blaze3d.platform.GlStateManager.SourceFactor;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -38,19 +39,19 @@ public class CloudParticle extends ParticleNT {
     @Override
     public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
 
-        PoseStack poseStack = new PoseStack();
         Vec3 camPos = camera.getPosition();
+        PoseStack poseStack = new PoseStack();
         poseStack.translate(this.x - camPos.x, this.y - camPos.y, this.z - camPos.z);
+
         RenderContext.setup(poseStack, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY);
 
-        RenderSystem.depthMask(false);
-        RenderContext.enableCull(true);
+        RenderContext.setLightning(false);
+        RenderSystem.setShaderTexture(0, ResourceManager.WHITE_TEX);
 
         float baseScale = (this.age + partialTicks) * 2;
         float ageScale = baseScale / this.lifetime;
 
         RenderContext.pushPose();
-        RenderContext.setRenderType(NtmRenderTypes.FVBO_NL_NT);
 
         float scale = ageScale * 1.2F;
         if(scale > 1) scale = Math.max(1 - (scale - 1) * 5, 0);
@@ -60,7 +61,8 @@ public class CloudParticle extends ParticleNT {
         RenderContext.setColor(0F, 1F, 1F, 1F);
         ResourceManager.sphere_new.renderAll();
 
-        RenderContext.setRenderType(NtmRenderTypes.FVBO_ADD_NL_NT);
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE);
 
         RenderContext.setColor(0F, 0.125F, 0.125F, 1F);
         float outerScale = 1.05F;
@@ -81,7 +83,9 @@ public class CloudParticle extends ParticleNT {
 
         RenderContext.popPose();
 
-        RenderSystem.depthMask(true);
+        RenderSystem.disableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderContext.setLightning(true);
 
         RenderContext.end();
     }

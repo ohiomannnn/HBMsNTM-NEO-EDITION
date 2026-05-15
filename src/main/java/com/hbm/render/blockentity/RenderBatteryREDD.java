@@ -14,6 +14,8 @@ import com.hbm.render.util.RenderContext;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.Clock;
 import com.hbm.util.Vec3NT;
+import com.mojang.blaze3d.platform.GlStateManager.DestFactor;
+import com.mojang.blaze3d.platform.GlStateManager.SourceFactor;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -37,22 +39,19 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
 
     @Override
     public void render(BatteryREDDBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+        int tPackedLight = LevelRenderer.getLightColor(be.getLevel(), be.getBlockPos().above(9));
+        RenderContext.setup(poseStack, tPackedLight, packedOverlay);
+        RenderContext.translate(0.5F, 0F, 0.5F);
 
         Direction facing = be.getBlockState().getValue(DummyableBlock.FACING);
-        float rot = switch (facing) {
-            case DOWN, UP -> 0.0F;
-            case NORTH -> 270F;
-            case EAST -> 0F;
-            case SOUTH -> 90F;
-            case WEST -> 180F;
-        };
+        switch(facing) {
+            case WEST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
+            case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
+            case EAST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
+            case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
+        }
 
-        int tPackedLight = LevelRenderer.getLightColor(be.getLevel(), be.getBlockPos().above(9));
-
-        RenderContext.setup(NtmRenderTypes.FVBO.apply(ResourceManager.BATTERY_REDD_TEX), poseStack, tPackedLight, packedOverlay);
-        RenderContext.translate(0.5, 0, 0.5);
-        RenderContext.mulPose(Axis.YP.rotationDegrees(rot));
-
+        bindTexture(ResourceManager.BATTERY_REDD_TEX);
         ResourceManager.battery_redd.renderPart("Base");
 
         RenderContext.pushPose();
@@ -121,6 +120,7 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
     }
 
     protected void renderSparkle(BatteryREDDBlockEntity be) {
+
         long time = Clock.get_ms();
         float alpha = 0.45F + (float) (Math.sin(time / 1000D) * 0.15F);
         float alphaMult = be.getSpeed() / 15F;
@@ -132,9 +132,14 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
         double sparkleSpin = time / 250D * -1 % 1D;
         double sparkleOsc = Math.sin(time / 1000D) * 0.5D % 1D;
 
+        RenderContext.setLightning(false);
+        RenderSystem.disableCull();
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE);
+
         FullBright.enable();
 
-        RenderContext.setRenderType(NtmRenderTypes.FVBO_ADDITIVE_NL.apply(ResourceManager.FUSION_PLASMA_TEX));
+        bindTexture(ResourceManager.FUSION_PLASMA_TEX);
         RenderSystem.setTextureMatrix(new Matrix4f().translate(0f, (float) mainOsc, 0f));
         RenderContext.setColor(r, g, b, alpha * alphaMult);
         ResourceManager.battery_redd.renderPart("Plasma");
@@ -142,7 +147,7 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
 
         // cost-cutting measure, don't render extra layers from more than 100m away
         if (Minecraft.getInstance().player.distanceToSqr(be.getBlockPos().getX() + 0.5, be.getBlockPos().getY() + 2.5, be.getBlockPos().getZ()) < 100 * 100) {
-            RenderContext.setRenderType(NtmRenderTypes.FVBO_ADDITIVE_NL.apply(ResourceManager.FUSION_PLASMA_SPARKLE_TEX));
+            bindTexture(ResourceManager.FUSION_PLASMA_SPARKLE_TEX);
             RenderSystem.setTextureMatrix(new Matrix4f().translate((float) sparkleSpin, (float) sparkleOsc, 0f));
             RenderContext.setColor(r * 2, g * 2, b * 2, 0.75F * alphaMult);
             ResourceManager.battery_redd.renderPart("Plasma");
@@ -150,6 +155,11 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
         }
 
         FullBright.disable();
+
+        RenderSystem.disableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.enableCull();
+        RenderContext.setLightning(true);
     }
 
     protected void renderZaps(BatteryREDDBlockEntity be) {
@@ -159,7 +169,7 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
 
         if (rand.nextBoolean()) {
             RenderContext.pushPose();
-            RenderContext.translate(3.125, 5.5, 0);
+            RenderContext.translate(3.125F, 5.5F, 0F);
             BeamPronter.prontBeam(new Vec3NT(-1.375, -2.625, 3.75), WaveType.RANDOM, BeamType.SOLID, 0x404040, 0x002040, (int)(System.currentTimeMillis() % 1000) / 50, 15, 0.25F, 3, 0.0625F);
             BeamPronter.prontBeam(new Vec3NT(-1.375, -2.625, 3.75), WaveType.RANDOM, BeamType.SOLID, 0x404040, 0x002040, (int)(System.currentTimeMillis() % 1000) / 50, 1, 0, 3, 0.0625F);
             RenderContext.popPose();
@@ -167,7 +177,7 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
 
         if (rand.nextBoolean()) {
             RenderContext.pushPose();
-            RenderContext.translate(-3.125, 5.5, 0);
+            RenderContext.translate(-3.125F, 5.5F, 0F);
             BeamPronter.prontBeam(new Vec3NT(1.375, -2.625, 3.75), WaveType.RANDOM, BeamType.SOLID, 0x404040, 0x002040, (int)(System.currentTimeMillis() % 1000) / 50, 15, 0.25F, 3, 0.0625F);
             BeamPronter.prontBeam(new Vec3NT(1.375, -2.625, 3.75), WaveType.RANDOM, BeamType.SOLID, 0x404040, 0x002040, (int)(System.currentTimeMillis() % 1000) / 50, 1, 0, 3, 0.0625F);
             RenderContext.popPose();
@@ -175,7 +185,7 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
 
         if (rand.nextBoolean()) {
             RenderContext.pushPose();
-            RenderContext.translate(3.125, 5.5, 0);
+            RenderContext.translate(3.125F, 5.5F, 0F);
             BeamPronter.prontBeam(new Vec3NT(-1.375, -2.625, -3.75), WaveType.RANDOM, BeamType.SOLID, 0x404040, 0x002040, (int)(System.currentTimeMillis() % 1000) / 50, 15, 0.25F, 3, 0.0625F);
             BeamPronter.prontBeam(new Vec3NT(-1.375, -2.625, -3.75), WaveType.RANDOM, BeamType.SOLID, 0x404040, 0x002040, (int)(System.currentTimeMillis() % 1000) / 50, 1, 0, 3, 0.0625F);
             RenderContext.popPose();
@@ -183,7 +193,7 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
 
         if (rand.nextBoolean()) {
             RenderContext.pushPose();
-            RenderContext.translate(-3.125, 5.5, 0);
+            RenderContext.translate(-3.125F, 5.5F, 0);
             BeamPronter.prontBeam(new Vec3NT(1.375, -2.625, -3.75), WaveType.RANDOM, BeamType.SOLID, 0x404040, 0x002040, (int)(System.currentTimeMillis() % 1000) / 50, 15, 0.25F, 3, 0.0625F);
             BeamPronter.prontBeam(new Vec3NT(1.375, -2.625, -3.75), WaveType.RANDOM, BeamType.SOLID, 0x404040, 0x002040, (int)(System.currentTimeMillis() % 1000) / 50, 1, 0, 3, 0.0625F);
             RenderContext.popPose();
@@ -225,11 +235,12 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
                 RenderContext.mulPose(Axis.YN.rotationDegrees(-90F));
                 RenderContext.scale(0.5F, 0.5F, 0.5F);
 
-                RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.BATTERY_REDD_TEX));
+                bindTexture(ResourceManager.BATTERY_REDD_TEX);
                 ResourceManager.battery_redd.renderPart("Base");
                 ResourceManager.battery_redd.renderPart("Wheel");
-                RenderContext.setRenderType(NtmRenderTypes.FVBO_NL.apply(ResourceManager.BATTERY_REDD_TEX));
+                RenderContext.setLightning(false);
                 ResourceManager.battery_redd.renderPart("Lights");
+                RenderContext.setLightning(true);
             }
         };
     }

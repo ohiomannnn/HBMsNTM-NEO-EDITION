@@ -1,7 +1,7 @@
 package com.hbm.main;
 
 import com.hbm.blockentity.IGUIProvider;
-import com.hbm.blockentity.ModBlockEntityTypes;
+import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.blockentity.network.PipeBaseBlockEntity;
 import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.blocks.ILookOverlay;
@@ -117,6 +117,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.*;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent.Stage;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
@@ -368,10 +369,10 @@ public class NuclearTechModClient {
     }
     @SubscribeEvent
     public static void onOpenGUI(ScreenEvent.Opening event) {
-        if (event.getScreen() instanceof TitleScreen titleScreen && MainConfig.CLIENT.ENABLE_MAIN_MENU_WACKY_SPLASHES.get()) {
+        if(event.getScreen() instanceof TitleScreen titleScreen && MainConfig.CLIENT.ENABLE_MAIN_MENU_WACKY_SPLASHES.get()) {
 
             int rand = (int) (Math.random() * 150);
-            String text = switch (rand) {
+            String text = switch(rand) {
                 case 0 -> "Floppenheimer!";
                 case 1 -> "i should dip my balls in sulfuric acid";
                 case 2 -> "All answers are popbob!";
@@ -385,15 +386,16 @@ public class NuclearTechModClient {
                 case 10 -> "Fentanyl!";
                 case 11 -> "Do drugs!";
                 case 12 -> "Imagine being scared by splash texts!";
-                case 13 -> ChatFormatting.RED + "" + ChatFormatting.BOLD + "AW SHUCKS!";
+                case 13 -> "Semantic versioning? More like pedantic versioning.";
+                case 14 -> ChatFormatting.RED + "" + ChatFormatting.BOLD + "AW SHUCKS!";
                 default -> null;
             };
 
             double d = Math.random();
-            if (d < 0.1) text = "Redditors aren't people!";
-            else if (d < 0.2) text = "Can someone tell me what corrosive fumes the people on Reddit are huffing so I can avoid those more effectively?";
+            if(d < 0.1) text = "Redditors aren't people!";
+            else if(d < 0.2) text = "Can someone tell me what corrosive fumes the people on Reddit are huffing so I can avoid those more effectively?";
 
-            if (text == null) return;
+            if(text == null) return;
 
             titleScreen.splash = new SplashRenderer(text);
         }
@@ -471,9 +473,7 @@ public class NuclearTechModClient {
 
     @SubscribeEvent
     public static void onRenderWorldLast(RenderLevelStageEvent event) {
-        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS) {
-            Clock.update();
-        }
+        if(event.getStage() == Stage.AFTER_TRANSLUCENT_BLOCKS) { Clock.update(); }
     }
 
     @SubscribeEvent
@@ -618,27 +618,29 @@ public class NuclearTechModClient {
     @SubscribeEvent
     public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
 
-        BlockEntityRenderers.register(ModBlockEntityTypes.PLUSHIE.get(), new RenderPlushie());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.PLUSHIE.get(), new RenderPlushie());
 
-        BlockEntityRenderers.register(ModBlockEntityTypes.BATTERY_SOCKET.get(), new RenderBatterySocket());
-        BlockEntityRenderers.register(ModBlockEntityTypes.BATTERY_REDD.get(), new RenderBatteryREDD());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.ASSEMBLY_MACHINE.get(), new RenderAssemblyMachine());
 
-        BlockEntityRenderers.register(ModBlockEntityTypes.LAUNCH_PAD.get(), new RenderLaunchPad());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.BATTERY_SOCKET.get(), new RenderBatterySocket());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.BATTERY_REDD.get(), new RenderBatteryREDD());
 
-        BlockEntityRenderers.register(ModBlockEntityTypes.FLUID_TANK.get(), new RenderFluidTank());
-        BlockEntityRenderers.register(ModBlockEntityTypes.GEIGER_COUNTER.get(), new RenderGeigerBlock());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.LAUNCH_PAD.get(), new RenderLaunchPad());
 
-        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_IVY_MIKE.get(), new RenderNukeIvyMike());
-        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_TSAR_BOMBA.get(), new RenderNukeTsarBomba());
-        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_N2.get(), new RenderNukeN2());
-        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_GADGET.get(), new RenderNukeGadget());
-        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_LITTLE_BOY.get(), new RenderNukeLittleBoy());
-        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_FAT_MAN.get(), new RenderNukeFatMan());
-        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_FLEIJA.get(), new RenderNukeFleija());
-        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_FSTBMB.get(), new RenderNukeFstbmb());
-        BlockEntityRenderers.register(ModBlockEntityTypes.NUKE_PROTOTYPE.get(), new RenderNukePrototype());
-        BlockEntityRenderers.register(ModBlockEntityTypes.CRASHED_BOMB.get(), new RenderCrashedBomb());
-        BlockEntityRenderers.register(ModBlockEntityTypes.LANDMINE.get(), new RenderLandmine());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.FLUID_TANK.get(), new RenderFluidTank());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.GEIGER_COUNTER.get(), new RenderGeigerBlock());
+
+        BlockEntityRenderers.register(NtmBlockEntityTypes.NUKE_IVY_MIKE.get(), new RenderNukeIvyMike());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.NUKE_TSAR_BOMBA.get(), new RenderNukeTsarBomba());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.NUKE_N2.get(), new RenderNukeN2());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.NUKE_GADGET.get(), new RenderNukeGadget());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.NUKE_LITTLE_BOY.get(), new RenderNukeLittleBoy());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.NUKE_FAT_MAN.get(), new RenderNukeFatMan());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.NUKE_FLEIJA.get(), new RenderNukeFleija());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.NUKE_FSTBMB.get(), new RenderNukeFstbmb());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.NUKE_PROTOTYPE.get(), new RenderNukePrototype());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.CRASHED_BOMB.get(), new RenderCrashedBomb());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.LANDMINE.get(), new RenderLandmine());
 
         for (Entry<BlockEntityType<?>, BlockEntityRendererProvider<?>> entry : BlockEntityRenderers.PROVIDERS.entrySet()) {
             if (entry.getValue() instanceof IBEWLRProvider provider) {

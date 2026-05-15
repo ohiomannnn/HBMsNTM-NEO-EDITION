@@ -1,48 +1,21 @@
 package com.hbm.world;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.TicketType;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.chunk.PalettedContainer;
-import net.minecraft.world.level.chunk.status.ChunkStatus;
-import net.neoforged.neoforge.common.world.chunk.TicketController;
 
-import java.util.Comparator;
 import java.util.List;
 
 public class WorldUtil {
 
-    private static final TicketType<BlockPos> SPAWN_TICKET = TicketType.create(
-            "entity_spawn_temp",
-            Comparator.comparingLong(BlockPos::asLong),
-            20
-    );
-    // test
-
-    public static void loadAndSpawnEntityInWorld(Entity entity) {
-        if (entity.level() instanceof ServerLevel serverLevel) {
-
-            ChunkPos chunkPos = entity.chunkPosition();
-            BlockPos blockPos = entity.blockPosition();
-
-            serverLevel.getChunkSource().addRegionTicket(
-                    SPAWN_TICKET,
-                    chunkPos,
-                    2,
-                    blockPos
-            );
-
+    public static void loadAndAddFreshEntity(Entity entity) {
+        if(entity.level instanceof ServerLevel serverLevel) {
+            serverLevel.getChunkSource().addRegionTicket(TicketType.PORTAL, entity.chunkPosition, 2, entity.blockPosition);
             serverLevel.addFreshEntity(entity);
         }
     }

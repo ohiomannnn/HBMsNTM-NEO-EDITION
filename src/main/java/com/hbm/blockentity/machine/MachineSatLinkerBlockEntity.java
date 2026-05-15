@@ -1,6 +1,6 @@
 package com.hbm.blockentity.machine;
 
-import com.hbm.blockentity.ModBlockEntityTypes;
+import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.inventory.menus.MachineSatLinkerMenu;
 import com.hbm.items.ISatChip;
 import com.hbm.items.machine.SatChipItem;
@@ -37,7 +37,7 @@ public class MachineSatLinkerBlockEntity extends BlockEntity implements MenuProv
     private Component customName;
 
     public MachineSatLinkerBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntityTypes.MACHINE_SATLINKER.get(), pos, state);
+        super(NtmBlockEntityTypes.MACHINE_SATLINKER.get(), pos, state);
     }
 
     public void setCustomName(Component name) {

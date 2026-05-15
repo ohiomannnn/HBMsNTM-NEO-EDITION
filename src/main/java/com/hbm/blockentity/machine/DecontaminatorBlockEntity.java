@@ -1,8 +1,8 @@
 package com.hbm.blockentity.machine;
 
 import com.hbm.main.NuclearTechModClient;
-import com.hbm.blockentity.ModBlockEntityTypes;
-import com.hbm.blockentity.Tickable;
+import com.hbm.blockentity.NtmBlockEntityTypes;
+import com.hbm.blockentity.ITickable;
 import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.lib.ModEffect;
 import net.minecraft.core.BlockPos;
@@ -15,10 +15,10 @@ import net.minecraft.world.phys.AABB;
 
 import java.util.List;
 
-public class DecontaminatorBlockEntity extends BlockEntity implements Tickable {
+public class DecontaminatorBlockEntity extends BlockEntity implements ITickable {
 
     public DecontaminatorBlockEntity(BlockPos pos, BlockState blockState) {
-        super(ModBlockEntityTypes.DECONTAMINATOR.get(), pos, blockState);
+        super(NtmBlockEntityTypes.DECONTAMINATOR.get(), pos, blockState);
     }
 
     @Override

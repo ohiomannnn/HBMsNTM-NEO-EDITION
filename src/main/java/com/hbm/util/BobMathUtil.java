@@ -10,6 +10,14 @@ import java.util.function.ToIntFunction;
 
 public class BobMathUtil {
 
+    public static final float PI = 3.141592653589793F;
+
+    public static float atan2(double y, double x) { return (float) Math.atan2(y, x); }
+    public static float atan2(float y, float x) { return (float) Math.atan2(y, x); }
+
+    public static float sqrt(double value) { return (float) Math.sqrt(value); }
+    public static float sqrt(float value) { return (float) Math.sqrt(value); }
+
     //finally!
     public static int min(int... nums) {
         int smallest = Integer.MAX_VALUE;
@@ -72,7 +80,9 @@ public class BobMathUtil {
     }
 
     public static double interp(double x, double y, float interp) { return x + (y - x) * interp; }
-    public static double interp(double x, double y, double interp) { return x + (y - x) * interp; }
+    /** Same as {@link BobMathUtil#interp(double, double, float)} but returns float value */
+    public static float interp(float x, float y, float interp) { return x + (y - x) * interp; }
+
 
     public static double getAngleFrom2DVecs(double x1, double z1, double x2, double z2) {
 

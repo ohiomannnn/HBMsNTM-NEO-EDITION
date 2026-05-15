@@ -127,6 +127,8 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
 
         this.dropSelf(NtmBlocks.MACHINE_FLUID_TANK.get());
 
+        this.dropSelf(NtmBlocks.MACHINE_ASSEMBLY_MACHINE.get());
+
         this.dropSelf(NtmBlocks.MACHINE_BATTERY_SOCKET.get());
         this.dropSelf(NtmBlocks.MACHINE_BATTERY_REDD.get());
 

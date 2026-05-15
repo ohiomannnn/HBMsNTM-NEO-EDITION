@@ -11,9 +11,7 @@ public abstract class ExplosionChunkLoading extends Entity implements IChunkLoad
 
     @Nullable private ChunkPos lastLoadedChunk = null;
 
-    protected ExplosionChunkLoading(EntityType<? extends ExplosionChunkLoading> type, Level level) {
-        super(type, level);
-    }
+    protected ExplosionChunkLoading(EntityType<? extends ExplosionChunkLoading> type, Level level) { super(type, level); }
 
     @Override public void setLoadedChunkPos(ChunkPos pos) { this.lastLoadedChunk = pos; }
     @Override public ChunkPos getLoadedChunkPos() { return lastLoadedChunk; }

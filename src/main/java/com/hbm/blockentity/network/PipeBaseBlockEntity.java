@@ -4,8 +4,8 @@ import api.hbm.fluidmk2.FluidNode;
 import api.hbm.fluidmk2.IFluidPipeMK2;
 import com.hbm.blockentity.IFluidCopiable;
 import com.hbm.blockentity.LoadedBaseBlockEntity;
-import com.hbm.blockentity.ModBlockEntityTypes;
-import com.hbm.blockentity.Tickable;
+import com.hbm.blockentity.NtmBlockEntityTypes;
+import com.hbm.blockentity.ITickable;
 import com.hbm.blocks.network.IBlockFluidDuct;
 import com.hbm.extprop.HbmPlayerAttachments;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
@@ -23,13 +23,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class PipeBaseBlockEntity extends LoadedBaseBlockEntity implements IFluidPipeMK2, IFluidCopiable, Tickable {
+public class PipeBaseBlockEntity extends LoadedBaseBlockEntity implements IFluidPipeMK2, IFluidCopiable, ITickable {
 
     protected FluidNode node;
     protected FluidType type = Fluids.NONE;
 
     public PipeBaseBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntityTypes.FLUID_DUCT.get(), pos, state);
+        super(NtmBlockEntityTypes.FLUID_DUCT.get(), pos, state);
     }
 
     @Override

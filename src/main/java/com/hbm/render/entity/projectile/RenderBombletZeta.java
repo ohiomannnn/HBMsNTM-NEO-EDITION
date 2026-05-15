@@ -2,8 +2,8 @@ package com.hbm.render.entity.projectile;
 
 import com.hbm.entity.projectile.BombletZeta;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.util.RenderContext;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -22,14 +22,17 @@ public class RenderBombletZeta extends EntityRenderer<BombletZeta> {
 
     @Override
     public void render(BombletZeta bomb, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
-        RenderContext.setup(NtmRenderTypes.FVBO_NC.apply(this.getTextureLocation(bomb)), poseStack, packedLight, OverlayTexture.NO_OVERLAY);
+        RenderContext.setup(poseStack, packedLight, OverlayTexture.NO_OVERLAY);
+        RenderSystem.disableCull();
 
         RenderContext.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTicks, bomb.yRotO, bomb.yRot) - 90.0F));
         RenderContext.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTicks, bomb.xRotO, bomb.xRot)));
         RenderContext.scale(0.5F, 0.5F, 0.5F);
 
+        RenderSystem.setShaderTexture(0, this.getTextureLocation(bomb));
         ResourceManager.bomblet_zeta.renderAll();
 
+        RenderSystem.enableCull();
         RenderContext.end();
     }
 

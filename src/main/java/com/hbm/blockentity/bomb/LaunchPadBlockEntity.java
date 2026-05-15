@@ -1,7 +1,7 @@
 package com.hbm.blockentity.bomb;
 
+import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.main.NuclearTechModClient;
-import com.hbm.blockentity.ModBlockEntityTypes;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.entity.missile.MissileBaseNT;
 import com.hbm.lib.Library;
@@ -19,7 +19,7 @@ import java.util.List;
 public class LaunchPadBlockEntity extends LaunchPadBaseBlockEntity {
 
     public LaunchPadBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntityTypes.LAUNCH_PAD.get(), pos, state);
+        super(NtmBlockEntityTypes.LAUNCH_PAD.get(), pos, state);
     }
 
     @Override public boolean isReadyForLaunch() { return delay <= 0; }

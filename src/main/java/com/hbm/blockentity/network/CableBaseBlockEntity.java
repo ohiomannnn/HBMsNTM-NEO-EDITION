@@ -4,17 +4,17 @@ import api.hbm.energymk2.IEnergyConductorMK2;
 import api.hbm.energymk2.Nodespace;
 import api.hbm.energymk2.Nodespace.PowerNode;
 import com.hbm.blockentity.LoadedBaseBlockEntity;
-import com.hbm.blockentity.ModBlockEntityTypes;
-import com.hbm.blockentity.Tickable;
+import com.hbm.blockentity.NtmBlockEntityTypes;
+import com.hbm.blockentity.ITickable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class CableBaseBlockEntity extends LoadedBaseBlockEntity implements IEnergyConductorMK2, Tickable {
+public class CableBaseBlockEntity extends LoadedBaseBlockEntity implements IEnergyConductorMK2, ITickable {
 
     public PowerNode node;
 
     public CableBaseBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntityTypes.NETWORK_CABLE.get(), pos, state);
+        super(NtmBlockEntityTypes.NETWORK_CABLE.get(), pos, state);
     }
 
     @Override

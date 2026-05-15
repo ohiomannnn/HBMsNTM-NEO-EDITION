@@ -6,6 +6,7 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.util.RenderContext;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -22,21 +23,19 @@ public class RenderNukeN2 extends BlockEntityRendererNT<NukeN2BlockEntity> imple
 
     @Override
     public void render(NukeN2BlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+        RenderContext.setup(poseStack, packedLight, packedOverlay);
+        RenderContext.translate(0.5F, 0F, 0.5F);
+        RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
 
         Direction facing = be.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
-        float rot = switch (facing) {
-            case DOWN, UP -> 0.0F;
-            case WEST -> 90F;
-            case SOUTH -> 180F;
-            case EAST -> 270F;
-            case NORTH -> 0F;
-        };
+        switch(facing) {
+            case WEST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
+            case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
+            case EAST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
+            case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
+        }
 
-        RenderContext.setup(NtmRenderTypes.FVBO.apply(ResourceManager.NUKE_N2_TEX), poseStack, packedLight, packedOverlay);
-        RenderContext.translate(0.5, 0.0, 0.5);
-        RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
-        RenderContext.mulPose(Axis.YP.rotationDegrees(rot));
-
+        bindTexture(ResourceManager.NUKE_N2_TEX);
         ResourceManager.nuke_n2.renderAll();
 
         RenderContext.end();
@@ -60,8 +59,9 @@ public class RenderNukeN2 extends BlockEntityRendererNT<NukeN2BlockEntity> imple
 
             @Override
             public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
-                RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.NUKE_N2_TEX));
-                ResourceManager.nuke_n2.renderAll();
+                RenderSystem.disableCull();
+                bindTexture(ResourceManager.NUKE_N2_TEX); ResourceManager.nuke_n2.renderAll();
+                RenderSystem.enableCull();
             }
         };
     }

@@ -19,7 +19,7 @@ public class ResourceManager {
     public static final ResourceLocation NUKE_GADGET_TEX = NuclearTechMod.withDefaultNamespace("textures/models/bombs/nuke_gadget.png");
     public static final ResourceLocation NUKE_LITTLE_BOY_TEX = NuclearTechMod.withDefaultNamespace("textures/models/bombs/nuke_little_boy.png");
     public static final ResourceLocation NUKE_FAT_MAN_TEX = NuclearTechMod.withDefaultNamespace("textures/models/bombs/nuke_fatman.png");
-    public static final ResourceLocation NUKE_IVY_MIKE = NuclearTechMod.withDefaultNamespace("textures/models/bombs/nuke_ivy_mike.png");
+    public static final ResourceLocation NUKE_IVY_MIKE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/bombs/nuke_ivy_mike.png");
     public static final ResourceLocation NUKE_TSAR_TEX = NuclearTechMod.withDefaultNamespace("textures/models/bombs/nuke_tsar.png");
     public static final ResourceLocation NUKE_PROTOTYPE = NuclearTechMod.withDefaultNamespace("textures/models/bombs/nuke_prototype.png");
     public static final ResourceLocation NUKE_FLEIJA_TEX = NuclearTechMod.withDefaultNamespace("textures/models/bombs/nuke_fleija.png");
@@ -42,6 +42,7 @@ public class ResourceManager {
     public static final ResourceLocation BATTERY_REDD_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/fensu2.png");
 
     public static final ResourceLocation GEIGER_TEX = NuclearTechMod.withDefaultNamespace("textures/block/geiger.png");
+    public static final ResourceLocation ASSEMBLY_MACHINE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/assembly_machine.png");
 
     public static final ResourceLocation FUSION_PLASMA_TEX = NuclearTechMod.withDefaultNamespace("textures/models/fusion/plasma.png");
     public static final ResourceLocation FUSION_PLASMA_GLOW_TEX = NuclearTechMod.withDefaultNamespace("textures/models/fusion/plasma_glow.png");
@@ -91,10 +92,19 @@ public class ResourceManager {
     public static final ResourceLocation DETONATOR_LASER_TEX = NuclearTechMod.withDefaultNamespace("textures/models/weapon/detonator_laser.png");
     public static final ResourceLocation WHITE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/white.png");
 
+    // Landmines
     public static IModelCustom mine_ap;
     public static IModelCustom mine_he;
     public static IModelCustom mine_naval;
     public static IModelCustom mine_fat;
+
+    // Tank
+    public static IModelCustom fluid_tank;
+    public static IModelCustom fluid_tank_exploded;
+
+    // Assembler
+    public static IModelCustom assembly_machine;
+    public static IModelCustom assembly_factory;
 
     public static IModelCustom nuke_gadget;
     public static IModelCustom nuke_little_boy;
@@ -117,9 +127,6 @@ public class ResourceManager {
     public static HFRWavefrontObject cable_neo;
     public static HFRWavefrontObject pipe_neo;
     public static HFRWavefrontObject difurnace_extension;
-
-    public static IModelCustom fluid_tank;
-    public static IModelCustom fluid_tank_exploded;
 
     public static IModelCustom geiger;
 
@@ -151,10 +158,17 @@ public class ResourceManager {
     public static IModelCustom sphere_new;
 
     public static void init() {
+
         mine_ap = new HFRWavefrontObject("models/obj/bomb/mine_ap.obj").asVBO();
         mine_he = new HFRWavefrontObject("models/obj/bomb/mine_he.obj").asVBO();
         mine_naval = new HFRWavefrontObject("models/obj/bomb/mine_naval.obj").asVBO();
         mine_fat = new HFRWavefrontObject("models/obj/bomb/mine_fat.obj").asVBO();
+
+        fluid_tank = new HFRWavefrontObject("models/obj/machines/fluid_tank.obj").asVBO();
+        fluid_tank_exploded = new HFRWavefrontObject("models/obj/machines/fluid_tank_exploded.obj").asVBO();
+
+        assembly_machine = new HFRWavefrontObject("models/obj/machines/assembly_machine.obj").asVBO();
+        assembly_factory = new HFRWavefrontObject("models/obj/machines/assembly_factory.obj").asVBO();
 
         nuke_gadget = new HFRWavefrontObject("models/obj/bomb/nuke_gadget.obj").asVBO();
         nuke_little_boy = new HFRWavefrontObject("models/obj/bomb/nuke_little_boy.obj").asVBO();
@@ -171,15 +185,12 @@ public class ResourceManager {
         dud_nuke = new HFRWavefrontObject("models/obj/bomb/dud_nuke.obj").asVBO();
         dud_salted = new HFRWavefrontObject("models/obj/bomb/dud_salted.obj").asVBO();
 
-        armor_no9 = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/armor/no9.obj")).asVBO();
+        armor_no9 = new HFRWavefrontObject("models/obj/armor/no9.obj").asVBO();
 
         barrel = new HFRWavefrontObject("models/obj/block/barrel.obj");
         cable_neo = new HFRWavefrontObject("models/obj/block/cable_neo.obj");
-        pipe_neo = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/block/pipe_neo.obj"));
-        difurnace_extension = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/block/difurnace_extension.obj"));
-
-        fluid_tank = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/machines/fluid_tank.obj")).asVBO();
-        fluid_tank_exploded = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/machines/fluid_tank_exploded.obj")).asVBO();
+        pipe_neo = new HFRWavefrontObject("models/obj/block/pipe_neo.obj");
+        difurnace_extension = new HFRWavefrontObject("models/obj/block/difurnace_extension.obj");
 
         geiger = new HFRWavefrontObject("models/obj/block/geiger.obj").asVBO();
 
@@ -205,6 +216,6 @@ public class ResourceManager {
 
         detonator_laser = new HFRWavefrontObject("models/obj/weapons/detonator_laser.obj").asVBO();
 
-        sphere_new = new HFRWavefrontObject(NuclearTechMod.withDefaultNamespace("models/obj/sphere_new.obj")).asVBO();
+        sphere_new = new HFRWavefrontObject("models/obj/sphere_new.obj").asVBO();
     }
 }

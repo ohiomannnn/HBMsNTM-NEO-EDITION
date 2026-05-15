@@ -10,6 +10,7 @@ import com.hbm.main.NuclearTechMod;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
+import com.hbm.world.WorldUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -81,9 +82,9 @@ public class NukeExplosionMK5 extends ExplosionChunkLoading {
             }
             if (fallout) {
                 FalloutRain fallout = new FalloutRain(this.level);
-                fallout.setPos(getX(), getY(), getZ());
+                fallout.setPos(this.position.x, this.position.y, this.position.z);
                 fallout.setScale((int) (this.length * 2.5 + falloutAdd) * MainConfig.COMMON.FALLOUT_RANGE.get() / 100);
-                this.level.addFreshEntity(fallout);
+                WorldUtil.loadAndAddFreshEntity(fallout);
             }
             this.discard();
         }

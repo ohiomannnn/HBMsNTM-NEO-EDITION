@@ -2,8 +2,8 @@ package com.hbm.render.entity.effect;
 
 import com.hbm.entity.logic.Bomber;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.util.RenderContext;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -21,17 +21,19 @@ public class RenderBomber extends EntityRenderer<Bomber> {
 
     @Override
     public void render(Bomber bomber, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+        RenderContext.setup(poseStack, packedLight, OverlayTexture.NO_OVERLAY);
+        RenderSystem.disableCull();
 
-        RenderContext.setup(NtmRenderTypes.FVBO_NC.apply(this.getTextureLocation(bomber)), poseStack, packedLight, OverlayTexture.NO_OVERLAY);
         RenderContext.mulPose(Axis.YP.rotationDegrees(bomber.yRotO + (bomber.getYRot() - bomber.yRotO) * partialTicks - 90.0F));
         RenderContext.mulPose(Axis.ZP.rotationDegrees(90F));
         RenderContext.mulPose(Axis.ZP.rotationDegrees(bomber.xRotO + (bomber.getXRot() - bomber.xRotO) * partialTicks));
 
         RenderContext.mulPose(Axis.XP.rotationDegrees((float) (Math.sin((bomber.tickCount + partialTicks) * 0.05F) * 10)));
 
-        int i = bomber.getBomberStyle();
+        RenderSystem.setShaderTexture(0, this.getTextureLocation(bomber));
 
-        switch (i) {
+        int i = bomber.getBomberStyle();
+        switch(i) {
             case 0:
             case 1:
             case 2:
@@ -54,13 +56,14 @@ public class RenderBomber extends EntityRenderer<Bomber> {
                 break;
         }
 
+        RenderSystem.enableCull();
         RenderContext.end();
     }
 
     @Override
     public ResourceLocation getTextureLocation(Bomber bomber) {
         int i = bomber.getBomberStyle();
-        return switch (i) {
+        return switch(i) {
             case 0 -> ResourceManager.DORNIER_1_TEX;
             case 1 -> ResourceManager.DORNIER_1_TEX;
             case 2 -> ResourceManager.DORNIER_2_TEX;

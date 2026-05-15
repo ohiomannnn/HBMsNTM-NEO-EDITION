@@ -1,6 +1,6 @@
 package com.hbm.blocks.machine;
 
-import com.hbm.blockentity.Tickable;
+import com.hbm.blockentity.ITickable;
 import com.hbm.blockentity.machine.DecontaminatorBlockEntity;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -25,7 +25,7 @@ public class DecontaminatorBlock extends Block implements EntityBlock {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return (lvl, pos, st, be) -> { if (be instanceof Tickable tickable) tickable.updateEntity(); };
+        return (lvl, pos, st, be) -> { if (be instanceof ITickable tickable) tickable.updateEntity(); };
     }
 
     public static final MapCodec<DecontaminatorBlock> CODEC = simpleCodec(DecontaminatorBlock::new);

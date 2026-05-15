@@ -1,6 +1,6 @@
 package com.hbm.blocks.generic;
 
-import com.hbm.blockentity.ModBlockEntityTypes;
+import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.EnumUtil;
@@ -101,7 +101,7 @@ public class PlushieBlock extends Block implements EntityBlock, ITooltipProvider
         }
 
         public PlushieBlockEntity(BlockPos pos, BlockState state) {
-            super(ModBlockEntityTypes.PLUSHIE.get(), pos, state);
+            super(NtmBlockEntityTypes.PLUSHIE.get(), pos, state);
         }
 
         @Override

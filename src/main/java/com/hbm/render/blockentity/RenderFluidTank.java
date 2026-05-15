@@ -10,11 +10,11 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Corrosive;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.util.DiamondPronter;
 import com.hbm.render.util.RenderContext;
 import com.hbm.util.TagsUtilDegradation;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -34,37 +34,34 @@ public class RenderFluidTank extends BlockEntityRendererNT<MachineFluidTankBlock
 
     @Override
     public void render(MachineFluidTankBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-
-        Direction facing = be.getBlockState().getValue(DummyableBlock.FACING);
-        float rot = switch (facing) {
-            case DOWN, UP -> 0.0F;
-            case NORTH -> 180F;
-            case EAST -> 90F;
-            case SOUTH -> 0F;
-            case WEST -> 270F;
-        };
-
         RenderContext.setup(poseStack, packedLight, packedOverlay);
         RenderContext.translate(0.5F, 0F, 0.5F);
-        RenderContext.mulPose(Axis.YP.rotationDegrees(rot));
+        RenderSystem.disableCull();
+
+        Direction facing = be.getBlockState().getValue(DummyableBlock.FACING);
+        switch(facing) {
+            case WEST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
+            case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
+            case EAST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
+            case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
+        }
 
         FluidType type = be.tank.getTankType();
 
-        if (!be.hasExploded) {
-            RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.TANK_TEX));
+        bindTexture(ResourceManager.TANK_TEX);
+        if(!be.hasExploded) {
             ResourceManager.fluid_tank.renderPart("Frame");
-            RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(NuclearTechMod.withDefaultNamespace(getTextureFromType(type))));
+            bindTexture(NuclearTechMod.withDefaultNamespace(getTextureFromType(type)));
             ResourceManager.fluid_tank.renderPart("Tank");
         } else {
-            RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.TANK_TEX));
             ResourceManager.fluid_tank_exploded.renderPart("Frame");
-            RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.TANK_INNER_TEX));
+            bindTexture(ResourceManager.TANK_INNER_TEX);
             ResourceManager.fluid_tank_exploded.renderPart("TankInner");
-            RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(NuclearTechMod.withDefaultNamespace(getTextureFromType(type))));
+            bindTexture(NuclearTechMod.withDefaultNamespace(getTextureFromType(type)));
             ResourceManager.fluid_tank_exploded.renderPart("Tank");
         }
 
-        if (type != Fluids.NONE) {
+        if(type != Fluids.NONE) {
             RenderContext.pushPose();
             RenderContext.translate(-0.25F, 0.5F, -1.501F);
             RenderContext.mulPose(Axis.YP.rotationDegrees(90));
@@ -80,6 +77,7 @@ public class RenderFluidTank extends BlockEntityRendererNT<MachineFluidTankBlock
             RenderContext.popPose();
         }
 
+        RenderSystem.enableCull();
         RenderContext.end();
     }
 
@@ -146,17 +144,16 @@ public class RenderFluidTank extends BlockEntityRendererNT<MachineFluidTankBlock
 
                 FluidType type = tank.getTankType();
 
-                if (!exploded) {
-                    RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.TANK_TEX));
+                bindTexture(ResourceManager.TANK_TEX);
+                if(!exploded) {
                     ResourceManager.fluid_tank.renderPart("Frame");
-                    RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(NuclearTechMod.withDefaultNamespace(getTextureFromType(type))));
+                    bindTexture(NuclearTechMod.withDefaultNamespace(getTextureFromType(type)));
                     ResourceManager.fluid_tank.renderPart("Tank");
                 } else {
-                    RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.TANK_TEX));
                     ResourceManager.fluid_tank_exploded.renderPart("Frame");
-                    RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.TANK_INNER_TEX));
+                    bindTexture(ResourceManager.TANK_INNER_TEX);
                     ResourceManager.fluid_tank_exploded.renderPart("TankInner");
-                    RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(NuclearTechMod.withDefaultNamespace(getTextureFromType(type))));
+                    bindTexture(NuclearTechMod.withDefaultNamespace(getTextureFromType(type)));
                     ResourceManager.fluid_tank_exploded.renderPart("Tank");
                 }
             }

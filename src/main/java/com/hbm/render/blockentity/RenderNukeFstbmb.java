@@ -3,10 +3,10 @@ package com.hbm.render.blockentity;
 import com.hbm.blockentity.bomb.NukeBalefireBlockEntity;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.util.RenderContext;
 import com.hbm.render.util.RenderMiscEffects;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
@@ -26,29 +26,28 @@ public class RenderNukeFstbmb extends BlockEntityRendererNT<NukeBalefireBlockEnt
 
     @Override
     public void render(NukeBalefireBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+        RenderContext.setup(poseStack, packedLight, packedOverlay);
+        RenderContext.translate(0.5F, 0F, 0.5F);
+        RenderSystem.disableCull();
 
         Direction facing = be.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
-        float rot = switch (facing) {
-            case DOWN, UP -> 0.0F;
-            case WEST -> 180F;
-            case SOUTH -> 270F;
-            case EAST -> 0F;
-            case NORTH -> 90F;
-        };
+        switch(facing) {
+            case WEST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
+            case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
+            case EAST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
+            case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
+        }
 
-        RenderContext.setup(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_FSTBMB_TEX), poseStack, packedLight, packedOverlay);
-        RenderContext.translate(0.5, 0.0, 0.5);
-        RenderContext.mulPose(Axis.YP.rotationDegrees(rot));
-
+        bindTexture(ResourceManager.NUKE_FSTBMB_TEX);
         ResourceManager.nuke_fstbmb.renderPart("Body");
         ResourceManager.nuke_fstbmb.renderPart("Balefire");
 
-        if (be.hasEgg()) {
-            RenderContext.setRenderType(NtmRenderTypes.FVBO_ADDITIVE_NL.apply(RenderMiscEffects.GLINT_BF));
+        if(be.hasEgg()) {
+            bindTexture(RenderMiscEffects.GLINT_BF);
             RenderMiscEffects.renderClassicGlint(partialTicks, ResourceManager.nuke_fstbmb, "Balefire", 0.0F, 0.8F, 0.15F, 5, 2F);
         }
 
-        if (be.hasBattery()) {
+        if(be.hasBattery()) {
             Font font = Minecraft.getInstance().font;
             float f3 = 0.04F;
             RenderContext.translate(0.815F, 0.9275F, 0.5F);
@@ -59,6 +58,7 @@ public class RenderNukeFstbmb extends BlockEntityRendererNT<NukeBalefireBlockEnt
             font.drawInBatch(be.getMinutes() + ":" + be.getSeconds(), 0, 0, 0xff0000, false, matrix, buffer, Font.DisplayMode.NORMAL, 0, packedLight);
         }
 
+        RenderSystem.enableCull();
         RenderContext.end();
     }
 
@@ -82,7 +82,7 @@ public class RenderNukeFstbmb extends BlockEntityRendererNT<NukeBalefireBlockEnt
                 RenderContext.translate(1F, 0F, 0F);
                 RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
 
-                RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_FSTBMB_TEX));
+                bindTexture(ResourceManager.NUKE_FSTBMB_TEX);
                 ResourceManager.nuke_fstbmb.renderPart("Body");
                 ResourceManager.nuke_fstbmb.renderPart("Balefire");
             }

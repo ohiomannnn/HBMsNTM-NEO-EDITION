@@ -1,7 +1,7 @@
 package com.hbm.blocks.network;
 
 import com.hbm.blockentity.ProxyComboBlockEntity;
-import com.hbm.blockentity.Tickable;
+import com.hbm.blockentity.ITickable;
 import com.hbm.blockentity.machine.storage.BatterySocketBlockEntity;
 import com.hbm.blocks.DummyBlockType;
 import com.hbm.blocks.DummyableBlock;
@@ -47,7 +47,7 @@ public class MachineBatterySocketBlock extends DummyableBlock implements IToolti
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         if (state.getValue(TYPE) != DummyBlockType.CORE) return null;
-        return (lvl, pos, st, be) -> { if (be instanceof Tickable tickable) tickable.updateEntity(); };
+        return (lvl, pos, st, be) -> { if (be instanceof ITickable tickable) tickable.updateEntity(); };
     }
 
     @Override public int[] getDimensions() { return new int[] {1, 0, 1, 0, 1, 0}; }

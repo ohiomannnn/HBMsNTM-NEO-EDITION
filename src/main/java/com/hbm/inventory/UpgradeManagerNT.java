@@ -8,7 +8,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.HashMap;
-import java.util.stream.Collectors;
 
 /*
  Steps for use:
@@ -35,18 +34,18 @@ public class UpgradeManagerNT {
 
     private void checkSlotsInternal(BlockEntity be, NonNullList<ItemStack> slots, int start, int end) {
 
-        if(!(be instanceof IUpgradeInfoProvider upgradable)) return;
+        if(!(be instanceof IUpgradeInfoProvider upgradable) || slots.isEmpty()) return;
 
         NonNullList<ItemStack> upgradeSlots = NonNullList.create();
         upgradeSlots.addAll(slots.subList(start, end + 1));
 
         if(areStackListsEqual(upgradeSlots, cachedSlots)) return;
 
-        cachedSlots = upgradeSlots.stream().map(ItemStack::copy).collect(Collectors.toCollection(() -> NonNullList.withSize(upgradeSlots.size(), ItemStack.EMPTY)));
+        cachedSlots = NonNullList.copyOf(upgradeSlots);
 
         upgrades.clear();
 
-        for (int i = 0; i <= end - start; i++) {
+        for(int i = 0; i <= end - start; i++) {
 
             if(upgradeSlots.get(i).getItem() instanceof MachineUpgradeItem item) {
 
@@ -76,12 +75,12 @@ public class UpgradeManagerNT {
     }
 
     private boolean areStackListsEqual(NonNullList<ItemStack> list1, NonNullList<ItemStack> list2) {
-        if (list1.size() != list2.size())
-            return false;
+        if(list1 == null || list2 == null) return false;
 
-        for (int i = 0; i < list1.size(); i++) {
-            if (!ItemStack.matches(list1.get(i), list2.get(i)))
-                return false;
+        if(list1.size() != list2.size()) return false;
+
+        for(int i = 0; i < list1.size(); i++) {
+            if(!ItemStack.matches(list1.get(i), list2.get(i))) return false;
         }
 
         return true;

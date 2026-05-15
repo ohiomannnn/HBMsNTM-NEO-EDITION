@@ -16,7 +16,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import java.util.function.Supplier;
 
 @SuppressWarnings("DataFlowIssue") // kill yourself
-public class ModBlockEntityTypes {
+public class NtmBlockEntityTypes {
     public static final DeferredRegister<BlockEntityType<?>> REGISTER = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, NuclearTechMod.MODID);
 
     // Machines
@@ -78,22 +78,12 @@ public class ModBlockEntityTypes {
             "assembly_machine",
             () -> BlockEntityType.Builder.of(
                             MachineAssemblyMachineBlockEntity::new,
-                            NtmBlocks.MACHINE_BATTERY_REDD.get())
+                            NtmBlocks.MACHINE_ASSEMBLY_MACHINE.get())
                     .build(null));
 
     public static final Supplier<BlockEntityType<ProxyComboBlockEntity>> PROXY_COMBO = REGISTER.register(
             "proxy_combo",
-            () -> BlockEntityType.Builder.of(
-                            ProxyComboBlockEntity::new,
-                            NtmBlocks.MACHINE_PRESS.get(),
-
-                            NtmBlocks.MACHINE_FLUID_TANK.get(),
-
-                            NtmBlocks.MACHINE_BATTERY_SOCKET.get(),
-                            NtmBlocks.MACHINE_BATTERY_REDD.get(),
-
-                            NtmBlocks.LAUNCH_PAD.get()
-                    ).build(null));
+            () -> BlockEntityType.Builder.of(ProxyComboBlockEntity::new).build(null));
 
     public static final Supplier<BlockEntityType<PlushieBlockEntity>> PLUSHIE = REGISTER.register("plushie", () -> BlockEntityType.Builder.of(PlushieBlockEntity::new, NtmBlocks.PLUSHIE_YOMI.get(), NtmBlocks.PLUSHIE_NUMBERNINE.get(), NtmBlocks.PLUSHIE_HUNDUN.get(), NtmBlocks.PLUSHIE_DERG.get()).build(null));
 

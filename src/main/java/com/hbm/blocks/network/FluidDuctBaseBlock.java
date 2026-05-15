@@ -1,6 +1,6 @@
 package com.hbm.blocks.network;
 
-import com.hbm.blockentity.Tickable;
+import com.hbm.blockentity.ITickable;
 import com.hbm.blockentity.network.PipeBaseBlockEntity;
 import com.hbm.extprop.HbmPlayerAttachments;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
@@ -35,7 +35,7 @@ public abstract class FluidDuctBaseBlock extends Block implements EntityBlock, I
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return (lvl, pos, st, be) -> { if (be instanceof Tickable tickable) tickable.updateEntity(); };
+        return (lvl, pos, st, be) -> { if (be instanceof ITickable tickable) tickable.updateEntity(); };
     }
 
     @Override

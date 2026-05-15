@@ -8,7 +8,6 @@ import com.hbm.items.NtmItems;
 import com.hbm.items.machine.BatteryPackItem.BatteryPackType;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.util.BeamPronter;
 import com.hbm.render.util.BeamPronter.BeamType;
@@ -32,7 +31,7 @@ import java.util.Random;
 
 public class RenderBatterySocket extends BlockEntityRendererNT<BatterySocketBlockEntity> implements IBEWLRProvider {
 
-    private static final ResourceLocation blorbo = NuclearTechMod.withDefaultNamespace("textures/models/horse/sunburst.png");
+    private static final ResourceLocation BLORBO_TEX = NuclearTechMod.withDefaultNamespace("textures/models/horse/sunburst.png");
 
     @Override public BlockEntityRenderer<BatterySocketBlockEntity> create(Context context) { return new RenderBatterySocket(); }
 
@@ -50,25 +49,26 @@ public class RenderBatterySocket extends BlockEntityRendererNT<BatterySocketBloc
 
         int tPackedLight = LevelRenderer.getLightColor(be.getLevel(), be.getBlockPos().above(1));
 
-        RenderContext.setup(NtmRenderTypes.FVBO.apply(ResourceManager.BATTERY_SOCKET_TEX), poseStack, tPackedLight, packedOverlay);
+        RenderContext.setup(poseStack, tPackedLight, packedOverlay);
         RenderContext.translate(0.5F, 0F, 0.5F);
         RenderContext.mulPose(Axis.YP.rotationDegrees(rot));
         RenderContext.translate(0.5F, 0, -0.5F);
 
+        bindTexture(ResourceManager.BATTERY_SOCKET_TEX);
         ResourceManager.battery_socket.renderPart("Socket");
 
         ItemStack render = be.syncStack;
         if (!render.isEmpty()) {
             if (render.is(NtmItems.BATTERY_PACK.get())) {
                 BatteryPackType pack = EnumUtil.grabEnumSafely(BatteryPackType.class, MetaHelper.getMeta(render));
-                RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(pack.texture));
+                bindTexture(pack.texture);
                 ResourceManager.battery_socket.renderPart(pack.isCapacitor() ? "Capacitor" : "Battery");
             } else if (render.is(NtmItems.BATTERY_SC.get())) {
-                RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.BATTERY_SC_TEX));
+                bindTexture(ResourceManager.BATTERY_SC_TEX);
                 ResourceManager.battery_socket.renderPart("Battery");
             } else if (render.is(NtmItems.BATTERY_CREATIVE.get())) {
                 RenderContext.pushPose();
-                RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(blorbo));
+                bindTexture(BLORBO_TEX);
                 RenderContext.scale(0.75F, 0.75F, 0.75F);
                 RenderContext.mulPose(Axis.YN.rotationDegrees((be.getLevel().getGameTime() % 360 + partialTicks) * 25F));
 
@@ -84,7 +84,7 @@ public class RenderBatterySocket extends BlockEntityRendererNT<BatterySocketBloc
                     for (int j = -1; j <= 1; j += 2) {
                         if (rand.nextInt(4) == 0) {
                             RenderContext.pushPose();
-                            RenderContext.translate(0, 0.75, 0);
+                            RenderContext.translate(0F, 0.75F, 0F);
                             BeamPronter.prontBeam(new Vec3NT(0.4375 * i, 1.1875, 0.4375 * j), WaveType.RANDOM, BeamType.SOLID, 0x404040, 0x002040, (int) (System.currentTimeMillis() % 1000) / 50, 15, 0.0625F, 3, 0.025F);
                             BeamPronter.prontBeam(new Vec3NT(0.4375 * i, 1.1875, 0.4375 * j), WaveType.RANDOM, BeamType.SOLID, 0x404040, 0x002040, (int) (System.currentTimeMillis() % 1000) / 50, 1, 0, 3, 0.025F);
                             RenderContext.popPose();
@@ -113,7 +113,7 @@ public class RenderBatterySocket extends BlockEntityRendererNT<BatterySocketBloc
 
             @Override
             public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
-                RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.BATTERY_SOCKET_TEX));
+                bindTexture(ResourceManager.BATTERY_SOCKET_TEX);
                 ResourceManager.battery_socket.renderPart("Socket");
             }
         };

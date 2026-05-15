@@ -1,6 +1,6 @@
 package com.hbm.blocks.bomb;
 
-import com.hbm.blockentity.Tickable;
+import com.hbm.blockentity.ITickable;
 import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.config.MainConfig;
@@ -50,7 +50,7 @@ public class CrashedBombBlock extends Block implements EntityBlock, IBomb {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return (lvl, pos, st, be) -> { if (be instanceof Tickable tickable) tickable.updateEntity(); };
+        return (lvl, pos, st, be) -> { if (be instanceof ITickable tickable) tickable.updateEntity(); };
     }
 
     @Override

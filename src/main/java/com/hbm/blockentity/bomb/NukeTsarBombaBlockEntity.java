@@ -1,6 +1,6 @@
 package com.hbm.blockentity.bomb;
 
-import com.hbm.blockentity.ModBlockEntityTypes;
+import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.blockentity.NukeBaseBlockEntity;
 import com.hbm.inventory.menus.NukeTsarBombaMenu;
 import com.hbm.items.NtmItems;
@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class NukeTsarBombaBlockEntity extends NukeBaseBlockEntity {
 
     public NukeTsarBombaBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntityTypes.NUKE_TSAR_BOMBA.get(), pos, state, 6);
+        super(NtmBlockEntityTypes.NUKE_TSAR_BOMBA.get(), pos, state, 6);
     }
 
     @Override public Component getDefaultName() { return Component.translatable("container.nukeTsarBomba"); }

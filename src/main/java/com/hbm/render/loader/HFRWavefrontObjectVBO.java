@@ -1,12 +1,13 @@
 package com.hbm.render.loader;
 
+import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.loader.old.TextureCoordinate;
 import com.hbm.render.loader.old.Vertex;
 import com.hbm.render.util.NtmShaders.NtmVertexFormat;
 import com.hbm.render.util.RenderContext;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
-import net.minecraft.client.renderer.RenderType;
+import com.mojang.blaze3d.vertex.VertexBuffer.Usage;
 import net.minecraft.client.renderer.ShaderInstance;
 import org.joml.Matrix4f;
 
@@ -54,7 +55,7 @@ public class HFRWavefrontObjectVBO implements IModelCustomNamed {
 
             MeshData meshData = builder.buildOrThrow();
 
-            VertexBuffer buffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
+            VertexBuffer buffer = new VertexBuffer(Usage.STATIC);
             buffer.bind();
             buffer.upload(meshData);
             VertexBuffer.unbind();
@@ -77,34 +78,32 @@ public class HFRWavefrontObjectVBO implements IModelCustomNamed {
 
     private void renderGroup(GroupVBO group) {
 
-        RenderType type = RenderContext.renderType();
-        PoseStack poseStack = RenderContext.poseStack();
+        RenderContext context = RenderContext.INSTANCE.get();
 
-        int packedLight = RenderContext.light();
-        int packedOverlay = RenderContext.overlay();
+        int packedLight = context.packedLight;
+        int packedOverlay = context.packedOverlay;
 
-        type.setupRenderState();
+        PoseStack poseStack = context.poseStack;
+
+        NtmRenderTypes.VBO.setupRenderState();
         ShaderInstance shader = RenderSystem.getShader();
         if(shader == null) return;
 
-        if(!RenderContext.cullFace()) RenderSystem.disableCull();
-
-        Matrix4f normalMatrix = poseStack.last().pose();
-        Matrix4f modelViewMatrix = RenderSystem.getModelViewMatrix().mul(normalMatrix, new Matrix4f());
+        Matrix4f lastPose = poseStack.last().pose();
+        Matrix4f modelViewMatrix = RenderSystem.getModelViewMatrix().mul(lastPose, new Matrix4f());
         Matrix4f projectionMatrix = RenderSystem.getProjectionMatrix();
 
         shader.safeGetUniform("UV1").set(packedOverlay & '\uffff', packedOverlay >> 16 & '\uffff');
         shader.safeGetUniform("UV2").set(packedLight & '\uffff', packedLight >> 16 & '\uffff');
-        shader.safeGetUniform("Col").set(RenderContext.r(), RenderContext.g(), RenderContext.b(), RenderContext.a());
-        shader.safeGetUniform("NormalMat").set(normalMatrix);
+        shader.safeGetUniform("Color").set(context.color);
+        shader.safeGetUniform("EnableLight").set(context.lightning ? 1 : 0);
+        shader.safeGetUniform("PoseMat").set(lastPose);
 
         group.vertexBuffer.bind();
         group.vertexBuffer.drawWithShader(modelViewMatrix, projectionMatrix, shader);
         VertexBuffer.unbind();
 
-        if(!RenderContext.cullFace()) RenderSystem.enableCull();
-
-        type.clearRenderState();
+        NtmRenderTypes.VBO.clearRenderState();
     }
 
     @Override

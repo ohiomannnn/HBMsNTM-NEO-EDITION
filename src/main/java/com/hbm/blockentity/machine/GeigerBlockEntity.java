@@ -1,24 +1,22 @@
 package com.hbm.blockentity.machine;
 
-import com.hbm.blockentity.ModBlockEntityTypes;
-import com.hbm.blockentity.Tickable;
+import com.hbm.blockentity.NtmBlockEntityTypes;
+import com.hbm.blockentity.ITickable;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.registry.NtmSoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GeigerBlockEntity extends BlockEntity implements Tickable {
+public class GeigerBlockEntity extends BlockEntity implements ITickable {
 
     public GeigerBlockEntity(BlockPos pos, BlockState blockState) {
-        super(ModBlockEntityTypes.GEIGER_COUNTER.get(), pos, blockState);
+        super(NtmBlockEntityTypes.GEIGER_COUNTER.get(), pos, blockState);
     }
 
     public int timer = 0;

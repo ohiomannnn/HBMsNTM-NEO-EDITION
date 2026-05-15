@@ -1,6 +1,6 @@
 package com.hbm.blocks.network;
 
-import com.hbm.blockentity.Tickable;
+import com.hbm.blockentity.ITickable;
 import com.hbm.blockentity.network.CableBaseBlockEntity;
 import com.hbm.lib.Library;
 import com.mojang.serialization.MapCodec;
@@ -58,7 +58,7 @@ public class CableBlock extends Block implements EntityBlock {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return (lvl, pos, st, be) -> { if (be instanceof Tickable tickable) tickable.updateEntity(); };
+        return (lvl, pos, st, be) -> { if (be instanceof ITickable tickable) tickable.updateEntity(); };
     }
 
     @Override

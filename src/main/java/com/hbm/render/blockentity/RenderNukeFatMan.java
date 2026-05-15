@@ -6,6 +6,7 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.util.RenderContext;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -22,24 +23,22 @@ public class RenderNukeFatMan extends BlockEntityRendererNT<NukeFatManBlockEntit
 
     @Override
     public void render(NukeFatManBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+        RenderContext.setup(poseStack, packedLight, packedOverlay);
+        RenderContext.translate(0.5F, 0F, 0.5F);
+        RenderSystem.disableCull();
 
         Direction facing = be.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
-        float rot = switch (facing) {
-            case DOWN, UP -> 0.0F;
-            case EAST -> 90f;
-            case NORTH -> 180f;
-            case WEST -> 270f;
-            default -> 0f;
-        };
+        switch(facing) {
+            case WEST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
+            case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
+            case EAST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
+            case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
+        }
 
-        RenderContext.setup(NtmRenderTypes.FVBO.apply(ResourceManager.NUKE_FAT_MAN_TEX), poseStack, packedLight, packedOverlay);
-        RenderContext.translate(0.5, 0.0, 0.5);
-        RenderContext.mulPose(Axis.YP.rotationDegrees(rot));
-
-        RenderContext.enableCull(false);
+        bindTexture(ResourceManager.NUKE_FAT_MAN_TEX);
         ResourceManager.nuke_fat_man.renderAll();
-        RenderContext.enableCull(true);
 
+        RenderSystem.enableCull();
         RenderContext.end();
     }
 
@@ -65,12 +64,9 @@ public class RenderNukeFatMan extends BlockEntityRendererNT<NukeFatManBlockEntit
                 RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
                 RenderContext.translate(-0.75F, 0F, 0F);
 
-                RenderContext.enableCull(false);
-
-                RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.NUKE_FAT_MAN_TEX));
-                ResourceManager.nuke_fat_man.renderAll();
-
-                RenderContext.enableCull(true);
+                RenderSystem.disableCull();
+                bindTexture(ResourceManager.NUKE_FAT_MAN_TEX); ResourceManager.nuke_fat_man.renderAll();
+                RenderSystem.enableCull();
             }
         };
     }

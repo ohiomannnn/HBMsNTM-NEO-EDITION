@@ -4,6 +4,7 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.util.FullBright;
 import com.hbm.render.util.RenderContext;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -67,19 +68,21 @@ public class RenderLaserDetonator extends BlockEntityWithoutLevelRenderer {
 
         RenderContext.pushPose();
 
-        RenderContext.enableCull(false);
+        RenderSystem.disableCull();
 
-        RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.DETONATOR_LASER_TEX));
+        RenderSystem.setShaderTexture(0, ResourceManager.DETONATOR_LASER_TEX);
         ResourceManager.detonator_laser.renderPart("Main");
 
         RenderContext.setColor(1F, 0F, 0F, 1F);
+        RenderContext.setLightning(false);
         FullBright.enable();
-        RenderContext.setRenderType(NtmRenderTypes.FVBO_NL_NT);
+        RenderSystem.setShaderTexture(0, ResourceManager.WHITE_TEX);
         ResourceManager.detonator_laser.renderPart("Lights");
         FullBright.disable();
+        RenderContext.setLightning(true);
         RenderContext.setColor(1F, 1F, 1F, 1F);
 
-        RenderContext.enableCull(true);
+        RenderSystem.enableCull();
 
         RenderContext.popPose();
 

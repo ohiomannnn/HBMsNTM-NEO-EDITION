@@ -3,9 +3,9 @@ package com.hbm.render.blockentity;
 import com.hbm.blockentity.bomb.NukeIvyMikeBlockEntity;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.util.RenderContext;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -22,22 +22,22 @@ public class RenderNukeIvyMike extends BlockEntityRendererNT<NukeIvyMikeBlockEnt
 
     @Override
     public void render(NukeIvyMikeBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+        RenderContext.setup(poseStack, packedLight, packedOverlay);
+        RenderContext.translate(0.5F, 0, 0.5F);
+        RenderSystem.disableCull();
 
         Direction facing = be.getBlockState().getValue(BlockStateProperties.HORIZONTAL_FACING);
-        float rot = switch (facing) {
-            case DOWN, UP -> 0.0F;
-            case WEST -> 0F;
-            case SOUTH -> 90F;
-            case EAST -> 180F;
-            case NORTH -> 270F;
-        };
+        switch(facing) {
+            case WEST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
+            case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
+            case EAST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(180));
+            case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
+        }
 
-        RenderContext.setup(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_IVY_MIKE), poseStack, packedLight, packedOverlay);
-        RenderContext.translate(0.5, 0.0, 0.5);
-        RenderContext.mulPose(Axis.YP.rotationDegrees(rot));
-
+        bindTexture(ResourceManager.NUKE_IVY_MIKE_TEX);
         ResourceManager.nuke_ivy_mike.renderAll();
 
+        RenderSystem.enableCull();
         RenderContext.end();
     }
 
@@ -59,7 +59,7 @@ public class RenderNukeIvyMike extends BlockEntityRendererNT<NukeIvyMikeBlockEnt
 
             @Override
             public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
-                RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NUKE_IVY_MIKE));
+                bindTexture(ResourceManager.NUKE_IVY_MIKE_TEX);
                 ResourceManager.nuke_ivy_mike.renderAll();
             }
         };

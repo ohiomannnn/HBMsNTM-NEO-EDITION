@@ -1,6 +1,7 @@
 package com.hbm.entity.logic;
 
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.TicketType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.ChunkPos;
 
@@ -15,26 +16,27 @@ public interface IChunkLoader {
         if(entity.level instanceof ServerLevel serverLevel) {
             this.setLoadedChunkPos(new ChunkPos(entity.blockPosition));
 
-            serverLevel.getChunkSource().updateChunkForced(this.getLoadedChunkPos(), true);
+            serverLevel.getChunkSource().addRegionTicket(TicketType.PORTAL, this.getLoadedChunkPos(), 3, entity.blockPosition, true);
         }
     }
     default void onRemovedFromLevel(Entity entity) {
 
         if(this.getLoadedChunkPos() != null && entity.level instanceof ServerLevel serverLevel) {
-            serverLevel.getChunkSource().updateChunkForced(this.getLoadedChunkPos(), false);
+            serverLevel.getChunkSource().removeRegionTicket(TicketType.PORTAL, this.getLoadedChunkPos(), 3, entity.blockPosition, true);
 
             this.setLoadedChunkPos(null);
         }
     }
 
     default void updateChunkTicket(Entity entity) {
+        if(entity.level instanceof ServerLevel serverLevel) {
+            ChunkPos newPos = new ChunkPos(entity.blockPosition());
 
-        if (entity.level instanceof ServerLevel serverLevel) {
-            ChunkPos newPos = new ChunkPos(entity.blockPosition);
+            ChunkPos oldPos = this.getLoadedChunkPos();
+            if(oldPos != null && !newPos.equals(oldPos)) {
+                serverLevel.getChunkSource().removeRegionTicket(TicketType.PORTAL, oldPos, 3, entity.blockPosition, true);
+                serverLevel.getChunkSource().addRegionTicket(TicketType.PORTAL, newPos, 3, entity.blockPosition, true);
 
-            if (!newPos.equals(this.getLoadedChunkPos())) {
-
-                serverLevel.getChunkSource().updateChunkForced(this.getLoadedChunkPos(), true);
                 this.setLoadedChunkPos(newPos);
             }
         }

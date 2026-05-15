@@ -28,7 +28,7 @@ public class HFRModelReloader extends SimplePreparableReloadListener<Void> {
                 try (InputStream stream = res.open()) {
                     obj.loadObjModel(stream);
                 }
-            } catch (IOException e) { }
+            } catch(IOException e) { }
         }
         for(Entry<HFRWavefrontObjectVBO, HFRWavefrontObject> entry : HFRWavefrontObject.allVBOs.entrySet()) {
             HFRWavefrontObjectVBO vbo = entry.getKey();

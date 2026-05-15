@@ -1,6 +1,6 @@
 package com.hbm.blocks.machine;
 
-import com.hbm.blockentity.ModBlockEntityTypes;
+import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.blockentity.machine.MachineSatLinkerBlockEntity;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -69,6 +69,6 @@ public class MachineSatLinkerBlock extends BaseEntityBlock {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return level.isClientSide ? null : BaseEntityBlock.createTickerHelper(type, ModBlockEntityTypes.MACHINE_SATLINKER.get(), MachineSatLinkerBlockEntity::serverTick);
+        return level.isClientSide ? null : BaseEntityBlock.createTickerHelper(type, NtmBlockEntityTypes.MACHINE_SATLINKER.get(), MachineSatLinkerBlockEntity::serverTick);
     }
 }

@@ -1,7 +1,7 @@
 package com.hbm.blockentity.bomb;
 
 import com.hbm.blockentity.MachineBaseBlockEntity;
-import com.hbm.blockentity.ModBlockEntityTypes;
+import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.logic.NukeExplosionBalefire;
 import com.hbm.interfaces.IControlReceiver;
@@ -31,7 +31,7 @@ public class NukeBalefireBlockEntity extends MachineBaseBlockEntity implements I
     public int timer;
 
     public NukeBalefireBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntityTypes.NUKE_FSTBMB.get(), pos, state, 2);
+        super(NtmBlockEntityTypes.NUKE_FSTBMB.get(), pos, state, 2);
         timer = 18000;
     }
 

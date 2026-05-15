@@ -1,19 +1,19 @@
 package com.hbm.render;
 
-import com.hbm.main.ResourceManager;
 import com.hbm.render.util.NtmShaders;
 import com.hbm.render.util.NtmShaders.NtmVertexFormat;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import net.minecraft.Util;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderStateShard.ShaderStateShard;
 import net.minecraft.client.renderer.RenderStateShard.TextureStateShard;
 import net.minecraft.client.renderer.RenderStateShard.TransparencyStateShard;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderType.CompositeState;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Function;
@@ -42,92 +42,15 @@ public class NtmRenderTypes {
                 RenderSystem.disableBlend();
             });
 
-    public static final ShaderStateShard A_SHADER = new ShaderStateShard(NtmShaders::getAShader);
-    public static final ShaderStateShard A_SHADER_NL = new ShaderStateShard(NtmShaders::getAShaderNL);
+    // original NO_TRANSPARENCY disabled blending... why mojang???
+    public static final TransparencyStateShard NO_TRANSPARENCY = new TransparencyStateShard("no_transparency", () -> {}, () -> {});
 
-    // for vbo
-    public static final Function<ResourceLocation, RenderType> FVBO = Util.memoize(
-            texture -> {
-                RenderType.CompositeState state = RenderType.CompositeState.builder()
-                        .setShaderState(A_SHADER)
-                        .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
-                        .setLightmapState(RenderType.LIGHTMAP)
-                        .setOverlayState(RenderType.OVERLAY)
-                        .createCompositeState(false);
-                return RenderType.create("fvbo", NtmVertexFormat.POSITION_TEX_NORMAL, VertexFormat.Mode.QUADS, 15346, false, false, state);
-            }
-    );
+    public static final ShaderStateShard VBO_SHADER = new ShaderStateShard(NtmShaders::getVboShader);
 
-    // for vbo, no cullFace
-    public static final Function<ResourceLocation, RenderType> FVBO_NC = Util.memoize(
-            texture -> {
-                RenderType.CompositeState state = RenderType.CompositeState.builder()
-                        .setShaderState(A_SHADER)
-                        .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
-                        .setLightmapState(RenderType.LIGHTMAP)
-                        .setOverlayState(RenderType.OVERLAY)
-                        .setCullState(RenderStateShard.NO_CULL)
-                        .createCompositeState(false);
-                return RenderType.create("fvbo_nc", NtmVertexFormat.POSITION_TEX_NORMAL, VertexFormat.Mode.QUADS, 15346, false, false, state);
-            }
-    );
-
-    // for vbo, no light
-    public static final Function<ResourceLocation, RenderType> FVBO_NL = Util.memoize(
-            texture -> {
-                RenderType.CompositeState state = RenderType.CompositeState.builder()
-                        .setShaderState(A_SHADER_NL)
-                        .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
-                        .setLightmapState(RenderType.LIGHTMAP)
-                        .setOverlayState(RenderType.OVERLAY)
-                        .createCompositeState(false);
-                return RenderType.create("fvbo_nl", NtmVertexFormat.POSITION_TEX_NORMAL, VertexFormat.Mode.QUADS, 15346, false, false, state);
-            }
-    );
-
-    // for vbo, no light, no cullFace, additive
-    public static final Function<ResourceLocation, RenderType> FVBO_ADDITIVE_NL = Util.memoize(
-            texture -> {
-                RenderType.CompositeState state = RenderType.CompositeState.builder()
-                        .setShaderState(A_SHADER_NL)
-                        .setTransparencyState(ADDITIVE_BLEND)
-                        .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
-                        .setLightmapState(RenderType.LIGHTMAP)
-                        .setOverlayState(RenderType.OVERLAY)
-                        .setCullState(RenderStateShard.NO_CULL)
-                        .createCompositeState(false);
-                return RenderType.create("fvbo_additive", NtmVertexFormat.POSITION_TEX_NORMAL, VertexFormat.Mode.QUADS, 15346, false, false, state);
-            }
-    );
-
-    // for vbo, no light, no tex
-    public static final RenderType FVBO_NL_NT = RenderType.create(
-            "fvbo_nl_nt",
-            NtmVertexFormat.POSITION_TEX_NORMAL,
-            VertexFormat.Mode.QUADS,
-            15346,
-            false,
-            false,
-            RenderType.CompositeState.builder()
-                    .setShaderState(A_SHADER_NL)
-                    .setTextureState(new TextureStateShard(ResourceManager.WHITE_TEX, false, false))
-                    .setLightmapState(RenderType.LIGHTMAP)
-                    .setOverlayState(RenderType.OVERLAY)
-                    .createCompositeState(false)
-    );
-
-    // for vbo, no light, no tex
-    public static final RenderType FVBO_ADD_NL_NT = RenderType.create(
-            "fvbo_add_nl_nt",
-            NtmVertexFormat.POSITION_TEX_NORMAL,
-            VertexFormat.Mode.QUADS,
-            15346,
-            false,
-            false,
-            RenderType.CompositeState.builder()
-                    .setShaderState(A_SHADER_NL)
-                    .setTransparencyState(ADDITIVE_BLEND)
-                    .setTextureState(new TextureStateShard(ResourceManager.WHITE_TEX, false, false))
+    public static final RenderType VBO = RenderType.create("vbo", NtmVertexFormat.POSITION_TEX_NORMAL, Mode.QUADS, 1024,
+            CompositeState.builder()
+                    .setShaderState(VBO_SHADER)
+                    .setTransparencyState(NO_TRANSPARENCY)
                     .setLightmapState(RenderType.LIGHTMAP)
                     .setOverlayState(RenderType.OVERLAY)
                     .createCompositeState(false)

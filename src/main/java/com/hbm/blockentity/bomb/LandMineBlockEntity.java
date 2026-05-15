@@ -1,7 +1,7 @@
 package com.hbm.blockentity.bomb;
 
-import com.hbm.blockentity.ModBlockEntityTypes;
-import com.hbm.blockentity.Tickable;
+import com.hbm.blockentity.NtmBlockEntityTypes;
+import com.hbm.blockentity.ITickable;
 import com.hbm.blocks.bomb.LandmineBlock;
 import com.hbm.registry.NtmSoundEvents;
 import net.minecraft.core.BlockPos;
@@ -18,13 +18,13 @@ import net.minecraft.world.phys.AABB;
 
 import java.util.List;
 
-public class LandMineBlockEntity extends BlockEntity implements Tickable {
+public class LandMineBlockEntity extends BlockEntity implements ITickable {
 
     public boolean isPrimed = false;
     public boolean waitingForPlayer = true;
 
     public LandMineBlockEntity(BlockPos pos, BlockState blockState) {
-        super(ModBlockEntityTypes.LANDMINE.get(), pos, blockState);
+        super(NtmBlockEntityTypes.LANDMINE.get(), pos, blockState);
     }
 
     @Override

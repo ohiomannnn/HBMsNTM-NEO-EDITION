@@ -5,11 +5,11 @@ import com.hbm.blocks.DummyableBlock;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.item.ItemRenderMissileGeneric;
 import com.hbm.render.item.ItemRenderMissileGeneric.RocketModelData;
 import com.hbm.render.util.RenderContext;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -26,28 +26,27 @@ public class RenderLaunchPad extends BlockEntityRendererNT<LaunchPadBlockEntity>
 
     @Override
     public void render(LaunchPadBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+        RenderContext.setup(poseStack, packedLight, packedOverlay);
+        RenderContext.translate(0.5F, 0F, 0.5F);
+        RenderSystem.enableCull();
 
         Direction facing = be.getBlockState().getValue(DummyableBlock.FACING);
-        float rot = switch (facing) {
-            case DOWN, UP -> 0.0F;
-            case WEST -> 90F;
-            case SOUTH -> 180F;
-            case EAST -> 270F;
-            case NORTH -> 0F;
-        };
+        switch(facing) {
+            case WEST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
+            case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
+            case EAST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
+            case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
+        }
 
-        RenderContext.setup(NtmRenderTypes.FVBO.apply(ResourceManager.MISSILE_PAD_TEX), poseStack, packedLight, packedOverlay);
-        RenderContext.translate(0.5, 0.0, 0.5);
-        RenderContext.mulPose(Axis.YP.rotationDegrees(rot));
-
+        bindTexture(ResourceManager.MISSILE_PAD_TEX);
         ResourceManager.missile_pad.renderAll();
 
         ItemStack toRender = be.toRender;
 
-        if (!toRender.isEmpty()) {
+        if(!toRender.isEmpty()) {
             poseStack.translate(0F, 1F, 0F);
             RocketModelData render = ItemRenderMissileGeneric.renderers.get(new ComparableStack(toRender).makeSingular());
-            if (render != null) render.render(true);
+            if(render != null) render.render();
         }
 
         RenderContext.end();
@@ -85,7 +84,7 @@ public class RenderLaunchPad extends BlockEntityRendererNT<LaunchPadBlockEntity>
 
             @Override
             public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
-                RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(ResourceManager.MISSILE_PAD_TEX));
+                bindTexture(ResourceManager.MISSILE_PAD_TEX);
                 ResourceManager.missile_pad.renderAll();
             }
         };

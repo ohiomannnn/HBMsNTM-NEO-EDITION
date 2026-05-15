@@ -2,7 +2,7 @@ package com.hbm.blocks.network;
 
 import com.hbm.blockentity.IPersistentNBT;
 import com.hbm.blockentity.ProxyComboBlockEntity;
-import com.hbm.blockentity.Tickable;
+import com.hbm.blockentity.ITickable;
 import com.hbm.blockentity.machine.storage.BatteryREDDBlockEntity;
 import com.hbm.blocks.DummyBlockType;
 import com.hbm.blocks.DummyableBlock;
@@ -30,9 +30,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import java.math.BigInteger;
 import java.util.List;
 
-public class MachineBatteryREDD extends DummyableBlock {
+public class MachineBatteryREDDBlock extends DummyableBlock {
 
-    public MachineBatteryREDD(Properties properties) {
+    public MachineBatteryREDDBlock(Properties properties) {
         super(properties);
     }
 
@@ -49,14 +49,14 @@ public class MachineBatteryREDD extends DummyableBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         if (state.getValue(TYPE) != DummyBlockType.CORE) return null;
-        return (lvl, pos, st, be) -> { if (be instanceof Tickable tickable) tickable.updateEntity(); };
+        return (lvl, pos, st, be) -> { if (be instanceof ITickable tickable) tickable.updateEntity(); };
     }
 
     @Override public int[] getDimensions() { return new int[] {9, 0, 2, 2, 4, 4}; }
     @Override public int getOffset() { return 2; }
 
-    public static final MapCodec<MachineBatteryREDD> CODEC = simpleCodec(MachineBatteryREDD::new);
-    @Override protected MapCodec<MachineBatteryREDD> codec() { return CODEC; }
+    public static final MapCodec<MachineBatteryREDDBlock> CODEC = simpleCodec(MachineBatteryREDDBlock::new);
+    @Override protected MapCodec<MachineBatteryREDDBlock> codec() { return CODEC; }
 
     @Override
     protected void fillSpace(Level level, BlockPos pos, Direction dir, int offset) {

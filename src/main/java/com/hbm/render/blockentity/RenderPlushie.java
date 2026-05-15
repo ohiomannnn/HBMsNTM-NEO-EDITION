@@ -7,12 +7,12 @@ import com.hbm.blocks.generic.PlushieBlock.PlushieType;
 import com.hbm.items.NtmItems;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.loader.IModelCustom;
 import com.hbm.render.util.HorsePronter;
 import com.hbm.render.util.RenderContext;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
@@ -44,10 +44,10 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
     public static IModelCustom hundunModel;
     public static IModelCustom dergModel;
 
-    public static final ResourceLocation yomiTex = NuclearTechMod.withDefaultNamespace("textures/models/trinkets/yomi.png");
-    public static final ResourceLocation numbernineTex = NuclearTechMod.withDefaultNamespace("textures/models/horse/numbernine.png");
-    public static final ResourceLocation hundunTex = NuclearTechMod.withDefaultNamespace("textures/models/trinkets/hundun.png");
-    public static final ResourceLocation dergTex = NuclearTechMod.withDefaultNamespace("textures/models/trinkets/derg.png");
+    public static final ResourceLocation YOMI_TEX = NuclearTechMod.withDefaultNamespace("textures/models/trinkets/yomi.png");
+    public static final ResourceLocation NUMBERNINE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/horse/numbernine.png");
+    public static final ResourceLocation HUNDUN_TEX = NuclearTechMod.withDefaultNamespace("textures/models/trinkets/hundun.png");
+    public static final ResourceLocation DERG_TEX = NuclearTechMod.withDefaultNamespace("textures/models/trinkets/derg.png");
 
     @Override
     public void render(PlushieBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
@@ -76,7 +76,7 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
 
         switch (type) {
             case YOMI -> {
-                RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(yomiTex));
+                RenderSystem.setShaderTexture(0, YOMI_TEX);
                 yomiModel.renderAll();
             }
             case NUMBERNINE -> {
@@ -84,7 +84,7 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
                 RenderContext.mulPose(Axis.XN.rotationDegrees(15));
                 RenderContext.translate(0F, -0.25F, 0.75F);
                 HorsePronter.reset();
-                double r = 45;
+                float r = 45F;
                 HorsePronter.pose(HorsePronter.id_body, 0, -r, 0);
                 HorsePronter.pose(HorsePronter.id_tail, 0, 60, 90);
                 HorsePronter.pose(HorsePronter.id_lbl, 0, -75 + r, 35);
@@ -92,20 +92,22 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
                 HorsePronter.pose(HorsePronter.id_lfl, 0, r - 25, 5);
                 HorsePronter.pose(HorsePronter.id_rfl, 0, r - 25, -5);
                 HorsePronter.pose(HorsePronter.id_head, 0, r + 15, 0);
-                RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(numbernineTex));
+                RenderSystem.setShaderTexture(0, NUMBERNINE_TEX);
                 HorsePronter.pront();
                 RenderContext.mulPose(Axis.XP.rotationDegrees(15F));
 
                 RenderContext.pushPose();
                 RenderContext.translate(0F, 1F, -0.6875F);
+                RenderSystem.disableCull();
                 float s = 1.125F;
                 RenderContext.scale(0.0625F * s, 0.0625F * s, 0.0625F * s);
                 RenderContext.mulPose(Axis.XP.rotationDegrees(180F));
-                RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NO9));
+                RenderSystem.setShaderTexture(0, ResourceManager.NO9);
                 ResourceManager.armor_no9.renderPart("Helmet");
-                RenderContext.setRenderType(NtmRenderTypes.FVBO_NC.apply(ResourceManager.NO9_INSIGNIA));
+                RenderSystem.setShaderTexture(0, ResourceManager.NO9_INSIGNIA);
                 ResourceManager.armor_no9.renderPart("Insignia");
                 RenderContext.popPose();
+                RenderSystem.enableCull();
 
                 ItemStack stack = new ItemStack(NtmItems.CIGARETTE.get());
                 float scale = 0.25F;
@@ -119,11 +121,11 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
                 itemRenderer.render(stack, ItemDisplayContext.FIXED, false, RenderContext.poseStack(), buffer, RenderContext.light(), RenderContext.overlay(), model);
             }
             case HUNDUN -> {
-                RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(hundunTex));
+                RenderSystem.setShaderTexture(0, HUNDUN_TEX);
                 hundunModel.renderPart("goober_posed");
             }
             case DERG -> {
-                RenderContext.setRenderType(NtmRenderTypes.FVBO.apply(dergTex));
+                RenderSystem.setShaderTexture(0, DERG_TEX);
                 dergModel.renderPart("Derg");
                 dergModel.renderPart(squish ? "Blep" : "ColonThree");
             }

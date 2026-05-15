@@ -1,11 +1,9 @@
 package com.hbm.blockentity.machine;
 
 import com.hbm.blockentity.MachineBaseBlockEntity;
-import com.hbm.blockentity.ModBlockEntityTypes;
-import com.hbm.util.BufferUtil;
+import com.hbm.blockentity.NtmBlockEntityTypes;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -33,7 +31,7 @@ public class MachinePressBlockEntity extends MachineBaseBlockEntity {
     public ItemStack syncStack;
 
     public MachinePressBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntityTypes.PRESS.get(), pos, state, 4);
+        super(NtmBlockEntityTypes.PRESS.get(), pos, state, 4);
     }
 
     @Override
