@@ -50,17 +50,23 @@ public class ExplosionCreator implements IParticleCreator {
         }
     }
 
-    /** Downscaled for small bombs */
+    /**
+     * Downscaled for small bombs
+     */
     public static void composeEffectSmall(Level level, double x, double y, double z) {
         composeEffect(level, x, y, z, 10, 2F, 0.5F, 25F, 5, 8, 20, 0.75F, 1F, -2F, 150);
     }
 
-    /** Development version */
+    /**
+     * Development version
+     */
     public static void composeEffectStandard(Level level, double x, double y, double z) {
         composeEffect(level, x, y, z, 15, 5F, 1F, 45F, 10, 16, 50, 1F, 3F, -2F, 200);
     }
 
-    /** Upscaled version, ATACMS go brrt */
+    /**
+     * Upscaled version, ATACMS go brrt
+     */
     public static void composeEffectLarge(Level level, double x, double y, double z) {
         composeEffect(level, x, y, z, 30, 6.5F, 2F, 65F, 25, 16, 50, 1.25F, 3F, -2F, 350);
     }
@@ -82,10 +88,10 @@ public class ExplosionCreator implements IParticleCreator {
         float soundRange = data.getFloat("soundRange");
 
         double dist = Math.sqrt(player.distanceToSqr(x, y, z));
-
+        //
         if (dist <= soundRange) {
             SoundEvent sound = dist <= soundRange * 0.4 ? NtmSoundEvents.EXPLOSION_LARGE_NEAR.get() : NtmSoundEvents.EXPLOSION_LARGE_FAR.get();
-            SimpleSoundInstance instance = new SimpleSoundInstance(sound, SoundSource.BLOCKS, 1000.0F, 0.9F + rand.nextFloat() * 0.2F, rand, x, y, z);
+            SimpleSoundInstance instance = new SimpleSoundInstance(sound, SoundSource.BLOCKS, 1.0F, 0.9F + rand.nextFloat() * 0.2F, rand, x, y, z);
             Minecraft.getInstance().getSoundManager().playDelayed(instance, (int) (dist / SPEED_OF_SOUND));
         }
 
@@ -172,11 +178,11 @@ public class ExplosionCreator implements IParticleCreator {
                         // very scary part
                         if (
                                 !wiaj.getBlock(middle + jx + 1, middle + jy, middle + jz).isAir() ||
-                                !wiaj.getBlock(middle + jx - 1, middle + jy, middle + jz).isAir() ||
-                                !wiaj.getBlock(middle + jx, middle + jy + 1, middle + jz).isAir() ||
-                                !wiaj.getBlock(middle + jx, middle + jy - 1, middle + jz).isAir() ||
-                                !wiaj.getBlock(middle + jx, middle + jy, middle + jz + 1).isAir() ||
-                                !wiaj.getBlock(middle + jx, middle + jy, middle + jz - 1).isAir()) {
+                                        !wiaj.getBlock(middle + jx - 1, middle + jy, middle + jz).isAir() ||
+                                        !wiaj.getBlock(middle + jx, middle + jy + 1, middle + jz).isAir() ||
+                                        !wiaj.getBlock(middle + jx, middle + jy - 1, middle + jz).isAir() ||
+                                        !wiaj.getBlock(middle + jx, middle + jy, middle + jz + 1).isAir() ||
+                                        !wiaj.getBlock(middle + jx, middle + jy, middle + jz - 1).isAir()) {
 
                             wiaj.setBlock(middle + jx, middle + jy, middle + jz, level.getBlockState(BlockPos.containing(cX + jx, cY + jy, cZ + jz)));
                         }
