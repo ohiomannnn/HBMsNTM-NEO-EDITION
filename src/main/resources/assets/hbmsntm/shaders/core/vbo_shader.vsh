@@ -32,7 +32,7 @@ out vec4 overlayColor;
 out vec2 texCoord0;
 
 void main() {
-    gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
+    gl_Position = ProjMat * ModelViewMat * PoseMat * vec4(Position, 1.0);
     vec4 pos = PoseMat * vec4(Position, 1.0);
     vec3 normalPos = normalize(mat3(PoseMat) * Normal);
 

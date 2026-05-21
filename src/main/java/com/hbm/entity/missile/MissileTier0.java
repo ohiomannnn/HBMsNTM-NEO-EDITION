@@ -1,7 +1,7 @@
 package com.hbm.entity.missile;
 
 import com.hbm.blocks.NtmBlocks;
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.effect.BlackHole;
 import com.hbm.entity.logic.EMP;
@@ -52,7 +52,7 @@ public abstract class MissileTier0 extends MissileBaseNT {
         @Override
         public void onMissileImpact(RayTraceResult mop) {
 
-            WorldUtil.loadAndAddFreshEntity(NukeExplosionMK5.statFacNoSpawn(level, MainConfig.COMMON.FATMAN_RADIUS.get(), this.position.x, this.position.y, this.position.z));
+            WorldUtil.loadAndAddFreshEntity(NukeExplosionMK5.statFacNoSpawn(level, NtmConfig.COMMON.FATMAN_RADIUS.get(), this.position.x, this.position.y, this.position.z));
 
             // this has to be the single worst solution ever
             level.playSound(null, this.position.x, this.position.y, this.position.z, NtmSoundEvents.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 25.0F, 1F);
@@ -72,7 +72,7 @@ public abstract class MissileTier0 extends MissileBaseNT {
         public MissileSchrabidium(EntityType<? extends MissileSchrabidium> entityType, Level level) { super(entityType, level); }
         @Override
         public void onMissileImpact(RayTraceResult mop) {
-            NukeExplosionMK3 ex = NukeExplosionMK3.statFacFleija(level, this.position.x, this.position.y, this.position.z, MainConfig.COMMON.FLEIJA_RADIUS.get());
+            NukeExplosionMK3 ex = NukeExplosionMK3.statFacFleija(level, this.position.x, this.position.y, this.position.z, NtmConfig.COMMON.FLEIJA_RADIUS.get());
             if (!ex.isRemoved()) {
                 WorldUtil.loadAndAddFreshEntity(ex);
                 CloudCreator.composeEffect(level,this.position.x, this.position.y, this.position.z, CloudCreator.CloudType.FLEIJA);

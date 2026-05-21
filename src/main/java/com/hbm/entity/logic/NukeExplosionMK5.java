@@ -1,6 +1,6 @@
 package com.hbm.entity.logic;
 
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.effect.FalloutRain;
 import com.hbm.explosion.ExplosionNukeGeneric;
@@ -74,16 +74,16 @@ public class NukeExplosionMK5 extends ExplosionChunkLoading {
         }
 
         if (!explosion.isComplete()) {
-            explosion.cacheChunksTick(MainConfig.COMMON.MK5.get());
-            explosion.destructionTick(MainConfig.COMMON.MK5.get());
+            explosion.cacheChunksTick(NtmConfig.COMMON.MK5.get());
+            explosion.destructionTick(NtmConfig.COMMON.MK5.get());
         } else {
-            if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get() && explosionStart != 0) {
+            if (NtmConfig.COMMON.ENABLE_EXTENDED_LOGGING.get() && explosionStart != 0) {
                 NuclearTechMod.LOGGER.info("[NUKE] Explosion complete. Time elapsed: {}ms", (System.currentTimeMillis() - explosionStart));
             }
             if (fallout) {
                 FalloutRain fallout = new FalloutRain(this.level);
                 fallout.setPos(this.position.x, this.position.y, this.position.z);
-                fallout.setScale((int) (this.length * 2.5 + falloutAdd) * MainConfig.COMMON.FALLOUT_RANGE.get() / 100);
+                fallout.setScale((int) (this.length * 2.5 + falloutAdd) * NtmConfig.COMMON.FALLOUT_RANGE.get() / 100);
                 WorldUtil.loadAndAddFreshEntity(fallout);
             }
             this.discard();
@@ -128,7 +128,7 @@ public class NukeExplosionMK5 extends ExplosionChunkLoading {
     }
 
     public static NukeExplosionMK5 statFac(Level level, int strength, double x, double y, double z) {
-        if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get() && !level.isClientSide) {
+        if (NtmConfig.COMMON.ENABLE_EXTENDED_LOGGING.get() && !level.isClientSide) {
             NuclearTechMod.LOGGER.info("[NUKE] Initialized explosion at {} / {} / {} with strength {}!", x, y, z, strength);
         }
 
@@ -146,7 +146,7 @@ public class NukeExplosionMK5 extends ExplosionChunkLoading {
 
     // FUCK
     public static NukeExplosionMK5 statFacNoSpawn(Level level, int strength, double x, double y, double z) {
-        if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get() && !level.isClientSide) {
+        if (NtmConfig.COMMON.ENABLE_EXTENDED_LOGGING.get() && !level.isClientSide) {
             NuclearTechMod.LOGGER.info("[NUKE] Initialized explosion at {} / {} / {} with strength {}!", x, y, z, strength);
         }
 

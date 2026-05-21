@@ -11,37 +11,40 @@ public class RenderContext {
 
     public static final ThreadLocal<RenderContext> INSTANCE = ThreadLocal.withInitial(RenderContext::new);
 
-    public PoseStack poseStack;
+    public PoseStack poseStack = null;
     public int packedLight = LightTexture.FULL_BRIGHT;
     public int packedOverlay = OverlayTexture.NO_OVERLAY;
     public Vector4f color = new Vector4f(1.0F, 1.0F, 1.0F, 1.0F);
     /** Same as GL11.GL_LIGHTING */
     public boolean lightning = true;
-    public boolean depthMask = true;
 
     public static void setLight(int packedLight) { INSTANCE.get().packedLight = packedLight; }
     public static void setOverlay(int packedOverlay) { INSTANCE.get().packedOverlay = packedOverlay; }
 
     public static void setLightning(boolean light) { INSTANCE.get().lightning = light; }
 
-    public static void depthMask(boolean mask) { INSTANCE.get().depthMask = mask; }
-
     public static void setColor(float r, float g, float b, float a) { INSTANCE.get().color = new Vector4f(r, g, b, a); }
 
     public static void setup(PoseStack poseStack, int packedLight, int packedOverlay) {
         RenderContext context = INSTANCE.get();
-        context.poseStack = poseStack;
+
         context.packedLight = packedLight;
         context.packedOverlay = packedOverlay;
+
+        context.poseStack = poseStack;
         context.poseStack.pushPose();
     }
 
     public static void end() {
         RenderContext context = INSTANCE.get();
+
         context.packedLight = LightTexture.FULL_BRIGHT;
         context.packedOverlay = OverlayTexture.NO_OVERLAY;
+
         context.color = new Vector4f(1.0F, 1.0F, 1.0F, 1.0F);
+
         context.poseStack.popPose();
+        context.poseStack = null;
     }
 
     public static PoseStack poseStack() {

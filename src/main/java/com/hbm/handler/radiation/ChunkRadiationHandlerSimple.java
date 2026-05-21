@@ -1,7 +1,7 @@
 package com.hbm.handler.radiation;
 
 import com.hbm.blocks.NtmBlocks;
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.network.toclient.AuxParticle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -104,7 +104,7 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
                         }
 
                         float rad = radiation.get(newCoord);
-                        if (rad > MainConfig.COMMON.FOG_RAD.get() && level != null && level.random.nextInt(MainConfig.COMMON.FOG_RAD_CH.get()) == 0 && level.hasChunk(coord.x, coord.z)) {
+                        if (rad > NtmConfig.COMMON.FOG_RAD.get() && level != null && level.random.nextInt(NtmConfig.COMMON.FOG_RAD_CH.get()) == 0 && level.hasChunk(coord.x, coord.z)) {
 
                             int x = newCoord.getMinBlockX() + level.random.nextInt(16);
                             int z = newCoord.getMinBlockZ() + level.random.nextInt(16);

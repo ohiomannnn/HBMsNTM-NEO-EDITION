@@ -18,6 +18,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.core.Direction;
@@ -34,7 +35,8 @@ public class RenderFluidTank extends BlockEntityRendererNT<MachineFluidTankBlock
 
     @Override
     public void render(MachineFluidTankBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-        RenderContext.setup(poseStack, packedLight, packedOverlay);
+        int tPackedLight = LevelRenderer.getLightColor(be.getLevel(), be.getBlockPos().above(2));
+        RenderContext.setup(poseStack, tPackedLight, packedOverlay);
         RenderContext.translate(0.5F, 0F, 0.5F);
         RenderSystem.disableCull();
 

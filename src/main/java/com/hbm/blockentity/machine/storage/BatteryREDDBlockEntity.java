@@ -35,30 +35,33 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
 
     private AudioWrapper audio;
 
-    public BatteryREDDBlockEntity(BlockPos pos, BlockState blockState) {
-        super(NtmBlockEntityTypes.BATTERY_REDD.get(), pos, blockState, 2);
+    public BatteryREDDBlockEntity(BlockPos pos, BlockState state) {
+        super(NtmBlockEntityTypes.BATTERY_REDD.get(), pos, state, 2);
     }
 
     @Override public Component getDefaultName() { return Component.translatable("container.batteryREDD"); }
 
     @Override
     public void updateEntity() {
+        if(this.level == null) return;
+
         BigInteger prevPower = new BigInteger(power.toByteArray());
+
         super.updateEntity();
 
-        if (!level.isClientSide) {
+        if(!this.level.isClientSide) {
 
             long toAdd = Library.chargeTEFromItems(slots, 0, 0, this.getMaxPower());
-            if (toAdd > 0) this.power = this.power.add(BigInteger.valueOf(toAdd));
+            if(toAdd > 0) this.power = this.power.add(BigInteger.valueOf(toAdd));
 
             long toRemove = this.getPower() - Library.chargeItemsFromTE(slots, 1, this.getPower(), this.getMaxPower());
-            if (toRemove > 0)this.power = this.power.subtract(BigInteger.valueOf(toRemove));
+            if(toRemove > 0)this.power = this.power.subtract(BigInteger.valueOf(toRemove));
 
             // same implementation as for batteries, however retooled to use bigints because fuck
             BigInteger avg = this.power.add(prevPower).divide(BigInteger.valueOf(2));
             this.delta = avg.subtract(this.log[0] == null ? BigInteger.ZERO : this.log[0]);
 
-            for (int i = 1; i < this.log.length; i++) {
+            for(int i = 1; i < this.log.length; i++) {
                 this.log[i - 1] = this.log[i];
             }
 
@@ -68,15 +71,15 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
             this.prevRotation = this.rotation;
             this.rotation += this.getSpeed();
 
-            if (rotation >= 360) {
+            if(rotation >= 360) {
                 rotation -= 360;
                 prevRotation -= 360;
             }
 
             float pitch = 0.5F + this.getSpeed() / 15F * 1.5F;
 
-            if (this.prevRotation != this.rotation && NuclearTechModClient.me().distanceToSqr(this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 5.5, this.getBlockPos().getZ() + 0.5) < 30 * 30) {
-                if (this.audio == null || !this.audio.isPlaying()) {
+            if(this.prevRotation != this.rotation && NuclearTechModClient.me().distanceToSqr(this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 5.5, this.getBlockPos().getZ() + 0.5) < 30 * 30) {
+                if(this.audio == null || !this.audio.isPlaying()) {
                     this.audio = AudioWrapper.getLoopedSound(NtmSoundEvents.FENSU_HUM.get(), SoundSource.BLOCKS, this, this.getVolume(1.5F), 25F, pitch, 5);
                     this.audio.startSound();
                 }
@@ -86,7 +89,7 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
                 this.audio.keepAlive();
 
             } else {
-                if (this.audio != null) {
+                if(this.audio != null) {
                     this.audio.stopSound();
                     this.audio = null;
                 }
@@ -102,7 +105,7 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
     public void onChunkUnloaded() {
         super.onChunkUnloaded();
 
-        if (audio != null) {
+        if(audio != null) {
             audio.stopSound();
             audio = null;
         }
@@ -112,7 +115,7 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
     public void setRemoved() {
         super.setRemoved();
 
-        if (audio != null) {
+        if(audio != null) {
             audio.stopSound();
             audio = null;
         }
@@ -124,11 +127,11 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
 
         byte[] array0 = this.power.toByteArray();
         buf.writeInt(array0.length);
-        for (byte b : array0) buf.writeByte(b);
+        for(byte b : array0) buf.writeByte(b);
 
         byte[] array1 = this.delta.toByteArray();
         buf.writeInt(array1.length);
-        for (byte b : array1) buf.writeByte(b);
+        for(byte b : array1) buf.writeByte(b);
     }
 
     @Override
@@ -136,11 +139,11 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
         super.deserialize(buf);
 
         byte[] array0 = new byte[buf.readInt()];
-        for (int i = 0 ; i < array0.length; i++) array0[i] = buf.readByte();
+        for(int i = 0 ; i < array0.length; i++) array0[i] = buf.readByte();
         this.power = new BigInteger(array0);
 
         byte[] array1 = new byte[buf.readInt()];
-        for (int i = 0 ; i < array1.length; i++) array1[i] = buf.readByte();
+        for(int i = 0 ; i < array1.length; i++) array1[i] = buf.readByte();
         this.delta = new BigInteger(array1);
     }
 

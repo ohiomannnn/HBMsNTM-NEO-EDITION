@@ -1,25 +1,30 @@
 package com.hbm.handler;
 
-import com.hbm.main.NuclearTechModClient;
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.extprop.HbmLivingAttachments.ContaminationEffect;
 import com.hbm.extprop.HbmPlayerAttachments;
 import com.hbm.handler.radiation.ChunkRadiationManager;
+import com.hbm.items.weapon.sedna.factory.ConfettiUtil;
 import com.hbm.lib.ModAttachments;
-import com.hbm.registry.NtmSoundEvents;
+import com.hbm.main.NuclearTechModClient;
 import com.hbm.network.toclient.AuxParticle;
+import com.hbm.particle.helper.FlameCreator;
+import com.hbm.registry.NtmBiomes;
 import com.hbm.registry.NtmDamageTypes;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
-import com.hbm.registry.NtmBiomes;
-import net.minecraft.core.BlockPos;
+import com.hbm.util.DamageResistanceHandler.DamageClass;
+import com.hbm.util.SoundUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -32,6 +37,7 @@ import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.Level.ExplosionInteraction;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
@@ -43,21 +49,21 @@ import java.util.Random;
 
 public class EntityEffectHandler {
     public static void tick(LivingEntity entity) {
-        if (entity.tickCount % 20 == 0) {
+        if(entity.tickCount % 20 == 0) {
             HbmLivingAttachments.setRadBuf(entity, HbmLivingAttachments.getRadEnv(entity));
             HbmLivingAttachments.setRadEnv(entity, 0);
         }
 
-        ResourceKey<Biome> biome = entity.level().getBiome(new BlockPos((int) entity.getX(), (int) entity.getY(), (int) entity.getZ())).getKey();
+        ResourceKey<Biome> biome = entity.level.getBiome(entity.blockPosition).getKey();
         double radiation = 0;
 
-        if (biome == NtmBiomes.CRATER_OUTER) radiation = MainConfig.COMMON.CRATER_OUTER_RAD.get();
-        if (biome == NtmBiomes.CRATER) radiation = MainConfig.COMMON.CRATER_RAD.get();
-        if (biome == NtmBiomes.CRATER_INNER) radiation = MainConfig.COMMON.CRATER_INNER_RAD.get();
+        if(biome == NtmBiomes.CRATER_OUTER) radiation = NtmConfig.COMMON.CRATER_OUTER_RAD.get();
+        if(biome == NtmBiomes.CRATER) radiation = NtmConfig.COMMON.CRATER_RAD.get();
+        if(biome == NtmBiomes.CRATER_INNER) radiation = NtmConfig.COMMON.CRATER_INNER_RAD.get();
 
-        if (entity.isInWater()) radiation *= MainConfig.COMMON.CRATER_WATER_MULT.get();
+        if(entity.isInWater()) radiation *= NtmConfig.COMMON.CRATER_WATER_MULT.get();
 
-        if (radiation > 0) {
+        if(radiation > 0) {
             ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE,(float) radiation / 20F);
         }
 
@@ -66,7 +72,9 @@ public class EntityEffectHandler {
         handleRadiationFX(entity);
         handleDigamma(entity);
         handleLungDisease(entity);
-        if (entity instanceof Player player) handleFauxLadder(player);
+        handleOil(entity);
+        handleTemperature(entity);
+        if(entity instanceof Player player) handleFauxLadder(player);
     }
 
     private static void handleFauxLadder(Player player) {
@@ -179,7 +187,7 @@ public class EntityEffectHandler {
 
             float rad = ChunkRadiationManager.proxy.getRadiation(level, entity.blockPosition());
 
-            if (level.dimension() == Level.NETHER && MainConfig.COMMON.HELL_RAD.get() > 0 && rad < MainConfig.COMMON.HELL_RAD.get())
+            if (level.dimension() == Level.NETHER && NtmConfig.COMMON.HELL_RAD.get() > 0 && rad < NtmConfig.COMMON.HELL_RAD.get())
                 rad = (float) 0.01;
 
             if (rad > 0) ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, rad / 20F);
@@ -271,7 +279,7 @@ public class EntityEffectHandler {
     }
 
     private static void handleLungDisease(LivingEntity entity) {
-        Level level = entity.level();
+        Level level = entity.level;
 
         if (!level.isClientSide) {
             if (entity instanceof Player player) {
@@ -344,6 +352,93 @@ public class EntityEffectHandler {
                 }
             }
         }
+    }
+
+    private static void handleOil(LivingEntity entity) {
+        if(entity.level.isClientSide) return;
+
+        int oil = HbmLivingAttachments.getOil(entity);
+
+        if(oil > 0) {
+            if(entity.isOnFire()) {
+                HbmLivingAttachments.setOil(entity, 0);
+                entity.level.explode(null, entity.position.x, entity.position.y + entity.dimensions.height() / 2, entity.position.z, 3F, true, ExplosionInteraction.MOB);
+            } else {
+                HbmLivingAttachments.setOil(entity, oil - 1);
+            }
+
+            if(entity.tickCount % 5 == 0) {
+                CompoundTag tag = new CompoundTag();
+                tag.putString("type", "sweat");
+                tag.putInt("count", 1);
+                tag.put("BlockState", NbtUtils.writeBlockState(Blocks.COAL_BLOCK.defaultBlockState()));
+                tag.putInt("entity", entity.getId());
+                if(entity.level instanceof ServerLevel serverLevel) {
+                    PacketDistributor.sendToPlayersNear(
+                            serverLevel,
+                            null,
+                            entity.position.x, entity.position.y, entity.position.z,
+                            25,
+                            new AuxParticle(tag, 0, 0, 0)
+                    );
+                }
+            }
+        }
+    }
+
+    private static void handleTemperature(LivingEntity entity) {
+        if(entity.level.isClientSide) return;
+
+        HbmLivingAttachments attachments = HbmLivingAttachments.getData(entity);
+        RandomSource random = entity.random;
+
+        if(!entity.isAlive() || entity instanceof Player player && player.isSpectator()) return;
+
+        if(entity.fireImmune()) {
+            attachments.fire = 0;
+            attachments.phosphorus = 0;
+        }
+
+        double x = entity.position.x;
+        double y = entity.position.y;
+        double z = entity.position.z;
+
+        float width = entity.dimensions.width();
+        float height = entity.dimensions.height();
+
+        if(entity.isInWaterOrRain()) attachments.fire = 0;
+
+        if(attachments.fire > 0) {
+            attachments.fire--;
+            if((entity.tickCount + entity.id) % 15 == 0) SoundUtils.playAtEntity(entity, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.PLAYERS, 1F, 1.5F + random.nextFloat() * 0.5F);
+            if((entity.tickCount + entity.id) % 40 == 0) entity.hurt(entity.damageSources().onFire(), 2F);
+            FlameCreator.composeEffect(entity.level, x - width / 2 + width * random.nextDouble(), y + random.nextDouble() * height, z - width / 2 + width * random.nextDouble(), FlameCreator.META_FIRE);
+        }
+
+        if(attachments.phosphorus > 0) {
+            attachments.phosphorus--;
+            if((entity.tickCount + entity.id) % 15 == 0) SoundUtils.playAtEntity(entity, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.PLAYERS, 1F, 1.5F + random.nextFloat() * 0.5F);
+            if((entity.tickCount + entity.id) % 40 == 0) entity.hurt(entity.damageSources().onFire(), 5F);
+            FlameCreator.composeEffect(entity.level, x - width / 2 + width * random.nextDouble(), y + random.nextDouble() * height, z - width / 2 + width * random.nextDouble(), FlameCreator.META_FIRE);
+        }
+
+        if(attachments.balefire > 0) {
+            attachments.balefire--;
+            if((entity.tickCount + entity.id) % 15 == 0) SoundUtils.playAtEntity(entity, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.PLAYERS, 1F, 1.5F + random.nextFloat() * 0.5F);
+            ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, 5F);
+            if((entity.tickCount + entity.id) % 20 == 0) entity.hurt(entity.damageSources().onFire(), 5F);
+            FlameCreator.composeEffect(entity.level, x - width / 2 + width * random.nextDouble(), y + random.nextDouble() * height, z - width / 2 + width * random.nextDouble(), FlameCreator.META_BALEFIRE);
+        }
+
+        if(attachments.blackFire > 0) {
+            attachments.blackFire--;
+            if((entity.tickCount + entity.id) % 10 == 0) SoundUtils.playAtEntity(entity, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.PLAYERS, 1F, 1.5F + random.nextFloat() * 0.5F);
+            ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, 5F);
+            if((entity.tickCount + entity.id) % 10 == 0) entity.hurt(entity.damageSources().onFire(), 10F);
+            FlameCreator.composeEffect(entity.level, x - width / 2 + width * random.nextDouble(), y + random.nextDouble() * height, z - width / 2 + width * random.nextDouble(), FlameCreator.META_BLACK);
+        }
+
+        if(attachments.fire > 0 || attachments.phosphorus > 0 || attachments.balefire > 0 || attachments.blackFire > 0) if(!entity.isAlive()) ConfettiUtil.createConfetti(entity, DamageClass.IN_FIRE);
     }
 
     private static boolean canVomit(Entity entity) {

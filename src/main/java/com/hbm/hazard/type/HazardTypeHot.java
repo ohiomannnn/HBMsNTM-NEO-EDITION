@@ -1,6 +1,6 @@
 package com.hbm.hazard.type;
 
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.items.NtmItems;
 import com.hbm.util.i18n.I18nUtil;
@@ -17,11 +17,11 @@ public class HazardTypeHot extends HazardTypeBase {
 
     @Override
     public void onUpdate(LivingEntity target, float level, ItemStack stack) {
-        if (MainConfig.COMMON.DISABLE_HOT.get()) return;
+        if (NtmConfig.COMMON.DISABLE_HOT.get()) return;
 
         boolean reacher = false;
 
-        if (target instanceof Player && !MainConfig.COMMON.ENABLE_528.get()) {
+        if (target instanceof Player && !NtmConfig.COMMON.ENABLE_528.get()) {
             if (target.getMainHandItem().is(NtmItems.REACHER.get()) || target.getOffhandItem().is(NtmItems.REACHER.get())) {
                 reacher = true;
             }

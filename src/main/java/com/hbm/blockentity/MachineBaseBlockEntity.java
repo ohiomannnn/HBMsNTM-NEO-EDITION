@@ -1,19 +1,15 @@
 package com.hbm.blockentity;
 
-import com.hbm.util.fauxpointtwelve.DirPos;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.Nameable;
-import net.minecraft.world.WorldlyContainer;
+import net.minecraft.network.chat.Component.Serializer;
+import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -23,14 +19,15 @@ public abstract class MachineBaseBlockEntity extends LoadedBaseBlockEntity imple
 
     public NonNullList<ItemStack> slots;
 
-    private Component customName;
+    @Nullable private Component customName;
 
-    public MachineBaseBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState, int size) {
-        super(type, pos, blockState);
-        slots = NonNullList.withSize(size, ItemStack.EMPTY);
+    public MachineBaseBlockEntity(BlockEntityType<? extends MachineBaseBlockEntity> type, BlockPos pos, BlockState state, int size) {
+        super(type, pos, state);
+        this.slots = NonNullList.withSize(size, ItemStack.EMPTY);
     }
 
     /** The "chunks is modified, pls don't forget to save me" effect of markDirty, minus the block updates */
+    @Deprecated // copy of setChanged!!!
     public void markChanged() {
         if (level != null) {
             level.blockEntityChanged(this.worldPosition);
@@ -58,39 +55,20 @@ public abstract class MachineBaseBlockEntity extends LoadedBaseBlockEntity imple
     }
 
     @Override
-    public ItemStack getItem(int index) {
-        return slots.get(index);
+    public ItemStack getItem(int slot) {
+        return this.slots.get(slot);
     }
 
     @Override
-    public ItemStack removeItemNoUpdate(int index) {
-        ItemStack itemstack = this.slots.get(index);
-        if (itemstack.isEmpty()) {
-            return ItemStack.EMPTY;
-        } else {
-            this.slots.set(index, ItemStack.EMPTY);
-            return itemstack;
-        }
-    }
-
-    @Override
-    public void setItem(int index, ItemStack itemStack) {
-        this.slots.set(index, itemStack);
-        itemStack.limitSize(this.getMaxStackSize(itemStack));
-    }
-
-    @Override
-    public int getMaxStackSize() {
-        return 64;
+    public void setItem(int index, ItemStack stack) {
+        this.slots.set(index, stack);
+        stack.limitSize(this.getMaxStackSize(stack));
+        this.setChanged();
     }
 
     @Override
     public boolean stillValid(Player player) {
-        if (level != null && level.getBlockEntity(this.getBlockPos()) != this) {
-            return false;
-        } else {
-            return player.distanceToSqr(this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 0.5, this.getBlockPos().getZ() + 0.5) <= 128;
-        }
+        return Container.stillValidBlockEntity(this, player);
     }
 
     @Override public void startOpen(Player player) {}
@@ -103,19 +81,27 @@ public abstract class MachineBaseBlockEntity extends LoadedBaseBlockEntity imple
 
     @Override
     public ItemStack removeItem(int slot, int amount) {
-        ItemStack stack = slots.get(slot);
-        if (stack.isEmpty()) {
-            return ItemStack.EMPTY;
+        ItemStack itemstack = ContainerHelper.removeItem(this.slots, slot, amount);
+        if(!itemstack.isEmpty()) this.setChanged();
+        return itemstack;
+    }
+
+    @Override
+    public ItemStack removeItemNoUpdate(int slot) {
+        return ContainerHelper.takeItem(this.slots, slot);
+    }
+
+    @Override
+    public boolean isEmpty() {
+        for(ItemStack stack : this.slots) {
+            if(!stack.isEmpty()) return false;
         }
-        if (stack.getCount() <= amount) {
-            slots.set(slot, ItemStack.EMPTY);
-            return stack;
-        }
-        ItemStack split = stack.split(amount);
-        if (stack.isEmpty()) {
-            slots.set(slot, ItemStack.EMPTY);
-        }
-        return split;
+        return true;
+    }
+
+    @Override
+    public void clearContent() {
+        this.slots.clear();
     }
 
     @Override
@@ -130,86 +116,24 @@ public abstract class MachineBaseBlockEntity extends LoadedBaseBlockEntity imple
 
     @Override
     public int[] getSlotsForFace(Direction direction) {
-        return new int[] { };
+        return new int[] { 0 };
     }
 
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
 
-        ListTag list = tag.getList("Items", 10);
+        ContainerHelper.loadAllItems(tag, this.slots, registries);
 
-        for (int i = 0; i < list.size(); i++) {
-            CompoundTag tagAt = list.getCompound(i);
-            byte b = tagAt.getByte("Slot");
-            if (b >= 0 && b < slots.size()) {
-                slots.set(b, ItemStack.parse(registries, tagAt).orElse(ItemStack.EMPTY));
-            }
-        }
-
-        if (tag.contains("Name", 8)) {
-            this.customName = parseCustomNameSafe(tag.getString("Name"), registries);
-        }
+        if(tag.contains("CustomName", 8)) this.customName = parseCustomNameSafe(tag.getString("CustomName"), registries);
     }
 
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
 
-        ListTag list = new ListTag();
+        ContainerHelper.saveAllItems(tag, this.slots, registries);
 
-        for (int i = 0; i < slots.size(); i++) {
-            ItemStack stack = slots.get(i);
-            if (!stack.isEmpty()) {
-                CompoundTag itemTag = new CompoundTag();
-                itemTag.putByte("Slot", (byte) i);
-                list.add(stack.save(registries, itemTag));
-            }
-        }
-
-        tag.put("Items", list);
-
-        if (this.customName != null) {
-            tag.putString("Name", Component.Serializer.toJson(this.customName, registries));
-        }
-    }
-
-    @Override
-    public boolean isEmpty() {
-        for (ItemStack stack : slots) {
-            if (!stack.isEmpty()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public void clearContent() {
-        slots.clear();
-    }
-
-    public void updateRedstoneConnection(DirPos pos) {
-
-        int x = pos.getX();
-        int y = pos.getY();
-        int z = pos.getZ();
-        Direction dir = pos.getDir();
-        BlockState s = level.getBlockState(pos.makeCompat());
-        Block b = s.getBlock();
-
-        b.onNeighborChange(s, level, pos.makeCompat(), this.getBlockPos());
-        if (s.isSolidRender(level, pos.makeCompat())) {
-            x += dir.getStepX();
-            y += dir.getStepY();
-            z += dir.getStepZ();
-            BlockPos newPos = new BlockPos(x, y, z);
-            BlockState s2 = level.getBlockState(pos.makeCompat());
-            Block b2 = s2.getBlock();
-
-            if (b2.getWeakChanges(s2, level, newPos)) {
-                b2.onNeighborChange(s2, level, newPos, this.getBlockPos());
-            }
-        }
+        if(this.customName != null) tag.putString("CustomName", Serializer.toJson(this.customName, registries));
     }
 }

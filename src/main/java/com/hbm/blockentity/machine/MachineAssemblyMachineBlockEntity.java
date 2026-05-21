@@ -9,8 +9,10 @@ import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.menus.MachineAssemblyMachineMenu;
 import com.hbm.inventory.recipes.AssemblyMachineRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
+import com.hbm.items.machine.MachineUpgradeItem;
 import com.hbm.items.machine.MachineUpgradeItem.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.module.machine.ModuleMachineAssembler;
@@ -27,6 +29,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.HashMap;
@@ -143,7 +146,7 @@ public class MachineAssemblyMachineBlockEntity extends MachineBaseBlockEntity im
                     if(this.ringTarget > this.ring) this.ring += this.ringSpeed;
                     if(this.ringTarget < this.ring) this.ring -= this.ringSpeed;
                     if(this.ringTarget == this.ring) {
-                        double sub = ringTarget >= 360 ? -360D : 360D;
+                        float sub = ringTarget >= 360 ? -360F : 360F;
                         this.ringTarget += sub;
                         this.ring += sub;
                         this.prevRing += sub;
@@ -231,6 +234,15 @@ public class MachineAssemblyMachineBlockEntity extends MachineBaseBlockEntity im
     }
 
     @Override
+    public boolean canPlaceItem(int slot, ItemStack stack) {
+        if(slot == 0) return true; // battery
+        //if(slot == 1 && stack.getItem() == ModItems.blueprints) return true;
+        if(slot >= 2 && slot <= 3 && stack.getItem() instanceof MachineUpgradeItem) return true; // upgrades
+        if(this.assemblerModule.isItemValid(slot, stack)) return true; // recipe input crap
+        return false;
+    }
+
+    @Override
     public int[] getSlotsForFace(Direction direction) {
         return new int[] {4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
     }
@@ -245,7 +257,7 @@ public class MachineAssemblyMachineBlockEntity extends MachineBaseBlockEntity im
 
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
-        return null;
+        return new MachineAssemblyMachineMenu(id, inventory, this);
     }
 
     @Override public boolean hasPermission(Player player) { return this.stillValid(player); }
@@ -257,7 +269,7 @@ public class MachineAssemblyMachineBlockEntity extends MachineBaseBlockEntity im
             String selection = tag.getString("selection");
             if(index == 0) {
                 this.assemblerModule.recipe = selection;
-                this.markChanged();
+                this.setChanged();
             }
         }
     }
@@ -268,8 +280,7 @@ public class MachineAssemblyMachineBlockEntity extends MachineBaseBlockEntity im
     }
 
     @Override
-    public void provideInfo(UpgradeType type, int level,
-                            List<String> info, boolean extendedInfo) {
+    public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
         //info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_assembly_machine));
         //
         // if(type == UpgradeType.SPEED) {

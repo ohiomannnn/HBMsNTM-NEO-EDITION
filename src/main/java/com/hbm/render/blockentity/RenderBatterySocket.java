@@ -37,36 +37,35 @@ public class RenderBatterySocket extends BlockEntityRendererNT<BatterySocketBloc
 
     @Override
     public void render(BatterySocketBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+        int tPackedLight = LevelRenderer.getLightColor(be.getLevel(), be.getBlockPos().above(1));
+        RenderContext.setup(poseStack, tPackedLight, packedOverlay);
+
+        RenderContext.translate(0.5F, 0, 0.5F);
 
         Direction facing = be.getBlockState().getValue(DummyableBlock.FACING);
-        float rot = switch (facing) {
-            case UP, DOWN -> 0.0F;
-            case NORTH -> 270f;
-            case SOUTH -> 90f;
-            case WEST -> 0f;
-            case EAST -> 180f;
-        };
+        switch(facing) {
+            case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
+            case EAST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
+            case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
+            case WEST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
+        }
 
-        int tPackedLight = LevelRenderer.getLightColor(be.getLevel(), be.getBlockPos().above(1));
-
-        RenderContext.setup(poseStack, tPackedLight, packedOverlay);
-        RenderContext.translate(0.5F, 0F, 0.5F);
-        RenderContext.mulPose(Axis.YP.rotationDegrees(rot));
-        RenderContext.translate(0.5F, 0, -0.5F);
+        RenderContext.translate(-0.5F, 0, 0.5F);
 
         bindTexture(ResourceManager.BATTERY_SOCKET_TEX);
         ResourceManager.battery_socket.renderPart("Socket");
+        if(be.frame) ResourceManager.battery_socket.renderPart("Supports");
 
         ItemStack render = be.syncStack;
-        if (!render.isEmpty()) {
-            if (render.is(NtmItems.BATTERY_PACK.get())) {
+        if(!render.isEmpty()) {
+            if(render.is(NtmItems.BATTERY_PACK.get())) {
                 BatteryPackType pack = EnumUtil.grabEnumSafely(BatteryPackType.class, MetaHelper.getMeta(render));
                 bindTexture(pack.texture);
                 ResourceManager.battery_socket.renderPart(pack.isCapacitor() ? "Capacitor" : "Battery");
-            } else if (render.is(NtmItems.BATTERY_SC.get())) {
+            } else if(render.is(NtmItems.BATTERY_SC.get())) {
                 bindTexture(ResourceManager.BATTERY_SC_TEX);
                 ResourceManager.battery_socket.renderPart("Battery");
-            } else if (render.is(NtmItems.BATTERY_CREATIVE.get())) {
+            } else if(render.is(NtmItems.BATTERY_CREATIVE.get())) {
                 RenderContext.pushPose();
                 bindTexture(BLORBO_TEX);
                 RenderContext.scale(0.75F, 0.75F, 0.75F);
@@ -80,9 +79,9 @@ public class RenderBatterySocket extends BlockEntityRendererNT<BatterySocketBloc
                 Random rand = new Random(be.getLevel().getGameTime() / 5);
                 rand.nextBoolean();
 
-                for (int i = -1; i <= 1; i += 2) {
-                    for (int j = -1; j <= 1; j += 2) {
-                        if (rand.nextInt(4) == 0) {
+                for(int i = -1; i <= 1; i += 2) {
+                    for(int j = -1; j <= 1; j += 2) {
+                        if(rand.nextInt(4) == 0) {
                             RenderContext.pushPose();
                             RenderContext.translate(0F, 0.75F, 0F);
                             BeamPronter.prontBeam(new Vec3NT(0.4375 * i, 1.1875, 0.4375 * j), WaveType.RANDOM, BeamType.SOLID, 0x404040, 0x002040, (int) (System.currentTimeMillis() % 1000) / 50, 15, 0.0625F, 3, 0.025F);

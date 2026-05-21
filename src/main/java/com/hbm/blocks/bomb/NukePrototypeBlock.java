@@ -1,15 +1,12 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.blockentity.bomb.NukePrototypeBlockEntity;
-import com.hbm.blockentity.bomb.NukeTsarBombaBlockEntity;
 import com.hbm.blocks.ITooltipProvider;
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.entity.logic.NukeExplosionMK3;
 import com.hbm.items.NtmItems;
 import com.hbm.particle.helper.CloudCreator;
 import com.hbm.particle.helper.CloudCreator.CloudType;
-import com.hbm.util.InventoryUtil;
-import com.hbm.util.ItemStackUtil;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -19,7 +16,6 @@ import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item.TooltipContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -39,7 +35,7 @@ public class NukePrototypeBlock extends NukeBaseBlock {
 
     @Override
     protected void explode(Level level, double x, double y, double z) {
-        NukeExplosionMK3 explosion = NukeExplosionMK3.statFacFleija(level, x, y, z, MainConfig.COMMON.PROTOTYPE_RADIUS.get());
+        NukeExplosionMK3 explosion = NukeExplosionMK3.statFacFleija(level, x, y, z, NtmConfig.COMMON.PROTOTYPE_RADIUS.get());
         if(!explosion.isRemoved()) {
             level.addFreshEntity(explosion);
             CloudCreator.composeEffect(level, x, y, z, CloudType.FLEIJA);

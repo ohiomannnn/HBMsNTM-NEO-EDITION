@@ -1,6 +1,6 @@
 package com.hbm.entity.projectile;
 
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.*;
@@ -56,7 +56,7 @@ public class BombletZeta extends ThrowableProjectile {
                     vnt.explode();
                 }
                 if (this.type == 4) {
-                    NukeExplosionMK5.statFac(this.level(), (int) (MainConfig.COMMON.FATMAN_RADIUS.get() * 1.5), this.getX(), this.getY(), this.getZ());
+                    NukeExplosionMK5.statFac(this.level(), (int) (NtmConfig.COMMON.FATMAN_RADIUS.get() * 1.5), this.getX(), this.getY(), this.getZ());
 
                     // this has to be the single worst solution ever
                     this.level().playSound(null, this.getX(), this.getY() + 0.5F, this.getZ(), NtmSoundEvents.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 15.0F, 1.0F);

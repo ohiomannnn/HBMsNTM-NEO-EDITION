@@ -5,7 +5,7 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 
-public class MainConfig {
+public class NtmConfig {
     // COMMON
     public static final CommonConfig COMMON;
     public static final ModConfigSpec COMMON_SPEC;

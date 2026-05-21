@@ -1,96 +1,105 @@
 package com.hbm.config;
 
 import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec.BooleanValue;
+import net.neoforged.neoforge.common.ModConfigSpec.DoubleValue;
+import net.neoforged.neoforge.common.ModConfigSpec.IntValue;
 
 // YES im making one class for every config
 public class CommonConfig {
 
     // GENERAL (01)
-    public final ModConfigSpec.BooleanValue ENABLE_MOTD;
-    public final ModConfigSpec.BooleanValue ENABLE_EXTENDED_LOGGING;
-    public final ModConfigSpec.BooleanValue ENABLE_BOMBER_SHORT_MODE;
-    public final ModConfigSpec.BooleanValue ENABLE_SILENT_COMPSTACK_ERRORS;
-    public final ModConfigSpec.BooleanValue ENABLE_KEYBIND_OVERLAP;
+    public final BooleanValue ENABLE_MOTD;
+    public final BooleanValue ENABLE_EXTENDED_LOGGING;
+    public final BooleanValue ENABLE_BOMBER_SHORT_MODE;
+    public final BooleanValue ENABLE_SILENT_COMPSTACK_ERRORS;
+    public final BooleanValue ENABLE_KEYBIND_OVERLAP;
 
-    public final ModConfigSpec.BooleanValue ENABLE_EXPENSIVE_MODE;
+    public final BooleanValue ENABLE_EXPENSIVE_MODE;
 
     // NUKES (03)
-    public final ModConfigSpec.IntValue GADGET_RADIUS;
-    public final ModConfigSpec.IntValue BOY_RADIUS;
-    public final ModConfigSpec.IntValue MAN_RADIUS;
-    public final ModConfigSpec.IntValue MIKE_RADIUS;
-    public final ModConfigSpec.IntValue TSAR_RADIUS;
-    public final ModConfigSpec.IntValue PROTOTYPE_RADIUS;
-    public final ModConfigSpec.IntValue FLEIJA_RADIUS;
-    public final ModConfigSpec.IntValue SOLINIUM_RADIUS;
-    public final ModConfigSpec.IntValue N2_RADIUS;
-    public final ModConfigSpec.IntValue MISSLE_RADIUS;
-    public final ModConfigSpec.IntValue MIRV_RADIUS;
-    public final ModConfigSpec.IntValue FATMAN_RADIUS;
-    public final ModConfigSpec.IntValue NUKA_RADIUS;
-    public final ModConfigSpec.IntValue ASCHRAB_RADIUS;
+    public final IntValue GADGET_RADIUS;
+    public final IntValue BOY_RADIUS;
+    public final IntValue MAN_RADIUS;
+    public final IntValue MIKE_RADIUS;
+    public final IntValue TSAR_RADIUS;
+    public final IntValue PROTOTYPE_RADIUS;
+    public final IntValue FLEIJA_RADIUS;
+    public final IntValue SOLINIUM_RADIUS;
+    public final IntValue N2_RADIUS;
+    public final IntValue MISSLE_RADIUS;
+    public final IntValue MIRV_RADIUS;
+    public final IntValue FATMAN_RADIUS;
+    public final IntValue NUKA_RADIUS;
+    public final IntValue ASCHRAB_RADIUS;
 
     // METEORS (05)
-    public final ModConfigSpec.BooleanValue ENABLE_METEOR_STRIKES;
-    public final ModConfigSpec.BooleanValue ENABLE_METEOR_SHOWERS;
-    public final ModConfigSpec.BooleanValue ENABLE_METEOR_TAILS;
-    public final ModConfigSpec.BooleanValue ENABLE_SPECIAL_METEORS;
-    public final ModConfigSpec.IntValue METEOR_STRIKE_CHACE;
-    public final ModConfigSpec.IntValue METEOR_SHOWER_CHACE;
-    public final ModConfigSpec.IntValue METEOR_SHOWER_DURATION;
+    public final BooleanValue ENABLE_METEOR_STRIKES;
+    public final BooleanValue ENABLE_METEOR_SHOWERS;
+    public final BooleanValue ENABLE_METEOR_TAILS;
+    public final BooleanValue ENABLE_SPECIAL_METEORS;
+    public final IntValue METEOR_STRIKE_CHACE;
+    public final IntValue METEOR_SHOWER_CHACE;
+    public final IntValue METEOR_SHOWER_DURATION;
 
     // EXPLOSIONS (06)
-    public final ModConfigSpec.IntValue MK5;
-    public final ModConfigSpec.IntValue BLAST_SPEED;
-    public final ModConfigSpec.IntValue FALLOUT_RANGE;
-    public final ModConfigSpec.IntValue FALLOUT_DELAY;
-    public final ModConfigSpec.IntValue LIMIT_EXPLOSION_LIFESPAN;
+    public final IntValue MK5;
+    public final IntValue BLAST_SPEED;
+    public final IntValue FALLOUT_RANGE;
+    public final IntValue FALLOUT_DELAY;
+    public final IntValue LIMIT_EXPLOSION_LIFESPAN;
 
     // RADIATION (13)
-    public final ModConfigSpec.IntValue FOG_RAD;
-    public final ModConfigSpec.IntValue FOG_RAD_CH;
-    public final ModConfigSpec.DoubleValue HELL_RAD;
-    public final ModConfigSpec.BooleanValue WORLD_RAD_EFFECTS;
+    public final IntValue FOG_RAD;
+    public final IntValue FOG_RAD_CH;
+    public final DoubleValue HELL_RAD;
+    public final BooleanValue WORLD_RAD_EFFECTS;
 
-    public final ModConfigSpec.BooleanValue ENABLE_CONTAMINATION;
-    public final ModConfigSpec.BooleanValue ENABLE_CHUNK_RADS;
+    public final BooleanValue ENABLE_CONTAMINATION;
+    public final BooleanValue ENABLE_CHUNK_RADS;
 
     // DANGEROUS DROPS (10)
-    public final ModConfigSpec.BooleanValue DROP_CELL;
-    public final ModConfigSpec.BooleanValue DROP_SINGULARITY;
-    public final ModConfigSpec.BooleanValue DROP_STAR;
-    public final ModConfigSpec.BooleanValue DROP_CRYSTAL;
-    public final ModConfigSpec.BooleanValue DROP_DEAD_MANS_EXPLOSIVE;
+    public final BooleanValue DROP_CELL;
+    public final BooleanValue DROP_SINGULARITY;
+    public final BooleanValue DROP_STAR;
+    public final BooleanValue DROP_CRYSTAL;
+    public final BooleanValue DROP_DEAD_MANS_EXPLOSIVE;
 
     // TOOLS (11)
-    public final ModConfigSpec.IntValue RECURSION_DEPTH;
-    public final ModConfigSpec.BooleanValue RECURSION_STONE;
-    public final ModConfigSpec.BooleanValue RECURSION_NETHERRACK;
-    public final ModConfigSpec.BooleanValue ABILITY_HAMMER;
-    public final ModConfigSpec.BooleanValue ABILITY_VEIN;
-    public final ModConfigSpec.BooleanValue ABILITY_LUCK;
-    public final ModConfigSpec.BooleanValue ABILITY_SILK;
-    public final ModConfigSpec.BooleanValue ABILITY_FURNACE;
-    public final ModConfigSpec.BooleanValue ABILITY_SHREDDER;
-    public final ModConfigSpec.BooleanValue ABILITY_CENTRIFUGE;
-    public final ModConfigSpec.BooleanValue ABILITY_CRYSTALLIZER;
-    public final ModConfigSpec.BooleanValue ABILITY_MERCURY;
-    public final ModConfigSpec.BooleanValue ABILITY_EXPLOSION;
+    public final IntValue RECURSION_DEPTH;
+    public final BooleanValue RECURSION_STONE;
+    public final BooleanValue RECURSION_NETHERRACK;
+    public final BooleanValue ABILITY_HAMMER;
+    public final BooleanValue ABILITY_VEIN;
+    public final BooleanValue ABILITY_LUCK;
+    public final BooleanValue ABILITY_SILK;
+    public final BooleanValue ABILITY_FURNACE;
+    public final BooleanValue ABILITY_SHREDDER;
+    public final BooleanValue ABILITY_CENTRIFUGE;
+    public final BooleanValue ABILITY_CRYSTALLIZER;
+    public final BooleanValue ABILITY_MERCURY;
+    public final BooleanValue ABILITY_EXPLOSION;
+
+    // MOBS (12)
+    public final DoubleValue POLLUTION_MULT;
 
     // HAZARDS (14)
-    public final ModConfigSpec.BooleanValue DISABLE_ASBESTOS;
-    public final ModConfigSpec.BooleanValue DISABLE_COAL;
-    public final ModConfigSpec.BooleanValue DISABLE_HOT;
-    public final ModConfigSpec.BooleanValue DISABLE_EXPLOSIVE;
-    public final ModConfigSpec.BooleanValue DISABLE_HYDROACTIVE;
-    public final ModConfigSpec.BooleanValue DISABLE_BLINDING;
+    public final BooleanValue DISABLE_ASBESTOS;
+    public final BooleanValue DISABLE_COAL;
+    public final BooleanValue DISABLE_HOT;
+    public final BooleanValue DISABLE_EXPLOSIVE;
+    public final BooleanValue DISABLE_HYDROACTIVE;
+    public final BooleanValue DISABLE_BLINDING;
+
+    // POLLUTION (16)
+    public final BooleanValue ENABLE_POLLUTION;
 
     // BIOMES (17)
-    public final ModConfigSpec.BooleanValue ENABLE_CRATER_BIOMES;
-    public final ModConfigSpec.DoubleValue CRATER_RAD;
-    public final ModConfigSpec.DoubleValue CRATER_INNER_RAD;
-    public final ModConfigSpec.DoubleValue CRATER_OUTER_RAD;
-    public final ModConfigSpec.DoubleValue CRATER_WATER_MULT;
+    public final BooleanValue ENABLE_CRATER_BIOMES;
+    public final DoubleValue CRATER_RAD;
+    public final DoubleValue CRATER_INNER_RAD;
+    public final DoubleValue CRATER_OUTER_RAD;
+    public final DoubleValue CRATER_WATER_MULT;
 
     // 528
     public final ModConfigSpec.BooleanValue ENABLE_528;
@@ -365,6 +374,16 @@ public class CommonConfig {
 
         builder.pop();
 
+        /// MOBS ///
+        builder.push("mobs");
+
+        POLLUTION_MULT = builder
+                .comment("A multiplier for soot emitted.")
+                .translation("hbmsntm.configuration.pollutionMult")
+                .defineInRange("pollutionMult", 1.0, Double.MIN_VALUE, Double.MAX_VALUE);
+
+        builder.pop();
+
         /// HAZARDS ///
         builder.push("hazards");
 
@@ -392,6 +411,16 @@ public class CommonConfig {
                 .comment("When turned on, all blinding hazards are disabled.")
                 .translation("hbmsntm.configuration.disableBlinding")
                 .define("disableBlinding", false);
+
+        builder.pop();
+
+        /// HAZARDS ///
+        builder.push("pollution");
+
+        ENABLE_POLLUTION = builder
+                .comment("If disabled, none of the polltuion related things will work.")
+                .translation("hbmsntm.configuration.enablePol")
+                .define("enablePol", true);
 
         builder.pop();
 

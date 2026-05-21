@@ -2,7 +2,7 @@ package com.hbm.items.tools;
 
 import com.hbm.main.NuclearTechMod;
 import com.hbm.blocks.ITooltipProvider;
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IBomb.BombReturnCode;
 import com.hbm.registry.NtmSoundEvents;
@@ -77,7 +77,7 @@ public class DetonatorItem extends Item {
                     level.playSound(null, player.blockPosition(), NtmSoundEvents.TECH_BLEEP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
                     BombReturnCode ret = bomb.explode(level, pos);
 
-                    if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
+                    if (NtmConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
                         NuclearTechMod.LOGGER.info("[DETONATOR] {} detonated {} at {} / {} / {}!", player.getName().getString(), block.getName().getString(), x, y, z);
                     }
 

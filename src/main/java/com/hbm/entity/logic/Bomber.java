@@ -1,6 +1,6 @@
 package com.hbm.entity.logic;
 
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.projectile.BombletZeta;
 import com.hbm.interfaces.NotableComments;
@@ -76,8 +76,8 @@ public class Bomber extends PlaneBase {
 
         Vec3NT vector = new Vec3NT(level.random.nextDouble() - 0.5, 0, level.random.nextDouble() - 0.5);
         vector = vector.normalizeSelf();
-        vector.xCoord *= MainConfig.COMMON.ENABLE_BOMBER_SHORT_MODE.get() ? 1 : 2;
-        vector.zCoord *= MainConfig.COMMON.ENABLE_BOMBER_SHORT_MODE.get() ? 1 : 2;
+        vector.xCoord *= NtmConfig.COMMON.ENABLE_BOMBER_SHORT_MODE.get() ? 1 : 2;
+        vector.zCoord *= NtmConfig.COMMON.ENABLE_BOMBER_SHORT_MODE.get() ? 1 : 2;
 
         this.moveTo(x - vector.xCoord * 100, y + 50, z - vector.zCoord * 100, 0.0F, 0.0F);
 

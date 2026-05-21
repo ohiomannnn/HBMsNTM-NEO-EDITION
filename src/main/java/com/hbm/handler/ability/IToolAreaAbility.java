@@ -1,6 +1,6 @@
 package com.hbm.handler.ability;
 
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
@@ -58,7 +58,7 @@ public interface IToolAreaAbility extends IBaseAbility {
 
         @Override
         public boolean isAllowed() {
-            return MainConfig.COMMON.ABILITY_VEIN.get();
+            return NtmConfig.COMMON.ABILITY_VEIN.get();
         }
 
         public final int[] radiusAtLevel = { 3, 4, 5, 6, 7, 9, 10 };
@@ -84,8 +84,8 @@ public interface IToolAreaAbility extends IBaseAbility {
         public boolean onDig(int lvl, Level level, BlockPos pos, Player player, ToolAbilityItem tool) {
             BlockState state = level.getBlockState(pos);
 
-            if (state.is(Blocks.STONE) && !MainConfig.COMMON.RECURSION_STONE.get()) return false;
-            if (state.is(Blocks.NETHERRACK) && !MainConfig.COMMON.RECURSION_NETHERRACK.get()) return false;
+            if (state.is(Blocks.STONE) && !NtmConfig.COMMON.RECURSION_STONE.get()) return false;
+            if (state.is(Blocks.NETHERRACK) && !NtmConfig.COMMON.RECURSION_NETHERRACK.get()) return false;
 
             posSet.clear();
 
@@ -121,7 +121,7 @@ public interface IToolAreaAbility extends IBaseAbility {
             if (!posSet.add(pos)) return;
 
             depth++;
-            if (depth > MainConfig.COMMON.RECURSION_DEPTH.get()) return;
+            if (depth > NtmConfig.COMMON.RECURSION_DEPTH.get()) return;
 
             if (pos.equals(ref)) return;
 
@@ -152,7 +152,7 @@ public interface IToolAreaAbility extends IBaseAbility {
 
         @Override
         public boolean isAllowed() {
-            return MainConfig.COMMON.ABILITY_HAMMER.get();
+            return NtmConfig.COMMON.ABILITY_HAMMER.get();
         }
 
         public final int[] rangeAtLevel = { 1, 2, 3, 4 };
@@ -202,7 +202,7 @@ public interface IToolAreaAbility extends IBaseAbility {
 
         @Override
         public boolean isAllowed() {
-            return MainConfig.COMMON.ABILITY_HAMMER.get();
+            return NtmConfig.COMMON.ABILITY_HAMMER.get();
         }
 
         public final int[] rangeAtLevel = { 1, 2, 3, 4 };
@@ -285,7 +285,7 @@ public interface IToolAreaAbility extends IBaseAbility {
 
         @Override
         public boolean isAllowed() {
-            return MainConfig.COMMON.ABILITY_EXPLOSION.get();
+            return NtmConfig.COMMON.ABILITY_EXPLOSION.get();
         }
 
         public final float[] strengthAtLevel = { 2.5F, 5F, 10F, 15F };

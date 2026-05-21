@@ -1,7 +1,7 @@
 package com.hbm.entity.projectile;
 
 import com.hbm.main.NuclearTechModClient;
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.sound.AudioWrapper;
@@ -92,7 +92,7 @@ public class Meteor extends Entity {
 
     @Override
     public void tick() {
-        if (!this.level().isClientSide && !MainConfig.COMMON.ENABLE_METEOR_STRIKES.get()) {
+        if (!this.level().isClientSide && !NtmConfig.COMMON.ENABLE_METEOR_STRIKES.get()) {
             this.discard();
             return;
         }
@@ -111,7 +111,7 @@ public class Meteor extends Entity {
             if (this.onGround()) {
                 this.level().explode(this, this.getX(), this.getY(), this.getZ(), 5 + random.nextFloat(), !safe ? Level.ExplosionInteraction.BLOCK : Level.ExplosionInteraction.NONE);
 
-                if (MainConfig.COMMON.ENABLE_METEOR_TAILS.get()) {
+                if (NtmConfig.COMMON.ENABLE_METEOR_TAILS.get()) {
                     if (this.level() instanceof ServerLevel serverLevel) {
                         ExplosionLarge.spawnRubble(serverLevel, this.getX(), this.getY(), this.getZ(), 15);
 
@@ -149,7 +149,7 @@ public class Meteor extends Entity {
                 playSoundClient();
             }
 
-            if (MainConfig.COMMON.ENABLE_METEOR_TAILS.get()) {
+            if (NtmConfig.COMMON.ENABLE_METEOR_TAILS.get()) {
                 CompoundTag tag = new CompoundTag();
                 tag.putString("type", "exhaust");
                 tag.putString("mode", "meteor");

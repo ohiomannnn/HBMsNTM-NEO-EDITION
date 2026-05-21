@@ -1,7 +1,7 @@
 package com.hbm.entity.missile;
 
 import api.hbm.entity.IRadarDetectableNT;
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.NtmItems;
@@ -65,8 +65,8 @@ public abstract class MissileTier4 extends MissileBaseNT {
     public static class MissileNuclear extends MissileTier4 {
         public MissileNuclear(EntityType<? extends MissileNuclear> entityType, Level level) { super(entityType, level); }
         @Override public void onMissileImpact(RayTraceResult mop) {
-            WorldUtil.loadAndAddFreshEntity(NukeExplosionMK5.statFacNoSpawn(this.level, MainConfig.COMMON.MISSLE_RADIUS.get(), this.position.x, this.position.y, this.position.z));
-            NukeTorexCreator.statFacStandard(this.level, this.position.x, this.position.y, this.position.z, MainConfig.COMMON.MISSLE_RADIUS.get());
+            WorldUtil.loadAndAddFreshEntity(NukeExplosionMK5.statFacNoSpawn(this.level, NtmConfig.COMMON.MISSLE_RADIUS.get(), this.position.x, this.position.y, this.position.z));
+            NukeTorexCreator.statFacStandard(this.level, this.position.x, this.position.y, this.position.z, NtmConfig.COMMON.MISSLE_RADIUS.get());
         }
         @Override public ItemStack getDebrisRareDrop() { return new ItemStack(NtmItems.NOTHING.get()); }
         @Override public ItemStack getMissileItemForInfo() { return new ItemStack(NtmItems.MISSILE_NUCLEAR.get()); }
@@ -75,8 +75,8 @@ public abstract class MissileTier4 extends MissileBaseNT {
     public static class MissileMirv extends MissileTier4 {
         public MissileMirv(EntityType<? extends MissileMirv> entityType, Level level) { super(entityType, level); }
         @Override public void onMissileImpact(RayTraceResult mop) {
-            WorldUtil.loadAndAddFreshEntity(NukeExplosionMK5.statFacNoSpawn(this.level, MainConfig.COMMON.MISSLE_RADIUS.get() * 2, this.position.x, this.position.y, this.position.z));
-            NukeTorexCreator.statFacStandard(this.level, this.position.x, this.position.y, this.position.z, MainConfig.COMMON.MISSLE_RADIUS.get() * 2);
+            WorldUtil.loadAndAddFreshEntity(NukeExplosionMK5.statFacNoSpawn(this.level, NtmConfig.COMMON.MISSLE_RADIUS.get() * 2, this.position.x, this.position.y, this.position.z));
+            NukeTorexCreator.statFacStandard(this.level, this.position.x, this.position.y, this.position.z, NtmConfig.COMMON.MISSLE_RADIUS.get() * 2);
         }
         @Override public List<ItemStack> getDebris() {
             List<ItemStack> list = new ArrayList<>();
@@ -107,8 +107,8 @@ public abstract class MissileTier4 extends MissileBaseNT {
     public static class MissileDoomsday extends MissileTier4 {
         public MissileDoomsday(EntityType<? extends MissileDoomsday> entityType, Level level) { super(entityType, level); }
         @Override public void onMissileImpact(RayTraceResult mop) {
-            WorldUtil.loadAndAddFreshEntity(NukeExplosionMK5.statFacNoSpawn(this.level, MainConfig.COMMON.MISSLE_RADIUS.get() * 2, this.position.x, this.position.y, this.position.z).setMoreFallout(100));
-            NukeTorexCreator.statFacStandard(this.level, this.position.x, this.position.y, this.position.z, MainConfig.COMMON.MISSLE_RADIUS.get() * 2);
+            WorldUtil.loadAndAddFreshEntity(NukeExplosionMK5.statFacNoSpawn(this.level, NtmConfig.COMMON.MISSLE_RADIUS.get() * 2, this.position.x, this.position.y, this.position.z).setMoreFallout(100));
+            NukeTorexCreator.statFacStandard(this.level, this.position.x, this.position.y, this.position.z, NtmConfig.COMMON.MISSLE_RADIUS.get() * 2);
         }
         @Override public List<ItemStack> getDebris() { return null; }
         @Override public ItemStack getDebrisRareDrop() { return null; }
@@ -118,8 +118,8 @@ public abstract class MissileTier4 extends MissileBaseNT {
     public static class MissileDoomsdayRusted extends MissileDoomsday {
         public MissileDoomsdayRusted(EntityType<? extends MissileDoomsdayRusted> entityType, Level level) { super(entityType, level); }
         @Override public void onMissileImpact(RayTraceResult mop) {
-            WorldUtil.loadAndAddFreshEntity(NukeExplosionMK5.statFacNoSpawn(this.level, MainConfig.COMMON.MISSLE_RADIUS.get(), this.position.x, this.position.y, this.position.z).setMoreFallout(100));
-            NukeTorexCreator.statFacStandard(this.level, this.position.x, this.position.y, this.position.z, MainConfig.COMMON.MISSLE_RADIUS.get());
+            WorldUtil.loadAndAddFreshEntity(NukeExplosionMK5.statFacNoSpawn(this.level, NtmConfig.COMMON.MISSLE_RADIUS.get(), this.position.x, this.position.y, this.position.z).setMoreFallout(100));
+            NukeTorexCreator.statFacStandard(this.level, this.position.x, this.position.y, this.position.z, NtmConfig.COMMON.MISSLE_RADIUS.get());
         }
         @Override public ItemStack getMissileItemForInfo() { return new ItemStack(NtmItems.MISSILE_DOOMSDAY_RUSTED.get()); }
     }

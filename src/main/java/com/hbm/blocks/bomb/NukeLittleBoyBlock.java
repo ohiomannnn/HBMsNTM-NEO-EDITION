@@ -1,7 +1,7 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.blockentity.bomb.NukeLittleBoyBlockEntity;
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.particle.helper.NukeTorexCreator;
 import com.mojang.serialization.MapCodec;
@@ -21,8 +21,8 @@ public class NukeLittleBoyBlock extends NukeBaseBlock {
 
     @Override
     protected void explode(Level level, double x, double y, double z) {
-        NukeExplosionMK5.statFac(level, MainConfig.COMMON.BOY_RADIUS.get(), x, y, z);
-        NukeTorexCreator.statFacStandard(level, x, y, z, MainConfig.COMMON.BOY_RADIUS.get());
+        NukeExplosionMK5.statFac(level, NtmConfig.COMMON.BOY_RADIUS.get(), x, y, z);
+        NukeTorexCreator.statFacStandard(level, x, y, z, NtmConfig.COMMON.BOY_RADIUS.get());
     }
 
     @Override

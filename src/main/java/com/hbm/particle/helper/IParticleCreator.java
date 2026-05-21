@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 public interface IParticleCreator {
@@ -14,5 +15,11 @@ public interface IParticleCreator {
 
     static void sendPacket(ServerLevel level, double x, double y, double z, int range, CompoundTag data) {
         PacketDistributor.sendToPlayersNear(level, null, x, y, z, range, new AuxParticle(data, x, y, z));
+    }
+
+    static void sendPacket(Level level, double x, double y, double z, int range, CompoundTag tag) {
+        if(level instanceof ServerLevel serverLevel) {
+            PacketDistributor.sendToPlayersNear(serverLevel, null, x, y, z, range, new AuxParticle(tag, x, y, z));
+        }
     }
 }

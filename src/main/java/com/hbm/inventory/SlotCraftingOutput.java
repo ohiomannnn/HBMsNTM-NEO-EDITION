@@ -42,7 +42,7 @@ public class SlotCraftingOutput extends Slot {
 
     @Override
     protected void checkTakeAchievements(ItemStack stack) {
-        if (this.craftBuffer > 0) {
+        if(this.craftBuffer > 0) {
             stack.onCraftedBy(this.player.level(), this.player, this.craftBuffer);
         }
         this.craftBuffer = 0;

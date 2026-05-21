@@ -5,7 +5,7 @@ import com.hbm.util.Vec3NT;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.util.FastColor.ARGB32;
 import net.minecraft.util.RandomSource;
@@ -37,7 +37,7 @@ public class BeamPronter {
         RenderContext.mulPose(Axis.YP.rotationDegrees(sYRot));
         RenderContext.mulPose(Axis.XP.rotationDegrees(sXRot - 90));
 
-        MultiBufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+        BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
 
         VertexConsumer consumer;
         if (beam == BeamType.SOLID) {
@@ -132,6 +132,8 @@ public class BeamPronter {
         }
 
         RenderContext.popPose();
+
+        buffer.endBatch();
 
         RenderContext.popPose();
     }

@@ -1,6 +1,6 @@
 package com.hbm.hazard.type;
 
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
@@ -17,7 +17,7 @@ public class HazardTypeHydroactive extends HazardTypeBase {
 
     @Override
     public void onUpdate(LivingEntity target, float level, ItemStack stack) {
-        if (MainConfig.COMMON.DISABLE_HYDROACTIVE.get()) return;
+        if (NtmConfig.COMMON.DISABLE_HYDROACTIVE.get()) return;
 
         if (target.isInWaterOrRain() && stack.getCount() > 0) {
             stack.setCount(0);
@@ -27,7 +27,7 @@ public class HazardTypeHydroactive extends HazardTypeBase {
 
     @Override
     public void updateEntity(ItemEntity item, float lvl) {
-        if (MainConfig.COMMON.DISABLE_HYDROACTIVE.get()) return;
+        if (NtmConfig.COMMON.DISABLE_HYDROACTIVE.get()) return;
 
         if (item.isInWaterOrRain()) {
             item.discard();

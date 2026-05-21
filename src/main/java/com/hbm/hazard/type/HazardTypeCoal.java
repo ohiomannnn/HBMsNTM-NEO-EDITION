@@ -1,6 +1,6 @@
 package com.hbm.hazard.type;
 
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.hazard.modifier.HazardModifier;
 import com.hbm.util.ArmorRegistry;
@@ -21,7 +21,7 @@ public class HazardTypeCoal extends HazardTypeBase {
 
     @Override
     public void onUpdate(LivingEntity target, float level, ItemStack stack) {
-        if (MainConfig.COMMON.DISABLE_COAL.get()) return;
+        if (NtmConfig.COMMON.DISABLE_COAL.get()) return;
 
         if(!ArmorRegistry.hasProtection(target, EquipmentSlot.HEAD, HazardClass.PARTICLE_COARSE)) {
             HbmLivingAttachments.incrementBlackLung(target, (int) Math.min(level * stack.getCount(), 10));

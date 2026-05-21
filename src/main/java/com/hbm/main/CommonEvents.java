@@ -6,7 +6,7 @@ import com.hbm.commands.ChunkRadCommand;
 import com.hbm.commands.LivingPropsCommand;
 import com.hbm.commands.SatellitesCommand;
 import com.hbm.config.FalloutConfigJSON;
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.mob.CreeperNuclear;
 import com.hbm.entity.mob.Duck;
@@ -91,7 +91,7 @@ public class CommonEvents {
     public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
         Player player = event.getEntity();
 
-        if (MainConfig.COMMON.ENABLE_MOTD.get()) {
+        if (NtmConfig.COMMON.ENABLE_MOTD.get()) {
 
             player.sendSystemMessage(Component.translatable("message.hbmsntm.loaded", Component.translatable("message.hbmsntm.neo").withStyle(ChatFormatting.LIGHT_PURPLE), NuclearTechMod.VERSION));
 
@@ -164,6 +164,8 @@ public class CommonEvents {
         event.register(ModMenuTypes.SAT_LINKER.get(), MachineSatLinkerScreen::new);
 
         event.register(ModMenuTypes.FLUID_TANK.get(), MachineFluidTankScreen::new);
+
+        event.register(ModMenuTypes.ASSEMBLY_MACHINE.get(), MachineAssemblyMachineScreen::new);
 
         event.register(ModMenuTypes.BATTERY_SOCKET.get(), BatterySocketScreen::new);
         event.register(ModMenuTypes.BATTERY_REDD.get(), BatteryREDDScreen::new);

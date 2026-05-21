@@ -8,7 +8,7 @@ import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.blocks.bomb.BalefireBlock;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.handler.HazmatRegistry;
@@ -19,6 +19,7 @@ import com.hbm.inventory.MetaHelper;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.screens.LoadingScreenRendererNT;
+import com.hbm.items.EnumMultiItem;
 import com.hbm.items.IItemHUD;
 import com.hbm.items.NtmItems;
 import com.hbm.items.special.PolaroidItem;
@@ -81,6 +82,7 @@ import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
@@ -148,6 +150,14 @@ public class NuclearTechModClient {
         event.enqueueWork(() -> {
             ResourceManager.init();
             ItemRenderMissileGeneric.init();
+
+            for(Item item : BuiltInRegistries.ITEM) {
+                if(BuiltInRegistries.ITEM.getKey(item).getNamespace().equals(NuclearTechMod.MODID)) {
+                    if(item instanceof EnumMultiItem multiItem) {
+                        if(multiItem.multiTexture) ItemProperties.register(item, NuclearTechMod.withDefaultNamespace("item_meta"), (itemStack, level, livingEntity, seed) -> MetaHelper.getMeta(itemStack));
+                    }
+                }
+            }
         });
     }
 
@@ -169,7 +179,7 @@ public class NuclearTechModClient {
 
     @SubscribeEvent
     public static void onScreenRender(ScreenEvent.Render.Post event) {
-        if (MainConfig.CLIENT.ENABLE_TIPS.get()) {
+        if (NtmConfig.CLIENT.ENABLE_TIPS.get()) {
             Screen screen = event.getScreen();
             if (screen instanceof LevelLoadingScreen || screen instanceof ReceivingLevelScreen) {
                 LoadingScreenRendererNT.render(event.getGuiGraphics());
@@ -179,7 +189,7 @@ public class NuclearTechModClient {
 
     @SubscribeEvent
     public static void onJoin(ClientPlayerNetworkEvent.LoggingOut event) {
-        if (MainConfig.CLIENT.ENABLE_TIPS.get()) {
+        if (NtmConfig.CLIENT.ENABLE_TIPS.get()) {
             LoadingScreenRendererNT.resetMessage();
         }
         RenderInfoSystem.clear();
@@ -219,7 +229,7 @@ public class NuclearTechModClient {
         LocalPlayer player = Minecraft.getInstance().player;
 
         /// NUKE SHAKE ///
-        if ((shakeTimestamp + shakeDuration - System.currentTimeMillis()) > 0 && MainConfig.CLIENT.ENABLE_NUKE_HUD_SHAKE.get()) {
+        if ((shakeTimestamp + shakeDuration - System.currentTimeMillis()) > 0 && NtmConfig.CLIENT.ENABLE_NUKE_HUD_SHAKE.get()) {
             double mult = (shakeTimestamp + shakeDuration - System.currentTimeMillis()) / (double) shakeDuration * 2;
             double horizontal = Mth.clamp(Math.sin(System.currentTimeMillis() * 0.02), -0.7, 0.7) * 15;
             double vertical = Mth.clamp(Math.sin(System.currentTimeMillis() * 0.01 + 2), -0.7, 0.7) * 3;
@@ -254,7 +264,7 @@ public class NuclearTechModClient {
         GuiGraphics guiGraphics = event.getGuiGraphics();
 
         /// NUKE FLASH ///
-        if (MainConfig.CLIENT.ENABLE_NUKE_HUD_FLASH.get() && (flashTimestamp + flashDuration - Clock.get_ms()) > 0 && !mc.options.hideGui) {
+        if (NtmConfig.CLIENT.ENABLE_NUKE_HUD_FLASH.get() && (flashTimestamp + flashDuration - Clock.get_ms()) > 0 && !mc.options.hideGui) {
             float brightness = (flashTimestamp + flashDuration - Clock.get_ms()) / (float) flashDuration;
             int alpha = (int)(brightness * 255.0F);
             int width = mc.getWindow().getGuiScaledWidth();
@@ -296,14 +306,14 @@ public class NuclearTechModClient {
     }
 
     private static boolean checkForGeiger(Player player) {
-        for (ItemStack stack : player.getInventory().items) {
-            if (stack.getItem() instanceof GeigerCounterItem) return true;
+        for(ItemStack stack : player.getInventory().items) {
+            if(stack.getItem() instanceof GeigerCounterItem) return true;
         }
-        for (ItemStack stack : player.getInventory().armor) {
-            if (stack.getItem() instanceof GeigerCounterItem) return true;
+        for(ItemStack stack : player.getInventory().armor) {
+            if(stack.getItem() instanceof GeigerCounterItem) return true;
         }
-        for (ItemStack stack : player.getInventory().offhand) {
-            if (stack.getItem() instanceof GeigerCounterItem) return true;
+        for(ItemStack stack : player.getInventory().offhand) {
+            if(stack.getItem() instanceof GeigerCounterItem) return true;
         }
         return false;
     }
@@ -369,7 +379,7 @@ public class NuclearTechModClient {
     }
     @SubscribeEvent
     public static void onOpenGUI(ScreenEvent.Opening event) {
-        if(event.getScreen() instanceof TitleScreen titleScreen && MainConfig.CLIENT.ENABLE_MAIN_MENU_WACKY_SPLASHES.get()) {
+        if(event.getScreen() instanceof TitleScreen titleScreen && NtmConfig.CLIENT.ENABLE_MAIN_MENU_WACKY_SPLASHES.get()) {
 
             int rand = (int) (Math.random() * 150);
             String text = switch(rand) {
@@ -606,12 +616,6 @@ public class NuclearTechModClient {
         event.registerEntityRenderer(ModEntityTypes.EMP.get(), EmptyEntityRenderer::new);
 
         ItemProperties.register(NtmItems.POLAROID.get(), NuclearTechMod.withDefaultNamespace("polaroid_id"), (stack, level, entity, seed) -> PolaroidItem.polaroidID);
-    }
-
-    public static void registerMetaItemProperties(Item... items) {
-        for (Item item : items) {
-            ItemProperties.register(item, NuclearTechMod.withDefaultNamespace("item_meta"), (itemStack, level, livingEntity, seed) -> MetaHelper.getMeta(itemStack));
-        }
     }
 
     // happens before EntityRenderersEvent.RegisterRenderers so we gotta use that

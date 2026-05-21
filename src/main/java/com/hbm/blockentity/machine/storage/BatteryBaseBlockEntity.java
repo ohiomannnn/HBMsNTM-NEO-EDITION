@@ -12,10 +12,8 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
-import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -38,28 +36,30 @@ public abstract class BatteryBaseBlockEntity extends MachineBaseBlockEntity impl
 
     protected PowerNode node;
 
-    public BatteryBaseBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState, int size) {
-        super(type, pos, blockState, size);
+    public BatteryBaseBlockEntity(BlockEntityType<? extends BatteryBaseBlockEntity> type, BlockPos pos, BlockState state, int size) {
+        super(type, pos, state, size);
     }
 
     @Override
     public void updateEntity() {
-        if (level != null && !level.isClientSide) {
-            if (priority == null || priority.ordinal() == 0 || priority.ordinal() == 4) {
+        if(this.level == null) return;
+
+        if(!this.level.isClientSide) {
+            if(priority == null || priority.ordinal() == 0 || priority.ordinal() == 4) {
                 priority = ConnectionPriority.LOW;
             }
 
-            if (this.node == null || this.node.expired) {
+            if(this.node == null || this.node.expired) {
                 this.node = (PowerNode) UniNodespace.getNode(level, this.getBlockPos(), Nodespace.THE_POWER_PROVIDER);
 
-                if (this.node == null || this.node.expired) {
+                if(this.node == null || this.node.expired) {
                     this.node = this.createNode();
                     UniNodespace.createNode(level, this.node);
                 }
             }
 
-            if (this.node != null && this.node.hasValidNet()) {
-                switch (this.getRelevantMode(false)) {
+            if(this.node != null && this.node.hasValidNet()) {
+                switch(this.getRelevantMode(false)) {
                     case mode_input -> {
                         this.node.net.removeProvider(this);
                         this.node.net.addReceiver(this);
@@ -80,10 +80,10 @@ public abstract class BatteryBaseBlockEntity extends MachineBaseBlockEntity impl
             }
 
             byte comp = this.getComparatorPower();
-            if (comp != this.lastRedstone) {
-                for (BlockPos port : this.getPortPos()) {
+            if(comp != this.lastRedstone) {
+                for(BlockPos port : this.getPortPos()) {
                     BlockEntity be = Compat.getBlockEntityStandard(level, port);
-                    if (be != null) be.setChanged();
+                    if(be != null) be.setChanged();
                 }
             }
 
@@ -134,9 +134,9 @@ public abstract class BatteryBaseBlockEntity extends MachineBaseBlockEntity impl
     public void deserialize(ByteBuf buf) {
         super.deserialize(buf);
 
-        redLow = buf.readShort();
-        redHigh = buf.readShort();
-        priority = EnumUtil.grabEnumSafely(ConnectionPriority.class, buf.readByte());
+        this.redLow = buf.readShort();
+        this.redHigh = buf.readShort();
+        this.priority = EnumUtil.grabEnumSafely(ConnectionPriority.class, buf.readByte());
     }
 
     @Override
@@ -168,9 +168,9 @@ public abstract class BatteryBaseBlockEntity extends MachineBaseBlockEntity impl
     private short modeCache = 0;
 
     public short getRelevantMode(boolean useCache) {
-        if (useCache) return this.modeCache;
+        if(useCache) return this.modeCache;
         boolean powered = false;
-        for (BlockPos pos : getPortPos()) if (level != null && level.hasNeighborSignal(pos)) { powered = true; break; }
+        for(BlockPos pos : getPortPos()) if (level != null && level.hasNeighborSignal(pos)) { powered = true; break; }
         this.modeCache = powered ? this.redHigh : this.redLow;
         return this.modeCache;
     }
@@ -179,18 +179,18 @@ public abstract class BatteryBaseBlockEntity extends MachineBaseBlockEntity impl
 
     @Override
     public void receiveControl(CompoundTag tag) {
-        if (tag.contains("low")) {
+        if(tag.contains("low")) {
             this.redLow++;
-            if (this.redLow > 3) this.redLow = 0;
+            if(this.redLow > 3) this.redLow = 0;
         }
-        if (tag.contains("high")) {
+        if(tag.contains("high")) {
             this.redHigh++;
-            if (this.redHigh > 3) this.redHigh = 0;
+            if(this.redHigh > 3) this.redHigh = 0;
         }
-        if (tag.contains("priority")) {
+        if(tag.contains("priority")) {
             int ordinal = this.priority.ordinal();
             ordinal++;
-            if (ordinal > ConnectionPriority.HIGH.ordinal()) ordinal = ConnectionPriority.LOW.ordinal();
+            if(ordinal > ConnectionPriority.HIGH.ordinal()) ordinal = ConnectionPriority.LOW.ordinal();
             this.priority = EnumUtil.grabEnumSafely(ConnectionPriority.class, ordinal);
         }
     }
@@ -206,8 +206,8 @@ public abstract class BatteryBaseBlockEntity extends MachineBaseBlockEntity impl
 
     @Override
     public void pasteSettings(CompoundTag tag, int index, Level level, Player player, BlockPos pos) {
-        if (tag.contains("redLow")) this.redLow = tag.getShort("redLow");
-        if (tag.contains("redHigh")) this.redHigh = tag.getShort("redHigh");
-        if (tag.contains("priority")) this.priority = EnumUtil.grabEnumSafely(ConnectionPriority.class, tag.getByte("priority"));
+        if(tag.contains("redLow")) this.redLow = tag.getShort("redLow");
+        if(tag.contains("redHigh")) this.redHigh = tag.getShort("redHigh");
+        if(tag.contains("priority")) this.priority = EnumUtil.grabEnumSafely(ConnectionPriority.class, tag.getByte("priority"));
     }
 }

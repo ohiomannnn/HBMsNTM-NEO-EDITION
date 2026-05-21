@@ -8,11 +8,14 @@ import com.hbm.blocks.DummyableBlock;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 
 public class MachineAssemblyMachineBlock extends DummyableBlock {
 
@@ -36,11 +39,16 @@ public class MachineAssemblyMachineBlock extends DummyableBlock {
         return (lvl, pos, st, be) -> { if(be instanceof ITickable tickable) tickable.updateEntity(); };
     }
 
-    @Override public int[] getDimensions() { return new int[] {2, 0, 1, 1, 1, 1}; }
-    @Override public int getOffset() { return 1; }
-
     public static final MapCodec<MachineAssemblyMachineBlock> CODEC = simpleCodec(MachineAssemblyMachineBlock::new);
     @Override public MapCodec<MachineAssemblyMachineBlock> codec() { return CODEC; }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        return this.standardOpenBehavior(level, pos, player, 0);
+    }
+
+    @Override public int[] getDimensions() { return new int[] {2, 0, 1, 1, 1, 1}; }
+    @Override public int getOffset() { return 1; }
 
     @Override
     protected void fillSpace(Level level, BlockPos pos, Direction dir, int offset) {

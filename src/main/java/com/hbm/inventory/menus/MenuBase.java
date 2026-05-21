@@ -11,11 +11,11 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
-public class ContainerMenuBase<T extends Container> extends AbstractContainerMenu {
+public class MenuBase<T extends Container> extends AbstractContainerMenu {
 
     public T be;
 
-    public ContainerMenuBase(MenuType<?> menuType, T be, int id) {
+    public MenuBase(MenuType<? extends MenuBase> menuType, T be, int id) {
         super(menuType, id);
         this.be = be;
     }
@@ -31,22 +31,22 @@ public class ContainerMenuBase<T extends Container> extends AbstractContainerMen
         ItemStack newStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
 
-        if (slot.hasItem()) {
+        if(slot.hasItem()) {
 
             ItemStack stack = slot.getItem();
             newStack = stack.copy();
 
             if(index <= be.getContainerSize() - 1) {
-                if (!this.moveItemStackTo(stack, be.getContainerSize(), this.slots.size(), true)) {
+                if(!this.moveItemStackTo(stack, be.getContainerSize(), this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
             } else {
-                if (!this.moveItemStackTo(stack, 0, be.getContainerSize(), false)) {
+                if(!this.moveItemStackTo(stack, 0, be.getContainerSize(), false)) {
                     return ItemStack.EMPTY;
                 }
             }
 
-            if (stack.isEmpty()) {
+            if(stack.isEmpty()) {
                 slot.setByPlayer(ItemStack.EMPTY);
             } else {
                 slot.setChanged();
@@ -84,7 +84,7 @@ public class ContainerMenuBase<T extends Container> extends AbstractContainerMen
      * @param from the slot index to start from
      */
     public void addSlots(Container inv, int from, int x, int y, int rows, int cols) {
-        addSlots(inv, from, x, y, rows, cols, 18);
+        this.addSlots(inv, from, x, y, rows, cols, 18);
     }
 
     public void addSlots(Container inv, int from, int x, int y, int rows, int cols, int slotSize) {
@@ -96,7 +96,7 @@ public class ContainerMenuBase<T extends Container> extends AbstractContainerMen
     }
 
     public void addOutputSlots(Player player, Container inv, int from, int x, int y, int rows, int cols) {
-        addOutputSlots(player, inv, from, x, y, rows, cols, 18);
+        this.addOutputSlots(player, inv, from, x, y, rows, cols, 18);
     }
 
     public void addOutputSlots(Player player, Container inv, int from, int x, int y, int rows, int cols, int slotSize) {

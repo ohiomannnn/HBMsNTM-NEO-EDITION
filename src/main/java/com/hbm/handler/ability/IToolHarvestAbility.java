@@ -1,11 +1,10 @@
 package com.hbm.handler.ability;
 
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -59,7 +58,7 @@ public interface IToolHarvestAbility extends IBaseAbility {
 
         @Override
         public boolean isAllowed() {
-            return MainConfig.COMMON.ABILITY_SILK.get();
+            return NtmConfig.COMMON.ABILITY_SILK.get();
         }
 
         @Override
@@ -92,7 +91,7 @@ public interface IToolHarvestAbility extends IBaseAbility {
 
         @Override
         public boolean isAllowed() {
-            return MainConfig.COMMON.ABILITY_LUCK.get();
+            return NtmConfig.COMMON.ABILITY_LUCK.get();
         }
 
         public final int[] powerAtLevel = { 1, 2, 3, 4, 5, 9 };

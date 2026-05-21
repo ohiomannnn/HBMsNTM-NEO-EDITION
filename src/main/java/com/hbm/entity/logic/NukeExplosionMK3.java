@@ -1,6 +1,6 @@
 package com.hbm.entity.logic;
 
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.explosion.ExplosionFleija;
 import com.hbm.explosion.ExplosionHurtUtil;
@@ -99,7 +99,7 @@ public class NukeExplosionMK3 extends ExplosionChunkLoading {
 
         long time = tag.getLong("milliTime");
 
-        if (MainConfig.COMMON.LIMIT_EXPLOSION_LIFESPAN.get() > 0 && System.currentTimeMillis() - time > MainConfig.COMMON.LIMIT_EXPLOSION_LIFESPAN.get() * 1000) {
+        if (NtmConfig.COMMON.LIMIT_EXPLOSION_LIFESPAN.get() > 0 && System.currentTimeMillis() - time > NtmConfig.COMMON.LIMIT_EXPLOSION_LIFESPAN.get() * 1000) {
             this.discard();
         }
 
@@ -140,7 +140,7 @@ public class NukeExplosionMK3 extends ExplosionChunkLoading {
         NukeExplosionMK3 entity = new NukeExplosionMK3(ModEntityTypes.NUKE_MK3.get(), level);
         entity.setPos(x, y, z);
         entity.destructionRange = range;
-        entity.speed = MainConfig.COMMON.BLAST_SPEED.get();
+        entity.speed = NtmConfig.COMMON.BLAST_SPEED.get();
         entity.coefficient = 1.0F;
         entity.waste = false;
 

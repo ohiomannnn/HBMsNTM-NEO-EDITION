@@ -2,7 +2,7 @@ package com.hbm.items.tools;
 
 import api.hbm.item.IDepthRockTool;
 import com.hbm.main.NuclearTechModClient;
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.handler.ability.*;
 import com.hbm.inventory.screens.ToolAbilityScreen;
@@ -353,8 +353,8 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItem
 
         GuiGraphics guiGraphics = event.getGuiGraphics();
         int size = 16;
-        int ox = MainConfig.CLIENT.TOOL_HUD_OFFSET_HORIZONTAL.get();
-        int oy = MainConfig.CLIENT.TOOL_HUD_OFFSET_VERTICAL.get();
+        int ox = NtmConfig.CLIENT.TOOL_HUD_OFFSET_HORIZONTAL.get();
+        int oy = NtmConfig.CLIENT.TOOL_HUD_OFFSET_VERTICAL.get();
 
         RenderSystem.enableBlend();
         RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);

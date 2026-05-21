@@ -3,7 +3,7 @@ package com.hbm.blocks.bomb;
 import com.hbm.blockentity.ITickable;
 import com.hbm.blockentity.bomb.LandMineBlockEntity;
 import com.hbm.blocks.NtmBlocks;
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.vanillant.ExplosionVNT;
@@ -123,7 +123,7 @@ public class LandmineBlock extends Block implements EntityBlock, IBomb {
 
             if (this == NtmBlocks.MINE_AP.get()) {
                 ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3F)
-                        .setEntityProcessor(new EntityProcessorCrossSmooth(0.5, (float) MainConfig.SERVER.MINE_AP_DAMAGE.getAsDouble()).setupPiercing(5F, 0.2F))
+                        .setEntityProcessor(new EntityProcessorCrossSmooth(0.5, (float) NtmConfig.SERVER.MINE_AP_DAMAGE.getAsDouble()).setupPiercing(5F, 0.2F))
                         .setSFX(new ExplosionEffectWeapon(5, 1F, 0.5F));
                 vnt.explode();
             }
@@ -132,14 +132,14 @@ public class LandmineBlock extends Block implements EntityBlock, IBomb {
                 ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 4F)
                         .setBlockAllocator(new BlockAllocatorStandard())
                         .setBlockProcessor(new BlockProcessorStandard())
-                        .setEntityProcessor(new EntityProcessorCrossSmooth(1, (float) MainConfig.SERVER.MINE_HE_DAMAGE.getAsDouble()).setupPiercing(15F, 0.2F))
+                        .setEntityProcessor(new EntityProcessorCrossSmooth(1, (float) NtmConfig.SERVER.MINE_HE_DAMAGE.getAsDouble()).setupPiercing(15F, 0.2F))
                         .setSFX(new ExplosionEffectWeapon(15, 3.5F, 1.25F));
                 vnt.explode();
             }
 
             if (this == NtmBlocks.MINE_SHRAP.get()) {
                 ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3F)
-                        .setEntityProcessor(new EntityProcessorCrossSmooth(0.5, (float) MainConfig.SERVER.MINE_SHRAP_DAMAGE.getAsDouble()))
+                        .setEntityProcessor(new EntityProcessorCrossSmooth(0.5, (float) NtmConfig.SERVER.MINE_SHRAP_DAMAGE.getAsDouble()))
                         .setSFX(new ExplosionEffectWeapon(5, 1F, 0.5F));
                 vnt.explode();
 
@@ -153,7 +153,7 @@ public class LandmineBlock extends Block implements EntityBlock, IBomb {
                 ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 10)
                         .setBlockAllocator(new BlockAllocatorStandard(64))
                         .setBlockProcessor(new BlockProcessorStandard())
-                        .setEntityProcessor(new EntityProcessorCrossSmooth(2, (float) MainConfig.SERVER.MINE_NUKE_DAMAGE.getAsDouble()).withRangeMod(1.5F));
+                        .setEntityProcessor(new EntityProcessorCrossSmooth(2, (float) NtmConfig.SERVER.MINE_NUKE_DAMAGE.getAsDouble()).withRangeMod(1.5F));
                 vnt.explode();
 
                 ExplosionNukeGeneric.incrementRad(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 1.5F);
@@ -172,7 +172,7 @@ public class LandmineBlock extends Block implements EntityBlock, IBomb {
                 ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 5, pos.getY() + 5, pos.getZ() + 5, 25F)
                         .setBlockAllocator(new BlockAllocatorWater(32))
                         .setBlockProcessor(new BlockProcessorStandard())
-                        .setEntityProcessor(new EntityProcessorCrossSmooth(0.5, (float) MainConfig.SERVER.MINE_NAVAL_DAMAGE.getAsDouble()).setupPiercing(5F, 0.2F))
+                        .setEntityProcessor(new EntityProcessorCrossSmooth(0.5, (float) NtmConfig.SERVER.MINE_NAVAL_DAMAGE.getAsDouble()).setupPiercing(5F, 0.2F))
                         .setSFX(new ExplosionEffectWeapon(10, 1F, 0.5F));
                 vnt.explode();
 

@@ -19,6 +19,8 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class BatterySocketBlockEntity extends BatteryBaseBlockEntity {
 
+    public boolean frame = false;
+
     public long[] log = new long[20];
     public long delta = 0;
 
@@ -26,26 +28,34 @@ public class BatterySocketBlockEntity extends BatteryBaseBlockEntity {
     public long syncMaxPower = 0;
     public ItemStack syncStack = ItemStack.EMPTY;
 
-    public BatterySocketBlockEntity(BlockPos pos, BlockState blockState) {
-        super(NtmBlockEntityTypes.BATTERY_SOCKET.get(), pos, blockState, 1);
+    public BatterySocketBlockEntity(BlockPos pos, BlockState state) {
+        super(NtmBlockEntityTypes.BATTERY_SOCKET.get(), pos, state, 1);
     }
 
     @Override public Component getDefaultName() { return Component.translatable("container.batterySocket"); }
 
     @Override
     public void updateEntity() {
+        if(this.level == null) return;
+
         long prevPower = this.getPower();
 
         super.updateEntity();
 
-        long avg = (this.getPower() + prevPower) / 2;
-        this.delta = avg - this.log[0];
+        if(!this.level.isClientSide) {
+            long avg = (this.getPower() + prevPower) / 2;
+            this.delta = avg - this.log[0];
 
-        for (int i = 1; i < this.log.length; i++) {
-            this.log[i - 1] = this.log[i];
+            for (int i = 1; i < this.log.length; i++) {
+                this.log[i - 1] = this.log[i];
+            }
+
+            this.log[19] = avg;
+        } else {
+            if(level.getGameTime() % 20 == 0) {
+                frame = !level.getBlockState(this.worldPosition.above(2)).isAir();
+            }
         }
-
-        this.log[19] = avg;
     }
 
     @Override

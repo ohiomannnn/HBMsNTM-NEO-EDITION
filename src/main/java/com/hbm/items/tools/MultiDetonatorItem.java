@@ -2,7 +2,7 @@ package com.hbm.items.tools;
 
 import com.hbm.main.NuclearTechMod;
 import com.hbm.blocks.ITooltipProvider;
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IBomb.BombReturnCode;
 import com.hbm.registry.NtmSoundEvents;
@@ -81,7 +81,7 @@ public class MultiDetonatorItem extends Item {
 
                             if (ret.wasSuccessful()) success++;
 
-                            if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
+                            if (NtmConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
                                 NuclearTechMod.LOGGER.info("[MULTI DETONATOR] {} detonated {} at {} / {} / {}!", player.getName().getString(), block.getName().getString(), x, y, z);
                             }
                         }

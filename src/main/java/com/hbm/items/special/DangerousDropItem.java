@@ -4,7 +4,7 @@ import com.hbm.entity.logic.NukeExplosionMK3;
 import com.hbm.items.NtmItems;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.blocks.ITooltipProvider;
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.effect.BlackHole;
 import com.hbm.entity.effect.RagingVortex;
@@ -70,7 +70,7 @@ public class DangerousDropItem extends Item {
                     if (block instanceof IBomb bomb) {
                         bomb.explode(level, pos);
 
-                        if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
+                        if (NtmConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
                             NuclearTechMod.LOGGER.info("[DEAD MAN'S DETONATOR] {} detonated {} at {} / {} / {}!", throwerName, block.getName().getString(), x, y, z);
                         }
                     }
@@ -79,7 +79,7 @@ public class DangerousDropItem extends Item {
                 itemEntity.discard();
                 return true;
             }
-            if (stack.is(NtmItems.DETONATOR_DE.get()) && MainConfig.COMMON.DROP_DEAD_MANS_EXPLOSIVE.get()) {
+            if (stack.is(NtmItems.DETONATOR_DE.get()) && NtmConfig.COMMON.DROP_DEAD_MANS_EXPLOSIVE.get()) {
                 level.explode(null, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), 15.0F, Level.ExplosionInteraction.TNT);
                 itemEntity.discard();
                 return true;
@@ -88,58 +88,58 @@ public class DangerousDropItem extends Item {
 
         if (itemEntity.onGround()) {
 
-            if (stack.is(NtmItems.PARTICLE_DIGAMMA.get()) && MainConfig.COMMON.DROP_SINGULARITY.get()) {
+            if (stack.is(NtmItems.PARTICLE_DIGAMMA.get()) && NtmConfig.COMMON.DROP_SINGULARITY.get()) {
                 BlackHole quasar = new BlackHole(ModEntityTypes.DIGAMMA_QUASAR.get(), level);
                 quasar.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
                 quasar.setSize(5F);
                 level.addFreshEntity(quasar);
             }
 
-            if (stack.is(NtmItems.CELL_ANTIMATTER.get()) && MainConfig.COMMON.DROP_CELL.get()) {
+            if (stack.is(NtmItems.CELL_ANTIMATTER.get()) && NtmConfig.COMMON.DROP_CELL.get()) {
                 new ExplosionVNT(level, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), 5F).makeAmat().explode();
             }
 
-            if (stack.is(NtmItems.PELLET_ANTIMATTER.get()) && MainConfig.COMMON.DROP_CELL.get()) {
+            if (stack.is(NtmItems.PELLET_ANTIMATTER.get()) && NtmConfig.COMMON.DROP_CELL.get()) {
                 new ExplosionVNT(level, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), 20F).makeAmat().explode();
             }
 
-            if (stack.is(NtmItems.CELL_ANTI_SCHARBIDIUM.get()) && MainConfig.COMMON.DROP_CELL.get()) {
-                NukeExplosionMK3 explosion = NukeExplosionMK3.statFacFleija(level, itemEntity.position.x, itemEntity.position.y, itemEntity.position.z, MainConfig.COMMON.ASCHRAB_RADIUS.get());
+            if (stack.is(NtmItems.CELL_ANTI_SCHARBIDIUM.get()) && NtmConfig.COMMON.DROP_CELL.get()) {
+                NukeExplosionMK3 explosion = NukeExplosionMK3.statFacFleija(level, itemEntity.position.x, itemEntity.position.y, itemEntity.position.z, NtmConfig.COMMON.ASCHRAB_RADIUS.get());
                 if(!explosion.isRemoved()) {
                     level.addFreshEntity(explosion);
                     CloudCreator.composeEffect(level, itemEntity.position.x, itemEntity.position.y, itemEntity.position.z, CloudType.FLEIJA);
                 }
             }
 
-            if (stack.is(NtmItems.SINGULARITY.get()) && MainConfig.COMMON.DROP_SINGULARITY.get()) {
+            if (stack.is(NtmItems.SINGULARITY.get()) && NtmConfig.COMMON.DROP_SINGULARITY.get()) {
                 Vortex vortex = new Vortex(ModEntityTypes.VORTEX.get(), level);
                 vortex.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
                 vortex.setSize(1.5F);
                 level.addFreshEntity(vortex);
             }
 
-            if (stack.is(NtmItems.SINGULARITY_COUNTER_RESONANT.get()) && MainConfig.COMMON.DROP_SINGULARITY.get()) {
+            if (stack.is(NtmItems.SINGULARITY_COUNTER_RESONANT.get()) && NtmConfig.COMMON.DROP_SINGULARITY.get()) {
                 Vortex vortex = new Vortex(ModEntityTypes.VORTEX.get(), level);
                 vortex.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
                 vortex.setSize(2.5F);
                 level.addFreshEntity(vortex);
             }
 
-            if (stack.is(NtmItems.SINGULARITY_SUPER_HEATED.get()) && MainConfig.COMMON.DROP_SINGULARITY.get()) {
+            if (stack.is(NtmItems.SINGULARITY_SUPER_HEATED.get()) && NtmConfig.COMMON.DROP_SINGULARITY.get()) {
                 Vortex vortex = new Vortex(ModEntityTypes.VORTEX.get(), level);
                 vortex.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
                 vortex.setSize(2.5F);
                 level.addFreshEntity(vortex);
             }
 
-            if (stack.is(NtmItems.BLACK_HOLE.get()) && MainConfig.COMMON.DROP_SINGULARITY.get()) {
+            if (stack.is(NtmItems.BLACK_HOLE.get()) && NtmConfig.COMMON.DROP_SINGULARITY.get()) {
                 BlackHole blackHole = new BlackHole(ModEntityTypes.BLACK_HOLE.get(), level);
                 blackHole.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
                 blackHole.setSize(1.5F);
                 level.addFreshEntity(blackHole);
             }
 
-            if (stack.is(NtmItems.SINGULARITY_SPARK.get()) && MainConfig.COMMON.DROP_SINGULARITY.get()) {
+            if (stack.is(NtmItems.SINGULARITY_SPARK.get()) && NtmConfig.COMMON.DROP_SINGULARITY.get()) {
                 RagingVortex ragingVortex = new RagingVortex(ModEntityTypes.RAGING_VORTEX.get(), level);
                 ragingVortex.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
                 ragingVortex.setSize(3.5F);

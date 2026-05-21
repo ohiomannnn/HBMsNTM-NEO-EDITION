@@ -133,7 +133,7 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
             byte comp = this.getComparatorPower(); //comparator shit
             if (comp != this.lastRedstone) {
                 this.setChanged();
-                for (DirPos pos : getConPos()) this.updateRedstoneConnection(pos);
+                for(DirPos pos : this.getConPos()) this.level.updateNeighbourForOutputSignal(pos.makeCompat(), this.getBlockState().getBlock());
             }
             this.lastRedstone = comp;
 

@@ -1,9 +1,9 @@
 package com.hbm.items.weapon.sedna.factory;
 
-import com.hbm.registry.NtmSoundEvents;
 import com.hbm.network.toclient.AuxParticle;
 import com.hbm.particle.helper.AshesCreator;
 import com.hbm.particle.helper.SkeletonCreator;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.DamageResistanceHandler.DamageClass;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -22,9 +22,9 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 public class ConfettiUtil {
 
-    public static void decideConfetti(LivingEntity entity, DamageClass dmgClass) {
-        if (entity.isAlive()) return;
-        switch (dmgClass) {
+    public static void createConfetti(LivingEntity entity, DamageClass dmgClass) {
+        if(entity.isAlive()) return;
+        switch(dmgClass) {
             case IN_FIRE -> cremate(entity);
             case EXPLOSION -> gib(entity);
             case ELECTRIC, LASER, SUBATOMIC -> pulverize(entity);
@@ -50,23 +50,23 @@ public class ConfettiUtil {
     }
 
     public static void gib(LivingEntity entity) {
-        if (entity instanceof Ocelot) return;
+        if(entity instanceof Ocelot) return;
 
         int type = 0;
-        if (entity instanceof Slime) type = 1;
-        if (entity instanceof Creeper) type = 1;
-        if (entity instanceof AbstractGolem) type = 2;
-        if (entity instanceof Blaze) type = 2;
+        if(entity instanceof Slime) type = 1;
+        if(entity instanceof Creeper) type = 1;
+        if(entity instanceof AbstractGolem) type = 2;
+        if(entity instanceof Blaze) type = 2;
 
         SkeletonCreator.composeEffectGib(entity.level, entity, 0.25F);
 
-        if (entity instanceof AbstractSkeleton) return;
+        if(entity instanceof AbstractSkeleton) return;
 
         CompoundTag tag = new CompoundTag();
         tag.putString("type", "giblets");
         tag.putInt("ent", entity.getId());
         tag.putInt("gibType", type);
-        if (entity.level instanceof ServerLevel serverLevel) {
+        if(entity.level instanceof ServerLevel serverLevel) {
             PacketDistributor.sendToPlayersNear(serverLevel, null, entity.getX(), entity.getY() + entity.getBbHeight() * 0.5, entity.getZ(), 150, new AuxParticle(tag, entity.getX(), entity.getY() + entity.getBbHeight() * 0.5, entity.getZ()));
             serverLevel.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ZOMBIE_BREAK_WOODEN_DOOR, SoundSource.BLOCKS, 2.0F, 0.95F + entity.getRandom().nextFloat() * 0.2F);
         }

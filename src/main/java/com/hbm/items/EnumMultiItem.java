@@ -1,9 +1,8 @@
 package com.hbm.items;
 
-import com.hbm.items.component.NtmDataComponents;
-import com.hbm.main.NuclearTechModClient;
 import com.hbm.interfaces.IOrderedEnum;
 import com.hbm.inventory.MetaHelper;
+import com.hbm.items.component.NtmDataComponents;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.util.EnumUtil;
 import net.minecraft.resources.ResourceLocation;
@@ -20,14 +19,13 @@ public class EnumMultiItem extends Item implements IMetaItem {
 
     //hell yes, now we're thinking with enums!
     protected final Class<? extends Enum<?>> theEnum;
-    protected final boolean multiName;
-    protected final boolean multiTexture;
+    public final boolean multiName;
+    public final boolean multiTexture;
 
     public EnumMultiItem(Properties properties, Class<? extends Enum<?>> theEnum, boolean multiName, boolean multiTexture) {
         super(properties.component(NtmDataComponents.META.get(), 0));
         this.theEnum = theEnum;
         this.multiName = multiName;
-        if (multiTexture) NuclearTechModClient.registerMetaItemProperties(this);
         this.multiTexture = multiTexture;
     }
 

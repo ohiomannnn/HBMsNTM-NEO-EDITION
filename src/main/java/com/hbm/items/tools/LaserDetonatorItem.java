@@ -3,7 +3,7 @@ package com.hbm.items.tools;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.main.NuclearTechModClient;
 import com.hbm.blocks.ITooltipProvider;
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IBomb.BombReturnCode;
 import com.hbm.interfaces.IHoldableWeapon;
@@ -54,7 +54,7 @@ public class LaserDetonatorItem extends Item implements IHoldableWeapon {
             if (block instanceof IBomb ib) {
                 IBomb.BombReturnCode ret = ib.explode(level, pos);
 
-                if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
+                if (NtmConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
                     NuclearTechMod.LOGGER.info("[LASER DETONATOR] {} detonated {} at {} / {} / {}!", player.getName().getString(), block.getName().getString(), pos.getX(), pos.getY(), pos.getZ());
                 }
 

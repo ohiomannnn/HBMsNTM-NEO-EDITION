@@ -2,7 +2,7 @@ package com.hbm.extprop;
 
 import com.hbm.main.NuclearTechMod;
 import com.hbm.main.NuclearTechModClient;
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.entity.mob.Duck;
 import com.hbm.lib.ModAttachments;
 import com.hbm.network.toclient.InformPlayer;
@@ -70,12 +70,12 @@ public class HbmLivingAttachments {
 
     /// RADIATION ///
     public static float getRadiation(LivingEntity entity) {
-        if (!MainConfig.COMMON.ENABLE_CONTAMINATION.get()) return 0;
+        if (!NtmConfig.COMMON.ENABLE_CONTAMINATION.get()) return 0;
         return getData(entity).radiation;
     }
 
     public static void setRadiation(LivingEntity entity, float rad) {
-        if (MainConfig.COMMON.ENABLE_CONTAMINATION.get()) {
+        if (NtmConfig.COMMON.ENABLE_CONTAMINATION.get()) {
             HbmLivingAttachments props = getData(entity);
             props.radiation = rad;
             entity.setData(ModAttachments.LIVING_ATTACHMENT, props);
@@ -83,7 +83,7 @@ public class HbmLivingAttachments {
     }
 
     public static void incrementRadiation(LivingEntity entity, float rad) {
-        if (!MainConfig.COMMON.ENABLE_CONTAMINATION.get()) return;
+        if (!NtmConfig.COMMON.ENABLE_CONTAMINATION.get()) return;
         float radiation = getData(entity).radiation + rad;
 
         if (radiation > 2500) radiation = 2500;
@@ -154,12 +154,12 @@ public class HbmLivingAttachments {
 
     /// ASBESTOS ///
     public static int getAsbestos(LivingEntity entity) {
-        if (MainConfig.COMMON.DISABLE_ASBESTOS.get()) return 0;
+        if (NtmConfig.COMMON.DISABLE_ASBESTOS.get()) return 0;
         return getData(entity).asbestos;
     }
 
     public static void setAsbestos(LivingEntity entity, int asbestos) {
-        if (MainConfig.COMMON.DISABLE_ASBESTOS.get()) return;
+        if (NtmConfig.COMMON.DISABLE_ASBESTOS.get()) return;
         HbmLivingAttachments props = getData(entity);
         props.asbestos = asbestos;
         entity.setData(ModAttachments.LIVING_ATTACHMENT, props);
@@ -171,7 +171,7 @@ public class HbmLivingAttachments {
     }
 
     public static void incrementAsbestos(LivingEntity entity, int asbestos) {
-        if (MainConfig.COMMON.DISABLE_ASBESTOS.get()) return;
+        if (NtmConfig.COMMON.DISABLE_ASBESTOS.get()) return;
         setAsbestos(entity, getAsbestos(entity) + asbestos);
 
         if (entity instanceof ServerPlayer player) {
@@ -181,12 +181,12 @@ public class HbmLivingAttachments {
 
     /// BLACK LUNG DISEASE ///
     public static int getBlackLung(LivingEntity entity) {
-        if (MainConfig.COMMON.DISABLE_COAL.get()) return 0;
+        if (NtmConfig.COMMON.DISABLE_COAL.get()) return 0;
         return getData(entity).blacklung;
     }
 
     public static void setBlackLung(LivingEntity entity, int blacklung) {
-        if (MainConfig.COMMON.DISABLE_COAL.get()) return;
+        if (NtmConfig.COMMON.DISABLE_COAL.get()) return;
         HbmLivingAttachments props = getData(entity);
         props.blacklung = blacklung;
         entity.setData(ModAttachments.LIVING_ATTACHMENT, props);
@@ -198,7 +198,7 @@ public class HbmLivingAttachments {
     }
 
     public static void incrementBlackLung(LivingEntity entity, int blacklung) {
-        if (MainConfig.COMMON.DISABLE_COAL.get()) return;
+        if (NtmConfig.COMMON.DISABLE_COAL.get()) return;
         setBlackLung(entity, getBlackLung(entity) + blacklung);
 
         if (entity instanceof ServerPlayer player) {

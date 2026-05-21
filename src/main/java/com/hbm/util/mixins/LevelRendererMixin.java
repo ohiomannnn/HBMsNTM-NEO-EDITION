@@ -1,6 +1,6 @@
 package com.hbm.util.mixins;
 
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.main.NuclearTechModClient;
@@ -38,7 +38,7 @@ public abstract class LevelRendererMixin {
 
     @Unique
     private void hbmsntm$renderDigammaStar(Matrix4f modelView, float partialTicks) {
-        if (!MainConfig.CLIENT.ENABLE_NTM_SKYBOX.get()) return;
+        if (!NtmConfig.CLIENT.ENABLE_NTM_SKYBOX.get()) return;
         Minecraft mc = Minecraft.getInstance();
 
         Level level = mc.level;
@@ -86,7 +86,7 @@ public abstract class LevelRendererMixin {
 
     @Unique
     private void hbmsntm$renderBobmazonSat(Matrix4f modelView) {
-        if (!MainConfig.CLIENT.ENABLE_NTM_SKYBOX.get()) return;
+        if (!NtmConfig.CLIENT.ENABLE_NTM_SKYBOX.get()) return;
         Minecraft mc = Minecraft.getInstance();
 
         Level level = mc.level;
@@ -129,7 +129,7 @@ public abstract class LevelRendererMixin {
 
     @Unique
     private void hbmsntm$renderLodeStar(Matrix4f modelView) {
-        if (!MainConfig.CLIENT.ENABLE_NTM_SKYBOX.get()) return;
+        if (!NtmConfig.CLIENT.ENABLE_NTM_SKYBOX.get()) return;
         Minecraft mc = Minecraft.getInstance();
 
         Level level = mc.level;

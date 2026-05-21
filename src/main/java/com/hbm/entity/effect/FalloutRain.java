@@ -3,7 +3,7 @@ package com.hbm.entity.effect;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.blocks.generic.FalloutBlock;
 import com.hbm.config.FalloutConfigJSON;
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.item.FallingBlockEntityNT;
 import com.hbm.entity.logic.ExplosionChunkLoading;
@@ -48,8 +48,8 @@ public class FalloutRain extends ExplosionChunkLoading {
         return biomeCache.computeIfAbsent(key, k -> this.level.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(k));
     }
 
-    private int tickDelay = MainConfig.COMMON.FALLOUT_DELAY.get();
-    private final int mk5 = MainConfig.COMMON.MK5.get();
+    private int tickDelay = NtmConfig.COMMON.FALLOUT_DELAY.get();
+    private final int mk5 = NtmConfig.COMMON.MK5.get();
 
     @Override
     public void tick() {
@@ -64,7 +64,7 @@ public class FalloutRain extends ExplosionChunkLoading {
             if (firstTick) {
                 if (chunksToProcess.isEmpty() && outerChunksToProcess.isEmpty()) gatherChunks();
 
-                if (MainConfig.COMMON.ENABLE_CRATER_BIOMES.get()) {
+                if (NtmConfig.COMMON.ENABLE_CRATER_BIOMES.get()) {
                     biomeCache.put(NtmBiomes.CRATER_INNER, getCachedHolder(NtmBiomes.CRATER_INNER));
                     biomeCache.put(NtmBiomes.CRATER, getCachedHolder(NtmBiomes.CRATER));
                     biomeCache.put(NtmBiomes.CRATER_OUTER, getCachedHolder(NtmBiomes.CRATER_OUTER));
@@ -74,7 +74,7 @@ public class FalloutRain extends ExplosionChunkLoading {
             }
 
             if (tickDelay == 0) {
-                tickDelay = MainConfig.COMMON.FALLOUT_DELAY.get();;
+                tickDelay = NtmConfig.COMMON.FALLOUT_DELAY.get();;
 
                 while (System.currentTimeMillis() < start + mk5) {
                     if (!chunksToProcess.isEmpty()) {
@@ -142,7 +142,7 @@ public class FalloutRain extends ExplosionChunkLoading {
     }
 
     public static ResourceKey<Biome> getBiomeChange(double dist, int scale, ResourceKey<Biome> original) {
-        if (!MainConfig.COMMON.ENABLE_CRATER_BIOMES.get()) return null;
+        if (!NtmConfig.COMMON.ENABLE_CRATER_BIOMES.get()) return null;
 
         if (scale >= 150 && dist < 15) {
             return NtmBiomes.CRATER_INNER;

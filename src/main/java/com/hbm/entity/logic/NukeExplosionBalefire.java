@@ -1,7 +1,7 @@
 package com.hbm.entity.logic;
 
 import com.hbm.main.NuclearTechMod;
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.explosion.ExplosionBalefire;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import net.minecraft.nbt.CompoundTag;
@@ -52,7 +52,7 @@ public class NukeExplosionBalefire extends ExplosionChunkLoading {
         super.tick();
 
         if (!this.did) {
-            if (MainConfig.COMMON.ENABLE_EXTENDED_LOGGING.get() && !level().isClientSide)
+            if (NtmConfig.COMMON.ENABLE_EXTENDED_LOGGING.get() && !level().isClientSide)
                 NuclearTechMod.LOGGER.info("[NUKE] Initialized BF explosion at {} / {} / {} with strength {}!", getX(), getY(), getZ(), destructionRange);
 
             exp = new ExplosionBalefire((int) this.getX(), (int) this.getY(), (int) this.getZ(), this.level(), this.destructionRange);

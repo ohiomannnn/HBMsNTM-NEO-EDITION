@@ -1,6 +1,6 @@
 package com.hbm.inventory.recipes.loader;
 
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.inventory.FluidStack;
 import com.hbm.inventory.MetaHelper;
 import com.hbm.inventory.RecipesCommon.AStack;
@@ -51,20 +51,20 @@ public class GenericRecipe {
     public GenericRecipe setPools(String... pools) {
         this.blueprintPools = pools;
         for(String pool : pools) {
-            if(!MainConfig.COMMON.ENABLE_528.get() && pool.startsWith(GenericRecipes.POOL_PREFIX_528)) throw new IllegalArgumentException("Tried initializing a recipe's default blueprint pool with a 528 blueprint - this is not allowed.");
+            if(!NtmConfig.COMMON.ENABLE_528.get() && pool.startsWith(GenericRecipes.POOL_PREFIX_528)) throw new IllegalArgumentException("Tried initializing a recipe's default blueprint pool with a 528 blueprint - this is not allowed.");
             GenericRecipes.addToPool(pool, this);
         }
         return this;
     }
     /** Only for recipe configs - same as regular except the anti 528 check doesn't exist */
     public GenericRecipe setPoolsAllow528(String... pools) { this.blueprintPools = pools; for(String pool : pools) GenericRecipes.addToPool(pool, this); return this; }
-    public GenericRecipe setPools528(String... pools) { if(MainConfig.COMMON.ENABLE_528.get()) { this.blueprintPools = pools; for(String pool : pools) GenericRecipes.addToPool(pool, this); } return this; }
+    public GenericRecipe setPools528(String... pools) { if(NtmConfig.COMMON.ENABLE_528.get()) { this.blueprintPools = pools; for(String pool : pools) GenericRecipes.addToPool(pool, this); } return this; }
     public GenericRecipe setGroup(String autoSwitch, GenericRecipes set) { this.autoSwitchGroup = autoSwitch; set.addToGroup(autoSwitch, this); return this; }
 
     public GenericRecipe inputItems(AStack... input) { this.inputItem = input; for(AStack stack : this.inputItem) checkStackLimit(stack); return this; }
-    public GenericRecipe inputItemsEx(AStack... input) { if(!MainConfig.COMMON.ENABLE_EXPENSIVE_MODE.get()) return this; this.inputItem = input; for(AStack stack : this.inputItem) checkStackLimit(stack); return this; }
+    public GenericRecipe inputItemsEx(AStack... input) { if(!NtmConfig.COMMON.ENABLE_EXPENSIVE_MODE.get()) return this; this.inputItem = input; for(AStack stack : this.inputItem) checkStackLimit(stack); return this; }
     public GenericRecipe inputFluids(FluidStack... input) { this.inputFluid = input; return this; }
-    public GenericRecipe inputFluidsEx(FluidStack... input) { if(!MainConfig.COMMON.ENABLE_EXPENSIVE_MODE.get()) return this; this.inputFluid = input; return this; }
+    public GenericRecipe inputFluidsEx(FluidStack... input) { if(!NtmConfig.COMMON.ENABLE_EXPENSIVE_MODE.get()) return this; this.inputFluid = input; return this; }
     public GenericRecipe outputItems(IOutput... output) { this.outputItem = output; return this; }
     public GenericRecipe outputFluids(FluidStack... output) { this.outputFluid = output; return this; }
 

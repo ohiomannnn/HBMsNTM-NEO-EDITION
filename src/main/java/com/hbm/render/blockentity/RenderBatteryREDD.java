@@ -45,10 +45,10 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
 
         Direction facing = be.getBlockState().getValue(DummyableBlock.FACING);
         switch(facing) {
-            case WEST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
-            case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
-            case EAST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
             case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
+            case EAST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
+            case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
+            case WEST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
         }
 
         bindTexture(ResourceManager.BATTERY_REDD_TEX);
@@ -58,8 +58,8 @@ public class RenderBatteryREDD extends BlockEntityRendererNT<BatteryREDDBlockEnt
 
         RenderContext.translate(0F, 5.5F, 0F);
         float speed = be.getSpeed();
-        float wheelRot = be.prevRotation + (be.rotation - be.prevRotation) * partialTicks;
-        RenderContext.mulPose(Axis.XP.rotationDegrees(wheelRot));
+        float rot = BobMathUtil.interp(be.prevRotation, be.rotation, partialTicks);
+        RenderContext.mulPose(Axis.XP.rotationDegrees(rot));
         RenderContext.translate(0F, -5.5F, 0F);
 
         ResourceManager.battery_redd.renderPart("Wheel");

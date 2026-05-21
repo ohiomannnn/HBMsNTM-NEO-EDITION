@@ -111,7 +111,7 @@ public class HorsePronter {
             horse.renderPart("RightWing");
         }
 
-        RenderSystem.enableBlend();
+        RenderSystem.enableCull();
         RenderContext.popPose();
     }
 

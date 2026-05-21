@@ -3,7 +3,7 @@ package com.hbm.blocks.bomb;
 import com.hbm.blockentity.ITickable;
 import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blocks.NtmBlocks;
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.entity.logic.NukeExplosionBalefire;
 import com.hbm.entity.logic.NukeExplosionMK5;
@@ -66,7 +66,7 @@ public class CrashedBombBlock extends Block implements EntityBlock, IBomb {
             if (this == NtmBlocks.CRASHED_BOMB_BALEFIRE.get()) {
                 NukeExplosionBalefire balefire = new NukeExplosionBalefire(ModEntityTypes.NUKE_BALEFIRE.get(), level);
                 balefire.setPos(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-                balefire.destructionRange = (int) (MainConfig.COMMON.FATMAN_RADIUS.get() * 1.25);
+                balefire.destructionRange = (int) (NtmConfig.COMMON.FATMAN_RADIUS.get() * 1.25);
                 level.addFreshEntity(balefire);
                 spawnMush(level, pos, true);
             }

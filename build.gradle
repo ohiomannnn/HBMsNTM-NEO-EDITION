@@ -131,8 +131,8 @@ dependencies {
     compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
     runtimeOnly "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
 
-    compileOnly "maven.modrinth:distanthorizonsapi:dQUW27oF"
-    runtimeOnly "maven.modrinth:distanthorizons:oYXIfeus"
+    //compileOnly "maven.modrinth:distanthorizonsapi:dQUW27oF"
+    //runtimeOnly "maven.modrinth:distanthorizons:oYXIfeus"
 
     // Sodium
     implementation "curse.maven:sodium-394468:6382651" // 0.6.13

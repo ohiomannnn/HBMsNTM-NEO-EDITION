@@ -2,7 +2,7 @@ package com.hbm.main;
 
 import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.blocks.NtmBlocks;
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.inventory.ModCreativeTabs;
 import com.hbm.inventory.ModMenuTypes;
@@ -55,6 +55,6 @@ public class NuclearTechMod {
         ModMenuTypes.register(modEventBus);
         ModParticles.register(modEventBus);
 
-        MainConfig.register(modContainer);
+        NtmConfig.register(modContainer);
     }
 }

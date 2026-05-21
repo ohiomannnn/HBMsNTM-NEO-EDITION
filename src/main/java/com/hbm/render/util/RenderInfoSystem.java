@@ -1,6 +1,6 @@
 package com.hbm.render.util;
 
-import com.hbm.config.MainConfig;
+import com.hbm.config.NtmConfig;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
@@ -73,12 +73,12 @@ public class RenderInfoSystem {
             if (length > longest) longest = length;
         }
 
-        int mode = MainConfig.CLIENT.INFO_POSITION.get();
+        int mode = NtmConfig.CLIENT.INFO_POSITION.get();
         int pX = mode == 0 ? 15 : mode == 1 ? (width - longest - 15) : mode == 2 ? (width / 2 + 7) : (width / 2 - longest - 6);
         int pZ = mode == 0 ? 15 : mode == 1 ? 15 : (height / 2 + 7);
 
-        pX += MainConfig.CLIENT.INFO_OFFSET_HORIZONTAL.get();
-        pZ += MainConfig.CLIENT.INFO_OFFSET_VERTICAL.get();
+        pX += NtmConfig.CLIENT.INFO_OFFSET_HORIZONTAL.get();
+        pZ += NtmConfig.CLIENT.INFO_OFFSET_VERTICAL.get();
 
         int side = pX + 5 + longest;
         int infoHeight = messages.size() * 10 + pZ + 2;
