@@ -15,6 +15,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,13 +53,13 @@ public class HazardSystem {
     @SuppressWarnings("unchecked")
     public static void register(Object o, HazardData data) {
 
-        if (o instanceof TagKey<?> tagKey && tagKey.isFor(Registries.ITEM)) tagMap.put((TagKey<Item>) tagKey, data);
+        if(o instanceof TagKey<?> tagKey && tagKey.isFor(Registries.ITEM)) tagMap.put((TagKey<Item>) tagKey, data);
 
-        if (o instanceof Item item)   itemMap.put(item, data);
-        if (o instanceof Block block) itemMap.put(block.asItem(), data);
+        if(o instanceof Item item)   itemMap.put(item, data);
+        if(o instanceof Block block) itemMap.put(block.asItem(), data);
 
-        if (o instanceof ItemStack stack)       stackMap.put(new ComparableStack(stack), data);
-        if (o instanceof ComparableStack stack) stackMap.put(stack, data);
+        if(o instanceof ItemStack stack)       stackMap.put(new ComparableStack(stack), data);
+        if(o instanceof ComparableStack stack) stackMap.put(stack, data);
     }
 
     /**
@@ -65,15 +67,15 @@ public class HazardSystem {
      */
     @SuppressWarnings("unchecked")
     public static void blacklist(Object o) {
-        if (o instanceof ItemStack stack)       stackBlacklist.add(new ComparableStack(stack).makeSingular());
-        if (o instanceof TagKey<?> tagKey && tagKey.isFor(Registries.ITEM)) tagBlacklist.add((TagKey<Item>) tagKey);
+        if(o instanceof ItemStack stack)       stackBlacklist.add(new ComparableStack(stack).makeSingular());
+        if(o instanceof TagKey<?> tagKey && tagKey.isFor(Registries.ITEM)) tagBlacklist.add((TagKey<Item>) tagKey);
     }
 
     public static boolean isItemBlacklisted(ItemStack stack) {
-        if (stack.isEmpty()) return true;
+        if(stack.isEmpty()) return true;
 
         ComparableStack comp = new ComparableStack(stack).makeSingular();
-        if (stackBlacklist.contains(comp)) {
+        if(stackBlacklist.contains(comp)) {
             return true;
         }
 
@@ -81,47 +83,47 @@ public class HazardSystem {
     }
 
     public static List<HazardEntry> getHazardsFromStack(ItemStack stack) {
-        if (isItemBlacklisted(stack)) {
+        if(isItemBlacklisted(stack)) {
             return new ArrayList<>();
         }
 
         List<HazardData> chronological = new ArrayList<>();
 
         stack.getTags().forEach(tagKey -> {
-            if (tagMap.containsKey(tagKey)) {
+            if(tagMap.containsKey(tagKey)) {
                 chronological.add(tagMap.get(tagKey));
             }
         });
 
-        if (itemMap.containsKey(stack.getItem())) {
+        if(itemMap.containsKey(stack.getItem())) {
             chronological.add(itemMap.get(stack.getItem()));
         }
 
         ComparableStack comp = new ComparableStack(stack).makeSingular();
-        if (stackMap.containsKey(comp)) {
+        if(stackMap.containsKey(comp)) {
             chronological.add(stackMap.get(comp));
         }
 
         List<HazardEntry> entries = new ArrayList<>();
 
-        for (HazardTransformerBase trafo : trafos) {
+        for(HazardTransformerBase trafo : trafos) {
             trafo.transformPre(stack, entries);
         }
 
         int mutex = 0;
 
-        for (HazardData data : chronological) {
-            if (data.doesOverride) {
+        for(HazardData data : chronological) {
+            if(data.doesOverride) {
                 entries.clear();
             }
 
-            if ((data.getMutex() & mutex) == 0) {
+            if((data.getMutex() & mutex) == 0) {
                 entries.addAll(data.entries);
                 mutex |= data.getMutex();
             }
         }
 
-        for (HazardTransformerBase trafo : trafos) {
+        for(HazardTransformerBase trafo : trafos) {
             trafo.transformPost(stack, entries);
         }
 
@@ -131,8 +133,8 @@ public class HazardSystem {
     public static float getHazardLevelFromStack(ItemStack stack, HazardTypeBase hazard) {
         List<HazardEntry> entries = getHazardsFromStack(stack);
 
-        for (HazardEntry entry : entries) {
-            if (entry.type == hazard) {
+        for(HazardEntry entry : entries) {
+            if(entry.type == hazard) {
                 return HazardModifier.evalAllModifiers(stack, null, entry.baseLevel, entry.mods);
             }
         }
@@ -142,29 +144,29 @@ public class HazardSystem {
     public static void applyHazards(ItemStack stack, LivingEntity entity) {
         List<HazardEntry> hazards = getHazardsFromStack(stack);
 
-        for (HazardEntry hazard : hazards) {
+        for(HazardEntry hazard : hazards) {
             hazard.applyHazard(stack, entity);
         }
     }
 
     public static void updatePlayerInventory(Player player) {
-        for (ItemStack stack : player.getInventory().items) {
+        for(ItemStack stack : player.getInventory().items) {
             if (!stack.isEmpty()) applyHazards(stack, player);
         }
-        for (ItemStack stack : player.getInventory().armor) {
-            if (!stack.isEmpty()) applyHazards(stack, player);
+        for(ItemStack stack : player.getInventory().armor) {
+            if(!stack.isEmpty()) applyHazards(stack, player);
         }
-        for (ItemStack stack : player.getInventory().offhand) {
-            if (!stack.isEmpty()) applyHazards(stack, player);
+        for(ItemStack stack : player.getInventory().offhand) {
+            if(!stack.isEmpty()) applyHazards(stack, player);
         }
     }
 
     public static void updateLivingInventory(LivingEntity entity) {
 
-        for (EquipmentSlot slot : EquipmentSlot.values()) {
+        for(EquipmentSlot slot : EquipmentSlot.values()) {
             ItemStack stack = entity.getItemBySlot(slot);
 
-            if (!stack.isEmpty()) {
+            if(!stack.isEmpty()) {
                 applyHazards(stack, entity);
             }
         }
@@ -172,9 +174,9 @@ public class HazardSystem {
 
     public static void updateDroppedItem(ItemEntity entity) {
 
-        if (entity.isRemoved()) return;
+        if(entity.isRemoved()) return;
         ItemStack stack = entity.getItem();
-        if (stack.isEmpty()) return;
+        if(stack.isEmpty()) return;
 
         List<HazardEntry> hazards = getHazardsFromStack(stack);
         for (HazardEntry entry : hazards) {
@@ -182,13 +184,13 @@ public class HazardSystem {
         }
     }
 
-    /** Only in client! */
+    @OnlyIn(Dist.CLIENT)
     public static void addFullTooltip(ItemStack stack, List<Component> list) {
 
         Player player = Minecraft.getInstance().player;
         List<HazardEntry> hazards = getHazardsFromStack(stack);
 
-        for (HazardEntry hazard : hazards) {
+        for(HazardEntry hazard : hazards) {
             hazard.type.addHazardInformation(player, list, hazard.baseLevel, stack, hazard.mods);
         }
     }

@@ -126,6 +126,7 @@ public class ModCreativeTabs {
                     .withTabsBefore(NuclearTechMod.withDefaultNamespace("parts"))
                     .title(Component.translatable("creative_tab.hbmsntm.control"))
                     .displayItems((itemDisplayParameters, output) -> {
+                        addMetaItems(output, NtmItems.BLUEPRINTS.get());
                         output.accept(NtmItems.CELL_EMPTY);
                         output.accept(NtmItems.CELL_UF6);
                         output.accept(NtmItems.CELL_PUF6);
@@ -478,11 +479,11 @@ public class ModCreativeTabs {
                     }).build());
 
     private static void addMetaItems(CreativeModeTab.Output output, Item item) {
-        if (item instanceof IMetaItem metaItem) {
+        if(item instanceof IMetaItem metaItem) {
             List<ItemStack> stacks = new ArrayList<>();
             metaItem.getSubItems(item, stacks);
 
-            for (ItemStack stack : stacks) {
+            for(ItemStack stack : stacks) {
                 output.accept(stack);
             }
         }

@@ -1,9 +1,8 @@
 package com.hbm.inventory.screens;
 
-import com.hbm.main.NuclearTechMod;
 import com.hbm.blockentity.bomb.NukeBalefireBlockEntity;
-import com.hbm.interfaces.Placeholder;
 import com.hbm.inventory.menus.NukeFstbmbMenu;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.network.toserver.CompoundTagControl;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
@@ -15,7 +14,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.apache.commons.lang3.math.NumberUtils;
 
-@Placeholder(reason = "...")
 public class NukeFstbmbScreen extends InfoScreen<NukeFstbmbMenu> {
 
     private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/gui/weapon/fstbmb_schematic.png");

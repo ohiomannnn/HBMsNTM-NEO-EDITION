@@ -12,6 +12,8 @@ import com.hbm.config.NtmConfig;
 import com.hbm.entity.ModEntityTypes;
 import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.handler.HazmatRegistry;
+import com.hbm.hazard.HazardEntry;
+import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.Spaghetti;

@@ -1,13 +1,11 @@
 package com.hbm.particle;
 
 import com.hbm.main.NuclearTechMod;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
@@ -33,6 +31,7 @@ public class ExplosionSmallParticle extends RotatingParticleNT {
                     .setTransparencyState(RenderType.TRANSLUCENT_TRANSPARENCY)
                     .setLightmapState(RenderType.LIGHTMAP)
                     .setOverlayState(RenderType.OVERLAY)
+                    .setWriteMaskState(RenderStateShard.COLOR_WRITE)
                     .createCompositeState(false)
     );
 
@@ -93,7 +92,6 @@ public class ExplosionSmallParticle extends RotatingParticleNT {
 
         float scale = (float) ((0.25 + 1 - Math.pow(1 - ageScaled, 4) + (this.age + partialTicks) * 0.02) * this.quadSize);
 
-        RenderSystem.depthMask(true);
         this.renderParticleRotated(consumer, camera, this.rCol, this.gCol, this.bCol, this.alpha * 0.5F, scale, partialTicks, LightTexture.FULL_BRIGHT);
     }
 

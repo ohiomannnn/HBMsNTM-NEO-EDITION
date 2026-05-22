@@ -5,7 +5,6 @@ import com.hbm.blocks.NtmBlocks;
 import com.hbm.handler.ability.IToolAreaAbility;
 import com.hbm.handler.ability.IToolHarvestAbility;
 import com.hbm.handler.ability.IWeaponAbility;
-import com.hbm.interfaces.Placeholder;
 import com.hbm.inventory.ModArmorMaterials;
 import com.hbm.inventory.ModTiers;
 import com.hbm.inventory.NtmFoods;
@@ -140,7 +139,6 @@ public class NtmItems {
     public static final DeferredItem<Item> DETONATOR_DEADMAN = ITEMS.register("detonator_deadman", () -> new DangerousDropItem(new Properties().stacksTo(1)));
     public static final DeferredItem<Item> DETONATOR_DE = ITEMS.register("detonator_de", () -> new DangerousDropItem(new Properties().stacksTo(1)));
 
-    @Placeholder(reason = "only for creative tab")
     public static final DeferredItem<Item> PELLET_RTG = ITEMS.register("pellet_rtg", () -> new Item(new Item.Properties()));
 
     // Breeding Rods
@@ -188,17 +186,19 @@ public class NtmItems {
     // Kits
     public static final DeferredItem<Item> STARTER_KIT = ITEMS.register("starter_kit", () -> new StarterKitItem(new Properties().stacksTo(1)));
 
-    @Placeholder(reason = "just for compat without textures bruh")
     public static final DeferredItem<Item> SCREWDRIVER = ITEMS.register("screwdriver",
             () -> new Item(new Item.Properties().stacksTo(8)));
-    @Placeholder(reason = "ditto")
+
     public static final DeferredItem<Item> SCREWDRIVER_DESH = ITEMS.register("screwdriver_desh",
             () -> new Item(new Item.Properties().stacksTo(8)));
 
+    // Batteries
     public static final DeferredItem<Item> BATTERY_PACK = ITEMS.register("battery_pack", () -> new BatteryPackItem(new Item.Properties()));
     public static final DeferredItem<Item> BATTERY_SC = ITEMS.register("battery_sc", () -> new BatterySCItem(new Item.Properties()));
-
     public static final DeferredItem<Item> BATTERY_CREATIVE = ITEMS.register("battery_creative", () -> new BatteryCreativeItem(new Item.Properties().stacksTo(1)));
+
+    // Folders
+    public static final DeferredItem<Item> BLUEPRINTS = ITEMS.register("blueprints", () -> new BlueprintsItem(new Properties()));
 
     public static final DeferredItem<Item> FLUID_TANK_EMPTY = ITEMS.register("fluid_tank_empty", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> FLUID_TANK_FULL = ITEMS.register("fluid_tank_full", () -> new FluidTankItem(new Item.Properties()));
@@ -306,7 +306,6 @@ public class NtmItems {
     public static final DeferredItem<Item> DUCK_SPAWN_EGG = ITEMS.register(
             "duck_spawn_egg",
             () -> new EntitySpawnerItem(new Item.Properties().stacksTo(16)));
-    @Placeholder(reason = "not used, isnt this removed now?")
     public static final DeferredItem<Item> BURNT_BARK = ITEMS.register(
             "burnt_bark",
             () -> new EntitySpawnerItem(new Item.Properties()));
