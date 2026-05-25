@@ -1,6 +1,6 @@
 package api.hbm.energymk2;
 
-import com.hbm.util.TagsUtilDegradation;
+import com.hbm.util.TagsUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -32,7 +32,7 @@ public interface IBatteryItem {
             ItemStack stackOut = stack.copy();
             CompoundTag tag = new CompoundTag();
             tag.putLong(keyName, 0);
-            TagsUtilDegradation.putTag(stackOut, tag);
+            TagsUtil.putCData(stackOut, tag);
             return stackOut;
         }
         return null;

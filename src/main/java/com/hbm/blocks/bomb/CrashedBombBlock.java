@@ -4,13 +4,14 @@ import com.hbm.blockentity.ITickable;
 import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.config.NtmConfig;
-import com.hbm.entity.ModEntityTypes;
+import com.hbm.entity.NtmEntityTypes;
 import com.hbm.entity.logic.NukeExplosionBalefire;
 import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCross;
+import com.hbm.handler.compat.SableCompat;
 import com.hbm.interfaces.IBomb;
 import com.hbm.items.special.PolaroidItem;
 import com.hbm.registry.NtmSoundEvents;
@@ -30,6 +31,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 public class CrashedBombBlock extends Block implements EntityBlock, IBomb {
@@ -62,9 +64,10 @@ public class CrashedBombBlock extends Block implements EntityBlock, IBomb {
     public BombReturnCode explode(Level level, BlockPos pos) {
         if (!level.isClientSide) {
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+            if(ModList.get().isLoaded("sable")) pos = SableCompat.getProj(level, pos);
 
             if (this == NtmBlocks.CRASHED_BOMB_BALEFIRE.get()) {
-                NukeExplosionBalefire balefire = new NukeExplosionBalefire(ModEntityTypes.NUKE_BALEFIRE.get(), level);
+                NukeExplosionBalefire balefire = new NukeExplosionBalefire(NtmEntityTypes.NUKE_BALEFIRE.get(), level);
                 balefire.setPos(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
                 balefire.destructionRange = (int) (NtmConfig.COMMON.FATMAN_RADIUS.get() * 1.25);
                 level.addFreshEntity(balefire);

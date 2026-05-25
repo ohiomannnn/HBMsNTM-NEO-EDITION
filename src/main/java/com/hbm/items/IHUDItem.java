@@ -6,6 +6,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 
-public interface IItemHUD {
+public interface IHUDItem {
     @OnlyIn(Dist.CLIENT) void renderHUD(RenderGuiEvent.Pre event, Player player, ItemStack stack);
 }

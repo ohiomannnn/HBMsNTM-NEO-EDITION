@@ -13,7 +13,7 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.util.DiamondPronter;
 import com.hbm.render.util.RenderContext;
-import com.hbm.util.TagsUtilDegradation;
+import com.hbm.util.TagsUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -138,8 +138,8 @@ public class RenderFluidTank extends BlockEntityRendererNT<MachineFluidTankBlock
 
                 FluidTank tank = new FluidTank(Fluids.NONE, 0);
                 boolean exploded = false;
-                if (TagsUtilDegradation.getTag(stack).contains(IPersistentNBT.NBT_PERSISTENT_KEY)) {
-                    CompoundTag persistentTag = TagsUtilDegradation.getTag(stack).getCompound(IPersistentNBT.NBT_PERSISTENT_KEY);
+                if (TagsUtil.getCData(stack).contains(IPersistentNBT.NBT_PERSISTENT_KEY)) {
+                    CompoundTag persistentTag = TagsUtil.getCData(stack).getCompound(IPersistentNBT.NBT_PERSISTENT_KEY);
                     tank.readFromNBT(persistentTag, "Tank");
                     exploded = persistentTag.getBoolean("HasExploded");
                 }

@@ -14,7 +14,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.util.InventoryUtil;
-import com.hbm.util.TagsUtilDegradation;
+import com.hbm.util.TagsUtil;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -87,7 +87,7 @@ public class MachineFluidTankBlock extends DummyableBlock implements IToolable, 
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
-        CompoundTag persistent = TagsUtilDegradation.getTag(stack).getCompound("persistent");
+        CompoundTag persistent = TagsUtil.getCData(stack).getCompound("persistent");
         FluidTank tank = new FluidTank(Fluids.NONE, 0);
         if (persistent.contains("Tank")) {
             tank.readFromNBT(persistent, "Tank");

@@ -8,7 +8,7 @@ import com.hbm.inventory.screens.FluidScreen;
 import com.hbm.items.IItemControlReceiver;
 import com.hbm.items.NtmItems;
 import com.hbm.network.toclient.InformPlayer;
-import com.hbm.util.TagsUtilDegradation;
+import com.hbm.util.TagsUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -64,7 +64,7 @@ public class FluidIDMultiItem extends Item implements IGUIProvider, IItemControl
     }
 
     public ItemStack update(ItemStack stack) {
-        MetaHelper.setMeta(stack, TagsUtilDegradation.getTag(stack).getInt("Fluid1"));
+        MetaHelper.setMeta(stack, TagsUtil.getCData(stack).getInt("Fluid1"));
         return stack;
     }
 
@@ -87,15 +87,15 @@ public class FluidIDMultiItem extends Item implements IGUIProvider, IItemControl
     }
 
     public static void setType(ItemStack stack, FluidType type, boolean primary) {
-        CompoundTag tag = TagsUtilDegradation.getTag(stack);
+        CompoundTag tag = TagsUtil.getCData(stack);
         tag.putInt("Fluid" + (primary ? 1 : 2), type.getID());
-        TagsUtilDegradation.putTag(stack, tag);
+        TagsUtil.putCData(stack, tag);
     }
 
     public static FluidType getType(ItemStack stack, boolean primary) {
-        if (!TagsUtilDegradation.containsAnyTag(stack)) return Fluids.NONE;
+        if (!TagsUtil.hasCData(stack)) return Fluids.NONE;
 
-        CompoundTag tag = TagsUtilDegradation.getTag(stack);
+        CompoundTag tag = TagsUtil.getCData(stack);
         int type = tag.getInt("Fluid" + (primary ? 1 : 2));
         return Fluids.fromID(type);
     }

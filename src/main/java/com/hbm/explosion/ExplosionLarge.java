@@ -1,6 +1,6 @@
 package com.hbm.explosion;
 
-import com.hbm.entity.ModEntityTypes;
+import com.hbm.entity.NtmEntityTypes;
 import com.hbm.entity.projectile.Rubble;
 import com.hbm.entity.projectile.Shrapnel;
 import com.hbm.explosion.vanillant.ExplosionVNT;
@@ -71,7 +71,7 @@ public class ExplosionLarge {
 
     public static void spawnRubble(ServerLevel serverLevel, double x, double y, double z, int count) {
         for (int i = 0; i < count; i++) {
-            Rubble rubble = new Rubble(ModEntityTypes.RUBBLE.get(), serverLevel);
+            Rubble rubble = new Rubble(NtmEntityTypes.RUBBLE.get(), serverLevel);
             rubble.setPos(x, y, z);
             rubble.setDeltaMovement(
                     rand.nextGaussian() * 0.75 * (1 + (count / 50.0)),
@@ -85,7 +85,7 @@ public class ExplosionLarge {
 
     public static void spawnShrapnels(ServerLevel serverLevel, double x, double y, double z, int count) {
         for (int i = 0; i < count; i++) {
-            Shrapnel shrapnel = new Shrapnel(ModEntityTypes.SHRAPNEL.get(), serverLevel);
+            Shrapnel shrapnel = new Shrapnel(NtmEntityTypes.SHRAPNEL.get(), serverLevel);
             shrapnel.setPos(x, y, z);
             shrapnel.setDeltaMovement(
                     rand.nextGaussian() * (1 + count / 50.0),
@@ -99,7 +99,7 @@ public class ExplosionLarge {
 
     public static void spawnTracers(ServerLevel serverLevel, double x, double y, double z, int count) {
         for (int i = 0; i < count; i++) {
-            Shrapnel shrapnel = new Shrapnel(ModEntityTypes.SHRAPNEL.get(), serverLevel);
+            Shrapnel shrapnel = new Shrapnel(NtmEntityTypes.SHRAPNEL.get(), serverLevel);
             shrapnel.setPos(x, y, z);
             shrapnel.setDeltaMovement(
                     rand.nextGaussian() * (1 + count / 50.0) * 0.25,
@@ -113,7 +113,7 @@ public class ExplosionLarge {
 
     public static void spawnShrapnelShower(ServerLevel serverLevel, double x, double y, double z, double motionX, double motionY, double motionZ, int count, double deviation) {
         for (int i = 0; i < count; i++) {
-            Shrapnel shrapnel = new Shrapnel(ModEntityTypes.SHRAPNEL.get(), serverLevel);
+            Shrapnel shrapnel = new Shrapnel(NtmEntityTypes.SHRAPNEL.get(), serverLevel);
             shrapnel.setPos(x, y, z);
             shrapnel.setDeltaMovement(
                     motionX + rand.nextGaussian() * deviation,
@@ -210,7 +210,7 @@ public class ExplosionLarge {
                     float resistance = serverLevel.getBlockState(bpos).getBlock().getExplosionResistance(serverLevel.getBlockState(bpos), serverLevel, bpos, null);
                     if (resistance > 70) continue;
 
-                    Rubble rubble = new Rubble(ModEntityTypes.RUBBLE.get(), serverLevel);
+                    Rubble rubble = new Rubble(NtmEntityTypes.RUBBLE.get(), serverLevel);
                     rubble.setPos(bx + 0.5, by + 0.5, bz + 0.5);
                     rubble.setBlock(serverLevel.getBlockState(bpos).getBlock());
 

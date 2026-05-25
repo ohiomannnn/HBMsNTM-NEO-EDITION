@@ -2,7 +2,7 @@ package com.hbm.entity.missile;
 
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.config.NtmConfig;
-import com.hbm.entity.ModEntityTypes;
+import com.hbm.entity.NtmEntityTypes;
 import com.hbm.entity.effect.BlackHole;
 import com.hbm.entity.logic.EMP;
 import com.hbm.entity.logic.NukeExplosionMK3;
@@ -87,7 +87,7 @@ public abstract class MissileTier0 extends MissileBaseNT {
         @Override
         public void onMissileImpact(RayTraceResult mop) {
             ExplosionVNT.createExplosion(level, this, this.position.x, this.position.y, this.position.z, 5.0F, true);
-            BlackHole bl = new BlackHole(ModEntityTypes.BLACK_HOLE.get(), this.level);
+            BlackHole bl = new BlackHole(NtmEntityTypes.BLACK_HOLE.get(), this.level);
             bl.setPos(this.position);
             level.addFreshEntity(bl);
         }
@@ -120,7 +120,7 @@ public abstract class MissileTier0 extends MissileBaseNT {
         @Override
         public void onMissileImpact(RayTraceResult mop) {
             // place holde
-            EMP emp = new EMP(ModEntityTypes.EMP.get(), this.level);
+            EMP emp = new EMP(NtmEntityTypes.EMP.get(), this.level);
             emp.setPos(this.position);
             level.addFreshEntity(emp);
         }

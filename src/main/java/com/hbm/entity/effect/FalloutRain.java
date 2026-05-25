@@ -4,7 +4,7 @@ import com.hbm.blocks.NtmBlocks;
 import com.hbm.blocks.generic.FalloutBlock;
 import com.hbm.config.FalloutConfigJSON;
 import com.hbm.config.NtmConfig;
-import com.hbm.entity.ModEntityTypes;
+import com.hbm.entity.NtmEntityTypes;
 import com.hbm.entity.item.FallingBlockEntityNT;
 import com.hbm.entity.logic.ExplosionChunkLoading;
 import com.hbm.world.WorldUtil;
@@ -39,7 +39,7 @@ public class FalloutRain extends ExplosionChunkLoading {
     public FalloutRain(EntityType<? extends FalloutRain> type, Level level) { super(type, level); }
 
     public FalloutRain(Level level) {
-        super(ModEntityTypes.FALLOUT_RAIN.get(), level);
+        super(NtmEntityTypes.FALLOUT_RAIN.get(), level);
     }
 
     private final Map<ResourceKey<Biome>, Holder<Biome>> biomeCache = new HashMap<>();

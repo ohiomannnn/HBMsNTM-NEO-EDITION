@@ -123,6 +123,14 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+    exclusiveContent {
+        forRepository {
+            maven { url = "https://maven.ryanhcode.dev/releases" }
+        }
+        filter {
+            includeGroup("dev.ryanhcode.sable-companion")
+        }
+    }
 }
 
 
@@ -133,6 +141,12 @@ dependencies {
 
     //compileOnly "maven.modrinth:distanthorizonsapi:dQUW27oF"
     //runtimeOnly "maven.modrinth:distanthorizons:oYXIfeus"
+
+    jarJar(api("dev.ryanhcode.sable-companion:sable-companion-common-1.21.1:[${sable_companion_version},)")) {
+        version {
+            prefer(sable_companion_version)
+        }
+    }
 
     // Sodium
     implementation "curse.maven:sodium-394468:6382651" // 0.6.13

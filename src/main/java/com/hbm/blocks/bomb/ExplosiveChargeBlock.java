@@ -9,6 +9,7 @@ import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
+import com.hbm.handler.compat.SableCompat;
 import com.hbm.interfaces.IBomb;
 import com.hbm.particle.helper.ExplosionCreator;
 import com.hbm.particle.helper.NukeTorexCreator;
@@ -21,6 +22,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.fml.ModList;
 
 public class ExplosiveChargeBlock extends DetonatableBlock implements IBomb, IDetConnectible {
 
@@ -32,6 +34,8 @@ public class ExplosiveChargeBlock extends DetonatableBlock implements IBomb, IDe
     public BombReturnCode explode(Level level, BlockPos pos) {
         if (!level.isClientSide) {
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+            if(ModList.get().isLoaded("sable")) pos = SableCompat.getProj(level, pos);
+
             if (this == NtmBlocks.DET_MINER.get()) {
                 ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 4F)
                         .setBlockAllocator(new BlockAllocatorStandard())

@@ -1,7 +1,7 @@
 package com.hbm.entity.missile;
 
 import api.hbm.entity.IRadarDetectableNT;
-import com.hbm.entity.ModEntityTypes;
+import com.hbm.entity.NtmEntityTypes;
 import com.hbm.entity.logic.EMP;
 import com.hbm.explosion.ExplosionChaos;
 import com.hbm.explosion.ExplosionLarge;
@@ -86,7 +86,7 @@ public abstract class MissileTier2 extends MissileBaseNT {
     public static class MissileEMPStrong extends MissileTier2 {
         public MissileEMPStrong(EntityType<? extends MissileEMPStrong> entityType, Level level) { super(entityType, level); }
         @Override public void onMissileImpact(RayTraceResult mop) {
-            EMP emp = new EMP(ModEntityTypes.EMP.get(), this.level);
+            EMP emp = new EMP(NtmEntityTypes.EMP.get(), this.level);
             emp.setPos(this.position);
             level.addFreshEntity(emp);
         }

@@ -1,6 +1,6 @@
 package com.hbm.entity.effect;
 
-import com.hbm.entity.ModEntityTypes;
+import com.hbm.entity.NtmEntityTypes;
 import com.hbm.entity.projectile.Rubble;
 import com.hbm.items.NtmItems;
 import com.hbm.registry.NtmDamageTypes;
@@ -70,7 +70,7 @@ public class BlackHole extends Entity {
                     int z0 = (int) (this.getZ() + (vec.z * i));
                     BlockPos toChange = new BlockPos(x0, y0, z0);
                     if (!level.getBlockState(toChange).isAir()) {
-                        Rubble rubble = new Rubble(ModEntityTypes.RUBBLE.get(), level);
+                        Rubble rubble = new Rubble(NtmEntityTypes.RUBBLE.get(), level);
                         rubble.setPos(x0 + 0.5F, y0, z0 + 0.5F);
                         rubble.setBlock(level.getBlockState(toChange).getBlock());
                         level.addFreshEntity(rubble);

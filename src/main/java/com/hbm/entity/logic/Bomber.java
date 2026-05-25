@@ -1,7 +1,7 @@
 package com.hbm.entity.logic;
 
 import com.hbm.config.NtmConfig;
-import com.hbm.entity.ModEntityTypes;
+import com.hbm.entity.NtmEntityTypes;
 import com.hbm.entity.projectile.BombletZeta;
 import com.hbm.interfaces.NotableComments;
 import com.hbm.registry.NtmSoundEvents;
@@ -59,7 +59,7 @@ public class Bomber extends PlaneBase {
 
         if (!level().isClientSide && this.getHealth() > 0 && this.tickCount > bombStart && this.tickCount < bombStop && this.tickCount % bombRate == 0) {
             level().playSound(null, this.getX() + 0.5, this.getY() + 0.5, this.getZ() + 0.5, NtmSoundEvents.BOMB_WHISTLE.get(), SoundSource.PLAYERS, 10.0F, 0.9F + random.nextFloat() * 0.2F);
-            BombletZeta zeta = new BombletZeta(ModEntityTypes.BOMBLET_ZETA.get(), level());
+            BombletZeta zeta = new BombletZeta(NtmEntityTypes.BOMBLET_ZETA.get(), level());
             zeta.rotation();
             zeta.type = type;
             zeta.setPos(this.getX() + random.nextDouble() - 0.5, this.getY() - random.nextDouble(), this.getZ() + random.nextDouble() - 0.5);
@@ -113,7 +113,7 @@ public class Bomber extends PlaneBase {
     }
 
     public static Bomber statFacCarpet(Level level, double x, double y, double z) {
-        Bomber bomber = new Bomber(ModEntityTypes.BOMBER.get(), level);
+        Bomber bomber = new Bomber(NtmEntityTypes.BOMBER.get(), level);
         bomber.timer = 200;
         bomber.bombStart = 50;
         bomber.bombStop = 100;
@@ -124,7 +124,7 @@ public class Bomber extends PlaneBase {
     }
 
     public static Bomber statFacNapalm(Level level, double x, double y, double z) {
-        Bomber bomber = new Bomber(ModEntityTypes.BOMBER.get(), level);
+        Bomber bomber = new Bomber(NtmEntityTypes.BOMBER.get(), level);
         bomber.timer = 200;
         bomber.bombStart = 50;
         bomber.bombStop = 100;
@@ -135,7 +135,7 @@ public class Bomber extends PlaneBase {
     }
 
     public static Bomber statFacABomb(Level level, double x, double y, double z) {
-        Bomber bomber = new Bomber(ModEntityTypes.BOMBER.get(), level);
+        Bomber bomber = new Bomber(NtmEntityTypes.BOMBER.get(), level);
         bomber.timer = 200;
         bomber.bombStart = 60;
         bomber.bombStop = 70;

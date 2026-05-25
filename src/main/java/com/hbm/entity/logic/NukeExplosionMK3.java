@@ -1,7 +1,7 @@
 package com.hbm.entity.logic;
 
 import com.hbm.config.NtmConfig;
-import com.hbm.entity.ModEntityTypes;
+import com.hbm.entity.NtmEntityTypes;
 import com.hbm.explosion.ExplosionFleija;
 import com.hbm.explosion.ExplosionHurtUtil;
 import com.hbm.explosion.ExplosionNukeGeneric;
@@ -137,7 +137,7 @@ public class NukeExplosionMK3 extends ExplosionChunkLoading {
 
     public static NukeExplosionMK3 statFacFleija(Level level, double x, double y, double z, int range) {
 
-        NukeExplosionMK3 entity = new NukeExplosionMK3(ModEntityTypes.NUKE_MK3.get(), level);
+        NukeExplosionMK3 entity = new NukeExplosionMK3(NtmEntityTypes.NUKE_MK3.get(), level);
         entity.setPos(x, y, z);
         entity.destructionRange = range;
         entity.speed = NtmConfig.COMMON.BLAST_SPEED.get();

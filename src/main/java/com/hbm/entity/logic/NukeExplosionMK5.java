@@ -1,7 +1,7 @@
 package com.hbm.entity.logic;
 
 import com.hbm.config.NtmConfig;
-import com.hbm.entity.ModEntityTypes;
+import com.hbm.entity.NtmEntityTypes;
 import com.hbm.entity.effect.FalloutRain;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.ExplosionNukeRayBatched;
@@ -135,7 +135,7 @@ public class NukeExplosionMK5 extends ExplosionChunkLoading {
         if (strength == 0) strength = 25;
         strength *= 2;
 
-        NukeExplosionMK5 explosionMK5 = new NukeExplosionMK5(ModEntityTypes.NUKE_MK5.get(), level);
+        NukeExplosionMK5 explosionMK5 = new NukeExplosionMK5(NtmEntityTypes.NUKE_MK5.get(), level);
         explosionMK5.strength = strength;
         explosionMK5.speed = (int) Math.ceil(100000D / explosionMK5.strength);
         explosionMK5.setPos(x, y, z);
@@ -153,7 +153,7 @@ public class NukeExplosionMK5 extends ExplosionChunkLoading {
         if (strength == 0) strength = 25;
         strength *= 2;
 
-        NukeExplosionMK5 explosionMK5 = new NukeExplosionMK5(ModEntityTypes.NUKE_MK5.get(), level);
+        NukeExplosionMK5 explosionMK5 = new NukeExplosionMK5(NtmEntityTypes.NUKE_MK5.get(), level);
         explosionMK5.strength = strength;
         explosionMK5.speed = (int) Math.ceil(100000D / explosionMK5.strength);
         explosionMK5.setPos(x, y, z);

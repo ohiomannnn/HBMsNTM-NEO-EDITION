@@ -1,12 +1,12 @@
 package com.hbm.items.tools;
 
-import com.hbm.main.NuclearTechMod;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.config.NtmConfig;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IBomb.BombReturnCode;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.registry.NtmSoundEvents;
-import com.hbm.util.TagsUtilDegradation;
+import com.hbm.util.TagsUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -44,7 +44,7 @@ public class DetonatorItem extends Item {
                 tag.putInt("x", context.getClickedPos().getX());
                 tag.putInt("y", context.getClickedPos().getY());
                 tag.putInt("z", context.getClickedPos().getZ());
-                TagsUtilDegradation.putTag(stack, tag);
+                TagsUtil.putCData(stack, tag);
 
                 level.playSound(null, player.getX(), player.getY(), player.getZ(), NtmSoundEvents.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
                 player.displayClientMessage(Component.literal("[" + this.getName(stack).getString() + "] ").withStyle(ChatFormatting.DARK_AQUA)
@@ -61,11 +61,11 @@ public class DetonatorItem extends Item {
         ItemStack stack = player.getItemInHand(usedHand);
 
         if (!level.isClientSide) {
-            if (!TagsUtilDegradation.containsAnyTag(stack)) {
+            if (!TagsUtil.hasCData(stack)) {
                 player.displayClientMessage(Component.literal("[" + this.getName(stack).getString() + "] ").withStyle(ChatFormatting.DARK_AQUA)
                         .append(Component.translatable("detonator.no_pos").withStyle(ChatFormatting.RED)), false);
             } else {
-                CompoundTag tag = TagsUtilDegradation.getTag(stack);
+                CompoundTag tag = TagsUtil.getCData(stack);
                 int x = tag.getInt("x");
                 int y = tag.getInt("y");
                 int z = tag.getInt("z");
@@ -98,8 +98,8 @@ public class DetonatorItem extends Item {
         for (String s : ITooltipProvider.getDescription(stack)) {
             components.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
         }
-        if (TagsUtilDegradation.containsAnyTag(stack)) {
-            CompoundTag tag = TagsUtilDegradation.getTag(stack);
+        if (TagsUtil.hasCData(stack)) {
+            CompoundTag tag = TagsUtil.getCData(stack);
             int x = tag.getInt("x");
             int y = tag.getInt("y");
             int z = tag.getInt("z");

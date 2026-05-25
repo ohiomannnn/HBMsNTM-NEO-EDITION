@@ -1,7 +1,7 @@
 package com.hbm.items.tools;
 
 import com.hbm.items.NtmItems;
-import com.hbm.util.TagsUtilDegradation;
+import com.hbm.util.TagsUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -31,14 +31,14 @@ public class KeyPinItem extends Item {
     }
 
     public static int getPins(ItemStack stack) {
-        CompoundTag tag = TagsUtilDegradation.getTag(stack);
+        CompoundTag tag = TagsUtil.getCData(stack);
         return tag.getInt("pins");
     }
 
     public static void setPins(ItemStack stack, int pins) {
-        CompoundTag tag = TagsUtilDegradation.getTag(stack);
+        CompoundTag tag = TagsUtil.getCData(stack);
         tag.putInt("pins", pins);
-        TagsUtilDegradation.putTag(stack, tag);
+        TagsUtil.putCData(stack, tag);
     }
 
     public boolean canTransfer() {

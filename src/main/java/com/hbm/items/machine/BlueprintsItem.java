@@ -3,7 +3,7 @@ package com.hbm.items.machine;
 import com.hbm.inventory.recipes.loader.GenericRecipes;
 import com.hbm.items.IMetaItem;
 import com.hbm.items.NtmItems;
-import com.hbm.util.TagsUtilDegradation;
+import com.hbm.util.TagsUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -36,9 +36,9 @@ public class BlueprintsItem extends Item implements IMetaItem {
     public static String grabPool(ItemStack stack) {
         if(stack == null) return null;
         if(stack.getItem() != NtmItems.BLUEPRINTS.get()) return null;
-        if(!TagsUtilDegradation.containsAnyTag(stack)) return null;
+        if(!TagsUtil.hasCData(stack)) return null;
 
-        CompoundTag tag = TagsUtilDegradation.getTag(stack);
+        CompoundTag tag = TagsUtil.getCData(stack);
         if(!tag.contains("pool")) return null;
         return tag.getString("pool");
     }
@@ -47,7 +47,7 @@ public class BlueprintsItem extends Item implements IMetaItem {
         ItemStack stack = new ItemStack(NtmItems.BLUEPRINTS.get());
         CompoundTag tag = new CompoundTag();
         tag.putString("pool", pool);
-        TagsUtilDegradation.putTag(stack, tag);
+        TagsUtil.putCData(stack, tag);
         return stack;
     }
 }

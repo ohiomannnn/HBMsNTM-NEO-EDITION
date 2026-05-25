@@ -1,9 +1,7 @@
 package com.hbm.entity.mob;
 
-import com.hbm.entity.ModEntityTypes;
+import com.hbm.entity.NtmEntityTypes;
 import com.hbm.registry.NtmSoundEvents;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
@@ -47,7 +45,7 @@ public class Duck extends Chicken {
     @Nullable
     @Override
     public Duck getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
-        return new Duck(ModEntityTypes.DUCK.get(), level);
+        return new Duck(NtmEntityTypes.DUCK.get(), level);
     }
 
     public static AttributeSupplier.Builder createAttributes() {

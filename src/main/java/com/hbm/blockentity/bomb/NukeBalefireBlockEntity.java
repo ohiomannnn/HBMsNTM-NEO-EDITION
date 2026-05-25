@@ -2,7 +2,7 @@ package com.hbm.blockentity.bomb;
 
 import com.hbm.blockentity.MachineBaseBlockEntity;
 import com.hbm.blockentity.NtmBlockEntityTypes;
-import com.hbm.entity.ModEntityTypes;
+import com.hbm.entity.NtmEntityTypes;
 import com.hbm.entity.logic.NukeExplosionBalefire;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.menus.NukeFstbmbMenu;
@@ -132,7 +132,7 @@ public class NukeBalefireBlockEntity extends MachineBaseBlockEntity implements I
         this.slots.clear();
         this.level.setBlock(this.worldPosition, Blocks.AIR.defaultBlockState(), 3);
 
-        NukeExplosionBalefire bf = new NukeExplosionBalefire(ModEntityTypes.NUKE_BALEFIRE.get(), level);
+        NukeExplosionBalefire bf = new NukeExplosionBalefire(NtmEntityTypes.NUKE_BALEFIRE.get(), level);
         bf.setPos(Vec3.atCenterOf(this.worldPosition));
         bf.destructionRange = 250;
         level.addFreshEntity(bf);

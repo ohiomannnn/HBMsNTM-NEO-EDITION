@@ -6,7 +6,7 @@ import com.hbm.handler.ability.*;
 import com.hbm.items.tools.ToolAbilityItem;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.network.toserver.CompoundTagItemControl;
-import com.hbm.util.TagsUtilDegradation;
+import com.hbm.util.TagsUtil;
 import com.hbm.util.Tuple.Pair;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.Minecraft;
@@ -389,7 +389,7 @@ public class ToolAbilityScreen extends Screen {
 
         LocalPlayer player = this.minecraft.player;
         ((ToolAbilityItem) this.toolStack.getItem()).setConfiguration(toolStack, config);
-        PacketDistributor.sendToServer(new CompoundTagItemControl(TagsUtilDegradation.getTag(this.toolStack)));
+        PacketDistributor.sendToServer(new CompoundTagItemControl(TagsUtil.getCData(this.toolStack)));
 
         NuclearTechModClient.displayTooltip(config.getActivePreset().getMessage(), 1000, NuclearTechModClient.ID_TOOLABILITY);
 

@@ -1,6 +1,6 @@
 package com.hbm.items;
 
-import com.hbm.util.TagsUtilDegradation;
+import com.hbm.util.TagsUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 
@@ -20,16 +20,16 @@ public interface ISatChip {
     }
 
     default int getFreq(ItemStack stack) {
-        if (!TagsUtilDegradation.containsAnyTag(stack)) {
+        if (!TagsUtil.hasCData(stack)) {
             return 0;
         }
-        CompoundTag tag = TagsUtilDegradation.getTag(stack);
+        CompoundTag tag = TagsUtil.getCData(stack);
         return tag.getInt("freq");
     }
 
     default void setFreq(ItemStack stack, int freq) {
-        CompoundTag tag = TagsUtilDegradation.getTag(stack);
+        CompoundTag tag = TagsUtil.getCData(stack);
         tag.putInt("freq", freq);
-        TagsUtilDegradation.putTag(stack, tag);
+        TagsUtil.putCData(stack, tag);
     }
 }

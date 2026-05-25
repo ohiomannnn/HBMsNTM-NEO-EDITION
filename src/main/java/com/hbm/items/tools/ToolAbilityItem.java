@@ -7,10 +7,10 @@ import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.handler.ability.*;
 import com.hbm.inventory.screens.ToolAbilityScreen;
 import com.hbm.items.IItemControlReceiver;
-import com.hbm.items.IItemHUD;
+import com.hbm.items.IHUDItem;
 import com.hbm.items.IKeybindReceiver;
 import com.hbm.network.toclient.InformPlayer;
-import com.hbm.util.TagsUtilDegradation;
+import com.hbm.util.TagsUtil;
 import com.hbm.util.Tuple.Pair;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -48,7 +48,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.*;
 
-public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItemControlReceiver, IItemHUD, IKeybindReceiver {
+public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItemControlReceiver, IHUDItem, IKeybindReceiver {
 
     protected AvailableAbilities availableAbilities = new AvailableAbilities().addToolAbilities();
     private boolean rockBreaker;
@@ -300,14 +300,14 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItem
         Configuration config = new Configuration();
 
         if (stack.isEmpty() ||
-                !TagsUtilDegradation.containsAnyTag(stack) ||
-                !TagsUtilDegradation.getTag(stack).contains("ability") ||
-                !TagsUtilDegradation.getTag(stack).contains("abilityPresets")) {
+                !TagsUtil.hasCData(stack) ||
+                !TagsUtil.getCData(stack).contains("ability") ||
+                !TagsUtil.getCData(stack).contains("abilityPresets")) {
             config.reset(availableAbilities);
             return config;
         }
 
-        config.readFromNBT(TagsUtilDegradation.getTag(stack));
+        config.readFromNBT(TagsUtil.getCData(stack));
         config.restrictTo(availableAbilities);
         return config;
     }
@@ -315,9 +315,9 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItem
     public void setConfiguration(ItemStack stack, Configuration config) {
         if (stack.isEmpty()) return;
 
-        CompoundTag tag = TagsUtilDegradation.getTag(stack);
+        CompoundTag tag = TagsUtil.getCData(stack);
         config.writeToNBT(tag);
-        TagsUtilDegradation.putTag(stack, tag);
+        TagsUtil.putCData(stack, tag);
     }
 
     @Override

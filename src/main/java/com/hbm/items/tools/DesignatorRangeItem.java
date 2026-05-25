@@ -4,7 +4,7 @@ import com.hbm.items.IDesignatorItem;
 import com.hbm.lib.Library;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.RayTraceResult;
-import com.hbm.util.TagsUtilDegradation;
+import com.hbm.util.TagsUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -35,10 +35,10 @@ public class DesignatorRangeItem extends Item implements IDesignatorItem {
 
         BlockPos pos = ray.getBlockPos();
         if (!level.isClientSide) {
-            CompoundTag tag = TagsUtilDegradation.getTag(stack);
+            CompoundTag tag = TagsUtil.getCData(stack);
             tag.putInt("x", pos.getX());
             tag.putInt("z", pos.getZ());
-            TagsUtilDegradation.putTag(stack, tag);
+            TagsUtil.putCData(stack, tag);
 
             player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".posSet", pos.getX(), pos.getZ()), false);
             level.playSound(null, player.position.x, player.position.y, player.position.z, NtmSoundEvents.TECH_BLEEP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -49,8 +49,8 @@ public class DesignatorRangeItem extends Item implements IDesignatorItem {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
-        if (TagsUtilDegradation.containsAnyTag(stack)) {
-            CompoundTag tag = TagsUtilDegradation.getTag(stack);
+        if (TagsUtil.hasCData(stack)) {
+            CompoundTag tag = TagsUtil.getCData(stack);
             components.add(Component.translatable("item.hbmsntm.designator.desc.targetPos").withStyle(ChatFormatting.GRAY));
             components.add(Component.literal("X: " + tag.getInt("x")).withStyle(ChatFormatting.GRAY));
             components.add(Component.literal("Z: " + tag.getInt("z")).withStyle(ChatFormatting.GRAY));
@@ -61,12 +61,12 @@ public class DesignatorRangeItem extends Item implements IDesignatorItem {
 
     @Override
     public boolean isReady(Level level, ItemStack stack, BlockPos pos) {
-        return TagsUtilDegradation.containsAnyTag(stack);
+        return TagsUtil.hasCData(stack);
     }
 
     @Override
     public Vec3 getCoords(Level level, ItemStack stack, BlockPos pos) {
-        CompoundTag tag = TagsUtilDegradation.getTag(stack);
+        CompoundTag tag = TagsUtil.getCData(stack);
         return new Vec3(tag.getInt("x"), 0, tag.getInt("z"));
     }
 }

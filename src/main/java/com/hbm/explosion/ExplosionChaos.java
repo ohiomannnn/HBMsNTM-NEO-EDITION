@@ -1,6 +1,6 @@
 package com.hbm.explosion;
 
-import com.hbm.entity.ModEntityTypes;
+import com.hbm.entity.NtmEntityTypes;
 import com.hbm.entity.projectile.Rocket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -89,7 +89,7 @@ public class ExplosionChaos {
                 d3 *= -1;
             }
 
-            fragment = new Rocket(ModEntityTypes.ROCKET.get(), level);
+            fragment = new Rocket(NtmEntityTypes.ROCKET.get(), level);
             fragment.setPos(x + 0.5, y + 0.5, z + 0.5);
             fragment.deltaMovement = new Vec3(d1, d2, d3);
             fragment.gravity = 0.0125D;

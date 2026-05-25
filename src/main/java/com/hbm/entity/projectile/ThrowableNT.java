@@ -113,6 +113,7 @@ public abstract class ThrowableNT extends Entity implements IProjectile {
         this.ticksInGround = 0;
     }
 
+    @Override
     public boolean shouldRenderAtSqrDistance(double distance) {
         double size = this.getBoundingBox().getSize() * 4.0D;
         if (Double.isNaN(size)) size = 4.0F;

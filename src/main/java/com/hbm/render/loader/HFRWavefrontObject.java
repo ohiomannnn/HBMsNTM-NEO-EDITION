@@ -26,14 +26,14 @@ public class HFRWavefrontObject implements IModelCustomNamed {
     public static final LinkedHashSet<HFRWavefrontObject> allModels = new LinkedHashSet<>();
     public static final LinkedHashMap<HFRWavefrontObjectVBO, HFRWavefrontObject> allVBOs = new LinkedHashMap<>();
 
-    private static final Pattern vertexPattern = Pattern.compile("(v( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *\\n)|(v( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *$)");
-    private static final Pattern vertexNormalPattern = Pattern.compile("(vn( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *\\n)|(vn( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *$)");
-    private static final Pattern textureCoordinatePattern = Pattern.compile("(vt( (\\-){0,1}\\d+\\.\\d+){2,3} *\\n)|(vt( (\\-){0,1}\\d+(\\.\\d+)?){2,3} *$)");
-    private static final Pattern face_V_VT_VN_Pattern = Pattern.compile("(f( \\d+/\\d+/\\d+){3,4} *\\n)|(f( \\d+/\\d+/\\d+){3,4} *$)");
-    private static final Pattern face_V_VT_Pattern = Pattern.compile("(f( \\d+/\\d+){3,4} *\\n)|(f( \\d+/\\d+){3,4} *$)");
-    private static final Pattern face_V_VN_Pattern = Pattern.compile("(f( \\d+//\\d+){3,4} *\\n)|(f( \\d+//\\d+){3,4} *$)");
-    private static final Pattern face_V_Pattern = Pattern.compile("(f( \\d+){3,4} *\\n)|(f( \\d+){3,4} *$)");
-    private static final Pattern groupObjectPattern = Pattern.compile("([go]( [\\w\\d\\.]+) *\\n)|([go]( [\\w\\d\\.]+) *$)");
+    private static final Pattern VERTEX_PATTERN = Pattern.compile("(v( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *\\n)|(v( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *$)");
+    private static final Pattern VERTEX_NORMAL_PATTERN = Pattern.compile("(vn( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *\\n)|(vn( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *$)");
+    private static final Pattern TEXTURE_COORDINATE_PATTERN = Pattern.compile("(vt( (\\-){0,1}\\d+\\.\\d+){2,3} *\\n)|(vt( (\\-){0,1}\\d+(\\.\\d+)?){2,3} *$)");
+    private static final Pattern FACE_V_VT_VN_PATTERN = Pattern.compile("(f( \\d+/\\d+/\\d+){3,4} *\\n)|(f( \\d+/\\d+/\\d+){3,4} *$)");
+    private static final Pattern FACE_V_VT_PATTERN = Pattern.compile("(f( \\d+/\\d+){3,4} *\\n)|(f( \\d+/\\d+){3,4} *$)");
+    private static final Pattern FACE_V_VN_PATTERN = Pattern.compile("(f( \\d+//\\d+){3,4} *\\n)|(f( \\d+//\\d+){3,4} *$)");
+    private static final Pattern FACE_V_PATTERN = Pattern.compile("(f( \\d+){3,4} *\\n)|(f( \\d+){3,4} *$)");
+    private static final Pattern GROUP_OBJECT_PATTERN = Pattern.compile("([go]( [\\w\\d\\.]+) *\\n)|([go]( [\\w\\d\\.]+) *$)");
 
     private static Matcher vertexMatcher, vertexNormalMatcher, textureCoordinateMatcher;
     private static Matcher face_V_VT_VN_Matcher, face_V_VT_Matcher, face_V_VN_Matcher, face_V_Matcher;
@@ -363,43 +363,43 @@ public class HFRWavefrontObject implements IModelCustomNamed {
 
     private static boolean isValidVertexLine(String line) {
         if(vertexMatcher != null) vertexMatcher.reset();
-        vertexMatcher = vertexPattern.matcher(line);
+        vertexMatcher = VERTEX_PATTERN.matcher(line);
         return vertexMatcher.matches();
     }
 
     private static boolean isValidVertexNormalLine(String line) {
         if(vertexNormalMatcher != null) vertexNormalMatcher.reset();
-        vertexNormalMatcher = vertexNormalPattern.matcher(line);
+        vertexNormalMatcher = VERTEX_NORMAL_PATTERN.matcher(line);
         return vertexNormalMatcher.matches();
     }
 
     private static boolean isValidTextureCoordinateLine(String line) {
         if(textureCoordinateMatcher != null) textureCoordinateMatcher.reset();
-        textureCoordinateMatcher = textureCoordinatePattern.matcher(line);
+        textureCoordinateMatcher = TEXTURE_COORDINATE_PATTERN.matcher(line);
         return textureCoordinateMatcher.matches();
     }
 
     private static boolean isValidFace_V_VT_VN_Line(String line) {
         if(face_V_VT_VN_Matcher != null) face_V_VT_VN_Matcher.reset();
-        face_V_VT_VN_Matcher = face_V_VT_VN_Pattern.matcher(line);
+        face_V_VT_VN_Matcher = FACE_V_VT_VN_PATTERN.matcher(line);
         return face_V_VT_VN_Matcher.matches();
     }
 
     private static boolean isValidFace_V_VT_Line(String line) {
         if(face_V_VT_Matcher != null) face_V_VT_Matcher.reset();
-        face_V_VT_Matcher = face_V_VT_Pattern.matcher(line);
+        face_V_VT_Matcher = FACE_V_VT_PATTERN.matcher(line);
         return face_V_VT_Matcher.matches();
     }
 
     private static boolean isValidFace_V_VN_Line(String line) {
         if(face_V_VN_Matcher != null) face_V_VN_Matcher.reset();
-        face_V_VN_Matcher = face_V_VN_Pattern.matcher(line);
+        face_V_VN_Matcher = FACE_V_VN_PATTERN.matcher(line);
         return face_V_VN_Matcher.matches();
     }
 
     private static boolean isValidFace_V_Line(String line) {
         if(face_V_Matcher != null) face_V_Matcher.reset();
-        face_V_Matcher = face_V_Pattern.matcher(line);
+        face_V_Matcher = FACE_V_PATTERN.matcher(line);
         return face_V_Matcher.matches();
     }
 
@@ -409,7 +409,7 @@ public class HFRWavefrontObject implements IModelCustomNamed {
 
     private static boolean isValidGroupObjectLine(String line) {
         if(groupObjectMatcher != null) groupObjectMatcher.reset();
-        groupObjectMatcher = groupObjectPattern.matcher(line);
+        groupObjectMatcher = GROUP_OBJECT_PATTERN.matcher(line);
         return groupObjectMatcher.matches();
     }
 

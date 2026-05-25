@@ -10,7 +10,7 @@ import com.hbm.main.NuclearTechMod;
 import com.hbm.items.armor.ItemModCladding;
 import com.hbm.lib.ModEffect;
 import com.hbm.util.ShadyUtil;
-import com.hbm.util.TagsUtilDegradation;
+import com.hbm.util.TagsUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -89,7 +89,7 @@ public class HazmatRegistry {
 
     public static double getCladding(Level level, ItemStack stack) {
 
-        float claddingRes = TagsUtilDegradation.getTag(stack).getFloat("hfr_cladding");
+        float claddingRes = TagsUtil.getCData(stack).getFloat("hfr_cladding");
 
         if (claddingRes > 0)
             return claddingRes;

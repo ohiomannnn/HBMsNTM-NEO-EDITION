@@ -1,7 +1,7 @@
 package com.hbm.blockentity;
 
 import com.hbm.util.CompatExternal;
-import com.hbm.util.TagsUtilDegradation;
+import com.hbm.util.TagsUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -11,7 +11,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 
@@ -31,7 +30,7 @@ public interface IPersistentNBT {
         CompoundTag tag = new CompoundTag();
         writeNBT(tag);
         if (!tag.isEmpty()) {
-            TagsUtilDegradation.putTag(stack, tag);
+            TagsUtil.putCData(stack, tag);
         }
         list.add(stack);
         return list;
@@ -60,10 +59,10 @@ public interface IPersistentNBT {
 
     static void restoreData(Level level, BlockPos pos, ItemStack stack) {
         try {
-            if (!TagsUtilDegradation.containsAnyTag(stack)) return;
+            if (!TagsUtil.hasCData(stack)) return;
             BlockEntity be = level.getBlockEntity(pos);
             if (!(be instanceof IPersistentNBT persistentNBT)) return;
-            persistentNBT.readNBT(TagsUtilDegradation.getTag(stack));
+            persistentNBT.readNBT(TagsUtil.getCData(stack));
         } catch (Exception ex) {
             ex.printStackTrace();
         }

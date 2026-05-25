@@ -8,6 +8,7 @@ import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.*;
+import com.hbm.handler.compat.SableCompat;
 import com.hbm.interfaces.IBomb;
 import com.hbm.items.special.PolaroidItem;
 import com.hbm.registry.NtmSoundEvents;
@@ -33,6 +34,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 public class LandmineBlock extends Block implements EntityBlock, IBomb {
@@ -120,6 +122,8 @@ public class LandmineBlock extends Block implements EntityBlock, IBomb {
             LandmineBlock.safeMode = true;
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
             LandmineBlock.safeMode = false;
+
+            if(ModList.get().isLoaded("sable")) pos = SableCompat.getProj(level, pos);
 
             if (this == NtmBlocks.MINE_AP.get()) {
                 ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 3F)

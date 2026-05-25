@@ -1,7 +1,7 @@
 package com.hbm.entity.item;
 
 import api.hbm.block.IFuckingExplode;
-import com.hbm.entity.ModEntityTypes;
+import com.hbm.entity.NtmEntityTypes;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -30,7 +30,7 @@ public class TNTPrimedBase extends Entity {
     }
 
     public TNTPrimedBase(Level level, double x, double y, double z, LivingEntity placer, Block bomb) {
-        this(ModEntityTypes.TNT_PRIMED_BASE.get(), level);
+        this(NtmEntityTypes.TNT_PRIMED_BASE.get(), level);
         this.setPos(x, y, z);
         double d0 = level.random.nextDouble() * (double)((float)Math.PI * 2F);
         this.setDeltaMovement(-Math.sin(d0) * 0.02, 0.2F, -Math.cos(d0) * 0.02);

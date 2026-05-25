@@ -6,7 +6,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.NtmItems;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.TagsUtilDegradation;
+import com.hbm.util.TagsUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -29,7 +29,7 @@ public class FluidIconItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
-        if (TagsUtilDegradation.containsAnyTag(stack)) {
+        if (TagsUtil.hasCData(stack)) {
             if (getQuantity(stack) > 0) components.add(Component.translatable("fluid.info.mb", getQuantity(stack)).withStyle(ChatFormatting.GRAY));
             if (getPressure(stack) > 0) {
                 components.add(Component.translatable("fluid.info.pressure", getPressure(stack)).withStyle(ChatFormatting.RED));
@@ -45,25 +45,25 @@ public class FluidIconItem extends Item {
 
     public static ItemStack addQuantity(ItemStack stack, int amount) {
         if (amount <= 0) return stack;
-        CompoundTag tag = TagsUtilDegradation.getTag(stack);
+        CompoundTag tag = TagsUtil.getCData(stack);
         tag.putInt("Fill", amount);
-        TagsUtilDegradation.putTag(stack, tag);
+        TagsUtil.putCData(stack, tag);
         return stack;
     }
 
     public static ItemStack addPressure(ItemStack stack, int pressure) {
-        CompoundTag tag = TagsUtilDegradation.getTag(stack);
+        CompoundTag tag = TagsUtil.getCData(stack);
         tag.putInt("Pressure", pressure);
-        TagsUtilDegradation.putTag(stack, tag);
+        TagsUtil.putCData(stack, tag);
         return stack;
     }
 
     public static int getQuantity(ItemStack stack) {
-        return TagsUtilDegradation.getTag(stack).getInt("Fill");
+        return TagsUtil.getCData(stack).getInt("Fill");
     }
 
     public static int getPressure(ItemStack stack) {
-        return TagsUtilDegradation.getTag(stack).getInt("Pressure");
+        return TagsUtil.getCData(stack).getInt("Pressure");
     }
 
     public static ItemStack make(FluidStack fluidStack) {

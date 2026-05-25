@@ -1,7 +1,7 @@
 package com.hbm.network.toserver;
 
 import com.hbm.main.NuclearTechMod;
-import com.hbm.entity.ModEntityTypes;
+import com.hbm.entity.NtmEntityTypes;
 import com.hbm.entity.mob.Duck;
 import com.hbm.extprop.HbmPlayerAttachments;
 import com.hbm.lib.ModAttachments;
@@ -26,7 +26,7 @@ public record Ducc() implements CustomPacketPayload {
             Player player = context.player();
             HbmPlayerAttachments props = HbmPlayerAttachments.getData(player);
             if (!props.ducked) {
-                Duck ducc = new Duck(ModEntityTypes.DUCK.get(), player.level());
+                Duck ducc = new Duck(NtmEntityTypes.DUCK.get(), player.level());
 
                 ducc.setPos(player.getX(), player.getEyeY(), player.getZ());
                 ducc.setDeltaMovement(player.getLookAngle());

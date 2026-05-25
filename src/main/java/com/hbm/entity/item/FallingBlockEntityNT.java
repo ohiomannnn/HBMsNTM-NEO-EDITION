@@ -1,6 +1,6 @@
 package com.hbm.entity.item;
 
-import com.hbm.entity.ModEntityTypes;
+import com.hbm.entity.NtmEntityTypes;
 import com.mojang.logging.LogUtils;
 import net.minecraft.CrashReportCategory;
 import net.minecraft.core.BlockPos;
@@ -69,7 +69,7 @@ public class FallingBlockEntityNT extends Entity {
     }
 
     private FallingBlockEntityNT(Level level, double x, double y, double z, BlockState state) {
-        this(ModEntityTypes.FALLING_BLOCK.get(), level);
+        this(NtmEntityTypes.FALLING_BLOCK.get(), level);
         this.blockState = state;
         this.entityData.set(BLOCK_ID, Block.getId(state));
         this.blocksBuilding = true;

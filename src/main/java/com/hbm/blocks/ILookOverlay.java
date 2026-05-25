@@ -14,17 +14,16 @@ import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import java.util.List;
 
 public interface ILookOverlay {
-    @OnlyIn(Dist.CLIENT)
-    void printHook(RenderGuiEvent.Pre event, Level level, BlockPos pos);
+    @OnlyIn(Dist.CLIENT) void printHook(RenderGuiEvent.Pre event, Level level, BlockPos pos);
 
     @OnlyIn(Dist.CLIENT)
     static void printGeneric(RenderGuiEvent.Pre event, Component title, int titleCol, int bgCol, List<Component> text) {
         Minecraft mc = Minecraft.getInstance();
 
         Options options = mc.options;
-        if (!options.getCameraType().isFirstPerson()) return;
-        if (options.hideGui) return;
-        if (mc.gameMode.getPlayerMode() == GameType.SPECTATOR) return;
+        if(!options.getCameraType().isFirstPerson()) return;
+        if(options.hideGui) return;
+        if(mc.gameMode.getPlayerMode() == GameType.SPECTATOR) return;
 
         int pX = mc.getWindow().getGuiScaledWidth() / 2 + 8;
         int pZ = mc.getWindow().getGuiScaledHeight() / 2;
@@ -34,7 +33,7 @@ public interface ILookOverlay {
         event.getGuiGraphics().drawString(font, title.getString(), pX + 1, pZ - 9, bgCol, false);
         event.getGuiGraphics().drawString(font, title.getString(), pX, pZ - 10, titleCol, false);
 
-        for (Component c : text) {
+        for(Component c : text) {
             event.getGuiGraphics().drawString(font, c, pX, pZ, 0xFFFFFF);
             pZ += 10;
         }

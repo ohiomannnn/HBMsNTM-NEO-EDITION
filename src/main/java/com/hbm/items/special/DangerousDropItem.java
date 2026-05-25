@@ -5,7 +5,7 @@ import com.hbm.items.NtmItems;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.config.NtmConfig;
-import com.hbm.entity.ModEntityTypes;
+import com.hbm.entity.NtmEntityTypes;
 import com.hbm.entity.effect.BlackHole;
 import com.hbm.entity.effect.RagingVortex;
 import com.hbm.entity.effect.Vortex;
@@ -17,7 +17,7 @@ import com.hbm.interfaces.Spaghetti;
 import com.hbm.particle.helper.CloudCreator;
 import com.hbm.particle.helper.CloudCreator.CloudType;
 import com.hbm.registry.NtmSoundEvents;
-import com.hbm.util.TagsUtilDegradation;
+import com.hbm.util.TagsUtil;
 import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -55,12 +55,12 @@ public class DangerousDropItem extends Item {
         if (itemEntity.getAge() >= lifespan - 1) return false;
 
         String throwerName = "Unknown";
-        if (TagsUtilDegradation.getTag(stack).contains("lastUser")) throwerName = TagsUtilDegradation.getTag(stack).getString("lastUser");
+        if (TagsUtil.getCData(stack).contains("lastUser")) throwerName = TagsUtil.getCData(stack).getString("lastUser");
 
         if (itemEntity.getAge() > 5) {
             if (stack.is(NtmItems.DETONATOR_DEADMAN.get())) {
-                if (TagsUtilDegradation.containsAnyTag(stack)) {
-                    CompoundTag tag = TagsUtilDegradation.getTag(stack);
+                if (TagsUtil.hasCData(stack)) {
+                    CompoundTag tag = TagsUtil.getCData(stack);
                     int x = tag.getInt("x");
                     int y = tag.getInt("y");
                     int z = tag.getInt("z");
@@ -89,7 +89,7 @@ public class DangerousDropItem extends Item {
         if (itemEntity.onGround()) {
 
             if (stack.is(NtmItems.PARTICLE_DIGAMMA.get()) && NtmConfig.COMMON.DROP_SINGULARITY.get()) {
-                BlackHole quasar = new BlackHole(ModEntityTypes.DIGAMMA_QUASAR.get(), level);
+                BlackHole quasar = new BlackHole(NtmEntityTypes.DIGAMMA_QUASAR.get(), level);
                 quasar.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
                 quasar.setSize(5F);
                 level.addFreshEntity(quasar);
@@ -112,35 +112,35 @@ public class DangerousDropItem extends Item {
             }
 
             if (stack.is(NtmItems.SINGULARITY.get()) && NtmConfig.COMMON.DROP_SINGULARITY.get()) {
-                Vortex vortex = new Vortex(ModEntityTypes.VORTEX.get(), level);
+                Vortex vortex = new Vortex(NtmEntityTypes.VORTEX.get(), level);
                 vortex.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
                 vortex.setSize(1.5F);
                 level.addFreshEntity(vortex);
             }
 
             if (stack.is(NtmItems.SINGULARITY_COUNTER_RESONANT.get()) && NtmConfig.COMMON.DROP_SINGULARITY.get()) {
-                Vortex vortex = new Vortex(ModEntityTypes.VORTEX.get(), level);
+                Vortex vortex = new Vortex(NtmEntityTypes.VORTEX.get(), level);
                 vortex.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
                 vortex.setSize(2.5F);
                 level.addFreshEntity(vortex);
             }
 
             if (stack.is(NtmItems.SINGULARITY_SUPER_HEATED.get()) && NtmConfig.COMMON.DROP_SINGULARITY.get()) {
-                Vortex vortex = new Vortex(ModEntityTypes.VORTEX.get(), level);
+                Vortex vortex = new Vortex(NtmEntityTypes.VORTEX.get(), level);
                 vortex.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
                 vortex.setSize(2.5F);
                 level.addFreshEntity(vortex);
             }
 
             if (stack.is(NtmItems.BLACK_HOLE.get()) && NtmConfig.COMMON.DROP_SINGULARITY.get()) {
-                BlackHole blackHole = new BlackHole(ModEntityTypes.BLACK_HOLE.get(), level);
+                BlackHole blackHole = new BlackHole(NtmEntityTypes.BLACK_HOLE.get(), level);
                 blackHole.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
                 blackHole.setSize(1.5F);
                 level.addFreshEntity(blackHole);
             }
 
             if (stack.is(NtmItems.SINGULARITY_SPARK.get()) && NtmConfig.COMMON.DROP_SINGULARITY.get()) {
-                RagingVortex ragingVortex = new RagingVortex(ModEntityTypes.RAGING_VORTEX.get(), level);
+                RagingVortex ragingVortex = new RagingVortex(NtmEntityTypes.RAGING_VORTEX.get(), level);
                 ragingVortex.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
                 ragingVortex.setSize(3.5F);
                 level.addFreshEntity(ragingVortex);
@@ -161,10 +161,10 @@ public class DangerousDropItem extends Item {
             }
         }
         if (this == NtmItems.DETONATOR_DEADMAN.get()) {
-            if (!TagsUtilDegradation.containsAnyTag(stack)) {
+            if (!TagsUtil.hasCData(stack)) {
                 components.add(Component.translatable("detonator.no_pos"));
             } else {
-                CompoundTag tag = TagsUtilDegradation.getTag(stack);
+                CompoundTag tag = TagsUtil.getCData(stack);
                 int x = tag.getInt("x");
                 int y = tag.getInt("y");
                 int z = tag.getInt("z");
@@ -196,7 +196,7 @@ public class DangerousDropItem extends Item {
                 tag.putInt("y", context.getClickedPos().getY());
                 tag.putInt("z", context.getClickedPos().getZ());
                 tag.putString("lastUser", player.getName().getString());
-                TagsUtilDegradation.putTag(stack, tag);
+                TagsUtil.putCData(stack, tag);
 
                 level.playSound(null, player.blockPosition(), NtmSoundEvents.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 

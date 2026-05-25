@@ -125,21 +125,6 @@ public class DamageResistanceHandler {
 
     public static void initDefaults() {
         entityStats.put(Creeper.class, new ResistanceStats().addCategory(CATEGORY_EXPLOSION, 2F, 0.25F));
-
-        registerSet(Items.DIAMOND_HELMET, Items.DIAMOND_CHESTPLATE, Items.DIAMOND_LEGGINGS, Items.DIAMOND_BOOTS, new ResistanceStats()
-                .addCategory(CATEGORY_PHYSICAL, 2F, 0.15F)
-                .addCategory(CATEGORY_FIRE, 0F, 0.25F)
-                .addCategory(CATEGORY_EXPLOSION, 0F, 0.25F)
-                .addExact(DamageTypes.FALL.location(), 4F, 0.5F)
-                .setOther(2F, 0.1F));
-
-        registerSet(Items.NETHERITE_HELMET, Items.NETHERITE_CHESTPLATE, Items.NETHERITE_LEGGINGS, Items.NETHERITE_BOOTS, new ResistanceStats()
-//                .addCategory(CATEGORY_PHYSICAL, 5F, 0.5F)
-//                .addCategory(CATEGORY_FIRE, 5F, 0.5F)
-//                .addCategory(CATEGORY_EXPLOSION, 5F, 0.25F)
-//                //.addExact(DamageClass.LASER.name(), 15F, 0.9F)
-//                .addExact(DamageTypes.FALL.location(), 10F, 0.5F)
-                .setOther(99999F, 99999F));
     }
 
     public static void registerSet(Item helmet, Item plate, Item legs, Item boots, ResistanceStats stats) {
@@ -347,19 +332,19 @@ public class DamageResistanceHandler {
     @SubscribeEvent
     public static void onEntityDamaged(LivingDamageEvent.Pre event) {
         event.setNewDamage(calculateDamage(event.getEntity(), event.getSource(), event.getOriginalDamage(), currentPDT, currentPDR));
-        if (event.getEntity() instanceof IResistanceProvider irp) {
+        if(event.getEntity() instanceof IResistanceProvider irp) {
             irp.onDamageDealt(event.getSource(), event.getNewDamage());
         }
     }
 
     @Nullable
     public static String typeToCategory(DamageSource source) {
-        if (source.is(DamageTypeTags.IS_EXPLOSION)) return CATEGORY_EXPLOSION;
-        if (source.is(DamageTypeTags.IS_FIRE)) return CATEGORY_FIRE;
-        if (source.is(DamageTypeTags.IS_PROJECTILE)) return CATEGORY_PHYSICAL;
-        if (source.is(NtmDamageTypeTags.IS_ENERGY)) return CATEGORY_ENERGY;
-        if (source.is(DamageTypes.CACTUS)) return CATEGORY_PHYSICAL;
-        if (source.getEntity() != null) return CATEGORY_PHYSICAL;
+        if(source.is(DamageTypeTags.IS_EXPLOSION)) return CATEGORY_EXPLOSION;
+        if(source.is(DamageTypeTags.IS_FIRE)) return CATEGORY_FIRE;
+        if(source.is(DamageTypeTags.IS_PROJECTILE)) return CATEGORY_PHYSICAL;
+        if(source.is(NtmDamageTypeTags.IS_ENERGY)) return CATEGORY_ENERGY;
+        if(source.is(DamageTypes.CACTUS)) return CATEGORY_PHYSICAL;
+        if(source.getEntity() != null) return CATEGORY_PHYSICAL;
         return null;
     }
 

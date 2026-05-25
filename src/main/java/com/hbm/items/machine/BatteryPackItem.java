@@ -7,7 +7,7 @@ import com.hbm.items.EnumMultiItem;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.EnumUtil;
-import com.hbm.util.TagsUtilDegradation;
+import com.hbm.util.TagsUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -69,51 +69,51 @@ public class BatteryPackItem extends EnumMultiItem implements IBatteryItem {
 
     @Override
     public void chargeBattery(ItemStack stack, long i) {
-        if (TagsUtilDegradation.containsAnyTag(stack)) {
-            CompoundTag tag = TagsUtilDegradation.getTag(stack);
+        if (TagsUtil.hasCData(stack)) {
+            CompoundTag tag = TagsUtil.getCData(stack);
             tag.putLong("Charge", tag.getLong("Charge") + i);
-            TagsUtilDegradation.putTag(stack, tag);
+            TagsUtil.putCData(stack, tag);
         } else {
             CompoundTag tag = new CompoundTag();
             tag.putLong("Charge", i);
-            TagsUtilDegradation.putTag(stack, tag);
+            TagsUtil.putCData(stack, tag);
         }
     }
 
     @Override
     public void setCharge(ItemStack stack, long i) {
-        if (TagsUtilDegradation.containsAnyTag(stack)) {
-            CompoundTag tag = TagsUtilDegradation.getTag(stack);
+        if (TagsUtil.hasCData(stack)) {
+            CompoundTag tag = TagsUtil.getCData(stack);
             tag.putLong("Charge", i);
-            TagsUtilDegradation.putTag(stack, tag);
+            TagsUtil.putCData(stack, tag);
         } else {
             CompoundTag tag = new CompoundTag();
             tag.putLong("Charge", i);
-            TagsUtilDegradation.putTag(stack, tag);
+            TagsUtil.putCData(stack, tag);
         }
     }
 
     @Override
     public void dischargeBattery(ItemStack stack, long i) {
-        if (TagsUtilDegradation.containsAnyTag(stack)) {
-            CompoundTag tag = TagsUtilDegradation.getTag(stack);
+        if (TagsUtil.hasCData(stack)) {
+            CompoundTag tag = TagsUtil.getCData(stack);
             tag.putLong("Charge", tag.getLong("Charge") - i);
-            TagsUtilDegradation.putTag(stack, tag);
+            TagsUtil.putCData(stack, tag);
         } else {
             CompoundTag tag = new CompoundTag();
             tag.putLong("Charge", 0);
-            TagsUtilDegradation.putTag(stack, tag);
+            TagsUtil.putCData(stack, tag);
         }
     }
 
     @Override
     public long getCharge(ItemStack stack) {
-        if (!TagsUtilDegradation.containsAnyTag(stack)) {
+        if (!TagsUtil.hasCData(stack)) {
             CompoundTag tag = new CompoundTag();
             tag.putLong("Charge", 0);
-            TagsUtilDegradation.putTag(stack, tag);
+            TagsUtil.putCData(stack, tag);
         }
-        return TagsUtilDegradation.getTag(stack).getLong("Charge");
+        return TagsUtil.getCData(stack).getLong("Charge");
     }
 
     @Override
@@ -153,7 +153,7 @@ public class BatteryPackItem extends EnumMultiItem implements IBatteryItem {
         long dischargeRate = this.getDischargeRate(stack);
         long charge = maxCharge;
 
-        if (TagsUtilDegradation.containsAnyTag(stack)) charge = getCharge(stack);
+        if (TagsUtil.hasCData(stack)) charge = getCharge(stack);
 
         components.add(Component.translatable("item.hbmsntm.battery_pack.desc.energy_stored", BobMathUtil.getShortNumber(charge) + "/" + BobMathUtil.getShortNumber(maxCharge) + "HE (" + (charge * 1000 / maxCharge / 10D) + "%)").withStyle(ChatFormatting.GREEN));
         components.add(Component.translatable("item.hbmsntm.battery_pack.desc.charge_rate", BobMathUtil.getShortNumber(chargeRate) + "HE/t").withStyle(ChatFormatting.YELLOW));
@@ -165,14 +165,14 @@ public class BatteryPackItem extends EnumMultiItem implements IBatteryItem {
     public static ItemStack makeEmptyBattery(ItemStack stack) {
         CompoundTag tag = new CompoundTag();
         tag.putLong("Charge", 0);
-        TagsUtilDegradation.putTag(stack, tag);
+        TagsUtil.putCData(stack, tag);
         return stack;
     }
 
     public static ItemStack makeFullBattery(ItemStack stack) {
         CompoundTag tag = new CompoundTag();
         tag.putLong("Charge", ((BatteryPackItem) stack.getItem()).getMaxCharge(stack));
-        TagsUtilDegradation.putTag(stack, tag);
+        TagsUtil.putCData(stack, tag);
         return stack;
     }
 

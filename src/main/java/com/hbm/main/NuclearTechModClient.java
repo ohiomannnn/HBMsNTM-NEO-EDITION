@@ -9,11 +9,9 @@ import com.hbm.blocks.NtmBlocks;
 import com.hbm.blocks.bomb.BalefireBlock;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
 import com.hbm.config.NtmConfig;
-import com.hbm.entity.ModEntityTypes;
+import com.hbm.entity.NtmEntityTypes;
 import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.handler.HazmatRegistry;
-import com.hbm.hazard.HazardEntry;
-import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.interfaces.Spaghetti;
@@ -22,7 +20,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.screens.LoadingScreenRendererNT;
 import com.hbm.items.EnumMultiItem;
-import com.hbm.items.IItemHUD;
+import com.hbm.items.IHUDItem;
 import com.hbm.items.NtmItems;
 import com.hbm.items.special.PolaroidItem;
 import com.hbm.items.tools.GeigerCounterItem;
@@ -51,10 +49,7 @@ import com.hbm.render.model.loader.DetCordGeometryLoader;
 import com.hbm.render.model.loader.PipeGeometryLoader;
 import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.render.util.RenderScreenOverlay;
-import com.hbm.util.ArmorRegistry;
-import com.hbm.util.Clock;
-import com.hbm.util.DamageResistanceHandler;
-import com.hbm.util.Vec3NT;
+import com.hbm.util.*;
 import com.hbm.util.i18n.I18nClient;
 import com.hbm.util.i18n.ITranslate;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -228,30 +223,30 @@ public class NuclearTechModClient {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onRenderGuiPre(RenderGuiEvent.Pre event) {
         Minecraft mc = Minecraft.getInstance();
-        LocalPlayer player = Minecraft.getInstance().player;
+        LocalPlayer player = mc.player;
+        ClientLevel level = mc.level;
+        if(player == null || level == null) return;
 
         /// NUKE SHAKE ///
-        if ((shakeTimestamp + shakeDuration - System.currentTimeMillis()) > 0 && NtmConfig.CLIENT.ENABLE_NUKE_HUD_SHAKE.get()) {
+        if((shakeTimestamp + shakeDuration - System.currentTimeMillis()) > 0 && NtmConfig.CLIENT.ENABLE_NUKE_HUD_SHAKE.get()) {
             double mult = (shakeTimestamp + shakeDuration - System.currentTimeMillis()) / (double) shakeDuration * 2;
             double horizontal = Mth.clamp(Math.sin(System.currentTimeMillis() * 0.02), -0.7, 0.7) * 15;
             double vertical = Mth.clamp(Math.sin(System.currentTimeMillis() * 0.01 + 2), -0.7, 0.7) * 3;
             event.getGuiGraphics().pose().translate(horizontal * mult, vertical * mult, 0);
         }
 
-        if (!player.getMainHandItem().isEmpty() && player.getMainHandItem().getItem() instanceof IItemHUD hudProvider) {
-            hudProvider.renderHUD(event, player, player.getMainHandItem());
+        for(ItemStack stack : InventoryUtil.getItemsFromBothHands(player)) {
+            if(stack.getItem() instanceof IHUDItem hudItem) hudItem.renderHUD(event, player, stack);
         }
 
         HitResult hr = mc.hitResult;
-        Level level = mc.level;
 
-        if (hr != null) {
-            if (hr.getType() == Type.BLOCK) {
-                BlockHitResult bhr = (BlockHitResult) hr;
-                if (player.getMainHandItem().getItem() instanceof ILookOverlay ilo) {
-                    ilo.printHook(event, level, bhr.getBlockPos());
+        if(hr != null) {
+            if(hr instanceof BlockHitResult bhr) {
+                for(ItemStack stack : InventoryUtil.getItemsFromBothHands(player)) {
+                    if(stack.getItem() instanceof ILookOverlay lookOverlay) lookOverlay.printHook(event, level, bhr.getBlockPos());
                 }
-                if (level.getBlockState(bhr.getBlockPos()).getBlock() instanceof ILookOverlay ilo) {
+                if(level.getBlockState(bhr.getBlockPos()).getBlock() instanceof ILookOverlay ilo) {
                     ilo.printHook(event, level, bhr.getBlockPos());
                 }
             }
@@ -561,61 +556,61 @@ public class NuclearTechModClient {
 
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(ModEntityTypes.DUCK.get(), DuckRenderer::new);
-        event.registerEntityRenderer(ModEntityTypes.CREEPER_NUCLEAR.get(), CreeperNuclearRenderer::new);
-        event.registerEntityRenderer(ModEntityTypes.TNT_PRIMED_BASE.get(), RenderTNTPrimedBase::new);
-        event.registerEntityRenderer(ModEntityTypes.NUKE_MK5.get(), EmptyEntityRenderer::new);
-        event.registerEntityRenderer(ModEntityTypes.NUKE_MK3.get(), EmptyEntityRenderer::new);
-        event.registerEntityRenderer(ModEntityTypes.NUKE_BALEFIRE.get(), EmptyEntityRenderer::new);
-        event.registerEntityRenderer(ModEntityTypes.FALLOUT_RAIN.get(), RenderFallout::new);
-        event.registerEntityRenderer(ModEntityTypes.SHRAPNEL.get(), RenderShrapnel::new);
-        event.registerEntityRenderer(ModEntityTypes.RUBBLE.get(), RenderRubble::new);
-        event.registerEntityRenderer(ModEntityTypes.ROCKET.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(NtmEntityTypes.DUCK.get(), DuckRenderer::new);
+        event.registerEntityRenderer(NtmEntityTypes.CREEPER_NUCLEAR.get(), CreeperNuclearRenderer::new);
+        event.registerEntityRenderer(NtmEntityTypes.TNT_PRIMED_BASE.get(), RenderTNTPrimedBase::new);
+        event.registerEntityRenderer(NtmEntityTypes.NUKE_MK5.get(), EmptyEntityRenderer::new);
+        event.registerEntityRenderer(NtmEntityTypes.NUKE_MK3.get(), EmptyEntityRenderer::new);
+        event.registerEntityRenderer(NtmEntityTypes.NUKE_BALEFIRE.get(), EmptyEntityRenderer::new);
+        event.registerEntityRenderer(NtmEntityTypes.FALLOUT_RAIN.get(), RenderFallout::new);
+        event.registerEntityRenderer(NtmEntityTypes.SHRAPNEL.get(), RenderShrapnel::new);
+        event.registerEntityRenderer(NtmEntityTypes.RUBBLE.get(), RenderRubble::new);
+        event.registerEntityRenderer(NtmEntityTypes.ROCKET.get(), ThrownItemRenderer::new);
         
-        event.registerEntityRenderer(ModEntityTypes.BLACK_HOLE.get(), RenderBlackHole::new);
-        event.registerEntityRenderer(ModEntityTypes.VORTEX.get(), RenderBlackHole::new);
-        event.registerEntityRenderer(ModEntityTypes.RAGING_VORTEX.get(), RenderBlackHole::new);
-        event.registerEntityRenderer(ModEntityTypes.DIGAMMA_QUASAR.get(), RenderQuasar::new);
+        event.registerEntityRenderer(NtmEntityTypes.BLACK_HOLE.get(), RenderBlackHole::new);
+        event.registerEntityRenderer(NtmEntityTypes.VORTEX.get(), RenderBlackHole::new);
+        event.registerEntityRenderer(NtmEntityTypes.RAGING_VORTEX.get(), RenderBlackHole::new);
+        event.registerEntityRenderer(NtmEntityTypes.DIGAMMA_QUASAR.get(), RenderQuasar::new);
 
-        event.registerEntityRenderer(ModEntityTypes.METEOR.get(), RenderMeteor::new);
+        event.registerEntityRenderer(NtmEntityTypes.METEOR.get(), RenderMeteor::new);
 
-        event.registerEntityRenderer(ModEntityTypes.FALLING_BLOCK.get(), RenderFallingBlockEntityNT::new);
+        event.registerEntityRenderer(NtmEntityTypes.FALLING_BLOCK.get(), RenderFallingBlockEntityNT::new);
 
-        event.registerEntityRenderer(ModEntityTypes.DEATH_BLAST.get(), RenderDeathBlast::new);
+        event.registerEntityRenderer(NtmEntityTypes.DEATH_BLAST.get(), RenderDeathBlast::new);
 
-        event.registerEntityRenderer(ModEntityTypes.BOMBER.get(), RenderBomber::new);
+        event.registerEntityRenderer(NtmEntityTypes.BOMBER.get(), RenderBomber::new);
 
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_MICRO.get(), RenderMissileMicro::new);
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_SCHRABIDIUM.get(), RenderMissileMicro::new);
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_BHOLE.get(), RenderMissileMicro::new);
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_TAINT.get(), RenderMissileMicro::new);
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_EMP.get(), RenderMissileMicro::new);
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_GENERIC.get(), RenderMissileGeneric::new);
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_INCENDIARY.get(), RenderMissileGeneric::new);
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_CLUSTER.get(), RenderMissileGeneric::new);
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_BUSTER.get(), RenderMissileGeneric::new);
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_DECOY.get(), RenderMissileGeneric::new);
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_STEALTH.get(), RenderMissileStealth::new);
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_STRONG.get(), RenderMissileStrong::new);
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_INCENDIARY_STRONG.get(), RenderMissileStrong::new);
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_CLUSTER_STRONG.get(), RenderMissileStrong::new);
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_BUSTER_STRONG.get(), RenderMissileStrong::new);
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_EMP_STRONG.get(), RenderMissileStrong::new);
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_BURST.get(), RenderMissileHuge::new);
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_INFERNO.get(), RenderMissileHuge::new);
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_RAIN.get(), RenderMissileHuge::new);
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_DRILL.get(), RenderMissileHuge::new);
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_SHUTTLE.get(), RenderMissileShuttle::new);
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_NUCLEAR.get(), RenderMissileNuclear::new);
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_NUCLEAR_CLUSTER.get(), RenderMissileNuclear::new);
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_VOLCANO.get(), RenderMissileNuclear::new);
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_DOOMSDAY.get(), RenderMissileNuclear::new);
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_DOOMSDAY_RUSTED.get(), RenderMissileNuclear::new);
+        event.registerEntityRenderer(NtmEntityTypes.MISSILE_MICRO.get(), RenderMissileMicro::new);
+        event.registerEntityRenderer(NtmEntityTypes.MISSILE_SCHRABIDIUM.get(), RenderMissileMicro::new);
+        event.registerEntityRenderer(NtmEntityTypes.MISSILE_BHOLE.get(), RenderMissileMicro::new);
+        event.registerEntityRenderer(NtmEntityTypes.MISSILE_TAINT.get(), RenderMissileMicro::new);
+        event.registerEntityRenderer(NtmEntityTypes.MISSILE_EMP.get(), RenderMissileMicro::new);
+        event.registerEntityRenderer(NtmEntityTypes.MISSILE_GENERIC.get(), RenderMissileGeneric::new);
+        event.registerEntityRenderer(NtmEntityTypes.MISSILE_INCENDIARY.get(), RenderMissileGeneric::new);
+        event.registerEntityRenderer(NtmEntityTypes.MISSILE_CLUSTER.get(), RenderMissileGeneric::new);
+        event.registerEntityRenderer(NtmEntityTypes.MISSILE_BUSTER.get(), RenderMissileGeneric::new);
+        event.registerEntityRenderer(NtmEntityTypes.MISSILE_DECOY.get(), RenderMissileGeneric::new);
+        event.registerEntityRenderer(NtmEntityTypes.MISSILE_STEALTH.get(), RenderMissileStealth::new);
+        event.registerEntityRenderer(NtmEntityTypes.MISSILE_STRONG.get(), RenderMissileStrong::new);
+        event.registerEntityRenderer(NtmEntityTypes.MISSILE_INCENDIARY_STRONG.get(), RenderMissileStrong::new);
+        event.registerEntityRenderer(NtmEntityTypes.MISSILE_CLUSTER_STRONG.get(), RenderMissileStrong::new);
+        event.registerEntityRenderer(NtmEntityTypes.MISSILE_BUSTER_STRONG.get(), RenderMissileStrong::new);
+        event.registerEntityRenderer(NtmEntityTypes.MISSILE_EMP_STRONG.get(), RenderMissileStrong::new);
+        event.registerEntityRenderer(NtmEntityTypes.MISSILE_BURST.get(), RenderMissileHuge::new);
+        event.registerEntityRenderer(NtmEntityTypes.MISSILE_INFERNO.get(), RenderMissileHuge::new);
+        event.registerEntityRenderer(NtmEntityTypes.MISSILE_RAIN.get(), RenderMissileHuge::new);
+        event.registerEntityRenderer(NtmEntityTypes.MISSILE_DRILL.get(), RenderMissileHuge::new);
+        event.registerEntityRenderer(NtmEntityTypes.MISSILE_SHUTTLE.get(), RenderMissileShuttle::new);
+        event.registerEntityRenderer(NtmEntityTypes.MISSILE_NUCLEAR.get(), RenderMissileNuclear::new);
+        event.registerEntityRenderer(NtmEntityTypes.MISSILE_NUCLEAR_CLUSTER.get(), RenderMissileNuclear::new);
+        event.registerEntityRenderer(NtmEntityTypes.MISSILE_VOLCANO.get(), RenderMissileNuclear::new);
+        event.registerEntityRenderer(NtmEntityTypes.MISSILE_DOOMSDAY.get(), RenderMissileNuclear::new);
+        event.registerEntityRenderer(NtmEntityTypes.MISSILE_DOOMSDAY_RUSTED.get(), RenderMissileNuclear::new);
 
-        event.registerEntityRenderer(ModEntityTypes.MISSILE_DOOMSDAY.get(), RenderMissileNuclear::new);
-        event.registerEntityRenderer(ModEntityTypes.BOMBLET_ZETA.get(), RenderBombletZeta::new);
+        event.registerEntityRenderer(NtmEntityTypes.MISSILE_DOOMSDAY.get(), RenderMissileNuclear::new);
+        event.registerEntityRenderer(NtmEntityTypes.BOMBLET_ZETA.get(), RenderBombletZeta::new);
 
-        event.registerEntityRenderer(ModEntityTypes.EMP.get(), EmptyEntityRenderer::new);
+        event.registerEntityRenderer(NtmEntityTypes.EMP.get(), EmptyEntityRenderer::new);
 
         ItemProperties.register(NtmItems.POLAROID.get(), NuclearTechMod.withDefaultNamespace("polaroid_id"), (stack, level, entity, seed) -> PolaroidItem.polaroidID);
     }

@@ -7,7 +7,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.NtmItems;
 import com.hbm.network.toclient.AuxParticle;
-import com.hbm.util.TagsUtilDegradation;
+import com.hbm.util.TagsUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -59,11 +59,11 @@ public class BlowtorchItem extends Item implements IFillableItem {
     }
 
     public int getFill(ItemStack stack, FluidType type) {
-        if (!TagsUtilDegradation.containsAnyTag(stack)) {
+        if (!TagsUtil.hasCData(stack)) {
             initNBT(stack);
         }
 
-        CompoundTag tag = TagsUtilDegradation.getTag(stack);
+        CompoundTag tag = TagsUtil.getCData(stack);
 
         //just in case
         String name = Fluids.toNameCompat(type);
@@ -71,7 +71,7 @@ public class BlowtorchItem extends Item implements IFillableItem {
             int fill = tag.getInt(name);
             tag.remove(name);
             tag.putInt(Integer.toString(type.getID()), fill);
-            TagsUtilDegradation.putTag(stack, tag);
+            TagsUtil.putCData(stack, tag);
 
             return fill;
         }
@@ -88,18 +88,18 @@ public class BlowtorchItem extends Item implements IFillableItem {
     }
 
     public void setFill(ItemStack stack, FluidType type, int fill) {
-        if (!TagsUtilDegradation.containsAnyTag(stack)) {
+        if (!TagsUtil.hasCData(stack)) {
             initNBT(stack);
         }
 
-        CompoundTag tag = TagsUtilDegradation.getTag(stack);
+        CompoundTag tag = TagsUtil.getCData(stack);
         tag.putInt(Integer.toString(type.getID()), fill);
-        TagsUtilDegradation.putTag(stack, tag);
+        TagsUtil.putCData(stack, tag);
     }
 
     public void initNBT(ItemStack stack) {
 
-        TagsUtilDegradation.putTag(stack, new CompoundTag());
+        TagsUtil.putCData(stack, new CompoundTag());
 
         if (this == NtmItems.BLOWTORCH.get()) {
             this.setFill(stack, Fluids.GAS, this.getMaxFill(Fluids.GAS));

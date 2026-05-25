@@ -7,7 +7,7 @@ import com.hbm.blockentity.machine.storage.BatteryREDDBlockEntity;
 import com.hbm.blocks.DummyBlockType;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.TagsUtilDegradation;
+import com.hbm.util.TagsUtil;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -91,7 +91,7 @@ public class MachineBatteryREDDBlock extends DummyableBlock {
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
-        CompoundTag persistent = TagsUtilDegradation.getTag(stack).getCompound("persistent");
+        CompoundTag persistent = TagsUtil.getCData(stack).getCompound("persistent");
         if (persistent.contains("power")) {
             components.add(Component.literal(BobMathUtil.format(new BigInteger(persistent.getByteArray("power"))) + " HE").withStyle(ChatFormatting.YELLOW));
         }

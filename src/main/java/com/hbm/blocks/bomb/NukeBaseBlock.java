@@ -1,6 +1,7 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.blockentity.NukeBaseBlockEntity;
+import com.hbm.handler.compat.SableCompat;
 import com.hbm.interfaces.IBomb;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -14,6 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.BlockHitResult;
+import net.neoforged.fml.ModList;
 
 // now were thinking with abstraction
 // is it was too hard, or bob was too lazy?
@@ -105,17 +107,18 @@ public abstract class NukeBaseBlock extends Block implements EntityBlock, IBomb 
 
     @Override
     public BombReturnCode explode(Level level, BlockPos pos) {
-        if (!level.isClientSide) {
+        if(!level.isClientSide) {
             BlockEntity be = level.getBlockEntity(pos);
-            if (be == null) return BombReturnCode.UNDEFINED;
-            if (be instanceof NukeBaseBlockEntity nuke) {
-                if (nuke.isReady()) {
+            if(be == null) return BombReturnCode.UNDEFINED;
+            if(be instanceof NukeBaseBlockEntity nuke) {
+                if(ModList.get().isLoaded("sable")) pos = SableCompat.getProj(level, pos);
+                if(nuke.isReady()) {
                     nuke.slots.clear();
                     level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
                     this.explode(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
                     return BombReturnCode.DETONATED;
                 }
-                if (nuke.isFilled()) {
+                if(nuke.isFilled()) {
                     nuke.slots.clear();
                     level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
                     this.explodeNotFull(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
