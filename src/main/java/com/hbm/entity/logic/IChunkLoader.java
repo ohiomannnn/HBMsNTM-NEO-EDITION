@@ -5,10 +5,14 @@ import net.minecraft.server.level.TicketType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.ChunkPos;
 
+import java.util.Comparator;
+import java.util.UUID;
+
 public interface IChunkLoader {
 
-    void setLoadedChunkPos(ChunkPos pos);
+    TicketType<UUID> ENTITY = TicketType.create("entity", Comparator.comparing(UUID::toString), 300);
 
+    void setLoadedChunkPos(ChunkPos pos);
     ChunkPos getLoadedChunkPos();
 
     default void onAddedToLevel(Entity entity) {
@@ -16,13 +20,13 @@ public interface IChunkLoader {
         if(entity.level instanceof ServerLevel serverLevel) {
             this.setLoadedChunkPos(new ChunkPos(entity.blockPosition));
 
-            serverLevel.getChunkSource().addRegionTicket(TicketType.PORTAL, this.getLoadedChunkPos(), 3, entity.blockPosition, true);
+            serverLevel.getChunkSource().addRegionTicket(ENTITY, this.getLoadedChunkPos(), 2, entity.getUUID(), true);
         }
     }
     default void onRemovedFromLevel(Entity entity) {
 
         if(this.getLoadedChunkPos() != null && entity.level instanceof ServerLevel serverLevel) {
-            serverLevel.getChunkSource().removeRegionTicket(TicketType.PORTAL, this.getLoadedChunkPos(), 3, entity.blockPosition, true);
+            serverLevel.getChunkSource().removeRegionTicket(ENTITY, this.getLoadedChunkPos(), 2, entity.getUUID(), true);
 
             this.setLoadedChunkPos(null);
         }
@@ -30,12 +34,13 @@ public interface IChunkLoader {
 
     default void updateChunkTicket(Entity entity) {
         if(entity.level instanceof ServerLevel serverLevel) {
+
             ChunkPos newPos = new ChunkPos(entity.blockPosition());
 
             ChunkPos oldPos = this.getLoadedChunkPos();
             if(oldPos != null && !newPos.equals(oldPos)) {
-                serverLevel.getChunkSource().removeRegionTicket(TicketType.PORTAL, oldPos, 3, entity.blockPosition, true);
-                serverLevel.getChunkSource().addRegionTicket(TicketType.PORTAL, newPos, 3, entity.blockPosition, true);
+                serverLevel.getChunkSource().removeRegionTicket(ENTITY, oldPos, 2, entity.getUUID(), true);
+                serverLevel.getChunkSource().addRegionTicket(ENTITY, newPos, 2, entity.getUUID(), true);
 
                 this.setLoadedChunkPos(newPos);
             }

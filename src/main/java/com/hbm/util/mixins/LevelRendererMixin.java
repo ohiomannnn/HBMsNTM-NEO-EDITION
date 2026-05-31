@@ -38,12 +38,12 @@ public abstract class LevelRendererMixin {
 
     @Unique
     private void hbmsntm$renderDigammaStar(Matrix4f modelView, float partialTicks) {
-        if (!NtmConfig.CLIENT.ENABLE_NTM_SKYBOX.get()) return;
+        if(!NtmConfig.CLIENT.ENABLE_NTM_SKYBOX.get()) return;
         Minecraft mc = Minecraft.getInstance();
 
         Level level = mc.level;
-        if (level == null) return;
-        if (level.dimension() != Level.OVERWORLD) return;
+        if(level == null) return;
+        if(level.dimension() != Level.OVERWORLD) return;
 
         RenderSystem.depthMask(false);
         RenderSystem.enableBlend();
@@ -86,12 +86,12 @@ public abstract class LevelRendererMixin {
 
     @Unique
     private void hbmsntm$renderBobmazonSat(Matrix4f modelView) {
-        if (!NtmConfig.CLIENT.ENABLE_NTM_SKYBOX.get()) return;
+        if(!NtmConfig.CLIENT.ENABLE_NTM_SKYBOX.get()) return;
         Minecraft mc = Minecraft.getInstance();
 
         Level level = mc.level;
-        if (level == null) return;
-        if (level.dimension() != Level.OVERWORLD) return;
+        if(level == null) return;
+        if(level.dimension() != Level.OVERWORLD) return;
 
         RenderSystem.depthMask(false);
         RenderSystem.enableBlend();
@@ -129,13 +129,13 @@ public abstract class LevelRendererMixin {
 
     @Unique
     private void hbmsntm$renderLodeStar(Matrix4f modelView) {
-        if (!NtmConfig.CLIENT.ENABLE_NTM_SKYBOX.get()) return;
+        if(!NtmConfig.CLIENT.ENABLE_NTM_SKYBOX.get()) return;
         Minecraft mc = Minecraft.getInstance();
 
         Level level = mc.level;
-        if (level == null) return;
-        if (level.dimension() != Level.OVERWORLD) return;
-        if (!NuclearTechModClient.renderLodeStar) return;
+        if(level == null) return;
+        if(level.dimension() != Level.OVERWORLD) return;
+        if(!NuclearTechModClient.renderLodeStar) return;
 
         RenderSystem.depthMask(false);
         RenderSystem.enableBlend();

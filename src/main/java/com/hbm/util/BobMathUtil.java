@@ -71,18 +71,7 @@ public class BobMathUtil {
         return val;
     }
 
-    public static Vec3 interpVec(Vec3 vec1, Vec3 vec2, float interp) {
-        return new Vec3(
-                interp(vec1.x,  vec2.x, interp),
-                interp(vec1.y,  vec2.y, interp),
-                interp(vec1.z,  vec2.z, interp)
-        );
-    }
-
-    public static double interp(double x, double y, float interp) { return x + (y - x) * interp; }
-    /** Same as {@link BobMathUtil#interp(double, double, float)} but returns float value */
     public static float interp(float x, float y, float interp) { return x + (y - x) * interp; }
-
 
     public static double getAngleFrom2DVecs(double x1, double z1, double x2, double z2) {
 

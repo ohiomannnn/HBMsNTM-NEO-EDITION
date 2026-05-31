@@ -30,10 +30,16 @@ public interface NtmDamageTypes {
     ResourceKey<DamageType> RUBBLE = key("rubble");
     ResourceKey<DamageType> MONOXIDE = key("monoxide");
 
+    /// SEDNA DAMAGE TYPES ///
+    ResourceKey<DamageType> PHYSICAL = key("physical");
+    ResourceKey<DamageType> FIRE = key("fire");
+    ResourceKey<DamageType> EXPLOSION = key("explosion");
+    ResourceKey<DamageType> ELECTRIC = key("electric");
+    ResourceKey<DamageType> PLASMA = key("plasma");
     ResourceKey<DamageType> LASER = key("laser");
     ResourceKey<DamageType> MICROWAVE = key("microwave");
     ResourceKey<DamageType> SUBATOMIC = key("subatomic");
-    ResourceKey<DamageType> ELECTRIC = key("electric");
+    ResourceKey<DamageType> OTHER = key("other");
 
     private static ResourceKey<DamageType> key(String name) { return ResourceKey.create(Registries.DAMAGE_TYPE, NuclearTechMod.withDefaultNamespace(name)); }
 
@@ -51,10 +57,15 @@ public interface NtmDamageTypes {
         context.register(RUBBLE, defaultType(pathOf(RUBBLE)));
         context.register(MONOXIDE, defaultType(pathOf(MONOXIDE)));
 
-        context.register(LASER, new DamageType("laser", 0.1F));
-        context.register(MICROWAVE, new DamageType("microwave", 0.1F));
-        context.register(SUBATOMIC, new DamageType("subatomic", 0.1F));
-        context.register(ELECTRIC, new DamageType("electric", 0.1F));
+        context.register(PHYSICAL, new DamageType("sednaPhysical", 0.1F));
+        context.register(FIRE, new DamageType("sednaFire", 0.1F));
+        context.register(EXPLOSION, new DamageType("sednaExplosion", 0.1F));
+        context.register(ELECTRIC, new DamageType("sednaElectric", 0.1F));
+        context.register(PLASMA, new DamageType("sednaPlasma", 0.1F));
+        context.register(LASER, new DamageType("sednaLaser", 0.1F));
+        context.register(MICROWAVE, new DamageType("sednaMicrowave", 0.1F));
+        context.register(SUBATOMIC, new DamageType("sednaSubatomic", 0.1F));
+        context.register(OTHER, new DamageType("sednaOther", 0.1F));
     }
 
     // HELPERS

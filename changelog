@@ -6,3 +6,4 @@
 ## FIXES
 * Fixed server side loading client classes
 * Fixed nuke mushroom cloud not rendering after explosion in sable sublevel
+* Fixed vanilla armor not reducing damage

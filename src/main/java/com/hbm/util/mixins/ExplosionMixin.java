@@ -27,7 +27,7 @@ public abstract class ExplosionMixin {
     @Inject(method = "finalizeExplosion", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;addParticle(Lnet/minecraft/core/particles/ParticleOptions;DDDDDD)V", shift = At.Shift.AFTER))
     private void redirectExplosionParticle(boolean spawnParticles, CallbackInfo ci) {
 
-        for (BlockPos pos : this.toBlow) {
+        for(BlockPos pos : this.toBlow) {
 
             int pX = pos.getX();
             int pY = pos.getY();

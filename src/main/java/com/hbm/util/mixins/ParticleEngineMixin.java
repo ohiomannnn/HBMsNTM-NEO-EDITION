@@ -33,8 +33,8 @@ public abstract class ParticleEngineMixin {
     private void crack(BlockPos pos, Direction direction, CallbackInfo ci) {
         BlockState blockstate = this.level.getBlockState(pos);
 
-        if (blockstate.getBlock() instanceof DummyableBlock) {
-            if (blockstate.getRenderShape() != RenderShape.INVISIBLE) {
+        if(blockstate.getBlock() instanceof DummyableBlock) {
+            if(blockstate.getRenderShape() != RenderShape.INVISIBLE) {
                 int i = pos.getX();
                 int j = pos.getY();
                 int k = pos.getZ();
@@ -45,12 +45,12 @@ public abstract class ParticleEngineMixin {
                 double d1 = j + this.random.nextDouble() * (aabb.maxY - aabb.minY - 0.2) + 0.1 + aabb.minY;
                 double d2 = k + this.random.nextDouble() * (aabb.maxZ - aabb.minZ - 0.2) + 0.1 + aabb.minZ;
 
-                if (direction == Direction.DOWN)  d1 = j + aabb.minY - 0.1;
-                if (direction == Direction.UP)    d1 = j + aabb.maxY + 0.1;
-                if (direction == Direction.NORTH) d2 = k + aabb.minZ - 0.1;
-                if (direction == Direction.SOUTH) d2 = k + aabb.maxZ + 0.1;
-                if (direction == Direction.WEST)  d0 = i + aabb.minX - 0.1;
-                if (direction == Direction.EAST)  d0 = i + aabb.maxX + 0.1;
+                if(direction == Direction.DOWN)  d1 = j + aabb.minY - 0.1;
+                if(direction == Direction.UP)    d1 = j + aabb.maxY + 0.1;
+                if(direction == Direction.NORTH) d2 = k + aabb.minZ - 0.1;
+                if(direction == Direction.SOUTH) d2 = k + aabb.maxZ + 0.1;
+                if(direction == Direction.WEST)  d0 = i + aabb.minX - 0.1;
+                if(direction == Direction.EAST)  d0 = i + aabb.maxX + 0.1;
 
                 this.add(new TerrainParticle(this.level, d0, d1, d2, 0.0, 0.0, 0.0, blockstate, pos).updateSprite(blockstate, pos).setPower(0.2F));
             }
@@ -60,7 +60,7 @@ public abstract class ParticleEngineMixin {
 
     @Inject(method = "destroy", at = @At("HEAD"), cancellable = true)
     private void destroy(BlockPos pos, BlockState state, CallbackInfo ci) {
-        if (this.level.getBlockState(pos).getBlock() instanceof DummyableBlock) {
+        if(this.level.getBlockState(pos).getBlock() instanceof DummyableBlock) {
             Shapes.block().forAllBoxes((p_172273_, p_172274_, p_172275_, p_172276_, p_172277_, p_172278_) -> {
                 double d1 = Math.min(1.0D, p_172276_ - p_172273_);
                 double d2 = Math.min(1.0D, p_172277_ - p_172274_);
@@ -69,9 +69,9 @@ public abstract class ParticleEngineMixin {
                 int j = Math.max(2, Mth.ceil(d2 / (double)0.25F));
                 int k = Math.max(2, Mth.ceil(d3 / (double)0.25F));
 
-                for (int l = 0; l < i; ++l) {
-                    for (int i1 = 0; i1 < j; ++i1) {
-                        for (int j1 = 0; j1 < k; ++j1) {
+                for(int l = 0; l < i; ++l) {
+                    for(int i1 = 0; i1 < j; ++i1) {
+                        for(int j1 = 0; j1 < k; ++j1) {
                             double d4 = ((double)l + (double)0.5F) / (double)i;
                             double d5 = ((double)i1 + (double)0.5F) / (double)j;
                             double d6 = ((double)j1 + (double)0.5F) / (double)k;

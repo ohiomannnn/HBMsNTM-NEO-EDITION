@@ -25,7 +25,7 @@ public class ConfettiUtil {
     public static void createConfetti(LivingEntity entity, DamageClass dmgClass) {
         if(entity.isAlive()) return;
         switch(dmgClass) {
-            case IN_FIRE -> cremate(entity);
+            case FIRE -> cremate(entity);
             case EXPLOSION -> gib(entity);
             case ELECTRIC, LASER, SUBATOMIC -> pulverize(entity);
         }

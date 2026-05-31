@@ -12,6 +12,7 @@ public class NtmSoundEvents {
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, NuclearTechMod.MODID);
 
     /// WEAPONS
+    public static final DeferredHolder<SoundEvent, SoundEvent> RICOCHET = reg("weapon.ricochet"); // BLOCKS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> MISSILE_TAKEOFF = reg("weapon.missile_takeoff"); // PLAYERS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> MUKE_EXPLOSION = reg("weapon.muke_explosion"); // BLOCKS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> ROBIN_EXPLOSION = reg("weapon.robin_explosion"); // PLAYERS CATEGORY

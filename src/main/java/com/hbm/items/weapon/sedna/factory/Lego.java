@@ -3,6 +3,7 @@ package com.hbm.items.weapon.sedna.factory;
 import com.hbm.interfaces.NotableComments;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.GunBaseNTItem;
+import com.hbm.items.weapon.sedna.GunBaseNTItem.GunState;
 import com.hbm.items.weapon.sedna.GunBaseNTItem.LambdaContext;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.Receiver;
@@ -10,8 +11,11 @@ import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
 /**
@@ -25,6 +29,49 @@ import java.util.function.BiFunction;
 public class Lego {
 
     public static final RandomSource ANIM_RAND = RandomSource.create();
+
+    /** Returns true if the mag has ammo in it. Used by keybind functions on whether to fire, and deciders on whether to trigger a refire. */
+    public static BiFunction<ItemStack, LambdaContext, Boolean> LAMBDA_STANDARD_CAN_FIRE = (stack, ctx) -> { return ctx.config.getReceivers(stack)[0].getMagazine(stack).getAmount(stack, ctx.container) > 0; };
+    public static BiFunction<ItemStack, LambdaContext, Boolean> LAMBDA_SECOND_CAN_FIRE = (stack, ctx) -> { return ctx.config.getReceivers(stack)[1].getMagazine(stack).getAmount(stack, ctx.container) > 0; };
+
+    /** If IDLE and ammo is loaded, fire and set to JUST_FIRED. */
+    public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_CLICK_PRIMARY = (stack, ctx) -> { clickReceiver(stack, ctx, 0); };
+
+    public static void clickReceiver(ItemStack stack, LambdaContext ctx, int receiver) {
+
+        LivingEntity entity = ctx.entity;
+        Player player = ctx.getPlayer();
+        Receiver rec = ctx.config.getReceivers(stack)[receiver];
+        int index = ctx.configIndex;
+        GunState state = GunBaseNTItem.getState(stack, index);
+
+        if(state == GunState.IDLE) {
+
+            if(rec.getCanFire(stack).apply(stack, ctx)) {
+                rec.getOnFire(stack).accept(stack, ctx);
+
+                //if(rec.getFireSound(stack) != null)
+                //    entity.worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, rec.getFireSound(stack), rec.getFireVolume(stack), rec.getFirePitch(stack));
+
+                int remaining = rec.getRoundsPerCycle(stack) - 1;
+                for(int i = 0; i < remaining; i++) if(rec.getCanFire(stack).apply(stack, ctx)) rec.getOnFire(stack).accept(stack, ctx);
+
+                GunBaseNTItem.setState(stack, index, GunState.COOLDOWN);
+                GunBaseNTItem.setTimer(stack, index, rec.getDelayAfterFire(stack));
+            } else {
+
+                if(rec.getDoesDryFire(stack)) {
+                    GunBaseNTItem.playAnimation(player, stack, GunAnimation.CYCLE_DRY, index);
+                    GunBaseNTItem.setState(stack, index, rec.getRefireAfterDry(stack) ? GunState.COOLDOWN : GunState.DRAWING);
+                    GunBaseNTItem.setTimer(stack, index, rec.getDelayAfterDryFire(stack));
+                }
+            }
+        }
+
+        if(state == GunState.RELOADING) {
+            GunBaseNTItem.setReloadCancel(stack, true);
+        }
+    }
 
     public static float getStandardWearSpread(ItemStack stack, GunConfig config, int index) {
         float percent = GunBaseNTItem.getWear(stack, index) / config.getDurability(stack);

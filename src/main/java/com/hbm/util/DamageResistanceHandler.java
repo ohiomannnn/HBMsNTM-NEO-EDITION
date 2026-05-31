@@ -28,9 +28,10 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
 import javax.annotation.Nullable;
@@ -54,14 +55,15 @@ public class DamageResistanceHandler {
     /** Currently cached armor piercing % */
     public static float currentPDR = 0F;
 
-    public static final String CATEGORY_EXPLOSION = "EXPL";
+    public static final String CATEGORY_EXPLOSION = "EXPLOSION";
     public static final String CATEGORY_FIRE = "FIRE";
-    public static final String CATEGORY_PHYSICAL = "PHYS";
-    public static final String CATEGORY_ENERGY = "EN";
+    public static final String CATEGORY_PHYSICAL = "PHYSICAL";
+    public static final String CATEGORY_ENERGY = "ENERGY";
 
     public static final Gson gson = new Gson();
 
     public static final HashMap<Item, ResistanceStats> itemStats = new HashMap<>();
+    //                                  Head, Chest, Legs, Feet
     public static final HashMap<Quartet<Item, Item, Item, Item>, ResistanceStats> setStats = new HashMap<>();
     public static final HashMap<Class<? extends Entity>, ResistanceStats> entityStats = new HashMap<>();
 
@@ -125,6 +127,14 @@ public class DamageResistanceHandler {
 
     public static void initDefaults() {
         entityStats.put(Creeper.class, new ResistanceStats().addCategory(CATEGORY_EXPLOSION, 2F, 0.25F));
+
+        registerSet(Items.NETHERITE_HELMET, Items.NETHERITE_CHESTPLATE, Items.NETHERITE_LEGGINGS, Items.NETHERITE_BOOTS, new ResistanceStats()
+                .addCategory(CATEGORY_PHYSICAL, 0.1F, 1F)
+                .addCategory(CATEGORY_FIRE, 0F, 0.25F)
+                .addCategory(CATEGORY_EXPLOSION, 5F, 0.25F)
+                .addExact(DamageTypes.FALL.location(), 4F, 0.5F)
+                .setOther(2F, 0.1F));
+
     }
 
     public static void registerSet(Item helmet, Item plate, Item legs, Item boots, ResistanceStats stats) {
@@ -141,42 +151,43 @@ public class DamageResistanceHandler {
         list.add(listElement);
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static void addInfo(ItemStack stack, List<Component> components) {
 
         Item item = stack.getItem();
 
-        if (itemInfoSet.containsKey(item)) {
+        if(itemInfoSet.containsKey(item)) {
             List<Quartet<Item, Item, Item, Item>> sets = itemInfoSet.get(item);
 
-            for (Quartet<Item, Item, Item, Item> set : sets) {
+            for(Quartet<Item, Item, Item, Item> set : sets) {
                 ResistanceStats stats = setStats.get(set);
-                if (stats == null) continue;
+                if(stats == null) continue;
 
                 List<Component> toAdd = new ArrayList<>();
 
-                for (Entry<String, Resistance> entry : stats.categoryResistances.entrySet()) {
+                for(Entry<String, Resistance> entry : stats.categoryResistances.entrySet()) {
                     Resistance res = entry.getValue();
                     toAdd.add(Component.translatable("damage.category." + entry.getKey(), res.threshold, ((int)(res.resistance * 100))).withStyle(ChatFormatting.GRAY));
                 }
 
-                for (Entry<ResourceLocation, Resistance> entry : stats.exactResistances.entrySet()) {
+                for(Entry<ResourceLocation, Resistance> entry : stats.exactResistances.entrySet()) {
                     Resistance res = entry.getValue();
                     toAdd.add(Component.translatable("damage.exact." + entry.getKey().toString(), res.threshold, ((int)(res.resistance * 100))).withStyle(ChatFormatting.GRAY));
                 }
 
-                if (stats.otherResistance != null) {
+                if(stats.otherResistance != null) {
                     Resistance res = stats.otherResistance;
                     toAdd.add(Component.translatable("damage.other", res.threshold, ((int)(res.resistance * 100))).withStyle(ChatFormatting.GRAY));
                 }
 
-                if (!toAdd.isEmpty()) {
+                if(!toAdd.isEmpty()) {
                     components.add(Component.literal(I18nUtil.resolveKey("damage.inset")).withStyle(ChatFormatting.DARK_PURPLE));
 
                     //this sucks ass!
-                    if (set.getW() != null) components.add(Component.literal("  ").append(new ItemStack(set.getW()).getHoverName()).withStyle(ChatFormatting.DARK_PURPLE));
-                    if (set.getX() != null) components.add(Component.literal("  ").append(new ItemStack(set.getX()).getHoverName()).withStyle(ChatFormatting.DARK_PURPLE));
-                    if (set.getY() != null) components.add(Component.literal("  ").append(new ItemStack(set.getY()).getHoverName()).withStyle(ChatFormatting.DARK_PURPLE));
-                    if (set.getZ() != null) components.add(Component.literal("  ").append(new ItemStack(set.getZ()).getHoverName()).withStyle(ChatFormatting.DARK_PURPLE));
+                    if(set.getW() != null) components.add(Component.literal("  ").append(new ItemStack(set.getW()).getHoverName()).withStyle(ChatFormatting.DARK_PURPLE));
+                    if(set.getX() != null) components.add(Component.literal("  ").append(new ItemStack(set.getX()).getHoverName()).withStyle(ChatFormatting.DARK_PURPLE));
+                    if(set.getY() != null) components.add(Component.literal("  ").append(new ItemStack(set.getY()).getHoverName()).withStyle(ChatFormatting.DARK_PURPLE));
+                    if(set.getZ() != null) components.add(Component.literal("  ").append(new ItemStack(set.getZ()).getHoverName()).withStyle(ChatFormatting.DARK_PURPLE));
 
                     components.addAll(toAdd);
                 }
@@ -185,35 +196,34 @@ public class DamageResistanceHandler {
             }
         }
 
-        if (itemStats.containsKey(item)) {
+        if(itemStats.containsKey(item)) {
             ResistanceStats stats = itemStats.get(item);
 
             List<Component> toAdd = new ArrayList<>();
 
-            for (Entry<String, Resistance> entry : stats.categoryResistances.entrySet()) {
+            for(Entry<String, Resistance> entry : stats.categoryResistances.entrySet()) {
                 String key = "damage.category." + entry.getKey();
                 Resistance res = entry.getValue();
                 toAdd.add(Component.literal(I18nUtil.resolveKey(key) + ": " + res.threshold + "/" + ((int)(res.resistance * 100)) + "%").withStyle(ChatFormatting.GRAY));
             }
 
-            for (Entry<ResourceLocation, Resistance> entry : stats.exactResistances.entrySet()) {
+            for(Entry<ResourceLocation, Resistance> entry : stats.exactResistances.entrySet()) {
                 String key = "damage.exact." + entry.getKey().toString();
                 Resistance res = entry.getValue();
                 toAdd.add(Component.literal(I18nUtil.resolveKey(key) + ": " + res.threshold + "/" + ((int)(res.resistance * 100)) + "%").withStyle(ChatFormatting.GRAY));
             }
 
-            if (stats.otherResistance != null) {
+            if(stats.otherResistance != null) {
                 Resistance res = stats.otherResistance;
                 toAdd.add(Component.literal(I18nUtil.resolveKey("damage.other") + ": " + res.threshold + "/" + ((int)(res.resistance * 100)) + "%").withStyle(ChatFormatting.GRAY));
             }
 
-            if (!toAdd.isEmpty()) {
+            if(!toAdd.isEmpty()) {
                 components.add(Component.literal(I18nUtil.resolveKey("damage.item")).withStyle(ChatFormatting.DARK_PURPLE));
                 components.addAll(toAdd);
             }
         }
     }
-
 
     public static void serialize(JsonWriter writer) throws IOException {
         /// ITEMS ///
@@ -293,7 +303,7 @@ public class DamageResistanceHandler {
 
     public enum DamageClass {
         PHYSICAL,
-        IN_FIRE,
+        FIRE,
         EXPLOSION,
         ELECTRIC,
         LASER,
@@ -314,8 +324,8 @@ public class DamageResistanceHandler {
 
     @SubscribeEvent
     public static void onEntityAttacked(LivingIncomingDamageEvent event) {
-        DamageSource source = event.getSource();
 
+        DamageSource source = event.getSource();
         LivingEntity entity = event.getEntity();
         float amount = event.getOriginalAmount();
 
@@ -326,15 +336,10 @@ public class DamageResistanceHandler {
         if ((dt > 0 && dt >= amount) || dr >= 1.0F) {
             event.setCanceled(true);
             EntityDamageUtil.damageArmorNT(entity, amount);
+            return;
         }
-    }
 
-    @SubscribeEvent
-    public static void onEntityDamaged(LivingDamageEvent.Pre event) {
-        event.setNewDamage(calculateDamage(event.getEntity(), event.getSource(), event.getOriginalDamage(), currentPDT, currentPDR));
-        if(event.getEntity() instanceof IResistanceProvider irp) {
-            irp.onDamageDealt(event.getSource(), event.getNewDamage());
-        }
+        event.setAmount(calculateDamage(vals, amount, currentPDT, currentPDR));
     }
 
     @Nullable
@@ -348,9 +353,8 @@ public class DamageResistanceHandler {
         return null;
     }
 
-    public static float calculateDamage(LivingEntity entity, DamageSource damage, float amount, float pierceDT, float pierce) {
+    public static float calculateDamage(float[] vals, float amount, float pierceDT, float pierce) {
 
-        float[] vals = getDTDR(entity, damage, amount, pierceDT, pierce);
         float dt = vals[0];
         float dr = vals[1];
 
@@ -367,7 +371,7 @@ public class DamageResistanceHandler {
         float dt = 0;
         float dr = 0;
 
-        if (entity instanceof IResistanceProvider irp) {
+        if(entity instanceof IResistanceProvider irp) {
             float[] res = irp.getCurrentDTDR(damage, amount, pierceDT, pierce);
             dt += res[0];
             dr += res[1];
@@ -382,32 +386,32 @@ public class DamageResistanceHandler {
         );
 
         ResistanceStats setResistance = setStats.get(wornSet);
-        if (setResistance != null) {
+        if(setResistance != null) {
             Resistance res = setResistance.getResistance(damage, entity);
-            if (res != null) {
+            if(res != null) {
                 dt += res.threshold;
                 dr += res.resistance;
             }
         }
 
         /// ARMOR ///
-        for (EquipmentSlot slot : EquipmentSlot.values()) {
-            if (!slot.isArmor()) continue;
+        for(EquipmentSlot slot : EquipmentSlot.values()) {
+            if(!slot.isArmor()) continue;
             ItemStack armor = entity.getItemBySlot(slot);
-            if (armor.isEmpty()) continue;
+            if(armor.isEmpty()) continue;
             ResistanceStats stats = itemStats.get(armor.getItem());
-            if (stats == null) continue;
+            if(stats == null) continue;
             Resistance res = stats.getResistance(damage, entity);
-            if (res == null) continue;
+            if(res == null) continue;
             dt += res.threshold;
             dr += res.resistance;
         }
 
         /// ENTITY CLASS HANDLING ///
         ResistanceStats innateResistance = entityStats.get(entity.getClass());
-        if (innateResistance != null) {
+        if(innateResistance != null) {
             Resistance res = innateResistance.getResistance(damage, entity);
-            if (res != null) {
+            if(res != null) {
                 dt += res.threshold;
                 dr += res.resistance;
             }

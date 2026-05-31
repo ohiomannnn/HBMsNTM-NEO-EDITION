@@ -438,7 +438,7 @@ public class EntityEffectHandler {
             FlameCreator.composeEffect(entity.level, x - width / 2 + width * random.nextDouble(), y + random.nextDouble() * height, z - width / 2 + width * random.nextDouble(), FlameCreator.META_BLACK);
         }
 
-        if(attachments.fire > 0 || attachments.phosphorus > 0 || attachments.balefire > 0 || attachments.blackFire > 0) if(!entity.isAlive()) ConfettiUtil.createConfetti(entity, DamageClass.IN_FIRE);
+        if(attachments.fire > 0 || attachments.phosphorus > 0 || attachments.balefire > 0 || attachments.blackFire > 0) if(!entity.isAlive()) ConfettiUtil.createConfetti(entity, DamageClass.FIRE);
     }
 
     private static boolean canVomit(Entity entity) {

@@ -213,6 +213,15 @@
       }
     ]
   },
+  "weapon.ricochet": {
+    "sounds": [
+      "hbmsntm:weapon/ric1",
+      "hbmsntm:weapon/ric2",
+      "hbmsntm:weapon/ric3",
+      "hbmsntm:weapon/ric4",
+      "hbmsntm:weapon/ric5"
+    ]
+  },
   "weapon.robin_explosion": {
     "sounds": [
       "hbmsntm:weapon/robin_explosion"

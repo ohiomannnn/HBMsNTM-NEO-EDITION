@@ -14,14 +14,15 @@ import com.hbm.explosion.vanillant.standard.EntityProcessorCross;
 import com.hbm.handler.compat.SableCompat;
 import com.hbm.interfaces.IBomb;
 import com.hbm.items.special.PolaroidItem;
-import com.hbm.registry.NtmSoundEvents;
 import com.hbm.network.toclient.AuxParticle;
 import com.hbm.particle.helper.ExplosionCreator;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.SoundUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -33,6 +34,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.network.PacketDistributor;
+
+import java.util.Locale;
 
 public class CrashedBombBlock extends Block implements EntityBlock, IBomb {
 

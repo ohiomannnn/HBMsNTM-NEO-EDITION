@@ -15,9 +15,7 @@ public abstract class ServerPlayerGameModeMixin {
 
     @Redirect(method = "useItemOn", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;openMenu(Lnet/minecraft/world/MenuProvider;)Ljava/util/OptionalInt;"))
     private OptionalInt useItemOn(ServerPlayer player, MenuProvider menu) {
-        if (menu instanceof BlockEntity blockEntity) {
-            return player.openMenu(menu, buf -> buf.writeBlockPos(blockEntity.getBlockPos()));
-        }
+        if(menu instanceof BlockEntity blockEntity) return player.openMenu(menu, buf -> buf.writeBlockPos(blockEntity.getBlockPos()));
         return player.openMenu(menu);
     }
 }

@@ -78,18 +78,18 @@ public class ExplosionVNT {
         HashMap<Player, Vec3> affectedPlayers = null;
 
         //allocation
-        if (processBlocks) affectedBlocks = blockAllocator.allocate(this, level, x, y, z, size);
-        if (processBlocks) this.compat.getToBlow().addAll(affectedBlocks);
-        if (processEntities) affectedPlayers = entityProcessor.process(this, level, x, y, z, size);
+        if(processBlocks) affectedBlocks = blockAllocator.allocate(this, level, x, y, z, size);
+        if(processBlocks) this.compat.getToBlow().addAll(affectedBlocks);
+        if(processEntities) affectedPlayers = entityProcessor.process(this, level, x, y, z, size);
         // technically not necessary, as the affected entity list is a separate parameter during the Detonate event
-        if (processEntities) this.compat.getHitPlayers().putAll(affectedPlayers);
+        if(processEntities) this.compat.getHitPlayers().putAll(affectedPlayers);
 
         //serverside processing
-        if (processBlocks) blockProcessor.process(this, level, x, y, z, affectedBlocks);
+        if(processBlocks) blockProcessor.process(this, level, x, y, z, affectedBlocks);
 
         //from server to client
-        if (sfx != null) {
-            for (IExplosionSFX fx : sfx) {
+        if(sfx != null) {
+            for(IExplosionSFX fx : sfx) {
                 fx.doEffect(this, level, x, y, z, size);
             }
         }

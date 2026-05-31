@@ -111,6 +111,6 @@ public class LaunchPadBlockEntity extends LaunchPadBaseBlockEntity {
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
-        tag.putInt("delay", delay);
+        tag.putInt("Delay", delay);
     }
 }

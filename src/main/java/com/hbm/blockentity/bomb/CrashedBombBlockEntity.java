@@ -1,7 +1,7 @@
 package com.hbm.blockentity.bomb;
 
-import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.blockentity.ITickable;
+import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.blocks.bomb.CrashedBombBlock.DudType;
 import com.hbm.util.ContaminationUtil;
 import com.hbm.util.ContaminationUtil.ContaminationType;

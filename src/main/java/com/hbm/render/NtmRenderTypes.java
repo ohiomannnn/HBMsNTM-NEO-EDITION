@@ -46,7 +46,6 @@ public class NtmRenderTypes {
     public static final TransparencyStateShard NO_TRANSPARENCY = new TransparencyStateShard("no_transparency", () -> {}, () -> {});
 
     public static final ShaderStateShard VBO_SHADER = new ShaderStateShard(NtmShaders::getVboShader);
-
     public static final RenderType VBO = RenderType.create("vbo", NtmVertexFormat.POSITION_TEX_NORMAL, Mode.QUADS, 1024,
             CompositeState.builder()
                     .setShaderState(VBO_SHADER)
@@ -60,7 +59,7 @@ public class NtmRenderTypes {
             "glow",
             DefaultVertexFormat.POSITION_COLOR,
             VertexFormat.Mode.QUADS,
-            256,
+            6543,
             false,
             true,
             RenderType.CompositeState.builder()
@@ -82,8 +81,8 @@ public class NtmRenderTypes {
                         .setLightmapState(RenderType.LIGHTMAP)
                         .setOverlayState(RenderType.OVERLAY)
                         .setWriteMaskState(RenderType.COLOR_WRITE)
-                        .setOutputState(RenderType.TRANSLUCENT_TARGET)
                         .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
+                        .setOutputState(RenderStateShard.TRANSLUCENT_TARGET)
                         .createCompositeState(false);
                 return RenderType.create("additive", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, false, state);
             }
@@ -99,7 +98,7 @@ public class NtmRenderTypes {
                         .setLightmapState(RenderType.LIGHTMAP)
                         .setOverlayState(RenderType.OVERLAY)
                         .setWriteMaskState(RenderType.COLOR_DEPTH_WRITE)
-                        .setOutputState(RenderType.CLOUDS_TARGET)
+                        .setOutputState(RenderStateShard.TRANSLUCENT_TARGET)
                         .createCompositeState(false);
                 return RenderType.create("smoth", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, state);
             }
@@ -115,7 +114,7 @@ public class NtmRenderTypes {
                         .setLightmapState(RenderType.LIGHTMAP)
                         .setOverlayState(RenderType.OVERLAY)
                         .setWriteMaskState(RenderType.COLOR_WRITE)
-                        .setOutputState(RenderType.CLOUDS_TARGET)
+                        .setOutputState(RenderStateShard.TRANSLUCENT_TARGET)
                         .createCompositeState(false);
                 return RenderType.create("smoth", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, false, state);
             }
@@ -131,7 +130,7 @@ public class NtmRenderTypes {
                         .setLightmapState(RenderType.LIGHTMAP)
                         .setOverlayState(RenderType.OVERLAY)
                         .setWriteMaskState(RenderType.COLOR_WRITE)
-                        .setOutputState(RenderType.TRANSLUCENT_TARGET)
+                        .setOutputState(RenderStateShard.TRANSLUCENT_TARGET)
                         .createCompositeState(false);
                 return RenderType.create("nuke", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 23912, true, true, state);
             }
@@ -147,7 +146,7 @@ public class NtmRenderTypes {
                         .setLightmapState(RenderType.LIGHTMAP)
                         .setOverlayState(RenderType.OVERLAY)
                         .setWriteMaskState(RenderType.COLOR_WRITE)
-                        .setOutputState(RenderType.TRANSLUCENT_TARGET)
+                        .setOutputState(RenderStateShard.TRANSLUCENT_TARGET)
                         .createCompositeState(false);
                 return RenderType.create("nuke_flash", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 2342, true, true, state);
             }

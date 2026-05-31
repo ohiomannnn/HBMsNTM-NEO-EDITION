@@ -22,8 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-@NotableComments
 /** The amount of good decisions in NTM is few and far between, but the VNT explosion surely is one of them. */
+@NotableComments
 public class EntityProcessorCross implements IEntityProcessor {
 
     protected double nodeDist;

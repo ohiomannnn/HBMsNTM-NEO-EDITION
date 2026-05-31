@@ -17,6 +17,15 @@ public class NtmSoundDefinitionsProvider extends SoundDefinitionsProvider {
     public void registerSounds() {
 
         /// WEAPONS
+        this.add(NtmSoundEvents.RICOCHET, SoundDefinition.definition()
+                .with(
+                        sound("hbmsntm:weapon/ric1"),
+                        sound("hbmsntm:weapon/ric2"),
+                        sound("hbmsntm:weapon/ric3"),
+                        sound("hbmsntm:weapon/ric4"),
+                        sound("hbmsntm:weapon/ric5")
+                )
+        );
         this.add(NtmSoundEvents.MISSILE_TAKEOFF, SoundDefinition.definition()
                 .with(sound("hbmsntm:weapon/missile_takeoff"))
         );

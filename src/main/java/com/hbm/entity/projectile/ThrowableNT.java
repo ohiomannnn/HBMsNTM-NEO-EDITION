@@ -3,6 +3,7 @@ package com.hbm.entity.projectile;
 import com.hbm.entity.IProjectile;
 import com.hbm.lib.Library;
 import com.hbm.util.AABBUtils;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.RayTraceResult;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -16,6 +17,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -33,7 +35,7 @@ public abstract class ThrowableNT extends Entity implements IProjectile {
     public int throwableShake;
     protected boolean inGround;
     @Nullable private UUID throwerUUID;
-    @Nullable protected Entity thrower;
+    @Nullable protected LivingEntity thrower;
     private int stuckBlockX = -1;
     private int stuckBlockY = -1;
     private int stuckBlockZ = -1;
@@ -313,13 +315,13 @@ public abstract class ThrowableNT extends Entity implements IProjectile {
         }
     }
 
-    public Entity getThrower() {
+    public LivingEntity getThrower() {
         if (this.thrower != null && !this.thrower.isRemoved()) {
             return this.thrower;
         } else {
             if (this.throwerUUID != null) {
                 if (this.level instanceof ServerLevel serverLevel) {
-                    this.thrower = serverLevel.getEntity(this.throwerUUID);
+                    this.thrower = (LivingEntity) serverLevel.getEntity(this.throwerUUID);
                     return this.thrower;
                 }
             }
@@ -328,7 +330,7 @@ public abstract class ThrowableNT extends Entity implements IProjectile {
         }
     }
 
-    public void setThrower(Entity thrower) {
+    public void setThrower(LivingEntity thrower) {
         this.throwerUUID = thrower.getUUID();
         this.thrower = thrower;
     }

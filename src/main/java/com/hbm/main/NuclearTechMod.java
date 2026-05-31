@@ -38,7 +38,7 @@ public class NuclearTechMod {
         configDir = FMLPaths.CONFIGDIR.get().toFile();
         configHbmDir = new File(NuclearTechMod.configDir, "hbmConfig");
 
-        if (!NuclearTechMod.configHbmDir.exists()) {
+        if(!NuclearTechMod.configHbmDir.exists()) {
             NuclearTechMod.configHbmDir.mkdirs();
         }
 

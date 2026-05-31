@@ -1,5 +1,6 @@
 package com.hbm.entity.projectile;
 
+import com.hbm.entity.NtmEntityTypes;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.RayTraceResult;
@@ -7,10 +8,12 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 
 import javax.annotation.Nullable;
@@ -29,7 +32,47 @@ public class BulletBaseMK4 extends ThrowableInterp implements IEntityWithComplex
     // private!!! use getters
     private static final EntityDataAccessor<Integer> BULLET_CONFIG = SynchedEntityData.defineId(BulletBaseMK4.class, EntityDataSerializers.INT);
 
-    protected BulletBaseMK4(EntityType<? extends ThrowableInterp> entityType, Level level) { super(entityType, level); }
+    public BulletBaseMK4(EntityType<? extends ThrowableInterp> entityType, Level level) {
+        super(entityType, level);
+    }
+
+    /** Shortcut */
+    public BulletBaseMK4(Level level) { super(NtmEntityTypes.BULLET_MK4.get(), level); }
+
+    /** For submunitions! */
+    public BulletBaseMK4(Level level, LivingEntity entity, BulletConfig config, float damage, float gunSpread, Vec3 pos, Vec3 deltaMov) {
+        this(level);
+
+        this.thrower = entity;
+        this.setBulletConfig(config);
+
+        this.damage = damage;
+
+        this.moveTo(pos, 0, 0);
+        this.setPos(this.position());
+
+        this.setDeltaMovement(deltaMov);
+
+        this.setThrowableHeading(this.getDeltaMovement().x, this.getDeltaMovement().y, this.getDeltaMovement().z, 1.0F, this.config.spread + gunSpread);
+    }
+
+    /** For standard guns */
+    public BulletBaseMK4(LivingEntity entity, BulletConfig config, float baseDamage, float gunSpread, double sideOffset, double heightOffset, double frontOffset) {
+        this(entity.level);
+
+        this.thrower = entity;
+        this.setBulletConfig(config);
+
+        this.damage = baseDamage * this.config.damageMult;
+
+        this.moveTo(thrower.position.add(0, thrower.getEyeHeight(), 0), thrower.yRot, thrower.xRot);
+
+        double motionX = -Mth.sin(this.yRot / 180.0F * (float) Math.PI) * Mth.cos(this.xRot / 180.0F * (float) Math.PI);
+        double motionY = -Mth.sin(this.xRot / 180.0F * (float) Math.PI);
+        double motionZ = Mth.cos(this.yRot / 180.0F * (float) Math.PI) * Mth.cos(this.xRot / 180.0F * (float) Math.PI);
+
+        this.setThrowableHeading(motionX, motionY, motionZ, 1.0F, gunSpread);
+    }
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {

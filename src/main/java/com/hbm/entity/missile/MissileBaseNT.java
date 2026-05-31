@@ -1,7 +1,7 @@
 package com.hbm.entity.missile;
 
 import api.hbm.entity.IRadarDetectableNT;
-import com.hbm.main.NuclearTechModClient;
+import com.hbm.entity.logic.IChunkLoader;
 import com.hbm.entity.projectile.ThrowableInterp;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.vanillant.ExplosionVNT;
@@ -10,16 +10,17 @@ import com.hbm.explosion.vanillant.standard.BlockMutatorFire;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCross;
 import com.hbm.items.weapon.MissileItem;
+import com.hbm.main.NuclearTechModClient;
 import com.hbm.util.RayTraceResult;
 import com.hbm.util.Vec3NT;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
+import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.TicketType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
@@ -28,14 +29,12 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.Comparator;
+import javax.annotation.Nullable;
 import java.util.List;
-import java.util.UUID;
 
-public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDetectableNT {
+public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDetectableNT, IChunkLoader {
 
-    private static final TicketType<UUID> CHUNK_TICKET = TicketType.create("chunkloading_missle", Comparator.comparing(UUID::toString), 0);
-    private ChunkPos loadedChunk;
+    @Nullable private ChunkPos lastLoadedChunk = null;
 
     public int startX;
     public int startZ;
@@ -97,46 +96,44 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
     @Override
     public void recreateFromPacket(ClientboundAddEntityPacket packet) {
         super.recreateFromPacket(packet);
-        // synchronizing server rots with client
+
         this.xRotO = this.xRot;
         this.yRotO = this.yRot;
     }
 
     @Override
     public void tick() {
-        this.xo = this.getX();
-        this.yo = this.getY();
-        this.zo = this.getZ();
+        this.setOldPosAndRot();
         super.tick();
 
-        if (velocity < 4) velocity += Mth.clamp(this.tickCount / 60D * 0.05D, 0, 0.05);
+        if(velocity < 4) velocity += Mth.clamp(this.tickCount / 60D * 0.05D, 0, 0.05);
 
-        if (!level().isClientSide) {
-            if (hasPropulsion()) {
+        if(!level.isClientSide) {
+            if(hasPropulsion()) {
                 this.deltaMovement = new Vec3(this.deltaMovement.x, this.deltaMovement.y - decelY * velocity, this.deltaMovement.z);
 
                 Vec3 vector = new Vec3(targetX - startX, 0, targetZ - startZ);
                 vector = vector.normalize();
                 vector = new Vec3(vector.x * accelXZ, vector.y, vector.z * accelXZ);
 
-                if (this.deltaMovement.y > 0) {
+                if(this.deltaMovement.y > 0) {
                     this.deltaMovement = new Vec3(this.deltaMovement.x + vector.x * velocity, this.deltaMovement.y, this.deltaMovement.z);
                     this.deltaMovement = new Vec3(this.deltaMovement.x, this.deltaMovement.y, this.deltaMovement.z + vector.z * velocity);
                 }
 
-                if (this.deltaMovement.y < 0) {
+                if(this.deltaMovement.y < 0) {
                     this.deltaMovement = new Vec3(this.deltaMovement.x - vector.x * velocity, this.deltaMovement.y, this.deltaMovement.z);
                     this.deltaMovement = new Vec3(this.deltaMovement.x, this.deltaMovement.y, this.deltaMovement.z - vector.z * velocity);
                 }
             } else {
                 this.deltaMovement = new Vec3(this.deltaMovement.x * 0.99, this.deltaMovement.y, this.deltaMovement.z * 0.99);
 
-                if (this.deltaMovement.y > -1.5) {
+                if(this.deltaMovement.y > -1.5) {
                     this.deltaMovement = new Vec3(this.deltaMovement.x, this.deltaMovement.y - 0.05, this.deltaMovement.z);
                 }
             }
 
-            if (this.deltaMovement.y < -velocity && this.isCluster) {
+            if(this.deltaMovement.y < -velocity && this.isCluster) {
                 cluster();
                 this.discard();
                 return;
@@ -144,16 +141,24 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
 
             this.yRot = (float) (Math.atan2(targetX - this.position.x, targetZ - this.position.z) * 180.0D / Math.PI);
             float f2 = (float) Math.sqrt(this.deltaMovement.x * this.deltaMovement.x + this.deltaMovement.z * this.deltaMovement.z);
-            for (this.xRot = (float) (Math.atan2(this.deltaMovement.y, f2) * 180.0D / Math.PI) - 90; this.xRot - this.xRotO < -180.0F; this.xRotO -= 360.0F);
+            for(
+                    this.xRot = (float) (Math.atan2(this.deltaMovement.y, f2) * 180.0D / Math.PI) - 90;
+                    this.xRot - this.xRotO < -180.0F;
+                    this.xRotO -= 360.0F
+            );
+            if(this.level instanceof ServerLevel serverLevel) {
+                // more updates = more smooth!!!!
+                serverLevel.getChunkSource().broadcast(this, new ClientboundTeleportEntityPacket(this));
+            }
 
             this.updateChunkTicket();
         } else {
             this.spawnContrail();
         }
 
-        while (this.xRot - this.xRotO >= 180.0F) this.xRotO += 360.0F;
-        while (this.yRot - this.yRotO < -180.0F) this.yRotO -= 360.0F;
-        while (this.yRot - this.yRotO >= 180.0F) this.yRotO += 360.0F;
+        while(this.xRot - this.xRotO >= 180.0F) this.xRotO += 360.0F;
+        while(this.yRot - this.yRotO < -180.0F) this.yRotO -= 360.0F;
+        while(this.yRot - this.yRotO >= 180.0F) this.yRotO += 360.0F;
     }
 
     public boolean hasPropulsion() {
@@ -294,35 +299,25 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
         builder.define(ROT, Direction.NORTH);
     }
 
-    protected void updateChunkTicket() {
-        if (!level().isClientSide && level() instanceof ServerLevel server) {
-            ChunkPos newPos = new ChunkPos(this.blockPosition());
-            if (!newPos.equals(this.loadedChunk)) {
-                if (this.loadedChunk != null) {
-                    server.getChunkSource().removeRegionTicket(CHUNK_TICKET, this.loadedChunk, 3, this.getUUID());
-                }
-                this.loadedChunk = newPos;
-                server.getChunkSource().addRegionTicket(CHUNK_TICKET, this.loadedChunk, 3, this.getUUID());
-            }
-        }
-    }
+    @Override public void setLoadedChunkPos(ChunkPos pos) { this.lastLoadedChunk = pos; }
+    @Override public ChunkPos getLoadedChunkPos() { return lastLoadedChunk; }
 
     @Override
     public void onAddedToLevel() {
         super.onAddedToLevel();
-        if (!level().isClientSide && level() instanceof ServerLevel server) {
-            this.loadedChunk = new ChunkPos(this.blockPosition());
-            server.getChunkSource().addRegionTicket(CHUNK_TICKET, this.loadedChunk, 3, this.getUUID());
-        }
+
+        this.onAddedToLevel(this);
     }
 
     @Override
     public void onRemovedFromLevel() {
         super.onRemovedFromLevel();
-        if (!level().isClientSide && loadedChunk != null && level() instanceof ServerLevel server) {
-            server.getChunkSource().removeRegionTicket(CHUNK_TICKET, this.loadedChunk, 3, this.getUUID());
-            this.loadedChunk = null;
-        }
+
+        this.onRemovedFromLevel(this);
+    }
+
+    protected void updateChunkTicket() {
+        this.updateChunkTicket(this);
     }
 
     public void explodeStandard(float strength, int resolution, boolean fire) {

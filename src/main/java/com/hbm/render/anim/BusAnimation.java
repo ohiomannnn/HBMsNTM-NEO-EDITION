@@ -10,7 +10,7 @@ import java.util.Map.Entry;
 public class BusAnimation {
 
     //"buses" with one S since it's not a vehicle
-    private final HashMap<String, BusAnimationSequence> animationBuses = new HashMap<String, BusAnimationSequence>();
+    private final HashMap<String, BusAnimationSequence> animationBuses = new HashMap<>();
     //multiples buses exist simultaneously and start with 0.
     //a bus has one authority, i.e. the translation of a single part of a model or the rotation of the entire thing.
     //imagine the busses being film strips that hang from the ceiling, with the tape player
@@ -25,7 +25,6 @@ public class BusAnimation {
      * Unless you use one bus for several things because the animation is identical, that's ok too
      * @param name of the bus being added
      * @param bus the bus in question
-     * @return
      */
     public BusAnimation addBus(String name, BusAnimationSequence bus) {
 
@@ -33,8 +32,7 @@ public class BusAnimation {
 
         int duration = bus.getTotalTime();
 
-        if(duration > totalTime)
-            totalTime = duration;
+        if(duration > totalTime) totalTime = duration;
 
         return this;
     }
@@ -49,8 +47,7 @@ public class BusAnimation {
 
             int time = sequence.getValue().getTotalTime();
 
-            if(time > totalTime)
-                totalTime = time;
+            if(time > totalTime) totalTime = time;
         }
     }
 
@@ -78,15 +75,11 @@ public class BusAnimation {
      * @return
      */
     public double[] getTimedTransformation(String name, int millis) {
-
-        if(this.animationBuses.containsKey(name))
-            return animationBuses.get(name).getTransformation(millis);
-
+        if(this.animationBuses.containsKey(name)) return animationBuses.get(name).getTransformation(millis);
         return null;
     }
 
     public int getDuration() {
         return totalTime;
     }
-
 }

@@ -9,6 +9,7 @@ import com.hbm.inventory.ModArmorMaterials;
 import com.hbm.inventory.ModTiers;
 import com.hbm.inventory.NtmFoods;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.items.ItemEnums.CasingType;
 import com.hbm.items.food.ItemEnergy;
 import com.hbm.items.machine.*;
 import com.hbm.items.special.*;
@@ -18,6 +19,7 @@ import com.hbm.items.weapon.MissileItem;
 import com.hbm.items.weapon.MissileItem.MissileFormFactor;
 import com.hbm.items.weapon.MissileItem.MissileFuel;
 import com.hbm.items.weapon.MissileItem.MissileTier;
+import com.hbm.items.weapon.sedna.factory.GunFactory;
 import com.hbm.main.NuclearTechMod;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.tags.BlockTags;
@@ -393,5 +395,19 @@ public class NtmItems {
 
     public static final DeferredItem<Item> NOTHING = ITEMS.register("nothing", () -> new Item(new Item.Properties()));
 
-    public static void register(IEventBus eventBus) { ITEMS.register(eventBus); }
+    public static final DeferredItem<Item> CASING = ITEMS.register("casing", () -> new EnumMultiItem(new Properties(), CasingType.class, true, true));
+
+    public static DeferredItem<Item> AMMO_DEBUG;
+    public static DeferredItem<Item> AMMO_STANDARD;
+    public static DeferredItem<Item> AMMO_SECRET;
+
+    public static void registerOther(DeferredRegister.Items itemRegistry) {
+        GunFactory.init(itemRegistry);
+    }
+
+    public static void register(IEventBus eventBus) {
+        registerOther(ITEMS);
+
+        ITEMS.register(eventBus);
+    }
 }

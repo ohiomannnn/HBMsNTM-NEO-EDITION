@@ -37,9 +37,9 @@ public class NtmEntityTypes {
                     .sized(0.5F, 0.5F)
                     .build("bullet_beam")
     );
-    public static final DeferredHolder<EntityType<?>, EntityType<BulletBeamBase>> BULLET_MK4 = ENTITY_TYPES.register(
+    public static final DeferredHolder<EntityType<?>, EntityType<BulletBaseMK4>> BULLET_MK4 = ENTITY_TYPES.register(
             "bullet_mk4",
-            () -> EntityType.Builder.<BulletBeamBase>of(BulletBeamBase::new, MobCategory.MISC)
+            () -> EntityType.Builder.<BulletBaseMK4>of(BulletBaseMK4::new, MobCategory.MISC)
                     .noSummon()
                     .fireImmune()
                     .setTrackingRange(250)

@@ -54,14 +54,12 @@ public abstract class ThrowableInterp extends ThrowableNT {
     @Override
     public void tick() {
 
-        if (!this.level().isClientSide) {
+        if(!this.level.isClientSide) {
             super.tick();
         } else {
-            if (this.lerpSteps > 0) {
+            if(this.lerpSteps > 0) {
                 this.lerpPositionAndRotationStep(this.lerpSteps, this.lerpX, this.lerpY, this.lerpZ, this.lerpYRot, this.lerpXRot);
-                --this.lerpSteps;
-            } else {
-                this.reapplyPosition();
+                this.lerpSteps--;
             }
         }
     }

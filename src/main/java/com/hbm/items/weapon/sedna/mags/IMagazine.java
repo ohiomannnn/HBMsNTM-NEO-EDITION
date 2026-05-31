@@ -1,5 +1,6 @@
 package com.hbm.items.weapon.sedna.mags;
 
+import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.particle.SpentCasing;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
@@ -48,13 +49,13 @@ public interface IMagazine<T> {
     /** Cached amount of ammo after the most recent reload */
     int getAmountAfterReload(ItemStack stack);
 
-//    static void handleAmmoBag(Container container, BulletConfig config, int shotsFired) {
-//        if(config.casingItem != null && config.casingAmount > 0 && container instanceof Inventory inv) {
-//            for(ItemStack stack : inv.items) {
-//                if(stack != null && stack.getItem() == NtmItems.casing_bag && ItemCasingBag.pushCasing(stack, config.casingItem, 1F / config.casingAmount * 0.5F * shotsFired)) return;
-//            }
-//        }
-//    }
+    static void handleAmmoBag(Container container, BulletConfig config, int shotsFired) {
+        if(config.casingItem != null && config.casingAmount > 0 && container instanceof Inventory inv) {
+            for(ItemStack stack : inv.items) {
+                //if(stack != null && stack.getItem() == NtmItems.casing_bag && ItemCasingBag.pushCasing(stack, config.casingItem, 1F / config.casingAmount * 0.5F * shotsFired)) return;
+            }
+        }
+    }
 
     static boolean shouldUseUpTrenchie(Container container) {
         if(container instanceof Inventory inv) {
