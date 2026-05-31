@@ -49,11 +49,11 @@ public class ExplosionSmallCreator implements IParticleCreator {
 
         double distSq = player.distanceToSqr(x, y, z);
         float soundRange = 200F;
-
+        //
         if (distSq <= soundRange * soundRange) {
             double dist = Math.sqrt(distSq);
             SoundEvent sound = dist <= soundRange * 0.4 ? NtmSoundEvents.EXPLOSION_SMALL_NEAR.get() : NtmSoundEvents.EXPLOSION_SMALL_FAR.get();
-            SimpleSoundInstance instance = new SimpleSoundInstance(sound, SoundSource.BLOCKS, 100.0F, 0.9F + rand.nextFloat() * 0.2F, rand, x,y,z);
+            SimpleSoundInstance instance = new SimpleSoundInstance(sound, SoundSource.BLOCKS, 1.0F, 0.9F + rand.nextFloat() * 0.2F, rand, x,y,z);
             Minecraft.getInstance().getSoundManager().playDelayed(instance, (int) (dist / SPEED_OF_SOUND));
         }
 
