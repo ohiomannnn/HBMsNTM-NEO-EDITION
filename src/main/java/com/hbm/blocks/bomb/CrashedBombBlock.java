@@ -2,7 +2,7 @@ package com.hbm.blocks.bomb;
 
 import com.hbm.blockentity.ITickable;
 import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
-import com.hbm.blocks.NtmBlocks;
+import com.hbm.blocks.EnumMultiBlock;
 import com.hbm.config.NtmConfig;
 import com.hbm.entity.NtmEntityTypes;
 import com.hbm.entity.logic.NukeExplosionBalefire;
@@ -17,14 +17,13 @@ import com.hbm.items.special.PolaroidItem;
 import com.hbm.network.toclient.AuxParticle;
 import com.hbm.particle.helper.ExplosionCreator;
 import com.hbm.registry.NtmSoundEvents;
+import com.hbm.util.EnumUtil;
 import com.hbm.util.SoundUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.RenderShape;
@@ -35,22 +34,19 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-import java.util.Locale;
+public class CrashedBombBlock extends EnumMultiBlock implements EntityBlock, IBomb {
 
-public class CrashedBombBlock extends Block implements EntityBlock, IBomb {
+    public enum DudType {
+        BALEFIRE, CONVENTIONAL, NUKE, SALTED
+    }
 
-    public DudType type;
-
-    public CrashedBombBlock(Properties properties, DudType type) {
-        super(properties);
-        this.type = type;
+    public CrashedBombBlock(Properties properties) {
+        super(properties, DudType.class, false, false);
     }
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        CrashedBombBlockEntity bomb = new CrashedBombBlockEntity(pos, state);
-        bomb.type = this.type;
-        return bomb;
+        return new CrashedBombBlockEntity(pos, state);
     }
 
     @Override
@@ -65,18 +61,20 @@ public class CrashedBombBlock extends Block implements EntityBlock, IBomb {
 
     @Override
     public BombReturnCode explode(Level level, BlockPos pos) {
-        if (!level.isClientSide) {
+        if(!level.isClientSide) {
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+            DudType type = EnumUtil.grabEnumSafely(DudType.class, this.getMeta(level.getBlockState(pos)));
+
             if(ModList.get().isLoaded("sable")) pos = SableCompat.getProj(level, pos);
 
-            if (this == NtmBlocks.CRASHED_BOMB_BALEFIRE.get()) {
+            if(type == DudType.BALEFIRE) {
                 NukeExplosionBalefire balefire = new NukeExplosionBalefire(NtmEntityTypes.NUKE_BALEFIRE.get(), level);
                 balefire.setPos(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
                 balefire.destructionRange = (int) (NtmConfig.COMMON.FATMAN_RADIUS.get() * 1.25);
                 level.addFreshEntity(balefire);
                 spawnMush(level, pos, true);
             }
-            if (this == NtmBlocks.CRASHED_BOMB_CONVENTIONAL.get()) {
+            if(type == DudType.CONVENTIONAL) {
                 ExplosionVNT vnt = new ExplosionVNT(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 35F)
                         .setBlockAllocator(new BlockAllocatorStandard(24))
                         .setBlockProcessor(new BlockProcessorStandard().setNoDrop())
@@ -84,11 +82,11 @@ public class CrashedBombBlock extends Block implements EntityBlock, IBomb {
                 ExplosionCreator.composeEffectLarge(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
                 vnt.explode();
             }
-            if (this == NtmBlocks.CRASHED_BOMB_NUKE.get()) {
+            if(type == DudType.NUKE) {
                 NukeExplosionMK5.statFac(level, 35, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
                 spawnMush(level, pos, PolaroidItem.polaroidID == 11 || level.random.nextInt(100) == 0);
             }
-            if (this == NtmBlocks.CRASHED_BOMB_SALTED.get()) {
+            if(type == DudType.SALTED) {
                 NukeExplosionMK5.statFac(level, 25, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5).setMoreFallout(25);
                 spawnMush(level, pos, PolaroidItem.polaroidID == 11 || level.random.nextInt(100) == 0);
             }
@@ -104,12 +102,5 @@ public class CrashedBombBlock extends Block implements EntityBlock, IBomb {
         if(level instanceof ServerLevel serverLevel) {
             PacketDistributor.sendToPlayersNear(serverLevel, null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 250, new AuxParticle(tag, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5));
         }
-    }
-
-    public enum DudType {
-        BALEFIRE,
-        CONVENTIONAL,
-        NUKE,
-        SALTED
     }
 }

@@ -54,7 +54,7 @@ public class FluidDuctStandardBlock extends FluidDuctConnectingBlock implements 
 
         int mask = 0 + (pX ? 32 : 0) + (nX ? 16 : 0) + (pY ? 8 : 0) + (nY ? 4 : 0) + (pZ ? 2 : 0) + (nZ ? 1 : 0);
 
-        if (mask == 0) {
+        if(mask == 0) {
             return Shapes.or(
                     Shapes.box(0.6875D, 0.3125D, 0.3125D, 1.0D, 0.6875D, 0.6875D),
                     Shapes.box(0.0D, 0.3125D, 0.3125D, 0.3125D, 0.6875D, 0.6875D),
@@ -63,22 +63,22 @@ public class FluidDuctStandardBlock extends FluidDuctConnectingBlock implements 
                     Shapes.box(0.3125D, 0.3125D, 0.6875D, 0.6875D, 0.6875D, 1.0D),
                     Shapes.box(0.3125D, 0.3125D, 0.0D, 0.6875D, 0.6875D, 0.3125D)
             );
-        } else if (mask == 0b100000 || mask == 0b010000 || mask == 0b110000) {
+        } else if(mask == 0b100000 || mask == 0b010000 || mask == 0b110000) {
             return Shapes.box(0.0D, 0.3125D, 0.3125D, 1.0D, 0.6875D, 0.6875D);
-        } else if (mask == 0b001000 || mask == 0b000100 || mask == 0b001100) {
+        } else if(mask == 0b001000 || mask == 0b000100 || mask == 0b001100) {
             return Shapes.box(0.3125D, 0.0D, 0.3125D, 0.6875D, 1.0D, 0.6875D);
-        } else if (mask == 0b000010 || mask == 0b000001 || mask == 0b000011) {
+        } else if(mask == 0b000010 || mask == 0b000001 || mask == 0b000011) {
             return Shapes.box(0.3125D, 0.3125D, 0.0D, 0.6875D, 0.6875D, 1.0D);
         } else {
 
             VoxelShape shape = Shapes.box(0.3125D, 0.3125D, 0.3125D, 0.6875D, 0.6875D, 0.6875D);
 
-            if (pX) shape = Shapes.or(shape, Shapes.box(0.6875D, 0.3125D, 0.3125D, 1.0D, 0.6875D, 0.6875D));
-            if (nX) shape = Shapes.or(shape, Shapes.box(0.0D, 0.3125D, 0.3125D, 0.3125D, 0.6875D, 0.6875D));
-            if (pY) shape = Shapes.or(shape, Shapes.box(0.3125D, 0.6875D, 0.3125D, 0.6875D, 1.0D, 0.6875D));
-            if (nY) shape = Shapes.or(shape, Shapes.box(0.3125D, 0.0D, 0.3125D, 0.6875D, 0.3125D, 0.6875D));
-            if (pZ) shape = Shapes.or(shape, Shapes.box(0.3125D, 0.3125D, 0.6875D, 0.6875D, 0.6875D, 1.0D));
-            if (nZ) shape = Shapes.or(shape, Shapes.box(0.3125D, 0.3125D, 0.0D, 0.6875D, 0.6875D, 0.3125D));
+            if(pX) shape = Shapes.or(shape, Shapes.box(0.6875D, 0.3125D, 0.3125D, 1.0D, 0.6875D, 0.6875D));
+            if(nX) shape = Shapes.or(shape, Shapes.box(0.0D, 0.3125D, 0.3125D, 0.3125D, 0.6875D, 0.6875D));
+            if(pY) shape = Shapes.or(shape, Shapes.box(0.3125D, 0.6875D, 0.3125D, 0.6875D, 1.0D, 0.6875D));
+            if(nY) shape = Shapes.or(shape, Shapes.box(0.3125D, 0.0D, 0.3125D, 0.6875D, 0.3125D, 0.6875D));
+            if(pZ) shape = Shapes.or(shape, Shapes.box(0.3125D, 0.3125D, 0.6875D, 0.6875D, 0.6875D, 1.0D));
+            if(nZ) shape = Shapes.or(shape, Shapes.box(0.3125D, 0.3125D, 0.0D, 0.6875D, 0.6875D, 0.3125D));
 
             return shape;
         }
@@ -96,13 +96,13 @@ public class FluidDuctStandardBlock extends FluidDuctConnectingBlock implements 
 
         int mask = 0 + (pX ? 32 : 0) + (nX ? 16 : 0) + (pY ? 8 : 0) + (nY ? 4 : 0) + (pZ ? 2 : 0) + (nZ ? 1 : 0);
 
-        if (mask == 0) {
+        if(mask == 0) {
             return Shapes.box(0F, 0F, 0F, 1F, 1F, 1F);
-        } else if (mask == 0b100000 || mask == 0b010000 || mask == 0b110000) {
+        } else if(mask == 0b100000 || mask == 0b010000 || mask == 0b110000) {
             return Shapes.box(0F, 0.3125F, 0.3125F, 1F, 0.6875F, 0.6875F);
-        } else if (mask == 0b001000 || mask == 0b000100 || mask == 0b001100) {
+        } else if(mask == 0b001000 || mask == 0b000100 || mask == 0b001100) {
             return Shapes.box(0.3125F, 0F, 0.3125F, 0.6875F, 1F, 0.6875F);
-        } else if (mask == 0b000010 || mask == 0b000001 || mask == 0b000011) {
+        } else if(mask == 0b000010 || mask == 0b000001 || mask == 0b000011) {
             return Shapes.box(0.3125F, 0.3125F, 0F, 0.6875F, 0.6875F, 1F);
         } else {
 

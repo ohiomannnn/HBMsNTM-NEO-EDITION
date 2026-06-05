@@ -1,4 +1,3 @@
-# NTM NE Contribution Guidelines, Version 1
 ## Keep it concise
 
 The best PRs are the ones that are small and to the point. The entire PR should focus on the thing you're trying to do, whether it's a fix or a feature PR. If your PR adds the Super Weldtronic 9000, there's no reason to include changes and tweaks to other things that have nothing to do with the Super Weldtronic 9000. If you think those changes are still necessary, open a new PR.
@@ -23,6 +22,7 @@ Another thing is test your code on server side only, if something works for sing
 **Addendum:** Because apparently some people think that testing is somehow optional, it is now **mandatory** to test the code both on a client and on a server. If the PR contains compat code, the game has to work **with and without** the mod that the compat is for.
 
 ## No refactor PRs
+
 Your refactors suck ass and usually something ends up breaking.
 
 ## Communication
@@ -32,6 +32,12 @@ If you're planning on adding some new thing or doing a grand change, it's best t
 ## No guarantees
 
 This ties together with the previous point - there's no guarantees that your PR gets merged no matter how hard or long you've worked on it. However, if you follow these guidelines, there's a good chance that your PR will be accepted.
+
+## AI policy
+
+You may not contribute code to this project that was entirely or partially generated using AI. No vibe coding, please.
+<br>
+You may contribute code if you wrote it with the **assistance** of AI. You yourself still have to write the code that you contribute.
 
 ## I want to help but don't know where to start
 

@@ -1,11 +1,12 @@
 package com.hbm.inventory;
 
+import com.hbm.blocks.states.NtmBlockStateProperties;
 import com.hbm.items.component.NtmDataComponents;
-import com.hbm.main.NuclearTechMod;
-import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.world.item.Item;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class MetaHelper {
 
@@ -17,6 +18,17 @@ public class MetaHelper {
      */
     public static int getMeta(ItemStack stack) {
         return stack.getOrDefault(NtmDataComponents.META.get(), 0);
+    }
+
+    /**
+     * Gets meta from the blockState
+     */
+    public static int getMeta(BlockState state) {
+        return state.getValue(NtmBlockStateProperties.META);
+    }
+
+    public static void setBlock(Level level, BlockPos pos, BlockState state, int meta, int flags) {
+        level.setBlock(pos, state.setValue(NtmBlockStateProperties.META, meta), flags);
     }
 
     /**

@@ -14,7 +14,7 @@ public class SpriteSetNT implements SpriteSet {
     private final List<TextureAtlasSprite> sprites = new ArrayList<>();
 
     public SpriteSetNT(TextureAtlas atlas, ResourceLocation[] spriteLocations) {
-        for (int i = 0; i < spriteLocations.length; i++) {
+        for(int i = 0; i < spriteLocations.length; i++) {
             sprites.add(i, atlas.getSprite(spriteLocations[i]));
         }
     }

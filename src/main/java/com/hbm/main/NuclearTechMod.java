@@ -4,6 +4,8 @@ import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.config.NtmConfig;
 import com.hbm.entity.NtmEntityTypes;
+import com.hbm.fluids.NtmFluidTypes;
+import com.hbm.fluids.NtmFluids;
 import com.hbm.inventory.ModCreativeTabs;
 import com.hbm.inventory.ModMenuTypes;
 import com.hbm.inventory.fluid.Fluids;
@@ -45,6 +47,8 @@ public class NuclearTechMod {
         Fluids.init();
         NtmItems.register(modEventBus);
         NtmBlocks.register(modEventBus);
+        NtmFluidTypes.register(modEventBus);
+        NtmFluids.register(modEventBus);
         NtmDataComponents.register(modEventBus);
         NtmEntityTypes.register(modEventBus);
         NtmSoundEvents.register(modEventBus);

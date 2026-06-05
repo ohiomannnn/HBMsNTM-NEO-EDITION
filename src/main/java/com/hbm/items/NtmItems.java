@@ -2,6 +2,7 @@ package com.hbm.items;
 
 import api.hbm.block.IToolable.ToolType;
 import com.hbm.blocks.NtmBlocks;
+import com.hbm.fluids.NtmFluids;
 import com.hbm.handler.ability.IToolAreaAbility;
 import com.hbm.handler.ability.IToolHarvestAbility;
 import com.hbm.handler.ability.IWeaponAbility;
@@ -26,11 +27,8 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.Item.Properties;
-import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -400,6 +398,8 @@ public class NtmItems {
     public static DeferredItem<Item> AMMO_DEBUG;
     public static DeferredItem<Item> AMMO_STANDARD;
     public static DeferredItem<Item> AMMO_SECRET;
+
+    public static final DeferredItem<Item> BUCKET_VOLCANIC_LAVA = ITEMS.register("bucket_volcanic_lava", () -> new BucketItem(NtmFluids.VOLCANIC_LAVA.get(), new Item.Properties().stacksTo(1)));
 
     public static void registerOther(DeferredRegister.Items itemRegistry) {
         GunFactory.init(itemRegistry);

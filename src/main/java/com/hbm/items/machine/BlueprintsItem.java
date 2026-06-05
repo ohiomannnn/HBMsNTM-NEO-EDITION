@@ -29,7 +29,7 @@ public class BlueprintsItem extends Item implements IMetaItem {
     }
 
     @Override
-    public void registerModel(ModelProvider<ItemModelBuilder> provider, ResourceLocation modelLocation) {
+    public void registerItemModel(ModelProvider<ItemModelBuilder> provider, ResourceLocation modelLocation) {
 
     }
 

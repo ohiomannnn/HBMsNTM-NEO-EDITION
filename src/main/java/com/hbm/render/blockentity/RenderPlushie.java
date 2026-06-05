@@ -4,6 +4,7 @@ import com.hbm.blocks.NtmBlocks;
 import com.hbm.blocks.generic.PlushieBlock;
 import com.hbm.blocks.generic.PlushieBlock.PlushieBlockEntity;
 import com.hbm.blocks.generic.PlushieBlock.PlushieType;
+import com.hbm.inventory.MetaHelper;
 import com.hbm.items.NtmItems;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.main.ResourceManager;
@@ -12,6 +13,7 @@ import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.loader.IModelCustom;
 import com.hbm.render.util.HorsePronter;
 import com.hbm.render.util.RenderContext;
+import com.hbm.util.EnumUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -25,8 +27,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-
-import javax.annotation.Nullable;
 
 public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> implements IBEWLRProvider {
 
@@ -56,25 +56,27 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
         RenderContext.translate(0.5F, 0F, 0.5F);
         RenderContext.mulPose(Axis.YN.rotationDegrees((float) (22.5D * be.getBlockState().getValue(PlushieBlock.DIRECTION) + 90)));
 
-        if (be.squishTimer > 0) {
+        if(be.squishTimer > 0) {
             double squish = be.squishTimer - partialTicks;
             RenderContext.scale(1F,  (float) (1F + (-(Math.sin(squish)) * squish) * 0.025F), 1F);
         }
 
-        switch (be.type) {
+        PlushieType type = EnumUtil.grabEnumSafely(PlushieType.class, MetaHelper.getMeta(be.getBlockState()));
+
+        switch (type) {
             case YOMI -> poseStack.scale(0.5F, 0.5F, 0.5F);
             case NUMBERNINE -> poseStack.scale(0.75F, 0.75F, 0.75F);
             case HUNDUN -> poseStack.scale(1F, 1F, 1F);
         }
 
-        renderPlushie(be.type, buffer, be.squishTimer > 0);
+        renderPlushie(type, buffer, be.squishTimer > 0);
 
         RenderContext.end();
     }
 
     public static void renderPlushie(PlushieType type, MultiBufferSource buffer, boolean squish) {
 
-        switch (type) {
+        switch(type) {
             case YOMI -> {
                 RenderSystem.setShaderTexture(0, YOMI_TEX);
                 yomiModel.renderAll();
@@ -133,13 +135,8 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
     }
 
     @Override
-    public Item[] getItemsForRenderer() {
-        return new Item[] {
-                NtmBlocks.PLUSHIE_YOMI.asItem(),
-                NtmBlocks.PLUSHIE_NUMBERNINE.asItem(),
-                NtmBlocks.PLUSHIE_HUNDUN.asItem(),
-                NtmBlocks.PLUSHIE_DERG.asItem()
-        };
+    public Item getItemForRenderer() {
+        return NtmBlocks.PLUSHIE.asItem();
     }
 
     @Override
@@ -155,10 +152,9 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
             public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
                 RenderContext.translate(0F, 0.25F, 0F);
 
-                PlushieType type = getType(stack);
-                if(type == null) return;
+                PlushieType type = EnumUtil.grabEnumSafely(PlushieType.class, MetaHelper.getMeta(stack));
 
-                switch (type) {
+                switch(type) {
                     case YOMI -> RenderContext.scale(1.25F, 1.25F, 1.25F);
                     case NUMBERNINE -> {
                         RenderContext.translate(0F, 0.25F, 0.25F);
@@ -174,14 +170,5 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
                 renderPlushie(type, buffer, false);
             }
         };
-    }
-
-    @Nullable
-    private static PlushieType getType(ItemStack stack) {
-        if (stack.is(NtmBlocks.PLUSHIE_YOMI.asItem())) return PlushieType.YOMI;
-        if (stack.is(NtmBlocks.PLUSHIE_NUMBERNINE.asItem())) return PlushieType.NUMBERNINE;
-        if (stack.is(NtmBlocks.PLUSHIE_HUNDUN.asItem())) return PlushieType.HUNDUN;
-        if (stack.is(NtmBlocks.PLUSHIE_DERG.asItem())) return PlushieType.DERG;
-        return null;
     }
 }

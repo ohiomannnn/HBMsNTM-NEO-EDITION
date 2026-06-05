@@ -25,7 +25,7 @@ public class RenderPipeItem extends ItemRenderBaseStandard {
     public void renderCommon(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
         poseStack.scale(1.25F, 1.25F, 1.25F);
 
-        int meta = MetaHelper.getMeta(stack) - 1;
+        int meta = MetaHelper.getMeta(stack);
 
         VertexConsumer consumer = buffer.getBuffer(CUTOUT);
         this.renderModel(stack, poseStack, consumer, models[meta], packedLight, packedOverlay);

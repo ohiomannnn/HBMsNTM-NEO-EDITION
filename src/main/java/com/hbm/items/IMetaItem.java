@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * We do not need to have Item.setHasSubtypes in here, because if item has this interface it means it have meta things
  */
-public interface IMetaItem extends ICustomModelRegister {
+public interface IMetaItem extends ICustomItemModelRegister {
 
     void getSubItems(Item item, List<ItemStack> stacks);
 }

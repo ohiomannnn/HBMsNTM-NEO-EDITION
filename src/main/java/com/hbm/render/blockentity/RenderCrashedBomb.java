@@ -3,9 +3,12 @@ package com.hbm.render.blockentity;
 import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.blocks.bomb.CrashedBombBlock.DudType;
+import com.hbm.blocks.states.NtmBlockStateProperties;
+import com.hbm.inventory.MetaHelper;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.util.RenderContext;
+import com.hbm.util.EnumUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -34,29 +37,13 @@ public class RenderCrashedBomb extends BlockEntityRendererNT<CrashedBombBlockEnt
         RenderContext.mulPose(Axis.YP.rotationDegrees(yaw));
         RenderContext.mulPose(Axis.XP.rotationDegrees(pitch));
         RenderContext.mulPose(Axis.ZP.rotationDegrees(roll));
-
         RenderContext.translate(0F, 0F, -offset);
 
-        DudType type = be.type;
-
-        if (type == DudType.BALEFIRE) {
-            bindTexture(ResourceManager.DUD_BALEFIRE_TEX);
-            ResourceManager.dud_balefire.renderAll();
-        }
-        if (type == DudType.CONVENTIONAL) {
-            bindTexture(ResourceManager.DUD_CONVENTIONAL_TEX);
-            ResourceManager.dud_conventional.renderAll();
-        }
-        if (type == DudType.NUKE) {
-            RenderContext.translate(0F, 0F, 1.25F);
-            bindTexture(ResourceManager.DUD_NUKE_TEX);
-            ResourceManager.dud_nuke.renderAll();
-        }
-        if (type == DudType.SALTED) {
-            RenderContext.translate(0F, 0F, 0.5F);
-            bindTexture(ResourceManager.DUD_SALTED_TEX);
-            ResourceManager.dud_salted.renderAll();
-        }
+        DudType type = EnumUtil.grabEnumSafely(DudType.class, be.getBlockState().getValue(NtmBlockStateProperties.META));
+        if(type == DudType.BALEFIRE) { bindTexture(ResourceManager.DUD_BALEFIRE_TEX); ResourceManager.dud_balefire.renderAll(); }
+        if(type == DudType.CONVENTIONAL) { bindTexture(ResourceManager.DUD_CONVENTIONAL_TEX); ResourceManager.dud_conventional.renderAll(); }
+        if(type == DudType.NUKE) { RenderContext.translate(0F, 0F, 1.25F); bindTexture(ResourceManager.DUD_NUKE_TEX); ResourceManager.dud_nuke.renderAll(); }
+        if(type == DudType.SALTED) { RenderContext.translate(0F, 0F, 0.5F); bindTexture(ResourceManager.DUD_SALTED_TEX); ResourceManager.dud_salted.renderAll(); }
 
         RenderContext.end();
     }
@@ -64,13 +51,8 @@ public class RenderCrashedBomb extends BlockEntityRendererNT<CrashedBombBlockEnt
     @Override public boolean shouldRenderOffScreen(CrashedBombBlockEntity be) { return true; }
 
     @Override
-    public Item[] getItemsForRenderer() {
-        return new Item[] {
-                NtmBlocks.CRASHED_BOMB_BALEFIRE.asItem(),
-                NtmBlocks.CRASHED_BOMB_CONVENTIONAL.asItem(),
-                NtmBlocks.CRASHED_BOMB_NUKE.asItem(),
-                NtmBlocks.CRASHED_BOMB_SALTED.asItem()
-        };
+    public Item getItemForRenderer() {
+        return NtmBlocks.CRASHED_BOMB.asItem();
     }
 
     @Override
@@ -86,25 +68,12 @@ public class RenderCrashedBomb extends BlockEntityRendererNT<CrashedBombBlockEnt
             @Override
             public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
                 RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
-                if (stack.is(NtmBlocks.CRASHED_BOMB_BALEFIRE.asItem())) {
-                    bindTexture(ResourceManager.DUD_BALEFIRE_TEX);
-                    ResourceManager.dud_balefire.renderAll();
-                }
-                if (stack.is(NtmBlocks.CRASHED_BOMB_CONVENTIONAL.asItem())) {
-                    RenderContext.translate(0F, 0F, -0.5F);
-                    bindTexture(ResourceManager.DUD_CONVENTIONAL_TEX);
-                    ResourceManager.dud_conventional.renderAll();
-                }
-                if (stack.is(NtmBlocks.CRASHED_BOMB_NUKE.asItem())) {
-                    RenderContext.translate(0F, 0F, 1.25F);
-                    bindTexture(ResourceManager.DUD_NUKE_TEX);
-                    ResourceManager.dud_nuke.renderAll();
-                }
-                if (stack.is(NtmBlocks.CRASHED_BOMB_SALTED.asItem())) {
-                    RenderContext.translate(0F, 0F, 0.5F);
-                    bindTexture(ResourceManager.DUD_SALTED_TEX);
-                    ResourceManager.dud_salted.renderAll();
-                }
+
+                DudType type = EnumUtil.grabEnumSafely(DudType.class, MetaHelper.getMeta(stack));
+                if(type == DudType.BALEFIRE) { bindTexture(ResourceManager.DUD_BALEFIRE_TEX); ResourceManager.dud_balefire.renderAll(); }
+                if(type == DudType.CONVENTIONAL) { RenderContext.translate(0F, 0F, -0.5F); bindTexture(ResourceManager.DUD_CONVENTIONAL_TEX); ResourceManager.dud_conventional.renderAll(); }
+                if(type == DudType.NUKE) { RenderContext.translate(0F, 0F, 1.25F); bindTexture(ResourceManager.DUD_NUKE_TEX); ResourceManager.dud_nuke.renderAll(); }
+                if(type == DudType.SALTED) { RenderContext.translate(0F, 0F, 0.5F); bindTexture(ResourceManager.DUD_SALTED_TEX); ResourceManager.dud_salted.renderAll(); }
             }
         };
     }

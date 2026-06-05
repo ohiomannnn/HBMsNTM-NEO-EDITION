@@ -217,10 +217,7 @@ public class ModCreativeTabs {
                     .title(Component.translatable("creative_tab.hbmsntm.blocks"))
                     .displayItems((itemDisplayParameters, output) -> {
 
-                        output.accept(NtmBlocks.PLUSHIE_YOMI);
-                        output.accept(NtmBlocks.PLUSHIE_NUMBERNINE);
-                        output.accept(NtmBlocks.PLUSHIE_HUNDUN);
-                        output.accept(NtmBlocks.PLUSHIE_DERG);
+                        addMetaItems(output, NtmBlocks.PLUSHIE.asItem());
 
                         output.accept(NtmBlocks.BRICK_CONCRETE);
                         output.accept(NtmBlocks.BRICK_CONCRETE_MOSSY);
@@ -280,9 +277,7 @@ public class ModCreativeTabs {
                         output.accept(NtmBlocks.MACHINE_BATTERY_REDD);
                         output.accept(NtmBlocks.RED_CABLE);
 
-                        output.accept(MetaHelper.metaStack(new ItemStack(NtmBlocks.FLUID_DUCT_NEO.asItem()), 1));
-                        output.accept(MetaHelper.metaStack(new ItemStack(NtmBlocks.FLUID_DUCT_NEO.asItem()), 2));
-                        output.accept(MetaHelper.metaStack(new ItemStack(NtmBlocks.FLUID_DUCT_NEO.asItem()), 3));
+                        addMetaItems(output, NtmBlocks.FLUID_DUCT_NEO.asItem());
 
                         output.accept(NtmBlocks.MACHINE_FLUID_TANK);
 
@@ -316,10 +311,7 @@ public class ModCreativeTabs {
                         output.accept(NtmBlocks.NUKE_N2);
                         output.accept(NtmBlocks.NUKE_FSTBMB);
 
-                        output.accept(NtmBlocks.CRASHED_BOMB_BALEFIRE);
-                        output.accept(NtmBlocks.CRASHED_BOMB_CONVENTIONAL);
-                        output.accept(NtmBlocks.CRASHED_BOMB_NUKE);
-                        output.accept(NtmBlocks.CRASHED_BOMB_SALTED);
+                        addMetaItems(output, NtmBlocks.CRASHED_BOMB.asItem());
 
                         output.accept(NtmBlocks.DYNAMITE);
                         output.accept(NtmBlocks.TNT);
@@ -342,6 +334,9 @@ public class ModCreativeTabs {
                         output.accept(NtmBlocks.BARREL_PINK);
                         output.accept(NtmBlocks.BARREL_LOX);
                         output.accept(NtmBlocks.BARREL_TAINT);
+
+                        addMetaItems(output, NtmBlocks.VOLCANO_CORE.asItem());
+                        addMetaItems(output, NtmBlocks.VOLCANO_RAD_CORE.asItem());
 
                         output.accept(NtmItems.BATTERY_SPARK);
                         output.accept(NtmItems.BATTERY_TRIXITE);

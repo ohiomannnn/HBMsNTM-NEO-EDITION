@@ -72,10 +72,12 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(NtmBlocks.C4.get());
         this.dropSelf(NtmBlocks.FISSURE_BOMB.get());
 
-        this.dropSelf(NtmBlocks.PLUSHIE_YOMI.get());
-        this.dropSelf(NtmBlocks.PLUSHIE_NUMBERNINE.get());
-        this.dropSelf(NtmBlocks.PLUSHIE_HUNDUN.get());
-        this.dropSelf(NtmBlocks.PLUSHIE_DERG.get());
+        this.add(NtmBlocks.BALEFIRE.get(), noDrop());
+        this.add(NtmBlocks.FIRE_DIGAMMA.get(), noDrop());
+        this.add(NtmBlocks.VOLCANO_CORE.get(), noDrop());
+        this.add(NtmBlocks.VOLCANO_RAD_CORE.get(), noDrop());
+
+        this.dropSelf(NtmBlocks.PLUSHIE.get());
 
         this.dropSelf(NtmBlocks.ORE_OIL.get());
         this.dropSelf(NtmBlocks.ORE_URANIUM.get());

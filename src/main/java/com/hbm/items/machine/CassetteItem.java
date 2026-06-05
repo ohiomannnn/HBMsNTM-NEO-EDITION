@@ -32,7 +32,7 @@ public class CassetteItem extends Item implements IMetaItem {
     }
 
     @Override
-    public void registerModel(ModelProvider<ItemModelBuilder> provider, ResourceLocation modelLocation) {
+    public void registerItemModel(ModelProvider<ItemModelBuilder> provider, ResourceLocation modelLocation) {
         provider.getBuilder(modelLocation.toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
                 .texture("layer0", ResourceLocation.fromNamespaceAndPath(modelLocation.getNamespace(), "item/cassette"))
                 .texture("layer1", ResourceLocation.fromNamespaceAndPath(modelLocation.getNamespace(), "item/cassette_overlay"));

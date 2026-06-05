@@ -17,41 +17,33 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class DigammaFlameBlock extends Block {
+
     public DigammaFlameBlock(Properties properties) {
         super(properties);
     }
 
     @Override
     public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
-        if (entity instanceof LivingEntity living) {
+        if(entity instanceof LivingEntity living) {
             ContaminationUtil.contaminate(living, HazardType.DIGAMMA, ContaminationType.DIGAMMA, 0.05F);
         }
     }
 
-    @Override
-    protected VoxelShape getCollisionShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
-        return Shapes.empty();
-    }
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return Shapes.empty();
     }
 
     @Override
-    public boolean isCollisionShapeFullBlock(BlockState state, BlockGetter level, BlockPos pos) {
-        return false;
-    }
-
-    @Override
     public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
-        BlockPos below = pos.below();
-        return level.getBlockState(below).isFaceSturdy(level, below, Direction.UP);
+        BlockPos posBelow = pos.below();
+        return level.getBlockState(posBelow).isFaceSturdy(level, posBelow, Direction.UP);
     }
 
     @Override
-    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
-        if (!canSurvive(state, level, pos)) {
-            level.removeBlock(pos, false);
-        }
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
+        super.neighborChanged(state, level, pos, neighborBlock, neighborPos, movedByPiston);
+
+        if(!canSurvive(state, level, pos)) level.removeBlock(pos, false);
     }
 }

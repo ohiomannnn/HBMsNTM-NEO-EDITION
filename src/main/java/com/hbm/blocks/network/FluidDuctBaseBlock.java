@@ -41,22 +41,22 @@ public abstract class FluidDuctBaseBlock extends Block implements EntityBlock, I
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
 
-        if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof IItemFluidIdentifier iifi) {
+        if(player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof IItemFluidIdentifier iifi) {
             FluidType type = iifi.getType(level, pos, player.getItemInHand(InteractionHand.MAIN_HAND));
 
             HbmPlayerAttachments data = player.getData(ModAttachments.PLAYER_ATTACHMENT.get());
 
-            if (!data.getKeyPressed(EnumKeybind.TOOL_CTRL) && !player.isShiftKeyDown()) {
-                if (level.getBlockEntity(pos) instanceof PipeBaseBlockEntity pipe) {
-                    if (pipe.getFluidType() != type) {
+            if(!data.getKeyPressed(EnumKeybind.TOOL_CTRL) && !player.isShiftKeyDown()) {
+                if(level.getBlockEntity(pos) instanceof PipeBaseBlockEntity pipe) {
+                    if(pipe.getFluidType() != type) {
                         pipe.setFluidType(type);
-                        if (level.getBlockState(pos).getBlock() instanceof FluidDuctConnectingBlock connectingDuct) connectingDuct.updateConnections(level, pos, type);
+                        if(level.getBlockState(pos).getBlock() instanceof FluidDuctConnectingBlock connectingDuct) connectingDuct.updateConnections(level, pos, type);
 
                         return ItemInteractionResult.SUCCESS;
                     }
                 }
             } else {
-                if (level.getBlockEntity(pos) instanceof PipeBaseBlockEntity) {
+                if(level.getBlockEntity(pos) instanceof PipeBaseBlockEntity) {
                     this.changeTypeRecursively(level, pos, type, 64);
                     return ItemInteractionResult.SUCCESS;
                 }
@@ -69,14 +69,14 @@ public abstract class FluidDuctBaseBlock extends Block implements EntityBlock, I
 
     @Override
     public void changeTypeRecursively(Level level, BlockPos pos, FluidType type, int loopsRemaining) {
-        if (level.getBlockEntity(pos) instanceof PipeBaseBlockEntity pipe) {
-            if (pipe.getFluidType() != type) {
+        if(level.getBlockEntity(pos) instanceof PipeBaseBlockEntity pipe) {
+            if(pipe.getFluidType() != type) {
                 pipe.setFluidType(type);
-                if (level.getBlockState(pos).getBlock() instanceof FluidDuctConnectingBlock connectingDuct) connectingDuct.updateConnections(level, pos, type);
+                if(level.getBlockState(pos).getBlock() instanceof FluidDuctConnectingBlock connectingDuct) connectingDuct.updateConnections(level, pos, type);
 
-                if (loopsRemaining > 0) {
-                    for (Direction dir : Direction.values()) {
-                        if (level.getBlockState(pos).getBlock() instanceof IBlockFluidDuct ibfi) {
+                if(loopsRemaining > 0) {
+                    for(Direction dir : Direction.values()) {
+                        if(level.getBlockState(pos).getBlock() instanceof IBlockFluidDuct ibfi) {
                             ibfi.changeTypeRecursively(level, pos.relative(dir), type, loopsRemaining - 1);
                         }
                     }

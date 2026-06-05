@@ -1,7 +1,7 @@
 package com.hbm.datagen;
 
 import com.hbm.blocks.NtmBlocks;
-import com.hbm.items.ICustomModelRegister;
+import com.hbm.items.ICustomItemModelRegister;
 import com.hbm.items.NtmItems;
 import com.hbm.main.NuclearTechMod;
 import net.minecraft.client.renderer.block.model.BlockModel;
@@ -313,9 +313,9 @@ public class NtmItemModelProvider extends ItemModelProvider {
     }
 
     private void registerMetaItem(Item item) {
-        if (item instanceof ICustomModelRegister modelRegister) {
+        if (item instanceof ICustomItemModelRegister modelRegister) {
             ResourceLocation loc = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
-            modelRegister.registerModel(this, loc);
+            modelRegister.registerItemModel(this, loc);
         }
     }
 

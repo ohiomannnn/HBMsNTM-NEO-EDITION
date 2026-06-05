@@ -6,6 +6,7 @@ import com.hbm.blockentity.machine.storage.*;
 import com.hbm.blockentity.network.CableBaseBlockEntity;
 import com.hbm.blockentity.network.PipeBaseBlockEntity;
 import com.hbm.blocks.NtmBlocks;
+import com.hbm.blocks.bomb.VolcanoBlock.VolcanoCoreBlockEntity;
 import com.hbm.blocks.generic.PlushieBlock.PlushieBlockEntity;
 import com.hbm.main.NuclearTechMod;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -85,7 +86,7 @@ public class NtmBlockEntityTypes {
             "proxy_combo",
             () -> BlockEntityType.Builder.of(ProxyComboBlockEntity::new).build(null));
 
-    public static final Supplier<BlockEntityType<PlushieBlockEntity>> PLUSHIE = REGISTER.register("plushie", () -> BlockEntityType.Builder.of(PlushieBlockEntity::new, NtmBlocks.PLUSHIE_YOMI.get(), NtmBlocks.PLUSHIE_NUMBERNINE.get(), NtmBlocks.PLUSHIE_HUNDUN.get(), NtmBlocks.PLUSHIE_DERG.get()).build(null));
+    public static final Supplier<BlockEntityType<PlushieBlockEntity>> PLUSHIE = REGISTER.register("plushie", () -> BlockEntityType.Builder.of(PlushieBlockEntity::new, NtmBlocks.PLUSHIE.get()).build(null));
 
     public static final Supplier<BlockEntityType<CableBaseBlockEntity>> NETWORK_CABLE = REGISTER.register("network_cable", () -> BlockEntityType.Builder.of(CableBaseBlockEntity::new, NtmBlocks.RED_CABLE.get()).build(null));
     public static final Supplier<BlockEntityType<PipeBaseBlockEntity>> FLUID_DUCT = REGISTER.register("fluid_duct", () -> BlockEntityType.Builder.of(PipeBaseBlockEntity::new, NtmBlocks.FLUID_DUCT_NEO.get()).build(null));
@@ -111,18 +112,10 @@ public class NtmBlockEntityTypes {
 
     public static final Supplier<BlockEntityType<GeigerBlockEntity>> GEIGER_COUNTER = REGISTER.register("geiger_counter", () -> BlockEntityType.Builder.of(GeigerBlockEntity::new, NtmBlocks.GEIGER.get()).build(null));
 
-    public static final Supplier<BlockEntityType<LandMineBlockEntity>> LANDMINE = REGISTER.register(
-            "landmine",
-            () -> BlockEntityType.Builder.of(
-                    LandMineBlockEntity::new,
-                            NtmBlocks.MINE_AP.get(),
-                            NtmBlocks.MINE_HE.get(),
-                            NtmBlocks.MINE_SHRAP.get(),
-                            NtmBlocks.MINE_FAT.get(),
-                            NtmBlocks.MINE_NAVAL.get())
-                    .build(null));
+    public static final Supplier<BlockEntityType<LandMineBlockEntity>> LANDMINE = REGISTER.register("landmine", () -> BlockEntityType.Builder.of(LandMineBlockEntity::new, NtmBlocks.MINE_AP.get(), NtmBlocks.MINE_HE.get(), NtmBlocks.MINE_SHRAP.get(), NtmBlocks.MINE_FAT.get(), NtmBlocks.MINE_NAVAL.get()).build(null));
+    public static final Supplier<BlockEntityType<VolcanoCoreBlockEntity>> VOLCANO_CORE = REGISTER.register("volcano_core", () -> BlockEntityType.Builder.of(VolcanoCoreBlockEntity::new, NtmBlocks.VOLCANO_CORE.get(), NtmBlocks.VOLCANO_RAD_CORE.get()).build(null));
 
-    public static final Supplier<BlockEntityType<CrashedBombBlockEntity>> CRASHED_BOMB = REGISTER.register("crashed_bomb", () -> BlockEntityType.Builder.of(CrashedBombBlockEntity::new, NtmBlocks.CRASHED_BOMB_BALEFIRE.get(), NtmBlocks.CRASHED_BOMB_CONVENTIONAL.get(), NtmBlocks.CRASHED_BOMB_NUKE.get(), NtmBlocks.CRASHED_BOMB_SALTED.get()).build(null));
+    public static final Supplier<BlockEntityType<CrashedBombBlockEntity>> CRASHED_BOMB = REGISTER.register("crashed_bomb", () -> BlockEntityType.Builder.of(CrashedBombBlockEntity::new, NtmBlocks.CRASHED_BOMB.get()).build(null));
 
     public static void register(IEventBus eventBus) {
         REGISTER.register(eventBus);

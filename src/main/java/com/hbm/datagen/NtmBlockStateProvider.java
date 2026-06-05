@@ -1,10 +1,12 @@
 package com.hbm.datagen;
 
 import com.google.gson.JsonObject;
+import com.hbm.blocks.ICustomBlockModelRegister;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.blocks.generic.LayeringBlock;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
 import com.hbm.blocks.network.FluidDuctConnectingBlock;
+import com.hbm.blocks.states.NtmBlockStateProperties;
 import com.hbm.main.NuclearTechMod;
 import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.core.Direction;
@@ -20,6 +22,7 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 
 public class NtmBlockStateProvider extends BlockStateProvider {
 
@@ -36,10 +39,7 @@ public class NtmBlockStateProvider extends BlockStateProvider {
 
         simpleColumnBlockWithItem(NtmBlocks.BRICK_CONCRETE_MARKED.get(), modLoc("block/brick_concrete_marked"), modLoc("block/brick_concrete"));
 
-        this.particleOnlyBlock(NtmBlocks.PLUSHIE_YOMI.get(), blockTexture(Blocks.WHITE_WOOL));
-        this.particleOnlyBlock(NtmBlocks.PLUSHIE_NUMBERNINE.get(), blockTexture(Blocks.WHITE_WOOL));
-        this.particleOnlyBlock(NtmBlocks.PLUSHIE_HUNDUN.get(), blockTexture(Blocks.WHITE_WOOL));
-        this.particleOnlyBlock(NtmBlocks.PLUSHIE_DERG.get(), blockTexture(Blocks.WHITE_WOOL));
+        this.particleOnlyBlock(NtmBlocks.PLUSHIE.get(), blockTexture(Blocks.WHITE_WOOL));
 
         this.particleOnlyBlock(NtmBlocks.LAUNCH_PAD.get(), blockTexture(NtmBlocks.LAUNCH_PAD.get()));
 
@@ -69,11 +69,23 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.barrelLoaderBlockItem(NtmBlocks.BARREL_LOX.get(), blockTexture(NtmBlocks.BARREL_LOX.get()));
         this.barrelLoaderBlockItem(NtmBlocks.BARREL_TAINT.get(), blockTexture(NtmBlocks.BARREL_TAINT.get()));
 
+        this.particleOnlyBlock(NtmBlocks.CRASHED_BOMB.get(), modLoc("block/block_rust"), true);
+
         this.cubeSideBottomTop(NtmBlocks.DYNAMITE.get());
         this.cubeSideBottomTop(NtmBlocks.TNT.get());
         this.cubeSideBottomTop(NtmBlocks.SEMTEX.get());
         this.cubeSideBottomTop(NtmBlocks.C4.get());
         this.cubeSideBottomTop(NtmBlocks.FISSURE_BOMB.get());
+
+        for(Block block : BuiltInRegistries.BLOCK) {
+            if(BuiltInRegistries.BLOCK.getKey(block).getNamespace().equals(NuclearTechMod.MODID)) {
+                if(block instanceof ICustomBlockModelRegister icbmr) {
+                    ResourceLocation loc = Objects.requireNonNull(BuiltInRegistries.BLOCK.getKey(block));
+
+                    icbmr.registerModel(this, loc);
+                }
+            }
+        }
 
         cub3All(NtmBlocks.BRICK_LIGHT.get());
         cub3All(NtmBlocks.BRICK_OBSIDIAN.get());
@@ -255,13 +267,13 @@ public class NtmBlockStateProvider extends BlockStateProvider {
 
         this.getVariantBuilder(block).forAllStatesExcept(state -> {
 
-            int meta = state.getValue(FluidDuctConnectingBlock.META);
+            int meta = state.getValue(NtmBlockStateProperties.META);
             
             ModelFile model;
 
             switch(meta) {
-                case 3 -> model = this.models().getBuilder("hbmsntm:block/fluid_duct_silver").customLoader(DuctBlockLoaderBuilder::new).texture("texture", modLoc("block/pipe_silver")).texture("overlay", modLoc("block/pipe_silver_overlay")).end();
-                case 2 -> model = this.models().getBuilder("hbmsntm:block/fluid_duct_colored").customLoader(DuctBlockLoaderBuilder::new).texture("texture", modLoc("block/pipe_colored")).texture("overlay", modLoc("block/pipe_colored_overlay")).end();
+                case 2 -> model = this.models().getBuilder("hbmsntm:block/fluid_duct_silver").customLoader(DuctBlockLoaderBuilder::new).texture("texture", modLoc("block/pipe_silver")).texture("overlay", modLoc("block/pipe_silver_overlay")).end();
+                case 1 -> model = this.models().getBuilder("hbmsntm:block/fluid_duct_colored").customLoader(DuctBlockLoaderBuilder::new).texture("texture", modLoc("block/pipe_colored")).texture("overlay", modLoc("block/pipe_colored_overlay")).end();
                 default -> model = this.models().getBuilder("hbmsntm:block/fluid_duct_neo").customLoader(DuctBlockLoaderBuilder::new).texture("texture", modLoc("block/pipe_neo")).texture("overlay", modLoc("block/pipe_neo_overlay")).end();
             }
 

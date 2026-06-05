@@ -1,7 +1,7 @@
 package com.hbm.datagen;
 
-import com.hbm.main.NuclearTechMod;
 import com.hbm.blocks.NtmBlocks;
+import com.hbm.main.NuclearTechMod;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
@@ -11,9 +11,10 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.concurrent.CompletableFuture;
 
-// common bullshit
-import static net.neoforged.neoforge.common.Tags.Blocks.*;
 import static com.hbm.inventory.ModTags.Blocks.*;
+import static net.neoforged.neoforge.common.Tags.Blocks.PUMPKINS;
+
+// common bullshit
 
 public class NtmBlockTagProvider extends BlockTagsProvider {
 
@@ -146,5 +147,8 @@ public class NtmBlockTagProvider extends BlockTagsProvider {
                         NtmBlocks.WASTE_LEAVES.get(),
                         NtmBlocks.LEAVES_LAYER.get()
                 );
+
+        // vanilla compat
+        this.tag(BlockTags.STRIDER_WARM_BLOCKS).add(NtmBlocks.VOLCANIC_LAVA.get());
     }
 }

@@ -1,16 +1,52 @@
 {
   "variants": {
-    "pipe_meta=0": {
+    "meta=0": {
       "model": "hbmsntm:block/fluid_duct_neo"
     },
-    "pipe_meta=1": {
-      "model": "hbmsntm:block/fluid_duct_neo"
-    },
-    "pipe_meta=2": {
+    "meta=1": {
       "model": "hbmsntm:block/fluid_duct_colored"
     },
-    "pipe_meta=3": {
+    "meta=10": {
+      "model": "hbmsntm:block/fluid_duct_neo"
+    },
+    "meta=11": {
+      "model": "hbmsntm:block/fluid_duct_neo"
+    },
+    "meta=12": {
+      "model": "hbmsntm:block/fluid_duct_neo"
+    },
+    "meta=13": {
+      "model": "hbmsntm:block/fluid_duct_neo"
+    },
+    "meta=14": {
+      "model": "hbmsntm:block/fluid_duct_neo"
+    },
+    "meta=15": {
+      "model": "hbmsntm:block/fluid_duct_neo"
+    },
+    "meta=2": {
       "model": "hbmsntm:block/fluid_duct_silver"
+    },
+    "meta=3": {
+      "model": "hbmsntm:block/fluid_duct_neo"
+    },
+    "meta=4": {
+      "model": "hbmsntm:block/fluid_duct_neo"
+    },
+    "meta=5": {
+      "model": "hbmsntm:block/fluid_duct_neo"
+    },
+    "meta=6": {
+      "model": "hbmsntm:block/fluid_duct_neo"
+    },
+    "meta=7": {
+      "model": "hbmsntm:block/fluid_duct_neo"
+    },
+    "meta=8": {
+      "model": "hbmsntm:block/fluid_duct_neo"
+    },
+    "meta=9": {
+      "model": "hbmsntm:block/fluid_duct_neo"
     }
   }
 }

@@ -11,6 +11,7 @@ import com.hbm.blocks.generic.SellafieldSlakedBlock;
 import com.hbm.config.NtmConfig;
 import com.hbm.entity.NtmEntityTypes;
 import com.hbm.extprop.HbmLivingAttachments;
+import com.hbm.fluids.NtmFluidTypes;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.interfaces.IHoldableWeapon;
@@ -30,6 +31,7 @@ import com.hbm.particle.engine.ParticleEngineNT;
 import com.hbm.particle.engine.util.SpriteSetNT;
 import com.hbm.particle.helper.ParticleCreators;
 import com.hbm.particle.vanilla.PlayerCloudParticle;
+import com.hbm.particle.vanilla.SmokeParticle;
 import com.hbm.registry.NtmBiomes;
 import com.hbm.render.blockentity.*;
 import com.hbm.render.entity.EmptyEntityRenderer;
@@ -117,6 +119,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent.Stage;
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
@@ -156,6 +159,26 @@ public class NuclearTechModClient {
                 }
             }
         });
+    }
+
+
+    @SubscribeEvent
+    public static void onRegisterClientExtensions(RegisterClientExtensionsEvent event) {
+        event.registerFluidType(new IClientFluidTypeExtensions() {
+            private static final ResourceLocation STILL = NuclearTechMod.withDefaultNamespace("block/volcanic_lava_still");
+            private static final ResourceLocation FLOWING = NuclearTechMod.withDefaultNamespace("block/volcanic_lava_flowing");;
+
+            @Override
+            public ResourceLocation getStillTexture() {
+                return STILL;
+            }
+
+            @Override
+            public ResourceLocation getFlowingTexture() {
+                return FLOWING;
+            }
+
+        }, NtmFluidTypes.VOLCANIC_LAVA_TYPE.get());
     }
 
     @SubscribeEvent
@@ -1224,17 +1247,17 @@ public class NuclearTechModClient {
                 }
             }
 
-            if ("vanillaExt".equals(type)) {
+            if("vanillaExt".equals(type)) {
                 double mX = data.getDouble("mX");
                 double mY = data.getDouble("mY");
                 double mZ = data.getDouble("mZ");
 
                 Particle particle = null;
 
-                if ("cloud".equals(data.getString("mode"))) {
+                if("cloud".equals(data.getString("mode"))) {
                     particle = new PlayerCloudParticle(level, x, y, z, mX, mY, mZ);
 
-                    if (data.contains("r")) {
+                    if(data.contains("r")) {
                         float rng = rand.nextFloat() * 0.1F;
                         particle.setColor(data.getFloat("r") + rng, data.getFloat("g") + rng, data.getFloat("b") + rng);
                         ((PlayerCloudParticle) particle).scaleFactor = 7.5F;
@@ -1242,15 +1265,20 @@ public class NuclearTechModClient {
                     }
                 }
 
-                if ("townaura".equals(data.getString("mode"))) {
+                if("townaura".equals(data.getString("mode"))) {
                     particle = new ParticleAura(level, x, y, z, 0, 0, 0);
                     float color = 0.5F + rand.nextFloat() * 0.5F;
                     particle.setColor(0.8F * color, 0.9F * color, 1.0F * color);
                     particle.setParticleSpeed(mX, mY, mZ);
                 }
 
+                if("volcano".equals(data.getString("mode"))) {
+                    particle = new SmokeParticle(level, x, y, z, mX, mY, mZ, 100, false);
+                    particle.setLifetime(200 + rand.nextInt(50));
+                    particle.setParticleSpeed(rand.nextGaussian() * 0.2, 2.5 + rand.nextDouble(), rand.nextGaussian() * 0.2);
+                }
 
-                if (particle != null) {
+                if(particle != null) {
                     innerMc.particleEngine.add(particle);
                 }
             }

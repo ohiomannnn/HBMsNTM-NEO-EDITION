@@ -1,7 +1,7 @@
 package com.hbm.blocks;
 
 import com.hbm.blocks.bomb.*;
-import com.hbm.blocks.bomb.CrashedBombBlock.DudType;
+import com.hbm.blocks.fluids.VolcanicLiquidBlock;
 import com.hbm.blocks.gas.*;
 import com.hbm.blocks.generic.*;
 import com.hbm.blocks.generic.PlushieBlock.PlushieType;
@@ -10,14 +10,15 @@ import com.hbm.blocks.network.CableBlock;
 import com.hbm.blocks.network.FluidDuctStandardBlock;
 import com.hbm.blocks.network.MachineBatteryREDDBlock;
 import com.hbm.blocks.network.MachineBatterySocketBlock;
-import com.hbm.blocks.generic.WritingBlock;
+import com.hbm.fluids.NtmFluids;
 import com.hbm.items.NtmItems;
+import com.hbm.items.block.BlockItemBase;
 import com.hbm.main.NuclearTechMod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.ColorRGBA;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -144,7 +145,7 @@ public class NtmBlocks {
                     .sound(SoundType.STONE)));
 
     public static final DeferredBlock<Block> RED_CABLE = registerBlock("red_cable", () -> new CableBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(10.0F).noOcclusion().sound(SoundType.METAL)));
-    public static final DeferredBlock<Block> FLUID_DUCT_NEO = registerBlock("fluid_duct_neo", () -> new FluidDuctStandardBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(10.0F).noOcclusion().sound(ModSoundTypes.PIPE)));
+    public static final DeferredBlock<Block> FLUID_DUCT_NEO = registerBlockNew("fluid_duct_neo", () -> new FluidDuctStandardBlock(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(10.0F).noOcclusion().sound(ModSoundTypes.PIPE)));
 
     public static final DeferredBlock<Block> MACHINE_SATLINKER = registerBlock(
             "machine_satlinker",
@@ -192,22 +193,27 @@ public class NtmBlocks {
                     .noOcclusion()
                     .sound(SoundType.METAL)));
 
-    public static final DeferredBlock<Block> GAS_RADON =       registerBlock("gas_radon",       () -> new GasRadonBlock(      BlockBehaviour.Properties.of().noOcclusion().replaceable().noCollission().noLootTable()));
-    public static final DeferredBlock<Block> GAS_RADON_DENSE = registerBlock("gas_radon_dense", () -> new GasRadonDenseBlock( BlockBehaviour.Properties.of().noOcclusion().replaceable().noCollission().noLootTable()));
-    public static final DeferredBlock<Block> GAS_RADON_TOMB =  registerBlock("gas_radon_tomb",  () -> new GasRadonTombBlock(  BlockBehaviour.Properties.of().noOcclusion().replaceable().noCollission().noLootTable()));
-    public static final DeferredBlock<Block> GAS_MELTDOWN =    registerBlock("gas_meltdown",    () -> new GasMeltdownBlock(   BlockBehaviour.Properties.of().noOcclusion().replaceable().noCollission().noLootTable()));
-    public static final DeferredBlock<Block> GAS_MONOXIDE =    registerBlock("gas_monoxide",    () -> new GasMonoxideBlock(   BlockBehaviour.Properties.of().noOcclusion().replaceable().noCollission().noLootTable()));
-    public static final DeferredBlock<Block> GAS_ASBESTOS =    registerBlock("gas_asbestos",    () -> new GasAsbestosBlock(   BlockBehaviour.Properties.of().noOcclusion().replaceable().noCollission().noLootTable()));
-    public static final DeferredBlock<Block> GAS_COAL =        registerBlock("gas_coal",        () -> new GasCoalBlock(       BlockBehaviour.Properties.of().noOcclusion().replaceable().noCollission().noLootTable()));
-    public static final DeferredBlock<Block> GAS_FLAMMABLE =   registerBlock("gas_flammable",   () -> new GasFlammableBlock(  BlockBehaviour.Properties.of().noOcclusion().replaceable().noCollission().noLootTable()));
-    public static final DeferredBlock<Block> GAS_EXPLOSIVE =   registerBlock("gas_explosive",   () -> new GasExplosiveBlock(  BlockBehaviour.Properties.of().noOcclusion().replaceable().noCollission().noLootTable()));
+    public static final DeferredBlock<Block> GAS_RADON =       registerBlock("gas_radon",       () -> new GasRadonBlock(      BlockBehaviour.Properties.of().replaceable().noCollission().noOcclusion().noLootTable()));
+    public static final DeferredBlock<Block> GAS_RADON_DENSE = registerBlock("gas_radon_dense", () -> new GasRadonDenseBlock( BlockBehaviour.Properties.of().replaceable().noCollission().noOcclusion().noLootTable()));
+    public static final DeferredBlock<Block> GAS_RADON_TOMB =  registerBlock("gas_radon_tomb",  () -> new GasRadonTombBlock(  BlockBehaviour.Properties.of().replaceable().noCollission().noOcclusion().noLootTable()));
+    public static final DeferredBlock<Block> GAS_MELTDOWN =    registerBlock("gas_meltdown",    () -> new GasMeltdownBlock(   BlockBehaviour.Properties.of().replaceable().noCollission().noOcclusion().noLootTable()));
+    public static final DeferredBlock<Block> GAS_MONOXIDE =    registerBlock("gas_monoxide",    () -> new GasMonoxideBlock(   BlockBehaviour.Properties.of().replaceable().noCollission().noOcclusion().noLootTable()));
+    public static final DeferredBlock<Block> GAS_ASBESTOS =    registerBlock("gas_asbestos",    () -> new GasAsbestosBlock(   BlockBehaviour.Properties.of().replaceable().noCollission().noOcclusion().noLootTable()));
+    public static final DeferredBlock<Block> GAS_COAL =        registerBlock("gas_coal",        () -> new GasCoalBlock(       BlockBehaviour.Properties.of().replaceable().noCollission().noOcclusion().noLootTable()));
+    public static final DeferredBlock<Block> GAS_FLAMMABLE =   registerBlock("gas_flammable",   () -> new GasFlammableBlock(  BlockBehaviour.Properties.of().replaceable().noCollission().noOcclusion().noLootTable()));
+    public static final DeferredBlock<Block> GAS_EXPLOSIVE =   registerBlock("gas_explosive",   () -> new GasExplosiveBlock(  BlockBehaviour.Properties.of().replaceable().noCollission().noOcclusion().noLootTable()));
+
+    // E
+    public static final DeferredBlock<Block> BALEFIRE =     BLOCKS.register("balefire",     () -> new BalefireBlock(     BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).replaceable().noCollission().noOcclusion().strength(0F).lightLevel(state -> 15).sound(SoundType.WOOL).pushReaction(PushReaction.DESTROY)));
+    public static final DeferredBlock<Block> FIRE_DIGAMMA = BLOCKS.register("fire_digamma", () -> new DigammaFlameBlock( BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).replaceable().noCollission().noOcclusion().strength(0F, 150F).lightLevel(state -> 10).sound(SoundType.WOOL).pushReaction(PushReaction.DESTROY)));
+    public static final DeferredBlock<Block> VOLCANO_CORE =     registerBlockNew("volcano_core",     () -> new VolcanoBlock(BlockBehaviour.Properties.of().strength(-1.0F, 10000.0F).mapColor(MapColor.NETHER)));
+    public static final DeferredBlock<Block> VOLCANO_RAD_CORE = registerBlockNew("volcano_rad_core", () -> new VolcanoBlock(BlockBehaviour.Properties.of().strength(-1.0F, 10000.0F).mapColor(DyeColor.GREEN)));
+
+    public static final DeferredBlock<LiquidBlock> VOLCANIC_LAVA = BLOCKS.register("volcanic_lava", () -> new VolcanicLiquidBlock(NtmFluids.VOLCANIC_LAVA.get(), BlockBehaviour.Properties.of().randomTicks().noCollission().replaceable().strength(500F).lightLevel(state -> 15).pushReaction(PushReaction.DESTROY).noLootTable().liquid().sound(SoundType.EMPTY)));
 
     public static final DeferredBlock<Block> TAINT = registerBlock("taint", () -> new TaintBlock(BlockBehaviour.Properties.of().randomTicks().strength(15.0F, 10.0F).noLootTable().mapColor(DyeColor.GRAY)));
 
-    public static final DeferredBlock<Block> PLUSHIE_YOMI =       registerBlock("plushie_yomi",       () -> new PlushieBlock(BlockBehaviour.Properties.of().noOcclusion().instabreak().sound(SoundType.WOOL).mapColor(DyeColor.WHITE), PlushieType.YOMI));
-    public static final DeferredBlock<Block> PLUSHIE_NUMBERNINE = registerBlock("plushie_numbernine", () -> new PlushieBlock(BlockBehaviour.Properties.of().noOcclusion().instabreak().sound(SoundType.WOOL).mapColor(DyeColor.WHITE), PlushieType.NUMBERNINE));
-    public static final DeferredBlock<Block> PLUSHIE_HUNDUN =     registerBlock("plushie_hundun",     () -> new PlushieBlock(BlockBehaviour.Properties.of().noOcclusion().instabreak().sound(SoundType.WOOL).mapColor(DyeColor.WHITE), PlushieType.HUNDUN));
-    public static final DeferredBlock<Block> PLUSHIE_DERG =       registerBlock("plushie_derg",       () -> new PlushieBlock(BlockBehaviour.Properties.of().noOcclusion().instabreak().sound(SoundType.WOOL).mapColor(DyeColor.WHITE), PlushieType.DERG));
+    public static final DeferredBlock<Block> PLUSHIE = registerBlockNew("plushie", () -> new PlushieBlock(BlockBehaviour.Properties.of().noOcclusion().instabreak().sound(SoundType.WOOL).mapColor(DyeColor.WHITE)));
 
     public static final DeferredBlock<Block> GEIGER = registerBlock(
             "geiger",
@@ -245,10 +251,7 @@ public class NtmBlocks {
     public static final DeferredBlock<Block> BARREL_PINK =  registerBlock("barrel_pink",  () -> new RedBarrelBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.1F).explosionResistance(2.5F).sound(SoundType.METAL), true));
     public static final DeferredBlock<Block> BARREL_LOX =   registerBlock("barrel_lox",   () -> new RedBarrelBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.1F).explosionResistance(2.5F).sound(SoundType.METAL), false));
     public static final DeferredBlock<Block> BARREL_TAINT = registerBlock("barrel_taint", () -> new RedBarrelBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.1F).explosionResistance(2.5F).sound(SoundType.METAL), false));
-    public static final DeferredBlock<Block> CRASHED_BOMB_BALEFIRE =     registerBlock("crashed_bomb_balefire",     () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL).mapColor(MapColor.METAL), DudType.BALEFIRE));
-    public static final DeferredBlock<Block> CRASHED_BOMB_CONVENTIONAL = registerBlock("crashed_bomb_conventional", () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL).mapColor(MapColor.METAL), DudType.CONVENTIONAL));
-    public static final DeferredBlock<Block> CRASHED_BOMB_NUKE =         registerBlock("crashed_bomb_nuke",         () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL).mapColor(MapColor.METAL), DudType.NUKE));
-    public static final DeferredBlock<Block> CRASHED_BOMB_SALTED =       registerBlock("crashed_bomb_salted",       () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL).mapColor(MapColor.METAL), DudType.SALTED));
+    public static final DeferredBlock<Block> CRASHED_BOMB = registerBlockNew("crashed_bomb", () -> new CrashedBombBlock(BlockBehaviour.Properties.of().noLootTable().noOcclusion().strength(6000.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
     public static final DeferredBlock<Block> MINE_AP =    registerBlock("mine_ap",    () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().strength(1.0F, 0.0F).sound(SoundType.METAL).mapColor(MapColor.METAL), 1.5D, 1D));
     public static final DeferredBlock<Block> MINE_HE =    registerBlock("mine_he",    () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().strength(1.0F, 0.0F).sound(SoundType.METAL).mapColor(MapColor.METAL), 2D, 5D));
     public static final DeferredBlock<Block> MINE_SHRAP = registerBlock("mine_shrap", () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().strength(1.0F, 0.0F).sound(SoundType.METAL).mapColor(MapColor.METAL), 1.5D, 1D));
@@ -304,43 +307,23 @@ public class NtmBlocks {
                     .strength(15.0F)
                     .requiresCorrectToolForDrops()));
 
-    public static final DeferredBlock<Block> VOLCANIC_LAVA_BLOCK = registerBlock("volcanic_lava_block",
-            () -> new Block(BlockBehaviour.Properties.of()
-                    .noLootTable()
-                    .sound(SoundType.STONE)));
-
     public static final DeferredBlock<Block> RAD_LAVA_BLOCK = registerBlock("rad_lava_block",
             () -> new Block(BlockBehaviour.Properties.of()
                     .noLootTable()
                     .sound(SoundType.STONE)));
 
-    public static final DeferredBlock<Block> BALEFIRE = BLOCKS.register(
-            "balefire",
-            () -> new BalefireBlock(BlockBehaviour.Properties.of()
-                    .replaceable()
-                    .noCollission()
-                    .lightLevel(state -> 15)
-                    .noLootTable()));
-
-    public static final DeferredBlock<Block> FIRE_DIGAMMA = registerBlock(
-            "fire_digamma",
-            () -> new DigammaFlameBlock(BlockBehaviour.Properties.of()
-                    .noCollission()
-                    .noOcclusion()
-                    .lightLevel(state -> 10)
-                    .noLootTable()));
-
-    private static boolean always(BlockState state, BlockGetter blockGetter, BlockPos pos) {
-        return true;
-    }
-
-    private static boolean never(BlockState state, BlockGetter blockGetter, BlockPos pos) {
-        return false;
-    }
+    private static boolean always(BlockState state, BlockGetter blockGetter, BlockPos pos) { return true; }
+    private static boolean never(BlockState state, BlockGetter blockGetter, BlockPos pos) { return false; }
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> defBlock = BLOCKS.register(name, block);
-        NtmItems.ITEMS.register(name, () -> new BlockItem(defBlock.get(), new Item.Properties()));
+        NtmItems.ITEMS.register(name, () -> new BlockItem(defBlock.get(), new Properties()));
+        return defBlock;
+    }
+
+    private static <T extends Block> DeferredBlock<T> registerBlockNew(String name, Supplier<T> block) {
+        DeferredBlock<T> defBlock = BLOCKS.register(name, block);
+        NtmItems.ITEMS.register(name, () -> new BlockItemBase(defBlock.get(), new Properties()));
         return defBlock;
     }
 
