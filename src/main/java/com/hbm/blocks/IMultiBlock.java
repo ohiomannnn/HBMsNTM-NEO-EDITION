@@ -7,7 +7,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
 
-public interface IMultiBlock extends ICustomBlockModelRegister {
+public interface IMultiBlock {
 
     int getMeta(BlockState state);
     int getSubCount();
@@ -18,7 +18,7 @@ public interface IMultiBlock extends ICustomBlockModelRegister {
         }
     }
 
-    default String getOverrideDescriptionId(ItemStack stack) {
+    default String getItemDescriptionId(ItemStack stack) {
         return null;
     }
 

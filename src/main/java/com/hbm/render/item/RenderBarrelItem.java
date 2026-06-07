@@ -18,7 +18,6 @@ public class RenderBarrelItem extends ItemRenderBaseStandard {
 
     @Override
     public void renderCommon(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-        poseStack.translate(-0.5, 0, -0.5);
 
         VertexConsumer consumer = buffer.getBuffer(SOLID);
         this.renderModel(poseStack, consumer, models[this.getBarrelType(stack)], packedLight, packedOverlay);

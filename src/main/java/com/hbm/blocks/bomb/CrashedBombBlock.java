@@ -62,8 +62,8 @@ public class CrashedBombBlock extends EnumMultiBlock implements EntityBlock, IBo
     @Override
     public BombReturnCode explode(Level level, BlockPos pos) {
         if(!level.isClientSide) {
-            level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
             DudType type = EnumUtil.grabEnumSafely(DudType.class, this.getMeta(level.getBlockState(pos)));
+            level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
 
             if(ModList.get().isLoaded("sable")) pos = SableCompat.getProj(level, pos);
 

@@ -124,6 +124,7 @@ public class ResourceManager {
     public static IModelCustom armor_no9;
 
     public static HFRWavefrontObject barrel;
+    public static HFRWavefrontObject barbed_wire;
     public static HFRWavefrontObject cable_neo;
     public static HFRWavefrontObject pipe_neo;
     public static HFRWavefrontObject difurnace_extension;
@@ -188,6 +189,7 @@ public class ResourceManager {
         armor_no9 = new HFRWavefrontObject("models/obj/armor/no9.obj").asVBO();
 
         barrel = new HFRWavefrontObject("models/obj/block/barrel.obj");
+        barbed_wire = new HFRWavefrontObject("models/obj/block/barbed_wire.obj");
         cable_neo = new HFRWavefrontObject("models/obj/block/cable_neo.obj");
         pipe_neo = new HFRWavefrontObject("models/obj/block/pipe_neo.obj");
         difurnace_extension = new HFRWavefrontObject("models/obj/block/difurnace_extension.obj");

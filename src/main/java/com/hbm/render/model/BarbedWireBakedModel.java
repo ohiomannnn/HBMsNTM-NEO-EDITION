@@ -18,17 +18,19 @@ import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 
-public class BarrelBakedModel extends AbstractWavefrontBakedModel {
+public class BarbedWireBakedModel extends AbstractWavefrontBakedModel {
 
     private static final ModelProperty<Boolean> IN_LEVEL = new ModelProperty<>();
 
     private final TextureAtlasSprite baseSprite;
     private List<BakedQuad> quads;
 
-    public BarrelBakedModel(HFRWavefrontObject model, TextureAtlasSprite baseSprite) {
+    public BarbedWireBakedModel(HFRWavefrontObject model, TextureAtlasSprite baseSprite) {
         super(model, ItemTransforms.NO_TRANSFORMS);
         this.baseSprite = baseSprite;
     }
+
+    @Override public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction direction, RandomSource random) { return Collections.emptyList(); }
 
     @Override
     public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction direction, RandomSource random, ModelData data, @Nullable RenderType type) {
@@ -41,12 +43,13 @@ public class BarrelBakedModel extends AbstractWavefrontBakedModel {
         return quads;
     }
 
-    @Override public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction direction, RandomSource random) { return Collections.emptyList(); }
-
     @Override
     public ModelData getModelData(BlockAndTintGetter level, BlockPos pos, BlockState state, ModelData data) {
         return ModelData.builder().with(IN_LEVEL, true).build();
     }
+
+    private static final ChunkRenderTypeSet RENDER_TYPE = ChunkRenderTypeSet.of(RenderType.cutout());
+    @Override public ChunkRenderTypeSet getRenderTypes(BlockState state, RandomSource rand, ModelData data) { return RENDER_TYPE; }
 
     @Override
     public TextureAtlasSprite getParticleIcon() {

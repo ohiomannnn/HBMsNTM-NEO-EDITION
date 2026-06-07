@@ -61,9 +61,9 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
             RenderContext.scale(1F,  (float) (1F + (-(Math.sin(squish)) * squish) * 0.025F), 1F);
         }
 
-        PlushieType type = EnumUtil.grabEnumSafely(PlushieType.class, MetaHelper.getMeta(be.getBlockState()));
+        PlushieType type = EnumUtil.grabEnumSafely(PlushieType.class, be.getMeta());
 
-        switch (type) {
+        switch(type) {
             case YOMI -> poseStack.scale(0.5F, 0.5F, 0.5F);
             case NUMBERNINE -> poseStack.scale(0.75F, 0.75F, 0.75F);
             case HUNDUN -> poseStack.scale(1F, 1F, 1F);

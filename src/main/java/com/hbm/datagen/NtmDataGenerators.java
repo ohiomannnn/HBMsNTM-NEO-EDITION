@@ -3,6 +3,9 @@ package com.hbm.datagen;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.registry.NtmDamageTypes;
 import com.hbm.registry.NtmBiomes;
+import com.hbm.world.gen.NtmBiomeModifiers;
+import com.hbm.world.gen.NtmConfiguredFeatures;
+import com.hbm.world.gen.NtmPlacedFeatures;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
@@ -17,6 +20,7 @@ import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 import java.util.Collections;
 import java.util.List;
@@ -37,6 +41,9 @@ public class NtmDataGenerators {
         RegistrySetBuilder builder = new RegistrySetBuilder();
         builder.add(Registries.DAMAGE_TYPE, NtmDamageTypes::bootstrap);
         builder.add(Registries.BIOME, NtmBiomes::bootstrap);
+        builder.add(Registries.CONFIGURED_FEATURE, NtmConfiguredFeatures::bootstrap);
+        builder.add(Registries.PLACED_FEATURE, NtmPlacedFeatures::bootstrap);
+        builder.add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, NtmBiomeModifiers::bootstrap);
         DatapackBuiltinEntriesProvider datapackProvider = new DatapackBuiltinEntriesProvider(output, lookup, builder, Set.of(NuclearTechMod.MODID));
         generator.addProvider(event.includeServer(), datapackProvider);
 
@@ -44,6 +51,7 @@ public class NtmDataGenerators {
         generator.addProvider(event.includeClient(), new NtmItemModelProvider(output, helper));
         generator.addProvider(event.includeClient(), new NtmBlockStateProvider(output, helper));
         generator.addProvider(event.includeClient(), new NtmSoundDefinitionsProvider(output, helper));
+        generator.addProvider(event.includeClient(), new NtmLanguageProvider(output));
 
         // Server things
         LootTableProvider.SubProviderEntry blockLootTableSubProvider = new LootTableProvider.SubProviderEntry(NtmBlockLootTableProvider::new, LootContextParamSets.BLOCK);

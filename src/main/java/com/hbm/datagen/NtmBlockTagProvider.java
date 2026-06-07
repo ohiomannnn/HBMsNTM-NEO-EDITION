@@ -86,11 +86,17 @@ public class NtmBlockTagProvider extends BlockTagsProvider {
 
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(
+                        NtmBlocks.ASPHALT.get(),
+                        NtmBlocks.ASPHALT_LIGHT.get(),
+
                         NtmBlocks.BRICK_CONCRETE.get(),
                         NtmBlocks.BRICK_CONCRETE_MOSSY.get(),
                         NtmBlocks.BRICK_CONCRETE_CRACKED.get(),
                         NtmBlocks.BRICK_CONCRETE_BROKEN.get(),
                         NtmBlocks.BRICK_CONCRETE_MARKED.get(),
+
+                        NtmBlocks.BARBED_WIRE.get(),
+                        NtmBlocks.SPIKES.get(),
 
                         NtmBlocks.BRICK_CONCRETE_STAIRS.get(),
                         NtmBlocks.BRICK_CONCRETE_MOSSY_STAIRS.get(),

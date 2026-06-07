@@ -1,15 +1,62 @@
 package com.hbm.blocks.generic;
 
-import com.hbm.blocks.EnumMultiBlock;
+import com.hbm.blockentity.IScreenProvider;
+import com.hbm.blocks.IMultiBlock;
+import com.hbm.inventory.MetaHelper;
+import com.hbm.inventory.screens.BobbleScreen;
+import com.hbm.util.EnumUtil;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.storage.loot.LootParams.Builder;
+import net.minecraft.world.phys.HitResult;
 
-public class BobbleBlock extends EnumMultiBlock implements EntityBlock {
+import java.util.List;
+import java.util.Locale;
+
+public class BobbleBlock extends Block implements IMultiBlock, EntityBlock, IScreenProvider {
+
+    private static final IntegerProperty META = IntegerProperty.create("meta", 0, BobbleType.values().length);
 
     public BobbleBlock(Properties properties) {
-        super(properties, BobbleType.class, true, false);
+        super(properties);
+
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(META, 0)
+        );
+    }
+
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return this.defaultBlockState().setValue(META, MetaHelper.getMeta(context.getItemInHand()));
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(META);
+    }
+
+    @Override
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
+        ItemStack stack = super.getCloneItemStack(state, target, level, pos, player);
+        MetaHelper.setMeta(stack, rectify(this.getMeta(state)));
+        return stack;
+    }
+
+    @Override
+    protected List<ItemStack> getDrops(BlockState state, Builder params) {
+        List<ItemStack> droppedStacks = super.getDrops(state, params);
+        droppedStacks.forEach(stack -> MetaHelper.setMeta(stack, rectify(this.getMeta(state))));
+        return droppedStacks;
     }
 
     @Override
@@ -17,8 +64,20 @@ public class BobbleBlock extends EnumMultiBlock implements EntityBlock {
         return null;
     }
 
+    @Override
+    public Screen provideScreenOnRightClick(Player player, BlockPos pos) {
+        return new BobbleScreen(EnumUtil.grabEnumSafely(BobbleType.class, this.getMeta(player.level.getBlockState(pos))));
+    }
 
-    // todo make strings translatable!!!
+    @Override public int getMeta(BlockState state) { return state.getValue(META); }
+    @Override public int getSubCount() { return BobbleType.values().length; }
+
+    @Override
+    public String getItemDescriptionId(ItemStack stack) {
+        Enum<?> num = EnumUtil.grabEnumSafely(BobbleType.class, MetaHelper.getMeta(stack));
+        return super.getDescriptionId() + "." + num.name().toLowerCase(Locale.US);
+    }
+
     public enum BobbleType {
 
         NONE(			"null",								"null",             null,														null,																								false,	ScrapType.BOARD_BLANK),

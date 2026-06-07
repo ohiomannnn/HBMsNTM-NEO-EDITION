@@ -1,10 +1,10 @@
 package com.hbm.blocks.generic;
 
+import com.hbm.blockentity.BlockEntityNT;
 import com.hbm.blockentity.ITickable;
 import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.blocks.EnumMultiBlock;
 import com.hbm.blocks.ITooltipProvider;
-import com.hbm.inventory.MetaHelper;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.EnumUtil;
 import net.minecraft.ChatFormatting;
@@ -98,7 +98,7 @@ public class PlushieBlock extends EnumMultiBlock implements EntityBlock, IToolti
         return InteractionResult.SUCCESS;
     }
 
-    public static class PlushieBlockEntity extends BlockEntity implements ITickable {
+    public static class PlushieBlockEntity extends BlockEntityNT implements ITickable {
 
         public int squishTimer;
 

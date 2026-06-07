@@ -1,7 +1,6 @@
 package com.hbm.blocks.network;
 
 import com.hbm.blockentity.network.PipeBaseBlockEntity;
-import com.hbm.blocks.IMetaBlock;
 import com.hbm.blocks.IMultiBlock;
 import com.hbm.blocks.states.NtmBlockStateProperties;
 import com.hbm.inventory.MetaHelper;
@@ -9,7 +8,6 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.lib.Library;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -22,10 +20,8 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootParams.Builder;
 import net.minecraft.world.phys.HitResult;
-import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 
 import java.util.List;
 
@@ -112,6 +108,4 @@ public class FluidDuctConnectingBlock extends FluidDuctBaseBlock implements IMul
             level.setBlock(pos, newState, 3);
         }
     }
-
-    @Override public void registerModel(BlockStateProvider provider, ResourceLocation modelLocation) { }
 }

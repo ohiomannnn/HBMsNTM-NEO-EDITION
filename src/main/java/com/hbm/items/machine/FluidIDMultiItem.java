@@ -1,6 +1,6 @@
 package com.hbm.items.machine;
 
-import com.hbm.blockentity.IGUIProvider;
+import com.hbm.blockentity.IScreenProvider;
 import com.hbm.inventory.MetaHelper;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
@@ -31,7 +31,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.List;
 
-public class FluidIDMultiItem extends Item implements IGUIProvider, IItemControlReceiver, IItemFluidIdentifier {
+public class FluidIDMultiItem extends Item implements IScreenProvider, IItemControlReceiver, IItemFluidIdentifier {
 
     public FluidIDMultiItem(Properties properties) {
         super(properties);

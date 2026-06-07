@@ -245,8 +245,6 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
 
         level.scheduleTick(pos, this, 1);
         level.scheduleTick(pos, this, 2);
-
-        super.setPlacedBy(level, pos, state, placer, stack);
     }
 
     /**

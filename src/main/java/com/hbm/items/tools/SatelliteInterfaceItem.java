@@ -1,6 +1,6 @@
 package com.hbm.items.tools;
 
-import com.hbm.blockentity.IGUIProvider;
+import com.hbm.blockentity.IScreenProvider;
 import com.hbm.inventory.screens.SatelliteInterfaceScreen;
 import com.hbm.items.machine.SatChipItem;
 import com.hbm.network.toclient.SatellitePanel;
@@ -19,7 +19,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-public class SatelliteInterfaceItem extends SatChipItem implements IGUIProvider {
+public class SatelliteInterfaceItem extends SatChipItem implements IScreenProvider {
 
     @OnlyIn(Dist.CLIENT)
     public static Satellite currentSat;

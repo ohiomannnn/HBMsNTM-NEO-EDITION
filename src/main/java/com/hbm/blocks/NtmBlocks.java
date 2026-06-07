@@ -4,7 +4,6 @@ import com.hbm.blocks.bomb.*;
 import com.hbm.blocks.fluids.VolcanicLiquidBlock;
 import com.hbm.blocks.gas.*;
 import com.hbm.blocks.generic.*;
-import com.hbm.blocks.generic.PlushieBlock.PlushieType;
 import com.hbm.blocks.machine.*;
 import com.hbm.blocks.network.CableBlock;
 import com.hbm.blocks.network.FluidDuctStandardBlock;
@@ -33,16 +32,26 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import java.util.function.Supplier;
 
 public class NtmBlocks {
+
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(NuclearTechMod.MODID);
 
-    public static final DeferredBlock<Block> BRICK_CONCRETE =         registerBlock("brick_concrete",         () -> new Block(BlockBehaviour.Properties.of().strength(15.0F, 160.0F).requiresCorrectToolForDrops().sound(SoundType.STONE).mapColor(MapColor.STONE)));
-    public static final DeferredBlock<Block> BRICK_CONCRETE_MOSSY =   registerBlock("brick_concrete_mossy",   () -> new Block(BlockBehaviour.Properties.of().strength(15.0F, 160.0F).requiresCorrectToolForDrops().sound(SoundType.STONE).mapColor(MapColor.STONE)));
-    public static final DeferredBlock<Block> BRICK_CONCRETE_CRACKED = registerBlock("brick_concrete_cracked", () -> new Block(BlockBehaviour.Properties.of().strength(15.0F, 60.0F).requiresCorrectToolForDrops().sound(SoundType.STONE).mapColor(MapColor.STONE)));
-    public static final DeferredBlock<Block> BRICK_CONCRETE_BROKEN =  registerBlock("brick_concrete_broken",  () -> new Block(BlockBehaviour.Properties.of().strength(15.0F, 45.0F).requiresCorrectToolForDrops().sound(SoundType.STONE).mapColor(MapColor.STONE)));
-    public static final DeferredBlock<Block> BRICK_CONCRETE_MARKED =  registerBlock("brick_concrete_marked",  () -> new WritingBlock(BlockBehaviour.Properties.of().strength(15.0F, 160.0F).requiresCorrectToolForDrops().sound(SoundType.STONE).mapColor(MapColor.STONE)));
+    // Reinforced Blocks
+    public static final DeferredBlock<Block> ASPHALT =       registerBlock("asphalt",       () -> new SpeedyBlock(1.5, BlockBehaviour.Properties.of().strength(15.0F, 120.0F)                                  .mapColor(MapColor.COLOR_BLACK)));
+    public static final DeferredBlock<Block> ASPHALT_LIGHT = registerBlock("asphalt_light", () -> new SpeedyBlock(1.5, BlockBehaviour.Properties.of().strength(15.0F, 120.0F).lightLevel(state -> 15).mapColor(MapColor.SAND)));
 
-    public static final DeferredBlock<Block> BRICK_LIGHT = registerBlock("brick_light", () -> new Block(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(20.0F).requiresCorrectToolForDrops().sound(SoundType.STONE)));
-    public static final DeferredBlock<Block> BRICK_OBSIDIAN = registerBlock("brick_obsidian", () -> new Block(BlockBehaviour.Properties.of().strength(15.0F).explosionResistance(120.0F).requiresCorrectToolForDrops().sound(SoundType.STONE)));
+    // Bricks
+    public static final DeferredBlock<Block> BRICK_CONCRETE =         registerBlock("brick_concrete",         () -> new Block(        BlockBehaviour.Properties.of().strength(15.0F, 160.0F).requiresCorrectToolForDrops().mapColor(MapColor.STONE)));
+    public static final DeferredBlock<Block> BRICK_CONCRETE_MOSSY =   registerBlock("brick_concrete_mossy",   () -> new Block(        BlockBehaviour.Properties.of().strength(15.0F, 160.0F).requiresCorrectToolForDrops().mapColor(MapColor.STONE)));
+    public static final DeferredBlock<Block> BRICK_CONCRETE_CRACKED = registerBlock("brick_concrete_cracked", () -> new Block(        BlockBehaviour.Properties.of().strength(15.0F, 60.0F ).requiresCorrectToolForDrops().mapColor(MapColor.STONE)));
+    public static final DeferredBlock<Block> BRICK_CONCRETE_BROKEN =  registerBlock("brick_concrete_broken",  () -> new Block(        BlockBehaviour.Properties.of().strength(15.0F, 45.0F ).requiresCorrectToolForDrops().mapColor(MapColor.STONE)));
+    public static final DeferredBlock<Block> BRICK_CONCRETE_MARKED =  registerBlock("brick_concrete_marked",  () -> new WritingBlock( BlockBehaviour.Properties.of().strength(15.0F, 160.0F).requiresCorrectToolForDrops().mapColor(MapColor.STONE)));
+    public static final DeferredBlock<Block> BRICK_OBSIDIAN =         registerBlock("brick_obsidian",         () -> new Block(        BlockBehaviour.Properties.of().strength(15.0F, 120.0F).requiresCorrectToolForDrops().mapColor(MapColor.COLOR_BLACK).instrument(NoteBlockInstrument.BASEDRUM)));
+    public static final DeferredBlock<Block> BRICK_LIGHT =            registerBlock("brick_light",            () -> new Block(        BlockBehaviour.Properties.of().strength(5.0F,  20.0F ).requiresCorrectToolForDrops().mapColor(MapColor.SAND)));
+
+    // Other defensive stuff
+    public static final DeferredBlock<Block> BARBED_WIRE = registerBlockNew("barbed_wire", () -> new BarbedWireBlock(BlockBehaviour.Properties.of().strength(5.0F, 10.0F).noCollission()));
+    public static final DeferredBlock<Block> SPIKES = registerBlock("spikes", () -> new SpikesBlock(BlockBehaviour.Properties.of().strength(2.5F, 5.0F).noCollission()));
+
     public static final DeferredBlock<Block> GRAVEL_OBSIDIAN = registerBlock("gravel_obsidian", () -> new ColoredFallingBlock(new ColorRGBA(-8356741), BlockBehaviour.Properties.of().strength(15.0F).explosionResistance(120.0F).requiresCorrectToolForDrops().sound(SoundType.STONE)));
 
     public static final DeferredBlock<Block> WASTE_EARTH =         registerBlock("waste_earth",         () -> new Block(               BlockBehaviour.Properties.of().strength(0.6F).sound(SoundType.GRASS).mapColor(MapColor.DIRT)));
@@ -213,6 +222,7 @@ public class NtmBlocks {
 
     public static final DeferredBlock<Block> TAINT = registerBlock("taint", () -> new TaintBlock(BlockBehaviour.Properties.of().randomTicks().strength(15.0F, 10.0F).noLootTable().mapColor(DyeColor.GRAY)));
 
+    public static final DeferredBlock<Block> BOBBLEHEAD = registerBlockNew("bobblehead", () -> new BobbleBlock(BlockBehaviour.Properties.of().noOcclusion().instabreak().sound(SoundType.WOOL).mapColor(DyeColor.WHITE)));
     public static final DeferredBlock<Block> PLUSHIE = registerBlockNew("plushie", () -> new PlushieBlock(BlockBehaviour.Properties.of().noOcclusion().instabreak().sound(SoundType.WOOL).mapColor(DyeColor.WHITE)));
 
     public static final DeferredBlock<Block> GEIGER = registerBlock(
@@ -307,11 +317,6 @@ public class NtmBlocks {
                     .strength(15.0F)
                     .requiresCorrectToolForDrops()));
 
-    public static final DeferredBlock<Block> RAD_LAVA_BLOCK = registerBlock("rad_lava_block",
-            () -> new Block(BlockBehaviour.Properties.of()
-                    .noLootTable()
-                    .sound(SoundType.STONE)));
-
     private static boolean always(BlockState state, BlockGetter blockGetter, BlockPos pos) { return true; }
     private static boolean never(BlockState state, BlockGetter blockGetter, BlockPos pos) { return false; }
 
@@ -324,6 +329,12 @@ public class NtmBlocks {
     private static <T extends Block> DeferredBlock<T> registerBlockNew(String name, Supplier<T> block) {
         DeferredBlock<T> defBlock = BLOCKS.register(name, block);
         NtmItems.ITEMS.register(name, () -> new BlockItemBase(defBlock.get(), new Properties()));
+        return defBlock;
+    }
+
+    private static <T extends Block> DeferredBlock<T> register(String name, Supplier<T> block, Supplier<? extends BlockItem> blockItem) {
+        DeferredBlock<T> defBlock = BLOCKS.register(name, block);
+        NtmItems.ITEMS.register(name, blockItem);
         return defBlock;
     }
 

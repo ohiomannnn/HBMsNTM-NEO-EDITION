@@ -217,23 +217,31 @@ public class ModCreativeTabs {
                     .title(Component.translatable("creative_tab.hbmsntm.blocks"))
                     .displayItems((itemDisplayParameters, output) -> {
 
+                        addMetaItems(output, NtmBlocks.BOBBLEHEAD.asItem());
                         addMetaItems(output, NtmBlocks.PLUSHIE.asItem());
+
+                        output.accept(NtmBlocks.ASPHALT);
+                        output.accept(NtmBlocks.ASPHALT_LIGHT);
 
                         output.accept(NtmBlocks.BRICK_CONCRETE);
                         output.accept(NtmBlocks.BRICK_CONCRETE_MOSSY);
                         output.accept(NtmBlocks.BRICK_CONCRETE_CRACKED);
                         output.accept(NtmBlocks.BRICK_CONCRETE_BROKEN);
                         output.accept(NtmBlocks.BRICK_CONCRETE_MARKED);
+                        output.accept(NtmBlocks.BRICK_OBSIDIAN);
+                        output.accept(NtmBlocks.BRICK_LIGHT);
 
                         output.accept(NtmBlocks.BRICK_CONCRETE_SLAB);
                         output.accept(NtmBlocks.BRICK_CONCRETE_MOSSY_SLAB);
                         output.accept(NtmBlocks.BRICK_CONCRETE_CRACKED_SLAB);
                         output.accept(NtmBlocks.BRICK_CONCRETE_BROKEN_SLAB);
-
                         output.accept(NtmBlocks.BRICK_CONCRETE_STAIRS);
                         output.accept(NtmBlocks.BRICK_CONCRETE_MOSSY_STAIRS);
                         output.accept(NtmBlocks.BRICK_CONCRETE_CRACKED_STAIRS);
                         output.accept(NtmBlocks.BRICK_CONCRETE_BROKEN_STAIRS);
+
+                        addMetaItems(output, NtmBlocks.BARBED_WIRE.asItem());
+                        output.accept(NtmBlocks.SPIKES);
 
                         output.accept(NtmBlocks.WASTE_EARTH);
                         output.accept(NtmBlocks.WASTE_MYCELIUM);

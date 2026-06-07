@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "minecraft:forest",
+  "features": "hbmsntm:crashed_bomb_placed",
+  "step": "surface_structures"
+}

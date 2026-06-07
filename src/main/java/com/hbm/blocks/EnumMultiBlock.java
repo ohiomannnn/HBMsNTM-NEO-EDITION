@@ -27,41 +27,41 @@ public class EnumMultiBlock extends MultiBlock {
         this.multiTexture = multiTexture;
     }
 
-    // UNTESTED!!!!
+//    // UNTESTED!!!!
+//    @Override
+//    public void registerModel(BlockStateProvider provider, ResourceLocation modelLocation) {
+//        if(multiTexture) {
+//
+//            Enum<?>[] enums = theEnum.getEnumConstants();
+//            provider.getVariantBuilder(this).forAllStates(state -> {
+//
+//                int meta = state.getValue(NtmBlockStateProperties.META);
+//                Enum<?> num = enums[meta];
+//
+//                String path = BuiltInRegistries.BLOCK.getKey(this).getPath() + "_" + num.name().toLowerCase(Locale.US);
+//                ModelFile model = provider.models().cubeAll(path, provider.modLoc(path));
+//
+//                return ConfiguredModel.builder().modelFile(model).build();
+//            });
+//
+//            ItemModelBuilder builder = provider.itemModels().getBuilder(modelLocation.toString());
+//            for(int i = 0; i < enums.length; i++) {
+//                builder.override()
+//                        .predicate(NuclearTechMod.withDefaultNamespace("item_meta"), i)
+//                        .model(provider.itemModels().getBuilder(modelLocation.getPath() + "_" + i)
+//                                .parent(new ModelFile.UncheckedModelFile(modelLocation.getPath() + "_" + i)
+//                        )).end();
+//            }
+//        }
+//    }
+
     @Override
-    public void registerModel(BlockStateProvider provider, ResourceLocation modelLocation) {
-        if(multiTexture) {
-
-            Enum<?>[] enums = theEnum.getEnumConstants();
-            provider.getVariantBuilder(this).forAllStates(state -> {
-
-                int meta = state.getValue(NtmBlockStateProperties.META);
-                Enum<?> num = enums[meta];
-
-                String path = BuiltInRegistries.BLOCK.getKey(this).getPath() + "_" + num.name().toLowerCase(Locale.US);
-                ModelFile model = provider.models().cubeAll(path, provider.modLoc(path));
-
-                return ConfiguredModel.builder().modelFile(model).build();
-            });
-
-            ItemModelBuilder builder = provider.itemModels().getBuilder(modelLocation.toString());
-            for(int i = 0; i < enums.length; i++) {
-                builder.override()
-                        .predicate(NuclearTechMod.withDefaultNamespace("item_meta"), i)
-                        .model(provider.itemModels().getBuilder(modelLocation.getPath() + "_" + i)
-                                .parent(new ModelFile.UncheckedModelFile(modelLocation.getPath() + "_" + i)
-                        )).end();
-            }
-        }
-    }
-
-    @Override
-    public String getOverrideDescriptionId(ItemStack stack) {
+    public String getItemDescriptionId(ItemStack stack) {
         if(multiName) {
             Enum<?> num = EnumUtil.grabEnumSafely(theEnum, MetaHelper.getMeta(stack));
             return super.getDescriptionId() + "." + num.name().toLowerCase(Locale.US);
         } else {
-            return super.getOverrideDescriptionId(stack);
+            return null;
         }
     }
 

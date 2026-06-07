@@ -2,6 +2,7 @@ package com.hbm.blocks;
 
 import com.hbm.blocks.states.NtmBlockStateProperties;
 import com.hbm.inventory.MetaHelper;
+import com.hbm.main.NuclearTechMod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;

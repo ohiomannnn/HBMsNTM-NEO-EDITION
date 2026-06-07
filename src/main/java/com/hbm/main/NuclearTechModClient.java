@@ -1,6 +1,6 @@
 package com.hbm.main;
 
-import com.hbm.blockentity.IGUIProvider;
+import com.hbm.blockentity.IScreenProvider;
 import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.blockentity.network.PipeBaseBlockEntity;
 import com.hbm.blocks.ICustomBlockHighlight;
@@ -45,10 +45,7 @@ import com.hbm.render.entity.rocket.*;
 import com.hbm.render.item.*;
 import com.hbm.render.item.ItemRenderMissileGeneric.RenderMissileType;
 import com.hbm.render.loader.HFRModelReloader;
-import com.hbm.render.model.loader.BarrelGeometryLoader;
-import com.hbm.render.model.loader.CableGeometryLoader;
-import com.hbm.render.model.loader.DetCordGeometryLoader;
-import com.hbm.render.model.loader.PipeGeometryLoader;
+import com.hbm.render.model.loader.*;
 import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.util.*;
@@ -187,6 +184,7 @@ public class NuclearTechModClient {
         event.register(CableGeometryLoader.ID, CableGeometryLoader.INSTANCE);
         event.register(BarrelGeometryLoader.ID, BarrelGeometryLoader.INSTANCE);
         event.register(DetCordGeometryLoader.ID, DetCordGeometryLoader.INSTANCE);
+        event.register(BarbedWireGeometryLoader.ID, BarbedWireGeometryLoader.INSTANCE);
     }
 
     @SubscribeEvent
@@ -508,11 +506,12 @@ public class NuclearTechModClient {
 
     @SubscribeEvent
     public static void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
-        if (!event.getLevel().isClientSide) return;
+        if(!event.getLevel().isClientSide) return;
         Minecraft mc = Minecraft.getInstance();
 
-        if (event.getItemStack().getItem() instanceof IGUIProvider provider) {
+        if(event.getItemStack().getItem() instanceof IScreenProvider provider) {
             mc.setScreen(provider.provideScreenOnRightClick(mc.player, event.getPos()));
+            event.setCanceled(true);
         }
     }
 
@@ -520,17 +519,19 @@ public class NuclearTechModClient {
     @SubscribeEvent
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
         Level level = event.getLevel();
-        if (!level.isClientSide) return;
+        if(!level.isClientSide) return;
         BlockHitResult bhr = event.getHitVec();
 
         Minecraft mc = Minecraft.getInstance();
 
-        if (bhr.getType() == HitResult.Type.BLOCK && level.getBlockState(event.getPos()).getBlock() instanceof IGUIProvider provider) {
-            mc.setScreen(provider.provideScreenOnRightClick(mc.player, mc.player.blockPosition()));
+        if(bhr.getType() == HitResult.Type.BLOCK && level.getBlockState(event.getPos()).getBlock() instanceof IScreenProvider provider) {
+            mc.setScreen(provider.provideScreenOnRightClick(mc.player, event.getPos()));
+            event.setCanceled(true);
         }
 
-        if (bhr.getType() == HitResult.Type.BLOCK && level.getBlockEntity(event.getPos()) instanceof IGUIProvider provider) {
-            mc.setScreen(provider.provideScreenOnRightClick(mc.player, mc.player.blockPosition()));
+        if(bhr.getType() == HitResult.Type.BLOCK && level.getBlockEntity(event.getPos()) instanceof IScreenProvider provider) {
+            mc.setScreen(provider.provideScreenOnRightClick(mc.player, event.getPos()));
+            event.setCanceled(true);
         }
     }
 
@@ -685,6 +686,11 @@ public class NuclearTechModClient {
                 NtmBlocks.BARREL_LOX.asItem(),
                 NtmBlocks.BARREL_TAINT.asItem()
         );
+
+        registerItemRenderer(event, new RenderBarbedWireItem(),
+                NtmBlocks.BARBED_WIRE.asItem()
+        );
+
 
         registerItemRenderer(event, new RenderBatteryPackItem(), NtmItems.BATTERY_PACK.get());
 

@@ -3,6 +3,7 @@ package com.hbm.datagen;
 import com.google.gson.JsonObject;
 import com.hbm.blocks.ICustomBlockModelRegister;
 import com.hbm.blocks.NtmBlocks;
+import com.hbm.blocks.generic.BarbedWireBlock;
 import com.hbm.blocks.generic.LayeringBlock;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
 import com.hbm.blocks.network.FluidDuctConnectingBlock;
@@ -26,12 +27,16 @@ import java.util.Objects;
 
 public class NtmBlockStateProvider extends BlockStateProvider {
 
-    public NtmBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
-        super(output, NuclearTechMod.MODID, exFileHelper);
+    public NtmBlockStateProvider(PackOutput output, ExistingFileHelper helper) {
+        super(output, NuclearTechMod.MODID, helper);
     }
 
     @Override
     protected void registerStatesAndModels() {
+
+        this.simpleBlockWithItem(NtmBlocks.ASPHALT, this.cubeAll(NtmBlocks.ASPHALT.get()));
+        this.simpleBlockWithItem(NtmBlocks.ASPHALT_LIGHT, this.cubeAll(NtmBlocks.ASPHALT_LIGHT.get()));
+
         cub3All(NtmBlocks.BRICK_CONCRETE.get());
         cub3All(NtmBlocks.BRICK_CONCRETE_MOSSY.get());
         cub3All(NtmBlocks.BRICK_CONCRETE_CRACKED.get());
@@ -246,6 +251,7 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.registerCable();
         this.registerDetCord();
         this.registerFluidDuct();
+        this.registerBarbedWire();
     }
 
     private void registerCable() {
@@ -279,6 +285,30 @@ public class NtmBlockStateProvider extends BlockStateProvider {
 
             return ConfiguredModel.builder().modelFile(model).build();
         }, FluidDuctConnectingBlock.NORTH, FluidDuctConnectingBlock.SOUTH, FluidDuctConnectingBlock.EAST, FluidDuctConnectingBlock.WEST, FluidDuctConnectingBlock.UP, FluidDuctConnectingBlock.DOWN);
+
+        this.entityBlockItem(block, false);
+    }
+
+    private void registerBarbedWire() {
+        Block block = NtmBlocks.BARBED_WIRE.get();
+
+        this.getVariantBuilder(block).forAllStates(state -> {
+
+            int subType = state.getValue(BarbedWireBlock.TYPE);
+
+            ModelFile model;
+
+            switch(subType) {
+                case 5 -> model = this.models().getBuilder(this.key(block).getPath() + "_ultradeath").customLoader(BarbedWireBlockLoaderBuilder::new).texture("texture", modLoc("block/barbed_wire_ultradeath")).end();
+                case 4 -> model = this.models().getBuilder(this.key(block).getPath() + "_wither").customLoader(BarbedWireBlockLoaderBuilder::new).texture("texture", modLoc("block/barbed_wire_wither")).end();
+                case 3 -> model = this.models().getBuilder(this.key(block).getPath() + "_acid").customLoader(BarbedWireBlockLoaderBuilder::new).texture("texture", modLoc("block/barbed_wire_acid")).end();
+                case 2 -> model = this.models().getBuilder(this.key(block).getPath() + "_poison").customLoader(BarbedWireBlockLoaderBuilder::new).texture("texture", modLoc("block/barbed_wire_poison")).end();
+                case 1 -> model = this.models().getBuilder(this.key(block).getPath() + "_fire").customLoader(BarbedWireBlockLoaderBuilder::new).texture("texture", modLoc("block/barbed_wire_fire")).end();
+                default -> model = this.models().getBuilder(this.key(block).getPath()).customLoader(BarbedWireBlockLoaderBuilder::new).texture("texture", modLoc("block/barbed_wire")).end();
+            }
+
+            return ConfiguredModel.builder().modelFile(model).build();
+        });
 
         this.entityBlockItem(block, false);
     }
@@ -381,6 +411,10 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.simpleBlockItem(block, cubeAll(block));
     }
 
+    public void simpleBlockWithItem(DeferredBlock<? extends Block> block, ModelFile model) {
+        this.simpleBlockWithItem(block.get(), model);
+    }
+
     private void particleOnlyBlock(Block block, ResourceLocation particleTexture) {
         this.particleOnlyBlock(block, particleTexture, false);
     }
@@ -414,23 +448,28 @@ public class NtmBlockStateProvider extends BlockStateProvider {
     }
 
     protected static class DuctBlockLoaderBuilder extends BlockModelBuilderBase {
-        public DuctBlockLoaderBuilder(BlockModelBuilder parent, ExistingFileHelper existingFileHelper) {
-            super(NuclearTechMod.withDefaultNamespace("pipe_geometry_loader"), parent, existingFileHelper);
+        public DuctBlockLoaderBuilder(BlockModelBuilder parent, ExistingFileHelper helper) {
+            super(NuclearTechMod.withDefaultNamespace("pipe_geometry_loader"), parent, helper);
         }
     }
     protected static class BarrelBlockModelBuilder extends BlockModelBuilderBase {
-        public BarrelBlockModelBuilder(BlockModelBuilder parent, ExistingFileHelper existingFileHelper) {
-            super(NuclearTechMod.withDefaultNamespace("barrel_geometry_loader"), parent, existingFileHelper);
+        public BarrelBlockModelBuilder(BlockModelBuilder parent, ExistingFileHelper helper) {
+            super(NuclearTechMod.withDefaultNamespace("barrel_geometry_loader"), parent, helper);
         }
     }
     protected static class CableBlockLoaderBuilder extends BlockModelBuilderBase {
-        public CableBlockLoaderBuilder(BlockModelBuilder parent, ExistingFileHelper existingFileHelper) {
-            super(NuclearTechMod.withDefaultNamespace("cable_geometry_loader"), parent, existingFileHelper);
+        public CableBlockLoaderBuilder(BlockModelBuilder parent, ExistingFileHelper helper) {
+            super(NuclearTechMod.withDefaultNamespace("cable_geometry_loader"), parent, helper);
         }
     }
     protected static class DetCordBlockLoaderBuilder extends BlockModelBuilderBase {
-        public DetCordBlockLoaderBuilder(BlockModelBuilder parent, ExistingFileHelper existingFileHelper) {
-            super(NuclearTechMod.withDefaultNamespace("det_cord_geometry_loader"), parent, existingFileHelper);
+        public DetCordBlockLoaderBuilder(BlockModelBuilder parent, ExistingFileHelper helper) {
+            super(NuclearTechMod.withDefaultNamespace("det_cord_geometry_loader"), parent, helper);
+        }
+    }
+    protected static class BarbedWireBlockLoaderBuilder extends BlockModelBuilderBase {
+        public BarbedWireBlockLoaderBuilder(BlockModelBuilder parent, ExistingFileHelper helper) {
+            super(NuclearTechMod.withDefaultNamespace("barbed_wire_geometry_loader"), parent, helper);
         }
     }
 
@@ -438,8 +477,8 @@ public class NtmBlockStateProvider extends BlockStateProvider {
 
         private final Map<String, ResourceLocation> textures = new LinkedHashMap<>();
 
-        protected BlockModelBuilderBase(ResourceLocation loaderId, BlockModelBuilder parent, ExistingFileHelper existingFileHelper) {
-            super(loaderId, parent, existingFileHelper, false);
+        protected BlockModelBuilderBase(ResourceLocation loaderId, BlockModelBuilder parent, ExistingFileHelper helper) {
+            super(loaderId, parent, helper, false);
         }
 
         public BlockModelBuilderBase texture(String key, ResourceLocation location) {

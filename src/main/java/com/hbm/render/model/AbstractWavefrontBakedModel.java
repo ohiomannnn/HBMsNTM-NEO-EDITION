@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
 import org.joml.Vector3f;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,18 +25,18 @@ public abstract class AbstractWavefrontBakedModel extends AbstractBakedModel {
         this.model = model;
     }
 
-    protected List<BakedQuad> bakeSimpleQuads(List<String> partNames, float roll, float pitch, float yaw, BlockTranslate translate, TextureAtlasSprite sprite) {
+    protected List<BakedQuad> bakeSimpleQuads(@Nullable List<String> partNames, float roll, float pitch, float yaw, BlockTranslate translate, TextureAtlasSprite sprite) {
         return bakeSimpleQuads(partNames, roll, pitch, yaw, translate, sprite, -1);
     }
 
-    protected List<BakedQuad> bakeSimpleQuads(List<String> partNames, float roll, float pitch, float yaw, BlockTranslate translate, TextureAtlasSprite sprite, int tintIndex) {
+    protected List<BakedQuad> bakeSimpleQuads(@Nullable List<String> partNames, float roll, float pitch, float yaw, BlockTranslate translate, TextureAtlasSprite sprite, int tintIndex) {
         List<FaceGeometry> geometries = buildGeometry(partNames, roll, pitch, yaw, translate);
         List<BakedQuad> quads = new ArrayList<>(geometries.size());
         for(FaceGeometry geometry : geometries) quads.add(geometry.buildQuad(sprite, tintIndex));
         return quads;
     }
 
-    protected List<FaceGeometry> buildGeometry(List<String> partNames, float roll, float pitch, float yaw, BlockTranslate translate) {
+    protected List<FaceGeometry> buildGeometry(@Nullable List<String> partNames, float roll, float pitch, float yaw, BlockTranslate translate) {
         List<FaceGeometry> geometries = new ArrayList<>();
 
         for(S_GroupObject group : model.groupObjects) {

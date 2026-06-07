@@ -3,7 +3,6 @@ package com.hbm.items.block;
 import com.hbm.blockentity.IPersistentNBT;
 import com.hbm.blocks.IMultiBlock;
 import com.hbm.blocks.IPersistentInfoProvider;
-import com.hbm.items.ICustomItemModelRegister;
 import com.hbm.items.IMetaItem;
 import com.hbm.util.TagsUtil;
 import net.minecraft.nbt.CompoundTag;
@@ -35,7 +34,7 @@ public class BlockItemBase extends BlockItem implements IMetaItem {
     @Override
     public String getDescriptionId(ItemStack stack) {
         if(this.getBlock() instanceof IMultiBlock imb) {
-            String string = imb.getOverrideDescriptionId(stack);
+            String string = imb.getItemDescriptionId(stack);
             if(string != null) return string;
         }
         return super.getDescriptionId();

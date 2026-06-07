@@ -1,7 +1,9 @@
 package com.hbm.blocks.bomb;
 
+import com.hbm.blockentity.BlockEntityNT;
 import com.hbm.blockentity.ITickable;
 import com.hbm.blockentity.NtmBlockEntityTypes;
+import com.hbm.blocks.ICustomBlockModelRegister;
 import com.hbm.blocks.MultiBlock;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.entity.projectile.Shrapnel;
@@ -34,7 +36,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.List;
 
-public class VolcanoBlock extends MultiBlock implements EntityBlock {
+public class VolcanoBlock extends MultiBlock implements EntityBlock, ICustomBlockModelRegister {
 
     public VolcanoBlock(Properties properties) {
         super(properties);
@@ -84,7 +86,7 @@ public class VolcanoBlock extends MultiBlock implements EntityBlock {
         provider.simpleBlockWithItem(this, provider.cubeAll(this));
     }
 
-    public static class VolcanoCoreBlockEntity extends BlockEntity implements ITickable {
+    public static class VolcanoCoreBlockEntity extends BlockEntityNT implements ITickable {
 
         public int volcanoTimer;
 
@@ -160,38 +162,38 @@ public class VolcanoBlock extends MultiBlock implements EntityBlock {
         }
 
         private boolean isGrowing() {
-            int meta = MetaHelper.getMeta(this.getBlockState());
+            int meta = this.getMeta();
             return meta == META_GROWING_ACTIVE || meta == META_GROWING_EXTINGUISHING;
         }
 
         private boolean isExtinguishing() {
-            int meta = MetaHelper.getMeta(this.getBlockState());
+            int meta = this.getMeta();
             return meta == META_STATIC_EXTINGUISHING || meta == META_GROWING_EXTINGUISHING;
         }
 
         private boolean isSmoking() {
-            return MetaHelper.getMeta(this.getBlockState()) != META_SMOLDERING;
+            return this.getMeta() != META_SMOLDERING;
         }
 
         private boolean isSpewing() {
-            return MetaHelper.getMeta(this.getBlockState()) != META_SMOLDERING;
+            return this.getMeta() != META_SMOLDERING;
         }
 
         private boolean hasVerticalChannel() {
-            return MetaHelper.getMeta(this.getBlockState()) != META_SMOLDERING;
+            return this.getMeta() != META_SMOLDERING;
         }
 
         private double magmaChamberSize() {
-            return MetaHelper.getMeta(this.getBlockState()) == META_SMOLDERING ? 15 : 0;
+            return this.getMeta() == META_SMOLDERING ? 15 : 0;
         }
 
         /* count per tick, radius, depth */
         private Object[] surfaceMeltingParams() {
-            return MetaHelper.getMeta(this.getBlockState()) == META_SMOLDERING ? new Object[] { 50, 50D, 10D } : null;
+            return this.getMeta() == META_SMOLDERING ? new Object[] { 50, 50D, 10D } : null;
         }
 
         private int getUpdateRate() {
-            return switch(MetaHelper.getMeta(this.getBlockState())) {
+            return switch(this.getMeta()) {
                 case META_STATIC_EXTINGUISHING -> 60 * 60 * 20; //once per hour
                 case META_GROWING_ACTIVE, META_GROWING_EXTINGUISHING -> 60 * 60 * 20 / 250; //250x per hour
                 default -> 10;

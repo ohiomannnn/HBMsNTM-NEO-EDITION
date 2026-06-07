@@ -26,7 +26,7 @@ public class VolcanicLiquidBlock extends LiquidBlock {
 
     @Override
     protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
-        level.scheduleTick(pos, this, 10 + level.random.nextInt(40));
+        super.neighborChanged(state, level, pos, block, fromPos, isMoving);
 
         for(Direction dir : Direction.values()) {
             BlockPos targetPos = pos.relative(dir);
@@ -49,12 +49,14 @@ public class VolcanicLiquidBlock extends LiquidBlock {
     }
 
     @Override
-    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
-        level.scheduleTick(pos, this, 10 + level.random.nextInt(40));
+    protected boolean isRandomlyTicking(BlockState state) {
+        return true;
     }
 
     @Override
-    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+    protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        super.randomTick(state, level, pos, random);
+
         int lavaCount = 0;
         int basaltCount = 0;
 
@@ -71,8 +73,6 @@ public class VolcanicLiquidBlock extends LiquidBlock {
         if(((!isSource && lavaCount < 2) || (random.nextInt(5) == 0 && lavaCount < 5)) && hasNoLavaBelow) {
             onSolidify(level, pos, lavaCount, basaltCount, random);
         }
-
-        level.scheduleTick(pos, this, 10 + level.random.nextInt(40));
     }
 
     public Block getBasaltForCheck() {
