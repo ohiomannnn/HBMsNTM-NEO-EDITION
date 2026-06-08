@@ -1,6 +1,9 @@
 package com.hbm.blocks.generic;
 
+import com.hbm.registry.NtmSoundEvents;
+import com.hbm.util.SoundUtils;
 import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -15,7 +18,9 @@ public class SpikesBlock extends Block {
     @Override
     protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
         if(entity.getDeltaMovement().y < -0.1) {
-            entity.hurt(entity.damageSources().cactus(), 100F);
+            if(entity.hurt(entity.damageSources().cactus(), 100F)) {
+                SoundUtils.playAtBlockPosC(level, pos, NtmSoundEvents.SLICER.get(), SoundSource.NEUTRAL);
+            }
         }
     }
 }

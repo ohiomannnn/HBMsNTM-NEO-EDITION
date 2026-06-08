@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.ChunkRenderTypeSet;
 import net.neoforged.neoforge.client.model.data.ModelData;
@@ -18,26 +17,25 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PipeNeoBakedModel extends AbstractWavefrontBakedModel {
+public class PipeNeoBakedModel extends LevelAwareWavefrontBakedModel {
 
     private final TextureAtlasSprite baseSprite;
     private final TextureAtlasSprite overlaySprite;
-    private final boolean forBlock;
     private final List<BakedQuad>[] cache = new List[64];
     private List<BakedQuad> itemQuads;
 
-    public PipeNeoBakedModel(HFRWavefrontObject model, TextureAtlasSprite baseSprite, TextureAtlasSprite overlaySprite, boolean forBlock) {
+    public PipeNeoBakedModel(HFRWavefrontObject model, TextureAtlasSprite baseSprite, TextureAtlasSprite overlaySprite) {
         super(model, ItemTransforms.NO_TRANSFORMS);
         this.baseSprite = baseSprite;
         this.overlaySprite = overlaySprite;
-        this.forBlock = forBlock;
     }
 
+
     @Override
-    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction direction, RandomSource random) {
+    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction direction, RandomSource random, ModelData data, @Nullable RenderType type) {
         if(direction != null) return Collections.emptyList();
 
-        if(!forBlock) {
+        if(!data.has(IN_LEVEL)) {
             if(itemQuads == null) {
                 itemQuads = buildItemQuads();
             }
@@ -115,7 +113,7 @@ public class PipeNeoBakedModel extends AbstractWavefrontBakedModel {
     }
 
     private List<BakedQuad> bakeWithOverlay(List<String> parts, boolean centerToBlock) {
-        List<FaceGeometry> geometry = buildGeometry(parts, 0.0F, 0.0F, 0.0F, centerToBlock ? BlockTranslate.CENTER : BlockTranslate.NONE);
+        List<FaceGeometry> geometry = buildGeometry(parts);
         List<BakedQuad> quads = new ArrayList<>(geometry.size() * 2);
         for(FaceGeometry geo : geometry) {
             quads.add(geo.buildQuad(baseSprite, -1));
@@ -125,11 +123,7 @@ public class PipeNeoBakedModel extends AbstractWavefrontBakedModel {
     }
 
     private static final ChunkRenderTypeSet RENDER_TYPE = ChunkRenderTypeSet.of(RenderType.cutout());
-
-    @Override
-    public ChunkRenderTypeSet getRenderTypes(BlockState state, RandomSource rand, ModelData data) {
-        return RENDER_TYPE;
-    }
+    @Override public ChunkRenderTypeSet getRenderTypes(BlockState state, RandomSource rand, ModelData data) { return RENDER_TYPE; }
 
     @Override
     public TextureAtlasSprite getParticleIcon() {

@@ -12,6 +12,8 @@ public class BobMathUtil {
 
     public static final float PI = 3.141592653589793F;
 
+    public static float toRadians(double angdeg) { return (float) Math.toRadians(angdeg); }
+
     public static float atan2(double y, double x) { return (float) Math.atan2(y, x); }
     public static float atan2(float y, float x) { return (float) Math.atan2(y, x); }
 

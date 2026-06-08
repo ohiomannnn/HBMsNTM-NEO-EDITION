@@ -9,6 +9,7 @@ import com.hbm.blocks.generic.SellafieldSlakedBlock;
 import com.hbm.blocks.network.FluidDuctConnectingBlock;
 import com.hbm.blocks.states.NtmBlockStateProperties;
 import com.hbm.main.NuclearTechMod;
+import com.hbm.render.model.loader.NtmGeometry.BakedModelType;
 import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -21,6 +22,7 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredBlock;
 
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -34,15 +36,37 @@ public class NtmBlockStateProvider extends BlockStateProvider {
     @Override
     protected void registerStatesAndModels() {
 
-        this.simpleBlockWithItem(NtmBlocks.ASPHALT, this.cubeAll(NtmBlocks.ASPHALT.get()));
-        this.simpleBlockWithItem(NtmBlocks.ASPHALT_LIGHT, this.cubeAll(NtmBlocks.ASPHALT_LIGHT.get()));
+        for(Block block : BuiltInRegistries.BLOCK) {
+            if(BuiltInRegistries.BLOCK.getKey(block).getNamespace().equals(NuclearTechMod.MODID)) {
+                if(block instanceof ICustomBlockModelRegister icbmr) {
+                    ResourceLocation loc = Objects.requireNonNull(BuiltInRegistries.BLOCK.getKey(block));
+                    icbmr.registerModel(this, loc);
+                }
+            }
+        }
 
-        cub3All(NtmBlocks.BRICK_CONCRETE.get());
-        cub3All(NtmBlocks.BRICK_CONCRETE_MOSSY.get());
-        cub3All(NtmBlocks.BRICK_CONCRETE_CRACKED.get());
-        cub3All(NtmBlocks.BRICK_CONCRETE_BROKEN.get());
+        this.simpleCubeAllBlock(NtmBlocks.ASPHALT);
+        this.simpleCubeAllBlock(NtmBlocks.ASPHALT_LIGHT);
 
-        simpleColumnBlockWithItem(NtmBlocks.BRICK_CONCRETE_MARKED.get(), modLoc("block/brick_concrete_marked"), modLoc("block/brick_concrete"));
+        this.simpleCubeAllBlock(NtmBlocks.BRICK_CONCRETE);
+        this.simpleCubeAllBlock(NtmBlocks.BRICK_CONCRETE_MOSSY);
+        this.simpleCubeAllBlock(NtmBlocks.BRICK_CONCRETE_CRACKED);
+        this.simpleCubeAllBlock(NtmBlocks.BRICK_CONCRETE_BROKEN);
+        this.simpleBlockWithItem(
+                NtmBlocks.BRICK_CONCRETE_MARKED,
+                this.models().cubeColumn(
+                        name(NtmBlocks.BRICK_CONCRETE_MARKED),
+                        blockTexture(NtmBlocks.BRICK_CONCRETE_MARKED),
+                        blockTexture(NtmBlocks.BRICK_CONCRETE)
+                )
+        );
+        this.simpleCubeAllBlock(NtmBlocks.BRICK_OBSIDIAN);
+        this.simpleCubeAllBlock(NtmBlocks.BRICK_LIGHT);
+        this.simpleCubeAllBlock(NtmBlocks.BRICK_ASBESTOS);
+        this.simpleCubeAllBlock(NtmBlocks.BRICK_FIRE);
+
+        this.registerBarbedWire();
+        this.registerSpikes();
 
         this.particleOnlyBlock(NtmBlocks.PLUSHIE.get(), blockTexture(Blocks.WHITE_WOOL));
 
@@ -82,18 +106,6 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.cubeSideBottomTop(NtmBlocks.C4.get());
         this.cubeSideBottomTop(NtmBlocks.FISSURE_BOMB.get());
 
-        for(Block block : BuiltInRegistries.BLOCK) {
-            if(BuiltInRegistries.BLOCK.getKey(block).getNamespace().equals(NuclearTechMod.MODID)) {
-                if(block instanceof ICustomBlockModelRegister icbmr) {
-                    ResourceLocation loc = Objects.requireNonNull(BuiltInRegistries.BLOCK.getKey(block));
-
-                    icbmr.registerModel(this, loc);
-                }
-            }
-        }
-
-        cub3All(NtmBlocks.BRICK_LIGHT.get());
-        cub3All(NtmBlocks.BRICK_OBSIDIAN.get());
         cub3All(NtmBlocks.GRAVEL_OBSIDIAN.get());
 
         sellafieldSlaked(
@@ -251,7 +263,6 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.registerCable();
         this.registerDetCord();
         this.registerFluidDuct();
-        this.registerBarbedWire();
     }
 
     private void registerCable() {
@@ -310,6 +321,13 @@ public class NtmBlockStateProvider extends BlockStateProvider {
             return ConfiguredModel.builder().modelFile(model).build();
         });
 
+        this.entityBlockItem(block, false);
+    }
+
+    private void registerSpikes() {
+        Block block = NtmBlocks.SPIKES.get();
+
+        this.simpleBlock(block, this.models().getBuilder(this.key(block).getPath()).customLoader(SpikesLoaderBuilder::new).texture("texture", modLoc("block/spikes")).end());
         this.entityBlockItem(block, false);
     }
 
@@ -415,6 +433,9 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.simpleBlockWithItem(block.get(), model);
     }
 
+    /** Creates block with item, uses cube all model */
+    public void simpleCubeAllBlock(DeferredBlock<? extends Block> block) { this.simpleBlockWithItem(block.get(), this.cubeAll(block.get())); }
+
     private void particleOnlyBlock(Block block, ResourceLocation particleTexture) {
         this.particleOnlyBlock(block, particleTexture, false);
     }
@@ -440,8 +461,11 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.itemModels().getBuilder(this.key(block).getPath()).parent(new ModelFile.UncheckedModelFile("builtin/entity")).guiLight(frontLight ? BlockModel.GuiLight.FRONT : BlockModel.GuiLight.SIDE);
     }
 
-    private String name(Block block) { return this.key(block).getPath(); }
-    private ResourceLocation key(Block block) { return BuiltInRegistries.BLOCK.getKey(block); }
+    protected String name(Block block) { return this.key(block).getPath(); }
+    protected String name(DeferredBlock<? extends Block> block) { return this.key(block).getPath(); }
+    protected ResourceLocation key(Block block) { return BuiltInRegistries.BLOCK.getKey(block); }
+    protected ResourceLocation key(DeferredBlock<? extends Block> block) { return BuiltInRegistries.BLOCK.getKey(block.get()); }
+    protected ResourceLocation blockTexture(DeferredBlock<? extends Block> block) { ResourceLocation name = this.key(block); return ResourceLocation.fromNamespaceAndPath(name.getNamespace(), "block/" + name.getPath()); }
 
     private void blockItem(DeferredBlock<?> deferredBlock) {
         simpleBlockItem(deferredBlock.get(), new ModelFile.UncheckedModelFile("hbmsntm:block/" + deferredBlock.getId().getPath()));
@@ -449,36 +473,47 @@ public class NtmBlockStateProvider extends BlockStateProvider {
 
     protected static class DuctBlockLoaderBuilder extends BlockModelBuilderBase {
         public DuctBlockLoaderBuilder(BlockModelBuilder parent, ExistingFileHelper helper) {
-            super(NuclearTechMod.withDefaultNamespace("pipe_geometry_loader"), parent, helper);
+            super(parent, helper);
         }
+        @Override public BakedModelType getType() { return BakedModelType.PIPE; }
     }
     protected static class BarrelBlockModelBuilder extends BlockModelBuilderBase {
         public BarrelBlockModelBuilder(BlockModelBuilder parent, ExistingFileHelper helper) {
-            super(NuclearTechMod.withDefaultNamespace("barrel_geometry_loader"), parent, helper);
+            super(parent, helper);
         }
+        @Override public BakedModelType getType() { return BakedModelType.BARREL; }
     }
     protected static class CableBlockLoaderBuilder extends BlockModelBuilderBase {
         public CableBlockLoaderBuilder(BlockModelBuilder parent, ExistingFileHelper helper) {
-            super(NuclearTechMod.withDefaultNamespace("cable_geometry_loader"), parent, helper);
+            super(parent, helper);
         }
+        @Override public BakedModelType getType() { return BakedModelType.CABLE; }
     }
     protected static class DetCordBlockLoaderBuilder extends BlockModelBuilderBase {
         public DetCordBlockLoaderBuilder(BlockModelBuilder parent, ExistingFileHelper helper) {
-            super(NuclearTechMod.withDefaultNamespace("det_cord_geometry_loader"), parent, helper);
+            super(parent, helper);
         }
+        @Override public BakedModelType getType() { return BakedModelType.DET_CORD; }
     }
     protected static class BarbedWireBlockLoaderBuilder extends BlockModelBuilderBase {
         public BarbedWireBlockLoaderBuilder(BlockModelBuilder parent, ExistingFileHelper helper) {
-            super(NuclearTechMod.withDefaultNamespace("barbed_wire_geometry_loader"), parent, helper);
+            super(parent, helper);
         }
+        @Override public BakedModelType getType() { return BakedModelType.BARBED_WIRE; }
+    }
+    protected static class SpikesLoaderBuilder extends BlockModelBuilderBase {
+        public SpikesLoaderBuilder(BlockModelBuilder parent, ExistingFileHelper helper) {
+            super(parent, helper);
+        }
+        @Override public BakedModelType getType() { return BakedModelType.SPIKES; }
     }
 
     public static abstract class BlockModelBuilderBase extends CustomLoaderBuilder<BlockModelBuilder> {
 
         private final Map<String, ResourceLocation> textures = new LinkedHashMap<>();
 
-        protected BlockModelBuilderBase(ResourceLocation loaderId, BlockModelBuilder parent, ExistingFileHelper helper) {
-            super(loaderId, parent, helper, false);
+        protected BlockModelBuilderBase(BlockModelBuilder parent, ExistingFileHelper helper) {
+            super(NuclearTechMod.withDefaultNamespace("ntm_geometry_loader"), parent, helper, false);
         }
 
         public BlockModelBuilderBase texture(String key, ResourceLocation location) {
@@ -495,9 +530,12 @@ public class NtmBlockStateProvider extends BlockStateProvider {
                 texturesObject.addProperty(entry.getKey(), entry.getValue().toString());
             }
             json.add("textures", texturesObject);
+            json.addProperty("type", this.getType().name().toLowerCase(Locale.US));
 
             return json;
         }
+
+        public abstract BakedModelType getType();
     }
 
 }

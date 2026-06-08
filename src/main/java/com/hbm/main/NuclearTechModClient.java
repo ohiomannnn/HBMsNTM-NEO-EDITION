@@ -180,11 +180,7 @@ public class NuclearTechModClient {
 
     @SubscribeEvent
     public static void registerGeometryLoaders(ModelEvent.RegisterGeometryLoaders event) {
-        event.register(PipeGeometryLoader.ID, PipeGeometryLoader.INSTANCE);
-        event.register(CableGeometryLoader.ID, CableGeometryLoader.INSTANCE);
-        event.register(BarrelGeometryLoader.ID, BarrelGeometryLoader.INSTANCE);
-        event.register(DetCordGeometryLoader.ID, DetCordGeometryLoader.INSTANCE);
-        event.register(BarbedWireGeometryLoader.ID, BarbedWireGeometryLoader.INSTANCE);
+        event.register(NtmGeometryLoader.ID, NtmGeometryLoader.INSTANCE);
     }
 
     @SubscribeEvent
@@ -690,7 +686,9 @@ public class NuclearTechModClient {
         registerItemRenderer(event, new RenderBarbedWireItem(),
                 NtmBlocks.BARBED_WIRE.asItem()
         );
-
+        registerItemRenderer(event, new RenderSpikesItem(),
+                NtmBlocks.SPIKES.asItem()
+        );
 
         registerItemRenderer(event, new RenderBatteryPackItem(), NtmItems.BATTERY_PACK.get());
 

@@ -4,14 +4,11 @@ import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class HazardBlock extends Block {
@@ -24,7 +21,7 @@ public class HazardBlock extends Block {
 
     @Override
     public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        if (this.rad > 0) {
+        if(this.rad > 0) {
             ChunkRadiationManager.proxy.incrementRad(level, pos, rad);
             level.scheduleTick(pos, this, 20);
         }
@@ -33,8 +30,8 @@ public class HazardBlock extends Block {
     @Override
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
         rad = HazardSystem.getHazardLevelFromStack(new ItemStack(this), HazardRegistry.RADIATION) * 0.1F;
-        if (this.rad > 0 && level instanceof ServerLevel server) {
-            server.scheduleTick(pos, this, 20);
+        if(this.rad > 0) {
+            level.scheduleTick(pos, this, 20);
         }
     }
 }

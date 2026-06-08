@@ -35,13 +35,13 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(NtmBlocks.BRICK_CONCRETE_BROKEN.get());
         this.dropSelf(NtmBlocks.BRICK_CONCRETE_CRACKED.get());
         this.dropSelf(NtmBlocks.BRICK_CONCRETE_MARKED.get());
-
-        this.dropSelf(NtmBlocks.BRICK_LIGHT.get());
         this.dropSelf(NtmBlocks.BRICK_OBSIDIAN.get());
+        this.dropSelf(NtmBlocks.BRICK_LIGHT.get());
+        this.dropSelf(NtmBlocks.BRICK_ASBESTOS.get());
+        this.dropSelf(NtmBlocks.BRICK_FIRE.get());
 
         this.dropSelf(NtmBlocks.BARBED_WIRE.get());
         this.dropSelf(NtmBlocks.SPIKES.get());
-
 
         this.dropSelf(NtmBlocks.GRAVEL_OBSIDIAN.get());
         this.dropSelf(NtmBlocks.BLOCK_SCRAP.get());

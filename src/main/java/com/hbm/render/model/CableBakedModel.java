@@ -1,41 +1,38 @@
 package com.hbm.render.model;
 
 import com.hbm.blocks.network.CableBlock;
-import com.hbm.main.NuclearTechMod;
 import com.hbm.render.loader.HFRWavefrontObject;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.client.model.data.ModelData;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CableBakedModel extends AbstractWavefrontBakedModel {
+public class CableBakedModel extends LevelAwareWavefrontBakedModel {
 
     private final TextureAtlasSprite sprite;
-    private final boolean forBlock;
     private final List<BakedQuad>[] cache = new List[64];
     private List<BakedQuad> itemQuads;
 
-    public CableBakedModel(HFRWavefrontObject model, TextureAtlasSprite baseSprite, boolean forBlock) {
+    public CableBakedModel(HFRWavefrontObject model, TextureAtlasSprite baseSprite) {
         super(model, ItemTransforms.NO_TRANSFORMS);
         this.sprite = baseSprite;
-        this.forBlock = forBlock;
     }
 
     @Override
-    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction direction, RandomSource random) {
+    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction direction, RandomSource random, ModelData data, @Nullable RenderType type) {
         if(direction != null) return Collections.emptyList();
 
-        if(!forBlock) {
-            if (itemQuads == null) {
+        if(!data.has(IN_LEVEL)) {
+            if(itemQuads == null) {
                 itemQuads = buildItemQuads();
             }
             return itemQuads;
@@ -55,7 +52,7 @@ public class CableBakedModel extends AbstractWavefrontBakedModel {
 
         int mask = 0 + (pX ? 32 : 0) + (nX ? 16 : 0) + (pY ? 8 : 0) + (nY ? 4 : 0) + (pZ ? 2 : 0) + (nZ ? 1 : 0);
         List<BakedQuad> quads = cache[mask];
-        if (quads != null) return quads;
+        if(quads != null) return quads;
 
         quads = buildWorldQuads(pX, nX, pY, nY, pZ, nZ);
         return cache[mask] = quads;
@@ -80,7 +77,7 @@ public class CableBakedModel extends AbstractWavefrontBakedModel {
             if(pZ) parts.add("negZ");
         }
 
-        return bakeSimpleQuads(parts, 0.0F, 0.0F, 0.0F, BlockTranslate.CENTER, sprite);
+        return bakeSimpleQuads(parts, 0F, 0F, 0F, BlockTranslate.CENTER, sprite);
     }
 
     private List<BakedQuad> buildItemQuads() {

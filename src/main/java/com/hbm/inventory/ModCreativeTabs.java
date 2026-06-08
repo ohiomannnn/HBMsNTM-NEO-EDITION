@@ -230,6 +230,8 @@ public class ModCreativeTabs {
                         output.accept(NtmBlocks.BRICK_CONCRETE_MARKED);
                         output.accept(NtmBlocks.BRICK_OBSIDIAN);
                         output.accept(NtmBlocks.BRICK_LIGHT);
+                        output.accept(NtmBlocks.BRICK_ASBESTOS);
+                        output.accept(NtmBlocks.BRICK_FIRE);
 
                         output.accept(NtmBlocks.BRICK_CONCRETE_SLAB);
                         output.accept(NtmBlocks.BRICK_CONCRETE_MOSSY_SLAB);

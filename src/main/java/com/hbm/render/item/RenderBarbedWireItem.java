@@ -2,7 +2,8 @@ package com.hbm.render.item;
 
 import com.hbm.inventory.MetaHelper;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.model.BarrelBakedModel;
+import com.hbm.render.model.BarbedWireBakedModel;
+import com.hbm.render.model.SimpleWavefrontBakedModel;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -33,13 +34,13 @@ public class RenderBarbedWireItem extends ItemRenderBaseStandard {
                 this.getSprite("block/barbed_wire_wither"),
                 this.getSprite("block/barbed_wire_ultradeath")
         };
-        this.models = new BarrelBakedModel[] {
-                new BarrelBakedModel(ResourceManager.barbed_wire, sprites[0]),
-                new BarrelBakedModel(ResourceManager.barbed_wire, sprites[1]),
-                new BarrelBakedModel(ResourceManager.barbed_wire, sprites[2]),
-                new BarrelBakedModel(ResourceManager.barbed_wire, sprites[3]),
-                new BarrelBakedModel(ResourceManager.barbed_wire, sprites[4]),
-                new BarrelBakedModel(ResourceManager.barbed_wire, sprites[5]),
+        this.models = new BarbedWireBakedModel[] {
+                new BarbedWireBakedModel(ResourceManager.barbed_wire, sprites[0]),
+                new BarbedWireBakedModel(ResourceManager.barbed_wire, sprites[1]),
+                new BarbedWireBakedModel(ResourceManager.barbed_wire, sprites[2]),
+                new BarbedWireBakedModel(ResourceManager.barbed_wire, sprites[3]),
+                new BarbedWireBakedModel(ResourceManager.barbed_wire, sprites[4]),
+                new BarbedWireBakedModel(ResourceManager.barbed_wire, sprites[5]),
         };
     }
 }

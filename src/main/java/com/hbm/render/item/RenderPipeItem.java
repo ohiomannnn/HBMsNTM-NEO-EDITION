@@ -42,9 +42,9 @@ public class RenderPipeItem extends ItemRenderBaseStandard {
                 this.getSprite("block/pipe_silver_overlay")
         };
         this.models = new PipeNeoBakedModel[] {
-                new PipeNeoBakedModel(ResourceManager.pipe_neo, sprites[0], sprites[1], false),
-                new PipeNeoBakedModel(ResourceManager.pipe_neo, sprites[2], sprites[3], false),
-                new PipeNeoBakedModel(ResourceManager.pipe_neo, sprites[4], sprites[5], false)
+                new PipeNeoBakedModel(ResourceManager.pipe_neo, sprites[0], sprites[1]),
+                new PipeNeoBakedModel(ResourceManager.pipe_neo, sprites[2], sprites[3]),
+                new PipeNeoBakedModel(ResourceManager.pipe_neo, sprites[4], sprites[5])
         };
     }
 }

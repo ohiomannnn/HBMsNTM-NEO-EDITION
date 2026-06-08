@@ -5,11 +5,15 @@ import com.hbm.render.loader.S_Face;
 import com.hbm.render.loader.S_GroupObject;
 import com.hbm.render.loader.old.TextureCoordinate;
 import com.hbm.render.loader.old.Vertex;
+import com.mojang.math.Transformation;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
+import net.neoforged.neoforge.client.model.IQuadTransformer;
+import net.neoforged.neoforge.client.model.QuadTransformers;
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import javax.annotation.Nullable;
@@ -25,18 +29,38 @@ public abstract class AbstractWavefrontBakedModel extends AbstractBakedModel {
         this.model = model;
     }
 
+    @Deprecated
     protected List<BakedQuad> bakeSimpleQuads(@Nullable List<String> partNames, float roll, float pitch, float yaw, BlockTranslate translate, TextureAtlasSprite sprite) {
         return bakeSimpleQuads(partNames, roll, pitch, yaw, translate, sprite, -1);
     }
 
+    @Deprecated
     protected List<BakedQuad> bakeSimpleQuads(@Nullable List<String> partNames, float roll, float pitch, float yaw, BlockTranslate translate, TextureAtlasSprite sprite, int tintIndex) {
-        List<FaceGeometry> geometries = buildGeometry(partNames, roll, pitch, yaw, translate);
+        List<FaceGeometry> geometries = buildGeometry(partNames);
         List<BakedQuad> quads = new ArrayList<>(geometries.size());
         for(FaceGeometry geometry : geometries) quads.add(geometry.buildQuad(sprite, tintIndex));
         return quads;
     }
 
-    protected List<FaceGeometry> buildGeometry(@Nullable List<String> partNames, float roll, float pitch, float yaw, BlockTranslate translate) {
+    protected List<BakedQuad> bakeSimpleQuads(@Nullable List<String> partNames, @Nullable Matrix4f matrix, TextureAtlasSprite sprite) {
+        return bakeSimpleQuads(partNames, matrix, sprite, -1);
+    }
+
+    protected List<BakedQuad> bakeSimpleQuads(@Nullable List<String> partNames, @Nullable Matrix4f matrix, TextureAtlasSprite sprite, int tintIndex) {
+        List<FaceGeometry> geometries = buildGeometry(partNames);
+        List<BakedQuad> quads = new ArrayList<>(geometries.size());
+
+        for(FaceGeometry geometry : geometries) quads.add(geometry.buildQuad(sprite, tintIndex));
+
+        if(matrix != null) {
+            IQuadTransformer transformer = QuadTransformers.applying(new Transformation(matrix));
+            transformer.processInPlace(quads);
+        }
+
+        return quads;
+    }
+
+    protected List<FaceGeometry> buildGeometry(@Nullable List<String> partNames) {
         List<FaceGeometry> geometries = new ArrayList<>();
 
         for(S_GroupObject group : model.groupObjects) {
@@ -45,9 +69,9 @@ public abstract class AbstractWavefrontBakedModel extends AbstractBakedModel {
             for(S_Face face : group.faces) {
                 Vertex normal = face.faceNormal;
 
-                float[] n1 = GeometryBakeUtil.rotateX(normal.x, normal.y, normal.z, roll);
-                float[] n2 = GeometryBakeUtil.rotateZ(n1[0], n1[1], n1[2], pitch);
-                float[] n3 = GeometryBakeUtil.rotateY(n2[0], n2[1], n2[2], yaw);
+                float fxn = normal.x;
+                float fyn = normal.y;
+                float fzn = normal.z;
 
                 int vertexCount = face.vertices.length;
                 if(vertexCount < 3) continue;
@@ -65,26 +89,9 @@ public abstract class AbstractWavefrontBakedModel extends AbstractBakedModel {
                     int idx = indices[v];
                     Vertex vertex = face.vertices[idx];
 
-                    float[] p1 = GeometryBakeUtil.rotateX(vertex.x, vertex.y, vertex.z, roll);
-                    float[] p2 = GeometryBakeUtil.rotateZ(p1[0], p1[1], p1[2], pitch);
-                    float[] p3 = GeometryBakeUtil.rotateY(p2[0], p2[1], p2[2], yaw);
-
-                    float x = p3[0];
-                    float y = p3[1];
-                    float z = p3[2];
-
-                    switch(translate) {
-                        case CENTER -> {
-                            x += 0.5F;
-                            y += 0.5F;
-                            z += 0.5F;
-                        }
-                        case CENTER_NO_Y_OFFSET -> {
-                            x += 0.5F;
-                            x += 0F;
-                            z += 0.5F;
-                        }
-                    }
+                    float vx = vertex.x;
+                    float vy = vertex.y;
+                    float vz = vertex.z;
 
                     TextureCoordinate tex = face.textureCoordinates[idx];
                     uu[v] = tex.u;
@@ -92,26 +99,26 @@ public abstract class AbstractWavefrontBakedModel extends AbstractBakedModel {
 
                     Vertex vertexNormal = face.vertexNormals != null && idx < face.vertexNormals.length ? face.vertexNormals[idx] : null;
                     if(vertexNormal != null) {
-                        float[] vn1 = GeometryBakeUtil.rotateX(vertexNormal.x, vertexNormal.y, vertexNormal.z, roll);
-                        float[] vn2 = GeometryBakeUtil.rotateZ(vn1[0], vn1[1], vn1[2], pitch);
-                        float[] vn3 = GeometryBakeUtil.rotateY(vn2[0], vn2[1], vn2[2], yaw);
-                        Vector3f vectorNormal = new Vector3f(vn3[0], vn3[1], vn3[2]);
+                        float vxn = vertexNormal.x;
+                        float vyn = vertexNormal.y;
+                        float vzn = vertexNormal.z;
+                        Vector3f vectorNormal = new Vector3f(vxn, vyn, vzn);
                         if(vectorNormal.lengthSquared() > 0.0F) {
                             vectorNormal.normalize();
                         } else {
-                            vectorNormal.set(n3[0], n3[1], n3[2]);
+                            vectorNormal.set(fxn, fyn, fzn);
                         }
                         vertexNormals[v] = vectorNormal;
                     } else {
-                        vertexNormals[v] = new Vector3f(n3[0], n3[1], n3[2]);
+                        vertexNormals[v] = new Vector3f(fxn, fyn, fzn);
                     }
 
-                    px[v] = x;
-                    py[v] = y;
-                    pz[v] = z;
+                    px[v] = vx;
+                    py[v] = vy;
+                    pz[v] = vz;
                 }
 
-                Direction direction = Direction.getNearest(n3[0], n3[1], n3[2]);
+                Direction direction = Direction.getNearest(fxn, fyn, fzn);
                 geometries.add(new FaceGeometry(direction, px, py, pz, uu, vv, vertexNormals));
             }
         }

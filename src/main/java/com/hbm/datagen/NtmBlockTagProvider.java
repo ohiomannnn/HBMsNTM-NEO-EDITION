@@ -94,6 +94,10 @@ public class NtmBlockTagProvider extends BlockTagsProvider {
                         NtmBlocks.BRICK_CONCRETE_CRACKED.get(),
                         NtmBlocks.BRICK_CONCRETE_BROKEN.get(),
                         NtmBlocks.BRICK_CONCRETE_MARKED.get(),
+                        NtmBlocks.BRICK_OBSIDIAN.get(),
+                        NtmBlocks.BRICK_LIGHT.get(),
+                        NtmBlocks.BRICK_ASBESTOS.get(),
+                        NtmBlocks.BRICK_FIRE.get(),
 
                         NtmBlocks.BARBED_WIRE.get(),
                         NtmBlocks.SPIKES.get(),

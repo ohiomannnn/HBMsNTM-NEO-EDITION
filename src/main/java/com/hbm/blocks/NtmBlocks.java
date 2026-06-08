@@ -40,13 +40,15 @@ public class NtmBlocks {
     public static final DeferredBlock<Block> ASPHALT_LIGHT = registerBlock("asphalt_light", () -> new SpeedyBlock(1.5, BlockBehaviour.Properties.of().strength(15.0F, 120.0F).lightLevel(state -> 15).mapColor(MapColor.SAND)));
 
     // Bricks
-    public static final DeferredBlock<Block> BRICK_CONCRETE =         registerBlock("brick_concrete",         () -> new Block(        BlockBehaviour.Properties.of().strength(15.0F, 160.0F).requiresCorrectToolForDrops().mapColor(MapColor.STONE)));
-    public static final DeferredBlock<Block> BRICK_CONCRETE_MOSSY =   registerBlock("brick_concrete_mossy",   () -> new Block(        BlockBehaviour.Properties.of().strength(15.0F, 160.0F).requiresCorrectToolForDrops().mapColor(MapColor.STONE)));
-    public static final DeferredBlock<Block> BRICK_CONCRETE_CRACKED = registerBlock("brick_concrete_cracked", () -> new Block(        BlockBehaviour.Properties.of().strength(15.0F, 60.0F ).requiresCorrectToolForDrops().mapColor(MapColor.STONE)));
-    public static final DeferredBlock<Block> BRICK_CONCRETE_BROKEN =  registerBlock("brick_concrete_broken",  () -> new Block(        BlockBehaviour.Properties.of().strength(15.0F, 45.0F ).requiresCorrectToolForDrops().mapColor(MapColor.STONE)));
-    public static final DeferredBlock<Block> BRICK_CONCRETE_MARKED =  registerBlock("brick_concrete_marked",  () -> new WritingBlock( BlockBehaviour.Properties.of().strength(15.0F, 160.0F).requiresCorrectToolForDrops().mapColor(MapColor.STONE)));
-    public static final DeferredBlock<Block> BRICK_OBSIDIAN =         registerBlock("brick_obsidian",         () -> new Block(        BlockBehaviour.Properties.of().strength(15.0F, 120.0F).requiresCorrectToolForDrops().mapColor(MapColor.COLOR_BLACK).instrument(NoteBlockInstrument.BASEDRUM)));
-    public static final DeferredBlock<Block> BRICK_LIGHT =            registerBlock("brick_light",            () -> new Block(        BlockBehaviour.Properties.of().strength(5.0F,  20.0F ).requiresCorrectToolForDrops().mapColor(MapColor.SAND)));
+    public static final DeferredBlock<Block> BRICK_CONCRETE =         registerBlock("brick_concrete",         () -> new Block(BlockBehaviour.Properties.of().strength(15.0F, 160.0F ).mapColor(MapColor.STONE)));
+    public static final DeferredBlock<Block> BRICK_CONCRETE_MOSSY =   registerBlock("brick_concrete_mossy",   () -> new Block(BlockBehaviour.Properties.of().strength(15.0F, 160.0F).mapColor(MapColor.STONE)));
+    public static final DeferredBlock<Block> BRICK_CONCRETE_CRACKED = registerBlock("brick_concrete_cracked", () -> new Block(BlockBehaviour.Properties.of().strength(15.0F, 60.0F).mapColor(MapColor.STONE)));
+    public static final DeferredBlock<Block> BRICK_CONCRETE_BROKEN =  registerBlock("brick_concrete_broken",  () -> new Block(BlockBehaviour.Properties.of().strength(15.0F, 45.0F).mapColor(MapColor.STONE)));
+    public static final DeferredBlock<Block> BRICK_CONCRETE_MARKED =  registerBlock("brick_concrete_marked",  () -> new WritingBlock(BlockBehaviour.Properties.of().strength(15.0F, 160.0F ).mapColor(MapColor.STONE)));
+    public static final DeferredBlock<Block> BRICK_OBSIDIAN =         registerBlock("brick_obsidian",         () -> new Block(BlockBehaviour.Properties.of().strength(15.0F, 120.0F).mapColor(MapColor.COLOR_BLACK).instrument(NoteBlockInstrument.BASEDRUM)));
+    public static final DeferredBlock<Block> BRICK_LIGHT =            registerBlock("brick_light",            () -> new Block(BlockBehaviour.Properties.of().strength(5.0F, 20.0F).mapColor(MapColor.SAND)));
+    public static final DeferredBlock<Block> BRICK_ASBESTOS =         registerBlock("brick_asbestos",         () -> new OutgasBlock(true, true, BlockBehaviour.Properties.of().strength(5.0F, 1000.0F).mapColor(MapColor.SNOW)));
+    public static final DeferredBlock<Block> BRICK_FIRE =             registerBlock("brick_fire",             () -> new Block(BlockBehaviour.Properties.of().strength(5.0F, 35.0F).mapColor(MapColor.FIRE)));
 
     // Other defensive stuff
     public static final DeferredBlock<Block> BARBED_WIRE = registerBlockNew("barbed_wire", () -> new BarbedWireBlock(BlockBehaviour.Properties.of().strength(5.0F, 10.0F).noCollission()));

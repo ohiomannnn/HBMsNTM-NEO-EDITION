@@ -98,6 +98,14 @@ public class NtmSoundDefinitionsProvider extends SoundDefinitionsProvider {
                         sound("hbmsntm:entity/ducc2")
                 )
         );
+        this.add(NtmSoundEvents.SLICER, SoundDefinition.definition()
+                .with(
+                        sound("hbmsntm:entity/slicer1"),
+                        sound("hbmsntm:entity/slicer2"),
+                        sound("hbmsntm:entity/slicer3"),
+                        sound("hbmsntm:entity/slicer4")
+                )
+        );
         this.add(NtmSoundEvents.METEORITE_FALLING_LOOP, SoundDefinition.definition()
                 .with(sound("hbmsntm:entity/meteorite_falling_loop"))
         );

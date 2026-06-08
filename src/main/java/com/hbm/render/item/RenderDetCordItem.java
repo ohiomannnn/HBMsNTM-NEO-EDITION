@@ -42,7 +42,7 @@ public class RenderDetCordItem extends ItemRenderBaseStandard {
                 this.getSprite("block/det_cord")
         };
         this.models = new DetCordBakedModel[] {
-                new DetCordBakedModel(ResourceManager.cable_neo, sprites[0], false)
+                new DetCordBakedModel(ResourceManager.cable_neo, sprites[0])
         };
     }
 }

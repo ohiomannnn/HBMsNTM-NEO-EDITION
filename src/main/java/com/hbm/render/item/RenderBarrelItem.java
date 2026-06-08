@@ -2,7 +2,7 @@ package com.hbm.render.item;
 
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.main.ResourceManager;
-import com.hbm.render.model.BarrelBakedModel;
+import com.hbm.render.model.SimpleWavefrontBakedModel;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -39,11 +39,11 @@ public class RenderBarrelItem extends ItemRenderBaseStandard {
                 this.getSprite("block/barrel_lox"),
                 this.getSprite("block/barrel_taint")
         };
-        this.models = new BarrelBakedModel[] {
-                new BarrelBakedModel(ResourceManager.barrel, sprites[0]),
-                new BarrelBakedModel(ResourceManager.barrel, sprites[1]),
-                new BarrelBakedModel(ResourceManager.barrel, sprites[2]),
-                new BarrelBakedModel(ResourceManager.barrel, sprites[3]),
+        this.models = new SimpleWavefrontBakedModel[] {
+                new SimpleWavefrontBakedModel(ResourceManager.barrel, sprites[0]),
+                new SimpleWavefrontBakedModel(ResourceManager.barrel, sprites[1]),
+                new SimpleWavefrontBakedModel(ResourceManager.barrel, sprites[2]),
+                new SimpleWavefrontBakedModel(ResourceManager.barrel, sprites[3]),
         };
     }
 }

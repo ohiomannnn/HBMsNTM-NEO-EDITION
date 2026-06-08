@@ -28,6 +28,8 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmBlocks.BRICK_CONCRETE_MARKED, "Marked Concrete Bricks");
         this.add(NtmBlocks.BRICK_OBSIDIAN, "Obsidian Bricks");
         this.add(NtmBlocks.BRICK_LIGHT, "Light Bricks");
+        this.add(NtmBlocks.BRICK_ASBESTOS, "Asbestos Bricks");
+        this.add(NtmBlocks.BRICK_FIRE, "Firebricks");
 
         this.add(NtmBlocks.BARBED_WIRE, ".standard",   "Barbed Wire");
         this.add(NtmBlocks.BARBED_WIRE, ".fire",       "Flaming Barbed Wire");
@@ -35,6 +37,7 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmBlocks.BARBED_WIRE, ".acid",       "Caustic Barbed Wire");
         this.add(NtmBlocks.BARBED_WIRE, ".wither",     "Withered Barbed Wire");
         this.add(NtmBlocks.BARBED_WIRE, ".ultradeath", "Radioactive Barbed Wire");
+        this.add(NtmBlocks.SPIKES, "Spikes");
     }
 
     // HELPERS //

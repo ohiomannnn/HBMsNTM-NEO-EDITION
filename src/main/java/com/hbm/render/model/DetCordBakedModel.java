@@ -2,37 +2,37 @@ package com.hbm.render.model;
 
 import com.hbm.blocks.bomb.DetCordBlock;
 import com.hbm.render.loader.HFRWavefrontObject;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.client.model.data.ModelData;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class DetCordBakedModel extends AbstractWavefrontBakedModel {
+public class DetCordBakedModel extends LevelAwareWavefrontBakedModel {
 
     private final TextureAtlasSprite sprite;
-    private final boolean forBlock;
     private final List<BakedQuad>[] cache = new List[64];
     private List<BakedQuad> itemQuads;
 
-    public DetCordBakedModel(HFRWavefrontObject model, TextureAtlasSprite baseSprite, boolean forBlock) {
+    public DetCordBakedModel(HFRWavefrontObject model, TextureAtlasSprite baseSprite) {
         super(model, ItemTransforms.NO_TRANSFORMS);
         this.sprite = baseSprite;
-        this.forBlock = forBlock;
     }
 
     @Override
-    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction direction, RandomSource random) {
+    public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction direction, RandomSource random, ModelData data, @Nullable RenderType type) {
         if(direction != null) return Collections.emptyList();
 
-        if(!forBlock) {
-            if (itemQuads == null) {
+        if(!data.has(IN_LEVEL)) {
+            if(itemQuads == null) {
                 itemQuads = buildItemQuads();
             }
             return itemQuads;
@@ -82,7 +82,7 @@ public class DetCordBakedModel extends AbstractWavefrontBakedModel {
             }
         }
 
-        return bakeSimpleQuads(parts, 0.0F, 0.0F, 0.0F, BlockTranslate.CENTER, sprite);
+        return bakeSimpleQuads(parts, 0F, 0F, 0F, BlockTranslate.CENTER, sprite);
     }
 
     private List<BakedQuad> buildItemQuads() {
