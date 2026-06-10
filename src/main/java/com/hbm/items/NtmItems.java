@@ -28,7 +28,6 @@ import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -132,12 +131,12 @@ public class NtmItems {
     public static final DeferredItem<Item> INGOT_OSMIRIDIUM = ITEMS.register("ingot_osmiridium", () -> new Item(new Item.Properties()));
 
     // Nobody will ever read this anyway, so it shouldn't matter. // original comment, lmao
-    public static final DeferredItem<Item> IGNITER = ITEMS.register("igniter", () -> new LoreItem(new Properties().stacksTo(1)));
-    public static final DeferredItem<Item> DETONATOR = ITEMS.register("detonator", () -> new DetonatorItem(new Properties().stacksTo(1)));
-    public static final DeferredItem<Item> DETONATOR_MULTI = ITEMS.register("detonator_multi", () -> new MultiDetonatorItem(new Properties().stacksTo(1)));
-    public static final DeferredItem<Item> DETONATOR_LASER = ITEMS.register("detonator_laser", () -> new LaserDetonatorItem(new Properties().stacksTo(1)));
-    public static final DeferredItem<Item> DETONATOR_DEADMAN = ITEMS.register("detonator_deadman", () -> new DangerousDropItem(new Properties().stacksTo(1)));
-    public static final DeferredItem<Item> DETONATOR_DE = ITEMS.register("detonator_de", () -> new DangerousDropItem(new Properties().stacksTo(1)));
+    public static final DeferredItem<Item> IGNITER = ITEMS.register("igniter", () -> new LoreItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> DETONATOR = ITEMS.register("detonator", () -> new DetonatorItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> DETONATOR_MULTI = ITEMS.register("detonator_multi", () -> new MultiDetonatorItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> DETONATOR_LASER = ITEMS.register("detonator_laser", () -> new LaserDetonatorItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> DETONATOR_DEADMAN = ITEMS.register("detonator_deadman", () -> new DangerousDropItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> DETONATOR_DE = ITEMS.register("detonator_de", () -> new DangerousDropItem(new Item.Properties().stacksTo(1)));
 
     public static final DeferredItem<Item> PELLET_RTG = ITEMS.register("pellet_rtg", () -> new Item(new Item.Properties()));
 
@@ -159,15 +158,15 @@ public class NtmItems {
     );
 
     // Cells
-    public static final DeferredItem<Item> CELL_EMPTY = ITEMS.register("cell_empty", () -> new Item(new Properties()));
-    public static final DeferredItem<Item> CELL_UF6 = ITEMS.register("cell_uf6", () -> new Item(new Properties()));
-    public static final DeferredItem<Item> CELL_PUF6 = ITEMS.register("cell_puf6", () -> new Item(new Properties()));
-    public static final DeferredItem<Item> CELL_ANTIMATTER = ITEMS.register("cell_antimatter", () -> new DangerousDropItem(new Properties()));
-    public static final DeferredItem<Item> CELL_DEUTERIUM = ITEMS.register("cell_deuterium", () -> new Item(new Properties()));
-    public static final DeferredItem<Item> CELL_TRITIUM = ITEMS.register("cell_tritium", () -> new Item(new Properties()));
-    public static final DeferredItem<Item> CELL_SAS3 = ITEMS.register("cell_sas3", () -> new Item(new Properties().rarity(Rarity.RARE)));
-    public static final DeferredItem<Item> CELL_ANTI_SCHARBIDIUM = ITEMS.register("cell_anti_schrabidium", () -> new DangerousDropItem(new Properties()));
-    public static final DeferredItem<Item> CELL_BALEFIRE = ITEMS.register("cell_balefire", () -> new Item(new Properties()));
+    public static final DeferredItem<Item> CELL_EMPTY = ITEMS.register("cell_empty", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CELL_UF6 = ITEMS.register("cell_uf6", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CELL_PUF6 = ITEMS.register("cell_puf6", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CELL_ANTIMATTER = ITEMS.register("cell_antimatter", () -> new DangerousDropItem(new Item.Properties()));
+    public static final DeferredItem<Item> CELL_DEUTERIUM = ITEMS.register("cell_deuterium", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CELL_TRITIUM = ITEMS.register("cell_tritium", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CELL_SAS3 = ITEMS.register("cell_sas3", () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+    public static final DeferredItem<Item> CELL_ANTI_SCHARBIDIUM = ITEMS.register("cell_anti_schrabidium", () -> new DangerousDropItem(new Item.Properties()));
+    public static final DeferredItem<Item> CELL_BALEFIRE = ITEMS.register("cell_balefire", () -> new Item(new Item.Properties()));
 
     public static final DeferredItem<Item> PELLET_ANTIMATTER = ITEMS.register("pellet_antimatter", () -> new DangerousDropItem(new Item.Properties()));
     public static final DeferredItem<Item> SINGULARITY = ITEMS.register("singularity", () -> new DangerousDropItem(new Item.Properties().stacksTo(1)));
@@ -184,7 +183,7 @@ public class NtmItems {
     public static final DeferredItem<Item> DIGAMMA_DIAGNOSTIC = ITEMS.register("digamma_diagnostic", () -> new DigammaDiagnosticItem(new Item.Properties().stacksTo(1)));
 
     // Kits
-    public static final DeferredItem<Item> STARTER_KIT = ITEMS.register("starter_kit", () -> new StarterKitItem(new Properties().stacksTo(1)));
+    public static final DeferredItem<Item> STARTER_KIT = ITEMS.register("starter_kit", () -> new StarterKitItem(new Item.Properties().stacksTo(1)));
 
     public static final DeferredItem<Item> SCREWDRIVER = ITEMS.register("screwdriver",
             () -> new Item(new Item.Properties().stacksTo(8)));
@@ -198,7 +197,7 @@ public class NtmItems {
     public static final DeferredItem<Item> BATTERY_CREATIVE = ITEMS.register("battery_creative", () -> new BatteryCreativeItem(new Item.Properties().stacksTo(1)));
 
     // Folders
-    public static final DeferredItem<Item> BLUEPRINTS = ITEMS.register("blueprints", () -> new BlueprintsItem(new Properties()));
+    public static final DeferredItem<Item> BLUEPRINTS = ITEMS.register("blueprints", () -> new BlueprintsItem(new Item.Properties()));
 
     public static final DeferredItem<Item> FLUID_TANK_EMPTY = ITEMS.register("fluid_tank_empty", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> FLUID_TANK_FULL = ITEMS.register("fluid_tank_full", () -> new FluidTankItem(new Item.Properties()));
@@ -393,7 +392,7 @@ public class NtmItems {
 
     public static final DeferredItem<Item> NOTHING = ITEMS.register("nothing", () -> new Item(new Item.Properties()));
 
-    public static final DeferredItem<Item> CASING = ITEMS.register("casing", () -> new EnumMultiItem(new Properties(), CasingType.class, true, true));
+    public static final DeferredItem<Item> CASING = ITEMS.register("casing", () -> new EnumMultiItem(new Item.Properties(), CasingType.class, true, true));
 
     public static DeferredItem<Item> AMMO_DEBUG;
     public static DeferredItem<Item> AMMO_STANDARD;

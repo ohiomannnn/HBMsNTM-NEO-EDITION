@@ -10,6 +10,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.model.data.ModelData;
+import org.joml.Matrix4f;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -77,12 +78,15 @@ public class CableBakedModel extends LevelAwareWavefrontBakedModel {
             if(pZ) parts.add("negZ");
         }
 
-        return bakeSimpleQuads(parts, 0F, 0F, 0F, BlockTranslate.CENTER, sprite);
+        Matrix4f matrix = new Matrix4f();
+        matrix.translate(0.5F, 0.5F, 0.5F);
+
+        return bakeSimpleQuads(parts, matrix, sprite);
     }
 
     private List<BakedQuad> buildItemQuads() {
         List<String> parts = List.of("Core", "posX", "negX", "posZ", "negZ");
-        return bakeSimpleQuads(parts, 0F, 0F, 0F, BlockTranslate.NONE, sprite);
+        return bakeSimpleQuads(parts, null, sprite);
     }
 
     @Override

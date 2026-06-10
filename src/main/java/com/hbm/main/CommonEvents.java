@@ -1,5 +1,6 @@
 package com.hbm.main;
 
+import com.hbm.blockentity.IScreenProvider;
 import com.hbm.blockentity.bomb.LaunchPadBaseBlockEntity;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.commands.ChunkRadCommand;
@@ -28,6 +29,7 @@ import com.hbm.uninos.UniNodespace;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.DamageResistanceHandler;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.ClickEvent;
@@ -41,6 +43,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -49,6 +53,7 @@ import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.BlockEvent.BreakEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
@@ -116,6 +121,29 @@ public class CommonEvents {
     public static void onEntityAttributeCreation(EntityAttributeCreationEvent event) {
         event.put(NtmEntityTypes.DUCK.get(), Duck.createAttributes().build());
         event.put(NtmEntityTypes.CREEPER_NUCLEAR.get(), CreeperNuclear.createAttributes().build());
+    }
+
+
+    @SubscribeEvent
+    public static void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
+
+        if(event.getItemStack().getItem() instanceof IScreenProvider) {
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+        Level level = event.getLevel();
+        BlockHitResult bhr = event.getHitVec();
+
+        if(bhr.getType() == HitResult.Type.BLOCK && level.getBlockState(event.getPos()).getBlock() instanceof IScreenProvider) {
+            event.setCanceled(true);
+        }
+
+        if(bhr.getType() == HitResult.Type.BLOCK && level.getBlockEntity(event.getPos()) instanceof IScreenProvider) {
+            event.setCanceled(true);
+        }
     }
 
     @SubscribeEvent

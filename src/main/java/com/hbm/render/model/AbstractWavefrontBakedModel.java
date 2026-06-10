@@ -29,19 +29,6 @@ public abstract class AbstractWavefrontBakedModel extends AbstractBakedModel {
         this.model = model;
     }
 
-    @Deprecated
-    protected List<BakedQuad> bakeSimpleQuads(@Nullable List<String> partNames, float roll, float pitch, float yaw, BlockTranslate translate, TextureAtlasSprite sprite) {
-        return bakeSimpleQuads(partNames, roll, pitch, yaw, translate, sprite, -1);
-    }
-
-    @Deprecated
-    protected List<BakedQuad> bakeSimpleQuads(@Nullable List<String> partNames, float roll, float pitch, float yaw, BlockTranslate translate, TextureAtlasSprite sprite, int tintIndex) {
-        List<FaceGeometry> geometries = buildGeometry(partNames);
-        List<BakedQuad> quads = new ArrayList<>(geometries.size());
-        for(FaceGeometry geometry : geometries) quads.add(geometry.buildQuad(sprite, tintIndex));
-        return quads;
-    }
-
     protected List<BakedQuad> bakeSimpleQuads(@Nullable List<String> partNames, @Nullable Matrix4f matrix, TextureAtlasSprite sprite) {
         return bakeSimpleQuads(partNames, matrix, sprite, -1);
     }
@@ -124,12 +111,6 @@ public abstract class AbstractWavefrontBakedModel extends AbstractBakedModel {
         }
 
         return geometries;
-    }
-
-    protected enum BlockTranslate {
-        CENTER,
-        CENTER_NO_Y_OFFSET,
-        NONE
     }
 
     protected static class FaceGeometry {

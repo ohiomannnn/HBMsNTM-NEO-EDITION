@@ -50,7 +50,6 @@ public class BarbedWireBakedModel extends LevelAwareWavefrontBakedModel {
         int mask = 0 + (dir.get3DDataValue() - 2);
         List<BakedQuad> quads = cache[mask];
         if(quads != null) return quads;
-
         quads = buildWorldQuads(dir);
         return cache[mask] = quads;
     }

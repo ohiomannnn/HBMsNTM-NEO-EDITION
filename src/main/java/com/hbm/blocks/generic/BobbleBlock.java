@@ -1,15 +1,19 @@
 package com.hbm.blocks.generic;
 
+import com.hbm.blockentity.BlockEntityNT;
 import com.hbm.blockentity.IScreenProvider;
+import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.blocks.IMultiBlock;
 import com.hbm.inventory.MetaHelper;
 import com.hbm.inventory.screens.BobbleScreen;
 import com.hbm.util.EnumUtil;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
@@ -19,30 +23,36 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.storage.loot.LootParams.Builder;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.List;
-import java.util.Locale;
 
 public class BobbleBlock extends Block implements IMultiBlock, EntityBlock, IScreenProvider {
 
     private static final IntegerProperty META = IntegerProperty.create("meta", 0, BobbleType.values().length);
+    public static final IntegerProperty DIRECTION = IntegerProperty.create("direction", 0, 16);
 
     public BobbleBlock(Properties properties) {
         super(properties);
 
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(META, 0)
+                .setValue(DIRECTION, 0)
         );
     }
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return this.defaultBlockState().setValue(META, MetaHelper.getMeta(context.getItemInHand()));
+        return this.defaultBlockState()
+                .setValue(META, MetaHelper.getMeta(context.getItemInHand()))
+                .setValue(DIRECTION, Mth.floor((double) ((context.getRotation() + 180.0F) * 16.0F / 360.0F) + 0.5D) & 15);
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(META);
+        builder.add(META, DIRECTION);
     }
 
     @Override
@@ -61,7 +71,13 @@ public class BobbleBlock extends Block implements IMultiBlock, EntityBlock, IScr
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return null;
+        return new BobbleBlockEntity(pos, state);
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        double f = 0.0625;
+        return Shapes.box(5.5 * f, 0.0, 5.5 * f, 1.0 - 5.5 * f, 0.625, 1.0 - 5.5 * f);
     }
 
     @Override
@@ -72,15 +88,14 @@ public class BobbleBlock extends Block implements IMultiBlock, EntityBlock, IScr
     @Override public int getMeta(BlockState state) { return state.getValue(META); }
     @Override public int getSubCount() { return BobbleType.values().length; }
 
-    @Override
-    public String getItemDescriptionId(ItemStack stack) {
-        Enum<?> num = EnumUtil.grabEnumSafely(BobbleType.class, MetaHelper.getMeta(stack));
-        return super.getDescriptionId() + "." + num.name().toLowerCase(Locale.US);
+    public static class BobbleBlockEntity extends BlockEntityNT {
+        public BobbleBlockEntity(BlockPos pos, BlockState state) {
+            super(NtmBlockEntityTypes.BOBBLEHEAD.get(), pos, state);
+        }
     }
 
     public enum BobbleType {
 
-        NONE(			"null",								"null",             null,														null,																								false,	ScrapType.BOARD_BLANK),
         STRENGTH(		"Strength",							"Strength",         null,														"It's essential to give your arguments impact.",													false,	ScrapType.BRIDGE_BIOS),
         PERCEPTION(		"Perception",						    "Perception",       null,														"Only through observation will you perceive weakness.",											false,	ScrapType.BRIDGE_NORTH),
         ENDURANCE(		"Endurance",						    "Endurance",        null,														"Always be ready to take one for the team.",														false,	ScrapType.BRIDGE_SOUTH),

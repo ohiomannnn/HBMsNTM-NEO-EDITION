@@ -31,9 +31,6 @@ public class ResourceManager {
     public static final ResourceLocation DUD_NUKE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/bombs/dud_nuke.png");
     public static final ResourceLocation DUD_SALTED_TEX = NuclearTechMod.withDefaultNamespace("textures/models/bombs/dud_salted.png");
 
-    public static final ResourceLocation NO9 = NuclearTechMod.withDefaultNamespace("textures/armor/no9.png");
-    public static final ResourceLocation NO9_INSIGNIA = NuclearTechMod.withDefaultNamespace("textures/armor/no9_insignia.png");
-
     public static final ResourceLocation TANK_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/tank.png");
     public static final ResourceLocation TANK_INNER_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/tank_inner.png");
 
@@ -90,6 +87,27 @@ public class ResourceManager {
     public static final ResourceLocation BOMBLET_ZETA_TEX = NuclearTechMod.withDefaultNamespace("textures/models/bomblet_zeta.png");
 
     public static final ResourceLocation DETONATOR_LASER_TEX = NuclearTechMod.withDefaultNamespace("textures/models/weapon/detonator_laser.png");
+
+    // Shimmer Sledge
+    public static final ResourceLocation SHIMMER_SLEDGE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/shimmer_sledge.png");
+    public static final ResourceLocation SHIMMER_AXE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/shimmer_axe.png");
+
+    public static final ResourceLocation FATMAN_TEX = NuclearTechMod.withDefaultNamespace("textures/models/weapon/fatman.png");
+    public static final ResourceLocation FATMAN_MININUKE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/weapon/fatman_mininuke.png");
+    public static final ResourceLocation FATMAN_BALEFIRE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/weapon/fatman_balefire.png");
+    public static final ResourceLocation DOUBLE_BARREL_SACRED_DRAGON_TEX = NuclearTechMod.withDefaultNamespace("textures/models/weapon/double_barrel_sacred_dragon.png");
+    public static final ResourceLocation N_I_4_N_I_TEX = NuclearTechMod.withDefaultNamespace("textures/models/weapon/n_i_4_n_i.png");
+    public static final ResourceLocation N_I_4_N_I_GREYSCALE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/weapon/n_i_4_n_i_greyscale.png");
+
+    public static final ResourceLocation HEV_HELMET = NuclearTechMod.withDefaultNamespace("textures/armor/hev_helmet.png");
+    public static final ResourceLocation HEV_LEG = NuclearTechMod.withDefaultNamespace("textures/armor/hev_leg.png");
+    public static final ResourceLocation HEV_CHEST = NuclearTechMod.withDefaultNamespace("textures/armor/hev_chest.png");
+    public static final ResourceLocation HEV_ARM = NuclearTechMod.withDefaultNamespace("textures/armor/hev_arm.png");
+
+    public static final ResourceLocation HAT_TEX = NuclearTechMod.withDefaultNamespace("textures/armor/hat.png");
+    public static final ResourceLocation NO9_TEX = NuclearTechMod.withDefaultNamespace("textures/armor/no9.png");
+    public static final ResourceLocation NO9_INSIGNIA_TEX = NuclearTechMod.withDefaultNamespace("textures/armor/no9_insignia.png");
+
     public static final ResourceLocation WHITE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/white.png");
 
     // Landmines
@@ -120,8 +138,6 @@ public class ResourceManager {
     public static IModelCustom dud_conventional;
     public static IModelCustom dud_nuke;
     public static IModelCustom dud_salted;
-
-    public static IModelCustom armor_no9;
 
     public static HFRWavefrontObject barrel;
     public static HFRWavefrontObject barbed_wire;
@@ -157,6 +173,18 @@ public class ResourceManager {
 
     public static IModelCustom detonator_laser;
 
+    //Shimmer Sledge
+    public static IModelCustom shimmer_sledge;
+    public static IModelCustom shimmer_axe;
+
+    public static IModelCustom fatman;
+    public static IModelCustom double_barrel;
+    public static IModelCustom n_i_4_n_i;
+
+    public static IModelCustom armor_hev;
+    public static IModelCustom armor_hat;
+    public static IModelCustom armor_no9;
+
     public static IModelCustom sphere_new;
 
     public static void init() {
@@ -186,8 +214,6 @@ public class ResourceManager {
         dud_conventional = new HFRWavefrontObject("models/obj/bomb/dud_conventional.obj").asVBO();
         dud_nuke = new HFRWavefrontObject("models/obj/bomb/dud_nuke.obj").asVBO();
         dud_salted = new HFRWavefrontObject("models/obj/bomb/dud_salted.obj").asVBO();
-
-        armor_no9 = new HFRWavefrontObject("models/obj/armor/no9.obj").asVBO();
 
         barrel = new HFRWavefrontObject("models/obj/block/barrel.obj");
         barbed_wire = new HFRWavefrontObject("models/obj/block/barbed_wire.obj");
@@ -219,6 +245,17 @@ public class ResourceManager {
         bomblet_zeta = new HFRWavefrontObject("models/obj/bomblet_zeta.obj").asVBO();
 
         detonator_laser = new HFRWavefrontObject("models/obj/weapons/detonator_laser.obj").asVBO();
+
+        //shimmer_sledge = new HFRWavefrontObject("models/obj/shimmer_sledge.obj").asVBO();
+        shimmer_axe = new HFRWavefrontObject("models/obj/shimmer_axe.obj").asVBO();
+
+        fatman = new HFRWavefrontObject("models/obj/weapons/fatman.obj").asVBO();
+        double_barrel = new HFRWavefrontObject("models/obj/weapons/sacred_dragon.obj").asVBO();
+        n_i_4_n_i = new HFRWavefrontObject("models/obj/weapons/n_i_4_n_i.obj").asVBO();
+
+        armor_hev = new HFRWavefrontObject("models/obj/armor/hev.obj").asVBO();
+        armor_hat = new HFRWavefrontObject("models/obj/armor/hat.obj").asVBO();
+        armor_no9 = new HFRWavefrontObject("models/obj/armor/no9.obj").asVBO();
 
         sphere_new = new HFRWavefrontObject("models/obj/sphere_new.obj").asVBO();
     }

@@ -7,6 +7,7 @@ import com.hbm.blockentity.network.CableBaseBlockEntity;
 import com.hbm.blockentity.network.PipeBaseBlockEntity;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.blocks.bomb.VolcanoBlock.VolcanoCoreBlockEntity;
+import com.hbm.blocks.generic.BobbleBlock.BobbleBlockEntity;
 import com.hbm.blocks.generic.PlushieBlock.PlushieBlockEntity;
 import com.hbm.main.NuclearTechMod;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -86,6 +87,7 @@ public class NtmBlockEntityTypes {
             "proxy_combo",
             () -> BlockEntityType.Builder.of(ProxyComboBlockEntity::new).build(null));
 
+    public static final Supplier<BlockEntityType<BobbleBlockEntity>> BOBBLEHEAD = REGISTER.register("bobblehead", () -> BlockEntityType.Builder.of(BobbleBlockEntity::new, NtmBlocks.BOBBLEHEAD.get()).build(null));
     public static final Supplier<BlockEntityType<PlushieBlockEntity>> PLUSHIE = REGISTER.register("plushie", () -> BlockEntityType.Builder.of(PlushieBlockEntity::new, NtmBlocks.PLUSHIE.get()).build(null));
 
     public static final Supplier<BlockEntityType<CableBaseBlockEntity>> NETWORK_CABLE = REGISTER.register("network_cable", () -> BlockEntityType.Builder.of(CableBaseBlockEntity::new, NtmBlocks.RED_CABLE.get()).build(null));

@@ -1,5 +1,6 @@
 package com.hbm.handler.jei;
 
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.handler.jei.subtypes.BatterySubtypeInterpreter;
 import com.hbm.handler.jei.subtypes.MetaSubtypeInterpreter;
 import com.hbm.inventory.fluid.FluidType;
@@ -29,6 +30,21 @@ public class ModPlugin implements IModPlugin {
 
         List<Item> ignoreMeta = List.of(
 
+                NtmBlocks.BOBBLEHEAD.asItem(),
+                NtmBlocks.PLUSHIE.asItem(),
+
+                NtmBlocks.BARBED_WIRE.asItem(),
+
+                NtmBlocks.FLUID_DUCT_NEO.asItem(),
+
+                NtmBlocks.CRASHED_BOMB.asItem(),
+
+                NtmItems.ROD.get(),
+                NtmItems.ROD_DUAL.get(),
+                NtmItems.ROD_QUAD.get(),
+
+                NtmItems.STARTER_KIT.get(),
+
                 NtmItems.BATTERY_SC.get(),
 
                 NtmItems.FLUID_TANK_FULL.get(),
@@ -40,12 +56,9 @@ public class ModPlugin implements IModPlugin {
                 NtmItems.FLUID_IDENTIFIER_MULTI.get()
         );
 
-        for (Item item : ignoreMeta) {
+        for(Item item : ignoreMeta) {
             regs.registerSubtypeInterpreter(item, MetaSubtypeInterpreter.INSTANCE);
         }
-//        for (Item item : ignoreCD) {
-//            regs.registerSubtypeInterpreter(item, CustomDataSubtypeInterpreter.INSTANCE);
-//        }
 
         regs.registerSubtypeInterpreter(NtmItems.BATTERY_PACK.get(), BatterySubtypeInterpreter.INSTANCE);
     }
@@ -55,7 +68,7 @@ public class ModPlugin implements IModPlugin {
         List<ItemStack> extra = new ArrayList<>();
 
         FluidType[] types = Fluids.getInNiceOrder();
-        for (int i = 1; i < types.length; ++i) {
+        for(int i = 1; i < types.length; ++i) {
             FluidType type = types[i];
 
             extra.add(FluidIconItem.make(type, 1000));

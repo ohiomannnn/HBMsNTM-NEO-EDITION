@@ -1,7 +1,6 @@
 package com.hbm.blocks.generic;
 
 import com.hbm.blocks.IMultiBlock;
-import com.hbm.blocks.generic.BobbleBlock.BobbleType;
 import com.hbm.inventory.MetaHelper;
 import com.hbm.lib.ModEffect;
 import com.hbm.util.EnumUtil;
@@ -34,7 +33,7 @@ import java.util.function.Consumer;
 
 public class BarbedWireBlock extends Block implements IMultiBlock {
 
-    public enum BWType {
+    public enum Type {
         STANDARD(LAMBDA_STANDARD),
         FIRE(LAMBDA_FIRE),
         POISON(LAMBDA_POISON),
@@ -44,8 +43,8 @@ public class BarbedWireBlock extends Block implements IMultiBlock {
 
         public final Consumer<Entity> entityInside;
 
-        BWType(Consumer<Entity> cons) {
-            this.entityInside = cons;
+        Type(Consumer<Entity> lambda) {
+            this.entityInside = lambda;
         }
     }
 
@@ -75,27 +74,27 @@ public class BarbedWireBlock extends Block implements IMultiBlock {
         if(entity instanceof LivingEntity living) living.addEffect(new MobEffectInstance(ModEffect.RADIATION, 100, 9));
     };
 
-    public static final IntegerProperty TYPE = IntegerProperty.create("type", 0, 5);
+    public static final IntegerProperty SUBTYPE = IntegerProperty.create("sub_type", 0, 5);
     public static final DirectionProperty HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     public BarbedWireBlock(Properties properties) {
         super(properties);
 
         this.registerDefaultState(this.stateDefinition.any()
-                .setValue(TYPE, 0)
+                .setValue(SUBTYPE, 0)
                 .setValue(HORIZONTAL_FACING, Direction.NORTH)
         );
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(TYPE, HORIZONTAL_FACING);
+        builder.add(SUBTYPE, HORIZONTAL_FACING);
     }
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         return this.defaultBlockState()
-                .setValue(TYPE, MetaHelper.getMeta(context.getItemInHand()))
+                .setValue(SUBTYPE, MetaHelper.getMeta(context.getItemInHand()))
                 .setValue(HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite());
     }
 
@@ -133,16 +132,16 @@ public class BarbedWireBlock extends Block implements IMultiBlock {
 
         entity.setDeltaMovement(entity.getDeltaMovement().multiply(0.15, 0.1, 0.15));
 
-        BWType type = EnumUtil.grabEnumSafely(BWType.class, state.getValue(TYPE));
+        BarbedWireBlock.Type type = EnumUtil.grabEnumSafely(BarbedWireBlock.Type.class, this.getMeta(state));
         type.entityInside.accept(entity);
     }
 
     @Override
     public String getItemDescriptionId(ItemStack stack) {
-        Enum<?> num = EnumUtil.grabEnumSafely(BWType.class, MetaHelper.getMeta(stack));
+        Enum<?> num = EnumUtil.grabEnumSafely(BarbedWireBlock.Type.class, MetaHelper.getMeta(stack));
         return super.getDescriptionId() + "." + num.name().toLowerCase(Locale.US);
     }
 
-    @Override public int getMeta(BlockState state) { return state.getValue(TYPE); }
-    @Override public int getSubCount() { return BWType.values().length; }
+    @Override public int getMeta(BlockState state) { return state.getValue(SUBTYPE); }
+    @Override public int getSubCount() { return BarbedWireBlock.Type.values().length; }
 }

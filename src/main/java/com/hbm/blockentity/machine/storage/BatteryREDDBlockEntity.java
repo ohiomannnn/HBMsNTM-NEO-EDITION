@@ -16,6 +16,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -37,6 +38,11 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
 
     public BatteryREDDBlockEntity(BlockPos pos, BlockState state) {
         super(NtmBlockEntityTypes.BATTERY_REDD.get(), pos, state, 2);
+    }
+
+    @Override
+    public boolean stillValid(Player player) {
+        return Container.stillValidBlockEntity(this, player, 6.0F);
     }
 
     @Override public Component getDefaultName() { return Component.translatable("container.batteryREDD"); }

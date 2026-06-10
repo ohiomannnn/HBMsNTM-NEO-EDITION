@@ -237,6 +237,7 @@ public class ModCreativeTabs {
                         output.accept(NtmBlocks.BRICK_CONCRETE_MOSSY_SLAB);
                         output.accept(NtmBlocks.BRICK_CONCRETE_CRACKED_SLAB);
                         output.accept(NtmBlocks.BRICK_CONCRETE_BROKEN_SLAB);
+
                         output.accept(NtmBlocks.BRICK_CONCRETE_STAIRS);
                         output.accept(NtmBlocks.BRICK_CONCRETE_MOSSY_STAIRS);
                         output.accept(NtmBlocks.BRICK_CONCRETE_CRACKED_STAIRS);

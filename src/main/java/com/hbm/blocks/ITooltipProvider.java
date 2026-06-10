@@ -14,8 +14,8 @@ import java.util.List;
 public interface ITooltipProvider {
 
     default void addStandardInfo(List<Component> tooltip) {
-        if (Screen.hasShiftDown()) {
-            for (String s : I18nUtil.resolveKeyArray(((Block) this).getDescriptionId() + ".desc")) {
+        if(Screen.hasShiftDown()) {
+            for(String s : I18nUtil.resolveKeyArray(((Block) this).getDescriptionId() + ".desc")) {
                 tooltip.add(Component.literal(s).withStyle(ChatFormatting.YELLOW));
             }
         } else {

@@ -43,6 +43,7 @@ public class BlockItemBase extends BlockItem implements IMetaItem {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
         super.appendHoverText(stack, context, components, flag);
+
         if(this.getBlock() instanceof IPersistentInfoProvider ipip) {
             CompoundTag tag = TagsUtil.getCData(stack);
             if(tag.contains(IPersistentNBT.NBT_PERSISTENT_KEY)) ipip.appendHoverText(stack, tag.getCompound(IPersistentNBT.NBT_PERSISTENT_KEY), components, context, flag);

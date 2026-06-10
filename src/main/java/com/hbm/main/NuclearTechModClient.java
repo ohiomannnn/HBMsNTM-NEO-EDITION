@@ -507,7 +507,6 @@ public class NuclearTechModClient {
 
         if(event.getItemStack().getItem() instanceof IScreenProvider provider) {
             mc.setScreen(provider.provideScreenOnRightClick(mc.player, event.getPos()));
-            event.setCanceled(true);
         }
     }
 
@@ -522,12 +521,10 @@ public class NuclearTechModClient {
 
         if(bhr.getType() == HitResult.Type.BLOCK && level.getBlockState(event.getPos()).getBlock() instanceof IScreenProvider provider) {
             mc.setScreen(provider.provideScreenOnRightClick(mc.player, event.getPos()));
-            event.setCanceled(true);
         }
 
         if(bhr.getType() == HitResult.Type.BLOCK && level.getBlockEntity(event.getPos()) instanceof IScreenProvider provider) {
             mc.setScreen(provider.provideScreenOnRightClick(mc.player, event.getPos()));
-            event.setCanceled(true);
         }
     }
 
@@ -639,6 +636,7 @@ public class NuclearTechModClient {
     @SubscribeEvent
     public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
 
+        BlockEntityRenderers.register(NtmBlockEntityTypes.BOBBLEHEAD.get(), new RenderBobble());
         BlockEntityRenderers.register(NtmBlockEntityTypes.PLUSHIE.get(), new RenderPlushie());
 
         BlockEntityRenderers.register(NtmBlockEntityTypes.ASSEMBLY_MACHINE.get(), new RenderAssemblyMachine());

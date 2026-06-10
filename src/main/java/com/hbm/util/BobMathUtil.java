@@ -20,6 +20,9 @@ public class BobMathUtil {
     public static float sqrt(double value) { return (float) Math.sqrt(value); }
     public static float sqrt(float value) { return (float) Math.sqrt(value); }
 
+    public static float sin(double value) { return (float) Math.sin(value); }
+    public static float sin(float value) { return (float) Math.sin(value); }
+
     //finally!
     public static int min(int... nums) {
         int smallest = Integer.MAX_VALUE;

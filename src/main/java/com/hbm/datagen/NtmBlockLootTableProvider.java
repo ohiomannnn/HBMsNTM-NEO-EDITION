@@ -40,16 +40,21 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(NtmBlocks.BRICK_ASBESTOS.get());
         this.dropSelf(NtmBlocks.BRICK_FIRE.get());
 
-        this.dropSelf(NtmBlocks.BARBED_WIRE.get());
-        this.dropSelf(NtmBlocks.SPIKES.get());
-
-        this.dropSelf(NtmBlocks.GRAVEL_OBSIDIAN.get());
-        this.dropSelf(NtmBlocks.BLOCK_SCRAP.get());
+        this.add(NtmBlocks.BRICK_CONCRETE_SLAB.get(), this::createSlabItemTable);
+        this.add(NtmBlocks.BRICK_CONCRETE_MOSSY_SLAB.get(), this::createSlabItemTable);
+        this.add(NtmBlocks.BRICK_CONCRETE_BROKEN_SLAB.get(), this::createSlabItemTable);
+        this.add(NtmBlocks.BRICK_CONCRETE_CRACKED_SLAB.get(), this::createSlabItemTable);
 
         this.dropSelf(NtmBlocks.BRICK_CONCRETE_STAIRS.get());
         this.dropSelf(NtmBlocks.BRICK_CONCRETE_MOSSY_STAIRS.get());
         this.dropSelf(NtmBlocks.BRICK_CONCRETE_BROKEN_STAIRS.get());
         this.dropSelf(NtmBlocks.BRICK_CONCRETE_CRACKED_STAIRS.get());
+
+        this.dropSelf(NtmBlocks.BARBED_WIRE.get());
+        this.dropSelf(NtmBlocks.SPIKES.get());
+
+        this.dropSelf(NtmBlocks.GRAVEL_OBSIDIAN.get());
+        this.dropSelf(NtmBlocks.BLOCK_SCRAP.get());
 
         this.dropSelf(NtmBlocks.NUKE_GADGET.get());
         this.dropSelf(NtmBlocks.NUKE_LITTLE_BOY.get());
@@ -155,11 +160,6 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
 
         this.add(NtmBlocks.ORE_SELLAFIELD_EMERALD.get(), block -> this.createOreDrop(block, Items.EMERALD));
         this.add(NtmBlocks.ORE_SELLAFIELD_DIAMOND.get(), block -> this.createOreDrop(block, Items.DIAMOND));
-
-        this.add(NtmBlocks.BRICK_CONCRETE_SLAB.get(), this::createSlabItemTable);
-        this.add(NtmBlocks.BRICK_CONCRETE_MOSSY_SLAB.get(), this::createSlabItemTable);
-        this.add(NtmBlocks.BRICK_CONCRETE_BROKEN_SLAB.get(), this::createSlabItemTable);
-        this.add(NtmBlocks.BRICK_CONCRETE_CRACKED_SLAB.get(), this::createSlabItemTable);
     }
 
     @Override

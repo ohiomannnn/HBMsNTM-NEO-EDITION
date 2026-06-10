@@ -10,6 +10,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.client.model.data.ModelData;
+import org.joml.Matrix4f;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -53,7 +54,6 @@ public class DetCordBakedModel extends LevelAwareWavefrontBakedModel {
         int mask = 0 + (pX ? 32 : 0) + (nX ? 16 : 0) + (pY ? 8 : 0) + (nY ? 4 : 0) + (pZ ? 2 : 0) + (nZ ? 1 : 0);
         List<BakedQuad> quads = cache[mask];
         if(quads != null) return quads;
-
         quads = buildWorldQuads(pX, nX, pY, nY, pZ, nZ, mask);
         return cache[mask] = quads;
     }
@@ -82,12 +82,15 @@ public class DetCordBakedModel extends LevelAwareWavefrontBakedModel {
             }
         }
 
-        return bakeSimpleQuads(parts, 0F, 0F, 0F, BlockTranslate.CENTER, sprite);
+        Matrix4f matrix = new Matrix4f();
+        matrix.translate(0.5F, 0.5F, 0.5F);
+
+        return bakeSimpleQuads(parts, matrix, sprite);
     }
 
     private List<BakedQuad> buildItemQuads() {
         List<String> parts = List.of("CZ");
-        return bakeSimpleQuads(parts, 0F, 0F, 0F, BlockTranslate.NONE, sprite);
+        return bakeSimpleQuads(parts, null, sprite);
     }
 
     @Override

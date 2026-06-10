@@ -33,9 +33,9 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
     @Override
     public BlockEntityRenderer<PlushieBlockEntity> create(Context context) {
 
-        yomiModel = new HFRWavefrontObject("models/obj/trinkets/yomi.obj").asVBO();
-        hundunModel = new HFRWavefrontObject("models/obj/trinkets/hundun.obj").asVBO();
-        dergModel = new HFRWavefrontObject("models/obj/trinkets/derg.obj").asVBO();
+        if(yomiModel == null) yomiModel = new HFRWavefrontObject("models/obj/trinkets/yomi.obj").asVBO();
+        if(hundunModel == null) hundunModel = new HFRWavefrontObject("models/obj/trinkets/hundun.obj").asVBO();
+        if(dergModel == null) dergModel = new HFRWavefrontObject("models/obj/trinkets/derg.obj").asVBO();
 
         return new RenderPlushie();
     }
@@ -104,9 +104,9 @@ public class RenderPlushie extends BlockEntityRendererNT<PlushieBlockEntity> imp
                 float s = 1.125F;
                 RenderContext.scale(0.0625F * s, 0.0625F * s, 0.0625F * s);
                 RenderContext.mulPose(Axis.XP.rotationDegrees(180F));
-                RenderSystem.setShaderTexture(0, ResourceManager.NO9);
+                RenderSystem.setShaderTexture(0, ResourceManager.NO9_TEX);
                 ResourceManager.armor_no9.renderPart("Helmet");
-                RenderSystem.setShaderTexture(0, ResourceManager.NO9_INSIGNIA);
+                RenderSystem.setShaderTexture(0, ResourceManager.NO9_INSIGNIA_TEX);
                 ResourceManager.armor_no9.renderPart("Insignia");
                 RenderContext.popPose();
                 RenderSystem.enableCull();

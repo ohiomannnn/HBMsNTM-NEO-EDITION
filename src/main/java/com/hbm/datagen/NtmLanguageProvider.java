@@ -17,10 +17,12 @@ public class NtmLanguageProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
+        this.add("block.hbmsntm.desc.blastRes", "Blast Resistance: %s");
+        this.add("block.hbmsntm.desc.speedy", "Increases speed by %s");
         this.add(NtmBlocks.ASPHALT, "Asphalt");
         this.add(NtmBlocks.ASPHALT_LIGHT, "Glowing Asphalt");
-        this.add("block.hbmsntm.desc.speedy", "Increases speed by %s");
 
+        this.add("block.hbmsntm.desc.nospawn", "Mobs cannot spawn on this block!");
         this.add(NtmBlocks.BRICK_CONCRETE, "Concrete Bricks");
         this.add(NtmBlocks.BRICK_CONCRETE_MOSSY, "Mossy Concrete Bricks");
         this.add(NtmBlocks.BRICK_CONCRETE_CRACKED, "Cracked Concrete Bricks");
@@ -30,6 +32,16 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmBlocks.BRICK_LIGHT, "Light Bricks");
         this.add(NtmBlocks.BRICK_ASBESTOS, "Asbestos Bricks");
         this.add(NtmBlocks.BRICK_FIRE, "Firebricks");
+
+        this.add(NtmBlocks.BRICK_CONCRETE_SLAB, "Concrete Brick Slab");
+        this.add(NtmBlocks.BRICK_CONCRETE_MOSSY_SLAB, "Mossy Concrete Brick Slab");
+        this.add(NtmBlocks.BRICK_CONCRETE_CRACKED_SLAB, "Cracked Concrete Brick Slab");
+        this.add(NtmBlocks.BRICK_CONCRETE_BROKEN_SLAB, "Broken Concrete Brick Slab");
+
+        this.add(NtmBlocks.BRICK_CONCRETE_STAIRS, "Concrete Brick Stairs");
+        this.add(NtmBlocks.BRICK_CONCRETE_MOSSY_STAIRS, "Mossy Concrete Brick Stairs");
+        this.add(NtmBlocks.BRICK_CONCRETE_CRACKED_STAIRS, "Cracked Concrete Brick Stairs");
+        this.add(NtmBlocks.BRICK_CONCRETE_BROKEN_STAIRS, "Broken Concrete Brick Stairs");
 
         this.add(NtmBlocks.BARBED_WIRE, ".standard",   "Barbed Wire");
         this.add(NtmBlocks.BARBED_WIRE, ".fire",       "Flaming Barbed Wire");
