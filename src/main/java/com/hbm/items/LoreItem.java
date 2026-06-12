@@ -11,11 +11,13 @@ import java.util.List;
 
 public class LoreItem extends Item {
 
-    public LoreItem(Properties properties) { super(properties); }
+    public LoreItem(Properties properties) {
+        super(properties);
+    }
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
-        for (String s : ITooltipProvider.getDescriptionWithP11(this.getDescriptionId())) {
+        for(String s : ITooltipProvider.getDescriptionWithP11(this.getDescriptionId())) {
             components.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
         }
     }

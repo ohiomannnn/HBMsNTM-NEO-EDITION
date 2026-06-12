@@ -34,7 +34,7 @@ public class NukeTsarBombaScreen extends InfoScreen<NukeTsarBombaMenu> {
         this.renderTooltip(guiGraphics, mouseX, mouseY);
 
         List<Component> text = new ArrayList<>();
-        for (String s : I18nUtil.resolveKeyArray("gui.nukeTsarBomba.desc")) text.add(Component.literal(s));
+        for (String s : I18nUtil.resolveKeyArray("container.nuke_tsar_bomba.desc")) text.add(Component.literal(s));
 
         this.drawCustomInfoStat(guiGraphics, mouseX, mouseY, this.leftPos - 16, this.topPos + 16, 16, 16, this.leftPos - 8, this.topPos + 16 + 16, text);
     }

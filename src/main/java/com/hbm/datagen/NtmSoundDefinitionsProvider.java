@@ -125,6 +125,9 @@ public class NtmSoundDefinitionsProvider extends SoundDefinitionsProvider {
         this.add(NtmSoundEvents.PIPE_PLACED, SoundDefinition.definition()
                 .with(sound("hbmsntm:block/pipe_placed"))
         );
+        this.add(NtmSoundEvents.BOBBLE, SoundDefinition.definition()
+                .with(sound("hbmsntm:block/bobble"))
+        );
         this.add(NtmSoundEvents.FENSU_HUM, SoundDefinition.definition()
                 .with(sound("hbmsntm:block/fensu_hum"))
         );

@@ -16,9 +16,10 @@ import java.util.Optional;
 
 public class ArmorUtil {
 
-    /**
+    /*
      * The less horrifying part
      */
+
     public static void register() {
         ArmorRegistry.registerHazard(Items.DIAMOND_HELMET, HazardClass.PARTICLE_COARSE, HazardClass.GAS_LUNG);
     }
@@ -45,6 +46,10 @@ public class ArmorUtil {
 
     public static boolean checkArmorEmpty(LivingEntity player, EquipmentSlot slot) {
         return player.getItemBySlot(slot).isEmpty();
+    }
+
+    public static void damageSuit(LivingEntity entity, EquipmentSlot slot, int amount) {
+        entity.getItemBySlot(slot).hurtAndBreak(amount, entity, slot);
     }
 
     /*

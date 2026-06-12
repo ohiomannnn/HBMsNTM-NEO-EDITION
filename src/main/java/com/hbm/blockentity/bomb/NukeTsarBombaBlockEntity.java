@@ -19,7 +19,7 @@ public class NukeTsarBombaBlockEntity extends NukeBaseBlockEntity {
         super(NtmBlockEntityTypes.NUKE_TSAR_BOMBA.get(), pos, state, 6);
     }
 
-    @Override public Component getDefaultName() { return Component.translatable("container.nukeTsarBomba"); }
+    @Override public Component getDefaultName() { return Component.translatable("container.nuke_tsar_bomba"); }
 
     @Override public int getMaxStackSize() { return 1; }
 

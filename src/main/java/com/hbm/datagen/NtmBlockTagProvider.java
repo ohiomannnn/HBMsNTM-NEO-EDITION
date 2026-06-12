@@ -11,7 +11,7 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.concurrent.CompletableFuture;
 
-import static com.hbm.inventory.ModTags.Blocks.*;
+import static com.hbm.inventory.NtmTags.Blocks.*;
 import static net.neoforged.neoforge.common.Tags.Blocks.PUMPKINS;
 
 // common bullshit

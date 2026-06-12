@@ -5,6 +5,7 @@ import java.util.List;
 public interface ITranslate {
 
     String resolveKey(String key, Object... args);
+    boolean exist(String key);
     // Wrapper for I18n but cuts up the result using NTM's line break character ($)
     String[] resolveKeyArray(String key, Object... args);
     // The same as autoBreak, but it also respects NTM's break character ($) for manual line breaking in addition to the automatic ones

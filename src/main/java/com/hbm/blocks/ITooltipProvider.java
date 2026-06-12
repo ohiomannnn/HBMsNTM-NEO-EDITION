@@ -34,8 +34,9 @@ public interface ITooltipProvider {
 
     @Nullable
     static String[] getDescriptionOrNull(ItemStack stack) {
-        if (I18nUtil.resolveKey(stack.getDescriptionId() + ".desc").equals(" ")) return null;
-        return I18nUtil.resolveKeyArray(stack.getDescriptionId() + ".desc");
+        String key = stack.getDescriptionId() + ".desc";
+        if(I18nUtil.exist(key)) return null;
+        return I18nUtil.resolveKeyArray(key);
     }
 
     static String[] getDescriptionWithP11(String unlocalizedName) {

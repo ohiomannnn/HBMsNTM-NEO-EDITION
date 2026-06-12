@@ -1,8 +1,7 @@
 package com.hbm.inventory.menus;
 
 import com.hbm.blockentity.bomb.NukeBalefireBlockEntity;
-import com.hbm.blockentity.bomb.NukeFleijaBlockEntity;
-import com.hbm.inventory.ModMenuTypes;
+import com.hbm.inventory.NtmMenuTypes;
 import com.hbm.inventory.SlotNonRetarded;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -20,7 +19,7 @@ public class NukeFstbmbMenu extends AbstractContainerMenu {
     }
 
     public NukeFstbmbMenu(int id, Inventory inventory, NukeBalefireBlockEntity blockEntity) {
-        super(ModMenuTypes.NUKE_FSTBMB.get(), id);
+        super(NtmMenuTypes.NUKE_FSTBMB.get(), id);
 
         this.be = blockEntity;
 

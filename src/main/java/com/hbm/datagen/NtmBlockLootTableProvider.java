@@ -27,6 +27,13 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
 
     @Override
     protected void generate() {
+
+        this.dropSelf(NtmBlocks.BOBBLEHEAD.get());
+        this.dropSelf(NtmBlocks.PLUSHIE.get());
+
+        this.dropSelf(NtmBlocks.GRAVEL_OBSIDIAN.get());
+        this.dropSelf(NtmBlocks.GRAVEL_DIAMOND.get());
+
         this.dropSelf(NtmBlocks.ASPHALT.get());
         this.dropSelf(NtmBlocks.ASPHALT_LIGHT.get());
 
@@ -53,7 +60,6 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(NtmBlocks.BARBED_WIRE.get());
         this.dropSelf(NtmBlocks.SPIKES.get());
 
-        this.dropSelf(NtmBlocks.GRAVEL_OBSIDIAN.get());
         this.dropSelf(NtmBlocks.BLOCK_SCRAP.get());
 
         this.dropSelf(NtmBlocks.NUKE_GADGET.get());
@@ -89,9 +95,6 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
         this.add(NtmBlocks.FIRE_DIGAMMA.get(), noDrop());
         this.add(NtmBlocks.VOLCANO_CORE.get(), noDrop());
         this.add(NtmBlocks.VOLCANO_RAD_CORE.get(), noDrop());
-
-        this.dropSelf(NtmBlocks.BOBBLEHEAD.get());
-        this.dropSelf(NtmBlocks.PLUSHIE.get());
 
         this.dropSelf(NtmBlocks.ORE_OIL.get());
         this.dropSelf(NtmBlocks.ORE_URANIUM.get());

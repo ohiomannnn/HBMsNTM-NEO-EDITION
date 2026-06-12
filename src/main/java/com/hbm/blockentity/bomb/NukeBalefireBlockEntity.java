@@ -35,7 +35,7 @@ public class NukeBalefireBlockEntity extends MachineBaseBlockEntity implements I
         timer = 18000;
     }
 
-    @Override public Component getDefaultName() { return Component.translatable("container.nukeFstbmb"); }
+    @Override public Component getDefaultName() { return Component.translatable("container.nuke_fstbmb"); }
 
     @Override public int getMaxStackSize() { return 1; }
 

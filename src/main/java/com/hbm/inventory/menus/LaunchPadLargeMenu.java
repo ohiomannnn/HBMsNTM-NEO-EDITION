@@ -3,7 +3,7 @@ package com.hbm.inventory.menus;
 import api.hbm.energymk2.IBatteryItem;
 import com.hbm.blockentity.bomb.LaunchPadBaseBlockEntity;
 import com.hbm.inventory.FluidContainerRegistry;
-import com.hbm.inventory.ModMenuTypes;
+import com.hbm.inventory.NtmMenuTypes;
 import com.hbm.inventory.SlotTakeOnly;
 import com.hbm.items.IDesignatorItem;
 import com.hbm.items.NtmItems;
@@ -24,7 +24,7 @@ public class LaunchPadLargeMenu extends AbstractContainerMenu {
     }
 
     public LaunchPadLargeMenu(int id, Inventory inventory, LaunchPadBaseBlockEntity blockEntity) {
-        super(ModMenuTypes.LAUNCH_PAD_LARGE.get(), id);
+        super(NtmMenuTypes.LAUNCH_PAD_LARGE.get(), id);
 
         this.be = blockEntity;
 

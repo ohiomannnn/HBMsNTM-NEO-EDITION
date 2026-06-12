@@ -19,6 +19,12 @@ public class I18nClient implements ITranslate {
 
     @Override
     @OnlyIn(Dist.CLIENT)
+    public boolean exist(String s) {
+        return I18n.exists(s);
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
     public String[] resolveKeyArray(String s, Object... args) {
         return resolveKey(s, args).split("\\$");
     }
@@ -29,7 +35,7 @@ public class I18nClient implements ITranslate {
         String[] paragraphs = text.split("\\$");
         List<String> lines = new ArrayList<>();
 
-        for (String paragraph : paragraphs) {
+        for(String paragraph : paragraphs) {
             lines.addAll(autoBreak(fontRenderer, paragraph, width));
         }
 
@@ -49,12 +55,12 @@ public class I18nClient implements ITranslate {
         //starting indent is the width of the first word
         int indent = fontRenderer.width(words[0]);
 
-        for (int w = 1; w < words.length; w++) {
+        for(int w = 1; w < words.length; w++) {
             //increment the indent by the width of the next word + leading space
             indent += fontRenderer.width(" " + words[w]);
 
             //if the indent is within bounds
-            if (indent <= width) {
+            if(indent <= width) {
                 //add the next word to the last line (i.e. the one in question)
                 String last = lines.getLast();
                 lines.set(lines.size() - 1, last + (" " + words[w]));

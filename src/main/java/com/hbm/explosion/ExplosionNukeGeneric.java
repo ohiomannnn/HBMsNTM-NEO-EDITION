@@ -2,7 +2,7 @@ package com.hbm.explosion;
 
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.handler.radiation.ChunkRadiationManager;
-import com.hbm.inventory.ModTags;
+import com.hbm.inventory.NtmTags;
 import com.hbm.lib.Library;
 import com.hbm.registry.NtmDamageTypes;
 import net.minecraft.core.BlockPos;
@@ -83,7 +83,7 @@ public class ExplosionNukeGeneric {
                 return;
             }
 
-            if (state.is(ModTags.Blocks.PLANTS) || state.is(BlockTags.LEAVES) || state.is(BlockTags.PLANKS) || state.is(BlockTags.LOGS)) {
+            if (state.is(NtmTags.Blocks.PLANTS) || state.is(BlockTags.LEAVES) || state.is(BlockTags.PLANKS) || state.is(BlockTags.LOGS)) {
                 level.removeBlock(pos, false);
             }
         }

@@ -10,7 +10,7 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.concurrent.CompletableFuture;
 
-import static com.hbm.inventory.ModTags.Items.*;
+import static com.hbm.inventory.NtmTags.Items.*;
 
 public class NtmItemTagProvider extends ItemTagsProvider {
 

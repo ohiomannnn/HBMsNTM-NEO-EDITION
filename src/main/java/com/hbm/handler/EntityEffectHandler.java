@@ -188,7 +188,7 @@ public class EntityEffectHandler {
             float rad = ChunkRadiationManager.proxy.getRadiation(level, entity.blockPosition());
 
             if (level.dimension() == Level.NETHER && NtmConfig.COMMON.HELL_RAD.get() > 0 && rad < NtmConfig.COMMON.HELL_RAD.get())
-                rad = (float) 0.01;
+                rad = (float) NtmConfig.COMMON.HELL_RAD.getAsDouble();
 
             if (rad > 0) ContaminationUtil.contaminate(entity, HazardType.RADIATION, ContaminationType.CREATIVE, rad / 20F);
 

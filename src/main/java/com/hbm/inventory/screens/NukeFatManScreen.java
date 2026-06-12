@@ -34,7 +34,7 @@ public class NukeFatManScreen extends InfoScreen<NukeFatManMenu> {
         this.renderTooltip(guiGraphics, mouseX, mouseY);
 
         List<Component> text = new ArrayList<>();
-        for (String s : I18nUtil.resolveKeyArray("gui.nukeFatMan.desc")) text.add(Component.literal(s));
+        for (String s : I18nUtil.resolveKeyArray("container.nuke_fat_man.desc")) text.add(Component.literal(s));
 
         this.drawCustomInfoStat(guiGraphics, mouseX, mouseY, this.leftPos - 16, this.topPos + 16, 16, 16, this.leftPos - 8, this.topPos + 16 + 16, text);
     }

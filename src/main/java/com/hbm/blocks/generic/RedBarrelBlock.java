@@ -6,6 +6,7 @@ import com.hbm.blocks.bomb.TaintBlock;
 import com.hbm.entity.item.TNTPrimedBase;
 import com.hbm.explosion.ExplosionThermo;
 import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -52,7 +53,7 @@ public class RedBarrelBlock extends DetonatableBlock implements SimpleWaterlogge
 
     @Override
     protected BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
-        if (state.getValue(BlockStateProperties.WATERLOGGED)) {
+        if(state.getValue(BlockStateProperties.WATERLOGGED)) {
             level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
 
@@ -73,16 +74,16 @@ public class RedBarrelBlock extends DetonatableBlock implements SimpleWaterlogge
 
     @Override
     public void explodeEntity(Level level, double x, double y, double z, TNTPrimedBase entity) {
-        int ix = Mth.floor(x), iy = Mth.floor(y), iz = Mth.floor(z);
 
-        if (this == NtmBlocks.BARREL_RED.get() || this == NtmBlocks.BARREL_PINK.get()) {
+        if(this == NtmBlocks.BARREL_RED.get() || this == NtmBlocks.BARREL_PINK.get()) {
             ExplosionVNT.newExplosion(level, entity, x, y, z, 2.5F, true, true);
         }
-        if (this == NtmBlocks.BARREL_LOX.get()) {
+        if(this == NtmBlocks.BARREL_LOX.get()) {
             ExplosionVNT.newExplosion(level, entity, x, y, z, 1F, false, false);
             ExplosionThermo.freeze(level, BlockPos.containing(x, y, z), 7);
         }
-        if (this == NtmBlocks.BARREL_TAINT.get()) {
+        if(this == NtmBlocks.BARREL_TAINT.get()) {
+            int ix = Mth.floor(x), iy = Mth.floor(y), iz = Mth.floor(z);
             ExplosionVNT.newExplosion(level, entity, x, y, z, 1F, false, false);
 
             RandomSource rand = level.random;
@@ -101,6 +102,8 @@ public class RedBarrelBlock extends DetonatableBlock implements SimpleWaterlogge
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
-        components.add(Component.translatable("block.hbmsntm.barrel.static_fluid_barrel").withStyle(ChatFormatting.GRAY));
+        for(String s : I18nUtil.resolveKeyArray("block.hbmsntm.obj_red_barrel.desc")) {
+            components.add(Component.literal(s).withStyle(ChatFormatting.GRAY));
+        }
     }
 }

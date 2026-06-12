@@ -40,6 +40,6 @@ public class SpeedyBlock extends Block {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
-        components.add(Component.translatable("block.hbmsntm.desc.speedy", (Math.floor((speed - 1) * 100))).withStyle(ChatFormatting.BLUE));
+        components.add(Component.translatable("block.hbmsntm.obj_speedy.desc", (Math.floor((speed - 1) * 100))).withStyle(ChatFormatting.BLUE));
     }
 }

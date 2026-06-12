@@ -34,7 +34,7 @@ public class NukeLittleBoyScreen extends InfoScreen<NukeLittleBoyMenu> {
         this.renderTooltip(guiGraphics, mouseX, mouseY);
 
         List<Component> text = new ArrayList<>();
-        for (String s : I18nUtil.resolveKeyArray("gui.nukeLittleBoy.desc")) text.add(Component.literal(s));
+        for (String s : I18nUtil.resolveKeyArray("container.nuke_little_boy.desc")) text.add(Component.literal(s));
 
         this.drawCustomInfoStat(guiGraphics, mouseX, mouseY, this.leftPos - 16, this.topPos + 16, 16, 16, this.leftPos - 8, this.topPos + 16 + 16, text);
     }

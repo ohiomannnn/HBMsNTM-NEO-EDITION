@@ -19,7 +19,7 @@ public class NukeN2BlockEntity extends NukeBaseBlockEntity {
         super(NtmBlockEntityTypes.NUKE_N2.get(), pos, state, 12);
     }
 
-    @Override public Component getDefaultName() { return Component.translatable("container.nukeN2"); }
+    @Override public Component getDefaultName() { return Component.translatable("container.nuke_n2"); }
 
     @Override public int getMaxStackSize() { return 1; }
 

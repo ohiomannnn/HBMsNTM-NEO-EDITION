@@ -155,13 +155,13 @@ public class DangerousDropItem extends Item {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
         String[] desc = ITooltipProvider.getDescriptionOrNull(stack);
-        if (desc != null) {
-            for (String s : desc) {
+        if(desc != null) {
+            for(String s : desc) {
                 components.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
             }
         }
-        if (this == NtmItems.DETONATOR_DEADMAN.get()) {
-            if (!TagsUtil.hasCData(stack)) {
+        if(this == NtmItems.DETONATOR_DEADMAN.get()) {
+            if(!TagsUtil.hasCData(stack)) {
                 components.add(Component.translatable("detonator.no_pos"));
             } else {
                 CompoundTag tag = TagsUtil.getCData(stack);
@@ -171,7 +171,7 @@ public class DangerousDropItem extends Item {
                 components.add(Component.translatable("detonator.set_to", x, y, z));
             }
         }
-        if (this == NtmItems.PARTICLE_DIGAMMA.get()) {
+        if(this == NtmItems.PARTICLE_DIGAMMA.get()) {
             components.add(Component.translatable("trait.hlParticle", "1.67*10³⁴a").withStyle(ChatFormatting.GOLD));
             components.add(Component.translatable("trait.hlPlayer", (HazardSystem.getHazardLevelFromStack(stack, HazardRegistry.DIGAMMA) / 20F) + "s").withStyle(ChatFormatting.RED));
         }

@@ -8,7 +8,7 @@ import com.google.gson.stream.JsonWriter;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
-import com.hbm.inventory.ModTags;
+import com.hbm.inventory.NtmTags;
 import com.hbm.inventory.RecipesCommon.StateBlock;
 import com.hbm.util.Tuple.Pair;
 import net.minecraft.core.BlockPos;
@@ -71,7 +71,7 @@ public class FalloutConfigJSON {
         /* destroy all leaves within the radios, kill all leaves outside of it */
         entries.add(new FalloutEntry()  .mT(BlockTags.LEAVES)                                 .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))                     .max(woodEffectRange));
         entries.add(new FalloutEntry()  .mBS(NtmBlocks.WASTE_LEAVES.get().defaultBlockState()).prim(new Pair(Blocks.AIR.defaultBlockState(), 1))                     .max(woodEffectRange));
-        entries.add(new FalloutEntry()  .mT(ModTags.Blocks.PLANTS)                            .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))                     .max(woodEffectRange));
+        entries.add(new FalloutEntry()  .mT(NtmTags.Blocks.PLANTS)                            .prim(new Pair(Blocks.AIR.defaultBlockState(), 1))                     .max(woodEffectRange));
         entries.add(new FalloutEntry()  .mT(BlockTags.LEAVES)                                 .prim(new Pair(NtmBlocks.WASTE_LEAVES.get().defaultBlockState(), 1))   .max(woodEffectRange + 35D));
 
         entries.add(new FalloutEntry().mBS(Blocks.MOSSY_COBBLESTONE.defaultBlockState()).prim(new Pair(Blocks.COAL_ORE.defaultBlockState(), 1)));
@@ -102,12 +102,12 @@ public class FalloutConfigJSON {
                     .prim(new Pair(NtmBlocks.SELLAFIELD_SLAKED.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), 1))
                     .max(i * 5)
                     .sol(true)
-                    .mT(ModTags.Blocks.ACTUALLY_STONE));
+                    .mT(NtmTags.Blocks.ACTUALLY_STONE));
             entries.add(new FalloutEntry()
                     .prim(new Pair(NtmBlocks.SELLAFIELD_SLAKED.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), 1))
                     .max(i * 5)
                     .sol(true)
-                    .mT(ModTags.Blocks.GROUND));
+                    .mT(NtmTags.Blocks.GROUND));
             if (i <= 9) entries.add(new FalloutEntry()
                     .prim(new Pair(NtmBlocks.SELLAFIELD_SLAKED.get().defaultBlockState().setValue(SellafieldSlakedBlock.COLOR_LEVEL, m), 1))
                     .max(i * 5).sol(true)

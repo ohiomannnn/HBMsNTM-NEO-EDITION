@@ -23,7 +23,7 @@ import java.util.function.Supplier;
 import static net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB;
 
 @SuppressWarnings("unused")
-public class ModCreativeTabs {
+public class NtmCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(CREATIVE_MODE_TAB, NuclearTechMod.MODID);
 
     // ingots, nuggets, wires, machine parts
@@ -219,6 +219,9 @@ public class ModCreativeTabs {
 
                         addMetaItems(output, NtmBlocks.BOBBLEHEAD.asItem());
                         addMetaItems(output, NtmBlocks.PLUSHIE.asItem());
+
+                        output.accept(NtmBlocks.GRAVEL_OBSIDIAN);
+                        output.accept(NtmBlocks.GRAVEL_DIAMOND);
 
                         output.accept(NtmBlocks.ASPHALT);
                         output.accept(NtmBlocks.ASPHALT_LIGHT);

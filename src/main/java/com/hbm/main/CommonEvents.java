@@ -18,7 +18,7 @@ import com.hbm.handler.HazmatRegistry;
 import com.hbm.hazard.HazardRegistry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.inventory.FluidContainerRegistry;
-import com.hbm.inventory.ModMenuTypes;
+import com.hbm.inventory.NtmMenuTypes;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.inventory.screens.*;
@@ -29,7 +29,6 @@ import com.hbm.uninos.UniNodespace;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.DamageResistanceHandler;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.ClickEvent;
@@ -189,26 +188,26 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void registerScreens(RegisterMenuScreensEvent event) {
-        event.register(ModMenuTypes.SAT_LINKER.get(), MachineSatLinkerScreen::new);
+        event.register(NtmMenuTypes.SAT_LINKER.get(), MachineSatLinkerScreen::new);
 
-        event.register(ModMenuTypes.FLUID_TANK.get(), MachineFluidTankScreen::new);
+        event.register(NtmMenuTypes.FLUID_TANK.get(), MachineFluidTankScreen::new);
 
-        event.register(ModMenuTypes.ASSEMBLY_MACHINE.get(), MachineAssemblyMachineScreen::new);
+        event.register(NtmMenuTypes.ASSEMBLY_MACHINE.get(), MachineAssemblyMachineScreen::new);
 
-        event.register(ModMenuTypes.BATTERY_SOCKET.get(), BatterySocketScreen::new);
-        event.register(ModMenuTypes.BATTERY_REDD.get(), BatteryREDDScreen::new);
+        event.register(NtmMenuTypes.BATTERY_SOCKET.get(), BatterySocketScreen::new);
+        event.register(NtmMenuTypes.BATTERY_REDD.get(), BatteryREDDScreen::new);
 
-        event.register(ModMenuTypes.NUKE_GADGET.get(), NukeGadgetScreen::new);
-        event.register(ModMenuTypes.NUKE_LITTLE_BOY.get(), NukeLittleBoyScreen::new);
-        event.register(ModMenuTypes.NUKE_FAT_MAN.get(), NukeFatManScreen::new);
-        event.register(ModMenuTypes.NUKE_IVY_MIKE.get(), NukeIvyMikeScreen::new);
-        event.register(ModMenuTypes.NUKE_TSAR_BOMBA.get(), NukeTsarBombaScreen::new);
-        event.register(ModMenuTypes.NUKE_PROTOTYPE.get(), NukePrototypeScreen::new);
-        event.register(ModMenuTypes.NUKE_FLEIJA.get(), NukeFleijaScreen::new);
-        event.register(ModMenuTypes.NUKE_N2.get(), NukeN2Screen::new);
-        event.register(ModMenuTypes.NUKE_FSTBMB.get(), NukeFstbmbScreen::new);
+        event.register(NtmMenuTypes.NUKE_GADGET.get(), NukeGadgetScreen::new);
+        event.register(NtmMenuTypes.NUKE_LITTLE_BOY.get(), NukeLittleBoyScreen::new);
+        event.register(NtmMenuTypes.NUKE_FAT_MAN.get(), NukeFatManScreen::new);
+        event.register(NtmMenuTypes.NUKE_IVY_MIKE.get(), NukeIvyMikeScreen::new);
+        event.register(NtmMenuTypes.NUKE_TSAR_BOMBA.get(), NukeTsarBombaScreen::new);
+        event.register(NtmMenuTypes.NUKE_PROTOTYPE.get(), NukePrototypeScreen::new);
+        event.register(NtmMenuTypes.NUKE_FLEIJA.get(), NukeFleijaScreen::new);
+        event.register(NtmMenuTypes.NUKE_N2.get(), NukeN2Screen::new);
+        event.register(NtmMenuTypes.NUKE_FSTBMB.get(), NukeFstbmbScreen::new);
 
-        event.register(ModMenuTypes.LAUNCH_PAD_LARGE.get(), LaunchPadLargeScreen::new);
+        event.register(NtmMenuTypes.LAUNCH_PAD_LARGE.get(), LaunchPadLargeScreen::new);
     }
 
     @SubscribeEvent

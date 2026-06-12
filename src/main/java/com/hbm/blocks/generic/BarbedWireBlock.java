@@ -3,16 +3,20 @@ package com.hbm.blocks.generic;
 import com.hbm.blocks.IMultiBlock;
 import com.hbm.inventory.MetaHelper;
 import com.hbm.lib.ModEffect;
+import com.hbm.util.ArmorUtil;
 import com.hbm.util.EnumUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
@@ -23,17 +27,18 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.level.storage.loot.LootParams.Builder;
 import net.minecraft.world.phys.HitResult;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Consumer;
 
 public class BarbedWireBlock extends Block implements IMultiBlock {
 
-    public enum Type {
+    public enum BarbedWireType {
         STANDARD(LAMBDA_STANDARD),
         FIRE(LAMBDA_FIRE),
         POISON(LAMBDA_POISON),
@@ -43,7 +48,7 @@ public class BarbedWireBlock extends Block implements IMultiBlock {
 
         public final Consumer<Entity> entityInside;
 
-        Type(Consumer<Entity> lambda) {
+        BarbedWireType(Consumer<Entity> lambda) {
             this.entityInside = lambda;
         }
     }
@@ -62,7 +67,10 @@ public class BarbedWireBlock extends Block implements IMultiBlock {
     public static final Consumer<Entity> LAMBDA_ACID = (entity) -> {
         entity.hurt(entity.damageSources().cactus(), 2F);
         if(entity instanceof LivingEntity living) {
-            // todo add damage suit
+            ArmorUtil.damageSuit(living, EquipmentSlot.HEAD, 1);
+            ArmorUtil.damageSuit(living, EquipmentSlot.CHEST, 1);
+            ArmorUtil.damageSuit(living, EquipmentSlot.LEGS, 1);
+            ArmorUtil.damageSuit(living, EquipmentSlot.FEET, 1);
         }
     };
     public static final Consumer<Entity> LAMBDA_WITHER = (entity) -> {
@@ -74,7 +82,7 @@ public class BarbedWireBlock extends Block implements IMultiBlock {
         if(entity instanceof LivingEntity living) living.addEffect(new MobEffectInstance(ModEffect.RADIATION, 100, 9));
     };
 
-    public static final IntegerProperty SUBTYPE = IntegerProperty.create("sub_type", 0, 5);
+    public static final IntegerProperty SUBTYPE = IntegerProperty.create("sub_type", 0, BarbedWireType.values().length);
     public static final DirectionProperty HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     public BarbedWireBlock(Properties properties) {
@@ -123,8 +131,13 @@ public class BarbedWireBlock extends Block implements IMultiBlock {
     }
 
     @Override
-    protected boolean isPathfindable(BlockState state, PathComputationType type) {
-        return false;
+    public @Nullable PathType getBlockPathType(BlockState state, BlockGetter level, BlockPos pos, @Nullable Mob mob) {
+        return PathType.DAMAGE_OTHER;
+    }
+
+    @Override
+    public @Nullable PathType getAdjacentBlockPathType(BlockState state, BlockGetter level, BlockPos pos, @Nullable Mob mob, PathType originalType) {
+        return PathType.DANGER_OTHER;
     }
 
     @Override
@@ -132,16 +145,16 @@ public class BarbedWireBlock extends Block implements IMultiBlock {
 
         entity.setDeltaMovement(entity.getDeltaMovement().multiply(0.15, 0.1, 0.15));
 
-        BarbedWireBlock.Type type = EnumUtil.grabEnumSafely(BarbedWireBlock.Type.class, this.getMeta(state));
+        BarbedWireType type = EnumUtil.grabEnumSafely(BarbedWireType.class, this.getMeta(state));
         type.entityInside.accept(entity);
     }
 
     @Override
     public String getItemDescriptionId(ItemStack stack) {
-        Enum<?> num = EnumUtil.grabEnumSafely(BarbedWireBlock.Type.class, MetaHelper.getMeta(stack));
+        Enum<?> num = EnumUtil.grabEnumSafely(BarbedWireType.class, MetaHelper.getMeta(stack));
         return super.getDescriptionId() + "." + num.name().toLowerCase(Locale.US);
     }
 
     @Override public int getMeta(BlockState state) { return state.getValue(SUBTYPE); }
-    @Override public int getSubCount() { return BarbedWireBlock.Type.values().length; }
+    @Override public int getSubCount() { return BarbedWireType.values().length; }
 }

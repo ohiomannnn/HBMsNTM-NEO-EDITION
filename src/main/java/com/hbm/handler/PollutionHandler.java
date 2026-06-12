@@ -1,7 +1,7 @@
 package com.hbm.handler;
 
 import com.hbm.config.NtmConfig;
-import com.hbm.inventory.ModTags;
+import com.hbm.inventory.NtmTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -196,7 +196,7 @@ public class PollutionHandler {
 
                         if(state.is(Blocks.GRASS_BLOCK)) {
                             level.setBlock(toChange, Blocks.DIRT.defaultBlockState(), 3);
-                        } else if(state.is(ModTags.Blocks.PLANTS) || state.is(BlockTags.LEAVES)) {
+                        } else if(state.is(NtmTags.Blocks.PLANTS) || state.is(BlockTags.LEAVES)) {
                             level.setBlock(toChange, Blocks.AIR.defaultBlockState(), 3);
                         }
                     }

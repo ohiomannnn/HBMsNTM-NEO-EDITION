@@ -1,12 +1,15 @@
 package com.hbm.inventory.screens;
 
 import com.hbm.blocks.generic.BobbleBlock.BobbleType;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.Tuple.Pair;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +26,7 @@ public class BobbleScreen extends Screen {
 
     @Override
     protected void init() {
-        // todo add sound
+        this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(NtmSoundEvents.BOBBLE, 1.0F));
     }
 
     @Override

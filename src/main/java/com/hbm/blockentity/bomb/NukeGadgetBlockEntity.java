@@ -19,7 +19,7 @@ public class NukeGadgetBlockEntity extends NukeBaseBlockEntity {
         super(NtmBlockEntityTypes.NUKE_GADGET.get(), pos, state, 6);
     }
 
-    @Override public Component getDefaultName() { return Component.translatable("container.nukeGadget"); }
+    @Override public Component getDefaultName() { return Component.translatable("container.nuke_gadget"); }
 
     @Override public int getMaxStackSize() { return 1; }
 

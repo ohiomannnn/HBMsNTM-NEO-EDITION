@@ -47,6 +47,9 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.particleOnlyBlock(NtmBlocks.BOBBLEHEAD, modLoc("block/block_steel"));
         this.particleOnlyBlock(NtmBlocks.PLUSHIE, modLoc("block/block_fiberglass_side"));
 
+        this.simpleCubeAllBlock(NtmBlocks.GRAVEL_OBSIDIAN);
+        this.simpleCubeAllBlock(NtmBlocks.GRAVEL_DIAMOND);
+
         this.simpleCubeAllBlock(NtmBlocks.ASPHALT);
         this.simpleCubeAllBlock(NtmBlocks.ASPHALT_LIGHT);
 
@@ -123,8 +126,6 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.cubeSideBottomTop(NtmBlocks.SEMTEX.get());
         this.cubeSideBottomTop(NtmBlocks.C4.get());
         this.cubeSideBottomTop(NtmBlocks.FISSURE_BOMB.get());
-
-        cub3All(NtmBlocks.GRAVEL_OBSIDIAN.get());
 
         sellafieldSlaked(
                 NtmBlocks.SELLAFIELD_SLAKED.get(),

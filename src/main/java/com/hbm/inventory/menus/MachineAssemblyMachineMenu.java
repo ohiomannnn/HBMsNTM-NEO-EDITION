@@ -1,7 +1,7 @@
 package com.hbm.inventory.menus;
 
 import com.hbm.blockentity.machine.MachineAssemblyMachineBlockEntity;
-import com.hbm.inventory.ModMenuTypes;
+import com.hbm.inventory.NtmMenuTypes;
 import com.hbm.inventory.SlotCraftingOutput;
 import com.hbm.inventory.SlotNonRetarded;
 import com.hbm.util.CompatExternal;
@@ -15,7 +15,7 @@ public class MachineAssemblyMachineMenu extends MenuBase<MachineAssemblyMachineB
     }
 
     public MachineAssemblyMachineMenu(int id, Inventory inventory, MachineAssemblyMachineBlockEntity be) {
-        super(ModMenuTypes.ASSEMBLY_MACHINE.get(), be, id);
+        super(NtmMenuTypes.ASSEMBLY_MACHINE.get(), be, id);
 
         // Battery
         this.addSlot(new SlotNonRetarded(be, 0, 152, 81));

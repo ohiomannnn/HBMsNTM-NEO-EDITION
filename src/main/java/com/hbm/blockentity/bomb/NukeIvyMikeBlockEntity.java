@@ -19,7 +19,7 @@ public class NukeIvyMikeBlockEntity extends NukeBaseBlockEntity {
         super(NtmBlockEntityTypes.NUKE_IVY_MIKE.get(), pos, state, 8);
     }
 
-    @Override public Component getDefaultName() { return Component.translatable("container.nukeIvyMike"); }
+    @Override public Component getDefaultName() { return Component.translatable("container.nuke_ivy_mike"); }
 
     @Override public int getMaxStackSize() { return 1; }
 

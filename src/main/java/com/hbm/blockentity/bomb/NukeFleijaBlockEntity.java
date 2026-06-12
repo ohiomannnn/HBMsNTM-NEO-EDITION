@@ -19,7 +19,7 @@ public class NukeFleijaBlockEntity extends NukeBaseBlockEntity {
         super(NtmBlockEntityTypes.NUKE_FLEIJA.get(), pos, state, 11);
     }
 
-    @Override public Component getDefaultName() { return Component.translatable("container.nukeFleija"); }
+    @Override public Component getDefaultName() { return Component.translatable("container.nuke_fleija"); }
 
     @Override public int getMaxStackSize() { return 1; }
 

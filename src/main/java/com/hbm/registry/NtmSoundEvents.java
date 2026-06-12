@@ -41,6 +41,7 @@ public class NtmSoundEvents {
     public static final DeferredHolder<SoundEvent, SoundEvent> COUGH = reg("player.cough"); // PLAYERS CATEGORY
     /// BLOCKS
     public static final DeferredHolder<SoundEvent, SoundEvent> PIPE_PLACED = reg("block.pipe_placed"); // BLOCKS CATEGORY
+    public static final DeferredHolder<SoundEvent, SoundEvent> BOBBLE = reg("block.bobble"); // BLOCKS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> FENSU_HUM = reg("block.fensu_hum"); // BLOCKS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> DEBRIS = reg("block.debris"); // BLOCKS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> LOCK_OPEN = reg("block.lock_open"); // BLOCKS CATEGORY

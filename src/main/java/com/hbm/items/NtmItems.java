@@ -7,7 +7,7 @@ import com.hbm.handler.ability.IToolAreaAbility;
 import com.hbm.handler.ability.IToolHarvestAbility;
 import com.hbm.handler.ability.IWeaponAbility;
 import com.hbm.inventory.ModArmorMaterials;
-import com.hbm.inventory.ModTiers;
+import com.hbm.inventory.NtmTiers;
 import com.hbm.inventory.NtmFoods;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ItemEnums.CasingType;
@@ -211,52 +211,27 @@ public class NtmItems {
     public static final DeferredItem<Item> INF_WATER = ITEMS.register("inf_water", () -> new InfiniteFluidItem(new Item.Properties().stacksTo(1), Fluids.WATER, 50));
     public static final DeferredItem<Item> INF_WATER_MK2 = ITEMS.register("inf_water_mk2", () -> new InfiniteFluidItem(new Item.Properties().stacksTo(1), Fluids.WATER, 500));
 
+    // Money
+    public static final DeferredItem<Item> CAP_NUKA = ITEMS.register("cap_nuka", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CAP_QUANTUM = ITEMS.register("cap_quantum", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CAP_SPARKLE = ITEMS.register("cap_sparkle", () -> new Item(new Item.Properties()));
+
+    // Cola
+    public static final DeferredItem<Item> BOTTLE_EMPTY = ITEMS.register("bottle_empty", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> BOTTLE_NUKA = ITEMS.register("bottle_nuka", () -> new ItemEnergy(new Item.Properties()).makeBottle(BOTTLE_EMPTY.get(), CAP_NUKA.get()));
+    public static final DeferredItem<Item> BOTTLE_CHERRY = ITEMS.register("bottle_cherry", () -> new ItemEnergy(new Item.Properties()).makeBottle(BOTTLE_EMPTY.get(), CAP_NUKA.get()));
+    public static final DeferredItem<Item> BOTTLE_QUANTUM = ITEMS.register("bottle_quantum", () -> new ItemEnergy(new Item.Properties()).makeBottle(BOTTLE_EMPTY.get(), CAP_QUANTUM.get()));
+    public static final DeferredItem<Item> BOTTLE_SPARKLE = ITEMS.register("bottle_sparkle", () -> new ItemEnergy(new Item.Properties()).makeBottle(BOTTLE_EMPTY.get(), CAP_SPARKLE.get()));
+    public static final DeferredItem<Item> BOTTLE_RAD = ITEMS.register("bottle_rad", () -> new ItemEnergy(new Item.Properties()).makeBottle(BOTTLE_EMPTY.get(), CAP_SPARKLE.get()));
+    public static final DeferredItem<Item> BOTTLE2_EMPTY = ITEMS.register("bottle2_empty", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> BOTTLE2_KORL = ITEMS.register("bottle2_korl", () -> new ItemEnergy(new Item.Properties()).makeBottle(BOTTLE_EMPTY.get(), CAP_SPARKLE.get()));
+    public static final DeferredItem<Item> BOTTLE2_FIRTZ = ITEMS.register("bottle2_firtz", () -> new ItemEnergy(new Item.Properties()).makeBottle(BOTTLE_EMPTY.get(), CAP_SPARKLE.get()));
+    public static final DeferredItem<Item> BOTTLE_OPENER = ITEMS.register("bottle_opener", () -> new SpecialSwordItem(NtmTiers.BOTTLE_OPENER, new Item.Properties().stacksTo(1).attributes(SwordItem.createAttributes(NtmTiers.BOTTLE_OPENER, 3, -2.4F))));
+
+    // Chaos
+    public static final DeferredItem<Item> CHOCOLATE_MILK = ITEMS.register("chocolate_milk", () -> new ItemEnergy(new Item.Properties()));
     public static final DeferredItem<Item> CIGARETTE = ITEMS.register("cigarette", () -> new CigaretteItem(new Item.Properties().stacksTo(16)));
     public static final DeferredItem<Item> CRACKPIPE = ITEMS.register("crackpipe", () -> new CigaretteItem(new Item.Properties().stacksTo(1)));
-
-    public static final DeferredItem<Item> BOTTLE_OPENER = ITEMS.register(
-            "bottle_opener",
-            () -> new Item(new Item.Properties().stacksTo(1))
-    );
-
-    public static final DeferredItem<Item> CAP_NUKA = ITEMS.register(
-            "cap_nuka",
-            () -> new Item(new Item.Properties())
-    );
-    public static final DeferredItem<Item> CAP_QUANTUM = ITEMS.register(
-            "cap_quantum",
-            () -> new Item(new Item.Properties())
-    );
-    public static final DeferredItem<Item> CAP_SPARKLE = ITEMS.register(
-            "cap_sparkle",
-            () -> new Item(new Item.Properties())
-    );
-
-    public static final DeferredItem<Item> BOTTLE_EMPTY = ITEMS.register(
-            "bottle_empty",
-            () -> new Item(new Item.Properties())
-    );
-
-    public static final DeferredItem<Item> BOTTLE_NUKA = ITEMS.register(
-            "bottle_nuka",
-            () -> new ItemEnergy(new Item.Properties()).makeBottle(BOTTLE_EMPTY.get(), CAP_NUKA.get())
-    );
-    public static final DeferredItem<Item> BOTTLE_CHERRY = ITEMS.register(
-            "bottle_cherry",
-            () -> new ItemEnergy(new Item.Properties()).makeBottle(BOTTLE_EMPTY.get(), CAP_NUKA.get())
-    );
-    public static final DeferredItem<Item> BOTTLE_QUANTUM = ITEMS.register(
-            "bottle_quantum",
-            () -> new ItemEnergy(new Item.Properties()).makeBottle(BOTTLE_EMPTY.get(), CAP_QUANTUM.get())
-    );
-    public static final DeferredItem<Item> BOTTLE_SPARKLE = ITEMS.register(
-            "bottle_sparkle",
-            () -> new ItemEnergy(new Item.Properties()).makeBottle(BOTTLE_EMPTY.get(), CAP_SPARKLE.get())
-    );
-    public static final DeferredItem<Item> CHOCOLATE_MILK = ITEMS.register(
-            "chocolate_milk",
-            () -> new ItemEnergy(new Item.Properties())
-    );
 
     public static final DeferredItem<Item> PIN = ITEMS.register("pin", () -> new Item(new Item.Properties().stacksTo(8)));
     public static final DeferredItem<Item> KEY = ITEMS.register("key", () -> new KeyItem(new Item.Properties().stacksTo(1)));
@@ -266,25 +241,25 @@ public class NtmItems {
 
     public static final DeferredItem<Item> ALLOY_SWORD = ITEMS.register(
             "alloy_sword",
-            () -> new SwordAbilityItem(new Item.Properties().stacksTo(1), ModTiers.ALLOY, 8F, -2.4F)
+            () -> new SwordAbilityItem(new Item.Properties().stacksTo(1), NtmTiers.ALLOY, 8F, -2.4F)
                     .addAbility(IWeaponAbility.STUN, 0)
     );
     public static final DeferredItem<Item> ALLOY_PICKAXE = ITEMS.register(
             "alloy_pickaxe",
             () -> new ToolAbilityItem(new Item.Properties().stacksTo(1)
-                    .component(DataComponents.TOOL, ModTiers.ALLOY.createToolProperties(BlockTags.MINEABLE_WITH_PICKAXE))
+                    .component(DataComponents.TOOL, NtmTiers.ALLOY.createToolProperties(BlockTags.MINEABLE_WITH_PICKAXE))
                     .attributes(ItemAttributeModifiers.builder()
-                            .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ID, (5F + ModTiers.ALLOY.getAttackDamageBonus()), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
+                            .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ID, (5F + NtmTiers.ALLOY.getAttackDamageBonus()), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                             .add(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_ID, -2.8F, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                             .build()
-                    ), ModTiers.ALLOY)
+                    ), NtmTiers.ALLOY)
                     .addAbility(IToolAreaAbility.RECURSION, 0)
     );
 
     public static final DeferredItem<Item> SCHRABIDIUM_PICKAXE = ITEMS.register(
             "schrabidium_pickaxe",
             () -> new ToolAbilityItem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)
-                    .component(DataComponents.TOOL, ModTiers.ALLOY.createToolProperties(BlockTags.MINEABLE_WITH_PICKAXE))
+                    .component(DataComponents.TOOL, NtmTiers.ALLOY.createToolProperties(BlockTags.MINEABLE_WITH_PICKAXE))
                     .attributes(ItemAttributeModifiers.builder()
                             .add(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_ID, (5F + Tiers.NETHERITE.getAttackDamageBonus()), AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
                             .add(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_ID, -2.8F, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)

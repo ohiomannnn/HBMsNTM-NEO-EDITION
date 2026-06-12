@@ -2,7 +2,7 @@ package com.hbm.inventory.menus;
 
 import com.hbm.blockentity.machine.MachineSatLinkerBlockEntity;
 import com.hbm.blocks.NtmBlocks;
-import com.hbm.inventory.ModMenuTypes;
+import com.hbm.inventory.NtmMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -22,7 +22,7 @@ public class MachineSatLinkerMenu extends AbstractContainerMenu {
     }
 
     public MachineSatLinkerMenu(int id, Inventory playerInv, MachineSatLinkerBlockEntity be) {
-        super(ModMenuTypes.SAT_LINKER.get(), id);
+        super(NtmMenuTypes.SAT_LINKER.get(), id);
 
         this.be = be;
 

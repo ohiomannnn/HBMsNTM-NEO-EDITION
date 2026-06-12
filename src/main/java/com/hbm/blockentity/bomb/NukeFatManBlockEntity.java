@@ -19,7 +19,7 @@ public class NukeFatManBlockEntity extends NukeBaseBlockEntity {
         super(NtmBlockEntityTypes.NUKE_FAT_MAN.get(), pos, state, 6);
     }
 
-    @Override public Component getDefaultName() { return Component.translatable("container.nukeFatMan"); }
+    @Override public Component getDefaultName() { return Component.translatable("container.nuke_fat_man"); }
 
     @Override public int getMaxStackSize() { return 1; }
 

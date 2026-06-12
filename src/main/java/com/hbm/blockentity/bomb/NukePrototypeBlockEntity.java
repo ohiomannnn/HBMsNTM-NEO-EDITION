@@ -21,7 +21,7 @@ public class NukePrototypeBlockEntity extends NukeBaseBlockEntity {
         super(NtmBlockEntityTypes.NUKE_PROTOTYPE.get(), pos, state, 14);
     }
 
-    @Override public Component getDefaultName() { return Component.translatable("container.nukePrototype"); }
+    @Override public Component getDefaultName() { return Component.translatable("container.nuke_prototype"); }
 
     @Override public int getMaxStackSize() { return 1; }
 

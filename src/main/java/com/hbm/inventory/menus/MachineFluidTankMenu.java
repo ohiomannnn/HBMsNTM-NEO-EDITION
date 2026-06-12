@@ -1,7 +1,7 @@
 package com.hbm.inventory.menus;
 
 import com.hbm.blockentity.machine.storage.MachineFluidTankBlockEntity;
-import com.hbm.inventory.ModMenuTypes;
+import com.hbm.inventory.NtmMenuTypes;
 import com.hbm.util.CompatExternal;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -19,7 +19,7 @@ public class MachineFluidTankMenu extends AbstractContainerMenu {
     }
 
     public MachineFluidTankMenu(int id, Inventory inventory, MachineFluidTankBlockEntity blockEntity) {
-        super(ModMenuTypes.FLUID_TANK.get(), id);
+        super(NtmMenuTypes.FLUID_TANK.get(), id);
 
         this.be = blockEntity;
 

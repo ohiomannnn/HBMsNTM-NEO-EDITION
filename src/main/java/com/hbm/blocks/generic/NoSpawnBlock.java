@@ -1,6 +1,7 @@
 package com.hbm.blocks.generic;
 
 import com.hbm.blocks.NtmBlocks;
+import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item.TooltipContext;
@@ -18,6 +19,8 @@ public class NoSpawnBlock extends Block {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
-        components.add(Component.translatable("block.hbmsntm.desc.nospawn").withStyle(ChatFormatting.RED));
+        for(String s : I18nUtil.resolveKeyArray("block.hbmsntm.obj_no_spawn.desc")) {
+            components.add(Component.literal(s).withStyle(ChatFormatting.RED));
+        }
     }
 }

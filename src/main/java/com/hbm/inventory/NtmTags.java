@@ -11,7 +11,8 @@ import net.minecraft.world.level.block.Block;
 
 // Basically new ore dict and its vanilla
 // Registration in datagens
-public class ModTags {
+@Deprecated
+public class NtmTags {
 
     public static class Blocks {
         public static final TagKey<Block> ACTUALLY_STONE = crateTag("actually_stone");

@@ -34,12 +34,12 @@ public class DetonatorItem extends Item {
     @Override
     public InteractionResult useOn(UseOnContext context) {
         Player player = context.getPlayer();
-        if (player == null) return InteractionResult.PASS;
+        if(player == null) return InteractionResult.PASS;
         Level level = context.getLevel();
         ItemStack stack = context.getItemInHand();
 
-        if (!level.isClientSide) {
-            if (player.isShiftKeyDown()) {
+        if(!level.isClientSide) {
+            if(player.isShiftKeyDown()) {
                 CompoundTag tag = new CompoundTag();
                 tag.putInt("x", context.getClickedPos().getX());
                 tag.putInt("y", context.getClickedPos().getY());
@@ -60,8 +60,8 @@ public class DetonatorItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         ItemStack stack = player.getItemInHand(usedHand);
 
-        if (!level.isClientSide) {
-            if (!TagsUtil.hasCData(stack)) {
+        if(!level.isClientSide) {
+            if(!TagsUtil.hasCData(stack)) {
                 player.displayClientMessage(Component.literal("[" + this.getName(stack).getString() + "] ").withStyle(ChatFormatting.DARK_AQUA)
                         .append(Component.translatable("detonator.no_pos").withStyle(ChatFormatting.RED)), false);
             } else {
@@ -73,11 +73,11 @@ public class DetonatorItem extends Item {
                 BlockPos pos = new BlockPos(x, y, z);
                 Block block = level.getBlockState(pos).getBlock();
 
-                if (block instanceof IBomb bomb) {
+                if(block instanceof IBomb bomb) {
                     level.playSound(null, player.blockPosition(), NtmSoundEvents.TECH_BLEEP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
                     BombReturnCode ret = bomb.explode(level, pos);
 
-                    if (NtmConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
+                    if(NtmConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
                         NuclearTechMod.LOGGER.info("[DETONATOR] {} detonated {} at {} / {} / {}!", player.getName().getString(), block.getName().getString(), x, y, z);
                     }
 
@@ -95,10 +95,10 @@ public class DetonatorItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
-        for (String s : ITooltipProvider.getDescription(stack)) {
+        for(String s : ITooltipProvider.getDescription(stack)) {
             components.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
         }
-        if (TagsUtil.hasCData(stack)) {
+        if(TagsUtil.hasCData(stack)) {
             CompoundTag tag = TagsUtil.getCData(stack);
             int x = tag.getInt("x");
             int y = tag.getInt("y");

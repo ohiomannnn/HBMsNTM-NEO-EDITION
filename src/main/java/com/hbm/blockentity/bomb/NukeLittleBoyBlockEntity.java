@@ -19,7 +19,7 @@ public class NukeLittleBoyBlockEntity extends NukeBaseBlockEntity {
         super(NtmBlockEntityTypes.NUKE_LITTLE_BOY.get(), pos, state, 5);
     }
 
-    @Override public Component getDefaultName() { return Component.translatable("container.nukeLittleBoy"); }
+    @Override public Component getDefaultName() { return Component.translatable("container.nuke_little_boy"); }
 
     @Override public int getMaxStackSize() { return 1; }
 

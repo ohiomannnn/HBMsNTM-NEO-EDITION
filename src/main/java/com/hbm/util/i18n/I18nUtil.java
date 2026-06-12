@@ -9,6 +9,7 @@ public class I18nUtil {
     // Simple wrapper for I18n, for consistency
     public static String resolveKey(String s, Object... args) { return NuclearTechModClient.getI18n().resolveKey(s, args); }
     public static String format(String s, Object... args) {     return NuclearTechModClient.getI18n().resolveKey(s, args); } //alias
+    public static boolean exist(String s) { return NuclearTechModClient.getI18n().exist(s); }
 
     // Wrapper for I18n but cuts up the result using NTM's line break character ($)
     public static String[] resolveKeyArray(String s, Object... args) {

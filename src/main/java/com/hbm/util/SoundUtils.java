@@ -16,8 +16,8 @@ public class SoundUtils {
     public static void playAtVec3(Level level, Vec3 vec, SoundEvent event, SoundSource source) { playAtVec3(level, vec, event, source, 1.0F, 1.0F); }
 
     /** Plays sound at entity */
-    public static void playAtEntity(Entity entity, SoundEvent event, SoundSource source, float volume, float pitch) { playAtVec3(entity.level, entity.position, event, source, volume, pitch); }
-    public static void playAtEntity(Entity entity, SoundEvent event, SoundSource source) { playAtVec3(entity.level, entity.position, event, source); }
+    public static void playAtEntity(Entity entity, SoundEvent event, SoundSource source, float volume, float pitch) { playAtVec3(entity.level, entity.position(), event, source, volume, pitch); }
+    public static void playAtEntity(Entity entity, SoundEvent event, SoundSource source) { playAtVec3(entity.level, entity.position(), event, source); }
 
     /** Plays sound at block pos */
     public static void playAtBlockPos(Level level, BlockPos pos, SoundEvent event, SoundSource source, float volume, float pitch) {

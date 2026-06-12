@@ -1,12 +1,10 @@
 package com.hbm.inventory.menus;
 
 import com.hbm.blockentity.machine.storage.BatterySocketBlockEntity;
-import com.hbm.inventory.ModMenuTypes;
+import com.hbm.inventory.NtmMenuTypes;
 import com.hbm.inventory.SlotNonRetarded;
 import com.hbm.util.CompatExternal;
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -22,7 +20,7 @@ public class BatterySocketMenu extends AbstractContainerMenu {
     }
 
     public BatterySocketMenu(int id, Inventory inventory, BatterySocketBlockEntity blockEntity) {
-        super(ModMenuTypes.BATTERY_SOCKET.get(), id);
+        super(NtmMenuTypes.BATTERY_SOCKET.get(), id);
 
         this.be = blockEntity;
 

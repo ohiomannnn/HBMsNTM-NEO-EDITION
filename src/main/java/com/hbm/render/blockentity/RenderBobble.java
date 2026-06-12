@@ -5,6 +5,7 @@ import com.hbm.blocks.generic.BobbleBlock;
 import com.hbm.blocks.generic.BobbleBlock.BobbleBlockEntity;
 import com.hbm.blocks.generic.BobbleBlock.BobbleType;
 import com.hbm.inventory.MetaHelper;
+import com.hbm.items.NtmItems;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
@@ -24,9 +25,14 @@ import net.minecraft.client.gui.Font.DisplayMode;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+
+import javax.annotation.Nullable;
 
 public class RenderBobble extends BlockEntityRendererNT<BobbleBlockEntity> implements IBEWLRProvider {
 
@@ -115,7 +121,7 @@ public class RenderBobble extends BlockEntityRendererNT<BobbleBlockEntity> imple
             case PU238 -> renderPellet();
             case UFFR -> renderFumo();
             case DRILLGON -> renderDrillgon();
-            default -> renderGuy(type);
+            default -> renderGuy(type, buffer);
         }
 
         RenderContext.pushPose();
@@ -230,7 +236,7 @@ public class RenderBobble extends BlockEntityRendererNT<BobbleBlockEntity> imple
         }
     }
 
-    public void renderGuy(BobbleType type) {
+    public void renderGuy(BobbleType type, @Nullable MultiBufferSource buffer) {
 
         this.resetFigurineRotation();
         this.setupFigurineRotation(type);
@@ -306,13 +312,13 @@ public class RenderBobble extends BlockEntityRendererNT<BobbleBlockEntity> imple
         if(type == BobbleType.VT) bobble.renderPart("Horn");
         if(type == BobbleType.PEEP) bobble.renderPart("PeepHat");
 
-        // todo add item renderer
-//        if(type == BobbleType.VAER) {
-//            GL11.glTranslated(0.25, 1.9, 0.075);
-//            GL11.glRotated(-60, 0, 0, 1);
-//            GL11.glScaled(0.5, 0.5, 0.5);
-//            this.renderItem(new ItemStack(ModItems.cigarette));
-//        }
+        if(type == BobbleType.VAER && buffer != null) {
+            RenderContext.translate(0.6F, 1.82F, 0.075F);
+            RenderContext.mulPose(Axis.ZP.rotationDegrees(-150F));
+            RenderContext.scale(0.5F, 0.5F, 0.5F);
+            ItemStack stack = new ItemStack(NtmItems.CIGARETTE.get());
+            this.renderItem(stack, buffer);
+        }
 
         if(type == BobbleType.NOS) {
             RenderContext.translate(0, 1.75F, 0);
@@ -459,7 +465,7 @@ public class RenderBobble extends BlockEntityRendererNT<BobbleBlockEntity> imple
             case MELLOW -> {
                 FullBright.enable();
                 bindTexture(BOBBLE_MELLOW_GLOW_TEX);
-                renderGuy(type);
+                renderGuy(type, null);
                 RenderSystem.enableBlend();
                 RenderSystem.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE);
                 // why the hell we are rendering lamp with additive blending????
@@ -474,10 +480,16 @@ public class RenderBobble extends BlockEntityRendererNT<BobbleBlockEntity> imple
             case ABEL -> {
                 FullBright.enable();
                 bindTexture(BOBBLE_ABEL_GLOW_TEX);
-                renderGuy(type);
+                renderGuy(type, null);
                 FullBright.disable();
             }
         }
+    }
+
+    private void renderItem(ItemStack stack, MultiBufferSource buffer) {
+        ItemRenderer renderer = Minecraft.getInstance().getItemRenderer();
+        BakedModel model = renderer.getModel(stack, null, null, 0);
+        renderer.render(stack, ItemDisplayContext.NONE, false, RenderContext.poseStack(), buffer, RenderContext.light(), RenderContext.overlay(), model);
     }
 
     /*
