@@ -1,5 +1,6 @@
 package com.hbm.blocks.bomb;
 
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.lib.ModEffect;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
@@ -102,7 +103,9 @@ public class TaintBlock extends Block {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-        tooltip.add(Component.literal("DO NOT TOUCH, BREATHE OR STARE AT.").withStyle(ChatFormatting.GRAY));
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
+        for(String s : ITooltipProvider.getDescription(stack)) {
+            components.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
+        }
     }
 }

@@ -2,13 +2,12 @@ package com.hbm.items;
 
 import api.hbm.block.IToolable.ToolType;
 import com.hbm.blocks.NtmBlocks;
-import com.hbm.fluids.NtmFluids;
 import com.hbm.handler.ability.IToolAreaAbility;
 import com.hbm.handler.ability.IToolHarvestAbility;
 import com.hbm.handler.ability.IWeaponAbility;
 import com.hbm.inventory.ModArmorMaterials;
-import com.hbm.inventory.NtmTiers;
 import com.hbm.inventory.NtmFoods;
+import com.hbm.inventory.NtmTiers;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ItemEnums.CasingType;
 import com.hbm.items.food.ItemEnergy;
@@ -372,8 +371,6 @@ public class NtmItems {
     public static DeferredItem<Item> AMMO_DEBUG;
     public static DeferredItem<Item> AMMO_STANDARD;
     public static DeferredItem<Item> AMMO_SECRET;
-
-    public static final DeferredItem<Item> BUCKET_VOLCANIC_LAVA = ITEMS.register("bucket_volcanic_lava", () -> new BucketItem(NtmFluids.VOLCANIC_LAVA.get(), new Item.Properties().stacksTo(1)));
 
     public static void registerOther(DeferredRegister.Items itemRegistry) {
         GunFactory.init(itemRegistry);

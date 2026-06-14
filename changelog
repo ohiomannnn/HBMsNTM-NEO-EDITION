@@ -7,8 +7,10 @@
 
 ## CHANGES
 * Fire, balefire, phosphorus and blackfire player properties now will affect player
+* Ported some changes
 
 ## FIXES
 * Fixed server side loading client classes
 * Fixed nuke mushroom cloud not rendering after explosion in sable sublevel
+* Fixed obj model renderer breaking with veil installed
 * Fixed vanilla armor not reducing damage

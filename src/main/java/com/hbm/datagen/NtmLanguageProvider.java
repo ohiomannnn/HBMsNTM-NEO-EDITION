@@ -44,7 +44,7 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmBlocks.GRAVEL_DIAMOND, DESC, "There is some kind of joke here,$but I can't quite tell what it is.$$Update, 2020-07-04:$We deny any implications of a joke on$the basis that it was so severely unfunny$that people started stabbing their eyes out.$$Update, 2020-17-04:$As it turns out, \"Diamond Gravel\" was$never really a thing, rendering what might$have been a joke as totally nonsensical.$We apologize for getting your hopes up with$this non-joke that hasn't been made.$$i added an item for a joke that isn't even here, what am i, stupid? can't even tell the difference between gravel and a gavel, how did i not forget how to breathe yet?");
 
         this.add("block.hbmsntm.obj_blast_info.desc", "Blast Resistance: %s");
-        this.add("block.hbmsntm.obj_speedy.desc", "Increases speed by %s");
+        this.add("block.hbmsntm.obj_speedy.desc", "Increases speed by %s%%");
         this.add(NtmBlocks.ASPHALT, "Asphalt");
         this.add(NtmBlocks.ASPHALT_LIGHT, "Glowing Asphalt");
 
@@ -110,6 +110,54 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmBlocks.BARREL_PINK, "Kerosene Barrel");
         this.add(NtmBlocks.BARREL_LOX, "LOX Barrel");
         this.add(NtmBlocks.BARREL_TAINT, "IMP Residue Barrel");
+
+        this.add(NtmBlocks.GEIGER, "Geiger Counter");
+
+        this.add(NtmBlocks.MACHINE_PRESS, "Burner Press");
+
+        this.add(NtmBlocks.RED_CABLE, "Red Copper Cable");
+
+        this.add(NtmBlocks.FLUID_DUCT_NEO, "Universal Fluid Duct");
+
+        this.add(NtmBlocks.MACHINE_BATTERY_SOCKET, "Battery Socket");
+        this.add(NtmBlocks.MACHINE_BATTERY_SOCKET, DESC,"Allows battery items to be connected$to the power grid directly.$Acts as a cable, all ports are connected$to the same network.");
+        this.add(NtmBlocks.MACHINE_BATTERY_REDD, "FEnSU");
+        this.add(NtmBlocks.MACHINE_ASSEMBLY_MACHINE, "Assembly Machine");
+        this.add(NtmBlocks.MACHINE_FLUID_TANK, "Tank");
+
+        this.add(NtmBlocks.MACHINE_SATLINKER, "SatLink Device");
+
+        this.add(NtmBlocks.DECONTAMINATOR, "Player Decontaminator");
+
+        this.add(NtmBlocks.PWR_CONTROLLER, "PWR Controller");
+
+        this.add(NtmBlocks.BALEFIRE, "Balefire");
+        this.add(NtmBlocks.FIRE_DIGAMMA, "Lingering Digamma");
+        this.add("block.hbmsntm.obj_volcano.desc0", "SHIELD VOLCANO");
+        this.add("block.hbmsntm.obj_volcano.desc1", "DOES GROW");
+        this.add("block.hbmsntm.obj_volcano.desc2", "DOES NOT GROW");
+        this.add("block.hbmsntm.obj_volcano.desc3", "DOES EXTINGUISH");
+        this.add("block.hbmsntm.obj_volcano.desc4", "DOES NOT EXTINGUISH");
+        this.add(NtmBlocks.VOLCANO_CORE, "Volcano Core");
+        this.add(NtmBlocks.VOLCANO_RAD_CORE, "Rad Volcano Core");
+
+        this.add(NtmBlocks.LAUNCH_PAD, "Silo Launch Pad");
+
+        this.add(NtmBlocks.VOLCANIC_LAVA, "Volcanic Lava");
+        this.add(NtmBlocks.RAD_LAVA, "Radioactive Volcanic Lava");
+
+        this.add(NtmBlocks.GAS_RADON, "Radon Gas");
+        this.add(NtmBlocks.GAS_RADON_DENSE, "Dense Radon Gas");
+        this.add(NtmBlocks.GAS_RADON_TOMB, "Tomb Gas");
+        this.add(NtmBlocks.GAS_MELTDOWN, "Meltdown Gas");
+        this.add(NtmBlocks.GAS_MONOXIDE, "Carbon Monoxide");
+        this.add(NtmBlocks.GAS_ASBESTOS, "Airborne Asbestos Particles");
+        this.add(NtmBlocks.GAS_COAL, "Airborne Coal Dust");
+        this.add(NtmBlocks.GAS_FLAMMABLE, "Flammable Gas");
+        this.add(NtmBlocks.GAS_EXPLOSIVE, "Explosive Gas");
+
+        this.add(NtmBlocks.TAINT, "Taint");
+        this.add(NtmBlocks.TAINT, DESC,"DO NOT TOUCH, BREATHE OR STARE AT.");
 
         /*
          * CONTAINERS

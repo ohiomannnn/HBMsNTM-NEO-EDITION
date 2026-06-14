@@ -44,6 +44,21 @@ public class NtmBlockStateProvider extends BlockStateProvider {
             }
         }
 
+        this.simpleCubeAllBlock(NtmBlocks.ORE_OIL);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_URANIUM);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_URANIUM_SCORCHED);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_SCHRABIDIUM);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_NETHER_URANIUM);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_NETHER_URANIUM_SCORCHED);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_NETHER_SCHRABIDIUM);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_TIKITE);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_GNEISS_URANIUM);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_GNEISS_URANIUM_SCORCHED);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_NETHER_PLUTONIUM);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_GNEISS_SCHRABIDIUM);
+
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_SCRAP);
+
         this.particleOnlyBlock(NtmBlocks.BOBBLEHEAD, modLoc("block/block_steel"));
         this.particleOnlyBlock(NtmBlocks.PLUSHIE, modLoc("block/block_fiberglass_side"));
 
@@ -91,156 +106,41 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.registerBarbedWire();
         this.registerSpikes();
 
-        this.particleOnlyBlock(NtmBlocks.LAUNCH_PAD, blockTexture(NtmBlocks.LAUNCH_PAD.get()));
-
-        cubeTop(NtmBlocks.MACHINE_SATLINKER.get());
-
-        this.cubeAll(NtmBlocks.DET_CHARGE.get());
-        this.cubeTop(NtmBlocks.DET_NUKE.get());
-        this.cubeTop(NtmBlocks.DET_MINER.get());
-
-        this.particleOnlyBlock(NtmBlocks.MACHINE_ASSEMBLY_MACHINE, modLoc("block/block_steel"));
-        this.particleOnlyBlock(NtmBlocks.MACHINE_BATTERY_REDD, modLoc("block/block_steel"));
-        this.particleOnlyBlock(NtmBlocks.MACHINE_BATTERY_SOCKET, modLoc("block/block_steel"));
-        this.particleOnlyBlock(NtmBlocks.MACHINE_FLUID_TANK, modLoc("block/block_steel"));
-
-        this.particleOnlyBlock(NtmBlocks.NUKE_GADGET, blockTexture(NtmBlocks.NUKE_GADGET.get()));
-        this.particleOnlyBlock(NtmBlocks.NUKE_LITTLE_BOY, blockTexture(NtmBlocks.NUKE_LITTLE_BOY.get()));
-        this.particleOnlyBlock(NtmBlocks.NUKE_FAT_MAN, blockTexture(NtmBlocks.NUKE_FAT_MAN.get()));
-        this.particleOnlyBlock(NtmBlocks.NUKE_IVY_MIKE, blockTexture(NtmBlocks.NUKE_IVY_MIKE.get()));
-        this.particleOnlyBlock(NtmBlocks.NUKE_TSAR_BOMBA, blockTexture(NtmBlocks.NUKE_TSAR_BOMBA.get()));
-        this.particleOnlyBlock(NtmBlocks.NUKE_PROTOTYPE, blockTexture(NtmBlocks.NUKE_PROTOTYPE.get()));
-        this.particleOnlyBlock(NtmBlocks.NUKE_FLEIJA, blockTexture(NtmBlocks.NUKE_FLEIJA.get()));
-        this.particleOnlyBlock(NtmBlocks.NUKE_N2, blockTexture(NtmBlocks.NUKE_N2.get()));
-        this.particleOnlyBlock(NtmBlocks.NUKE_FSTBMB, blockTexture(NtmBlocks.NUKE_FSTBMB.get()));
-
-        this.barrelLoaderBlockItem(NtmBlocks.BARREL_RED.get(), blockTexture(NtmBlocks.BARREL_RED.get()));
-        this.barrelLoaderBlockItem(NtmBlocks.BARREL_PINK.get(), blockTexture(NtmBlocks.BARREL_PINK.get()));
-        this.barrelLoaderBlockItem(NtmBlocks.BARREL_LOX.get(), blockTexture(NtmBlocks.BARREL_LOX.get()));
-        this.barrelLoaderBlockItem(NtmBlocks.BARREL_TAINT.get(), blockTexture(NtmBlocks.BARREL_TAINT.get()));
-
-        this.particleOnlyBlock(NtmBlocks.CRASHED_BOMB, modLoc("block/block_rust"), true);
-
-        this.cubeSideBottomTop(NtmBlocks.DYNAMITE.get());
-        this.cubeSideBottomTop(NtmBlocks.TNT.get());
-        this.cubeSideBottomTop(NtmBlocks.SEMTEX.get());
-        this.cubeSideBottomTop(NtmBlocks.C4.get());
-        this.cubeSideBottomTop(NtmBlocks.FISSURE_BOMB.get());
-
-        sellafieldSlaked(
-                NtmBlocks.SELLAFIELD_SLAKED.get(),
-                "sellafield_slaked"
+        this.simpleCubeBottomTopBlock(NtmBlocks.WASTE_EARTH);
+        this.simpleBlockWithItem(
+                NtmBlocks.WASTE_MYCELIUM,
+                this.models().cubeBottomTop(
+                        name(NtmBlocks.WASTE_MYCELIUM),
+                        blockTexture(NtmBlocks.WASTE_MYCELIUM, "_side"),
+                        blockTexture(NtmBlocks.WASTE_EARTH, "_bottom"),
+                        blockTexture(NtmBlocks.WASTE_MYCELIUM, "_top")
+                )
         );
-
-        sellafieldSlaked(
-                NtmBlocks.SELLAFIELD_BEDROCK.get(),
-                "sellafield_bedrock"
-        );
-
-        sellafieldOre(NtmBlocks.ORE_SELLAFIELD_DIAMOND.get(), "sellafield_ore_diamond", "block/ore_diamond_overlay");
-        sellafieldOre(NtmBlocks.ORE_SELLAFIELD_EMERALD.get(), "sellafield_ore_emerald", "block/ore_emerald_overlay");
-
+        this.simpleCubeAllBlock(NtmBlocks.WASTE_TRINITITE);
+        this.simpleCubeAllBlock(NtmBlocks.WASTE_TRINITITE_RED);
         this.logBlock(NtmBlocks.WASTE_LOG.get());
+        this.simpleBlockWithItem(
+                NtmBlocks.WASTE_LEAVES,
+                this.models().cubeAll(
+                        name(NtmBlocks.WASTE_LEAVES),
+                        blockTexture(NtmBlocks.WASTE_LEAVES)
+                ).renderType("cutout_mipped")
+        );
+        this.simpleCubeAllBlock(NtmBlocks.WASTE_PLANKS);
+        this.simpleCubeAllBlock(NtmBlocks.FROZEN_DIRT);
+        this.simpleBlockWithItem(
+                NtmBlocks.FROZEN_GRASS,
+                this.models().cubeBottomTop(
+                        name(NtmBlocks.FROZEN_GRASS),
+                        blockTexture(NtmBlocks.FROZEN_GRASS, "_side"),
+                        blockTexture(NtmBlocks.FROZEN_DIRT),
+                        blockTexture(NtmBlocks.FROZEN_GRASS, "_top")
+                )
+        );
         this.logBlock(NtmBlocks.FROZEN_LOG.get());
-        this.cub3All(NtmBlocks.FROZEN_DIRT.get());
-        this.cub3All(NtmBlocks.FROZEN_PLANKS.get());
-
-        simpleBlockWithItem(NtmBlocks.FROZEN_GRASS.get(),
-                models().cubeBottomTop(
-                        NtmBlocks.FROZEN_GRASS.getId().getPath(),
-                        modLoc("block/frozen_grass_side"),
-                        modLoc("block/frozen_dirt"),
-                        modLoc("block/frozen_grass_top")
-                )
-        );
-
-        simpleBlockWithItem(NtmBlocks.WASTE_EARTH.get(),
-                models().cubeBottomTop(
-                        NtmBlocks.WASTE_EARTH.getId().getPath(),
-                        modLoc("block/waste_earth_side"),
-                        modLoc("block/waste_earth_bottom"),
-                        modLoc("block/waste_earth_top")
-                )
-        );
-
-        simpleBlockWithItem(NtmBlocks.DECONTAMINATOR.get(),
-                models().cubeBottomTop(
-                        NtmBlocks.DECONTAMINATOR.getId().getPath(),
-                        modLoc("block/decontaminator_side"),
-                        modLoc("block/decontaminator_side"),
-                        modLoc("block/decontaminator_top")
-                )
-        );
-
-        simpleBlockWithItem(NtmBlocks.PWR_CONTROLLER.get(),
-                models().cube(
-                        NtmBlocks.PWR_CONTROLLER.getId().getPath(),
-                        modLoc("block/pwr_casing_blank"),
-                        modLoc("block/pwr_casing_blank"),
-                        modLoc("block/pwr_controller"),
-                        modLoc("block/pwr_casing_blank"),
-                        modLoc("block/pwr_casing_blank"),
-                        modLoc("block/pwr_casing_blank")
-                )
-        );
-
-        simpleBlockWithItem(NtmBlocks.WASTE_LEAVES.get(),
-                models().cubeColumn("waste_leaves", modLoc("block/waste_leaves"), modLoc("block/waste_leaves"))
-                        .renderType("cutout_mipped")
-        );
-        simpleBlockWithItem(NtmBlocks.WASTE_PLANKS.get(), cubeAll(NtmBlocks.WASTE_PLANKS.get()));
-        simpleBlockWithItem(NtmBlocks.WASTE_TRINITITE.get(), cubeAll(NtmBlocks.WASTE_TRINITITE.get()));
-        simpleBlockWithItem(NtmBlocks.WASTE_TRINITITE_RED.get(), cubeAll(NtmBlocks.WASTE_TRINITITE_RED.get()));
-        simpleBlockWithItem(NtmBlocks.WASTE_MYCELIUM.get(),
-                models().withExistingParent("waste_mycelium", mcLoc("block/block"))
-                        .texture("particle", modLoc("block/waste_earth_bottom"))
-                        .texture("bottom", modLoc("block/waste_earth_bottom"))
-                        .texture("top", modLoc("block/waste_mycelium_top"))
-                        .texture("side", modLoc("block/waste_mycelium_side"))
-                        .element()
-                        .from(0, 0, 0)
-                        .to(16, 16, 16)
-                        .face(Direction.DOWN).uvs(0, 0, 16, 16).texture("#bottom").cullface(Direction.DOWN).end()
-                        .face(Direction.UP).uvs(0, 0, 16, 16).texture("#top").cullface(Direction.UP).tintindex(0).end()
-                        .face(Direction.NORTH).uvs(0, 0, 16, 16).texture("#side").cullface(Direction.NORTH).end()
-                        .face(Direction.SOUTH).uvs(0, 0, 16, 16).texture("#side").cullface(Direction.SOUTH).end()
-                        .face(Direction.WEST).uvs(0, 0, 16, 16).texture("#side").cullface(Direction.WEST).end()
-                        .face(Direction.EAST).uvs(0, 0, 16, 16).texture("#side").cullface(Direction.EAST).end()
-                        .end()
-        );
-
-        simpleBlockWithItem(NtmBlocks.BLOCK_SCRAP.get(), cubeAll(NtmBlocks.BLOCK_SCRAP.get()));
-
-        simpleBlockWithItem(NtmBlocks.ORE_OIL.get(), cubeAll(NtmBlocks.ORE_OIL.get()));
-        simpleBlockWithItem(NtmBlocks.ORE_URANIUM.get(), cubeAll(NtmBlocks.ORE_URANIUM.get()));
-        simpleBlockWithItem(NtmBlocks.ORE_URANIUM_SCORCHED.get(), cubeAll(NtmBlocks.ORE_URANIUM_SCORCHED.get()));
-        simpleBlockWithItem(NtmBlocks.ORE_SCHRABIDIUM.get(), cubeAll(NtmBlocks.ORE_SCHRABIDIUM.get()));
-        simpleBlockWithItem(NtmBlocks.ORE_NETHER_URANIUM.get(), cubeAll(NtmBlocks.ORE_NETHER_URANIUM.get()));
-        simpleBlockWithItem(NtmBlocks.ORE_NETHER_URANIUM_SCORCHED.get(), cubeAll(NtmBlocks.ORE_NETHER_URANIUM_SCORCHED.get()));
-        simpleBlockWithItem(NtmBlocks.ORE_NETHER_SCHRABIDIUM.get(), cubeAll(NtmBlocks.ORE_NETHER_SCHRABIDIUM.get()));
-        simpleBlockWithItem(NtmBlocks.ORE_TIKITE.get(), cubeAll(NtmBlocks.ORE_TIKITE.get()));
-        simpleBlockWithItem(NtmBlocks.ORE_GNEISS_URANIUM.get(), cubeAll(NtmBlocks.ORE_GNEISS_URANIUM.get()));
-        simpleBlockWithItem(NtmBlocks.ORE_GNEISS_URANIUM_SCORCHED.get(), cubeAll(NtmBlocks.ORE_GNEISS_URANIUM_SCORCHED.get()));
-        simpleBlockWithItem(NtmBlocks.ORE_NETHER_PLUTONIUM.get(), cubeAll(NtmBlocks.ORE_NETHER_PLUTONIUM.get()));
-        simpleBlockWithItem(NtmBlocks.ORE_GNEISS_SCHRABIDIUM.get(), cubeAll(NtmBlocks.ORE_GNEISS_SCHRABIDIUM.get()));
-
-        simpleBlockWithItem(NtmBlocks.TAINT.get(), cubeAll(NtmBlocks.TAINT.get()));
-
-        simpleBlockWithItem(NtmBlocks.BALEFIRE.get(),
-                models().withExistingParent("balefire", mcLoc("block/cross"))
-                        .renderType("minecraft:cutout_mipped")
-                        .texture("cross", modLoc("block/balefire"))
-        );
-        simpleBlockWithItem(NtmBlocks.FIRE_DIGAMMA.get(),
-                models().withExistingParent("fire_digamma", mcLoc("block/cross"))
-                        .renderType("minecraft:cutout_mipped")
-                        .texture("cross", modLoc("block/fire_digamma"))
-        );
-
-        generateLayeringBlock(NtmBlocks.LEAVES_LAYER.get());
-
+        this.simpleCubeAllBlock(NtmBlocks.FROZEN_PLANKS);
+        this.layeringBlock(NtmBlocks.LEAVES_LAYER.get());
         ResourceLocation texture = modLoc("block/ash");
-
         ModelFile falloutModel = models()
                 .getBuilder("fallout")
                 .parent(new ModelFile.UncheckedModelFile("block/block"))
@@ -256,12 +156,89 @@ public class NtmBlockStateProvider extends BlockStateProvider {
                 .face(Direction.WEST).texture("#all").end()
                 .face(Direction.EAST).texture("#all").end()
                 .end();
+        this.getVariantBuilder(NtmBlocks.FALLOUT.get()).partialState().setModels(new ConfiguredModel(falloutModel));
+        this.sellafieldSlaked(NtmBlocks.SELLAFIELD_SLAKED.get(), "sellafield_slaked");
+        this.sellafieldOre(NtmBlocks.ORE_SELLAFIELD_DIAMOND.get(), "sellafield_ore_diamond", "block/ore_diamond_overlay");
+        this.sellafieldOre(NtmBlocks.ORE_SELLAFIELD_EMERALD.get(), "sellafield_ore_emerald", "block/ore_emerald_overlay");
+        this.sellafieldSlaked(NtmBlocks.SELLAFIELD_BEDROCK.get(), "sellafield_bedrock");
 
-        getVariantBuilder(NtmBlocks.FALLOUT.get()).partialState().setModels(new ConfiguredModel(falloutModel));
+        this.particleOnlyBlock(NtmBlocks.NUKE_GADGET, blockTexture(NtmBlocks.NUKE_GADGET));
+        this.particleOnlyBlock(NtmBlocks.NUKE_LITTLE_BOY, blockTexture(NtmBlocks.NUKE_LITTLE_BOY));
+        this.particleOnlyBlock(NtmBlocks.NUKE_FAT_MAN, blockTexture(NtmBlocks.NUKE_FAT_MAN));
+        this.particleOnlyBlock(NtmBlocks.NUKE_IVY_MIKE, blockTexture(NtmBlocks.NUKE_IVY_MIKE));
+        this.particleOnlyBlock(NtmBlocks.NUKE_TSAR_BOMBA, blockTexture(NtmBlocks.NUKE_TSAR_BOMBA));
+        this.particleOnlyBlock(NtmBlocks.NUKE_PROTOTYPE, blockTexture(NtmBlocks.NUKE_PROTOTYPE));
+        this.particleOnlyBlock(NtmBlocks.NUKE_FLEIJA, blockTexture(NtmBlocks.NUKE_FLEIJA));
+        this.particleOnlyBlock(NtmBlocks.NUKE_N2, blockTexture(NtmBlocks.NUKE_N2));
+        this.particleOnlyBlock(NtmBlocks.NUKE_FSTBMB, blockTexture(NtmBlocks.NUKE_FSTBMB));
+
+        this.particleOnlyBlock(NtmBlocks.CRASHED_BOMB, modLoc("block/block_rust"), true);
+        this.simpleCubeBottomTopBlock(NtmBlocks.DYNAMITE);
+        this.simpleCubeBottomTopBlock(NtmBlocks.TNT);
+        this.simpleCubeBottomTopBlock(NtmBlocks.SEMTEX);
+        this.simpleCubeBottomTopBlock(NtmBlocks.C4);
+        this.simpleCubeBottomTopBlock(NtmBlocks.FISSURE_BOMB);
+
+        this.particleOnlyBlock(NtmBlocks.MINE_AP, blockTexture(NtmBlocks.MINE_AP));
+        this.particleOnlyBlock(NtmBlocks.MINE_HE, blockTexture(NtmBlocks.MINE_HE));
+        this.particleOnlyBlock(NtmBlocks.MINE_SHRAP, blockTexture(NtmBlocks.MINE_SHRAP));
+        this.particleOnlyBlock(NtmBlocks.MINE_FAT, blockTexture(NtmBlocks.MINE_FAT));
+        this.particleOnlyBlock(NtmBlocks.MINE_NAVAL, blockTexture(NtmBlocks.MINE_NAVAL));
+
+        this.simpleCubeAllBlock(NtmBlocks.DET_CHARGE);
+        this.registerDetCord();
+        this.cubeTop(NtmBlocks.DET_NUKE);
+        this.cubeTop(NtmBlocks.DET_MINER);
+        this.barrelLoaderBlockItem(NtmBlocks.BARREL_RED.get(), blockTexture(NtmBlocks.BARREL_RED));
+        this.barrelLoaderBlockItem(NtmBlocks.BARREL_PINK.get(), blockTexture(NtmBlocks.BARREL_PINK));
+        this.barrelLoaderBlockItem(NtmBlocks.BARREL_LOX.get(), blockTexture(NtmBlocks.BARREL_LOX));
+        this.barrelLoaderBlockItem(NtmBlocks.BARREL_TAINT.get(), blockTexture(NtmBlocks.BARREL_TAINT));
+
+        this.particleOnlyBlock(NtmBlocks.GEIGER, blockTexture(NtmBlocks.GEIGER));
+
+        this.particleOnlyBlock(NtmBlocks.MACHINE_PRESS, modLoc("block/block_steel"));
 
         this.registerCable();
-        this.registerDetCord();
+
         this.registerFluidDuct();
+
+        this.particleOnlyBlock(NtmBlocks.MACHINE_BATTERY_SOCKET, modLoc("block/block_steel"));
+        this.particleOnlyBlock(NtmBlocks.MACHINE_BATTERY_REDD, modLoc("block/block_steel"));
+        this.particleOnlyBlock(NtmBlocks.MACHINE_ASSEMBLY_MACHINE, modLoc("block/block_steel"));
+        this.particleOnlyBlock(NtmBlocks.MACHINE_FLUID_TANK, modLoc("block/block_steel"));
+
+        this.cubeTop(NtmBlocks.MACHINE_SATLINKER);
+
+        this.simpleBlockWithItem(
+                NtmBlocks.DECONTAMINATOR,
+                this.models().cubeBottomTop(
+                        name(NtmBlocks.DECONTAMINATOR),
+                        blockTexture(NtmBlocks.DECONTAMINATOR, "_side"),
+                        blockTexture(NtmBlocks.DECONTAMINATOR, "_side"),
+                        blockTexture(NtmBlocks.DECONTAMINATOR, "_top")
+                )
+        );
+
+        this.simpleBlockWithItem(NtmBlocks.PWR_CONTROLLER.get(),
+                this.models().cube(
+                        NtmBlocks.PWR_CONTROLLER.getId().getPath(),
+                        modLoc("block/pwr_casing_blank"),
+                        modLoc("block/pwr_casing_blank"),
+                        modLoc("block/pwr_controller"),
+                        modLoc("block/pwr_casing_blank"),
+                        modLoc("block/pwr_casing_blank"),
+                        modLoc("block/pwr_casing_blank")
+                )
+        );
+
+        this.simpleBlock(NtmBlocks.BALEFIRE.get(), this.models().withExistingParent("balefire", mcLoc("block/cross")).renderType(":cutout_mipped").texture("cross", modLoc("block/balefire")));
+        this.simpleBlock(NtmBlocks.FIRE_DIGAMMA.get(), this.models().withExistingParent("fire_digamma", mcLoc("block/cross")).renderType("cutout_mipped").texture("cross", modLoc("block/fire_digamma")));
+        //VOLCANO_CORE uses custom register!
+        //VOLCANO_RAD_CORE uses custom register!
+
+        this.particleOnlyBlock(NtmBlocks.LAUNCH_PAD, blockTexture(NtmBlocks.LAUNCH_PAD));
+
+        simpleBlockWithItem(NtmBlocks.TAINT.get(), cubeAll(NtmBlocks.TAINT.get()));
     }
 
     private void registerCable() {
@@ -335,7 +312,7 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.entityBlockItem(block, false);
     }
 
-    private void generateLayeringBlock(Block block) {
+    private void layeringBlock(Block block) {
         ResourceLocation texture = modLoc("block/waste_leaves");
 
         MultiPartBlockStateBuilder builder = getMultipartBuilder(block);
@@ -419,15 +396,6 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         itemModels().withExistingParent(BuiltInRegistries.BLOCK.getKey(block).getPath(), modLoc("block/" + baseName));
     }
 
-    public void simpleColumnBlockWithItem(Block block, ResourceLocation side, ResourceLocation end) {
-        simpleBlockWithItem(block, models().cubeColumn(name(block), side, end));
-    }
-
-    public void cub3All(Block block) {
-        this.simpleBlock(block, cubeAll(block));
-        this.simpleBlockItem(block, cubeAll(block));
-    }
-
     public void simpleBlockWithItem(DeferredBlock<? extends Block> block, ModelFile model) {
         this.simpleBlockWithItem(block.get(), model);
     }
@@ -435,29 +403,24 @@ public class NtmBlockStateProvider extends BlockStateProvider {
     /** Creates block with item, uses cube all model */
     public void simpleCubeAllBlock(DeferredBlock<? extends Block> block) { this.simpleBlockWithItem(block.get(), this.cubeAll(block.get())); }
 
-    private void particleOnlyBlock(DeferredBlock<? extends Block> block, ResourceLocation particleTexture) {
-        this.particleOnlyBlock(block, particleTexture, false);
-    }
-
+    private void particleOnlyBlock(DeferredBlock<? extends Block> block, ResourceLocation particleTexture) { this.particleOnlyBlock(block, particleTexture, false); }
     private void particleOnlyBlock(DeferredBlock<? extends Block> block, ResourceLocation particleTexture, boolean frontLight) {
         this.simpleBlock(block.get(), this.models().getBuilder(name(block) + "_particle").texture("particle", particleTexture));
         this.entityBlockItem(block.get(), frontLight);
     }
 
-    public void cubeSideBottomTop(Block block) {
-        String blockName = name(block);
-        this.simpleBlock(block, this.models().cubeBottomTop(blockName, modLoc("block/" + blockName + "_side"), modLoc("block/" + blockName + "_bottom"), modLoc("block/" + blockName + "_top")));
-        this.simpleBlockItem(block, this.models().cubeBottomTop(blockName, modLoc("block/" + blockName + "_side"), modLoc("block/" + blockName + "_bottom"), modLoc("block/" + blockName + "_top")));
-    }
-
-    public void cubeTop(Block block) {
-        String blockName = name(block);
-        this.simpleBlock(block, this.models().cubeTop(blockName, modLoc("block/" + blockName + "_side"), modLoc("block/" + blockName + "_top")));
-        this.simpleBlockItem(block, this.models().cubeTop(blockName, modLoc("block/" + blockName + "_side"), modLoc("block/" + blockName + "_top")));
-    }
-
     private void entityBlockItem(Block block, boolean frontLight) {
         this.itemModels().getBuilder(this.key(block).getPath()).parent(new ModelFile.UncheckedModelFile("builtin/entity")).guiLight(frontLight ? BlockModel.GuiLight.FRONT : BlockModel.GuiLight.SIDE);
+    }
+
+    public void simpleCubeBottomTopBlock(DeferredBlock<? extends Block> block) {
+        String blockName = name(block);
+        this.simpleBlockWithItem(block, this.models().cubeBottomTop(blockName, modLoc("block/" + blockName + "_side"), modLoc("block/" + blockName + "_bottom"), modLoc("block/" + blockName + "_top")));
+    }
+
+    public void cubeTop(DeferredBlock<? extends Block> block) {
+        String blockName = name(block);
+        this.simpleBlockWithItem(block, this.models().cubeTop(blockName, modLoc("block/" + blockName + "_side"), modLoc("block/" + blockName + "_top")));
     }
 
     protected String name(Block block) { return this.key(block).getPath(); }
@@ -465,6 +428,7 @@ public class NtmBlockStateProvider extends BlockStateProvider {
     protected ResourceLocation key(Block block) { return BuiltInRegistries.BLOCK.getKey(block); }
     protected ResourceLocation key(DeferredBlock<? extends Block> block) { return BuiltInRegistries.BLOCK.getKey(block.get()); }
     protected ResourceLocation blockTexture(DeferredBlock<? extends Block> block) { ResourceLocation name = this.key(block); return ResourceLocation.fromNamespaceAndPath(name.getNamespace(), "block/" + name.getPath()); }
+    protected ResourceLocation blockTexture(DeferredBlock<? extends Block> block, String toAppend) { ResourceLocation name = this.key(block); return ResourceLocation.fromNamespaceAndPath(name.getNamespace(), "block/" + name.getPath() + toAppend); }
 
     private void blockItem(DeferredBlock<? extends Block> block) { this.simpleBlockItem(block.get(), new ModelFile.UncheckedModelFile("hbmsntm:block/" + block.getId().getPath())); }
 
@@ -534,5 +498,4 @@ public class NtmBlockStateProvider extends BlockStateProvider {
 
         public abstract BakedModelType getType();
     }
-
 }

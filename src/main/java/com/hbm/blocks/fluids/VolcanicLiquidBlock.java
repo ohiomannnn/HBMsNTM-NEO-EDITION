@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FlowingFluid;
+import net.neoforged.neoforge.common.Tags;
 
 public class VolcanicLiquidBlock extends LiquidBlock {
 
@@ -35,43 +36,35 @@ public class VolcanicLiquidBlock extends LiquidBlock {
         }
     }
 
-    private BlockState getReaction(Level level, BlockPos pos) {
+    public BlockState getReaction(Level level, BlockPos pos) {
         BlockState b = level.getBlockState(pos);
 
         if(b.getFluidState().is(FluidTags.WATER)) return Blocks.STONE.defaultBlockState();
         if(b.is(BlockTags.LOGS)) return NtmBlocks.WASTE_LOG.get().defaultBlockState();
         if(b.is(BlockTags.PLANKS)) return NtmBlocks.WASTE_PLANKS.get().defaultBlockState();
         if(b.is(BlockTags.LEAVES)) return Blocks.FIRE.defaultBlockState();
-        if(b.is(Blocks.DIAMOND_ORE)) {
-            return Blocks.COPPER_BLOCK.defaultBlockState();
-        }
+        if(b.is(Tags.Blocks.ORES_DIAMOND)) return Blocks.COPPER_BLOCK.defaultBlockState();
         return null;
     }
 
-    @Override
-    protected boolean isRandomlyTicking(BlockState state) {
-        return true;
-    }
+    public static void baseTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if(state.getBlock() instanceof VolcanicLiquidBlock block) {
+            int lavaCount = 0;
+            int basaltCount = 0;
 
-    @Override
-    protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        super.randomTick(state, level, pos, random);
+            for(Direction dir : Direction.values()) {
+                BlockState b = level.getBlockState(pos.relative(dir));
 
-        int lavaCount = 0;
-        int basaltCount = 0;
+                if(b.is(block)) lavaCount++;
+                if(b.is(block.getBasaltForCheck())) basaltCount++;
+            }
 
-        for(Direction dir : Direction.values()) {
-            BlockState b = level.getBlockState(pos.relative(dir));
+            boolean isSource = state.getValue(LEVEL) == 0;
+            boolean hasNoLavaBelow = !level.getBlockState(pos.below()).is(block);
 
-            if(b.is(this)) lavaCount++;
-            if(b.is(getBasaltForCheck())) basaltCount++;
-        }
-
-        boolean isSource = state.getValue(LEVEL) == 0;
-        boolean hasNoLavaBelow = !level.getBlockState(pos.below()).is(this);
-
-        if(((!isSource && lavaCount < 2) || (random.nextInt(5) == 0 && lavaCount < 5)) && hasNoLavaBelow) {
-            onSolidify(level, pos, lavaCount, basaltCount, random);
+            if(((!isSource && lavaCount < 2) || (random.nextInt(5) == 0 && lavaCount < 5)) && hasNoLavaBelow) {
+                block.onSolidify(level, pos, lavaCount, basaltCount, random);
+            }
         }
     }
 

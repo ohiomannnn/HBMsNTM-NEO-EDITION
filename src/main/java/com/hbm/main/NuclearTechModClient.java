@@ -176,6 +176,22 @@ public class NuclearTechModClient {
             }
 
         }, NtmFluidTypes.VOLCANIC_LAVA_TYPE.get());
+
+        event.registerFluidType(new IClientFluidTypeExtensions() {
+            private static final ResourceLocation STILL = NuclearTechMod.withDefaultNamespace("block/rad_lava_still");
+            private static final ResourceLocation FLOWING = NuclearTechMod.withDefaultNamespace("block/rad_lava_flowing");;
+
+            @Override
+            public ResourceLocation getStillTexture() {
+                return STILL;
+            }
+
+            @Override
+            public ResourceLocation getFlowingTexture() {
+                return FLOWING;
+            }
+
+        }, NtmFluidTypes.RAD_LAVA_TYPE.get());
     }
 
     @SubscribeEvent

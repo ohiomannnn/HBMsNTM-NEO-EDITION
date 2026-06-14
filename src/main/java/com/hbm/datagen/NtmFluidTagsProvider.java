@@ -22,12 +22,18 @@ public class NtmFluidTagsProvider extends FluidTagsProvider {
 
         this.tag(Tags.Fluids.LAVA).add(
                 NtmFluids.VOLCANIC_LAVA.get(),
-                NtmFluids.VOLCANIC_LAVA_FLOWING.get()
+                NtmFluids.VOLCANIC_LAVA_FLOWING.get(),
+
+                NtmFluids.RAD_LAVA.get(),
+                NtmFluids.RAD_LAVA_FLOWING.get()
         );
 
         this.tag(FluidTags.LAVA).add(
                 NtmFluids.VOLCANIC_LAVA.get(),
-                NtmFluids.VOLCANIC_LAVA_FLOWING.get()
+                NtmFluids.VOLCANIC_LAVA_FLOWING.get(),
+
+                NtmFluids.RAD_LAVA.get(),
+                NtmFluids.RAD_LAVA_FLOWING.get()
         );
     }
 }

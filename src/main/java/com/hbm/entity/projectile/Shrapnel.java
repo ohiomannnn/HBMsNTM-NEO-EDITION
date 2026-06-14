@@ -66,7 +66,7 @@ public class Shrapnel extends ThrowableProjectile {
                     if(this.getDeltaMovement().y < -0.2D && result instanceof BlockHitResult bhr) {
                         BlockPos pos = bhr.getBlockPos().above();
                         if(level.getBlockState(pos).canBeReplaced()) {
-                            this.level.setBlock(pos, NtmBlocks.VOLCANIC_LAVA.get().defaultBlockState(), 3);
+                            this.level.setBlock(pos,  b == 2 ? NtmBlocks.VOLCANIC_LAVA.get().defaultBlockState() : NtmBlocks.RAD_LAVA.get().defaultBlockState(), 3);
                         }
                         BlockPos base = bhr.getBlockPos();
                         for(int x = -1; x <= 1; x++) {

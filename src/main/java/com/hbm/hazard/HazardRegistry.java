@@ -12,7 +12,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 
-import static com.hbm.blocks.NtmBlocks.*;
+import static com.hbm.blocks.NtmBlocks.BRICK_ASBESTOS;
+import static com.hbm.blocks.NtmBlocks.NUKE_FSTBMB;
 import static com.hbm.items.NtmItems.*;
 
 @SuppressWarnings("unused") //shut the fuck up
@@ -181,9 +182,9 @@ public class HazardRegistry {
         registerBreedingRodRadiation(BreedingRodType.WASTE, wst);
         registerBreedingRodRadiation(BreedingRodType.URANIUM, u);
 
-        /*
-         * Nuke parts
-         */
+        HazardSystem.register(block(BRICK_ASBESTOS), makeData(ASBESTOS, 1F));
+
+        //nuke parts
         HazardSystem.register(item(LITTLE_BOY_PROPELLANT), makeData(EXPLOSIVE, 2F));
         HazardSystem.register(item(GADGET_CORE), makeData(RADIATION, pu239 * nugget * 10));
         HazardSystem.register(item(LITTLE_BOY_TARGET), makeData(RADIATION, u235 * ingot * 2));

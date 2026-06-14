@@ -3,6 +3,7 @@ package com.hbm.blocks.generic;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item.TooltipContext;
@@ -40,6 +41,6 @@ public class SpeedyBlock extends Block {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
-        components.add(Component.translatable("block.hbmsntm.obj_speedy.desc", (Math.floor((speed - 1) * 100))).withStyle(ChatFormatting.BLUE));
+        components.add(Component.translatable("block.hbmsntm.obj_speedy.desc", (Mth.floor((speed - 1) * 100))).withStyle(ChatFormatting.BLUE));
     }
 }

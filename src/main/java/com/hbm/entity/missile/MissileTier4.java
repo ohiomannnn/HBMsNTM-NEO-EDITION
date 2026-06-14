@@ -1,6 +1,7 @@
 package com.hbm.entity.missile;
 
 import api.hbm.entity.IRadarDetectableNT;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.config.NtmConfig;
 import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.explosion.ExplosionLarge;
@@ -9,11 +10,10 @@ import com.hbm.particle.helper.NukeTorexCreator;
 import com.hbm.util.RayTraceResult;
 import com.hbm.util.Vec3NT;
 import com.hbm.world.WorldUtil;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
@@ -95,9 +95,8 @@ public abstract class MissileTier4 extends MissileBaseNT {
         @Override public void onMissileImpact(RayTraceResult mop) {
             if (level instanceof ServerLevel serverLevel) {
                 ExplosionLarge.explode(serverLevel, this.position.x, this.position.y, this.position.z, 10, true, true, true);
-                for (Player player : serverLevel.players()) {
-                    player.sendSystemMessage(Component.literal("whoops, volcano missile is placeholder, sorry!"));
-                }
+                for(int x = -1; x <= 1; x++) for(int y = -1; y <= 1; y++) for(int z = -1; z <= 1; z++) level.setBlock(BlockPos.containing(this.position.x + x, this.position.y + y, this.position.z + z), NtmBlocks.VOLCANIC_LAVA.get().defaultBlockState(), 3);
+                level.setBlock(BlockPos.containing(this.position.x, this.position.y, this.position.z), NtmBlocks.VOLCANO_CORE.get().defaultBlockState(), 3);
             }
         }
         @Override public ItemStack getDebrisRareDrop() { return new ItemStack(NtmItems.NOTHING.get()); }

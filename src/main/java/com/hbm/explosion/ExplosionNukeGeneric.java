@@ -3,11 +3,16 @@ package com.hbm.explosion;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.inventory.NtmTags;
+import com.hbm.items.weapon.sedna.factory.ConfettiUtil;
 import com.hbm.lib.Library;
 import com.hbm.registry.NtmDamageTypes;
+import com.hbm.util.DamageResistanceHandler.DamageClass;
+import com.hbm.util.EntityDamageUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Ocelot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -38,35 +43,46 @@ public class ExplosionNukeGeneric {
     private static void dealDamage(Level level, double x, double y, double z, double radius, float maxDamage) {
         List<Entity> entities = level.getEntities(null, new AABB(x, y, z, x, y, z).inflate(radius));
 
-        for (Entity entity : entities) {
-            double distSq = entity.distanceToSqr(x, y, z);
-            if (distSq <= radius * radius) {
+        for(Entity entity : entities) {
+            double dist = Math.sqrt(entity.distanceToSqr(x, y, z));
+            if(dist <= radius) {
 
                 double entX = entity.getX();
                 double entY = entity.getY() + entity.getEyeHeight();
                 double entZ = entity.getZ();
 
-                if (!isExplosionExempt(entity) && !Library.isObstructed(level, x, y, z, entX, entY, entZ)) {
-                    double dist = Math.sqrt(distSq);
+                if(!isExplosionExempt(entity) && !Library.isObstructed(level, x, y, z, entX, entY, entZ)) {
+
+                    boolean doKnockback = true;
                     double damage = maxDamage * (radius - dist) / radius;
-                    entity.hurt(level.damageSources().source(NtmDamageTypes.NUCLEAR_BLAST), (float) damage);
-                    entity.setRemainingFireTicks(100);
 
-                    double knockX = entX - x;
-                    double knockY = (entity.getY() + entity.getEyeHeight()) - y;
-                    double knockZ = entZ - z;
+                    DamageSource source = level.damageSources().source(NtmDamageTypes.NUCLEAR_BLAST);
+                    if(entity instanceof LivingEntity living && living.isAlive()) {
+                        doKnockback = EntityDamageUtil.hurtNT(living, source, (float) damage, true, true, 0F, 100F, 0F);
+                        if(!living.isAlive()) ConfettiUtil.createConfetti(living, DamageClass.EXPLOSION);
+                    } else {
+                        entity.hurt(source, (float) damage);
+                    }
 
-                    Vec3 knock = new Vec3(knockX, knockY, knockZ).normalize().scale(0.2D);
-                    entity.setDeltaMovement(entity.getDeltaMovement().add(knock));
+                    entity.igniteForSeconds(5);
+
+                    if(doKnockback) {
+                        double knockX = entX - x;
+                        double knockY = (entity.getY() + entity.getEyeHeight()) - y;
+                        double knockZ = entZ - z;
+
+                        Vec3 knock = new Vec3(knockX, knockY, knockZ).normalize().scale(0.2D);
+                        entity.setDeltaMovement(entity.getDeltaMovement().add(knock));
+                    }
                 }
             }
         }
     }
 
     private static boolean isExplosionExempt(Entity entity) {
-        if (entity instanceof Ocelot) return true;
+        if(entity instanceof Ocelot) return true;
 
-        if (
+        if(
                 entity instanceof Player && ((Player) entity).isCreative()
         ) return true;
 

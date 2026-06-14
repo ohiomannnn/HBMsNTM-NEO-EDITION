@@ -59,12 +59,12 @@ public class VolcanoBlock extends MultiBlock implements EntityBlock, ICustomBloc
         int meta = MetaHelper.getMeta(stack);
 
         if(meta == META_SMOLDERING) {
-            components.add(Component.literal("SHIELD VOLCANO").withStyle(ChatFormatting.GOLD));
+            components.add(Component.translatable("block.hbmsntm.obj_volcano.desc0").withStyle(ChatFormatting.GOLD));
             return;
         }
 
-        components.add(VolcanoBlock.isGrowing(meta) ? Component.literal("DOES GROW").withStyle(ChatFormatting.RED) : Component.literal("DOES NOT GROW").withStyle(ChatFormatting.DARK_GRAY));
-        components.add(VolcanoBlock.isExtinguishing(meta) ? Component.literal("DOES EXTINGUISH").withStyle(ChatFormatting.RED) : Component.literal("DOES NOT EXTINGUISH").withStyle(ChatFormatting.DARK_GRAY));
+        components.add(VolcanoBlock.isGrowing(meta) ? Component.translatable("block.hbmsntm.obj_volcano.desc1").withStyle(ChatFormatting.RED) : Component.translatable("block.hbmsntm.obj_volcano.desc2").withStyle(ChatFormatting.DARK_GRAY));
+        components.add(VolcanoBlock.isExtinguishing(meta) ? Component.translatable("block.hbmsntm.obj_volcano.desc3").withStyle(ChatFormatting.RED) : Component.translatable("block.hbmsntm.obj_volcano.desc4").withStyle(ChatFormatting.DARK_GRAY));
     }
 
     public static final int META_STATIC_ACTIVE = 0;
@@ -139,7 +139,7 @@ public class VolcanoBlock extends MultiBlock implements EntityBlock, ICustomBloc
         }
 
         protected BlockState getLava() {
-            //if(isRadioacitve()) return ModBlocks.rad_lava_block;
+            if(isRadioacitve()) return NtmBlocks.RAD_LAVA.get().defaultBlockState();
             return NtmBlocks.VOLCANIC_LAVA.get().defaultBlockState();
         }
 

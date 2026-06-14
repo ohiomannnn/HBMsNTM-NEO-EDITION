@@ -14,8 +14,6 @@ import java.util.concurrent.CompletableFuture;
 import static com.hbm.inventory.NtmTags.Blocks.*;
 import static net.neoforged.neoforge.common.Tags.Blocks.PUMPKINS;
 
-// common bullshit
-
 public class NtmBlockTagProvider extends BlockTagsProvider {
 
     public NtmBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, ExistingFileHelper existingFileHelper) {

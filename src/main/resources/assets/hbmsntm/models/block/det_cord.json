@@ -1,6 +1,0 @@
-{
-  "loader": "hbmsntm:det_cord_geometry_loader",
-  "textures": {
-    "texture": "hbmsntm:block/det_cord"
-  }
-}
