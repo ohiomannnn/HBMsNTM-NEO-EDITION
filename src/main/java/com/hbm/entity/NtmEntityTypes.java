@@ -49,7 +49,7 @@ public class NtmEntityTypes {
 
     public static final DeferredHolder<EntityType<?>, EntityType<NukeExplosionMK5>> NUKE_MK5 = ENTITY_TYPES.register("nuke_mk5", () -> EntityType.Builder.of(NukeExplosionMK5::new, MobCategory.MISC).sized(1.0F, 1.0F).build("nuke_mk5"));
     public static final DeferredHolder<EntityType<?>, EntityType<NukeExplosionMK3>> NUKE_MK3 = ENTITY_TYPES.register("nuke_mk3", () -> EntityType.Builder.of(NukeExplosionMK3::new, MobCategory.MISC).sized(1.0F, 1.0F).build("nuke_mk3"));
-    public static final DeferredHolder<EntityType<?>, EntityType<NukeExplosionBalefire>> NUKE_BALEFIRE = ENTITY_TYPES.register("nuke_explosion_balefire", () -> EntityType.Builder.of(NukeExplosionBalefire::new, MobCategory.MISC).sized(1.0F, 1.0F).build("nuke_explosion_balefire"));
+    public static final DeferredHolder<EntityType<?>, EntityType<NukeExplosionBalefire>> NUKE_BALEFIRE = ENTITY_TYPES.register("nuke_explosion_balefire", () -> EntityType.Builder.<NukeExplosionBalefire>of(NukeExplosionBalefire::new, MobCategory.MISC).sized(1.0F, 1.0F).build("nuke_explosion_balefire"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<FalloutRain>> FALLOUT_RAIN = ENTITY_TYPES.register(
             "fallout_rain",

@@ -209,15 +209,4 @@ public class CommonEvents {
 
         event.register(NtmMenuTypes.LAUNCH_PAD_LARGE.get(), LaunchPadLargeScreen::new);
     }
-
-    @SubscribeEvent
-    public static void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey() == CreativeModeTabs.COMBAT) {
-            event.accept(NtmItems.ALLOY_SWORD);
-            event.accept(NtmItems.ALLOY_HELMET);
-            event.accept(NtmItems.ALLOY_CHESTPLATE);
-            event.accept(NtmItems.ALLOY_LEGGINGS);
-            event.accept(NtmItems.ALLOY_BOOTS);
-        }
-    }
 }

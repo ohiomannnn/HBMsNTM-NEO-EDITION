@@ -6,4 +6,7 @@ public class ItemEnums {
         SMALL, LARGE, SMALL_STEEL, LARGE_STEEL, SHOTSHELL, BUCKSHOT, BUCKSHOT_ADVANCED
     }
 
+    public enum CapType {
+        NUKA, QUANTUM, SPARKLE, RAD, KORL, FRITZ
+    }
 }

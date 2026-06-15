@@ -23,13 +23,17 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item.TooltipContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -38,8 +42,25 @@ import java.util.List;
 
 public class VolcanoBlock extends MultiBlock implements EntityBlock, ICustomBlockModelRegister {
 
+    public static final IntegerProperty SUBTYPE = IntegerProperty.create("subtype", 0, 5);
+
     public VolcanoBlock(Properties properties) {
         super(properties);
+
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(SUBTYPE, 0)
+        );
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(SUBTYPE);
+    }
+
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return this.defaultBlockState()
+                .setValue(SUBTYPE, MetaHelper.getMeta(context.getItemInHand()));
     }
 
     @Override
@@ -52,6 +73,7 @@ public class VolcanoBlock extends MultiBlock implements EntityBlock, ICustomBloc
         return (lvl, pos, st, be) -> { if (be instanceof ITickable tickable) tickable.updateEntity(); };
     }
 
+    @Override public int getMeta(BlockState state) { return state.getValue(SUBTYPE); }
     @Override public int getSubCount() { return 5; }
 
     @Override

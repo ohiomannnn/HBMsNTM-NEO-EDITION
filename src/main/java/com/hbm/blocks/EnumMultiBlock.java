@@ -1,20 +1,12 @@
 package com.hbm.blocks;
 
-import com.hbm.blocks.states.NtmBlockStateProperties;
 import com.hbm.inventory.MetaHelper;
-import com.hbm.main.NuclearTechMod;
 import com.hbm.util.EnumUtil;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
-import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
-import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
-import net.neoforged.neoforge.client.model.generators.ModelFile;
 
 import java.util.Locale;
 
-public class EnumMultiBlock extends MultiBlock {
+public abstract class EnumMultiBlock extends MultiBlock {
 
     public Class<? extends Enum<?>> theEnum;
     public final boolean multiName;
@@ -27,7 +19,6 @@ public class EnumMultiBlock extends MultiBlock {
         this.multiTexture = multiTexture;
     }
 
-//    // UNTESTED!!!!
 //    @Override
 //    public void registerModel(BlockStateProvider provider, ResourceLocation modelLocation) {
 //        if(multiTexture) {

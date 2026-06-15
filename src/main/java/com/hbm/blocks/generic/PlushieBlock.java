@@ -3,8 +3,10 @@ package com.hbm.blocks.generic;
 import com.hbm.blockentity.BlockEntityNT;
 import com.hbm.blockentity.ITickable;
 import com.hbm.blockentity.NtmBlockEntityTypes;
-import com.hbm.blocks.EnumMultiBlock;
 import com.hbm.blocks.ITooltipProvider;
+import com.hbm.blocks.MultiBlock;
+import com.hbm.blocks.generic.BarbedWireBlock.BarbedWireType;
+import com.hbm.inventory.MetaHelper;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.EnumUtil;
 import net.minecraft.ChatFormatting;
@@ -31,8 +33,9 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.List;
+import java.util.Locale;
 
-public class PlushieBlock extends EnumMultiBlock implements EntityBlock, ITooltipProvider {
+public class PlushieBlock extends MultiBlock implements EntityBlock, ITooltipProvider {
 
     public enum PlushieType {
         YOMI,
@@ -41,24 +44,28 @@ public class PlushieBlock extends EnumMultiBlock implements EntityBlock, IToolti
         DERG // blerg
     }
 
+    public static final IntegerProperty SUBTYPE = IntegerProperty.create("subtype", 0, PlushieType.values().length);
     public static final IntegerProperty DIRECTION = IntegerProperty.create("direction", 0, 16);
 
     public PlushieBlock(Properties properties) {
-        super(properties, PlushieType.class, true, false);
-        this.registerDefaultState(this.stateDefinition.any().setValue(DIRECTION, 0).setValue(META, 0));
-    }
+        super(properties);
 
-    @Override
-    public BlockState getStateForPlacement(BlockPlaceContext context) {
-        BlockState state = super.getStateForPlacement(context);
-        return state == null ? this.defaultBlockState() : state.setValue(DIRECTION, Mth.floor((double) ((context.getRotation() + 180.0F) * 16.0F / 360.0F) + 0.5D) & 15);
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(SUBTYPE, 0)
+                .setValue(DIRECTION, 0)
+        );
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        super.createBlockStateDefinition(builder);
+        builder.add(SUBTYPE, DIRECTION);
+    }
 
-        builder.add(DIRECTION);
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return this.defaultBlockState()
+                .setValue(SUBTYPE, MetaHelper.getMeta(context.getItemInHand()))
+                .setValue(DIRECTION, Mth.floor((double) ((context.getRotation() + 180.0F) * 16.0F / 360.0F) + 0.5D) & 15);
     }
 
     @Override
@@ -97,6 +104,15 @@ public class PlushieBlock extends EnumMultiBlock implements EntityBlock, IToolti
 
         return InteractionResult.SUCCESS;
     }
+
+    @Override
+    public String getItemDescriptionId(ItemStack stack) {
+        Enum<?> num = EnumUtil.grabEnumSafely(PlushieType.class, MetaHelper.getMeta(stack));
+        return super.getDescriptionId() + "." + num.name().toLowerCase(Locale.US);
+    }
+
+    @Override public int getMeta(BlockState state) { return state.getValue(SUBTYPE); }
+    @Override public int getSubCount() { return PlushieType.values().length; }
 
     public static class PlushieBlockEntity extends BlockEntityNT implements ITickable {
 

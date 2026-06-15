@@ -20,13 +20,6 @@ public class MetaHelper {
         return stack.getOrDefault(NtmDataComponents.META.get(), 0);
     }
 
-    /**
-     * Gets meta from the blockState
-     */
-    public static int getMeta(BlockState state) {
-        return state.getValue(NtmBlockStateProperties.META);
-    }
-
     public static void setBlock(Level level, BlockPos pos, BlockState state, int meta, int flags) {
         level.setBlock(pos, state.setValue(NtmBlockStateProperties.META, meta), flags);
     }

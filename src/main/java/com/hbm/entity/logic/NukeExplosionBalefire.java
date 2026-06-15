@@ -1,5 +1,6 @@
 package com.hbm.entity.logic;
 
+import com.hbm.entity.NtmEntityTypes;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.config.NtmConfig;
 import com.hbm.explosion.ExplosionBalefire;
@@ -17,8 +18,10 @@ public class NukeExplosionBalefire extends ExplosionChunkLoading {
     public int speed = 1;
     public boolean did = false;
 
-    public NukeExplosionBalefire(EntityType<? extends NukeExplosionBalefire> type, Level level) {
-        super(type, level);
+    public NukeExplosionBalefire(EntityType<? extends NukeExplosionBalefire> type, Level level) { super(type, level); }
+
+    public NukeExplosionBalefire(Level level) {
+        super(NtmEntityTypes.NUKE_BALEFIRE.get(), level);
     }
 
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder) {}

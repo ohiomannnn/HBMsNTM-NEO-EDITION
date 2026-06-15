@@ -77,6 +77,25 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmBlocks.BARBED_WIRE, this.getName(BarbedWireType.ULTRADEATH), "Radioactive Barbed Wire");
         this.add(NtmBlocks.SPIKES, "Spikes");
 
+        //todo check placement
+        this.add(NtmBlocks.WASTE_EARTH, "Dead Grass");
+        this.add(NtmBlocks.WASTE_MYCELIUM, "Glowing Mycelium");
+        this.add(NtmBlocks.WASTE_TRINITITE, "Trinitite Ore");
+        this.add(NtmBlocks.WASTE_TRINITITE_RED, "Red Trinitite Ore");
+        this.add(NtmBlocks.WASTE_LOG, "Broken Concrete Brick Stairs");
+        this.add(NtmBlocks.WASTE_LEAVES, "Dead Leaves");
+        this.add(NtmBlocks.WASTE_PLANKS, "Charred Wooden Planks");
+        this.add(NtmBlocks.FROZEN_DIRT, "Frozen Dirt");
+        this.add(NtmBlocks.FROZEN_GRASS, "Frozen Grass");
+        this.add(NtmBlocks.FROZEN_LOG, "Frozen Log");
+        this.add(NtmBlocks.FROZEN_PLANKS, "Frozen Planks");
+        this.add(NtmBlocks.LEAVES_LAYER, "Fallen Leaves");
+        this.add(NtmBlocks.FALLOUT, "Fallout");
+        this.add(NtmBlocks.SELLAFIELD_SLAKED, "Slaked Sellafite");
+        this.add(NtmBlocks.ORE_SELLAFIELD_DIAMOND, "Sellafite Diamond Ore");
+        this.add(NtmBlocks.ORE_SELLAFIELD_EMERALD, "Sellafite Emerald Ore");
+        this.add(NtmBlocks.SELLAFIELD_BEDROCK, "Bedrock Sellafite");
+
         this.add(NtmBlocks.NUKE_GADGET, "The Gadget");
         this.add(NtmBlocks.NUKE_LITTLE_BOY, "Little Boy");
         this.add(NtmBlocks.NUKE_FAT_MAN, "Fat Man");

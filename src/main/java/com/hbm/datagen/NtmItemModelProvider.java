@@ -1,5 +1,6 @@
 package com.hbm.datagen;
 
+import com.hbm.blocks.ICustomBlockModelRegister;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.items.ICustomItemModelRegister;
 import com.hbm.items.NtmItems;
@@ -9,6 +10,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
@@ -23,6 +25,15 @@ public class NtmItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
+
+        for(Item item : BuiltInRegistries.ITEM) {
+            if(BuiltInRegistries.ITEM.getKey(item).getNamespace().equals(NuclearTechMod.MODID)) {
+                if(item instanceof ICustomItemModelRegister icimr) {
+                    ResourceLocation loc = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
+                    icimr.registerItemModel(this, loc);
+                }
+            }
+        }
 
         this.basicItem(NtmItems.INGOT_URANIUM.get());
         this.basicItem(NtmItems.INGOT_U233.get());
@@ -49,7 +60,6 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.basicItem(NtmItems.INGOT_TITANIUM.get());
         this.basicItem(NtmItems.INGOT_INDUSTRIAL_COPPER.get());
         this.basicItem(NtmItems.INGOT_RED_COPPER.get());
-        this.basicItem(NtmItems.INGOT_ADVANCED_ALLOY.get());
         this.basicItem(NtmItems.INGOT_TUNGSTEN.get());
         this.basicItem(NtmItems.INGOT_ALUMINIUM.get());
         this.basicItem(NtmItems.INGOT_STEEL.get());
@@ -118,18 +128,10 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.handheldItem(NtmItems.DETONATOR_DEADMAN.get());
         this.handheldItem(NtmItems.DETONATOR_DE.get());
 
-        this.basicItem(NtmItems.ROD_EMPTY.get());
-        this.registerMetaItem(NtmItems.ROD.get());
-        this.basicItem(NtmItems.ROD_DUAL_EMPTY.get());
-        this.registerMetaItem(NtmItems.ROD_DUAL.get());
-        this.basicItem(NtmItems.ROD_QUAD_EMPTY.get());
-        this.registerMetaItem(NtmItems.ROD_QUAD.get());
-
         basicItem(NtmItems.GEIGER_COUNTER.get());
         basicItem(NtmItems.DOSIMETER.get());
         basicItem(NtmItems.DIGAMMA_DIAGNOSTIC.get());
-        basicItem(NtmItems.FLINT_AND_BALEFIRE.get());
-        handheldItem(NtmItems.SCHRABIDIUM_PICKAXE.get());
+        basicItem(NtmItems.BALEFIRE_AND_STEEL.get());
         bombCallerItem(NtmItems.BOMB_CALLER_ATOMIC.get());
         bombCallerItem(NtmItems.BOMB_CALLER_CARPET.get());
         bombCallerItem(NtmItems.BOMB_CALLER_NAPALM.get());
@@ -179,33 +181,15 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.handheldItem(NtmItems.CIGARETTE.get());
         this.handheldItem(NtmItems.CRACKPIPE.get());
 
-        basicItem(NtmItems.CAP_NUKA.get());
-        basicItem(NtmItems.CAP_QUANTUM.get());
-        basicItem(NtmItems.CAP_SPARKLE.get());
-
-        basicItem(NtmItems.BOTTLE_EMPTY.get());
-        basicItem(NtmItems.BOTTLE_NUKA.get());
-        basicItem(NtmItems.BOTTLE_CHERRY.get());
-        basicItem(NtmItems.BOTTLE_QUANTUM.get());
-        basicItem(NtmItems.BOTTLE_SPARKLE.get());
-
         basicItem(NtmItems.KEY.get());
         basicItem(NtmItems.KEY_RED.get());
         basicItem(NtmItems.KEY_KIT.get());
         basicItem(NtmItems.KEY_FAKE.get());
         basicItem(NtmItems.PIN.get());
-
-        basicItem(NtmItems.ALLOY_HELMET.get());
-        basicItem(NtmItems.ALLOY_CHESTPLATE.get());
-        basicItem(NtmItems.ALLOY_LEGGINGS.get());
-        basicItem(NtmItems.ALLOY_BOOTS.get());
-
         this.basicItem(NtmItems.SATELLITE_INTERFACE.get());
 
         this.basicItem(NtmItems.SATELLITE_RADAR.get());
         this.basicItem(NtmItems.SATELLITE_LASER.get());
-
-        handheldItem(NtmItems.ALLOY_PICKAXE.get());
 
         this.basicItem(NtmItems.DESIGNATOR.get());
         this.handheldItem(NtmItems.DESIGNATOR_RANGE.get());
@@ -260,10 +244,6 @@ public class NtmItemModelProvider extends ItemModelProvider {
 
         this.registerPolaroid();
 
-        this.registerMetaItem(NtmItems.BATTERY_SC.get());
-
-        this.registerMetaItem(NtmItems.STARTER_KIT.get());
-
         this.basicItem(NtmItems.BATTERY_SPARK.get());
         this.basicItem(NtmItems.BATTERY_TRIXITE.get());
 
@@ -307,18 +287,10 @@ public class NtmItemModelProvider extends ItemModelProvider {
                     .predicate(NuclearTechMod.withDefaultNamespace("polaroid_id"), i)
                     .model(getBuilder("polaroid_" + i)
                             .parent(getExistingFile(mcLoc("item/generated")))
-                            .texture("layer0", modLoc("item/polaroids/polaroid_" + i)))
+                            .texture("layer0", modLoc("item/polaroid_" + i)))
                     .end();
         }
     }
-
-    private void registerMetaItem(Item item) {
-        if (item instanceof ICustomItemModelRegister modelRegister) {
-            ResourceLocation loc = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
-            modelRegister.registerItemModel(this, loc);
-        }
-    }
-
 
     private ItemModelBuilder layeredItem(Item item, String layer0, String layer1) {
         return this.getBuilder(BuiltInRegistries.ITEM.getKey(item).toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))

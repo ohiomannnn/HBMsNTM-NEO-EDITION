@@ -5,10 +5,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
-import com.hbm.items.NtmItems;
-import com.hbm.main.NuclearTechMod;
 import com.hbm.items.armor.ItemModCladding;
 import com.hbm.lib.ModEffect;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.util.ShadyUtil;
 import com.hbm.util.TagsUtil;
 import net.minecraft.ChatFormatting;
@@ -44,8 +43,6 @@ public class HazmatRegistry {
         double iron = 0.0225D; // 5%
         double gold = 0.0225D; // 5%
 
-        double alloy = 0.07D; // 15%
-
         HazmatRegistry.registerHazmat(Items.GOLDEN_HELMET, gold * helmet);
         HazmatRegistry.registerHazmat(Items.GOLDEN_CHESTPLATE, gold * chest);
         HazmatRegistry.registerHazmat(Items.GOLDEN_LEGGINGS, gold * legs);
@@ -55,11 +52,6 @@ public class HazmatRegistry {
         HazmatRegistry.registerHazmat(Items.IRON_CHESTPLATE, iron * chest);
         HazmatRegistry.registerHazmat(Items.IRON_LEGGINGS, iron * legs);
         HazmatRegistry.registerHazmat(Items.IRON_BOOTS, iron * boots);
-
-        HazmatRegistry.registerHazmat(NtmItems.ALLOY_HELMET.get(), alloy * helmet);
-        HazmatRegistry.registerHazmat(NtmItems.ALLOY_CHESTPLATE.get(), alloy * chest);
-        HazmatRegistry.registerHazmat(NtmItems.ALLOY_LEGGINGS.get(), alloy * legs);
-        HazmatRegistry.registerHazmat(NtmItems.ALLOY_BOOTS.get(), alloy * boots);
     }
 
     private static final HashMap<Item, Double> ENTRIES = new HashMap<>();

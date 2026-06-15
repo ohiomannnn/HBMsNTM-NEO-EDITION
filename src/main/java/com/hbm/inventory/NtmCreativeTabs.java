@@ -5,6 +5,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.IMetaItem;
 import com.hbm.items.NtmItems;
+import com.hbm.items.food.DrinkItem.DrinkType;
 import com.hbm.items.machine.FluidIDMultiItem;
 import com.hbm.items.special.StarterKitItem.KitType;
 import com.hbm.main.NuclearTechMod;
@@ -56,7 +57,6 @@ public class NtmCreativeTabs {
                         output.accept(NtmItems.INGOT_TITANIUM.get());
                         output.accept(NtmItems.INGOT_INDUSTRIAL_COPPER.get());
                         output.accept(NtmItems.INGOT_RED_COPPER.get());
-                        output.accept(NtmItems.INGOT_ADVANCED_ALLOY.get());
                         output.accept(NtmItems.INGOT_TUNGSTEN.get());
                         output.accept(NtmItems.INGOT_ALUMINIUM.get());
                         output.accept(NtmItems.INGOT_STEEL.get());
@@ -453,7 +453,7 @@ public class NtmCreativeTabs {
     // drinks, kits, tools
     public static final Supplier<CreativeModeTab> CONSUMABLE = CREATIVE_MODE_TABS.register(
             "consumable",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(NtmItems.BOTTLE_NUKA.get()))
+            () -> CreativeModeTab.builder().icon(() -> MetaHelper.newStack(NtmItems.DRINK, DrinkType.NUKA))
                     .withTabsBefore(NuclearTechMod.withDefaultNamespace("missile"))
                     .title(Component.translatable("creative_tab.hbmsntm.consumable"))
                     .displayItems((itemDisplayParameters, output) -> {
@@ -467,17 +467,12 @@ public class NtmCreativeTabs {
                         output.accept(NtmItems.KEY_KIT);
                         output.accept(NtmItems.KEY_FAKE);
                         output.accept(NtmItems.PIN);
-                        output.accept(NtmItems.FLINT_AND_BALEFIRE);
+                        output.accept(NtmItems.BALEFIRE_AND_STEEL);
                         output.accept(NtmItems.POLAROID);
 
+                        addMetaItems(output, NtmItems.DRINK.get());
                         output.accept(NtmItems.BOTTLE_OPENER);
-                        output.accept(NtmItems.BOTTLE_NUKA);
-                        output.accept(NtmItems.BOTTLE_CHERRY);
-                        output.accept(NtmItems.BOTTLE_QUANTUM);
-                        output.accept(NtmItems.BOTTLE_SPARKLE);
-                        output.accept(NtmItems.CAP_NUKA);
-                        output.accept(NtmItems.CAP_QUANTUM);
-                        output.accept(NtmItems.CAP_SPARKLE);
+                        addMetaItems(output, NtmItems.CAP.get());
 
                         output.accept(NtmItems.CIGARETTE);
                         output.accept(NtmItems.CRACKPIPE);

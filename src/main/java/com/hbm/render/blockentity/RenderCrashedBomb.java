@@ -3,7 +3,6 @@ package com.hbm.render.blockentity;
 import com.hbm.blockentity.bomb.CrashedBombBlockEntity;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.blocks.bomb.CrashedBombBlock.DudType;
-import com.hbm.blocks.states.NtmBlockStateProperties;
 import com.hbm.inventory.MetaHelper;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
@@ -39,7 +38,7 @@ public class RenderCrashedBomb extends BlockEntityRendererNT<CrashedBombBlockEnt
         RenderContext.mulPose(Axis.ZP.rotationDegrees(roll));
         RenderContext.translate(0F, 0F, -offset);
 
-        DudType type = EnumUtil.grabEnumSafely(DudType.class, be.getBlockState().getValue(NtmBlockStateProperties.META));
+        DudType type = EnumUtil.grabEnumSafely(DudType.class, be.getMeta());
         if(type == DudType.BALEFIRE) { bindTexture(ResourceManager.DUD_BALEFIRE_TEX); ResourceManager.dud_balefire.renderAll(); }
         if(type == DudType.CONVENTIONAL) { bindTexture(ResourceManager.DUD_CONVENTIONAL_TEX); ResourceManager.dud_conventional.renderAll(); }
         if(type == DudType.NUKE) { RenderContext.translate(0F, 0F, 1.25F); bindTexture(ResourceManager.DUD_NUKE_TEX); ResourceManager.dud_nuke.renderAll(); }
