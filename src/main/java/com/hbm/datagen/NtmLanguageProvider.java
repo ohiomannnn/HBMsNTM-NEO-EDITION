@@ -125,6 +125,181 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmItems.INGOT_SMORE, "S'more Ingot");
         this.add(NtmItems.INGOT_OSMIRIDIUM, "Osmiridium Ingot");
 
+        this.add(NtmItems.PELLET_RTG, "Ingot");
+
+        this.add(NtmItems.CELL_EMPTY, "Ingot");
+        this.add(NtmItems.CELL_UF6, "Ingot");
+        this.add(NtmItems.CELL_PUF6, "Ingot");
+        this.add(NtmItems.CELL_ANTIMATTER, "Ingot");
+        this.add(NtmItems.CELL_DEUTERIUM, "Ingot");
+        this.add(NtmItems.CELL_TRITIUM, "Ingot");
+        this.add(NtmItems.CELL_SAS3, "Ingot");
+        this.add(NtmItems.CELL_ANTI_SCHARBIDIUM, "Ingot");
+        this.add(NtmItems.CELL_BALEFIRE, "Ingot");
+
+        this.add(NtmItems.PARTICLE_DIGAMMA, "Ingot");
+        this.add(NtmItems.PARTICLE_LUTECE, "Ingot");
+
+        this.add(NtmItems.SINGULARITY, "Ingot");
+        this.add(NtmItems.SINGULARITY_COUNTER_RESONANT, "Ingot");
+        this.add(NtmItems.SINGULARITY_SUPER_HEATED, "Ingot");
+        this.add(NtmItems.BLACK_HOLE, "Ingot");
+        this.add(NtmItems.SINGULARITY_SPARK, "Ingot");
+        this.add(NtmItems.PELLET_ANTIMATTER, "Ingot");
+
+        this.add(NtmItems.INF_WATER, "Ingot");
+        this.add(NtmItems.INF_WATER_MK2, "Ingot");
+
+        this.add(NtmItems.FLUID_TANK_EMPTY, "Ingot");
+        this.add(NtmItems.FLUID_TANK_FULL, "Ingot");
+        this.add(NtmItems.FLUID_TANK_LEAD_EMPTY, "Ingot");
+        this.add(NtmItems.FLUID_TANK_LEAD_FULL, "Ingot");
+        this.add(NtmItems.FLUID_BARREL_EMPTY, "Ingot");
+        this.add(NtmItems.FLUID_BARREL_FULL, "Ingot");
+        this.add(NtmItems.FLUID_BARREL_INFINITE, "Ingot");
+
+        this.add(NtmItems.FLUID_PACK_EMPTY, "Ingot");
+        this.add(NtmItems.FLUID_PACK_FULL, "Ingot");
+
+        this.add(NtmItems.BATTERY_SPARK, "Ingot");
+        this.add(NtmItems.BATTERY_TRIXITE, "Ingot");
+
+        this.add(NtmItems.BATTERY_PACK, "Ingot");
+        this.add(NtmItems.BATTERY_SC, "Ingot");
+        this.add(NtmItems.BATTERY_CREATIVE, "Ingot");
+
+        this.add(NtmItems.BLUEPRINTS, "Ingot");
+
+        this.add(NtmItems.FLUID_ICON, "Ingot");
+        this.add(NtmItems.FLUID_IDENTIFIER_MULTI, "Ingot");
+
+        this.add(NtmItems.SCREWDRIVER, "Ingot");
+        this.add(NtmItems.SCREWDRIVER_DESH, "Ingot");
+        this.add(NtmItems.BLOWTORCH, "Ingot");
+        this.add(NtmItems.ACETYLENE_TORCH, "Ingot");
+
+        this.add(NtmItems.ROD_EMPTY, "Ingot");
+        this.add(NtmItems.ROD, "Ingot");
+        this.add(NtmItems.ROD_DUAL_EMPTY, "Ingot");
+        this.add(NtmItems.ROD_DUAL, "Ingot");
+        this.add(NtmItems.ROD_QUAD_EMPTY, "Ingot");
+        this.add(NtmItems.ROD_QUAD, "Ingot");
+
+        this.add(NtmItems.DUCK_SPAWN_EGG, "Ingot");
+
+        this.add(NtmItems.DESIGNATOR, "Ingot");
+        this.add(NtmItems.DESIGNATOR_RANGE, "Ingot");
+        this.add(NtmItems.DOSIMETER, "Ingot");
+        this.add(NtmItems.GEIGER_COUNTER, "Ingot");
+        this.add(NtmItems.DIGAMMA_DIAGNOSTIC, "Ingot");
+
+        this.add(NtmItems.PIN, "Ingot");
+        this.add(NtmItems.KEY, "Ingot");
+        this.add(NtmItems.KEY_RED, "Ingot");
+        this.add(NtmItems.KEY_KIT, "Ingot");
+        this.add(NtmItems.KEY_FAKE, "Ingot");
+
+        this.add(NtmItems.MISSILE_TAINT, "Ingot");
+        this.add(NtmItems.MISSILE_MICRO, "Ingot");
+        this.add(NtmItems.MISSILE_BHOLE, "Ingot");
+        this.add(NtmItems.MISSILE_SCHRABIDIUM, "Ingot");
+        this.add(NtmItems.MISSILE_EMP, "Ingot");
+
+        this.add(NtmItems.MISSILE_GENERIC, "Ingot");
+        this.add(NtmItems.MISSILE_INCENDIARY, "Ingot");
+        this.add(NtmItems.MISSILE_CLUSTER, "Ingot");
+        this.add(NtmItems.MISSILE_BUSTER, "Ingot");
+        this.add(NtmItems.MISSILE_STEALTH, "Ingot");
+        this.add(NtmItems.MISSILE_DECOY, "Ingot");
+
+        this.add(NtmItems.MISSILE_STRONG, "Ingot");
+        this.add(NtmItems.MISSILE_INCENDIARY_STRONG, "Ingot");
+        this.add(NtmItems.MISSILE_CLUSTER_STRONG, "Ingot");
+        this.add(NtmItems.MISSILE_BUSTER_STRONG, "Ingot");
+        this.add(NtmItems.MISSILE_EMP_STRONG, "Ingot");
+
+        this.add(NtmItems.MISSILE_BURST, "Ingot");
+        this.add(NtmItems.MISSILE_INFERNO, "Ingot");
+        this.add(NtmItems.MISSILE_RAIN, "Ingot");
+        this.add(NtmItems.MISSILE_DRILL, "Ingot");
+        this.add(NtmItems.MISSILE_SHUTTLE, "Ingot");
+
+        this.add(NtmItems.MISSILE_NUCLEAR, "Ingot");
+        this.add(NtmItems.MISSILE_NUCLEAR_CLUSTER, "Ingot");
+        this.add(NtmItems.MISSILE_VOLCANO, "Ingot");
+        this.add(NtmItems.MISSILE_DOOMSDAY, "Ingot");
+        this.add(NtmItems.MISSILE_DOOMSDAY_RUSTED, "Ingot");
+
+        this.add(NtmItems.SATELLITE_RADAR, "Ingot");
+        this.add(NtmItems.SATELLITE_LASER, "Ingot");
+        this.add(NtmItems.SATELLITE_INTERFACE, "Ingot");
+
+        this.add(NtmItems.BALEFIRE_AND_STEEL, "Ingot");
+
+        this.add(NtmItems.DRINK, "Ingot");
+        this.add(NtmItems.BOTTLE_OPENER, "Ingot");
+
+        this.add(NtmItems.CANNED_CONSERVE, "Ingot");
+
+        this.add(NtmItems.CAP, "Ingot");
+        this.add(NtmItems.RING_PULL, "Ingot");
+        this.add(NtmItems.CAN_KEY, "Ingot");
+
+        this.add(NtmItems.CHOCOLATE_MILK, "Ingot");
+        this.add(NtmItems.CIGARETTE, "Ingot");
+        this.add(NtmItems.CRACKPIPE, "Ingot");
+
+        this.add(NtmItems.EARLY_EXPLOSIVE_LENSES, "Ingot");
+        this.add(NtmItems.EXPLOSIVE_LENSES, "Ingot");
+
+        this.add(NtmItems.GADGET_WIREING, "Ingot");
+        this.add(NtmItems.GADGET_CORE, "Ingot");
+
+        this.add(NtmItems.LITTLE_BOY_SHIELDING, "Ingot");
+        this.add(NtmItems.LITTLE_BOY_TARGET, "Ingot");
+        this.add(NtmItems.LITTLE_BOY_BULLET, "Ingot");
+        this.add(NtmItems.LITTLE_BOY_PROPELLANT, "Ingot");
+        this.add(NtmItems.LITTLE_BOY_IGNITER, "Ingot");
+
+        this.add(NtmItems.FAT_MAN_IGNITER, "Ingot");
+        this.add(NtmItems.FAT_MAN_CORE, "Ingot");
+
+        this.add(NtmItems.IVY_MIKE_CORE, "Ingot");
+        this.add(NtmItems.IVY_MIKE_DEUT, "Ingot");
+        this.add(NtmItems.IVY_MIKE_COOLING_UNIT, "Ingot");
+
+        this.add(NtmItems.TSAR_BOMBA_CORE, "Ingot");
+
+        this.add(NtmItems.FLEIJA_IGNITER, "Ingot");
+        this.add(NtmItems.FLEIJA_PROPELLANT, "Ingot");
+        this.add(NtmItems.FLEIJA_CORE, "Ingot");
+
+        this.add(NtmItems.SOLINIUM_IGNITER, "Ingot");
+        this.add(NtmItems.SOLINIUM_PROPELLANT, "Ingot");
+        this.add(NtmItems.SOLINIUM_CORE, "Ingot");
+
+        this.add(NtmItems.N2_CHARGE, "Ingot");
+
+        this.add(NtmItems.EGG_BALEFIRE_SHARD, "Ingot");
+        this.add(NtmItems.EGG_BALEFIRE, "Ingot");
+
+        this.add(NtmItems.IGNITER, "Ingot");
+        this.add(NtmItems.DETONATOR, "Ingot");
+        this.add(NtmItems.DETONATOR_MULTI, "Ingot");
+        this.add(NtmItems.DETONATOR_LASER, "Ingot");
+        this.add(NtmItems.DETONATOR_DEADMAN, "Ingot");
+        this.add(NtmItems.DETONATOR_DE, "Ingot");
+        this.add(NtmItems.BOMB_CALLER, "Ingot");
+        this.add(NtmItems.DEFUSER, "Ingot");
+        this.add(NtmItems.REACHER, "Ingot");
+
+        this.add(NtmItems.POLAROID, "Ingot");
+        this.add(NtmItems.BURNT_BARK, "Ingot");
+
+        this.add(NtmItems.STARTER_KIT, "Ingot");
+
+        this.add(NtmItems.NOTHING, "Ingot");
+
         // BLOCKS //
         this.add(NtmBlocks.BOBBLEHEAD, "Bobblehead");
         this.add(NtmBlocks.PLUSHIE, this.getName(PlushieType.YOMI), "Yomi Plushie");

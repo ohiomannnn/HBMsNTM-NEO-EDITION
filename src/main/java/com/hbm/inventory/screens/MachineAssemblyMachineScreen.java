@@ -2,11 +2,17 @@ package com.hbm.inventory.screens;
 
 import com.hbm.blockentity.machine.MachineAssemblyMachineBlockEntity;
 import com.hbm.inventory.menus.MachineAssemblyMachineMenu;
+import com.hbm.inventory.recipes.AssemblyMachineRecipes;
+import com.hbm.inventory.recipes.loader.GenericRecipe;
+import com.hbm.items.machine.BlueprintsItem;
 import com.hbm.main.NuclearTechMod;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 
 public class MachineAssemblyMachineScreen extends InfoScreen<MachineAssemblyMachineMenu> {
 
@@ -14,10 +20,13 @@ public class MachineAssemblyMachineScreen extends InfoScreen<MachineAssemblyMach
 
     private final MachineAssemblyMachineBlockEntity be;
 
+    private final Inventory inventory;
+
     public MachineAssemblyMachineScreen(MachineAssemblyMachineMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
 
         this.be = menu.be;
+        this.inventory = inventory;
 
         this.imageWidth = 176;
         this.imageHeight = 256;
@@ -36,6 +45,20 @@ public class MachineAssemblyMachineScreen extends InfoScreen<MachineAssemblyMach
     }
 
     @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+
+        if(this.checkClick(mouseX, mouseY, 7, 125, 18, 18)) RecipeSelectorScreen.openSelector(AssemblyMachineRecipes.INSTANCE, be, be.assemblerModule.recipe, 0, BlueprintsItem.grabPool(be.slots.get(1)), this);
+
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    @Override
+    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
+        guiGraphics.drawString(this.font, this.title, this.imageWidth / 70 - font.width(this.title) / 2, 6, 4210752, false);
+        guiGraphics.drawString(this.font, this.playerInventoryTitle, 8, this.imageHeight - 96 + 2, 4210752, false);
+    }
+
+    @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY) {
         guiGraphics.blit(TEXTURE, this.leftPos, this.topPos, 0, 0, imageWidth, imageHeight);
 
@@ -47,14 +70,35 @@ public class MachineAssemblyMachineScreen extends InfoScreen<MachineAssemblyMach
             guiGraphics.blit(TEXTURE, this.leftPos + 62, this.topPos + 126, 176, 61, j, 16);
         }
 
+        GenericRecipe recipe = AssemblyMachineRecipes.INSTANCE.recipeNameMap.get(be.assemblerModule.recipe);
+
+        /// LEFT LED
+        if(be.didProcess) {
+            guiGraphics.blit(TEXTURE, this.leftPos + 51, this.topPos + 121, 195, 0, 3, 6);
+        } else if(recipe != null) {
+            guiGraphics.blit(TEXTURE, this.leftPos + 51, this.topPos + 121, 192, 0, 3, 6);
+        }
+
+        /// RIGHT LED
+        if(be.didProcess) {
+            guiGraphics.blit(TEXTURE, this.leftPos + 56, this.topPos + 121, 195, 0, 3, 6);
+        } else if(recipe != null && be.power >= recipe.power) {
+            guiGraphics.blit(TEXTURE, this.leftPos + 56, this.topPos + 121, 192, 0, 3, 6);
+        }
+
+        guiGraphics.renderItem(recipe != null ? recipe.getIcon() : ItemStack.EMPTY, this.leftPos + 8, this.topPos + 126);
+
+        if(recipe != null && recipe.inputItem != null) {
+
+            RenderSystem.setShaderColor(1F, 1F, 1F, 0.5F);
+            for(int i = 0; i < recipe.inputItem.length; i++) {
+                Slot slot = this.menu.slots.get(be.assemblerModule.inputSlots[i]);
+                if(!slot.hasItem()) guiGraphics.renderItem(recipe.inputItem[i].extractForCyclingDisplay(20), this.leftPos + slot.x, this.topPos + slot.y);
+            }
+            RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+        }
 
         be.inputTank.renderTank(this.leftPos + 8, this.topPos + 115, 52, 16, 1);
         be.outputTank.renderTank(this.leftPos + 80, this.topPos + 115, 52, 16, 1);
-    }
-
-    @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        guiGraphics.drawString(this.font, this.title, this.imageWidth / 70 - font.width(this.title) / 2, 6, 4210752, false);
-        guiGraphics.drawString(this.font, this.playerInventoryTitle, 8, this.imageHeight - 96 + 2, 4210752, false);
     }
 }

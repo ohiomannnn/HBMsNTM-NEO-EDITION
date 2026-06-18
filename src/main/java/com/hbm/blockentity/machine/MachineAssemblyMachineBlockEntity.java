@@ -12,10 +12,13 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.menus.MachineAssemblyMachineMenu;
 import com.hbm.inventory.recipes.AssemblyMachineRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
+import com.hbm.items.NtmItems;
 import com.hbm.items.machine.MachineUpgradeItem;
 import com.hbm.items.machine.MachineUpgradeItem.UpgradeType;
 import com.hbm.lib.Library;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.module.machine.ModuleMachineAssembler;
+import com.hbm.registry.NtmSoundEvents;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -25,6 +28,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -112,16 +116,34 @@ public class MachineAssemblyMachineBlockEntity extends MachineBaseBlockEntity im
             this.didProcess = this.assemblerModule.didProcess;
             if(this.assemblerModule.markDirty) this.setChanged();
 
-           // if(didProcess) {
-           //     if(slots[0] != null && slots[0].getItem() == ModItems.meteorite_sword_alloyed)
-           //         slots[0] = new ItemStack(ModItems.meteorite_sword_machined);
-           // }
+//            if(didProcess) {
+//                if(slots[0] != null && slots[0].getItem() == ModItems.meteorite_sword_alloyed)
+//                    slots[0] = new ItemStack(ModItems.meteorite_sword_machined);
+//            }
 
             this.networkPackNT(100);
         } else {
 
             if(level.getGameTime() % 20 == 0) {
                 frame = !level.getBlockState(this.worldPosition.above(3)).isAir();
+            }
+
+            if(this.didProcess && Math.sqrt(NuclearTechMod.proxy.me().distanceToSqr(this.getBlockPos().getBottomCenter())) < 50) {
+                if(audio == null) {
+                    audio = createAudioLoop();
+                    audio.startSound();
+                } else if(!audio.isPlaying()) {
+                    audio = rebootAudio(audio);
+                }
+                audio.keepAlive();
+                audio.updatePitch(0.75F);
+                audio.updateVolume(this.getVolume(0.5F));
+
+            } else {
+                if(audio != null) {
+                    audio.stopSound();
+                    audio = null;
+                }
             }
 
             for(AssemblerArm arm : arms) {
@@ -132,9 +154,9 @@ public class MachineAssemblyMachineBlockEntity extends MachineBaseBlockEntity im
                     arm.returnToNullPos();
                 }
 
-                //if(!this.muffled && arm.prevAngles[3] != arm.angles[3] && arm.angles[3] == -0.75) {
-                //    MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, NTMSounds.ASSEMBLER_STRIKE, this.getVolume(0.5F), 1F);
-                //}
+                if(!this.muffled && arm.prevAngles[3] != arm.angles[3] && arm.angles[3] == -0.75) {
+                    NuclearTechMod.proxy.playLocalSound(this.getBlockPos().getBottomCenter(), NtmSoundEvents.ASSEMBLER_STRIKE.get(), SoundSource.BLOCKS, this.getVolume(0.5F), 1F, true);
+                }
             }
 
             this.prevRing = this.ring;
@@ -157,11 +179,30 @@ public class MachineAssemblyMachineBlockEntity extends MachineBaseBlockEntity im
                     if(this.ringDelay <= 0) {
                         this.ringTarget += (level.random.nextFloat() * 2 - 1) * 135;
                         this.ringSpeed = 10F + level.random.nextFloat() * 5F;
-                        //if(!this.muffled) MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, NTMSounds.ASSEMBLER_START, this.getVolume(0.25F), 1.25F + worldObj.rand.nextFloat() * 0.25F);
+                        if(!this.muffled) NuclearTechMod.proxy.playLocalSound(this.getBlockPos().getBottomCenter(), NtmSoundEvents.ASSEMBLER_START.get(), SoundSource.BLOCKS, this.getVolume(0.25F), 1.25F + level.random.nextFloat() * 0.25F, true);
                     }
                 }
             }
         }
+    }
+
+    @Override
+    public AudioWrapper createAudioLoop() {
+        return AudioWrapper.getLoopedSound(NtmSoundEvents.ELECTRIC_MOTOR_LOOP.get(), SoundSource.BLOCKS, this, 0.5F, 15F, 0.75F, 20);
+    }
+
+    @Override
+    public void onChunkUnloaded() {
+        super.onChunkUnloaded();
+
+        if(audio != null) { audio.stopSound(); audio = null; }
+    }
+
+    @Override
+    public void setRemoved() {
+        super.setRemoved();
+
+        if(audio != null) { audio.stopSound(); audio = null; }
     }
 
     public DirPos[] getConPos() {
@@ -208,9 +249,9 @@ public class MachineAssemblyMachineBlockEntity extends MachineBaseBlockEntity im
         this.didProcess = buf.readBoolean();
         this.assemblerModule.deserialize(buf);
 
-       // if(wasProcessing && !didProcess) {
-       //     MainRegistry.proxy.playSoundClient(xCoord, yCoord, zCoord, NTMSounds.ASSEMBLER_STOP, this.getVolume(0.25F), 1.5F);
-       // }
+        if(wasProcessing && !didProcess) {
+            NuclearTechMod.proxy.playLocalSound(this.getBlockPos().getBottomCenter(), NtmSoundEvents.ASSEMBLER_STOP.get(), SoundSource.BLOCKS, this.getVolume(0.25F), 1.5F, true);
+        }
     }
 
     @Override
@@ -236,7 +277,7 @@ public class MachineAssemblyMachineBlockEntity extends MachineBaseBlockEntity im
     @Override
     public boolean canPlaceItem(int slot, ItemStack stack) {
         if(slot == 0) return true; // battery
-        //if(slot == 1 && stack.getItem() == ModItems.blueprints) return true;
+        if(slot == 1 && stack.getItem() == NtmItems.BLUEPRINTS.get()) return true;
         if(slot >= 2 && slot <= 3 && stack.getItem() instanceof MachineUpgradeItem) return true; // upgrades
         if(this.assemblerModule.isItemValid(slot, stack)) return true; // recipe input crap
         return false;

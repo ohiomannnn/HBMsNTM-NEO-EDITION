@@ -477,6 +477,7 @@ public class NtmCreativeTabs {
                         output.accept(NtmItems.RING_PULL);
                         output.accept(NtmItems.CAN_KEY);
 
+                        output.accept(NtmItems.CHOCOLATE_MILK);
                         output.accept(NtmItems.CIGARETTE);
                         output.accept(NtmItems.CRACKPIPE);
 

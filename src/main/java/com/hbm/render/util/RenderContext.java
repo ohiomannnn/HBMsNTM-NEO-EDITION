@@ -44,7 +44,6 @@ public class RenderContext {
         context.color = new Vector4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         context.poseStack.popPose();
-        context.poseStack = null;
     }
 
     public static PoseStack poseStack() {

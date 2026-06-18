@@ -35,14 +35,14 @@ public class NtmBlockStateProvider extends BlockStateProvider {
     @Override
     protected void registerStatesAndModels() {
 
-        for(Block block : BuiltInRegistries.BLOCK) {
-            if(BuiltInRegistries.BLOCK.getKey(block).getNamespace().equals(NuclearTechMod.MODID)) {
-                if(block instanceof ICustomBlockModelRegister icbmr) {
-                    ResourceLocation loc = Objects.requireNonNull(BuiltInRegistries.BLOCK.getKey(block));
-                    icbmr.registerModel(this, loc);
-                }
+        NtmBlocks.BLOCKS.getEntries().forEach(holder -> {
+            Block block = holder.get();
+
+            if(block instanceof ICustomBlockModelRegister icbmr) {
+                ResourceLocation loc = Objects.requireNonNull(BuiltInRegistries.BLOCK.getKey(block));
+                icbmr.registerModel(this, loc);
             }
-        }
+        });
 
         this.simpleCubeAllBlock(NtmBlocks.ORE_OIL);
         this.simpleCubeAllBlock(NtmBlocks.ORE_URANIUM);
@@ -233,8 +233,8 @@ public class NtmBlockStateProvider extends BlockStateProvider {
 
         this.simpleBlock(NtmBlocks.BALEFIRE.get(), this.models().withExistingParent("balefire", mcLoc("block/cross")).renderType("cutout_mipped").texture("cross", modLoc("block/balefire")));
         this.simpleBlock(NtmBlocks.FIRE_DIGAMMA.get(), this.models().withExistingParent("fire_digamma", mcLoc("block/cross")).renderType("cutout_mipped").texture("cross", modLoc("block/fire_digamma")));
-        //VOLCANO_CORE uses custom register!
-        //VOLCANO_RAD_CORE uses custom register!
+        // VOLCANO_CORE uses custom register!
+        // VOLCANO_RAD_CORE uses custom register!
 
         this.particleOnlyBlock(NtmBlocks.LAUNCH_PAD, blockTexture(NtmBlocks.LAUNCH_PAD));
 

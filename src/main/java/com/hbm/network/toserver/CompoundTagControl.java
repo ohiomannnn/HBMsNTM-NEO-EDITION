@@ -33,8 +33,8 @@ public record CompoundTagControl(CompoundTag tag, BlockPos pos) implements Custo
 
             BlockEntity be = player.level.getBlockEntity(packet.pos);
 
-            if (be instanceof IControlReceiver icr) {
-                if (icr.hasPermission(player)) {
+            if(be instanceof IControlReceiver icr) {
+                if(icr.hasPermission(player)) {
                     icr.receiveControl(player, packet.tag);
                     icr.receiveControl(packet.tag);
                 }

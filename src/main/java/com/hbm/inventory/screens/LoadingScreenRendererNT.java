@@ -16,7 +16,7 @@ public class LoadingScreenRendererNT {
     public LoadingScreenRendererNT() { }
 
     private static String chooseTip() {
-        if (HTTPHandler.tipOfTheDay.isEmpty()) return "Explore! There's tons of free stuff to find.";
+        if(HTTPHandler.tipOfTheDay.isEmpty()) return "Explore! There's tons of free stuff to find.";
         return HTTPHandler.tipOfTheDay.get(random.nextInt(HTTPHandler.tipOfTheDay.size()));
     }
 
@@ -30,7 +30,7 @@ public class LoadingScreenRendererNT {
 
         String[] frags = I18nUtil.resolveKeyArray(tipOfTheDay);
         int y = (height / 2) / 3;
-        for (int i = 0; i < frags.length; i++) {
+        for(int i = 0; i < frags.length; i++) {
             String frag = frags[i];
             guiGraphics.drawCenteredString(font, Component.literal(frag).withStyle(ChatFormatting.YELLOW), width / 2, y + i * font.lineHeight, 0xFFFFFF);
         }

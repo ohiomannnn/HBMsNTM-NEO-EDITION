@@ -14,36 +14,41 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.fml.ModList;
 
-// now were thinking with abstraction
+// now we are thinking with abstraction
 // is it was too hard, or bob was too lazy?
 public abstract class NukeBaseBlock extends Block implements EntityBlock, IBomb {
 
+    public static final DirectionProperty HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
+
     public NukeBaseBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(HORIZONTAL_FACING, Direction.NORTH)
+        );
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(BlockStateProperties.HORIZONTAL_FACING);
+        builder.add(HORIZONTAL_FACING);
     }
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return this.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState().setValue(HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite());
     }
 
     @Override
     protected BlockState rotate(BlockState state, Rotation rotation) {
-        return state.setValue(BlockStateProperties.HORIZONTAL_FACING, rotation.rotate(state.getValue(BlockStateProperties.HORIZONTAL_FACING)));
+        return state.setValue(HORIZONTAL_FACING, rotation.rotate(state.getValue(HORIZONTAL_FACING)));
     }
 
     @Override
     protected BlockState mirror(BlockState state, Mirror mirror) {
-        return state.rotate(mirror.getRotation(state.getValue(BlockStateProperties.HORIZONTAL_FACING)));
+        return state.rotate(mirror.getRotation(state.getValue(HORIZONTAL_FACING)));
     }
 
     @Override
@@ -59,22 +64,22 @@ public abstract class NukeBaseBlock extends Block implements EntityBlock, IBomb 
 
     @Override
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
-        if (level.hasNeighborSignal(pos)) {
+        if(level.hasNeighborSignal(pos)) {
             this.explode(level, pos);
         }
     }
 
     @Override
     public void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
-        if (level.hasNeighborSignal(pos)) {
+        if(level.hasNeighborSignal(pos)) {
             this.explode(level, pos);
         }
     }
 
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (!state.is(newState.getBlock())) {
-            if (level.getBlockEntity(pos) instanceof Container container) {
+        if(!state.is(newState.getBlock())) {
+            if(level.getBlockEntity(pos) instanceof Container container) {
                 Containers.dropContents(level, pos, container);
 
                 super.onRemove(state, level, pos, newState, isMoving);
@@ -87,15 +92,11 @@ public abstract class NukeBaseBlock extends Block implements EntityBlock, IBomb 
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (level.isClientSide) {
-            return InteractionResult.SUCCESS;
-        }
+        if(level.isClientSide) return InteractionResult.SUCCESS;
 
-        if (!player.isShiftKeyDown()) {
+        if(!player.isShiftKeyDown()) {
             BlockEntity blockentity = level.getBlockEntity(pos);
-            if (blockentity instanceof MenuProvider be) {
-                player.openMenu(new SimpleMenuProvider(be, be.getDisplayName()), pos);
-            }
+            if (blockentity instanceof MenuProvider be) player.openMenu(new SimpleMenuProvider(be, be.getDisplayName()), pos);
             return InteractionResult.CONSUME;
         }
 

@@ -56,7 +56,7 @@ public class NukePrototypeBlock extends NukeBaseBlock {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
-        for (String s : ITooltipProvider.getDescription(stack)) {
+        for(String s : ITooltipProvider.getDescription(stack)) {
             components.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
         }
     }

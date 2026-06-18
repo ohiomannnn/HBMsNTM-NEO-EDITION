@@ -45,6 +45,9 @@ public abstract class SerializableRecipe {
         recipeHandlers.add(new PressRecipes());
 
         recipeHandlers.add(new AssemblyMachineRecipes());
+
+        //GENERIC
+        recipeHandlers.add(AssemblyMachineRecipes.INSTANCE);
     }
 
     public static void initialize() {

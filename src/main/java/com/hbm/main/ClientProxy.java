@@ -26,9 +26,14 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 
@@ -210,6 +215,23 @@ public class ClientProxy extends ServerProxy {
         //mobs
         EntityRenderers.register(NtmEntityTypes.CREEPER_NUCLEAR.get(), CreeperNuclearRenderer::new);
         EntityRenderers.register(NtmEntityTypes.DUCK.get(), DuckRenderer::new);
+    }
+
+    public void playLocalSound(Vec3 vec, SoundEvent soundEvent, SoundSource source, float volume, float pitch, boolean distanceDelay) {
+        this.playLocalSound(vec.x, vec.y, vec.z, soundEvent, source, volume, pitch, distanceDelay);
+    }
+
+    public void playLocalSound(double x, double y, double z, SoundEvent soundEvent, SoundSource source, float volume, float pitch, boolean distanceDelay) {
+        Minecraft minecraft = Minecraft.getInstance();
+
+        double dist = minecraft.gameRenderer.getMainCamera().getPosition().distanceToSqr(x, y, z);
+        SimpleSoundInstance simplesoundinstance = new SimpleSoundInstance(soundEvent, source, volume, pitch, RandomSource.create(minecraft.level.random.nextLong()), x, y, z);
+        if(distanceDelay && dist > 100.0) {
+            double d1 = Math.sqrt(dist) / 40.0;
+            minecraft.getSoundManager().playDelayed(simplesoundinstance, (int)(d1 * 20.0));
+        } else {
+            minecraft.getSoundManager().play(simplesoundinstance);
+        }
     }
 
     @Override

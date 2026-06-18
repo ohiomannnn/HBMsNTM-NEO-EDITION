@@ -153,6 +153,24 @@ public class NtmSoundDefinitionsProvider extends SoundDefinitionsProvider {
         this.add(NtmSoundEvents.HUNDUNS_MAGNIFICENT_HOWL, SoundDefinition.definition()
                 .with(sound("hbmsntm:block/hunduns_magnificent_howl"))
         );
+        this.add(NtmSoundEvents.ELECTRIC_MOTOR_LOOP, SoundDefinition.definition()
+                .with(sound("hbmsntm:block/motor"))
+        );
+        this.add(NtmSoundEvents.ASSEMBLER_STRIKE, SoundDefinition.definition()
+                .with(
+                        sound("hbmsntm:block/assembler_strike1"),
+                        sound("hbmsntm:block/assembler_strike2")
+                )
+        );
+        this.add(NtmSoundEvents.ASSEMBLER_CUT, SoundDefinition.definition()
+                .with(sound("hbmsntm:block/assembler_cut"))
+        );
+        this.add(NtmSoundEvents.ASSEMBLER_START, SoundDefinition.definition()
+                .with(sound("hbmsntm:block/assembler_start"))
+        );
+        this.add(NtmSoundEvents.ASSEMBLER_STOP, SoundDefinition.definition()
+                .with(sound("hbmsntm:block/assembler_stop"))
+        );
         /// ITEMS
         this.add(NtmSoundEvents.TECH_BLEEP, SoundDefinition.definition()
                 .with(sound("hbmsntm:tool/tech_bleep"))

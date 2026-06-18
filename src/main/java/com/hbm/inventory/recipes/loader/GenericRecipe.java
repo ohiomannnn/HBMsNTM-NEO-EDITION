@@ -9,11 +9,13 @@ import com.hbm.inventory.recipes.loader.GenericRecipes.ChanceOutput;
 import com.hbm.inventory.recipes.loader.GenericRecipes.ChanceOutputMulti;
 import com.hbm.inventory.recipes.loader.GenericRecipes.IOutput;
 import com.hbm.items.machine.FluidIconItem;
+import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 
 import java.util.List;
+import java.util.Locale;
 
 public class GenericRecipe {
 
@@ -37,6 +39,12 @@ public class GenericRecipe {
 
     public boolean isPooled() { return blueprintPools != null; }
     public String[] getPools() { return this.blueprintPools; }
+
+    public boolean isPartOfPool(String lookingFor) {
+        if(!isPooled()) return false;
+        for(String pool : blueprintPools) if (pool.equals(lookingFor)) return true;
+        return false;
+    }
 
     public GenericRecipe setDuration(int duration) { this.duration = duration; return this; }
     public GenericRecipe setPower(long power) { this.power = power; return this; }
@@ -112,11 +120,24 @@ public class GenericRecipe {
         return this.name;
     }
 
+    public String getLocalizedName() {
+        String name = null;
+        if(customLocalization) name = I18nUtil.resolveKey(this.name);
+        if(name == null) name = this.getIcon().getDisplayName().getString();
+        if(this.nameWrapper != null) name = I18nUtil.resolveKey(this.nameWrapper, name);
+        return name;
+    }
+
     public Component getName() {
         Component name = Component.empty();
         if(customLocalization) name = Component.translatable(this.name);
         if(name.equals(Component.empty())) name = this.getIcon().getDisplayName();
         if(this.nameWrapper != null) name = Component.translatable(this.nameWrapper, name);
         return name;
+    }
+
+    /** Default impl only matches localized name substring, can be extended to include ingredients as well */
+    public boolean matchesSearch(String substring) {
+        return getLocalizedName().toLowerCase(Locale.US).contains(substring.toLowerCase(Locale.US));
     }
 }

@@ -24,11 +24,11 @@ public class NukeBalefireBlock extends NukeBaseBlock {
     @Override
     public BombReturnCode explode(Level level, BlockPos pos) {
 
-        if (!level.isClientSide) {
+        if(!level.isClientSide) {
             BlockEntity be = level.getBlockEntity(pos);
-            if (be == null) return BombReturnCode.UNDEFINED;
-            if (be instanceof NukeBalefireBlockEntity nuke) {
-                if (nuke.isLoaded()) {
+            if(be == null) return BombReturnCode.UNDEFINED;
+            if(be instanceof NukeBalefireBlockEntity nuke) {
+                if(nuke.isLoaded()) {
                     nuke.explode();
                     return BombReturnCode.DETONATED;
                 }
@@ -42,7 +42,7 @@ public class NukeBalefireBlock extends NukeBaseBlock {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return (lvl, pos, st, be) -> { if (be instanceof ITickable tickable) tickable.updateEntity(); };
+        return (lvl, pos, st, be) -> { if(be instanceof ITickable tickable) tickable.updateEntity(); };
     }
 
     @Override

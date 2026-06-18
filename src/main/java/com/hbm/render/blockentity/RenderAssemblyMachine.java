@@ -3,24 +3,33 @@ package com.hbm.render.blockentity;
 import com.hbm.blockentity.machine.MachineAssemblyMachineBlockEntity;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.blocks.NtmBlocks;
+import com.hbm.inventory.recipes.AssemblyMachineRecipes;
+import com.hbm.inventory.recipes.loader.GenericRecipe;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.util.RenderContext;
 import com.hbm.util.BobMathUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 
 public class RenderAssemblyMachine extends BlockEntityRendererNT<MachineAssemblyMachineBlockEntity> implements IBEWLRProvider {
 
-    @Override public BlockEntityRenderer<MachineAssemblyMachineBlockEntity> create(Context context) { return new RenderAssemblyMachine(); }
+    @Override public BlockEntityRenderer<MachineAssemblyMachineBlockEntity> create(Context context) {
+        return new RenderAssemblyMachine();
+    }
 
     @Override
     public void render(MachineAssemblyMachineBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
@@ -92,7 +101,28 @@ public class RenderAssemblyMachine extends BlockEntityRendererNT<MachineAssembly
 
         RenderContext.popPose();
 
-        // todo recipe item renderer
+        GenericRecipe recipe = AssemblyMachineRecipes.INSTANCE.recipeNameMap.get(be.assemblerModule.recipe);
+        if(recipe != null && NuclearTechMod.proxy.me().distanceToSqr(be.getBlockPos().getBottomCenter().add(0, 1, 0)) < 35 * 35) {
+
+            RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
+            RenderContext.translate(0F, 1.0625F, 0F);
+
+            ItemStack stack = recipe.getIcon();
+
+            ItemRenderer renderer = Minecraft.getInstance().getItemRenderer();
+
+            BakedModel model = renderer.getModel(stack, null, null, 0);
+
+            if(!model.isGui3d()) {
+                RenderContext.mulPose(Axis.XP.rotationDegrees(-90F));
+            } else {
+                RenderContext.translate(0F, 0.1F, 0F);
+                RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
+            }
+            RenderContext.scale(0.75F, 0.75F, 0.75F);
+
+            renderer.render(stack, ItemDisplayContext.FIXED, false, RenderContext.poseStack(), buffer, RenderContext.light(), RenderContext.overlay(), model);
+        }
 
         RenderContext.end();
     }
@@ -102,7 +132,7 @@ public class RenderAssemblyMachine extends BlockEntityRendererNT<MachineAssembly
     @Override
     public AABB getRenderBoundingBox(MachineAssemblyMachineBlockEntity be) {
 
-        if (bb == null) {
+        if(bb == null) {
             int x = be.getBlockPos().getX();
             int y = be.getBlockPos().getY();
             int z = be.getBlockPos().getZ();

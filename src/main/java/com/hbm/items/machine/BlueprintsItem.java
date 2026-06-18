@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -26,8 +27,9 @@ public class BlueprintsItem extends Item implements IMetaItem {
         }
     }
 
+    @Nullable
     public static String grabPool(ItemStack stack) {
-        if(stack == null) return null;
+        if(stack.isEmpty()) return null;
         if(stack.getItem() != NtmItems.BLUEPRINTS.get()) return null;
         if(!TagsUtil.hasCData(stack)) return null;
 

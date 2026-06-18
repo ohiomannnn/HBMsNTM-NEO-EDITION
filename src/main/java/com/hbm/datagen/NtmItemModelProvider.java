@@ -120,24 +120,7 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.basicItem(NtmItems.INGOT_SMORE.get());
         this.basicItem(NtmItems.INGOT_OSMIRIDIUM.get());
 
-        this.handheldItem(NtmItems.IGNITER.get());
-        this.handheldItem(NtmItems.REACHER.get());
-        this.handheldItem(NtmItems.DETONATOR.get());
-        this.handheldItem(NtmItems.DETONATOR_MULTI.get());
-        this.handheldItem(NtmItems.DETONATOR_DEADMAN.get());
-        this.handheldItem(NtmItems.DETONATOR_DE.get());
-
-        basicItem(NtmItems.GEIGER_COUNTER.get());
-        basicItem(NtmItems.DOSIMETER.get());
-        basicItem(NtmItems.DIGAMMA_DIAGNOSTIC.get());
-        basicItem(NtmItems.BALEFIRE_AND_STEEL.get());
-        bombCallerItem(NtmItems.BOMB_CALLER.get());
-        basicItem(NtmItems.DUCK_SPAWN_EGG.get());
-
         this.basicItem(NtmItems.PELLET_RTG.get());
-
-        this.basicItem(NtmItems.PARTICLE_DIGAMMA.get());
-        this.basicItem(NtmItems.PARTICLE_LUTECE.get());
 
         this.basicItem(NtmItems.CELL_EMPTY.get());
         this.basicItem(NtmItems.CELL_UF6.get());
@@ -149,7 +132,8 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.basicItem(NtmItems.CELL_ANTI_SCHARBIDIUM.get());
         this.basicItem(NtmItems.CELL_BALEFIRE.get());
 
-        this.basicItem(NtmItems.BATTERY_CREATIVE.get());
+        this.basicItem(NtmItems.PARTICLE_DIGAMMA.get());
+        this.basicItem(NtmItems.PARTICLE_LUTECE.get());
 
         this.basicItem(NtmItems.SINGULARITY.get());
         this.basicItem(NtmItems.SINGULARITY_COUNTER_RESONANT.get());
@@ -158,46 +142,61 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.basicItem(NtmItems.SINGULARITY_SPARK.get());
         this.basicItem(NtmItems.PELLET_ANTIMATTER.get());
 
-        basicItem(NtmItems.BOTTLE_OPENER.get());
+        this.basicItem(NtmItems.INF_WATER.get());
+        this.basicItem(NtmItems.INF_WATER_MK2.get());
 
-        basicItem(NtmItems.FLUID_ICON.get());
-
-        this.layeredItem(NtmItems.FLUID_IDENTIFIER_MULTI.get(), "fluid_identifier_multi", "fluid_identifier_overlay");
         this.basicCustomLayerItem(NtmItems.FLUID_TANK_EMPTY.get(), "fluid_tank");
         this.layeredItem(NtmItems.FLUID_TANK_FULL.get(), "fluid_tank", "fluid_tank_overlay");
         this.basicCustomLayerItem(NtmItems.FLUID_TANK_LEAD_EMPTY.get(), "fluid_tank_lead");
         this.layeredItem(NtmItems.FLUID_TANK_LEAD_FULL.get(), "fluid_tank_lead", "fluid_tank_lead_overlay");
         this.basicCustomLayerItem(NtmItems.FLUID_BARREL_EMPTY.get(), "fluid_barrel_empty");
         this.layeredItem(NtmItems.FLUID_BARREL_FULL.get(), "fluid_barrel", "fluid_barrel_overlay");
+        this.basicItem(NtmItems.FLUID_BARREL_INFINITE.get());
+
         this.basicCustomLayerItem(NtmItems.FLUID_PACK_EMPTY.get(), "fluid_pack");
         this.layeredItem(NtmItems.FLUID_PACK_FULL.get(), "fluid_pack", "fluid_pack_overlay");
-        this.basicItem(NtmItems.FLUID_BARREL_INFINITE.get());
-        this.basicItem(NtmItems.INF_WATER.get());
-        this.basicItem(NtmItems.INF_WATER_MK2.get());
 
-        this.handheldItem(NtmItems.CIGARETTE.get());
-        this.handheldItem(NtmItems.CRACKPIPE.get());
+        this.basicItem(NtmItems.BATTERY_SPARK.get());
+        this.basicItem(NtmItems.BATTERY_TRIXITE.get());
 
-        basicItem(NtmItems.KEY.get());
-        basicItem(NtmItems.KEY_RED.get());
-        basicItem(NtmItems.KEY_KIT.get());
-        basicItem(NtmItems.KEY_FAKE.get());
-        basicItem(NtmItems.PIN.get());
-        this.basicItem(NtmItems.SATELLITE_INTERFACE.get());
+        this.entityItem(NtmItems.BATTERY_PACK.get(), false);
+        // BATTERY_SC uses ICustomItemModelRegister
+        this.basicItem(NtmItems.BATTERY_CREATIVE.get());
 
-        this.basicItem(NtmItems.SATELLITE_RADAR.get());
-        this.basicItem(NtmItems.SATELLITE_LASER.get());
+        // todo register BLUEPRINTS
+
+        this.basicItem(NtmItems.FLUID_ICON.get());
+        this.layeredItem(NtmItems.FLUID_IDENTIFIER_MULTI.get(), "fluid_identifier_multi", "fluid_identifier_overlay");
+
+        this.handheldItem(NtmItems.SCREWDRIVER.get());
+        this.handheldItem(NtmItems.SCREWDRIVER_DESH.get());
+        this.handheldItem(NtmItems.BLOWTORCH.get());
+        this.handheldItem(NtmItems.ACETYLENE_TORCH.get());
+
+        this.basicItem(NtmItems.ROD_EMPTY.get());
+        this.basicItem(NtmItems.ROD_DUAL_EMPTY.get());
+        this.basicItem(NtmItems.ROD_QUAD_EMPTY.get());
+
+        this.basicItem(NtmItems.DUCK_SPAWN_EGG.get());
 
         this.basicItem(NtmItems.DESIGNATOR.get());
         this.handheldItem(NtmItems.DESIGNATOR_RANGE.get());
+        this.basicItem(NtmItems.DOSIMETER.get());
+        this.basicItem(NtmItems.GEIGER_COUNTER.get());
+        this.basicItem(NtmItems.DIGAMMA_DIAGNOSTIC.get());
 
-        this.entityItem(NtmItems.BATTERY_PACK.get(), false);
+        this.basicItem(NtmItems.PIN.get());
+        this.basicItem(NtmItems.KEY.get());
+        this.basicItem(NtmItems.KEY_RED.get());
+        this.basicItem(NtmItems.KEY_KIT.get());
+        this.basicItem(NtmItems.KEY_FAKE.get());
 
         this.entityItem(NtmItems.MISSILE_TAINT.get(), true);
         this.entityItem(NtmItems.MISSILE_MICRO.get(), true);
         this.entityItem(NtmItems.MISSILE_BHOLE.get(), true);
         this.entityItem(NtmItems.MISSILE_SCHRABIDIUM.get(), true);
         this.entityItem(NtmItems.MISSILE_EMP.get(), true);
+        this.entityItem(NtmItems.MISSILE_GENERIC.get(), true);
         this.entityItem(NtmItems.MISSILE_INCENDIARY.get(), true);
         this.entityItem(NtmItems.MISSILE_CLUSTER.get(), true);
         this.entityItem(NtmItems.MISSILE_BUSTER.get(), true);
@@ -219,10 +218,24 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.entityItem(NtmItems.MISSILE_SHUTTLE.get(), true);
         this.entityItem(NtmItems.MISSILE_STEALTH.get(), true);
 
-        this.registerPolaroid();
+        this.basicItem(NtmItems.SATELLITE_RADAR.get());
+        this.basicItem(NtmItems.SATELLITE_LASER.get());
+        this.basicItem(NtmItems.SATELLITE_INTERFACE.get());
 
-        this.basicItem(NtmItems.BATTERY_SPARK.get());
-        this.basicItem(NtmItems.BATTERY_TRIXITE.get());
+        this.basicItem(NtmItems.BALEFIRE_AND_STEEL.get());
+
+        // DRINK uses ICustomItemModelRegister
+        this.handheldItem(NtmItems.BOTTLE_OPENER.get());
+
+        // CANNED_CONSERVE uses ICustomItemModelRegister
+
+        // CAP uses ICustomItemModelRegister
+        this.basicItem(NtmItems.RING_PULL.get());
+        this.basicItem(NtmItems.CAN_KEY.get());
+
+        this.basicItem(NtmItems.CHOCOLATE_MILK.get());
+        this.handheldItem(NtmItems.CIGARETTE.get());
+        this.handheldItem(NtmItems.CRACKPIPE.get());
 
         this.basicItem(NtmItems.EARLY_EXPLOSIVE_LENSES.get());
         this.basicItem(NtmItems.EXPLOSIVE_LENSES.get());
@@ -249,10 +262,29 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.basicItem(NtmItems.FLEIJA_PROPELLANT.get());
         this.basicItem(NtmItems.FLEIJA_CORE.get());
 
+        this.basicItem(NtmItems.SOLINIUM_IGNITER.get());
+        this.basicItem(NtmItems.SOLINIUM_PROPELLANT.get());
+        this.basicItem(NtmItems.SOLINIUM_CORE.get());
+
         this.basicItem(NtmItems.N2_CHARGE.get());
 
         this.basicItem(NtmItems.EGG_BALEFIRE_SHARD.get());
         this.basicItem(NtmItems.EGG_BALEFIRE.get());
+
+        this.handheldItem(NtmItems.IGNITER.get());
+        this.handheldItem(NtmItems.DETONATOR.get());
+        this.handheldItem(NtmItems.DETONATOR_MULTI.get());
+        this.entityItem(NtmItems.DETONATOR_LASER.get(), true);
+        this.handheldItem(NtmItems.DETONATOR_DEADMAN.get());
+        this.handheldItem(NtmItems.DETONATOR_DE.get());
+        this.handheldItem(NtmItems.BOMB_CALLER.get());
+        this.handheldItem(NtmItems.DEFUSER.get());
+        this.handheldItem(NtmItems.REACHER.get());
+
+        this.registerPolaroid();
+        this.basicItem(NtmItems.BURNT_BARK.get());
+
+        // STARTER_KIT uses ICustomItemModelRegister
 
         this.basicItem(NtmItems.NOTHING.get());
 
@@ -288,11 +320,6 @@ public class NtmItemModelProvider extends ItemModelProvider {
 
     private void entityItem(Item item, boolean frontLight) {
         this.getBuilder(BuiltInRegistries.ITEM.getKey(item).toString()).parent(new ModelFile.UncheckedModelFile("builtin/entity")).guiLight(frontLight ? BlockModel.GuiLight.FRONT : BlockModel.GuiLight.SIDE);
-    }
-
-    public ItemModelBuilder bombCallerItem(Item item) {
-        ResourceLocation loc = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
-        return this.getBuilder(item.toString()).parent(new ModelFile.UncheckedModelFile("item/handheld")).texture("layer0", ResourceLocation.fromNamespaceAndPath(loc.getNamespace(), "item/bomb_caller"));
     }
 
 }
