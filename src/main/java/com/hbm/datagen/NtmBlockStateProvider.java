@@ -231,14 +231,24 @@ public class NtmBlockStateProvider extends BlockStateProvider {
                 )
         );
 
-        this.simpleBlock(NtmBlocks.BALEFIRE.get(), this.models().withExistingParent("balefire", mcLoc("block/cross")).renderType(":cutout_mipped").texture("cross", modLoc("block/balefire")));
+        this.simpleBlock(NtmBlocks.BALEFIRE.get(), this.models().withExistingParent("balefire", mcLoc("block/cross")).renderType("cutout_mipped").texture("cross", modLoc("block/balefire")));
         this.simpleBlock(NtmBlocks.FIRE_DIGAMMA.get(), this.models().withExistingParent("fire_digamma", mcLoc("block/cross")).renderType("cutout_mipped").texture("cross", modLoc("block/fire_digamma")));
         //VOLCANO_CORE uses custom register!
         //VOLCANO_RAD_CORE uses custom register!
 
         this.particleOnlyBlock(NtmBlocks.LAUNCH_PAD, blockTexture(NtmBlocks.LAUNCH_PAD));
 
-        simpleBlockWithItem(NtmBlocks.TAINT.get(), cubeAll(NtmBlocks.TAINT.get()));
+        this.itemModels().basicItem(NtmBlocks.GAS_RADON.asItem());
+        this.itemModels().basicItem(NtmBlocks.GAS_RADON_DENSE.asItem());
+        this.itemModels().basicItem(NtmBlocks.GAS_RADON_TOMB.asItem());
+        this.itemModels().basicItem(NtmBlocks.GAS_MELTDOWN.asItem());
+        this.itemModels().basicItem(NtmBlocks.GAS_MONOXIDE.asItem());
+        this.itemModels().basicItem(NtmBlocks.GAS_ASBESTOS.asItem());
+        this.itemModels().basicItem(NtmBlocks.GAS_COAL.asItem());
+        this.itemModels().basicItem(NtmBlocks.GAS_FLAMMABLE.asItem());
+        this.itemModels().basicItem(NtmBlocks.GAS_EXPLOSIVE.asItem());
+
+        this.simpleCubeAllBlock(NtmBlocks.TAINT);
     }
 
     private void registerCable() {
@@ -317,7 +327,7 @@ public class NtmBlockStateProvider extends BlockStateProvider {
 
         MultiPartBlockStateBuilder builder = getMultipartBuilder(block);
 
-        for (int i = 1; i <= 8; i++) {
+        for(int i = 1; i <= 8; i++) {
             float height = i * 2f / 16f;
 
             ModelFile model = models()

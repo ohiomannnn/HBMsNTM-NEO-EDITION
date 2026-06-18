@@ -12,6 +12,7 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Direction.Axis;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
@@ -69,7 +70,7 @@ public class MachineBatteryREDDBlock extends DummyableBlock {
         x += dir.getStepX() * offset;
         z += dir.getStepZ() * offset;
 
-        Direction rot = dir.getClockWise();
+        Direction rot = dir.getClockWise(Axis.Y);
 
         this.makeExtra(level, new BlockPos(x + dir.getStepX() * 2 + rot.getStepX() * 2, y, z + dir.getStepZ() * 2 + rot.getStepZ() * 2));
         this.makeExtra(level, new BlockPos(x + dir.getStepX() * 2 - rot.getStepX() * 2, y, z + dir.getStepZ() * 2 - rot.getStepZ() * 2));
@@ -81,7 +82,7 @@ public class MachineBatteryREDDBlock extends DummyableBlock {
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        return this.standardOpenBehavior(level, pos, player, 0);
+        return this.standardOpenBehavior(level, pos, player);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.hbm.datagen;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.blocks.generic.BarbedWireBlock.BarbedWireType;
 import com.hbm.blocks.generic.PlushieBlock.PlushieType;
+import com.hbm.items.NtmItems;
 import com.hbm.main.NuclearTechMod;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.Item;
@@ -17,6 +18,7 @@ public class NtmLanguageProvider extends LanguageProvider {
 
     // helper keys
     private static final String DESC = ".desc";
+    private static final String P11 = ".p11";
     private static final String CONTAINER = "container.";
 
     public NtmLanguageProvider(PackOutput output) {
@@ -27,6 +29,101 @@ public class NtmLanguageProvider extends LanguageProvider {
     protected void addTranslations() {
 
         // ITEMS //
+        this.add(NtmItems.INGOT_URANIUM, "Uranium Ingot");
+        this.add(NtmItems.INGOT_U233, "Uranium-233 Ingot");
+        this.add(NtmItems.INGOT_U235, "Uranium-235 Ingot");
+        this.add(NtmItems.INGOT_U238, "Uranium-238 Ingot");
+        this.add(NtmItems.INGOT_U238M2, "Metastable Uranium-238M2 Ingot");
+        this.add(NtmItems.INGOT_PLUTONIUM, "Plutonium Ingot");
+        this.add(NtmItems.INGOT_PU238, "Plutonium-238 Ingot");
+        this.add(NtmItems.INGOT_PU239, "Plutonium-239 Ingot");
+        this.add(NtmItems.INGOT_PU240, "Plutonium-240 Ingot");
+        this.add(NtmItems.INGOT_PU241, "Plutonium-241 Ingot");
+        this.add(NtmItems.INGOT_PU_MIX, "Reactor Grade Plutonium Ingot");
+        this.add(NtmItems.INGOT_AM241, "Americium-241 Ingot");
+        this.add(NtmItems.INGOT_AM242, "Americium-242 Ingot");
+        this.add(NtmItems.INGOT_AM_MIX, "Reactor Grade Americium Ingot");
+        this.add(NtmItems.INGOT_NEPTUNIUM, "Neptunium Ingot");
+        this.add(NtmItems.INGOT_NEPTUNIUM, DESC,"That one's my favourite!");
+        this.add(NtmItems.INGOT_NEPTUNIUM, DESC + P11,"Woo, scary!");
+        this.add(NtmItems.INGOT_POLONIUM, "Polonium-210 Ingot");
+        this.add(NtmItems.INGOT_TECHNETIUM, "Technetium-99 Ingot");
+        this.add(NtmItems.INGOT_CO60, "Cobalt-60 Ingot");
+        this.add(NtmItems.INGOT_SR90, "Strontium-90 Ingot");
+        this.add(NtmItems.INGOT_AU198, "Gold-198 Ingot");
+        this.add(NtmItems.INGOT_PB209, "Lead-209 Ingot");
+        this.add(NtmItems.INGOT_RA226, "Radium-226 Ingot");
+        this.add(NtmItems.INGOT_TITANIUM, "Titanium Ingot");
+        this.add(NtmItems.INGOT_INDUSTRIAL_COPPER, "Industrial Grade Copper Ingot");
+        this.add(NtmItems.INGOT_RED_COPPER, "Minecraft Grade Copper Ingot");
+        this.add(NtmItems.INGOT_TUNGSTEN, "Tungsten Ingot");
+        this.add(NtmItems.INGOT_ALUMINIUM, "Aluminium Ingot");
+        this.add(NtmItems.INGOT_STEEL, "Steel Ingot");
+        this.add(NtmItems.INGOT_TCALLOY, "Technetium Steel Ingot");
+        this.add(NtmItems.INGOT_CDALLOY, "Steel Ingot");
+        this.add(NtmItems.INGOT_BISMUTH_BRONZE, "Bismuth Bronze Ingot");
+        this.add(NtmItems.INGOT_ARSENIC_BRONZE, "Arsenic Bronze Ingot");
+        this.add(NtmItems.INGOT_BSCCO, "BSCCO Ingot");
+        this.add(NtmItems.INGOT_LEAD, "Lead Ingot");
+        this.add(NtmItems.INGOT_BISMUTH, "Bismuth Ingot");
+        this.add(NtmItems.INGOT_ARSENIC, "Arsenic Ingot");
+        this.add(NtmItems.INGOT_CALCIUM, "Calcium Ingot");
+        this.add(NtmItems.INGOT_CADMIUM, "Cadmium Ingot");
+        this.add(NtmItems.INGOT_TANTALIUM, "Tantalum Ingot");
+        this.add(NtmItems.INGOT_TANTALIUM, DESC, "'Tantalum'");
+        this.add(NtmItems.INGOT_TANTALIUM, DESC + P11, "AKA Tantalum.");
+        this.add(NtmItems.INGOT_SILICON, "Silicon Boule");
+        this.add(NtmItems.INGOT_NIOBIUM, "Niobium Ingot");
+        this.add(NtmItems.INGOT_BERYLLIUM, "Beryllium Ingot");
+        this.add(NtmItems.INGOT_COBALT, "Cobalt Ingot");
+        this.add(NtmItems.INGOT_BORON, "Boron Ingot");
+        this.add(NtmItems.INGOT_GRAPHITE, "Graphite Ingot");
+        this.add(NtmItems.INGOT_FIREBRICK, "Firebrick");
+        this.add(NtmItems.INGOT_DURA_STEEL, "High-Speed Steel Ingot");
+        this.add(NtmItems.INGOT_POLYMER, "Polymer Bar");
+        this.add(NtmItems.INGOT_BAKELITE, "Bakelite Bar");
+        this.add(NtmItems.INGOT_BIORUBBER, "Latex Bar");
+        this.add(NtmItems.INGOT_RUBBER, "Rubber Bar");
+        this.add(NtmItems.INGOT_PC, "Hard Plastic Bar");
+        this.add(NtmItems.INGOT_PVC, "PVC Bar");
+        this.add(NtmItems.INGOT_MUD, "Solid Mud Brick");
+        this.add(NtmItems.INGOT_CTF, "Crystalline Fullerite");
+        this.add(NtmItems.INGOT_SCHRARANIUM, "Schraranium Ingot");
+        this.add(NtmItems.INGOT_SCHRARANIUM, DESC, "Made from uranium in a schrabidium transmutator");
+        this.add(NtmItems.INGOT_SCHRABIDIUM, "Schrabidium Ingot");
+        this.add(NtmItems.INGOT_SCHRABIDATE, "Ferric Schrabidate Ingot");
+        this.add(NtmItems.INGOT_MAGNETIZED_TUNGSTEN, "Magnetized Tungsten Ingot");
+        this.add(NtmItems.INGOT_COMBINE_STEEL, "CMB Steel Ingot");
+        this.add(NtmItems.INGOT_COMBINE_STEEL, DESC, "CMB Steel Ingot");
+        this.add(NtmItems.INGOT_SOLINIUM, "Solinium Ingot");
+        this.add(NtmItems.INGOT_GH336, "Ghiorsium-336 Ingot");
+        this.add(NtmItems.INGOT_GH336, DESC, "Seaborgium's colleague.");
+        this.add(NtmItems.INGOT_URANIUM_FUEL, "Ingot of Uranium Fuel");
+        this.add(NtmItems.INGOT_THORIUM_FUEL, "Ingot of Thorium Fuel");
+        this.add(NtmItems.INGOT_PLUTONIUM_FUEL, "Ingot of Plutonium Fuel");
+        this.add(NtmItems.INGOT_NEPTUNIUM_FUEL, "Neptunium Fuel Ingot");
+        this.add(NtmItems.INGOT_MOX_FUEL, "Ingot of MOX Fuel");
+        this.add(NtmItems.INGOT_AMERICIUM_FUEL, "Ingot of Americium Fuel");
+        this.add(NtmItems.INGOT_SCHRABIDIUM_FUEL, "Ingot of Schrabidium Fuel");
+        this.add(NtmItems.INGOT_HES, "Highly Enriched Schrabidium Fuel Ingot");
+        this.add(NtmItems.INGOT_LES, "Low Enriched Schrabidium Fuel Ingot");
+        this.add(NtmItems.INGOT_AUSTRALIUM, "Australium Ingot");
+        this.add(NtmItems.INGOT_LANTHANIUM, "Semi-Stable Lanthanium Ingot");
+        this.add(NtmItems.INGOT_LANTHANIUM, DESC, "'Lanthanum'");
+        this.add(NtmItems.INGOT_LANTHANIUM, DESC + P11, "Actually Lanthanum, but whatever.");
+        this.add(NtmItems.INGOT_ACTINIUM, "Actinium-227 Ingot");
+        this.add(NtmItems.INGOT_DESH, "Desh Ingot");
+        this.add(NtmItems.INGOT_FERROURANIUM, "Ferrouranium Ingot");
+        this.add(NtmItems.INGOT_STARMETAL, "§9Starmetal Ingot§r");
+        this.add(NtmItems.INGOT_GUNMETAL, "Gunmetal Ingot");
+        this.add(NtmItems.INGOT_WEAPONSTEEL, "Weapon Steel Ingot");
+        this.add(NtmItems.INGOT_SATURNITE, "Saturnite Ingot");
+        this.add(NtmItems.INGOT_EUPHEMIUM, "Euphemium Ingot");
+        this.add(NtmItems.INGOT_EUPHEMIUM, DESC, "A very special and yet strange element.");
+        this.add(NtmItems.INGOT_DINEUTRONIUM, "Dineutronium Ingot");
+        this.add(NtmItems.INGOT_ELECTRONIUM, "Electronium Ingot");
+        this.add(NtmItems.INGOT_SMORE, "S'more Ingot");
+        this.add(NtmItems.INGOT_OSMIRIDIUM, "Osmiridium Ingot");
 
         // BLOCKS //
         this.add(NtmBlocks.BOBBLEHEAD, "Bobblehead");
@@ -77,7 +174,6 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmBlocks.BARBED_WIRE, this.getName(BarbedWireType.ULTRADEATH), "Radioactive Barbed Wire");
         this.add(NtmBlocks.SPIKES, "Spikes");
 
-        //todo check placement
         this.add(NtmBlocks.WASTE_EARTH, "Dead Grass");
         this.add(NtmBlocks.WASTE_MYCELIUM, "Glowing Mycelium");
         this.add(NtmBlocks.WASTE_TRINITITE, "Trinitite Ore");
@@ -202,6 +298,7 @@ public class NtmLanguageProvider extends LanguageProvider {
     public void add(DeferredItem<? extends Item> key, String name) { this.add(key.get(), name); }
 
     public void add(DeferredBlock<? extends Block> key, String toAppend, String name) { this.add(key.get().getDescriptionId() + toAppend, name); }
+    public void add(DeferredItem<? extends Item> key, String toAppend, String name) { this.add(key.get().getDescriptionId() + toAppend, name); }
 
     public String getName(Enum<?> theEnum) { return "." + theEnum.name().toLowerCase(Locale.US); }
 }

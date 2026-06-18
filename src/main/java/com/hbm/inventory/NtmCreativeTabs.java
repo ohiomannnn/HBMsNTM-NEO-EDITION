@@ -472,14 +472,15 @@ public class NtmCreativeTabs {
 
                         addMetaItems(output, NtmItems.DRINK.get());
                         output.accept(NtmItems.BOTTLE_OPENER);
+                        addMetaItems(output, NtmItems.CANNED_CONSERVE.get());
                         addMetaItems(output, NtmItems.CAP.get());
+                        output.accept(NtmItems.RING_PULL);
+                        output.accept(NtmItems.CAN_KEY);
 
                         output.accept(NtmItems.CIGARETTE);
                         output.accept(NtmItems.CRACKPIPE);
 
-                        output.accept(NtmItems.BOMB_CALLER_CARPET);
-                        output.accept(NtmItems.BOMB_CALLER_NAPALM);
-                        output.accept(NtmItems.BOMB_CALLER_ATOMIC);
+                        addMetaItems(output, NtmItems.BOMB_CALLER.get());
                     }).build());
 
     private static void addMetaItems(CreativeModeTab.Output output, Item item) {

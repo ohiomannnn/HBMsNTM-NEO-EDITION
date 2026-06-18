@@ -109,10 +109,10 @@ public class NtmBlocks {
     public static final DeferredBlock<Block> FROZEN_PLANKS =           register("frozen_planks", () -> new Block(              BlockBehaviour.Properties.of().strength(0.5F, 2.5F).sound(SoundType.GLASS).mapColor(DyeColor.LIGHT_BLUE)));
     public static final DeferredBlock<Block> LEAVES_LAYER = register("leaves_layer", () -> new LayeringBlock(BlockBehaviour.Properties.of().strength(0.2F).randomTicks().mapColor(MapColor.COLOR_BROWN).sound(SoundType.GRASS).noOcclusion().isValidSpawn(Blocks::never).isSuffocating(NtmBlocks::never).isViewBlocking(NtmBlocks::never).ignitedByLava().pushReaction(PushReaction.DESTROY).isRedstoneConductor(NtmBlocks::never)));
     public static final DeferredBlock<Block> FALLOUT = register("fallout", () -> new FalloutBlock(BlockBehaviour.Properties.of().replaceable().strength(0.1F).sound(SoundType.GRAVEL).mapColor(MapColor.STONE)));
-    public static final DeferredBlock<Block> SELLAFIELD_SLAKED = register("sellafield_slaked", () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).isValidSpawn(Blocks::never).requiresCorrectToolForDrops().strength(3.0F, 10.0F).sound(SoundType.STONE)));
-    public static final DeferredBlock<Block> ORE_SELLAFIELD_DIAMOND = register("ore_sellafield_diamond", () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).isValidSpawn(Blocks::never).requiresCorrectToolForDrops().strength(3.0F, 10.0F).sound(SoundType.STONE)));
-    public static final DeferredBlock<Block> ORE_SELLAFIELD_EMERALD = register("ore_sellafield_emerald", () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).isValidSpawn(Blocks::never).requiresCorrectToolForDrops().strength(3.0F, 10.0F).sound(SoundType.STONE)));
-    public static final DeferredBlock<Block> SELLAFIELD_BEDROCK = register("sellafield_bedrock", () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).isValidSpawn(Blocks::never).noLootTable().strength(-1.0F, 6000000.0F).sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> SELLAFIELD_SLAKED = register("sellafield_slaked", () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).isValidSpawn(Blocks::never).requiresCorrectToolForDrops().strength(3.0F, 10.0F)));
+    public static final DeferredBlock<Block> ORE_SELLAFIELD_DIAMOND = register("ore_sellafield_diamond", () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).isValidSpawn(Blocks::never).requiresCorrectToolForDrops().strength(3.0F, 10.0F)));
+    public static final DeferredBlock<Block> ORE_SELLAFIELD_EMERALD = register("ore_sellafield_emerald", () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).isValidSpawn(Blocks::never).requiresCorrectToolForDrops().strength(3.0F, 10.0F)));
+    public static final DeferredBlock<Block> SELLAFIELD_BEDROCK = register("sellafield_bedrock", () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).isValidSpawn(Blocks::never).noLootTable().strength(-1.0F, 6000000.0F).instrument(NoteBlockInstrument.BASEDRUM)));
 
     // Nukes
     public static final DeferredBlock<Block> NUKE_GADGET =     register("nuke_gadget",     () -> new NukeGadgetBlock(    BlockBehaviour.Properties.of().strength(5.0F, 200.0F).requiresCorrectToolForDrops().noOcclusion().sound(SoundType.METAL).mapColor(MapColor.METAL)));
@@ -223,7 +223,6 @@ public class NtmBlocks {
         NtmItems.ITEMS.register(name, () -> new BlastInfoBlockItem(defBlock.get(), new Properties()));
         return defBlock;
     }
-
 
     private static <T extends Block> DeferredBlock<T> register(String name, Supplier<T> block, Class<? extends BlockItem> clazz, Item.Properties properties) {
         DeferredBlock<T> defBlock = BLOCKS.register(name, block);

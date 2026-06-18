@@ -26,6 +26,8 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import java.util.List;
 
@@ -81,6 +83,7 @@ public class BobbleBlock extends Block implements IMultiBlock, EntityBlock, IScr
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public Screen provideScreenOnRightClick(Player player, BlockPos pos) {
         return new BobbleScreen(EnumUtil.grabEnumSafely(BobbleType.class, this.getMeta(player.level.getBlockState(pos))));
     }

@@ -13,8 +13,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
-import net.neoforged.neoforge.client.model.generators.ModelProvider;
+import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 
 import java.util.List;
 
@@ -28,8 +27,6 @@ public class BlockItemBase extends BlockItem implements IMetaItem {
     public void getSubItems(Item item, List<ItemStack> stacks) {
         if(this.getBlock() instanceof IMultiBlock imb) imb.getSubItems(item, stacks);
     }
-
-    @Override public void registerItemModel(ModelProvider<ItemModelBuilder> provider, ResourceLocation modelLocation) { }
 
     @Override
     public String getDescriptionId(ItemStack stack) {

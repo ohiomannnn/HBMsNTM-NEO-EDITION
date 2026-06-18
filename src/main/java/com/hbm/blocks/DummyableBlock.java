@@ -9,25 +9,26 @@ import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Direction.Axis;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.AABB;
@@ -43,7 +44,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class DummyableBlock extends BaseEntityBlock implements ICustomBlockHighlight, ICopiable, INBTBlockTransformable {
+public abstract class DummyableBlock extends BaseEntityBlock implements ICustomBlockHighlight, ICopiable {
 
     public static final DirectionProperty FACING = DirectionProperty.create("facing", Direction.values());
     public static final EnumProperty<DummyBlockType> TYPE = EnumProperty.create("type", DummyBlockType.class);
@@ -51,13 +52,21 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
     public static boolean safeRem = false;
 
     public DummyableBlock(Properties properties) {
-        super(properties.randomTicks().isSuffocating(((blockState, blockGetter, blockPos) -> false)).isViewBlocking(((blockState, blockGetter, blockPos) -> false)));
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(TYPE, DummyBlockType.CORE));
+        super(properties.randomTicks().isSuffocating(NtmBlocks::never).isViewBlocking(NtmBlocks::never));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(FACING, Direction.NORTH)
+                .setValue(TYPE, DummyBlockType.CORE)
+        );
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING, TYPE);
+    }
+
+    @Override
+    public @Nullable BlockState getStateForPlacement(BlockPlaceContext context) {
+        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
     /**
@@ -116,22 +125,22 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
     public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
         super.neighborChanged(state, level, pos, block, fromPos, isMoving);
 
-        if (safeRem) return;
+        if(safeRem) return;
         this.destroyIfOrphan(level, pos, state);
     }
 
     @Override
-    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+    protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        this.destroyIfOrphan(level, pos, state);
+    }
+
+    @Override
+    protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         this.destroyIfOrphan(level, pos, state);
     }
 
     private void destroyIfOrphan(Level level, BlockPos pos, BlockState state) {
-        if (level.isClientSide()) return;
-
-        DummyBlockType type = state.getValue(TYPE);
-
-        // core blocks are never orphans
-        if (type == DummyBlockType.CORE) return;
+        if(level.isClientSide) return;
 
         Direction dir = state.getValue(FACING).getOpposite();
         Block b = level.getBlockState(pos.relative(dir)).getBlock();
@@ -141,12 +150,12 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
         // loaded chunks and block destruction, but this gives no benefit to the player,
         // cannot be done accidentally, and is definitely preferable to multiblocks
         // just vanishing when their chunks are unloaded in an unlucky way.
-        if (b != this && level.hasChunksAt(pos.offset(-1, -1, -1), pos.offset(1, 1, 1))) {
+        if(b != this && level.hasChunksAt(pos.offset(-1, -1, -1), pos.offset(1, 1, 1))) {
             level.removeBlock(pos, false);
         }
     }
 
-    List<BlockPos> positions = new ArrayList<>();
+    private final List<BlockPos> positions = new ArrayList<>();
 
     @Nullable
     public BlockPos findCore(BlockGetter level, BlockPos pos) {
@@ -158,69 +167,54 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
     private BlockPos findCoreRecursive(BlockGetter level, BlockPos pos) {
         BlockState state = level.getBlockState(pos);
 
-        if (state.getBlock() != this) {
-            return null;
-        }
+        if(state.getBlock() != this) return null;
 
-        if (isCore(state)) {
-            return pos;
-        }
+        if(isCore(state)) return pos;
 
-        if (positions.contains(pos)) {
-            return null;
-        }
+        if(positions.contains(pos)) return null;
 
         positions.add(pos);
 
         Direction pointingDir = getPointingDirection(state).getOpposite();
         BlockPos nextPos = pos.relative(pointingDir);
 
-        if (level.getBlockState(nextPos).getBlock() != this) {
-            return null;
-        }
+        if(level.getBlockState(nextPos).getBlock() != this) return null;
 
         return findCoreRecursive(level, nextPos);
     }
 
     @Override
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-        if (!(placer instanceof Player player)) return;
+        if(!(placer instanceof Player player)) return;
 
         safeRem = true;
         level.removeBlock(pos, false);
         safeRem = false;
 
-        int rotation = Mth.floor((placer.getYRot() * 4.0F / 360.0F) + 0.5D) & 3;
         int offset = -getOffset();
-        BlockPos adjustedPos = pos.above(getHeightOffset());
+        BlockPos adjustedPos = pos.above(this.getHeightOffset());
 
-        Direction dir = switch (rotation) {
-            case 1 -> Direction.EAST;
-            case 2 -> Direction.SOUTH;
-            case 3 -> Direction.WEST;
-            default -> Direction.NORTH;
-        };
-
+        Direction dir = state.getValue(FACING);
         dir = getDirModified(dir);
 
-        if (!checkRequirement(level, adjustedPos, dir, offset)) {
-            if (!player.hasInfiniteMaterials()) {
+        if(!checkRequirement(level, adjustedPos, dir, offset)) {
+            if(!player.hasInfiniteMaterials()) {
                 ItemStack mainHandStack = player.getMainHandItem();
                 ItemStack offHandStack = player.getOffhandItem();
                 Item item = this.asItem();
 
                 boolean added = false;
 
-                if (mainHandStack.is(item) && mainHandStack.getCount() < mainHandStack.getMaxStackSize()) {
+                if(mainHandStack.is(item) && mainHandStack.getCount() < mainHandStack.getMaxStackSize()) {
                     mainHandStack.grow(1);
                     added = true;
-                } else if (offHandStack.is(item) && offHandStack.getCount() < offHandStack.getMaxStackSize()) {
+                } else if(offHandStack.is(item) && offHandStack.getCount() < offHandStack.getMaxStackSize()) {
                     offHandStack.grow(1);
                     added = true;
-                } else if (mainHandStack.isEmpty()) {
+                } else if(mainHandStack.isEmpty()) {
                     player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(this));
                     added = true;
-                } else if (offHandStack.isEmpty()) {
+                } else if(offHandStack.isEmpty()) {
                     player.setItemInHand(InteractionHand.OFF_HAND, new ItemStack(this));
                     added = true;
                 }
@@ -232,7 +226,7 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
             return;
         }
 
-        if (!level.isClientSide) {
+        if(!level.isClientSide) {
             BlockPos corePos = adjustedPos.relative(dir, offset);
             BlockState coreState = getStateForCore(level, corePos, player, dir);
 
@@ -356,18 +350,14 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
-        if (!this.useDetailedHitbox()) {
-            return Shapes.block();
-        }
+        if(!this.useDetailedHitbox()) return Shapes.block();
 
         BlockPos corePos = findCore(getter, pos);
-        if (corePos == null) {
-            return Shapes.block();
-        }
+        if(corePos == null) return Shapes.block();
 
         BlockState coreState = getter.getBlockState(corePos);
         Direction facing = coreState.getValue(FACING);
-        Direction rot = facing.getClockWise();
+        Direction rot = facing.getClockWise(Axis.Y);
 
         VoxelShape combinedShape = Shapes.empty();
         Vec3 offset = Vec3.atLowerCornerOf(corePos.subtract(pos));
@@ -427,7 +417,7 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
 
         BlockState state = level.getBlockState(corePos);
         Direction facing = state.getValue(FACING);
-        Direction rot = facing.getClockWise();
+        Direction rot = facing.getClockWise(Axis.Y);
 
         PoseStack poseStack = event.getPoseStack();
         VertexConsumer vertexConsumer = event.getMultiBufferSource().getBuffer(RenderType.lines());
@@ -480,43 +470,19 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
         return null;
     }
 
-    @Override
-    public BlockState transformState(BlockState state, Rotation rotation) {
-        if (rotation == Rotation.NONE) {
-            return state;
-        }
-
-        Direction facing = state.getValue(FACING);
-
-        if (facing.getAxis() != Direction.Axis.Y) {
-            Direction rotated = rotation.rotate(facing);
-            return state.setValue(FACING, rotated);
-        }
-
-        return state;
-    }
-
     public abstract int[] getDimensions();
     public abstract int getOffset();
-    public int getHeightOffset() {
-        return 0;
-    }
+    public int getHeightOffset() { return 0; }
 
-    protected InteractionResult standardOpenBehavior(Level level, BlockPos pos, Player player, int guiId) {
-        if (level.isClientSide) {
-            return InteractionResult.SUCCESS;
-        }
+    protected InteractionResult standardOpenBehavior(Level level, BlockPos pos, Player player) {
+        if(level.isClientSide) return InteractionResult.SUCCESS;
 
         if (!player.isShiftKeyDown()) {
             BlockPos corePos = findCore(level, pos);
-            if (corePos == null) {
-                return InteractionResult.FAIL;
-            }
+            if(corePos == null) return InteractionResult.FAIL;
 
             BlockEntity blockentity = level.getBlockEntity(corePos);
-            if (blockentity instanceof MenuProvider be) {
-                player.openMenu(new SimpleMenuProvider(be, be.getDisplayName()), pos);
-            }
+            if(blockentity instanceof MenuProvider be) player.openMenu(new SimpleMenuProvider(be, be.getDisplayName()), pos);
             return InteractionResult.CONSUME;
         }
 

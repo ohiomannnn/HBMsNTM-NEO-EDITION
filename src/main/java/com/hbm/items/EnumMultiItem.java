@@ -9,13 +9,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
+import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.client.model.generators.ModelProvider;
 
 import java.util.List;
 import java.util.Locale;
 
-public class EnumMultiItem extends Item implements IMetaItem {
+public class EnumMultiItem extends Item implements IMetaItem, ICustomItemModelRegister {
 
     //hell yes, now we're thinking with enums!
     protected final Class<? extends Enum<?>> theEnum;
@@ -41,7 +41,7 @@ public class EnumMultiItem extends Item implements IMetaItem {
     }
 
     @Override
-    public void registerItemModel(ModelProvider<ItemModelBuilder> provider, ResourceLocation modelLocation) {
+    public void registerItemModel(ItemModelProvider provider, ResourceLocation modelLocation) {
         if(multiTexture) {
             Enum<?>[] enums = theEnum.getEnumConstants();
 

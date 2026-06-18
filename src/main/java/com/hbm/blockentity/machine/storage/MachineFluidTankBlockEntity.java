@@ -27,6 +27,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Direction.Axis;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -170,7 +171,7 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
 
         if (level != null) {
             Direction dir = this.getBlockState().getValue(DummyableBlock.FACING);
-            Direction rot = dir.getClockWise();
+            Direction rot = dir.getClockWise(Axis.Y);
             BlockPos pos = this.getBlockPos();
             int x = pos.getX();
             int y = pos.getY();

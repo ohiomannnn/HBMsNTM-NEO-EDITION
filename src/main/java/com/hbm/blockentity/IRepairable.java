@@ -1,10 +1,10 @@
 package com.hbm.blockentity;
 
-import com.hbm.main.NuclearTechModClient;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.items.tools.BlowtorchItem;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.util.InventoryUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -27,7 +27,8 @@ public interface IRepairable {
     void repair();
 
     @Nullable
-    static List<AStack> getRepairMaterials(Level level, BlockPos pos, DummyableBlock dummy, Player player) {
+    static List<AStack> getRepairMaterials(Level level, BlockPos pos, DummyableBlock dummy, @Nullable Player player) {
+        if(player == null) return null;
         List<ItemStack> items = InventoryUtil.getItemsFromBothHands(player);
 
         for (ItemStack stack : items) {
@@ -66,7 +67,7 @@ public interface IRepairable {
     @OnlyIn(Dist.CLIENT)
     static void addGenericOverlay(RenderGuiEvent.Pre event, Level level, BlockPos pos, DummyableBlock dummy) {
 
-        List<AStack> materials = IRepairable.getRepairMaterials(level, pos, dummy, NuclearTechModClient.me());
+        List<AStack> materials = IRepairable.getRepairMaterials(level, pos, dummy, NuclearTechMod.proxy.me());
         if (materials == null) return;
 
         List<Component> text = new ArrayList<>();

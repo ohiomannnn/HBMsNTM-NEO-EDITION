@@ -9,6 +9,7 @@ import com.hbm.util.fauxpointtwelve.DirPos;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Direction.Axis;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -125,7 +126,7 @@ public class BatterySocketBlockEntity extends BatteryBaseBlockEntity {
     @Override
     public BlockPos[] getPortPos() {
         Direction dir = this.getBlockState().getValue(DummyableBlock.FACING);
-        Direction rot = dir.getClockWise();
+        Direction rot = dir.getClockWise(Axis.Y);
 
         BlockPos pos = this.getBlockPos();
         int x = pos.getX();
@@ -148,7 +149,7 @@ public class BatterySocketBlockEntity extends BatteryBaseBlockEntity {
     @Override
     public DirPos[] getConPos() {
         Direction dir = this.getBlockState().getValue(DummyableBlock.FACING);
-        Direction rot = dir.getClockWise();
+        Direction rot = dir.getClockWise(Axis.Y);
 
         BlockPos pos = this.getBlockPos();
         int x = pos.getX();

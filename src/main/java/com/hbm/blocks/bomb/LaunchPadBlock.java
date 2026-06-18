@@ -55,7 +55,7 @@ public class LaunchPadBlock extends DummyableBlock implements IBomb {
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        return this.standardOpenBehavior(level, pos, player, 0);
+        return this.standardOpenBehavior(level, pos, player);
     }
 
     @Override public int[] getDimensions() { return new int[] {0, 0, 1, 1, 1, 1}; }

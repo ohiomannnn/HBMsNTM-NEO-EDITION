@@ -33,8 +33,7 @@ public class SpecialSwordItem extends SwordItem {
         }
     };
 
-    @Nullable
-    private Consumer<LivingEntity> hurtEnemy;
+    @Nullable private Consumer<LivingEntity> hurtEnemy;
 
     public SpecialSwordItem(Tier tier, Properties properties) {
         super(tier, properties);

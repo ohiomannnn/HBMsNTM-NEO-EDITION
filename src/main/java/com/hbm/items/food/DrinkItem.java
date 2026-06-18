@@ -35,33 +35,89 @@ import java.util.function.Consumer;
 public class DrinkItem extends EnumMultiItem {
 
     public enum DrinkType {
-        COFFEE(LAMBDA_COFFEE, ItemStack.EMPTY, ItemStack.EMPTY, false),
-        COFFEE_RADIUM(LAMBDA_COFFEE_RADIUM, ItemStack.EMPTY, ItemStack.EMPTY, false),
-        EMPTY(null, ItemStack.EMPTY, ItemStack.EMPTY, false),
-        NUKA(LAMBDA_NUKA, MetaHelper.newStack(NtmItems.DRINK, EMPTY), MetaHelper.newStack(NtmItems.CAP, CapType.NUKA), true),
-        CHERRY(LAMBDA_CHERRY, MetaHelper.newStack(NtmItems.DRINK, EMPTY), MetaHelper.newStack(NtmItems.CAP, CapType.NUKA), true),
-        QUANTUM(LAMBDA_QUANTUM, MetaHelper.newStack(NtmItems.DRINK, EMPTY), MetaHelper.newStack(NtmItems.CAP, CapType.QUANTUM), true),
-        SPARKLE(LAMBDA_SPARKLE, MetaHelper.newStack(NtmItems.DRINK, EMPTY), MetaHelper.newStack(NtmItems.CAP, CapType.SPARKLE), true),
-        RAD(LAMBDA_RAD, MetaHelper.newStack(NtmItems.DRINK, EMPTY), MetaHelper.newStack(NtmItems.CAP, CapType.RAD), true),
-        EMPTY2(null, ItemStack.EMPTY, ItemStack.EMPTY, false),
-        KORL(LAMBDA_KORL, MetaHelper.newStack(NtmItems.DRINK, EMPTY2), MetaHelper.newStack(NtmItems.CAP, CapType.KORL), true),
-        FRITZ(LAMBDA_FRITZ, MetaHelper.newStack(NtmItems.DRINK, EMPTY2), MetaHelper.newStack(NtmItems.CAP, CapType.FRITZ), true),
-        ;
+        CAN_EMPTY(null, ItemStack.EMPTY, ItemStack.EMPTY, false, false),
+        SMART(         LAMBDA_SMART, MetaHelper.newStack(NtmItems.DRINK, CAN_EMPTY), new ItemStack(NtmItems.RING_PULL.get()), false),
+        CREATURE(      LAMBDA_CREATURE, MetaHelper.newStack(NtmItems.DRINK, CAN_EMPTY), new ItemStack(NtmItems.RING_PULL.get()), false),
+        REDBOMB(       LAMBDA_REDBOMB, MetaHelper.newStack(NtmItems.DRINK, CAN_EMPTY), new ItemStack(NtmItems.RING_PULL.get()), false),
+        MRSUGAR(       LAMBDA_MRSUGAR, MetaHelper.newStack(NtmItems.DRINK, CAN_EMPTY), new ItemStack(NtmItems.RING_PULL.get()), false),
+        OVERCHARGE(    LAMBDA_OVERCHARGE, MetaHelper.newStack(NtmItems.DRINK, CAN_EMPTY), new ItemStack(NtmItems.RING_PULL.get()), false),
+        LUNA(          LAMBDA_LUNA, MetaHelper.newStack(NtmItems.DRINK, CAN_EMPTY), new ItemStack(NtmItems.RING_PULL.get()), false),
+        BEPIS(         LAMBDA_BEPIS, MetaHelper.newStack(NtmItems.DRINK, CAN_EMPTY), new ItemStack(NtmItems.RING_PULL.get()), false),
+        BREEN(         LAMBDA_BREEN, MetaHelper.newStack(NtmItems.DRINK, CAN_EMPTY), new ItemStack(NtmItems.RING_PULL.get()), false),
+        MUG(           LAMBDA_MUG, MetaHelper.newStack(NtmItems.DRINK, CAN_EMPTY), new ItemStack(NtmItems.RING_PULL.get()), false),
+        COFFEE(        LAMBDA_COFFEE, ItemStack.EMPTY, ItemStack.EMPTY, false),
+        COFFEE_RADIUM( LAMBDA_COFFEE_RADIUM, ItemStack.EMPTY, ItemStack.EMPTY, false),
+        BOTTLE_EMPTY(null, ItemStack.EMPTY, ItemStack.EMPTY, false, false),
+        NUKA(          LAMBDA_NUKA, MetaHelper.newStack(NtmItems.DRINK, BOTTLE_EMPTY), MetaHelper.newStack(NtmItems.CAP, CapType.NUKA), true),
+        CHERRY(        LAMBDA_CHERRY, MetaHelper.newStack(NtmItems.DRINK, BOTTLE_EMPTY), MetaHelper.newStack(NtmItems.CAP, CapType.NUKA), true),
+        QUANTUM(       LAMBDA_QUANTUM, MetaHelper.newStack(NtmItems.DRINK, BOTTLE_EMPTY), MetaHelper.newStack(NtmItems.CAP, CapType.QUANTUM), true),
+        SPARKLE(       LAMBDA_SPARKLE, MetaHelper.newStack(NtmItems.DRINK, BOTTLE_EMPTY), MetaHelper.newStack(NtmItems.CAP, CapType.SPARKLE), true),
+        RAD(           LAMBDA_RAD, MetaHelper.newStack(NtmItems.DRINK, BOTTLE_EMPTY), MetaHelper.newStack(NtmItems.CAP, CapType.RAD), true),
+        BOTTLE2_EMPTY(null, ItemStack.EMPTY, ItemStack.EMPTY, false, false),
+        KORL(          LAMBDA_KORL, MetaHelper.newStack(NtmItems.DRINK, BOTTLE2_EMPTY), MetaHelper.newStack(NtmItems.CAP, CapType.KORL), true),
+        FRITZ(         LAMBDA_FRITZ, MetaHelper.newStack(NtmItems.DRINK, BOTTLE2_EMPTY), MetaHelper.newStack(NtmItems.CAP, CapType.FRITZ), true);
 
-        public final @Nullable Consumer<LivingEntity> finishUsingItem;
+        @Nullable
+        public final Consumer<LivingEntity> finishUsingItem;
 
         public final ItemStack container;
         public final ItemStack cap;
         public final boolean requiresOpener;
+        public final boolean desc;
 
-        DrinkType(@Nullable Consumer<LivingEntity> lambda, ItemStack container, ItemStack cap, boolean requiresOpener) {
+        DrinkType(@Nullable Consumer<LivingEntity> lambda, ItemStack container, ItemStack cap, boolean requiresOpener) { this(lambda, container, cap, requiresOpener, true); }
+
+        DrinkType(@Nullable Consumer<LivingEntity> lambda, ItemStack container, ItemStack cap, boolean requiresOpener, boolean desc) {
             this.finishUsingItem = lambda;
             this.container = container;
             this.cap = cap;
             this.requiresOpener = requiresOpener;
+            this.desc = desc;
         }
     }
 
+    public static final Consumer<LivingEntity> LAMBDA_SMART = (drinker) -> {
+        drinker.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 30 * 20, 1));
+        drinker.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 30 * 20, 2));
+        drinker.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 30 * 20, 0));
+    };
+    public static final Consumer<LivingEntity> LAMBDA_CREATURE = (drinker) -> {
+        drinker.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 30 * 20, 0));
+        drinker.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 30 * 20, 2));
+        drinker.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 30 * 20, 1));
+    };
+    public static final Consumer<LivingEntity> LAMBDA_REDBOMB = (drinker) -> {
+        drinker.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 30 * 20, 0));
+        drinker.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 30 * 20, 2));
+        drinker.addEffect(new MobEffectInstance(MobEffects.JUMP, 30 * 20, 1));
+    };
+    public static final Consumer<LivingEntity> LAMBDA_MRSUGAR = (drinker) -> {
+        drinker.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 30 * 20, 0));
+        drinker.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 30 * 20, 1));
+        drinker.addEffect(new MobEffectInstance(MobEffects.JUMP, 30 * 20, 2));
+    };
+    public static final Consumer<LivingEntity> LAMBDA_OVERCHARGE = (drinker) -> {
+        drinker.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 30 * 20, 1));
+        drinker.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 30 * 20, 2));
+        drinker.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 30 * 20, 0));
+    };
+    public static final Consumer<LivingEntity> LAMBDA_LUNA = (drinker) -> {
+        drinker.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 30 * 20, 1));
+        drinker.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 30 * 20, 2));
+        drinker.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 30 * 20, 1));
+        drinker.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 30 * 20, 2));
+    };
+    public static final Consumer<LivingEntity> LAMBDA_BEPIS = (drinker) -> {
+        drinker.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 30 * 20, 3));
+        drinker.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 30 * 20, 3));
+    };
+    public static final Consumer<LivingEntity> LAMBDA_BREEN = (drinker) -> {
+        drinker.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 30 * 20, 0));
+    };
+    public static final Consumer<LivingEntity> LAMBDA_MUG = (drinker) -> {
+        drinker.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 3 * 60 * 20, 2));
+        drinker.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 60 * 20, 2));
+    };
     public static final Consumer<LivingEntity> LAMBDA_COFFEE = (drinker) -> {
         drinker.heal(10F);
         drinker.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 60 * 20, 2));
@@ -168,11 +224,12 @@ public class DrinkItem extends EnumMultiItem {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
-        for(String s : ITooltipProvider.getDescriptionWithP11(this.getDescriptionId())) {
-            components.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
-        }
-
         DrinkType type = EnumUtil.grabEnumSafely(DrinkType.class, MetaHelper.getMeta(stack));
-        if(type.requiresOpener) components.add(Component.translatable("requires.opener").withStyle(ChatFormatting.GRAY));
+        if(type.desc) {
+            for(String s : ITooltipProvider.getDescriptionWithP11(this.getDescriptionId())) {
+                components.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
+            }
+            if(type.requiresOpener) components.add(Component.translatable("requires.opener").withStyle(ChatFormatting.GRAY));
+        }
     }
 }

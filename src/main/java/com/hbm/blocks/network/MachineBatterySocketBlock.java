@@ -11,6 +11,7 @@ import com.hbm.util.BobMathUtil;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Direction.Axis;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -61,7 +62,7 @@ public class MachineBatterySocketBlock extends DummyableBlock implements IToolti
         int y = pos.getY();
         int z = pos.getZ();
 
-        Direction rot = dir.getClockWise();
+        Direction rot = dir.getClockWise(Axis.Y);
         this.makeExtra(level, new BlockPos(x - dir.getStepX(), y, z - dir.getStepZ()));
         this.makeExtra(level, new BlockPos(x + rot.getStepX(), y, z + rot.getStepZ()));
         this.makeExtra(level, new BlockPos(x - dir.getStepX() + rot.getStepX(), y, z - dir.getStepZ() + rot.getStepZ()));
@@ -72,7 +73,7 @@ public class MachineBatterySocketBlock extends DummyableBlock implements IToolti
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        return this.standardOpenBehavior(level, pos, player, 0);
+        return this.standardOpenBehavior(level, pos, player);
     }
 
     public boolean hasAnalogOutputSignal(BlockState state) {

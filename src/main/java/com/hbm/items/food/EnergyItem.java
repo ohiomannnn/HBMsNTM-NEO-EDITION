@@ -32,9 +32,7 @@ public class EnergyItem extends PotionItem {
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity drinker) {
         Player player = drinker instanceof Player ? (Player)drinker : null;
-        if(player instanceof ServerPlayer serverPlayer) {
-            CriteriaTriggers.CONSUME_ITEM.trigger(serverPlayer, stack);
-        }
+        if(player instanceof ServerPlayer serverPlayer) CriteriaTriggers.CONSUME_ITEM.trigger(serverPlayer, stack);
 
         if(this == NtmItems.CHOCOLATE_MILK.get()) {
             if(level instanceof ServerLevel serverLevel) {

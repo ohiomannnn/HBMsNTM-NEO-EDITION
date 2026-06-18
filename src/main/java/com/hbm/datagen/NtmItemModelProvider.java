@@ -1,6 +1,5 @@
 package com.hbm.datagen;
 
-import com.hbm.blocks.ICustomBlockModelRegister;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.items.ICustomItemModelRegister;
 import com.hbm.items.NtmItems;
@@ -10,7 +9,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
@@ -19,6 +17,7 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import java.util.Objects;
 
 public class NtmItemModelProvider extends ItemModelProvider {
+
     public NtmItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
         super(output, NuclearTechMod.MODID, existingFileHelper);
     }
@@ -26,14 +25,14 @@ public class NtmItemModelProvider extends ItemModelProvider {
     @Override
     protected void registerModels() {
 
-        for(Item item : BuiltInRegistries.ITEM) {
-            if(BuiltInRegistries.ITEM.getKey(item).getNamespace().equals(NuclearTechMod.MODID)) {
-                if(item instanceof ICustomItemModelRegister icimr) {
-                    ResourceLocation loc = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
-                    icimr.registerItemModel(this, loc);
-                }
+        NtmItems.ITEMS.getEntries().forEach(holder -> {
+            Item item = holder.get();
+
+            if(item instanceof ICustomItemModelRegister icimr) {
+                ResourceLocation loc = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item));
+                icimr.registerItemModel(this, loc);
             }
-        }
+        });
 
         this.basicItem(NtmItems.INGOT_URANIUM.get());
         this.basicItem(NtmItems.INGOT_U233.get());
@@ -132,9 +131,7 @@ public class NtmItemModelProvider extends ItemModelProvider {
         basicItem(NtmItems.DOSIMETER.get());
         basicItem(NtmItems.DIGAMMA_DIAGNOSTIC.get());
         basicItem(NtmItems.BALEFIRE_AND_STEEL.get());
-        bombCallerItem(NtmItems.BOMB_CALLER_ATOMIC.get());
-        bombCallerItem(NtmItems.BOMB_CALLER_CARPET.get());
-        bombCallerItem(NtmItems.BOMB_CALLER_NAPALM.get());
+        bombCallerItem(NtmItems.BOMB_CALLER.get());
         basicItem(NtmItems.DUCK_SPAWN_EGG.get());
 
         this.basicItem(NtmItems.PELLET_RTG.get());
@@ -222,26 +219,6 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.entityItem(NtmItems.MISSILE_SHUTTLE.get(), true);
         this.entityItem(NtmItems.MISSILE_STEALTH.get(), true);
 
-        this.basicItem(NtmBlocks.GAS_RADON.asItem());
-        this.basicItem(NtmBlocks.GAS_RADON_DENSE.asItem());
-        this.basicItem(NtmBlocks.GAS_RADON_TOMB.asItem());
-        this.basicItem(NtmBlocks.GAS_MELTDOWN.asItem());
-        this.basicItem(NtmBlocks.GAS_MONOXIDE.asItem());
-        this.basicItem(NtmBlocks.GAS_ASBESTOS.asItem());
-        this.basicItem(NtmBlocks.GAS_COAL.asItem());
-        this.basicItem(NtmBlocks.GAS_FLAMMABLE.asItem());
-        this.basicItem(NtmBlocks.GAS_EXPLOSIVE.asItem());
-
-        getBuilder(NtmBlocks.LEAVES_LAYER.getId().getPath())
-                .parent(new ModelFile.UncheckedModelFile(modLoc("block/layering_1")));
-        getBuilder(NtmBlocks.FALLOUT.getId().getPath())
-                .parent(new ModelFile.UncheckedModelFile(modLoc("block/fallout")));
-
-        getBuilder(NtmBlocks.WASTE_LOG.getId().getPath())
-                .parent(new ModelFile.UncheckedModelFile(modLoc("block/waste_log")));
-        getBuilder(NtmBlocks.FROZEN_LOG.getId().getPath())
-                .parent(new ModelFile.UncheckedModelFile(modLoc("block/frozen_log")));
-
         this.registerPolaroid();
 
         this.basicItem(NtmItems.BATTERY_SPARK.get());
@@ -278,6 +255,12 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.basicItem(NtmItems.EGG_BALEFIRE.get());
 
         this.basicItem(NtmItems.NOTHING.get());
+
+        // welp
+        this.getBuilder(NtmBlocks.LEAVES_LAYER.getId().getPath()).parent(new ModelFile.UncheckedModelFile(modLoc("block/layering_1")));
+        this.getBuilder(NtmBlocks.FALLOUT.getId().getPath()).parent(new ModelFile.UncheckedModelFile(modLoc("block/fallout")));
+        this.getBuilder(NtmBlocks.WASTE_LOG.getId().getPath()).parent(new ModelFile.UncheckedModelFile(modLoc("block/waste_log")));
+        this.getBuilder(NtmBlocks.FROZEN_LOG.getId().getPath()).parent(new ModelFile.UncheckedModelFile(modLoc("block/frozen_log")));
     }
 
     private void registerPolaroid() {

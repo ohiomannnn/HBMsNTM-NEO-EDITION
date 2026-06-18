@@ -1,7 +1,5 @@
 package com.hbm.blocks.machine;
 
-import com.hbm.blockentity.ProxyComboBlockEntity;
-import com.hbm.blockentity.machine.storage.BatteryREDDBlockEntity;
 import com.hbm.blocks.DummyBlockType;
 import com.hbm.blocks.DummyableBlock;
 import com.mojang.serialization.MapCodec;
@@ -37,6 +35,6 @@ public class MachinePressBlock extends DummyableBlock {
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        return this.standardOpenBehavior(level, pos, player, 0);
+        return this.standardOpenBehavior(level, pos, player);
     }
 }

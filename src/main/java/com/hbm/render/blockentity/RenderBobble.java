@@ -6,6 +6,7 @@ import com.hbm.blocks.generic.BobbleBlock.BobbleBlockEntity;
 import com.hbm.blocks.generic.BobbleBlock.BobbleType;
 import com.hbm.inventory.MetaHelper;
 import com.hbm.items.NtmItems;
+import com.hbm.items.food.DrinkItem.DrinkType;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
@@ -125,7 +126,7 @@ public class RenderBobble extends BlockEntityRendererNT<BobbleBlockEntity> imple
         }
 
         RenderContext.pushPose();
-        renderPost(type);
+        renderPost(type, buffer);
         RenderContext.popPose();
 
         renderSocket(type, buffer);
@@ -384,7 +385,7 @@ public class RenderBobble extends BlockEntityRendererNT<BobbleBlockEntity> imple
      * RENDER ADDITIONAL ITEMS
      */
 
-    public void renderPost(BobbleType type) {
+    public void renderPost(BobbleType type, MultiBufferSource buffer) {
         switch(type) {
             case BLUEHAT -> {
                 float scale = 0.0625F;
@@ -415,10 +416,10 @@ public class RenderBobble extends BlockEntityRendererNT<BobbleBlockEntity> imple
                 // todo add item renderer
             }
             case ADAM29 -> {
-                // todo add item renderer
-//                GL11.glTranslated(0.4, 1.15, 0.4);
-//                GL11.glScaled(0.5, 0.5, 0.5);
-//                renderItem(new ItemStack(ModItems.can_redbomb));
+                RenderContext.translate(0.65F, 1.4F, 0.4F);
+                RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
+                RenderContext.scale(0.5F, 0.5F, 0.5F);
+                renderItem(MetaHelper.newStack(NtmItems.DRINK, DrinkType.REDBOMB), buffer);
             }
             case PHEO -> {
                 RenderContext.translate(0.5F, 1.15F, 0.45F);

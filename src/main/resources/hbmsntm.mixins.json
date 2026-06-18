@@ -10,6 +10,7 @@
   ],
   "client": [
     "LevelRendererMixin",
-    "ParticleEngineMixin"
+    "ParticleEngineMixin",
+    "RegisterClientExtensionsEventInvoker"
   ]
 }

@@ -8,8 +8,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
-import net.neoforged.neoforge.client.model.generators.ModelProvider;
 
 import java.util.List;
 import java.util.Map.Entry;
@@ -26,11 +24,6 @@ public class BlueprintsItem extends Item implements IMetaItem {
             String poolName = pool.getKey();
             if(!poolName.startsWith(GenericRecipes.POOL_PREFIX_SECRET)) stacks.add(make(poolName));
         }
-    }
-
-    @Override
-    public void registerItemModel(ModelProvider<ItemModelBuilder> provider, ResourceLocation modelLocation) {
-
     }
 
     public static String grabPool(ItemStack stack) {

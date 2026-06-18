@@ -8,6 +8,7 @@ import com.hbm.lib.Library;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Direction.Axis;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
@@ -59,7 +60,7 @@ public class LaunchPadBlockEntity extends LaunchPadBaseBlockEntity {
 
                     Direction dir = this.getBlockState().getValue(DummyableBlock.FACING);
                     if (level.random.nextBoolean()) dir = dir.getOpposite();
-                    if (level.random.nextBoolean()) dir = dir.getClockWise();
+                    if (level.random.nextBoolean()) dir = dir.getClockWise(Axis.Y);
                     float moX = (float) (level.random.nextGaussian() * 0.15F + 0.75) * dir.getStepX();
                     float moZ = (float) (level.random.nextGaussian() * 0.15F + 0.75) * dir.getStepZ();
 

@@ -5,13 +5,14 @@ import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.inventory.menus.BatteryREDDMenu;
 import com.hbm.lib.Library;
-import com.hbm.main.NuclearTechModClient;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Direction.Axis;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -84,7 +85,7 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
 
             float pitch = 0.5F + this.getSpeed() / 15F * 1.5F;
 
-            if(this.prevRotation != this.rotation && NuclearTechModClient.me().distanceToSqr(this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 5.5, this.getBlockPos().getZ() + 0.5) < 30 * 30) {
+            if(this.prevRotation != this.rotation && NuclearTechMod.proxy.me().distanceToSqr(this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 5.5, this.getBlockPos().getZ() + 0.5) < 30 * 30) {
                 if(this.audio == null || !this.audio.isPlaying()) {
                     this.audio = AudioWrapper.getLoopedSound(NtmSoundEvents.FENSU_HUM.get(), SoundSource.BLOCKS, this, this.getVolume(1.5F), 25F, pitch, 5);
                     this.audio.startSound();
@@ -170,7 +171,7 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
     @Override
     public BlockPos[] getPortPos() {
         Direction dir = this.getBlockState().getValue(DummyableBlock.FACING);
-        Direction rot = dir.getClockWise();
+        Direction rot = dir.getClockWise(Axis.Y);
 
         BlockPos pos = this.getBlockPos();
         int x = pos.getX();
@@ -195,7 +196,7 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
     @Override
     public DirPos[] getConPos() {
         Direction dir = this.getBlockState().getValue(DummyableBlock.FACING);
-        Direction rot = dir.getClockWise();
+        Direction rot = dir.getClockWise(Axis.Y);
 
         BlockPos pos = this.getBlockPos();
         int x = pos.getX();

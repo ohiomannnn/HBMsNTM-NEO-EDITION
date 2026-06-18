@@ -272,7 +272,7 @@ public abstract class SerializableRecipe {
             if(array.size() > 3) ItemStackUtil.addNBTFromString(stack, array.get(3).getAsString());
             return stack;
         } catch(Exception ignored) { }
-        NuclearTechMod.LOGGER.error("Error reading stack array {} - defaulting to EMPTY item stack", array.toString());
+        NuclearTechMod.LOGGER.error("Error reading stack array {} - defaulting to BOTTLE_EMPTY item stack", array.toString());
         return ItemStack.EMPTY;
     }
 

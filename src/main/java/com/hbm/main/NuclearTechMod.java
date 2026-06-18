@@ -19,6 +19,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.fml.loading.FMLPaths;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,10 +33,13 @@ public class NuclearTechMod {
     public static final String VERSION = "128A";
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
+    public static ServerProxy proxy;
+
     public static File configDir;
     public static File configHbmDir;
 
     public NuclearTechMod(IEventBus modEventBus, ModContainer modContainer) {
+        proxy = FMLLoader.getDist().isClient() ? new ClientProxy() : new ServerProxy();
 
         configDir = FMLPaths.CONFIGDIR.get().toFile();
         configHbmDir = new File(NuclearTechMod.configDir, "hbmConfig");

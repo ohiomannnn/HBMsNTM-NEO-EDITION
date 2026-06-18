@@ -4,9 +4,7 @@ import com.hbm.items.IMetaItem;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
-import net.neoforged.neoforge.client.model.generators.ModelProvider;
 
 import java.util.List;
 
@@ -31,10 +29,10 @@ public class CassetteItem extends Item implements IMetaItem {
 
     }
 
-    @Override
-    public void registerItemModel(ModelProvider<ItemModelBuilder> provider, ResourceLocation modelLocation) {
-        provider.getBuilder(modelLocation.toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
-                .texture("layer0", ResourceLocation.fromNamespaceAndPath(modelLocation.getNamespace(), "item/cassette"))
-                .texture("layer1", ResourceLocation.fromNamespaceAndPath(modelLocation.getNamespace(), "item/cassette_overlay"));
-    }
+//    @Override
+//    public void registerItemModel(ItemModelProvider provider, ResourceLocation modelLocation) {
+//        provider.getBuilder(modelLocation.toString()).parent(new ModelFile.UncheckedModelFile("item/generated"))
+//                .texture("layer0", ResourceLocation.fromNamespaceAndPath(modelLocation.getNamespace(), "item/cassette"))
+//                .texture("layer1", ResourceLocation.fromNamespaceAndPath(modelLocation.getNamespace(), "item/cassette_overlay"));
+//    }
 }

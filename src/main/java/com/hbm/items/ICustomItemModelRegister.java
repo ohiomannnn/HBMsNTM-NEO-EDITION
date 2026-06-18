@@ -1,10 +1,9 @@
 package com.hbm.items;
 
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
-import net.neoforged.neoforge.client.model.generators.ModelProvider;
+import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 
 public interface ICustomItemModelRegister {
 
-    void registerItemModel(ModelProvider<ItemModelBuilder> provider, ResourceLocation modelLocation);
+    void registerItemModel(ItemModelProvider provider, ResourceLocation modelLocation);
 }

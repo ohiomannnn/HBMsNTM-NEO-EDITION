@@ -7,12 +7,12 @@ import com.hbm.inventory.NtmTiers;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ItemEnums.CapType;
 import com.hbm.items.ItemEnums.CasingType;
-import com.hbm.items.food.EnergyItem;
+import com.hbm.items.food.ConserveItem;
 import com.hbm.items.food.DrinkItem;
+import com.hbm.items.food.EnergyItem;
 import com.hbm.items.machine.*;
 import com.hbm.items.special.*;
 import com.hbm.items.tools.*;
-import com.hbm.items.tools.BombCallerItem.BomberType;
 import com.hbm.items.weapon.MissileItem;
 import com.hbm.items.weapon.MissileItem.MissileFormFactor;
 import com.hbm.items.weapon.MissileItem.MissileFuel;
@@ -264,17 +264,18 @@ public class NtmItems {
             ).setHurtEnemy(SpecialSwordItem.LAMBDA_OPENER_HURT_ENEMY)
     );
 
+    // Canned Food
+    public static final DeferredItem<Item> CANNED_CONSERVE = ITEMS.register("canned_conserve", () -> new ConserveItem(new Item.Properties()));
+
     // Money
     public static final DeferredItem<Item> CAP = ITEMS.register("cap", () -> new EnumMultiItem(new Item.Properties(), CapType.class, true, true));
     public static final DeferredItem<Item> RING_PULL = ITEMS.register("ring_pull", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CAN_KEY = ITEMS.register("can_key", () -> new Item(new Item.Properties()));
 
     // Chaos
     public static final DeferredItem<Item> CHOCOLATE_MILK = ITEMS.register("chocolate_milk", () -> new EnergyItem(new Item.Properties()));
     public static final DeferredItem<Item> CIGARETTE = ITEMS.register("cigarette", () -> new CigaretteItem(new Item.Properties().stacksTo(16)));
     public static final DeferredItem<Item> CRACKPIPE = ITEMS.register("crackpipe", () -> new CigaretteItem(new Item.Properties().stacksTo(1)));
-
-    public static final DeferredItem<Item> REACHER = ITEMS.register("reacher", () -> new Item(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> DEFUSER = ITEMS.register("defuser", () -> new ToolingItem(ToolType.DEFUSER, new Item.Properties().durability(100)));
 
     // High Explosive Lenses
     public static final DeferredItem<Item> EARLY_EXPLOSIVE_LENSES = ITEMS.register("early_explosive_lenses", () -> new LoreItem(new Item.Properties()));
@@ -327,9 +328,9 @@ public class NtmItems {
     public static final DeferredItem<Item> DETONATOR_LASER = ITEMS.register("detonator_laser", () -> new LaserDetonatorItem(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> DETONATOR_DEADMAN = ITEMS.register("detonator_deadman", () -> new DangerousDropItem(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> DETONATOR_DE = ITEMS.register("detonator_de", () -> new DangerousDropItem(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> BOMB_CALLER_CARPET = ITEMS.register("bomb_caller_carpet", () -> new BombCallerItem(new Item.Properties().stacksTo(1), BomberType.CARPET));
-    public static final DeferredItem<Item> BOMB_CALLER_NAPALM = ITEMS.register("bomb_caller_napalm", () -> new BombCallerItem(new Item.Properties().stacksTo(1), BomberType.NAPALM));
-    public static final DeferredItem<Item> BOMB_CALLER_ATOMIC = ITEMS.register("bomb_caller_atomic", () -> new BombCallerItem(new Item.Properties().stacksTo(1), BomberType.ATOMIC_BOMB));
+    public static final DeferredItem<Item> BOMB_CALLER = ITEMS.register("bomb_caller", () -> new BombCallerItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> DEFUSER = ITEMS.register("defuser", () -> new ToolingItem(ToolType.DEFUSER, new Item.Properties().durability(100)));
+    public static final DeferredItem<Item> REACHER = ITEMS.register("reacher", () -> new Item(new Item.Properties().stacksTo(1)));
 
     // Wands, Tools, Other Crap
     public static final DeferredItem<Item> POLAROID = ITEMS.register("polaroid", () -> new PolaroidItem(new Item.Properties().stacksTo(1)));
