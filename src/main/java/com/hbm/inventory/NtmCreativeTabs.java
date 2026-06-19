@@ -288,16 +288,18 @@ public class NtmCreativeTabs {
                         output.accept(NtmBlocks.GAS_EXPLOSIVE);
 
                         output.accept(NtmBlocks.GEIGER);
-                        output.accept(NtmBlocks.MACHINE_BATTERY_SOCKET);
-                        output.accept(NtmBlocks.MACHINE_BATTERY_REDD);
+
                         output.accept(NtmBlocks.RED_CABLE);
 
                         addMetaItems(output, NtmBlocks.FLUID_DUCT_NEO.asItem());
 
+                        output.accept(NtmBlocks.MACHINE_BATTERY_SOCKET);
+                        output.accept(NtmBlocks.MACHINE_BATTERY_REDD);
+                        output.accept(NtmBlocks.MACHINE_ASSEMBLY_MACHINE);
                         output.accept(NtmBlocks.MACHINE_FLUID_TANK);
 
-                        output.accept(NtmBlocks.DECONTAMINATOR);
                         output.accept(NtmBlocks.MACHINE_SATLINKER);
+                        output.accept(NtmBlocks.DECONTAMINATOR);
 
                         FluidType[] types = Fluids.getInNiceOrder();
                         // multi identifiers

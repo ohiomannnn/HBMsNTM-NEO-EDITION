@@ -12,6 +12,7 @@ import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
 
 public class SatellitesCommand {
 
@@ -45,11 +46,11 @@ public class SatellitesCommand {
     private static int orbit(CommandContext<CommandSourceStack> context) {
 
         ServerPlayer player = context.getSource().getPlayer();
-        if (player == null) return 0;
+        if(player == null) return 0;
 
-        var stack = player.getMainHandItem();
+        ItemStack stack = player.getMainHandItem();
 
-        if (stack.getItem() instanceof ISatChip) {
+        if(stack.getItem() instanceof ISatChip) {
 
             int id = Satellite.getIDFromItem(stack.getItem());
             int freq = ISatChip.getFreqS(stack);
@@ -75,7 +76,7 @@ public class SatellitesCommand {
 
         SatelliteSavedData data = SatelliteSavedData.get(level);
 
-        if (data.sats.containsKey(freq)) {
+        if(data.sats.containsKey(freq)) {
             data.sats.remove(freq);
             data.setDirty();
 
@@ -95,7 +96,7 @@ public class SatellitesCommand {
 
         SatelliteSavedData data = SatelliteSavedData.get(level);
 
-        if (data.sats.isEmpty()) {
+        if(data.sats.isEmpty()) {
             source.sendFailure(Component.translatable("commands.satellite.no_active_satellites"));
             return 0;
         }

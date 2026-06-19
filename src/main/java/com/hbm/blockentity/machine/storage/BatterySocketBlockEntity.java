@@ -33,7 +33,7 @@ public class BatterySocketBlockEntity extends BatteryBaseBlockEntity {
         super(NtmBlockEntityTypes.BATTERY_SOCKET.get(), pos, state, 1);
     }
 
-    @Override public Component getDefaultName() { return Component.translatable("container.batterySocket"); }
+    @Override public Component getDefaultName() { return Component.translatable("container.battery_socket"); }
 
     @Override
     public void updateEntity() {
@@ -81,9 +81,9 @@ public class BatterySocketBlockEntity extends BatteryBaseBlockEntity {
 
     @Override
     public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {
-        if (stack.getItem() instanceof IBatteryItem batteryItem) {
-            if (index == mode_input && batteryItem.getCharge(stack) == 0) return true;
-            if (index == mode_output && batteryItem.getCharge(stack) == batteryItem.getMaxCharge(stack)) return true;
+        if(stack.getItem() instanceof IBatteryItem batteryItem) {
+            if(index == mode_input && batteryItem.getCharge(stack) == 0) return true;
+            if(index == mode_output && batteryItem.getCharge(stack) == batteryItem.getMaxCharge(stack)) return true;
         }
         return false;
     }
@@ -96,29 +96,29 @@ public class BatterySocketBlockEntity extends BatteryBaseBlockEntity {
 
     @Override
     public void setPower(long power) {
-        if (slots.getFirst().isEmpty() || !(slots.getFirst().getItem() instanceof IBatteryItem batteryItem)) return;
+        if(slots.getFirst().isEmpty() || !(slots.getFirst().getItem() instanceof IBatteryItem batteryItem)) return;
         batteryItem.setCharge(slots.getFirst(), power);
     }
 
     public static long powerFromStack(ItemStack stack) {
-        if (stack.isEmpty() || !(stack.getItem() instanceof IBatteryItem batteryItem)) return 0;
+        if(stack.isEmpty() || !(stack.getItem() instanceof IBatteryItem batteryItem)) return 0;
         return batteryItem.getCharge(stack);
     }
 
     public static long maxPowerFromStack(ItemStack stack) {
-        if (stack.isEmpty() || !(stack.getItem() instanceof IBatteryItem batteryItem)) return 0;
+        if(stack.isEmpty() || !(stack.getItem() instanceof IBatteryItem batteryItem)) return 0;
         return batteryItem.getMaxCharge(stack);
     }
 
     @Override
     public long getProviderSpeed() {
-        if (slots.getFirst().isEmpty() || !(slots.getFirst().getItem() instanceof IBatteryItem batteryItem)) return 0;
+        if(slots.getFirst().isEmpty() || !(slots.getFirst().getItem() instanceof IBatteryItem batteryItem)) return 0;
         int mode = this.getRelevantMode(true);
         return mode == mode_output || mode == mode_buffer ? batteryItem.getDischargeRate(slots.getFirst()) : 0;
     }
     @Override
     public long getReceiverSpeed() {
-        if (slots.getFirst().isEmpty() || !(slots.getFirst().getItem() instanceof IBatteryItem batteryItem)) return 0;
+        if(slots.getFirst().isEmpty() || !(slots.getFirst().getItem() instanceof IBatteryItem batteryItem)) return 0;
         int mode = this.getRelevantMode(true);
         return mode == mode_input || mode == mode_buffer ? batteryItem.getChargeRate(slots.getFirst()) : 0;
     }

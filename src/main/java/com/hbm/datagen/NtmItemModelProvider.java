@@ -287,6 +287,7 @@ public class NtmItemModelProvider extends ItemModelProvider {
 
         // STARTER_KIT uses ICustomItemModelRegister
 
+        this.basicItem(NtmItems.TEMPLATE_FOLDER.get());
         this.basicItem(NtmItems.NOTHING.get());
 
         // welp

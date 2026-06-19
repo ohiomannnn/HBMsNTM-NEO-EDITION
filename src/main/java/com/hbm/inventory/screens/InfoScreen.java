@@ -2,6 +2,7 @@ package com.hbm.inventory.screens;
 
 import com.hbm.main.NuclearTechMod;
 import com.hbm.util.BobMathUtil;
+import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -25,7 +26,7 @@ public abstract class InfoScreen<T extends AbstractContainerMenu> extends Abstra
     }
 
     public void drawElectricityInfo(GuiGraphics guiGraphics, int mouseX, int mouseY, int x, int y, int width, int height, long power, long maxPower) {
-        this.drawCustomInfoStat(guiGraphics, mouseX, mouseY, x, y, width, height, mouseX, mouseY, Component.translatable("gui.energy.he", BobMathUtil.getShortNumber(power) + "/" + BobMathUtil.getShortNumber(maxPower)));
+        this.drawCustomInfoStat(guiGraphics, mouseX, mouseY, x, y, width, height, mouseX, mouseY, Component.literal(BobMathUtil.getShortNumber(power) + "/" + BobMathUtil.getShortNumber(maxPower) + I18nUtil.resolveKey("he")));
     }
 
     public void drawCustomInfoStat(GuiGraphics guiGraphics, int mouseX, int mouseY, int x, int y, int width, int height, int tPosX, int tPosY, Component... text) {
@@ -35,13 +36,13 @@ public abstract class InfoScreen<T extends AbstractContainerMenu> extends Abstra
     public void drawCustomInfoStat(GuiGraphics guiGraphics, int mouseX, int mouseY, int x, int y, int width, int height, int tPosX, int tPosY, List<Component> text) {
         Font font = Minecraft.getInstance().font;
 
-        if (x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY) {
+        if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY) {
             guiGraphics.renderComponentTooltip(font, text, tPosX, tPosY);
         }
     }
 
     public void drawInfoPanel(GuiGraphics guiGraphics, int x, int y, int type) {
-        switch (type) {
+        switch(type) {
             case 0 -> guiGraphics.blit(GUI_UTIL, x, y, 0, 0, 8, 8); //Small blue I
             case 1 -> guiGraphics.blit(GUI_UTIL, x, y,  0, 8, 8, 8); //Small green I
             case 2 -> guiGraphics.blit(GUI_UTIL, x, y, 8, 0, 16, 16); //Large blue I

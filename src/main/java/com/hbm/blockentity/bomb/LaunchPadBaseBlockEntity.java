@@ -116,7 +116,7 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
         this.tanks[1] = new FluidTank(Fluids.NONE, 24_000);
     }
 
-    @Override public Component getDefaultName() { return Component.translatable("container.launchPad"); }
+    @Override public Component getDefaultName() { return Component.translatable("container.launch_pad"); }
 
     @Override
     public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {

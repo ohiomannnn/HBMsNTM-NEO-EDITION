@@ -6,6 +6,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.NtmItems;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.util.BobMathUtil;
+import com.hbm.util.i18n.I18nUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import io.netty.buffer.ByteBuf;
@@ -234,15 +235,15 @@ public class FluidTank {
 
     @OnlyIn(Dist.CLIENT)
     public void renderTankTooltip(GuiGraphics guiGraphics, int mouseX, int mouseY, int x, int y, int width, int height) {
-        if (x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY) {
+        if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY) {
 
             List<Component> list = new ArrayList<>();
             list.add(this.type.getName());
-            list.add(Component.translatable("fluid.info.mb_out", this.fluid, this.maxFluid));
+            list.add(Component.translatable(this.fluid + "/" + this.maxFluid + I18nUtil.resolveKey("mb")));
 
-            if (this.pressure != 0) {
-                list.add(Component.translatable("fluid.info.pressure", this.pressure).withStyle(ChatFormatting.RED));
-                list.add(Component.translatable("fluid.info.pressurized").withStyle(BobMathUtil.getBlink() ? ChatFormatting.RED : ChatFormatting.DARK_RED));
+            if(this.pressure != 0) {
+                list.add(Component.literal(this.pressure + I18nUtil.resolveKey("pu")).withStyle(ChatFormatting.RED));
+                list.add(Component.translatable("fluid.pressurized").withStyle(BobMathUtil.getBlink() ? ChatFormatting.RED : ChatFormatting.DARK_RED));
             }
 
             type.addInfo(list);

@@ -46,7 +46,7 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
         return Container.stillValidBlockEntity(this, player, 6.0F);
     }
 
-    @Override public Component getDefaultName() { return Component.translatable("container.batteryREDD"); }
+    @Override public Component getDefaultName() { return Component.translatable("container.battery_redd"); }
 
     @Override
     public void updateEntity() {

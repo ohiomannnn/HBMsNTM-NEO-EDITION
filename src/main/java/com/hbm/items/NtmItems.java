@@ -340,6 +340,7 @@ public class NtmItems {
     // Kits
     public static final DeferredItem<Item> STARTER_KIT = ITEMS.register("starter_kit", () -> new StarterKitItem(new Item.Properties().stacksTo(1)));
 
+    public static final DeferredItem<Item> TEMPLATE_FOLDER = ITEMS.register("template_folder", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> NOTHING = ITEMS.register("nothing", () -> new Item(new Item.Properties()));
 
 

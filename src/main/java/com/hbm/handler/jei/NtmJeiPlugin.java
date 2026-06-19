@@ -47,6 +47,7 @@ public class NtmJeiPlugin implements IModPlugin {
                 NtmItems.FLUID_IDENTIFIER_MULTI.get(),
 
                 NtmItems.DRINK.get(),
+                NtmItems.CANNED_CONSERVE.get(),
                 NtmItems.CAP.get(),
 
                 NtmBlocks.BOBBLEHEAD.asItem(),

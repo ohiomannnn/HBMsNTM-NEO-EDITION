@@ -29,7 +29,7 @@ public class ChunkRadCommand {
 
         ServerLevel level = context.getSource().getLevel();
         ServerPlayer player = context.getSource().getPlayer();
-        if (player == null) return 0;
+        if(player == null) return 0;
 
         float rad = FloatArgumentType.getFloat(context, "rad");
         ChunkRadiationManager.proxy.setRadiation(level, player.blockPosition(), rad);

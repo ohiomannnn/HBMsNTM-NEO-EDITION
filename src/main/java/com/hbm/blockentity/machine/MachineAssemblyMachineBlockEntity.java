@@ -77,7 +77,7 @@ public class MachineAssemblyMachineBlockEntity extends MachineBaseBlockEntity im
 
     @Override
     protected Component getDefaultName() {
-        return Component.translatable("container.machineAssemblyMachine");
+        return Component.translatable("container.machine_assembly_machine");
     }
 
     @Override

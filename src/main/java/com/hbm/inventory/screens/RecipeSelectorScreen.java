@@ -5,15 +5,20 @@ import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.inventory.recipes.loader.GenericRecipes;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.network.toserver.CompoundTagControl;
+import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -186,6 +191,18 @@ public class RecipeSelectorScreen extends Screen {
 
         this.search.mouseClicked(mouseX, mouseY, button);
 
+        if(this.leftPos + 152 <= mouseX && this.leftPos + 152 + 16 > mouseX && this.topPos + 18 < mouseY && this.topPos + 18 + 16 >= mouseY) {
+            click();
+            if(this.pageIndex > 0) this.pageIndex--;
+            return true;
+        }
+
+        if(this.leftPos + 152 <= mouseX && this.leftPos + 152 + 16 > mouseX && this.topPos + 36 < mouseY && this.topPos + 36 + 16 >= mouseY) {
+            click();
+            if(this.pageIndex < this.size) this.pageIndex++;
+            return true;
+        }
+
         if(this.leftPos + 134 <= mouseX && this.leftPos + 134 + 16 > mouseX && this.topPos + 108 < mouseY && this.topPos + 108 + 16 >= mouseY) {
             this.search.setValue("");
             this.search("");
@@ -209,7 +226,7 @@ public class RecipeSelectorScreen extends Screen {
                 else
                     this.selection = NULL_SELECTION;
 
-                //click();
+                click();
                 return true;
             }
         }
@@ -217,7 +234,7 @@ public class RecipeSelectorScreen extends Screen {
         if(this.leftPos + 151 <= mouseX && this.leftPos + 151 + 18 > mouseX && this.topPos + 71 < mouseY && this.topPos + 71 + 18 >= mouseY) {
             if(!NULL_SELECTION.equals(this.selection)) {
                 this.selection = NULL_SELECTION;
-                //click();
+                click();
                 return true;
             }
         }
@@ -249,17 +266,28 @@ public class RecipeSelectorScreen extends Screen {
             return true;
         }
 
-        if(keyCode == 256 && this.shouldCloseOnEsc()) {
+        if(keyCode == GLFW.GLFW_KEY_UP) pageIndex--;
+        if(keyCode == GLFW.GLFW_KEY_DOWN) pageIndex++;
+        if(keyCode == GLFW.GLFW_KEY_PAGE_UP) pageIndex -= 5;
+        if(keyCode == GLFW.GLFW_KEY_PAGE_DOWN) pageIndex += 5;
+        if(keyCode == GLFW.GLFW_KEY_HOME) pageIndex = 0;
+        if(keyCode == GLFW.GLFW_KEY_END) pageIndex = size;
+
+        pageIndex = Mth.clamp(pageIndex, 0, size);
+
+        InputConstants.Key key = InputConstants.getKey(keyCode, scanCode);
+
+        if(keyCode == GLFW.GLFW_KEY_ESCAPE || this.minecraft.options.keyInventory.isActiveAndMatches(key)) {
             this.onClose();
             Minecraft.getInstance().setScreen(previousScreen);
-            return true;
         }
 
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
-    @Override
-    public boolean isPauseScreen() {
-        return false;
+    @Override public boolean isPauseScreen() { return false; }
+
+    public void click() {
+        this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
     }
 }

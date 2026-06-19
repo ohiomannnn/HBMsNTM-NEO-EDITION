@@ -5,12 +5,13 @@ import com.hbm.blocks.generic.BarbedWireBlock.BarbedWireType;
 import com.hbm.blocks.generic.PlushieBlock.PlushieType;
 import com.hbm.items.ItemEnums.CapType;
 import com.hbm.items.NtmItems;
+import com.hbm.items.food.ConserveItem.ConserveType;
 import com.hbm.items.food.DrinkItem.DrinkType;
 import com.hbm.items.machine.BatteryPackItem.BatteryPackType;
 import com.hbm.items.machine.BatterySCItem.BatterySCType;
+import com.hbm.items.machine.BreedingRodItem.BreedingRodType;
 import com.hbm.items.special.StarterKitItem.KitType;
 import com.hbm.main.NuclearTechMod;
-import com.mojang.datafixers.Products.P1;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -25,7 +26,6 @@ public class NtmLanguageProvider extends LanguageProvider {
     // helper keys
     private static final String DESC = ".desc";
     private static final String P11 = ".p11";
-    private static final String CONTAINER = "container.";
 
     public NtmLanguageProvider(PackOutput output) {
         super(output, NuclearTechMod.MODID, "en_us");
@@ -220,11 +220,59 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmItems.ACETYLENE_TORCH, "Acetylene Welding Torch");
 
         this.add(NtmItems.ROD_EMPTY, "Empty Rod");
-        this.add(NtmItems.ROD, "Ingot");
+        this.add(NtmItems.ROD, this.getName(BreedingRodType.LITHIUM), "Lithium Rod");
+        this.add(NtmItems.ROD, this.getName(BreedingRodType.TRITIUM), "Tritium Rod");
+        this.add(NtmItems.ROD, this.getName(BreedingRodType.CO), "Cobalt Rod");
+        this.add(NtmItems.ROD, this.getName(BreedingRodType.CO60), "Cobalt-60 Rod");
+        this.add(NtmItems.ROD, this.getName(BreedingRodType.TH232), "Thorium-232 Rod");
+        this.add(NtmItems.ROD, this.getName(BreedingRodType.THF), "Thorium Fuel Rod");
+        this.add(NtmItems.ROD, this.getName(BreedingRodType.U235), "Uranium-235 Rod");
+        this.add(NtmItems.ROD, this.getName(BreedingRodType.NP237), "Neptunium-237 Rod");
+        this.add(NtmItems.ROD, this.getName(BreedingRodType.U238), "Uranium-238 Rod");
+        this.add(NtmItems.ROD, this.getName(BreedingRodType.PU238), "Plutonium-238 Rod");
+        this.add(NtmItems.ROD, this.getName(BreedingRodType.PU239), "Plutonium-239 Rod");
+        this.add(NtmItems.ROD, this.getName(BreedingRodType.RGP), "Reactor-Grade Plutonium Rod");
+        this.add(NtmItems.ROD, this.getName(BreedingRodType.WASTE), "Nuclear Waste Rod");
+        this.add(NtmItems.ROD, this.getName(BreedingRodType.LEAD), "Lead Rod");
+        this.add(NtmItems.ROD, this.getName(BreedingRodType.URANIUM), "Uranium Rod");
+        this.add(NtmItems.ROD, this.getName(BreedingRodType.RA226), "Radium-226 Rod");
+        this.add(NtmItems.ROD, this.getName(BreedingRodType.AC227), "Actinium-227 Rod");
         this.add(NtmItems.ROD_DUAL_EMPTY, "Empty Dual Rod");
-        this.add(NtmItems.ROD_DUAL, "Ingot");
-        this.add(NtmItems.ROD_QUAD_EMPTY, "Lithium Dual Rod");
-        this.add(NtmItems.ROD_QUAD, "Ingot");
+        this.add(NtmItems.ROD_DUAL, this.getName(BreedingRodType.LITHIUM), "Lithium Dual Rod");
+        this.add(NtmItems.ROD_DUAL, this.getName(BreedingRodType.TRITIUM), "Tritium Dual Rod");
+        this.add(NtmItems.ROD_DUAL, this.getName(BreedingRodType.CO), "Cobalt Dual Rod");
+        this.add(NtmItems.ROD_DUAL, this.getName(BreedingRodType.CO60), "Cobalt-60 Dual Rod");
+        this.add(NtmItems.ROD_DUAL, this.getName(BreedingRodType.TH232), "Thorium-232 Dual Rod");
+        this.add(NtmItems.ROD_DUAL, this.getName(BreedingRodType.THF), "Thorium Fuel Dual Rod");
+        this.add(NtmItems.ROD_DUAL, this.getName(BreedingRodType.U235), "Uranium-235 Dual Rod");
+        this.add(NtmItems.ROD_DUAL, this.getName(BreedingRodType.NP237), "Neptunium-237 Dual Rod");
+        this.add(NtmItems.ROD_DUAL, this.getName(BreedingRodType.U238), "Uranium-238 Dual Rod");
+        this.add(NtmItems.ROD_DUAL, this.getName(BreedingRodType.PU238), "Plutonium-238 Dual Rod");
+        this.add(NtmItems.ROD_DUAL, this.getName(BreedingRodType.PU239), "Plutonium-239 Dual Rod");
+        this.add(NtmItems.ROD_DUAL, this.getName(BreedingRodType.RGP), "Reactor-Grade Plutonium Dual Rod");
+        this.add(NtmItems.ROD_DUAL, this.getName(BreedingRodType.WASTE), "Nuclear Waste Dual Rod");
+        this.add(NtmItems.ROD_DUAL, this.getName(BreedingRodType.LEAD), "Lead Dual Rod");
+        this.add(NtmItems.ROD_DUAL, this.getName(BreedingRodType.URANIUM), "Uranium Dual Rod");
+        this.add(NtmItems.ROD_DUAL, this.getName(BreedingRodType.RA226), "Radium-226 Dual Rod");
+        this.add(NtmItems.ROD_DUAL, this.getName(BreedingRodType.AC227), "Actinium-227 Dual Rod");
+        this.add(NtmItems.ROD_QUAD_EMPTY, "Empty Quad Rod");
+        this.add(NtmItems.ROD_QUAD, this.getName(BreedingRodType.LITHIUM), "Lithium Quad Rod");
+        this.add(NtmItems.ROD_QUAD, this.getName(BreedingRodType.TRITIUM), "Tritium Quad Rod");
+        this.add(NtmItems.ROD_QUAD, this.getName(BreedingRodType.CO), "Cobalt Quad Rod");
+        this.add(NtmItems.ROD_QUAD, this.getName(BreedingRodType.CO60), "Cobalt-60 Quad Rod");
+        this.add(NtmItems.ROD_QUAD, this.getName(BreedingRodType.TH232), "Thorium-232 Quad Rod");
+        this.add(NtmItems.ROD_QUAD, this.getName(BreedingRodType.THF), "Thorium Fuel Quad Rod");
+        this.add(NtmItems.ROD_QUAD, this.getName(BreedingRodType.U235), "Uranium-235 Quad Rod");
+        this.add(NtmItems.ROD_QUAD, this.getName(BreedingRodType.NP237), "Neptunium-237 Quad Rod");
+        this.add(NtmItems.ROD_QUAD, this.getName(BreedingRodType.U238), "Uranium-238 Quad Rod");
+        this.add(NtmItems.ROD_QUAD, this.getName(BreedingRodType.PU238), "Plutonium-238 Quad Rod");
+        this.add(NtmItems.ROD_QUAD, this.getName(BreedingRodType.PU239), "Plutonium-239 Quad Rod");
+        this.add(NtmItems.ROD_QUAD, this.getName(BreedingRodType.RGP), "Reactor-Grade Plutonium Quad Rod");
+        this.add(NtmItems.ROD_QUAD, this.getName(BreedingRodType.WASTE), "Nuclear Waste Quad Rod");
+        this.add(NtmItems.ROD_QUAD, this.getName(BreedingRodType.LEAD), "Lead Quad Rod");
+        this.add(NtmItems.ROD_QUAD, this.getName(BreedingRodType.URANIUM), "Uranium Quad Rod");
+        this.add(NtmItems.ROD_QUAD, this.getName(BreedingRodType.RA226), "Radium-226 Quad Rod");
+        this.add(NtmItems.ROD_QUAD, this.getName(BreedingRodType.AC227), "Actinium-227 Quad Rod");
 
         this.add(NtmItems.SPAWN_DUCK, "Golden Egg");
 
@@ -350,7 +398,60 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmItems.BOTTLE_OPENER, "Hbm's Own Self-Made Bottle Opener");
         this.add(NtmItems.BOTTLE_OPENER, DESC, "My very own bottle opener.$Use with caution!");
 
-        this.add(NtmItems.CANNED_CONSERVE, "Ingot");
+        this.add("item.hbmsntm.canned_" + ConserveType.BEEF.name().toLowerCase(Locale.US), "Canned Beef");
+        this.add("item.hbmsntm.canned_" + ConserveType.BEEF.name().toLowerCase(Locale.US) + DESC, "A few centuries ago, a cow died for this.");
+        this.add("item.hbmsntm.canned_" + ConserveType.TUNA.name().toLowerCase(Locale.US), "Canned Tuna");
+        this.add("item.hbmsntm.canned_" + ConserveType.TUNA.name().toLowerCase(Locale.US) + DESC, "I can't tell if that's actually tuna or dried cement.");
+        this.add("item.hbmsntm.canned_" + ConserveType.MYSTERY.name().toLowerCase(Locale.US), "Canned Mystery Meat");
+        this.add("item.hbmsntm.canned_" + ConserveType.MYSTERY.name().toLowerCase(Locale.US) + DESC, "What's inside? Only one way to find out!");
+        this.add("item.hbmsntm.canned_" + ConserveType.PASHTET.name().toLowerCase(Locale.US), "Паштет");
+        this.add("item.hbmsntm.canned_" + ConserveType.PASHTET.name().toLowerCase(Locale.US) + DESC, "услуги перевода недоступны!");
+        this.add("item.hbmsntm.canned_" + ConserveType.CHEESE.name().toLowerCase(Locale.US), "Canned Melted Cheese");
+        this.add("item.hbmsntm.canned_" + ConserveType.CHEESE.name().toLowerCase(Locale.US) + DESC, "Is it cheese? Is it rubber cement? Who knows, who cares.");
+        this.add("item.hbmsntm.canned_" + ConserveType.SLIME.name().toLowerCase(Locale.US), "Condensed Horse Slime");
+        this.add("item.hbmsntm.canned_" + ConserveType.SLIME.name().toLowerCase(Locale.US) + DESC, "Now with extra bone marrow.");
+        this.add("item.hbmsntm.canned_" + ConserveType.MILK.name().toLowerCase(Locale.US), "Canned Evaporated Milk");
+        this.add("item.hbmsntm.canned_" + ConserveType.MILK.name().toLowerCase(Locale.US) + DESC, "Milk 2: More solid than ever before!");
+        this.add("item.hbmsntm.canned_" + ConserveType.ASS.name().toLowerCase(Locale.US), "Canned Ass");
+        this.add("item.hbmsntm.canned_" + ConserveType.ASS.name().toLowerCase(Locale.US) + DESC, "100%% quality donkey meat!*");
+        this.add("item.hbmsntm.canned_" + ConserveType.PIZZA.name().toLowerCase(Locale.US), "Canned Pepperoni Pizza");
+        this.add("item.hbmsntm.canned_" + ConserveType.PIZZA.name().toLowerCase(Locale.US) + DESC, "A crime against humanity.");
+        this.add("item.hbmsntm.canned_" + ConserveType.TUBE.name().toLowerCase(Locale.US), "Astronaut Food Tube");
+        this.add("item.hbmsntm.canned_" + ConserveType.TUBE.name().toLowerCase(Locale.US) + DESC, "Tasty mush.");
+        this.add("item.hbmsntm.canned_" + ConserveType.TOMATO.name().toLowerCase(Locale.US), "Canned Tomato Soup");
+        this.add("item.hbmsntm.canned_" + ConserveType.TOMATO.name().toLowerCase(Locale.US) + DESC, "Who wants some thick red paste?");
+        this.add("item.hbmsntm.canned_" + ConserveType.ASBESTOS.name().toLowerCase(Locale.US), "Canned Asbestos");
+        this.add("item.hbmsntm.canned_" + ConserveType.ASBESTOS.name().toLowerCase(Locale.US) + DESC, "TASTE the asbestosis!");
+        this.add("item.hbmsntm.canned_" + ConserveType.BHOLE.name().toLowerCase(Locale.US), "Canned Black Hole");
+        this.add("item.hbmsntm.canned_" + ConserveType.BHOLE.name().toLowerCase(Locale.US) + DESC, "Made from actual singularities. No, really.");
+        this.add("item.hbmsntm.canned_" + ConserveType.HOTDOGS.name().toLowerCase(Locale.US), "Canned Hotdogs");
+        this.add("item.hbmsntm.canned_" + ConserveType.HOTDOGS.name().toLowerCase(Locale.US) + DESC, "Not to be confused with cool cats.");
+        this.add("item.hbmsntm.canned_" + ConserveType.LEFTOVERS.name().toLowerCase(Locale.US), "Leftover Conserve");
+        this.add("item.hbmsntm.canned_" + ConserveType.LEFTOVERS.name().toLowerCase(Locale.US) + DESC, "ur 2 slow");
+        this.add("item.hbmsntm.canned_" + ConserveType.YOGURT.name().toLowerCase(Locale.US), "Canned Yogurt");
+        this.add("item.hbmsntm.canned_" + ConserveType.YOGURT.name().toLowerCase(Locale.US) + DESC, "Probably spoiled, but whatever.");
+        this.add("item.hbmsntm.canned_" + ConserveType.STEW.name().toLowerCase(Locale.US), "Canned \"Mushroom Stew\"");
+        this.add("item.hbmsntm.canned_" + ConserveType.STEW.name().toLowerCase(Locale.US) + DESC, "...");
+        this.add("item.hbmsntm.canned_" + ConserveType.CHINESE.name().toLowerCase(Locale.US), "Canned Chinese Food");
+        this.add("item.hbmsntm.canned_" + ConserveType.CHINESE.name().toLowerCase(Locale.US) + DESC, "In China, Chinese food is just called food.");
+        this.add("item.hbmsntm.canned_" + ConserveType.OIL.name().toLowerCase(Locale.US), "Canned Engine Oil");
+        this.add("item.hbmsntm.canned_" + ConserveType.OIL.name().toLowerCase(Locale.US) + DESC, "It makes motors go, so why not humans?");
+        this.add("item.hbmsntm.canned_" + ConserveType.FIST.name().toLowerCase(Locale.US), "Canned Fist");
+        this.add("item.hbmsntm.canned_" + ConserveType.FIST.name().toLowerCase(Locale.US) + DESC, "ow");
+        this.add("item.hbmsntm.canned_" + ConserveType.SPAM.name().toLowerCase(Locale.US), "Canned Spam");
+        this.add("item.hbmsntm.canned_" + ConserveType.SPAM.name().toLowerCase(Locale.US) + DESC, "The three-and-a-half-minute sketch is set in the fictional Green Midget Cafe in Bromley.$An argument develops between the waitress, who recites a menu in which nearly$every dish contains Spam, and Mrs. Bun, who does not like Spam. She asks for a$dish without Spam, much to the amazement of her Spam-loving husband. The waitress$responds to this request with disgust. Mr. Bun offers to take her Spam instead,$and asks for a dish containing a lot of Spam and baked beans. The waitress says$no since they are out of baked beans; when Mr. Bun asks for a substitution of Spam,$the waitress again responds with disgust. At several points, a group of Vikings in$the restaurant interrupts conversation by loudly singing about Spam.$The irate waitress orders them to shut up, but they resume singing more loudly.$A Hungarian tourist comes to the counter, trying to order by using a wholly$inaccurate Hungarian/English phrasebook (a reference to a previous sketch).$He is rapidly escorted away by a police constable. The sketch abruptly cuts to a$historian in a television studio talking about the origin of the Vikings in the café.$As he goes on, he begins to increasingly insert the word \"Spam\" into every$sentence, and the backdrop is raised to reveal the restaurant set behind.$The historian joins the Vikings in their song, and Mr. and Mrs. Bun are lifted by$wires out of the scene while the singing continues. In the original televised performance,$the closing credits begin to scroll with the singing still audible in the background.");
+        this.add("item.hbmsntm.canned_" + ConserveType.FRIED.name().toLowerCase(Locale.US), "Canned Fried Chicken");
+        this.add("item.hbmsntm.canned_" + ConserveType.FRIED.name().toLowerCase(Locale.US) + DESC, "Even the can is deep fried!");
+        this.add("item.hbmsntm.canned_" + ConserveType.NAPALM.name().toLowerCase(Locale.US), "Canned Napalm");
+        this.add("item.hbmsntm.canned_" + ConserveType.NAPALM.name().toLowerCase(Locale.US) + DESC, "I love the smell of old memes in the morning!");
+        this.add("item.hbmsntm.canned_" + ConserveType.DIESEL.name().toLowerCase(Locale.US), "Canned Diesel");
+        this.add("item.hbmsntm.canned_" + ConserveType.DIESEL.name().toLowerCase(Locale.US) + DESC, "I'm slowly running out of jokes for these.");
+        this.add("item.hbmsntm.canned_" + ConserveType.KEROSENE.name().toLowerCase(Locale.US), "Canned Kerosene");
+        this.add("item.hbmsntm.canned_" + ConserveType.KEROSENE.name().toLowerCase(Locale.US) + DESC, "Just imagine a witty line here.");
+        this.add("item.hbmsntm.canned_" + ConserveType.RECURSION.name().toLowerCase(Locale.US), "Canned Recursion");
+        this.add("item.hbmsntm.canned_" + ConserveType.RECURSION.name().toLowerCase(Locale.US) + DESC, "Canned Recursion");
+        this.add("item.hbmsntm.canned_" + ConserveType.BARK.name().toLowerCase(Locale.US), "Canned Pine Bark Jerky");
+        this.add("item.hbmsntm.canned_" + ConserveType.BARK.name().toLowerCase(Locale.US) + DESC, "Extra cronchy!");
 
         this.add(NtmItems.CAP, this.getName(CapType.NUKA), "Nuka Cola Bottle Cap");
         this.add(NtmItems.CAP, this.getName(CapType.QUANTUM), "Nuka Cola Quantum Bottle Cap");
@@ -458,6 +559,7 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmItems.STARTER_KIT, this.getName(KitType.PROTOTYPE), "Prototype Kit");
         this.add(NtmItems.STARTER_KIT, this.getName(KitType.FLEIJA), "F.L.E.I.J.A. Kit");
 
+        this.add(NtmItems.TEMPLATE_FOLDER, "Machine Template Folder");
         this.add(NtmItems.NOTHING, "Nothing");
 
         // BLOCKS //
@@ -609,9 +711,7 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmBlocks.TAINT, "Taint");
         this.add(NtmBlocks.TAINT, DESC,"DO NOT TOUCH, BREATHE OR STARE AT.");
 
-        /*
-         * CONTAINERS
-         */
+        // CONTAINERS //
         this.add("container.nuke_gadget", "The Gadget");
         this.add("container.nuke_gadget.desc", "§1Requires:§r$ * 4 Arrays of First-Generation$   High-Explosive Lenses$ * Large Plutonium Core$ * Wiring");
         this.add("container.nuke_fat_man", "Fat Man");
@@ -626,8 +726,35 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add("container.nuke_fleija", "F.L.E.I.J.A.");
         this.add("container.nuke_n2", "N² Mine");
         this.add("container.nuke_fstbmb", "Balefire Bomb");
+        this.add("container.battery_socket", "Battery Socket");
+        this.add("container.battery_redd", "FEnSU");
+        this.add("container.machine_assembly_machine", "Assembly Machine");
+        this.add("container.fluid_tank", "Tank");
+        this.add("container.sat_linker", "SatLink Device");
+        this.add("container.launch_pad", "Launch Pad");
+        this.add("container.launch_pad.not_ready", "Not ready");
+        this.add("container.launch_pad.loading", "Loading...");
+        this.add("container.launch_pad.ready", "Ready");
+
+        // COMMANDS //
+        this.add("commands.props.get", "Living property %s of %s is %s");
+        this.add("commands.props.set", "Living property %s of %s set to %s");
+        this.add("commands.props.not_living", "Target is not a living entity!");
+        this.add("commands.satellite.no_active_satellites", "No active satellites found!");
+        this.add("commands.satellite.no_satellite", "No satellite using this frequency found!");
+        this.add("commands.satellite.not_a_satellite", "The held item is not a satellite!");
+        this.add("commands.satellite.satellite_descended", "Satellite successfully descended.");
+        this.add("commands.satellite.satellite_orbited", "Satellite launched.");
+        this.add("commands.satellite.should_be_run_as_player", "This command should be run by a player!");
+        this.add("commands.chunkrad.setrad", "Chunk radiation set to %s");
 
         // MISC //
+        this.add("message.hbmsntm.loaded", "Loaded world with Hbm's Nuclear Tech Mod %s for Minecraft 1.21.1!");
+        this.add("message.hbmsntm.neo", "Neo Edition");
+        this.add("message.hbmsntm.new_version", "New version %s is available! Click ");
+        this.add("message.hbmsntm.click_here", "[here]");
+        this.add("message.hbmsntm.to_download", " to download!");
+
         this.add("itemGroup.parts", "NTM Resources and Parts");
         this.add("itemGroup.control", "NTM Machine Items and Fuel");
         this.add("itemGroup.blocks", "NTM Ores and Blocks");

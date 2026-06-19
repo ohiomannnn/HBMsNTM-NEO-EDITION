@@ -10,7 +10,6 @@ import com.hbm.render.item.ItemRenderMissileGeneric;
 import com.hbm.render.item.ItemRenderMissileGeneric.RocketModelData;
 import com.hbm.render.util.RenderContext;
 import com.mojang.blaze3d.platform.Lighting;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.math.Axis;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.LightTexture;
@@ -52,26 +51,26 @@ public class LaunchPadLargeScreen extends InfoScreen<LaunchPadLargeMenu> {
         int fuel = be.getFuelState();
         int oxidizer = be.getOxidizerState();
 
-        if (fuel == 1) guiGraphics.blit(TEXTURE, this.leftPos + 130, this.topPos + 23, 192, 0, 6, 8);
-        if (fuel == -1) guiGraphics.blit(TEXTURE, this.leftPos + 130, this.topPos + 23, 198, 0, 6, 8);
-        if (oxidizer == 1) guiGraphics.blit(TEXTURE, this.leftPos + 148, this.topPos + 23, 192, 0, 6, 8);
-        if (oxidizer == -1) guiGraphics.blit(TEXTURE, this.leftPos + 148, this.topPos + 23, 198, 0, 6, 8);
-        if (be.isMissileValid()) guiGraphics.blit(TEXTURE, this.leftPos + 112, this.topPos + 23, be.power >= 75_000 ? 192 : 198, 0, 6, 8);
+        if(fuel == 1) guiGraphics.blit(TEXTURE, this.leftPos + 130, this.topPos + 23, 192, 0, 6, 8);
+        if(fuel == -1) guiGraphics.blit(TEXTURE, this.leftPos + 130, this.topPos + 23, 198, 0, 6, 8);
+        if(oxidizer == 1) guiGraphics.blit(TEXTURE, this.leftPos + 148, this.topPos + 23, 192, 0, 6, 8);
+        if(oxidizer == -1) guiGraphics.blit(TEXTURE, this.leftPos + 148, this.topPos + 23, 198, 0, 6, 8);
+        if(be.isMissileValid()) guiGraphics.blit(TEXTURE, this.leftPos + 112, this.topPos + 23, be.power >= 75_000 ? 192 : 198, 0, 6, 8);
 
         int power = (int) (be.power * 52 / be.maxPower);
         guiGraphics.blit(TEXTURE, this.leftPos + 107, this.topPos + 88 - power, 176, 52 - power, 16, power);
         be.tanks[0].renderTank(this.leftPos + 125, this.topPos + 88, 0, 16, 52);
         be.tanks[1].renderTank(this.leftPos + 143, this.topPos + 88, 0, 16, 52);
 
-        if (!be.slots.get(0).isEmpty()) {
+        if(!be.slots.get(0).isEmpty()) {
             RocketModelData render = ItemRenderMissileGeneric.renderers.get(new ComparableStack(be.slots.get(0)).makeSingular());
-            if (render != null) {
+            if(render != null) {
                 guiGraphics.pose().pushPose();
                 guiGraphics.pose().translate(this.leftPos + 70F, this.topPos + 120F, 100F);
 
                 float scale = 1F;
 
-                if (be.slots.get(0).getItem() instanceof MissileItem missileItem) {
+                if(be.slots.get(0).getItem() instanceof MissileItem missileItem) {
                     switch (missileItem.formFactor) {
                         case ABM: scale = 1.45F; break;
                         case MICRO: scale = 2.5F; break;
@@ -81,7 +80,7 @@ public class LaunchPadLargeScreen extends InfoScreen<LaunchPadLargeMenu> {
                         case ATLAS: scale = 0.875F; break;
                         case OTHER: break;
                     }
-                    if (be.slots.get(0).getItem() == NtmItems.MISSILE_STEALTH.get()) scale = 1.125F;
+                    if(be.slots.get(0).getItem() == NtmItems.MISSILE_STEALTH.get()) scale = 1.125F;
                 }
 
                 guiGraphics.pose().mulPose(Axis.YP.rotationDegrees(90F));
@@ -107,22 +106,22 @@ public class LaunchPadLargeScreen extends InfoScreen<LaunchPadLargeMenu> {
         guiGraphics.pose().translate(this.leftPos + 34F, this.topPos + 107F, 0F);
         String text = "";
         int color = 0xffffff;
-        if (be.state == LaunchPadBaseBlockEntity.STATE_MISSING) {
+        if(be.state == LaunchPadBaseBlockEntity.STATE_MISSING) {
             guiGraphics.pose().scale(0.5F, 0.5F, 1F);
-            text = "notReady";
+            text = "not_ready";
             color = 0xff0000;
         }
-        if (be.state == LaunchPadBaseBlockEntity.STATE_LOADING) {
+        if(be.state == LaunchPadBaseBlockEntity.STATE_LOADING) {
             guiGraphics.pose().scale(0.6F, 0.6F, 1F);
             text = "loading";
             color = 0xff8000;
         }
-        if (be.state == LaunchPadBaseBlockEntity.STATE_READY) {
+        if(be.state == LaunchPadBaseBlockEntity.STATE_READY) {
             guiGraphics.pose().scale(0.8F, 0.8F, 1F);
             text = "ready";
             color = 0x00ff000;
         }
-        guiGraphics.drawString(this.font, Component.translatable("gui.launchPad." + text).withColor(color), -this.font.width(Component.translatable("gui.launchPad." + text)) / 2, -this.font.lineHeight / 2, color, false);
+        guiGraphics.drawString(this.font, Component.translatable("container.launch_pad." + text).withColor(color), -this.font.width(Component.translatable("gui.launchPad." + text)) / 2, -this.font.lineHeight / 2, color, false);
         guiGraphics.pose().popPose();
     }
 

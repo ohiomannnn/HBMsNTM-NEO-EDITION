@@ -64,7 +64,7 @@ public class LivingPropsCommand {
 
     private static LivingEntity getLiving(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         Entity entity = EntityArgument.getEntity(context, "target");
-        if (entity instanceof LivingEntity livingEntity) return livingEntity;
+        if(entity instanceof LivingEntity livingEntity) return livingEntity;
         throw ERROR_NOT_LIVING.create();
     }
 
@@ -73,7 +73,7 @@ public class LivingPropsCommand {
         LivingEntity target = getLiving(context);
         String field = StringArgumentType.getString(context, "field");
 
-        float value = switch (field) {
+        float value = switch(field) {
             case "radiation" -> HbmLivingAttachments.getRadiation(target);
             case "digamma" -> HbmLivingAttachments.getDigamma(target);
             case "asbestos" -> HbmLivingAttachments.getAsbestos(target);
@@ -96,7 +96,7 @@ public class LivingPropsCommand {
         String field = StringArgumentType.getString(context, "field");
         float value = FloatArgumentType.getFloat(context, "value");
 
-        switch (field) {
+        switch(field) {
             case "radiation" -> HbmLivingAttachments.setRadiation(target, value);
             case "digamma" -> HbmLivingAttachments.setDigamma(target, value);
             case "asbestos" -> HbmLivingAttachments.setAsbestos(target, (int) value);

@@ -20,6 +20,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
 
+// tf is this
+@Deprecated
 public class MachineSatLinkerBlockEntity extends BlockEntity implements MenuProvider {
 
     private final ItemStackHandler items = new ItemStackHandler(3) {
@@ -47,7 +49,7 @@ public class MachineSatLinkerBlockEntity extends BlockEntity implements MenuProv
 
     @Override
     public Component getDisplayName() {
-        return customName != null ? customName : Component.translatable("container.satLinker");
+        return customName != null ? customName : Component.translatable("container.sat_linker");
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.hbm.blockentity.machine.MachineAssemblyMachineBlockEntity;
 import com.hbm.inventory.menus.MachineAssemblyMachineMenu;
 import com.hbm.inventory.recipes.AssemblyMachineRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
+import com.hbm.items.NtmItems;
 import com.hbm.items.machine.BlueprintsItem;
 import com.hbm.main.NuclearTechMod;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -20,13 +21,10 @@ public class MachineAssemblyMachineScreen extends InfoScreen<MachineAssemblyMach
 
     private final MachineAssemblyMachineBlockEntity be;
 
-    private final Inventory inventory;
-
     public MachineAssemblyMachineScreen(MachineAssemblyMachineMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
 
         this.be = menu.be;
-        this.inventory = inventory;
 
         this.imageWidth = 176;
         this.imageHeight = 256;
@@ -54,7 +52,7 @@ public class MachineAssemblyMachineScreen extends InfoScreen<MachineAssemblyMach
 
     @Override
     protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        guiGraphics.drawString(this.font, this.title, this.imageWidth / 70 - font.width(this.title) / 2, 6, 4210752, false);
+        guiGraphics.drawString(this.font, this.title, 70 - font.width(this.title) / 2, 6, 4210752, false);
         guiGraphics.drawString(this.font, this.playerInventoryTitle, 8, this.imageHeight - 96 + 2, 4210752, false);
     }
 
@@ -86,7 +84,7 @@ public class MachineAssemblyMachineScreen extends InfoScreen<MachineAssemblyMach
             guiGraphics.blit(TEXTURE, this.leftPos + 56, this.topPos + 121, 192, 0, 3, 6);
         }
 
-        guiGraphics.renderItem(recipe != null ? recipe.getIcon() : ItemStack.EMPTY, this.leftPos + 8, this.topPos + 126);
+        guiGraphics.renderItem(recipe != null ? recipe.getIcon() : new ItemStack(NtmItems.TEMPLATE_FOLDER.get()), this.leftPos + 8, this.topPos + 126);
 
         if(recipe != null && recipe.inputItem != null) {
 
@@ -98,7 +96,7 @@ public class MachineAssemblyMachineScreen extends InfoScreen<MachineAssemblyMach
             RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
         }
 
-        be.inputTank.renderTank(this.leftPos + 8, this.topPos + 115, 52, 16, 1);
-        be.outputTank.renderTank(this.leftPos + 80, this.topPos + 115, 52, 16, 1);
+        be.inputTank.renderTank(this.leftPos + 8, this.topPos + 115, 1F, 52, 16, 1);
+        be.outputTank.renderTank(this.leftPos + 80, this.topPos + 115, 1F, 52, 16, 1);
     }
 }

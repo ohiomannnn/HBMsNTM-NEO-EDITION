@@ -1,5 +1,6 @@
 package com.hbm.items.food;
 
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.entity.NtmEntityTypes;
 import com.hbm.entity.effect.Vortex;
 import com.hbm.inventory.MetaHelper;
@@ -7,7 +8,9 @@ import com.hbm.items.EnumMultiItem;
 import com.hbm.items.NtmItems;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.util.EnumUtil;
+import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -17,6 +20,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
@@ -25,6 +29,7 @@ import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Locale;
 import java.util.function.Consumer;
 
@@ -57,7 +62,7 @@ public class ConserveItem extends EnumMultiItem {
         NAPALM(6, 1F),
         DIESEL(6, 1F),
         KEROSENE(6, 1F),
-        RECURSION(LAMBDA_RECURSION, 1, 1F),
+        RECURSION(1, 1F),
         BARK(2, 1F);
 
         @Nullable public final Consumer<LivingEntity> finishUsingItem;
@@ -79,12 +84,6 @@ public class ConserveItem extends EnumMultiItem {
         vortex.setPos(eater.position());
         eater.level.addFreshEntity(vortex);
     };
-    public static final Consumer<LivingEntity> LAMBDA_RECURSION = (eater) -> {
-        Player player = eater instanceof Player ? (Player) eater : null;
-        if(player != null) {
-            if(player.level.random.nextInt(10) > 0) player.getInventory().add(MetaHelper.newStack(NtmItems.CANNED_CONSERVE, ConserveType.RECURSION));
-        }
-    };
     public static final Consumer<LivingEntity> LAMBDA_FIST = (eater) -> {
         eater.hurt(eater.damageSources().magic(), 2F);
     };
@@ -95,42 +94,50 @@ public class ConserveItem extends EnumMultiItem {
 
     @Override
     public void registerItemModel(ItemModelProvider provider, ResourceLocation modelLocation) {
-        if(multiTexture) {
-            Enum<?>[] enums = theEnum.getEnumConstants();
+        Enum<?>[] enums = theEnum.getEnumConstants();
 
-            ItemModelBuilder builder = provider.getBuilder(modelLocation.toString());
+        ItemModelBuilder builder = provider.getBuilder(modelLocation.toString());
 
-            for(int i = 0; i < enums.length; i++) {
-                Enum<?> num = enums[i];
+        for(int i = 0; i < enums.length; i++) {
+            Enum<?> num = enums[i];
 
-                builder.override()
-                        .predicate(NuclearTechMod.withDefaultNamespace("item_meta"), i)
-                        .model(provider.getBuilder(modelLocation.getPath() + "_" + i)
-                                .parent(new ModelFile.UncheckedModelFile("item/generated"))
-                                .texture("layer0", ResourceLocation.fromNamespaceAndPath(modelLocation.getNamespace(), "item/canned" + "_" + num.name().toLowerCase(Locale.US))))
-                        .end();
-            }
+            builder.override()
+                    .predicate(NuclearTechMod.withDefaultNamespace("item_meta"), i)
+                    .model(provider.getBuilder(modelLocation.getPath() + "_" + i)
+                            .parent(new ModelFile.UncheckedModelFile("item/generated"))
+                            .texture("layer0", ResourceLocation.fromNamespaceAndPath(modelLocation.getNamespace(), "item/canned" + "_" + num.name().toLowerCase(Locale.US))))
+                    .end();
         }
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
+        for(String s : ITooltipProvider.getDescription(stack)) components.add(Component.literal(s).withStyle(ChatFormatting.GRAY));
+    }
+
+    @Override
+    public String getDescriptionId(ItemStack stack) {
+        Enum<?> num = EnumUtil.grabEnumSafely(theEnum, MetaHelper.getMeta(stack));
+        return "item.hbmsntm.canned_" + num.name().toLowerCase(Locale.US);
     }
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity eater) {
         Player player = eater instanceof Player ? (Player) eater : null;
-        level.playSound(null, eater.getX(), eater.getY(), eater.getZ(), eater.getEatingSound(stack), SoundSource.NEUTRAL, 1.0F, 1.0F + (level.random.nextFloat() - level.random.nextFloat()) * 0.4F);
-        stack.consume(1, eater);
-        eater.gameEvent(GameEvent.EAT);
-
         ConserveType type = EnumUtil.grabEnumSafely(ConserveType.class, MetaHelper.getMeta(stack));
         if(player != null) {
             player.getFoodData().eat(type.foodLevel, type.saturation);
             player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
             player.getInventory().add(new ItemStack(NtmItems.CAN_KEY.get()));
 
-            if(player instanceof ServerPlayer serverPlayer) {
-                CriteriaTriggers.CONSUME_ITEM.trigger(serverPlayer, stack);
-            }
+            if(player instanceof ServerPlayer serverPlayer) CriteriaTriggers.CONSUME_ITEM.trigger(serverPlayer, stack);
         }
         if(!level.isClientSide) if(type.finishUsingItem != null) type.finishUsingItem.accept(eater);
+        level.playSound(null, eater.getX(), eater.getY(), eater.getZ(), eater.getEatingSound(stack), SoundSource.NEUTRAL, 1.0F, 1.0F + (level.random.nextFloat() - level.random.nextFloat()) * 0.4F);
+        stack.consume(1, eater);
+        // hack
+        if(type == ConserveType.RECURSION && level.random.nextInt(10) > 0) stack.grow(1);
+        eater.gameEvent(GameEvent.EAT);
         return stack;
     }
 
@@ -141,7 +148,12 @@ public class ConserveItem extends EnumMultiItem {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        player.startUsingItem(hand);
-        return InteractionResultHolder.consume(stack);
+
+        if(player.canEat(false)) {
+            player.startUsingItem(hand);
+            return InteractionResultHolder.consume(stack);
+        } else {
+            return InteractionResultHolder.pass(stack);
+        }
     }
 }

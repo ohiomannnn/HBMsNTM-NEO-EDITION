@@ -3,6 +3,7 @@ package com.hbm.inventory.screens;
 import com.hbm.blocks.generic.BobbleBlock.BobbleType;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.Tuple.Pair;
+import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import net.minecraft.client.gui.GuiGraphics;
@@ -98,6 +99,18 @@ public class BobbleScreen extends Screen {
 
     @Override
     public boolean isPauseScreen() {
+        return false;
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        InputConstants.Key key = InputConstants.getKey(keyCode, scanCode);
+
+        if(keyCode == 256 || this.minecraft.options.keyInventory.isActiveAndMatches(key)) {
+            this.onClose();
+            return true;
+        }
+
         return false;
     }
 
