@@ -195,7 +195,7 @@ public class NtmItems {
     public static final DeferredItem<Item> ROD_QUAD = ITEMS.register("rod_quad", () -> new BreedingRodItem(new Item.Properties()));
 
     // Spawners
-    public static final DeferredItem<Item> DUCK_SPAWN_EGG = ITEMS.register("duck_spawn_egg", () -> new EntitySpawnerItem(new Item.Properties().stacksTo(16)));
+    public static final DeferredItem<Item> SPAWN_DUCK = ITEMS.register("spawn_duck", () -> new EntitySpawnerItem(new Item.Properties().stacksTo(16)));
 
     // Computer Tools
     public static final DeferredItem<Item> DESIGNATOR = ITEMS.register("designator", () -> new DesignatorItem(new Item.Properties().stacksTo(1)));
@@ -208,6 +208,7 @@ public class NtmItems {
     public static final DeferredItem<Item> PIN = ITEMS.register("pin", () -> new Item(new Item.Properties().stacksTo(8)));
     public static final DeferredItem<Item> KEY = ITEMS.register("key", () -> new KeyItem(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> KEY_RED = ITEMS.register("key_red", () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> KEY_RED_CRACKED = ITEMS.register("key_red_cracked", () -> new Item(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> KEY_KIT = ITEMS.register("key_kit", () -> new KeyItem(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> KEY_FAKE = ITEMS.register("key_fake", () -> new KeyItem(new Item.Properties().stacksTo(1)));
 
@@ -334,7 +335,7 @@ public class NtmItems {
 
     // Wands, Tools, Other Crap
     public static final DeferredItem<Item> POLAROID = ITEMS.register("polaroid", () -> new PolaroidItem(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> BURNT_BARK = ITEMS.register("burnt_bark", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> BURNT_BARK = ITEMS.register("burnt_bark", () -> new LoreItem(new Item.Properties()));
 
     // Kits
     public static final DeferredItem<Item> STARTER_KIT = ITEMS.register("starter_kit", () -> new StarterKitItem(new Item.Properties().stacksTo(1)));

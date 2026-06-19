@@ -35,21 +35,18 @@ public interface ITooltipProvider {
     @Nullable
     static String[] getDescriptionOrNull(ItemStack stack) {
         String key = stack.getDescriptionId() + ".desc";
-        if(I18nUtil.exist(key)) return null;
+        if(!I18nUtil.exist(key)) return null;
         return I18nUtil.resolveKeyArray(key);
     }
 
-    static String[] getDescriptionWithP11(String unlocalizedName) {
-        String wDesc = unlocalizedName + ".desc";
+    static String[] getDescriptionWithP11(ItemStack stack) {
+        String key = stack.getDescriptionId() + ".desc";
 
-        if (PolaroidItem.polaroidID == 11) {
-            String keyP11 = wDesc + ".P11";
-            String[] arrP11 = I18nUtil.resolveKeyArray(keyP11);
-
-            if (!arrP11[0].equals(keyP11)) {
-                return arrP11;
-            }
+        if(PolaroidItem.polaroidID == 11) {
+            String keyP11 = key + ".P11";
+            if(I18nUtil.exist(keyP11)) return I18nUtil.resolveKeyArray(keyP11);
         }
-        return I18nUtil.resolveKeyArray(wDesc);
+
+        return I18nUtil.resolveKeyArray(key);
     }
 }

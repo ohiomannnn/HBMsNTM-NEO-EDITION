@@ -17,8 +17,6 @@ public class LoreItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
-        for(String s : ITooltipProvider.getDescriptionWithP11(this.getDescriptionId())) {
-            components.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
-        }
+        for(String s : ITooltipProvider.getDescriptionWithP11(stack)) components.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
     }
 }

@@ -7,6 +7,7 @@ import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.handler.HazmatRegistry;
 import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.lib.ModEffect;
+import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -86,10 +87,12 @@ public class ContaminationUtil {
         String envPrefix = getPrefixFromRad(envRad);
         String resPrefix = getPrefixFromRadResistance(resKoeff);
 
+        String rad = I18nUtil.resolveKey("rad");
+        String rads = rad + "/" + I18nUtil.resolveKey("s");
         player.displayClientMessage(Component.translatable("geiger.title").withStyle(ChatFormatting.GOLD), false);
-        player.displayClientMessage(Component.translatable("geiger.chunkRad", chunkPrefix + (chunkRad + " RAD/s")).withStyle(ChatFormatting.YELLOW), false);
-        player.displayClientMessage(Component.translatable("geiger.envRad", envPrefix + (envRad + " RAD/s")).withStyle(ChatFormatting.YELLOW), false);
-        player.displayClientMessage(Component.translatable("geiger.playerRad", playerRadPrefix + (playerRad + " RAD")).withStyle(ChatFormatting.YELLOW), false);
+        player.displayClientMessage(Component.translatable("geiger.chunkRad", chunkPrefix + (chunkRad + " " + rads)).withStyle(ChatFormatting.YELLOW), false);
+        player.displayClientMessage(Component.translatable("geiger.envRad", envPrefix + (envRad + " " + rads)).withStyle(ChatFormatting.YELLOW), false);
+        player.displayClientMessage(Component.translatable("geiger.playerRad", playerRadPrefix + (playerRad + " " + rad)).withStyle(ChatFormatting.YELLOW), false);
         player.displayClientMessage(Component.translatable("geiger.playerRes", resPrefix + res + "% (" + resKoeff + ")").withStyle(ChatFormatting.YELLOW), false);
     }
 
@@ -104,8 +107,9 @@ public class ContaminationUtil {
 
         String envPrefix = getPrefixFromRad(env);
 
+        String rads = I18nUtil.resolveKey("rad") + "/" + I18nUtil.resolveKey("s");
         player.displayClientMessage(Component.translatable("geiger.title.dosimeter").withStyle(ChatFormatting.GOLD), false);
-        player.displayClientMessage(Component.translatable("geiger.envRad", envPrefix + (limit ? ">" : "") + env + " RAD/s").withStyle(ChatFormatting.YELLOW), false);
+        player.displayClientMessage(Component.translatable("geiger.envRad", envPrefix + (limit ? ">" : "") + env + " " + rads).withStyle(ChatFormatting.YELLOW), false);
     }
 
     public static void printDiagnosticData(Player player) {
@@ -113,7 +117,7 @@ public class ContaminationUtil {
         double halfLife = ((int)((1D - Math.pow(0.5, digamma)) * 10000)) / 100D; // hl 3 confirmed??
 
         player.displayClientMessage(Component.translatable("digamma.title").withStyle(ChatFormatting.DARK_PURPLE), false);
-        player.displayClientMessage(Component.translatable("digamma.playerDigamma", ChatFormatting.RED + (digamma + " DRX")).withStyle(ChatFormatting.LIGHT_PURPLE), false);
+        player.displayClientMessage(Component.translatable("digamma.playerDigamma", ChatFormatting.RED + (digamma + " " + I18nUtil.resolveKey("drx"))).withStyle(ChatFormatting.LIGHT_PURPLE), false);
         player.displayClientMessage(Component.translatable("digamma.playerHealth", ChatFormatting.RED + (halfLife + " %")).withStyle(ChatFormatting.LIGHT_PURPLE), false);
         player.displayClientMessage(Component.translatable("digamma.playerRes", ChatFormatting.BLUE + "N/A").withStyle(ChatFormatting.LIGHT_PURPLE), false);
     }

@@ -1,5 +1,6 @@
 package com.hbm.items.weapon;
 
+import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -41,13 +42,13 @@ public class MissileItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
-        components.add(Component.translatable("item.missile.tier." + this.tier.name().toLowerCase(Locale.US)).withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY));
+        components.add(Component.translatable("item.hbmsntm.obj_missile." + this.tier.name().toLowerCase(Locale.US)).withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY));
 
-        if (!this.launchable) {
-            components.add(Component.translatable("item.missile.desc.notLaunchable").withStyle(ChatFormatting.RED));
+        if(!this.launchable) {
+            components.add(Component.translatable("item.hbmsntm.obj_missile.not_launchable").withStyle(ChatFormatting.RED));
         } else {
-            components.add(Component.translatable("item.missile.desc.fuel").withStyle(ChatFormatting.GRAY).append(": ").append(Component.translatable(this.fuel.key).withStyle(this.fuel.color)));
-            if (this.fuelCap > 0) components.add(Component.translatable("item.missile.desc.fuelCapacity").withStyle(ChatFormatting.GRAY).append(": ").append(Component.translatable("fluid.info.mb", this.fuelCap)).withStyle(ChatFormatting.GRAY));
+            components.add(Component.translatable("item.hbmsntm.obj_missile.desc.fuel").withStyle(ChatFormatting.GRAY).append(": ").append(Component.translatable(this.fuel.key).withStyle(this.fuel.color)));
+            if(this.fuelCap > 0) components.add(Component.translatable("item.hbmsntm.obj_missile.desc.fuel_cap").withStyle(ChatFormatting.GRAY).append(": ").append(Component.literal(this.fuelCap + I18nUtil.resolveKey("mb"))).withStyle(ChatFormatting.GRAY));
         }
     }
 
@@ -76,11 +77,11 @@ public class MissileItem extends Item {
     }
 
     public enum MissileFuel {
-        SOLID("item.missile.fuel.solid.prefueled", ChatFormatting.GOLD, 0),
-        ETHANOL_PEROXIDE("item.missile.fuel.ethanol_peroxide", ChatFormatting.AQUA, 4_000),
-        KEROSENE_PEROXIDE("item.missile.fuel.kerosene_peroxide", ChatFormatting.BLUE, 8_000),
-        KEROSENE_LOXY("item.missile.fuel.kerosene_loxy", ChatFormatting.LIGHT_PURPLE, 12_000),
-        JETFUEL_LOXY("item.missile.fuel.jetfuel_loxy", ChatFormatting.RED, 16_000);
+        SOLID("item.hbmsntm.obj_missile.fuel.solid.prefueled", ChatFormatting.GOLD, 0),
+        ETHANOL_PEROXIDE("item.hbmsntm.obj_missile.fuel.ethanol_peroxide", ChatFormatting.AQUA, 4_000),
+        KEROSENE_PEROXIDE("item.hbmsntm.obj_missile.fuel.kerosene_peroxide", ChatFormatting.BLUE, 8_000),
+        KEROSENE_LOXY("item.hbmsntm.obj_missile.fuel.kerosene_loxy", ChatFormatting.LIGHT_PURPLE, 12_000),
+        JETFUEL_LOXY("item.hbmsntm.obj_missile.fuel.jetfuel_loxy", ChatFormatting.RED, 16_000);
 
         public final String key;
         public final ChatFormatting color;

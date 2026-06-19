@@ -44,9 +44,9 @@ public class DrinkItem extends EnumMultiItem {
         LUNA(          LAMBDA_LUNA, MetaHelper.newStack(NtmItems.DRINK, CAN_EMPTY), new ItemStack(NtmItems.RING_PULL.get()), false),
         BEPIS(         LAMBDA_BEPIS, MetaHelper.newStack(NtmItems.DRINK, CAN_EMPTY), new ItemStack(NtmItems.RING_PULL.get()), false),
         BREEN(         LAMBDA_BREEN, MetaHelper.newStack(NtmItems.DRINK, CAN_EMPTY), new ItemStack(NtmItems.RING_PULL.get()), false),
-        MUG(           LAMBDA_MUG, MetaHelper.newStack(NtmItems.DRINK, CAN_EMPTY), new ItemStack(NtmItems.RING_PULL.get()), false),
-        COFFEE(        LAMBDA_COFFEE, ItemStack.EMPTY, ItemStack.EMPTY, false),
-        COFFEE_RADIUM( LAMBDA_COFFEE_RADIUM, ItemStack.EMPTY, ItemStack.EMPTY, false),
+        MUG(           LAMBDA_MUG, MetaHelper.newStack(NtmItems.DRINK, CAN_EMPTY), new ItemStack(NtmItems.RING_PULL.get()), false, false),
+        COFFEE(        LAMBDA_COFFEE, ItemStack.EMPTY, ItemStack.EMPTY, false, false),
+        COFFEE_RADIUM( LAMBDA_COFFEE_RADIUM, ItemStack.EMPTY, ItemStack.EMPTY, false, false),
         BOTTLE_EMPTY(null, ItemStack.EMPTY, ItemStack.EMPTY, false, false),
         NUKA(          LAMBDA_NUKA, MetaHelper.newStack(NtmItems.DRINK, BOTTLE_EMPTY), MetaHelper.newStack(NtmItems.CAP, CapType.NUKA), true),
         CHERRY(        LAMBDA_CHERRY, MetaHelper.newStack(NtmItems.DRINK, BOTTLE_EMPTY), MetaHelper.newStack(NtmItems.CAP, CapType.NUKA), true),
@@ -226,10 +226,8 @@ public class DrinkItem extends EnumMultiItem {
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
         DrinkType type = EnumUtil.grabEnumSafely(DrinkType.class, MetaHelper.getMeta(stack));
         if(type.desc) {
-            for(String s : ITooltipProvider.getDescriptionWithP11(this.getDescriptionId())) {
-                components.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
-            }
-            if(type.requiresOpener) components.add(Component.translatable("requires.opener").withStyle(ChatFormatting.GRAY));
+            for(String s : ITooltipProvider.getDescriptionWithP11(stack)) components.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
+            if(type.requiresOpener) components.add(Component.translatable("item.hbmsntm.obj_drink.requires_opener").withStyle(ChatFormatting.GRAY));
         }
     }
 }

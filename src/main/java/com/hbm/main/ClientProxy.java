@@ -217,18 +217,18 @@ public class ClientProxy extends ServerProxy {
         EntityRenderers.register(NtmEntityTypes.DUCK.get(), DuckRenderer::new);
     }
 
-    public void playLocalSound(Vec3 vec, SoundEvent soundEvent, SoundSource source, float volume, float pitch, boolean distanceDelay) {
-        this.playLocalSound(vec.x, vec.y, vec.z, soundEvent, source, volume, pitch, distanceDelay);
+    public void playLocalSound(Vec3 vec, SoundEvent soundEvent, SoundSource source, float volume, float pitch) {
+        this.playLocalSound(vec.x, vec.y, vec.z, soundEvent, source, volume, pitch);
     }
 
-    public void playLocalSound(double x, double y, double z, SoundEvent soundEvent, SoundSource source, float volume, float pitch, boolean distanceDelay) {
+    public void playLocalSound(double x, double y, double z, SoundEvent soundEvent, SoundSource source, float volume, float pitch) {
         Minecraft minecraft = Minecraft.getInstance();
 
-        double dist = minecraft.gameRenderer.getMainCamera().getPosition().distanceToSqr(x, y, z);
+        double distSqr = minecraft.gameRenderer.getMainCamera().getPosition().distanceToSqr(x, y, z);
         SimpleSoundInstance simplesoundinstance = new SimpleSoundInstance(soundEvent, source, volume, pitch, RandomSource.create(minecraft.level.random.nextLong()), x, y, z);
-        if(distanceDelay && dist > 100.0) {
-            double d1 = Math.sqrt(dist) / 40.0;
-            minecraft.getSoundManager().playDelayed(simplesoundinstance, (int)(d1 * 20.0));
+        if(distSqr > 100.0) {
+            double dist = Math.sqrt(distSqr) / 40.0;
+            minecraft.getSoundManager().playDelayed(simplesoundinstance, (int)(dist * 20.0));
         } else {
             minecraft.getSoundManager().play(simplesoundinstance);
         }

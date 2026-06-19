@@ -3,8 +3,14 @@ package com.hbm.datagen;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.blocks.generic.BarbedWireBlock.BarbedWireType;
 import com.hbm.blocks.generic.PlushieBlock.PlushieType;
+import com.hbm.items.ItemEnums.CapType;
 import com.hbm.items.NtmItems;
+import com.hbm.items.food.DrinkItem.DrinkType;
+import com.hbm.items.machine.BatteryPackItem.BatteryPackType;
+import com.hbm.items.machine.BatterySCItem.BatterySCType;
+import com.hbm.items.special.StarterKitItem.KitType;
 import com.hbm.main.NuclearTechMod;
+import com.mojang.datafixers.Products.P1;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -125,180 +131,334 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmItems.INGOT_SMORE, "S'more Ingot");
         this.add(NtmItems.INGOT_OSMIRIDIUM, "Osmiridium Ingot");
 
-        this.add(NtmItems.PELLET_RTG, "Ingot");
+        this.add(NtmItems.PELLET_RTG, "Plutonium-238 RTG Pellet");
 
-        this.add(NtmItems.CELL_EMPTY, "Ingot");
-        this.add(NtmItems.CELL_UF6, "Ingot");
-        this.add(NtmItems.CELL_PUF6, "Ingot");
-        this.add(NtmItems.CELL_ANTIMATTER, "Ingot");
-        this.add(NtmItems.CELL_DEUTERIUM, "Ingot");
-        this.add(NtmItems.CELL_TRITIUM, "Ingot");
-        this.add(NtmItems.CELL_SAS3, "Ingot");
-        this.add(NtmItems.CELL_ANTI_SCHARBIDIUM, "Ingot");
-        this.add(NtmItems.CELL_BALEFIRE, "Ingot");
+        this.add(NtmItems.CELL_EMPTY, "Empty Cell");
+        this.add(NtmItems.CELL_UF6, "Uranium Hexafluoride Cell");
+        this.add(NtmItems.CELL_PUF6, "Plutonium Hexafluoride Cell");
+        this.add(NtmItems.CELL_ANTIMATTER, "Antimatter Cell");
+        this.add(NtmItems.CELL_ANTIMATTER, DESC, "Warning: Exposure to matter will$lead to violent annihilation!");
+        this.add(NtmItems.CELL_DEUTERIUM, "Deuterium Cell");
+        this.add(NtmItems.CELL_TRITIUM, "Tritium Cell");
+        this.add(NtmItems.CELL_SAS3, "Schrabidium Trisulfide Cell");
+        this.add(NtmItems.CELL_ANTI_SCHARBIDIUM, "Antischrabidium Cell");
+        this.add(NtmItems.CELL_ANTI_SCHARBIDIUM, DESC, "Warning: Exposure to matter will$create a fólkvangr field!");
+        this.add(NtmItems.CELL_BALEFIRE, "Gaseous Balefire Cell");
 
-        this.add(NtmItems.PARTICLE_DIGAMMA, "Ingot");
-        this.add(NtmItems.PARTICLE_LUTECE, "Ingot");
+        this.add(NtmItems.PARTICLE_DIGAMMA, "§cThe Digamma Particle§r");
+        this.add(NtmItems.PARTICLE_LUTECE, "Lutece Quasiparticle");
 
-        this.add(NtmItems.SINGULARITY, "Ingot");
-        this.add(NtmItems.SINGULARITY_COUNTER_RESONANT, "Ingot");
-        this.add(NtmItems.SINGULARITY_SUPER_HEATED, "Ingot");
-        this.add(NtmItems.BLACK_HOLE, "Ingot");
-        this.add(NtmItems.SINGULARITY_SPARK, "Ingot");
-        this.add(NtmItems.PELLET_ANTIMATTER, "Ingot");
+        this.add(NtmItems.SINGULARITY, "Singularity");
+        this.add(NtmItems.SINGULARITY, DESC, "You may be asking:$\"But HBM, a manifold with an undefined$state of spacetime? How is this possible?\"$Long answer short:$\"I have no idea!\"");
+        this.add(NtmItems.SINGULARITY_COUNTER_RESONANT, "Contained Counter-Resonant Singularity");
+        this.add(NtmItems.SINGULARITY_COUNTER_RESONANT, DESC, "Nullifies resonance of objects in$non-euclidean space, creates variable$gravity well. Spontaneously spawns$tesseracts. If a tesseract happens to$appear near you, do not look directly$at it.");
+        this.add(NtmItems.SINGULARITY_SUPER_HEATED, "Superheated Resonating Singularity");
+        this.add(NtmItems.SINGULARITY_SUPER_HEATED, DESC, "Continuously heats up matter by$resonating every planck second.$Tends to catch fire or to create$small plasma arcs. Not edible.");
+        this.add(NtmItems.BLACK_HOLE, "Miniature Black Hole");
+        this.add(NtmItems.BLACK_HOLE, DESC, "Contains a regular singularity$in the center. Large enough to$stay stable. It's not the end$of the world as we know it,$and I don't feel fine.");
+        this.add(NtmItems.SINGULARITY_SPARK, "Spark Singularity");
+        this.add(NtmItems.PELLET_ANTIMATTER, "Antimatter Cluster");
+        this.add(NtmItems.PELLET_ANTIMATTER, DESC, "Very heavy antimatter cluster.$Gets rid of black holes.");
 
-        this.add(NtmItems.INF_WATER, "Ingot");
-        this.add(NtmItems.INF_WATER_MK2, "Ingot");
+        this.add(NtmItems.INF_WATER, "Infinite Water Tank");
+        this.add(NtmItems.INF_WATER_MK2, "Large Infinite Water Tank");
 
-        this.add(NtmItems.FLUID_TANK_EMPTY, "Ingot");
-        this.add(NtmItems.FLUID_TANK_FULL, "Ingot");
-        this.add(NtmItems.FLUID_TANK_LEAD_EMPTY, "Ingot");
-        this.add(NtmItems.FLUID_TANK_LEAD_FULL, "Ingot");
-        this.add(NtmItems.FLUID_BARREL_EMPTY, "Ingot");
-        this.add(NtmItems.FLUID_BARREL_FULL, "Ingot");
-        this.add(NtmItems.FLUID_BARREL_INFINITE, "Ingot");
+        this.add(NtmItems.FLUID_TANK_EMPTY, "Empty Universal Fluid Tank");
+        this.add(NtmItems.FLUID_TANK_FULL, "Universal Fluid Tank: %s");
+        this.add(NtmItems.FLUID_TANK_LEAD_EMPTY, "Empty Hazardous Material Tank");
+        this.add(NtmItems.FLUID_TANK_LEAD_FULL, "Hazardous Material Tank: %s");
+        this.add(NtmItems.FLUID_BARREL_EMPTY, "Empty Fluid Barrel");
+        this.add(NtmItems.FLUID_BARREL_FULL, "Fluid Barrel: %s");
+        this.add(NtmItems.FLUID_BARREL_INFINITE, "Infinite Fluid Barrel");
 
-        this.add(NtmItems.FLUID_PACK_EMPTY, "Ingot");
-        this.add(NtmItems.FLUID_PACK_FULL, "Ingot");
+        this.add(NtmItems.FLUID_PACK_EMPTY, "Large Fluid Container");
+        this.add(NtmItems.FLUID_PACK_FULL, "Packaged %s");
 
-        this.add(NtmItems.BATTERY_SPARK, "Ingot");
-        this.add(NtmItems.BATTERY_TRIXITE, "Ingot");
+        this.add(NtmItems.BATTERY_SPARK, "Spark Battery");
+        this.add(NtmItems.BATTERY_TRIXITE, "Off-Brand Spark Battery");
 
-        this.add(NtmItems.BATTERY_PACK, "Ingot");
-        this.add(NtmItems.BATTERY_SC, "Ingot");
-        this.add(NtmItems.BATTERY_CREATIVE, "Ingot");
+        this.add("item.hbmsntm.obj_battery_pack.desc0", "Energy stored: %s");
+        this.add("item.hbmsntm.obj_battery_pack.desc1", "Charge rate: %s");
+        this.add("item.hbmsntm.obj_battery_pack.desc2", "Discharge rate: %s");
+        this.add("item.hbmsntm.obj_battery_pack.desc3", "Time for full charge: %s");
+        this.add("item.hbmsntm.obj_battery_pack.desc4", "Charge lasts for: %s");
+        this.add(NtmItems.BATTERY_PACK, this.getName(BatteryPackType.BATTERY_REDSTONE), "Redstone Battery");
+        this.add(NtmItems.BATTERY_PACK, this.getName(BatteryPackType.BATTERY_LEAD), "Lead-Acid Battery");
+        this.add(NtmItems.BATTERY_PACK, this.getName(BatteryPackType.BATTERY_LITHIUM), "Lithium-Ion Battery");
+        this.add(NtmItems.BATTERY_PACK, this.getName(BatteryPackType.BATTERY_SODIUM), "Sodium-Iron Battery");
+        this.add(NtmItems.BATTERY_PACK, this.getName(BatteryPackType.BATTERY_SCHRABIDIUM), "Schrabidium Battery");
+        this.add(NtmItems.BATTERY_PACK, this.getName(BatteryPackType.BATTERY_QUANTUM), "Quantum Battery");
+        this.add(NtmItems.BATTERY_PACK, this.getName(BatteryPackType.CAPACITOR_COPPER), "Copper Capacitor");
+        this.add(NtmItems.BATTERY_PACK, this.getName(BatteryPackType.CAPACITOR_GOLD), "Gold Capacitor");
+        this.add(NtmItems.BATTERY_PACK, this.getName(BatteryPackType.CAPACITOR_NIOBIUM), "Niobium Capacitor");
+        this.add(NtmItems.BATTERY_PACK, this.getName(BatteryPackType.CAPACITOR_TANTALUM), "Tantalum Capacitor");
+        this.add(NtmItems.BATTERY_PACK, this.getName(BatteryPackType.CAPACITOR_BISMUTH), "Bismuth Capacitor");
+        this.add(NtmItems.BATTERY_PACK, this.getName(BatteryPackType.CAPACITOR_SPARK), "Spark Capacitor");
+        this.add("item.hbmsntm.obj_battery_sc.desc", "Discharge rate: %s");
+        this.add(NtmItems.BATTERY_SC, this.getName(BatterySCType.EMPTY), "Empty Self-Charging Battery");
+        this.add(NtmItems.BATTERY_SC, this.getName(BatterySCType.WASTE), "Spent Fuel Self-Charging Battery");
+        this.add(NtmItems.BATTERY_SC, this.getName(BatterySCType.RA226), "Radium-226 Self-Charging Battery");
+        this.add(NtmItems.BATTERY_SC, this.getName(BatterySCType.TC99), "Technetium-99 Self-Charging Battery");
+        this.add(NtmItems.BATTERY_SC, this.getName(BatterySCType.CO60), "Cobalt-60 Self-Charging Battery");
+        this.add(NtmItems.BATTERY_SC, this.getName(BatterySCType.PU238), "Plutonium-238 Self-Charging Battery");
+        this.add(NtmItems.BATTERY_SC, this.getName(BatterySCType.PO210), "Polonium-210 Self-Charging Battery");
+        this.add(NtmItems.BATTERY_SC, this.getName(BatterySCType.AU198), "Gold-198 Self-Charging Battery");
+        this.add(NtmItems.BATTERY_SC, this.getName(BatterySCType.PB209), "Lead-209 Self-Charging Battery");
+        this.add(NtmItems.BATTERY_SC, this.getName(BatterySCType.AM241), "Americium-241 Self-Charging Battery");
+        this.add(NtmItems.BATTERY_CREATIVE, "Infinite Battery");
 
-        this.add(NtmItems.BLUEPRINTS, "Ingot");
+        this.add(NtmItems.BLUEPRINTS, "Blueprints");
 
-        this.add(NtmItems.FLUID_ICON, "Ingot");
-        this.add(NtmItems.FLUID_IDENTIFIER_MULTI, "Ingot");
+        //this.add(NtmItems.FLUID_ICON, "");
+        this.add("item.hbmsntm.obj_fluid_id_multi.desc0", "Universal fluid identifier for:");
+        this.add("item.hbmsntm.obj_fluid_id_multi.desc1", "Secondary type:");
+        this.add(NtmItems.FLUID_IDENTIFIER_MULTI, "Multi Fluid Identifier");
 
-        this.add(NtmItems.SCREWDRIVER, "Ingot");
-        this.add(NtmItems.SCREWDRIVER_DESH, "Ingot");
-        this.add(NtmItems.BLOWTORCH, "Ingot");
-        this.add(NtmItems.ACETYLENE_TORCH, "Ingot");
+        this.add(NtmItems.SCREWDRIVER, "Screwdriver");
+        this.add(NtmItems.SCREWDRIVER_DESH, "Desh Screwdriver");
+        this.add(NtmItems.BLOWTORCH, "Blowtorch");
+        this.add(NtmItems.ACETYLENE_TORCH, "Acetylene Welding Torch");
 
-        this.add(NtmItems.ROD_EMPTY, "Ingot");
+        this.add(NtmItems.ROD_EMPTY, "Empty Rod");
         this.add(NtmItems.ROD, "Ingot");
-        this.add(NtmItems.ROD_DUAL_EMPTY, "Ingot");
+        this.add(NtmItems.ROD_DUAL_EMPTY, "Empty Dual Rod");
         this.add(NtmItems.ROD_DUAL, "Ingot");
-        this.add(NtmItems.ROD_QUAD_EMPTY, "Ingot");
+        this.add(NtmItems.ROD_QUAD_EMPTY, "Lithium Dual Rod");
         this.add(NtmItems.ROD_QUAD, "Ingot");
 
-        this.add(NtmItems.DUCK_SPAWN_EGG, "Ingot");
+        this.add(NtmItems.SPAWN_DUCK, "Golden Egg");
 
-        this.add(NtmItems.DESIGNATOR, "Ingot");
-        this.add(NtmItems.DESIGNATOR_RANGE, "Ingot");
-        this.add(NtmItems.DOSIMETER, "Ingot");
-        this.add(NtmItems.GEIGER_COUNTER, "Ingot");
-        this.add(NtmItems.DIGAMMA_DIAGNOSTIC, "Ingot");
+        this.add(NtmItems.DESIGNATOR, "Short Range Target Designator");
+        this.add(NtmItems.DESIGNATOR_RANGE, "Long Range Target Designator");
+        this.add("geiger.title.dosimeter", "===== ☢ DOSIMETER ☢ =====");
+        this.add(NtmItems.DOSIMETER, "Dosimeter");
+        this.add("geiger.title", "===== ☢ GEIGER COUNTER ☢ =====");
+        this.add("geiger.chunkRad", "Current chunk radiation: %s");
+        this.add("geiger.envRad", "Total environmental radiation: %s");
+        this.add("geiger.playerRad", "Player contamination: %s");
+        this.add("geiger.playerRes", "Player resistance: %s");
+        this.add(NtmItems.GEIGER_COUNTER, "Handheld Geiger Counter");
+        this.add("digamma.title", "===== Ϝ DIGAMMA DIAGNOSTIC Ϝ =====");
+        this.add("digamma.playerDigamma", "Digamma exposure: %s");
+        this.add("digamma.playerHealth", "Digamma influence: %s");
+        this.add("digamma.playerRes", "Digamma resistance: %s");
+        this.add(NtmItems.DIGAMMA_DIAGNOSTIC, "Digamma Diagnostic");
 
-        this.add(NtmItems.PIN, "Ingot");
-        this.add(NtmItems.KEY, "Ingot");
-        this.add(NtmItems.KEY_RED, "Ingot");
-        this.add(NtmItems.KEY_KIT, "Ingot");
-        this.add(NtmItems.KEY_FAKE, "Ingot");
+        this.add(NtmItems.PIN, "Bobby Pin");
+        this.add(NtmItems.PIN, DESC, "Standard success rate of picking a regular lock is ~10%%.");
+        this.add(NtmItems.KEY, "Key");
+        this.add(NtmItems.KEY_RED, "Red Key");
+        this.add(NtmItems.KEY_RED, DESC, "Explore the other side.");
+        this.add(NtmItems.KEY_RED, DESC + P11, "§4e§r");
+        this.add(NtmItems.KEY_RED_CRACKED, "Red Key");
+        this.add(NtmItems.KEY_RED_CRACKED, DESC, "???");
+        this.add(NtmItems.KEY_RED_CRACKED, DESC + P11,"§4???§r");
+        this.add(NtmItems.KEY_KIT, "Key Imitation Kit");
+        this.add(NtmItems.KEY_FAKE, "Counterfeit Key");
 
-        this.add(NtmItems.MISSILE_TAINT, "Ingot");
-        this.add(NtmItems.MISSILE_MICRO, "Ingot");
-        this.add(NtmItems.MISSILE_BHOLE, "Ingot");
-        this.add(NtmItems.MISSILE_SCHRABIDIUM, "Ingot");
-        this.add(NtmItems.MISSILE_EMP, "Ingot");
+        this.add("item.hbmsntm.obj_missile.tier0", "Tier 0");
+        this.add("item.hbmsntm.obj_missile.tier1", "Tier 1");
+        this.add("item.hbmsntm.obj_missile.tier2", "Tier 2");
+        this.add("item.hbmsntm.obj_missile.tier3", "Tier 3");
+        this.add("item.hbmsntm.obj_missile.tier4", "Tier 4");
+        this.add("item.hbmsntm.obj_missile.not_launchable", "Not launchable!");
+        this.add("item.hbmsntm.obj_missile.desc.fuel", "Fuel");
+        this.add("item.hbmsntm.obj_missile.desc.fuel_cap", "Fuel capacity");
+        this.add("item.hbmsntm.obj_missile.fuel.solid", "Solid Fuel");
+        this.add("item.hbmsntm.obj_missile.fuel.solid.prefueled", "Solid Fuel (pre-fueled)");
+        this.add("item.hbmsntm.obj_missile.fuel.ethanol_peroxide", "Ethanol / Hydrogen Peroxide");
+        this.add("item.hbmsntm.obj_missile.fuel.kerosene_peroxide", "Kerosene / Hydrogen Peroxide");
+        this.add("item.hbmsntm.obj_missile.fuel.kerosene_loxy", "Kerosene / Liquid Oxygen");
+        this.add("item.hbmsntm.obj_missile.fuel.jetfuel_loxy", "Jet Fuel / Liquid Oxygen");
+        this.add(NtmItems.MISSILE_TAINT, "Taint-Tipped Missile");
+        this.add(NtmItems.MISSILE_MICRO, "Micro-Nuclear Missile");
+        this.add(NtmItems.MISSILE_BHOLE, "Black Hole Missile");
+        this.add(NtmItems.MISSILE_SCHRABIDIUM, "Schrabidium Missile");
+        this.add(NtmItems.MISSILE_EMP, "EMP Missile");
 
-        this.add(NtmItems.MISSILE_GENERIC, "Ingot");
-        this.add(NtmItems.MISSILE_INCENDIARY, "Ingot");
-        this.add(NtmItems.MISSILE_CLUSTER, "Ingot");
-        this.add(NtmItems.MISSILE_BUSTER, "Ingot");
-        this.add(NtmItems.MISSILE_STEALTH, "Ingot");
-        this.add(NtmItems.MISSILE_DECOY, "Ingot");
+        this.add(NtmItems.MISSILE_GENERIC, "High Explosive Missile");
+        this.add(NtmItems.MISSILE_INCENDIARY, "Incendiary Missile");
+        this.add(NtmItems.MISSILE_CLUSTER, "Cluster Missile");
+        this.add(NtmItems.MISSILE_BUSTER, "Bunker Buster");
+        this.add(NtmItems.MISSILE_STEALTH, "Stealth Missile");
+        this.add(NtmItems.MISSILE_DECOY, "Decoy Missile");
 
-        this.add(NtmItems.MISSILE_STRONG, "Ingot");
-        this.add(NtmItems.MISSILE_INCENDIARY_STRONG, "Ingot");
-        this.add(NtmItems.MISSILE_CLUSTER_STRONG, "Ingot");
-        this.add(NtmItems.MISSILE_BUSTER_STRONG, "Ingot");
-        this.add(NtmItems.MISSILE_EMP_STRONG, "Ingot");
+        this.add(NtmItems.MISSILE_STRONG, "Strong HE Missile");
+        this.add(NtmItems.MISSILE_INCENDIARY_STRONG, "Strong Incendiary Missile");
+        this.add(NtmItems.MISSILE_CLUSTER_STRONG, "Strong Cluster Missile");
+        this.add(NtmItems.MISSILE_BUSTER_STRONG, "Enhanced Bunker Buster");
+        this.add(NtmItems.MISSILE_EMP_STRONG, "Strong EMP Missile");
 
-        this.add(NtmItems.MISSILE_BURST, "Ingot");
-        this.add(NtmItems.MISSILE_INFERNO, "Ingot");
-        this.add(NtmItems.MISSILE_RAIN, "Ingot");
-        this.add(NtmItems.MISSILE_DRILL, "Ingot");
-        this.add(NtmItems.MISSILE_SHUTTLE, "Ingot");
+        this.add(NtmItems.MISSILE_BURST, "Spare Missile");
+        this.add(NtmItems.MISSILE_INFERNO, "Inferno Missile G.R.N. Mk.II");
+        this.add(NtmItems.MISSILE_RAIN, "Bomblet Rain");
+        this.add(NtmItems.MISSILE_DRILL, "The Concrete Cracker");
+        this.add(NtmItems.MISSILE_SHUTTLE, "Reliant Robin Space Shuttle");
 
-        this.add(NtmItems.MISSILE_NUCLEAR, "Ingot");
-        this.add(NtmItems.MISSILE_NUCLEAR_CLUSTER, "Ingot");
-        this.add(NtmItems.MISSILE_VOLCANO, "Ingot");
-        this.add(NtmItems.MISSILE_DOOMSDAY, "Ingot");
-        this.add(NtmItems.MISSILE_DOOMSDAY_RUSTED, "Ingot");
+        this.add(NtmItems.MISSILE_NUCLEAR, "Nuclear Missile");
+        this.add(NtmItems.MISSILE_NUCLEAR_CLUSTER, "Thermonuclear Missile");
+        this.add(NtmItems.MISSILE_VOLCANO, "Tectonic Missile");
+        this.add(NtmItems.MISSILE_VOLCANO, DESC, "Using the power of nuclear explosives, we can summon a volcano!");
+        this.add(NtmItems.MISSILE_DOOMSDAY, "Doomsday Missile");
+        this.add(NtmItems.MISSILE_DOOMSDAY_RUSTED, "Damaged Doomsday Missile");
 
-        this.add(NtmItems.SATELLITE_RADAR, "Ingot");
-        this.add(NtmItems.SATELLITE_LASER, "Ingot");
-        this.add(NtmItems.SATELLITE_INTERFACE, "Ingot");
+        this.add(NtmItems.SATELLITE_RADAR, "Radar Survey Satellite");
+        this.add(NtmItems.SATELLITE_LASER, "Orbital Death Ray");
+        this.add(NtmItems.SATELLITE_INTERFACE, "Satellite Control Interface");
 
-        this.add(NtmItems.BALEFIRE_AND_STEEL, "Ingot");
+        this.add(NtmItems.BALEFIRE_AND_STEEL, "Balefire and Steel");
 
-        this.add(NtmItems.DRINK, "Ingot");
-        this.add(NtmItems.BOTTLE_OPENER, "Ingot");
+        this.add("item.hbmsntm.obj_drink.requires_opener", "[Requires bottle opener]");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.CAN_EMPTY), "Empty Can");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.SMART), "'Smart' Energy Drink");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.SMART) + DESC, "Cheap and full of bubbles");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.CREATURE), "'Creature' Energy Drink");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.CREATURE) + DESC, "Basically gasoline in a tin can");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.REDBOMB), "'Red Bomb' Energy Drink");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.REDBOMB) + DESC, "Liquefied explosives");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.MRSUGAR), "'Dr. Sugar' Soft Drink");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.MRSUGAR) + DESC, "An intellectual drink, for the chosen ones!");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.OVERCHARGE), "Overcharge Delirium XT");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.OVERCHARGE) + DESC, "Possible side effects include heart attacks, seizures or zombification");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.LUNA), "Black Mesa Luna - Dark Cola");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.LUNA) + DESC, "Contains actual selenium and star metal. Tastes like night.");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.BEPIS), "Bepis");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.BEPIS) + DESC, "beppp");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.BREEN), "Dr>Breens Private Reserve");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.BREEN) + DESC, "Don't drink the water. They put something in it, to make you forget.$I don't even know how I got here.");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.MUG), "MUG Root Beer");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.COFFEE), "Coffee");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.COFFEE_RADIUM), "Radium Coffee");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.BOTTLE_EMPTY), "Empty Bomb-Shaped Bottle");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.NUKA), "Bottle of Nuka Cola");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.NUKA) + DESC, "Contains about 210 kcal and 1500 mSv.");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.CHERRY), "Bottle of Nuka Cherry");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.CHERRY) + DESC, "Now with severe radiation poisoning in every seventh bottle!");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.QUANTUM), "Bottle of Nuka Cola Quantum");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.QUANTUM) + DESC, "Comes with a colorful mix of over 70 isotopes!");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.SPARKLE), "Bottle of S~Cola");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.SPARKLE) + DESC, "The most delicious beverage in the wasteland!");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.SPARKLE) + DESC + P11, "Contains trace amounts of taint.");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.RAD), "Bottle of S~Cola RAD");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.RAD) + DESC, "Tastes like radish and radiation.");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.RAD) + DESC + P11, "Now with 400% more radiation!");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.BOTTLE2_EMPTY), "Empty Bottle");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.KORL), "Korl");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.KORL) + DESC, "Contains actual orange juice!");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.FRITZ), "Fritz Cola");
+        this.add(NtmItems.DRINK, this.getName(DrinkType.FRITZ) + DESC, "moremore caffeine");
+        this.add(NtmItems.BOTTLE_OPENER, "Hbm's Own Self-Made Bottle Opener");
+        this.add(NtmItems.BOTTLE_OPENER, DESC, "My very own bottle opener.$Use with caution!");
 
         this.add(NtmItems.CANNED_CONSERVE, "Ingot");
 
-        this.add(NtmItems.CAP, "Ingot");
-        this.add(NtmItems.RING_PULL, "Ingot");
-        this.add(NtmItems.CAN_KEY, "Ingot");
+        this.add(NtmItems.CAP, this.getName(CapType.NUKA), "Nuka Cola Bottle Cap");
+        this.add(NtmItems.CAP, this.getName(CapType.QUANTUM), "Nuka Cola Quantum Bottle Cap");
+        this.add(NtmItems.CAP, this.getName(CapType.SPARKLE), "S~Cola Bottle Cap");
+        this.add(NtmItems.CAP, this.getName(CapType.RAD), "S~Cola RAD Bottle Cap");
+        this.add(NtmItems.CAP, this.getName(CapType.KORL), "Korl Bottle Cap");
+        this.add(NtmItems.CAP, this.getName(CapType.FRITZ), "Fritz Cola Bottle Cap");
+        this.add(NtmItems.RING_PULL, "Ring Pull");
+        this.add(NtmItems.CAN_KEY, "Winding Key");
 
-        this.add(NtmItems.CHOCOLATE_MILK, "Ingot");
-        this.add(NtmItems.CIGARETTE, "Ingot");
-        this.add(NtmItems.CRACKPIPE, "Ingot");
+        this.add(NtmItems.CHOCOLATE_MILK, "Chocolate Milk");
+        this.add(NtmItems.CHOCOLATE_MILK, DESC, "Regular chocolate milk. Safe to drink.$Totally not made from nitroglycerine.");
+        this.add("item.hbmsntm.obj_cigarette.desc0", "✓ Asbestos filter$✓ High in tar$✓ Tobacco contains 100%% Polonium-210$✓ Yum");
+        this.add("item.hbmsntm.obj_cigarette.desc1", "This can't be good for me, but I feel ");
+        this.add("item.hbmsntm.obj_cigarette.desc2", "GREAT");
+        this.add(NtmItems.CIGARETTE, "FFI-Brand Cigarette");
+        this.add(NtmItems.CRACKPIPE, "Health Pipe");
 
-        this.add(NtmItems.EARLY_EXPLOSIVE_LENSES, "Ingot");
-        this.add(NtmItems.EXPLOSIVE_LENSES, "Ingot");
+        this.add(NtmItems.EARLY_EXPLOSIVE_LENSES, "Array of First-Generation High-Explosive Lenses");
+        this.add(NtmItems.EARLY_EXPLOSIVE_LENSES, DESC, "Assembly of 8 high-explosive lenses with an aluminium$pusher, duraluminium shell, and bridgewire detonators.");
+        this.add(NtmItems.EXPLOSIVE_LENSES, "Array of High-Explosive Lenses");
+        this.add(NtmItems.EXPLOSIVE_LENSES, DESC, "Assembly of 8 PBX lenses with a thin$aluminium pusher, duraluminium shell, and$miniaturized bridgewire detonators.");
 
-        this.add(NtmItems.GADGET_WIREING, "Ingot");
-        this.add(NtmItems.GADGET_CORE, "Ingot");
+        this.add(NtmItems.GADGET_WIREING, "Wiring");
+        this.add(NtmItems.GADGET_CORE, "Large Plutonium Core");
 
-        this.add(NtmItems.LITTLE_BOY_SHIELDING, "Ingot");
-        this.add(NtmItems.LITTLE_BOY_TARGET, "Ingot");
-        this.add(NtmItems.LITTLE_BOY_BULLET, "Ingot");
-        this.add(NtmItems.LITTLE_BOY_PROPELLANT, "Ingot");
-        this.add(NtmItems.LITTLE_BOY_IGNITER, "Ingot");
+        this.add(NtmItems.LITTLE_BOY_SHIELDING, "Neutron Shielding");
+        this.add(NtmItems.LITTLE_BOY_TARGET, "Subcritical U235 Target");
+        this.add(NtmItems.LITTLE_BOY_BULLET, "U235 Projectile");
+        this.add(NtmItems.LITTLE_BOY_PROPELLANT, "Propellant");
+        this.add(NtmItems.LITTLE_BOY_IGNITER, "Bomb Igniter");
 
-        this.add(NtmItems.FAT_MAN_IGNITER, "Ingot");
-        this.add(NtmItems.FAT_MAN_CORE, "Ingot");
+        this.add(NtmItems.FAT_MAN_IGNITER, "Bomb Firing Unit");
+        this.add(NtmItems.FAT_MAN_CORE, "Plutonium Core");
 
-        this.add(NtmItems.IVY_MIKE_CORE, "Ingot");
-        this.add(NtmItems.IVY_MIKE_DEUT, "Ingot");
-        this.add(NtmItems.IVY_MIKE_COOLING_UNIT, "Ingot");
+        this.add(NtmItems.IVY_MIKE_CORE, "Uranium Coated Deuterium Tank");
+        this.add(NtmItems.IVY_MIKE_DEUT, "Deuterium Tank");
+        this.add(NtmItems.IVY_MIKE_COOLING_UNIT, "Deuterium Cooling Unit");
 
-        this.add(NtmItems.TSAR_BOMBA_CORE, "Ingot");
+        this.add(NtmItems.TSAR_BOMBA_CORE, "Tsar Bomba Core");
 
-        this.add(NtmItems.FLEIJA_IGNITER, "Ingot");
-        this.add(NtmItems.FLEIJA_PROPELLANT, "Ingot");
-        this.add(NtmItems.FLEIJA_CORE, "Ingot");
+        this.add(NtmItems.FLEIJA_IGNITER, "Pulse Igniter");
+        this.add(NtmItems.FLEIJA_PROPELLANT, "Schrabidium Propellant");
+        this.add(NtmItems.FLEIJA_CORE, "F.L.E.I.J.A. Uranium 235 Charge");
 
-        this.add(NtmItems.SOLINIUM_IGNITER, "Ingot");
-        this.add(NtmItems.SOLINIUM_PROPELLANT, "Ingot");
-        this.add(NtmItems.SOLINIUM_CORE, "Ingot");
+        this.add(NtmItems.SOLINIUM_IGNITER, "SOL Pulse Igniter");
+        this.add(NtmItems.SOLINIUM_PROPELLANT, "SOL Compression Charge");
+        this.add(NtmItems.SOLINIUM_CORE, "Semi-Stable Solinium Core");
 
-        this.add(NtmItems.N2_CHARGE, "Ingot");
+        this.add(NtmItems.N2_CHARGE, "Large Explosive Charge");
 
-        this.add(NtmItems.EGG_BALEFIRE_SHARD, "Ingot");
-        this.add(NtmItems.EGG_BALEFIRE, "Ingot");
+        this.add(NtmItems.EGG_BALEFIRE_SHARD, "Balefire Shard");
+        this.add(NtmItems.EGG_BALEFIRE, "Balefire Egg");
 
-        this.add(NtmItems.IGNITER, "Ingot");
-        this.add(NtmItems.DETONATOR, "Ingot");
-        this.add(NtmItems.DETONATOR_MULTI, "Ingot");
-        this.add(NtmItems.DETONATOR_LASER, "Ingot");
-        this.add(NtmItems.DETONATOR_DEADMAN, "Ingot");
-        this.add(NtmItems.DETONATOR_DE, "Ingot");
-        this.add(NtmItems.BOMB_CALLER, "Ingot");
-        this.add(NtmItems.DEFUSER, "Ingot");
-        this.add(NtmItems.REACHER, "Ingot");
+        this.add(NtmItems.IGNITER, "Igniter");
+        this.add(NtmItems.IGNITER, DESC, "(Used by right-clicking the Prototype)$It's a green metal handle with a$bright red button and a small lid.$At the bottom, the initials N.E. are$engraved. Whoever N.E. was, he had$a great taste in shades of green.");
+        this.add(NtmItems.DETONATOR, "Detonator");
+        this.add(NtmItems.DETONATOR, DESC, "Shift right-click to set position,$right-click to detonate!");
+        this.add(NtmItems.DETONATOR_MULTI, "Multi Detonator");
+        this.add(NtmItems.DETONATOR_MULTI, DESC, "Shift right-click block to add position,$right-click to detonate!$Shift right-click in the air to clear positions.");
+        this.add(NtmItems.DETONATOR_LASER, "Laser Detonator");
+        this.add(NtmItems.DETONATOR_LASER, DESC,"Aim & click to detonate!");
+        this.add(NtmItems.DETONATOR_DEADMAN, "Dead Man's Detonator");
+        this.add(NtmItems.DETONATOR_DEADMAN, DESC, "Shift right-click to set position,$drop to detonate!");
+        this.add(NtmItems.DETONATOR_DE, "Dead Man's Explosive");
+        this.add(NtmItems.DETONATOR_DE, DESC, "Explodes when dropped!");
+        this.add("item.hbmsntm.obj_bomb_caller.desc0", "Type: Carpet bombing");
+        this.add("item.hbmsntm.obj_bomb_caller.desc1", "Type: Napalm");
+        this.add("item.hbmsntm.obj_bomb_caller.desc2", "Type: Atomic bomb");
+        this.add("item.hbmsntm.obj_bomb_caller.call", "Called in airstrike!");
+        this.add(NtmItems.BOMB_CALLER, "Airstrike Designator");
+        this.add(NtmItems.BOMB_CALLER, DESC, "Aim & click to call an airstrike!");
+        this.add(NtmItems.DEFUSER, "High-Tech Bomb Defusing Device");
+        this.add(NtmItems.REACHER, "Tungsten Reacher");
 
-        this.add(NtmItems.POLAROID, "Ingot");
-        this.add(NtmItems.BURNT_BARK, "Ingot");
+        this.add("item.hbmsntm.obj_polaroid.desc", "Fate chosen");
+        this.add("item.hbmsntm.obj_polaroid.fate1", "...");
+        this.add("item.hbmsntm.obj_polaroid.fate2", "Clear as glass.");
+        this.add("item.hbmsntm.obj_polaroid.fate3", "'M");
+        this.add("item.hbmsntm.obj_polaroid.fate4", "It's about time.");
+        this.add("item.hbmsntm.obj_polaroid.fate5", "If you stare long into the abyss, the abyss stares back.");
+        this.add("item.hbmsntm.obj_polaroid.fate6", "public Party celebration = new Party();");
+        this.add("item.hbmsntm.obj_polaroid.fate7", "V urnerq lbh yvxr EBG13!");
+        this.add("item.hbmsntm.obj_polaroid.fate8", "11011100");
+        this.add("item.hbmsntm.obj_polaroid.fate9", "Vg'f nobhg gvzr.");
+        this.add("item.hbmsntm.obj_polaroid.fate10", "Schrabidium dislikes the breeding reactor.");
+        this.add("item.hbmsntm.obj_polaroid.fate11", "yss stares back.6public Party cel");
+        this.add("item.hbmsntm.obj_polaroid.fate12", "Red streaks.");
+        this.add("item.hbmsntm.obj_polaroid.fate13", "Q1");
+        this.add("item.hbmsntm.obj_polaroid.fate14", "Q4");
+        this.add("item.hbmsntm.obj_polaroid.fate15", "Q3");
+        this.add("item.hbmsntm.obj_polaroid.fate16", "Q2");
+        this.add("item.hbmsntm.obj_polaroid.fate17", "Two friends before christmas.");
+        this.add("item.hbmsntm.obj_polaroid.fate18", "Duchess of the boxcars.$$\"P.S.: Thirty-one.\"$\"Huh, what does thirty-one mean?\"");
+        this.add(NtmItems.POLAROID, "The Polaroid");
+        this.add(NtmItems.BURNT_BARK, "Burnt Bark");
+        this.add(NtmItems.BURNT_BARK, DESC, "A piece of bark from an exploded golden oak tree.");
 
-        this.add(NtmItems.STARTER_KIT, "Ingot");
+        this.add("item.hbmsntm.obj_starter_kit.empty_inventory", "Please empty inventory before opening!");
+        this.add(NtmItems.STARTER_KIT, this.getName(KitType.GADGET), "The Gadget Kit");
+        this.add(NtmItems.STARTER_KIT, this.getName(KitType.LITTLE_BOY), "Little Boy Kit");
+        this.add(NtmItems.STARTER_KIT, this.getName(KitType.FAT_MAN), "Fat Man Kit");
+        this.add(NtmItems.STARTER_KIT, this.getName(KitType.IVY_MIKE), "Ivy Mike Kit");
+        this.add(NtmItems.STARTER_KIT, this.getName(KitType.TSAR_BOMBA), "Tsar Bomba Kit");
+        this.add(NtmItems.STARTER_KIT, this.getName(KitType.PROTOTYPE), "Prototype Kit");
+        this.add(NtmItems.STARTER_KIT, this.getName(KitType.FLEIJA), "F.L.E.I.J.A. Kit");
 
-        this.add(NtmItems.NOTHING, "Ingot");
+        this.add(NtmItems.NOTHING, "Nothing");
 
         // BLOCKS //
         this.add(NtmBlocks.BOBBLEHEAD, "Bobblehead");
@@ -466,6 +626,28 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add("container.nuke_fleija", "F.L.E.I.J.A.");
         this.add("container.nuke_n2", "N² Mine");
         this.add("container.nuke_fstbmb", "Balefire Bomb");
+
+        // MISC //
+        this.add("itemGroup.parts", "NTM Resources and Parts");
+        this.add("itemGroup.control", "NTM Machine Items and Fuel");
+        this.add("itemGroup.blocks", "NTM Ores and Blocks");
+        this.add("itemGroup.machine", "NTM Machines");
+        this.add("itemGroup.nuke", "NTM Bombs");
+        this.add("itemGroup.missile", "NTM Missiles and Satellites");
+        this.add("itemGroup.consumable", "NTM Consumables and Gear");
+
+        this.add("fluid.pressurized", "Pressurized, use compressor!");
+
+        this.add("he", "HE"); // hbm energy
+        this.add("mb", "mB"); // milibuckets
+        this.add("pu", "PU"); // pressure units
+        this.add("rad", "RAD"); // radiation
+        this.add("drx", "DRX"); // digamma thing
+        this.add("t", "t"); // ticks
+        this.add("s", "s"); // seconds
+        this.add("h", "h"); // hours
+        this.add("min", "min");
+        this.add("max", "max");
     }
 
     // HELPERS //

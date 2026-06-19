@@ -7,6 +7,7 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.NtmItems;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.TagsUtil;
+import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -29,22 +30,22 @@ public class FluidIconItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
-        if (TagsUtil.hasCData(stack)) {
-            if (getQuantity(stack) > 0) components.add(Component.translatable("fluid.info.mb", getQuantity(stack)).withStyle(ChatFormatting.GRAY));
-            if (getPressure(stack) > 0) {
-                components.add(Component.translatable("fluid.info.pressure", getPressure(stack)).withStyle(ChatFormatting.RED));
-                components.add(Component.translatable("fluid.info.pressurized").withStyle(BobMathUtil.getBlink() ? ChatFormatting.RED : ChatFormatting.DARK_RED));
+        if(TagsUtil.hasCData(stack)) {
+            if(getQuantity(stack) > 0) components.add(Component.literal(getQuantity(stack) + I18nUtil.resolveKey("mb")).withStyle(ChatFormatting.GRAY));
+            if(getPressure(stack) > 0) {
+                components.add(Component.literal(getPressure(stack) + I18nUtil.resolveKey("pu")).withStyle(ChatFormatting.RED));
+                components.add(Component.translatable("fluid.pressurized").withStyle(BobMathUtil.getBlink() ? ChatFormatting.RED : ChatFormatting.DARK_RED));
             }
         }
 
         FluidType type = Fluids.fromID(MetaHelper.getMeta(stack));
-        if (type != null) {
+        if(type != null) {
             type.addInfo(components);
         }
     }
 
     public static ItemStack addQuantity(ItemStack stack, int amount) {
-        if (amount <= 0) return stack;
+        if(amount <= 0) return stack;
         CompoundTag tag = TagsUtil.getCData(stack);
         tag.putInt("Fill", amount);
         TagsUtil.putCData(stack, tag);

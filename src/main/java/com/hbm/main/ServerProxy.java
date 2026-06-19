@@ -20,8 +20,8 @@ public class ServerProxy {
     public void registerClientExtensions(RegisterClientExtensionsEvent event) { }
     public void registerEntityRenderers() { }
 
-    public void playLocalSound(Vec3 vec, SoundEvent soundEvent, SoundSource source, float volume, float pitch, boolean distanceDelay) { }
-    public void playLocalSound(double x, double y, double z, SoundEvent soundEvent, SoundSource source, float volume, float pitch, boolean distanceDelay) { }
+    public void playLocalSound(Vec3 vec, SoundEvent soundEvent, SoundSource source, float volume, float pitch) { }
+    public void playLocalSound(double x, double y, double z, SoundEvent soundEvent, SoundSource source, float volume, float pitch) { }
 
     @Nullable
     public Player me() {

@@ -6,9 +6,9 @@ import net.minecraft.world.item.Item;
 
 public class InfiniteFluidItem extends Item {
 
-    private FluidType type;
-    private int amount;
-    private int chance;
+    private final FluidType type;
+    private final int amount;
+    private final int chance;
 
     public InfiniteFluidItem(Properties properties, FluidType type, int amount) {
         this(properties, type, amount, 1);

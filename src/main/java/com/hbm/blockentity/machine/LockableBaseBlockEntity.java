@@ -86,12 +86,12 @@ public abstract class LockableBaseBlockEntity extends LoadedBaseBlockEntity {
             if (player == null || level == null) return false;
             ItemStack stack = player.getMainHandItem();
 
-            if (stack.getItem() instanceof KeyItem && KeyItem.getPins(stack) == this.lock) {
+            if(stack.getItem() instanceof KeyItem && KeyItem.getPins(stack) == this.lock) {
                 level.playSound(null, this.getBlockPos(), NtmSoundEvents.LOCK_OPEN.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
                 return true;
             }
 
-            if (stack.is(NtmItems.KEY_RED)) {
+            if(stack.is(NtmItems.KEY_RED)) {
                 level.playSound(null, this.getBlockPos(), NtmSoundEvents.LOCK_OPEN.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
                 return true;
             }

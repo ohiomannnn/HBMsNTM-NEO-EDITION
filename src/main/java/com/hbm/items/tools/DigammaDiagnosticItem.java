@@ -20,7 +20,7 @@ public class DigammaDiagnosticItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
-        if (!level.isClientSide) {
+        if(!level.isClientSide) {
             level.playSound(null, player.getX(), player.getY(), player.getZ(), NtmSoundEvents.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0f, 1.0f);
             ContaminationUtil.printDiagnosticData(player);
         }

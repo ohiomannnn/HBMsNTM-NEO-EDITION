@@ -35,8 +35,8 @@ public class EnumMultiItem extends Item implements IMetaItem, ICustomItemModelRe
         Enum<?>[] order = theEnum.getEnumConstants();
         if(order[0] instanceof IOrderedEnum ord) order = ord.getOrder();
 
-        for(int i = 0; i < order.length; i++) {
-            stacks.add(MetaHelper.metaStack(new ItemStack(item, 1), order[i].ordinal()));
+        for(Enum<?> anEnum : order) {
+            stacks.add(MetaHelper.metaStack(new ItemStack(item, 1), anEnum.ordinal()));
         }
     }
 

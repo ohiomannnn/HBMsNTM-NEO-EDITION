@@ -25,31 +25,31 @@ public class DosimeterItem extends Item {
 
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
-        if (!level.isClientSide) {
-            if (entity instanceof LivingEntity user) {
+        if(!level.isClientSide) {
+            if(entity instanceof LivingEntity user) {
                 RandomSource rand = level.random;
                 float rads = HbmLivingAttachments.getRadBuf(user);
-                if (level.getGameTime() % 5 == 0) {
-                    if (rads > 1E-5) {
+                if(level.getGameTime() % 5 == 0) {
+                    if(rads > 1E-5) {
                         List<Integer> list = new ArrayList<>();
 
-                        if (rads < 0.5) list.add(0);
-                        if (rads < 1) list.add(1);
-                        if (rads >= 0.5 && rads < 2) list.add(2);
-                        if (rads >= 2) list.add(3);
+                        if(rads < 0.5) list.add(0);
+                        if(rads < 1) list.add(1);
+                        if(rads >= 0.5 && rads < 2) list.add(2);
+                        if(rads >= 2) list.add(3);
 
                         int r = list.get(rand.nextInt(list.size()));
 
-                        if (r > 0) {
-                            switch (r) {
+                        if(r > 0) {
+                            switch(r) {
                                 case 1 -> level.playSound(null, user.getX(), user.getY(), user.getZ(), NtmSoundEvents.GEIGER1, SoundSource.AMBIENT, 1.0F, 1.0F);
                                 case 2 -> level.playSound(null, user.getX(), user.getY(), user.getZ(), NtmSoundEvents.GEIGER2, SoundSource.AMBIENT, 1.0F, 1.0F);
                                 case 3 -> level.playSound(null, user.getX(), user.getY(), user.getZ(), NtmSoundEvents.GEIGER3, SoundSource.AMBIENT, 1.0F, 1.0F);
                             }
                         }
-                    } else if (rand.nextInt(50) == 0) {
+                    } else if(rand.nextInt(50) == 0) {
                         int i = 1 + rand.nextInt(1);
-                        switch (i) {
+                        switch(i) {
                             case 1 -> level.playSound(null, user.getX(), user.getY(), user.getZ(), NtmSoundEvents.GEIGER1.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
                             case 2 -> level.playSound(null, user.getX(), user.getY(), user.getZ(), NtmSoundEvents.GEIGER2.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
                         }
@@ -63,7 +63,7 @@ public class DosimeterItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
 
-        if (!level.isClientSide) {
+        if(!level.isClientSide) {
             level.playSound(null, player.getX(), player.getY(), player.getZ(), NtmSoundEvents.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0f, 1.0f);
             ContaminationUtil.printDosimeterData(player);
         }

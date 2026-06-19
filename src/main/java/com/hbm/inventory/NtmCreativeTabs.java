@@ -25,13 +25,14 @@ import static net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB;
 
 @SuppressWarnings("unused")
 public class NtmCreativeTabs {
+
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(CREATIVE_MODE_TAB, NuclearTechMod.MODID);
 
     // ingots, nuggets, wires, machine parts
     public static final Supplier<CreativeModeTab> PARTS = CREATIVE_MODE_TABS.register(
             "parts",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(NtmItems.INGOT_URANIUM.get()))
-                    .title(Component.translatable("creative_tab.hbmsntm.parts"))
+                    .title(Component.translatable("itemGroup.parts"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(NtmItems.INGOT_URANIUM.get());
                         output.accept(NtmItems.INGOT_U233.get());
@@ -124,7 +125,7 @@ public class NtmCreativeTabs {
             "control",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(NtmItems.PELLET_RTG.get()))
                     .withTabsBefore(NuclearTechMod.withDefaultNamespace("parts"))
-                    .title(Component.translatable("creative_tab.hbmsntm.control"))
+                    .title(Component.translatable("itemGroup.control"))
                     .displayItems((itemDisplayParameters, output) -> {
                         addMetaItems(output, NtmItems.BLUEPRINTS.get());
                         output.accept(NtmItems.CELL_EMPTY);
@@ -150,7 +151,7 @@ public class NtmCreativeTabs {
                         FluidType[] types = Fluids.getInNiceOrder();
                         // tanks
                         output.accept(NtmItems.FLUID_TANK_EMPTY.get());
-                        for (int i = 1; i < types.length; ++i) {
+                        for(int i = 1; i < types.length; ++i) {
                             FluidType type = types[i];
                             int id = type.getID();
 
@@ -160,7 +161,7 @@ public class NtmCreativeTabs {
                         }
                         // lead tanks
                         output.accept(NtmItems.FLUID_TANK_LEAD_EMPTY.get());
-                        for (int i = 1; i < types.length; ++i) {
+                        for(int i = 1; i < types.length; ++i) {
                             FluidType type = types[i];
                             int id = type.getID();
 
@@ -169,7 +170,7 @@ public class NtmCreativeTabs {
                         }
                         // barrels
                         output.accept(NtmItems.FLUID_BARREL_EMPTY.get());
-                        for (int i = 1; i < types.length; ++i) {
+                        for(int i = 1; i < types.length; ++i) {
                             FluidType type = types[i];
                             int id = type.getID();
 
@@ -179,7 +180,7 @@ public class NtmCreativeTabs {
                         }
                         // fluid packs
                         output.accept(NtmItems.FLUID_PACK_EMPTY.get());
-                        for (int i = 1; i < types.length; ++i) {
+                        for(int i = 1; i < types.length; ++i) {
                             FluidType type = types[i];
                             int id = type.getID();
 
@@ -214,7 +215,7 @@ public class NtmCreativeTabs {
             "blocks",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(NtmBlocks.ORE_URANIUM.get()))
                     .withTabsBefore(NuclearTechMod.withDefaultNamespace("control"))
-                    .title(Component.translatable("creative_tab.hbmsntm.blocks"))
+                    .title(Component.translatable("itemGroup.blocks"))
                     .displayItems((itemDisplayParameters, output) -> {
 
                         addMetaItems(output, NtmBlocks.BOBBLEHEAD.asItem());
@@ -274,7 +275,7 @@ public class NtmCreativeTabs {
             "machine",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(NtmBlocks.PWR_CONTROLLER.get()))
                     .withTabsBefore(NuclearTechMod.withDefaultNamespace("blocks"))
-                    .title(Component.translatable("creative_tab.hbmsntm.machine"))
+                    .title(Component.translatable("itemGroup.machine"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(NtmBlocks.GAS_RADON);
                         output.accept(NtmBlocks.GAS_RADON_DENSE);
@@ -300,7 +301,7 @@ public class NtmCreativeTabs {
 
                         FluidType[] types = Fluids.getInNiceOrder();
                         // multi identifiers
-                        for (int i = 1; i < types.length; ++i) {
+                        for(int i = 1; i < types.length; ++i) {
                             FluidType type = types[i];
 
                             output.accept(FluidIDMultiItem.createStack(type));
@@ -312,7 +313,7 @@ public class NtmCreativeTabs {
             "nuke",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(NtmBlocks.NUKE_FAT_MAN.get()))
                     .withTabsBefore(NuclearTechMod.withDefaultNamespace("machine"))
-                    .title(Component.translatable("creative_tab.hbmsntm.nuke"))
+                    .title(Component.translatable("itemGroup.nuke"))
                     .backgroundTexture(ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "textures/gui/nuke_tab.png"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(NtmBlocks.NUKE_GADGET);
@@ -407,7 +408,7 @@ public class NtmCreativeTabs {
             "missile",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(NtmItems.MISSILE_DOOMSDAY.get()))
                     .withTabsBefore(NuclearTechMod.withDefaultNamespace("nuke"))
-                    .title(Component.translatable("creative_tab.hbmsntm.missile"))
+                    .title(Component.translatable("itemGroup.missile"))
                     .displayItems((itemDisplayParameters, output) -> {
 
                         output.accept(NtmBlocks.LAUNCH_PAD);
@@ -455,20 +456,15 @@ public class NtmCreativeTabs {
             "consumable",
             () -> CreativeModeTab.builder().icon(() -> MetaHelper.newStack(NtmItems.DRINK, DrinkType.NUKA))
                     .withTabsBefore(NuclearTechMod.withDefaultNamespace("missile"))
-                    .title(Component.translatable("creative_tab.hbmsntm.consumable"))
+                    .title(Component.translatable("itemGroup.consumable"))
                     .displayItems((itemDisplayParameters, output) -> {
-                        output.accept(NtmItems.DUCK_SPAWN_EGG);
+                        output.accept(NtmItems.SPAWN_DUCK);
 
                         output.accept(NtmItems.DOSIMETER);
                         output.accept(NtmItems.GEIGER_COUNTER);
                         output.accept(NtmItems.DIGAMMA_DIAGNOSTIC);
 
-                        output.accept(NtmItems.KEY);
-                        output.accept(NtmItems.KEY_KIT);
-                        output.accept(NtmItems.KEY_FAKE);
-                        output.accept(NtmItems.PIN);
                         output.accept(NtmItems.BALEFIRE_AND_STEEL);
-                        output.accept(NtmItems.POLAROID);
 
                         addMetaItems(output, NtmItems.DRINK.get());
                         output.accept(NtmItems.BOTTLE_OPENER);
@@ -482,6 +478,7 @@ public class NtmCreativeTabs {
                         output.accept(NtmItems.CRACKPIPE);
 
                         addMetaItems(output, NtmItems.BOMB_CALLER.get());
+                        output.accept(NtmItems.POLAROID);
                     }).build());
 
     private static void addMetaItems(CreativeModeTab.Output output, Item item) {

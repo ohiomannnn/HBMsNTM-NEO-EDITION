@@ -8,6 +8,7 @@ import com.hbm.main.NuclearTechMod;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.TagsUtil;
+import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -19,6 +20,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 
 import java.util.List;
+import java.util.Locale;
 
 public class BatteryPackItem extends EnumMultiItem implements IBatteryItem {
 
@@ -155,11 +157,12 @@ public class BatteryPackItem extends EnumMultiItem implements IBatteryItem {
 
         if (TagsUtil.hasCData(stack)) charge = getCharge(stack);
 
-        components.add(Component.translatable("item.hbmsntm.battery_pack.desc.energy_stored", BobMathUtil.getShortNumber(charge) + "/" + BobMathUtil.getShortNumber(maxCharge) + "HE (" + (charge * 1000 / maxCharge / 10D) + "%)").withStyle(ChatFormatting.GREEN));
-        components.add(Component.translatable("item.hbmsntm.battery_pack.desc.charge_rate", BobMathUtil.getShortNumber(chargeRate) + "HE/t").withStyle(ChatFormatting.YELLOW));
-        components.add(Component.translatable("item.hbmsntm.battery_pack.desc.discharge_rate", BobMathUtil.getShortNumber(dischargeRate) + "HE/t").withStyle(ChatFormatting.YELLOW));
-        components.add(Component.translatable("item.hbmsntm.battery_pack.desc.time_for_full_charge", (maxCharge / chargeRate / 20 / 60D) + "min").withStyle(ChatFormatting.GOLD));
-        components.add(Component.translatable("item.hbmsntm.battery_pack.desc.charge_lasts_for", (maxCharge / dischargeRate / 20 / 60D) + "min").withStyle(ChatFormatting.GOLD));
+        String het = I18nUtil.resolveKey("he") + "/" + I18nUtil.resolveKey("t");
+        components.add(Component.translatable("item.hbmsntm.obj_battery_pack.desc0", BobMathUtil.getShortNumber(charge) + "/" + BobMathUtil.getShortNumber(maxCharge) + I18nUtil.resolveKey("he").toUpperCase(Locale.US) + " (" + (charge * 1000 / maxCharge / 10D) + "%)").withStyle(ChatFormatting.GREEN));
+        components.add(Component.translatable("item.hbmsntm.obj_battery_pack.desc1", BobMathUtil.getShortNumber(chargeRate) + het).withStyle(ChatFormatting.YELLOW));
+        components.add(Component.translatable("item.hbmsntm.obj_battery_pack.desc2", BobMathUtil.getShortNumber(dischargeRate) + het).withStyle(ChatFormatting.YELLOW));
+        components.add(Component.translatable("item.hbmsntm.obj_battery_pack.desc3", (maxCharge / chargeRate / 20 / 60D) + I18nUtil.resolveKey("min")).withStyle(ChatFormatting.GOLD));
+        components.add(Component.translatable("item.hbmsntm.obj_battery_pack.desc4", (maxCharge / dischargeRate / 20 / 60D) + I18nUtil.resolveKey("min")).withStyle(ChatFormatting.GOLD));
     }
 
     public static ItemStack makeEmptyBattery(ItemStack stack) {
@@ -182,8 +185,8 @@ public class BatteryPackItem extends EnumMultiItem implements IBatteryItem {
         Enum<?>[] order = theEnum.getEnumConstants();
         if(order[0] instanceof IOrderedEnum ord) order = ord.getOrder();
 
-        for(int i = 0; i < order.length; i++) {
-            ItemStack stack = MetaHelper.metaStack(new ItemStack(item, 1), order[i].ordinal());
+        for(Enum<?> anEnum : order) {
+            ItemStack stack = MetaHelper.metaStack(new ItemStack(item, 1), anEnum.ordinal());
             stacks.add(makeEmptyBattery(stack.copy()));
             stacks.add(makeFullBattery(stack.copy()));
         }

@@ -331,7 +331,7 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
     @Override
     public String getUnlocalizedName() {
         ItemStack item = this.getMissileItemForInfo();
-        if (item.getItem() instanceof MissileItem missileItem) {
+        if(item.getItem() instanceof MissileItem missileItem) {
             return switch (missileItem.tier) {
                 case TIER0 -> "radar.target.tier0";
                 case TIER1 -> "radar.target.tier1";
@@ -347,7 +347,7 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
     @Override
     public int getBlipLevel() {
         ItemStack item = this.getMissileItemForInfo();
-        if (item.getItem() instanceof MissileItem missileItem) {
+        if(item.getItem() instanceof MissileItem missileItem) {
             return switch (missileItem.tier) {
                 case TIER0 -> IRadarDetectableNT.TIER0;
                 case TIER1 -> IRadarDetectableNT.TIER1;

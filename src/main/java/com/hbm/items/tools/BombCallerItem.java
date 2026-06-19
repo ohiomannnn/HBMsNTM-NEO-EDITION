@@ -1,5 +1,6 @@
 package com.hbm.items.tools;
 
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.entity.logic.Bomber;
 import com.hbm.inventory.MetaHelper;
 import com.hbm.items.ICustomItemModelRegister;
@@ -7,7 +8,6 @@ import com.hbm.items.IMetaItem;
 import com.hbm.lib.Library;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.RayTraceResult;
-import com.hbm.util.i18n.I18nUtil;
 import com.hbm.world.WorldUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -48,8 +48,8 @@ public class BombCallerItem extends Item implements IMetaItem, ICustomItemModelR
 
             WorldUtil.loadAndAddFreshEntity(bomber);
 
-            player.sendSystemMessage(Component.translatable("item.hbmsntm.bomb_caller.message.call"));
-            level.playSound(null, player.getX(), player.getY(), player.getZ(), NtmSoundEvents.TECH_BLEEP, SoundSource.PLAYERS, 1.0F, 1.0F);
+            player.sendSystemMessage(Component.translatable("item.hbmsntm.obj_bomb_caller.call"));
+            level.playSound(null, player.getX(), player.getY(), player.getZ(), NtmSoundEvents.TECH_BLEEP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 
             stack.consume(1, player);
         }
@@ -59,11 +59,11 @@ public class BombCallerItem extends Item implements IMetaItem, ICustomItemModelR
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
-        for(String s : I18nUtil.resolveKeyArray("item.hbmsntm.bomb_caller.desc")) components.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
+        for(String s : ITooltipProvider.getDescription(stack)) components.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
         switch(MetaHelper.getMeta(stack)) {
-            case 0 -> components.add(Component.translatable("item.hbmsntm.bomb_caller.desc.carpet").withStyle(ChatFormatting.GRAY));
-            case 1 -> components.add(Component.translatable("item.hbmsntm.bomb_caller.desc.napalm").withStyle(ChatFormatting.GRAY));
-            case 2 -> components.add(Component.translatable("item.hbmsntm.bomb_caller.desc.atomic").withStyle(ChatFormatting.GRAY));
+            case 0 -> components.add(Component.translatable("item.hbmsntm.obj_bomb_caller.desc0").withStyle(ChatFormatting.GRAY));
+            case 1 -> components.add(Component.translatable("item.hbmsntm.obj_bomb_caller.desc1").withStyle(ChatFormatting.GRAY));
+            case 2 -> components.add(Component.translatable("item.hbmsntm.obj_bomb_caller.desc2").withStyle(ChatFormatting.GRAY));
         };
     }
 

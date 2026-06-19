@@ -177,7 +177,7 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.basicItem(NtmItems.ROD_DUAL_EMPTY.get());
         this.basicItem(NtmItems.ROD_QUAD_EMPTY.get());
 
-        this.basicItem(NtmItems.DUCK_SPAWN_EGG.get());
+        this.basicItem(NtmItems.SPAWN_DUCK.get());
 
         this.basicItem(NtmItems.DESIGNATOR.get());
         this.handheldItem(NtmItems.DESIGNATOR_RANGE.get());
@@ -188,6 +188,7 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.basicItem(NtmItems.PIN.get());
         this.basicItem(NtmItems.KEY.get());
         this.basicItem(NtmItems.KEY_RED.get());
+        this.basicItem(NtmItems.KEY_RED_CRACKED.get());
         this.basicItem(NtmItems.KEY_KIT.get());
         this.basicItem(NtmItems.KEY_FAKE.get());
 

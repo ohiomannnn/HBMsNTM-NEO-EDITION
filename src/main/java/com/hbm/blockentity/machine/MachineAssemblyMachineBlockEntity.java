@@ -155,7 +155,7 @@ public class MachineAssemblyMachineBlockEntity extends MachineBaseBlockEntity im
                 }
 
                 if(!this.muffled && arm.prevAngles[3] != arm.angles[3] && arm.angles[3] == -0.75) {
-                    NuclearTechMod.proxy.playLocalSound(this.getBlockPos().getBottomCenter(), NtmSoundEvents.ASSEMBLER_STRIKE.get(), SoundSource.BLOCKS, this.getVolume(0.5F), 1F, true);
+                    NuclearTechMod.proxy.playLocalSound(this.getBlockPos().getCenter(), NtmSoundEvents.ASSEMBLER_STRIKE.get(), SoundSource.BLOCKS, this.getVolume(0.5F), 1F);
                 }
             }
 
@@ -179,7 +179,7 @@ public class MachineAssemblyMachineBlockEntity extends MachineBaseBlockEntity im
                     if(this.ringDelay <= 0) {
                         this.ringTarget += (level.random.nextFloat() * 2 - 1) * 135;
                         this.ringSpeed = 10F + level.random.nextFloat() * 5F;
-                        if(!this.muffled) NuclearTechMod.proxy.playLocalSound(this.getBlockPos().getBottomCenter(), NtmSoundEvents.ASSEMBLER_START.get(), SoundSource.BLOCKS, this.getVolume(0.25F), 1.25F + level.random.nextFloat() * 0.25F, true);
+                        if(!this.muffled) NuclearTechMod.proxy.playLocalSound(this.getBlockPos().getCenter(), NtmSoundEvents.ASSEMBLER_START.get(), SoundSource.BLOCKS, this.getVolume(0.25F), 1.25F + level.random.nextFloat() * 0.25F);
                     }
                 }
             }
@@ -250,7 +250,7 @@ public class MachineAssemblyMachineBlockEntity extends MachineBaseBlockEntity im
         this.assemblerModule.deserialize(buf);
 
         if(wasProcessing && !didProcess) {
-            NuclearTechMod.proxy.playLocalSound(this.getBlockPos().getBottomCenter(), NtmSoundEvents.ASSEMBLER_STOP.get(), SoundSource.BLOCKS, this.getVolume(0.25F), 1.5F, true);
+            NuclearTechMod.proxy.playLocalSound(this.getBlockPos().getCenter(), NtmSoundEvents.ASSEMBLER_STOP.get(), SoundSource.BLOCKS, this.getVolume(0.25F), 1.5F);
         }
     }
 

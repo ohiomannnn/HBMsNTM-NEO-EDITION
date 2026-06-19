@@ -96,7 +96,7 @@ public class EntitySpawnerItem extends Item {
 //            ((EntityUFO) entity).scanCooldown = 100;
 //            y += 35;
 //        }
-        if (stack.is(NtmItems.DUCK_SPAWN_EGG.get())) {
+        if (stack.is(NtmItems.SPAWN_DUCK.get())) {
             Duck duck = NtmEntityTypes.DUCK.get().create(level);
             if (duck != null) {
                 duck.moveTo(x, y, z, level.random.nextFloat() * 360F, 0.0F);

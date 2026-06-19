@@ -111,7 +111,7 @@ public class StarterKitItem extends EnumMultiItem {
         }
 
         SoundUtils.playAtEntity(player, NtmSoundEvents.UNPACK.get(), SoundSource.PLAYERS);
-        stack.shrink(1);
+        stack.consume(1, player);
 
         return InteractionResultHolder.consume(stack);
     }
@@ -120,7 +120,7 @@ public class StarterKitItem extends EnumMultiItem {
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
         KitType type = EnumUtil.grabEnumSafely(KitType.class, MetaHelper.getMeta(stack));
         if(type.emptyInv) {
-            for(String s : I18nUtil.resolveKeyArray("item.hbmsntm.starter_kit.emptyInventory")) components.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
+            for(String s : I18nUtil.resolveKeyArray("item.hbmsntm.obj_starter_kit.empty_inventory")) components.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
         }
     }
 }

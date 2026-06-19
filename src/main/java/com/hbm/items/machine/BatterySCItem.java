@@ -5,6 +5,7 @@ import com.hbm.inventory.MetaHelper;
 import com.hbm.items.EnumMultiItem;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.EnumUtil;
+import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -54,6 +55,9 @@ public class BatterySCItem extends EnumMultiItem implements IBatteryItem {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
         BatterySCType pack = EnumUtil.grabEnumSafely(BatterySCType.class, MetaHelper.getMeta(stack));
-        if (pack.power > 0) components.add(Component.translatable("item.hbmsntm.battery_sc.desc.discharge_rate", BobMathUtil.getShortNumber(pack.power) + "HE/t").withStyle(ChatFormatting.YELLOW));
+        if(pack.power > 0) {
+            String het = I18nUtil.resolveKey("he") + "/" + I18nUtil.resolveKey("t");
+            components.add(Component.translatable("item.hbmsntm.obj_battery_sc.desc", BobMathUtil.getShortNumber(pack.power) + het).withStyle(ChatFormatting.YELLOW));
+        }
     }
 }

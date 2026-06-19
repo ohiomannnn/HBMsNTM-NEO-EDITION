@@ -18,13 +18,13 @@ public class KeyPinItem extends Item {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         int pins = getPins(stack);
-        if (pins != 0) {
+        if(pins != 0) {
             tooltipComponents.add(Component.literal("Pin configuration: " + pins));
         } else {
             tooltipComponents.add(Component.literal("Pins not set!"));
         }
 
-        if (this == NtmItems.KEY_FAKE.get()) {
+        if(this == NtmItems.KEY_FAKE.get()) {
             tooltipComponents.add(Component.empty());
             tooltipComponents.add(Component.literal("Pins can neither be changed, nor copied."));
         }

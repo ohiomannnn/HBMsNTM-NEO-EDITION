@@ -75,9 +75,9 @@ public class FluidIDMultiItem extends Item implements IScreenProvider, IItemCont
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
-        components.add(Component.translatable(this.getDescriptionId() + ".info").withStyle(ChatFormatting.GRAY));
+        components.add(Component.translatable("item.hbmsntm.obj_fluid_id_multi.desc0").withStyle(ChatFormatting.GRAY));
         components.add(Component.literal("   ").append(getType(stack, true).getName()).withStyle(ChatFormatting.GRAY));
-        components.add(Component.translatable(this.getDescriptionId() + ".info2").withStyle(ChatFormatting.GRAY));
+        components.add(Component.translatable("item.hbmsntm.obj_fluid_id_multi.desc1").withStyle(ChatFormatting.GRAY));
         components.add(Component.literal("   ").append(getType(stack, false).getName()).withStyle(ChatFormatting.GRAY));
     }
 
@@ -111,7 +111,7 @@ public class FluidIDMultiItem extends Item implements IScreenProvider, IItemCont
     @Override
     @OnlyIn(Dist.CLIENT)
     public Screen provideScreenOnRightClick(Player player, BlockPos pos) {
-        if (player.isCrouching()) return new FluidScreen(player);;
+        if(player.isCrouching()) return new FluidScreen(player);;
         return null;
     }
 }
