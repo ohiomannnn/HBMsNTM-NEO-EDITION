@@ -219,6 +219,8 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.entityItem(NtmItems.MISSILE_SHUTTLE.get(), true);
         this.entityItem(NtmItems.MISSILE_STEALTH.get(), true);
 
+        // MISSILE_SOYUZ uses ICustomItemModelRegister
+
         this.basicItem(NtmItems.SATELLITE_RADAR.get());
         this.basicItem(NtmItems.SATELLITE_LASER.get());
         this.basicItem(NtmItems.SATELLITE_INTERFACE.get());

@@ -45,6 +45,7 @@ public class NtmSoundEvents {
     public static final DeferredHolder<SoundEvent, SoundEvent> FENSU_HUM = reg("block.fensu_hum"); // BLOCKS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> DEBRIS = reg("block.debris"); // BLOCKS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> LOCK_OPEN = reg("block.lock_open"); // BLOCKS CATEGORY
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOYUZ_READY = reg("block.soyuz_ready"); // BLOCKS CATEGORY, STREAM
     public static final DeferredHolder<SoundEvent, SoundEvent> CRATE_CLOSE = reg("crate_close"); // BLOCKS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> CRATE_OPEN = reg("crate_open"); // BLOCKS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> SQUEAKY_TOY = reg("block.squeaky_toy"); // BLOCKS CATEGORY
@@ -66,6 +67,9 @@ public class NtmSoundEvents {
     public static final DeferredHolder<SoundEvent, SoundEvent> PIN_UNLOCK = reg("item.pin_unlock"); // PLAYERS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> PIN_BREAK = reg("item.pin_break"); // PLAYERS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> UNPACK = reg("item.unpack"); // PLAYERS CATEGORY
+    /// ALARMS
+    public static final DeferredHolder<SoundEvent, SoundEvent> ALARM_HATCH = reg("alarm.hatch"); // RECORDS CATEGORY
+    public static final DeferredHolder<SoundEvent, SoundEvent> ALARM_SOYUZED = reg("alarm.soyuzed"); // RECORDS CATEGORY
 
     private static DeferredHolder<SoundEvent, SoundEvent> reg(String name) {
         return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(NuclearTechMod.withDefaultNamespace(name)));

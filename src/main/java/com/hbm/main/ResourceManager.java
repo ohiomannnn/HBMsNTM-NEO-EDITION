@@ -45,6 +45,7 @@ public class ResourceManager {
     public static final ResourceLocation FUSION_PLASMA_GLOW_TEX = NuclearTechMod.withDefaultNamespace("textures/models/fusion/plasma_glow.png");
     public static final ResourceLocation FUSION_PLASMA_SPARKLE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/fusion/plasma_sparkle.png");
 
+    // Bomber
     public static final ResourceLocation DORNIER_1_TEX = NuclearTechMod.withDefaultNamespace("textures/models/dornier_1.png");
     public static final ResourceLocation DORNIER_2_TEX = NuclearTechMod.withDefaultNamespace("textures/models/dornier_2.png");
     public static final ResourceLocation DORNIER_4_TEX = NuclearTechMod.withDefaultNamespace("textures/models/dornier_4.png");
@@ -54,6 +55,7 @@ public class ResourceManager {
     public static final ResourceLocation B29_3_TEX = NuclearTechMod.withDefaultNamespace("textures/models/b29_3.png");
     public static final ResourceLocation C130_0_TEX = NuclearTechMod.withDefaultNamespace("textures/models/weapon/c130_0.png");
 
+    // Missiles
     public static final ResourceLocation MISSILE_MICRO_TEX = NuclearTechMod.withDefaultNamespace("textures/models/missile/missile_micro.png");
     public static final ResourceLocation MISSILE_MICRO_TAINT_TEX = NuclearTechMod.withDefaultNamespace("textures/models/missile/missile_micro_taint.png");
     public static final ResourceLocation MISSILE_MICRO_BHOLE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/missile/missile_micro_bhole.png");
@@ -82,6 +84,59 @@ public class ResourceManager {
     public static final ResourceLocation MISSILE_DOOMSDAY_RUSTED_TEX = NuclearTechMod.withDefaultNamespace("textures/models/missile/missile_atlas_doomsday_weathered.png");
     public static final ResourceLocation MISSILE_SHUTTLE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/missile/missile_shuttle.png");
 
+    public static final ResourceLocation SOYUZ_ENGINEBLOCK = NuclearTechMod.withDefaultNamespace("textures/models/soyuz/engineblock.png");
+    public static final ResourceLocation SOYUZ_BOTTOMSTAGE = NuclearTechMod.withDefaultNamespace("textures/models/soyuz/bottomstage.png");
+    public static final ResourceLocation SOYUZ_TOPSTAGE = NuclearTechMod.withDefaultNamespace("textures/models/soyuz/topstage.png");
+    public static final ResourceLocation SOYUZ_PAYLOAD = NuclearTechMod.withDefaultNamespace("textures/models/soyuz/payload.png");
+    public static final ResourceLocation SOYUZ_PAYLOADBLOCKS = NuclearTechMod.withDefaultNamespace("textures/models/soyuz/payloadblocks.png");
+    public static final ResourceLocation SOYUZ_LES = NuclearTechMod.withDefaultNamespace("textures/models/soyuz/les.png");
+    public static final ResourceLocation SOYUZ_LESTHRUSTERS = NuclearTechMod.withDefaultNamespace("textures/models/soyuz/lesthrusters.png");
+    public static final ResourceLocation SOYUZ_MAINENGINES = NuclearTechMod.withDefaultNamespace("textures/models/soyuz/mainengines.png");
+    public static final ResourceLocation SOYUZ_SIDEENGINES = NuclearTechMod.withDefaultNamespace("textures/models/soyuz/sideengines.png");
+    public static final ResourceLocation SOYUZ_BOOSTER = NuclearTechMod.withDefaultNamespace("textures/models/soyuz/booster.png");
+    public static final ResourceLocation SOYUZ_BOOSTERSIDE = NuclearTechMod.withDefaultNamespace("textures/models/soyuz/boosterside.png");
+    public static final ResourceLocation SOYUZ_LUNA_ENGINEBLOCK = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_luna/engineblock.png");
+    public static final ResourceLocation SOYUZ_LUNA_BOTTOMSTAGE = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_luna/bottomstage.png");
+    public static final ResourceLocation SOYUZ_LUNA_TOPSTAGE = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_luna/topstage.png");
+    public static final ResourceLocation SOYUZ_LUNA_PAYLOAD =NuclearTechMod.withDefaultNamespace("textures/models/soyuz_luna/payload.png");
+    public static final ResourceLocation SOYUZ_LUNA_PAYLOADBLOCKS = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_luna/payloadblocks.png");
+    public static final ResourceLocation SOYUZ_LUNA_LES = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_luna/les.png");
+    public static final ResourceLocation SOYUZ_LUNA_LESTHRUSTERS = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_luna/lesthrusters.png");
+    public static final ResourceLocation SOYUZ_LUNA_MAINENGINES = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_luna/mainengines.png");
+    public static final ResourceLocation SOYUZ_LUNA_SIDEENGINES = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_luna/sideengines.png");
+    public static final ResourceLocation SOYUZ_LUNA_BOOSTER = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_luna/booster.png");
+    public static final ResourceLocation SOYUZ_LUNA_BOOSTERSIDE = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_luna/boosterside.png");
+    public static final ResourceLocation SOYUZ_AUTHENTIC_ENGINEBLOCK = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_authentic/engineblock.png");
+    public static final ResourceLocation SOYUZ_AUTHENTIC_BOTTOMSTAGE = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_authentic/bottomstage.png");
+    public static final ResourceLocation SOYUZ_AUTHENTIC_TOPSTAGE = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_authentic/topstage.png");
+    public static final ResourceLocation SOYUZ_AUTHENTIC_PAYLOAD = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_authentic/payload.png");
+    public static final ResourceLocation SOYUZ_AUTHENTIC_PAYLOADBLOCKS = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_authentic/payloadblocks.png");
+    public static final ResourceLocation SOYUZ_AUTHENTIC_LES = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_authentic/les.png");
+    public static final ResourceLocation SOYUZ_AUTHENTIC_LESTHRUSTERS = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_authentic/lesthrusters.png");
+    public static final ResourceLocation SOYUZ_AUTHENTIC_MAINENGINES = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_authentic/mainengines.png");
+    public static final ResourceLocation SOYUZ_AUTHENTIC_SIDEENGINES = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_authentic/sideengines.png");
+    public static final ResourceLocation SOYUZ_AUTHENTIC_BOOSTER = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_authentic/booster.png");
+    public static final ResourceLocation SOYUZ_AUTHENTIC_BOOSTERSIDE = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_authentic/boosterside.png");
+    public static final ResourceLocation SOYUZ_MEMENTO = NuclearTechMod.withDefaultNamespace("textures/items/polaroid_memento.png");
+
+    public static final ResourceLocation SOYUZ_LANDER_TEX = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_capsule/soyuz_lander.png");
+    public static final ResourceLocation SOYUZ_LANDER_RUST_TEX = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_capsule/soyuz_lander_rust.png");
+    public static final ResourceLocation SOYUZ_CHUTE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_capsule/soyuz_chute.png");
+    public static final ResourceLocation SUPPLY_CRATE = NuclearTechMod.withDefaultNamespace("textures/blocks/crate_can.png");
+
+    public static final ResourceLocation SOYUZ_MODULE_DOME_TEX = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_capsule/module_dome.png");
+    public static final ResourceLocation SOYUZ_MODULE_LANDER_TEX = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_capsule/module_lander.png");
+    public static final ResourceLocation SOYUZ_MODULE_PROPULSION_TEX = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_capsule/module_propulsion.png");
+    public static final ResourceLocation SOYUZ_MODULE_SOLAR_TEX = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_capsule/module_solar.png");
+
+    public static final ResourceLocation SOYUZ_LAUNCHER_LEGS_TEX = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_launcher/launcher_leg.png");
+    public static final ResourceLocation SOYUZ_LAUNCHER_TABLE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_launcher/launcher_table.png");
+    public static final ResourceLocation SOYUZ_LAUNCHER_TOWER_BASE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_launcher/launcher_tower_base.png");
+    public static final ResourceLocation SOYUZ_LAUNCHER_TOWER_TEX = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_launcher/launcher_tower.png");
+    public static final ResourceLocation SOYUZ_LAUNCHER_SUPPORT_BASE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_launcher/launcher_support_base.png");
+    public static final ResourceLocation SOYUZ_LAUNCHER_SUPPORT_TEX = NuclearTechMod.withDefaultNamespace("textures/models/soyuz_launcher/launcher_support.png");
+
+    // Missile Parts
     public static final ResourceLocation MISSILE_PAD_TEX = NuclearTechMod.withDefaultNamespace("textures/models/launchpad/silo.png");
 
     public static final ResourceLocation BOMBLET_ZETA_TEX = NuclearTechMod.withDefaultNamespace("textures/models/bomblet_zeta.png");
@@ -165,6 +220,15 @@ public class ResourceManager {
     public static IModelCustom missileNuclear;
     public static IModelCustom missileMicro;
     public static IModelCustom missileShuttle;
+    public static IModelCustom soyuz;
+    public static IModelCustom soyuz_lander;
+    public static IModelCustom soyuz_module;
+    public static IModelCustom soyuz_launcher_legs;
+    public static IModelCustom soyuz_launcher_table;
+    public static IModelCustom soyuz_launcher_tower_base;
+    public static IModelCustom soyuz_launcher_tower;
+    public static IModelCustom soyuz_launcher_support_base;
+    public static IModelCustom soyuz_launcher_support;
 
     //Missile Parts
     public static IModelCustom missile_pad;
@@ -239,6 +303,15 @@ public class ResourceManager {
         missileNuclear = new HFRWavefrontObject("models/obj/missile_atlas.obj").asVBO();
         missileMicro = new HFRWavefrontObject("models/obj/missile_micro.obj").asVBO();
         missileShuttle = new HFRWavefrontObject("models/obj/missile_shuttle.obj").asVBO();
+        soyuz = new HFRWavefrontObject("models/obj/soyuz.obj").asVBO();
+        soyuz_lander = new HFRWavefrontObject("models/obj/soyuz_lander.obj").asVBO();
+        soyuz_module = new HFRWavefrontObject("models/obj/soyuz_module.obj").asVBO();
+        soyuz_launcher_legs = new HFRWavefrontObject("models/obj/launch_table/soyuz_launcher_legs.obj").noSmooth().asVBO();
+        soyuz_launcher_table = new HFRWavefrontObject("models/obj/launch_table/soyuz_launcher_table.obj").noSmooth().asVBO();
+        soyuz_launcher_tower_base = new HFRWavefrontObject("models/obj/launch_table/soyuz_launcher_tower_base.obj").noSmooth().asVBO();
+        soyuz_launcher_tower = new HFRWavefrontObject("models/obj/launch_table/soyuz_launcher_tower.obj").noSmooth().asVBO();
+        soyuz_launcher_support_base = new HFRWavefrontObject("models/obj/launch_table/soyuz_launcher_support_base.obj").noSmooth().asVBO();
+        soyuz_launcher_support = new HFRWavefrontObject("models/obj/launch_table/soyuz_launcher_support.obj").noSmooth().asVBO();
 
         missile_pad = new HFRWavefrontObject("models/obj/weapons/launch_pad_silo.obj").asVBO();
 

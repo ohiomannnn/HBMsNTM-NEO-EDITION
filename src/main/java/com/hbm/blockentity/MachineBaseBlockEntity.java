@@ -26,14 +26,6 @@ public abstract class MachineBaseBlockEntity extends LoadedBaseBlockEntity imple
         this.slots = NonNullList.withSize(size, ItemStack.EMPTY);
     }
 
-    /** The "chunks is modified, pls don't forget to save me" effect of markDirty, minus the block updates */
-    @Deprecated // copy of setChanged!!!
-    public void markChanged() {
-        if (level != null) {
-            level.blockEntityChanged(this.worldPosition);
-        }
-    }
-
     public Component getName() {
         return this.customName != null ? this.customName : this.getDefaultName();
     }

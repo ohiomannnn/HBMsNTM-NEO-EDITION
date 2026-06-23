@@ -27,9 +27,9 @@ import java.util.List;
 public class ExplosionNukeGeneric {
 
     public static void incrementRad(Level level, double posX, double posY, double posZ, float mult) {
-        for (int i = -2; i <= 2; i++) {
-            for (int j = -2; j <= 2; j++) {
-                if (Math.abs(i) + Math.abs(j) < 4) {
+        for(int i = -2; i <= 2; i++) {
+            for(int j = -2; j <= 2; j++) {
+                if(Math.abs(i) + Math.abs(j) < 4) {
                     ChunkRadiationManager.proxy.incrementRad(level, new BlockPos((int) Math.floor(posX + i * 16), (int) Math.floor(posY), (int) Math.floor(posZ + j * 16)), 50F / (Math.abs(i) + Math.abs(j) + 1) * mult);
                 }
             }

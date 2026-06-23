@@ -8,14 +8,16 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public abstract class Satellite {
-    public static final List<Class<? extends Satellite>> SATELLITES = new ArrayList<>();
-    public static final HashMap<Item, Class<? extends Satellite>> ITEM_TO_CLASS = new HashMap<>();
+
+    public static final List<Class<? extends Satellite>> satellites = new ArrayList<>();
+    public static final HashMap<Item, Class<? extends Satellite>> itemToClass = new HashMap<>();
 
     public enum InterfaceActions {
         HAS_MAP,		//lets the interface display loaded chunks
@@ -35,8 +37,8 @@ public abstract class Satellite {
         SAT_COORD	//allows to interact with the sat coord remote (for teleportation or other coord related actions)
     }
 
-    public List<InterfaceActions> ifaceAcs = new ArrayList<>();
-    public List<CoordActions> coordAcs = new ArrayList<>();
+    public final List<InterfaceActions> ifaceAcs = new ArrayList<>();
+    public final List<CoordActions> coordAcs = new ArrayList<>();
     public Interfaces satIface = Interfaces.NONE;
 
     public static void register() {
@@ -50,19 +52,20 @@ public abstract class Satellite {
      * @param item - Satellite item (which will be placed in a rocket)
      */
     public static void registerSatellite(Class<? extends Satellite> sat, Item item) {
-        if (!ITEM_TO_CLASS.containsKey(item) && !ITEM_TO_CLASS.containsValue(sat)) {
-            SATELLITES.add(sat);
-            ITEM_TO_CLASS.put(item, sat);
+        if(!itemToClass.containsKey(item) && !itemToClass.containsValue(sat)) {
+            satellites.add(sat);
+            itemToClass.put(item, sat);
         }
     }
 
-    public static void orbit(ServerLevel serverLevel, int id, int freq, double x, double y, double z) {
+    public static void orbit(ServerLevel serverLevel, int id, int freq, Vec3 position) {
+
         Satellite sat = create(id);
 
-        if (sat != null) {
-            SatelliteSavedData data = SatelliteSavedData.get(serverLevel);
-            data.sats.put(freq, sat);
-            sat.onOrbit(serverLevel, x, y, z);
+        if(sat != null) {
+            SatelliteSavedData data = SatelliteSavedData.getData(serverLevel);
+            data.satellites.put(freq, sat);
+            sat.onOrbit(serverLevel, position);
             data.setDirty();
         }
     }
@@ -71,7 +74,7 @@ public abstract class Satellite {
         Satellite sat = null;
 
         try {
-            Class<? extends Satellite> c = SATELLITES.get(id);
+            Class<? extends Satellite> c = satellites.get(id);
             sat = c.newInstance();
         } catch(Exception e) {
             e.printStackTrace();
@@ -81,26 +84,23 @@ public abstract class Satellite {
     }
 
     public static int getIDFromItem(Item item) {
-        Class<? extends Satellite> sat = ITEM_TO_CLASS.get(item);
+        Class<? extends Satellite> sat = itemToClass.get(item);
 
-        return SATELLITES.indexOf(sat);
+        return satellites.indexOf(sat);
     }
 
     public int getID() {
-        return SATELLITES.indexOf(this.getClass());
+        return satellites.indexOf(this.getClass());
     }
 
-    public void writeToNBT(CompoundTag tag) { }
+    public void saveAdditional(CompoundTag tag) { }
 
-    public void readFromNBT(CompoundTag tag) { }
+    public void readAdditional(CompoundTag tag) { }
 
     /**
      * Called when the satellite reaches space, used to trigger achievements and other funny stuff.
-     * @param x posX of the rocket
-     * @param y ditto
-     * @param z ditto
      */
-    public void onOrbit(Level level, double x, double y, double z) { }
+    public void onOrbit(Level level, Vec3 position) { }
 
     /**
      * Called by the sat interface when clicking on the screen

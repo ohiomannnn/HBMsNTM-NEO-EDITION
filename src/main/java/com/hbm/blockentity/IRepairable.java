@@ -31,15 +31,15 @@ public interface IRepairable {
         if(player == null) return null;
         List<ItemStack> items = InventoryUtil.getItemsFromBothHands(player);
 
-        for (ItemStack stack : items) {
-            if (!(stack.getItem() instanceof BlowtorchItem)) return null;
+        for(ItemStack stack : items) {
+            if(!(stack.getItem() instanceof BlowtorchItem)) return null;
 
             BlockPos corePos = dummy.findCore(level, pos);
-            if (corePos == null) return null;
+            if(corePos == null) return null;
             BlockEntity core = level.getBlockEntity(corePos);
-            if (!(core instanceof IRepairable ir)) return null;
+            if(!(core instanceof IRepairable ir)) return null;
 
-            if (!ir.isDamaged()) return null;
+            if(!ir.isDamaged()) return null;
             return ir.getRepairMaterials();
         }
 
@@ -49,14 +49,14 @@ public interface IRepairable {
     static boolean tryRepairMultiblock(Level level, BlockPos pos, DummyableBlock dummy, Player player) {
 
         BlockPos corePos = dummy.findCore(level, pos);
-        if (corePos == null) return false;
+        if(corePos == null) return false;
         BlockEntity core = level.getBlockEntity(corePos);
-        if (!(core instanceof IRepairable ir)) return false;
+        if(!(core instanceof IRepairable ir)) return false;
 
-        if (!ir.isDamaged()) return false;
+        if(!ir.isDamaged()) return false;
 
         List<AStack> list = ir.getRepairMaterials();
-        if (list == null || list.isEmpty() || InventoryUtil.doesPlayerHaveAStacks(player, list, true)) {
+        if(list == null || list.isEmpty() || InventoryUtil.doesPlayerHaveAStacks(player, list, true)) {
             if (!level.isClientSide) ir.repair();
             return true;
         }
@@ -68,12 +68,12 @@ public interface IRepairable {
     static void addGenericOverlay(RenderGuiEvent.Pre event, Level level, BlockPos pos, DummyableBlock dummy) {
 
         List<AStack> materials = IRepairable.getRepairMaterials(level, pos, dummy, NuclearTechMod.proxy.me());
-        if (materials == null) return;
+        if(materials == null) return;
 
         List<Component> text = new ArrayList<>();
         text.add(Component.translatable("overlay.repair_with").withStyle(ChatFormatting.GOLD));
 
-        for (AStack stack : materials) {
+        for(AStack stack : materials) {
             ItemStack display = stack.extractForCyclingDisplay(20);
             text.add(Component.literal("- " + display.getDisplayName().getString() + " x" + display.getCount()));
         }

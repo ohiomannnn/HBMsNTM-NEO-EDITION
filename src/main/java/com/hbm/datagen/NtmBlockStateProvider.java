@@ -237,6 +237,8 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         // VOLCANO_RAD_CORE uses custom register!
 
         this.particleOnlyBlock(NtmBlocks.LAUNCH_PAD, blockTexture(NtmBlocks.LAUNCH_PAD));
+        // todo make item thing
+        this.particleOnlyBlock(NtmBlocks.SOYUZ_LAUNCHER, modLoc("block/block_steel"));
 
         this.itemModels().basicItem(NtmBlocks.GAS_RADON.asItem());
         this.itemModels().basicItem(NtmBlocks.GAS_RADON_DENSE.asItem());

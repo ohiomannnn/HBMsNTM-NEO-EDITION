@@ -1,5 +1,6 @@
 package com.hbm.main;
 
+import com.hbm.blockentity.IGUIProvider;
 import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.entity.NtmEntityTypes;
@@ -18,26 +19,32 @@ import com.hbm.render.entity.projectile.RenderShrapnel;
 import com.hbm.render.entity.rocket.*;
 import com.hbm.render.item.*;
 import com.hbm.render.item.ItemRenderMissileGeneric.RenderMissileType;
+import com.hbm.util.InventoryUtil;
 import com.hbm.util.i18n.I18nClient;
 import com.hbm.util.i18n.ITranslate;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Map.Entry;
 
 public class ClientProxy extends ServerProxy {
@@ -160,6 +167,7 @@ public class ClientProxy extends ServerProxy {
         BlockEntityRenderers.register(NtmBlockEntityTypes.BATTERY_REDD.get(), new RenderBatteryREDD());
         //missile blocks
         BlockEntityRenderers.register(NtmBlockEntityTypes.LAUNCH_PAD.get(), new RenderLaunchPad());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.SOYUZ_LAUNCHER.get(), new RenderSoyuzLauncher());
     }
 
     @Override
@@ -202,6 +210,7 @@ public class ClientProxy extends ServerProxy {
         EntityRenderers.register(NtmEntityTypes.MISSILE_VOLCANO.get(), RenderMissileNuclear::new);
         EntityRenderers.register(NtmEntityTypes.MISSILE_DOOMSDAY.get(), RenderMissileNuclear::new);
         EntityRenderers.register(NtmEntityTypes.MISSILE_DOOMSDAY_RUSTED.get(), RenderMissileNuclear::new);
+        EntityRenderers.register(NtmEntityTypes.SOYUZ_MISSILE.get(), RenderSoyuz::new);
         //effects
         EntityRenderers.register(NtmEntityTypes.FALLOUT_RAIN.get(), RenderFallout::new);
         EntityRenderers.register(NtmEntityTypes.BLACK_HOLE.get(), RenderBlackHole::new);
@@ -225,12 +234,28 @@ public class ClientProxy extends ServerProxy {
         Minecraft minecraft = Minecraft.getInstance();
 
         double distSqr = minecraft.gameRenderer.getMainCamera().getPosition().distanceToSqr(x, y, z);
-        SimpleSoundInstance simplesoundinstance = new SimpleSoundInstance(soundEvent, source, volume, pitch, RandomSource.create(minecraft.level.random.nextLong()), x, y, z);
+        SimpleSoundInstance instance = new SimpleSoundInstance(soundEvent, source, volume, pitch, RandomSource.create(minecraft.level.random.nextLong()), x, y, z);
         if(distSqr > 100.0) {
             double dist = Math.sqrt(distSqr) / 40.0;
-            minecraft.getSoundManager().playDelayed(simplesoundinstance, (int)(dist * 20.0));
+            minecraft.getSoundManager().playDelayed(instance, (int)(dist * 20.0));
         } else {
-            minecraft.getSoundManager().play(simplesoundinstance);
+            minecraft.getSoundManager().play(instance);
+        }
+    }
+
+    @Override
+    public void openScreen(Player player, BlockPos pos) {
+        if(player != this.me()) return;
+
+        Block block = player.level.getBlockState(pos).getBlock();
+        if(block instanceof IGUIProvider igp) Minecraft.getInstance().setScreen((Screen) igp.provideScreen(player, pos));
+
+        List<ItemStack> stacks = InventoryUtil.getItemsFromBothHands(player);
+        for(ItemStack stack : stacks) {
+            if(stack.getItem() instanceof IGUIProvider igp) {
+                Minecraft.getInstance().setScreen((Screen) igp.provideScreen(player, pos));
+                break;
+            }
         }
     }
 

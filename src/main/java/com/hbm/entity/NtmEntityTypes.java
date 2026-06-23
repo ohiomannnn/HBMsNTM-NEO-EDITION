@@ -1,5 +1,6 @@
 package com.hbm.entity;
 
+import com.hbm.entity.missile.Soyuz;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.entity.effect.BlackHole;
 import com.hbm.entity.effect.FalloutRain;
@@ -177,6 +178,8 @@ public class NtmEntityTypes {
                     .build("meteor"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<EMP>> EMP = ENTITY_TYPES.register("emp", () -> EntityType.Builder.of(EMP::new, MobCategory.MISC).build("emp"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<Soyuz>> SOYUZ_MISSILE = ENTITY_TYPES.register("soyuz", () -> EntityType.Builder.<Soyuz>of(Soyuz::new, MobCategory.MISC).noSummon().sized(5.0F, 50.0F).build("soyuz"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

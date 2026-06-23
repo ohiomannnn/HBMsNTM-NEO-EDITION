@@ -83,9 +83,7 @@ public class NtmBlockEntityTypes {
                             NtmBlocks.MACHINE_ASSEMBLY_MACHINE.get())
                     .build(null));
 
-    public static final Supplier<BlockEntityType<ProxyComboBlockEntity>> PROXY_COMBO = REGISTER.register(
-            "proxy_combo",
-            () -> BlockEntityType.Builder.of(ProxyComboBlockEntity::new).build(null));
+    public static final Supplier<BlockEntityType<ProxyComboBlockEntity>> PROXY_COMBO = REGISTER.register("proxy_combo", () -> BlockEntityType.Builder.of(ProxyComboBlockEntity::new).build(null));
 
     public static final Supplier<BlockEntityType<BobbleBlockEntity>> BOBBLEHEAD = REGISTER.register("bobblehead", () -> BlockEntityType.Builder.of(BobbleBlockEntity::new, NtmBlocks.BOBBLEHEAD.get()).build(null));
     public static final Supplier<BlockEntityType<PlushieBlockEntity>> PLUSHIE = REGISTER.register("plushie", () -> BlockEntityType.Builder.of(PlushieBlockEntity::new, NtmBlocks.PLUSHIE.get()).build(null));
@@ -111,6 +109,7 @@ public class NtmBlockEntityTypes {
     public static final Supplier<BlockEntityType<NukeBalefireBlockEntity>> NUKE_FSTBMB = REGISTER.register("nuke_fstbmb", () -> BlockEntityType.Builder.of(NukeBalefireBlockEntity::new, NtmBlocks.NUKE_FSTBMB.get()).build(null));
 
     public static final Supplier<BlockEntityType<LaunchPadBlockEntity>> LAUNCH_PAD = REGISTER.register("launch_pad", () -> BlockEntityType.Builder.of(LaunchPadBlockEntity::new, NtmBlocks.LAUNCH_PAD.get()).build(null));
+    public static final Supplier<BlockEntityType<SoyuzLauncherBlockEntity>> SOYUZ_LAUNCHER = REGISTER.register("soyuz_launcher", () -> BlockEntityType.Builder.of(SoyuzLauncherBlockEntity::new, NtmBlocks.SOYUZ_LAUNCHER.get()).build(null));
 
     public static final Supplier<BlockEntityType<GeigerBlockEntity>> GEIGER_COUNTER = REGISTER.register("geiger_counter", () -> BlockEntityType.Builder.of(GeigerBlockEntity::new, NtmBlocks.GEIGER.get()).build(null));
 

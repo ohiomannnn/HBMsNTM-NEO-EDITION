@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 public interface IFluidReceiverMK2 extends IFluidUserMK2 {
+
     /** Sends fluid of the desired type and pressure to the receiver, returns the remainder */
     long transferFluid(FluidType type, int pressure, long amount);
     default long getReceiverSpeed(FluidType type, int pressure) { return 1_000_000_000; }
@@ -25,21 +26,22 @@ public interface IFluidReceiverMK2 extends IFluidUserMK2 {
     default void trySubscribe(FluidType type, Level level, DirPos pos) { trySubscribe(type, level, pos.makeCompat(), pos.getDir()); }
 
     default void trySubscribe(FluidType type,Level level, BlockPos pos, Direction dir) {
-        BlockEntity be = TileAccessCache.getTileOrCache(level, pos);
+
+        BlockEntity be = BlockEntityAccessCache.getBEOrCache(level, pos);
         boolean red = false;
 
-        if (be instanceof IFluidConnectorMK2 con) {
-            if (!con.canConnect(type, dir.getOpposite())) return;
+        if(be instanceof IFluidConnectorMK2 con) {
+            if(!con.canConnect(type, dir.getOpposite())) return;
 
             GenNode node = UniNodespace.getNode(level, pos, type.getNetworkProvider());
 
-            if (node != null && node.net != null) {
+            if(node != null && node.net != null) {
                 node.net.addReceiver(this);
                 red = true;
             }
         }
 
-        if (particleDebug) {
+        if(particleDebug) {
             CompoundTag tag = new CompoundTag();
             tag.putString("type", "network");
             tag.putString("mode", "fluid");
@@ -50,7 +52,7 @@ public interface IFluidReceiverMK2 extends IFluidUserMK2 {
             tag.putDouble("mX", -dir.getStepX() * (red ? 0.025 : 0.1));
             tag.putDouble("mY", -dir.getStepY() * (red ? 0.025 : 0.1));
             tag.putDouble("mZ", -dir.getStepZ() * (red ? 0.025 : 0.1));
-            if (level instanceof ServerLevel serverLevel) {
+            if(level instanceof ServerLevel serverLevel) {
                 PacketDistributor.sendToPlayersNear(serverLevel, null, posX, posY, posZ, 25, new AuxParticle(tag, posX, posY, posZ));
             }
         }

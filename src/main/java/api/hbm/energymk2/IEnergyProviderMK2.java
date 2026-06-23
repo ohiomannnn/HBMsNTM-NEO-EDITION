@@ -24,7 +24,7 @@ public interface IEnergyProviderMK2 extends IEnergyHandlerMK2 {
 
     default void tryProvide(Level level, BlockPos pos, Direction dir) {
 
-        BlockEntity be = TileAccessCache.getTileOrCache(level, pos);
+        BlockEntity be = BlockEntityAccessCache.getBEOrCache(level, pos);
         boolean red = false;
 
         if (be instanceof IEnergyConductorMK2 con) {

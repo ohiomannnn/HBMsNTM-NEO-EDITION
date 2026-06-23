@@ -93,8 +93,8 @@ public class MachineBatteryREDDBlock extends DummyableBlock {
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
         CompoundTag persistent = TagsUtil.getCData(stack).getCompound("persistent");
-        if (persistent.contains("power")) {
-            components.add(Component.literal(BobMathUtil.format(new BigInteger(persistent.getByteArray("power"))) + " HE").withStyle(ChatFormatting.YELLOW));
+        if(persistent.contains("Power")) {
+            components.add(Component.literal(BobMathUtil.format(new BigInteger(persistent.getByteArray("Power"))) + " HE").withStyle(ChatFormatting.YELLOW));
         }
     }
 }

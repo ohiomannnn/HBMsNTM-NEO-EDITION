@@ -1,22 +1,22 @@
 package com.hbm.explosion;
 
-import java.util.*;
-
 import com.hbm.interfaces.IExplosionRay;
-
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.*;
+
+@Deprecated
 public class ExplosionNukeRayBatched implements IExplosionRay {
 
     public Map<ChunkPos, List<FloatTriplet>> perChunk = new HashMap<>(); //for future: optimize blockmap further by using sub-chunks instead of chunks
     public List<ChunkPos> orderedChunks = new ArrayList<>();
-    private CoordComparator comparator = new CoordComparator();
+    private final CoordComparator COMPARATOR = new CoordComparator();
     int posX;
     int posY;
     int posZ;
@@ -50,7 +50,7 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
     }
 
     private void generateGspUp() {
-        if (this.gspNum < this.gspNumMax) {
+        if(this.gspNum < this.gspNumMax) {
             int k = this.gspNum + 1;
             double hk = -1.0 + 2.0 * (k - 1.0) / (this.gspNumMax - 1.0);
             this.gspX = Math.acos(hk);
@@ -76,18 +76,18 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
     public void collectTip(int count) {
         int amountProcessed = 0;
 
-        while (this.gspNumMax >= this.gspNum){
+        while(this.gspNumMax >= this.gspNum){
             Vec3 vec = this.getSpherical2cartesian();
 
-            int length = (int)Math.ceil(strength);
+            int length = (int) Math.ceil(strength);
             float res = strength;
 
             FloatTriplet lastPos = null;
             Set<ChunkPos> chunkCoords = new HashSet<>();
 
-            for (int i = 0; i < length; i++) {
+            for(int i = 0; i < length; i++) {
 
-                if (i > this.length) break;
+                if(i > this.length) break;
 
                 float x0 = (float) (posX + (vec.x * i));
                 float y0 = (float) (posY + (vec.y * i));
@@ -103,29 +103,24 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
                 BlockPos pos = new BlockPos(iX, iY, iZ);
                 BlockState state = level.getBlockState(pos);
 
-                if (state.getFluidState().isEmpty()) {
+                if(state.getFluidState().isEmpty()) {
                     res -= (float) Math.pow(masqueradeResistance(level, state, pos), 7.5D - fac);
                 }
 
-                if (res > 0 && !state.isAir()) {
+                if(res > 0 && !state.isAir()) {
                     lastPos = new FloatTriplet(x0, y0, z0);
                     //all-air chunks don't need to be buffered at all
                     ChunkPos chunkPos = new ChunkPos(iX >> 4, iZ >> 4);
                     chunkCoords.add(chunkPos);
                 }
 
-                if (res <= 0 || i + 1 >= this.length || i == length - 1) {
+                if(res <= 0 || i + 1 >= this.length || i == length - 1) {
                     break;
                 }
             }
 
-            for (ChunkPos pos : chunkCoords) {
-                List<FloatTriplet> triplets = perChunk.get(pos);
-
-                if (triplets == null) {
-                    triplets = new ArrayList<>();
-                    perChunk.put(pos, triplets); //we re-use the same pos instead of using individualized per-chunk ones to save on RAM
-                }
+            for(ChunkPos pos : chunkCoords) {
+                List<FloatTriplet> triplets = perChunk.computeIfAbsent(pos, k -> new ArrayList<>()); // we re-use the same pos instead of using individualized per-chunk ones to save on RAM
 
                 triplets.add(lastPos);
             }
@@ -134,21 +129,19 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
             this.generateGspUp();
 
             amountProcessed++;
-            if (amountProcessed >= count) {
-                return;
-            }
+            if(amountProcessed >= count) return;
         }
 
         orderedChunks.addAll(perChunk.keySet());
-        orderedChunks.sort(comparator);
+        orderedChunks.sort(COMPARATOR);
 
         isAusf3Complete = true;
     }
 
     public static float masqueradeResistance(Level level, BlockState state, BlockPos pos) {
-        Block block = level.getBlockState(pos).getBlock();
-        if (block == Blocks.SANDSTONE) return Blocks.STONE.defaultBlockState().getExplosionResistance(level, pos, null);
-        if (block == Blocks.OBSIDIAN) return Blocks.STONE.defaultBlockState().getExplosionResistance(level, pos, null) * 3;
+        Block block = state.getBlock();
+        if(block == Blocks.SANDSTONE) return Blocks.STONE.defaultBlockState().getExplosionResistance(level, pos, null);
+        if(block == Blocks.OBSIDIAN) return Blocks.STONE.defaultBlockState().getExplosionResistance(level, pos, null) * 3;
         return state.getExplosionResistance(level, pos, null);
     }
 
@@ -168,7 +161,7 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
     }
 
     public void processChunk() {
-        if (this.perChunk.isEmpty()) return;
+        if(this.perChunk.isEmpty()) return;
 
         ChunkPos coord = orderedChunks.get(0);
         List<FloatTriplet> list = perChunk.get(coord);
@@ -184,7 +177,7 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
 
         enter = Math.max(enter, 0);
 
-        for (FloatTriplet triplet : list) {
+        for(FloatTriplet triplet : list) {
             float x = triplet.xCoord;
             float y = triplet.yCoord;
             float z = triplet.zCoord;
@@ -199,7 +192,7 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
 
             boolean inChunk = false;
             BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
-            for (int i = enter; i < vec.length(); i++) {
+            for(int i = enter; i < vec.length(); i++) {
                 int x0 = (int) Math.floor(posX + pX * i);
                 int y0 = (int) Math.floor(posY + pY * i);
                 int z0 = (int) Math.floor(posZ + pZ * i);
@@ -207,8 +200,8 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
                 mutablePos.set(x0, y0, z0);
                 BlockState state = level.getBlockState(mutablePos);
 
-                if (x0 >> 4 != chunkX || z0 >> 4 != chunkZ) {
-                    if (inChunk) {
+                if(x0 >> 4 != chunkX || z0 >> 4 != chunkZ) {
+                    if(inChunk) {
                         break;
                     } else {
                         continue;
@@ -217,10 +210,10 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
 
                 inChunk = true;
 
-                if (!state.isAir()) {
+                if(!state.isAir()) {
                     BlockPos pos = new BlockPos(x0, y0, z0);
 
-                    if (x0 == tipX && y0 == tipY && z0 == tipZ) {
+                    if(x0 == tipX && y0 == tipY && z0 == tipZ) {
                         toRemTips.add(pos);
                     }
                     toRem.add(pos);
@@ -228,9 +221,9 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
             }
         }
 
-        for (BlockPos pos : toRem) {
-            if (toRemTips.contains(pos)) {
-                this.handleTip(pos.getX(), pos.getY(), pos.getZ());
+        for(BlockPos pos : toRem) {
+            if(toRemTips.contains(pos)) {
+                this.handleTip(pos);
             } else {
                 level.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
             }
@@ -240,8 +233,8 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
         orderedChunks.remove(0);
     }
 
-    protected void handleTip(int x, int y, int z) {
-        level.setBlock(new BlockPos(x, y, z), Blocks.AIR.defaultBlockState(), 3);
+    protected void handleTip(BlockPos pos) {
+        level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
     }
 
     @Override
@@ -251,25 +244,24 @@ public class ExplosionNukeRayBatched implements IExplosionRay {
 
     @Override
     public void cacheChunksTick(int time) {
-        if (!isAusf3Complete) {
+        if(!isAusf3Complete) {
             // time ignored here since collectTip() did not implement a time limit
-            collectTip(speed * 10);
+            this.collectTip(speed * 10);
         }
     }
 
     @Override
     public void destructionTick(int time) {
-        if (!isAusf3Complete) return;
+        if(!isAusf3Complete) return;
         long start = System.currentTimeMillis();
-        while (!perChunk.isEmpty() && System.currentTimeMillis() < start + time)
-            processChunk();
+        while(!perChunk.isEmpty() && System.currentTimeMillis() < start + time) this.processChunk();
     }
 
     @Override
     public void cancel() {
         isAusf3Complete = true;
-        if (perChunk != null) perChunk.clear();
-        if (orderedChunks != null) orderedChunks.clear();
+        if(perChunk != null) perChunk.clear();
+        if(orderedChunks != null) orderedChunks.clear();
     }
 
     public static class FloatTriplet {

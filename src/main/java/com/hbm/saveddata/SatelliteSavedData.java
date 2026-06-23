@@ -11,33 +11,41 @@ import java.util.Map;
 
 public class SatelliteSavedData extends SavedData {
 
-    public static final String NAME = "satellites";
-
-    public final Map<Integer, Satellite> sats = new HashMap<>();
-
     public static SavedData.Factory<SatelliteSavedData> factory() {
-        return new SavedData.Factory<>(SatelliteSavedData::new, SatelliteSavedData::load);
+        return new SavedData.Factory<>(
+                SatelliteSavedData::new, SatelliteSavedData::load
+        );
     }
 
-    private SatelliteSavedData() {
+    public final Map<Integer, Satellite> satellites = new HashMap<>();
+    
+    public SatelliteSavedData() {
         this.setDirty();
+    }
+
+    public boolean isFreqTaken(int freq) {
+        return getSatFromFreq(freq) != null;
+    }
+
+    public Satellite getSatFromFreq(int freq) {
+        return satellites.get(freq);
     }
 
     public static SatelliteSavedData load(CompoundTag tag, HolderLookup.Provider registries) {
         SatelliteSavedData data = new SatelliteSavedData();
 
-        int satCount = tag.getInt("satCount");
+        int satCount = tag.getInt("SatellitesCount");
 
-        for (int i = 0; i < satCount; i++) {
-            int id = tag.getInt("sat_id_" + i);
-            int freq = tag.getInt("sat_freq_" + i);
+        for(int i = 0; i < satCount; i++) {
+            int id = tag.getInt("SatId_" + i);
+            int freq = tag.getInt("SatData_" + i);
 
-            CompoundTag satTag = tag.getCompound("sat_data_" + i);
+            CompoundTag satTag = tag.getCompound("SatFreq_" + i);
 
             Satellite sat = Satellite.create(id);
-            sat.readFromNBT(satTag);
+            sat.readAdditional(satTag);
 
-            data.sats.put(freq, sat);
+            data.satellites.put(freq, sat);
         }
 
         return data;
@@ -45,44 +53,25 @@ public class SatelliteSavedData extends SavedData {
 
     @Override
     public CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
-        tag.putInt("satCount", sats.size());
+        tag.putInt("SatellitesCount", satellites.size());
 
         int i = 0;
-        for (Map.Entry<Integer, Satellite> entry : sats.entrySet()) {
+        for(Map.Entry<Integer, Satellite> entry : satellites.entrySet()) {
             Satellite sat = entry.getValue();
 
             CompoundTag satTag = new CompoundTag();
-            sat.writeToNBT(satTag);
+            sat.saveAdditional(satTag);
 
-            tag.putInt("sat_id_" + i, sat.getID());
-            tag.put("sat_data_" + i, satTag);
-            tag.putInt("sat_freq_" + i, entry.getKey());
+            tag.putInt("SatId_" + i, sat.getID());
+            tag.put("SatData_" + i, satTag);
+            tag.putInt("SatFreq_" + i, entry.getKey());
             i++;
         }
 
         return tag;
     }
 
-    public boolean isFreqTaken(int freq) {
-        return sats.containsKey(freq);
-    }
-
-    public Satellite getSatFromFreq(int freq) {
-        return sats.get(freq);
-    }
-
-    public void putSatellite(int freq, Satellite sat) {
-        sats.put(freq, sat);
-        this.setDirty();
-    }
-
-    public void removeSatellite(int freq) {
-        if (sats.remove(freq) != null) {
-            this.setDirty();
-        }
-    }
-
-    public static SatelliteSavedData get(ServerLevel level) {
-        return level.getDataStorage().computeIfAbsent(factory(), NAME);
+    public static SatelliteSavedData getData(ServerLevel serverLevel) {
+        return serverLevel.getDataStorage().computeIfAbsent(factory(), "satellites");
     }
 }

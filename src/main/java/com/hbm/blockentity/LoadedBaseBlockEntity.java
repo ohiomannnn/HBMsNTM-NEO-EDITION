@@ -1,6 +1,6 @@
 package com.hbm.blockentity;
 
-import api.hbm.blockentity.ILoadedTile;
+import api.hbm.blockentity.ILoadedBE;
 import com.hbm.network.toclient.BufPacket;
 import com.hbm.sound.AudioWrapper;
 import io.netty.buffer.ByteBuf;
@@ -17,7 +17,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.Arrays;
 
-public class LoadedBaseBlockEntity extends BlockEntity implements ILoadedTile, IBufPacketReceiver {
+public class LoadedBaseBlockEntity extends BlockEntity implements ILoadedBE, IBufPacketReceiver {
 
     public boolean isLoaded = true;
     public boolean muffled = false;

@@ -51,7 +51,7 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
 
     public FluidTank tank;
     public short mode = 0;
-    public static final short modes = 4;
+    public static final short MODES = 4;
     public boolean hasExploded = false;
     public boolean onFire = false;
     public byte lastRedstone = 0;
@@ -61,72 +61,76 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
 
     public MachineFluidTankBlockEntity(BlockPos pos, BlockState state) {
         super(NtmBlockEntityTypes.FLUID_TANK.get(), pos, state, 6);
-        tank = new FluidTank(Fluids.NONE, 256000);
+
+        this.tank = new FluidTank(Fluids.NONE, 256000);
     }
 
-    @Override public Component getDefaultName() { return Component.translatable("container.fluid_tank"); }
+    @Override public Component getDefaultName() { return Component.translatable("container.fluidtank"); }
+
+    @Override public long getReceiverSpeed(FluidType type, int pressure) { return Math.max(500, (tank.getMaxFill() - tank.getFill()) / 100); }
+    @Override public long getProviderSpeed(FluidType type, int pressure) { return Math.max(500, tank.getFill() / 100); }
 
     public byte getComparatorPower() {
-        if (tank.getFill() == 0) return 0;
+        if(tank.getFill() == 0) return 0;
         double frac = (double) tank.getFill() / (double) tank.getMaxFill() * 15D;
         return (byte) (Math.clamp(frac + 1, 0, 15));
     }
 
     @Override
     public void updateEntity() {
-        if (level != null && !level.isClientSide) {
-            if (!hasExploded) {
+        if(level != null && !level.isClientSide) {
+            if(!hasExploded) {
                 age++;
 
-                if (age >= 20) {
+                if(age >= 20) {
                     age = 0;
-                    this.markChanged();
+                    this.setChanged();
                 }
 
                 // In buffer mode, acts like a pipe block, providing fluid to its own node
                 // otherwise, it is a regular providing/receiving machine, blocking further propagation
-                if (mode == 1) {
-                    if (this.node == null || this.node.expired || tank.getTankType() != lastType) {
+                if(mode == 1) {
+                    if(this.node == null || this.node.expired || tank.getTankType() != lastType) {
 
                         this.node = (FluidNode) UniNodespace.getNode(level, getBlockPos(), tank.getTankType().getNetworkProvider());
 
-                        if (this.node == null || this.node.expired || tank.getTankType() != lastType) {
+                        if(this.node == null || this.node.expired || tank.getTankType() != lastType) {
                             this.node = this.createNode(tank.getTankType());
                             UniNodespace.createNode(level, this.node);
                             lastType = tank.getTankType();
                         }
                     }
 
-                    if (node != null && node.hasValidNet()) {
+                    if(node != null && node.hasValidNet()) {
                         node.net.addProvider(this);
                         node.net.addReceiver(this);
                     }
                 } else {
-                    if (this.node != null) {
+                    if(this.node != null) {
                         UniNodespace.destroyNode(level, getBlockPos(), tank.getTankType().getNetworkProvider());
                         this.node = null;
                     }
 
-                    for (DirPos pos : getConPos()) {
+                    for(DirPos pos : getConPos()) {
                         FluidNode dirNode = (FluidNode) UniNodespace.getNode(level, pos.makeCompat(), tank.getTankType().getNetworkProvider());
 
-                        if (mode == 2) {
+                        if(mode == 2) {
                             tryProvide(tank, level, pos.makeCompat(), pos.getDir());
                         } else {
-                            if (dirNode != null && dirNode.hasValidNet()) dirNode.net.removeProvider(this);
+                            if(dirNode != null && dirNode.hasValidNet()) dirNode.net.removeProvider(this);
                         }
 
-                        if (mode == 0) {
-                            if (dirNode != null && dirNode.hasValidNet()) dirNode.net.addReceiver(this);
+                        if(mode == 0) {
+                            if(dirNode != null && dirNode.hasValidNet()) dirNode.net.addReceiver(this);
                         } else {
-                            if (dirNode != null && dirNode.hasValidNet()) dirNode.net.removeReceiver(this);
+                            if(dirNode != null && dirNode.hasValidNet()) dirNode.net.removeReceiver(this);
                         }
                     }
                 }
 
                 tank.loadTank(level, 2, 3, slots);
                 tank.setType(0, 1, slots);
-            } else if (this.node != null) {
+            } else if(this.node != null) {
                 UniNodespace.destroyNode(level, getBlockPos(), tank.getTankType().getNetworkProvider());
                 this.node = null;
             }
@@ -138,23 +142,23 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
             }
             this.lastRedstone = comp;
 
-            if (tank.getFill() > 0) {
-                if (tank.getTankType().isAntimatter()) {
+            if(tank.getFill() > 0) {
+                if(tank.getTankType().isAntimatter()) {
                     new ExplosionVNT(level, getBlockPos().getX() + 0.5, getBlockPos().getY() + 1.5, getBlockPos().getZ() + 0.5, 5F).makeAmat().setBlockAllocator(null).setBlockProcessor(null).explode();
                     this.explode();
                     this.tank.setFill(0);
                 }
 
-                if (tank.getTankType().hasTrait(FT_Corrosive.class) && tank.getTankType().getTrait(FT_Corrosive.class).isHighlyCorrosive()) {
+                if(tank.getTankType().hasTrait(FT_Corrosive.class) && tank.getTankType().getTrait(FT_Corrosive.class).isHighlyCorrosive()) {
                     this.explode();
                 }
 
-                if (this.hasExploded) {
+                if(this.hasExploded) {
 
                     int leaking;
-                    if (tank.getTankType().isAntimatter()) {
+                    if(tank.getTankType().isAntimatter()) {
                         leaking = tank.getFill();
-                    } else if (tank.getTankType().hasTrait(FT_Gaseous.class) || tank.getTankType().hasTrait(FT_Gaseous_ART.class)) {
+                    } else if(tank.getTankType().hasTrait(FT_Gaseous.class) || tank.getTankType().hasTrait(FT_Gaseous_ART.class)) {
                         leaking = Math.min(tank.getFill(), tank.getMaxFill() / 100);
                     } else {
                         leaking = Math.min(tank.getFill(), tank.getMaxFill() / 10000);
@@ -169,7 +173,7 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
             this.networkPackNT(150);
         }
 
-        if (level != null) {
+        if(level != null) {
             Direction dir = this.getBlockState().getValue(DummyableBlock.FACING);
             Direction rot = dir.getClockWise(Axis.Y);
             BlockPos pos = this.getBlockPos();
@@ -178,7 +182,7 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
             int z = pos.getZ();
             List<Player> players = level.getEntitiesOfClass(Player.class, new AABB(x, y, z, x + 1, y + 2.875, z + 1).move(dir.getStepX() * 0.5 - rot.getStepX() * 2.25, 0, dir.getStepZ() * 0.5 - rot.getStepZ() * 2.25));
 
-            for (Player player : players) {
+            for(Player player : players) {
                 HbmPlayerAttachments props = HbmPlayerAttachments.getData(player);
                 props.isOnLadder = true;
                 player.setData(ModAttachments.PLAYER_ATTACHMENT.get(), props);
@@ -186,14 +190,12 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
         }
     }
 
-    public static void tick(Level ignored, BlockPos ignored1, BlockState ignored2, MachineFluidTankBlockEntity be) { be.updateEntity(); }
-
     @Override
     public void setRemoved() {
         super.setRemoved();
 
-        if (this.level != null && !this.level.isClientSide) {
-            if (this.node != null) {
+        if(this.level != null && !this.level.isClientSide) {
+            if(this.node != null) {
                 UniNodespace.destroyNode(this.level, this.getBlockPos(), this.tank.getTankType().getNetworkProvider());
             }
         }
@@ -204,7 +206,7 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
 
         HashSet<BlockPos> posSet = new HashSet<>();
         posSet.add(new BlockPos(this.getBlockPos()));
-        for (DirPos pos : conPos) {
+        for(DirPos pos : conPos) {
             Direction dir = pos.getDir();
             posSet.add(new BlockPos(pos.getX() - dir.getStepX(), pos.getY() - dir.getStepY(), pos.getZ() - dir.getStepZ()));
         }
@@ -233,13 +235,13 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
     public void explode() {
         this.hasExploded = true;
         this.onFire = tank.getTankType().hasTrait(FT_Flammable.class);
-        this.markChanged();
+        this.setChanged();
     }
 
     /** called every tick post explosion, used for leaking fluid and spawning particles */
     public void updateLeak(int amount) {
-        if (!hasExploded) return;
-        if (amount <= 0) return;
+        if(!hasExploded) return;
+        if(amount <= 0) return;
 
         this.tank.getTankType().onFluidRelease(this, tank, amount);
         this.tank.setFill(Math.max(0, this.tank.getFill() - amount));
@@ -247,10 +249,10 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
 
     @Override
     public void explode(Level level, BlockPos pos) {
-        if (this.hasExploded) return;
+        if(this.hasExploded) return;
         this.onFire = tank.getTankType().hasTrait(FT_Flammable.class);
         this.hasExploded = true;
-        this.markChanged();
+        this.setChanged();
     }
 
     protected DirPos[] getConPos() {
@@ -300,8 +302,8 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
 
     @Override
     public long getDemand(FluidType type, int pressure) {
-        if (this.mode == 2 || this.mode == 3) return 0;
-        if (tank.getPressure() != pressure) return 0;
+        if(this.mode == 2 || this.mode == 3) return 0;
+        if(tank.getPressure() != pressure) return 0;
         return type == tank.getTankType() ? tank.getMaxFill() - tank.getFill() : 0;
     }
 
@@ -312,7 +314,7 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
 
     @Override
     public void writeNBT(CompoundTag savedTag) {
-        if (this.tank.getFill() == 0 && !this.hasExploded) return;
+        if(this.tank.getFill() == 0 && !this.hasExploded) return;
         CompoundTag tag = new CompoundTag();
         this.tank.writeToNBT(tag, "Tank");
         tag.putShort("Mode", mode);
@@ -334,13 +336,13 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
 
     @Override
     public FluidTank[] getSendingTanks() {
-        if (this.hasExploded) return FluidTank.EMPTY_ARRAY;
+        if(this.hasExploded) return FluidTank.EMPTY_ARRAY;
         return (mode == 1 || mode == 2) ? new FluidTank[] {tank} : FluidTank.EMPTY_ARRAY;
     }
 
     @Override
     public FluidTank[] getReceivingTanks() {
-        if (this.hasExploded) return FluidTank.EMPTY_ARRAY;
+        if(this.hasExploded) return FluidTank.EMPTY_ARRAY;
         return (mode == 0 || mode == 1) ? new FluidTank[] {tank} : FluidTank.EMPTY_ARRAY;
     }
 
@@ -369,10 +371,11 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
         return this.hasExploded;
     }
 
-    List<AStack> repair = new ArrayList<>();
+    private final List<AStack> repair = new ArrayList<>();
+
     @Override
     public List<AStack> getRepairMaterials() {
-        if (!repair.isEmpty()) return repair;
+        if(!repair.isEmpty()) return repair;
         repair.add(new ComparableStack(NtmItems.NOTHING.get(), 6));
         return repair;
     }
@@ -380,26 +383,26 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
     @Override
     public void repair() {
         this.hasExploded = false;
-        this.markChanged();
+        this.setChanged();
     }
 
     @Override
     public void tryExtinguish(Level level, BlockPos pos, EnumExtinguishType type) {
-        if (!this.hasExploded || !this.onFire) return;
+        if(!this.hasExploded || !this.onFire) return;
 
-        if (type == EnumExtinguishType.WATER) {
-            if (tank.getTankType().hasTrait(FT_Liquid.class)) { // extinguishing oil with water is a terrible idea!
+        if(type == EnumExtinguishType.WATER) {
+            if(tank.getTankType().hasTrait(FT_Liquid.class)) { // extinguishing oil with water is a terrible idea!
                 level.explode(null, this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 1.5, this.getBlockPos().getZ() + 0.5, 5F, Level.ExplosionInteraction.TNT);
             } else {
                 this.onFire = false;
-                this.markChanged();
+                this.setChanged();
                 return;
             }
         }
 
-        if (type == EnumExtinguishType.FOAM || type == EnumExtinguishType.CO2) {
+        if(type == EnumExtinguishType.FOAM || type == EnumExtinguishType.CO2) {
             this.onFire = false;
-            this.markChanged();
+            this.setChanged();
         }
     }
 
@@ -407,9 +410,9 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
 
     @Override
     public void receiveControl(CompoundTag tag) {
-        if (tag.contains("Mode")) {
-            mode = (short) ((mode + 1) % modes);
-            this.markChanged();
+        if(tag.contains("Mode")) {
+            mode = (short) ((mode + 1) % MODES);
+            this.setChanged();
         }
     }
 }

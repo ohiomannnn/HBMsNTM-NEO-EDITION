@@ -13,17 +13,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class HFRWavefrontObject implements IModelCustomNamed {
 
     /** For resource reloading */
-    public static final LinkedHashSet<HFRWavefrontObject> allModels = new LinkedHashSet<>();
+    public static final Set<HFRWavefrontObject> allModels = Collections.synchronizedSet(new LinkedHashSet<>());
     public static final LinkedHashMap<HFRWavefrontObjectVBO, HFRWavefrontObject> allVBOs = new LinkedHashMap<>();
 
     private static final Pattern VERTEX_PATTERN = Pattern.compile("(v( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *\\n)|(v( (\\-){0,1}\\d+(\\.\\d+)?){3,4} *$)");
@@ -35,9 +32,15 @@ public class HFRWavefrontObject implements IModelCustomNamed {
     private static final Pattern FACE_V_PATTERN = Pattern.compile("(f( \\d+){3,4} *\\n)|(f( \\d+){3,4} *$)");
     private static final Pattern GROUP_OBJECT_PATTERN = Pattern.compile("([go]( [\\w\\d\\.]+) *\\n)|([go]( [\\w\\d\\.]+) *$)");
 
-    private static Matcher vertexMatcher, vertexNormalMatcher, textureCoordinateMatcher;
-    private static Matcher face_V_VT_VN_Matcher, face_V_VT_Matcher, face_V_VN_Matcher, face_V_Matcher;
-    private static Matcher groupObjectMatcher;
+    // multi-thread shenanigans
+    private static final ThreadLocal<Matcher> vertexMatcher = ThreadLocal.withInitial(() -> VERTEX_PATTERN.matcher(""));
+    private static final ThreadLocal<Matcher> vertexNormalMatcher = ThreadLocal.withInitial(() -> VERTEX_NORMAL_PATTERN.matcher(""));
+    private static final ThreadLocal<Matcher> textureCoordinateMatcher = ThreadLocal.withInitial(() -> TEXTURE_COORDINATE_PATTERN.matcher(""));
+    private static final ThreadLocal<Matcher> face_V_VT_VN_Matcher = ThreadLocal.withInitial(() -> FACE_V_VT_VN_PATTERN.matcher(""));
+    private static final ThreadLocal<Matcher> face_V_VT_Matcher = ThreadLocal.withInitial(() -> FACE_V_VT_PATTERN.matcher(""));
+    private static final ThreadLocal<Matcher> face_V_VN_Matcher = ThreadLocal.withInitial(() -> FACE_V_VN_PATTERN.matcher(""));
+    private static final ThreadLocal<Matcher> face_V_Matcher = ThreadLocal.withInitial(() -> FACE_V_PATTERN.matcher(""));
+    private static final ThreadLocal<Matcher> groupObjectMatcher = ThreadLocal.withInitial(() -> GROUP_OBJECT_PATTERN.matcher(""));
 
     public ArrayList<Vertex> vertices = new ArrayList<>();
     public ArrayList<Vertex> vertexNormals = new ArrayList<>();
@@ -152,7 +155,7 @@ public class HFRWavefrontObject implements IModelCustomNamed {
             }
 
             groupObjects.add(currentGroupObject);
-        } catch (IOException e) {
+        } catch(IOException e) {
             throw new ModelFormatException("caught IO Exception while reading model format", e);
         } finally {
             try {
@@ -362,45 +365,31 @@ public class HFRWavefrontObject implements IModelCustomNamed {
     }
 
     private static boolean isValidVertexLine(String line) {
-        if(vertexMatcher != null) vertexMatcher.reset();
-        vertexMatcher = VERTEX_PATTERN.matcher(line);
-        return vertexMatcher.matches();
+        return vertexMatcher.get().reset(line).matches();
     }
 
     private static boolean isValidVertexNormalLine(String line) {
-        if(vertexNormalMatcher != null) vertexNormalMatcher.reset();
-        vertexNormalMatcher = VERTEX_NORMAL_PATTERN.matcher(line);
-        return vertexNormalMatcher.matches();
+        return vertexNormalMatcher.get().reset(line).matches();
     }
 
     private static boolean isValidTextureCoordinateLine(String line) {
-        if(textureCoordinateMatcher != null) textureCoordinateMatcher.reset();
-        textureCoordinateMatcher = TEXTURE_COORDINATE_PATTERN.matcher(line);
-        return textureCoordinateMatcher.matches();
+        return textureCoordinateMatcher.get().reset(line).matches();
     }
 
     private static boolean isValidFace_V_VT_VN_Line(String line) {
-        if(face_V_VT_VN_Matcher != null) face_V_VT_VN_Matcher.reset();
-        face_V_VT_VN_Matcher = FACE_V_VT_VN_PATTERN.matcher(line);
-        return face_V_VT_VN_Matcher.matches();
+        return face_V_VT_VN_Matcher.get().reset(line).matches();
     }
 
     private static boolean isValidFace_V_VT_Line(String line) {
-        if(face_V_VT_Matcher != null) face_V_VT_Matcher.reset();
-        face_V_VT_Matcher = FACE_V_VT_PATTERN.matcher(line);
-        return face_V_VT_Matcher.matches();
+        return face_V_VT_Matcher.get().reset(line).matches();
     }
 
     private static boolean isValidFace_V_VN_Line(String line) {
-        if(face_V_VN_Matcher != null) face_V_VN_Matcher.reset();
-        face_V_VN_Matcher = FACE_V_VN_PATTERN.matcher(line);
-        return face_V_VN_Matcher.matches();
+        return face_V_VN_Matcher.get().reset(line).matches();
     }
 
     private static boolean isValidFace_V_Line(String line) {
-        if(face_V_Matcher != null) face_V_Matcher.reset();
-        face_V_Matcher = FACE_V_PATTERN.matcher(line);
-        return face_V_Matcher.matches();
+        return face_V_Matcher.get().reset(line).matches();
     }
 
     private static boolean isValidFaceLine(String line) {
@@ -408,9 +397,7 @@ public class HFRWavefrontObject implements IModelCustomNamed {
     }
 
     private static boolean isValidGroupObjectLine(String line) {
-        if(groupObjectMatcher != null) groupObjectMatcher.reset();
-        groupObjectMatcher = GROUP_OBJECT_PATTERN.matcher(line);
-        return groupObjectMatcher.matches();
+        return groupObjectMatcher.get().reset(line).matches();
     }
 
     @Override

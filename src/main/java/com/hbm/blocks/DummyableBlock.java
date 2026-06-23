@@ -28,7 +28,6 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.AABB;
@@ -219,7 +218,7 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
                     added = true;
                 }
 
-                if (!added) {
+                if(!added) {
                     player.getInventory().add(new ItemStack(this));
                 }
             }
@@ -228,17 +227,19 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
 
         if(!level.isClientSide) {
             BlockPos corePos = adjustedPos.relative(dir, offset);
-            BlockState coreState = getStateForCore(level, corePos, player, dir);
+            BlockState coreState = this.getStateForCore(level, corePos, player, dir);
 
             level.setBlock(corePos, coreState, 3);
 
             IPersistentNBT.restoreData(level, corePos, stack);
 
-            fillSpace(level, adjustedPos, dir, offset);
+            this.fillSpace(level, adjustedPos, dir, offset);
         }
 
         level.scheduleTick(pos, this, 1);
         level.scheduleTick(pos, this, 2);
+
+        super.setPlacedBy(level, pos, state, placer, stack);
     }
 
     /**

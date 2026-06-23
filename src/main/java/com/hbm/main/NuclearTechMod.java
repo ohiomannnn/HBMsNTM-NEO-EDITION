@@ -38,31 +38,29 @@ public class NuclearTechMod {
     public static File configDir;
     public static File configHbmDir;
 
-    public NuclearTechMod(IEventBus modEventBus, ModContainer modContainer) {
+    public NuclearTechMod(IEventBus eventBus, ModContainer container) {
         proxy = FMLLoader.getDist().isClient() ? new ClientProxy() : new ServerProxy();
 
         configDir = FMLPaths.CONFIGDIR.get().toFile();
         configHbmDir = new File(NuclearTechMod.configDir, "hbmConfig");
 
-        if(!NuclearTechMod.configHbmDir.exists()) {
-            NuclearTechMod.configHbmDir.mkdirs();
-        }
+        if(!NuclearTechMod.configHbmDir.exists()) NuclearTechMod.configHbmDir.mkdirs();
+
+        NtmConfig.register(container);
 
         Fluids.init();
-        NtmItems.register(modEventBus);
-        NtmBlocks.register(modEventBus);
-        NtmFluidTypes.register(modEventBus);
-        NtmFluids.register(modEventBus);
-        NtmDataComponents.register(modEventBus);
-        NtmEntityTypes.register(modEventBus);
-        NtmSoundEvents.register(modEventBus);
-        NtmCreativeTabs.register(modEventBus);
-        ModAttachments.register(modEventBus);
-        ModEffect.register(modEventBus);
-        NtmBlockEntityTypes.register(modEventBus);
-        NtmMenuTypes.register(modEventBus);
-        ModParticles.register(modEventBus);
-
-        NtmConfig.register(modContainer);
+        NtmItems.register(eventBus);
+        NtmBlocks.register(eventBus);
+        NtmFluidTypes.register(eventBus);
+        NtmFluids.register(eventBus);
+        NtmDataComponents.register(eventBus);
+        NtmEntityTypes.register(eventBus);
+        NtmSoundEvents.register(eventBus);
+        NtmCreativeTabs.register(eventBus);
+        ModAttachments.register(eventBus);
+        ModEffect.register(eventBus);
+        NtmBlockEntityTypes.register(eventBus);
+        NtmMenuTypes.register(eventBus);
+        ModParticles.register(eventBus);
     }
 }

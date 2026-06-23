@@ -280,7 +280,7 @@ public abstract class GenericRecipes<T extends GenericRecipe> extends Serializab
 
         @Override
         public String[] getLabel() {
-            return new String[] {ChatFormatting.GRAY + "" + this.stack.getCount() + "x " + this.stack.getDisplayName() + (this.chance >= 1 ? "" : " (" + (int)(this.chance * 1000) / 10F + "%)")};
+            return new String[] {ChatFormatting.GRAY + "" + this.stack.getCount() + "x " + this.stack.getDisplayName().getString() + (this.chance >= 1 ? "" : " (" + (int)(this.chance * 1000) / 10F + "%)")};
         }
     }
 

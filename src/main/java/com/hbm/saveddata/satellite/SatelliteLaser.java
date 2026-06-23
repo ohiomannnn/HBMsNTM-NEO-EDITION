@@ -18,18 +18,18 @@ public class SatelliteLaser extends Satellite {
     }
 
     @Override
-    public void writeToNBT(CompoundTag nbt) {
+    public void saveAdditional(CompoundTag nbt) {
         nbt.putLong("LastOP", lastOp);
     }
 
     @Override
-    public void readFromNBT(CompoundTag nbt) {
+    public void readAdditional(CompoundTag nbt) {
         lastOp = nbt.getLong("LastOP");
     }
 
     @Override
     public void onClick(Level level, int x, int z) {
-        if (lastOp + 10000 < System.currentTimeMillis()) {
+        if(lastOp + 10000 < System.currentTimeMillis()) {
             lastOp = System.currentTimeMillis();
 
             int y = level.getHeight(Heightmap.Types.WORLD_SURFACE, x, z);

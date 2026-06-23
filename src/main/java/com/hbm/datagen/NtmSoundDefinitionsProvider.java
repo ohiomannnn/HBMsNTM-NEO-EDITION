@@ -141,6 +141,9 @@ public class NtmSoundDefinitionsProvider extends SoundDefinitionsProvider {
         this.add(NtmSoundEvents.LOCK_OPEN, SoundDefinition.definition()
                 .with(sound("hbmsntm:block/lock_open"))
         );
+        this.add(NtmSoundEvents.SOYUZ_READY, SoundDefinition.definition()
+                .with(sound("hbmsntm:block/soyuz_ready"))
+        );
         this.add(NtmSoundEvents.CRATE_CLOSE, SoundDefinition.definition()
                 .with(sound("hbmsntm:block/crate_close"))
         );
@@ -195,6 +198,13 @@ public class NtmSoundDefinitionsProvider extends SoundDefinitionsProvider {
                         sound("hbmsntm:tool/extract1"),
                         sound("hbmsntm:tool/extract2")
                 )
+        );
+        /// ALARMS
+        this.add(NtmSoundEvents.ALARM_HATCH, SoundDefinition.definition()
+                .with(sound("hbmsntm:alarm/lpfhaiwg"))
+        );
+        this.add(NtmSoundEvents.ALARM_SOYUZED, SoundDefinition.definition()
+                .with(sound("hbmsntm:alarm/soyuzed"))
         );
     }
 }

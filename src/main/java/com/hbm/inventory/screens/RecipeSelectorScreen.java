@@ -6,9 +6,11 @@ import com.hbm.inventory.recipes.loader.GenericRecipes;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.network.toserver.CompoundTagControl;
 import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.nbt.CompoundTag;
@@ -69,7 +71,7 @@ public class RecipeSelectorScreen extends Screen {
         this.leftPos = (this.width - this.xSize) / 2;
         this.topPos = (this.height - this.ySize) / 2;
 
-        this.search = new EditBox(this.font, this.leftPos + 28, this.topPos + 111, 29, 12, Component.empty());
+        this.search = new EditBox(this.font, this.leftPos + 28, this.topPos + 111, 102, 12, Component.empty());
         this.search.setTextColor(-1);
         this.search.setTextColorUneditable(-1);
         this.search.setBordered(false);
@@ -112,12 +114,14 @@ public class RecipeSelectorScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-        // draws background
-        graphics.fillGradient(0, 0, this.width, this.height, -1072689136, -804253680);
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+        this.renderTransparentBackground(guiGraphics);
 
-        this.renderBackground(graphics, mouseX, mouseY, partialTicks);
-        this.search.render(graphics, mouseX, mouseY, partialTicks);
+        this.renderBackground(guiGraphics, mouseX, mouseY, partialTicks);
+
+        for(Renderable renderable : this.renderables) {
+            renderable.render(guiGraphics, mouseX, mouseY, partialTicks);
+        }
 
         if(this.leftPos + 7 <= mouseX && this.leftPos + 7 + 144 > mouseX && this.topPos + 17 < mouseY && this.topPos + 17 + 90 >= mouseY) {
             for(int i = pageIndex * 8; i < pageIndex * 8 + 40; i++) {
@@ -129,10 +133,29 @@ public class RecipeSelectorScreen extends Screen {
 
                 if(this.leftPos + ix <= mouseX && this.leftPos + ix + 18 > mouseX && this.topPos + iy < mouseY && this.topPos + iy + 18 >= mouseY) {
                     GenericRecipe recipe = recipes.get(i);
-                    graphics.renderComponentTooltip(this.font, List.of(recipe.getName()), mouseX, mouseY);
-                    //GUIElements.drawHoveringTextRecipe(recipe.print(), mouseX, mouseY, this.fontRendererObj, itemRender, this.width, this.height);
+                    guiGraphics.renderComponentTooltip(this.font, recipe.print(), mouseX, mouseY);
                 }
             }
+        }
+
+
+        if(this.leftPos + 151 <= mouseX && this.leftPos + 151 + 18 > mouseX && this.topPos + 71 < mouseY && this.topPos + 71 + 18 >= mouseY) {
+            if(this.selection != null && this.recipeSet.recipeNameMap.containsKey(selection)) {
+                GenericRecipe recipe = (GenericRecipe) this.recipeSet.recipeNameMap.get(selection);
+                guiGraphics.renderComponentTooltip(this.font, recipe.print(), mouseX, mouseY);
+            }
+        }
+
+        if(this.leftPos + 152 <= mouseX && this.leftPos + 152 + 16 > mouseX && this.topPos + 90 < mouseY && this.topPos + 90 + 16 >= mouseY) {
+            guiGraphics.renderTooltip(this.font, Component.translatable("container.recipe_selector.close").withStyle(ChatFormatting.YELLOW), mouseX, mouseY);
+        }
+
+        if(this.leftPos + 134 <= mouseX && this.leftPos + 134 + 16 > mouseX && this.topPos + 108 < mouseY && this.topPos + 108 + 16 >= mouseY) {
+            guiGraphics.renderTooltip(this.font, Component.translatable("container.recipe_selector.close_search").withStyle(ChatFormatting.YELLOW), mouseX, mouseY);
+        }
+
+        if(this.leftPos + 8 <= mouseX && this.leftPos + 8 + 16 > mouseX && this.topPos + 108 < mouseY && this.topPos + 108 + 16 >= mouseY) {
+            guiGraphics.renderTooltip(this.font, Component.translatable("container.recipe_selector.toggle_focus").withStyle(ChatFormatting.ITALIC), mouseX, mouseY);
         }
     }
 
@@ -184,6 +207,15 @@ public class RecipeSelectorScreen extends Screen {
             GenericRecipe recipe = (GenericRecipe) this.recipeSet.recipeNameMap.get(selection);
             graphics.renderItem(recipe.getIcon(), this.leftPos + 152, this.topPos + 72);
         }
+    }
+
+    @Override
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+
+        if(scrollY < 0 && this.pageIndex > 0) this.pageIndex--;
+        if(scrollY > 0 && this.pageIndex < this.size) this.pageIndex++;
+
+        return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
     }
 
     @Override
@@ -259,7 +291,21 @@ public class RecipeSelectorScreen extends Screen {
     }
 
     @Override
+    public boolean charTyped(char codePoint, int modifiers) {
+        if(this.search.charTyped(codePoint, modifiers)) {
+            this.search(this.search.getValue());
+            return true;
+        }
+        return super.charTyped(codePoint, modifiers);
+    }
+
+    @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+
+        if(keyCode == GLFW.GLFW_KEY_ENTER) {
+            this.search.setFocused(!this.search.isFocused());
+            return true;
+        }
 
         if(this.search.keyPressed(keyCode, scanCode, modifiers)) {
             this.search(this.search.getValue());

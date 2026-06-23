@@ -1,19 +1,21 @@
 package com.hbm.blocks.generic;
 
 import com.hbm.blockentity.BlockEntityNT;
-import com.hbm.blockentity.IScreenProvider;
+import com.hbm.blockentity.IGUIProvider;
 import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.blocks.IMultiBlock;
 import com.hbm.inventory.MetaHelper;
 import com.hbm.inventory.screens.BobbleScreen;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.util.EnumUtil;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
@@ -22,6 +24,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.storage.loot.LootParams.Builder;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -31,7 +34,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 
 import java.util.List;
 
-public class BobbleBlock extends Block implements IMultiBlock, EntityBlock, IScreenProvider {
+public class BobbleBlock extends Block implements IMultiBlock, EntityBlock, IGUIProvider {
 
     private static final IntegerProperty META = IntegerProperty.create("meta", 0, BobbleType.values().length);
     public static final IntegerProperty DIRECTION = IntegerProperty.create("direction", 0, 16);
@@ -83,8 +86,16 @@ public class BobbleBlock extends Block implements IMultiBlock, EntityBlock, IScr
     }
 
     @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+
+        NuclearTechMod.proxy.openScreen(player, pos);
+
+        return InteractionResult.CONSUME;
+    }
+
+    @Override
     @OnlyIn(Dist.CLIENT)
-    public Screen provideScreenOnRightClick(Player player, BlockPos pos) {
+    public Object provideScreen(Player player, BlockPos pos) {
         return new BobbleScreen(EnumUtil.grabEnumSafely(BobbleType.class, this.getMeta(player.level.getBlockState(pos))));
     }
 

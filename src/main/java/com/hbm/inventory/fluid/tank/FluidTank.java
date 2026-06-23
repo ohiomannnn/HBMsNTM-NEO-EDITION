@@ -54,7 +54,7 @@ public class FluidTank {
     }
 
     public FluidTank withPressure(int pressure) {
-        if (this.pressure != pressure) this.setFill(0);
+        if(this.pressure != pressure) this.setFill(0);
         this.pressure = pressure;
         return this;
     }
@@ -62,8 +62,8 @@ public class FluidTank {
     public void setFill(int i) { fluid = i; }
 
     public void setTankType(FluidType type) {
-        if (type == null) type = Fluids.NONE;
-        if (this.type == type) return;
+        if(type == null) type = Fluids.NONE;
+        if(this.type == type) return;
 
         this.type = type;
         this.setFill(0);
@@ -90,7 +90,7 @@ public class FluidTank {
     public int changeTankSize(int size) {
         maxFluid = size;
 
-        if (fluid > maxFluid) {
+        if(fluid > maxFluid) {
             int dif = fluid - maxFluid;
             fluid = maxFluid;
             return dif;
@@ -100,15 +100,15 @@ public class FluidTank {
 
     // Fills tank from canisters
     public boolean loadTank(Level level, int in, int out, NonNullList<ItemStack> slots) {
-        if (slots.get(in).isEmpty()) return false;
+        if(slots.get(in).isEmpty()) return false;
 
         boolean isInfiniteBarrel = slots.get(in).getItem() == NtmItems.FLUID_BARREL_INFINITE.get();
-        if (!isInfiniteBarrel && pressure != 0) return false;
+        if(!isInfiniteBarrel && pressure != 0) return false;
 
         int prev = this.getFill();
 
-        for (FluidLoadingHandler handler : loadingHandlers) {
-            if (handler.emptyItem(level, slots, in, out, this)) {
+        for(FluidLoadingHandler handler : loadingHandlers) {
+            if(handler.emptyItem(level, slots, in, out, this)) {
                 break;
             }
         }
@@ -118,12 +118,12 @@ public class FluidTank {
 
     // Fills canisters from tank
     public boolean unloadTank(Level level, int in, int out, NonNullList<ItemStack> slots) {
-        if (slots.get(in).isEmpty()) return false;
+        if(slots.get(in).isEmpty()) return false;
 
         int prev = this.getFill();
 
-        for (FluidLoadingHandler handler : loadingHandlers) {
-            if (handler.fillItem(level, slots, in, out, this)) {
+        for(FluidLoadingHandler handler : loadingHandlers) {
+            if(handler.fillItem(level, slots, in, out, this)) {
                 break;
             }
         }
@@ -140,19 +140,19 @@ public class FluidTank {
      */
     public boolean setType(int in, int out, NonNullList<ItemStack> slots) {
 
-        if (slots.get(in).getItem() instanceof IItemFluidIdentifier id) {
-            if (in == out) {
+        if(slots.get(in).getItem() instanceof IItemFluidIdentifier id) {
+            if(in == out) {
                 FluidType newType = id.getType(null, BlockPos.ZERO, slots.get(in));
 
-                if (type != newType) {
+                if(type != newType) {
                     type = newType;
                     fluid = 0;
                     return true;
                 }
 
-            } else if (slots.get(out).isEmpty()) {
+            } else if(slots.get(out).isEmpty()) {
                 FluidType newType = id.getType(null, BlockPos.ZERO, slots.get(in));
-                if (type != newType) {
+                if(type != newType) {
                     type = newType;
                     slots.set(out, slots.get(in).copy());
                     slots.set(in, ItemStack.EMPTY);

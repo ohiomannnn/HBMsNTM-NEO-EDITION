@@ -4,7 +4,7 @@ import com.hbm.config.NtmConfig;
 import com.hbm.entity.NtmEntityTypes;
 import com.hbm.entity.effect.FalloutRain;
 import com.hbm.explosion.ExplosionNukeGeneric;
-import com.hbm.explosion.ExplosionNukeRayBatched;
+import com.hbm.explosion.ExplosionNukeRayParallelized;
 import com.hbm.interfaces.IExplosionRay;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.util.ContaminationUtil;
@@ -56,31 +56,31 @@ public class NukeExplosionMK5 extends ExplosionChunkLoading {
     public void tick() {
         super.tick();
 
-        if (strength == 0) {
-            this.discard();
-        }
+        if(strength == 0) this.discard();
 
         this.updateChunkTicket();
 
-        if (!level.isClientSide && fallout && explosion != null && this.tickCount < 10 && strength >= 75) {
-            radiate(2_500_000F / (this.tickCount * 5 + 1), this.length * 2);
+        if(!this.level.isClientSide && fallout && explosion != null && this.tickCount < 10 && strength >= 75) {
+            this.radiate(2_500_000F / (this.tickCount * 5 + 1), this.length * 2);
         }
 
         ExplosionNukeGeneric.dealDamage(this.level, this.position.x, this.position.y, this.position.z, this.length * 2);
 
-        if (explosion == null) {
+        if(explosion == null) {
             explosionStart = System.currentTimeMillis();
-            explosion = new ExplosionNukeRayBatched(this.level, this.blockPosition.getX(), this.blockPosition.getY(), this.blockPosition.getZ(), strength, speed, length);
+            // todo make config val
+            //explosion = new ExplosionNukeRayBatched(this.level, this.blockPosition.getX(), this.blockPosition.getY(), this.blockPosition.getZ(), strength, speed, length);
+            explosion = new ExplosionNukeRayParallelized(this.level, this.blockPosition.getX(), this.blockPosition.getY(), this.blockPosition.getZ(), strength, speed, length);
         }
 
-        if (!explosion.isComplete()) {
+        if(!explosion.isComplete()) {
             explosion.cacheChunksTick(NtmConfig.COMMON.MK5.get());
             explosion.destructionTick(NtmConfig.COMMON.MK5.get());
         } else {
-            if (NtmConfig.COMMON.ENABLE_EXTENDED_LOGGING.get() && explosionStart != 0) {
+            if(NtmConfig.COMMON.ENABLE_EXTENDED_LOGGING.get() && explosionStart != 0) {
                 NuclearTechMod.LOGGER.info("[NUKE] Explosion complete. Time elapsed: {}ms", (System.currentTimeMillis() - explosionStart));
             }
-            if (fallout) {
+            if(fallout) {
                 FalloutRain fallout = new FalloutRain(this.level);
                 fallout.setPos(this.position.x, this.position.y, this.position.z);
                 fallout.setScale((int) (this.length * 2.5 + falloutAdd) * NtmConfig.COMMON.FALLOUT_RANGE.get() / 100);
@@ -94,14 +94,14 @@ public class NukeExplosionMK5 extends ExplosionChunkLoading {
         AABB box = new AABB(getX(), getY(), getZ(), getX(), getY(), getZ()).inflate(range);
         List<LivingEntity> entities = this.level.getEntitiesOfClass(LivingEntity.class, box);
 
-        for (LivingEntity e : entities) {
+        for(LivingEntity e : entities) {
             Vec3 vec = new Vec3(e.getX() - getX(), (e.getEyeY()) - getY(), e.getZ() - getZ());
             double len = vec.length();
             vec = vec.normalize();
 
             float res = 0;
 
-            for (int i = 1; i < len; i++) {
+            for(int i = 1; i < len; i++) {
                 BlockPos pos = new BlockPos(
                         (int) Math.floor(getX() + vec.x * i),
                         (int) Math.floor(getY() + vec.y * i),
@@ -111,7 +111,7 @@ public class NukeExplosionMK5 extends ExplosionChunkLoading {
                 res += state.getExplosionResistance(level(), pos, null);
             }
 
-            if (res < 1) res = 1;
+            if(res < 1) res = 1;
 
             float eRads = rads;
             eRads /= res;
@@ -123,12 +123,12 @@ public class NukeExplosionMK5 extends ExplosionChunkLoading {
 
     @Override
     public void remove(RemovalReason reason) {
-        if (explosion != null) explosion.cancel();
+        if(explosion != null) explosion.cancel();
         super.remove(reason);
     }
 
     public static NukeExplosionMK5 statFac(Level level, int strength, double x, double y, double z) {
-        if (NtmConfig.COMMON.ENABLE_EXTENDED_LOGGING.get() && !level.isClientSide) {
+        if(NtmConfig.COMMON.ENABLE_EXTENDED_LOGGING.get() && !level.isClientSide) {
             NuclearTechMod.LOGGER.info("[NUKE] Initialized explosion at {} / {} / {} with strength {}!", x, y, z, strength);
         }
 

@@ -37,11 +37,11 @@ public class RenderInfoSystem {
         List<Integer> keys = new ArrayList<>(messages.keySet());
         long now = System.currentTimeMillis();
 
-        for (int i = 0; i < keys.size(); i++) {
+        for(int i = 0; i < keys.size(); i++) {
             Integer key = keys.get(i);
             InfoEntry entry = messages.get(key);
 
-            if (entry != null && entry.start + entry.millis < now) {
+            if(entry != null && entry.start + entry.millis < now) {
                 messages.remove(key);
                 keys = new ArrayList<>(messages.keySet());
                 i--;
@@ -52,11 +52,11 @@ public class RenderInfoSystem {
     @SubscribeEvent
     public static void onOverlayRender(RenderGuiEvent.Pre event) {
 
-        if (messages.isEmpty()) return;
+        if(messages.isEmpty()) return;
 
         Minecraft mc = Minecraft.getInstance();
-        if (mc.options.hideGui) return;
-        if (mc.gameMode.getPlayerMode() == GameType.SPECTATOR) return;
+        if(mc.options.hideGui) return;
+        if(mc.gameMode.getPlayerMode() == GameType.SPECTATOR) return;
         GuiGraphics graphics = event.getGuiGraphics();
         int width = mc.getWindow().getGuiScaledWidth();
         int height = mc.getWindow().getGuiScaledHeight();
@@ -68,7 +68,7 @@ public class RenderInfoSystem {
         RenderSystem.blendFuncSeparate(770, 771, 1, 0);
 
         int longest = 0;
-        for (InfoEntry entry : messages.values()) {
+        for(InfoEntry entry : messages.values()) {
             int length = mc.font.width(entry.component);
             if (length > longest) longest = length;
         }
@@ -77,8 +77,8 @@ public class RenderInfoSystem {
         int pX = mode == 0 ? 15 : mode == 1 ? (width - longest - 15) : mode == 2 ? (width / 2 + 7) : (width / 2 - longest - 6);
         int pZ = mode == 0 ? 15 : mode == 1 ? 15 : (height / 2 + 7);
 
-        pX += NtmConfig.CLIENT.INFO_OFFSET_HORIZONTAL.get();
-        pZ += NtmConfig.CLIENT.INFO_OFFSET_VERTICAL.get();
+        pX += NtmConfig.CLIENT.INFO_OFFSET_X.getAsInt();
+        pZ += NtmConfig.CLIENT.INFO_OFFSET_Y.getAsInt();
 
         int side = pX + 5 + longest;
         int infoHeight = messages.size() * 10 + pZ + 2;
@@ -88,6 +88,7 @@ public class RenderInfoSystem {
 
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
         Tesselator tess = Tesselator.getInstance();
+
         BufferBuilder buf = tess.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
         buf.addVertex(matrix, pX - 5, pZ - 5, z).setColor(0.25F, 0.25F, 0.25F, 0.5F);
         buf.addVertex(matrix, pX - 5, infoHeight, z).setColor(0.25F, 0.25F, 0.25F, 0.5F);
@@ -98,7 +99,7 @@ public class RenderInfoSystem {
         int off = 0;
         long now = System.currentTimeMillis();
 
-        for (InfoEntry entry : messages.values()) {
+        for(InfoEntry entry : messages.values()) {
             int elapsed = (int) (now - entry.start);
             int alpha = Math.max(Math.min(510 * (entry.millis - elapsed) / entry.millis, 255), 5);
 

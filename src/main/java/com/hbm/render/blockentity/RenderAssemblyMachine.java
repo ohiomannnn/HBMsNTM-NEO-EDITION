@@ -27,9 +27,7 @@ import net.minecraft.world.phys.AABB;
 
 public class RenderAssemblyMachine extends BlockEntityRendererNT<MachineAssemblyMachineBlockEntity> implements IBEWLRProvider {
 
-    @Override public BlockEntityRenderer<MachineAssemblyMachineBlockEntity> create(Context context) {
-        return new RenderAssemblyMachine();
-    }
+    @Override public BlockEntityRenderer<MachineAssemblyMachineBlockEntity> create(Context context) { return new RenderAssemblyMachine(); }
 
     @Override
     public void render(MachineAssemblyMachineBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
@@ -113,6 +111,7 @@ public class RenderAssemblyMachine extends BlockEntityRendererNT<MachineAssembly
 
             BakedModel model = renderer.getModel(stack, null, null, 0);
 
+            // todo fix non 3d item rotation
             if(!model.isGui3d()) {
                 RenderContext.mulPose(Axis.XP.rotationDegrees(-90F));
             } else {

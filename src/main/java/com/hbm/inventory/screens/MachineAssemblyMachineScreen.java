@@ -8,6 +8,7 @@ import com.hbm.items.NtmItems;
 import com.hbm.items.machine.BlueprintsItem;
 import com.hbm.main.NuclearTechMod;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -38,6 +39,16 @@ public class MachineAssemblyMachineScreen extends InfoScreen<MachineAssemblyMach
         be.outputTank.renderTankTooltip(guiGraphics, mouseX, mouseY, this.leftPos + 80, this.topPos + 99, 52, 16);
 
         this.drawElectricityInfo(guiGraphics, mouseX, mouseY, this.leftPos + 152, this.topPos + 18, 16, 61, be.power, be.maxPower);
+
+        if(this.leftPos + 7 <= mouseX && this.leftPos + 7 + 18 > mouseX && this.topPos + 125 < mouseY && this.topPos + 125 + 18 >= mouseY) {
+            if(this.be.assemblerModule.recipe != null && AssemblyMachineRecipes.INSTANCE.recipeNameMap.containsKey(this.be.assemblerModule.recipe)) {
+                GenericRecipe recipe = AssemblyMachineRecipes.INSTANCE.recipeNameMap.get(this.be.assemblerModule.recipe);
+                guiGraphics.renderComponentTooltip(this.font, recipe.print(), mouseX, mouseY);
+                //GUIElements.drawHoveringTextRecipe(recipe.print(), mouseX, mouseY, this.fontRendererObj, itemRender, this.width, this.height);
+            } else {
+                guiGraphics.renderTooltip(this.font, Component.translatable("container.recipe.set_recipe").withStyle(ChatFormatting.YELLOW), mouseX, mouseY);
+            }
+        }
 
         this.renderTooltip(guiGraphics, mouseX, mouseY);
     }

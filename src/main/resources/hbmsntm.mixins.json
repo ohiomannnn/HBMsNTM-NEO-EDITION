@@ -6,7 +6,8 @@
   "mixins": [
     "ServerPlayerGameModeMixin",
     "ExplosionMixin",
-    "LivingEntityMixin"
+    "LivingEntityMixin",
+    "ItemStackMixin"
   ],
   "client": [
     "LevelRendererMixin",

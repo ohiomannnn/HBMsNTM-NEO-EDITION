@@ -1,13 +1,13 @@
 package api.hbm.energymk2;
 
-import api.hbm.blockentity.ILoadedTile;
+import api.hbm.blockentity.ILoadedBE;
 import com.hbm.util.CompatEnergyControl;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 
 /** DO NOT USE DIRECTLY! This is simply the common ancestor to providers and receivers, because all this behavior has to be excluded from conductors! */
-public interface IEnergyHandlerMK2 extends IEnergyConnectorMK2, ILoadedTile {
+public interface IEnergyHandlerMK2 extends IEnergyConnectorMK2, ILoadedBE {
 
     long getPower();
     void setPower(long power);

@@ -92,7 +92,7 @@ public class MachineSatLinkerBlockEntity extends BlockEntity implements MenuProv
         if (!s2.isEmpty() && s2.getItem() instanceof ISatChip) {
 
             if (level instanceof ServerLevel serverLevel) {
-                SatelliteSavedData data = SatelliteSavedData.get(serverLevel);
+                SatelliteSavedData data = SatelliteSavedData.getData(serverLevel);
 
                 int id = level.getRandom().nextInt(100000);
 

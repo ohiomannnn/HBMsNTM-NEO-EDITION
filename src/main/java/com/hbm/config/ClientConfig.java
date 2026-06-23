@@ -10,8 +10,8 @@ public class ClientConfig {
     public final ModConfigSpec.BooleanValue ENABLE_NUKE_HUD_SHAKE;
 
     public final ModConfigSpec.IntValue INFO_POSITION;
-    public final ModConfigSpec.IntValue INFO_OFFSET_HORIZONTAL;
-    public final ModConfigSpec.IntValue INFO_OFFSET_VERTICAL;
+    public final ModConfigSpec.IntValue INFO_OFFSET_X;
+    public final ModConfigSpec.IntValue INFO_OFFSET_Y;
 
     public final ModConfigSpec.BooleanValue ENABLE_MAIN_MENU_WACKY_SPLASHES;
     public final ModConfigSpec.BooleanValue ENABLE_TIPS;
@@ -39,14 +39,14 @@ public class ClientConfig {
                 .comment("Info position: 0 - top left, 1 - top right, 2 - next to the crosshair.")
                 .translation("hbmsntm.configuration.infoPosition")
                 .defineInRange("infoPosition", 0, 0, 2);
-        INFO_OFFSET_HORIZONTAL = builder
-                .comment("Horizontal info offset.")
+        INFO_OFFSET_X = builder
+                .comment("Offset for the y position of the info panel")
                 .translation("hbmsntm.configuration.infoOffsetHorizontal")
-                .defineInRange("infoOffsetHorizontal", 0, -Integer.MAX_VALUE, Integer.MAX_VALUE);
-        INFO_OFFSET_VERTICAL = builder
-                .comment("Vertical info offset.")
+                .defineInRange("infoOffsetHorizontal", 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        INFO_OFFSET_Y = builder
+                .comment("Offset for the x position of the info panel")
                 .translation("hbmsntm.configuration.infoOffsetVertical")
-                .defineInRange("infoOffsetVertical", 0, -Integer.MAX_VALUE, Integer.MAX_VALUE);
+                .defineInRange("infoOffsetVertical", 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
         ENABLE_MAIN_MENU_WACKY_SPLASHES = builder
                 .comment("Toggles wacky splashes in the main menu.")
@@ -61,10 +61,10 @@ public class ClientConfig {
         TOOL_HUD_OFFSET_HORIZONTAL = builder
                 .comment("Tool hud indicator x offset.")
                 .translation("hbmsntm.configuration.toolHudIndicatorX")
-                .defineInRange("toolHudIndicatorX", 0, -Integer.MAX_VALUE, Integer.MAX_VALUE);
+                .defineInRange("toolHudIndicatorX", 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
         TOOL_HUD_OFFSET_VERTICAL = builder
                 .comment("Tool hud indicator x offset.")
                 .translation("hbmsntm.configuration.toolHudIndicatorY")
-                .defineInRange("toolHudIndicatorY", 0, -Integer.MAX_VALUE, Integer.MAX_VALUE);
+                .defineInRange("toolHudIndicatorY", 0, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 }

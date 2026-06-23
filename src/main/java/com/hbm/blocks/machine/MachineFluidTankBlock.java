@@ -3,7 +3,7 @@ package com.hbm.blocks.machine;
 import api.hbm.block.IToolable;
 import com.hbm.blockentity.IPersistentNBT;
 import com.hbm.blockentity.IRepairable;
-import com.hbm.blockentity.NtmBlockEntityTypes;
+import com.hbm.blockentity.ITickable;
 import com.hbm.blockentity.ProxyComboBlockEntity;
 import com.hbm.blockentity.machine.storage.MachineFluidTankBlockEntity;
 import com.hbm.blocks.DummyBlockType;
@@ -31,7 +31,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -61,8 +60,8 @@ public class MachineFluidTankBlock extends DummyableBlock implements IToolable, 
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        if (state.getValue(TYPE) != DummyBlockType.CORE) return null;
-        return BaseEntityBlock.createTickerHelper(type, NtmBlockEntityTypes.FLUID_TANK.get(), MachineFluidTankBlockEntity::tick);
+        if(state.getValue(TYPE) != DummyBlockType.CORE) return null;
+        return (lvl, pos, st, be) -> { if(be instanceof ITickable tickable) tickable.updateEntity(); };
     }
 
     public static final MapCodec<MachineFluidTankBlock> CODEC = simpleCodec(MachineFluidTankBlock::new);
@@ -89,7 +88,7 @@ public class MachineFluidTankBlock extends DummyableBlock implements IToolable, 
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
         CompoundTag persistent = TagsUtil.getCData(stack).getCompound("persistent");
         FluidTank tank = new FluidTank(Fluids.NONE, 0);
-        if (persistent.contains("Tank")) {
+        if(persistent.contains("Tank")) {
             tank.readFromNBT(persistent, "Tank");
             components.add(Component.translatable("fluid.info.mb.name", tank.getFill(), tank.getMaxFill(), tank.getTankType().getName()).withStyle(ChatFormatting.YELLOW));
         }
@@ -97,26 +96,20 @@ public class MachineFluidTankBlock extends DummyableBlock implements IToolable, 
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (level.isClientSide) {
-            return InteractionResult.SUCCESS;
-        }
+        if(level.isClientSide) return InteractionResult.SUCCESS;
 
         BlockPos corePos = this.findCore(level, pos);
-        if (corePos == null) {
-            return InteractionResult.FAIL;
-        }
+        if(corePos == null) return InteractionResult.FAIL;
 
         if (!player.isShiftKeyDown()) {
             BlockEntity blockentity = level.getBlockEntity(corePos);
-            if (blockentity instanceof MenuProvider be) {
-                player.openMenu(new SimpleMenuProvider(be, be.getDisplayName()), pos);
-            }
+            if(blockentity instanceof MenuProvider be) player.openMenu(new SimpleMenuProvider(be, be.getDisplayName()), pos);
             return InteractionResult.CONSUME;
         } else {
             BlockEntity blockentity = level.getBlockEntity(corePos);
-            if (blockentity instanceof MachineFluidTankBlockEntity be) {
-                for (ItemStack stack : InventoryUtil.getItemsFromBothHands(player)) {
-                    if (stack.getItem() instanceof IItemFluidIdentifier iifi) {
+            if(blockentity instanceof MachineFluidTankBlockEntity be) {
+                for(ItemStack stack : InventoryUtil.getItemsFromBothHands(player)) {
+                    if(stack.getItem() instanceof IItemFluidIdentifier iifi) {
                         FluidType type = iifi.getType(level, corePos, stack);
 
                         be.tank.setTankType(type);
@@ -146,13 +139,13 @@ public class MachineFluidTankBlock extends DummyableBlock implements IToolable, 
     public void onBlockExploded(BlockState state, Level level, BlockPos pos, Explosion explosion) {
 
         BlockPos corePos = this.findCore(level, pos);
-        if (corePos == null) return;
+        if(corePos == null) return;
         BlockEntity core = level.getBlockEntity(corePos);
-        if (!(core instanceof MachineFluidTankBlockEntity be)) return;
-        if (be.lastExplosion == explosion) return;
+        if(!(core instanceof MachineFluidTankBlockEntity be)) return;
+        if(be.lastExplosion == explosion) return;
         be.lastExplosion = explosion;
 
-        if (!be.hasExploded) {
+        if(!be.hasExploded) {
             be.explode();
         } else {
             level.setBlock(corePos, Blocks.AIR.defaultBlockState(), 3);
@@ -161,7 +154,7 @@ public class MachineFluidTankBlock extends DummyableBlock implements IToolable, 
 
     @Override
     public boolean onScrew(Level level, Player player, BlockPos pos, Direction direction, ToolType tool) {
-        if (tool != ToolType.TORCH) return false;
+        if(tool != ToolType.TORCH) return false;
         return IRepairable.tryRepairMultiblock(level, pos, this, player);
     }
 

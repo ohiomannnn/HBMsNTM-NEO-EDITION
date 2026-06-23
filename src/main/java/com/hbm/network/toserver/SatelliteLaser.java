@@ -1,20 +1,22 @@
 package com.hbm.network.toserver;
 
-import com.hbm.main.NuclearTechMod;
 import com.hbm.items.ISatChip;
-import com.hbm.items.tools.SatelliteInterfaceItem;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellite.Satellite;
+import com.hbm.util.InventoryUtil;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
+import java.util.List;
+
 public record SatelliteLaser(int x, int z, int freq) implements CustomPacketPayload {
-    public static final Type<SatelliteLaser> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "sat_laser"));
+    public static final Type<SatelliteLaser> TYPE = new Type<>(NuclearTechMod.withDefaultNamespace("satellite_click_packet"));
 
     public static final StreamCodec<FriendlyByteBuf, SatelliteLaser> STREAM_CODEC = new StreamCodec<>() {
         @Override
@@ -33,26 +35,26 @@ public record SatelliteLaser(int x, int z, int freq) implements CustomPacketPayl
     public static void handleServer(SatelliteLaser packet, IPayloadContext context) {
         context.enqueueWork(() -> {
             Player player = context.player();
-            boolean gotItem =
-                    player.getMainHandItem().getItem() instanceof SatelliteInterfaceItem ||
-                            player.getOffhandItem().getItem() instanceof SatelliteInterfaceItem;
 
-            if (gotItem) {
-                int freq = ISatChip.getFreqS(player.getMainHandItem().isEmpty() ? player.getOffhandItem() : player.getMainHandItem());
+            if(player.level instanceof ServerLevel serverLevel) {
+                int freq = 0;
 
-                if (freq == packet.freq) {
-                    Satellite sat = SatelliteSavedData.get((ServerLevel) context.player().level()).getSatFromFreq(packet.freq);
-
-                    if (sat != null) {
-                        sat.onClick(context.player().level(), packet.x, packet.z);
+                List<ItemStack> stacks = InventoryUtil.getItemsFromBothHands(player);
+                for(ItemStack stack : stacks) {
+                    if(stack.getItem() instanceof ISatChip satChip) {
+                        freq = satChip.getFreq(stack);
+                        break;
                     }
+                }
+
+                if(freq == packet.freq) {
+                    Satellite sat = SatelliteSavedData.getData(serverLevel).getSatFromFreq(packet.freq);
+
+                    if(sat != null) sat.onClick(serverLevel, packet.x, packet.z);
                 }
             }
         });
     }
 
-    @Override
-    public Type<? extends CustomPacketPayload> type() {
-        return TYPE;
-    }
+    @Override public Type<SatelliteLaser> type() { return TYPE; }
 }

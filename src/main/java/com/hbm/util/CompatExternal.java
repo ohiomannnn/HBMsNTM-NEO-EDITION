@@ -25,18 +25,13 @@ public class CompatExternal {
 
         Block block = level.getBlockState(pos).getBlock();
 
-        // if the block at that pos is a Dummyable, use the mk2's system to find the core
-        if (block instanceof DummyableBlock dummyable) {
+        if(block instanceof DummyableBlock dummyable) {
             BlockPos core = dummyable.findCore(level, pos);
 
-            if (core != null) {
-                return level.getBlockEntity(core);
-            }
+            if(core != null) return level.getBlockEntity(core);
         }
 
-        BlockEntity be = level.getBlockEntity(pos);
-
-        // otherwise, return the tile at that position whihc could be null
-        return be;
+        // otherwise, return the be at that position whihc could be null
+        return level.getBlockEntity(pos);
     }
 }

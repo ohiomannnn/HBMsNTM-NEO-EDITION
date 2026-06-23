@@ -1,6 +1,6 @@
 package com.hbm.uninos;
 
-import api.hbm.blockentity.ILoadedTile;
+import api.hbm.blockentity.ILoadedBE;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
@@ -82,7 +82,7 @@ public abstract class NodeNet<R, P, L extends GenNode> {
     }
 
     public static boolean isBadLink(Object o) {
-        if(o instanceof ILoadedTile && !((ILoadedTile) o).isLoaded()) return true;
+        if(o instanceof ILoadedBE && !((ILoadedBE) o).isLoaded()) return true;
         if(o instanceof BlockEntity && ((BlockEntity) o).isRemoved()) return true;
         return false;
     }

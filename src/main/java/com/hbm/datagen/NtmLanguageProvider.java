@@ -350,6 +350,12 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmItems.MISSILE_DOOMSDAY, "Doomsday Missile");
         this.add(NtmItems.MISSILE_DOOMSDAY_RUSTED, "Damaged Doomsday Missile");
 
+        this.add("item.hbmsntm.obj_soyuz.skin", "Skin:");
+        this.add("item.hbmsntm.obj_soyuz.skin.original", "Original");
+        this.add("item.hbmsntm.obj_soyuz.skin.luna", "Luna Space Center");
+        this.add("item.hbmsntm.obj_soyuz.skin.post", "Post War");
+        this.add(NtmItems.MISSILE_SOYUZ, "Soyuz-FG");
+
         this.add(NtmItems.SATELLITE_RADAR, "Radar Survey Satellite");
         this.add(NtmItems.SATELLITE_LASER, "Orbital Death Ray");
         this.add(NtmItems.SATELLITE_INTERFACE, "Satellite Control Interface");
@@ -694,6 +700,7 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmBlocks.VOLCANO_RAD_CORE, "Rad Volcano Core");
 
         this.add(NtmBlocks.LAUNCH_PAD, "Silo Launch Pad");
+        this.add(NtmBlocks.SOYUZ_LAUNCHER, "Soyuz Launch Platform");
 
         this.add(NtmBlocks.VOLCANIC_LAVA, "Volcanic Lava");
         this.add(NtmBlocks.RAD_LAVA, "Radioactive Volcanic Lava");
@@ -729,12 +736,21 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add("container.battery_socket", "Battery Socket");
         this.add("container.battery_redd", "FEnSU");
         this.add("container.machine_assembly_machine", "Assembly Machine");
-        this.add("container.fluid_tank", "Tank");
+        this.add("container.fluidtank", "Tank");
         this.add("container.sat_linker", "SatLink Device");
         this.add("container.launch_pad", "Launch Pad");
         this.add("container.launch_pad.not_ready", "Not ready");
         this.add("container.launch_pad.loading", "Loading...");
         this.add("container.launch_pad.ready", "Ready");
+        this.add("container.recipe_selector.close", "Close");
+        this.add("container.recipe_selector.close_search", "Clear search");
+        this.add("container.recipe_selector.toggle_focus", "Press ENTER to toggle focus");
+        this.add("container.recipe.duration", "Duration");
+        this.add("container.recipe.consumption", "Consumption");
+        this.add("container.recipe.input", "Input");
+        this.add("container.recipe.output", "Output");
+        this.add("container.recipe.at_pressure", "at");
+        this.add("container.recipe.set_recipe", "Click to set recipe");
 
         // COMMANDS //
         this.add("commands.props.get", "Living property %s of %s is %s");
@@ -775,6 +791,8 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add("h", "h"); // hours
         this.add("min", "min");
         this.add("max", "max");
+
+        this.add("autoswitch", "Part of auto switch group \"%s\"$Recipe changes based on first ingredient");
     }
 
     // HELPERS //

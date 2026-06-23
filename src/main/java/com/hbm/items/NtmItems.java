@@ -244,6 +244,8 @@ public class NtmItems {
     public static final DeferredItem<Item> MISSILE_VOLCANO =         ITEMS.register("missile_volcano",         () -> new MissileItem(MissileFormFactor.ATLAS, MissileTier.TIER4));
     public static final DeferredItem<Item> MISSILE_DOOMSDAY =        ITEMS.register("missile_doomsday",        () -> new MissileItem(MissileFormFactor.ATLAS, MissileTier.TIER4));
     public static final DeferredItem<Item> MISSILE_DOOMSDAY_RUSTED = ITEMS.register("missile_doomsday_rusted", () -> new MissileItem(MissileFormFactor.ATLAS, MissileTier.TIER4).notLaunchable());
+    // Rockets
+    public static final DeferredItem<Item> MISSILE_SOYUZ = ITEMS.register("missile_soyuz", () -> new SoyuzItem(new Item.Properties()));
 
     // Satellites
     public static final DeferredItem<Item> SATELLITE_RADAR = ITEMS.register("satellite_radar", () -> new SatChipItem(new Item.Properties().stacksTo(1)));

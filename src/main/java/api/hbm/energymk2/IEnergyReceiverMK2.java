@@ -38,7 +38,7 @@ public interface IEnergyReceiverMK2 extends IEnergyHandlerMK2 {
 
     default void trySubscribe(Level level, BlockPos pos, Direction dir) {
 
-        BlockEntity be = TileAccessCache.getTileOrCache(level, pos);
+        BlockEntity be = BlockEntityAccessCache.getBEOrCache(level, pos);
         boolean red = false;
 
         if (be instanceof IEnergyConductorMK2 con) {

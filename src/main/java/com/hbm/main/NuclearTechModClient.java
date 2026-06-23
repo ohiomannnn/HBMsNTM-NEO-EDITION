@@ -139,6 +139,7 @@ public class NuclearTechModClient {
                     if(multiItem.multiTexture) ItemProperties.register(item, NuclearTechMod.withDefaultNamespace("item_meta"), (itemStack, level, livingEntity, seed) -> MetaHelper.getMeta(itemStack));
                 }
             });
+            ItemProperties.register(NtmItems.MISSILE_SOYUZ.get(), NuclearTechMod.withDefaultNamespace("item_meta"), (stack, level, entity, seed) -> MetaHelper.getMeta(stack));
             ItemProperties.register(NtmItems.POLAROID.get(), NuclearTechMod.withDefaultNamespace("polaroid_id"), (stack, level, entity, seed) -> PolaroidItem.polaroidID);
         });
     }
@@ -148,7 +149,7 @@ public class NuclearTechModClient {
     public static void onRegisterClientExtensions(RegisterClientExtensionsEvent event) {
         event.registerFluidType(new IClientFluidTypeExtensions() {
             private static final ResourceLocation STILL = NuclearTechMod.withDefaultNamespace("block/volcanic_lava_still");
-            private static final ResourceLocation FLOWING = NuclearTechMod.withDefaultNamespace("block/volcanic_lava_flowing");;
+            private static final ResourceLocation FLOWING = NuclearTechMod.withDefaultNamespace("block/volcanic_lava_flowing");
 
             @Override
             public ResourceLocation getStillTexture() {
@@ -498,33 +499,23 @@ public class NuclearTechModClient {
         if(event.getStage() == Stage.AFTER_TRANSLUCENT_BLOCKS) { Clock.update(); }
     }
 
-    @SubscribeEvent
-    public static void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
-        if(!event.getLevel().isClientSide) return;
-        Minecraft mc = Minecraft.getInstance();
-
-        if(event.getItemStack().getItem() instanceof IScreenProvider provider) {
-            mc.setScreen(provider.provideScreenOnRightClick(mc.player, event.getPos()));
-        }
-    }
-
-    // uhh sure, no more convenient solutions...
-    @SubscribeEvent
-    public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
-        Level level = event.getLevel();
-        if(!level.isClientSide) return;
-        BlockHitResult bhr = event.getHitVec();
-
-        Minecraft mc = Minecraft.getInstance();
-
-        if(bhr.getType() == HitResult.Type.BLOCK && level.getBlockState(event.getPos()).getBlock() instanceof IScreenProvider provider) {
-            mc.setScreen(provider.provideScreenOnRightClick(mc.player, event.getPos()));
-        }
-
-        if(bhr.getType() == HitResult.Type.BLOCK && level.getBlockEntity(event.getPos()) instanceof IScreenProvider provider) {
-            mc.setScreen(provider.provideScreenOnRightClick(mc.player, event.getPos()));
-        }
-    }
+//    // uhh sure, no more convenient solutions...
+//    @SubscribeEvent
+//    public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+//        Level level = event.getLevel();
+//        if(!level.isClientSide) return;
+//        BlockHitResult bhr = event.getHitVec();
+//
+//        Minecraft mc = Minecraft.getInstance();
+//
+//        if(bhr.getType() == HitResult.Type.BLOCK && level.getBlockState(event.getPos()).getBlock() instanceof IScreenProvider provider) {
+//            mc.setScreen(provider.provideScreenOnRightClick(mc.player, event.getPos()));
+//        }
+//
+//        if(bhr.getType() == HitResult.Type.BLOCK && level.getBlockEntity(event.getPos()) instanceof IScreenProvider provider) {
+//            mc.setScreen(provider.provideScreenOnRightClick(mc.player, event.getPos()));
+//        }
+//    }
 
     private static final HashMap<Integer, Long> vanished = new HashMap<>();
     public static void vanish(int ent) { vanished.put(ent, System.currentTimeMillis() + 2000); }

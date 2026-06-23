@@ -1,17 +1,18 @@
 package com.hbm.items.tools;
 
-import com.hbm.blockentity.IScreenProvider;
+import com.hbm.blockentity.IGUIProvider;
 import com.hbm.inventory.screens.SatelliteInterfaceScreen;
 import com.hbm.items.machine.SatChipItem;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.network.toclient.SatellitePanel;
 import com.hbm.saveddata.SatelliteSavedData;
 import com.hbm.saveddata.satellite.Satellite;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -19,39 +20,41 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-public class SatelliteInterfaceItem extends SatChipItem implements IScreenProvider {
+import javax.annotation.Nullable;
 
-    @OnlyIn(Dist.CLIENT)
-    public static Satellite currentSat;
+public class SatelliteInterfaceItem extends SatChipItem implements IGUIProvider {
+
+    @OnlyIn(Dist.CLIENT) @Nullable public Satellite satellite = null;
 
     public SatelliteInterfaceItem(Properties properties) {
         super(properties);
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
-        if (!level.isClientSide) {
-            if (isSelected) {
-                if (level instanceof ServerLevel serverLevel) {
-                    Satellite sat = SatelliteSavedData.get(serverLevel).getSatFromFreq(this.getFreq(stack));
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
+        ItemStack stack = player.getItemInHand(usedHand);
 
-                    if (entity instanceof ServerPlayer player) {
-                        if (sat != null && entity.tickCount % 2 == 0) {
-                            CompoundTag tag = new CompoundTag();
-                            sat.writeToNBT(tag);
-                            SatellitePanel packet = new SatellitePanel(sat.getID(), tag);
+        if(level instanceof ServerLevel serverLevel) {
+            Satellite sat = SatelliteSavedData.getData(serverLevel).getSatFromFreq(this.getFreq(stack));
 
-                            PacketDistributor.sendToPlayer(player, packet);
-                        }
-                    }
+            if(sat != null) {
+                CompoundTag tag = new CompoundTag();
+                sat.saveAdditional(tag);
+
+                if(player instanceof ServerPlayer serverPlayer) {
+                    PacketDistributor.sendToPlayer(serverPlayer, new SatellitePanel(sat.getID(), tag));
                 }
             }
         }
+
+        NuclearTechMod.proxy.openScreen(player, BlockPos.ZERO);
+
+        return InteractionResultHolder.pass(stack);
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public Screen provideScreenOnRightClick(Player player, BlockPos pos) {
-        return new SatelliteInterfaceScreen(player);
+    public Object provideScreen(Player player, BlockPos pos) {
+        return new SatelliteInterfaceScreen(player, this.satellite);
     }
 }

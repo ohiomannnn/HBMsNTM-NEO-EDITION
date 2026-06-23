@@ -9,11 +9,15 @@ import com.hbm.inventory.recipes.loader.GenericRecipes.ChanceOutput;
 import com.hbm.inventory.recipes.loader.GenericRecipes.ChanceOutputMulti;
 import com.hbm.inventory.recipes.loader.GenericRecipes.IOutput;
 import com.hbm.items.machine.FluidIconItem;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.i18n.I18nUtil;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -78,8 +82,7 @@ public class GenericRecipe {
 
     private void checkStackLimit(AStack stack) {
         int max = 64;
-        if(stack instanceof ComparableStack) {
-            ComparableStack comp = (ComparableStack) stack;
+        if(stack instanceof ComparableStack comp) {
             max = comp.item.getMaxStackSize(comp.toStack());
         }
         if(stack.stacksize > max) throw new IllegalArgumentException("AStack " + stack + " in " + this.name + " exceeds stack limit of " + max + "!");
@@ -128,12 +131,66 @@ public class GenericRecipe {
         return name;
     }
 
-    public Component getName() {
-        Component name = Component.empty();
+    public MutableComponent getName() {
+        MutableComponent name = Component.empty();
         if(customLocalization) name = Component.translatable(this.name);
-        if(name.equals(Component.empty())) name = this.getIcon().getDisplayName();
+        if(name.equals(Component.empty())) name = (MutableComponent) this.getIcon().getDisplayName();
         if(this.nameWrapper != null) name = Component.translatable(this.nameWrapper, name);
         return name;
+    }
+
+    public List<Component> print() {
+        List<Component> components = new ArrayList<>();
+        components.add(this.getName().withStyle(ChatFormatting.YELLOW));
+
+        autoSwitch(components);
+        duration(components);
+        power(components);
+        input(components);
+        output(components);
+
+        return components;
+    }
+
+    protected void autoSwitch(List<Component> list) {
+        if(this.autoSwitchGroup != null) {
+            String[] lines = I18nUtil.resolveKeyArray("autoswitch", I18nUtil.resolveKey(this.autoSwitchGroup));
+            for(String line : lines) list.add(Component.literal(line).withStyle(ChatFormatting.GOLD));
+        }
+    }
+
+    protected void duration(List<Component> list) {
+        if(duration > 0) {
+            double seconds = this.duration / 20D;
+            list.add(Component.literal(I18nUtil.resolveKey("container.recipe.duration") + ": " + seconds + I18nUtil.resolveKey("s")).withStyle(ChatFormatting.RED));
+        }
+    }
+
+    protected void power(List<Component> list) {
+        if(power > 0) {
+            String het = I18nUtil.resolveKey("he") + "/" + I18nUtil.resolveKey("t");
+            list.add(Component.literal(I18nUtil.resolveKey("container.recipe.consumption") + ": " + BobMathUtil.getShortNumber(power) + het).withStyle(ChatFormatting.RED));
+        }
+    }
+
+    protected void input(List<Component> list) {
+        list.add(Component.literal(I18nUtil.resolveKey("container.recipe.input") + ":").withStyle(ChatFormatting.BOLD));
+        if(inputItem != null) for(AStack stack : inputItem) {
+            ItemStack display = stack.extractForCyclingDisplay(20);
+            list.add(Component.literal("  " + display.getCount() + "x " + display.getDisplayName().getString()).withStyle(ChatFormatting.GRAY));
+        }
+        if(inputFluid != null) for (FluidStack fluid : inputFluid) list.add(Component.literal("  " + ChatFormatting.BLUE + fluid.fill + I18nUtil.resolveKey("mb") + " " + fluid.type.getName().getString() + (fluid.pressure == 0 ? "" : " " + I18nUtil.resolveKey("container.recipe.at_pressure") + " " + ChatFormatting.RED + fluid.pressure + " " + I18nUtil.resolveKey("pu") )));
+    }
+
+    protected void output(List<Component> list) {
+        list.add(Component.literal(I18nUtil.resolveKey("container.recipe.output") + ":").withStyle(ChatFormatting.BOLD));
+        if(outputItem != null) for(IOutput output : outputItem)
+            for(String line : output.getLabel()) list.add(Component.literal("  " + line));
+        if(outputFluid != null) for(FluidStack fluid : outputFluid) {
+            String pressurePart = fluid.pressure == 0 ? "" :
+                    " " + I18nUtil.resolveKey("container.recipe.at_pressure") + " " + ChatFormatting.RED + fluid.pressure + " PU";
+            list.add(Component.literal("  " + ChatFormatting.BLUE + fluid.fill + "mB " + fluid.type.getName().getString() + pressurePart));
+        }
     }
 
     /** Default impl only matches localized name substring, can be extended to include ingredients as well */
