@@ -1,7 +1,7 @@
 package com.hbm.blocks.generic;
 
 import com.hbm.blockentity.BlockEntityNT;
-import com.hbm.blockentity.IGUIProvider;
+import com.hbm.blockentity.IScreenProvider;
 import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.blocks.IMultiBlock;
 import com.hbm.inventory.MetaHelper;
@@ -34,7 +34,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 
 import java.util.List;
 
-public class BobbleBlock extends Block implements IMultiBlock, EntityBlock, IGUIProvider {
+public class BobbleBlock extends Block implements IMultiBlock, EntityBlock, IScreenProvider {
 
     private static final IntegerProperty META = IntegerProperty.create("meta", 0, BobbleType.values().length);
     public static final IntegerProperty DIRECTION = IntegerProperty.create("direction", 0, 16);

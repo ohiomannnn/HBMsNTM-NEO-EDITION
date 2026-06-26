@@ -48,13 +48,13 @@ public class LoadedBaseBlockEntity extends BlockEntity implements ILoadedBE, IBu
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        this.muffled = tag.getBoolean("muffled");
+        this.muffled = tag.getBoolean("Muffled");
     }
 
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
-        tag.putBoolean("muffled", muffled);
+        tag.putBoolean("Muffled", muffled);
     }
 
     public float getVolume(float baseVolume) {

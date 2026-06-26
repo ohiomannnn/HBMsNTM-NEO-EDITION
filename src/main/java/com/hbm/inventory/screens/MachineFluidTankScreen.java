@@ -39,7 +39,7 @@ public class MachineFluidTankScreen extends InfoScreen<MachineFluidTankMenu> {
 
         CompoundTag tag = new CompoundTag();
 
-        if (this.checkClick((int) x, (int) y, 151, 35, 18, 18)) { this.click(); tag.putBoolean("Mode", true); }
+        if(this.isHovered((int) x, (int) y, 151, 35, 18, 18)) { this.click(); tag.putBoolean("Mode", true); }
 
         if (!tag.isEmpty()) PacketDistributor.sendToServer(new CompoundTagControl(tag, be.getBlockPos()));
 

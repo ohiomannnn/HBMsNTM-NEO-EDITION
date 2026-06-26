@@ -117,6 +117,7 @@ public class NtmBlockTagProvider extends BlockTagsProvider {
                         NtmBlocks.NUKE_TSAR_BOMBA.get(),
                         NtmBlocks.NUKE_PROTOTYPE.get(),
                         NtmBlocks.NUKE_FLEIJA.get(),
+                        NtmBlocks.NUKE_SOLINIUM.get(),
                         NtmBlocks.NUKE_N2.get(),
                         NtmBlocks.NUKE_FSTBMB.get(),
 

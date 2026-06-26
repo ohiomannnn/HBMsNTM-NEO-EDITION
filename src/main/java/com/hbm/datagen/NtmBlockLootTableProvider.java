@@ -110,6 +110,7 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(NtmBlocks.NUKE_TSAR_BOMBA.get());
         this.dropSelf(NtmBlocks.NUKE_PROTOTYPE.get());
         this.dropSelf(NtmBlocks.NUKE_FLEIJA.get());
+        this.dropSelf(NtmBlocks.NUKE_SOLINIUM.get());
         this.dropSelf(NtmBlocks.NUKE_N2.get());
         this.dropSelf(NtmBlocks.NUKE_FSTBMB.get());
 

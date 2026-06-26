@@ -23,6 +23,7 @@ public class ResourceManager {
     public static final ResourceLocation NUKE_TSAR_TEX = NuclearTechMod.withDefaultNamespace("textures/models/bombs/nuke_tsar.png");
     public static final ResourceLocation NUKE_PROTOTYPE = NuclearTechMod.withDefaultNamespace("textures/models/bombs/nuke_prototype.png");
     public static final ResourceLocation NUKE_FLEIJA_TEX = NuclearTechMod.withDefaultNamespace("textures/models/bombs/nuke_fleija.png");
+    public static final ResourceLocation NUKE_SOLINIUM_TEX = NuclearTechMod.withDefaultNamespace("textures/models/bombs/nuke_solinium.png");
     public static final ResourceLocation NUKE_N2_TEX = NuclearTechMod.withDefaultNamespace("textures/models/bombs/nuke_n2.png");
     public static final ResourceLocation NUKE_FSTBMB_TEX = NuclearTechMod.withDefaultNamespace("textures/models/bombs/nuke_fstbmb.png");
 
@@ -186,6 +187,7 @@ public class ResourceManager {
     public static IModelCustom nuke_tsar;
     public static IModelCustom nuke_prototype;
     public static IModelCustom nuke_fleija;
+    public static IModelCustom nuke_solinium;
     public static IModelCustom nuke_n2;
     public static IModelCustom nuke_fstbmb;
 
@@ -271,6 +273,7 @@ public class ResourceManager {
         nuke_tsar = new HFRWavefrontObject("models/obj/bomb/nuke_tsar.obj").asVBO();
         nuke_prototype = new HFRWavefrontObject("models/obj/bomb/nuke_prototype.obj").asVBO();
         nuke_fleija = new HFRWavefrontObject("models/obj/bomb/nuke_fleija.obj").asVBO();
+        nuke_solinium = new HFRWavefrontObject("models/obj/bomb/nuke_solinium.obj").asVBO();
         nuke_n2 = new HFRWavefrontObject("models/obj/bomb/nuke_n2.obj").asVBO();
         nuke_fstbmb = new HFRWavefrontObject("models/obj/bomb/nuke_fstbmb.obj").asVBO();
 

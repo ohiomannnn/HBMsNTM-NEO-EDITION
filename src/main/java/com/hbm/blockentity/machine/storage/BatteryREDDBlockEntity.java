@@ -41,12 +41,12 @@ public class BatteryREDDBlockEntity extends BatteryBaseBlockEntity implements IP
         super(NtmBlockEntityTypes.BATTERY_REDD.get(), pos, state, 2);
     }
 
+    @Override public Component getDefaultName() { return Component.translatable("container.battery_redd"); }
+
     @Override
     public boolean stillValid(Player player) {
-        return Container.stillValidBlockEntity(this, player, 6.0F);
+        return Container.stillValidBlockEntity(this, player, 6F);
     }
-
-    @Override public Component getDefaultName() { return Component.translatable("container.battery_redd"); }
 
     @Override
     public void updateEntity() {

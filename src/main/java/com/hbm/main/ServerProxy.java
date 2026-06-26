@@ -5,6 +5,7 @@ import com.hbm.util.i18n.ITranslate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
@@ -20,6 +21,10 @@ public class ServerProxy {
     public void registerBlockEntityRenderers() { }
     public void registerClientExtensions(RegisterClientExtensionsEvent event) { }
     public void registerEntityRenderers() { }
+
+    public void vanish(int entityId) {  }
+    public void vanish(int entityId, int duration) {  }
+    public boolean isVanished(Entity e) { return false; }
 
     public void playLocalSound(Vec3 vec, SoundEvent soundEvent, SoundSource source, float volume, float pitch) { }
     public void playLocalSound(double x, double y, double z, SoundEvent soundEvent, SoundSource source, float volume, float pitch) { }

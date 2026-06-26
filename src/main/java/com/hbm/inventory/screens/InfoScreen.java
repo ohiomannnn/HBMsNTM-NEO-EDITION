@@ -3,8 +3,6 @@ package com.hbm.inventory.screens;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.i18n.I18nUtil;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -21,8 +19,8 @@ public abstract class InfoScreen<T extends AbstractContainerMenu> extends Abstra
 
     private static final ResourceLocation GUI_UTIL = NuclearTechMod.withDefaultNamespace("textures/gui/gui_utility.png");
 
-    public InfoScreen(T menu, Inventory playerInventory, Component title) {
-        super(menu, playerInventory, title);
+    public InfoScreen(T menu, Inventory inventory, Component title) {
+        super(menu, inventory, title);
     }
 
     public void drawElectricityInfo(GuiGraphics guiGraphics, int mouseX, int mouseY, int x, int y, int width, int height, long power, long maxPower) {
@@ -34,10 +32,9 @@ public abstract class InfoScreen<T extends AbstractContainerMenu> extends Abstra
     }
 
     public void drawCustomInfoStat(GuiGraphics guiGraphics, int mouseX, int mouseY, int x, int y, int width, int height, int tPosX, int tPosY, List<Component> text) {
-        Font font = Minecraft.getInstance().font;
 
         if(x <= mouseX && x + width > mouseX && y < mouseY && y + height >= mouseY) {
-            guiGraphics.renderComponentTooltip(font, text, tPosX, tPosY);
+            guiGraphics.renderComponentTooltip(this.font, text, tPosX, tPosY);
         }
     }
 
@@ -58,10 +55,11 @@ public abstract class InfoScreen<T extends AbstractContainerMenu> extends Abstra
         }
     }
 
-    protected boolean checkClick(double mouseX, double mouseY, int left, int top, int sizeX, int sizeY) {
+    protected boolean isHovered(double mouseX, double mouseY, int left, int top, int sizeX, int sizeY) {
         return leftPos + left <= mouseX && leftPos + left + sizeX > mouseX && topPos + top < mouseY && topPos + top + sizeY >= mouseY;
     }
 
+    @SuppressWarnings("DataFlowIssue")
     public void click() {
         this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
     }

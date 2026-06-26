@@ -325,6 +325,7 @@ public class NtmCreativeTabs {
                         output.accept(NtmBlocks.NUKE_TSAR_BOMBA);
                         output.accept(NtmBlocks.NUKE_PROTOTYPE);
                         output.accept(NtmBlocks.NUKE_FLEIJA);
+                        output.accept(NtmBlocks.NUKE_SOLINIUM);
                         output.accept(NtmBlocks.NUKE_N2);
                         output.accept(NtmBlocks.NUKE_FSTBMB);
 
@@ -383,6 +384,10 @@ public class NtmCreativeTabs {
                         output.accept(NtmItems.FLEIJA_PROPELLANT);
                         output.accept(NtmItems.FLEIJA_CORE);
 
+                        output.accept(NtmItems.SOLINIUM_IGNITER);
+                        output.accept(NtmItems.SOLINIUM_PROPELLANT);
+                        output.accept(NtmItems.SOLINIUM_CORE);
+
                         output.accept(NtmItems.N2_CHARGE);
 
                         output.accept(NtmItems.EGG_BALEFIRE_SHARD);
@@ -403,6 +408,7 @@ public class NtmCreativeTabs {
                         output.accept(MetaHelper.newStack(NtmItems.STARTER_KIT, KitType.TSAR_BOMBA));
                         output.accept(MetaHelper.newStack(NtmItems.STARTER_KIT, KitType.PROTOTYPE));
                         output.accept(MetaHelper.newStack(NtmItems.STARTER_KIT, KitType.FLEIJA));
+                        output.accept(MetaHelper.newStack(NtmItems.STARTER_KIT, KitType.SOLINIUM));
                     }).build());
 
     // missiles, satellites
@@ -414,6 +420,7 @@ public class NtmCreativeTabs {
                     .displayItems((itemDisplayParameters, output) -> {
 
                         output.accept(NtmBlocks.LAUNCH_PAD);
+                        output.accept(NtmBlocks.SOYUZ_LAUNCHER);
 
                         output.accept(NtmItems.DESIGNATOR);
                         output.accept(NtmItems.DESIGNATOR_RANGE);
@@ -444,6 +451,7 @@ public class NtmCreativeTabs {
                         output.accept(NtmItems.MISSILE_VOLCANO);
                         output.accept(NtmItems.MISSILE_DOOMSDAY);
                         output.accept(NtmItems.MISSILE_DOOMSDAY_RUSTED);
+                        addMetaItems(output, NtmItems.MISSILE_SOYUZ.get());
 
                         output.accept(NtmItems.SATELLITE_RADAR);
                         output.accept(NtmItems.SATELLITE_LASER);

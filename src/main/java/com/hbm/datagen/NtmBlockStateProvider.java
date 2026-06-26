@@ -169,6 +169,7 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.particleOnlyBlock(NtmBlocks.NUKE_TSAR_BOMBA, blockTexture(NtmBlocks.NUKE_TSAR_BOMBA));
         this.particleOnlyBlock(NtmBlocks.NUKE_PROTOTYPE, blockTexture(NtmBlocks.NUKE_PROTOTYPE));
         this.particleOnlyBlock(NtmBlocks.NUKE_FLEIJA, blockTexture(NtmBlocks.NUKE_FLEIJA));
+        this.particleOnlyBlock(NtmBlocks.NUKE_SOLINIUM, blockTexture(NtmBlocks.NUKE_SOLINIUM));
         this.particleOnlyBlock(NtmBlocks.NUKE_N2, blockTexture(NtmBlocks.NUKE_N2));
         this.particleOnlyBlock(NtmBlocks.NUKE_FSTBMB, blockTexture(NtmBlocks.NUKE_FSTBMB));
 
@@ -237,8 +238,8 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         // VOLCANO_RAD_CORE uses custom register!
 
         this.particleOnlyBlock(NtmBlocks.LAUNCH_PAD, blockTexture(NtmBlocks.LAUNCH_PAD));
-        // todo make item thing
-        this.particleOnlyBlock(NtmBlocks.SOYUZ_LAUNCHER, modLoc("block/block_steel"));
+        this.simpleBlock(NtmBlocks.SOYUZ_LAUNCHER.get(), this.models().getBuilder(name(NtmBlocks.SOYUZ_LAUNCHER) + "_particle").texture("particle", modLoc("item/soyuz_launcher")));
+        this.itemModels().basicItem(NtmBlocks.SOYUZ_LAUNCHER.asItem());
 
         this.itemModels().basicItem(NtmBlocks.GAS_RADON.asItem());
         this.itemModels().basicItem(NtmBlocks.GAS_RADON_DENSE.asItem());

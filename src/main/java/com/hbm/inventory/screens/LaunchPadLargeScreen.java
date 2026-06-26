@@ -34,6 +34,16 @@ public class LaunchPadLargeScreen extends InfoScreen<LaunchPadLargeMenu> {
     }
 
     @Override
+    protected void init() {
+        super.init();
+
+        this.titleLabelX = this.imageWidth / 2 - this.font.width(this.title) / 2;
+        this.titleLabelY = 4;
+        this.inventoryLabelX = 8;
+        this.inventoryLabelY = this.imageHeight - 96 + 2;
+    }
+
+    @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
 
@@ -121,13 +131,7 @@ public class LaunchPadLargeScreen extends InfoScreen<LaunchPadLargeMenu> {
             text = "ready";
             color = 0x00ff000;
         }
-        guiGraphics.drawString(this.font, Component.translatable("container.launch_pad." + text).withColor(color), -this.font.width(Component.translatable("gui.launchPad." + text)) / 2, -this.font.lineHeight / 2, color, false);
+        guiGraphics.drawString(this.font, Component.translatable("container.launch_pad." + text).withColor(color), -this.font.width(Component.translatable("container.launch_pad." + text)) / 2, -this.font.lineHeight / 2, color, false);
         guiGraphics.pose().popPose();
-    }
-
-    @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        guiGraphics.drawString(this.font, this.title, this.imageWidth / 2 - font.width(this.title) / 2, 4, 4210752, false);
-        guiGraphics.drawString(this.font, this.playerInventoryTitle, 8, this.imageHeight - 96 + 2, 4210752, false);
     }
 }

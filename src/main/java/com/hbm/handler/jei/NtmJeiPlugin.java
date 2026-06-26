@@ -36,6 +36,8 @@ public class NtmJeiPlugin implements IModPlugin {
 
                 NtmItems.STARTER_KIT.get(),
 
+                NtmItems.MISSILE_SOYUZ.get(),
+
                 NtmItems.BATTERY_SC.get(),
 
                 NtmItems.FLUID_TANK_FULL.get(),

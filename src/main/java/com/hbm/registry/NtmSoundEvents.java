@@ -28,6 +28,7 @@ public class NtmSoundEvents {
     public static final DeferredHolder<SoundEvent, SoundEvent> FIRE_DISINTEGRATION = reg("weapon.fire.disintegration"); // PLAYERS CATEGORY
     /// ENTITIES
     public static final DeferredHolder<SoundEvent, SoundEvent> OLD_EXPLOSION = reg("entity.old_explosion"); // AMBIENT CATEGORY
+    public static final DeferredHolder<SoundEvent, SoundEvent> SOYUZ_TAKE_OFF = reg("entity.soyuz_take_off"); // PLAYER CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> BOMB_WHISTLE = reg("entity.bomb_whistle"); // PLAYER CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> BOMBER_LOOP = reg("entity.bomber_loop"); // HOSTILE CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> BOMBER_SMALL_LOOP = reg("entity.bomber_small_loop"); // HOSTILE CATEGORY

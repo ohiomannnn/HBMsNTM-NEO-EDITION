@@ -1,6 +1,6 @@
 package com.hbm.items.tools;
 
-import com.hbm.blockentity.IGUIProvider;
+import com.hbm.blockentity.IScreenProvider;
 import com.hbm.inventory.screens.SatelliteInterfaceScreen;
 import com.hbm.items.machine.SatChipItem;
 import com.hbm.main.NuclearTechMod;
@@ -22,7 +22,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 
-public class SatelliteInterfaceItem extends SatChipItem implements IGUIProvider {
+public class SatelliteInterfaceItem extends SatChipItem implements IScreenProvider {
 
     @OnlyIn(Dist.CLIENT) @Nullable public Satellite satellite = null;
 

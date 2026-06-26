@@ -15,7 +15,7 @@ public class MachineAssemblyMachineMenu extends MenuBase<MachineAssemblyMachineB
     }
 
     public MachineAssemblyMachineMenu(int id, Inventory inventory, MachineAssemblyMachineBlockEntity be) {
-        super(NtmMenuTypes.ASSEMBLY_MACHINE.get(), be, id);
+        super(NtmMenuTypes.ASSEMBLY_MACHINE.get(), id, be);
 
         // Battery
         this.addSlot(new SlotNonRetarded(be, 0, 152, 81));

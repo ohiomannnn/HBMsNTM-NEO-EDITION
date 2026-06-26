@@ -499,6 +499,7 @@ public class NtmLanguageProvider extends LanguageProvider {
 
         this.add(NtmItems.TSAR_BOMBA_CORE, "Tsar Bomba Core");
 
+        this.add("item.hbmsntm.obj_used_in.desc", "Used in:");
         this.add(NtmItems.FLEIJA_IGNITER, "Pulse Igniter");
         this.add(NtmItems.FLEIJA_PROPELLANT, "Schrabidium Propellant");
         this.add(NtmItems.FLEIJA_CORE, "F.L.E.I.J.A. Uranium 235 Charge");
@@ -564,6 +565,7 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmItems.STARTER_KIT, this.getName(KitType.TSAR_BOMBA), "Tsar Bomba Kit");
         this.add(NtmItems.STARTER_KIT, this.getName(KitType.PROTOTYPE), "Prototype Kit");
         this.add(NtmItems.STARTER_KIT, this.getName(KitType.FLEIJA), "F.L.E.I.J.A. Kit");
+        this.add(NtmItems.STARTER_KIT, this.getName(KitType.SOLINIUM), "Solinium Kit");
 
         this.add(NtmItems.TEMPLATE_FOLDER, "Machine Template Folder");
         this.add(NtmItems.NOTHING, "Nothing");
@@ -643,6 +645,7 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmBlocks.NUKE_PROTOTYPE, "The Prototype");
         this.add(NtmBlocks.NUKE_PROTOTYPE, DESC, "It didn't have to be like this.$ $You monster.");
         this.add(NtmBlocks.NUKE_FLEIJA, "F.L.E.I.J.A.");
+        this.add(NtmBlocks.NUKE_SOLINIUM, "The Blue Rinse");
         this.add(NtmBlocks.NUKE_N2, "N² Mine");
         this.add(NtmBlocks.NUKE_FSTBMB, "Balefire Bomb");
 
@@ -731,6 +734,7 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add("container.nuke_tsar_bomba.desc", "§1Requires:§r$ * 4 Arrays of High-Explosive Lenses$ * Plutonium Core$§9Optional:§r$ * Tsar Bomba Core");
         this.add("container.nuke_prototype", "The Prototype");
         this.add("container.nuke_fleija", "F.L.E.I.J.A.");
+        this.add("container.nuke_solinium", "The Blue Rinse");
         this.add("container.nuke_n2", "N² Mine");
         this.add("container.nuke_fstbmb", "Balefire Bomb");
         this.add("container.battery_socket", "Battery Socket");
@@ -738,10 +742,19 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add("container.machine_assembly_machine", "Assembly Machine");
         this.add("container.fluidtank", "Tank");
         this.add("container.sat_linker", "SatLink Device");
+        this.add("container.sat_linker.desc.copy", "The first slot will copy the satellite/chip's$frequency and paste it to the second slot.");
+        this.add("container.sat_linker.desc.rand", "The third slot will randomize the$satellite/chip's frequency.");
         this.add("container.launch_pad", "Launch Pad");
         this.add("container.launch_pad.not_ready", "Not ready");
         this.add("container.launch_pad.loading", "Loading...");
         this.add("container.launch_pad.ready", "Ready");
+        this.add("container.soyuz_launcher", "Soyuz Launch Platform");
+        this.add("container.soyuz_launcher.soyuz_here", "The Soyuz goes here");
+        this.add("container.soyuz_launcher.designator_here", "Designator only for CARGO MODE");
+        this.add("container.soyuz_launcher.payload_here", "The payload for SATELLITE MODE");
+        this.add("container.soyuz_launcher.module_here", "The orbital module for special payloads");
+        this.add("container.soyuz_launcher.sat_mode", "SATELLITE MODE");
+        this.add("container.soyuz_launcher.cargo_mode", "CARGO MODE");
         this.add("container.recipe_selector.close", "Close");
         this.add("container.recipe_selector.close_search", "Clear search");
         this.add("container.recipe_selector.toggle_focus", "Press ENTER to toggle focus");

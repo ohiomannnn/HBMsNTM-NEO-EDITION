@@ -8,12 +8,16 @@ import com.hbm.saveddata.satellite.Satellite;
 import com.hbm.saveddata.satellite.Satellite.InterfaceActions;
 import com.hbm.saveddata.satellite.Satellite.Interfaces;
 import com.hbm.util.InventoryUtil;
+import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
@@ -23,9 +27,11 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.material.MapColor.Brightness;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.UUID;
 
 public class SatelliteInterfaceScreen extends Screen {
 
@@ -39,6 +45,10 @@ public class SatelliteInterfaceScreen extends Screen {
     private int x;
     private int z;
 
+    private NativeImage mapImage;
+    private DynamicTexture mapTexture;
+    private ResourceLocation mapTextureLocation;
+
     public SatelliteInterfaceScreen(Player player, @Nullable Satellite satellite) {
         super(Component.translatable("container.satellite_interface"));
 
@@ -49,6 +59,7 @@ public class SatelliteInterfaceScreen extends Screen {
     @Override public boolean isPauseScreen() { return false; }
 
     @Override
+    @SuppressWarnings("DataFlowIssue")
     protected void init() {
 
         this.leftPos = (this.width - this.imageWidth) / 2;
@@ -56,9 +67,26 @@ public class SatelliteInterfaceScreen extends Screen {
 
         x = (int) player.getX();
         z = (int) player.getZ();
+
+        this.mapImage = new NativeImage(200, 200, false);
+        this.mapTexture = new DynamicTexture(mapImage);
+        this.mapTextureLocation = this.minecraft.getTextureManager().register("sat_map_" + UUID.randomUUID(), mapTexture);
+
+        this.scanPos = 0;
+        this.mapImage.fillRect(0, 0, 200, 200, 0);
+        this.mapTexture.upload();
     }
 
     @Override
+    public void onClose() {
+        super.onClose();
+
+        if(this.mapTexture != null) this.mapTexture.close();
+        if(this.mapImage != null) this.mapImage.close();
+    }
+
+    @Override
+    @SuppressWarnings("DataFlowIssue")
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if(this.satellite != null && this.satellite.ifaceAcs.contains(Satellite.InterfaceActions.CAN_CLICK)) {
             if(mouseX >= this.leftPos + 8 && mouseX < this.leftPos + 208 && mouseY >= this.topPos + 8 && mouseY < this.topPos + 208 && player != null) {
@@ -110,10 +138,10 @@ public class SatelliteInterfaceScreen extends Screen {
         guiGraphics.blit(TEXTURE, this.leftPos, this.topPos, 0, 0, imageWidth, imageHeight);
 
         if(this.satellite == null) {
-            renderNotConnected(guiGraphics);
+            this.renderNotConnected(guiGraphics);
         } else {
             if(this.satellite.satIface != Interfaces.SAT_PANEL) {
-                renderNoService(guiGraphics);
+                this.renderNoService(guiGraphics);
                 return;
             }
 
@@ -128,39 +156,36 @@ public class SatelliteInterfaceScreen extends Screen {
     private void progresScan() {
 
         if(lastMilli + 25 < System.currentTimeMillis()) {
-            lastMilli = System.currentTimeMillis();
-            scanPos++;
+            this.lastMilli = System.currentTimeMillis();
+            this.scanPos++;
         }
 
-        if(scanPos >= 200) scanPos -= 200;
+        if(this.scanPos >= 200) this.scanPos -= 200;
     }
-
-    private final int[][] map = new int[200][200];
 
     private void renderMap(GuiGraphics guiGraphics) {
         Level level = player.level;
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 
-        for (int i = -100; i < 100; i++) {
+        for(int i = -100; i < 100; i++) {
             int worldX = this.x + i;
             int worldZ = this.z + scanPos - 100;
             int worldY = level.getHeight(Heightmap.Types.WORLD_SURFACE, worldX, worldZ) - 1;
 
             pos.set(worldX, worldY, worldZ);
 
-            map[i + 100][scanPos] = level.getBlockState(pos).getMapColor(level, pos).calculateRGBColor(Brightness.NORMAL);
+            int rgb = level.getBlockState(pos).getMapColor(level, pos).calculateRGBColor(Brightness.NORMAL);
+
+            int r = (rgb >> 16) & 0xFF;
+            int g = (rgb >> 8) & 0xFF;
+            int b = (rgb) & 0xFF;
+
+            this.mapImage.setPixelRGBA(i + 100, this.scanPos, FastColor.ARGB32.color(255, r, g, b));
         }
+        this.mapTexture.upload();
 
         // prontMap();
-        for(int x = 0; x < 200; x++) {
-            for(int z = 0; z < 200; z++) {
-                if(map[x][z] != 0) {
-                    guiGraphics.setColor((map[x][z] & 0xFF0000) >> 16, (map[x][z] & 0x00FF00) >> 8, map[x][z] & 0x0000FF, 1F);
-                    guiGraphics.blit(TEXTURE, this.leftPos + 8 + x, this.topPos + 8 + z, 216, 216, 1, 1);
-                }
-            }
-        }
-        guiGraphics.setColor(1F, 1F, 1F, 1F);
+        guiGraphics.blit(this.mapTextureLocation, this.leftPos + 8, this.topPos + 8, 0, 0, 200, 200, 200, 200);
 
         this.progresScan();
     }
@@ -191,5 +216,36 @@ public class SatelliteInterfaceScreen extends Screen {
 
     private void renderNotConnected(GuiGraphics guiGraphics) {
         guiGraphics.blit(TEXTURE, (this.width - 121) / 2, (this.height - 12) / 2, 0, 216, 121, 12);
+    }
+
+    @Override
+    @SuppressWarnings("DataFlowIssue")
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+
+        InputConstants.Key key = InputConstants.getKey(keyCode, scanCode);
+        if(keyCode == GLFW.GLFW_KEY_ESCAPE || this.minecraft.options.keyInventory.isActiveAndMatches(key)) {
+            this.onClose();
+            return true;
+        }
+
+        // todo make map reset
+        if(key.equals(this.minecraft.options.keyUp.getKey())) {
+            this.z -= 50;
+            return true;
+        }
+        if(key.equals(this.minecraft.options.keyDown.getKey())) {
+            this.z += 50;
+            return true;
+        }
+        if(key.equals(this.minecraft.options.keyLeft.getKey())) {
+            this.x -= 50;
+            return true;
+        }
+        if(key.equals(this.minecraft.options.keyRight.getKey())) {
+            this.x += 50;
+            return true;
+        }
+
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 }

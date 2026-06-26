@@ -51,17 +51,17 @@ public class NukeFstbmbScreen extends InfoScreen<NukeFstbmbMenu> {
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
 
-        if (this.timer.mouseClicked(mouseX, mouseY, button)) {
+        if(this.timer.mouseClicked(mouseX, mouseY, button)) {
             this.timer.setFocused(true);
             return true;
         } else {
             this.timer.setFocused(false);
         }
 
-        if (!be.started) {
+        if(!be.started) {
             CompoundTag tag = new CompoundTag();
-            if (this.checkClick(mouseX, mouseY, 142, 35, 18, 18)) tag.putBoolean("start", true);
-            if (!tag.isEmpty()) PacketDistributor.sendToServer(new CompoundTagControl(tag, be.getBlockPos()));
+            if(this.isHovered(mouseX, mouseY, 142, 35, 18, 18)) tag.putBoolean("start", true);
+            if(!tag.isEmpty()) PacketDistributor.sendToServer(new CompoundTagControl(tag, be.getBlockPos()));
         }
 
         return super.mouseClicked(mouseX, mouseY, button);

@@ -1,9 +1,9 @@
 package com.hbm.inventory.screens;
 
-import com.hbm.main.NuclearTechMod;
 import com.hbm.blockentity.bomb.NukeN2BlockEntity;
 import com.hbm.inventory.menus.NukeN2Menu;
 import com.hbm.items.NtmItems;
+import com.hbm.main.NuclearTechMod;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -25,8 +25,19 @@ public class NukeN2Screen extends InfoScreen<NukeN2Menu> {
     }
 
     @Override
+    protected void init() {
+        super.init();
+
+        this.titleLabelX = this.imageWidth / 2 - this.font.width(this.title) / 2;
+        this.titleLabelY = 6;
+        this.inventoryLabelX = 8;
+        this.inventoryLabelY = this.imageHeight - 96 + 2;
+    }
+
+    @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         super.render(guiGraphics, mouseX, mouseY, partialTicks);
+
         this.renderTooltip(guiGraphics, mouseX, mouseY);
     }
 
@@ -35,21 +46,9 @@ public class NukeN2Screen extends InfoScreen<NukeN2Menu> {
         guiGraphics.blit(TEXTURE, this.leftPos, this.topPos, 0, 0, imageWidth, imageHeight);
 
         int count = 0;
-
-        for (int i = 0; i < 12; i++) {
-            if (this.be.slots.get(i).getItem() == NtmItems.N2_CHARGE.get()) {
-                count++;
-            }
+        for(int i = 0; i < 12; i++) {
+            if(this.be.slots.get(i).getItem() == NtmItems.N2_CHARGE.get()) count++;
         }
-
-        if (count > 0) {
-            guiGraphics.blit(TEXTURE, this.leftPos + 35, this.topPos + 120 - 6 * count, 176, 0, 34, 6 * count);
-        }
-    }
-
-    @Override
-    protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        guiGraphics.drawString(this.font, this.title, this.imageWidth / 2 - font.width(this.title) / 2, 6, 4210752, false);
-        guiGraphics.drawString(this.font, this.playerInventoryTitle, 8, this.imageHeight - 96 + 2, 4210752, false);
+        if(count > 0) guiGraphics.blit(TEXTURE, this.leftPos + 35, this.topPos + 120 - 6 * count, 176, 0, 34, 6 * count);
     }
 }

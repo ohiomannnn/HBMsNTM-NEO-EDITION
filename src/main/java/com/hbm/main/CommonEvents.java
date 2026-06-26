@@ -174,9 +174,11 @@ public class CommonEvents {
         event.register(NtmMenuTypes.NUKE_TSAR_BOMBA.get(), NukeTsarBombaScreen::new);
         event.register(NtmMenuTypes.NUKE_PROTOTYPE.get(), NukePrototypeScreen::new);
         event.register(NtmMenuTypes.NUKE_FLEIJA.get(), NukeFleijaScreen::new);
+        event.register(NtmMenuTypes.NUKE_SOLINIUM.get(), NukeSoliniumScreen::new);
         event.register(NtmMenuTypes.NUKE_N2.get(), NukeN2Screen::new);
         event.register(NtmMenuTypes.NUKE_FSTBMB.get(), NukeFstbmbScreen::new);
 
         event.register(NtmMenuTypes.LAUNCH_PAD_LARGE.get(), LaunchPadLargeScreen::new);
+        event.register(NtmMenuTypes.SOYUZ_LAUNCHER.get(), SoyuzLauncherScreen::new);
     }
 }

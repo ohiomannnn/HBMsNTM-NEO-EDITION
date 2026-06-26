@@ -7,10 +7,10 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.screens.FluidScreen;
 import com.hbm.items.IItemControlReceiver;
 import com.hbm.items.NtmItems;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.network.toclient.InformPlayer;
 import com.hbm.util.TagsUtil;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -41,7 +41,7 @@ public class FluidIDMultiItem extends Item implements IScreenProvider, IItemCont
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         ItemStack stack = player.getItemInHand(usedHand);
 
-        if (!level.isClientSide && !player.isCrouching()) {
+        if (!level.isClientSide && !player.isShiftKeyDown()) {
             FluidType primary = getType(stack, true);
             FluidType secondary = getType(stack, false);
             setType(stack, secondary, true);
@@ -52,7 +52,12 @@ public class FluidIDMultiItem extends Item implements IScreenProvider, IItemCont
                 PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(secondary.getName(), 7, 3000));
             }
         }
-        return InteractionResultHolder.pass(player.getItemInHand(usedHand));
+
+        if(player.isShiftKeyDown()) {
+            NuclearTechMod.proxy.openScreen(player, BlockPos.ZERO);
+        }
+
+        return InteractionResultHolder.pass(stack);
     }
 
     @Override
@@ -110,8 +115,7 @@ public class FluidIDMultiItem extends Item implements IScreenProvider, IItemCont
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public Screen provideScreenOnRightClick(Player player, BlockPos pos) {
-        if(player.isCrouching()) return new FluidScreen(player);;
-        return null;
+    public Object provideScreen(Player player, BlockPos pos) {
+        return new FluidScreen(player);
     }
 }

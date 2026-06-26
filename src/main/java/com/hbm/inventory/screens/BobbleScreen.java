@@ -26,6 +26,7 @@ public class BobbleScreen extends Screen {
     }
 
     @Override
+    @SuppressWarnings("DataFlowIssue")
     protected void init() {
         this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(NtmSoundEvents.BOBBLE, 1.0F));
     }
@@ -103,9 +104,10 @@ public class BobbleScreen extends Screen {
     }
 
     @Override
+    @SuppressWarnings("DataFlowIssue")
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        InputConstants.Key key = InputConstants.getKey(keyCode, scanCode);
 
+        InputConstants.Key key = InputConstants.getKey(keyCode, scanCode);
         if(keyCode == 256 || this.minecraft.options.keyInventory.isActiveAndMatches(key)) {
             this.onClose();
             return true;
@@ -138,7 +140,7 @@ public class BobbleScreen extends Screen {
 
         for(int i = 0; i < letterTargets.size(); i++) {
             for (int j = i + 1; j < letterTargets.size(); j++) {
-                if (letterTargets.get(i).key > letterTargets.get(j).key) {
+                if(letterTargets.get(i).key > letterTargets.get(j).key) {
                     Pair<Double, Character> temp = letterTargets.get(i);
                     letterTargets.set(i, letterTargets.get(j));
                     letterTargets.set(j, temp);

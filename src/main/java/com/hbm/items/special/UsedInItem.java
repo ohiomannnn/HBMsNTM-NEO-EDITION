@@ -20,7 +20,7 @@ public class UsedInItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
-        components.add(Component.translatable("item.hbmsntm.used_in").withStyle(ChatFormatting.GRAY));
+        components.add(Component.translatable("item.hbmsntm.obj_used_in.desc").withStyle(ChatFormatting.GRAY));
         blocks.forEach(block -> components.add(Component.literal("  " + block.getName().getString()).withStyle(ChatFormatting.GRAY)));
     }
 }

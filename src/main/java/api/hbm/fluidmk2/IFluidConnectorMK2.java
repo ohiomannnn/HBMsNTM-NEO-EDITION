@@ -4,6 +4,7 @@ import com.hbm.inventory.fluid.FluidType;
 import net.minecraft.core.Direction;
 
 public interface IFluidConnectorMK2 {
+
     /**
      * Whether the given side can be connected to
      */

@@ -97,7 +97,7 @@ public abstract class BatteryBaseBlockEntity extends MachineBaseBlockEntity impl
 
     public byte getComparatorPower() {
         double frac = (double) this.getPower() / (double) Math.max(this.getMaxPower(), 1) * 15D;
-        return (byte) (Mth.clamp((int) Math.round(frac), 0, 15)); //to combat eventual rounding errors with the FEnSU's stupid maxPower
+        return (byte) (Mth.clamp((int) Math.round(frac), 0, 15)); //to combat eventual rounding errors with the FEnSU's stupid MAX_POWER
     }
 
     @Override

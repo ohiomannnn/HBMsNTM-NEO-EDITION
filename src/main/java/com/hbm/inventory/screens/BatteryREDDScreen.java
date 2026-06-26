@@ -59,9 +59,9 @@ public class BatteryREDDScreen extends InfoScreen<BatteryREDDMenu> {
 
         CompoundTag tag = new CompoundTag();
 
-        if (this.checkClick((int) x, (int) y, 133, 16, 18, 18)) { this.click(); tag.putBoolean("low", true); }
-        if (this.checkClick((int) x, (int) y, 133, 52, 18, 18)) { this.click(); tag.putBoolean("high", true); }
-        if (this.checkClick((int) x, (int) y, 152, 35, 16, 16)) { this.click(); tag.putBoolean("priority", true); }
+        if(this.isHovered(x, y, 133, 16, 18, 18)) { this.click(); tag.putBoolean("low", true); }
+        if(this.isHovered(x, y, 133, 52, 18, 18)) { this.click(); tag.putBoolean("high", true); }
+        if(this.isHovered(x, y, 152, 35, 16, 16)) { this.click(); tag.putBoolean("priority", true); }
 
         if (!tag.isEmpty()) PacketDistributor.sendToServer(new CompoundTagControl(tag, be.getBlockPos()));
 

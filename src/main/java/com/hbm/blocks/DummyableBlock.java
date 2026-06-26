@@ -113,8 +113,8 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
     @Override
     protected MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
         BlockPos corePos = this.findCore(level, pos);
-        if (corePos == null) return null;
-        if (level.getBlockEntity(corePos) instanceof MenuProvider prov) {
+        if(corePos == null) return null;
+        if(level.getBlockEntity(corePos) instanceof MenuProvider prov) {
             return prov;
         }
         return null;
@@ -273,8 +273,8 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
     public void makeExtra(Level level, BlockPos pos) {
         BlockState state = level.getBlockState(pos);
 
-        if (state.getBlock() != this) return;
-        if (state.getValue(TYPE) != DummyBlockType.DUMMY) return;
+        if(state.getBlock() != this) return;
+        if(state.getValue(TYPE) != DummyBlockType.DUMMY) return;
 
         safeRem = true;
         level.setBlock(pos, state.setValue(TYPE, DummyBlockType.EXTRA), 3);
@@ -284,8 +284,8 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
     public void removeExtra(Level level, BlockPos pos) {
         BlockState state = level.getBlockState(pos);
 
-        if (state.getBlock() != this) return;
-        if (state.getValue(TYPE) != DummyBlockType.EXTRA) return;
+        if(state.getBlock() != this) return;
+        if(state.getValue(TYPE) != DummyBlockType.EXTRA) return;
 
         safeRem = true;
         level.setBlock(pos, state.setValue(TYPE, DummyBlockType.DUMMY), 3);
@@ -294,20 +294,20 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
 
     @Override
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (!state.is(newState.getBlock())) {
+        if(!state.is(newState.getBlock())) {
 
-            if (!safeRem) {
+            if(!safeRem) {
                 Direction dir = state.getValue(FACING);
                 BlockPos neighborPos = pos.relative(dir.getOpposite());
 
-                if (level.getBlockState(neighborPos).getBlock() == this) {
+                if(level.getBlockState(neighborPos).getBlock() == this) {
                     level.removeBlock(neighborPos, false);
                 }
             }
 
             // Drop inventory contents
             BlockEntity be = level.getBlockEntity(pos);
-            if (be instanceof Container container) {
+            if(be instanceof Container container) {
                 Containers.dropContents(level, pos, container);
 
                 super.onRemove(state, level, pos, newState, isMoving);
@@ -327,7 +327,7 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
     @Override
     public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
         BlockPos corePos = this.findCore(level, pos);
-        if (!player.isCreative()) {
+        if(!player.isCreative()) {
             dropResources(state, level, corePos, level.getBlockEntity(corePos), player, player.getMainHandItem());
         }
         return super.playerWillDestroy(level, pos, state, player);
@@ -351,34 +351,22 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
-        if(!this.useDetailedHitbox()) return Shapes.block();
+        if(!this.useDetailedHitbox()) return super.getShape(state, getter, pos, context);
 
         BlockPos corePos = findCore(getter, pos);
-        if(corePos == null) return Shapes.block();
+        if(corePos == null) return super.getShape(state, getter, pos, context);
 
-        BlockState coreState = getter.getBlockState(corePos);
-        Direction facing = coreState.getValue(FACING);
-        Direction rot = facing.getClockWise(Axis.Y);
+        Direction dir = getter.getBlockState(corePos).getValue(FACING).getClockWise(Axis.Y);
 
         VoxelShape combinedShape = Shapes.empty();
         Vec3 offset = Vec3.atLowerCornerOf(corePos.subtract(pos));
 
-        for (AABB aabb : bounding) {
-            AABB rotatedBox = getAABBRotationOffset(aabb, offset.x + 0.5, offset.y, offset.z + 0.5, rot);
+        for(AABB aabb : bounding) {
+            AABB rotatedBox = getAABBRotationOffset(aabb, offset.x + 0.5, offset.y, offset.z + 0.5, dir);
             combinedShape = Shapes.or(combinedShape, Shapes.create(rotatedBox));
         }
 
         return combinedShape;
-    }
-
-    @Override
-    public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return getShape(state, level, pos, context);
-    }
-
-    @Override
-    protected VoxelShape getVisualShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return getShape(state, level, pos, context);
     }
 
     public static AABB getAABBRotationOffset(AABB aabb, double x, double y, double z, Direction dir) {
@@ -404,7 +392,7 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
     public void drawHighlight(RenderHighlightEvent.Block event, Level level, BlockPos pos) {
 
         BlockPos corePos = this.findCore(level, pos);
-        if (corePos == null) return;
+        if(corePos == null) return;
 
         int x = corePos.getX();
         int y = corePos.getY();
@@ -423,7 +411,7 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
         PoseStack poseStack = event.getPoseStack();
         VertexConsumer vertexConsumer = event.getMultiBufferSource().getBuffer(RenderType.lines());
 
-        for (AABB aabb : this.bounding) {
+        for(AABB aabb : this.bounding) {
             AABB transformedAABB = getAABBRotationOffset(aabb.inflate(exp), 0, 0, 0, rot).move(x - dX + 0.5, y - dY, z - dZ + 0.5);
             LevelRenderer.renderLineBox(
                     poseStack,
@@ -438,10 +426,10 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
     @Nullable
     public CompoundTag getSettings(Level level, BlockPos pos) {
         BlockPos corePos = findCore(level, pos);
-        if (corePos == null) return null;
+        if(corePos == null) return null;
 
         BlockEntity blockEntity = level.getBlockEntity(corePos);
-        if (blockEntity instanceof ICopiable copiable) {
+        if(blockEntity instanceof ICopiable copiable) {
             return copiable.getSettings(level, corePos);
         }
         return null;
@@ -450,10 +438,10 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
     @Override
     public void pasteSettings(CompoundTag nbt, int index, Level level, Player player, BlockPos pos) {
         BlockPos corePos = findCore(level, pos);
-        if (corePos == null) return;
+        if(corePos == null) return;
 
         BlockEntity blockEntity = level.getBlockEntity(corePos);
-        if (blockEntity instanceof ICopiable copiable) {
+        if(blockEntity instanceof ICopiable copiable) {
             copiable.pasteSettings(nbt, index, level, player, corePos);
         }
     }
@@ -462,10 +450,10 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
     @Nullable
     public String[] infoForDisplay(Level level, BlockPos pos) {
         BlockPos corePos = findCore(level, pos);
-        if (corePos == null) return null;
+        if(corePos == null) return null;
 
         BlockEntity blockEntity = level.getBlockEntity(corePos);
-        if (blockEntity instanceof ICopiable copiable) {
+        if(blockEntity instanceof ICopiable copiable) {
             return copiable.infoForDisplay(level, corePos);
         }
         return null;
@@ -478,7 +466,7 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
     protected InteractionResult standardOpenBehavior(Level level, BlockPos pos, Player player) {
         if(level.isClientSide) return InteractionResult.SUCCESS;
 
-        if (!player.isShiftKeyDown()) {
+        if(!player.isShiftKeyDown()) {
             BlockPos corePos = findCore(level, pos);
             if(corePos == null) return InteractionResult.FAIL;
 

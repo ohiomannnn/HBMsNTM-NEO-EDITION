@@ -81,24 +81,21 @@ public class Library {
 
     /** dir is the direction along the fluid duct entering the block */
     public static boolean canConnectFluid(BlockGetter level, BlockPos pos, Direction dir /* duct's connecting side */, FluidType type) {
-        if (pos.getY() > level.getMaxBuildHeight() || pos.getY() < level.getMinBuildHeight()) return false;
+        if(pos.getY() > level.getMaxBuildHeight() || pos.getY() < level.getMinBuildHeight()) return false;
 
         Block b = level.getBlockState(pos).getBlock();
 
-        if (b instanceof IFluidConnectorBlockMK2 con) {
+        if(b instanceof IFluidConnectorBlockMK2 con) {
 
-            if (con.canConnect(type, level, pos, dir.getOpposite() /* machine's connecting side */)) {
+            if(con.canConnect(type, level, pos, dir.getOpposite() /* machine's connecting side */)) {
                 return true;
             }
         }
 
-        BlockEntity te = level.getBlockEntity(pos);
+        BlockEntity be = level.getBlockEntity(pos);
 
-        if (te instanceof IFluidConnectorMK2 con) {
-
-            if (con.canConnect(type, dir.getOpposite() /* machine's connecting side */)) {
-                return true;
-            }
+        if(be instanceof IFluidConnectorMK2 con) {
+            if(con.canConnect(type, dir.getOpposite() /* machine's connecting side */)) return true;
         }
 
         return false;

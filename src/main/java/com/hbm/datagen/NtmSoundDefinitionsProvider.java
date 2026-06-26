@@ -77,6 +77,9 @@ public class NtmSoundDefinitionsProvider extends SoundDefinitionsProvider {
         this.add(NtmSoundEvents.OLD_EXPLOSION, SoundDefinition.definition()
                 .with(sound("hbmsntm:entity/old_explosion"))
         );
+        this.add(NtmSoundEvents.SOYUZ_TAKE_OFF, SoundDefinition.definition()
+                .with(sound("hbmsntm:entity/soyuz_take_off"))
+        );
         this.add(NtmSoundEvents.BOMB_WHISTLE, SoundDefinition.definition()
                 .with(sound("hbmsntm:entity/bomb_whistle"))
         );

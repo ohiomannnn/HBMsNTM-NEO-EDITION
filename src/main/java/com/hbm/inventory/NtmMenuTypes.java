@@ -1,7 +1,7 @@
 package com.hbm.inventory;
 
-import com.hbm.main.NuclearTechMod;
 import com.hbm.inventory.menus.*;
+import com.hbm.main.NuclearTechMod;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -12,7 +12,8 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class NtmMenuTypes {
-    public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(Registries.MENU, NuclearTechMod.MODID);
+
+    public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(Registries.MENU, NuclearTechMod.MODID);
 
     public static final DeferredHolder<MenuType<?>, MenuType<MachineSatLinkerMenu>> SAT_LINKER = reg("sat_linker", MachineSatLinkerMenu::new);
 
@@ -30,16 +31,18 @@ public class NtmMenuTypes {
     public static final DeferredHolder<MenuType<?>, MenuType<NukeTsarBombaMenu>> NUKE_TSAR_BOMBA = reg("nuke_tsar_bomba", NukeTsarBombaMenu::new);
     public static final DeferredHolder<MenuType<?>, MenuType<NukePrototypeMenu>> NUKE_PROTOTYPE = reg("nuke_prototype", NukePrototypeMenu::new);
     public static final DeferredHolder<MenuType<?>, MenuType<NukeFleijaMenu>> NUKE_FLEIJA = reg("nuke_fleija", NukeFleijaMenu::new);
+    public static final DeferredHolder<MenuType<?>, MenuType<NukeSoliniumMenu>> NUKE_SOLINIUM = reg("nuke_solinium", NukeSoliniumMenu::new);
     public static final DeferredHolder<MenuType<?>, MenuType<NukeN2Menu>> NUKE_N2 = reg("nuke_n2", NukeN2Menu::new);
     public static final DeferredHolder<MenuType<?>, MenuType<NukeFstbmbMenu>> NUKE_FSTBMB = reg("nuke_fstbmb", NukeFstbmbMenu::new);
 
     public static final DeferredHolder<MenuType<?>, MenuType<LaunchPadLargeMenu>> LAUNCH_PAD_LARGE = reg("launch_pad_large", LaunchPadLargeMenu::new);
+    public static final DeferredHolder<MenuType<?>, MenuType<SoyuzLauncherMenu>> SOYUZ_LAUNCHER = reg("soyuz_launcher", SoyuzLauncherMenu::new);
 
     private static <T extends AbstractContainerMenu> DeferredHolder<MenuType<?>, MenuType<T>> reg(String name, IContainerFactory<T> factory) {
-        return MENUS.register(name, () -> IMenuTypeExtension.create(factory));
+        return MENU_TYPES.register(name, () -> IMenuTypeExtension.create(factory));
     }
 
     public static void register(IEventBus eventBus) {
-        MENUS.register(eventBus);
+        MENU_TYPES.register(eventBus);
     }
 }

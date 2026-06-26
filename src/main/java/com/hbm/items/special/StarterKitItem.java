@@ -32,7 +32,8 @@ public class StarterKitItem extends EnumMultiItem {
         IVY_MIKE(true),
         TSAR_BOMBA(true),
         PROTOTYPE(true),
-        FLEIJA(true);
+        FLEIJA(true),
+        SOLINIUM(true);
 
         public final boolean emptyInv;
 
@@ -108,6 +109,18 @@ public class StarterKitItem extends EnumMultiItem {
                 player.getInventory().add(new ItemStack(NtmItems.FLEIJA_CORE.get(), 1));
                 player.getInventory().add(new ItemStack(NtmItems.FLEIJA_CORE.get(), 1));
             }
+            case SOLINIUM -> {
+                player.getInventory().add(new ItemStack(NtmBlocks.NUKE_SOLINIUM.asItem(), 1));
+                player.getInventory().add(new ItemStack(NtmItems.SOLINIUM_IGNITER.get(), 1));
+                player.getInventory().add(new ItemStack(NtmItems.SOLINIUM_IGNITER.get(), 1));
+                player.getInventory().add(new ItemStack(NtmItems.SOLINIUM_IGNITER.get(), 1));
+                player.getInventory().add(new ItemStack(NtmItems.SOLINIUM_IGNITER.get(), 1));
+                player.getInventory().add(new ItemStack(NtmItems.SOLINIUM_PROPELLANT.get(), 1));
+                player.getInventory().add(new ItemStack(NtmItems.SOLINIUM_PROPELLANT.get(), 1));
+                player.getInventory().add(new ItemStack(NtmItems.SOLINIUM_PROPELLANT.get(), 1));
+                player.getInventory().add(new ItemStack(NtmItems.SOLINIUM_PROPELLANT.get(), 1));
+                player.getInventory().add(new ItemStack(NtmItems.SOLINIUM_CORE.get(), 1));
+        }
         }
 
         SoundUtils.playAtEntity(player, NtmSoundEvents.UNPACK.get(), SoundSource.PLAYERS);

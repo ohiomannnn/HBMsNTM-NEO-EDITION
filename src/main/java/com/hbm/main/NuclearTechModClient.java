@@ -1,6 +1,5 @@
 package com.hbm.main;
 
-import com.hbm.blockentity.IScreenProvider;
 import com.hbm.blockentity.network.PipeBaseBlockEntity;
 import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.blocks.ILookOverlay;
@@ -104,11 +103,9 @@ import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsE
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
-import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.awt.*;
-import java.util.HashMap;
 import java.util.List;
 
 @Spaghetti("die")
@@ -499,37 +496,9 @@ public class NuclearTechModClient {
         if(event.getStage() == Stage.AFTER_TRANSLUCENT_BLOCKS) { Clock.update(); }
     }
 
-//    // uhh sure, no more convenient solutions...
-//    @SubscribeEvent
-//    public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
-//        Level level = event.getLevel();
-//        if(!level.isClientSide) return;
-//        BlockHitResult bhr = event.getHitVec();
-//
-//        Minecraft mc = Minecraft.getInstance();
-//
-//        if(bhr.getType() == HitResult.Type.BLOCK && level.getBlockState(event.getPos()).getBlock() instanceof IScreenProvider provider) {
-//            mc.setScreen(provider.provideScreenOnRightClick(mc.player, event.getPos()));
-//        }
-//
-//        if(bhr.getType() == HitResult.Type.BLOCK && level.getBlockEntity(event.getPos()) instanceof IScreenProvider provider) {
-//            mc.setScreen(provider.provideScreenOnRightClick(mc.player, event.getPos()));
-//        }
-//    }
-
-    private static final HashMap<Integer, Long> vanished = new HashMap<>();
-    public static void vanish(int ent) { vanished.put(ent, System.currentTimeMillis() + 2000); }
-    public static void vanish(int ent, int duration) { vanished.put(ent, System.currentTimeMillis() + duration); }
-
-    public static boolean isVanished(Entity e) {
-        if (e == null) return false;
-        if (!vanished.containsKey(e.getId())) return false;
-        return vanished.get(e.getId()) > System.currentTimeMillis();
-    }
-
     @SubscribeEvent
     public static void onRenderLiving(RenderLivingEvent.Pre<? extends LivingEntity, ? extends EntityModel<?>> event) {
-        if (isVanished(event.getEntity())) event.setCanceled(true);
+        if (NuclearTechMod.proxy.isVanished(event.getEntity())) event.setCanceled(true);
         if (!(event.getRenderer().getModel() instanceof HumanoidModel<?> model)) return;
 
         ItemStack mainHand = event.getEntity().getMainHandItem();
@@ -1112,7 +1081,7 @@ public class NuclearTechModClient {
 
                 if (e == null) return;
 
-                vanish(e.getId());
+                NuclearTechMod.proxy.vanish(e.getId());
 
                 float width = e.getBbWidth();
                 float height = e.getBbHeight();

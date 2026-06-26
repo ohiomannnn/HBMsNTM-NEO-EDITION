@@ -1,6 +1,6 @@
 package com.hbm.blocks.bomb;
 
-import com.hbm.blockentity.bomb.NukeFleijaBlockEntity;
+import com.hbm.blockentity.bomb.NukeSoliniumBlockEntity;
 import com.hbm.config.NtmConfig;
 import com.hbm.entity.logic.NukeExplosionMK3;
 import com.hbm.particle.helper.CloudCreator;
@@ -31,6 +31,6 @@ public class NukeSoliniumBlock extends NukeBaseBlock {
 
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new NukeFleijaBlockEntity(pos, state);
+        return new NukeSoliniumBlockEntity(pos, state);
     }
 }

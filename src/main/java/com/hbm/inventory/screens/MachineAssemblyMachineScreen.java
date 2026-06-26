@@ -56,7 +56,7 @@ public class MachineAssemblyMachineScreen extends InfoScreen<MachineAssemblyMach
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
 
-        if(this.checkClick(mouseX, mouseY, 7, 125, 18, 18)) RecipeSelectorScreen.openSelector(AssemblyMachineRecipes.INSTANCE, be, be.assemblerModule.recipe, 0, BlueprintsItem.grabPool(be.slots.get(1)), this);
+        if(this.isHovered(mouseX, mouseY, 7, 125, 18, 18)) RecipeSelectorScreen.openSelector(AssemblyMachineRecipes.INSTANCE, be, be.assemblerModule.recipe, 0, BlueprintsItem.grabPool(be.slots.get(1)), this);
 
         return super.mouseClicked(mouseX, mouseY, button);
     }

@@ -64,7 +64,7 @@ public class Soyuz extends Entity {
                 // todo ModDamageSource.exhaust
                 e.hurt(e.damageSources().magic(), 100F);
 
-                if(e instanceof Player player) {
+                if(e instanceof Player) {
                     if(!memed) {
                         memed = true;
                         SoundUtils.playAtVec3(this.level, this.position(), NtmSoundEvents.ALARM_SOYUZED.get(), SoundSource.AMBIENT, 100F, 1F);
@@ -79,9 +79,7 @@ public class Soyuz extends Entity {
             this.spawnExhaust(this.position().add(0.0, 0.0, -2.75));
         }
 
-        if(this.position().y > 600) {
-            deployPayload();
-        }
+        if(this.position().y > 600) this.deployPayload();
     }
 
     private void spawnExhaust(Vec3 position) {
@@ -117,6 +115,16 @@ public class Soyuz extends Entity {
         }
 
         this.discard();
+    }
+
+    public void setSat(ItemStack stack) {
+        this.payload.set(0, stack);
+    }
+
+    public void setPayload(NonNullList<ItemStack> payload) {
+        for(int i = 0; i < payload.size(); i++) {
+            this.payload.set(i, payload.get(i));
+        }
     }
 
     @Override

@@ -285,16 +285,16 @@ public class MachineAssemblyMachineBlockEntity extends MachineBaseBlockEntity im
 
     @Override
     public int[] getSlotsForFace(Direction direction) {
-        return new int[] {4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
+        return new int[] { 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
     }
 
     @Override public long getPower() { return power; }
     @Override public void setPower(long power) { this.power = power; }
     @Override public long getMaxPower() { return maxPower; }
 
-    @Override public FluidTank[] getReceivingTanks() { return new FluidTank[] {inputTank}; }
-    @Override public FluidTank[] getSendingTanks() { return new FluidTank[] {outputTank}; }
-    @Override public FluidTank[] getAllTanks() { return new FluidTank[] {inputTank, outputTank}; }
+    @Override public FluidTank[] getReceivingTanks() { return new FluidTank[] { inputTank }; }
+    @Override public FluidTank[] getSendingTanks() { return new FluidTank[] { outputTank }; }
+    @Override public FluidTank[] getAllTanks() { return new FluidTank[] { inputTank, outputTank }; }
 
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {

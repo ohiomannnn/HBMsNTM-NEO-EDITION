@@ -195,6 +195,9 @@ public class HazardRegistry {
         HazardSystem.register(item(FLEIJA_PROPELLANT), makeData().addEntry(RADIATION, 15F).addEntry(EXPLOSIVE, 8F).addEntry(BLINDING, 50F));
         HazardSystem.register(item(FLEIJA_CORE), makeData(RADIATION, 10F));
 
+        HazardSystem.register(item(SOLINIUM_PROPELLANT), makeData(EXPLOSIVE, 10F));
+        HazardSystem.register(item(SOLINIUM_CORE), makeData().addEntry(RADIATION, sa327 * nugget * 8).addEntry(BLINDING, 45F));
+
         HazardSystem.register(block(NUKE_FSTBMB), makeData(DIGAMMA, 0.01F));
     }
 

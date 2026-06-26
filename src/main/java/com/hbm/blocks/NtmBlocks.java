@@ -115,16 +115,16 @@ public class NtmBlocks {
     public static final DeferredBlock<Block> SELLAFIELD_BEDROCK = register("sellafield_bedrock", () -> new SellafieldSlakedBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).isValidSpawn(Blocks::never).noLootTable().strength(-1.0F, 6000000.0F).instrument(NoteBlockInstrument.BASEDRUM)));
 
     // Nukes
-    public static final DeferredBlock<Block> NUKE_GADGET =     register("nuke_gadget",     () -> new NukeGadgetBlock(    BlockBehaviour.Properties.of().strength(5.0F, 200.0F).requiresCorrectToolForDrops().noOcclusion().sound(SoundType.METAL).mapColor(MapColor.METAL)));
-    public static final DeferredBlock<Block> NUKE_LITTLE_BOY = register("nuke_little_boy", () -> new NukeLittleBoyBlock( BlockBehaviour.Properties.of().strength(5.0F, 200.0F).requiresCorrectToolForDrops().noOcclusion().sound(SoundType.METAL).mapColor(MapColor.METAL)));
-    public static final DeferredBlock<Block> NUKE_FAT_MAN =    register("nuke_fat_man",    () -> new NukeFatManBlock(    BlockBehaviour.Properties.of().strength(5.0F, 200.0F).requiresCorrectToolForDrops().noOcclusion().sound(SoundType.METAL).mapColor(MapColor.METAL)));
-    public static final DeferredBlock<Block> NUKE_IVY_MIKE =   register("nuke_ivy_mike",   () -> new NukeIvyMikeBlock(   BlockBehaviour.Properties.of().strength(5.0F, 200.0F).requiresCorrectToolForDrops().noOcclusion().sound(SoundType.METAL).mapColor(MapColor.METAL)));
-    public static final DeferredBlock<Block> NUKE_TSAR_BOMBA = register("nuke_tsar_bomba", () -> new NukeTsarBombaBlock( BlockBehaviour.Properties.of().strength(5.0F, 200.0F).requiresCorrectToolForDrops().noOcclusion().sound(SoundType.METAL).mapColor(MapColor.METAL)));
-    public static final DeferredBlock<Block> NUKE_PROTOTYPE =  register("nuke_prototype",  () -> new NukePrototypeBlock( BlockBehaviour.Properties.of().strength(5.0F, 200.0F).requiresCorrectToolForDrops().noOcclusion().sound(SoundType.METAL).mapColor(MapColor.METAL)));
-    public static final DeferredBlock<Block> NUKE_FLEIJA =     register("nuke_fleija",     () -> new NukeFleijaBlock(    BlockBehaviour.Properties.of().strength(5.0F, 200.0F).requiresCorrectToolForDrops().noOcclusion().sound(SoundType.METAL).mapColor(MapColor.METAL)));
-    // todo add nuke_solinium
-    public static final DeferredBlock<Block> NUKE_N2 =         register("nuke_n2",         () -> new NukeN2Block(        BlockBehaviour.Properties.of().strength(5.0F, 200.0F).requiresCorrectToolForDrops().noOcclusion().sound(SoundType.METAL).mapColor(MapColor.METAL)));
-    public static final DeferredBlock<Block> NUKE_FSTBMB =     register("nuke_fstbmb",     () -> new NukeBalefireBlock(  BlockBehaviour.Properties.of().strength(5.0F, 200.0F).requiresCorrectToolForDrops().noOcclusion().sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> NUKE_GADGET =     register("nuke_gadget",     () -> new NukeGadgetBlock(    BlockBehaviour.Properties.of().noOcclusion().strength(5.0F, 200.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> NUKE_LITTLE_BOY = register("nuke_little_boy", () -> new NukeLittleBoyBlock( BlockBehaviour.Properties.of().noOcclusion().strength(5.0F, 200.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> NUKE_FAT_MAN =    register("nuke_fat_man",    () -> new NukeFatManBlock(    BlockBehaviour.Properties.of().noOcclusion().strength(5.0F, 200.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> NUKE_IVY_MIKE =   register("nuke_ivy_mike",   () -> new NukeIvyMikeBlock(   BlockBehaviour.Properties.of().noOcclusion().strength(5.0F, 200.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> NUKE_TSAR_BOMBA = register("nuke_tsar_bomba", () -> new NukeTsarBombaBlock( BlockBehaviour.Properties.of().noOcclusion().strength(5.0F, 200.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> NUKE_PROTOTYPE =  register("nuke_prototype",  () -> new NukePrototypeBlock( BlockBehaviour.Properties.of().noOcclusion().strength(5.0F, 200.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> NUKE_FLEIJA =     register("nuke_fleija",     () -> new NukeFleijaBlock(    BlockBehaviour.Properties.of().noOcclusion().strength(5.0F, 200.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> NUKE_SOLINIUM =   register("nuke_solinium",   () -> new NukeSoliniumBlock(  BlockBehaviour.Properties.of().noOcclusion().strength(5.0F, 200.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> NUKE_N2 =         register("nuke_n2",         () -> new NukeN2Block(        BlockBehaviour.Properties.of().noOcclusion().strength(5.0F, 200.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> NUKE_FSTBMB =     register("nuke_fstbmb",     () -> new NukeBalefireBlock(  BlockBehaviour.Properties.of().noOcclusion().strength(5.0F, 200.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
 
     // Generic Bombs
     // todo add bomb_multi

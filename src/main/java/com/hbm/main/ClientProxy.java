@@ -1,6 +1,6 @@
 package com.hbm.main;
 
-import com.hbm.blockentity.IGUIProvider;
+import com.hbm.blockentity.IScreenProvider;
 import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.entity.NtmEntityTypes;
@@ -34,6 +34,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -44,6 +45,7 @@ import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -154,6 +156,7 @@ public class ClientProxy extends ServerProxy {
         BlockEntityRenderers.register(NtmBlockEntityTypes.NUKE_TSAR_BOMBA.get(), new RenderNukeTsarBomba());
         BlockEntityRenderers.register(NtmBlockEntityTypes.NUKE_PROTOTYPE.get(), new RenderNukePrototype());
         BlockEntityRenderers.register(NtmBlockEntityTypes.NUKE_FLEIJA.get(), new RenderNukeFleija());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.NUKE_SOLINUIM.get(), new RenderNukeSolinium());
         BlockEntityRenderers.register(NtmBlockEntityTypes.NUKE_N2.get(), new RenderNukeN2());
         BlockEntityRenderers.register(NtmBlockEntityTypes.NUKE_FSTBMB.get(), new RenderNukeFstbmb());
         BlockEntityRenderers.register(NtmBlockEntityTypes.CRASHED_BOMB.get(), new RenderCrashedBomb());
@@ -226,6 +229,16 @@ public class ClientProxy extends ServerProxy {
         EntityRenderers.register(NtmEntityTypes.DUCK.get(), DuckRenderer::new);
     }
 
+    private static final HashMap<Integer, Long> vanished = new HashMap<>();
+    @Override public void vanish(int entityId) { vanished.put(entityId, System.currentTimeMillis() + 2000); }
+    @Override public void vanish(int entityId, int duration) { vanished.put(entityId, System.currentTimeMillis() + duration); }
+
+    @Override
+    public boolean isVanished(Entity e) {
+        if(!vanished.containsKey(e.getId())) return false;
+        return vanished.get(e.getId()) > System.currentTimeMillis();
+    }
+
     public void playLocalSound(Vec3 vec, SoundEvent soundEvent, SoundSource source, float volume, float pitch) {
         this.playLocalSound(vec.x, vec.y, vec.z, soundEvent, source, volume, pitch);
     }
@@ -248,11 +261,11 @@ public class ClientProxy extends ServerProxy {
         if(player != this.me()) return;
 
         Block block = player.level.getBlockState(pos).getBlock();
-        if(block instanceof IGUIProvider igp) Minecraft.getInstance().setScreen((Screen) igp.provideScreen(player, pos));
+        if(block instanceof IScreenProvider igp) Minecraft.getInstance().setScreen((Screen) igp.provideScreen(player, pos));
 
         List<ItemStack> stacks = InventoryUtil.getItemsFromBothHands(player);
         for(ItemStack stack : stacks) {
-            if(stack.getItem() instanceof IGUIProvider igp) {
+            if(stack.getItem() instanceof IScreenProvider igp) {
                 Minecraft.getInstance().setScreen((Screen) igp.provideScreen(player, pos));
                 break;
             }

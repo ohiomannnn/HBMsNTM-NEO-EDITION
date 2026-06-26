@@ -3,6 +3,7 @@ package com.hbm.render.blockentity;
 import com.hbm.blockentity.machine.SoyuzLauncherBlockEntity;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.RenderContext;
+import com.hbm.render.util.SoyuzPronter;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -19,7 +20,19 @@ public class RenderSoyuzLauncher extends BlockEntityRendererNT<SoyuzLauncherBloc
         RenderContext.translate(0.5F, -4F, 0.5F);
 
         float open = 45F;
-        renderSoyuzLauncher(open);
+        int timer = 20;
+
+        float rot = open;
+
+        if(be.rocketType >=0) rot = 0;
+        if(be.starting && be.countdown < timer) rot = (timer - be.countdown + partialTicks) * open / timer;
+
+        renderSoyuzLauncher(rot);
+
+        if(be.rocketType >= 0) {
+            RenderContext.translate(0.0F, 5.0F, 0.0F);
+            SoyuzPronter.prontSoyuz(be.rocketType);
+        }
 
         RenderContext.end();
     }
@@ -59,5 +72,10 @@ public class RenderSoyuzLauncher extends BlockEntityRendererNT<SoyuzLauncherBloc
 
         RenderSystem.enableCull();
         RenderContext.popPose();
+    }
+
+    @Override
+    public boolean shouldRenderOffScreen(SoyuzLauncherBlockEntity blockEntity) {
+        return true;
     }
 }

@@ -112,6 +112,9 @@ repositories {
         url "https://maven.blamejared.com"
     }
     maven {
+        url "https://maven.caffeinemc.net/releases"
+    }
+    maven {
         url "https://api.modrinth.com/maven"
         content {
             includeGroup "maven.modrinth"
@@ -135,21 +138,22 @@ repositories {
 
 
 dependencies {
+
+    // todo make sodium work!!!
+    // Sodium
+//    compileOnly "net.caffeinemc:sodium-neoforge-api:${sodium_version}" // api
+//    compileOnly "net.caffeinemc:sodium-neoforge-mod:${sodium_version}" // decompiled mod
+//    runtimeOnly "net.caffeinemc:sodium-neoforge:${sodium_version}" // for launching
+
     // JEI
     compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
     runtimeOnly "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
-
-    //compileOnly "maven.modrinth:distanthorizonsapi:dQUW27oF"
-    //runtimeOnly "maven.modrinth:distanthorizons:oYXIfeus"
 
     jarJar(api("dev.ryanhcode.sable-companion:sable-companion-common-1.21.1:[${sable_companion_version},)")) {
         version {
             prefer(sable_companion_version)
         }
     }
-
-    // Sodium
-    implementation "curse.maven:sodium-394468:6382651" // 0.6.13
 }
 
 tasks.withType(ProcessResources).configureEach {
