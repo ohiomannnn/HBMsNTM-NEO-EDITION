@@ -9,9 +9,11 @@ import net.minecraft.world.entity.player.Player;
  */
 public interface IControlReceiver {
 
+    /** Return true if its an item */
     boolean hasPermission(Player player);
 
     void receiveControl(CompoundTag tag);
+
     /* this was the easiest way of doing this without needing to change all 7 quadrillion implementors */
     default void receiveControl(Player player, CompoundTag tag) { }
 }

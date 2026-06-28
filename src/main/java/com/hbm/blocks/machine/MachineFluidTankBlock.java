@@ -86,7 +86,7 @@ public class MachineFluidTankBlock extends DummyableBlock implements IToolable, 
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
-        CompoundTag persistent = TagsUtil.getCData(stack).getCompound("persistent");
+        CompoundTag persistent = TagsUtil.getCustomData(stack).getCompound("persistent");
         FluidTank tank = new FluidTank(Fluids.NONE, 0);
         if(persistent.contains("Tank")) {
             tank.readFromNBT(persistent, "Tank");

@@ -81,7 +81,7 @@ public class HazmatRegistry {
 
     public static double getCladding(Level level, ItemStack stack) {
 
-        float claddingRes = TagsUtil.getCData(stack).getFloat("hfr_cladding");
+        float claddingRes = TagsUtil.getCustomData(stack).getFloat("hfr_cladding");
 
         if (claddingRes > 0)
             return claddingRes;

@@ -7,14 +7,12 @@ import com.hbm.blockentity.MachineBaseBlockEntity;
 import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.entity.missile.Soyuz;
 import com.hbm.interfaces.IControlReceiver;
-import com.hbm.inventory.FluidContainerRegistry;
 import com.hbm.inventory.MetaHelper;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.menus.SoyuzLauncherMenu;
 import com.hbm.items.IDesignatorItem;
-import com.hbm.items.ISatChip;
 import com.hbm.items.NtmItems;
 import com.hbm.lib.Library;
 import com.hbm.main.NuclearTechModClient;
@@ -252,8 +250,8 @@ public class SoyuzLauncherBlockEntity extends MachineBaseBlockEntity implements 
                 this.setItem(i, ItemStack.EMPTY);
             }
 
-            soyuz.targetX = TagsUtil.getCData(this.slots.get(1)).getInt("x");
-            soyuz.targetZ = TagsUtil.getCData(this.slots.get(1)).getInt("z");
+            soyuz.targetX = TagsUtil.getCustomData(this.slots.get(1)).getInt("x");
+            soyuz.targetZ = TagsUtil.getCustomData(this.slots.get(1)).getInt("z");
             soyuz.setPayload(payload);
         }
 
@@ -280,8 +278,8 @@ public class SoyuzLauncherBlockEntity extends MachineBaseBlockEntity implements 
     public int getDist() {
 
         if(designator() == 2) {
-            int x = TagsUtil.getCData(this.slots.get(1)).getInt("x");
-            int z = TagsUtil.getCData(this.slots.get(1)).getInt("z");
+            int x = TagsUtil.getCustomData(this.slots.get(1)).getInt("x");
+            int z = TagsUtil.getCustomData(this.slots.get(1)).getInt("z");
 
             return (int) new Vec3(this.getBlockPos().getX() - x, 0, this.getBlockPos().getZ() - z).length();
         }

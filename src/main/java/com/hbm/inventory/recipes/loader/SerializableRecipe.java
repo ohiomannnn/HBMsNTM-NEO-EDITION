@@ -319,9 +319,9 @@ public abstract class SerializableRecipe {
         writer.beginArray();
         writer.setIndent("");
         writer.value(BuiltInRegistries.ITEM.getKey(stack.getItem()).toString());											                        //item name
-        if(stack.getCount() != 1 || MetaHelper.getMeta(stack) != 0 || TagsUtil.hasCData(stack)) writer.value(stack.getCount());    //stack size
-        if(MetaHelper.getMeta(stack) != 0 || TagsUtil.hasCData(stack)) writer.value(MetaHelper.getMeta(stack));				    //metadata
-        if(TagsUtil.hasCData(stack)) writer.value(TagsUtil.getCData(stack).toString());								    //nbt
+        if(stack.getCount() != 1 || MetaHelper.getMeta(stack) != 0 || TagsUtil.hasCustomData(stack)) writer.value(stack.getCount());    //stack size
+        if(MetaHelper.getMeta(stack) != 0 || TagsUtil.hasCustomData(stack)) writer.value(MetaHelper.getMeta(stack));				    //metadata
+        if(TagsUtil.hasCustomData(stack)) writer.value(TagsUtil.getCustomData(stack).toString());								    //nbt
         writer.endArray();
         writer.setIndent("  ");
     }
@@ -330,12 +330,12 @@ public abstract class SerializableRecipe {
         writer.beginArray();
         writer.setIndent("");
         writer.value(BuiltInRegistries.ITEM.getKey(stack.getKey().getItem()).toString());											            //item name
-        if(stack.getKey().getCount() != 1 || MetaHelper.getMeta(stack.getKey()) != 0 || TagsUtil.hasCData(stack.getKey()))
+        if(stack.getKey().getCount() != 1 || MetaHelper.getMeta(stack.getKey()) != 0 || TagsUtil.hasCustomData(stack.getKey()))
             writer.value(stack.getKey().getCount());                                                                                            //stack size
-        if(MetaHelper.getMeta(stack.getKey()) != 0 || TagsUtil.hasCData(stack.getKey()))
+        if(MetaHelper.getMeta(stack.getKey()) != 0 || TagsUtil.hasCustomData(stack.getKey()))
             writer.value(MetaHelper.getMeta(stack.getKey()));				                                                                    //metadata
-        if(TagsUtil.hasCData(stack.getKey()))
-            writer.value(TagsUtil.getCData(stack.getKey()).toString());								                                //nbt
+        if(TagsUtil.hasCustomData(stack.getKey()))
+            writer.value(TagsUtil.getCustomData(stack.getKey()).toString());								                                //nbt
         writer.value(stack.value);																												//chance
         writer.endArray();
         writer.setIndent("  ");

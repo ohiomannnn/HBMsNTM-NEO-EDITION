@@ -238,6 +238,7 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         // VOLCANO_RAD_CORE uses custom register!
 
         this.particleOnlyBlock(NtmBlocks.LAUNCH_PAD, blockTexture(NtmBlocks.LAUNCH_PAD));
+        this.particleOnlyBlock(NtmBlocks.LAUNCH_PAD_LARGE, modLoc("block/block_steel"));
         this.simpleBlock(NtmBlocks.SOYUZ_LAUNCHER.get(), this.models().getBuilder(name(NtmBlocks.SOYUZ_LAUNCHER) + "_particle").texture("particle", modLoc("item/soyuz_launcher")));
         this.itemModels().basicItem(NtmBlocks.SOYUZ_LAUNCHER.asItem());
 
@@ -316,7 +317,7 @@ public class NtmBlockStateProvider extends BlockStateProvider {
     private void registerSpikes() {
         Block block = NtmBlocks.SPIKES.get();
 
-        this.simpleBlock(block, this.models().getBuilder(this.key(block).getPath()).customLoader(SpikesLoaderBuilder::new).texture("texture", modLoc("block/spikes")).end());
+        this.simpleBlock(block, this.models().getBuilder(this.key(block).getPath()).customLoader(SpikesLoaderBuilder::new).texture("texture", this.blockTexture(block)).end());
         this.entityBlockItem(block, false);
     }
 

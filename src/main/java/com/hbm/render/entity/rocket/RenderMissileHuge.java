@@ -35,10 +35,10 @@ public class RenderMissileHuge extends EntityRenderer<MissileTier3> {
 
         Direction facing = missile.getEntityData().get(MissileBaseNT.ROT);
         switch(facing) {
-            case WEST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
-            case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
-            case EAST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
-            case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
+            case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
+            case WEST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
+            case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
+            case EAST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
         }
 
         RenderSystem.setShaderTexture(0, this.getTextureLocation(missile));
@@ -49,10 +49,10 @@ public class RenderMissileHuge extends EntityRenderer<MissileTier3> {
 
     @Override
     public ResourceLocation getTextureLocation(MissileTier3 missile) {
-        if (missile instanceof MissileBurst)   return ResourceManager.MISSILE_HUGE_HE_TEX;
-        if (missile instanceof MissileInferno) return ResourceManager.MISSILE_HUGE_IN_TEX;
-        if (missile instanceof MissileRain)    return ResourceManager.MISSILE_HUGE_CL_TEX;
-        if (missile instanceof MissileDrill)   return ResourceManager.MISSILE_HUGE_BU_TEX;
+        if(missile instanceof MissileBurst)   return ResourceManager.MISSILE_HUGE_HE_TEX;
+        if(missile instanceof MissileInferno) return ResourceManager.MISSILE_HUGE_IN_TEX;
+        if(missile instanceof MissileRain)    return ResourceManager.MISSILE_HUGE_CL_TEX;
+        if(missile instanceof MissileDrill)   return ResourceManager.MISSILE_HUGE_BU_TEX;
         return ResourceManager.EMPTY;
     }
 }

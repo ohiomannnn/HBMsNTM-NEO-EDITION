@@ -39,15 +39,14 @@ public class RenderBatterySocket extends BlockEntityRendererNT<BatterySocketBloc
     public void render(BatterySocketBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
         int tPackedLight = LevelRenderer.getLightColor(be.getLevel(), be.getBlockPos().above(1));
         RenderContext.setup(poseStack, tPackedLight, packedOverlay);
-
         RenderContext.translate(0.5F, 0, 0.5F);
 
         Direction facing = be.getBlockState().getValue(DummyableBlock.FACING);
         switch(facing) {
             case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
-            case EAST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
-            case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
             case WEST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
+            case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
+            case EAST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
         }
 
         RenderContext.translate(-0.5F, 0, 0.5F);

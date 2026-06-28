@@ -11,7 +11,7 @@ public class NtmSoundEvents {
 
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, NuclearTechMod.MODID);
 
-    /// WEAPONS
+    // WEAPONS
     public static final DeferredHolder<SoundEvent, SoundEvent> RICOCHET = reg("weapon.ricochet"); // BLOCKS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> MISSILE_TAKEOFF = reg("weapon.missile_takeoff"); // PLAYERS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> MUKE_EXPLOSION = reg("weapon.muke_explosion"); // BLOCKS CATEGORY
@@ -24,9 +24,9 @@ public class NtmSoundEvents {
     public static final DeferredHolder<SoundEvent, SoundEvent> EXPLOSION_TINY = reg("weapon.explosion_tiny"); // BLOCKS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> FSTBMB_START = reg("weapon.fstbmb_start"); // PLAYERS CATEGORY???
     public static final DeferredHolder<SoundEvent, SoundEvent> FSTBMB_PING = reg("weapon.fstbmb_ping"); // PLAYERS CATEGORY???
-    /// FIRE WEAPONS
+    // FIRE WEAPONS
     public static final DeferredHolder<SoundEvent, SoundEvent> FIRE_DISINTEGRATION = reg("weapon.fire.disintegration"); // PLAYERS CATEGORY
-    /// ENTITIES
+    // ENTITIES
     public static final DeferredHolder<SoundEvent, SoundEvent> OLD_EXPLOSION = reg("entity.old_explosion"); // AMBIENT CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> SOYUZ_TAKE_OFF = reg("entity.soyuz_take_off"); // PLAYER CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> BOMB_WHISTLE = reg("entity.bomb_whistle"); // PLAYER CATEGORY
@@ -37,10 +37,10 @@ public class NtmSoundEvents {
     public static final DeferredHolder<SoundEvent, SoundEvent> DUCC = reg("entity.ducc"); // NEUTRAL CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> SLICER = reg("entity.slicer"); // NEUTRAL CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> METEORITE_FALLING_LOOP = reg("entity.meteorite_falling_loop"); // BLOCKS CATEGORY???
-    /// PLAYERS
+    // PLAYERS
     public static final DeferredHolder<SoundEvent, SoundEvent> VOMIT = reg("player.vomit"); // PLAYERS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> COUGH = reg("player.cough"); // PLAYERS CATEGORY
-    /// BLOCKS
+    // BLOCKS
     public static final DeferredHolder<SoundEvent, SoundEvent> PIPE_PLACED = reg("block.pipe_placed"); // BLOCKS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> BOBBLE = reg("block.bobble"); // BLOCKS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> FENSU_HUM = reg("block.fensu_hum"); // BLOCKS CATEGORY
@@ -56,7 +56,25 @@ public class NtmSoundEvents {
     public static final DeferredHolder<SoundEvent, SoundEvent> ASSEMBLER_CUT = reg("block.assembler_cut"); // BLOCKS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> ASSEMBLER_START = reg("block.assembler_start"); // BLOCKS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> ASSEMBLER_STOP = reg("block.assembler_stop"); // BLOCKS CATEGORY
-    /// ITEMS
+    // DOORS
+    public static final DeferredHolder<SoundEvent, SoundEvent> TRANSITION_SEAL_OPEN = reg("door.transition_seal_open");
+    public static final DeferredHolder<SoundEvent, SoundEvent> ALARM6 = reg("door.alarm6");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SLIDING_DOOR_SHUT = reg("door.sliding_door_shut");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SLIDING_DOOR_OPENED = reg("door.sliding_door_opened");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SLIDING_DOOR_OPENING = reg("door.sliding_door_opening");
+    public static final DeferredHolder<SoundEvent, SoundEvent> GARAGE_MOVE = reg("door.garage_move");
+    public static final DeferredHolder<SoundEvent, SoundEvent> GARAGE_STOP = reg("door.garage_stop");
+    public static final DeferredHolder<SoundEvent, SoundEvent> LEVER = reg("door.lever");
+    public static final DeferredHolder<SoundEvent, SoundEvent> WGH_START = reg("door.wgh_start");
+    public static final DeferredHolder<SoundEvent, SoundEvent> WGH_STOP = reg("door.wgh_stop");
+    public static final DeferredHolder<SoundEvent, SoundEvent> WGH_BIG_START = reg("door.wgh_big_start");
+    public static final DeferredHolder<SoundEvent, SoundEvent> WGH_BIG_STOP = reg("door.wgh_big_stop");
+    public static final DeferredHolder<SoundEvent, SoundEvent> QE_SLIDING_SHUT = reg("door.qe_sliding_shut");
+    public static final DeferredHolder<SoundEvent, SoundEvent> QE_SLIDING_OPENED = reg("door.qe_sliding_opened");
+    public static final DeferredHolder<SoundEvent, SoundEvent> QE_SLIDING_OPENING = reg("door.qe_sliding_opening");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SLIDING_SEAL_OPEN = reg("door.sliding_seal_open");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SLIDING_SEAL_STOP = reg("door.sliding_seal_stop");
+    // ITEMS
     public static final DeferredHolder<SoundEvent, SoundEvent> TECH_BLEEP = reg("item.tech_bleep"); // PLAYERS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> TECH_BOOP = reg("item.tech_boop"); // PLAYERS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER1 = reg("item.geiger1"); // PLAYERS CATEGORY
@@ -68,7 +86,7 @@ public class NtmSoundEvents {
     public static final DeferredHolder<SoundEvent, SoundEvent> PIN_UNLOCK = reg("item.pin_unlock"); // PLAYERS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> PIN_BREAK = reg("item.pin_break"); // PLAYERS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> UNPACK = reg("item.unpack"); // PLAYERS CATEGORY
-    /// ALARMS
+    // ALARMS
     public static final DeferredHolder<SoundEvent, SoundEvent> ALARM_HATCH = reg("alarm.hatch"); // RECORDS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> ALARM_SOYUZED = reg("alarm.soyuzed"); // RECORDS CATEGORY
 

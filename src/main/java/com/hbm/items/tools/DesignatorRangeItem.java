@@ -4,6 +4,7 @@ import com.hbm.items.IDesignatorItem;
 import com.hbm.lib.Library;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.RayTraceResult;
+import com.hbm.util.SoundUtils;
 import com.hbm.util.TagsUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -34,39 +35,39 @@ public class DesignatorRangeItem extends Item implements IDesignatorItem {
         RayTraceResult ray = Library.rayTrace(player, 300, 1);
 
         BlockPos pos = ray.getBlockPos();
-        if (!level.isClientSide) {
-            CompoundTag tag = TagsUtil.getCData(stack);
+        if(!level.isClientSide) {
+            CompoundTag tag = TagsUtil.getCustomData(stack);
             tag.putInt("x", pos.getX());
             tag.putInt("z", pos.getZ());
-            TagsUtil.putCData(stack, tag);
+            TagsUtil.putCustomData(stack, tag);
 
-            player.displayClientMessage(Component.translatable(this.getDescriptionId() + ".posSet", pos.getX(), pos.getZ()), false);
-            level.playSound(null, player.position.x, player.position.y, player.position.z, NtmSoundEvents.TECH_BLEEP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
+            player.displayClientMessage(Component.translatable("item.hbmsntm.obj_designator_range.pos_set", pos.getX(), pos.getZ()), false);
+            SoundUtils.playAtEntity(player, NtmSoundEvents.TECH_BLEEP.get(), SoundSource.PLAYERS);
         }
 
-        return InteractionResultHolder.pass(player.getItemInHand(usedHand));
+        return InteractionResultHolder.pass(stack);
     }
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
-        if (TagsUtil.hasCData(stack)) {
-            CompoundTag tag = TagsUtil.getCData(stack);
-            components.add(Component.translatable("item.hbmsntm.designator.desc.targetPos").withStyle(ChatFormatting.GRAY));
+        if(TagsUtil.hasCustomData(stack)) {
+            CompoundTag tag = TagsUtil.getCustomData(stack);
+            components.add(Component.translatable("item.hbmsntm.obj_designator.pos_target").withStyle(ChatFormatting.GRAY));
             components.add(Component.literal("X: " + tag.getInt("x")).withStyle(ChatFormatting.GRAY));
             components.add(Component.literal("Z: " + tag.getInt("z")).withStyle(ChatFormatting.GRAY));
         } else {
-            components.add(Component.translatable("item.hbmsntm.designator.desc.selectTarget").withStyle(ChatFormatting.GRAY));
+            components.add(Component.translatable("item.hbmsntm.obj_designator.pos_select").withStyle(ChatFormatting.GRAY));
         }
     }
 
     @Override
     public boolean isReady(Level level, ItemStack stack, BlockPos pos) {
-        return TagsUtil.hasCData(stack);
+        return TagsUtil.hasCustomData(stack);
     }
 
     @Override
     public Vec3 getCoords(Level level, ItemStack stack, BlockPos pos) {
-        CompoundTag tag = TagsUtil.getCData(stack);
+        CompoundTag tag = TagsUtil.getCustomData(stack);
         return new Vec3(tag.getInt("x"), 0, tag.getInt("z"));
     }
 }

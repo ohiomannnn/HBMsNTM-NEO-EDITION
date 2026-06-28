@@ -31,14 +31,14 @@ public class KeyPinItem extends Item {
     }
 
     public static int getPins(ItemStack stack) {
-        CompoundTag tag = TagsUtil.getCData(stack);
+        CompoundTag tag = TagsUtil.getCustomData(stack);
         return tag.getInt("pins");
     }
 
     public static void setPins(ItemStack stack, int pins) {
-        CompoundTag tag = TagsUtil.getCData(stack);
+        CompoundTag tag = TagsUtil.getCustomData(stack);
         tag.putInt("pins", pins);
-        TagsUtil.putCData(stack, tag);
+        TagsUtil.putCustomData(stack, tag);
     }
 
     public boolean canTransfer() {

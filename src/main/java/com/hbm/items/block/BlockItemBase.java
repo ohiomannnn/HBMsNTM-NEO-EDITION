@@ -7,13 +7,11 @@ import com.hbm.items.IMetaItem;
 import com.hbm.util.TagsUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 
 import java.util.List;
 
@@ -42,7 +40,7 @@ public class BlockItemBase extends BlockItem implements IMetaItem {
         super.appendHoverText(stack, context, components, flag);
 
         if(this.getBlock() instanceof IPersistentInfoProvider ipip) {
-            CompoundTag tag = TagsUtil.getCData(stack);
+            CompoundTag tag = TagsUtil.getCustomData(stack);
             if(tag.contains(IPersistentNBT.NBT_PERSISTENT_KEY)) ipip.appendHoverText(stack, tag.getCompound(IPersistentNBT.NBT_PERSISTENT_KEY), components, context, flag);
         }
     }

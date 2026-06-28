@@ -30,7 +30,7 @@ public interface IPersistentNBT {
         ItemStack stack = new ItemStack(block);
         CompoundTag tag = new CompoundTag();
         this.writeNBT(tag);
-        if(!tag.isEmpty()) TagsUtil.putCData(stack, tag);
+        if(!tag.isEmpty()) TagsUtil.putCustomData(stack, tag);
         list.add(stack);
         return list;
     }
@@ -57,10 +57,10 @@ public interface IPersistentNBT {
 
     static void restoreData(Level level, BlockPos pos, ItemStack stack) {
         try {
-            if(!TagsUtil.hasCData(stack)) return;
+            if(!TagsUtil.hasCustomData(stack)) return;
             BlockEntity be = level.getBlockEntity(pos);
             if(!(be instanceof IPersistentNBT persistentNBT)) return;
-            persistentNBT.readNBT(TagsUtil.getCData(stack));
+            persistentNBT.readNBT(TagsUtil.getCustomData(stack));
         } catch(Exception ex) {
             ex.printStackTrace();
         }

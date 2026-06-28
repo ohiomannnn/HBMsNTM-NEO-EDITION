@@ -69,7 +69,7 @@ public class FluidIDMultiItem extends Item implements IScreenProvider, IItemCont
     }
 
     public ItemStack update(ItemStack stack) {
-        MetaHelper.setMeta(stack, TagsUtil.getCData(stack).getInt("Fluid1"));
+        MetaHelper.setMeta(stack, TagsUtil.getCustomData(stack).getInt("Fluid1"));
         return stack;
     }
 
@@ -92,15 +92,15 @@ public class FluidIDMultiItem extends Item implements IScreenProvider, IItemCont
     }
 
     public static void setType(ItemStack stack, FluidType type, boolean primary) {
-        CompoundTag tag = TagsUtil.getCData(stack);
+        CompoundTag tag = TagsUtil.getCustomData(stack);
         tag.putInt("Fluid" + (primary ? 1 : 2), type.getID());
-        TagsUtil.putCData(stack, tag);
+        TagsUtil.putCustomData(stack, tag);
     }
 
     public static FluidType getType(ItemStack stack, boolean primary) {
-        if (!TagsUtil.hasCData(stack)) return Fluids.NONE;
+        if (!TagsUtil.hasCustomData(stack)) return Fluids.NONE;
 
-        CompoundTag tag = TagsUtil.getCData(stack);
+        CompoundTag tag = TagsUtil.getCustomData(stack);
         int type = tag.getInt("Fluid" + (primary ? 1 : 2));
         return Fluids.fromID(type);
     }

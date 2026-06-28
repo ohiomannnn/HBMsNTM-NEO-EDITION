@@ -59,11 +59,11 @@ public class BlowtorchItem extends Item implements IFillableItem {
     }
 
     public int getFill(ItemStack stack, FluidType type) {
-        if (!TagsUtil.hasCData(stack)) {
+        if (!TagsUtil.hasCustomData(stack)) {
             initNBT(stack);
         }
 
-        CompoundTag tag = TagsUtil.getCData(stack);
+        CompoundTag tag = TagsUtil.getCustomData(stack);
 
         //just in case
         String name = Fluids.toNameCompat(type);
@@ -71,7 +71,7 @@ public class BlowtorchItem extends Item implements IFillableItem {
             int fill = tag.getInt(name);
             tag.remove(name);
             tag.putInt(Integer.toString(type.getID()), fill);
-            TagsUtil.putCData(stack, tag);
+            TagsUtil.putCustomData(stack, tag);
 
             return fill;
         }
@@ -88,18 +88,18 @@ public class BlowtorchItem extends Item implements IFillableItem {
     }
 
     public void setFill(ItemStack stack, FluidType type, int fill) {
-        if (!TagsUtil.hasCData(stack)) {
+        if (!TagsUtil.hasCustomData(stack)) {
             initNBT(stack);
         }
 
-        CompoundTag tag = TagsUtil.getCData(stack);
+        CompoundTag tag = TagsUtil.getCustomData(stack);
         tag.putInt(Integer.toString(type.getID()), fill);
-        TagsUtil.putCData(stack, tag);
+        TagsUtil.putCustomData(stack, tag);
     }
 
     public void initNBT(ItemStack stack) {
 
-        TagsUtil.putCData(stack, new CompoundTag());
+        TagsUtil.putCustomData(stack, new CompoundTag());
 
         if (this == NtmItems.BLOWTORCH.get()) {
             this.setFill(stack, Fluids.GAS, this.getMaxFill(Fluids.GAS));

@@ -161,6 +161,7 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
         this.add(NtmBlocks.VOLCANO_RAD_CORE.get(), noDrop());
 
         this.dropSelf(NtmBlocks.LAUNCH_PAD.get());
+        this.dropSelf(NtmBlocks.LAUNCH_PAD_LARGE.get());
         this.dropSelf(NtmBlocks.SOYUZ_LAUNCHER.get());
 
         // liquid blocks has no drops

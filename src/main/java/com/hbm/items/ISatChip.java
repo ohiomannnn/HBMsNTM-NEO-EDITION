@@ -21,13 +21,13 @@ public interface ISatChip {
     }
 
     default int getFreq(ItemStack stack) {
-        CompoundTag tag = TagsUtil.getCData(stack);
+        CompoundTag tag = TagsUtil.getCustomData(stack);
         return tag.getInt("freq");
     }
 
     default void setFreq(ItemStack stack, int freq) {
-        CompoundTag tag = TagsUtil.getCData(stack);
+        CompoundTag tag = TagsUtil.getCustomData(stack);
         tag.putInt("freq", freq);
-        TagsUtil.putCData(stack, tag);
+        TagsUtil.putCustomData(stack, tag);
     }
 }

@@ -300,14 +300,14 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItem
         Configuration config = new Configuration();
 
         if (stack.isEmpty() ||
-                !TagsUtil.hasCData(stack) ||
-                !TagsUtil.getCData(stack).contains("ability") ||
-                !TagsUtil.getCData(stack).contains("abilityPresets")) {
+                !TagsUtil.hasCustomData(stack) ||
+                !TagsUtil.getCustomData(stack).contains("ability") ||
+                !TagsUtil.getCustomData(stack).contains("abilityPresets")) {
             config.reset(availableAbilities);
             return config;
         }
 
-        config.readFromNBT(TagsUtil.getCData(stack));
+        config.readFromNBT(TagsUtil.getCustomData(stack));
         config.restrictTo(availableAbilities);
         return config;
     }
@@ -315,9 +315,9 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItem
     public void setConfiguration(ItemStack stack, Configuration config) {
         if (stack.isEmpty()) return;
 
-        CompoundTag tag = TagsUtil.getCData(stack);
+        CompoundTag tag = TagsUtil.getCustomData(stack);
         config.writeToNBT(tag);
-        TagsUtil.putCData(stack, tag);
+        TagsUtil.putCustomData(stack, tag);
     }
 
     @Override

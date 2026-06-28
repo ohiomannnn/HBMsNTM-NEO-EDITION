@@ -129,6 +129,7 @@ public class NtmBlockTagProvider extends BlockTagsProvider {
                         NtmBlocks.MACHINE_BATTERY_REDD.get(),
                         NtmBlocks.MACHINE_BATTERY_SOCKET.get(),
                         NtmBlocks.LAUNCH_PAD.get(),
+                        NtmBlocks.LAUNCH_PAD_LARGE.get(),
                         NtmBlocks.SOYUZ_LAUNCHER.get(),
                         NtmBlocks.MACHINE_SATLINKER.get()
                 );

@@ -11,9 +11,9 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class NtmDataComponents {
 
-    private static final DeferredRegister<DataComponentType<?>> DATA_COMPONENTS = DeferredRegister.create(Registries.DATA_COMPONENT_TYPE, NuclearTechMod.MODID);
+    private static final DeferredRegister<DataComponentType<?>> DATA_COMPONENT_TYPES = DeferredRegister.create(Registries.DATA_COMPONENT_TYPE, NuclearTechMod.MODID);
 
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> META = DATA_COMPONENTS.register("meta", () -> DataComponentType.<Integer>builder().persistent(ExtraCodecs.NON_NEGATIVE_INT).networkSynchronized(ByteBufCodecs.INT).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> META = DATA_COMPONENT_TYPES.register("meta", () -> DataComponentType.<Integer>builder().persistent(ExtraCodecs.NON_NEGATIVE_INT).networkSynchronized(ByteBufCodecs.INT).build());
 
-    public static void register(IEventBus eventBus) { DATA_COMPONENTS.register(eventBus); }
+    public static void register(IEventBus eventBus) { DATA_COMPONENT_TYPES.register(eventBus); }
 }

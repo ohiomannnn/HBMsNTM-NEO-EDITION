@@ -41,7 +41,7 @@ public class NtmGeometry implements IUnbakedGeometry<NtmGeometry> {
 
         return switch(this.type) {
             case BARBED_WIRE -> new BarbedWireBakedModel(new HFRWavefrontObject("models/obj/block/barbed_wire.obj"), textureSprite);
-            case SPIKES -> new BarbedWireBakedModel(new HFRWavefrontObject("models/obj/block/spikes.obj"), textureSprite);
+            case SPIKES -> new SimpleWavefrontBakedModel(new HFRWavefrontObject("models/obj/block/spikes.obj"), textureSprite);
             case BARREL -> new SimpleWavefrontBakedModel(new HFRWavefrontObject("models/obj/block/barrel.obj"), textureSprite);
             case CABLE -> new CableBakedModel(new HFRWavefrontObject("models/obj/block/cable_neo.obj"), textureSprite);
             case DET_CORD -> new DetCordBakedModel(new HFRWavefrontObject("models/obj/block/cable_neo.obj"), textureSprite);

@@ -7,6 +7,7 @@ import com.hbm.entity.logic.NukeExplosionMK5;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.items.NtmItems;
 import com.hbm.particle.helper.NukeTorexCreator;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.RayTraceResult;
 import com.hbm.util.Vec3NT;
 import com.hbm.world.WorldUtil;
@@ -49,9 +50,9 @@ public abstract class MissileTier4 extends MissileBaseNT {
 
         Vec3NT thrust = new Vec3NT(0, 0, 1);
         switch (dir) {
-            case WEST -> thrust.rotateAroundYRad((float) -Math.PI / 2F);
-            case SOUTH -> thrust.rotateAroundYRad((float) -Math.PI);
-            case EAST -> thrust.rotateAroundYRad((float) -Math.PI / 2F * 3F);
+            case NORTH -> thrust.rotateAroundYRad(BobMathUtil.PI / 2F);
+            case WEST -> thrust.rotateAroundYRad(-BobMathUtil.PI);
+            case SOUTH -> thrust.rotateAroundYRad(BobMathUtil.PI / 2F * 3F);
         }
         thrust.rotateAroundYRad((this.yRot + 90) * (float) Math.PI / 180F);
         thrust.rotateAroundXRad(this.xRot * (float) Math.PI / 180F);

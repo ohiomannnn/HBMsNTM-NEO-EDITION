@@ -357,17 +357,17 @@ public class GunBaseNTItem extends Item implements IKeybindReceiver, IHUDItem, I
 
 
     /// UTIL ///
-    public static int getValueInt(ItemStack stack, String name) { return TagsUtil.getCData(stack).getInt(name); }
-    public static void setValueInt(ItemStack stack, String name, int value) { CompoundTag tag = TagsUtil.getCData(stack); tag.putInt(name, value); TagsUtil.putCData(stack, tag); }
+    public static int getValueInt(ItemStack stack, String name) { return TagsUtil.getCustomData(stack).getInt(name); }
+    public static void setValueInt(ItemStack stack, String name, int value) { CompoundTag tag = TagsUtil.getCustomData(stack); tag.putInt(name, value); TagsUtil.putCustomData(stack, tag); }
 
-    public static float getValueFloat(ItemStack stack, String name) { return TagsUtil.getCData(stack).getFloat(name); }
-    public static void setValueFloat(ItemStack stack, String name, float value) { CompoundTag tag = TagsUtil.getCData(stack); tag.putFloat(name, value); TagsUtil.putCData(stack, tag); }
+    public static float getValueFloat(ItemStack stack, String name) { return TagsUtil.getCustomData(stack).getFloat(name); }
+    public static void setValueFloat(ItemStack stack, String name, float value) { CompoundTag tag = TagsUtil.getCustomData(stack); tag.putFloat(name, value); TagsUtil.putCustomData(stack, tag); }
 
-    public static byte getValueByte(ItemStack stack, String name) { return TagsUtil.getCData(stack).getByte(name); }
-    public static void setValueByte(ItemStack stack, String name, byte value) { CompoundTag tag = TagsUtil.getCData(stack); tag.putByte(name, value); TagsUtil.putCData(stack, tag); }
+    public static byte getValueByte(ItemStack stack, String name) { return TagsUtil.getCustomData(stack).getByte(name); }
+    public static void setValueByte(ItemStack stack, String name, byte value) { CompoundTag tag = TagsUtil.getCustomData(stack); tag.putByte(name, value); TagsUtil.putCustomData(stack, tag); }
 
-    public static boolean getValueBool(ItemStack stack, String name) { return TagsUtil.getCData(stack).getBoolean(name); }
-    public static void setValueBool(ItemStack stack, String name, boolean value) { CompoundTag tag = TagsUtil.getCData(stack); tag.putBoolean(name, value); TagsUtil.putCData(stack, tag); }
+    public static boolean getValueBool(ItemStack stack, String name) { return TagsUtil.getCustomData(stack).getBoolean(name); }
+    public static void setValueBool(ItemStack stack, String name, boolean value) { CompoundTag tag = TagsUtil.getCustomData(stack); tag.putBoolean(name, value); TagsUtil.putCustomData(stack, tag); }
 
     /** Wrapper for extra context used in most Consumer lambdas which are part of the guncfg */
     public static class LambdaContext {

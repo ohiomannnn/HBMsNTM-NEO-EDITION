@@ -59,7 +59,7 @@ public class MultiDetonatorItem extends Item {
         ItemStack stack = player.getItemInHand(usedHand);
 
         if (!level.isClientSide) {
-            if (!TagsUtil.hasCData(stack) || getLocations(stack) == null) {
+            if (!TagsUtil.hasCustomData(stack) || getLocations(stack) == null) {
                 player.sendSystemMessage(Component.literal("[" + this.getName(stack).getString() + "] ").withStyle(ChatFormatting.DARK_AQUA)
                         .append(Component.translatable("detonator.no_pos").withStyle(ChatFormatting.RED)));
             } else {
@@ -91,11 +91,11 @@ public class MultiDetonatorItem extends Item {
 
                     player.sendSystemMessage(Component.literal("[" + this.getName(stack).getString() + "] ").withStyle(ChatFormatting.DARK_AQUA).append(Component.literal("Triggered " + success + "/" + locs[0].length + "!").withStyle(ChatFormatting.YELLOW)));
                 } else {
-                    CompoundTag tag = TagsUtil.getCData(stack);
+                    CompoundTag tag = TagsUtil.getCustomData(stack);
                     tag.putIntArray("xValues", new int[0]);
                     tag.putIntArray("yValues", new int[0]);
                     tag.putIntArray("zValues", new int[0]);
-                    TagsUtil.putCData(stack, tag);
+                    TagsUtil.putCustomData(stack, tag);
 
                     level.playSound(null, player.blockPosition(), NtmSoundEvents.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 
@@ -112,7 +112,7 @@ public class MultiDetonatorItem extends Item {
         for (String s : ITooltipProvider.getDescription(stack)) {
             components.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
         }
-        if (!TagsUtil.hasCData(stack) || getLocations(stack) == null) {
+        if (!TagsUtil.hasCustomData(stack) || getLocations(stack) == null) {
             components.add(Component.translatable("detonator.no_pos.multi").withStyle(ChatFormatting.RED));
         } else {
             components.add(Component.translatable("detonator.set_to.multi").withStyle(ChatFormatting.YELLOW));
@@ -124,7 +124,7 @@ public class MultiDetonatorItem extends Item {
     }
 
     private static void addLocation(ItemStack stack, int x, int y, int z) {
-        CompoundTag tag = TagsUtil.getCData(stack);
+        CompoundTag tag = TagsUtil.getCustomData(stack);
         int[] xs = tag.getIntArray("xValues");
         int[] ys = tag.getIntArray("yValues");
         int[] zs = tag.getIntArray("zValues");
@@ -133,13 +133,13 @@ public class MultiDetonatorItem extends Item {
         tag.putIntArray("yValues", ArrayUtils.add(ys, y));
         tag.putIntArray("zValues", ArrayUtils.add(zs, z));
 
-        TagsUtil.putCData(stack, tag);
+        TagsUtil.putCustomData(stack, tag);
     }
 
     @Nullable
     private static int[][] getLocations(ItemStack stack) {
 
-        CompoundTag tag = TagsUtil.getCData(stack);
+        CompoundTag tag = TagsUtil.getCustomData(stack);
         int[] xs = tag.getIntArray("xValues");
         int[] ys = tag.getIntArray("yValues");
         int[] zs = tag.getIntArray("zValues");

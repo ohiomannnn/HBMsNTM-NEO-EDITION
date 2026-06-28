@@ -420,6 +420,7 @@ public class NtmCreativeTabs {
                     .displayItems((itemDisplayParameters, output) -> {
 
                         output.accept(NtmBlocks.LAUNCH_PAD);
+                        output.accept(NtmBlocks.LAUNCH_PAD_LARGE);
                         output.accept(NtmBlocks.SOYUZ_LAUNCHER);
 
                         output.accept(NtmItems.DESIGNATOR);

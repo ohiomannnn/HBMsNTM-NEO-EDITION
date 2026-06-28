@@ -389,7 +389,7 @@ public class ToolAbilityScreen extends Screen {
 
         LocalPlayer player = this.minecraft.player;
         ((ToolAbilityItem) this.toolStack.getItem()).setConfiguration(toolStack, config);
-        PacketDistributor.sendToServer(new CompoundTagItemControl(TagsUtil.getCData(this.toolStack)));
+        PacketDistributor.sendToServer(new CompoundTagItemControl(TagsUtil.getCustomData(this.toolStack)));
 
         NuclearTechModClient.displayTooltip(config.getActivePreset().getMessage(), 1000, NuclearTechModClient.ID_TOOLABILITY);
 

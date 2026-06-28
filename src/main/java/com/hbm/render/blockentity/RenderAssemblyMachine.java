@@ -10,7 +10,6 @@ import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.util.RenderContext;
 import com.hbm.util.BobMathUtil;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -30,18 +29,17 @@ public class RenderAssemblyMachine extends BlockEntityRendererNT<MachineAssembly
     @Override public BlockEntityRenderer<MachineAssemblyMachineBlockEntity> create(Context context) { return new RenderAssemblyMachine(); }
 
     @Override
-    public void render(MachineAssemblyMachineBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-        int tPackedLight = LevelRenderer.getLightColor(be.getLevel(), be.getBlockPos().above(2));
-        RenderContext.setup(poseStack, tPackedLight, packedOverlay);
+    @SuppressWarnings("DataFlowIssue")
+    public void render(MachineAssemblyMachineBlockEntity be, MultiBufferSource buffer, float partialTicks) {
         RenderContext.translate(0.5F, 0F, 0.5F);
         RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
 
         Direction facing = be.getBlockState().getValue(DummyableBlock.FACING);
         switch(facing) {
             case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
-            case EAST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
+            case WEST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
             case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
-            case WEST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
+            case EAST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
         }
 
         bindTexture(ResourceManager.ASSEMBLY_MACHINE_TEX);
@@ -111,19 +109,23 @@ public class RenderAssemblyMachine extends BlockEntityRendererNT<MachineAssembly
 
             BakedModel model = renderer.getModel(stack, null, null, 0);
 
-            // todo fix non 3d item rotation
-            if(!model.isGui3d()) {
-                RenderContext.mulPose(Axis.XP.rotationDegrees(-90F));
-            } else {
+            if(model.isGui3d()) {
                 RenderContext.translate(0F, 0.1F, 0F);
-                RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
+            } else {
+                RenderContext.mulPose(Axis.XP.rotationDegrees(-90F));
             }
             RenderContext.scale(0.75F, 0.75F, 0.75F);
 
             renderer.render(stack, ItemDisplayContext.FIXED, false, RenderContext.poseStack(), buffer, RenderContext.light(), RenderContext.overlay(), model);
         }
+    }
 
-        RenderContext.end();
+    @Override
+    public int getPacketLight(int packedLight, MachineAssemblyMachineBlockEntity be) {
+        if(be.getLevel() != null && be.getBlockState().getBlock() instanceof DummyableBlock dummy) {
+            return LevelRenderer.getLightColor(be.getLevel(), be.getBlockPos().above(dummy.getDimensions()[0]));
+        }
+        return packedLight;
     }
 
     private AABB bb = null;

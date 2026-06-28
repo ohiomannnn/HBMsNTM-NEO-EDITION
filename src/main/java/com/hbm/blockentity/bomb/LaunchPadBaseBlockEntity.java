@@ -109,8 +109,8 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
 
     public FluidTank[] tanks;
 
-    public LaunchPadBaseBlockEntity(BlockEntityType<? extends LaunchPadBaseBlockEntity> type, BlockPos pos, BlockState blockState) {
-        super(type, pos, blockState, 7);
+    public LaunchPadBaseBlockEntity(BlockEntityType<? extends LaunchPadBaseBlockEntity> type, BlockPos pos, BlockState state) {
+        super(type, pos, state, 7);
         this.tanks = new FluidTank[2];
         this.tanks[0] = new FluidTank(Fluids.NONE, 24_000);
         this.tanks[1] = new FluidTank(Fluids.NONE, 24_000);

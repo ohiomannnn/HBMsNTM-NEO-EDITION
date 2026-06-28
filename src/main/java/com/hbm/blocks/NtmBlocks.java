@@ -183,6 +183,7 @@ public class NtmBlocks {
 
     // Missile Blocks
     public static final DeferredBlock<Block> LAUNCH_PAD = register("launch_pad", () -> new LaunchPadBlock(BlockBehaviour.Properties.of().noOcclusion().strength(5.0F, 10.0F).mapColor(MapColor.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> LAUNCH_PAD_LARGE = register("launch_pad_large", () -> new LaunchPadLargeBlock(BlockBehaviour.Properties.of().noOcclusion().strength(5.0F, 10.0F).mapColor(MapColor.METAL).mapColor(MapColor.METAL)));
     public static final DeferredBlock<Block> SOYUZ_LAUNCHER = register("soyuz_launcher", () -> new SoyuzLauncherBlock(BlockBehaviour.Properties.of().noOcclusion().strength(5.0F, 10.0F).mapColor(MapColor.METAL).mapColor(MapColor.METAL)));
 
     // Fluids

@@ -71,51 +71,51 @@ public class BatteryPackItem extends EnumMultiItem implements IBatteryItem {
 
     @Override
     public void chargeBattery(ItemStack stack, long i) {
-        if (TagsUtil.hasCData(stack)) {
-            CompoundTag tag = TagsUtil.getCData(stack);
+        if (TagsUtil.hasCustomData(stack)) {
+            CompoundTag tag = TagsUtil.getCustomData(stack);
             tag.putLong("Charge", tag.getLong("Charge") + i);
-            TagsUtil.putCData(stack, tag);
+            TagsUtil.putCustomData(stack, tag);
         } else {
             CompoundTag tag = new CompoundTag();
             tag.putLong("Charge", i);
-            TagsUtil.putCData(stack, tag);
+            TagsUtil.putCustomData(stack, tag);
         }
     }
 
     @Override
     public void setCharge(ItemStack stack, long i) {
-        if (TagsUtil.hasCData(stack)) {
-            CompoundTag tag = TagsUtil.getCData(stack);
+        if (TagsUtil.hasCustomData(stack)) {
+            CompoundTag tag = TagsUtil.getCustomData(stack);
             tag.putLong("Charge", i);
-            TagsUtil.putCData(stack, tag);
+            TagsUtil.putCustomData(stack, tag);
         } else {
             CompoundTag tag = new CompoundTag();
             tag.putLong("Charge", i);
-            TagsUtil.putCData(stack, tag);
+            TagsUtil.putCustomData(stack, tag);
         }
     }
 
     @Override
     public void dischargeBattery(ItemStack stack, long i) {
-        if (TagsUtil.hasCData(stack)) {
-            CompoundTag tag = TagsUtil.getCData(stack);
+        if (TagsUtil.hasCustomData(stack)) {
+            CompoundTag tag = TagsUtil.getCustomData(stack);
             tag.putLong("Charge", tag.getLong("Charge") - i);
-            TagsUtil.putCData(stack, tag);
+            TagsUtil.putCustomData(stack, tag);
         } else {
             CompoundTag tag = new CompoundTag();
             tag.putLong("Charge", 0);
-            TagsUtil.putCData(stack, tag);
+            TagsUtil.putCustomData(stack, tag);
         }
     }
 
     @Override
     public long getCharge(ItemStack stack) {
-        if (!TagsUtil.hasCData(stack)) {
+        if (!TagsUtil.hasCustomData(stack)) {
             CompoundTag tag = new CompoundTag();
             tag.putLong("Charge", 0);
-            TagsUtil.putCData(stack, tag);
+            TagsUtil.putCustomData(stack, tag);
         }
-        return TagsUtil.getCData(stack).getLong("Charge");
+        return TagsUtil.getCustomData(stack).getLong("Charge");
     }
 
     @Override
@@ -155,7 +155,7 @@ public class BatteryPackItem extends EnumMultiItem implements IBatteryItem {
         long dischargeRate = this.getDischargeRate(stack);
         long charge = maxCharge;
 
-        if (TagsUtil.hasCData(stack)) charge = getCharge(stack);
+        if (TagsUtil.hasCustomData(stack)) charge = getCharge(stack);
 
         String het = I18nUtil.resolveKey("he") + "/" + I18nUtil.resolveKey("t");
         components.add(Component.translatable("item.hbmsntm.obj_battery_pack.desc0", BobMathUtil.getShortNumber(charge) + "/" + BobMathUtil.getShortNumber(maxCharge) + I18nUtil.resolveKey("he").toUpperCase(Locale.US) + " (" + (charge * 1000 / maxCharge / 10D) + "%)").withStyle(ChatFormatting.GREEN));
@@ -168,14 +168,14 @@ public class BatteryPackItem extends EnumMultiItem implements IBatteryItem {
     public static ItemStack makeEmptyBattery(ItemStack stack) {
         CompoundTag tag = new CompoundTag();
         tag.putLong("Charge", 0);
-        TagsUtil.putCData(stack, tag);
+        TagsUtil.putCustomData(stack, tag);
         return stack;
     }
 
     public static ItemStack makeFullBattery(ItemStack stack) {
         CompoundTag tag = new CompoundTag();
         tag.putLong("Charge", ((BatteryPackItem) stack.getItem()).getMaxCharge(stack));
-        TagsUtil.putCData(stack, tag);
+        TagsUtil.putCustomData(stack, tag);
         return stack;
     }
 

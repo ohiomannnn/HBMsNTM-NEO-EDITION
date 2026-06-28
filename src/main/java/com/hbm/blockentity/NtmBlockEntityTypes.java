@@ -110,6 +110,7 @@ public class NtmBlockEntityTypes {
     public static final Supplier<BlockEntityType<NukeBalefireBlockEntity>> NUKE_FSTBMB = REGISTER.register("nuke_fstbmb", () -> BlockEntityType.Builder.of(NukeBalefireBlockEntity::new, NtmBlocks.NUKE_FSTBMB.get()).build(null));
 
     public static final Supplier<BlockEntityType<LaunchPadBlockEntity>> LAUNCH_PAD = REGISTER.register("launch_pad", () -> BlockEntityType.Builder.of(LaunchPadBlockEntity::new, NtmBlocks.LAUNCH_PAD.get()).build(null));
+    public static final Supplier<BlockEntityType<LaunchPadLargeBlockEntity>> LAUNCH_PAD_LARGE = REGISTER.register("launch_pad_large", () -> BlockEntityType.Builder.of(LaunchPadLargeBlockEntity::new, NtmBlocks.LAUNCH_PAD_LARGE.get()).build(null));
     public static final Supplier<BlockEntityType<SoyuzLauncherBlockEntity>> SOYUZ_LAUNCHER = REGISTER.register("soyuz_launcher", () -> BlockEntityType.Builder.of(SoyuzLauncherBlockEntity::new, NtmBlocks.SOYUZ_LAUNCHER.get()).build(null));
 
     public static final Supplier<BlockEntityType<GeigerBlockEntity>> GEIGER_COUNTER = REGISTER.register("geiger_counter", () -> BlockEntityType.Builder.of(GeigerBlockEntity::new, NtmBlocks.GEIGER.get()).build(null));

@@ -19,9 +19,9 @@ public class SatChipItem extends Item implements ISatChip {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
-        components.add(Component.literal(String.valueOf(this.getFreq(stack))).withStyle(ChatFormatting.GRAY));
+        components.add(Component.translatable("item.hbmsntm.obj_sat_chip.frequency", this.getFreq(stack)).withStyle(ChatFormatting.GRAY));
 
-        if (this != NtmItems.SATELLITE_INTERFACE.get()) {
+        if(this != NtmItems.SATELLITE_INTERFACE.get()) {
             for(String s : ITooltipProvider.getDescription(stack)) {
                 components.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
             }

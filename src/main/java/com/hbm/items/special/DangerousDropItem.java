@@ -55,12 +55,12 @@ public class DangerousDropItem extends Item {
         if (itemEntity.getAge() >= lifespan - 1) return false;
 
         String throwerName = "Unknown";
-        if (TagsUtil.getCData(stack).contains("lastUser")) throwerName = TagsUtil.getCData(stack).getString("lastUser");
+        if (TagsUtil.getCustomData(stack).contains("lastUser")) throwerName = TagsUtil.getCustomData(stack).getString("lastUser");
 
         if (itemEntity.getAge() > 5) {
             if (stack.is(NtmItems.DETONATOR_DEADMAN.get())) {
-                if (TagsUtil.hasCData(stack)) {
-                    CompoundTag tag = TagsUtil.getCData(stack);
+                if (TagsUtil.hasCustomData(stack)) {
+                    CompoundTag tag = TagsUtil.getCustomData(stack);
                     int x = tag.getInt("x");
                     int y = tag.getInt("y");
                     int z = tag.getInt("z");
@@ -161,10 +161,10 @@ public class DangerousDropItem extends Item {
             }
         }
         if(this == NtmItems.DETONATOR_DEADMAN.get()) {
-            if(!TagsUtil.hasCData(stack)) {
+            if(!TagsUtil.hasCustomData(stack)) {
                 components.add(Component.translatable("detonator.no_pos"));
             } else {
-                CompoundTag tag = TagsUtil.getCData(stack);
+                CompoundTag tag = TagsUtil.getCustomData(stack);
                 int x = tag.getInt("x");
                 int y = tag.getInt("y");
                 int z = tag.getInt("z");
@@ -196,7 +196,7 @@ public class DangerousDropItem extends Item {
                 tag.putInt("y", context.getClickedPos().getY());
                 tag.putInt("z", context.getClickedPos().getZ());
                 tag.putString("lastUser", player.getName().getString());
-                TagsUtil.putCData(stack, tag);
+                TagsUtil.putCustomData(stack, tag);
 
                 level.playSound(null, player.blockPosition(), NtmSoundEvents.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 

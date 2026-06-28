@@ -139,6 +139,13 @@ public class ResourceManager {
 
     // Missile Parts
     public static final ResourceLocation MISSILE_PAD_TEX = NuclearTechMod.withDefaultNamespace("textures/models/launchpad/silo.png");
+    public static final ResourceLocation MISSILE_ERECTOR_TEX = NuclearTechMod.withDefaultNamespace("textures/models/launchpad/pad.png");
+    public static final ResourceLocation MISSILE_ERECTOR_MICRO_TEX = NuclearTechMod.withDefaultNamespace("textures/models/launchpad/erector_micro.png");
+    public static final ResourceLocation MISSILE_ERECTOR_V2_TEX = NuclearTechMod.withDefaultNamespace("textures/models/launchpad/erector_v2.png");
+    public static final ResourceLocation MISSILE_ERECTOR_STRONG_TEX = NuclearTechMod.withDefaultNamespace("textures/models/launchpad/erector_strong.png");
+    public static final ResourceLocation MISSILE_ERECTOR_HUGE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/launchpad/erector_huge.png");
+    public static final ResourceLocation MISSILE_ERECTOR_ATLAS_TEX = NuclearTechMod.withDefaultNamespace("textures/models/launchpad/erector_atlas.png");
+    public static final ResourceLocation MISSILE_ERECTOR_ABM_TEX = NuclearTechMod.withDefaultNamespace("textures/models/launchpad/erector_abm.png");
 
     public static final ResourceLocation BOMBLET_ZETA_TEX = NuclearTechMod.withDefaultNamespace("textures/models/bomblet_zeta.png");
 
@@ -234,6 +241,7 @@ public class ResourceManager {
 
     //Missile Parts
     public static IModelCustom missile_pad;
+    public static IModelCustom missile_erector;
 
     public static IModelCustom bomblet_zeta;
 
@@ -317,6 +325,7 @@ public class ResourceManager {
         soyuz_launcher_support = new HFRWavefrontObject("models/obj/launch_table/soyuz_launcher_support.obj").noSmooth().asVBO();
 
         missile_pad = new HFRWavefrontObject("models/obj/weapons/launch_pad_silo.obj").asVBO();
+        missile_erector = new HFRWavefrontObject("models/obj/weapons/launch_pad_erector.obj").asVBO();
 
         bomblet_zeta = new HFRWavefrontObject("models/obj/bomblet_zeta.obj").asVBO();
 

@@ -32,7 +32,7 @@ public interface IBatteryItem {
             ItemStack stackOut = stack.copy();
             CompoundTag tag = new CompoundTag();
             tag.putLong(keyName, 0);
-            TagsUtil.putCData(stackOut, tag);
+            TagsUtil.putCustomData(stackOut, tag);
             return stackOut;
         }
         return null;

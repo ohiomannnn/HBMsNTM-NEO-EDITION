@@ -2,9 +2,6 @@ package com.hbm.items.weapon.sedna.mods;
 
 import com.google.common.collect.HashBiMap;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
-import com.hbm.items.weapon.sedna.factory.GunFactory.ModCaliber;
-import com.hbm.items.weapon.sedna.factory.GunFactory.ModGeneric;
-import com.hbm.items.weapon.sedna.factory.GunFactory.ModSpecial;
 import com.hbm.util.TagsUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
@@ -28,8 +25,8 @@ public class XWeaponModManager {
      * stack causes the base value to be returned. */
     public static <T> T eval(T base, ItemStack stack, String key, Object parent, int cfg) {
         if(stack == null) return base;
-        if(!TagsUtil.hasCData(stack)) return base;
-        CompoundTag tag = TagsUtil.getCData(stack);
+        if(!TagsUtil.hasCustomData(stack)) return base;
+        CompoundTag tag = TagsUtil.getCustomData(stack);
 
         for(int i : tag.getIntArray(KEY_MOD_LIST + cfg)) {
             IWeaponMod mod = idToMod.get(i);

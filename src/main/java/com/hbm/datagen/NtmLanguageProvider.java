@@ -276,7 +276,11 @@ public class NtmLanguageProvider extends LanguageProvider {
 
         this.add(NtmItems.SPAWN_DUCK, "Golden Egg");
 
+        this.add("item.hbmsntm.obj_designator.pos_set", "Position set!");
+        this.add("item.hbmsntm.obj_designator.pos_target", "Target Coordinates:");
+        this.add("item.hbmsntm.obj_designator.pos_select", "Please select a target.");
         this.add(NtmItems.DESIGNATOR, "Short Range Target Designator");
+        this.add("item.hbmsntm.obj_designator_range.pos_set", "Position set to X: %s, Z: %s");
         this.add(NtmItems.DESIGNATOR_RANGE, "Long Range Target Designator");
         this.add("geiger.title.dosimeter", "===== ☢ DOSIMETER ☢ =====");
         this.add(NtmItems.DOSIMETER, "Dosimeter");
@@ -356,8 +360,11 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add("item.hbmsntm.obj_soyuz.skin.post", "Post War");
         this.add(NtmItems.MISSILE_SOYUZ, "Soyuz-FG");
 
+        this.add("item.hbmsntm.obj_sat_chip.frequency", "Satellite frequency: %s");
         this.add(NtmItems.SATELLITE_RADAR, "Radar Survey Satellite");
+        this.add(NtmItems.SATELLITE_RADAR, DESC, "Shows a map of active entities.");
         this.add(NtmItems.SATELLITE_LASER, "Orbital Death Ray");
+        this.add(NtmItems.SATELLITE_LASER, DESC, "Allows to summon lasers with a 15 second cooldown.");
         this.add(NtmItems.SATELLITE_INTERFACE, "Satellite Control Interface");
 
         this.add(NtmItems.BALEFIRE_AND_STEEL, "Balefire and Steel");
@@ -703,6 +710,7 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmBlocks.VOLCANO_RAD_CORE, "Rad Volcano Core");
 
         this.add(NtmBlocks.LAUNCH_PAD, "Silo Launch Pad");
+        this.add(NtmBlocks.LAUNCH_PAD_LARGE, "Launch Pad");
         this.add(NtmBlocks.SOYUZ_LAUNCHER, "Soyuz Launch Platform");
 
         this.add(NtmBlocks.VOLCANIC_LAVA, "Volcanic Lava");

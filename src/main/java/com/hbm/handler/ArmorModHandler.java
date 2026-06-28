@@ -50,7 +50,7 @@ public class ArmorModHandler {
      * Will override present mods so make sure to only use unmodded armor pieces
      */
     public static void applyMod(Level level, ItemStack armor, ItemStack mod) {
-        CompoundTag tag = TagsUtil.getCData(armor);
+        CompoundTag tag = TagsUtil.getCustomData(armor);
 
         if (!tag.contains(MOD_COMPOUND_KEY)) tag.put(MOD_COMPOUND_KEY, new CompoundTag());
 
@@ -64,7 +64,7 @@ public class ArmorModHandler {
 
         mods.put(MOD_SLOT_KEY + slot, cmp);
 
-        TagsUtil.putCData(armor, tag);
+        TagsUtil.putCustomData(armor, tag);
     }
 
     /**
@@ -73,7 +73,7 @@ public class ArmorModHandler {
     public static void removeMod(ItemStack armor, int slot) {
         if (armor.isEmpty()) return;
 
-        CompoundTag tag = TagsUtil.getCData(armor);
+        CompoundTag tag = TagsUtil.getCustomData(armor);
 
         if (!tag.contains(MOD_COMPOUND_KEY)) tag.put(MOD_COMPOUND_KEY, new CompoundTag());
 
@@ -82,7 +82,7 @@ public class ArmorModHandler {
 
         if (mods.isEmpty()) clearMods(armor);
 
-        TagsUtil.putCData(armor, mods);
+        TagsUtil.putCustomData(armor, mods);
     }
 
     /**
@@ -91,11 +91,11 @@ public class ArmorModHandler {
      */
     public static void clearMods(ItemStack armor) {
 
-        if (!TagsUtil.hasCData(armor)) return;
+        if (!TagsUtil.hasCustomData(armor)) return;
 
-        CompoundTag tag = TagsUtil.getCData(armor);
+        CompoundTag tag = TagsUtil.getCustomData(armor);
         tag.remove(MOD_COMPOUND_KEY);
-        TagsUtil.putCData(armor, tag);
+        TagsUtil.putCustomData(armor, tag);
     }
 
     /**
@@ -103,9 +103,9 @@ public class ArmorModHandler {
      */
     public static boolean hasMods(ItemStack armor) {
 
-        if (!TagsUtil.hasCData(armor)) return false;
+        if (!TagsUtil.hasCustomData(armor)) return false;
 
-        CompoundTag tag = TagsUtil.getCData(armor);
+        CompoundTag tag = TagsUtil.getCustomData(armor);
         return tag.contains(MOD_COMPOUND_KEY);
     }
 
@@ -118,7 +118,7 @@ public class ArmorModHandler {
 
         if (!hasMods(armor)) return slots;
 
-        CompoundTag tag = TagsUtil.getCData(armor);
+        CompoundTag tag = TagsUtil.getCustomData(armor);
         CompoundTag mods = tag.getCompound(MOD_COMPOUND_KEY);
 
         for (int i = 0; i < MOD_SLOTS; i++) {
@@ -142,7 +142,7 @@ public class ArmorModHandler {
 
         if (!hasMods(armor)) return ItemStack.EMPTY;
 
-        CompoundTag nbt = TagsUtil.getCData(armor);
+        CompoundTag nbt = TagsUtil.getCustomData(armor);
         CompoundTag mods = nbt.getCompound(MOD_COMPOUND_KEY);
         CompoundTag cmp = mods.getCompound(MOD_SLOT_KEY + slot);
         Optional<ItemStack> stack = ItemStack.parse(level.registryAccess(), cmp);

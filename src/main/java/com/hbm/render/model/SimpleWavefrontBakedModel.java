@@ -22,6 +22,7 @@ public class SimpleWavefrontBakedModel extends LevelAwareWavefrontBakedModel {
 
     public SimpleWavefrontBakedModel(HFRWavefrontObject model, TextureAtlasSprite baseSprite) {
         super(model, ItemTransforms.NO_TRANSFORMS);
+
         this.baseSprite = baseSprite;
     }
 

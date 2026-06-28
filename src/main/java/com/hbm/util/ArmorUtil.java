@@ -61,25 +61,25 @@ public class ArmorUtil {
 
         if (mask.isEmpty() || filter.isEmpty()) return;
 
-        CompoundTag tag = TagsUtil.getCData(mask);
+        CompoundTag tag = TagsUtil.getCustomData(mask);
 
         CompoundTag attach = new CompoundTag();
         filter.save(level.registryAccess(), attach);
 
         tag.put(FILTER_KEY, attach);
 
-        TagsUtil.putCData(mask, tag);
+        TagsUtil.putCustomData(mask, tag);
     }
 
     public static void removeFilter(ItemStack mask) {
         if (mask.isEmpty()) return;
 
-        CompoundTag maskTag = TagsUtil.getCData(mask);
+        CompoundTag maskTag = TagsUtil.getCustomData(mask);
 
         if (maskTag.contains(FILTER_KEY)) {
             maskTag.remove(FILTER_KEY);
 
-            TagsUtil.putCData(mask, maskTag);
+            TagsUtil.putCustomData(mask, maskTag);
         }
     }
 
@@ -104,7 +104,7 @@ public class ArmorUtil {
     public static ItemStack getGasMaskFilter(Level level, ItemStack mask) {
         if (mask.isEmpty()) return ItemStack.EMPTY;
 
-        CompoundTag maskTag = TagsUtil.getCData(mask);
+        CompoundTag maskTag = TagsUtil.getCustomData(mask);
 
         if (!maskTag.contains(FILTER_KEY)) return ItemStack.EMPTY;
 

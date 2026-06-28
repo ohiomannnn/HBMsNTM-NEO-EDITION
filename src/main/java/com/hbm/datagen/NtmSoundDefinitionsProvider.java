@@ -1,6 +1,7 @@
 package com.hbm.datagen;
 
 import com.hbm.main.NuclearTechMod;
+import com.hbm.main.NuclearTechModClient;
 import com.hbm.registry.NtmSoundEvents;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -16,7 +17,7 @@ public class NtmSoundDefinitionsProvider extends SoundDefinitionsProvider {
     @Override
     public void registerSounds() {
 
-        /// WEAPONS
+        // WEAPONS
         this.add(NtmSoundEvents.RICOCHET, SoundDefinition.definition()
                 .with(
                         sound("hbmsntm:weapon/ric1"),
@@ -69,11 +70,11 @@ public class NtmSoundDefinitionsProvider extends SoundDefinitionsProvider {
         this.add(NtmSoundEvents.FSTBMB_PING, SoundDefinition.definition()
                 .with(sound("hbmsntm:weapon/fstbmb_ping"))
         );
-        /// FIRE WEAPONS
+        // FIRE WEAPONS
         this.add(NtmSoundEvents.FIRE_DISINTEGRATION, SoundDefinition.definition()
                 .with(sound("hbmsntm:weapon/fire/disintegration"))
         );
-        /// ENTITIES
+        // ENTITIES
         this.add(NtmSoundEvents.OLD_EXPLOSION, SoundDefinition.definition()
                 .with(sound("hbmsntm:entity/old_explosion"))
         );
@@ -112,7 +113,7 @@ public class NtmSoundDefinitionsProvider extends SoundDefinitionsProvider {
         this.add(NtmSoundEvents.METEORITE_FALLING_LOOP, SoundDefinition.definition()
                 .with(sound("hbmsntm:entity/meteorite_falling_loop"))
         );
-        /// PLAYERS
+        // PLAYERS
         this.add(NtmSoundEvents.VOMIT, SoundDefinition.definition()
                 .with(sound("hbmsntm:player/vomit"))
         );
@@ -124,7 +125,7 @@ public class NtmSoundDefinitionsProvider extends SoundDefinitionsProvider {
                         sound("hbmsntm:player/cough4")
                 )
         );
-        /// BLOCKS
+        // BLOCKS
         this.add(NtmSoundEvents.PIPE_PLACED, SoundDefinition.definition()
                 .with(sound("hbmsntm:block/pipe_placed"))
         );
@@ -177,7 +178,59 @@ public class NtmSoundDefinitionsProvider extends SoundDefinitionsProvider {
         this.add(NtmSoundEvents.ASSEMBLER_STOP, SoundDefinition.definition()
                 .with(sound("hbmsntm:block/assembler_stop"))
         );
-        /// ITEMS
+        // DOORS
+        this.add(NtmSoundEvents.TRANSITION_SEAL_OPEN, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("block/door/transition_seal_open")))
+        );
+        this.add(NtmSoundEvents.ALARM6, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("block/door/alarm6")))
+        );
+        this.add(NtmSoundEvents.SLIDING_DOOR_SHUT, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("block/door/sliding_door_shut")))
+        );
+        this.add(NtmSoundEvents.SLIDING_DOOR_OPENED, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("block/door/sliding_door_opened")))
+        );
+        this.add(NtmSoundEvents.SLIDING_DOOR_OPENING, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("block/door/sliding_door_opening")))
+        );
+        this.add(NtmSoundEvents.GARAGE_MOVE, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("block/door/garage_move")))
+        );
+        this.add(NtmSoundEvents.GARAGE_STOP, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("block/door/garage_stop")))
+        );
+        this.add(NtmSoundEvents.LEVER, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("block/door/lever")))
+        );
+        this.add(NtmSoundEvents.WGH_START, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("block/door/wgh_start")))
+        );
+        this.add(NtmSoundEvents.WGH_STOP, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("block/door/wgh_stop")))
+        );
+        this.add(NtmSoundEvents.WGH_BIG_START, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("block/door/wgh_big_start")))
+        );
+        this.add(NtmSoundEvents.WGH_BIG_STOP, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("block/door/wgh_big_stop")))
+        );
+        this.add(NtmSoundEvents.QE_SLIDING_SHUT, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("block/door/qe_sliding_shut")))
+        );
+        this.add(NtmSoundEvents.QE_SLIDING_OPENED, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("block/door/qe_sliding_opened")))
+        );
+        this.add(NtmSoundEvents.QE_SLIDING_OPENING, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("block/door/qe_sliding_opening")))
+        );
+        this.add(NtmSoundEvents.SLIDING_SEAL_OPEN, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("block/door/sliding_seal_open")))
+        );
+        this.add(NtmSoundEvents.SLIDING_SEAL_STOP, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("block/door/sliding_seal_stop")))
+        );
+        // ITEMS
         this.add(NtmSoundEvents.TECH_BLEEP, SoundDefinition.definition()
                 .with(sound("hbmsntm:tool/tech_bleep"))
         );
@@ -202,7 +255,7 @@ public class NtmSoundDefinitionsProvider extends SoundDefinitionsProvider {
                         sound("hbmsntm:tool/extract2")
                 )
         );
-        /// ALARMS
+        // ALARMS
         this.add(NtmSoundEvents.ALARM_HATCH, SoundDefinition.definition()
                 .with(sound("hbmsntm:alarm/lpfhaiwg"))
         );

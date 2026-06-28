@@ -138,8 +138,8 @@ public class RenderFluidTank extends BlockEntityRendererNT<MachineFluidTankBlock
 
                 FluidTank tank = new FluidTank(Fluids.NONE, 0);
                 boolean exploded = false;
-                if (TagsUtil.getCData(stack).contains(IPersistentNBT.NBT_PERSISTENT_KEY)) {
-                    CompoundTag persistentTag = TagsUtil.getCData(stack).getCompound(IPersistentNBT.NBT_PERSISTENT_KEY);
+                if (TagsUtil.getCustomData(stack).contains(IPersistentNBT.NBT_PERSISTENT_KEY)) {
+                    CompoundTag persistentTag = TagsUtil.getCustomData(stack).getCompound(IPersistentNBT.NBT_PERSISTENT_KEY);
                     tank.readFromNBT(persistentTag, "Tank");
                     exploded = persistentTag.getBoolean("HasExploded");
                 }

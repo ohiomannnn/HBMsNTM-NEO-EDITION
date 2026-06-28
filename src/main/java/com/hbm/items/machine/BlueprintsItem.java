@@ -5,7 +5,6 @@ import com.hbm.items.IMetaItem;
 import com.hbm.items.NtmItems;
 import com.hbm.util.TagsUtil;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
@@ -31,9 +30,9 @@ public class BlueprintsItem extends Item implements IMetaItem {
     public static String grabPool(ItemStack stack) {
         if(stack.isEmpty()) return null;
         if(stack.getItem() != NtmItems.BLUEPRINTS.get()) return null;
-        if(!TagsUtil.hasCData(stack)) return null;
+        if(!TagsUtil.hasCustomData(stack)) return null;
 
-        CompoundTag tag = TagsUtil.getCData(stack);
+        CompoundTag tag = TagsUtil.getCustomData(stack);
         if(!tag.contains("pool")) return null;
         return tag.getString("pool");
     }
@@ -42,7 +41,7 @@ public class BlueprintsItem extends Item implements IMetaItem {
         ItemStack stack = new ItemStack(NtmItems.BLUEPRINTS.get());
         CompoundTag tag = new CompoundTag();
         tag.putString("pool", pool);
-        TagsUtil.putCData(stack, tag);
+        TagsUtil.putCustomData(stack, tag);
         return stack;
     }
 }
