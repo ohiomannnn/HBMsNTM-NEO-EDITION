@@ -23,15 +23,15 @@ public class DecontaminatorBlockEntity extends BlockEntity implements ITickable 
 
     @Override
     public void updateEntity() {
-        if (level == null) return;
+        if(level == null) return;
 
         BlockPos pos = this.worldPosition;
 
-        if (!level.isClientSide) {
+        if(!level.isClientSide) {
             List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, new AABB(pos.getX() - 0.5, pos.getY(), pos.getZ() - 0.5, pos.getX() + 1.5, pos.getY() + 2, pos.getZ() + 1.5));
 
-            if (!entities.isEmpty()) {
-                for (LivingEntity livingEntity : entities) {
+            if(!entities.isEmpty()) {
+                for(LivingEntity livingEntity : entities) {
                     HbmLivingAttachments.incrementRadiation(livingEntity, -0.5F);
                     livingEntity.removeEffect(ModEffect.RADIATION);
                     HbmLivingAttachments.getCont(livingEntity).clear();

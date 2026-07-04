@@ -211,6 +211,9 @@ public class NtmItems {
     public static final DeferredItem<Item> KEY_RED_CRACKED = ITEMS.register("key_red_cracked", () -> new Item(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> KEY_KIT = ITEMS.register("key_kit", () -> new KeyItem(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> KEY_FAKE = ITEMS.register("key_fake", () -> new KeyItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> LAUNCH_CODE_PIECE = ITEMS.register("launch_code_piece", () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> LAUNCH_CODE = ITEMS.register("launch_code", () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> LAUNCH_KEY = ITEMS.register("launch_key", () -> new Item(new Item.Properties().stacksTo(1)));
 
     // Missiles
     // Tier 0
@@ -220,12 +223,13 @@ public class NtmItems {
     public static final DeferredItem<Item> MISSILE_SCHRABIDIUM = ITEMS.register("missile_schrabidium", () -> new MissileItem(MissileFormFactor.MICRO, MissileTier.TIER0));
     public static final DeferredItem<Item> MISSILE_EMP =         ITEMS.register("missile_emp",         () -> new MissileItem(MissileFormFactor.MICRO, MissileTier.TIER0));
     // Tier 1
-    public static final DeferredItem<Item> MISSILE_GENERIC =    ITEMS.register("missile_generic",    () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
-    public static final DeferredItem<Item> MISSILE_INCENDIARY = ITEMS.register("missile_incendiary", () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
-    public static final DeferredItem<Item> MISSILE_CLUSTER =    ITEMS.register("missile_cluster",    () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
-    public static final DeferredItem<Item> MISSILE_BUSTER =     ITEMS.register("missile_buster",     () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
-    public static final DeferredItem<Item> MISSILE_STEALTH =    ITEMS.register("missile_stealth",    () -> new MissileItem(MissileFormFactor.STRONG, MissileTier.TIER1));
-    public static final DeferredItem<Item> MISSILE_DECOY =      ITEMS.register("missile_decoy",      () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
+    public static final DeferredItem<Item> MISSILE_GENERIC =        ITEMS.register("missile_generic",        () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
+    public static final DeferredItem<Item> MISSILE_INCENDIARY =     ITEMS.register("missile_incendiary",     () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
+    public static final DeferredItem<Item> MISSILE_CLUSTER =        ITEMS.register("missile_cluster",        () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
+    public static final DeferredItem<Item> MISSILE_BUSTER =         ITEMS.register("missile_buster",         () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
+    public static final DeferredItem<Item> MISSILE_DECOY =          ITEMS.register("missile_decoy",          () -> new MissileItem(MissileFormFactor.V2, MissileTier.TIER1));
+    public static final DeferredItem<Item> MISSILE_STEALTH =        ITEMS.register("missile_stealth",        () -> new MissileItem(MissileFormFactor.STRONG, MissileTier.TIER1));
+    public static final DeferredItem<Item> MISSILE_ANTI_BALLISTIC = ITEMS.register("missile_anti_ballistic", () -> new MissileItem(MissileFormFactor.ABM, MissileTier.TIER1));
     // Tier 2
     public static final DeferredItem<Item> MISSILE_STRONG =            ITEMS.register("missile_strong",            () -> new MissileItem(MissileFormFactor.STRONG, MissileTier.TIER2));
     public static final DeferredItem<Item> MISSILE_INCENDIARY_STRONG = ITEMS.register("missile_incendiary_strong", () -> new MissileItem(MissileFormFactor.STRONG, MissileTier.TIER2));

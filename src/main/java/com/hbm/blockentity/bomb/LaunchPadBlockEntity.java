@@ -1,10 +1,11 @@
 package com.hbm.blockentity.bomb;
 
 import com.hbm.blockentity.NtmBlockEntityTypes;
-import com.hbm.main.NuclearTechModClient;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.entity.missile.MissileBaseNT;
 import com.hbm.lib.Library;
+import com.hbm.main.NuclearTechMod;
+import com.hbm.particle.NtmParticles;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -61,18 +62,10 @@ public class LaunchPadBlockEntity extends LaunchPadBaseBlockEntity {
                     Direction dir = this.getBlockState().getValue(DummyableBlock.FACING);
                     if (level.random.nextBoolean()) dir = dir.getOpposite();
                     if (level.random.nextBoolean()) dir = dir.getClockWise(Axis.Y);
-                    float moX = (float) (level.random.nextGaussian() * 0.15F + 0.75) * dir.getStepX();
-                    float moZ = (float) (level.random.nextGaussian() * 0.15F + 0.75) * dir.getStepZ();
+                    float xd = (float) (level.random.nextGaussian() * 0.15F + 0.75) * dir.getStepX();
+                    float zd = (float) (level.random.nextGaussian() * 0.15F + 0.75) * dir.getStepZ();
 
-                    CompoundTag tag = new CompoundTag();
-                    tag.putDouble("posX", x + 0.5);
-                    tag.putDouble("posY", y + 0.25);
-                    tag.putDouble("posZ", z + 0.5);
-                    tag.putString("type", "launchSmoke");
-                    tag.putDouble("moX", moX);
-                    tag.putDouble("moY", 0);
-                    tag.putDouble("moZ", moZ);
-                    NuclearTechModClient.effectNT(tag);
+                    NuclearTechMod.proxy.addParticle(NtmParticles.LAUNCH_SMOKE.get(), x + 0.5, y + 0.25, z + 0.5, xd, 0, zd);
                 }
             }
         }

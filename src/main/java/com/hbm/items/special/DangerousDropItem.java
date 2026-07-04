@@ -47,19 +47,17 @@ public class DangerousDropItem extends Item {
     public boolean onEntityItemUpdate(ItemStack stack, ItemEntity itemEntity) {
         Level level = itemEntity.level();
 
-        if (level.isClientSide) return false;
+        if(level.isClientSide) return false;
 
-        // if this item has gotten from /give command it will create EntityItem that will do things
-        // check for phantom item
         int lifespan = stack.getEntityLifespan(level);
-        if (itemEntity.getAge() >= lifespan - 1) return false;
+        if(itemEntity.getAge() >= lifespan - 1) return false;
 
         String throwerName = "Unknown";
-        if (TagsUtil.getCustomData(stack).contains("lastUser")) throwerName = TagsUtil.getCustomData(stack).getString("lastUser");
+        if(TagsUtil.getCustomData(stack).contains("lastUser")) throwerName = TagsUtil.getCustomData(stack).getString("lastUser");
 
-        if (itemEntity.getAge() > 5) {
-            if (stack.is(NtmItems.DETONATOR_DEADMAN.get())) {
-                if (TagsUtil.hasCustomData(stack)) {
+        if(itemEntity.getAge() > 5) {
+            if(stack.is(NtmItems.DETONATOR_DEADMAN.get())) {
+                if(TagsUtil.hasCustomData(stack)) {
                     CompoundTag tag = TagsUtil.getCustomData(stack);
                     int x = tag.getInt("x");
                     int y = tag.getInt("y");
@@ -67,10 +65,10 @@ public class DangerousDropItem extends Item {
 
                     BlockPos pos = new BlockPos(x, y, z);
                     Block block = level.getBlockState(pos).getBlock();
-                    if (block instanceof IBomb bomb) {
+                    if(block instanceof IBomb bomb) {
                         bomb.explode(level, pos);
 
-                        if (NtmConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
+                        if(NtmConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
                             NuclearTechMod.LOGGER.info("[DEAD MAN'S DETONATOR] {} detonated {} at {} / {} / {}!", throwerName, block.getName().getString(), x, y, z);
                         }
                     }
@@ -79,74 +77,82 @@ public class DangerousDropItem extends Item {
                 itemEntity.discard();
                 return true;
             }
-            if (stack.is(NtmItems.DETONATOR_DE.get()) && NtmConfig.COMMON.DROP_DEAD_MANS_EXPLOSIVE.get()) {
+            if(stack.is(NtmItems.DETONATOR_DE.get()) && NtmConfig.COMMON.DROP_DEAD_MANS_EXPLOSIVE.get()) {
                 level.explode(null, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), 15.0F, Level.ExplosionInteraction.TNT);
                 itemEntity.discard();
                 return true;
             }
         }
 
-        if (itemEntity.onGround()) {
+        // todo make itemEntity.discard(); good
+        if(itemEntity.onGround()) {
 
-            if (stack.is(NtmItems.PARTICLE_DIGAMMA.get()) && NtmConfig.COMMON.DROP_SINGULARITY.get()) {
+            if(stack.is(NtmItems.PARTICLE_DIGAMMA.get()) && NtmConfig.COMMON.DROP_SINGULARITY.get()) {
                 BlackHole quasar = new BlackHole(NtmEntityTypes.DIGAMMA_QUASAR.get(), level);
                 quasar.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
                 quasar.setSize(5F);
                 level.addFreshEntity(quasar);
+                itemEntity.discard();
             }
 
-            if (stack.is(NtmItems.CELL_ANTIMATTER.get()) && NtmConfig.COMMON.DROP_CELL.get()) {
+            if(stack.is(NtmItems.CELL_ANTIMATTER.get()) && NtmConfig.COMMON.DROP_CELL.get()) {
                 new ExplosionVNT(level, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), 5F).makeAmat().explode();
+                itemEntity.discard();
             }
 
-            if (stack.is(NtmItems.PELLET_ANTIMATTER.get()) && NtmConfig.COMMON.DROP_CELL.get()) {
+            if(stack.is(NtmItems.PELLET_ANTIMATTER.get()) && NtmConfig.COMMON.DROP_CELL.get()) {
                 new ExplosionVNT(level, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), 20F).makeAmat().explode();
+                itemEntity.discard();
             }
 
-            if (stack.is(NtmItems.CELL_ANTI_SCHARBIDIUM.get()) && NtmConfig.COMMON.DROP_CELL.get()) {
+            if(stack.is(NtmItems.CELL_ANTI_SCHARBIDIUM.get()) && NtmConfig.COMMON.DROP_CELL.get()) {
                 NukeExplosionMK3 explosion = NukeExplosionMK3.statFacFleija(level, itemEntity.position.x, itemEntity.position.y, itemEntity.position.z, NtmConfig.COMMON.ASCHRAB_RADIUS.get());
                 if(!explosion.isRemoved()) {
                     level.addFreshEntity(explosion);
                     CloudCreator.composeEffect(level, itemEntity.position.x, itemEntity.position.y, itemEntity.position.z, CloudType.FLEIJA);
                 }
+                itemEntity.discard();
             }
 
-            if (stack.is(NtmItems.SINGULARITY.get()) && NtmConfig.COMMON.DROP_SINGULARITY.get()) {
+            if(stack.is(NtmItems.SINGULARITY.get()) && NtmConfig.COMMON.DROP_SINGULARITY.get()) {
                 Vortex vortex = new Vortex(NtmEntityTypes.VORTEX.get(), level);
                 vortex.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
                 vortex.setSize(1.5F);
                 level.addFreshEntity(vortex);
+                itemEntity.discard();
             }
 
-            if (stack.is(NtmItems.SINGULARITY_COUNTER_RESONANT.get()) && NtmConfig.COMMON.DROP_SINGULARITY.get()) {
+            if(stack.is(NtmItems.SINGULARITY_COUNTER_RESONANT.get()) && NtmConfig.COMMON.DROP_SINGULARITY.get()) {
                 Vortex vortex = new Vortex(NtmEntityTypes.VORTEX.get(), level);
                 vortex.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
                 vortex.setSize(2.5F);
                 level.addFreshEntity(vortex);
+                itemEntity.discard();
             }
 
-            if (stack.is(NtmItems.SINGULARITY_SUPER_HEATED.get()) && NtmConfig.COMMON.DROP_SINGULARITY.get()) {
+            if(stack.is(NtmItems.SINGULARITY_SUPER_HEATED.get()) && NtmConfig.COMMON.DROP_SINGULARITY.get()) {
                 Vortex vortex = new Vortex(NtmEntityTypes.VORTEX.get(), level);
                 vortex.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
                 vortex.setSize(2.5F);
                 level.addFreshEntity(vortex);
+                itemEntity.discard();
             }
 
-            if (stack.is(NtmItems.BLACK_HOLE.get()) && NtmConfig.COMMON.DROP_SINGULARITY.get()) {
+            if(stack.is(NtmItems.BLACK_HOLE.get()) && NtmConfig.COMMON.DROP_SINGULARITY.get()) {
                 BlackHole blackHole = new BlackHole(NtmEntityTypes.BLACK_HOLE.get(), level);
                 blackHole.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
                 blackHole.setSize(1.5F);
                 level.addFreshEntity(blackHole);
+                itemEntity.discard();
             }
 
-            if (stack.is(NtmItems.SINGULARITY_SPARK.get()) && NtmConfig.COMMON.DROP_SINGULARITY.get()) {
+            if(stack.is(NtmItems.SINGULARITY_SPARK.get()) && NtmConfig.COMMON.DROP_SINGULARITY.get()) {
                 RagingVortex ragingVortex = new RagingVortex(NtmEntityTypes.RAGING_VORTEX.get(), level);
                 ragingVortex.setPos(itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
                 ragingVortex.setSize(3.5F);
                 level.addFreshEntity(ragingVortex);
+                itemEntity.discard();
             }
-
-            itemEntity.discard();
         }
 
         return false;
@@ -162,13 +168,13 @@ public class DangerousDropItem extends Item {
         }
         if(this == NtmItems.DETONATOR_DEADMAN.get()) {
             if(!TagsUtil.hasCustomData(stack)) {
-                components.add(Component.translatable("detonator.no_pos"));
+                components.add(Component.translatable("item.hbmsntm.obj_detonator.pos_none").withStyle(ChatFormatting.GRAY));
             } else {
                 CompoundTag tag = TagsUtil.getCustomData(stack);
                 int x = tag.getInt("x");
                 int y = tag.getInt("y");
                 int z = tag.getInt("z");
-                components.add(Component.translatable("detonator.set_to", x, y, z));
+                components.add(Component.translatable("item.hbmsntm.obj_detonator.pos_linked", x, y, z).withStyle(ChatFormatting.GRAY));
             }
         }
         if(this == NtmItems.PARTICLE_DIGAMMA.get()) {
@@ -181,16 +187,16 @@ public class DangerousDropItem extends Item {
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
-        if (this != NtmItems.DETONATOR_DEADMAN.get()) {
+        if(this != NtmItems.DETONATOR_DEADMAN.get()) {
             return super.useOn(context);
         }
         Player player = context.getPlayer();
-        if (player == null) return InteractionResult.PASS;
+        if(player == null) return InteractionResult.PASS;
         Level level = context.getLevel();
         ItemStack stack = context.getItemInHand();
 
-        if (!level.isClientSide) {
-            if (player.isCrouching()) {
+        if(!level.isClientSide) {
+            if(player.isCrouching()) {
                 CompoundTag tag = new CompoundTag();
                 tag.putInt("x", context.getClickedPos().getX());
                 tag.putInt("y", context.getClickedPos().getY());

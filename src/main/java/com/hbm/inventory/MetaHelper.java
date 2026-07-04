@@ -1,12 +1,8 @@
 package com.hbm.inventory;
 
-import com.hbm.blocks.states.NtmBlockStateProperties;
 import com.hbm.items.component.NtmDataComponents;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 
 public class MetaHelper {
 
@@ -18,10 +14,6 @@ public class MetaHelper {
      */
     public static int getMeta(ItemStack stack) {
         return stack.getOrDefault(NtmDataComponents.META.get(), 0);
-    }
-
-    public static void setBlock(Level level, BlockPos pos, BlockState state, int meta, int flags) {
-        level.setBlock(pos, state.setValue(NtmBlockStateProperties.META, meta), flags);
     }
 
     /**
@@ -36,22 +28,13 @@ public class MetaHelper {
         return stack;
     }
 
-    /**
-     * Creates stack and sets meta
-     */
-    public static ItemStack newStack(ItemLike item, int meta) {
-        return newStack(item, 1, meta);
-    }
-
+    public static ItemStack newStack(ItemLike item, int meta) { return newStack(item, 1, meta); }
     public static ItemStack newStack(ItemLike item, int count, int meta) {
         ItemStack stack = new ItemStack(item, count);
         return metaStack(stack, meta);
     }
 
-    public static ItemStack newStack(ItemLike item, Enum<?> theEnum) {
-        return newStack(item, 1, theEnum.ordinal());
-    }
-
+    public static ItemStack newStack(ItemLike item, Enum<?> theEnum) { return newStack(item, 1, theEnum.ordinal()); }
     public static ItemStack newStack(ItemLike item, int count, Enum<?> theEnum) {
         ItemStack stack = new ItemStack(item, count);
         return metaStack(stack, theEnum.ordinal());

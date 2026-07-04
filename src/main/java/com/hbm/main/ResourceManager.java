@@ -46,6 +46,13 @@ public class ResourceManager {
     public static final ResourceLocation FUSION_PLASMA_GLOW_TEX = NuclearTechMod.withDefaultNamespace("textures/models/fusion/plasma_glow.png");
     public static final ResourceLocation FUSION_PLASMA_SPARKLE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/fusion/plasma_sparkle.png");
 
+    // Blast
+    public static final ResourceLocation TOM_BLAST_TEX = NuclearTechMod.withDefaultNamespace("textures/models/explosion/tom_blast.png");
+
+    // Boxcar
+    public static final ResourceLocation TOM_MAIN_TEX = NuclearTechMod.withDefaultNamespace("textures/models/weapon/tom_main.png");
+    public static final ResourceLocation TOM_FLAME_TEX = NuclearTechMod.withDefaultNamespace("textures/models/weapon/tom_flame.png");
+
     // Bomber
     public static final ResourceLocation DORNIER_1_TEX = NuclearTechMod.withDefaultNamespace("textures/models/dornier_1.png");
     public static final ResourceLocation DORNIER_2_TEX = NuclearTechMod.withDefaultNamespace("textures/models/dornier_2.png");
@@ -67,8 +74,8 @@ public class ResourceManager {
     public static final ResourceLocation MISSILE_V2_CL_TEX = NuclearTechMod.withDefaultNamespace("textures/models/missile/missile_v2_cl.png");
     public static final ResourceLocation MISSILE_V2_BU_TEX = NuclearTechMod.withDefaultNamespace("textures/models/missile/missile_v2_bu.png");
     public static final ResourceLocation MISSILE_V2_DECOY_TEX = NuclearTechMod.withDefaultNamespace("textures/models/missile/missile_v2_decoy.png");
-    public static final ResourceLocation MISSILE_AA_TEX = NuclearTechMod.withDefaultNamespace("textures/models/missile/missile_abm.png");
     public static final ResourceLocation MISSILE_STEALTH_TEX = NuclearTechMod.withDefaultNamespace("textures/models/missile/missile_stealth.png");
+    public static final ResourceLocation MISSILE_AA_TEX = NuclearTechMod.withDefaultNamespace("textures/models/missile/missile_abm.png");
     public static final ResourceLocation MISSILE_STRONG_HE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/missile/missile_strong.png");
     public static final ResourceLocation MISSILE_STRONG_EMP_TEX = NuclearTechMod.withDefaultNamespace("textures/models/missile/missile_strong_emp.png");
     public static final ResourceLocation MISSILE_STRONG_IN_TEX = NuclearTechMod.withDefaultNamespace("textures/models/missile/missile_strong_inc.png");
@@ -139,6 +146,7 @@ public class ResourceManager {
 
     // Missile Parts
     public static final ResourceLocation MISSILE_PAD_TEX = NuclearTechMod.withDefaultNamespace("textures/models/launchpad/silo.png");
+    public static final ResourceLocation MISSILE_PAD_RUSTED_TEX = NuclearTechMod.withDefaultNamespace("textures/models/launchpad/silo_rusted.png");
     public static final ResourceLocation MISSILE_ERECTOR_TEX = NuclearTechMod.withDefaultNamespace("textures/models/launchpad/pad.png");
     public static final ResourceLocation MISSILE_ERECTOR_MICRO_TEX = NuclearTechMod.withDefaultNamespace("textures/models/launchpad/erector_micro.png");
     public static final ResourceLocation MISSILE_ERECTOR_V2_TEX = NuclearTechMod.withDefaultNamespace("textures/models/launchpad/erector_v2.png");
@@ -215,12 +223,16 @@ public class ResourceManager {
     public static IModelCustom battery_socket;
     public static IModelCustom battery_redd;
 
-    //Bomber
+    // Boxcar
+    public static IModelCustom tom_main;
+    public static IModelCustom tom_flame;
+
+    // Bomber
     public static IModelCustom dornier;
     public static IModelCustom b29;
     public static IModelCustom c130;
 
-    //Missiles
+    // Missiles
     public static IModelCustom missileV2;
     public static IModelCustom missileABM;
     public static IModelCustom missileStealth;
@@ -301,6 +313,9 @@ public class ResourceManager {
 
         battery_socket = new HFRWavefrontObject("models/obj/machines/battery.obj").asVBO();
         battery_redd = new HFRWavefrontObject("models/obj/machines/fensu2.obj").asVBO();
+
+        tom_main = new HFRWavefrontObject("models/obj/weapons/tom_main.obj").asVBO();
+        tom_flame = new HFRWavefrontObject("models/obj/weapons/tom_flame.obj").asVBO();
 
         dornier = new HFRWavefrontObject("models/obj/dornier.obj").asVBO();
         b29 = new HFRWavefrontObject("models/obj/b29.obj").asVBO();

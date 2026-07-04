@@ -10,6 +10,7 @@ import com.hbm.explosion.vanillant.standard.BlockMutatorFire;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCross;
 import com.hbm.items.weapon.MissileItem;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.main.NuclearTechModClient;
 import com.hbm.util.RayTraceResult;
 import com.hbm.util.Vec3NT;
@@ -57,8 +58,8 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
         targetZ = (int) this.position.z;
     }
 
-    public MissileBaseNT setPosAndTarget(double x, double y, double z, int a, int b) {
-        this.moveTo(x, y, z, 0, 0);
+    public MissileBaseNT setPosAndTarget(Vec3 position, int a, int b) {
+        this.moveTo(position, 0, 0);
         startX = (int) this.position.x;
         startZ = (int) this.position.z;
         targetX = a;
@@ -234,10 +235,10 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (this.isInvulnerable()) return false;
-        if (this.health > 0 && !this.level().isClientSide) {
+        if(this.isInvulnerable()) return false;
+        if(this.health > 0 && !this.level().isClientSide) {
             this.health -= amount;
-            if (this.health <= 0) this.killMissile();
+            if(this.health <= 0) this.killMissile();
         }
         return true;
     }

@@ -160,9 +160,9 @@ public class ExplosionLarge {
     @Deprecated
     public static void explode(ServerLevel serverLevel, double x, double y, double z, int strength, boolean cloud, boolean rubble, boolean shrapnel, @Nullable Entity exploder) {
         ExplosionVNT.createExplosion(serverLevel, exploder, x, y, z, strength, true);
-        if (cloud) spawnParticles(serverLevel, x, y, z, cloudFunction(strength));
-        if (rubble) spawnRubble(serverLevel, x, y, z, rubbleFunction(strength));
-        if (shrapnel) spawnShrapnels(serverLevel, x, y, z, shrapnelFunction(strength));
+        if(cloud) spawnParticles(serverLevel, x, y, z, cloudFunction(strength));
+        if(rubble) spawnRubble(serverLevel, x, y, z, rubbleFunction(strength));
+        if(shrapnel) spawnShrapnels(serverLevel, x, y, z, shrapnelFunction(strength));
     }
 
     @Deprecated
@@ -173,9 +173,9 @@ public class ExplosionLarge {
     @Deprecated
     public static void explodeFire(ServerLevel serverLevel, double x, double y, double z, int strength, boolean cloud, boolean rubble, boolean shrapnel) {
         ExplosionVNT.newExplosion(serverLevel, null, x, y, z, strength, true, true);
-        if (cloud) spawnParticles(serverLevel, x, y, z, cloudFunction(strength));
-        if (rubble) spawnRubble(serverLevel, x, y, z, rubbleFunction(strength));
-        if (shrapnel) spawnShrapnels(serverLevel, x, y, z, shrapnelFunction(strength));
+        if(cloud) spawnParticles(serverLevel, x, y, z, cloudFunction(strength));
+        if(rubble) spawnRubble(serverLevel, x, y, z, rubbleFunction(strength));
+        if(shrapnel) spawnShrapnels(serverLevel, x, y, z, shrapnelFunction(strength));
     }
 
     public static void buster(ServerLevel serverLevel, double x, double y, double z, Vec3 vector, float strength, float depth) {

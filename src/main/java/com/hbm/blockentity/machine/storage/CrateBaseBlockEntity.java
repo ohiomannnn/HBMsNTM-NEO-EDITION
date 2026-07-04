@@ -35,7 +35,7 @@ public abstract class CrateBaseBlockEntity extends LockableBaseBlockEntity imple
 
     public boolean hasSpiders = false;
 
-    public CrateBaseBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState, int size) {
+    public CrateBaseBlockEntity(BlockEntityType<? extends CrateBaseBlockEntity> type, BlockPos pos, BlockState blockState, int size) {
         super(type, pos, blockState);
         this.slots = NonNullList.withSize(size, ItemStack.EMPTY);
     }

@@ -8,6 +8,7 @@ import com.hbm.commands.SatellitesCommand;
 import com.hbm.config.FalloutConfigJSON;
 import com.hbm.config.NtmConfig;
 import com.hbm.entity.NtmEntityTypes;
+import com.hbm.entity.missile.MissileAntiBallistic;
 import com.hbm.entity.mob.CreeperNuclear;
 import com.hbm.entity.mob.Duck;
 import com.hbm.extprop.HbmPlayerAttachments;
@@ -75,6 +76,7 @@ public class CommonEvents {
         ArmorUtil.register();
         Satellite.register();
         LaunchPadBaseBlockEntity.registerLaunchables();
+        MissileAntiBallistic.registerEntityClasses();
     }
 
     @SubscribeEvent
@@ -82,6 +84,8 @@ public class CommonEvents {
 
         // Networks! All of them!
         UniNodespace.updateNodespace(event.getServer());
+        // Radar entry handling
+        MissileAntiBallistic.updateSystem(event.getServer());
     }
 
     @SubscribeEvent
@@ -104,7 +108,7 @@ public class CommonEvents {
 
         if (!HbmPlayerAttachments.getData(player).ducked) {
             if (player instanceof ServerPlayer serverPlayer) {
-                PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(Component.translatable("o.to_duck"), NuclearTechModClient.ID_DUCK, 30_000));
+                PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(Component.translatable("info.duck"), NuclearTechModClient.ID_DUCK, 30_000));
             }
         }
     }

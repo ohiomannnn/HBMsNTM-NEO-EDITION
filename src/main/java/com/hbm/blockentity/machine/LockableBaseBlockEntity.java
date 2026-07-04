@@ -1,9 +1,9 @@
 package com.hbm.blockentity.machine;
 
-import com.hbm.items.NtmItems;
-import com.hbm.main.NuclearTechMod;
 import com.hbm.blockentity.LoadedBaseBlockEntity;
+import com.hbm.items.NtmItems;
 import com.hbm.items.tools.KeyItem;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.registry.NtmSoundEvents;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
@@ -21,7 +21,7 @@ public abstract class LockableBaseBlockEntity extends LoadedBaseBlockEntity {
     private boolean isLocked = false;
     protected double lockMod = 0.1D;
 
-    public LockableBaseBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
+    public LockableBaseBlockEntity(BlockEntityType<? extends LockableBaseBlockEntity> type, BlockPos pos, BlockState blockState) {
         super(type, pos, blockState);
     }
 

@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
 
 public class ProxyBaseBlockEntity extends LoadedBaseBlockEntity {
 
-    public ProxyBaseBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public ProxyBaseBlockEntity(BlockEntityType<? extends ProxyBaseBlockEntity> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 

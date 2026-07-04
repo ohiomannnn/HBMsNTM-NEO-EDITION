@@ -43,26 +43,26 @@ public class ItemRenderMissileGeneric extends BlockEntityWithoutLevelRenderer {
     public void renderByItem(ItemStack stack, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
 
         RocketModelData renderer = renderers.get(new ComparableStack(stack));
-        if (renderer == null) return;
+        if(renderer == null) return;
 
         RenderContext.setup(poseStack, packedLight, packedOverlay);
 
         float guiScale = 1;
         float guiOffset = 0;
 
-        switch (this.type) {
+        switch(this.type) {
             case TYPE_TIER0 -> { guiScale = 5F; guiOffset = 13.5F; }
             case TYPE_TIER1 -> { guiScale = 3.75F; guiOffset = 13F; }
             case TYPE_TIER2 -> {  guiScale = 2.75F; guiOffset = 12F; }
             case TYPE_TIER3 -> {  guiScale = 1.85F; guiOffset = 10F; }
             case TYPE_STEALTH -> {  guiScale = 2.4F; guiOffset = 11F; }
-            case TYPE_ABM -> {  guiScale = 2.25F; guiOffset = 7F; }
+            case TYPE_ABM -> { guiScale = 3.25F; guiOffset = 12F; }
             case TYPE_NUCLEAR -> {  guiScale = 1.8F; guiOffset = 9F; }
             case TYPE_ROBIN -> {  guiScale = 1.6F; guiOffset = 11F; }
         }
 
         RenderContext.translate(0.5F, 0F, 0.5F);
-        switch (displayContext) {
+        switch(displayContext) {
             case FIRST_PERSON_RIGHT_HAND -> {
                 RenderContext.translate(0.3F, 0.41F, 0.2F);
                 RenderContext.scale(0.35F, 0.35F, 0.35F);
@@ -151,10 +151,11 @@ public class ItemRenderMissileGeneric extends BlockEntityWithoutLevelRenderer {
         renderers.put(new ComparableStack(NtmItems.MISSILE_EMP.get()), generateStandard(ResourceManager.MISSILE_MICRO_EMP_TEX, ResourceManager.missileMicro));
 
         renderers.put(new ComparableStack(NtmItems.MISSILE_GENERIC.get()), generateStandard(ResourceManager.MISSILE_V2_HE_TEX, ResourceManager.missileV2));
-        renderers.put(new ComparableStack(NtmItems.MISSILE_DECOY.get()), generateStandard(ResourceManager.MISSILE_V2_DECOY_TEX, ResourceManager.missileV2));
         renderers.put(new ComparableStack(NtmItems.MISSILE_INCENDIARY.get()), generateStandard(ResourceManager.MISSILE_V2_IN_TEX, ResourceManager.missileV2));
         renderers.put(new ComparableStack(NtmItems.MISSILE_CLUSTER.get()), generateStandard(ResourceManager.MISSILE_V2_CL_TEX, ResourceManager.missileV2));
         renderers.put(new ComparableStack(NtmItems.MISSILE_BUSTER.get()), generateStandard(ResourceManager.MISSILE_V2_BU_TEX, ResourceManager.missileV2));
+        renderers.put(new ComparableStack(NtmItems.MISSILE_DECOY.get()), generateStandard(ResourceManager.MISSILE_V2_DECOY_TEX, ResourceManager.missileV2));
+        renderers.put(new ComparableStack(NtmItems.MISSILE_ANTI_BALLISTIC.get()), generateStandard(ResourceManager.MISSILE_AA_TEX, ResourceManager.missileABM));
 
         renderers.put(new ComparableStack(NtmItems.MISSILE_STEALTH.get()), new RocketModelData(null, null, 0F) {
             @Override

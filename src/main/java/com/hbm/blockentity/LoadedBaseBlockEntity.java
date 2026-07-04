@@ -21,9 +21,12 @@ public class LoadedBaseBlockEntity extends BlockEntity implements ILoadedBE, IBu
 
     public boolean isLoaded = true;
     public boolean muffled = false;
+    public boolean tilted = false;
+    public int tiltBlocksChecked = 0;
+    public int tiltBlocksValid = 0;
 
-    public LoadedBaseBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
-        super(type, pos, blockState);
+    public LoadedBaseBlockEntity(BlockEntityType<? extends LoadedBaseBlockEntity> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
     }
 
     @Override
@@ -75,7 +78,7 @@ public class LoadedBaseBlockEntity extends BlockEntity implements ILoadedBE, IBu
 
     /** Sends a sync packet that uses ByteBuf for efficient information-cramming */
     public void networkPackNT(int range) {
-        if (level == null || level.isClientSide) return;
+        if(this.level == null || this.level.isClientSide) return;
 
         FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
         this.serialize(buf);
@@ -83,11 +86,11 @@ public class LoadedBaseBlockEntity extends BlockEntity implements ILoadedBE, IBu
         buf.readBytes(data);
         buf.release();
 
-        if (Arrays.equals(data, lastPacketData) && level.getGameTime() % 20 != 0) return;
+        if(Arrays.equals(data, lastPacketData) && level.getGameTime() % 20 != 0) return;
 
         this.lastPacketData = data;
 
-        if (level instanceof ServerLevel serverLevel) {
+        if(level instanceof ServerLevel serverLevel) {
             PacketDistributor.sendToPlayersNear(serverLevel, null, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), range, new BufPacket(worldPosition, data));
         }
     }

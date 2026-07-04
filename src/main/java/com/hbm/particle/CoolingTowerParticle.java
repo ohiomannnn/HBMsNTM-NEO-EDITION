@@ -1,8 +1,13 @@
 package com.hbm.particle;
 
+import com.hbm.particle.vanilla.NbtParticleOption;
+import com.hbm.particle.vanilla.ParticleProviderBase;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.*;
-import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.nbt.CompoundTag;
 
 public class CoolingTowerParticle extends TextureSheetParticle {
 
@@ -15,9 +20,10 @@ public class CoolingTowerParticle extends TextureSheetParticle {
 
     public CoolingTowerParticle(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
+
         this.rCol = this.gCol = this.bCol = 0.9F + level.random.nextFloat() * 0.05F;
         this.hasPhysics = false;
-        this.setSpriteFromAge(ModParticles.BASE_PARTICLE_SPRITES);
+        this.setSpriteFromAge(NtmParticles.BASE_PARTICLE_SPRITES);
     }
 
     public void setBaseScale(float f) { this.baseScale = f; }
@@ -38,26 +44,20 @@ public class CoolingTowerParticle extends TextureSheetParticle {
         float ageScale = (float) this.age / (float) this.lifetime;
 
         this.alpha = alphaMod - ageScale * alphaMod;
-        this.quadSize = baseScale + (float)Math.pow((maxScale * ageScale - baseScale), 2);
+        this.quadSize = baseScale + (float) Math.pow((maxScale * ageScale - baseScale), 2);
 
-        if (lift > 0 && this.yd < this.lift) {
-            this.yd += 0.01F;
-        }
-        if (lift < 0 && this.yd > this.lift) {
-            this.yd -= 0.01F;
-        }
+        if(lift > 0 && this.yd < this.lift) this.yd += 0.01F;
+        if(lift < 0 && this.yd > this.lift) this.yd -= 0.01F;
 
         this.xd += this.random.nextGaussian() * strafe * ageScale;
         this.zd += this.random.nextGaussian() * strafe * ageScale;
 
-        if (windDir) {
+        if(windDir) {
             this.xd += 0.02 * ageScale;
             this.zd -= 0.01 * ageScale;
         }
 
-        if (this.age++ >= this.lifetime) {
-            this.remove();
-        }
+        if(this.age++ >= this.lifetime) this.remove();
 
         this.move(this.xd, this.yd, this.zd);
 
@@ -71,10 +71,29 @@ public class CoolingTowerParticle extends TextureSheetParticle {
         return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
+    public static class CoolingTowerProvider extends ParticleProviderBase<NbtParticleOption> {
         @Override
-        public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
-            return new CoolingTowerParticle(level, x, y, z);
+        public void createParticle(NbtParticleOption options, double x, double y, double z, double xd, double yd, double zd, ClientLevel level, LocalPlayer player, int particleSetting) {
+            CompoundTag tag = options.tag;
+
+            if(particleSetting == 0 || (particleSetting == 1 && level.random.nextBoolean())) {
+                CoolingTowerParticle particle = new CoolingTowerParticle(level, x, y, z);
+
+                particle.setLift(tag.getFloat("lift"));
+                particle.setBaseScale(tag.getFloat("base"));
+                particle.setMaxScale(tag.getFloat("max"));
+                particle.setLife(tag.getInt("life") / (particleSetting + 1));
+                if(tag.contains("noWind")) particle.noWind();
+                if(tag.contains("strafe")) particle.setStrafe(tag.getFloat("strafe"));
+                if(tag.contains("alpha")) particle.alphaMod(tag.getFloat("alpha"));
+
+                if(tag.contains("color")) {
+                    int color = tag.getInt("color");
+                    particle.setColor((color >> 16 & 255) / 255F, (color >> 8 & 255) / 255F, (color & 255) / 255F);
+                }
+
+                Minecraft.getInstance().particleEngine.add(particle);
+            }
         }
     }
 }

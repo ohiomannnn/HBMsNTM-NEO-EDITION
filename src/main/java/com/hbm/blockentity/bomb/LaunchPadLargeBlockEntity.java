@@ -6,7 +6,9 @@ import com.hbm.entity.missile.MissileBaseNT;
 import com.hbm.items.weapon.MissileItem;
 import com.hbm.items.weapon.MissileItem.MissileFormFactor;
 import com.hbm.lib.Library;
-import com.hbm.main.NuclearTechModClient;
+import com.hbm.main.NuclearTechMod;
+import com.hbm.particle.NtmParticles;
+import com.hbm.particle.vanilla.NbtParticleOption;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.util.fauxpointtwelve.DirPos;
@@ -204,7 +206,6 @@ public class LaunchPadLargeBlockEntity extends LaunchPadBaseBlockEntity {
 
             if(this.erected && (this.formFactor == MissileFormFactor.HUGE.ordinal() || this.formFactor == MissileFormFactor.ATLAS.ordinal()) && this.tanks[1].getFill() > 0) {
                 CompoundTag tag = new CompoundTag();
-                tag.putString("type", "tower");
                 tag.putFloat("lift", 0F);
                 tag.putFloat("base", 0.5F);
                 tag.putFloat("max", 2F);
@@ -212,10 +213,7 @@ public class LaunchPadLargeBlockEntity extends LaunchPadBaseBlockEntity {
                 tag.putBoolean("noWind", true);
                 tag.putFloat("alphaMod", 2F);
                 tag.putFloat("strafe", 0.05F);
-                tag.putDouble("posX", x + 0.5 + level.random.nextGaussian() * 0.5);
-                tag.putDouble("posY", y + 2);
-                tag.putDouble("posZ", z + 0.5 + level.random.nextGaussian() * 0.5);
-                for(int i = 0; i < 3; i++) NuclearTechModClient.effectNT(tag);
+                for(int i = 0; i < 3; i++) NuclearTechMod.proxy.addParticle(new NbtParticleOption(NtmParticles.COOLING_TOWER.get(), tag), x + 0.5 + level.random.nextGaussian() * 0.5, y + 2, z + 0.5 + level.random.nextGaussian() * 0.5, 0F, 0F, 0F);
             }
 
             List<MissileBaseNT> entities = level.getEntitiesOfClass(MissileBaseNT.class, new AABB(x - 0.5, y, z - 0.5, x + 1.5, y + 10, z + 1.5));
@@ -225,18 +223,10 @@ public class LaunchPadLargeBlockEntity extends LaunchPadBaseBlockEntity {
 
                     Direction dir = this.getBlockState().getValue(DummyableBlock.FACING);
                     if(level.random.nextBoolean()) dir = dir.getOpposite();
-                    float moX = (float) (level.random.nextGaussian() * 0.15F + 0.75) * dir.getStepX();
-                    float moZ = (float) (level.random.nextGaussian() * 0.15F + 0.75) * dir.getStepZ();
+                    float xd = (float) (level.random.nextGaussian() * 0.15F + 0.75) * dir.getStepX();
+                    float zd = (float) (level.random.nextGaussian() * 0.15F + 0.75) * dir.getStepZ();
 
-                    CompoundTag tag = new CompoundTag();
-                    tag.putString("type", "launchSmoke");
-                    tag.putDouble("moX", moX);
-                    tag.putDouble("moY", 0);
-                    tag.putDouble("moZ", moZ);
-                    tag.putDouble("posX", x + 0.5);
-                    tag.putDouble("posY", y + 0.1);
-                    tag.putDouble("posZ", z + 0.5);
-                    NuclearTechModClient.effectNT(tag);
+                    NuclearTechMod.proxy.addParticle(NtmParticles.LAUNCH_SMOKE.get(), x + 0.5, y + 0.1, z + 0.5, xd, 0, zd);
                 }
             }
         }
@@ -317,5 +307,5 @@ public class LaunchPadLargeBlockEntity extends LaunchPadBaseBlockEntity {
     }
 
     @Override public boolean isReadyForLaunch() { return this.erected && this.readyToLoad; }
-    @Override public double getLaunchOffset() { return 2D; }
+    @Override public double getLaunchOffset() { return 2.0; }
 }

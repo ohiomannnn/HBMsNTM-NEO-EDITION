@@ -17,8 +17,8 @@ public class BobMathUtil {
     public static float atan2(double y, double x) { return (float) Math.atan2(y, x); }
     public static float atan2(float y, float x) { return (float) Math.atan2(y, x); }
 
-    public static float sqrt(double value) { return (float) Math.sqrt(value); }
-    public static float sqrt(float value) { return (float) Math.sqrt(value); }
+    public static float sqrt(double value) { return (float) Math.sqrt(value); } // old MathHelper.sqrt_double
+    public static float sqrt(float value) { return (float) Math.sqrt(value); } // old MathHelper.sqrt_float
 
     public static float sin(double value) { return (float) Math.sin(value); }
     public static float sin(float value) { return (float) Math.sin(value); }

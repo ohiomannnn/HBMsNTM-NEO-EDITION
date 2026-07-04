@@ -22,7 +22,7 @@ public interface IBomb {
         // Success for launching missiles
         LAUNCHED(true, "bomb.launched"),
         // Error for bomb parts missing
-        ERROR_MISSING_COMPONENT(false, "bomb.missingComponent"),
+        ERROR_MISSING_COMPONENT(false, "bomb.missing_component"),
         // Error for target being incompatible (but still implements IBomb for some reason), like locked blast doors
         ERROR_INCOMPATIBLE(false, "bomb.incompatible"),
         // Not to be used by the bombs themselves, this is the generic error when trying to trigger no-bomb blocks

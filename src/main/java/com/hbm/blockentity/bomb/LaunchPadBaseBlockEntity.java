@@ -8,6 +8,7 @@ import com.hbm.blockentity.MachineBaseBlockEntity;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.config.NtmConfig;
 import com.hbm.entity.NtmEntityTypes;
+import com.hbm.entity.missile.MissileAntiBallistic;
 import com.hbm.entity.missile.MissileBaseNT;
 import com.hbm.interfaces.IBomb.BombReturnCode;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
@@ -21,6 +22,7 @@ import com.hbm.items.weapon.MissileItem.MissileFuel;
 import com.hbm.lib.Library;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.registry.NtmSoundEvents;
+import com.hbm.util.SoundUtils;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
@@ -29,6 +31,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Inventory;
@@ -133,23 +136,21 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
         return index == 0 && this.isMissileValid(stack);
     }
 
-    public abstract DirPos[] getConPos();
-
     @Override
     public void updateEntity() {
-        if (level == null) return;
+        if(this.level == null) return;
 
-        if (!level.isClientSide) {
+        if(!this.level.isClientSide) {
 
-            if (level.getGameTime() % 20 == 0) {
-                for (DirPos pos : getConPos()) {
+            if(level.getGameTime() % 20 == 0) {
+                for(DirPos pos : this.getConPos()) {
                     this.trySubscribe(level, pos);
-                    if (tanks[0].getTankType() != Fluids.NONE) this.trySubscribe(tanks[0].getTankType(), level, pos);
-                    if (tanks[1].getTankType() != Fluids.NONE) this.trySubscribe(tanks[1].getTankType(), level, pos);
+                    if(tanks[0].getTankType() != Fluids.NONE) this.trySubscribe(tanks[0].getTankType(), level, pos);
+                    if(tanks[1].getTankType() != Fluids.NONE) this.trySubscribe(tanks[1].getTankType(), level, pos);
                 }
             }
 
-            if (this.redstonePower > 0 && this.prevRedstonePower <= 0) {
+            if(this.redstonePower > 0 && this.prevRedstonePower <= 0) {
                 this.launchFromDesignator();
             }
 
@@ -157,8 +158,8 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
             tanks[0].loadTank(level, 3, 4, slots);
             tanks[1].loadTank(level, 5, 6, slots);
 
-            if (this.isMissileValid()) {
-                if (slots.get(0).getItem() instanceof MissileItem missileItem) {
+            if(this.isMissileValid()) {
+                if(slots.get(0).getItem() instanceof MissileItem missileItem) {
                     this.setFuel(missileItem);
                 }
             }
@@ -166,6 +167,8 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
             this.networkPackNT(250);
         }
     }
+
+    public abstract DirPos[] getConPos();
 
     @Override
     public void serialize(ByteBuf buf) {
@@ -203,7 +206,7 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
         this.prevRedstonePower = tag.getInt("PrevRedstonePower");
         CompoundTag activatedBlocksTag = tag.getCompound("ActivatedBlocks");
         this.activatedBlocks.clear();
-        for (int i = 0; i < activatedBlocksTag.getAllKeys().size() / 3; i++) {
+        for(int i = 0; i < activatedBlocksTag.getAllKeys().size() / 3; i++) {
             this.activatedBlocks.add(new BlockPos(
                     activatedBlocksTag.getInt("x" + i),
                     activatedBlocksTag.getInt("y" + i),
@@ -225,7 +228,7 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
 
         CompoundTag activatedBlocksTag = new CompoundTag();
         int i = 0;
-        for (BlockPos p : this.activatedBlocks) {
+        for(BlockPos p : this.activatedBlocks) {
             activatedBlocksTag.putInt("x" + i, p.getX());
             activatedBlocksTag.putInt("y" + i, p.getY());
             activatedBlocksTag.putInt("z" + i, p.getZ());
@@ -235,21 +238,17 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
     }
 
     public void updateRedstonePower(BlockPos pos) {
-        if (level == null) return;
+        if(level == null) return;
         boolean powered = level.hasNeighborSignal(pos);
         boolean contained = activatedBlocks.contains(pos);
-        if (!contained && powered) {
+        if(!contained && powered) {
             activatedBlocks.add(pos);
-            if (redstonePower == -1) {
-                redstonePower = 0;
-            }
+            if(redstonePower == -1) redstonePower = 0;
             redstonePower++;
-        } else if (contained && !powered) {
+        } else if(contained && !powered) {
             activatedBlocks.remove(pos);
             redstonePower--;
-            if (redstonePower == 0) {
-                redstonePower = -1;
-            }
+            if(redstonePower == 0) redstonePower = -1;
         }
     }
 
@@ -267,7 +266,7 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
     @Override public boolean canConnect(Direction dir) { return dir != Direction.UP && dir != Direction.DOWN; }
 
     public void setFuel(MissileItem missile) {
-        switch (missile.fuel) {
+        switch(missile.fuel) {
             case ETHANOL_PEROXIDE -> {
                 tanks[0].setTankType(Fluids.ETHANOL);
                 tanks[1].setTankType(Fluids.PEROXIDE);
@@ -297,11 +296,11 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
     }
 
     public boolean hasFuel() {
-        if (this.power < 75_000) return false;
+        if(this.power < 75_000) return false;
 
-        if (slots.get(0).getItem() instanceof MissileItem missileItem) {
-            if (this.tanks[0].getFill() < missileItem.fuelCap) return false;
-            if (this.tanks[1].getFill() < missileItem.fuelCap) return false;
+        if(slots.get(0).getItem() instanceof MissileItem missileItem) {
+            if(this.tanks[0].getFill() < missileItem.fuelCap) return false;
+            if(this.tanks[1].getFill() < missileItem.fuelCap) return false;
 
             return true;
         }
@@ -311,18 +310,24 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
 
     @Nullable
     public Entity instantiateMissile(int targetX, int targetZ) {
-        if (this.level == null) return null;
+        if(this.level == null) return null;
 
-        if (slots.get(0).isEmpty()) return null;
+        if(slots.get(0).isEmpty()) return null;
 
         EntityType<? extends MissileBaseNT> entityType = missiles.get(new ComparableStack(slots.get(0)).makeSingular());
 
-        if (entityType != null) {
+        if(entityType != null) {
             MissileBaseNT missile = entityType.create(level);
-            if (missile == null) return null;
-            missile.setPosAndTarget(this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + getLaunchOffset() /* Position arguments need to be -floats- (doubles, whatever), jackass */, this.getBlockPos().getZ() + 0.5, targetX, targetZ);
-            if (NtmConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) NuclearTechMod.LOGGER.info("[MISSILE] Tried to launch missile at {} / {} / {} to {} / {}!", this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(), targetX, targetZ);
+            if(missile == null) return null;
+            missile.setPosAndTarget(Vec3.atBottomCenterOf(this.getBlockPos()).add(0.0, this.getLaunchOffset(), 0.0), targetX, targetZ);
+            if(NtmConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) NuclearTechMod.LOGGER.info("[MISSILE] Tried to launch missile at {} / {} / {} to {} / {}!", this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(), targetX, targetZ);
             missile.getEntityData().set(MissileBaseNT.ROT, this.getBlockState().getValue(DummyableBlock.FACING));
+            return missile;
+        }
+
+        if(slots.get(0).is(NtmItems.MISSILE_ANTI_BALLISTIC.get())) {
+            MissileAntiBallistic missile = new MissileAntiBallistic(NtmEntityTypes.MISSILE_ANTI_BALLISTIC.get(), this.level);
+            missile.setPos(Vec3.atBottomCenterOf(this.getBlockPos()).add(0.0, this.getLaunchOffset(), 0.0));
             return missile;
         }
 
@@ -330,24 +335,23 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
     }
 
     public void finalizeLaunch(Entity missile) {
-        if (this.level == null) return;
+        if(this.level == null) return;
 
         level.addFreshEntity(missile);
-        level.playSound(null, this.getBlockPos().getX() + 0.5, this.getBlockPos().getY(), this.getBlockPos().getZ() + 0.5, NtmSoundEvents.MISSILE_TAKEOFF.get(), SoundSource.PLAYERS, 2.0F, 1.0F);
+        SoundUtils.playAtVec3(this.level, this.getBlockPos().getCenter(), NtmSoundEvents.MISSILE_TAKEOFF.get(), SoundSource.BLOCKS);
 
         this.power -= 75_000;
 
-        if (slots.get(0).getItem() instanceof MissileItem missileItem) {
+        if(slots.get(0).getItem() instanceof MissileItem missileItem) {
             tanks[0].setFill(tanks[0].getFill() - missileItem.fuelCap);
             tanks[1].setFill(tanks[1].getFill() - missileItem.fuelCap);
         }
 
         this.removeItem(0, 1);
-        this.setChanged();
     }
 
     public BombReturnCode launchFromDesignator() {
-        if (!canLaunch()) return BombReturnCode.ERROR_MISSING_COMPONENT;
+        if(!this.canLaunch()) return BombReturnCode.ERROR_MISSING_COMPONENT;
 
         boolean needsDesignator = needsDesignator(slots.get(0).getItem());
 
@@ -357,27 +361,28 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
         int targetX = x;
         int targetZ = z;
 
-        if (slots.get(1).getItem() instanceof IDesignatorItem designatorItem) {
-            if (needsDesignator) {
-                if (!designatorItem.isReady(level, slots.get(1), this.getBlockPos())) return BombReturnCode.ERROR_MISSING_COMPONENT;
+        if(slots.get(1).getItem() instanceof IDesignatorItem idi) {
+            if(needsDesignator) {
 
-                Vec3 coords = designatorItem.getCoords(level, slots.get(1), this.getBlockPos());
-                targetX = (int) Math.floor(coords.x);
-                targetZ = (int) Math.floor(coords.z);
+                if(!idi.isReady(level, slots.get(1), this.getBlockPos())) return BombReturnCode.ERROR_MISSING_COMPONENT;
+
+                Vec3 coords = idi.getCoords(level, slots.get(1), this.getBlockPos());
+                targetX = Mth.floor(coords.x);
+                targetZ = Mth.floor(coords.z);
             }
 
         } else {
-            if (needsDesignator) return BombReturnCode.ERROR_MISSING_COMPONENT;
+            if(needsDesignator) return BombReturnCode.ERROR_MISSING_COMPONENT;
         }
 
         return this.launchToCoordinate(targetX, targetZ);
     }
 
     public BombReturnCode launchToEntity(Entity entity) {
-        if (!canLaunch()) return BombReturnCode.ERROR_MISSING_COMPONENT;
+        if(!this.canLaunch()) return BombReturnCode.ERROR_MISSING_COMPONENT;
 
-        Entity e = instantiateMissile((int) Math.floor(entity.position.x), (int) Math.floor(entity.position.z));
-        if (e != null) {
+        Entity e = this.instantiateMissile((int) Math.floor(entity.position.x), (int) Math.floor(entity.position.z));
+        if(e != null) {
             finalizeLaunch(e);
             return BombReturnCode.LAUNCHED;
         }
@@ -385,10 +390,10 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
     }
 
     public BombReturnCode launchToCoordinate(int targetX, int targetZ) {
-        if (!canLaunch()) return BombReturnCode.ERROR_MISSING_COMPONENT;
+        if(!this.canLaunch()) return BombReturnCode.ERROR_MISSING_COMPONENT;
 
         Entity e = instantiateMissile(targetX, targetZ);
-        if (e != null) {
+        if(e != null) {
             finalizeLaunch(e);
             return BombReturnCode.LAUNCHED;
         }
@@ -406,7 +411,7 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
     }
 
     public boolean needsDesignator(Item item) {
-        return true;
+        return item != NtmItems.MISSILE_ANTI_BALLISTIC.get();
     }
 
     /** Full launch condition, checks if the item is launchable, fuel and power are present and any additional checks based on launch pad type */
@@ -423,13 +428,13 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
     }
 
     public int getGaugeState(int tank) {
-        if (slots.get(0).isEmpty()) return 0;
+        if(slots.get(0).isEmpty()) return 0;
 
-        if (slots.get(0).getItem() instanceof MissileItem missileItem) {
-            MissileFuel fuel = missileItem.fuel;
+        if(slots.get(0).getItem() instanceof MissileItem missile) {
+            MissileFuel fuel = missile.fuel;
 
-            if (fuel == MissileFuel.SOLID) return 0;
-            return tanks[tank].getFill() >= missileItem.fuelCap ? 1 : -1;
+            if(fuel == MissileFuel.SOLID) return 0;
+            return tanks[tank].getFill() >= missile.fuelCap ? 1 : -1;
         }
 
         return 0;

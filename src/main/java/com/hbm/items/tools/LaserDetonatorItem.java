@@ -49,22 +49,22 @@ public class LaserDetonatorItem extends Item implements IHoldableWeapon {
         RayTraceResult ray = Library.rayTrace(player, 500, 1);
 
         BlockPos pos = ray.getBlockPos();
-        if (!level.isClientSide) {
+        if(!level.isClientSide) {
             Block block = level.getBlockState(pos).getBlock();
-            if (block instanceof IBomb ib) {
+            if(block instanceof IBomb ib) {
                 IBomb.BombReturnCode ret = ib.explode(level, pos);
 
-                if (NtmConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
+                if(NtmConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
                     NuclearTechMod.LOGGER.info("[LASER DETONATOR] {} detonated {} at {} / {} / {}!", player.getName().getString(), block.getName().getString(), pos.getX(), pos.getY(), pos.getZ());
                 }
 
                 level.playSound(null, player.getX(), player.getY(), player.getZ(), NtmSoundEvents.TECH_BLEEP.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
-                if (player instanceof ServerPlayer serverPlayer) {
+                if(player instanceof ServerPlayer serverPlayer) {
                     PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(Component.translatable(ret.getUnlocalizedMessage()).withStyle(ret.wasSuccessful() ? ChatFormatting.YELLOW : ChatFormatting.RED), NuclearTechModClient.ID_DETONATOR, 500));
                 }
             } else {
                 level.playSound(null, player.getX(), player.getY(), player.getZ(), NtmSoundEvents.TECH_BOOP.get(), SoundSource.AMBIENT, 1.0F, 1.0F);
-                if (player instanceof ServerPlayer serverPlayer) {
+                if(player instanceof ServerPlayer serverPlayer) {
                     PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(Component.translatable(BombReturnCode.ERROR_NO_BOMB.getUnlocalizedMessage()).withStyle( ChatFormatting.RED), NuclearTechModClient.ID_DETONATOR, 500));
                 }
             }
@@ -73,7 +73,7 @@ public class LaserDetonatorItem extends Item implements IHoldableWeapon {
             double len = Math.min(vec.length(), 15D);
             vec = vec.normalize();
 
-            for (int i = 0; i < len; i++) {
+            for(int i = 0; i < len; i++) {
                 double rand = level.random.nextDouble() * len + 3;
                 level.addParticle(new DustParticleOptions(DustParticleOptions.REDSTONE_PARTICLE_COLOR, 1.0F), player.getX() + vec.x * rand, player.getEyeY() + vec.y * rand, player.getZ() + vec.z * rand, 0, 0, 0);
             }

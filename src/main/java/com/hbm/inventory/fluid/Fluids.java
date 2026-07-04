@@ -6,11 +6,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
-import com.hbm.main.NuclearTechMod;
 import com.hbm.inventory.fluid.trait.FT_Corrosive;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
 import com.hbm.inventory.fluid.trait.FluidTrait;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.*;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.render.util.EnumSymbol;
 
 import java.io.*;
@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 public class Fluids {
+
     public static final Gson gson = new Gson();
 
     public static List<IFluidRegisterListener> additionalListeners = new ArrayList<>();
@@ -29,6 +30,10 @@ public class Fluids {
     public static FluidType NONE;
     public static FluidType AIR;
     public static FluidType WATER;
+    public static FluidType STEAM;
+    public static FluidType HOTSTEAM;
+    public static FluidType SUPERHOTSTEAM;
+    public static FluidType ULTRAHOTSTEAM;
     public static FluidType LAVA;
     public static FluidType KEROSENE;
     public static FluidType GAS;
@@ -36,6 +41,8 @@ public class Fluids {
     public static FluidType UNSATURATEDS;		//collection of various basic unsaturated compounds like ethylene, acetylene and whatnot
     public static FluidType PEROXIDE;
     public static FluidType OXYGEN;
+    public static FluidType BALEFIRE;
+    public static FluidType SPENTSTEAM;
     public static FluidType ETHANOL;
     public static FluidType KEROSENE_REFORM;
 
@@ -81,6 +88,11 @@ public class Fluids {
         NONE =					new FluidType("NONE",				0x888888, 0, 0, 0, EnumSymbol.NONE);
         AIR =					new FluidType("AIR",				0xE7EAEB, 0, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
         WATER =					new FluidType("WATER",			0x3333FF, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, UNSIPHONABLE);
+        STEAM =					new FluidType("STEAM",			0xe5e5e5, 3, 0, 0, EnumSymbol.NONE).setTemp(100).addTraits(GASEOUS, UNSIPHONABLE);
+        HOTSTEAM =				new FluidType("HOTSTEAM",			0xE7D6D6, 4, 0, 0, EnumSymbol.NONE).setTemp(300).addTraits(GASEOUS, UNSIPHONABLE);
+        SUPERHOTSTEAM =			new FluidType("SUPERHOTSTEAM",	0xE7B7B7, 4, 0, 0, EnumSymbol.NONE).setTemp(450).addTraits(GASEOUS, UNSIPHONABLE);
+        ULTRAHOTSTEAM =			new FluidType("ULTRAHOTSTEAM",	0xE39393, 4, 0, 0, EnumSymbol.NONE).setTemp(600).addTraits(GASEOUS, UNSIPHONABLE);
+        SPENTSTEAM =			new FluidType("SPENTSTEAM",		0x445772, 2, 0, 0, EnumSymbol.NONE).addTraits(NOCON, GASEOUS);
         LAVA =					new FluidType("LAVA",				0xFF3300, 4, 0, 0, EnumSymbol.NOWATER).setTemp(1200).addTraits(LIQUID, VISCOUS);
         KEROSENE =				new FluidType("KEROSENE",			0xffa5d2, 1, 2, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0xFF377D)).addTraits(new FT_Flammable(300_000),/*new FT_Combustible(FuelGrade.AERO, 1_250_000), LIQUID, P_FUEL*/ LIQUID);
         GAS =					new FluidType("GAS",				0xfffeed, 1, 4, 1, EnumSymbol.NONE).addContainers(new CD_Gastank(0xFF4545, 0xFFE97F)).addTraits(new FT_Flammable(10_000), GASEOUS /*P_GAS*/);
@@ -96,10 +108,10 @@ public class Fluids {
 
         File folder = NuclearTechMod.configHbmDir;
         File customTypes = new File(folder.getAbsolutePath() + File.separatorChar + "hbmFluidTypes.json");
-        if (!customTypes.exists()) initDefaultFluids(customTypes);
+        if(!customTypes.exists()) initDefaultFluids(customTypes);
         readCustomFluids(customTypes);
 
-        for (IFluidRegisterListener listener : additionalListeners) listener.onFluidsLoad();
+        for(IFluidRegisterListener listener : additionalListeners) listener.onFluidsLoad();
 
         //AND DON'T FORGET THE META DOWN HERE
         // V V V V V V V V
@@ -110,6 +122,12 @@ public class Fluids {
         metaOrder.add(AIR);
         metaOrder.add(WATER);
         metaOrder.add(LAVA);
+        //steams
+        metaOrder.add(STEAM);
+        metaOrder.add(HOTSTEAM);
+        metaOrder.add(SUPERHOTSTEAM);
+        metaOrder.add(ULTRAHOTSTEAM);
+        metaOrder.add(SPENTSTEAM);
         //pure elements, cyogenic gasses
         metaOrder.add(OXYGEN);
         //oils, fuels
@@ -126,7 +144,7 @@ public class Fluids {
         metaOrder.addAll(customFluids);
         metaOrder.addAll(foreignFluids);
 
-        if (idMapping.size() != metaOrder.size()) {
+        if(idMapping.size() != metaOrder.size()) {
             throw new IllegalStateException("A severe error has occurred during NTM's fluid registering process! The MetaOrder and Mappings are inconsistent! Mapping stacksize: " + idMapping.size()+ " / MetaOrder stacksize: " + metaOrder.size());
         }
     }

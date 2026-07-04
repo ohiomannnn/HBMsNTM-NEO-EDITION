@@ -17,7 +17,7 @@ public class DeadLeafParticle extends TextureSheetParticle {
 
     public DeadLeafParticle(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
-        this.setSpriteFromAge(ModParticles.DEAD_LEAVES_SPRITES);
+        this.setSpriteFromAge(NtmParticles.DEAD_LEAVES_SPRITES);
 
         this.rCol = this.gCol = this.bCol = 1F - level.random.nextFloat() * 0.2F;
         this.quadSize = 0.1F;
@@ -100,7 +100,7 @@ public class DeadLeafParticle extends TextureSheetParticle {
     public static class Provider implements ParticleProvider<SimpleParticleType> {
 
         public Provider(SpriteSet sprites) {
-            ModParticles.DEAD_LEAVES_SPRITES = sprites;
+            NtmParticles.DEAD_LEAVES_SPRITES = sprites;
         }
 
         @Override

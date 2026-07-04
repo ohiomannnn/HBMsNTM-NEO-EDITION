@@ -3,6 +3,7 @@ package com.hbm.main;
 import com.hbm.util.i18n.I18nServer;
 import com.hbm.util.i18n.ITranslate;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
@@ -30,6 +31,8 @@ public class ServerProxy {
     public void playLocalSound(double x, double y, double z, SoundEvent soundEvent, SoundSource source, float volume, float pitch) { }
 
     public void openScreen(Player player, BlockPos pos) { }
+
+    public void addParticle(ParticleOptions options, double x, double y, double z, double xd, double yd, double zd) { }
 
     @Nullable
     public Player me() {

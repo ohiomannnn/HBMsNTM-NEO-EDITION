@@ -48,7 +48,7 @@ public class DetonatorItem extends Item {
 
                 level.playSound(null, player.getX(), player.getY(), player.getZ(), NtmSoundEvents.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
                 player.displayClientMessage(Component.literal("[" + this.getName(stack).getString() + "] ").withStyle(ChatFormatting.DARK_AQUA)
-                        .append(Component.translatable("detonator.pos_set").withStyle(ChatFormatting.GREEN)), false);
+                        .append(Component.translatable("item.hbmsntm.obj_detonator.pos_set").withStyle(ChatFormatting.GREEN)), false);
 
             }
         }
@@ -63,7 +63,7 @@ public class DetonatorItem extends Item {
         if(!level.isClientSide) {
             if(!TagsUtil.hasCustomData(stack)) {
                 player.displayClientMessage(Component.literal("[" + this.getName(stack).getString() + "] ").withStyle(ChatFormatting.DARK_AQUA)
-                        .append(Component.translatable("detonator.no_pos").withStyle(ChatFormatting.RED)), false);
+                        .append(Component.translatable("item.hbmsntm.obj_detonator.pos_none").withStyle(ChatFormatting.RED)), false);
             } else {
                 CompoundTag tag = TagsUtil.getCustomData(stack);
                 int x = tag.getInt("x");
@@ -103,9 +103,9 @@ public class DetonatorItem extends Item {
             int x = tag.getInt("x");
             int y = tag.getInt("y");
             int z = tag.getInt("z");
-            components.add(Component.translatable("detonator.set_to", x, y, z).withStyle(ChatFormatting.YELLOW));
+            components.add(Component.translatable("item.hbmsntm.obj_detonator.pos_linked", x, y, z).withStyle(ChatFormatting.YELLOW));
         } else {
-            components.add(Component.translatable("detonator.no_pos").withStyle(ChatFormatting.RED));
+            components.add(Component.translatable("item.hbmsntm.obj_detonator.pos_none").withStyle(ChatFormatting.RED));
         }
     }
 }

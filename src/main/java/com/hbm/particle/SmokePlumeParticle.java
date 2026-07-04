@@ -1,20 +1,26 @@
 package com.hbm.particle;
 
-import com.hbm.main.NuclearTechMod;
 import com.hbm.blocks.bomb.LaunchPadBlock;
+import com.hbm.main.NuclearTechMod;
+import com.hbm.particle.engine.ParticleEngineNT;
 import com.hbm.particle.engine.ParticleNT;
 import com.hbm.render.NtmRenderTypes;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
+
+import javax.annotation.Nullable;
 
 public class SmokePlumeParticle extends ParticleNT {
 
@@ -104,5 +110,18 @@ public class SmokePlumeParticle extends ParticleNT {
     @Override
     public RenderType getRenderType() {
         return NtmRenderTypes.SMOTH_NO_DEPTH.apply(TEXTURE);
+    }
+
+    public static class LaunchSmokeProvider implements ParticleProvider<SimpleParticleType> {
+
+        @Override
+        public @Nullable Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xd, double yd, double zd) {
+            SmokePlumeParticle contrail = new SmokePlumeParticle(level, x, y, z);
+            contrail.xd = xd;
+            contrail.yd = yd;
+            contrail.zd = zd;
+            ParticleEngineNT.INSTANCE.add(contrail);
+            return null;
+        }
     }
 }

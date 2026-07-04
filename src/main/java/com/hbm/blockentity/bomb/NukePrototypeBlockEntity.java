@@ -34,20 +34,20 @@ public class NukePrototypeBlockEntity extends NukeBaseBlockEntity {
 
     @Override
     public boolean isReady() {
-        return slots.get(0).getItem() == NtmItems.CELL_SAS3.get() &&
-                slots.get(1).getItem() == NtmItems.CELL_SAS3.get() &&
-                MetaHelper.compareStacks(slots.get(2), MetaHelper.newStack(NtmItems.ROD_QUAD, BreedingRodType.URANIUM)) &&
-                MetaHelper.compareStacks(slots.get(3), MetaHelper.newStack(NtmItems.ROD_QUAD, BreedingRodType.URANIUM)) &&
-                MetaHelper.compareStacks(slots.get(4), MetaHelper.newStack(NtmItems.ROD_QUAD, BreedingRodType.LEAD)) &&
-                MetaHelper.compareStacks(slots.get(5), MetaHelper.newStack(NtmItems.ROD_QUAD, BreedingRodType.LEAD)) &&
-                MetaHelper.compareStacks(slots.get(6), MetaHelper.newStack(NtmItems.ROD_QUAD, BreedingRodType.NP237)) &&
-                MetaHelper.compareStacks(slots.get(7), MetaHelper.newStack(NtmItems.ROD_QUAD, BreedingRodType.NP237)) &&
-                MetaHelper.compareStacks(slots.get(8), MetaHelper.newStack(NtmItems.ROD_QUAD, BreedingRodType.LEAD)) &&
-                MetaHelper.compareStacks(slots.get(9), MetaHelper.newStack(NtmItems.ROD_QUAD, BreedingRodType.LEAD)) &&
-                MetaHelper.compareStacks(slots.get(10), MetaHelper.newStack(NtmItems.ROD_QUAD, BreedingRodType.URANIUM)) &&
-                MetaHelper.compareStacks(slots.get(11), MetaHelper.newStack(NtmItems.ROD_QUAD, BreedingRodType.URANIUM)) &&
-                slots.get(12).getItem() == NtmItems.CELL_SAS3.get() &&
-                slots.get(13).getItem() == NtmItems.CELL_SAS3.get();
+        return slots.get(0).is(NtmItems.CELL_SAS3.get()) &&
+                slots.get(1).is(NtmItems.CELL_SAS3.get()) &&
+                ItemStack.isSameItemSameComponents(slots.get(2), MetaHelper.newStack(NtmItems.ROD_QUAD, BreedingRodType.URANIUM)) &&
+                ItemStack.isSameItemSameComponents(slots.get(3), MetaHelper.newStack(NtmItems.ROD_QUAD, BreedingRodType.URANIUM)) &&
+                ItemStack.isSameItemSameComponents(slots.get(4), MetaHelper.newStack(NtmItems.ROD_QUAD, BreedingRodType.LEAD)) &&
+                ItemStack.isSameItemSameComponents(slots.get(5), MetaHelper.newStack(NtmItems.ROD_QUAD, BreedingRodType.LEAD)) &&
+                ItemStack.isSameItemSameComponents(slots.get(6), MetaHelper.newStack(NtmItems.ROD_QUAD, BreedingRodType.NP237)) &&
+                ItemStack.isSameItemSameComponents(slots.get(7), MetaHelper.newStack(NtmItems.ROD_QUAD, BreedingRodType.NP237)) &&
+                ItemStack.isSameItemSameComponents(slots.get(8), MetaHelper.newStack(NtmItems.ROD_QUAD, BreedingRodType.LEAD)) &&
+                ItemStack.isSameItemSameComponents(slots.get(9), MetaHelper.newStack(NtmItems.ROD_QUAD, BreedingRodType.LEAD)) &&
+                ItemStack.isSameItemSameComponents(slots.get(10), MetaHelper.newStack(NtmItems.ROD_QUAD, BreedingRodType.URANIUM)) &&
+                ItemStack.isSameItemSameComponents(slots.get(11), MetaHelper.newStack(NtmItems.ROD_QUAD, BreedingRodType.URANIUM)) &&
+                slots.get(12).is(NtmItems.CELL_SAS3.get()) &&
+                slots.get(13).is(NtmItems.CELL_SAS3.get());
     }
 
     @Override

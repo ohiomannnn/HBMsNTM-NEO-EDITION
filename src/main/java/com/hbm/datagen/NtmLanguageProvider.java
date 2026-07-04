@@ -307,6 +307,9 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmItems.KEY_RED_CRACKED, DESC + P11,"§4???§r");
         this.add(NtmItems.KEY_KIT, "Key Imitation Kit");
         this.add(NtmItems.KEY_FAKE, "Counterfeit Key");
+        this.add(NtmItems.LAUNCH_CODE_PIECE, "Silo Launch Code Piece");
+        this.add(NtmItems.LAUNCH_CODE, "Silo Launch Code");
+        this.add(NtmItems.LAUNCH_KEY, "Silo Launch Key");
 
         this.add("item.hbmsntm.obj_missile.tier0", "Tier 0");
         this.add("item.hbmsntm.obj_missile.tier1", "Tier 1");
@@ -332,8 +335,9 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmItems.MISSILE_INCENDIARY, "Incendiary Missile");
         this.add(NtmItems.MISSILE_CLUSTER, "Cluster Missile");
         this.add(NtmItems.MISSILE_BUSTER, "Bunker Buster");
-        this.add(NtmItems.MISSILE_STEALTH, "Stealth Missile");
         this.add(NtmItems.MISSILE_DECOY, "Decoy Missile");
+        this.add(NtmItems.MISSILE_STEALTH, "Stealth Missile");
+        this.add(NtmItems.MISSILE_ANTI_BALLISTIC, "Anti-Ballistic Missile");
 
         this.add(NtmItems.MISSILE_STRONG, "Strong HE Missile");
         this.add(NtmItems.MISSILE_INCENDIARY_STRONG, "Strong Incendiary Missile");
@@ -522,8 +526,12 @@ public class NtmLanguageProvider extends LanguageProvider {
 
         this.add(NtmItems.IGNITER, "Igniter");
         this.add(NtmItems.IGNITER, DESC, "(Used by right-clicking the Prototype)$It's a green metal handle with a$bright red button and a small lid.$At the bottom, the initials N.E. are$engraved. Whoever N.E. was, he had$a great taste in shades of green.");
+        this.add("item.hbmsntm.obj_detonator.pos_set", "Position set!");
+        this.add("item.hbmsntm.obj_detonator.pos_none", "No position set!");
+        this.add("item.hbmsntm.obj_detonator.pos_linked", "Linked to %s, %s, %s");
         this.add(NtmItems.DETONATOR, "Detonator");
         this.add(NtmItems.DETONATOR, DESC, "Shift right-click to set position,$right-click to detonate!");
+        this.add("item.hbmsntm.obj_detonator.pos_added", "Position added!");
         this.add(NtmItems.DETONATOR_MULTI, "Multi Detonator");
         this.add(NtmItems.DETONATOR_MULTI, DESC, "Shift right-click block to add position,$right-click to detonate!$Shift right-click in the air to clear positions.");
         this.add(NtmItems.DETONATOR_LASER, "Laser Detonator");
@@ -801,6 +809,32 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add("itemGroup.consumable", "NTM Consumables and Gear");
 
         this.add("fluid.pressurized", "Pressurized, use compressor!");
+
+        this.add("info.duck", "Press O to Duck!");
+        this.add("info.asbestos", "My lungs are burning.");
+        this.add("info.coaldust", "It's hard to breathe here.");
+
+        this.add("trait.asbestos", "Asbestos");
+        this.add("trait.blinding", "Blinding");
+        this.add("trait.coal", "Coal Dust");
+        this.add("trait.digamma", "Digamma Radiation");
+        this.add("trait.drop", "Dangerous Drop");
+        this.add("trait.explosive", "Flammable / Explosive");
+        this.add("trait.furnace", "Worth %s operations in nuclear furnace");
+        this.add("trait.heat", "Provides %s HEAT");
+        this.add("trait.hlParticle", "Particle Half-Life: %s");
+        this.add("trait.hlPlayer", "Player Half-Life: %s");
+        this.add("trait.hot", "Pyrophoric / Hot");
+        this.add("trait.hydro", "Hydroreactive");
+        this.add("trait.radioactive", "Radioactive");
+        this.add("trait.radResistance", "Radiation resistance: %s");
+
+        this.add("bomb.detonated", "Detonated successfully!");
+        this.add("bomb.triggered", "Triggered successfully!");
+        this.add("bomb.launched", "Launched successfully!");
+        this.add("bomb.missing_component", "Component missing!");
+        this.add("bomb.incompatible", "Device can not be triggered!");
+        this.add("bomb.nobomb", "Linked position incompatible or unloaded!");
 
         this.add("he", "HE"); // hbm energy
         this.add("mb", "mB"); // milibuckets

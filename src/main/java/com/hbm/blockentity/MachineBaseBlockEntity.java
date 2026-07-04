@@ -6,7 +6,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Component.Serializer;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -23,19 +22,22 @@ public abstract class MachineBaseBlockEntity extends LoadedBaseBlockEntity imple
 
     public MachineBaseBlockEntity(BlockEntityType<? extends MachineBaseBlockEntity> type, BlockPos pos, BlockState state, int size) {
         super(type, pos, state);
+
         this.slots = NonNullList.withSize(size, ItemStack.EMPTY);
     }
 
+    @Override
     public Component getName() {
         return this.customName != null ? this.customName : this.getDefaultName();
     }
 
+    @Override
     public Component getDisplayName() {
         return this.getName();
     }
 
-    @Nullable
-    public Component getCustomName() {
+    @Override
+    public @Nullable Component getCustomName() {
         return this.customName;
     }
 
@@ -63,8 +65,8 @@ public abstract class MachineBaseBlockEntity extends LoadedBaseBlockEntity imple
         return Container.stillValidBlockEntity(this, player);
     }
 
-    @Override public void startOpen(Player player) {}
-    @Override public void stopOpen(Player player) {}
+    @Override public void startOpen(Player player) { }
+    @Override public void stopOpen(Player player) { }
 
     @Override
     public boolean canPlaceItem(int slot, ItemStack stack) {
@@ -126,6 +128,6 @@ public abstract class MachineBaseBlockEntity extends LoadedBaseBlockEntity imple
 
         ContainerHelper.saveAllItems(tag, this.slots, registries);
 
-        if(this.customName != null) tag.putString("CustomName", Serializer.toJson(this.customName, registries));
+        if(this.customName != null) tag.putString("CustomName", Component.Serializer.toJson(this.customName, registries));
     }
 }

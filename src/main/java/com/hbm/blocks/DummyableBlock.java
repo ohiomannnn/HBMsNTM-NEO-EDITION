@@ -294,8 +294,10 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
 
     @Override
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
-        if(!state.is(newState.getBlock())) {
 
+        Containers.dropContentsOnDestroy(state, newState, level, pos);
+
+        if(!state.is(newState.getBlock())) {
             if(!safeRem) {
                 Direction dir = state.getValue(FACING);
                 BlockPos neighborPos = pos.relative(dir.getOpposite());
@@ -304,50 +306,34 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
                     level.removeBlock(neighborPos, false);
                 }
             }
-
-            // Drop inventory contents
-            BlockEntity be = level.getBlockEntity(pos);
-            if(be instanceof Container container) {
-                Containers.dropContents(level, pos, container);
-
-                super.onRemove(state, level, pos, newState, isMoving);
-                level.updateNeighbourForOutputSignal(pos, this);
-            } else {
-                super.onRemove(state, level, pos, newState, isMoving);
-            }
         }
+        super.onRemove(state, level, pos, newState, isMoving);
     }
 
     @Override
-    public void playerDestroy(Level level, Player player, BlockPos pos, BlockState state, BlockEntity blockEntity, ItemStack tool) {
+    public void playerDestroy(Level level, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity be, ItemStack tool) {
         player.awardStat(Stats.BLOCK_MINED.get(this));
         player.causeFoodExhaustion(0.005F);
     }
 
     @Override
     public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-        BlockPos corePos = this.findCore(level, pos);
-        if(!player.isCreative()) {
+        if(!player.hasInfiniteMaterials()) {
+            BlockPos corePos = this.findCore(level, pos);
+            if(corePos == null) return super.playerWillDestroy(level, pos, state, player);
             dropResources(state, level, corePos, level.getBlockEntity(corePos), player, player.getMainHandItem());
         }
         return super.playerWillDestroy(level, pos, state, player);
     }
 
-    @Override
-    protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {
-        return 1.0F;
-    }
+    @Override protected float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) { return 1.0F; }
 
     @Override
-    protected RenderShape getRenderShape(BlockState state) {
-        return RenderShape.ENTITYBLOCK_ANIMATED;
-    }
+    protected RenderShape getRenderShape(BlockState state) { return RenderShape.ENTITYBLOCK_ANIMATED; }
 
     public List<AABB> bounding = new ArrayList<>();
 
-    public boolean useDetailedHitbox() {
-        return !bounding.isEmpty();
-    }
+    public boolean useDetailedHitbox() { return !bounding.isEmpty(); }
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
@@ -467,11 +453,11 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
         if(level.isClientSide) return InteractionResult.SUCCESS;
 
         if(!player.isShiftKeyDown()) {
-            BlockPos corePos = findCore(level, pos);
+            BlockPos corePos = this.findCore(level, pos);
             if(corePos == null) return InteractionResult.FAIL;
 
-            BlockEntity blockentity = level.getBlockEntity(corePos);
-            if(blockentity instanceof MenuProvider be) player.openMenu(new SimpleMenuProvider(be, be.getDisplayName()), pos);
+            BlockEntity be = level.getBlockEntity(corePos);
+            if(be instanceof MenuProvider menu) player.openMenu(new SimpleMenuProvider(menu, menu.getDisplayName()), pos);
             return InteractionResult.CONSUME;
         }
 

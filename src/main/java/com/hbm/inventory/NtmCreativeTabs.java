@@ -426,6 +426,10 @@ public class NtmCreativeTabs {
                         output.accept(NtmItems.DESIGNATOR);
                         output.accept(NtmItems.DESIGNATOR_RANGE);
 
+                        output.accept(NtmItems.LAUNCH_CODE_PIECE);
+                        output.accept(NtmItems.LAUNCH_CODE);
+                        output.accept(NtmItems.LAUNCH_KEY);
+
                         output.accept(NtmItems.MISSILE_TAINT);
                         output.accept(NtmItems.MISSILE_MICRO);
                         output.accept(NtmItems.MISSILE_BHOLE);
@@ -437,6 +441,7 @@ public class NtmCreativeTabs {
                         output.accept(NtmItems.MISSILE_CLUSTER);
                         output.accept(NtmItems.MISSILE_BUSTER);
                         output.accept(NtmItems.MISSILE_STEALTH);
+                        output.accept(NtmItems.MISSILE_ANTI_BALLISTIC);
                         output.accept(NtmItems.MISSILE_STRONG);
                         output.accept(NtmItems.MISSILE_INCENDIARY_STRONG);
                         output.accept(NtmItems.MISSILE_CLUSTER_STRONG);

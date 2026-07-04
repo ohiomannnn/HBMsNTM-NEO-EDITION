@@ -1,7 +1,6 @@
 package com.hbm.datagen;
 
 import com.hbm.main.NuclearTechMod;
-import com.hbm.main.NuclearTechModClient;
 import com.hbm.registry.NtmSoundEvents;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -257,10 +256,13 @@ public class NtmSoundDefinitionsProvider extends SoundDefinitionsProvider {
         );
         // ALARMS
         this.add(NtmSoundEvents.ALARM_HATCH, SoundDefinition.definition()
-                .with(sound("hbmsntm:alarm/lpfhaiwg"))
+                .with(sound(NuclearTechMod.withDefaultNamespace("alarm/lpfhaiwg")))
         );
         this.add(NtmSoundEvents.ALARM_SOYUZED, SoundDefinition.definition()
-                .with(sound("hbmsntm:alarm/soyuzed"))
+                .with(sound(NuclearTechMod.withDefaultNamespace("alarm/soyuzed")))
+        );
+        this.add(NtmSoundEvents.CHIME, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("alarm/chime")))
         );
     }
 }

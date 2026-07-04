@@ -1,19 +1,26 @@
 package com.hbm.particle;
 
 import com.hbm.main.NuclearTechMod;
+import com.hbm.particle.engine.ParticleEngineNT;
 import com.hbm.particle.engine.ParticleNT;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager.DestFactor;
+import com.mojang.blaze3d.platform.GlStateManager.SourceFactor;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
 public class RadiationFogParticle extends ParticleNT {
@@ -32,20 +39,17 @@ public class RadiationFogParticle extends ParticleNT {
         this.yo = this.y;
         this.zo = this.z;
 
-        if (lifetime < 400) {
+        if(lifetime < 400) {
             lifetime = 400;
         }
 
-        this.age++;
-        if (this.age >= this.lifetime) {
-            this.remove();
-        }
+        if(this.age++ >= this.lifetime) this.remove();
 
         this.xd *= 0.96D;
         this.yd *= 0.96D;
         this.zd *= 0.96D;
 
-        if (this.onGround) {
+        if(this.onGround) {
             this.xd *= 0.7D;
             this.zd *= 0.7D;
         }
@@ -61,12 +65,12 @@ public class RadiationFogParticle extends ParticleNT {
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.enableBlend();
-        RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        RenderSystem.blendFuncSeparate(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA, SourceFactor.ONE, DestFactor.ZERO);
         RenderSystem.depthMask(false);
         RenderSystem.setShaderTexture(0, TEXTURE);
         RenderSystem.setShaderColor(0.85F, 0.9F, 0.5F, this.alpha);
 
-        for (int i = 0; i < 25; i++) {
+        for(int i = 0; i < 25; i++) {
 
             float dX = (float) ((rand.nextGaussian() - 1F) * 2.5F);
             float dY = (float) ((rand.nextGaussian() - 1F) * 0.15F);
@@ -94,8 +98,14 @@ public class RadiationFogParticle extends ParticleNT {
         RenderSystem.disableBlend();
     }
 
-    @Override
-    public RenderType getRenderType() {
-        return null;
+    @Override public RenderType getRenderType() { return null; }
+
+    public static class RadiationFogProvider implements ParticleProvider<SimpleParticleType> {
+
+        @Override
+        public @Nullable Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double xd, double yd, double zd) {
+            ParticleEngineNT.INSTANCE.add(new RadiationFogParticle(level, x, y, z));
+            return null;
+        }
     }
 }

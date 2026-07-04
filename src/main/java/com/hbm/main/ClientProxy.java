@@ -12,10 +12,7 @@ import com.hbm.render.entity.item.RenderFallingBlockEntityNT;
 import com.hbm.render.entity.item.RenderTNTPrimedBase;
 import com.hbm.render.entity.mob.CreeperNuclearRenderer;
 import com.hbm.render.entity.mob.DuckRenderer;
-import com.hbm.render.entity.projectile.RenderBombletZeta;
-import com.hbm.render.entity.projectile.RenderMeteor;
-import com.hbm.render.entity.projectile.RenderRubble;
-import com.hbm.render.entity.projectile.RenderShrapnel;
+import com.hbm.render.entity.projectile.*;
 import com.hbm.render.entity.rocket.*;
 import com.hbm.render.item.*;
 import com.hbm.render.item.ItemRenderMissileGeneric.RenderMissileType;
@@ -31,6 +28,7 @@ import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -100,6 +98,9 @@ public class ClientProxy extends ServerProxy {
                 NtmItems.MISSILE_INCENDIARY.get(),
                 NtmItems.MISSILE_CLUSTER.get(),
                 NtmItems.MISSILE_BUSTER.get()
+        );
+        registerItemRenderer(event, new ItemRenderMissileGeneric(RenderMissileType.TYPE_ABM),
+                NtmItems.MISSILE_ANTI_BALLISTIC.get()
         );
         registerItemRenderer(event, new ItemRenderMissileGeneric(RenderMissileType.TYPE_STEALTH),
                 NtmItems.MISSILE_STEALTH.get()
@@ -180,8 +181,9 @@ public class ClientProxy extends ServerProxy {
         EntityRenderers.register(NtmEntityTypes.BOMBLET_ZETA.get(), RenderBombletZeta::new);
         EntityRenderers.register(NtmEntityTypes.METEOR.get(), RenderMeteor::new);
         EntityRenderers.register(NtmEntityTypes.BOMBER.get(), RenderBomber::new);
-        EntityRenderers.register(NtmEntityTypes.SHRAPNEL.get(), RenderShrapnel::new);
+        EntityRenderers.register(NtmEntityTypes.TOM.get(), RenderTom::new);
         EntityRenderers.register(NtmEntityTypes.RUBBLE.get(), RenderRubble::new);
+        EntityRenderers.register(NtmEntityTypes.SHRAPNEL.get(), RenderShrapnel::new);
         EntityRenderers.register(NtmEntityTypes.ROCKET.get(), ThrownItemRenderer::new);
         EntityRenderers.register(NtmEntityTypes.EMP.get(), EmptyEntityRenderer::new);
         EntityRenderers.register(NtmEntityTypes.NUKE_MK5.get(), EmptyEntityRenderer::new);
@@ -198,12 +200,13 @@ public class ClientProxy extends ServerProxy {
         EntityRenderers.register(NtmEntityTypes.MISSILE_CLUSTER.get(), RenderMissileGeneric::new);
         EntityRenderers.register(NtmEntityTypes.MISSILE_BUSTER.get(), RenderMissileGeneric::new);
         EntityRenderers.register(NtmEntityTypes.MISSILE_DECOY.get(), RenderMissileGeneric::new);
-        EntityRenderers.register(NtmEntityTypes.MISSILE_STEALTH.get(), RenderMissileStealth::new);
         EntityRenderers.register(NtmEntityTypes.MISSILE_STRONG.get(), RenderMissileStrong::new);
         EntityRenderers.register(NtmEntityTypes.MISSILE_INCENDIARY_STRONG.get(), RenderMissileStrong::new);
         EntityRenderers.register(NtmEntityTypes.MISSILE_CLUSTER_STRONG.get(), RenderMissileStrong::new);
         EntityRenderers.register(NtmEntityTypes.MISSILE_BUSTER_STRONG.get(), RenderMissileStrong::new);
         EntityRenderers.register(NtmEntityTypes.MISSILE_EMP_STRONG.get(), RenderMissileStrong::new);
+        EntityRenderers.register(NtmEntityTypes.MISSILE_STEALTH.get(), RenderMissileStealth::new);
+        EntityRenderers.register(NtmEntityTypes.MISSILE_ANTI_BALLISTIC.get(), RenderMissileAntiBallistic::new);
         EntityRenderers.register(NtmEntityTypes.MISSILE_BURST.get(), RenderMissileHuge::new);
         EntityRenderers.register(NtmEntityTypes.MISSILE_INFERNO.get(), RenderMissileHuge::new);
         EntityRenderers.register(NtmEntityTypes.MISSILE_RAIN.get(), RenderMissileHuge::new);
@@ -271,6 +274,11 @@ public class ClientProxy extends ServerProxy {
                 break;
             }
         }
+    }
+
+    @Override
+    public void addParticle(ParticleOptions options, double x, double y, double z, double xd, double yd, double zd) {
+        Minecraft.getInstance().particleEngine.createParticle(options, x, y, z, xd, yd, zd);
     }
 
     @Override

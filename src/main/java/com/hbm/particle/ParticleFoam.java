@@ -7,7 +7,6 @@ import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
@@ -41,7 +40,7 @@ public class ParticleFoam extends TextureSheetParticle {
 
     public ParticleFoam(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
-        this.setSpriteFromAge(ModParticles.BASE_PARTICLE_SPRITES);
+        this.setSpriteFromAge(NtmParticles.BASE_PARTICLE_SPRITES);
 
         lifetime = 60 + random.nextInt(60);
         gravity = 0.005F + random.nextFloat() * 0.015F;

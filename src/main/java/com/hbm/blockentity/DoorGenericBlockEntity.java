@@ -44,7 +44,7 @@ public class DoorGenericBlockEntity extends LockableBaseBlockEntity {
 
     public Animation currentAnimation;
 
-    public DoorGenericBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
+    public DoorGenericBlockEntity(BlockEntityType<? extends DoorGenericBlockEntity> type, BlockPos pos, BlockState blockState) {
         super(type, pos, blockState);
     }
 

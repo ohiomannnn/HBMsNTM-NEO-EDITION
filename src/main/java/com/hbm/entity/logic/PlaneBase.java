@@ -1,6 +1,8 @@
 package com.hbm.entity.logic;
 
 import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.main.NuclearTechMod;
+import com.hbm.main.NuclearTechModClient;
 import com.hbm.particle.helper.ExplosionSmallCreator;
 import com.hbm.registry.NtmDamageTypes;
 import com.hbm.registry.NtmSoundEvents;

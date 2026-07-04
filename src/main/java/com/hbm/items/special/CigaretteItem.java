@@ -1,16 +1,16 @@
 package com.hbm.items.special;
 
-import com.hbm.blocks.ITooltipProvider;
 import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.items.NtmItems;
+import com.hbm.particle.NtmParticles;
+import com.hbm.particle.helper.IParticleCreator;
+import com.hbm.particle.vanilla.NbtParticleOption;
 import com.hbm.registry.NtmSoundEvents;
-import com.hbm.network.toclient.AuxParticle;
 import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -22,8 +22,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.gameevent.GameEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.List;
 
@@ -65,13 +63,9 @@ public class CigaretteItem extends Item {
             level.playSound(null, living.getX(), living.getY(), living.getZ(), NtmSoundEvents.COUGH.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
 
             CompoundTag tag = new CompoundTag();
-            tag.putString("type", "vomit");
-            tag.putString("mode", "smoke");
             tag.putInt("count", 30);
-            tag.putInt("entity", player.getId());
-            if(level instanceof ServerLevel serverLevel) {
-                PacketDistributor.sendToPlayersNear(serverLevel, null, living.getX(), living.getY(), living.getZ(), 25, new AuxParticle(tag, 0, 0, 0));
-            }
+            tag.putInt("entity", living.getId());
+            IParticleCreator.addParticle(level, new NbtParticleOption(NtmParticles.VOMIT_SMOKE.get(), tag), living.getX(), living.getY(), living.getZ(), 0F, 0F, 0F, 25.0);
         }
 
         if(player != null) {

@@ -191,6 +191,9 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.basicItem(NtmItems.KEY_RED_CRACKED.get());
         this.basicItem(NtmItems.KEY_KIT.get());
         this.basicItem(NtmItems.KEY_FAKE.get());
+        this.basicItem(NtmItems.LAUNCH_CODE_PIECE.get());
+        this.basicItem(NtmItems.LAUNCH_CODE.get());
+        this.basicItem(NtmItems.LAUNCH_KEY.get());
 
         this.entityItem(NtmItems.MISSILE_TAINT.get(), true);
         this.entityItem(NtmItems.MISSILE_MICRO.get(), true);
@@ -218,6 +221,7 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.entityItem(NtmItems.MISSILE_DOOMSDAY_RUSTED.get(), true);
         this.entityItem(NtmItems.MISSILE_SHUTTLE.get(), true);
         this.entityItem(NtmItems.MISSILE_STEALTH.get(), true);
+        this.entityItem(NtmItems.MISSILE_ANTI_BALLISTIC.get(), true);
 
         // MISSILE_SOYUZ uses ICustomItemModelRegister
 

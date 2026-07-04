@@ -24,6 +24,14 @@ import com.hbm.items.special.PolaroidItem;
 import com.hbm.items.tools.GeigerCounterItem;
 import com.hbm.network.toserver.Ducc;
 import com.hbm.particle.*;
+import com.hbm.particle.ContrailParticle.ABMContrailProvider;
+import com.hbm.particle.CoolingTowerParticle.CoolingTowerProvider;
+import com.hbm.particle.ParticleDust.SweatProvider;
+import com.hbm.particle.ParticleDust.VomitBloodProvider;
+import com.hbm.particle.ParticleDust.VomitNormalProvider;
+import com.hbm.particle.ParticleDust.VomitSmokeProvider;
+import com.hbm.particle.RadiationFogParticle.RadiationFogProvider;
+import com.hbm.particle.SmokePlumeParticle.LaunchSmokeProvider;
 import com.hbm.particle.engine.ParticleEngineNT;
 import com.hbm.particle.engine.util.SpriteSetNT;
 import com.hbm.particle.helper.ParticleCreators;
@@ -62,9 +70,7 @@ import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -570,9 +576,9 @@ public class NuclearTechModClient {
     @SubscribeEvent
     public static void onTextureAtlasStitched(TextureAtlasStitchedEvent event) {
         if (event.getAtlas().location().equals(TextureAtlas.LOCATION_PARTICLES)) {
-            ModParticles.BASE_PARTICLE_SPRITES = new SpriteSetNT(event.getAtlas(), NuclearTechMod.withDefaultNamespace("base_particle"));
+            NtmParticles.BASE_PARTICLE_SPRITES = new SpriteSetNT(event.getAtlas(), NuclearTechMod.withDefaultNamespace("base_particle"));
 
-            ModParticles.VANILLA_CLOUD_SPRITES = new SpriteSetNT(event.getAtlas(), new ResourceLocation[] {
+            NtmParticles.VANILLA_CLOUD_SPRITES = new SpriteSetNT(event.getAtlas(), new ResourceLocation[] {
                     ResourceLocation.withDefaultNamespace("generic_7"),
                     ResourceLocation.withDefaultNamespace("generic_6"),
                     ResourceLocation.withDefaultNamespace("generic_5"),
@@ -587,42 +593,30 @@ public class NuclearTechModClient {
 
     @SubscribeEvent
     public static void registerParticles(RegisterParticleProvidersEvent event) {
-        event.registerSpecial(ModParticles.COOLING_TOWER.get(), new CoolingTowerParticle.Provider());
-        event.registerSpecial(ModParticles.DIGAMMA_SMOKE.get(), new DigammaSmokeParticle.Provider());
-        event.registerSpecial(ModParticles.DEBRIS.get(), new ParticleDebris.Provider());
-        event.registerSpecial(ModParticles.FOAM.get(), new ParticleFoam.Provider());
-        event.registerSpecial(ModParticles.ASHES.get(), new AshesParticle.Provider());
-        event.registerSpecial(ModParticles.AMAT_FLASH.get(), new AmatFlashParticle.Provider());
-        event.registerSpriteSet(ModParticles.GAS_FLAME.get(), ParticleGasFlame.Provider::new);
-        event.registerSpriteSet(ModParticles.DEAD_LEAF.get(), DeadLeafParticle.Provider::new);
-        event.registerSpriteSet(ModParticles.AURA.get(), ParticleAura.Provider::new);
-        event.registerSpecial(ModParticles.SKELETON.get(), new SkeletonParticle.Provider());
-        event.registerSpriteSet(ModParticles.POWER_DEBUG.get(), DebugParticle.PowerProvider::new);
-        event.registerSpriteSet(ModParticles.FLUID_DEBUG.get(), DebugParticle.FluidProvider::new);
-        event.registerSpecial(ModParticles.SPARK.get(), new SparkParticle.Provider());
+        event.registerSpecial(NtmParticles.DIGAMMA_SMOKE.get(), new DigammaSmokeParticle.Provider());
+        event.registerSpecial(NtmParticles.DEBRIS.get(), new ParticleDebris.Provider());
+        event.registerSpecial(NtmParticles.FOAM.get(), new ParticleFoam.Provider());
+        event.registerSpecial(NtmParticles.ASHES.get(), new AshesParticle.Provider());
+        event.registerSpecial(NtmParticles.AMAT_FLASH.get(), new AmatFlashParticle.Provider());
+        event.registerSpriteSet(NtmParticles.GAS_FLAME.get(), ParticleGasFlame.Provider::new);
+        event.registerSpriteSet(NtmParticles.DEAD_LEAF.get(), DeadLeafParticle.Provider::new);
+        event.registerSpriteSet(NtmParticles.AURA.get(), ParticleAura.Provider::new);
+        event.registerSpecial(NtmParticles.SKELETON.get(), new SkeletonParticle.Provider());
+        event.registerSpriteSet(NtmParticles.POWER_DEBUG.get(), DebugParticle.PowerProvider::new);
+        event.registerSpriteSet(NtmParticles.FLUID_DEBUG.get(), DebugParticle.FluidProvider::new);
+        event.registerSpecial(NtmParticles.SPARK.get(), new SparkParticle.Provider());
 
-        event.registerSpecial(ModParticles.VANILLA_CLOUD.get(), new PlayerCloudParticle.Provider());
-    }
+        event.registerSpecial(NtmParticles.VANILLA_CLOUD.get(), new PlayerCloudParticle.Provider());
 
-    public static void effectNT2(CompoundTag tag) {
-        Minecraft mc = Minecraft.getInstance();
-
-        ClientLevel level = mc.level;
-        if(level == null) return;
-
-        Player player = mc.player;
-        int particleSetting = mc.options.particles().get().getId();
-        RandomSource rand = level.random;
-
-        String type = tag.getString("type");
-        double x = tag.getDouble("x");
-        double y = tag.getDouble("y");
-        double z = tag.getDouble("z");
-
-        if(ParticleCreators.particleCreators.containsKey(type)) {
-            ParticleCreators.particleCreators.get(type).makeParticle(level, player, rand, x, y, z, tag);
-            return;
-        }
+        event.registerSpecial(NtmParticles.ABM_CONTRAIL.get(), new ABMContrailProvider());
+        event.registerSpecial(NtmParticles.RADIATION_FOG.get(), new RadiationFogProvider());
+        event.registerSpecial(NtmParticles.LAUNCH_SMOKE.get(), new LaunchSmokeProvider());
+        event.registerSpecial(NtmParticles.SWEAT.get(), new SweatProvider());
+        event.registerSpecial(NtmParticles.VOMIT_NORMAL.get(), new VomitNormalProvider());
+        event.registerSpecial(NtmParticles.VOMIT_BLOOD.get(), new VomitBloodProvider());
+        event.registerSpecial(NtmParticles.VOMIT_SMOKE.get(), new VomitSmokeProvider());
+        event.registerSpecial(NtmParticles.COOLING_TOWER.get(), new CoolingTowerProvider());
+        event.registerSpecial(NtmParticles.TOM_BLAST.get(), new CloudTomParticle.Provider());
     }
 
     public static void effectNT(CompoundTag data) {
@@ -646,19 +640,6 @@ public class NuclearTechModClient {
             if (ParticleCreators.particleCreators.containsKey(type)) {
                 ParticleCreators.particleCreators.get(type).makeParticle(level, player, rand, x, y, z, data);
                 return;
-            }
-
-            if ("radFog".equals(type)) {
-                RadiationFogParticle particle = new RadiationFogParticle(level, x, y, z);
-                ParticleEngineNT.INSTANCE.add(particle);
-            }
-
-            if ("launchSmoke".equals(type)) {
-                SmokePlumeParticle contrail = new SmokePlumeParticle(level, x, y, z);
-                contrail.xd = data.getDouble("moX");
-                contrail.yd = data.getDouble("moY");
-                contrail.zd = data.getDouble("moZ");
-                ParticleEngineNT.INSTANCE.add(contrail);
             }
 
             if ("missileContrail".equals(type)) {
@@ -886,27 +867,6 @@ public class NuclearTechModClient {
                 ParticleEngineNT.INSTANCE.add(new RBMKMushParticle(level, x, y, z, scale));
             }
 
-            if ("tower".equals(type)) {
-                if (particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean())) {
-                    CoolingTowerParticle particle = new CoolingTowerParticle(level, x, y, z);
-
-                    particle.setLift(data.getFloat("lift"));
-                    particle.setBaseScale(data.getFloat("base"));
-                    particle.setMaxScale(data.getFloat("max"));
-                    particle.setLife(data.getInt("life") / (particleSetting + 1));
-                    if (data.contains("noWind")) particle.noWind();
-                    if (data.contains("strafe")) particle.setStrafe(data.getFloat("strafe"));
-                    if (data.contains("alpha")) particle.alphaMod(data.getFloat("alpha"));
-
-                    if (data.contains("color")) {
-                        int color = data.getInt("color");
-                        particle.setColor((color >> 16 & 255) / 255F, (color >> 8 & 255) / 255F, (color & 255) / 255F);
-                    }
-
-                    innerMc.particleEngine.add(particle);
-                }
-            }
-
             if ("network".equals(type)) {
                 DebugParticle particle = null;
                 double mX = data.getDouble("mX");
@@ -958,77 +918,6 @@ public class NuclearTechModClient {
                     flash.setColor(0F, 0.75F, 1F);
                     flash.setParticleSpeed(rand.nextGaussian(), rand.nextGaussian(), rand.nextGaussian());
                     innerMc.particleEngine.add(flash);
-                }
-            }
-
-            if ("sweat".equals(type)) {
-                Entity entity = level.getEntity(data.getInt("entity"));
-                BlockState state = NbtUtils.readBlockState(level.holderLookup(Registries.BLOCK), data.getCompound("BlockState"));
-                int count = data.getInt("count");
-
-                if (entity instanceof LivingEntity) {
-                    for (int i = 0; i < count; i++) {
-                        double ix = entity.getBoundingBox().minX - 0.2 + (entity.getBoundingBox().maxX - entity.getBoundingBox().minX + 0.4) * rand.nextDouble();
-                        double iy = entity.getBoundingBox().minY + (entity.getBoundingBox().maxY - entity.getBoundingBox().minY + 0.2) * rand.nextDouble();
-                        double iz = entity.getBoundingBox().minZ - 0.2 + (entity.getBoundingBox().maxZ - entity.getBoundingBox().minZ + 0.4) * rand.nextDouble();
-
-                        ParticleDust fx = new ParticleDust(level, ix, iy, iz, 0, 0, 0, state);
-                        fx.setLifetime(150 + rand.nextInt(50));
-                        fx.setOriginalSize();
-
-                        innerMc.particleEngine.add(fx);
-                    }
-                }
-            }
-
-            if ("vomit".equals(type)) {
-                Entity e = level.getEntity(data.getInt("entity"));
-                int count = data.getInt("count") / (particleSetting + 1);
-
-                if (e instanceof LivingEntity living) {
-                    double ix = living.getX();
-                    double iy = living.getY() + living.getEyeHeight();
-                    double iz = living.getZ();
-
-                    Vec3 vec = living.getLookAngle();
-
-                    for (int i = 0; i < count; i++) {
-                        String mode = data.getString("mode");
-
-                        if ("normal".equals(mode)) {
-                            ParticleDust fx = new ParticleDust(level,
-                                    ix, iy, iz,
-                                    (vec.x + rand.nextGaussian() * 0.2) * 0.2,
-                                    (vec.y + rand.nextGaussian() * 0.2) * 0.2,
-                                    (vec.z + rand.nextGaussian() * 0.2) * 0.2,
-                                    rand.nextBoolean() ? Blocks.GREEN_TERRACOTTA.defaultBlockState() : Blocks.LIME_TERRACOTTA.defaultBlockState());
-                            fx.setLifetime(150 + rand.nextInt(50));
-                            fx.setOriginalSize();
-                            innerMc.particleEngine.add(fx);
-                        }
-
-                        if ("blood".equals(mode)) {
-                            ParticleDust fx = new ParticleDust(level,
-                                    ix, iy, iz,
-                                    (vec.x + rand.nextGaussian() * 0.2) * 0.2,
-                                    (vec.y + rand.nextGaussian() * 0.2) * 0.2,
-                                    (vec.z + rand.nextGaussian() * 0.2) * 0.2,
-                                    Blocks.REDSTONE_BLOCK.defaultBlockState());
-                            fx.setLifetime(150 + rand.nextInt(50));
-                            fx.setOriginalSize();
-                            innerMc.particleEngine.add(fx);
-                        }
-
-                        if ("smoke".equals(mode)) {
-                            innerMc.particleEngine.createParticle(
-                                    ParticleTypes.SMOKE,
-                                    ix, iy, iz,
-                                    (vec.x + rand.nextGaussian() * 0.1) * 0.05,
-                                    (vec.y + rand.nextGaussian() * 0.1) * 0.05,
-                                    (vec.z + rand.nextGaussian() * 0.1) * 0.05
-                            );
-                        }
-                    }
                 }
             }
 

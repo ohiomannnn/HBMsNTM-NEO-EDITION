@@ -1,10 +1,10 @@
 package com.hbm.items.tools;
 
-import com.hbm.main.NuclearTechMod;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.config.NtmConfig;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IBomb.BombReturnCode;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.TagsUtil;
 import net.minecraft.ChatFormatting;
@@ -28,6 +28,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class MultiDetonatorItem extends Item {
+
     public MultiDetonatorItem(Properties properties) {
         super(properties);
     }
@@ -35,17 +36,17 @@ public class MultiDetonatorItem extends Item {
     @Override
     public InteractionResult useOn(UseOnContext context) {
         Player player = context.getPlayer();
-        if (player == null) return InteractionResult.PASS;
+        if(player == null) return InteractionResult.PASS;
         Level level = context.getLevel();
         ItemStack stack = context.getItemInHand();
 
-        if (!level.isClientSide) {
-            if (player.isShiftKeyDown()) {
+        if(!level.isClientSide) {
+            if(player.isShiftKeyDown()) {
                 addLocation(stack, context.getClickedPos().getX(), context.getClickedPos().getY(), context.getClickedPos().getZ());
 
                 level.playSound(null, player.blockPosition(), NtmSoundEvents.TECH_BOOP.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
                 player.sendSystemMessage(Component.literal("[" + this.getName(stack).getString() + "] ").withStyle(ChatFormatting.DARK_AQUA)
-                        .append(Component.translatable("detonator.pos_set").withStyle(ChatFormatting.GREEN)));
+                        .append(Component.translatable("item.hbmsntm.obj_detonator.pos_added").withStyle(ChatFormatting.GREEN)));
             }
 
             return InteractionResult.SUCCESS;
@@ -58,17 +59,17 @@ public class MultiDetonatorItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         ItemStack stack = player.getItemInHand(usedHand);
 
-        if (!level.isClientSide) {
-            if (!TagsUtil.hasCustomData(stack) || getLocations(stack) == null) {
+        if(!level.isClientSide) {
+            if(!TagsUtil.hasCustomData(stack) || getLocations(stack) == null) {
                 player.sendSystemMessage(Component.literal("[" + this.getName(stack).getString() + "] ").withStyle(ChatFormatting.DARK_AQUA)
-                        .append(Component.translatable("detonator.no_pos").withStyle(ChatFormatting.RED)));
+                        .append(Component.translatable("item.hbmsntm.obj_detonator.pos_none").withStyle(ChatFormatting.RED)));
             } else {
-                if (!player.isCrouching()) {
+                if(!player.isCrouching()) {
                     int[][] locs = getLocations(stack);
 
                     int success = 0;
 
-                    for (int i = 0; i < locs[0].length; i++) {
+                    for(int i = 0; i < locs[0].length; i++) {
                         int x = locs[0][i];
                         int y = locs[1][i];
                         int z = locs[2][i];
@@ -76,12 +77,12 @@ public class MultiDetonatorItem extends Item {
                         BlockPos pos = new BlockPos(x, y, z);
                         Block block = level.getBlockState(pos).getBlock();
 
-                        if (block instanceof IBomb bomb) {
+                        if(block instanceof IBomb bomb) {
                             BombReturnCode ret = bomb.explode(level, pos);
 
-                            if (ret.wasSuccessful()) success++;
+                            if(ret.wasSuccessful()) success++;
 
-                            if (NtmConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
+                            if(NtmConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
                                 NuclearTechMod.LOGGER.info("[MULTI DETONATOR] {} detonated {} at {} / {} / {}!", player.getName().getString(), block.getName().getString(), x, y, z);
                             }
                         }
@@ -109,15 +110,14 @@ public class MultiDetonatorItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag tooltipFlag) {
-        for (String s : ITooltipProvider.getDescription(stack)) {
+        for(String s : ITooltipProvider.getDescription(stack)) {
             components.add(Component.translatable(s).withStyle(ChatFormatting.GRAY));
         }
-        if (!TagsUtil.hasCustomData(stack) || getLocations(stack) == null) {
-            components.add(Component.translatable("detonator.no_pos.multi").withStyle(ChatFormatting.RED));
+        if(!TagsUtil.hasCustomData(stack) || getLocations(stack) == null) {
+            components.add(Component.translatable("item.hbmsntm.obj_detonator.pos_none").withStyle(ChatFormatting.RED));
         } else {
-            components.add(Component.translatable("detonator.set_to.multi").withStyle(ChatFormatting.YELLOW));
             int[][] locs = getLocations(stack);
-            for (int i = 0; i < locs[0].length; i++) {
+            for(int i = 0; i < locs[0].length; i++) {
                 components.add(Component.literal(locs[0][i] + " / " + locs[1][i] + " / " + locs[2][i]).withStyle(ChatFormatting.YELLOW));
             }
         }

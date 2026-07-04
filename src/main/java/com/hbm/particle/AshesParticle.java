@@ -23,7 +23,7 @@ public class AshesParticle extends RotatingParticle {
 
     public AshesParticle(ClientLevel level, double x, double y, double z, float scale) {
         super(level, x, y, z);
-        this.setSpriteFromAge(ModParticles.BASE_PARTICLE_SPRITES);
+        this.setSpriteFromAge(NtmParticles.BASE_PARTICLE_SPRITES);
 
         this.lifetime = 1200 + random.nextInt(20);
         this.quadSize = scale * 0.9F + random.nextFloat() * 0.2F;

@@ -90,7 +90,7 @@ public class BobbleBlock extends Block implements IMultiBlock, EntityBlock, IScr
 
         NuclearTechMod.proxy.openScreen(player, pos);
 
-        return InteractionResult.CONSUME;
+        return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
     @Override

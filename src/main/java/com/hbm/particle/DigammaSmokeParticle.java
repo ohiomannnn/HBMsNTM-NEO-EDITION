@@ -1,5 +1,6 @@
 package com.hbm.particle;
 
+import com.hbm.main.NuclearTechMod;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Camera;
@@ -10,15 +11,18 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
 public class DigammaSmokeParticle extends TextureSheetParticle {
 
+    public static final ResourceLocation BASE = ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "textures/particle/base_particle.png");
+
     public DigammaSmokeParticle(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
-        this.setSpriteFromAge(ModParticles.BASE_PARTICLE_SPRITES);
+        this.setSpriteFromAge(NtmParticles.BASE_PARTICLE_SPRITES);
         this.lifetime = 100 + random.nextInt(40);
         this.hasPhysics = false;
 
@@ -62,7 +66,7 @@ public class DigammaSmokeParticle extends TextureSheetParticle {
         Vector3f u = new Vector3f(camera.getUpVector()).mul(this.quadSize);
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, ModParticles.BASE);
+        RenderSystem.setShaderTexture(0, BASE);
         RenderSystem.setShaderColor(this.rCol, this.gCol, this.bCol, alpha);
 
         Tesselator tess = Tesselator.getInstance();

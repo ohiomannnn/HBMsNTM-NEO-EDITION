@@ -2,7 +2,8 @@ package com.hbm.handler.radiation;
 
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.config.NtmConfig;
-import com.hbm.network.toclient.AuxParticle;
+import com.hbm.particle.NtmParticles;
+import com.hbm.particle.helper.IParticleCreator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -16,7 +17,6 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.neoforge.event.level.ChunkDataEvent;
 import net.neoforged.neoforge.event.level.ChunkEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -73,27 +73,27 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
     @Override
     public void updateSystem() {
 
-        for (Entry<Level, SimpleRadiationPerWorld> entry : perWorld.entrySet()) {
+        for(Entry<Level, SimpleRadiationPerWorld> entry : perWorld.entrySet()) {
 
             HashMap<ChunkPos, Float> radiation = entry.getValue().radiation;
             HashMap<ChunkPos, Float> buff = new HashMap<>(radiation);
             radiation.clear();
             Level level = entry.getKey();
 
-            for (Entry<ChunkPos, Float> chunk : buff.entrySet()) {
+            for(Entry<ChunkPos, Float> chunk : buff.entrySet()) {
 
-                if (chunk.getValue() == 0) continue;
+                if(chunk.getValue() == 0) continue;
 
                 ChunkPos coord = chunk.getKey();
 
-                for (int i = -1; i <= 1; i++) {
-                    for (int j = -1; j <= 1; j++) {
+                for(int i = -1; i <= 1; i++) {
+                    for(int j = -1; j <= 1; j++) {
 
                         int type = Math.abs(i) + Math.abs(j);
                         float percent = type == 0 ? 0.6F : type == 1 ? 0.075F : 0.025F;
                         ChunkPos newCoord = new ChunkPos(coord.x + i, coord.z + j);
 
-                        if (buff.containsKey(newCoord)) {
+                        if(buff.containsKey(newCoord)) {
                             Float val = radiation.get(newCoord);
                             float rad = val == null ? 0 : val;
                             float newRad = rad + chunk.getValue() * percent;
@@ -104,17 +104,13 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
                         }
 
                         float rad = radiation.get(newCoord);
-                        if (rad > NtmConfig.COMMON.FOG_RAD.get() && level != null && level.random.nextInt(NtmConfig.COMMON.FOG_RAD_CH.get()) == 0 && level.hasChunk(coord.x, coord.z)) {
+                        if(rad > NtmConfig.COMMON.FOG_RAD.get() && level != null && level.random.nextInt(NtmConfig.COMMON.FOG_RAD_CH.get()) == 0 && level.hasChunk(coord.x, coord.z)) {
 
                             int x = newCoord.getMinBlockX() + level.random.nextInt(16);
                             int z = newCoord.getMinBlockZ() + level.random.nextInt(16);
                             int y = level.getHeight(Heightmap.Types.WORLD_SURFACE, x, z) + level.random.nextInt(5);
 
-                            CompoundTag tag = new CompoundTag();
-                            tag.putString("type", "radFog");
-                            if (level instanceof ServerLevel serverLevel) {
-                                PacketDistributor.sendToPlayersNear(serverLevel, null, x, y, z, 100, new AuxParticle(tag, x, y, z));
-                            }
+                            IParticleCreator.addParticle(level, NtmParticles.RADIATION_FOG.get(), x, y, z, 100.0);
                         }
                     }
                 }

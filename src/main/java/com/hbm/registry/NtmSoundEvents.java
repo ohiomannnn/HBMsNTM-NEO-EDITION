@@ -89,6 +89,7 @@ public class NtmSoundEvents {
     // ALARMS
     public static final DeferredHolder<SoundEvent, SoundEvent> ALARM_HATCH = reg("alarm.hatch"); // RECORDS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> ALARM_SOYUZED = reg("alarm.soyuzed"); // RECORDS CATEGORY
+    public static final DeferredHolder<SoundEvent, SoundEvent> CHIME = reg("alarm.chime"); // RECORDS CATEGORY
 
     private static DeferredHolder<SoundEvent, SoundEvent> reg(String name) {
         return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(NuclearTechMod.withDefaultNamespace(name)));

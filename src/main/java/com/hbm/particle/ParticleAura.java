@@ -12,7 +12,7 @@ public class ParticleAura extends TextureSheetParticle {
         this.rCol = f;
         this.gCol = f;
         this.bCol = f;
-        this.setSpriteFromAge(ModParticles.AURA_SPITES);
+        this.setSpriteFromAge(NtmParticles.AURA_SPITES);
         this.setSize(0.02F, 0.02F);
         this.xd *= 0.019999999552965164D;
         this.yd *= 0.019999999552965164D;
@@ -43,7 +43,7 @@ public class ParticleAura extends TextureSheetParticle {
     public static class Provider implements ParticleProvider<SimpleParticleType> {
 
         public Provider(SpriteSet sprite) {
-            ModParticles.AURA_SPITES = sprite;
+            NtmParticles.AURA_SPITES = sprite;
         }
 
         @Override

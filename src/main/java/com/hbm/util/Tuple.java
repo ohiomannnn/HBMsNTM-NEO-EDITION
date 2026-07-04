@@ -203,7 +203,7 @@ public class Tuple {
             this.z = z;
         }
         public Quartet<W,X,Y,Z> clone() {
-            return new Quartet(w, x, y, z);
+            return new Quartet<>(w, x, y, z);
         }
     }
 
