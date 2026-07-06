@@ -46,6 +46,7 @@ public class NtmRenderTypes {
     public static final TransparencyStateShard NO_TRANSPARENCY = new TransparencyStateShard("no_transparency", () -> {}, () -> {});
 
     public static final ShaderStateShard VBO_SHADER = new ShaderStateShard(NtmShaders::getVboShader);
+
     public static final RenderType VBO = RenderType.create("vbo", NtmVertexFormat.POSITION_TEX_NORMAL, Mode.QUADS, 1024,
             CompositeState.builder()
                     .setShaderState(VBO_SHADER)

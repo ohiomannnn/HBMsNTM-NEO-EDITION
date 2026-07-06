@@ -80,40 +80,6 @@ public class CommonEvents {
     }
 
     @SubscribeEvent
-    public static void onServerTick(ServerTickEvent.Pre event) {
-
-        // Networks! All of them!
-        UniNodespace.updateNodespace(event.getServer());
-        // Radar entry handling
-        MissileAntiBallistic.updateSystem(event.getServer());
-    }
-
-    @SubscribeEvent
-    public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
-        Player player = event.getEntity();
-
-        if (NtmConfig.COMMON.ENABLE_MOTD.get()) {
-
-            player.sendSystemMessage(Component.translatable("message.hbmsntm.loaded", Component.translatable("message.hbmsntm.neo").withStyle(ChatFormatting.LIGHT_PURPLE), NuclearTechMod.VERSION));
-
-            if (HTTPHandler.newVersion) {
-                player.sendSystemMessage(
-                        Component.translatable("message.hbmsntm.new_version", HTTPHandler.versionNumber)
-                                .withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW))
-                                .append(Component.translatable("message.hbmsntm.click_here").withStyle(Style.EMPTY.withColor(ChatFormatting.RED).withUnderlined(true).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/ohiomannnn/HBMsNTM-NEO-EDITION/releases"))))
-                                .append(Component.translatable("message.hbmsntm.to_download").withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)))
-                );
-            }
-        }
-
-        if (!HbmPlayerAttachments.getData(player).ducked) {
-            if (player instanceof ServerPlayer serverPlayer) {
-                PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(Component.translatable("info.duck"), NuclearTechModClient.ID_DUCK, 30_000));
-            }
-        }
-    }
-
-    @SubscribeEvent
     public static void onEntityAttributeCreation(EntityAttributeCreationEvent event) {
         event.put(NtmEntityTypes.DUCK.get(), Duck.createAttributes().build());
         event.put(NtmEntityTypes.CREEPER_NUCLEAR.get(), CreeperNuclear.createAttributes().build());

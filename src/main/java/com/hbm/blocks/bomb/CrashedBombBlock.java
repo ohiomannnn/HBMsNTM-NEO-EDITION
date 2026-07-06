@@ -89,7 +89,7 @@ public class CrashedBombBlock extends MultiBlock implements EntityBlock, IBomb {
         }
     }
 
-    public static final IntegerProperty SUBTYPE = IntegerProperty.create("subtype", 0, DudType.values().length);
+    public static final IntegerProperty SUBTYPE = IntegerProperty.create("subtype", 0, DudType.values().length - 1);
 
     public CrashedBombBlock(Properties properties) {
         super(properties);

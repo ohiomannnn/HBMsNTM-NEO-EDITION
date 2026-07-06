@@ -3,10 +3,10 @@ package com.hbm.entity.missile;
 import api.hbm.entity.IRadarDetectableNT;
 import com.hbm.entity.projectile.ThrowableInterp;
 import com.hbm.explosion.ExplosionLarge;
-import com.hbm.main.NuclearTechMod;
 import com.hbm.particle.NtmParticles;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.RayTraceResult;
+import com.hbm.util.particle.ParticleUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.server.MinecraftServer;
@@ -86,12 +86,16 @@ public class MissileAntiBallistic extends ThrowableInterp implements IRadarDetec
             double x = this.position().x - motion.x;
             double y = this.position().y - motion.y;
             double z = this.position().z - motion.z;
-            NuclearTechMod.proxy.addParticle(NtmParticles.ABM_CONTRAIL.get(), x, y, z, 0F, 0F, 0F);
+            ParticleUtil.addParticle(this.level, NtmParticles.ABM_CONTRAIL.get(), x, y, z);
         }
 
         float f2 = BobMathUtil.sqrt(this.getDeltaMovement().x * this.getDeltaMovement().x + this.getDeltaMovement().z * this.getDeltaMovement().z);
         this.yRot = (float) (Math.atan2(this.getDeltaMovement().x, this.getDeltaMovement().z) * 180.0D / Math.PI);
-        for(this.xRot = (float) (Math.atan2(this.getDeltaMovement().y, f2) * 180.0D / Math.PI) - 90; this.xRot - this.xRotO < -180.0F; this.xRotO -= 360.0F);
+        for(
+                this.xRot = (float) (Math.atan2(this.getDeltaMovement().y, f2) * 180.0D / Math.PI) - 90;
+                this.xRot - this.xRotO < -180.0F;
+                this.xRotO -= 360.0F
+        );
         while(this.xRot - this.xRotO >= 180.0F) this.xRotO += 360.0F;
         while(this.yRot - this.yRotO < -180.0F) this.yRotO -= 360.0F;
         while(this.yRot - this.yRotO >= 180.0F) this.yRotO += 360.0F;

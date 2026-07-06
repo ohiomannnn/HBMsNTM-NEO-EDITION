@@ -236,7 +236,7 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
     @Override
     public boolean hurt(DamageSource source, float amount) {
         if(this.isInvulnerable()) return false;
-        if(this.health > 0 && !this.level().isClientSide) {
+        if(this.health > 0 && !this.level.isClientSide) {
             this.health -= amount;
             if(this.health <= 0) this.killMissile();
         }
@@ -254,9 +254,9 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
     }
 
     protected void killMissile() {
-        if (this.isAlive()) {
+        if(this.isAlive()) {
             this.discard();
-            if (this.level() instanceof ServerLevel serverLevel) {
+            if(this.level instanceof ServerLevel serverLevel) {
                 ExplosionLarge.explode(serverLevel, this.getX(), this.getY(), this.getZ(), 5, true, false, true);
                 ExplosionLarge.spawnShrapnelShower(serverLevel, this.getX(), this.getY(), this.getZ(), this.deltaMovement.x, this.deltaMovement.y, this.deltaMovement.z, 15, 0.075);
                 ExplosionLarge.spawnMissileDebris(serverLevel, this.getX(), this.getY(), this.getZ(), this.deltaMovement.x, this.deltaMovement.y, this.deltaMovement.z, 0.25, this.getDebris(), this.getDebrisRareDrop());
@@ -268,7 +268,7 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
 
     @Override
     protected void onImpact(RayTraceResult result) {
-        if (result != null && result.typeOfHit == RayTraceResult.Type.BLOCK) {
+        if(result != null && result.typeOfHit == RayTraceResult.Type.BLOCK) {
             this.discard();
             this.onMissileImpact(result);
         }

@@ -1,6 +1,7 @@
 package com.hbm.blocks.fluids;
 
 import com.hbm.blocks.NtmBlocks;
+import com.hbm.blocks.generic.OreBasaltBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -43,7 +44,7 @@ public class VolcanicLiquidBlock extends LiquidBlock {
         if(b.is(BlockTags.LOGS)) return NtmBlocks.WASTE_LOG.get().defaultBlockState();
         if(b.is(BlockTags.PLANKS)) return NtmBlocks.WASTE_PLANKS.get().defaultBlockState();
         if(b.is(BlockTags.LEAVES)) return Blocks.FIRE.defaultBlockState();
-        if(b.is(Tags.Blocks.ORES_DIAMOND)) return Blocks.COPPER_BLOCK.defaultBlockState();
+        if(b.is(Tags.Blocks.ORES_DIAMOND)) return NtmBlocks.ORE_BASALT.get().defaultBlockState().setValue(OreBasaltBlock.SUBTYPE, 3);
         return null;
     }
 
@@ -69,23 +70,23 @@ public class VolcanicLiquidBlock extends LiquidBlock {
     }
 
     public Block getBasaltForCheck() {
-        return Blocks.BASALT;
+        return NtmBlocks.BASALT.get();
     }
 
     public void onSolidify(ServerLevel level, BlockPos pos, int lavaCount, int basaltCount, RandomSource random) {
         int r = random.nextInt(200);
 
         BlockState above = level.getBlockState(pos.above(10));
-        boolean canMakeGem = (lavaCount + basaltCount == 6) && (lavaCount < 3) && (above.is(Blocks.BASALT) || above.is(this));
+        boolean canMakeGem = (lavaCount + basaltCount == 6) && (lavaCount < 3) && (above.is(NtmBlocks.BASALT.get()) || above.is(this));
 
         BlockState resultState;
 
-        if(r < 2) resultState = Blocks.DEEPSLATE_COAL_ORE.defaultBlockState();
-        else if(r == 2) resultState = Blocks.DEEPSLATE_COPPER_ORE.defaultBlockState();
-        else if(r == 3) resultState = Blocks.DEEPSLATE_GOLD_ORE.defaultBlockState();
-        else if(r == 4) resultState = Blocks.DEEPSLATE_LAPIS_ORE.defaultBlockState();
-        else if(r < 15 && canMakeGem) resultState = Blocks.DEEPSLATE_EMERALD_ORE.defaultBlockState();
-        else resultState = Blocks.BASALT.defaultBlockState();
+        if(r < 2) resultState = NtmBlocks.ORE_BASALT.get().defaultBlockState();
+        else if(r == 2) resultState = NtmBlocks.ORE_BASALT.get().defaultBlockState().setValue(OreBasaltBlock.SUBTYPE, 1);
+        else if(r == 3) resultState = NtmBlocks.ORE_BASALT.get().defaultBlockState().setValue(OreBasaltBlock.SUBTYPE, 2);
+        else if(r == 4) resultState = NtmBlocks.ORE_BASALT.get().defaultBlockState().setValue(OreBasaltBlock.SUBTYPE, 4);
+        else if(r < 15 && canMakeGem) resultState = NtmBlocks.ORE_BASALT.get().defaultBlockState().setValue(OreBasaltBlock.SUBTYPE, 3);
+        else resultState = NtmBlocks.BASALT.get().defaultBlockState();
 
         level.setBlock(pos, resultState, 3);
     }
@@ -105,9 +106,9 @@ public class VolcanicLiquidBlock extends LiquidBlock {
         BlockPos blockpos = pos.above();
         if(level.getBlockState(blockpos).isAir() && !level.getBlockState(blockpos).isSolidRender(level, blockpos)) {
             if(random.nextInt(100) == 0) {
-                double d0 = (double)pos.getX() + random.nextDouble();
-                double d1 = (double)pos.getY() + 1.0;
-                double d2 = (double)pos.getZ() + random.nextDouble();
+                double d0 = pos.getX() + random.nextDouble();
+                double d1 = pos.getY() + 1.0;
+                double d2 = pos.getZ() + random.nextDouble();
                 level.addParticle(ParticleTypes.LAVA, d0, d1, d2, 0.0, 0.0, 0.0);
                 level.playLocalSound(d0, d1, d2, SoundEvents.LAVA_POP, SoundSource.BLOCKS, 0.2F + random.nextFloat() * 0.2F, 0.9F + random.nextFloat() * 0.15F, false);
             }

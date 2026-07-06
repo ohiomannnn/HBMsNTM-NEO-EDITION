@@ -1,6 +1,6 @@
 package com.hbm.render.blockentity;
 
-import com.hbm.blockentity.bomb.LandMineBlockEntity;
+import com.hbm.blockentity.bomb.LandmineBlockEntity;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
@@ -20,12 +20,12 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 
-public class RenderLandmine extends BlockEntityRendererNT<LandMineBlockEntity> implements IBEWLRProvider {
+public class RenderLandmine extends BlockEntityRendererNT<LandmineBlockEntity> implements IBEWLRProvider {
 
-    @Override public BlockEntityRenderer<LandMineBlockEntity> create(Context context) { return new RenderLandmine(); }
+    @Override public BlockEntityRenderer<LandmineBlockEntity> create(Context context) { return new RenderLandmine(); }
 
     @Override
-    public void render(LandMineBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+    public void render(LandmineBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
         RenderContext.setup(poseStack, packedLight, packedOverlay);
         RenderContext.translate(0.5F, 0F, 0.5F);
         RenderContext.mulPose(Axis.YP.rotationDegrees(180F));

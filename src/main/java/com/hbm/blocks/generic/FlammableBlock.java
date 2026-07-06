@@ -30,11 +30,11 @@ public class FlammableBlock extends Block {
     }
 
     public boolean shouldIgnite(Level level, BlockPos pos) {
-        if (flammability == 0) return false;
+        if(flammability == 0) return false;
 
-        for (Direction dir : Direction.values()) {
+        for(Direction dir : Direction.values()) {
             BlockPos neighborPos = pos.relative(dir);
-            if (level.getBlockState(neighborPos).is(Blocks.FIRE)) {
+            if(level.getBlockState(neighborPos).is(Blocks.FIRE)) {
                 return true;
             }
         }

@@ -1,14 +1,14 @@
 package com.hbm.entity.logic;
 
 import com.hbm.explosion.vanillant.ExplosionVNT;
-import com.hbm.main.NuclearTechMod;
-import com.hbm.main.NuclearTechModClient;
+import com.hbm.particle.NtmParticles;
 import com.hbm.particle.helper.ExplosionSmallCreator;
+import com.hbm.particle.vanilla.NbtParticleOptions;
 import com.hbm.registry.NtmDamageTypes;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.ParticleUtil;
 import com.hbm.util.SoundUtils;
+import com.hbm.util.particle.ParticleUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -121,12 +121,9 @@ public abstract class PlaneBase extends ExplosionChunkLoading {
             if (this.getHealth() <= 0) {
                 this.setDeltaMovement(this.getDeltaMovement().x, this.getDeltaMovement().y - 0.025, this.getDeltaMovement().z);
 
-                for (int i = 0; i < 10; i++)
-                    ParticleUtil.spawnGasFlame(this.level(),
-                            this.getX() + random.nextGaussian() * 0.5 - this.deltaMovement.x * 2,
-                            this.getY() + random.nextGaussian() * 0.5 - this.deltaMovement.y * 2,
-                            this.getZ() + random.nextGaussian() * 0.5 - this.deltaMovement.z * 2,
-                            0.0, 0.1, 0.0);
+                for (int i = 0; i < 10; i++) {
+                    ParticleUtil.addParticle(this.level, new NbtParticleOptions(NtmParticles.GAS_FLAME.get(), new CompoundTag()), this.getX() + random.nextGaussian() * 0.5 - this.deltaMovement.x * 2, this.getY() + random.nextGaussian() * 0.5 - this.deltaMovement.y * 2, this.getZ() + random.nextGaussian() * 0.5 - this.deltaMovement.z * 2, 0.0F, 0.1F, 0.0F, 150.0);
+                }
 
                 if ((!level().getBlockState(this.blockPosition()).isAir()) || this.getY() < this.level().getMinBuildHeight()) {
                     this.discard();

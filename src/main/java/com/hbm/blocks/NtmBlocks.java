@@ -55,6 +55,16 @@ public class NtmBlocks {
     public static final DeferredBlock<Block> ORE_GNEISS_URANIUM_SCORCHED = register("ore_gneiss_uranium_scorched", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).explosionResistance(10.0F).sound(SoundType.STONE)));
     public static final DeferredBlock<Block> ORE_GNEISS_SCHRABIDIUM = register("ore_gneiss_schrabidium", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).explosionResistance(10.0F).sound(SoundType.STONE)));
 
+    // Basalt ores
+    public static final DeferredBlock<Block> ORE_BASALT = registerNew("ore_basalt", () -> new OreBasaltBlock(BlockBehaviour.Properties.of().strength(5F, 10F).sound(SoundType.BASALT).mapColor(MapColor.COLOR_BLACK).instrument(NoteBlockInstrument.BASEDRUM)));
+
+    // Stone Variants
+    public static final DeferredBlock<RotatedPillarBlock> BASALT = register("basalt",          () -> new RotatedPillarBlock(BlockBehaviour.Properties.of().strength(5F, 10F).sound(SoundType.BASALT).mapColor(MapColor.COLOR_BLACK).instrument(NoteBlockInstrument.BASEDRUM)));
+    public static final DeferredBlock<Block> BASALT_SMOOTH =       register("basalt_smooth",   () -> new Block(BlockBehaviour.Properties.of().strength(5F, 10F).sound(SoundType.BASALT).mapColor(MapColor.COLOR_BLACK).instrument(NoteBlockInstrument.BASEDRUM)));
+    public static final DeferredBlock<Block> BASALT_BRICK =        register("basalt_brick",    () -> new Block(BlockBehaviour.Properties.of().strength(5F, 10F).sound(SoundType.BASALT).mapColor(MapColor.COLOR_BLACK).instrument(NoteBlockInstrument.BASEDRUM)));
+    public static final DeferredBlock<Block> BASALT_POLISHED =     register("basalt_polished", () -> new Block(BlockBehaviour.Properties.of().strength(5F, 10F).sound(SoundType.BASALT).mapColor(MapColor.COLOR_BLACK).instrument(NoteBlockInstrument.BASEDRUM)));
+    public static final DeferredBlock<Block> BASALT_TILES =        register("basalt_tiles",    () -> new Block(BlockBehaviour.Properties.of().strength(5F, 10F).sound(SoundType.BASALT).mapColor(MapColor.COLOR_BLACK).instrument(NoteBlockInstrument.BASEDRUM)));
+
     // Blocks
     public static final DeferredBlock<Block> BLOCK_SCRAP = register("block_scrap", () -> new ColoredFallingBlock(new ColorRGBA(-8356741), BlockBehaviour.Properties.of().strength(2.5F, 5.0F).sound(SoundType.GRAVEL)));
 

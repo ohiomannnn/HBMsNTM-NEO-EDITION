@@ -117,7 +117,7 @@ public class NtmBlockEntityTypes {
 
     public static final Supplier<BlockEntityType<GeigerBlockEntity>> GEIGER_COUNTER = REGISTER.register("geiger_counter", () -> BlockEntityType.Builder.of(GeigerBlockEntity::new, NtmBlocks.GEIGER.get()).build(null));
 
-    public static final Supplier<BlockEntityType<LandMineBlockEntity>> LANDMINE = REGISTER.register("landmine", () -> BlockEntityType.Builder.of(LandMineBlockEntity::new, NtmBlocks.MINE_AP.get(), NtmBlocks.MINE_HE.get(), NtmBlocks.MINE_SHRAP.get(), NtmBlocks.MINE_FAT.get(), NtmBlocks.MINE_NAVAL.get()).build(null));
+    public static final Supplier<BlockEntityType<LandmineBlockEntity>> LANDMINE = REGISTER.register("landmine", () -> BlockEntityType.Builder.of(LandmineBlockEntity::new, NtmBlocks.MINE_AP.get(), NtmBlocks.MINE_HE.get(), NtmBlocks.MINE_SHRAP.get(), NtmBlocks.MINE_FAT.get(), NtmBlocks.MINE_NAVAL.get()).build(null));
     public static final Supplier<BlockEntityType<VolcanoCoreBlockEntity>> VOLCANO_CORE = REGISTER.register("volcano_core", () -> BlockEntityType.Builder.of(VolcanoCoreBlockEntity::new, NtmBlocks.VOLCANO_CORE.get(), NtmBlocks.VOLCANO_RAD_CORE.get()).build(null));
 
     public static final Supplier<BlockEntityType<CrashedBombBlockEntity>> CRASHED_BOMB = REGISTER.register("crashed_bomb", () -> BlockEntityType.Builder.of(CrashedBombBlockEntity::new, NtmBlocks.CRASHED_BOMB.get()).build(null));

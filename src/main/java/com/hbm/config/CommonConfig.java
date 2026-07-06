@@ -9,6 +9,7 @@ import net.neoforged.neoforge.common.ModConfigSpec.IntValue;
 public class CommonConfig {
 
     // GENERAL (01)
+    public final BooleanValue ENABLE_DEBUG_MODE;
     public final BooleanValue ENABLE_MOTD;
     public final BooleanValue ENABLE_EXTENDED_LOGGING;
     public final BooleanValue ENABLE_BOMBER_SHORT_MODE;
@@ -49,15 +50,6 @@ public class CommonConfig {
     public final IntValue FALLOUT_DELAY;
     public final IntValue LIMIT_EXPLOSION_LIFESPAN;
 
-    // RADIATION (13)
-    public final IntValue FOG_RAD;
-    public final IntValue FOG_RAD_CH;
-    public final DoubleValue HELL_RAD;
-    public final BooleanValue WORLD_RAD_EFFECTS;
-
-    public final BooleanValue ENABLE_CONTAMINATION;
-    public final BooleanValue ENABLE_CHUNK_RADS;
-
     // DANGEROUS DROPS (10)
     public final BooleanValue DROP_CELL;
     public final BooleanValue DROP_SINGULARITY;
@@ -81,7 +73,18 @@ public class CommonConfig {
     public final BooleanValue ABILITY_EXPLOSION;
 
     // MOBS (12)
+    public final BooleanValue ENABLE_DUCKS;
+
     public final DoubleValue POLLUTION_MULT;
+
+    // RADIATION (13)
+    public final IntValue FOG_RAD;
+    public final IntValue FOG_RAD_CH;
+    public final DoubleValue HELL_RAD;
+    public final BooleanValue WORLD_RAD_EFFECTS;
+
+    public final BooleanValue ENABLE_CONTAMINATION;
+    public final BooleanValue ENABLE_CHUNK_RADS;
 
     // HAZARDS (14)
     public final BooleanValue DISABLE_ASBESTOS;
@@ -109,6 +112,10 @@ public class CommonConfig {
         /// GENERAL ///
         builder.push("general");
 
+        ENABLE_DEBUG_MODE = builder
+                .comment("Enable debugging mode.")
+                .translation("hbmsntm.configuration.enableDebugMode")
+                .define("enableDebugMode", true);
         ENABLE_MOTD = builder
                 .comment("If enabled, shows the 'Loaded mod!' chat message as well as update notifications when joining a world.")
                 .translation("hbmsntm.configuration.enableMOTD")
@@ -259,37 +266,6 @@ public class CommonConfig {
 
         builder.pop();
 
-        /// RADIATION ///
-        builder.push("radiation");
-
-        HELL_RAD = builder
-                .comment("RAD/s in the nether.")
-                .translation("hbmsntm.configuration.hellRad")
-                .defineInRange("hellRad", 0.1D, 0, Double.MAX_VALUE);
-        FOG_RAD = builder
-                .comment("Radiation in RADs required for fog to spawn.")
-                .translation("hbmsntm.configuration.fogRad")
-                .defineInRange("fogRad", 100, 0, Integer.MAX_VALUE);
-        FOG_RAD_CH = builder
-                .comment("1:n chance of fog spawning every second.")
-                .translation("hbmsntm.configuration.fogRadChance")
-                .defineInRange("fogRadChance", 20, 0, Integer.MAX_VALUE);
-        WORLD_RAD_EFFECTS = builder
-                .comment("Whether high radiation levels should perform changes in the world.")
-                .translation("hbmsntm.configuration.worldRadEffects")
-                .define("worldRadEffects", true);
-
-        ENABLE_CONTAMINATION = builder
-                .comment("Toggles player contamination (and negative effects from radiation poisoning).")
-                .translation("hbmsntm.configuration.enableContamination")
-                .define("enableContamination", true);
-        ENABLE_CHUNK_RADS = builder
-                .comment("Toggles the world radiation system (chunk radiation only, some blocks use an AoE!).")
-                .translation("hbmsntm.configuration.enableChunkRads")
-                .define("enableChunkRads", true);
-
-        builder.pop();
-
         /// DANGEROUS DROPS ///
         builder.push("dangerous_drops");
 
@@ -377,12 +353,49 @@ public class CommonConfig {
         /// MOBS ///
         builder.push("mobs");
 
+        ENABLE_DUCKS = builder
+                .comment("Whether pressing O should allow the player to duck.")
+                .translation("hbmsntm.configuration.enableDucks")
+                .define("enableDucks", true);
+
         POLLUTION_MULT = builder
-                .comment("A multiplier for soot emitted.")
+                .comment("A multiplier for soot emitted")
                 .translation("hbmsntm.configuration.pollutionMult")
                 .defineInRange("pollutionMult", 1.0, Double.MIN_VALUE, Double.MAX_VALUE);
 
         builder.pop();
+
+        /// RADIATION ///
+        builder.push("radiation");
+
+        HELL_RAD = builder
+                .comment("RAD/s in the nether.")
+                .translation("hbmsntm.configuration.hellRad")
+                .defineInRange("hellRad", 0.1D, 0, Double.MAX_VALUE);
+        FOG_RAD = builder
+                .comment("Radiation in RADs required for fog to spawn.")
+                .translation("hbmsntm.configuration.fogRad")
+                .defineInRange("fogRad", 100, 0, Integer.MAX_VALUE);
+        FOG_RAD_CH = builder
+                .comment("1:n chance of fog spawning every second.")
+                .translation("hbmsntm.configuration.fogRadChance")
+                .defineInRange("fogRadChance", 20, 0, Integer.MAX_VALUE);
+        WORLD_RAD_EFFECTS = builder
+                .comment("Whether high radiation levels should perform changes in the world.")
+                .translation("hbmsntm.configuration.worldRadEffects")
+                .define("worldRadEffects", true);
+
+        ENABLE_CONTAMINATION = builder
+                .comment("Toggles player contamination (and negative effects from radiation poisoning).")
+                .translation("hbmsntm.configuration.enableContamination")
+                .define("enableContamination", true);
+        ENABLE_CHUNK_RADS = builder
+                .comment("Toggles the world radiation system (chunk radiation only, some blocks use an AoE!).")
+                .translation("hbmsntm.configuration.enableChunkRads")
+                .define("enableChunkRads", true);
+
+        builder.pop();
+
 
         /// HAZARDS ///
         builder.push("hazards");

@@ -1,10 +1,12 @@
 package com.hbm.entity.projectile;
 
-import com.hbm.main.NuclearTechModClient;
 import com.hbm.config.NtmConfig;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.particle.NtmParticles;
+import com.hbm.particle.vanilla.NbtParticleOptions;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.util.particle.ParticleUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -151,15 +153,10 @@ public class Meteor extends Entity {
 
             if (NtmConfig.COMMON.ENABLE_METEOR_TAILS.get()) {
                 CompoundTag tag = new CompoundTag();
-                tag.putString("type", "exhaust");
-                tag.putString("mode", "meteor");
                 tag.putInt("count", 10);
                 tag.putDouble("width", 1);
-                tag.putDouble("posX", getX() - getDeltaMovement().z);
-                tag.putDouble("posY", getY() - getDeltaMovement().y);
-                tag.putDouble("posZ", getZ() - getDeltaMovement().z);
 
-                NuclearTechModClient.effectNT(tag);
+                ParticleUtil.addParticle(this.level, new NbtParticleOptions(NtmParticles.EXHAUST_METEOR.get(), tag), this.getX() - this.getDeltaMovement().z, this.getY() - this.getDeltaMovement().y, this.getZ() - this.getDeltaMovement().z, 350.0);
             }
         }
     }

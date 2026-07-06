@@ -1,7 +1,7 @@
 package com.hbm.particle;
 
 import com.hbm.main.NuclearTechMod;
-import com.hbm.particle.vanilla.NbtParticleOption;
+import com.hbm.particle.vanilla.NbtParticleOptions;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.ParticleOptions;
@@ -20,7 +20,6 @@ public class NtmParticles {
 
     public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES = DeferredRegister.create(BuiltInRegistries.PARTICLE_TYPE, NuclearTechMod.MODID);
 
-    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> GAS_FLAME = register("gas_flame", false);
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> DEAD_LEAF = register("dead_leaf", false);
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> AURA = register("aura", false);
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> DEBRIS = register("debris", false);
@@ -36,13 +35,16 @@ public class NtmParticles {
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> VANILLA_CLOUD = register("vanilla_cloud", false);
 
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> ABM_CONTRAIL = register("abm_contrail", false);
-    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> RADIATION_FOG = register("radiation_fog", false);
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> LAUNCH_SMOKE = register("launch_smoke", false);
-    public static final DeferredHolder<ParticleType<?>, ParticleType<NbtParticleOption>> SWEAT = register("sweat", false, NbtParticleOption::codec, NbtParticleOption::streamCodec);
-    public static final DeferredHolder<ParticleType<?>, ParticleType<NbtParticleOption>> VOMIT_NORMAL = register("vomit_normal", false, NbtParticleOption::codec, NbtParticleOption::streamCodec);
-    public static final DeferredHolder<ParticleType<?>, ParticleType<NbtParticleOption>> VOMIT_BLOOD =  register("vomit_blood",  false, NbtParticleOption::codec, NbtParticleOption::streamCodec);
-    public static final DeferredHolder<ParticleType<?>, ParticleType<NbtParticleOption>> VOMIT_SMOKE =  register("vomit_smoke",  false, NbtParticleOption::codec, NbtParticleOption::streamCodec);
-    public static final DeferredHolder<ParticleType<?>, ParticleType<NbtParticleOption>> COOLING_TOWER =  register("cooling_tower",  false, NbtParticleOption::codec, NbtParticleOption::streamCodec);
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> RADIATION_FOG = register("radiation_fog", false);
+    public static final DeferredHolder<ParticleType<?>, ParticleType<NbtParticleOptions>> EXHAUST_SOYUZ = register("exhaust_soyuz", false, NbtParticleOptions::codec, NbtParticleOptions::streamCodec);
+    public static final DeferredHolder<ParticleType<?>, ParticleType<NbtParticleOptions>> EXHAUST_METEOR = register("exhaust_meteor", false, NbtParticleOptions::codec, NbtParticleOptions::streamCodec);
+    public static final DeferredHolder<ParticleType<?>, ParticleType<NbtParticleOptions>> SWEAT = register("sweat", false, NbtParticleOptions::codec, NbtParticleOptions::streamCodec);
+    public static final DeferredHolder<ParticleType<?>, ParticleType<NbtParticleOptions>> VOMIT_NORMAL = register("vomit_normal", false, NbtParticleOptions::codec, NbtParticleOptions::streamCodec);
+    public static final DeferredHolder<ParticleType<?>, ParticleType<NbtParticleOptions>> VOMIT_BLOOD =  register("vomit_blood",  false, NbtParticleOptions::codec, NbtParticleOptions::streamCodec);
+    public static final DeferredHolder<ParticleType<?>, ParticleType<NbtParticleOptions>> VOMIT_SMOKE =  register("vomit_smoke",  false, NbtParticleOptions::codec, NbtParticleOptions::streamCodec);
+    public static final DeferredHolder<ParticleType<?>, ParticleType<NbtParticleOptions>> COOLING_TOWER = register("cooling_tower",  false, NbtParticleOptions::codec, NbtParticleOptions::streamCodec);
+    public static final DeferredHolder<ParticleType<?>, ParticleType<NbtParticleOptions>> GAS_FLAME = register("gas_flame",  false, NbtParticleOptions::codec, NbtParticleOptions::streamCodec);
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> TOM_BLAST = register("tom_blast", true);
 
     private static DeferredHolder<ParticleType<?>, SimpleParticleType> register(String name, boolean overrideLimitter) {

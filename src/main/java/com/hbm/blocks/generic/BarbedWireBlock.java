@@ -82,7 +82,7 @@ public class BarbedWireBlock extends Block implements IMultiBlock {
         if(entity instanceof LivingEntity living) living.addEffect(new MobEffectInstance(ModEffect.RADIATION, 100, 9));
     };
 
-    public static final IntegerProperty SUBTYPE = IntegerProperty.create("subtype", 0, BarbedWireType.values().length);
+    public static final IntegerProperty SUBTYPE = IntegerProperty.create("subtype", 0, BarbedWireType.values().length - 1);
     public static final DirectionProperty HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     public BarbedWireBlock(Properties properties) {

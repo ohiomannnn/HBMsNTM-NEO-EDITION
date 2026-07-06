@@ -17,7 +17,6 @@ public class NtmShaders {
     private static ShaderInstance vboShader;
     public static ShaderInstance getVboShader() { return vboShader; }
 
-
     @SubscribeEvent
     public static void register(RegisterShadersEvent event) throws IOException {
         event.registerShader(

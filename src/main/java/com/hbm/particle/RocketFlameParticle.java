@@ -1,13 +1,18 @@
 package com.hbm.particle;
 
 import com.hbm.main.NuclearTechMod;
+import com.hbm.particle.engine.ParticleEngineNT;
 import com.hbm.particle.engine.ParticleNT;
+import com.hbm.particle.vanilla.NbtParticleOptions;
+import com.hbm.particle.vanilla.ParticleProviderBase;
 import com.hbm.render.NtmRenderTypes;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -99,5 +104,40 @@ public class RocketFlameParticle extends ParticleNT {
     @Override
     public RenderType getRenderType() {
         return NtmRenderTypes.SMOTH_NO_DEPTH.apply(TEXTURE);
+    }
+
+    public static class ExhaustSoyuzProvider extends ParticleProviderBase<NbtParticleOptions> {
+
+        @Override
+        public void createParticle(NbtParticleOptions options, double x, double y, double z, double xd, double yd, double zd, ClientLevel level, LocalPlayer player, int particleSetting) {
+            CompoundTag tag = options.tag;
+            RandomSource random = level.random;
+
+            int count = Math.max(1, tag.getInt("count"));
+            double width = tag.getDouble("width");
+
+            for(int i = 0; i < count; i++) {
+                RocketFlameParticle particle = new RocketFlameParticle(level, x + random.nextGaussian() * width, y, z + random.nextGaussian() * width);
+                particle.yd = -0.75 + random.nextDouble() * 0.5;
+                ParticleEngineNT.INSTANCE.add(particle);
+            }
+        }
+    }
+
+    public static class ExhaustMeteorProvider extends ParticleProviderBase<NbtParticleOptions> {
+
+        @Override
+        public void createParticle(NbtParticleOptions options, double x, double y, double z, double xd, double yd, double zd, ClientLevel level, LocalPlayer player, int particleSetting) {
+            CompoundTag tag = options.tag;
+            RandomSource random = level.random;
+
+            int count = Math.max(1, tag.getInt("count"));
+            double width = tag.getDouble("width");
+
+            for(int i = 0; i < count; i++) {
+                RocketFlameParticle particle = new RocketFlameParticle(level, x + random.nextGaussian() * width, y + random.nextGaussian() * width, z + random.nextGaussian() * width);
+                ParticleEngineNT.INSTANCE.add(particle);
+            }
+        }
     }
 }

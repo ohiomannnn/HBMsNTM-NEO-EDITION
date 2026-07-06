@@ -1,7 +1,9 @@
 package com.hbm.datagen;
 
 import com.hbm.blocks.NtmBlocks;
+import com.hbm.blocks.generic.OreBasaltBlock;
 import com.hbm.items.NtmItems;
+import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.BlockLootSubProvider;
@@ -9,11 +11,15 @@ import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.AlternativesEntry;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
@@ -41,6 +47,25 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(NtmBlocks.ORE_GNEISS_URANIUM.get());
         this.dropSelf(NtmBlocks.ORE_GNEISS_URANIUM_SCORCHED.get());
         this.dropSelf(NtmBlocks.ORE_GNEISS_SCHRABIDIUM.get());
+
+        this.add(NtmBlocks.ORE_BASALT.get(), block -> LootTable.lootTable()
+                .withPool(LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1F))
+                        .add(AlternativesEntry.alternatives(
+                                LootItem.lootTableItem(NtmItems.NOTHING).when(this.propertyEquals(block, OreBasaltBlock.SUBTYPE, 0)),
+                                LootItem.lootTableItem(NtmItems.DETONATOR).when(this.propertyEquals(block, OreBasaltBlock.SUBTYPE, 1)),
+                                LootItem.lootTableItem(NtmItems.CAN_KEY).when(this.propertyEquals(block, OreBasaltBlock.SUBTYPE, 2)),
+                                LootItem.lootTableItem(NtmItems.CRACKPIPE).when(this.propertyEquals(block, OreBasaltBlock.SUBTYPE, 3)),
+                                LootItem.lootTableItem(NtmItems.CIGARETTE).when(this.propertyEquals(block, OreBasaltBlock.SUBTYPE, 4))
+                        ))
+                )
+        );
+
+        this.dropSelf(NtmBlocks.BASALT.get());
+        this.dropSelf(NtmBlocks.BASALT_SMOOTH.get());
+        this.dropSelf(NtmBlocks.BASALT_BRICK.get());
+        this.dropSelf(NtmBlocks.BASALT_POLISHED.get());
+        this.dropSelf(NtmBlocks.BASALT_TILES.get());
 
         this.dropSelf(NtmBlocks.BLOCK_SCRAP.get());
 
@@ -172,4 +197,11 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
     }
 
     @Override protected Iterable<Block> getKnownBlocks() { return NtmBlocks.BLOCKS.getEntries().stream().map(Holder::value)::iterator; }
+
+    public LootItemCondition.Builder propertyEquals(Block block, IntegerProperty property, int equals) {
+        return LootItemBlockStatePropertyCondition
+                .hasBlockStateProperties(block)
+                .setProperties(StatePropertiesPredicate.Builder.properties()
+                        .hasProperty(property, equals));
+    }
 }

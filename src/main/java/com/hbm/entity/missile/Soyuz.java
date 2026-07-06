@@ -2,10 +2,12 @@ package com.hbm.entity.missile;
 
 import com.hbm.entity.NtmEntityTypes;
 import com.hbm.items.ISatChip;
-import com.hbm.main.NuclearTechModClient;
+import com.hbm.particle.NtmParticles;
+import com.hbm.particle.vanilla.NbtParticleOptions;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.saveddata.satellite.Satellite;
 import com.hbm.util.SoundUtils;
+import com.hbm.util.particle.ParticleUtil;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -84,15 +86,10 @@ public class Soyuz extends Entity {
 
     private void spawnExhaust(Vec3 position) {
         CompoundTag tag = new CompoundTag();
-        tag.putString("type", "exhaust");
-        tag.putString("mode", "soyuz");
         tag.putInt("count", 1);
         tag.putDouble("width", this.level.random.nextDouble() * 0.25 - 0.5);
-        tag.putDouble("posX", position.x);
-        tag.putDouble("posY", position.y);
-        tag.putDouble("posZ", position.z);
 
-        NuclearTechModClient.effectNT(tag);
+        ParticleUtil.addParticle(this.level, new NbtParticleOptions(NtmParticles.EXHAUST_SOYUZ.get(), tag), position.x, position.y, position.z, 350.0);
     }
 
     private void deployPayload() {
@@ -100,10 +97,8 @@ public class Soyuz extends Entity {
         if(mode == 0) {
 
             ItemStack stack = this.payload.get(0);
-
             if(stack.getItem() instanceof ISatChip) {
                 int freq = ISatChip.getFreqS(stack);
-
                 if(this.level instanceof ServerLevel serverLevel) {
                     Satellite.orbit(serverLevel, Satellite.getIDFromItem(stack.getItem()), freq, this.position);
                 }

@@ -64,7 +64,7 @@ public class NtmFluids {
             super.randomTick(level, pos, state, random);
 
             if(level instanceof ServerLevel serverLevel) {
-                VolcanicLiquidBlock.baseTick(level.getBlockState(pos), serverLevel, pos, level.random);
+                VolcanicLiquidBlock.baseTick(level.getBlockState(pos), serverLevel, pos, random);
             }
         }
     }
@@ -89,7 +89,7 @@ public class NtmFluids {
             super.randomTick(level, pos, state, random);
 
             if(level instanceof ServerLevel serverLevel) {
-                VolcanicLiquidBlock.baseTick(level.getBlockState(pos), serverLevel, pos, level.random);
+                VolcanicLiquidBlock.baseTick(level.getBlockState(pos), serverLevel, pos, random);
             }
         }
     }

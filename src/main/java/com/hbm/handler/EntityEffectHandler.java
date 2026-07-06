@@ -8,11 +8,9 @@ import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.items.weapon.sedna.factory.ConfettiUtil;
 import com.hbm.lib.ModAttachments;
 import com.hbm.main.NuclearTechModClient;
-import com.hbm.network.toclient.AuxParticle;
 import com.hbm.particle.NtmParticles;
 import com.hbm.particle.helper.FlameCreator;
-import com.hbm.particle.helper.IParticleCreator;
-import com.hbm.particle.vanilla.NbtParticleOption;
+import com.hbm.particle.vanilla.NbtParticleOptions;
 import com.hbm.registry.NtmBiomes;
 import com.hbm.registry.NtmDamageTypes;
 import com.hbm.registry.NtmSoundEvents;
@@ -21,10 +19,10 @@ import com.hbm.util.ContaminationUtil.ContaminationType;
 import com.hbm.util.ContaminationUtil.HazardType;
 import com.hbm.util.DamageResistanceHandler.DamageClass;
 import com.hbm.util.SoundUtils;
+import com.hbm.util.particle.ParticleUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -44,11 +42,9 @@ import net.minecraft.world.level.Level.ExplosionInteraction;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class EntityEffectHandler {
     public static void tick(LivingEntity entity) {
@@ -210,7 +206,7 @@ public class EntityEffectHandler {
                     CompoundTag tag = new CompoundTag();
                     tag.putInt("count", 25);
                     tag.putInt("entity", entity.getId());
-                    IParticleCreator.addParticle(level, new NbtParticleOption(NtmParticles.VOMIT_BLOOD.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
+                    ParticleUtil.addParticle(level, new NbtParticleOptions(NtmParticles.VOMIT_BLOOD.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
 
                     if((level.getGameTime() + r600) % 600 == 1) {
                         level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), NtmSoundEvents.VOMIT, SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -223,7 +219,7 @@ public class EntityEffectHandler {
                 CompoundTag tag = new CompoundTag();
                 tag.putInt("count", 15);
                 tag.putInt("entity", entity.getId());
-                IParticleCreator.addParticle(level, new NbtParticleOption(NtmParticles.VOMIT_NORMAL.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
+                ParticleUtil.addParticle(level, new NbtParticleOptions(NtmParticles.VOMIT_NORMAL.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
 
                 if((level.getGameTime() + r1200) % 1200 == 1) {
                     level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), NtmSoundEvents.VOMIT, SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -236,7 +232,7 @@ public class EntityEffectHandler {
                 tag.putInt("count", 1);
                 tag.put("state", NbtUtils.writeBlockState(Blocks.REDSTONE_BLOCK.defaultBlockState()));
                 tag.putInt("entity", entity.getId());
-                IParticleCreator.addParticle(level, new NbtParticleOption(NtmParticles.SWEAT.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
+                ParticleUtil.addParticle(level, new NbtParticleOptions(NtmParticles.SWEAT.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
             }
         } else {
             float radiation = HbmLivingAttachments.getRadiation(entity);
@@ -264,7 +260,7 @@ public class EntityEffectHandler {
                 tag.putInt("count", 1);
                 tag.put("state", NbtUtils.writeBlockState(Blocks.SOUL_SAND.defaultBlockState()));
                 tag.putInt("entity", entity.getId());
-                IParticleCreator.addParticle(level, new NbtParticleOption(NtmParticles.SWEAT.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
+                ParticleUtil.addParticle(level, new NbtParticleOptions(NtmParticles.SWEAT.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
             }
         }
     }
@@ -324,14 +320,14 @@ public class EntityEffectHandler {
                     CompoundTag tag = new CompoundTag();
                     tag.putInt("count", 5);
                     tag.putInt("entity", entity.getId());
-                    IParticleCreator.addParticle(level, new NbtParticleOption(NtmParticles.VOMIT_BLOOD.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
+                    ParticleUtil.addParticle(level, new NbtParticleOptions(NtmParticles.VOMIT_BLOOD.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
                 }
 
                 if(coughsCoal) {
                     CompoundTag tag = new CompoundTag();
                     tag.putInt("count", coughsALotOfCoal ? 50 : 10);
                     tag.putInt("entity", entity.getId());
-                    IParticleCreator.addParticle(level, new NbtParticleOption(NtmParticles.VOMIT_SMOKE.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
+                    ParticleUtil.addParticle(level, new NbtParticleOptions(NtmParticles.VOMIT_SMOKE.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
                 }
             }
         }
@@ -355,7 +351,7 @@ public class EntityEffectHandler {
                 tag.putInt("count", 1);
                 tag.put("state", NbtUtils.writeBlockState(Blocks.COAL_BLOCK.defaultBlockState()));
                 tag.putInt("entity", entity.getId());
-                IParticleCreator.addParticle(entity.level, new NbtParticleOption(NtmParticles.SWEAT.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
+                ParticleUtil.addParticle(entity.level, new NbtParticleOptions(NtmParticles.SWEAT.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
             }
         }
     }

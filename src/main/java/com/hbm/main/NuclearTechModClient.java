@@ -1,6 +1,7 @@
 package com.hbm.main;
 
 import com.hbm.blockentity.network.PipeBaseBlockEntity;
+import com.hbm.blocks.EnumMultiBlock;
 import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.blocks.ILookOverlay;
 import com.hbm.blocks.NtmBlocks;
@@ -31,6 +32,8 @@ import com.hbm.particle.ParticleDust.VomitBloodProvider;
 import com.hbm.particle.ParticleDust.VomitNormalProvider;
 import com.hbm.particle.ParticleDust.VomitSmokeProvider;
 import com.hbm.particle.RadiationFogParticle.RadiationFogProvider;
+import com.hbm.particle.RocketFlameParticle.ExhaustMeteorProvider;
+import com.hbm.particle.RocketFlameParticle.ExhaustSoyuzProvider;
 import com.hbm.particle.SmokePlumeParticle.LaunchSmokeProvider;
 import com.hbm.particle.engine.ParticleEngineNT;
 import com.hbm.particle.engine.util.SpriteSetNT;
@@ -46,7 +49,7 @@ import com.hbm.render.model.loader.NtmGeometryLoader;
 import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.util.*;
-import com.hbm.util.mixins.RegisterClientExtensionsEventInvoker;
+import com.hbm.util.mixins.invokers.RegisterClientExtensionsEventInvoker;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -140,6 +143,13 @@ public class NuclearTechModClient {
 
                 if(item instanceof EnumMultiItem multiItem) {
                     if(multiItem.multiTexture) ItemProperties.register(item, NuclearTechMod.withDefaultNamespace("item_meta"), (itemStack, level, livingEntity, seed) -> MetaHelper.getMeta(itemStack));
+                }
+            });
+            NtmBlocks.BLOCKS.getEntries().forEach(holder -> {
+                Block block = holder.get();
+
+                if(block instanceof EnumMultiBlock multiBlock) {
+                    if(multiBlock.multiTexture) ItemProperties.register(block.asItem(), NuclearTechMod.withDefaultNamespace("item_meta"), (itemStack, level, livingEntity, seed) -> MetaHelper.getMeta(itemStack));
                 }
             });
             ItemProperties.register(NtmItems.MISSILE_SOYUZ.get(), NuclearTechMod.withDefaultNamespace("item_meta"), (stack, level, entity, seed) -> MetaHelper.getMeta(stack));
@@ -598,7 +608,6 @@ public class NuclearTechModClient {
         event.registerSpecial(NtmParticles.FOAM.get(), new ParticleFoam.Provider());
         event.registerSpecial(NtmParticles.ASHES.get(), new AshesParticle.Provider());
         event.registerSpecial(NtmParticles.AMAT_FLASH.get(), new AmatFlashParticle.Provider());
-        event.registerSpriteSet(NtmParticles.GAS_FLAME.get(), ParticleGasFlame.Provider::new);
         event.registerSpriteSet(NtmParticles.DEAD_LEAF.get(), DeadLeafParticle.Provider::new);
         event.registerSpriteSet(NtmParticles.AURA.get(), ParticleAura.Provider::new);
         event.registerSpecial(NtmParticles.SKELETON.get(), new SkeletonParticle.Provider());
@@ -609,13 +618,16 @@ public class NuclearTechModClient {
         event.registerSpecial(NtmParticles.VANILLA_CLOUD.get(), new PlayerCloudParticle.Provider());
 
         event.registerSpecial(NtmParticles.ABM_CONTRAIL.get(), new ABMContrailProvider());
-        event.registerSpecial(NtmParticles.RADIATION_FOG.get(), new RadiationFogProvider());
         event.registerSpecial(NtmParticles.LAUNCH_SMOKE.get(), new LaunchSmokeProvider());
+        event.registerSpecial(NtmParticles.RADIATION_FOG.get(), new RadiationFogProvider());
+        event.registerSpecial(NtmParticles.EXHAUST_SOYUZ.get(), new ExhaustSoyuzProvider());
+        event.registerSpecial(NtmParticles.EXHAUST_METEOR.get(), new ExhaustMeteorProvider());
         event.registerSpecial(NtmParticles.SWEAT.get(), new SweatProvider());
         event.registerSpecial(NtmParticles.VOMIT_NORMAL.get(), new VomitNormalProvider());
         event.registerSpecial(NtmParticles.VOMIT_BLOOD.get(), new VomitBloodProvider());
         event.registerSpecial(NtmParticles.VOMIT_SMOKE.get(), new VomitSmokeProvider());
         event.registerSpecial(NtmParticles.COOLING_TOWER.get(), new CoolingTowerProvider());
+        event.registerSpriteSet(NtmParticles.GAS_FLAME.get(), ParticleGasFlame.Provider::new);
         event.registerSpecial(NtmParticles.TOM_BLAST.get(), new CloudTomParticle.Provider());
     }
 
@@ -779,41 +791,6 @@ public class NuclearTechModClient {
                 }
             }
 
-            if ("exhaust".equals(type)) {
-
-                String mode = data.getString("mode");
-
-                if ("soyuz".equals(mode)) {
-
-                    if (new Vec3(player.getX() - x, player.getY() - y, player.getZ() - z).length() > 350)
-                        return;
-
-                    int count = Math.max(1, data.getInt("count"));
-                    double width = data.getDouble("width");
-
-                    for (int i = 0; i < count; i++) {
-                        RocketFlameParticle particle = new RocketFlameParticle(level, x + rand.nextGaussian() * width, y, z + rand.nextGaussian() * width);
-                        particle.yd = -0.75 + rand.nextDouble() * 0.5;
-                        ParticleEngineNT.INSTANCE.add(particle);
-                    }
-                }
-
-                if ("meteor".equals(mode)) {
-
-                    if (new Vec3(player.getX() - x, player.getY() - y, player.getZ() - z).length() > 350)
-                        return;
-
-                    int count = Math.max(1, data.getInt("count"));
-                    double width = data.getDouble("width");
-
-                    for (int i = 0; i < count; i++) {
-
-                        RocketFlameParticle particle = new RocketFlameParticle(level, x + rand.nextGaussian() * width, y + rand.nextGaussian() * width, z + rand.nextGaussian() * width);
-                        ParticleEngineNT.INSTANCE.add(particle);
-                    }
-                }
-            }
-
             if ("muke".contains(type)) {
 
                 ParticleEngineNT.INSTANCE.add(new MukeFlashParticle(level, x, y, z, data.getBoolean("balefire")));
@@ -882,16 +859,6 @@ public class NuclearTechModClient {
                 }
 
                 if (particle != null) innerMc.particleEngine.add(particle);
-            }
-
-
-            if ("gasfire".equals(type)) {
-                double mX = data.getDouble("mX");
-                double mY = data.getDouble("mY");
-                double mZ = data.getDouble("mZ");
-                float scale = data.getFloat("scale");
-                ParticleGasFlame fx = new ParticleGasFlame(level, x, y, z, mX, mY, mZ, scale > 0 ? scale : 0.5F);
-                innerMc.particleEngine.add(fx);
             }
 
             if ("deadleaf".equals(type)) {

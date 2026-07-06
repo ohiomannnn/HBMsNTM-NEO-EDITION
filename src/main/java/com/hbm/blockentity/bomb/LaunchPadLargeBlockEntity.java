@@ -6,12 +6,12 @@ import com.hbm.entity.missile.MissileBaseNT;
 import com.hbm.items.weapon.MissileItem;
 import com.hbm.items.weapon.MissileItem.MissileFormFactor;
 import com.hbm.lib.Library;
-import com.hbm.main.NuclearTechMod;
 import com.hbm.particle.NtmParticles;
-import com.hbm.particle.vanilla.NbtParticleOption;
+import com.hbm.particle.vanilla.NbtParticleOptions;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hbm.util.particle.ParticleUtil;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -213,7 +213,7 @@ public class LaunchPadLargeBlockEntity extends LaunchPadBaseBlockEntity {
                 tag.putBoolean("noWind", true);
                 tag.putFloat("alphaMod", 2F);
                 tag.putFloat("strafe", 0.05F);
-                for(int i = 0; i < 3; i++) NuclearTechMod.proxy.addParticle(new NbtParticleOption(NtmParticles.COOLING_TOWER.get(), tag), x + 0.5 + level.random.nextGaussian() * 0.5, y + 2, z + 0.5 + level.random.nextGaussian() * 0.5, 0F, 0F, 0F);
+                for(int i = 0; i < 3; i++) ParticleUtil.addParticle(this.level, new NbtParticleOptions(NtmParticles.COOLING_TOWER.get(), tag), x + 0.5 + level.random.nextGaussian() * 0.5, y + 2, z + 0.5 + level.random.nextGaussian() * 0.5, 0F, 0F, 0F);
             }
 
             List<MissileBaseNT> entities = level.getEntitiesOfClass(MissileBaseNT.class, new AABB(x - 0.5, y, z - 0.5, x + 1.5, y + 10, z + 1.5));
@@ -226,7 +226,7 @@ public class LaunchPadLargeBlockEntity extends LaunchPadBaseBlockEntity {
                     float xd = (float) (level.random.nextGaussian() * 0.15F + 0.75) * dir.getStepX();
                     float zd = (float) (level.random.nextGaussian() * 0.15F + 0.75) * dir.getStepZ();
 
-                    NuclearTechMod.proxy.addParticle(NtmParticles.LAUNCH_SMOKE.get(), x + 0.5, y + 0.1, z + 0.5, xd, 0, zd);
+                    ParticleUtil.addParticle(this.level, NtmParticles.LAUNCH_SMOKE.get(), x + 0.5, y + 0.1, z + 0.5, xd, 0, zd);
                 }
             }
         }

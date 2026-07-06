@@ -1,6 +1,6 @@
 package com.hbm.particle;
 
-import com.hbm.particle.vanilla.NbtParticleOption;
+import com.hbm.particle.vanilla.NbtParticleOptions;
 import com.hbm.particle.vanilla.ParticleProviderBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -71,9 +71,10 @@ public class CoolingTowerParticle extends TextureSheetParticle {
         return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
     }
 
-    public static class CoolingTowerProvider extends ParticleProviderBase<NbtParticleOption> {
+    public static class CoolingTowerProvider extends ParticleProviderBase<NbtParticleOptions> {
+
         @Override
-        public void createParticle(NbtParticleOption options, double x, double y, double z, double xd, double yd, double zd, ClientLevel level, LocalPlayer player, int particleSetting) {
+        public void createParticle(NbtParticleOptions options, double x, double y, double z, double xd, double yd, double zd, ClientLevel level, LocalPlayer player, int particleSetting) {
             CompoundTag tag = options.tag;
 
             if(particleSetting == 0 || (particleSetting == 1 && level.random.nextBoolean())) {

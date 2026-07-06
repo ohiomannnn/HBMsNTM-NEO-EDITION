@@ -1,7 +1,7 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.blockentity.ITickable;
-import com.hbm.blockentity.bomb.LandMineBlockEntity;
+import com.hbm.blockentity.bomb.LandmineBlockEntity;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.config.NtmConfig;
 import com.hbm.explosion.ExplosionLarge;
@@ -66,7 +66,7 @@ public class LandmineBlock extends Block implements EntityBlock, IBomb {
 
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return new LandMineBlockEntity(blockPos, blockState);
+        return new LandmineBlockEntity(blockPos, blockState);
     }
 
     @Override

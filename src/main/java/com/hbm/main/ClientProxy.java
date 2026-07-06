@@ -19,6 +19,8 @@ import com.hbm.render.item.ItemRenderMissileGeneric.RenderMissileType;
 import com.hbm.util.InventoryUtil;
 import com.hbm.util.i18n.I18nClient;
 import com.hbm.util.i18n.ITranslate;
+import com.hbm.util.particle.IParticleCreator;
+import com.hbm.util.particle.ParticleCreatorClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -28,7 +30,6 @@ import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -51,7 +52,11 @@ public class ClientProxy extends ServerProxy {
 
     private static final I18nClient I18N = new I18nClient();
 
+    private static final IParticleCreator PARTICLE_CREATOR = new ParticleCreatorClient();
+
     public ITranslate getI18n() { return I18N; }
+
+    public IParticleCreator getParticleCreator() { return PARTICLE_CREATOR; }
 
     @Override
     public void registerClientExtensions(RegisterClientExtensionsEvent event) {
@@ -274,11 +279,6 @@ public class ClientProxy extends ServerProxy {
                 break;
             }
         }
-    }
-
-    @Override
-    public void addParticle(ParticleOptions options, double x, double y, double z, double xd, double yd, double zd) {
-        Minecraft.getInstance().particleEngine.createParticle(options, x, y, z, xd, yd, zd);
     }
 
     @Override

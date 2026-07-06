@@ -44,7 +44,7 @@ public class PlushieBlock extends MultiBlock implements EntityBlock, ITooltipPro
         DERG // blerg
     }
 
-    public static final IntegerProperty SUBTYPE = IntegerProperty.create("subtype", 0, PlushieType.values().length);
+    public static final IntegerProperty SUBTYPE = IntegerProperty.create("subtype", 0, PlushieType.values().length - 1);
     public static final IntegerProperty DIRECTION = IntegerProperty.create("direction", 0, 16);
 
     public PlushieBlock(Properties properties) {

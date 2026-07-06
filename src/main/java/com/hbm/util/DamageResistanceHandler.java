@@ -27,7 +27,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -127,14 +126,6 @@ public class DamageResistanceHandler {
 
     public static void initDefaults() {
         entityStats.put(Creeper.class, new ResistanceStats().addCategory(CATEGORY_EXPLOSION, 2F, 0.25F));
-
-        registerSet(Items.NETHERITE_HELMET, Items.NETHERITE_CHESTPLATE, Items.NETHERITE_LEGGINGS, Items.NETHERITE_BOOTS, new ResistanceStats()
-                .addCategory(CATEGORY_PHYSICAL, 0.1F, 1F)
-                .addCategory(CATEGORY_FIRE, 0F, 0.25F)
-                .addCategory(CATEGORY_EXPLOSION, 5F, 0.25F)
-                .addExact(DamageTypes.FALL.location(), 4F, 0.5F)
-                .setOther(2F, 0.1F));
-
     }
 
     public static void registerSet(Item helmet, Item plate, Item legs, Item boots, ResistanceStats stats) {

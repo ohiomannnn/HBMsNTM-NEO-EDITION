@@ -5,6 +5,8 @@ import com.hbm.blocks.ICustomBlockModelRegister;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.blocks.generic.BarbedWireBlock;
 import com.hbm.blocks.generic.LayeringBlock;
+import com.hbm.blocks.generic.OreBasaltBlock;
+import com.hbm.blocks.generic.OreBasaltBlock.BasaltOreType;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
 import com.hbm.blocks.network.FluidDuctConnectingBlock;
 import com.hbm.blocks.states.NtmBlockStateProperties;
@@ -56,6 +58,14 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.simpleCubeAllBlock(NtmBlocks.ORE_GNEISS_URANIUM_SCORCHED);
         this.simpleCubeAllBlock(NtmBlocks.ORE_NETHER_PLUTONIUM);
         this.simpleCubeAllBlock(NtmBlocks.ORE_GNEISS_SCHRABIDIUM);
+
+        this.registerOreBasalt();
+
+        this.logBlock(NtmBlocks.BASALT.get());
+        this.simpleCubeAllBlock(NtmBlocks.BASALT_SMOOTH);
+        this.simpleCubeAllBlock(NtmBlocks.BASALT_BRICK);
+        this.simpleCubeAllBlock(NtmBlocks.BASALT_POLISHED);
+        this.simpleCubeAllBlock(NtmBlocks.BASALT_TILES);
 
         this.simpleCubeAllBlock(NtmBlocks.BLOCK_SCRAP);
 
@@ -253,6 +263,32 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.itemModels().basicItem(NtmBlocks.GAS_EXPLOSIVE.asItem());
 
         this.simpleCubeAllBlock(NtmBlocks.TAINT);
+    }
+
+    private void registerOreBasalt() {
+        Block block = NtmBlocks.ORE_BASALT.get();
+
+        Enum<?>[] enums = BasaltOreType.values();
+        this.getVariantBuilder(block).forAllStates(state -> {
+
+            int meta = state.getValue(OreBasaltBlock.SUBTYPE);
+            Enum<?> num = enums[meta];
+
+            String path = "block/" + this.name(block) + "." + num.name().toLowerCase(Locale.US);
+            ModelFile model = this.models().cubeTop(path, this.modLoc(path), this.modLoc(path + "_top"));
+
+            return ConfiguredModel.builder().modelFile(model).build();
+        });
+
+        ItemModelBuilder builder = this.itemModels().getBuilder(this.name(block));
+        for(Enum<?> num : enums) {
+            String parent = "block/" + this.name(block) + "." + num.name().toLowerCase(Locale.US);
+            builder.override()
+                    .predicate(NuclearTechMod.withDefaultNamespace("item_meta"), num.ordinal())
+                    .model(this.itemModels().getBuilder(this.name(block) + "." + num.name().toLowerCase(Locale.US))
+                            .parent(new ModelFile.UncheckedModelFile(this.modLoc(parent)))
+                    ).end();
+        }
     }
 
     private void registerCable() {

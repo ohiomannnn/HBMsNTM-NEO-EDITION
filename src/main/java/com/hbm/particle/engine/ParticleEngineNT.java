@@ -37,22 +37,22 @@ public class ParticleEngineNT {
     }
 
     public void render(BufferSource buffer, Camera camera, DeltaTracker deltaTracker) {
-        if (!this.particles.isEmpty()) {
+        if(!this.particles.isEmpty()) {
             Map<RenderType, List<ParticleNT>> renderTypes = new HashMap<>();
 
             float f = deltaTracker.getGameTimeDeltaPartialTick(false);
-            for (ParticleNT particle : this.particles) {
-                if (particle == null || particle.dead) continue;
+            for(ParticleNT particle : this.particles) {
+                if(particle == null || particle.dead) continue;
                 RenderType type = particle.getRenderType();
                 renderTypes.computeIfAbsent(type, t -> new ArrayList<>()).add(particle);
             }
 
-            for (Entry<RenderType, List<ParticleNT>> entry : renderTypes.entrySet()) {
+            for(Entry<RenderType, List<ParticleNT>> entry : renderTypes.entrySet()) {
                 RenderType type = entry.getKey();
                 List<ParticleNT> particles = entry.getValue();
 
                 VertexConsumer consumer = type != null ? buffer.getBuffer(type) : null;
-                for (ParticleNT particle : particles) {
+                for(ParticleNT particle : particles) {
                     particle.render(consumer, camera, f);
                 }
             }
@@ -61,24 +61,24 @@ public class ParticleEngineNT {
 
     public void tick() {
         // we dont need to process empty lists
-        if (this.particles.isEmpty() && pendingParticles.isEmpty()) return;
+        if(this.particles.isEmpty() && pendingParticles.isEmpty()) return;
 
-        if (!pendingParticles.isEmpty()) {
+        if(!pendingParticles.isEmpty()) {
             particles.addAll(pendingParticles);
             pendingParticles.clear();
         }
 
         Iterator<ParticleNT> iterator = particles.iterator();
-        while (iterator.hasNext()) {
+        while(iterator.hasNext()) {
             ParticleNT particle = iterator.next();
 
             particle.tick();
-            if (particle.dead) {
+            if(particle.dead) {
                 iterator.remove();
             }
         }
 
-        if (!pendingParticles.isEmpty()) {
+        if(!pendingParticles.isEmpty()) {
             particles.addAll(pendingParticles);
             pendingParticles.clear();
         }

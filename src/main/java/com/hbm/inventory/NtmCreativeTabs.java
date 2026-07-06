@@ -9,6 +9,7 @@ import com.hbm.items.food.DrinkItem.DrinkType;
 import com.hbm.items.machine.FluidIDMultiItem;
 import com.hbm.items.special.StarterKitItem.KitType;
 import com.hbm.main.NuclearTechMod;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -21,12 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-import static net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB;
-
 @SuppressWarnings("unused")
 public class NtmCreativeTabs {
 
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(CREATIVE_MODE_TAB, NuclearTechMod.MODID);
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, NuclearTechMod.MODID);
 
     // ingots, nuggets, wires, machine parts
     public static final Supplier<CreativeModeTab> PARTS = CREATIVE_MODE_TABS.register(
@@ -118,6 +117,10 @@ public class NtmCreativeTabs {
                         output.accept(NtmItems.INGOT_ELECTRONIUM.get());
                         output.accept(NtmItems.INGOT_SMORE.get());
                         output.accept(NtmItems.INGOT_OSMIRIDIUM.get());
+
+                        output.accept(NtmItems.LAUNCH_CODE_PIECE);
+                        output.accept(NtmItems.LAUNCH_CODE);
+                        output.accept(NtmItems.LAUNCH_KEY);
                     }).build());
 
     // items that belong in machines, fuels, etc
@@ -217,6 +220,14 @@ public class NtmCreativeTabs {
                     .withTabsBefore(NuclearTechMod.withDefaultNamespace("control"))
                     .title(Component.translatable("itemGroup.blocks"))
                     .displayItems((itemDisplayParameters, output) -> {
+
+                        addMetaItems(output, NtmBlocks.ORE_BASALT.asItem());
+
+                        output.accept(NtmBlocks.BASALT);
+                        output.accept(NtmBlocks.BASALT_SMOOTH);
+                        output.accept(NtmBlocks.BASALT_BRICK);
+                        output.accept(NtmBlocks.BASALT_POLISHED);
+                        output.accept(NtmBlocks.BASALT_TILES);
 
                         addMetaItems(output, NtmBlocks.BOBBLEHEAD.asItem());
                         addMetaItems(output, NtmBlocks.PLUSHIE.asItem());
@@ -425,10 +436,6 @@ public class NtmCreativeTabs {
 
                         output.accept(NtmItems.DESIGNATOR);
                         output.accept(NtmItems.DESIGNATOR_RANGE);
-
-                        output.accept(NtmItems.LAUNCH_CODE_PIECE);
-                        output.accept(NtmItems.LAUNCH_CODE);
-                        output.accept(NtmItems.LAUNCH_KEY);
 
                         output.accept(NtmItems.MISSILE_TAINT);
                         output.accept(NtmItems.MISSILE_MICRO);

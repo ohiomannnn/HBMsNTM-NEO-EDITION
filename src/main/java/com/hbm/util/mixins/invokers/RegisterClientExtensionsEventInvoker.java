@@ -1,4 +1,4 @@
-package com.hbm.util.mixins;
+package com.hbm.util.mixins.invokers;
 
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import org.spongepowered.asm.mixin.Mixin;

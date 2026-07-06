@@ -2,8 +2,9 @@ package com.hbm.main;
 
 import com.hbm.util.i18n.I18nServer;
 import com.hbm.util.i18n.ITranslate;
+import com.hbm.util.particle.IParticleCreator;
+import com.hbm.util.particle.ParticleCreatorServer;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
@@ -17,7 +18,11 @@ public class ServerProxy {
 
     private static final I18nServer I18N = new I18nServer();
 
+    private static final IParticleCreator PARTICLE_CREATOR = new ParticleCreatorServer();
+
     public ITranslate getI18n() { return I18N; }
+
+    public IParticleCreator getParticleCreator() { return PARTICLE_CREATOR; }
 
     public void registerBlockEntityRenderers() { }
     public void registerClientExtensions(RegisterClientExtensionsEvent event) { }
@@ -31,8 +36,6 @@ public class ServerProxy {
     public void playLocalSound(double x, double y, double z, SoundEvent soundEvent, SoundSource source, float volume, float pitch) { }
 
     public void openScreen(Player player, BlockPos pos) { }
-
-    public void addParticle(ParticleOptions options, double x, double y, double z, double xd, double yd, double zd) { }
 
     @Nullable
     public Player me() {

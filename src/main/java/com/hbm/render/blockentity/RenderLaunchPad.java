@@ -32,10 +32,10 @@ public class RenderLaunchPad extends BlockEntityRendererNT<LaunchPadBlockEntity>
 
         Direction facing = be.getBlockState().getValue(DummyableBlock.FACING);
         switch(facing) {
-            case WEST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
-            case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
-            case EAST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
-            case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
+            case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
+            case WEST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
+            case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
+            case EAST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
         }
 
         bindTexture(ResourceManager.MISSILE_PAD_TEX);

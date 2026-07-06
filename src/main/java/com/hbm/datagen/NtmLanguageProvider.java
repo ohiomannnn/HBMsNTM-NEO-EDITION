@@ -2,7 +2,9 @@ package com.hbm.datagen;
 
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.blocks.generic.BarbedWireBlock.BarbedWireType;
+import com.hbm.blocks.generic.OreBasaltBlock.BasaltOreType;
 import com.hbm.blocks.generic.PlushieBlock.PlushieType;
+import com.hbm.fluids.NtmFluidTypes;
 import com.hbm.items.ItemEnums.CapType;
 import com.hbm.items.NtmItems;
 import com.hbm.items.food.ConserveItem.ConserveType;
@@ -16,7 +18,9 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.data.LanguageProvider;
+import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 
 import java.util.Locale;
@@ -586,6 +590,18 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmItems.NOTHING, "Nothing");
 
         // BLOCKS //
+        this.add(NtmBlocks.ORE_BASALT, this.getName(BasaltOreType.SULFUR), "Sulfur-Rich Basalt");
+        this.add(NtmBlocks.ORE_BASALT, this.getName(BasaltOreType.FLUORITE), "Fluorite-Rich Basalt");
+        this.add(NtmBlocks.ORE_BASALT, this.getName(BasaltOreType.ASBESTOS), "Asbestos-Rich Basalt");
+        this.add(NtmBlocks.ORE_BASALT, this.getName(BasaltOreType.GEM), "Gem-Rich Basalt");
+        this.add(NtmBlocks.ORE_BASALT, this.getName(BasaltOreType.MOLYSITE), "Molysite-Rich Basalt");
+
+        this.add(NtmBlocks.BASALT, "Basalt");
+        this.add(NtmBlocks.BASALT_SMOOTH, "Smooth Basalt");
+        this.add(NtmBlocks.BASALT_BRICK, "Basalt Bricks");
+        this.add(NtmBlocks.BASALT_POLISHED, "Basalt Tiles");
+        this.add(NtmBlocks.BASALT_TILES, "Basalt Tiles");
+
         this.add(NtmBlocks.BOBBLEHEAD, "Bobblehead");
         this.add(NtmBlocks.PLUSHIE, this.getName(PlushieType.YOMI), "Yomi Plushie");
         this.add(NtmBlocks.PLUSHIE, this.getName(PlushieType.YOMI) + DESC, "Hi! Can I be your rabbit friend");
@@ -793,6 +809,178 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add("commands.satellite.should_be_run_as_player", "This command should be run by a player!");
         this.add("commands.chunkrad.setrad", "Chunk radiation set to %s");
 
+        // FLUIDS //
+        this.add(NtmFluidTypes.VOLCANIC_LAVA_TYPE, "Volcanic Lava");
+        this.add(NtmFluidTypes.RAD_LAVA_TYPE, "Radioactive Volcanic Lava");
+
+        this.add("hbmfluid.air", "Compressed Air");
+        this.add("hbmfluid.alumina", "Alumina");
+        this.add("hbmfluid.amat", "Antimatter");
+        this.add("hbmfluid.aromatics", "Aromatic Hydrocarbons");
+        this.add("hbmfluid.aschrab", "Antischrabidium");
+        this.add("hbmfluid.balefire", "BF Rocket Fuel");
+        this.add("hbmfluid.bauxite_solution", "Bauxite Solution");
+        this.add("hbmfluid.biofuel", "Biofuel");
+        this.add("hbmfluid.biogas", "Biogas");
+        this.add("hbmfluid.bitumen", "Bitumen");
+        this.add("hbmfluid.blood", "Blood");
+        this.add("hbmfluid.blood_hot", "Hot Blood");
+        this.add("hbmfluid.calcium_chloride", "Calciumchloride Solution");
+        this.add("hbmfluid.calcium_solution", "Calcium Solution");
+        this.add("hbmfluid.carbondioxide", "Carbon Dioxide");
+        this.add("hbmfluid.chlorine", "Chlorine Gas");
+        this.add("hbmfluid.chlorocalcite_cleaned", "Cleaned Chlorocalcite Solution");
+        this.add("hbmfluid.chlorocalcite_mix", "Mixed Chlorocalcite Solution");
+        this.add("hbmfluid.chlorocalcite_solution", "Chlorocalcite Solution");
+        this.add("hbmfluid.cholesterol", "Cholesterol Solution");
+        this.add("hbmfluid.coalcreosote", "Coal Tar Creosote");
+        this.add("hbmfluid.coalgas", "Coal Gasoline");
+        this.add("hbmfluid.coalgas_leaded", "Leaded Coal Gasoline");
+        this.add("hbmfluid.coaloil", "Coal Oil");
+        this.add("hbmfluid.colloid", "Colloid");
+        this.add("hbmfluid.concrete", "Liquid Concrete");
+        this.add("hbmfluid.coolant", "Coolant");
+        this.add("hbmfluid.coolant_hot", "Hot Coolant");
+        this.add("hbmfluid.crackoil", "Cracked Oil");
+        this.add("hbmfluid.crackoil_ds", "Desulfurized Cracked Oil");
+        this.add("hbmfluid.cryogel", "Cryogel");
+        this.add("hbmfluid.death", "Osmiridic Solution");
+        this.add("hbmfluid.deuterium", "Deuterium");
+        this.add("hbmfluid.diesel", "Diesel");
+        this.add("hbmfluid.diesel_crack", "Cracked Diesel");
+        this.add("hbmfluid.diesel_crack_reform", "High-Cetane Cracked Diesel");
+        this.add("hbmfluid.diesel_reform", "High-Cetane Diesel");
+        this.add("hbmfluid.egg", "Dissolved Egg");
+        this.add("hbmfluid.estradiol", "Estradiol Solution");
+        this.add("hbmfluid.ethanol", "Ethanol");
+        this.add("hbmfluid.enderjuice", "Ender Juice");
+        this.add("hbmfluid.fishoil", "Fish Oil");
+        this.add("hbmfluid.fracksol", "Fracking Solution");
+        this.add("hbmfluid.fullerene", "Fullerene Solution");
+        this.add("hbmfluid.gas", "Natural Gas");
+        this.add("hbmfluid.gas_coker", "Coker Gas");
+        this.add("hbmfluid.gasoline", "Gasoline");
+        this.add("hbmfluid.gasoline_leaded", "Leaded Gasoline");
+        this.add("hbmfluid.heatingoil", "Heating Oil");
+        this.add("hbmfluid.heatingoil_vacuum", "Heavy Heating Oil");
+        this.add("hbmfluid.heavyoil", "Heavy Oil");
+        this.add("hbmfluid.heavyoil_vacuum", "Vacuum Heavy Oil");
+        this.add("hbmfluid.heavywater", "Heavy Water");
+        this.add("hbmfluid.heavywater_hot", "Hot Heavy Water");
+        this.add("hbmfluid.helium3", "Helium-3");
+        this.add("hbmfluid.helium4", "Helium-4");
+        this.add("hbmfluid.hotcrackoil", "Hot Cracked Oil");
+        this.add("hbmfluid.hotcrackoil_ds", "Desulfurized Hot Cracked Oil");
+        this.add("hbmfluid.hotoil", "Hot Crude Oil");
+        this.add("hbmfluid.hotoil_ds", "Desulfurized Hot Crude Oil");
+        this.add("hbmfluid.hotsteam", "Dense Steam");
+        this.add("hbmfluid.hydrogen", "Liquid Hydrogen");
+        this.add("hbmfluid.iongel", "Ionic Gel");
+        this.add("hbmfluid.kerosene", "Kerosene");
+        this.add("hbmfluid.kerosene_reform", "Jet Fuel");
+        this.add("hbmfluid.lava", "Lava");
+        this.add("hbmfluid.lead", "Liquid Lead");
+        this.add("hbmfluid.lead_hot", "Hot Liquid Lead");
+        this.add("hbmfluid.lightoil", "Light Oil");
+        this.add("hbmfluid.lightoil_crack", "Cracked Light Oil");
+        this.add("hbmfluid.lightoil_ds", "Desulfurized Light Oil");
+        this.add("hbmfluid.lightoil_vacuum", "Vacuum Light Oil");
+        this.add("hbmfluid.lpg", "LPG");
+        this.add("hbmfluid.lubricant", "Engine Lubricant");
+        this.add("hbmfluid.lye", "Lye");
+        this.add("hbmfluid.mercury", "Mercury");
+        this.add("hbmfluid.mug", "Mug Root Beer");
+        this.add("hbmfluid.mug_hot", "Hot Mug Root Beer");
+        this.add("hbmfluid.mustardgas", "Mustard Gas");
+        this.add("hbmfluid.naphtha", "Naphtha");
+        this.add("hbmfluid.naphtha_coker", "Coker Naphtha");
+        this.add("hbmfluid.naphtha_crack", "Cracked Naphtha");
+        this.add("hbmfluid.naphtha_ds", "Desulfurized Naphtha");
+        this.add("hbmfluid.nitan", "NITAN© 100 Octane Super Fuel");
+        this.add("hbmfluid.nitric_acid", "Nitric Acid");
+        this.add("hbmfluid.nitroglycerin", "Nitroglycerin");
+        this.add("hbmfluid.none", "None");
+        this.add("hbmfluid.oil", "Crude Oil");
+        this.add("hbmfluid.oil_coker", "Coker Oil");
+        this.add("hbmfluid.oil_ds", "Desulfurized Crude Oil");
+        this.add("hbmfluid.oxygen", "Liquid Oxygen");
+        this.add("hbmfluid.oxyhydrogen", "Oxyhydrogen");
+        this.add("hbmfluid.pain", "Pandemonium(III)tantalite Solution");
+        this.add("hbmfluid.perfluoromethyl", "Perfluoromethyl");
+        this.add("hbmfluid.perfluoromethyl_cold", "Cold Perfluoromethyl");
+        this.add("hbmfluid.perfluoromethyl_hot", "Hot Perfluoromethyl");
+        this.add("hbmfluid.peroxide", "Hydrogen Peroxide");
+        this.add("hbmfluid.petroil", "Petroil");
+        this.add("hbmfluid.petroil_leaded", "Leaded Petroil");
+        this.add("hbmfluid.petroleum", "Petroleum Gas");
+        this.add("hbmfluid.pheromone", "Booster Pheromone");
+        this.add("hbmfluid.pheromone_m", "Modified Booster Pheromone");
+        this.add("hbmfluid.phosgene", "Phosgene");
+        this.add("hbmfluid.plasma_bf", "Balefire Plasma");
+        this.add("hbmfluid.plasma_dh3", "Deuterium-Helium-3 Plasma");
+        this.add("hbmfluid.plasma_dt", "Deuterium-Tritium Plasma");
+        this.add("hbmfluid.plasma_hd", "Hydrogen-Deuterium Plasma");
+        this.add("hbmfluid.plasma_ht", "Hydrogen-Tritium Plasma");
+        this.add("hbmfluid.plasma_xm", "Helium-4-Oxygen Plasma");
+        this.add("hbmfluid.potassium_chloride", "Potassiumchloride Solution");
+        this.add("hbmfluid.puf6", "Plutonium Hexafluoride");
+        this.add("hbmfluid.radiosolvent", "High-Performance Solvent");
+        this.add("hbmfluid.reclaimed", "Reclaimed Industrial Oil");
+        this.add("hbmfluid.redmud", "Red Mud");
+        this.add("hbmfluid.reformate", "Reformate");
+        this.add("hbmfluid.reformgas", "Reformate Gas");
+        this.add("hbmfluid.salient", "Salient Green");
+        this.add("hbmfluid.sas3", "Schrabidium Trisulfide");
+        this.add("hbmfluid.schrabidic", "Schrabidic Acid");
+        this.add("hbmfluid.seedslurry", "Seeding Slurry");
+        this.add("hbmfluid.slop", "Ore Slop");
+        this.add("hbmfluid.smear", "Industrial Oil");
+        this.add("hbmfluid.smoke", "Smoke");
+        this.add("hbmfluid.smoke_leaded", "Leaded Smoke");
+        this.add("hbmfluid.smoke_poison", "Poison Smoke");
+        this.add("hbmfluid.sodium", "Liquid Sodium");
+        this.add("hbmfluid.sodium_hot", "Hot Liquid Sodium");
+        this.add("hbmfluid.sodium_aluminate", "Sodium Aluminate");
+        this.add("hbmfluid.solvent", "Solvent");
+        this.add("hbmfluid.sourgas", "Sour Gas");
+        this.add("hbmfluid.spentsteam", "Low-Pressure Steam");
+        this.add("hbmfluid.steam", "Steam");
+        this.add("hbmfluid.stellar_flux", "Stellar Flux");
+        this.add("hbmfluid.sulfuric_acid", "Sulfuric Acid");
+        this.add("hbmfluid.sunfloweroil", "Sunflower Seed Oil");
+        this.add("hbmfluid.superhotsteam", "Super Dense Steam");
+        this.add("hbmfluid.syngas", "Syngas");
+        this.add("hbmfluid.thorium_salt", "Liquid Thorium Salt");
+        this.add("hbmfluid.thorium_salt_depleted", "Depleted Liquid Thorium Salt");
+        this.add("hbmfluid.thorium_salt_hot", "Hot Liquid Thorium Salt");
+        this.add("hbmfluid.tritium", "Tritium");
+        this.add("hbmfluid.uf6", "Uranium Hexafluoride");
+        this.add("hbmfluid.ultrahotsteam", "Ultra Dense Steam");
+        this.add("hbmfluid.unsaturateds", "Unsaturated Hydrocarbons");
+        this.add("hbmfluid.vitriol", "Vitriol");
+        this.add("hbmfluid.wastefluid", "Liquid Nuclear Waste");
+        this.add("hbmfluid.wastegas", "Gaseous Nuclear Waste");
+        this.add("hbmfluid.water", "Water");
+        this.add("hbmfluid.watz", "Poisonous Mud");
+        this.add("hbmfluid.woodoil", "Wood Oil");
+        this.add("hbmfluid.xenon", "Xenon Gas");
+        this.add("hbmfluid.xpjuice", "Experience Juice");
+        this.add("hbmfluid.xylene", "BTX");
+
+        this.add("fluid.trait.highly_corrosive", "[Strongly Corrosive]");
+        this.add("fluid.trait.corrosive", "[Corrosive]");
+        this.add("fluid.trait.flammable", "[Flammable]");
+        this.add("fluid.trait.flammable_provides", "Provides %s TU per bucket");
+        this.add("fluid.trait.gaseous", "[Gaseous]");
+        this.add("fluid.trait.gaseous_atr", "[Gaseous at Room Temperature]");
+        this.add("fluid.trait.liquid", "[Liquid]");
+        this.add("fluid.trait.viscous", "[Viscous]");
+        this.add("fluid.trait.plasma", "[Plasma]");
+        this.add("fluid.trait.amat", "[Antimatter]");
+        this.add("fluid.trait.lead_container", "[Requires hazardous material tank to hold]");
+        this.add("fluid.trait.delicious", "[Delicious]");
+        this.add("fluid.trait.unsiphonable", "[Ignored by siphon]");
+
         // MISC //
         this.add("message.hbmsntm.loaded", "Loaded world with Hbm's Nuclear Tech Mod %s for Minecraft 1.21.1!");
         this.add("message.hbmsntm.neo", "Neo Edition");
@@ -853,6 +1041,8 @@ public class NtmLanguageProvider extends LanguageProvider {
     // HELPERS //
     public void add(DeferredBlock<? extends Block> key, String name) { this.add(key.get(), name); }
     public void add(DeferredItem<? extends Item> key, String name) { this.add(key.get(), name); }
+
+    public void add(DeferredHolder<FluidType, FluidType> key, String name) { this.add(key.get().getDescriptionId(), name); }
 
     public void add(DeferredBlock<? extends Block> key, String toAppend, String name) { this.add(key.get().getDescriptionId() + toAppend, name); }
     public void add(DeferredItem<? extends Item> key, String toAppend, String name) { this.add(key.get().getDescriptionId() + toAppend, name); }

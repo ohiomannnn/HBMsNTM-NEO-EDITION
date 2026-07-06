@@ -7,6 +7,7 @@ import com.hbm.lib.Library;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.particle.NtmParticles;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import com.hbm.util.particle.ParticleUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
@@ -65,7 +66,7 @@ public class LaunchPadBlockEntity extends LaunchPadBaseBlockEntity {
                     float xd = (float) (level.random.nextGaussian() * 0.15F + 0.75) * dir.getStepX();
                     float zd = (float) (level.random.nextGaussian() * 0.15F + 0.75) * dir.getStepZ();
 
-                    NuclearTechMod.proxy.addParticle(NtmParticles.LAUNCH_SMOKE.get(), x + 0.5, y + 0.25, z + 0.5, xd, 0, zd);
+                    ParticleUtil.addParticle(this.level, NtmParticles.LAUNCH_SMOKE.get(), x + 0.5, y + 0.25, z + 0.5, xd, 0, zd);
                 }
             }
         }

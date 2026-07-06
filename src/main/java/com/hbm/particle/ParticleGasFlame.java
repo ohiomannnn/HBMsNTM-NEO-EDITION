@@ -1,11 +1,17 @@
 package com.hbm.particle;
 
+import com.hbm.particle.vanilla.NbtParticleOptions;
+import com.hbm.particle.vanilla.ParticleProviderBase;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.*;
-import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 
-import java.awt.Color;
+import java.awt.*;
 
 public class ParticleGasFlame extends TextureSheetParticle {
 
@@ -53,14 +59,20 @@ public class ParticleGasFlame extends TextureSheetParticle {
         return 240;
     }
 
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
+    public static class Provider extends ParticleProviderBase<NbtParticleOptions> {
+
         public Provider(SpriteSet sprites) {
             NtmParticles.GAS_FLAME_PARTICLES = sprites;
         }
 
         @Override
-        public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double vx, double vy, double vz) {
-            return new ParticleGasFlame(level, x, y, z, vx, vy, vz, 1F);
+        public void createParticle(NbtParticleOptions options, double x, double y, double z, double xd, double yd, double zd, ClientLevel level, LocalPlayer player, int particleSetting) {
+            CompoundTag tag = options.tag;
+
+            float scale = tag.getFloat("scale");
+
+            ParticleGasFlame particle = new ParticleGasFlame(level, x, y, z, xd, yd, zd, scale > 0 ? scale : 0.5F);
+            Minecraft.getInstance().particleEngine.add(particle);
         }
     }
 }

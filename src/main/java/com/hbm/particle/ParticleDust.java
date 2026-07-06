@@ -1,6 +1,6 @@
 package com.hbm.particle;
 
-import com.hbm.particle.vanilla.NbtParticleOption;
+import com.hbm.particle.vanilla.NbtParticleOptions;
 import com.hbm.particle.vanilla.ParticleProviderBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -118,9 +118,9 @@ public class ParticleDust extends TextureSheetParticle {
         return i == 0 && this.level.hasChunkAt(this.pos) ? LevelRenderer.getLightColor(this.level, this.pos) : i;
     }
 
-    public static abstract class VomitBaseProvider extends ParticleProviderBase<NbtParticleOption> {
+    public static abstract class VomitBaseProvider extends ParticleProviderBase<NbtParticleOptions> {
         @Override
-        public void createParticle(NbtParticleOption options, double x, double y, double z, double xd, double yd, double zd, ClientLevel level, LocalPlayer player, int particleSetting) {
+        public void createParticle(NbtParticleOptions options, double x, double y, double z, double xd, double yd, double zd, ClientLevel level, LocalPlayer player, int particleSetting) {
             CompoundTag tag = options.tag;
 
             Entity e = level.getEntity(tag.getInt("entity"));
@@ -168,9 +168,9 @@ public class ParticleDust extends TextureSheetParticle {
         }
     }
 
-    public static class SweatProvider extends ParticleProviderBase<NbtParticleOption> {
+    public static class SweatProvider extends ParticleProviderBase<NbtParticleOptions> {
         @Override
-        public void createParticle(NbtParticleOption options, double x, double y, double z, double xd, double yd, double zd, ClientLevel level, LocalPlayer player, int particleSetting) {
+        public void createParticle(NbtParticleOptions options, double x, double y, double z, double xd, double yd, double zd, ClientLevel level, LocalPlayer player, int particleSetting) {
             CompoundTag tag = options.tag;
 
             Entity e = level.getEntity(tag.getInt("entity"));

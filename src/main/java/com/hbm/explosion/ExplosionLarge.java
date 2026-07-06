@@ -5,8 +5,6 @@ import com.hbm.entity.projectile.Rubble;
 import com.hbm.entity.projectile.Shrapnel;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.network.toclient.AuxParticle;
-import com.hbm.util.ParticleUtil;
-import com.hbm.util.Vec3NT;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -58,15 +56,6 @@ public class ExplosionLarge {
         tag.putInt("count", count);
         tag.putDouble("strength", strength);
         PacketDistributor.sendToPlayersNear(serverLevel, null, x, y, z, 250, new AuxParticle(tag, x, y, z));
-    }
-
-    public static void spawnBurst(ServerLevel serverLevel, double x, double y, double z, int count, double strength) {
-        Vec3NT vec = new Vec3NT(strength, 0, 0);
-        vec.rotateAroundXRad(rand.nextInt(360));
-        for (int i = 0; i < count; i++) {
-            ParticleUtil.spawnGasFlame(serverLevel, x, y, z, vec.xCoord, 0.0, vec.zCoord);
-            vec.rotateAroundXRad(360 / count);
-        }
     }
 
     public static void spawnRubble(ServerLevel serverLevel, double x, double y, double z, int count) {

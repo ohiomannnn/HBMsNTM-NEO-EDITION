@@ -10,8 +10,8 @@
     "ItemStackMixin"
   ],
   "client": [
+    "invokers.RegisterClientExtensionsEventInvoker",
     "LevelRendererMixin",
-    "ParticleEngineMixin",
-    "RegisterClientExtensionsEventInvoker"
+    "ParticleEngineMixin"
   ]
 }

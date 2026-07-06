@@ -1,43 +1,26 @@
 package com.hbm.world.gen;
 
-import com.hbm.blocks.NtmBlocks;
-import com.hbm.blocks.states.NtmBlockStateProperties;
 import com.hbm.main.NuclearTechMod;
+import com.hbm.world.feature.NtmFeatures;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
-import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.util.valueproviders.BiasedToBottomInt;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
-import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
-import net.minecraft.world.level.levelgen.feature.stateproviders.RandomizedIntStateProvider;
-
-import java.util.List;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
 public class NtmConfiguredFeatures {
+
+    public static final ResourceKey<ConfiguredFeature<?, ?>> LANDMINE = registerKey("landmine");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> CRASHED_BOMB = registerKey("crashed_bomb");
 
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
 
-        register(context, CRASHED_BOMB, Feature.RANDOM_PATCH,
-                FeatureUtils.simplePatchConfiguration(
-                        Feature.SIMPLE_BLOCK,
-                        new SimpleBlockConfiguration(
-                                new RandomizedIntStateProvider(
-                                        BlockStateProvider.simple(NtmBlocks.CRASHED_BOMB.get().defaultBlockState()),
-                                        NtmBlockStateProperties.META,
-                                        BiasedToBottomInt.of(0, 4)
-                                )
-                        ),
-                        List.of(Blocks.GRASS_BLOCK, Blocks.DIRT, Blocks.STONE, Blocks.SAND, Blocks.SANDSTONE),
-                        1
-                )
-        );
+        register(context, LANDMINE, NtmFeatures.LANDMINE.get(), NoneFeatureConfiguration.INSTANCE);
+
+        register(context, CRASHED_BOMB, NtmFeatures.CRASHED_BOMB.get(), NoneFeatureConfiguration.INSTANCE);
     }
 
     public static ResourceKey<ConfiguredFeature<?, ?>> registerKey(String path) {
