@@ -13,12 +13,15 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 
-public abstract class PlaneBase extends ExplosionChunkLoading {
+public abstract class PlaneBase extends Entity {
 
     private static final EntityDataAccessor<Float> HEALTH = SynchedEntityData.defineId(PlaneBase.class, EntityDataSerializers.FLOAT);
 
@@ -100,10 +103,8 @@ public abstract class PlaneBase extends ExplosionChunkLoading {
     @Override
     public void tick() {
 
-        this.updateChunkTicket();
-
-        if (this.level.isClientSide) {
-            if (this.lerpSteps > 0) {
+        if(this.level.isClientSide) {
+            if(this.lerpSteps > 0) {
                 this.lerpPositionAndRotationStep(this.lerpSteps, this.lerpX, this.lerpY, this.lerpZ, this.lerpYRot, this.lerpXRot);
                 --this.lerpSteps;
             } else {
@@ -114,7 +115,15 @@ public abstract class PlaneBase extends ExplosionChunkLoading {
             this.yo = this.yOld = this.getY();
             this.zo = this.zOld = this.getZ();
 
+            ChunkPos oldPos = this.chunkPosition();
             this.setPos(this.getX() + this.deltaMovement.x, this.getY() + this.deltaMovement.y, this.getZ() + this.deltaMovement.z);
+            ChunkPos newPos = this.chunkPosition();
+            if(oldPos != newPos) {
+                if(this.level instanceof ServerLevel serverLevel) {
+                    serverLevel.setChunkForced(oldPos.x, oldPos.z, false);
+                    serverLevel.setChunkForced(newPos.x, newPos.z, true);
+                }
+            }
 
             this.rotation();
 
@@ -171,4 +180,20 @@ public abstract class PlaneBase extends ExplosionChunkLoading {
     }
 
     @Override public boolean shouldRenderAtSqrDistance(double distance) { return true; }
+
+    @Override
+    public void onAddedToLevel() {
+
+        if(this.level instanceof ServerLevel serverLevel) {
+            serverLevel.setChunkForced(this.chunkPosition().x, this.chunkPosition().z, true);
+        }
+    }
+
+    @Override
+    public void onRemovedFromLevel() {
+
+        if(this.level instanceof ServerLevel serverLevel) {
+            serverLevel.setChunkForced(this.chunkPosition().x, this.chunkPosition().z, false);
+        }
+    }
 }

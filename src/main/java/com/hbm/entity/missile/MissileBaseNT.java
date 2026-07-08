@@ -10,7 +10,6 @@ import com.hbm.explosion.vanillant.standard.BlockMutatorFire;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCross;
 import com.hbm.items.weapon.MissileItem;
-import com.hbm.main.NuclearTechMod;
 import com.hbm.main.NuclearTechModClient;
 import com.hbm.util.RayTraceResult;
 import com.hbm.util.Vec3NT;

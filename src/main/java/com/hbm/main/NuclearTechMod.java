@@ -31,7 +31,7 @@ import java.io.File;
 public class NuclearTechMod {
     public static final String MODID = "hbmsntm";
     public static ResourceLocation withDefaultNamespace(String path) { return ResourceLocation.fromNamespaceAndPath(MODID, path); }
-    public static final String VERSION = "128A";
+    public static final String VERSION = "188A";
     public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
     public static ServerProxy proxy;

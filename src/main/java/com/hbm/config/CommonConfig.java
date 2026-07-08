@@ -115,7 +115,7 @@ public class CommonConfig {
         ENABLE_DEBUG_MODE = builder
                 .comment("Enable debugging mode.")
                 .translation("hbmsntm.configuration.enableDebugMode")
-                .define("enableDebugMode", true);
+                .define("enableDebugMode", false);
         ENABLE_MOTD = builder
                 .comment("If enabled, shows the 'Loaded mod!' chat message as well as update notifications when joining a world.")
                 .translation("hbmsntm.configuration.enableMOTD")

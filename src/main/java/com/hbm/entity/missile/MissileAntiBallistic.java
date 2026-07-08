@@ -3,6 +3,8 @@ package com.hbm.entity.missile;
 import api.hbm.entity.IRadarDetectableNT;
 import com.hbm.entity.projectile.ThrowableInterp;
 import com.hbm.explosion.ExplosionLarge;
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.standard.*;
 import com.hbm.particle.NtmParticles;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.RayTraceResult;
@@ -159,9 +161,10 @@ public class MissileAntiBallistic extends ThrowableInterp implements IRadarDetec
 
         if(delta.length() < 10 && activationTimer >= 40) {
             this.discard();
-            if(this.level instanceof ServerLevel serverLevel) {
-                ExplosionLarge.explode(serverLevel, this.position().x, this.position().y, this.position().z, 15, true, false, false);
-            }
+            ExplosionVNT vnt = new ExplosionVNT(this.level, this.position().x, this.position().y, this.position().z, 15F)
+                    .setEntityProcessor(new EntityProcessorCross(7.5D).withRangeMod(2))
+                    .setSFX(new ExplosionEffectWeapon(15, 5F, 2F));
+            vnt.explode();
         }
 
         this.setDeltaMovement(motion.multiply(BASE_SPEED, BASE_SPEED, BASE_SPEED));

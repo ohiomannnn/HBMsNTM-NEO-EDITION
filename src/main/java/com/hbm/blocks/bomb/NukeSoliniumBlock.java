@@ -22,7 +22,7 @@ public class NukeSoliniumBlock extends NukeBaseBlock {
 
     @Override
     protected void explode(Level level, double x, double y, double z) {
-        NukeExplosionMK3 explosion = NukeExplosionMK3.statFacFleija(level, x, y, z, NtmConfig.COMMON.FLEIJA_RADIUS.get()).makeSol();
+        NukeExplosionMK3 explosion = NukeExplosionMK3.statFacFleija(level, x, y, z, NtmConfig.COMMON.SOLINIUM_RADIUS.get()).makeSol();
         if(!explosion.isRemoved()) {
             level.addFreshEntity(explosion);
             CloudCreator.composeEffect(level, x, y, z, CloudType.SOLINIUM);
