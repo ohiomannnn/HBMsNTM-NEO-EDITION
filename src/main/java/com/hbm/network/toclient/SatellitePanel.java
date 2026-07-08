@@ -11,6 +11,8 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import java.util.List;
@@ -34,6 +36,11 @@ public record SatellitePanel(int satType, CompoundTag tag) implements CustomPack
         }
     };
 
+    public static void handleCommon(SatellitePanel packet, IPayloadContext context) {
+        handleClient(packet, context);
+    }
+
+    @OnlyIn(Dist.CLIENT)
     public static void handleClient(SatellitePanel packet, IPayloadContext context) {
         context.enqueueWork(() -> {
 

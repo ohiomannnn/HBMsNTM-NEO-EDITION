@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
 
 public class SatelliteInterfaceItem extends SatChipItem implements IScreenProvider {
 
-    @OnlyIn(Dist.CLIENT) @Nullable public Satellite satellite = null;
+    @Nullable public Satellite satellite = null;
 
     public SatelliteInterfaceItem(Properties properties) {
         super(properties);

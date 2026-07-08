@@ -9,7 +9,7 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 @EventBusSubscriber(modid = NuclearTechMod.MODID)
-public class ModNetwork {
+public class NtmNetwork {
     private static final String PROTOCOL_VERSION = "3";
 
     @SubscribeEvent
@@ -26,7 +26,7 @@ public class ModNetwork {
         registrar.playToClient(InformPlayer.TYPE, InformPlayer.STREAM_CODEC, InformPlayer::handleClient);
         registrar.playToClient(ParticleBurst.TYPE, ParticleBurst.STREAM_CODEC, ParticleBurst::handleClient);
         registrar.playToClient(AuxParticle.TYPE, AuxParticle.STREAM_CODEC, AuxParticle::handleClient);
-        registrar.playToClient(SatellitePanel.TYPE, SatellitePanel.STREAM_CODEC, SatellitePanel::handleClient);
+        registrar.playToClient(SatellitePanel.TYPE, SatellitePanel.STREAM_CODEC, SatellitePanel::handleCommon);
         registrar.playToClient(BufPacket.TYPE, BufPacket.STREAM_CODEC, BufPacket::handleClient);
     }
 }

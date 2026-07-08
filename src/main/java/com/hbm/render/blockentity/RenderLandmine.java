@@ -39,7 +39,7 @@ public class RenderLandmine extends BlockEntityRendererNT<LandmineBlockEntity> i
 
             Level level = be.getLevel();
             BlockPos pos = be.getBlockPos();
-            if (level == null) return;
+            if(level == null) return;
 
             Biome biome = level.getBiome(pos).value();
 

@@ -75,7 +75,7 @@ public class RenderSoyuzLauncher extends BlockEntityRendererNT<SoyuzLauncherBloc
     }
 
     @Override
-    public boolean shouldRenderOffScreen(SoyuzLauncherBlockEntity blockEntity) {
+    public boolean shouldRenderOffScreen(SoyuzLauncherBlockEntity be) {
         return true;
     }
 }

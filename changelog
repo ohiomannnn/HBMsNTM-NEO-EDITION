@@ -15,6 +15,7 @@
   * This means explosions will destroy blocks much faster
   * Can be changed in the config to older algorithm from 1.7.10
 * Fire, balefire, phosphorus and blackfire player properties now will affect player
+* Updated fat mine model and texture
 
 ## FIXES
 * Explosion algorithm now try to clear water at chunk borders
