@@ -2,8 +2,8 @@ package com.hbm.blockentity.machine;
 
 import com.hbm.blockentity.MachineBaseBlockEntity;
 import com.hbm.blockentity.NtmBlockEntityTypes;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -43,7 +43,7 @@ public class MachinePressBlockEntity extends MachineBaseBlockEntity {
     }
 
     @Override
-    public void serialize(ByteBuf buf) {
+    public void serialize(RegistryFriendlyByteBuf buf) {
         super.serialize(buf);
         buf.writeInt(this.speed);
         buf.writeInt(this.burnTime);
@@ -52,7 +52,7 @@ public class MachinePressBlockEntity extends MachineBaseBlockEntity {
     }
 
     @Override
-    public void deserialize(ByteBuf buf) {
+    public void deserialize(RegistryFriendlyByteBuf buf) {
         super.deserialize(buf);
         this.speed = buf.readInt();
         this.burnTime = buf.readInt();

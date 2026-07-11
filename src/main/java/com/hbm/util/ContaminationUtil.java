@@ -23,14 +23,12 @@ import java.util.HashSet;
 
 public class ContaminationUtil {
 
-    public static HashSet<Class<?>> immuneEntities = new HashSet<>();
+    public static final HashSet<Class<?>> immuneEntities = new HashSet<>();
 
     public static boolean isRadImmune(Entity entity) {
-        if (entity instanceof LivingEntity living && living.hasEffect(ModEffect.MUTATION)) {
-            return true;
-        }
+        if(entity instanceof LivingEntity living && living.hasEffect(ModEffect.MUTATION)) return true;
 
-        if (immuneEntities.isEmpty()) {
+        if(immuneEntities.isEmpty()) {
             immuneEntities.add(CreeperNuclear.class);
             immuneEntities.add(MushroomCow.class);
             immuneEntities.add(Zombie.class);
@@ -41,8 +39,8 @@ public class ContaminationUtil {
         }
 
         Class<?> entityClass = entity.getClass();
-        for (Class<?> clazz : immuneEntities) {
-            if (clazz.isAssignableFrom(entityClass)) return true;
+        for(Class<?> clazz : immuneEntities) {
+            if(clazz.isAssignableFrom(entityClass)) return true;
         }
 
         return false;
@@ -51,19 +49,19 @@ public class ContaminationUtil {
     /// DIGAMMA ///
     public static void applyDigammaData(Entity entity, float dig) {
 
-        if (!(entity instanceof LivingEntity living)) return;
-        if (entity instanceof Duck || entity instanceof Ocelot) return;
-        if (entity instanceof Player player) {
-            if (player.tickCount < 200) return;
-            if (player.isCreative() || player.isSpectator()) return;
+        if(!(entity instanceof LivingEntity living)) return;
+        if(entity instanceof Duck || entity instanceof Ocelot) return;
+        if(entity instanceof Player player) {
+            if(player.tickCount < 200) return;
+            if(player.isCreative() || player.isSpectator()) return;
         }
-        if (living.hasEffect(ModEffect.STABILITY)) return;
+        if(living.hasEffect(ModEffect.STABILITY)) return;
 
         HbmLivingAttachments.incrementDigamma(living, dig);
     }
 
     public static float calculateRadiationMod(LivingEntity entity) {
-        if (entity instanceof Player player) {
+        if(entity instanceof Player player) {
             float coefficient = 10.0F;
             return (float) Math.pow(coefficient, -HazmatRegistry.getResistance(player));
         }
@@ -100,7 +98,7 @@ public class ContaminationUtil {
         double env = ((int)(HbmLivingAttachments.getRadBuf(player) * 10D)) / 10D;
         boolean limit = false;
 
-        if (env > 3.6F) {
+        if(env > 3.6F) {
             env = 3.6F;
             limit = true;
         }
@@ -123,24 +121,24 @@ public class ContaminationUtil {
     }
 
     public static String getPrefixFromRad(double rads) {
-        if (rads == 0) return ChatFormatting.GREEN.toString();
-        else if (rads < 1) return ChatFormatting.YELLOW.toString();
-        else if (rads < 10) return ChatFormatting.GOLD.toString();
-        else if (rads < 100) return ChatFormatting.RED.toString();
-        else if (rads < 1000) return ChatFormatting.DARK_RED.toString();
+        if(rads == 0) return ChatFormatting.GREEN.toString();
+        else if(rads < 1) return ChatFormatting.YELLOW.toString();
+        else if(rads < 10) return ChatFormatting.GOLD.toString();
+        else if(rads < 100) return ChatFormatting.RED.toString();
+        else if(rads < 1000) return ChatFormatting.DARK_RED.toString();
         return ChatFormatting.DARK_GRAY.toString();
     }
 
     public static String getPrefixFromRadPlayer(double rads) {
-        if (rads < 200) return ChatFormatting.GREEN.toString();
-        else if (rads < 400) return ChatFormatting.YELLOW.toString();
-        else if (rads < 600) return ChatFormatting.GOLD.toString();
-        else if (rads < 800) return ChatFormatting.RED.toString();
-        else if (rads < 1000) return ChatFormatting.DARK_RED.toString();
+        if(rads < 200) return ChatFormatting.GREEN.toString();
+        else if(rads < 400) return ChatFormatting.YELLOW.toString();
+        else if(rads < 600) return ChatFormatting.GOLD.toString();
+        else if(rads < 800) return ChatFormatting.RED.toString();
+        else if(rads < 1000) return ChatFormatting.DARK_RED.toString();
         return ChatFormatting.DARK_GRAY.toString();
     }
     public static String getPrefixFromRadResistance(double koeff) {
-        if (koeff > 0) return ChatFormatting.GREEN.toString();
+        if(koeff > 0) return ChatFormatting.GREEN.toString();
         return ChatFormatting.WHITE.toString();
     }
 
@@ -162,18 +160,18 @@ public class ContaminationUtil {
 
     public static void contaminate(LivingEntity entity, HazardType hazard, ContaminationType type, float amount) {
 
-        if (hazard == HazardType.RADIATION) {
+        if(hazard == HazardType.RADIATION) {
             HbmLivingAttachments.setRadEnv(entity, HbmLivingAttachments.getRadEnv(entity) + amount);
         }
 
-        if (entity instanceof Player player) {
-            if (player.isCreative() || player.isSpectator() && type != ContaminationType.NONE && type != ContaminationType.DIGAMMA_ROBE) return;
-            if (player.tickCount < 200) return;
+        if(entity instanceof Player player) {
+            if(player.isCreative() || player.isSpectator() && type != ContaminationType.NONE && type != ContaminationType.DIGAMMA_ROBE) return;
+            if(player.tickCount < 200) return;
         }
 
-        if (hazard == HazardType.RADIATION && isRadImmune(entity)) return;
+        if(hazard == HazardType.RADIATION && isRadImmune(entity)) return;
 
-        switch (hazard) {
+        switch(hazard) {
             case RADIATION -> HbmLivingAttachments.incrementRadiation(entity, amount * (type == ContaminationType.RAD_BYPASS ? 1 : calculateRadiationMod(entity)));
             case DIGAMMA -> HbmLivingAttachments.incrementDigamma(entity, amount);
         }

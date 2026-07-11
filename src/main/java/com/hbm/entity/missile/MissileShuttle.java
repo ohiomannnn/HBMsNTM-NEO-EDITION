@@ -1,9 +1,8 @@
 package com.hbm.entity.missile;
 
 import com.hbm.items.NtmItems;
-import com.hbm.registry.NtmSoundEvents;
 import com.hbm.network.toclient.AuxParticle;
-import com.hbm.util.RayTraceResult;
+import com.hbm.registry.NtmSoundEvents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -11,14 +10,15 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MissileShuttle extends MissileBaseNT {
+public class MissileShuttle extends MissileBase {
 
-    public MissileShuttle(EntityType<? extends MissileBaseNT> entityType, Level level) { super(entityType, level); }
+    public MissileShuttle(EntityType<? extends MissileBase> entityType, Level level) { super(entityType, level); }
 
     @Override
     public List<ItemStack> getDebris() {
@@ -32,7 +32,7 @@ public class MissileShuttle extends MissileBaseNT {
 
     @Override public ItemStack getMissileItemForInfo() { return new ItemStack(NtmItems.MISSILE_SHUTTLE.get()); }
 
-    @Override public void onMissileImpact(RayTraceResult result) {
+    @Override public void onMissileImpact(BlockHitResult result) {
         this.explodeStandard(20F, 64, false);
         CompoundTag tag = new CompoundTag();
         tag.putString("type", "rbmkmush");

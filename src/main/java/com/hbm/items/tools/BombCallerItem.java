@@ -7,7 +7,6 @@ import com.hbm.items.ICustomItemModelRegister;
 import com.hbm.items.IMetaItem;
 import com.hbm.lib.Library;
 import com.hbm.registry.NtmSoundEvents;
-import com.hbm.util.RayTraceResult;
 import com.hbm.world.WorldUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -20,6 +19,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 
 import java.util.List;
@@ -35,10 +35,11 @@ public class BombCallerItem extends Item implements IMetaItem, ICustomItemModelR
         ItemStack stack = player.getItemInHand(hand);
 
         if(!level.isClientSide) {
-            RayTraceResult ray = Library.rayTrace(player, 500, 1);
-            int x = ray.getBlockPos().getX();
-            int y = ray.getBlockPos().getY();
-            int z = ray.getBlockPos().getZ();
+            BlockHitResult bhr = Library.rayTrace(player, 500, 1);
+
+            int x = bhr.getBlockPos().getX();
+            int y = bhr.getBlockPos().getY();
+            int z = bhr.getBlockPos().getZ();
 
             Bomber bomber = switch(MetaHelper.getMeta(stack)) {
                 case 1 -> Bomber.statFacNapalm(level, x, y, z);

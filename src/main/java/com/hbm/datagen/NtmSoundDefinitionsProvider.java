@@ -125,6 +125,9 @@ public class NtmSoundDefinitionsProvider extends SoundDefinitionsProvider {
                 )
         );
         // BLOCKS
+        this.add(NtmSoundEvents.SONAR_PING, SoundDefinition.definition()
+                .with(sound("hbmsntm:block/sonar_ping"))
+        );
         this.add(NtmSoundEvents.PIPE_PLACED, SoundDefinition.definition()
                 .with(sound("hbmsntm:block/pipe_placed"))
         );
@@ -176,6 +179,12 @@ public class NtmSoundDefinitionsProvider extends SoundDefinitionsProvider {
         );
         this.add(NtmSoundEvents.ASSEMBLER_STOP, SoundDefinition.definition()
                 .with(sound("hbmsntm:block/assembler_stop"))
+        );
+        this.add(NtmSoundEvents.METAL_IMPACT, SoundDefinition.definition()
+                .with(
+                        sound(NuclearTechMod.withDefaultNamespace("block/metal_impact1")),
+                        sound(NuclearTechMod.withDefaultNamespace("block/metal_impact2"))
+                )
         );
         // DOORS
         this.add(NtmSoundEvents.TRANSITION_SEAL_OPEN, SoundDefinition.definition()

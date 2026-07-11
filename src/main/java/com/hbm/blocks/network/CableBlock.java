@@ -33,6 +33,7 @@ public class CableBlock extends Block implements EntityBlock {
 
     public CableBlock(Properties properties) {
         super(properties);
+
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(NORTH, Boolean.FALSE)
                 .setValue(SOUTH, Boolean.FALSE)
@@ -58,7 +59,7 @@ public class CableBlock extends Block implements EntityBlock {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return (lvl, pos, st, be) -> { if (be instanceof ITickable tickable) tickable.updateEntity(); };
+        return (lvl, pos, st, be) -> { if(be instanceof ITickable tickable) tickable.updateEntity(); };
     }
 
     @Override

@@ -7,15 +7,12 @@ import api.hbm.fluidmk2.IFluidConnectorBlockMK2;
 import api.hbm.fluidmk2.IFluidConnectorMK2;
 import com.hbm.interfaces.Spaghetti;
 import com.hbm.inventory.fluid.FluidType;
-import com.hbm.util.RayTraceResult;
-import com.hbm.util.VoxelShapeUtils;
 import net.minecraft.client.multiplayer.ClientChunkCache;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.server.level.ServerChunkCache;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -29,17 +26,13 @@ import net.minecraft.world.level.chunk.ChunkSource;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.chunk.status.ChunkStatus;
-import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.entity.PartEntity;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-import java.util.List;
-import java.util.function.Predicate;
 
 @Spaghetti("this whole class")
 public class Library {
@@ -104,10 +97,10 @@ public class Library {
     //not great either but certainly better
     public static long chargeItemsFromTE(NonNullList<ItemStack> slots, int index, long power, long maxPower) {
 
-        if (power < 0) return 0;
-        if (power > maxPower) return maxPower;
+        if(power < 0) return 0;
+        if(power > maxPower) return maxPower;
 
-        if (slots.get(index).getItem() instanceof IBatteryItem batteryItem) {
+        if(slots.get(index).getItem() instanceof IBatteryItem batteryItem) {
 
             long batMax = batteryItem.getMaxCharge(slots.get(index));
             long batCharge = batteryItem.getCharge(slots.get(index));
@@ -124,7 +117,7 @@ public class Library {
 
     public static long chargeTEFromItems(NonNullList<ItemStack> slots, int index, long power, long maxPower) {
 
-        if (slots.get(index).getItem() instanceof IBatteryItem batteryItem) {
+        if(slots.get(index).getItem() instanceof IBatteryItem batteryItem) {
 
             long batCharge = batteryItem.getCharge(slots.get(index));
             long batRate = batteryItem.getDischargeRate(slots.get(index));
@@ -138,47 +131,45 @@ public class Library {
     }
 
     public static Vec3 getPosition(float interpolation, Player player) {
-        if (interpolation == 1.0F) {
+        if(interpolation == 1.0F) {
             return player.getEyePosition();
         } else {
             return player.getEyePosition(interpolation);
         }
     }
 
-    public static RayTraceResult rayTrace(Player player, double length, float interpolation) {
+    public static BlockHitResult rayTrace(Player player, double length, float interpolation) {
         Vec3 vec3 = getPosition(interpolation, player);
         Vec3 vec31 = player.getViewVector(interpolation);
         Vec3 vec32 = vec3.add(vec31.x * length, vec31.y * length, vec31.z * length);
-        return rayTraceBlocks(player.level(), vec3, vec32, false, false, true);
+        return rayTraceBlocks(player.level, vec3, vec32, false, false, true);
     }
 
     @Nullable
-    public static RayTraceResult rayTraceBlocks(Level world, Vec3 startVec, Vec3 endVec, boolean stopOnLiquid, boolean ignoreBlockWithoutBoundingBox, boolean returnLastUncollidableBlock) {
+    public static BlockHitResult rayTraceBlocks(Level world, Vec3 startVec, Vec3 endVec, boolean stopOnLiquid, boolean ignoreBlockWithoutBoundingBox, boolean returnLastUncollidableBlock) {
         return rayTraceBlocksInternal(world, startVec, endVec, stopOnLiquid, ignoreBlockWithoutBoundingBox, returnLastUncollidableBlock, 200);
     }
 
     @Nullable
-    public static RayTraceResult rayTraceBlocks(Level world, Vec3 startVec, Vec3 endVec, boolean stopOnLiquid, boolean ignoreBlockWithoutBoundingBox, boolean returnLastUncollidableBlock, int maxSteps) {
+    public static BlockHitResult rayTraceBlocks(Level world, Vec3 startVec, Vec3 endVec, boolean stopOnLiquid, boolean ignoreBlockWithoutBoundingBox, boolean returnLastUncollidableBlock, int maxSteps) {
         return rayTraceBlocksInternal(world, startVec, endVec, stopOnLiquid, ignoreBlockWithoutBoundingBox, returnLastUncollidableBlock, maxSteps);
     }
 
     private static LevelChunk getChunkForBlockTrace(Level level, int cx, int cz) {
         ChunkSource source = level.getChunkSource();
-        if (source instanceof ServerChunkCache scc) {
+        if(source instanceof ServerChunkCache scc) {
             return scc.getChunkNow(cx, cz);
-        } else if (source instanceof ClientChunkCache ccc) {
+        } else if(source instanceof ClientChunkCache ccc) {
             return ccc.getChunk(cx, cz, ChunkStatus.FULL, false);
         }
         return null;
     }
 
     // copied from ce edition
-    // works WAY better than mojangs shitty code
     @Nullable
-    private static RayTraceResult rayTraceBlocksInternal(Level level, Vec3 startVec, Vec3 endVec, boolean stopOnLiquid, boolean ignoreBlockWithoutBoundingBox, boolean returnLastUncollidableBlock, int maxSteps) {
+    private static BlockHitResult rayTraceBlocksInternal(Level level, Vec3 startVec, Vec3 endVec, boolean stopOnLiquid, boolean ignoreBlockWithoutBoundingBox, boolean returnLastUncollidableBlock, int maxSteps) {
 
-        if (Double.isNaN(startVec.x) || Double.isNaN(startVec.y) || Double.isNaN(startVec.z) || Double.isNaN(endVec.x) || Double.isNaN(endVec.y) || Double.isNaN(endVec.z))
-            return null;
+        if(Double.isNaN(startVec.x) || Double.isNaN(startVec.y) || Double.isNaN(startVec.z) || Double.isNaN(endVec.x) || Double.isNaN(endVec.y) || Double.isNaN(endVec.z)) return null;
 
         int endX = Mth.floor(endVec.x);
         int endY = Mth.floor(endVec.y);
@@ -227,7 +218,7 @@ public class Library {
         boolean cachedSectionEmpty = true;
 
         BlockState startState;
-        if (y < minBuildY || y >= maxBuildY) {
+        if(y < minBuildY || y >= maxBuildY) {
             startState = Blocks.AIR.defaultBlockState();
         } else {
             int cx = x >> 4;
@@ -242,7 +233,7 @@ public class Library {
             cachedSecY = secY;
             int secIndex = secY - minSection;
 
-            if (cachedSections == null || secIndex < 0 || secIndex >= cachedSections.length) {
+            if(cachedSections == null || secIndex < 0 || secIndex >= cachedSections.length) {
                 startState = Blocks.AIR.defaultBlockState();
             } else {
                 cachedSection = cachedSections[secIndex];
@@ -251,21 +242,17 @@ public class Library {
             }
         }
 
-        if (stopOnLiquid && !startState.getFluidState().isEmpty()) {
+        if(stopOnLiquid && !startState.getFluidState().isEmpty()) {
             VoxelShape fluidShape = startState.getFluidState().getShape(level, pos);
-            RayTraceResult hit = VoxelShapeUtils.clip(fluidShape, startVec, endVec, pos.immutable());
-            if (hit != null) {
-                return hit;
-            }
+            BlockHitResult hit = fluidShape.clip(startVec, endVec, pos.immutable());
+            if(hit != null) return hit;
         }
 
-        if (!startState.isAir()) {
+        if(!startState.isAir()) {
             VoxelShape shape = startState.getShape(level, pos);
-            if (!ignoreBlockWithoutBoundingBox || !shape.isEmpty()) {
-                RayTraceResult hit = VoxelShapeUtils.clip(shape, startVec, endVec, pos.immutable());
-                if (hit != null) {
-                    return hit;
-                }
+            if(!ignoreBlockWithoutBoundingBox || !shape.isEmpty()) {
+                BlockHitResult hit = shape.clip(startVec, endVec, pos.immutable());
+                if(hit != null) return hit;
             }
         }
 
@@ -277,16 +264,14 @@ public class Library {
         double curX, curY, curZ;
         int stepsLeft = Math.max(0, maxSteps);
 
-        while (stepsLeft-- > 0) {
-            if (x == endX && y == endY && z == endZ) {
-                break;
-            }
+        while(stepsLeft-- > 0) {
+            if(x == endX && y == endY && z == endZ) break;
 
             byte sideHit;
             double tNext;
 
-            if (tMaxX < tMaxY) {
-                if (tMaxX < tMaxZ) {
+            if(tMaxX < tMaxY) {
+                if(tMaxX < tMaxZ) {
                     sideHit = faceX;
                     tNext = tMaxX;
                     tMaxX += tDeltaX;
@@ -304,7 +289,7 @@ public class Library {
                     curZ = (stepZ > 0) ? (double) z : (double) (z + 1);
                 }
             } else {
-                if (tMaxY < tMaxZ) {
+                if(tMaxY < tMaxZ) {
                     sideHit = faceY;
                     tNext = tMaxY;
                     tMaxY += tDeltaY;
@@ -326,13 +311,13 @@ public class Library {
             pos.set(x, y, z);
 
             BlockState state;
-            if (y < minBuildY || y >= maxBuildY) {
+            if(y < minBuildY || y >= maxBuildY) {
                 state = Blocks.AIR.defaultBlockState();
             } else {
                 int cx = x >> 4;
                 int cz = z >> 4;
 
-                if (cx != cachedChunkX || cz != cachedChunkZ) {
+                if(cx != cachedChunkX || cz != cachedChunkZ) {
                     cachedChunkX = cx;
                     cachedChunkZ = cz;
                     LevelChunk chunk = getChunkForBlockTrace(level, cx, cz);
@@ -343,10 +328,10 @@ public class Library {
                 }
 
                 int secY = y >> 4;
-                if (secY != cachedSecY) {
+                if(secY != cachedSecY) {
                     cachedSecY = secY;
                     int secIndex = secY - minSection;
-                    if (cachedSections == null || secIndex < 0 || secIndex >= cachedSections.length) {
+                    if(cachedSections == null || secIndex < 0 || secIndex >= cachedSections.length) {
                         cachedSection = null;
                         cachedSectionEmpty = true;
                     } else {
@@ -358,8 +343,8 @@ public class Library {
                 state = cachedSectionEmpty ? Blocks.AIR.defaultBlockState() : cachedSection.getBlockState(x & 15, y & 15, z & 15);
             }
 
-            if (state.isAir()) {
-                if (returnLastUncollidableBlock) {
+            if(state.isAir()) {
+                if(returnLastUncollidableBlock) {
                     hasLastMiss = true;
                     lastMissSide = sideHit;
                     lastMissBx = x; lastMissBy = y; lastMissBz = z;
@@ -368,24 +353,20 @@ public class Library {
                 continue;
             }
 
-            if (stopOnLiquid && !state.getFluidState().isEmpty()) {
+            if(stopOnLiquid && !state.getFluidState().isEmpty()) {
                 VoxelShape fluidShape = state.getFluidState().getShape(level, pos);
-                RayTraceResult hit = VoxelShapeUtils.clip(fluidShape, startVec, endVec, pos.immutable());
-                if (hit != null) {
-                    return hit;
-                }
+                BlockHitResult hit = fluidShape.clip(startVec, endVec, pos.immutable());
+                if(hit != null) return hit;
             }
 
             VoxelShape shape = state.getShape(level, pos);
 
-            if (!ignoreBlockWithoutBoundingBox || state.is(Blocks.NETHER_PORTAL) || !shape.isEmpty()) {
-                RayTraceResult hit = VoxelShapeUtils.clip(shape, startVec, endVec, pos.immutable());
-
-                if (hit != null) {
-                    return hit;
-                }
+            if(!ignoreBlockWithoutBoundingBox || state.is(Blocks.NETHER_PORTAL) || !shape.isEmpty()) {
+                BlockHitResult hit = shape.clip(startVec, endVec, pos.immutable());
+                if(hit != null) return hit;
             }
-            if (returnLastUncollidableBlock) {
+
+            if(returnLastUncollidableBlock) {
                 hasLastMiss = true;
                 lastMissSide = sideHit;
                 lastMissBx = x;
@@ -397,158 +378,158 @@ public class Library {
             }
         }
 
-        if (!returnLastUncollidableBlock || !hasLastMiss) return null;
-        return new RayTraceResult(RayTraceResult.Type.MISS, new Vec3(lastMissHx, lastMissHy, lastMissHz), Direction.values()[lastMissSide], new BlockPos(lastMissBx, lastMissBy, lastMissBz));
+        if(!returnLastUncollidableBlock || !hasLastMiss) return null;
+        return BlockHitResult.miss(new Vec3(lastMissHx, lastMissHy, lastMissHz), Direction.values()[lastMissSide], new BlockPos(lastMissBx, lastMissBy, lastMissBz));
     }
 
-    public static @Nullable RayTraceResult rayTraceEntities(@NotNull Level level, @Nullable Entity exclude, @NotNull Vec3 start, @NotNull Vec3 end, double inflate, @Nullable Predicate<? super Entity> extraFilter) {
-        double sx = start.x;
-        double sy = start.y;
-        double sz = start.z;
-        double ex = end.x;
-        double ey = end.y;
-        double ez = end.z;
-        if (Double.isNaN(sx) || Double.isNaN(sy) || Double.isNaN(sz) || Double.isNaN(ex) || Double.isNaN(ey) || Double.isNaN(ez)) {
-            return null;
-        }
-
-        double ddx = ex - sx;
-        double ddy = ey - sy;
-        double ddz = ez - sz;
-        double segLenSq = ddx * ddx + ddy * ddy + ddz * ddz;
-        if (segLenSq < 1.0E-12D) {
-            return null;
-        }
-
-        boolean dx0 = ddx == 0.0D;
-        boolean dy0 = ddy == 0.0D;
-        boolean dz0 = ddz == 0.0D;
-        double invDx = dx0 ? 0.0D : (1.0D / ddx);
-        double invDy = dy0 ? 0.0D : (1.0D / ddy);
-        double invDz = dz0 ? 0.0D : (1.0D / ddz);
-
-        boolean hasFilter = extraFilter != null;
-
-        double pad = level.getMaxEntityRadius() + inflate;
-
-        double minX = Math.min(sx, ex) - pad;
-        double minY = Math.min(sy, ey) - pad;
-        double minZ = Math.min(sz, ez) - pad;
-        double maxX = Math.max(sx, ex) + pad;
-        double maxY = Math.max(sy, ey) + pad;
-        double maxZ = Math.max(sz, ez) + pad;
-
-        int cx = ((int) Math.floor(sx)) >> 4;
-        int cz = ((int) Math.floor(sz)) >> 4;
-        int endCx = ((int) Math.floor(ex)) >> 4;
-        int endCz = ((int) Math.floor(ez)) >> 4;
-
-        int stepX = Integer.compare(endCx, cx);
-        int stepZ = Integer.compare(endCz, cz);
-
-        double tMaxX, tMaxZ;
-        double tDeltaX, tDeltaZ;
-
-        if (stepX == 0) {
-            tMaxX = Double.POSITIVE_INFINITY;
-            tDeltaX = Double.POSITIVE_INFINITY;
-        } else {
-            double nextBoundaryX = (stepX > 0) ? ((cx + 1) << 4) : (cx << 4);
-            tMaxX = (nextBoundaryX - sx) / ddx;
-            tDeltaX = 16.0D / Math.abs(ddx);
-        }
-
-        if (stepZ == 0) {
-            tMaxZ = Double.POSITIVE_INFINITY;
-            tDeltaZ = Double.POSITIVE_INFINITY;
-        } else {
-            double nextBoundaryZ = (stepZ > 0) ? ((cz + 1) << 4) : (cz << 4);
-            tMaxZ = (nextBoundaryZ - sz) / ddz;
-            tDeltaZ = 16.0D / Math.abs(ddz);
-        }
-
-        AABB searchBox = new AABB(minX, minY, minZ, maxX, maxY, maxZ);
-        List<Entity> candidates = level.getEntities(exclude, searchBox, e -> true);
-
-        Entity bestEntity = null;
-        double bestT = Double.POSITIVE_INFINITY;
-        double bestHitX = 0.0D, bestHitY = 0.0D, bestHitZ = 0.0D;
-
-        double tPrev = 0.0D;
-
-        //noinspection ForLoopReplaceableByForEach
-        for (int i = 0, n = candidates.size(); i < n; i++) {
-            Entity e = candidates.get(i);
-            if (e instanceof Player p && p.isSpectator()) continue;
-            if (hasFilter && !extraFilter.test(e)) continue;
-            if (e.noPhysics || !e.isPickable()) continue;
-
-            AABB eb = e.getBoundingBox();
-
-            double t = intersectSegmentAabbHitTInv(sx, sy, sz, dx0, dy0, dz0, invDx, invDy, invDz, eb.minX - inflate, eb.minY - inflate, eb.minZ - inflate, eb.maxX + inflate, eb.maxY + inflate, eb.maxZ + inflate);
-            if (!Double.isNaN(t) && t < bestT) {
-                bestT = t;
-                bestEntity = e;
-                if (t == 0.0D) {
-                    return new RayTraceResult(e, start);
-                }
-                bestHitX = sx + ddx * t;
-                bestHitY = sy + ddy * t;
-                bestHitZ = sz + ddz * t;
-            }
-
-            PartEntity<?>[] parts = e.getParts();
-            if (parts != null) {
-                for (PartEntity<?> part : parts) {
-                    if (part == exclude) continue;
-                    if (hasFilter && !extraFilter.test(part)) continue;
-                    if (part.noPhysics || !part.isPickable()) continue;
-
-                    AABB pb = part.getBoundingBox();
-
-                    double tp = intersectSegmentAabbHitTInv(
-                            sx, sy, sz, dx0, dy0, dz0, invDx, invDy, invDz,
-                            pb.minX - inflate, pb.minY - inflate, pb.minZ - inflate,
-                            pb.maxX + inflate, pb.maxY + inflate, pb.maxZ + inflate);
-                    if (!Double.isNaN(tp) && tp < bestT) {
-                        bestT = tp;
-                        bestEntity = part;
-                        if (tp == 0.0D) {
-                            return new RayTraceResult(part, start);
-                        }
-                        bestHitX = sx + ddx * tp;
-                        bestHitY = sy + ddy * tp;
-                        bestHitZ = sz + ddz * tp;
-                    }
-                }
-            }
-
-
-            if (bestT <= tPrev) {
-                break;
-            }
-
-            if (cx == endCx && cz == endCz) {
-                break;
-            }
-
-            // 2D DDA step, Z on tie
-            double tStep;
-            if (tMaxX < tMaxZ) {
-                tStep = tMaxX;
-                cx += stepX;
-                tMaxX += tDeltaX;
-            } else {
-                tStep = tMaxZ;
-                cz += stepZ;
-                tMaxZ += tDeltaZ;
-            }
-
-            tPrev = tStep;
-        }
-
-        return (bestEntity != null) ? new RayTraceResult(bestEntity, new Vec3(bestHitX, bestHitY, bestHitZ)) : null;
-    }
+//    public static @Nullable RayTraceResult rayTraceEntities(@NotNull Level level, @Nullable Entity exclude, @NotNull Vec3 start, @NotNull Vec3 end, double inflate, @Nullable Predicate<? super Entity> extraFilter) {
+//        double sx = start.x;
+//        double sy = start.y;
+//        double sz = start.z;
+//        double ex = end.x;
+//        double ey = end.y;
+//        double ez = end.z;
+//        if (Double.isNaN(sx) || Double.isNaN(sy) || Double.isNaN(sz) || Double.isNaN(ex) || Double.isNaN(ey) || Double.isNaN(ez)) {
+//            return null;
+//        }
+//
+//        double ddx = ex - sx;
+//        double ddy = ey - sy;
+//        double ddz = ez - sz;
+//        double segLenSq = ddx * ddx + ddy * ddy + ddz * ddz;
+//        if (segLenSq < 1.0E-12D) {
+//            return null;
+//        }
+//
+//        boolean dx0 = ddx == 0.0D;
+//        boolean dy0 = ddy == 0.0D;
+//        boolean dz0 = ddz == 0.0D;
+//        double invDx = dx0 ? 0.0D : (1.0D / ddx);
+//        double invDy = dy0 ? 0.0D : (1.0D / ddy);
+//        double invDz = dz0 ? 0.0D : (1.0D / ddz);
+//
+//        boolean hasFilter = extraFilter != null;
+//
+//        double pad = level.getMaxEntityRadius() + inflate;
+//
+//        double minX = Math.min(sx, ex) - pad;
+//        double minY = Math.min(sy, ey) - pad;
+//        double minZ = Math.min(sz, ez) - pad;
+//        double maxX = Math.max(sx, ex) + pad;
+//        double maxY = Math.max(sy, ey) + pad;
+//        double maxZ = Math.max(sz, ez) + pad;
+//
+//        int cx = ((int) Math.floor(sx)) >> 4;
+//        int cz = ((int) Math.floor(sz)) >> 4;
+//        int endCx = ((int) Math.floor(ex)) >> 4;
+//        int endCz = ((int) Math.floor(ez)) >> 4;
+//
+//        int stepX = Integer.compare(endCx, cx);
+//        int stepZ = Integer.compare(endCz, cz);
+//
+//        double tMaxX, tMaxZ;
+//        double tDeltaX, tDeltaZ;
+//
+//        if (stepX == 0) {
+//            tMaxX = Double.POSITIVE_INFINITY;
+//            tDeltaX = Double.POSITIVE_INFINITY;
+//        } else {
+//            double nextBoundaryX = (stepX > 0) ? ((cx + 1) << 4) : (cx << 4);
+//            tMaxX = (nextBoundaryX - sx) / ddx;
+//            tDeltaX = 16.0D / Math.abs(ddx);
+//        }
+//
+//        if (stepZ == 0) {
+//            tMaxZ = Double.POSITIVE_INFINITY;
+//            tDeltaZ = Double.POSITIVE_INFINITY;
+//        } else {
+//            double nextBoundaryZ = (stepZ > 0) ? ((cz + 1) << 4) : (cz << 4);
+//            tMaxZ = (nextBoundaryZ - sz) / ddz;
+//            tDeltaZ = 16.0D / Math.abs(ddz);
+//        }
+//
+//        AABB searchBox = new AABB(minX, minY, minZ, maxX, maxY, maxZ);
+//        List<Entity> candidates = level.getEntities(exclude, searchBox, e -> true);
+//
+//        Entity bestEntity = null;
+//        double bestT = Double.POSITIVE_INFINITY;
+//        double bestHitX = 0.0D, bestHitY = 0.0D, bestHitZ = 0.0D;
+//
+//        double tPrev = 0.0D;
+//
+//        //noinspection ForLoopReplaceableByForEach
+//        for (int i = 0, n = candidates.size(); i < n; i++) {
+//            Entity e = candidates.get(i);
+//            if (e instanceof Player p && p.isSpectator()) continue;
+//            if (hasFilter && !extraFilter.test(e)) continue;
+//            if (e.noPhysics || !e.isPickable()) continue;
+//
+//            AABB eb = e.getBoundingBox();
+//
+//            double t = intersectSegmentAabbHitTInv(sx, sy, sz, dx0, dy0, dz0, invDx, invDy, invDz, eb.minX - inflate, eb.minY - inflate, eb.minZ - inflate, eb.maxX + inflate, eb.maxY + inflate, eb.maxZ + inflate);
+//            if (!Double.isNaN(t) && t < bestT) {
+//                bestT = t;
+//                bestEntity = e;
+//                if (t == 0.0D) {
+//                    return new RayTraceResult(e, start);
+//                }
+//                bestHitX = sx + ddx * t;
+//                bestHitY = sy + ddy * t;
+//                bestHitZ = sz + ddz * t;
+//            }
+//
+//            PartEntity<?>[] parts = e.getParts();
+//            if (parts != null) {
+//                for (PartEntity<?> part : parts) {
+//                    if (part == exclude) continue;
+//                    if (hasFilter && !extraFilter.test(part)) continue;
+//                    if (part.noPhysics || !part.isPickable()) continue;
+//
+//                    AABB pb = part.getBoundingBox();
+//
+//                    double tp = intersectSegmentAabbHitTInv(
+//                            sx, sy, sz, dx0, dy0, dz0, invDx, invDy, invDz,
+//                            pb.minX - inflate, pb.minY - inflate, pb.minZ - inflate,
+//                            pb.maxX + inflate, pb.maxY + inflate, pb.maxZ + inflate);
+//                    if (!Double.isNaN(tp) && tp < bestT) {
+//                        bestT = tp;
+//                        bestEntity = part;
+//                        if (tp == 0.0D) {
+//                            return new RayTraceResult(part, start);
+//                        }
+//                        bestHitX = sx + ddx * tp;
+//                        bestHitY = sy + ddy * tp;
+//                        bestHitZ = sz + ddz * tp;
+//                    }
+//                }
+//            }
+//
+//
+//            if (bestT <= tPrev) {
+//                break;
+//            }
+//
+//            if (cx == endCx && cz == endCz) {
+//                break;
+//            }
+//
+//            // 2D DDA step, Z on tie
+//            double tStep;
+//            if (tMaxX < tMaxZ) {
+//                tStep = tMaxX;
+//                cx += stepX;
+//                tMaxX += tDeltaX;
+//            } else {
+//                tStep = tMaxZ;
+//                cz += stepZ;
+//                tMaxZ += tDeltaZ;
+//            }
+//
+//            tPrev = tStep;
+//        }
+//
+//        return (bestEntity != null) ? new RayTraceResult(bestEntity, new Vec3(bestHitX, bestHitY, bestHitZ)) : null;
+//    }
 
     /**
      * Slab intersection on segment P(t)=S + D*t with t in [0,1], using precomputed inverse components.

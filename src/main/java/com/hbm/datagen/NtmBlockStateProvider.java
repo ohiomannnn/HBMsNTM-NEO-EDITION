@@ -251,6 +251,8 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.particleOnlyBlock(NtmBlocks.LAUNCH_PAD_LARGE, modLoc("block/block_steel"));
         this.simpleBlock(NtmBlocks.SOYUZ_LAUNCHER.get(), this.models().getBuilder(name(NtmBlocks.SOYUZ_LAUNCHER) + "_particle").texture("particle", modLoc("item/soyuz_launcher")));
         this.itemModels().basicItem(NtmBlocks.SOYUZ_LAUNCHER.asItem());
+        this.particleOnlyBlock(NtmBlocks.MACHINE_RADAR, modLoc("block/block_steel"));
+        this.particleOnlyBlock(NtmBlocks.MACHINE_RADAR_LARGE, modLoc("block/block_steel"));
 
         this.itemModels().basicItem(NtmBlocks.GAS_RADON.asItem());
         this.itemModels().basicItem(NtmBlocks.GAS_RADON_DENSE.asItem());

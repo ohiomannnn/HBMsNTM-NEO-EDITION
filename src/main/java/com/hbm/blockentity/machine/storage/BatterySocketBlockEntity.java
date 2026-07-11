@@ -6,10 +6,10 @@ import com.hbm.blocks.DummyableBlock;
 import com.hbm.inventory.MetaHelper;
 import com.hbm.inventory.menus.BatterySocketMenu;
 import com.hbm.util.fauxpointtwelve.DirPos;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -60,7 +60,7 @@ public class BatterySocketBlockEntity extends BatteryBaseBlockEntity {
     }
 
     @Override
-    public void serialize(ByteBuf buf) {
+    public void serialize(RegistryFriendlyByteBuf buf) {
         super.serialize(buf);
         buf.writeLong(this.delta);
         buf.writeLong(this.getPower());
@@ -71,7 +71,7 @@ public class BatterySocketBlockEntity extends BatteryBaseBlockEntity {
     }
 
     @Override
-    public void deserialize(ByteBuf buf) {
+    public void deserialize(RegistryFriendlyByteBuf buf) {
         super.deserialize(buf);
         this.delta = buf.readLong();
         this.syncPower = buf.readLong();

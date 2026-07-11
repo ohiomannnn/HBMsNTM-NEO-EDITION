@@ -1,6 +1,7 @@
 package com.hbm.main;
 
 import com.hbm.blockentity.bomb.LaunchPadBaseBlockEntity;
+import com.hbm.blockentity.machine.MachineRadarBlockEntity;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.commands.ChunkRadCommand;
 import com.hbm.commands.LivingPropsCommand;
@@ -76,7 +77,9 @@ public class CommonEvents {
         ArmorUtil.register();
         Satellite.register();
         LaunchPadBaseBlockEntity.registerLaunchables();
-        MissileAntiBallistic.registerEntityClasses();
+
+        MachineRadarBlockEntity.registerEntityClasses();
+        MachineRadarBlockEntity.registerConverters();
     }
 
     @SubscribeEvent

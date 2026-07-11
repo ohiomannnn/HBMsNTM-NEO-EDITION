@@ -3,9 +3,9 @@ package com.hbm.blockentity.network;
 import api.hbm.fluidmk2.FluidNode;
 import api.hbm.fluidmk2.IFluidPipeMK2;
 import com.hbm.blockentity.IFluidCopiable;
+import com.hbm.blockentity.ITickable;
 import com.hbm.blockentity.LoadedBaseBlockEntity;
 import com.hbm.blockentity.NtmBlockEntityTypes;
-import com.hbm.blockentity.ITickable;
 import com.hbm.blocks.network.IBlockFluidDuct;
 import com.hbm.extprop.HbmPlayerAttachments;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
@@ -14,11 +14,11 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.lib.ModAttachments;
 import com.hbm.uninos.UniNodespace;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -92,13 +92,13 @@ public class PipeBaseBlockEntity extends LoadedBaseBlockEntity implements IFluid
     }
 
     @Override
-    public void serialize(ByteBuf buf) {
+    public void serialize(RegistryFriendlyByteBuf buf) {
         super.serialize(buf);
         buf.writeInt(type.getID());
     }
 
     @Override
-    public void deserialize(ByteBuf buf) {
+    public void deserialize(RegistryFriendlyByteBuf buf) {
         super.deserialize(buf);
         this.type = Fluids.fromID(buf.readInt());
     }

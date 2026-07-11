@@ -1,16 +1,15 @@
 package com.hbm.items.tools;
 
-import com.hbm.main.NuclearTechMod;
-import com.hbm.main.NuclearTechModClient;
 import com.hbm.blocks.ITooltipProvider;
 import com.hbm.config.NtmConfig;
 import com.hbm.interfaces.IBomb;
 import com.hbm.interfaces.IBomb.BombReturnCode;
 import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.lib.Library;
-import com.hbm.registry.NtmSoundEvents;
+import com.hbm.main.NuclearTechMod;
+import com.hbm.main.NuclearTechModClient;
 import com.hbm.network.toclient.InformPlayer;
-import com.hbm.util.RayTraceResult;
+import com.hbm.registry.NtmSoundEvents;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -25,6 +24,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 
@@ -46,9 +46,9 @@ public class LaserDetonatorItem extends Item implements IHoldableWeapon {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
 
-        RayTraceResult ray = Library.rayTrace(player, 500, 1);
+        BlockHitResult bhr = Library.rayTrace(player, 500, 1);
 
-        BlockPos pos = ray.getBlockPos();
+        BlockPos pos = bhr.getBlockPos();
         if(!level.isClientSide) {
             Block block = level.getBlockState(pos).getBlock();
             if(block instanceof IBomb ib) {

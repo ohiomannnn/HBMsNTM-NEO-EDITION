@@ -2,9 +2,8 @@ package com.hbm.blockentity.bomb;
 
 import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.blocks.DummyableBlock;
-import com.hbm.entity.missile.MissileBaseNT;
+import com.hbm.entity.missile.MissileBase;
 import com.hbm.lib.Library;
-import com.hbm.main.NuclearTechMod;
 import com.hbm.particle.NtmParticles;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.particle.ParticleUtil;
@@ -55,7 +54,7 @@ public class LaunchPadBlockEntity extends LaunchPadBaseBlockEntity {
             int x = this.getBlockPos().getX();
             int y = this.getBlockPos().getY();
             int z = this.getBlockPos().getZ();
-            List<MissileBaseNT> entities = level.getEntitiesOfClass(MissileBaseNT.class, new AABB(x - 0.5, y, z - 0.5, x + 1.5, y + 10, z + 1.5));
+            List<MissileBase> entities = level.getEntitiesOfClass(MissileBase.class, new AABB(x - 0.5, y, z - 0.5, x + 1.5, y + 10, z + 1.5));
 
             if (!entities.isEmpty()) {
                 for (int i = 0; i < 15; i++) {

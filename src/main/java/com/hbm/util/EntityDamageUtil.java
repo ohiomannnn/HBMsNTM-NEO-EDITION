@@ -38,7 +38,8 @@ public class EntityDamageUtil {
     }
 
     /** Shitty hack, if the first attack fails, it retries with damage + previous damage, allowing damage to penetrate */
-    @Deprecated public static boolean hurtIgnoreIFrame(Entity victim, DamageSource src, float damage) {
+    @Deprecated
+    public static boolean hurtIgnoreIFrame(Entity victim, DamageSource src, float damage) {
 
         if(!victim.hurt(src, damage)) {
 

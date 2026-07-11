@@ -101,6 +101,10 @@ public class BlockPosNT {
         return getIdentity(this.getX(), this.getY(), this.getZ());
     }
 
+    public static int getIdentity(BlockPos pos) {
+        return getIdentity(pos.getX(), pos.getY(), pos.getZ());
+    }
+
     public static int getIdentity(int x, int y, int z) {
         return (y + z * 27644437) * 27644437 + x;
     }

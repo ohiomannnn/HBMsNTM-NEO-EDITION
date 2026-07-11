@@ -1,5 +1,6 @@
 package com.hbm.main;
 
+import com.hbm.blockentity.machine.MachineRadarBlockEntity;
 import com.hbm.config.NtmConfig;
 import com.hbm.entity.missile.MissileAntiBallistic;
 import com.hbm.extprop.HbmPlayerAttachments;
@@ -34,10 +35,22 @@ public class NtmEventHandler {
 
                 if(HTTPHandler.newVersion) {
                     player.sendSystemMessage(
-                            Component.translatable("message.hbmsntm.new_version", HTTPHandler.versionNumber)
-                                    .withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW))
-                                    .append(Component.translatable("message.hbmsntm.click_here").withStyle(Style.EMPTY.withColor(ChatFormatting.RED).withUnderlined(true).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/ohiomannnn/HBMsNTM-NEO-EDITION/releases"))))
-                                    .append(Component.translatable("message.hbmsntm.to_download").withStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)))
+                            Component.translatable(
+                                    "message.hbmsntm.new_version",
+                                    HTTPHandler.versionNumber,
+                                    Component.translatable("message.hbmsntm.click_here")
+                                            .withStyle(
+                                                    Style.EMPTY
+                                                            .withColor(ChatFormatting.RED)
+                                                            .withUnderlined(true)
+                                                            .withClickEvent(
+                                                                    new ClickEvent(
+                                                                            ClickEvent.Action.OPEN_URL,
+                                                                            "https://github.com/ohiomannnn/HBMsNTM-NEO-EDITION/releases"
+                                                                    )
+                                                            )
+                                            )
+                            ).withStyle(ChatFormatting.YELLOW)
                     );
                 }
             }
@@ -54,7 +67,7 @@ public class NtmEventHandler {
         // Networks! All of them!
         UniNodespace.updateNodespace(event.getServer());
         // Radar entry handling
-        MissileAntiBallistic.updateSystem(event.getServer());
+        MachineRadarBlockEntity.updateSystem(event.getServer());
     }
 
 }

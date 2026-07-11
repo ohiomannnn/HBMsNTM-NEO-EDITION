@@ -1,6 +1,6 @@
 package com.hbm.render.entity.rocket;
 
-import com.hbm.entity.missile.MissileBaseNT;
+import com.hbm.entity.missile.MissileBase;
 import com.hbm.entity.missile.MissileTier2;
 import com.hbm.entity.missile.MissileTier2.*;
 import com.hbm.main.ResourceManager;
@@ -31,7 +31,7 @@ public class RenderMissileStrong extends EntityRenderer<MissileTier2> {
         RenderContext.mulPose(Axis.YN.rotationDegrees(Mth.lerp(partialTicks, missile.yRotO, missile.yRot) - 90.0F));
         RenderContext.scale(1.5F, 1.5F, 1.5F);
 
-        Direction facing = missile.getEntityData().get(MissileBaseNT.ROT);
+        Direction facing = missile.getEntityData().get(MissileBase.ROT);
         switch(facing) {
             case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
             case WEST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(180F));

@@ -24,12 +24,12 @@ import com.hbm.lib.Library;
 import com.hbm.lib.ModAttachments;
 import com.hbm.uninos.UniNodespace;
 import com.hbm.util.fauxpointtwelve.DirPos;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -216,7 +216,7 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
 
 
     @Override
-    public void serialize(ByteBuf buf) {
+    public void serialize(RegistryFriendlyByteBuf buf) {
         super.serialize(buf);
         buf.writeShort(mode);
         buf.writeBoolean(hasExploded);
@@ -224,7 +224,7 @@ public class MachineFluidTankBlockEntity extends MachineBaseBlockEntity implemen
     }
 
     @Override
-    public void deserialize(ByteBuf buf) {
+    public void deserialize(RegistryFriendlyByteBuf buf) {
         super.deserialize(buf);
         mode = buf.readShort();
         hasExploded = buf.readBoolean();

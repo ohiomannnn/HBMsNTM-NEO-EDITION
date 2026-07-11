@@ -548,6 +548,7 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add("item.hbmsntm.obj_bomb_caller.desc1", "Type: Napalm");
         this.add("item.hbmsntm.obj_bomb_caller.desc2", "Type: Atomic bomb");
         this.add("item.hbmsntm.obj_bomb_caller.call", "Called in airstrike!");
+        this.add("item.hbmsntm.obj_bomb_caller.call.unloaded", "Airstrike can't be called in unloaded chunks!");
         this.add(NtmItems.BOMB_CALLER, "Airstrike Designator");
         this.add(NtmItems.BOMB_CALLER, DESC, "Aim & click to call an airstrike!");
         this.add(NtmItems.DEFUSER, "High-Tech Bomb Defusing Device");
@@ -654,7 +655,7 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmBlocks.WASTE_MYCELIUM, "Glowing Mycelium");
         this.add(NtmBlocks.WASTE_TRINITITE, "Trinitite Ore");
         this.add(NtmBlocks.WASTE_TRINITITE_RED, "Red Trinitite Ore");
-        this.add(NtmBlocks.WASTE_LOG, "Broken Concrete Brick Stairs");
+        this.add(NtmBlocks.WASTE_LOG, "Charred Log");
         this.add(NtmBlocks.WASTE_LEAVES, "Dead Leaves");
         this.add(NtmBlocks.WASTE_PLANKS, "Charred Wooden Planks");
         this.add(NtmBlocks.FROZEN_DIRT, "Frozen Dirt");
@@ -982,11 +983,10 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add("fluid.trait.unsiphonable", "[Ignored by siphon]");
 
         // MISC //
-        this.add("message.hbmsntm.loaded", "Loaded world with Hbm's Nuclear Tech Mod %s for Minecraft 1.21.1!");
+        this.add("message.hbmsntm.loaded", "Loaded world with Hbm's Nuclear Tech Mod: %s for Minecraft 1.21.1!");
         this.add("message.hbmsntm.neo", "Neo Edition");
-        this.add("message.hbmsntm.new_version", "New version %s is available! Click ");
+        this.add("message.hbmsntm.new_version", "New version %s is available! Click %s to download!");
         this.add("message.hbmsntm.click_here", "[here]");
-        this.add("message.hbmsntm.to_download", " to download!");
 
         this.add("itemGroup.parts", "NTM Resources and Parts");
         this.add("itemGroup.control", "NTM Machine Items and Fuel");

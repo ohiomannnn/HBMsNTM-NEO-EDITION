@@ -1,6 +1,6 @@
 package com.hbm.render.entity.rocket;
 
-import com.hbm.entity.missile.MissileBaseNT;
+import com.hbm.entity.missile.MissileBase;
 import com.hbm.entity.missile.MissileStealth;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.util.RenderContext;
@@ -29,7 +29,7 @@ public class RenderMissileStealth extends EntityRenderer<MissileStealth> {
         RenderContext.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTicks, missile.xRotO, missile.xRot)));
         RenderContext.mulPose(Axis.YN.rotationDegrees(Mth.lerp(partialTicks, missile.yRotO, missile.yRot) - 90.0F));
 
-        Direction facing = missile.getEntityData().get(MissileBaseNT.ROT);
+        Direction facing = missile.getEntityData().get(MissileBase.ROT);
         switch(facing) {
             case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
             case WEST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(180F));

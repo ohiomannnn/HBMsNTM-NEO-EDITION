@@ -5,10 +5,10 @@ import com.hbm.items.NtmItems;
 import com.hbm.items.tools.KeyItem;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.registry.NtmSoundEvents;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -61,7 +61,7 @@ public abstract class LockableBaseBlockEntity extends LoadedBaseBlockEntity {
     }
 
     @Override
-    public void serialize(ByteBuf buf) {
+    public void serialize(RegistryFriendlyByteBuf buf) {
         super.serialize(buf);
 
         buf.writeInt(lock);
@@ -70,7 +70,7 @@ public abstract class LockableBaseBlockEntity extends LoadedBaseBlockEntity {
     }
 
     @Override
-    public void deserialize(ByteBuf buf) {
+    public void deserialize(RegistryFriendlyByteBuf buf) {
         super.deserialize(buf);
 
         lock = buf.readInt();

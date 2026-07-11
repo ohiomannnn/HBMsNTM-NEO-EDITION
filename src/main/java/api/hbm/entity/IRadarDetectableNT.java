@@ -1,5 +1,7 @@
 package api.hbm.entity;
 
+import net.minecraft.network.chat.Component;
+
 public interface IRadarDetectableNT {
 
     int TIER0 =		0;
@@ -20,6 +22,7 @@ public interface IRadarDetectableNT {
 
     /** Name use for radar display, uses I18n for lookup */
     String getUnlocalizedName();
+    Component getName();
     /** The type of dot to show on the radar as well as the redstone level in tier mode */
     int getBlipLevel();
     /** Whether the object can be seen by this type of radar */

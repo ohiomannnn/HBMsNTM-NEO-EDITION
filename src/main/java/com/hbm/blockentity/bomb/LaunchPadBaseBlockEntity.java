@@ -9,7 +9,7 @@ import com.hbm.blocks.DummyableBlock;
 import com.hbm.config.NtmConfig;
 import com.hbm.entity.NtmEntityTypes;
 import com.hbm.entity.missile.MissileAntiBallistic;
-import com.hbm.entity.missile.MissileBaseNT;
+import com.hbm.entity.missile.MissileBase;
 import com.hbm.interfaces.IBomb.BombReturnCode;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.Fluids;
@@ -24,11 +24,11 @@ import com.hbm.main.NuclearTechMod;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.SoundUtils;
 import com.hbm.util.fauxpointtwelve.DirPos;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -51,7 +51,7 @@ import java.util.Set;
 public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity implements IEnergyReceiverMK2, IFluidStandardReceiverMK2, IRadarCommandReceiver, IFluidCopiable {
 
     /** Automatic instantiation of generic missiles, i.e. everything that both extends EntityMissileBaseNT and needs a designator */
-    public static final HashMap<ComparableStack, EntityType<? extends MissileBaseNT>> missiles = new HashMap<>();
+    public static final HashMap<ComparableStack, EntityType<? extends MissileBase>> missiles = new HashMap<>();
 
     public static void registerLaunchables() {
 
@@ -171,7 +171,7 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
     public abstract DirPos[] getConPos();
 
     @Override
-    public void serialize(ByteBuf buf) {
+    public void serialize(RegistryFriendlyByteBuf buf) {
         super.serialize(buf);
 
         buf.writeLong(this.power);
@@ -183,7 +183,7 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
     }
 
     @Override
-    public void deserialize(ByteBuf buf) {
+    public void deserialize(RegistryFriendlyByteBuf buf) {
         super.deserialize(buf);
 
         this.power = buf.readLong();
@@ -314,14 +314,14 @@ public abstract class LaunchPadBaseBlockEntity extends MachineBaseBlockEntity im
 
         if(slots.get(0).isEmpty()) return null;
 
-        EntityType<? extends MissileBaseNT> entityType = missiles.get(new ComparableStack(slots.get(0)).makeSingular());
+        EntityType<? extends MissileBase> entityType = missiles.get(new ComparableStack(slots.get(0)).makeSingular());
 
         if(entityType != null) {
-            MissileBaseNT missile = entityType.create(level);
+            MissileBase missile = entityType.create(level);
             if(missile == null) return null;
             missile.setPosAndTarget(Vec3.atBottomCenterOf(this.getBlockPos()).add(0.0, this.getLaunchOffset(), 0.0), targetX, targetZ);
             if(NtmConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) NuclearTechMod.LOGGER.info("[MISSILE] Tried to launch missile at {} / {} / {} to {} / {}!", this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ(), targetX, targetZ);
-            missile.getEntityData().set(MissileBaseNT.ROT, this.getBlockState().getValue(DummyableBlock.FACING));
+            missile.getEntityData().set(MissileBase.ROT, this.getBlockState().getValue(DummyableBlock.FACING));
             return missile;
         }
 

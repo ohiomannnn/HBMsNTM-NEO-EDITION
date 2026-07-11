@@ -9,10 +9,10 @@ import com.hbm.uninos.UniNodespace;
 import com.hbm.util.Compat;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -122,7 +122,7 @@ public abstract class BatteryBaseBlockEntity extends MachineBaseBlockEntity impl
     }
 
     @Override
-    public void serialize(ByteBuf buf) {
+    public void serialize(RegistryFriendlyByteBuf buf) {
         super.serialize(buf);
 
         buf.writeShort(redLow);
@@ -131,7 +131,7 @@ public abstract class BatteryBaseBlockEntity extends MachineBaseBlockEntity impl
     }
 
     @Override
-    public void deserialize(ByteBuf buf) {
+    public void deserialize(RegistryFriendlyByteBuf buf) {
         super.deserialize(buf);
 
         this.redLow = buf.readShort();

@@ -22,11 +22,11 @@ import com.hbm.registry.NtmSoundEvents;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -228,7 +228,7 @@ public class MachineAssemblyMachineBlockEntity extends MachineBaseBlockEntity im
     }
 
     @Override
-    public void serialize(ByteBuf buf) {
+    public void serialize(RegistryFriendlyByteBuf buf) {
         super.serialize(buf);
         this.inputTank.serialize(buf);
         this.outputTank.serialize(buf);
@@ -239,7 +239,7 @@ public class MachineAssemblyMachineBlockEntity extends MachineBaseBlockEntity im
     }
 
     @Override
-    public void deserialize(ByteBuf buf) {
+    public void deserialize(RegistryFriendlyByteBuf buf) {
         super.deserialize(buf);
         boolean wasProcessing = this.didProcess;
         this.inputTank.deserialize(buf);

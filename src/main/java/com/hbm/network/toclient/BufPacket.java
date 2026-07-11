@@ -1,11 +1,10 @@
 package com.hbm.network.toclient;
 
-import com.hbm.main.NuclearTechMod;
 import com.hbm.blockentity.IBufPacketReceiver;
+import com.hbm.main.NuclearTechMod;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -13,6 +12,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.network.connection.ConnectionType;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record BufPacket(BlockPos pos, byte[] data) implements CustomPacketPayload {
@@ -34,25 +34,24 @@ public record BufPacket(BlockPos pos, byte[] data) implements CustomPacketPayloa
         }
     };
 
-    public static void handleClient(BufPacket packet, IPayloadContext context) {
-        context.enqueueWork(() -> performShit(packet, context));
+    public static void handleCommon(BufPacket packet, IPayloadContext context) {
+        handleClient(packet, context);
     }
 
-    // why are you CRASHING
     @OnlyIn(Dist.CLIENT)
-    public static void performShit(BufPacket packet, IPayloadContext context) {
+    public static void handleClient(BufPacket packet, IPayloadContext context) {
         context.enqueueWork(() -> {
             Level level = Minecraft.getInstance().level;
-            if (level == null) return;
+            if(level == null) return;
 
             BlockEntity be = level.getBlockEntity(packet.pos);
 
-            if (be instanceof IBufPacketReceiver receiver) {
-                FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.wrappedBuffer(packet.data));
+            if(be instanceof IBufPacketReceiver receiver) {
+                RegistryFriendlyByteBuf buf = new RegistryFriendlyByteBuf(Unpooled.wrappedBuffer(packet.data), level.registryAccess(), ConnectionType.OTHER);
                 try {
                     receiver.deserialize(buf);
-                } catch (Exception e) {
-                    NuclearTechMod.LOGGER.warn("A ByteBuf packet failed to be read. Buffer underflow or invalid data.");
+                } catch(Exception e) {
+                    NuclearTechMod.LOGGER.warn("A ByteBuf packet failed to be read and has thrown an error. This normally means that there was a buffer underflow and more data was read than was actually in the packet.\")");
                     NuclearTechMod.LOGGER.warn("Block: {}", be.getBlockState().getBlock().getDescriptionId());
                     NuclearTechMod.LOGGER.warn(e.getMessage());
                 } finally {
@@ -62,5 +61,5 @@ public record BufPacket(BlockPos pos, byte[] data) implements CustomPacketPayloa
         });
     }
 
-    @Override public Type<? extends CustomPacketPayload> type() { return TYPE; }
+    @Override public Type<BufPacket> type() { return TYPE; }
 }

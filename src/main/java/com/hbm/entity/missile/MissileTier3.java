@@ -6,17 +6,17 @@ import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.items.NtmItems;
 import com.hbm.particle.helper.ExplosionCreator;
-import com.hbm.util.RayTraceResult;
 import com.hbm.util.Vec3NT;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class MissileTier3 extends MissileBaseNT {
+public abstract class MissileTier3 extends MissileBase {
 
     public MissileTier3(EntityType<? extends MissileTier3> entityType, Level level) { super(entityType, level); }
 
@@ -54,7 +54,7 @@ public abstract class MissileTier3 extends MissileBaseNT {
 
     public static class MissileBurst extends MissileTier3 {
         public MissileBurst(EntityType<? extends MissileBurst> entityType, Level level) { super(entityType, level); }
-        @Override public void onMissileImpact(RayTraceResult mop) {
+        @Override public void onMissileImpact(BlockHitResult mop) {
             ExplosionCreator.composeEffectLarge(level, this.position.x, this.position.y, this.position.z);
             this.explodeStandard(50F, 48, false);
         }
@@ -64,7 +64,7 @@ public abstract class MissileTier3 extends MissileBaseNT {
 
     public static class MissileInferno extends MissileTier3 {
         public MissileInferno(EntityType<? extends MissileInferno> entityType, Level level) { super(entityType, level); }
-        @Override public void onMissileImpact(RayTraceResult mop) {
+        @Override public void onMissileImpact(BlockHitResult mop) {
             ExplosionCreator.composeEffectLarge(level, this.position.x, this.position.y, this.position.z);
             this.explodeStandard(50F, 48, true);
             ExplosionChaos.burn(level, (int) (this.position.x + 0.5), (int) (this.position.y + 0.5), (int) (this.position.z + 0.5), 10);
@@ -76,7 +76,7 @@ public abstract class MissileTier3 extends MissileBaseNT {
 
     public static class MissileRain extends MissileTier3 {
         public MissileRain(EntityType<? extends MissileRain> entityType, Level level) { super(entityType, level); this.isCluster = true; }
-        @Override public void onMissileImpact(RayTraceResult mop) {
+        @Override public void onMissileImpact(BlockHitResult mop) {
             ExplosionVNT.createExplosion(level, this, this.position.x, this.position.y, this.position.z, 25F, true);
             ExplosionChaos.cluster(level, this.position.x, this.position.y, this.position.z, 100);
         }
@@ -87,7 +87,7 @@ public abstract class MissileTier3 extends MissileBaseNT {
 
     public static class MissileDrill extends MissileTier3 {
         public MissileDrill(EntityType<? extends MissileDrill> entityType, Level level) { super(entityType, level); }
-        @Override public void onMissileImpact(RayTraceResult mop) {
+        @Override public void onMissileImpact(BlockHitResult mop) {
             for (int i = 0; i < 30; i++) ExplosionVNT.createExplosion(level, this, this.position.x, this.position.y - i, this.position.z, 10F, true);
             if (level instanceof ServerLevel serverLevel) {
                 ExplosionLarge.spawnParticles(serverLevel, this.position.x, this.position.y, this.position.z, 5);

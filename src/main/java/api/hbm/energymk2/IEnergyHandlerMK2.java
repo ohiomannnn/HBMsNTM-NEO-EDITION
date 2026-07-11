@@ -1,8 +1,6 @@
 package api.hbm.energymk2;
 
 import api.hbm.blockentity.ILoadedBE;
-import com.hbm.util.CompatEnergyControl;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 
@@ -18,10 +16,5 @@ public interface IEnergyHandlerMK2 extends IEnergyConnectorMK2, ILoadedBE {
     default Vec3 getDebugParticlePosMK2() {
         BlockEntity be = (BlockEntity) this;
         return new Vec3(be.getBlockPos().getX() + 0.5, be.getBlockPos().getY() + 1, be.getBlockPos().getZ() + 0.5);
-    }
-
-    default void provideInfoForECMK2(CompoundTag tag) {
-        tag.putLong(CompatEnergyControl.L_ENERGY_HE, this.getPower());
-        tag.putLong(CompatEnergyControl.L_CAPACITY_HE, this.getMaxPower());
     }
 }

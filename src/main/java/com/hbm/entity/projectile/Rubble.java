@@ -1,9 +1,8 @@
 package com.hbm.entity.projectile;
 
-import com.hbm.registry.NtmSoundEvents;
 import com.hbm.network.toclient.ParticleBurst;
 import com.hbm.registry.NtmDamageTypes;
-import com.hbm.util.RayTraceResult;
+import com.hbm.registry.NtmSoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -16,9 +15,11 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-public class Rubble extends ThrowableNT {
+public class Rubble extends ProjectileNT {
 
     private static final EntityDataAccessor<String> BLOCK_ID = SynchedEntityData.defineId(Rubble.class, EntityDataSerializers.STRING);
 
@@ -28,24 +29,33 @@ public class Rubble extends ThrowableNT {
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
+
         builder.define(BLOCK_ID, "");
     }
 
     @Override
-    protected void onImpact(RayTraceResult result) {
-        Level level = this.level();
+    protected void onHitBlock(BlockHitResult bhr) {
+        super.onHitBlock(bhr);
 
-        if (result.entityHit != null) {
-            result.entityHit.hurt(level.damageSources().source(NtmDamageTypes.RUBBLE), 15);
-        }
+        this.impact();
+    }
 
-        if (this.tickCount > 2) {
+    @Override
+    protected void onHitEntity(EntityHitResult ehr) {
+
+        ehr.getEntity().hurt(level.damageSources().source(NtmDamageTypes.RUBBLE), 15);
+        this.impact();
+    }
+
+    protected void impact() {
+        Level level = this.level;
+
+        if(this.tickCount > 2) {
             this.discard();
 
             level.playSound(null, this.getX(), this.getY(), this.getZ(), NtmSoundEvents.DEBRIS, SoundSource.BLOCKS, 1.5F, 1.0F);
 
-            if (level instanceof ServerLevel serverLevel) {
+            if(level instanceof ServerLevel serverLevel) {
                 PacketDistributor.sendToPlayersNear(serverLevel, null, this.getX(), this.getY(), this.getZ(), 50, new ParticleBurst(BlockPos.containing(this.getX(), this.getY(), this.getZ()), this.getBlock()));
             }
         }

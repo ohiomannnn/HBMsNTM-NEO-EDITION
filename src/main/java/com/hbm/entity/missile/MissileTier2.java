@@ -8,16 +8,16 @@ import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.items.NtmItems;
 import com.hbm.particle.helper.ExplosionCreator;
-import com.hbm.util.RayTraceResult;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class MissileTier2 extends MissileBaseNT {
+public abstract class MissileTier2 extends MissileBase {
 
     public MissileTier2(EntityType<? extends MissileTier2> entityType, Level level) { super(entityType, level); }
 
@@ -42,14 +42,14 @@ public abstract class MissileTier2 extends MissileBaseNT {
 
     public static class MissileStrong extends MissileTier2 {
         public MissileStrong(EntityType<? extends MissileStrong> entityType, Level level) { super(entityType, level); }
-        @Override public void onMissileImpact(RayTraceResult mop) { ExplosionCreator.composeEffectStandard(level, this.position.x, this.position.y, this.position.z); this.explodeStandard(30F, 32, false); }
+        @Override public void onMissileImpact(BlockHitResult mop) { ExplosionCreator.composeEffectStandard(level, this.position.x, this.position.y, this.position.z); this.explodeStandard(30F, 32, false); }
         @Override public ItemStack getDebrisRareDrop() { return new ItemStack(NtmItems.NOTHING.get()); }
         @Override public ItemStack getMissileItemForInfo() { return new ItemStack(NtmItems.MISSILE_STRONG.get()); }
     }
 
     public static class MissileIncendiaryStrong extends MissileTier2 {
         public MissileIncendiaryStrong(EntityType<? extends MissileIncendiaryStrong> entityType, Level level) { super(entityType, level); }
-        @Override public void onMissileImpact(RayTraceResult mop) {
+        @Override public void onMissileImpact(BlockHitResult mop) {
             ExplosionCreator.composeEffectStandard(level, this.position.x, this.position.y, this.position.z);
             this.explodeStandard(30F, 32, true);
             ExplosionChaos.flameDeath(level, (int) (this.position.x + 0.5), (int) (this.position.y + 0.5), (int) (this.position.z + 0.5), 25);
@@ -60,7 +60,7 @@ public abstract class MissileTier2 extends MissileBaseNT {
 
     public static class MissileClusterStrong extends MissileTier2 {
         public MissileClusterStrong(EntityType<? extends MissileClusterStrong> entityType, Level level) { super(entityType, level); this.isCluster = true; }
-        @Override public void onMissileImpact(RayTraceResult mop) {
+        @Override public void onMissileImpact(BlockHitResult mop) {
             ExplosionVNT.createExplosion(level, this, this.position.x, this.position.y, this.position.z, 15F, true);
             ExplosionChaos.cluster(level, this.position.x, this.position.y, this.position.z, 50);
         }
@@ -71,7 +71,7 @@ public abstract class MissileTier2 extends MissileBaseNT {
 
     public static class MissileBusterStrong extends MissileTier2 {
         public MissileBusterStrong(EntityType<? extends MissileBusterStrong> entityType, Level level) { super(entityType, level); }
-        @Override public void onMissileImpact(RayTraceResult mop) {
+        @Override public void onMissileImpact(BlockHitResult mop) {
             for (int i = 0; i < 20; i++) ExplosionVNT.createExplosion(level, this, this.position.x, this.position.y - i, this.position.z, 7.5F, true);
             if (level instanceof ServerLevel serverLevel) {
                 ExplosionLarge.spawnParticles(serverLevel, this.position.x, this.position.y, this.position.z, 8);
@@ -85,7 +85,7 @@ public abstract class MissileTier2 extends MissileBaseNT {
 
     public static class MissileEMPStrong extends MissileTier2 {
         public MissileEMPStrong(EntityType<? extends MissileEMPStrong> entityType, Level level) { super(entityType, level); }
-        @Override public void onMissileImpact(RayTraceResult mop) {
+        @Override public void onMissileImpact(BlockHitResult mop) {
             EMP emp = new EMP(NtmEntityTypes.EMP.get(), this.level);
             emp.setPos(this.position);
             level.addFreshEntity(emp);

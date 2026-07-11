@@ -2,7 +2,6 @@ package com.hbm.entity.projectile;
 
 import com.hbm.entity.NtmEntityTypes;
 import com.hbm.items.weapon.sedna.BulletConfig;
-import com.hbm.util.RayTraceResult;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -12,6 +11,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.entity.IEntityWithComplexSpawn;
 
 import javax.annotation.Nullable;
@@ -87,9 +87,9 @@ public class BulletBeamBase extends Entity implements IEntityWithComplexSpawn {
         if(!level.isClientSide && this.tickCount > config.expires) this.discard();
     }
 
-    protected void onImpact(RayTraceResult rtr) {
+    protected void onImpact(HitResult hr) {
         if(!level.isClientSide) {
-            if(this.config.onImpactBeam != null) this.config.onImpactBeam.accept(this, rtr);
+            if(this.config.onImpactBeam != null) this.config.onImpactBeam.accept(this, hr);
         }
     }
 

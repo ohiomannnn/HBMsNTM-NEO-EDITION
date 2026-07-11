@@ -127,11 +127,15 @@ public class Shrapnel extends ThrowableProjectile {
 
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+
         tag.putByte("Type", this.entityData.get(TYPE));
     }
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+
         this.entityData.set(TYPE, tag.getByte("Type"));
     }
 }

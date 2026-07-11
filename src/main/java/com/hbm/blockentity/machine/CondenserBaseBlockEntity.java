@@ -5,11 +5,11 @@ import com.hbm.blockentity.IFluidCopiable;
 import com.hbm.blockentity.ITickable;
 import com.hbm.blockentity.LoadedBaseBlockEntity;
 import com.hbm.inventory.fluid.tank.FluidTank;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -63,14 +63,14 @@ public abstract class CondenserBaseBlockEntity extends LoadedBaseBlockEntity imp
     public void postConvert(int convert) { }
 
     @Override
-    public void serialize(ByteBuf buf) {
+    public void serialize(RegistryFriendlyByteBuf buf) {
         this.tanks[0].serialize(buf);
         this.tanks[1].serialize(buf);
         buf.writeByte(this.waterTimer);
     }
 
     @Override
-    public void deserialize(ByteBuf buf) {
+    public void deserialize(RegistryFriendlyByteBuf buf) {
         this.tanks[0].deserialize(buf);
         this.tanks[1].deserialize(buf);
         this.waterTimer = buf.readByte();

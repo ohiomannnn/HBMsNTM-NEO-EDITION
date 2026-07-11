@@ -3,7 +3,6 @@ package com.hbm.items.tools;
 import com.hbm.items.IDesignatorItem;
 import com.hbm.lib.Library;
 import com.hbm.registry.NtmSoundEvents;
-import com.hbm.util.RayTraceResult;
 import com.hbm.util.SoundUtils;
 import com.hbm.util.TagsUtil;
 import net.minecraft.ChatFormatting;
@@ -18,6 +17,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
@@ -32,9 +32,9 @@ public class DesignatorRangeItem extends Item implements IDesignatorItem {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         ItemStack stack = player.getItemInHand(usedHand);
 
-        RayTraceResult ray = Library.rayTrace(player, 300, 1);
+        BlockHitResult bhr = Library.rayTrace(player, 300, 1);
 
-        BlockPos pos = ray.getBlockPos();
+        BlockPos pos = bhr.getBlockPos();
         if(!level.isClientSide) {
             CompoundTag tag = TagsUtil.getCustomData(stack);
             tag.putInt("x", pos.getX());

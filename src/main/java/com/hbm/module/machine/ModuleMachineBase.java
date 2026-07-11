@@ -6,10 +6,9 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.inventory.recipes.loader.GenericRecipes;
 import com.hbm.inventory.recipes.loader.GenericRecipes.IOutput;
-import com.hbm.util.ByteBufHelper;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
@@ -230,14 +229,14 @@ public abstract class ModuleMachineBase {
         return !isItemValid(slot, stack); // we need to use this because it also handles autoswitch correctly, otherwise autoswitch items may be ejected instantly
     }
 
-    public void serialize(ByteBuf buf) {
+    public void serialize(RegistryFriendlyByteBuf buf) {
         buf.writeDouble(progress);
-        ByteBufHelper.writeUTF8String(buf, recipe);
+        buf.writeUtf(recipe);
     }
 
-    public void deserialize(ByteBuf buf) {
+    public void deserialize(RegistryFriendlyByteBuf buf) {
         this.progress = buf.readDouble();
-        this.recipe = ByteBufHelper.readUTF8String(buf);
+        this.recipe = buf.readUtf();
     }
 
     public void readFromNBT(CompoundTag nbt) {

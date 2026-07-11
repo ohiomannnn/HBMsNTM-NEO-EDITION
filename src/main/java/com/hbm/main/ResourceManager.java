@@ -39,6 +39,12 @@ public class ResourceManager {
     public static final ResourceLocation BATTERY_SC_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/battery_sc.png");
     public static final ResourceLocation BATTERY_REDD_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/fensu2.png");
 
+    // Radar
+    public static final ResourceLocation RADAR_BASE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/radar_base.png");
+    public static final ResourceLocation RADAR_DISH_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/radar_dish.png");
+    public static final ResourceLocation RADAR_LARGE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/radar_large.png");
+    public static final ResourceLocation RADAR_SCREEN_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/radar_screen.png");
+
     public static final ResourceLocation GEIGER_TEX = NuclearTechMod.withDefaultNamespace("textures/block/geiger.png");
     public static final ResourceLocation ASSEMBLY_MACHINE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/assembly_machine.png");
 
@@ -220,8 +226,15 @@ public class ResourceManager {
 
     public static IModelCustom geiger;
 
+    // FENSU
     public static IModelCustom battery_socket;
     public static IModelCustom battery_redd;
+
+    // Radar
+    public static IModelCustom radar_body;
+    public static IModelCustom radar;
+    public static IModelCustom radar_large;
+    public static IModelCustom radar_screen;
 
     // Boxcar
     public static IModelCustom tom_main;
@@ -313,6 +326,11 @@ public class ResourceManager {
 
         battery_socket = new HFRWavefrontObject("models/obj/machines/battery.obj").asVBO();
         battery_redd = new HFRWavefrontObject("models/obj/machines/fensu2.obj").asVBO();
+
+        radar_body = new HFRWavefrontObject("models/obj/radar_base.obj").noSmooth().asVBO();
+        radar = new HFRWavefrontObject("models/obj/machines/radar.obj").noSmooth().asVBO();
+        radar_large = new HFRWavefrontObject("models/obj/machines/radar_large.obj").noSmooth().asVBO();
+        radar_screen = new HFRWavefrontObject("models/obj/machines/radar_screen.obj").noSmooth().asVBO();
 
         tom_main = new HFRWavefrontObject("models/obj/weapons/tom_main.obj").asVBO();
         tom_flame = new HFRWavefrontObject("models/obj/weapons/tom_flame.obj").asVBO();

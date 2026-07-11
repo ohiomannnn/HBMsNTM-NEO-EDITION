@@ -2,7 +2,7 @@ package com.hbm.blockentity.bomb;
 
 import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.blocks.DummyableBlock;
-import com.hbm.entity.missile.MissileBaseNT;
+import com.hbm.entity.missile.MissileBase;
 import com.hbm.items.weapon.MissileItem;
 import com.hbm.items.weapon.MissileItem.MissileFormFactor;
 import com.hbm.lib.Library;
@@ -12,11 +12,11 @@ import com.hbm.registry.NtmSoundEvents;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.particle.ParticleUtil;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -216,7 +216,7 @@ public class LaunchPadLargeBlockEntity extends LaunchPadBaseBlockEntity {
                 for(int i = 0; i < 3; i++) ParticleUtil.addParticle(this.level, new NbtParticleOptions(NtmParticles.COOLING_TOWER.get(), tag), x + 0.5 + level.random.nextGaussian() * 0.5, y + 2, z + 0.5 + level.random.nextGaussian() * 0.5, 0F, 0F, 0F);
             }
 
-            List<MissileBaseNT> entities = level.getEntitiesOfClass(MissileBaseNT.class, new AABB(x - 0.5, y, z - 0.5, x + 1.5, y + 10, z + 1.5));
+            List<MissileBase> entities = level.getEntitiesOfClass(MissileBase.class, new AABB(x - 0.5, y, z - 0.5, x + 1.5, y + 10, z + 1.5));
 
             if(!entities.isEmpty()) {
                 for(int i = 0; i < 15; i++) {
@@ -235,7 +235,7 @@ public class LaunchPadLargeBlockEntity extends LaunchPadBaseBlockEntity {
     }
 
     @Override
-    public void serialize(ByteBuf buf) {
+    public void serialize(RegistryFriendlyByteBuf buf) {
         super.serialize(buf);
 
         buf.writeBoolean(this.liftMoving);
@@ -248,7 +248,7 @@ public class LaunchPadLargeBlockEntity extends LaunchPadBaseBlockEntity {
     }
 
     @Override
-    public void deserialize(ByteBuf buf) {
+    public void deserialize(RegistryFriendlyByteBuf buf) {
         super.deserialize(buf);
 
         this.liftMoving = buf.readBoolean();

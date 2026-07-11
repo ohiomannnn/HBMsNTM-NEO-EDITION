@@ -7,12 +7,12 @@ import com.hbm.entity.logic.NukeExplosionBalefire;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.menus.NukeFstbmbMenu;
 import com.hbm.items.NtmItems;
-import com.hbm.registry.NtmSoundEvents;
 import com.hbm.particle.helper.NukeTorexCreator;
-import io.netty.buffer.ByteBuf;
+import com.hbm.registry.NtmSoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Inventory;
@@ -67,7 +67,7 @@ public class NukeBalefireBlockEntity extends MachineBaseBlockEntity implements I
     }
 
     @Override
-    public void serialize(ByteBuf buf) {
+    public void serialize(RegistryFriendlyByteBuf buf) {
         super.serialize(buf);
 
         buf.writeInt(this.timer);
@@ -76,7 +76,7 @@ public class NukeBalefireBlockEntity extends MachineBaseBlockEntity implements I
     }
 
     @Override
-    public void deserialize(ByteBuf buf) {
+    public void deserialize(RegistryFriendlyByteBuf buf) {
         super.deserialize(buf);
 
         this.timer = buf.readInt();

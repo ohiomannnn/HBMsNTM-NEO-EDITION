@@ -21,13 +21,13 @@ import com.hbm.sound.AudioWrapper;
 import com.hbm.util.SoundUtils;
 import com.hbm.util.TagsUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
@@ -190,7 +190,7 @@ public class SoyuzLauncherBlockEntity extends MachineBaseBlockEntity implements 
     }
 
     @Override
-    public void serialize(ByteBuf buf) {
+    public void serialize(RegistryFriendlyByteBuf buf) {
         super.serialize(buf);
         buf.writeLong(power);
         buf.writeByte(mode);
@@ -201,7 +201,7 @@ public class SoyuzLauncherBlockEntity extends MachineBaseBlockEntity implements 
     }
 
     @Override
-    public void deserialize(ByteBuf buf) {
+    public void deserialize(RegistryFriendlyByteBuf buf) {
         super.deserialize(buf);
         power = buf.readLong();
         mode = buf.readByte();

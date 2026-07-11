@@ -7,9 +7,9 @@ import com.hbm.render.anim.HbmAnimations.Animation;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.util.fauxpointtwelve.BlockPosNT;
 import com.hbm.util.fauxpointtwelve.RotationNT;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Rotation;
@@ -110,14 +110,14 @@ public class DoorGenericBlockEntity extends LockableBaseBlockEntity {
     }
 
     @Override
-    public void serialize(ByteBuf buf) {
+    public void serialize(RegistryFriendlyByteBuf buf) {
         buf.writeByte(state);
         buf.writeByte(skinIndex);
         buf.writeBoolean(shouldUseBB);
     }
 
     @Override
-    public void deserialize(ByteBuf buf) {
+    public void deserialize(RegistryFriendlyByteBuf buf) {
         handleNewState(buf.readByte());
         skinIndex = buf.readByte();
         shouldUseBB = buf.readBoolean();

@@ -2,7 +2,7 @@ package com.hbm.entity.missile;
 
 import api.hbm.entity.IRadarDetectableNT;
 import com.hbm.entity.logic.IChunkLoader;
-import com.hbm.entity.projectile.ThrowableInterp;
+import com.hbm.entity.projectile.ProjectileLerping;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
@@ -11,7 +11,6 @@ import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCross;
 import com.hbm.items.weapon.MissileItem;
 import com.hbm.main.NuclearTechModClient;
-import com.hbm.util.RayTraceResult;
 import com.hbm.util.Vec3NT;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -23,16 +22,19 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDetectableNT, IChunkLoader {
+public abstract class MissileBase extends ProjectileLerping implements IRadarDetectableNT, IChunkLoader {
 
     @Nullable private ChunkPos lastLoadedChunk = null;
 
@@ -46,9 +48,9 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
     public boolean isCluster = false;
     public int health = 50;
 
-    public static final EntityDataAccessor<Direction> ROT = SynchedEntityData.defineId(MissileBaseNT.class, EntityDataSerializers.DIRECTION);
+    public static final EntityDataAccessor<Direction> ROT = SynchedEntityData.defineId(MissileBase.class, EntityDataSerializers.DIRECTION);
 
-    public MissileBaseNT(EntityType<? extends MissileBaseNT> entityType, Level level) {
+    public MissileBase(EntityType<? extends MissileBase> entityType, Level level) {
         super(entityType, level);
 
         startX = (int) this.position.x;
@@ -57,7 +59,7 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
         targetZ = (int) this.position.z;
     }
 
-    public MissileBaseNT setPosAndTarget(Vec3 position, int a, int b) {
+    public MissileBase setPosAndTarget(Vec3 position, int a, int b) {
         this.moveTo(position, 0, 0);
         startX = (int) this.position.x;
         startZ = (int) this.position.z;
@@ -134,18 +136,11 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
             }
 
             if(this.deltaMovement.y < -velocity && this.isCluster) {
-                cluster();
+                this.cluster();
                 this.discard();
                 return;
             }
 
-            this.yRot = (float) (Math.atan2(targetX - this.position.x, targetZ - this.position.z) * 180.0D / Math.PI);
-            float f2 = (float) Math.sqrt(this.deltaMovement.x * this.deltaMovement.x + this.deltaMovement.z * this.deltaMovement.z);
-            for(
-                    this.xRot = (float) (Math.atan2(this.deltaMovement.y, f2) * 180.0D / Math.PI) - 90;
-                    this.xRot - this.xRotO < -180.0F;
-                    this.xRotO -= 360.0F
-            );
             if(this.level instanceof ServerLevel serverLevel) {
                 // more updates = more smooth!!!!
                 serverLevel.getChunkSource().broadcast(this, new ClientboundTeleportEntityPacket(this));
@@ -155,10 +150,6 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
         } else {
             this.spawnContrail();
         }
-
-        while(this.xRot - this.xRotO >= 180.0F) this.xRotO += 360.0F;
-        while(this.yRot - this.yRotO < -180.0F) this.yRotO -= 360.0F;
-        while(this.yRot - this.yRotO >= 180.0F) this.yRotO += 360.0F;
     }
 
     public boolean hasPropulsion() {
@@ -243,12 +234,12 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
     }
 
     @Override
-    protected double motionMult() {
+    protected double getMotionMultiplier() {
         return velocity;
     }
 
     @Override
-    public boolean doesImpactEntities() {
+    protected boolean canHitEntity(Entity target) {
         return false;
     }
 
@@ -266,21 +257,21 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
     @Override public boolean shouldRenderAtSqrDistance(double distance) { return true; }
 
     @Override
-    protected void onImpact(RayTraceResult result) {
-        if(result != null && result.typeOfHit == RayTraceResult.Type.BLOCK) {
-            this.discard();
-            this.onMissileImpact(result);
-        }
+    protected void onHitBlock(BlockHitResult result) {
+        super.onHitBlock(result);
+
+        //this.discard();
+        this.onMissileImpact(result);
     }
 
-    public abstract void onMissileImpact(RayTraceResult result);
+    public abstract void onMissileImpact(BlockHitResult bhr);
     public abstract List<ItemStack> getDebris();
     public abstract ItemStack getDebrisRareDrop();
     public void cluster() { }
 
     @Override
-    public double getGravityVelocity() {
-        return 0.0D;
+    protected double getDefaultGravity() {
+        return 0.0;
     }
 
     @Override
@@ -295,7 +286,6 @@ public abstract class MissileBaseNT extends ThrowableInterp implements IRadarDet
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
         builder.define(ROT, Direction.NORTH);
     }
 
