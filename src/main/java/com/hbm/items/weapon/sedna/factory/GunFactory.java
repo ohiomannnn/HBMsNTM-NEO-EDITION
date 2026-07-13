@@ -4,13 +4,19 @@ import com.hbm.interfaces.IOrderedEnum;
 import com.hbm.items.EnumMultiItem;
 import com.hbm.items.NtmItems;
 import com.hbm.items.weapon.sedna.*;
+import com.hbm.items.weapon.sedna.GunBaseNTItem.GunState;
+import com.hbm.items.weapon.sedna.GunBaseNTItem.LambdaContext;
 import com.hbm.items.weapon.sedna.GunBaseNTItem.WeaponQuality;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.registries.DeferredRegister;
+
+import java.util.function.BiConsumer;
 
 public class GunFactory {
 
@@ -21,35 +27,50 @@ public class GunFactory {
 
     public static void init(DeferredRegister.Items itemRegistry) {
 
-        //NtmItems.AMMO_DEBUG = itemRegistry.register("ammo_debug", () -> new Item(new Properties()));
+        NtmItems.AMMO_DEBUG = itemRegistry.register("ammo_debug", () -> new Item(new Properties()));
         NtmItems.AMMO_STANDARD = itemRegistry.register("ammo_standard", () -> new EnumMultiItem(new Properties(), Ammo.class, true, true));
         NtmItems.AMMO_SECRET = itemRegistry.register("ammo_secret", () -> new EnumMultiItem(new Properties(), AmmoSecret.class, true, true));
 
-        /// BULLLET CFGS ///
-//        ammo_debug = new BulletConfig().setItem(NtmItems.AMMO_DEBUG.get()).setSpread(0.01F).setRicochetAngle(45).setCasing(CASING44.clone().register("DEBUG0"));
-//        ammo_debug_shot = new BulletConfig().setItem(NtmItems.AMMO_DEBUG.get()).setSpread(0.05F).setProjectiles(6).setRicochetAngle(45).setCasing(CASING44.clone().register("DEBUG1"));
-
-
-//        NtmItems.GUN_DEBUG = itemRegistry.register("gun_debug",
-//                () -> new GunBaseNTItem(WeaponQuality.DEBUG, new GunConfig()
-//                        .dura(600F).draw(15).inspect(23).crosshair(Crosshair.L_CLASSIC)
-//                        .rec(new Receiver(0)
-//                                        .dmg(10F).delay(14).reload(46).jam(23).sound("hbm:weapon.44Shoot", 1.0F, 1.0F)
-//                                        .mag(new MagazineFullReload(0, 12).addConfigs(ammo_debug))
-//                                        .offset(0.75, -0.0625, -0.3125D)
-//                                        .canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE),
-//                                new Receiver(1)
-//                                        .dmg(5F).delay(14).reload(46).jam(23).sound("hbm:weapon.44Shoot", 1.0F, 1.0F)
-//                                        .mag(new MagazineFullReload(1, 12).addConfigs(ammo_debug_shot))
-//                                        .offset(0.75, -0.0625, -0.3125D)
-//                                        .canFire(Lego.LAMBDA_SECOND_CAN_FIRE).fire(Lego.LAMBDA_SECOND_FIRE))
-//                        .pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).ps((stack, ctx) -> { Lego.clickReceiver(stack, ctx, 1); })
-//                        .pr(Lego.LAMBDA_STANDARD_RELOAD).pt(Lego.LAMBDA_TOGGLE_AIM)
-//                        .decider(LAMBDA_DEBUG_DECIDER)
-//                        .anim(Lego.LAMBDA_DEBUG_ANIMS)
-//                ));
+        NtmItems.GUN_DEBUG = itemRegistry.register("gun_debug",
+                () -> new GunBaseNTItem(WeaponQuality.DEBUG, new GunConfig()
+                        .dura(600F).draw(15).inspect(23).crosshair(Crosshair.L_CLASSIC)
+                        .rec(new Receiver(0)
+                                        .dmg(10F).delay(14).reload(46).jam(23)/*.sound("hbm:weapon.44Shoot", 1.0F, 1.0F)*/
+                                        .mag(new MagazineFullReload(0, 12).addConfigs(ammo_debug))
+                                        .offset(0.75, -0.0625, -0.3125D)
+                                        .canFire(Lego.LAMBDA_STANDARD_CAN_FIRE).fire(Lego.LAMBDA_STANDARD_FIRE),
+                                new Receiver(1)
+                                        .dmg(5F).delay(14).reload(46).jam(23)/*.sound("hbm:weapon.44Shoot", 1.0F, 1.0F)*/
+                                        .mag(new MagazineFullReload(1, 12).addConfigs(ammo_debug_shot))
+                                        .offset(0.75, -0.0625, -0.3125D)
+                                        .canFire(Lego.LAMBDA_SECOND_CAN_FIRE).fire(Lego.LAMBDA_SECOND_FIRE))
+                        .pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY).ps((stack, ctx) -> { Lego.clickReceiver(stack, ctx, 1); })
+                        .pr(Lego.LAMBDA_STANDARD_RELOAD).pt(Lego.LAMBDA_TOGGLE_AIM)
+                        .decider(LAMBDA_DEBUG_DECIDER)
+                        .anim(Lego.LAMBDA_DEBUG_ANIMS)
+                ));
 
     }
+
+    public static void initCfg() {
+        /// BULLLET CFGS ///
+        ammo_debug = new BulletConfig().setItem(NtmItems.AMMO_DEBUG.get()).setSpread(0.01F).setRicochetAngle(45).setCasing(CASING44.clone().register("DEBUG0"));
+        ammo_debug_shot = new BulletConfig().setItem(NtmItems.AMMO_DEBUG.get()).setSpread(0.05F).setProjectiles(6).setRicochetAngle(45).setCasing(CASING44.clone().register("DEBUG1"));
+
+        XFactoryCatapult.init();
+    }
+
+
+    public static BiConsumer<ItemStack, LambdaContext> LAMBDA_DEBUG_DECIDER = (stack, ctx) -> {
+        int index = ctx.configIndex;
+        GunState lastState = GunBaseNTItem.getState(stack, index);
+        GunStateDecider.deciderStandardFinishDraw(stack, lastState, index);
+        GunStateDecider.deciderStandardClearJam(stack, lastState, index);
+        GunStateDecider.deciderStandardReload(stack, ctx, lastState, 0, index);
+        GunStateDecider.deciderStandardReload(stack, ctx, lastState, 1, index);
+        GunStateDecider.deciderAutoRefire(stack, ctx, lastState, 0, index, () -> { return GunBaseNTItem.getPrimary(stack, index) && GunBaseNTItem.getMode(stack, ctx.configIndex) == 0; });
+        GunStateDecider.deciderAutoRefire(stack, ctx, lastState, 1, index, () -> { return GunBaseNTItem.getSecondary(stack, index) && GunBaseNTItem.getMode(stack, ctx.configIndex) == 0; });
+    };
 
     public enum Ammo implements IOrderedEnum {
         STONE, STONE_AP, STONE_IRON, STONE_SHOT,

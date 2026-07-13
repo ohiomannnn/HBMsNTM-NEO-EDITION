@@ -1,12 +1,15 @@
 package com.hbm.items.weapon.sedna.factory;
 
+import com.hbm.entity.projectile.BulletBaseMK4;
 import com.hbm.interfaces.NotableComments;
 import com.hbm.items.weapon.sedna.BulletConfig;
+import com.hbm.items.weapon.sedna.BulletConfig.ProjectileType;
 import com.hbm.items.weapon.sedna.GunBaseNTItem;
 import com.hbm.items.weapon.sedna.GunBaseNTItem.GunState;
 import com.hbm.items.weapon.sedna.GunBaseNTItem.LambdaContext;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.Receiver;
+import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
@@ -14,6 +17,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -29,6 +33,36 @@ import java.util.function.BiFunction;
 public class Lego {
 
     public static final RandomSource ANIM_RAND = RandomSource.create();
+
+    /**
+     * If IDLE and the mag of receiver 0 can be loaded, set state to RELOADING. Used by keybinds. */
+    public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_RELOAD = (stack, ctx) -> {
+
+        Player player = ctx.getPlayer();
+        Receiver rec = ctx.config.getReceivers(stack)[0];
+        GunState state = GunBaseNTItem.getState(stack, ctx.configIndex);
+
+        if(state == GunState.IDLE) {
+
+            GunBaseNTItem.setIsAiming(stack, false);
+            IMagazine mag = rec.getMagazine(stack);
+
+            if(mag.canReload(stack, ctx.container)) {
+                int loaded = mag.getAmount(stack, ctx.container);
+                mag.setAmountBeforeReload(stack, loaded);
+                GunBaseNTItem.setState(stack, ctx.configIndex, GunState.RELOADING);
+                GunBaseNTItem.setTimer(stack, ctx.configIndex, rec.getReloadBeginDuration(stack) + (loaded <= 0 ? rec.getReloadCockOnEmptyPre(stack) : 0));
+                GunBaseNTItem.playAnimation(player, stack, GunAnimation.RELOAD, ctx.configIndex);
+                if(ctx.config.getReloadChangesType(stack)) mag.initNewType(stack, ctx.container);
+            } else {
+                GunBaseNTItem.playAnimation(player, stack, GunAnimation.INSPECT, ctx.configIndex);
+                if(!ctx.config.getInspectCancel(stack)) {
+                    GunBaseNTItem.setState(stack, ctx.configIndex, GunState.DRAWING);
+                    GunBaseNTItem.setTimer(stack, ctx.configIndex, ctx.config.getInspectDuration(stack));
+                }
+            }
+        }
+    };
 
     /** Returns true if the mag has ammo in it. Used by keybind functions on whether to fire, and deciders on whether to trigger a refire. */
     public static BiFunction<ItemStack, LambdaContext, Boolean> LAMBDA_STANDARD_CAN_FIRE = (stack, ctx) -> { return ctx.config.getReceivers(stack)[0].getMagazine(stack).getAmount(stack, ctx.container) > 0; };
@@ -71,6 +105,76 @@ public class Lego {
         if(state == GunState.RELOADING) {
             GunBaseNTItem.setReloadCancel(stack, true);
         }
+    }
+
+    /** Toggles isAiming. Used by keybinds. */
+    public static BiConsumer<ItemStack, LambdaContext> LAMBDA_TOGGLE_AIM = (stack, ctx) -> { GunBaseNTItem.setIsAiming(stack, !GunBaseNTItem.getIsAiming(stack)); };
+
+    /** Spawns an EntityBulletBaseMK4 with the loaded bulletcfg */
+    public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_FIRE = (stack, ctx) -> {
+        doStandardFire(stack, ctx, GunAnimation.CYCLE, 0, true);
+    };
+    public static BiConsumer<ItemStack, LambdaContext> LAMBDA_SECOND_FIRE = (stack, ctx) -> {
+        doStandardFire(stack, ctx, GunAnimation.CYCLE, 1, true);
+    };
+    /** Spawns an EntityBulletBaseMK4 with the loaded bulletcfg, ignores wear */
+    public static BiConsumer<ItemStack, LambdaContext> LAMBDA_NOWEAR_FIRE = (stack, ctx) -> {
+        doStandardFire(stack, ctx, GunAnimation.CYCLE, 0, false);
+    };
+    /** Spawns an EntityBulletBaseMK4 with the loaded bulletcfg, then resets lockon progress */
+    public static BiConsumer<ItemStack, LambdaContext> LAMBDA_LOCKON_FIRE = (stack, ctx) -> {
+        doStandardFire(stack, ctx, GunAnimation.CYCLE, 0, true);
+        GunBaseNTItem.setIsLockedOn(stack, false);
+    };
+
+    public static void doStandardFire(ItemStack stack, LambdaContext ctx, GunAnimation anim, int receiver, boolean calcWear) {
+        LivingEntity entity = ctx.entity;
+        Player player = ctx.getPlayer();
+        int index = ctx.configIndex;
+        if(anim != null) GunBaseNTItem.playAnimation(player, stack, anim, ctx.configIndex);
+
+        boolean aim = GunBaseNTItem.getIsAiming(stack);
+        Receiver primary = ctx.config.getReceivers(stack)[receiver];
+        IMagazine<?> mag = primary.getMagazine(stack);
+        BulletConfig config = (BulletConfig) mag.getType(stack, ctx.container);
+
+        Vec3 offset = GunBaseNTItem.getIsAiming(stack) ? primary.getProjectileOffsetScoped(stack) : primary.getProjectileOffset(stack);
+        double forwardOffset = offset.x;
+        double heightOffset = offset.y;
+        double sideOffset = offset.z;
+
+		/*forwardOffset = 0.75;
+		heightOffset = -0.125;
+		sideOffset = -0.25D;*/
+
+        int projectiles = config.projectilesMin;
+        if(config.projectilesMax > config.projectilesMin) projectiles += entity.random.nextInt(config.projectilesMax - config.projectilesMin + 1);
+        projectiles = (int) (projectiles * primary.getSplitProjectiles(stack));
+
+        for(int i = 0; i < projectiles; i++) {
+            float damage = calcDamage(ctx, stack, primary, calcWear, index);
+            float spread = calcSpread(ctx, stack, primary, config, calcWear, index, aim);
+
+            if(config.pType == ProjectileType.BULLET) {
+                BulletBaseMK4 mk4 = new BulletBaseMK4(entity, config, damage, spread, sideOffset, heightOffset, forwardOffset);
+                if(GunBaseNTItem.getIsLockedOn(stack)) mk4.lockonTarget = entity.level.getEntity(GunBaseNTItem.getLockonTarget(stack));
+                //if(i == 0 && config.blackPowder) BlackPowderCreator.composeEffect(entity.worldObj, mk4.posX, mk4.posY, mk4.posZ, mk4.motionX, mk4.motionY, mk4.motionZ, 10, 0.25F, 0.5F, 10, 0.25F);
+                entity.level.addFreshEntity(mk4);
+            }
+//            } else if(config.pType == ProjectileType.BULLET_CHUNKLOADING) {
+//                EntityBulletBaseMK4CL mk4 = new EntityBulletBaseMK4CL(entity, config, damage, spread, sideOffset, heightOffset, forwardOffset);
+//                if(ItemGunBaseNT.getIsLockedOn(stack)) mk4.lockonTarget = entity.worldObj.getEntityByID(ItemGunBaseNT.getLockonTarget(stack));
+//                if(i == 0 && config.blackPowder) BlackPowderCreator.composeEffect(entity.worldObj, mk4.posX, mk4.posY, mk4.posZ, mk4.motionX, mk4.motionY, mk4.motionZ, 10, 0.25F, 0.5F, 10, 0.25F);
+//                entity.worldObj.spawnEntityInWorld(mk4);
+//            } else if(config.pType == ProjectileType.BEAM) {
+//                EntityBulletBeamBase mk4 = new EntityBulletBeamBase(entity, config, damage, spread, sideOffset, heightOffset, forwardOffset);
+//                entity.worldObj.spawnEntityInWorld(mk4);
+//            }
+        }
+
+        //if(player != null) player.addStat(MainRegistry.statBullets, 1);
+        mag.useUpAmmo(stack, ctx.container, 1);
+        if(calcWear) GunBaseNTItem.setWear(stack, index, Math.min(GunBaseNTItem.getWear(stack, index) + config.wear, ctx.config.getDurability(stack)));
     }
 
     public static float getStandardWearSpread(ItemStack stack, GunConfig config, int index) {

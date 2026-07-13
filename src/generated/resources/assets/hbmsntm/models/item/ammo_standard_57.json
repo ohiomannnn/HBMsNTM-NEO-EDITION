@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "hbmsntm:item/ammo_standard.g40_phosphorus"
+  }
+}

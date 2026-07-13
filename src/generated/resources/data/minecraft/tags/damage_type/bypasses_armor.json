@@ -1,0 +1,12 @@
+{
+  "values": [
+    "hbmsntm:digamma",
+    "hbmsntm:radiation",
+    "hbmsntm:asbestos",
+    "hbmsntm:blacklung",
+    "hbmsntm:taint",
+    "hbmsntm:bang",
+    "hbmsntm:lead",
+    "hbmsntm:monoxide"
+  ]
+}

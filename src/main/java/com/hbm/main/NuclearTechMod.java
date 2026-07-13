@@ -11,6 +11,7 @@ import com.hbm.inventory.NtmMenuTypes;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.NtmItems;
 import com.hbm.items.component.NtmDataComponents;
+import com.hbm.items.weapon.sedna.factory.GunFactory;
 import com.hbm.lib.ModAttachments;
 import com.hbm.lib.ModEffect;
 import com.hbm.particle.NtmParticles;

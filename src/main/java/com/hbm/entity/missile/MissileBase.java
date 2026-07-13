@@ -135,7 +135,7 @@ public abstract class MissileBase extends ProjectileLerping implements IRadarDet
                 }
             }
 
-            if(this.deltaMovement.y < -velocity && this.isCluster) {
+            if(this.deltaMovement.y < -1.5 && this.isCluster) {
                 this.cluster();
                 this.discard();
                 return;
@@ -260,7 +260,7 @@ public abstract class MissileBase extends ProjectileLerping implements IRadarDet
     protected void onHitBlock(BlockHitResult result) {
         super.onHitBlock(result);
 
-        //this.discard();
+        this.discard();
         this.onMissileImpact(result);
     }
 

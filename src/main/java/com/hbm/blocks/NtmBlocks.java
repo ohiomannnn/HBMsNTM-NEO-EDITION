@@ -43,8 +43,36 @@ public class NtmBlocks {
 
     // Ores
     public static final DeferredBlock<Block> ORE_OIL = register("ore_oil", () -> new Block(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(10.0F).sound(SoundType.STONE)));
-    public static final DeferredBlock<Block> ORE_URANIUM = register("ore_uranium", () -> new Block(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(10.0F).sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_URANIUM = register("ore_uranium", () -> new Block(BlockBehaviour.Properties.of().strength(0.7F).explosionResistance(6.0F).sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_URANIUM_DEEPSLATE = register("ore_uranium_deepslate", () -> new Block(BlockBehaviour.Properties.of().strength(0.8F).explosionResistance(8.0F).sound(SoundType.DEEPSLATE)));
     public static final DeferredBlock<Block> ORE_URANIUM_SCORCHED = register("ore_uranium_scorched", () -> new Block(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(10.0F).sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_BERYLLIUM = register("ore_beryllium", () -> new Block(BlockBehaviour.Properties.of().strength(0.7F).explosionResistance(6.0F).sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_BERYLLIUM_DEEPSLATE = register("ore_beryllium_deepslate", () -> new Block(BlockBehaviour.Properties.of().strength(0.8F).explosionResistance(8.0F).sound(SoundType.DEEPSLATE)));
+    public static final DeferredBlock<Block> ORE_TUNGSTEN = register("ore_tungsten", () -> new Block(BlockBehaviour.Properties.of().strength(0.7F).explosionResistance(6.0F).sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_TUNGSTEN_DEEPSLATE = register("ore_tungsten_deepslate", () -> new Block(BlockBehaviour.Properties.of().strength(0.8F).explosionResistance(8.0F).sound(SoundType.DEEPSLATE)));
+    public static final DeferredBlock<Block> ORE_TITANIUM = register("ore_titanium", () -> new Block(BlockBehaviour.Properties.of().strength(0.7F).explosionResistance(6.0F).sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_TITANIUM_DEEPSLATE = register("ore_titanium_deepslate", () -> new Block(BlockBehaviour.Properties.of().strength(0.8F).explosionResistance(8.0F).sound(SoundType.DEEPSLATE)));
+    public static final DeferredBlock<Block> ORE_LEAD = register("ore_lead", () -> new Block(BlockBehaviour.Properties.of().strength(0.7F).explosionResistance(6.0F).sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_LEAD_DEEPSLATE = register("ore_lead_deepslate", () -> new Block(BlockBehaviour.Properties.of().strength(0.8F).explosionResistance(8.0F).sound(SoundType.DEEPSLATE)));
+    public static final DeferredBlock<Block> ORE_ALUMINIUM = register("ore_aluminium", () -> new Block(BlockBehaviour.Properties.of().strength(0.7F).explosionResistance(6.0F).sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_ALUMINIUM_DEEPSLATE = register("ore_aluminium_deepslate", () -> new Block(BlockBehaviour.Properties.of().strength(0.8F).explosionResistance(8.0F).sound(SoundType.DEEPSLATE)));
+    public static final DeferredBlock<Block> ORE_ASBESTOS = register("ore_asbestos", () -> new Block(BlockBehaviour.Properties.of().strength(0.7F).explosionResistance(6.0F).sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_ASBESTOS_DEEPSLATE = register("ore_asbestos_deepslate", () -> new Block(BlockBehaviour.Properties.of().strength(0.8F).explosionResistance(8.0F).sound(SoundType.DEEPSLATE)));
+    public static final DeferredBlock<Block> ORE_THORIUM = register("ore_thorium", () -> new Block(BlockBehaviour.Properties.of().strength(0.7F).explosionResistance(6.0F).sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_THORIUM_DEEPSLATE = register("ore_thorium_deepslate", () -> new Block(BlockBehaviour.Properties.of().strength(0.8F).explosionResistance(8.0F).sound(SoundType.DEEPSLATE)));
+    public static final DeferredBlock<Block> ORE_NITER = register("ore_niter", () -> new Block(BlockBehaviour.Properties.of().strength(0.7F).explosionResistance(6.0F).sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_NITER_DEEPSLATE = register("ore_niter_deepslate", () -> new Block(BlockBehaviour.Properties.of().strength(0.8F).explosionResistance(8.0F).sound(SoundType.DEEPSLATE)));
+    public static final DeferredBlock<Block> ORE_COBALT = register("ore_cobalt", () -> new Block(BlockBehaviour.Properties.of().strength(0.7F).explosionResistance(6.0F).sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_COBALT_DEEPSLATE = register("ore_cobalt_deepslate", () -> new Block(BlockBehaviour.Properties.of().strength(0.8F).explosionResistance(8.0F).sound(SoundType.DEEPSLATE)));
+    public static final DeferredBlock<Block> ORE_CINNABAR = register("ore_cinnabar", () -> new Block(BlockBehaviour.Properties.of().strength(0.7F).explosionResistance(6.0F).sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_CINNABAR_DEEPSLATE = register("ore_cinnabar_deepslate", () -> new Block(BlockBehaviour.Properties.of().strength(0.8F).explosionResistance(8.0F).sound(SoundType.DEEPSLATE)));
+    public static final DeferredBlock<Block> ORE_FLUORITE = register("ore_fluorite", () -> new Block(BlockBehaviour.Properties.of().strength(0.7F).explosionResistance(6.0F).sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_FLUORITE_DEEPSLATE = register("ore_fluorite_deepslate", () -> new Block(BlockBehaviour.Properties.of().strength(0.8F).explosionResistance(8.0F).sound(SoundType.DEEPSLATE)));
+    public static final DeferredBlock<Block> ORE_RARE = register("ore_rare", () -> new Block(BlockBehaviour.Properties.of().strength(0.7F).explosionResistance(6.0F).sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_RARE_DEEPSLATE = register("ore_rare_deepslate", () -> new Block(BlockBehaviour.Properties.of().strength(0.8F).explosionResistance(8.0F).sound(SoundType.DEEPSLATE)));
+    public static final DeferredBlock<Block> ORE_SULFUR = register("ore_sulfur", () -> new Block(BlockBehaviour.Properties.of().strength(0.7F).explosionResistance(6.0F).sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_SULFUR_DEEPSLATE = register("ore_sulfur_deepslate", () -> new Block(BlockBehaviour.Properties.of().strength(0.8F).explosionResistance(8.0F).sound(SoundType.DEEPSLATE)));
+    public static final DeferredBlock<Block> ORE_LIGNITE = register("ore_lignite", () -> new Block(BlockBehaviour.Properties.of().strength(0.7F).explosionResistance(6.0F).sound(SoundType.STONE)));
     public static final DeferredBlock<Block> ORE_SCHRABIDIUM = register("ore_schrabidium", () -> new Block(BlockBehaviour.Properties.of().strength(15.0F).explosionResistance(600.0F).sound(SoundType.STONE)));
     public static final DeferredBlock<Block> ORE_NETHER_URANIUM = register("ore_nether_uranium", () -> new Block(BlockBehaviour.Properties.of().strength(0.4F).explosionResistance(10.0F).sound(SoundType.NETHER_ORE)));
     public static final DeferredBlock<Block> ORE_NETHER_URANIUM_SCORCHED = register("ore_nether_uranium_scorched", () -> new Block(BlockBehaviour.Properties.of().strength(0.4F).explosionResistance(10.0F).sound(SoundType.NETHER_ORE)));
@@ -54,6 +82,14 @@ public class NtmBlocks {
     public static final DeferredBlock<Block> ORE_GNEISS_URANIUM = register("ore_gneiss_uranium", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).explosionResistance(10.0F).sound(SoundType.STONE)));
     public static final DeferredBlock<Block> ORE_GNEISS_URANIUM_SCORCHED = register("ore_gneiss_uranium_scorched", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).explosionResistance(10.0F).sound(SoundType.STONE)));
     public static final DeferredBlock<Block> ORE_GNEISS_SCHRABIDIUM = register("ore_gneiss_schrabidium", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).explosionResistance(10.0F).sound(SoundType.STONE)));
+
+    //Resource stones
+    public static final DeferredBlock<Block> RESOURCE_LIMESTONE = register("resource_limestone", () -> new Block(BlockBehaviour.Properties.of().strength(0.7F).explosionResistance(5.0F).sound(SoundType.NETHERRACK)));
+    public static final DeferredBlock<Block> RESOURCE_BAUXITE = register("resource_bauxite", () -> new Block(BlockBehaviour.Properties.of().strength(0.7F).explosionResistance(5.0F).sound(SoundType.NETHERRACK)));
+    public static final DeferredBlock<Block> RESOURCE_HEMATITE = register("resource_hematite", () -> new Block(BlockBehaviour.Properties.of().strength(0.7F).explosionResistance(5.0F).sound(SoundType.NETHERRACK)));
+    public static final DeferredBlock<Block> RESOURCE_MALACHITE = register("resource_malachite", () -> new Block(BlockBehaviour.Properties.of().strength(0.7F).explosionResistance(5.0F).sound(SoundType.NETHERRACK)));
+    public static final DeferredBlock<Block> RESOURCE_CHRYSOTILE = register("resource_chrysotile", () -> new Block(BlockBehaviour.Properties.of().strength(0.7F).explosionResistance(5.0F).sound(SoundType.NETHERRACK)));
+    public static final DeferredBlock<Block> RESOURCE_SULFUROUS_STONE = register("resource_sulfurous_stone", () -> new Block(BlockBehaviour.Properties.of().strength(0.7F).explosionResistance(5.0F).sound(SoundType.NETHERRACK)));
 
     // Basalt ores
     public static final DeferredBlock<Block> ORE_BASALT = registerNew("ore_basalt", () -> new OreBasaltBlock(BlockBehaviour.Properties.of().strength(5F, 10F).sound(SoundType.BASALT).mapColor(MapColor.COLOR_BLACK).instrument(NoteBlockInstrument.BASEDRUM)));

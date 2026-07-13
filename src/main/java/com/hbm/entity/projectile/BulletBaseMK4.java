@@ -2,9 +2,13 @@ package com.hbm.entity.projectile;
 
 import com.hbm.entity.NtmEntityTypes;
 import com.hbm.items.weapon.sedna.BulletConfig;
+import com.hbm.util.Vec3NT;
+import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -34,10 +38,10 @@ public class BulletBaseMK4 extends ProjectileLerping {
     public BulletBaseMK4(Level level) { super(NtmEntityTypes.BULLET_MK4.get(), level); }
 
     /** For submunitions! */
-    public BulletBaseMK4(Level level, LivingEntity entity, BulletConfig config, float damage, float gunSpread, Vec3 pos, Vec3 delta) {
+    public BulletBaseMK4(Level level, LivingEntity living, BulletConfig config, float damage, float gunSpread, Vec3 pos, Vec3 delta) {
         this(level);
 
-        this.setOwner(entity);
+        this.setOwner(living);
         this.setBulletConfig(config);
 
         this.damage = damage;
@@ -50,9 +54,49 @@ public class BulletBaseMK4 extends ProjectileLerping {
         this.shoot(delta.x, delta.y, delta.z, 1.0F, this.config.spread + gunSpread);
     }
 
+    /** For standard guns */
+    public BulletBaseMK4(LivingEntity living, BulletConfig config, float baseDamage, float gunSpread, double sideOffset, double heightOffset, double frontOffset) {
+        this(living.level);
+
+        this.setOwner(living);
+        this.setBulletConfig(config);
+
+        this.damage = baseDamage * this.config.damageMult;
+
+        this.moveTo(living.getX(), living.getY() + living.getEyeHeight(), living.getZ(), living.yRot, living.xRot);
+
+        Vec3 offset = new Vec3(sideOffset, heightOffset, frontOffset);
+        offset = offset.xRot(-this.xRot / 180F * (float) Math.PI);
+        offset = offset.yRot(-this.yRot / 180F * (float) Math.PI);
+
+        Vec3 positionOffset = this.position().add(offset);
+        this.setPos(positionOffset);
+
+        float xd = -Mth.sin(this.yRot / 180.0F * (float) Math.PI) * Mth.cos(this.xRot / 180.0F * (float) Math.PI);
+        float yd = (-Mth.sin(this.xRot / 180.0F * (float) Math.PI));
+        float zd = Mth.cos(this.yRot / 180.0F * (float) Math.PI) * Mth.cos(this.xRot / 180.0F * (float) Math.PI);
+        this.shoot(xd, yd, zd, 1F, gunSpread);
+    }
+
+    /** For turrets - angles are in radians, and pitch is negative! */
+    public BulletBaseMK4(Level level, BulletConfig config, float baseDamage, float gunSpread, float yRot, float xRot) {
+        this(level);
+
+        this.setBulletConfig(config);
+
+        this.damage = baseDamage * this.config.damageMult;
+
+        this.yRotO = this.yRot = yRot * 180F / (float) Math.PI;
+        this.xRotO = this.xRot = -xRot * 180F / (float) Math.PI;
+
+        float xd = -Mth.sin(this.yRot / 180.0F * (float) Math.PI) * Mth.cos(this.xRot / 180.0F * (float) Math.PI);
+        float yd = (-Mth.sin(this.xRot / 180.0F * (float) Math.PI));
+        float zd = Mth.cos(this.yRot / 180.0F * (float) Math.PI) * Mth.cos(this.xRot / 180.0F * (float) Math.PI);
+        this.shoot(xd, yd, zd, 1F, gunSpread);
+    }
+
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
-
         builder.define(BULLET_CONFIG, 0);
     }
 
@@ -88,7 +132,20 @@ public class BulletBaseMK4 extends ProjectileLerping {
         double dY = this.position.y - this.yo;
         double dZ = this.position.z - this.zo;
 
-        // todo entity target
+        if(this.lockonTarget != null && this.lockonTarget.isAlive()) {
+            Vec3 deltaMotion = this.getDeltaMovement();
+            double vel = deltaMotion.length();
+            Vec3 delta = new Vec3(lockonTarget.getX() - this.getX(), lockonTarget.getY() + lockonTarget.getBbHeight() / 2D - this.getY(), lockonTarget.getZ() - this.getZ());
+            float turn = Math.min(0.005F * this.tickCount, 1F);
+            Vec3 newDeltaMotion = new Vec3(
+                    Mth.lerp(deltaMotion.x, delta.x, turn),
+                    Mth.lerp(deltaMotion.y, delta.y, turn),
+                    Mth.lerp(deltaMotion.z, delta.z, turn)).normalize().scale(vel);
+            this.setDeltaMovement(newDeltaMotion);
+            if(this.level instanceof ServerLevel serverLevel) {
+                serverLevel.getChunkSource().broadcast(this, new ClientboundTeleportEntityPacket(this));
+            }
+        }
 
         this.prevVelocity = this.velocity;
         this.velocity = Math.sqrt(dX * dX + dY * dY + dZ * dZ);

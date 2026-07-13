@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "subtype=0": {
+      "model": "hbmsntm:block/ore_basalt.sulfur"
+    },
+    "subtype=1": {
+      "model": "hbmsntm:block/ore_basalt.fluorite"
+    },
+    "subtype=2": {
+      "model": "hbmsntm:block/ore_basalt.asbestos"
+    },
+    "subtype=3": {
+      "model": "hbmsntm:block/ore_basalt.gem"
+    },
+    "subtype=4": {
+      "model": "hbmsntm:block/ore_basalt.molysite"
+    }
+  }
+}

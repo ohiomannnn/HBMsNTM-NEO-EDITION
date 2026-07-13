@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "hbmsntm:block/resource_chrysotile"
+  }
+}

@@ -119,6 +119,14 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.basicItem(NtmItems.INGOT_ELECTRONIUM.get());
         this.basicItem(NtmItems.INGOT_SMORE.get());
         this.basicItem(NtmItems.INGOT_OSMIRIDIUM.get());
+        this.basicItem(NtmItems.SULFUR.get());
+        this.basicItem(NtmItems.ASBESTOS_SHEET.get());
+        this.basicItem(NtmItems.CINNABAR.get());
+        this.basicItem(NtmItems.FRAGMENT_COBALT.get());
+        this.basicItem(NtmItems.FLUORITE.get());
+        this.basicItem(NtmItems.LIGNITE.get());
+        this.basicItem(NtmItems.NITER.get());
+        this.basicItem(NtmItems.RARE_EARTH_ORE_CHUNK.get());
 
         this.basicItem(NtmItems.PELLET_RTG.get());
 

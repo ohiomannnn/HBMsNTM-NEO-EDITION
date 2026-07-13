@@ -1,0 +1,82 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "block": "hbmsntm:ore_basalt",
+                  "condition": "minecraft:block_state_property",
+                  "properties": {
+                    "subtype": "0"
+                  }
+                }
+              ],
+              "name": "hbmsntm:nothing"
+            },
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "block": "hbmsntm:ore_basalt",
+                  "condition": "minecraft:block_state_property",
+                  "properties": {
+                    "subtype": "1"
+                  }
+                }
+              ],
+              "name": "hbmsntm:detonator"
+            },
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "block": "hbmsntm:ore_basalt",
+                  "condition": "minecraft:block_state_property",
+                  "properties": {
+                    "subtype": "2"
+                  }
+                }
+              ],
+              "name": "hbmsntm:can_key"
+            },
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "block": "hbmsntm:ore_basalt",
+                  "condition": "minecraft:block_state_property",
+                  "properties": {
+                    "subtype": "3"
+                  }
+                }
+              ],
+              "name": "hbmsntm:crackpipe"
+            },
+            {
+              "type": "minecraft:item",
+              "conditions": [
+                {
+                  "block": "hbmsntm:ore_basalt",
+                  "condition": "minecraft:block_state_property",
+                  "properties": {
+                    "subtype": "4"
+                  }
+                }
+              ],
+              "name": "hbmsntm:cigarette"
+            }
+          ]
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "hbmsntm:blocks/ore_basalt"
+}

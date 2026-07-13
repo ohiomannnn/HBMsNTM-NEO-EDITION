@@ -1,0 +1,22 @@
+{
+  "overrides": [
+    {
+      "model": "hbmsntm:item/missile_soyuz_0",
+      "predicate": {
+        "hbmsntm:item_meta": 0.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/missile_soyuz_1",
+      "predicate": {
+        "hbmsntm:item_meta": 1.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/missile_soyuz_2",
+      "predicate": {
+        "hbmsntm:item_meta": 2.0
+      }
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "variants": {
+    "facing=east,subtype=0": {
+      "model": "hbmsntm:block/barbed_wire"
+    },
+    "facing=east,subtype=1": {
+      "model": "hbmsntm:block/barbed_wire_fire"
+    },
+    "facing=east,subtype=2": {
+      "model": "hbmsntm:block/barbed_wire_poison"
+    },
+    "facing=east,subtype=3": {
+      "model": "hbmsntm:block/barbed_wire_acid"
+    },
+    "facing=east,subtype=4": {
+      "model": "hbmsntm:block/barbed_wire_wither"
+    },
+    "facing=east,subtype=5": {
+      "model": "hbmsntm:block/barbed_wire_ultradeath"
+    },
+    "facing=north,subtype=0": {
+      "model": "hbmsntm:block/barbed_wire"
+    },
+    "facing=north,subtype=1": {
+      "model": "hbmsntm:block/barbed_wire_fire"
+    },
+    "facing=north,subtype=2": {
+      "model": "hbmsntm:block/barbed_wire_poison"
+    },
+    "facing=north,subtype=3": {
+      "model": "hbmsntm:block/barbed_wire_acid"
+    },
+    "facing=north,subtype=4": {
+      "model": "hbmsntm:block/barbed_wire_wither"
+    },
+    "facing=north,subtype=5": {
+      "model": "hbmsntm:block/barbed_wire_ultradeath"
+    },
+    "facing=south,subtype=0": {
+      "model": "hbmsntm:block/barbed_wire"
+    },
+    "facing=south,subtype=1": {
+      "model": "hbmsntm:block/barbed_wire_fire"
+    },
+    "facing=south,subtype=2": {
+      "model": "hbmsntm:block/barbed_wire_poison"
+    },
+    "facing=south,subtype=3": {
+      "model": "hbmsntm:block/barbed_wire_acid"
+    },
+    "facing=south,subtype=4": {
+      "model": "hbmsntm:block/barbed_wire_wither"
+    },
+    "facing=south,subtype=5": {
+      "model": "hbmsntm:block/barbed_wire_ultradeath"
+    },
+    "facing=west,subtype=0": {
+      "model": "hbmsntm:block/barbed_wire"
+    },
+    "facing=west,subtype=1": {
+      "model": "hbmsntm:block/barbed_wire_fire"
+    },
+    "facing=west,subtype=2": {
+      "model": "hbmsntm:block/barbed_wire_poison"
+    },
+    "facing=west,subtype=3": {
+      "model": "hbmsntm:block/barbed_wire_acid"
+    },
+    "facing=west,subtype=4": {
+      "model": "hbmsntm:block/barbed_wire_wither"
+    },
+    "facing=west,subtype=5": {
+      "model": "hbmsntm:block/barbed_wire_ultradeath"
+    }
+  }
+}

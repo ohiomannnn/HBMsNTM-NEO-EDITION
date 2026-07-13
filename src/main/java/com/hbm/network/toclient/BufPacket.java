@@ -34,9 +34,7 @@ public record BufPacket(BlockPos pos, byte[] data) implements CustomPacketPayloa
         }
     };
 
-    public static void handleCommon(BufPacket packet, IPayloadContext context) {
-        handleClient(packet, context);
-    }
+    public static void handleCommon(BufPacket packet, IPayloadContext context) { handleClient(packet, context); }
 
     @OnlyIn(Dist.CLIENT)
     public static void handleClient(BufPacket packet, IPayloadContext context) {

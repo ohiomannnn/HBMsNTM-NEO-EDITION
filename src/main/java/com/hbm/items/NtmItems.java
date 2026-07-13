@@ -7,6 +7,7 @@ import com.hbm.inventory.NtmTiers;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ItemEnums.CapType;
 import com.hbm.items.ItemEnums.CasingType;
+import com.hbm.items.armor.ArmorNo9;
 import com.hbm.items.food.ConserveItem;
 import com.hbm.items.food.DrinkItem;
 import com.hbm.items.food.EnergyItem;
@@ -19,6 +20,7 @@ import com.hbm.items.weapon.MissileItem.MissileFuel;
 import com.hbm.items.weapon.MissileItem.MissileTier;
 import com.hbm.items.weapon.sedna.factory.GunFactory;
 import com.hbm.main.NuclearTechMod;
+import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SwordItem;
@@ -118,6 +120,16 @@ public class NtmItems {
     public static final DeferredItem<Item> INGOT_ELECTRONIUM = ITEMS.register("ingot_electronium", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> INGOT_SMORE = ITEMS.register("ingot_smore", () -> new Item(new Item.Properties().food(NtmFoods.SMORE)));
     public static final DeferredItem<Item> INGOT_OSMIRIDIUM = ITEMS.register("ingot_osmiridium", () -> new Item(new Item.Properties()));
+
+    //resources
+    public static final DeferredItem<Item> SULFUR = ITEMS.register("sulfur", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> ASBESTOS_SHEET = ITEMS.register("asbestos_sheet", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CINNABAR = ITEMS.register("cinnabar", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> FRAGMENT_COBALT = ITEMS.register("fragment_cobalt", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> FLUORITE = ITEMS.register("fluorite", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> LIGNITE = ITEMS.register("lignite", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> NITER = ITEMS.register("niter", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> RARE_EARTH_ORE_CHUNK = ITEMS.register("rare_earth_ore_chunk", () -> new Item(new Item.Properties()));
 
     // Pellets
     public static final DeferredItem<Item> PELLET_RTG = ITEMS.register("pellet_rtg", () -> new Item(new Item.Properties()));
@@ -355,6 +367,10 @@ public class NtmItems {
     public static DeferredItem<Item> AMMO_DEBUG;
     public static DeferredItem<Item> AMMO_STANDARD;
     public static DeferredItem<Item> AMMO_SECRET;
+
+    public static DeferredItem<Item> GUN_DEBUG;
+
+    public static final DeferredItem<Item> NO9 = ITEMS.register("no9", () -> new ArmorNo9(ArmorMaterials.IRON));
 
     public static void registerOther(DeferredRegister.Items itemRegistry) {
         GunFactory.init(itemRegistry);
