@@ -1,0 +1,7 @@
+{
+  "type": "cable",
+  "loader": "hbmsntm:ntm_geometry_loader",
+  "textures": {
+    "texture": "hbmsntm:block/cable_neo"
+  }
+}

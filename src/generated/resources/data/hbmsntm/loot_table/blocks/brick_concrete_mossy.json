@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "hbmsntm:brick_concrete_mossy"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "hbmsntm:blocks/brick_concrete_mossy"
+}

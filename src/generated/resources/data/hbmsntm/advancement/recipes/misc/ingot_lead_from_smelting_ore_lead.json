@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_ore_lead": {
+      "conditions": {
+        "items": [
+          {
+            "items": "hbmsntm:ore_lead"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbmsntm:ingot_lead_from_smelting_ore_lead"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_ore_lead"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbmsntm:ingot_lead_from_smelting_ore_lead"
+    ]
+  }
+}

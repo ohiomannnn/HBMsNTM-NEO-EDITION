@@ -1,0 +1,7 @@
+{
+  "type": "spikes",
+  "loader": "hbmsntm:ntm_geometry_loader",
+  "textures": {
+    "texture": "hbmsntm:block/spikes"
+  }
+}

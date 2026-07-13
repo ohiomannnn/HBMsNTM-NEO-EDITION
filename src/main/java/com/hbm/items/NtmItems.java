@@ -119,6 +119,16 @@ public class NtmItems {
     public static final DeferredItem<Item> INGOT_SMORE = ITEMS.register("ingot_smore", () -> new Item(new Item.Properties().food(NtmFoods.SMORE)));
     public static final DeferredItem<Item> INGOT_OSMIRIDIUM = ITEMS.register("ingot_osmiridium", () -> new Item(new Item.Properties()));
 
+    //resources
+    public static final DeferredItem<Item> SULFUR = ITEMS.register("sulfur", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> ASBESTOS_SHEET = ITEMS.register("asbestos_sheet", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CINNABAR = ITEMS.register("cinnabar", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> FRAGMENT_COBALT = ITEMS.register("fragment_cobalt", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> FLUORITE = ITEMS.register("fluorite", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> LIGNITE = ITEMS.register("lignite", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> NITER = ITEMS.register("niter", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> RARE_EARTH_ORE_CHUNK = ITEMS.register("rare_earth_ore_chunk", () -> new Item(new Item.Properties()));
+
     // Pellets
     public static final DeferredItem<Item> PELLET_RTG = ITEMS.register("pellet_rtg", () -> new Item(new Item.Properties()));
 

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "hbmsntm:block/det_miner"
+    }
+  }
+}

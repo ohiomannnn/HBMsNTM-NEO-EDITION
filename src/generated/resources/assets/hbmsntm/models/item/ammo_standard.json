@@ -1,0 +1,574 @@
+{
+  "overrides": [
+    {
+      "model": "hbmsntm:item/ammo_standard_0",
+      "predicate": {
+        "hbmsntm:item_meta": 0.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_1",
+      "predicate": {
+        "hbmsntm:item_meta": 1.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_2",
+      "predicate": {
+        "hbmsntm:item_meta": 2.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_3",
+      "predicate": {
+        "hbmsntm:item_meta": 3.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_4",
+      "predicate": {
+        "hbmsntm:item_meta": 4.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_5",
+      "predicate": {
+        "hbmsntm:item_meta": 5.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_6",
+      "predicate": {
+        "hbmsntm:item_meta": 6.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_7",
+      "predicate": {
+        "hbmsntm:item_meta": 7.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_8",
+      "predicate": {
+        "hbmsntm:item_meta": 8.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_9",
+      "predicate": {
+        "hbmsntm:item_meta": 9.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_10",
+      "predicate": {
+        "hbmsntm:item_meta": 10.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_11",
+      "predicate": {
+        "hbmsntm:item_meta": 11.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_12",
+      "predicate": {
+        "hbmsntm:item_meta": 12.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_13",
+      "predicate": {
+        "hbmsntm:item_meta": 13.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_14",
+      "predicate": {
+        "hbmsntm:item_meta": 14.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_15",
+      "predicate": {
+        "hbmsntm:item_meta": 15.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_16",
+      "predicate": {
+        "hbmsntm:item_meta": 16.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_17",
+      "predicate": {
+        "hbmsntm:item_meta": 17.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_18",
+      "predicate": {
+        "hbmsntm:item_meta": 18.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_19",
+      "predicate": {
+        "hbmsntm:item_meta": 19.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_20",
+      "predicate": {
+        "hbmsntm:item_meta": 20.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_21",
+      "predicate": {
+        "hbmsntm:item_meta": 21.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_22",
+      "predicate": {
+        "hbmsntm:item_meta": 22.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_23",
+      "predicate": {
+        "hbmsntm:item_meta": 23.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_24",
+      "predicate": {
+        "hbmsntm:item_meta": 24.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_25",
+      "predicate": {
+        "hbmsntm:item_meta": 25.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_26",
+      "predicate": {
+        "hbmsntm:item_meta": 26.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_27",
+      "predicate": {
+        "hbmsntm:item_meta": 27.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_28",
+      "predicate": {
+        "hbmsntm:item_meta": 28.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_29",
+      "predicate": {
+        "hbmsntm:item_meta": 29.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_30",
+      "predicate": {
+        "hbmsntm:item_meta": 30.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_31",
+      "predicate": {
+        "hbmsntm:item_meta": 31.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_32",
+      "predicate": {
+        "hbmsntm:item_meta": 32.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_33",
+      "predicate": {
+        "hbmsntm:item_meta": 33.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_34",
+      "predicate": {
+        "hbmsntm:item_meta": 34.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_35",
+      "predicate": {
+        "hbmsntm:item_meta": 35.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_36",
+      "predicate": {
+        "hbmsntm:item_meta": 36.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_37",
+      "predicate": {
+        "hbmsntm:item_meta": 37.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_38",
+      "predicate": {
+        "hbmsntm:item_meta": 38.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_39",
+      "predicate": {
+        "hbmsntm:item_meta": 39.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_40",
+      "predicate": {
+        "hbmsntm:item_meta": 40.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_41",
+      "predicate": {
+        "hbmsntm:item_meta": 41.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_42",
+      "predicate": {
+        "hbmsntm:item_meta": 42.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_43",
+      "predicate": {
+        "hbmsntm:item_meta": 43.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_44",
+      "predicate": {
+        "hbmsntm:item_meta": 44.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_45",
+      "predicate": {
+        "hbmsntm:item_meta": 45.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_46",
+      "predicate": {
+        "hbmsntm:item_meta": 46.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_47",
+      "predicate": {
+        "hbmsntm:item_meta": 47.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_48",
+      "predicate": {
+        "hbmsntm:item_meta": 48.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_49",
+      "predicate": {
+        "hbmsntm:item_meta": 49.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_50",
+      "predicate": {
+        "hbmsntm:item_meta": 50.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_51",
+      "predicate": {
+        "hbmsntm:item_meta": 51.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_52",
+      "predicate": {
+        "hbmsntm:item_meta": 52.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_53",
+      "predicate": {
+        "hbmsntm:item_meta": 53.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_54",
+      "predicate": {
+        "hbmsntm:item_meta": 54.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_55",
+      "predicate": {
+        "hbmsntm:item_meta": 55.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_56",
+      "predicate": {
+        "hbmsntm:item_meta": 56.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_57",
+      "predicate": {
+        "hbmsntm:item_meta": 57.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_58",
+      "predicate": {
+        "hbmsntm:item_meta": 58.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_59",
+      "predicate": {
+        "hbmsntm:item_meta": 59.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_60",
+      "predicate": {
+        "hbmsntm:item_meta": 60.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_61",
+      "predicate": {
+        "hbmsntm:item_meta": 61.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_62",
+      "predicate": {
+        "hbmsntm:item_meta": 62.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_63",
+      "predicate": {
+        "hbmsntm:item_meta": 63.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_64",
+      "predicate": {
+        "hbmsntm:item_meta": 64.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_65",
+      "predicate": {
+        "hbmsntm:item_meta": 65.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_66",
+      "predicate": {
+        "hbmsntm:item_meta": 66.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_67",
+      "predicate": {
+        "hbmsntm:item_meta": 67.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_68",
+      "predicate": {
+        "hbmsntm:item_meta": 68.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_69",
+      "predicate": {
+        "hbmsntm:item_meta": 69.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_70",
+      "predicate": {
+        "hbmsntm:item_meta": 70.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_71",
+      "predicate": {
+        "hbmsntm:item_meta": 71.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_72",
+      "predicate": {
+        "hbmsntm:item_meta": 72.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_73",
+      "predicate": {
+        "hbmsntm:item_meta": 73.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_74",
+      "predicate": {
+        "hbmsntm:item_meta": 74.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_75",
+      "predicate": {
+        "hbmsntm:item_meta": 75.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_76",
+      "predicate": {
+        "hbmsntm:item_meta": 76.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_77",
+      "predicate": {
+        "hbmsntm:item_meta": 77.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_78",
+      "predicate": {
+        "hbmsntm:item_meta": 78.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_79",
+      "predicate": {
+        "hbmsntm:item_meta": 79.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_80",
+      "predicate": {
+        "hbmsntm:item_meta": 80.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_81",
+      "predicate": {
+        "hbmsntm:item_meta": 81.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_82",
+      "predicate": {
+        "hbmsntm:item_meta": 82.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_83",
+      "predicate": {
+        "hbmsntm:item_meta": 83.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_84",
+      "predicate": {
+        "hbmsntm:item_meta": 84.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_85",
+      "predicate": {
+        "hbmsntm:item_meta": 85.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_86",
+      "predicate": {
+        "hbmsntm:item_meta": 86.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_87",
+      "predicate": {
+        "hbmsntm:item_meta": 87.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_88",
+      "predicate": {
+        "hbmsntm:item_meta": 88.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_89",
+      "predicate": {
+        "hbmsntm:item_meta": 89.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_90",
+      "predicate": {
+        "hbmsntm:item_meta": 90.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_91",
+      "predicate": {
+        "hbmsntm:item_meta": 91.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_92",
+      "predicate": {
+        "hbmsntm:item_meta": 92.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_93",
+      "predicate": {
+        "hbmsntm:item_meta": 93.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ammo_standard_94",
+      "predicate": {
+        "hbmsntm:item_meta": 94.0
+      }
+    }
+  ]
+}

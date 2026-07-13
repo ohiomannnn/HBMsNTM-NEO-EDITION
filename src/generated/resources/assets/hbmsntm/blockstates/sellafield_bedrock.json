@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "variant=0": {
+      "model": "hbmsntm:block/sellafield_bedrock"
+    },
+    "variant=1": {
+      "model": "hbmsntm:block/sellafield_bedrock_1"
+    },
+    "variant=2": {
+      "model": "hbmsntm:block/sellafield_bedrock_2"
+    },
+    "variant=3": {
+      "model": "hbmsntm:block/sellafield_bedrock_3"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "hbmsntm:block/decontaminator_side",
+    "side": "hbmsntm:block/decontaminator_side",
+    "top": "hbmsntm:block/decontaminator_top"
+  }
+}

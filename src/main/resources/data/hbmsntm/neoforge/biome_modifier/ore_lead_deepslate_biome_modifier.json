@@ -1,0 +1,8 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": {
+    "type": "neoforge:any"
+  },
+  "features": "hbmsntm:ore_lead_deepslate",
+  "step": "underground_ores"
+}

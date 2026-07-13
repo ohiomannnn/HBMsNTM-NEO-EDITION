@@ -1,0 +1,8 @@
+{
+  "type": "pipe",
+  "loader": "hbmsntm:ntm_geometry_loader",
+  "textures": {
+    "overlay": "hbmsntm:block/pipe_silver_overlay",
+    "texture": "hbmsntm:block/pipe_silver"
+  }
+}

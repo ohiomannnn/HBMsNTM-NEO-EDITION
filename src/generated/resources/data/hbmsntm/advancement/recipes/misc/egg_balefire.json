@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_balefire_shard": {
+      "conditions": {
+        "items": [
+          {
+            "items": "hbmsntm:egg_balefire_shard"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbmsntm:egg_balefire"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_balefire_shard"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbmsntm:egg_balefire"
+    ]
+  }
+}

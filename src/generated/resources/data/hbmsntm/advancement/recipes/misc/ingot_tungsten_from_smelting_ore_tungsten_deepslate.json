@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_ore_tungsten_deepslate": {
+      "conditions": {
+        "items": [
+          {
+            "items": "hbmsntm:ore_tungsten_deepslate"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "hbmsntm:ingot_tungsten_from_smelting_ore_tungsten_deepslate"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_ore_tungsten_deepslate"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "hbmsntm:ingot_tungsten_from_smelting_ore_tungsten_deepslate"
+    ]
+  }
+}

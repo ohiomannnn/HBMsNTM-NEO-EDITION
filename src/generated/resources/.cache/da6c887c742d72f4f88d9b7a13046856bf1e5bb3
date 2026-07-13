@@ -1,0 +1,9 @@
+// 1.21.1	2026-07-12T20:28:01.9596088	Tags for minecraft:block mod id hbmsntm
+f6a9e53a48138b7904c458c232bd094f01ae931b data/hbmsntm/tags/block/actually_stone.json
+56c90b03d015c731cda937a5cb494816c5e3888c data/hbmsntm/tags/block/ground.json
+d9de2bbb96b59fc4a9f8feb0386197296b2e4d34 data/hbmsntm/tags/block/plants.json
+6af03421c074da74152681549951fd4d462ef193 data/minecraft/tags/block/mineable/axe.json
+f742be53fdc51986ba1504a6f09d98f30acffa19 data/minecraft/tags/block/mineable/hoe.json
+c1e8d5f9d319eaf7add161a41576963a68a0f492 data/minecraft/tags/block/mineable/pickaxe.json
+bdcdfd59a5f917161e94cc1f4623a42babda7a86 data/minecraft/tags/block/mineable/shovel.json
+902ecb0c9c2b3f89e8036acba2ce50c088aab684 data/minecraft/tags/block/strider_warm_blocks.json

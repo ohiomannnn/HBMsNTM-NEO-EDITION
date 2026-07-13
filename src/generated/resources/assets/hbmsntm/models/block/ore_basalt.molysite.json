@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_top",
+  "textures": {
+    "side": "hbmsntm:block/ore_basalt.molysite",
+    "top": "hbmsntm:block/ore_basalt.molysite_top"
+  }
+}

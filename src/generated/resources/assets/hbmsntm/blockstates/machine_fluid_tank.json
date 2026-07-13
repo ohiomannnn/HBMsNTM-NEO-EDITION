@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "hbmsntm:block/machine_fluid_tank_particle"
+    }
+  }
+}

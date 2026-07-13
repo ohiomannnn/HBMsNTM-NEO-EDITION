@@ -136,7 +136,8 @@ dependencies {
     runtimeOnly "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
 
     // Sable companion
-    implementation "dev.ryanhcode.sable-companion:sable-companion-common-1.21.1:[${sable_companion_version},)"
+    // Pin the exact version so Gradle does not need Maven metadata listing.
+    implementation "dev.ryanhcode.sable-companion:sable-companion-common-1.21.1:${sable_companion_version}"
 }
 
 tasks.withType(ProcessResources).configureEach {

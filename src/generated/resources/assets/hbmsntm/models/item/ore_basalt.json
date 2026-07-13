@@ -1,0 +1,34 @@
+{
+  "overrides": [
+    {
+      "model": "hbmsntm:item/ore_basalt.sulfur",
+      "predicate": {
+        "hbmsntm:item_meta": 0.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ore_basalt.fluorite",
+      "predicate": {
+        "hbmsntm:item_meta": 1.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ore_basalt.asbestos",
+      "predicate": {
+        "hbmsntm:item_meta": 2.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ore_basalt.gem",
+      "predicate": {
+        "hbmsntm:item_meta": 3.0
+      }
+    },
+    {
+      "model": "hbmsntm:item/ore_basalt.molysite",
+      "predicate": {
+        "hbmsntm:item_meta": 4.0
+      }
+    }
+  ]
+}

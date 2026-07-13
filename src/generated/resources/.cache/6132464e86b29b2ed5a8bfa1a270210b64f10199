@@ -1,0 +1,7 @@
+// 1.21.1	2026-07-12T20:28:01.9529993	Tags for minecraft:damage_type mod id hbmsntm
+a5409ffeeb0a7be5cc7b4af376d891deae6c86cf data/hbmsntm/tags/damage_type/absolute.json
+40f730a083fc5e267a5aa1a59c835ab9621154ee data/hbmsntm/tags/damage_type/is_energy.json
+257ba2e39cb7259377da13964f8a6a0413a90b39 data/minecraft/tags/damage_type/bypasses_armor.json
+68e7e8d3c36063bb10d5bc31d431b6aa986ac383 data/minecraft/tags/damage_type/bypasses_invulnerability.json
+5713d1b2fb979132799cd5971843e383867c88c8 data/minecraft/tags/damage_type/is_explosion.json
+32a51c025ad69ce601762a96ae2719b974841de9 data/minecraft/tags/damage_type/is_projectile.json
