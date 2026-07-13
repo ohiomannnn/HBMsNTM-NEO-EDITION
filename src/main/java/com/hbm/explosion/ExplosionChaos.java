@@ -1,7 +1,9 @@
 package com.hbm.explosion;
 
 import com.hbm.entity.NtmEntityTypes;
+import com.hbm.entity.projectile.BulletBaseMK4;
 import com.hbm.entity.projectile.Rocket;
+import com.hbm.items.weapon.sedna.factory.XFactoryCatapult;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
@@ -95,6 +97,16 @@ public class ExplosionChaos {
             fragment.gravity = 0.0125D;
 
             level.addFreshEntity(fragment);
+        }
+    }
+
+    public static void cluster(Level level, double x, double y, double z, int count, float yRot, float xRot, float yRotRand, float xRotRand, float speed) {
+
+        for(int i = 0; i < count; i++) {
+            BulletBaseMK4 bullet = new BulletBaseMK4(level, XFactoryCatapult.cluster_submunition, 50F, 0F, yRot + (float) (yRotRand * level.random.nextGaussian()), xRot + (float) (xRotRand * level.random.nextGaussian()));
+            bullet.setPos(x, y, z);
+            bullet.setDeltaMovement(bullet.getDeltaMovement().scale(speed));
+            level.addFreshEntity(bullet);
         }
     }
 }

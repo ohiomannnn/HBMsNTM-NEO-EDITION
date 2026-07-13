@@ -1,7 +1,6 @@
 package com.hbm.network.toclient;
 
 import com.hbm.main.NuclearTechMod;
-import com.hbm.main.NuclearTechModClient;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
@@ -18,7 +17,8 @@ public record InformPlayer(Component component, int id, int millis) implements C
         public InformPlayer decode(RegistryFriendlyByteBuf buf) {
             int id = buf.readInt();
             int millis = buf.readInt();
-            return new InformPlayer(ComponentSerialization.STREAM_CODEC.decode(buf), id, millis);
+            Component component = ComponentSerialization.STREAM_CODEC.decode(buf);
+            return new InformPlayer(component, id, millis);
         }
 
         @Override
@@ -30,8 +30,10 @@ public record InformPlayer(Component component, int id, int millis) implements C
     };
 
     public static void handleClient(InformPlayer packet, IPayloadContext context) {
-        context.enqueueWork(() -> NuclearTechModClient.displayTooltip(packet.component(), packet.millis(), packet.id()));
+        context.enqueueWork(() -> {
+            NuclearTechMod.proxy.displayTooltip(packet.component, packet.millis, packet.id);
+        });
     }
 
-    @Override public Type<? extends CustomPacketPayload> type() { return TYPE; }
+    @Override public Type<InformPlayer> type() { return TYPE; }
 }

@@ -32,6 +32,11 @@ public class HbmKeybinds {
     public static final KeyMapping ABILITY_CYCLE = new KeyMapping(category + ".ability", InputConstants.Type.MOUSE, InputConstants.MOUSE_BUTTON_RIGHT, category);
     public static final KeyMapping ABILITY_ALT = new KeyMapping(category + ".abilityAlt", InputConstants.Type.KEYSYM, InputConstants.KEY_LALT, category);
 
+    public static final KeyMapping RELOAD = new KeyMapping(category + ".reload", InputConstants.Type.KEYSYM, InputConstants.KEY_R, category);
+    public static final KeyMapping GUN_PRIMARY = new KeyMapping(category + ".gunPrimary", InputConstants.Type.MOUSE, InputConstants.MOUSE_BUTTON_LEFT, category);
+    public static final KeyMapping GUN_SECONDARY = new KeyMapping(category + ".gunSecondary", InputConstants.Type.MOUSE, InputConstants.MOUSE_BUTTON_RIGHT, category);
+    public static final KeyMapping GUN_TERTIARY = new KeyMapping(category + ".gunTertiary", InputConstants.Type.MOUSE, InputConstants.MOUSE_BUTTON_MIDDLE, category);
+
     @SubscribeEvent
     public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
         event.register(CALCULATOR);
@@ -41,6 +46,11 @@ public class HbmKeybinds {
 
         event.register(ABILITY_CYCLE);
         event.register(ABILITY_ALT);
+
+        event.register(RELOAD);
+        event.register(GUN_PRIMARY);
+        event.register(GUN_SECONDARY);
+        event.register(GUN_TERTIARY);
     }
 
     @SubscribeEvent
@@ -153,6 +163,10 @@ public class HbmKeybinds {
             case TOGGLE_HEAD -> HUD.isDown();
             case ABILITY_CYCLE -> ABILITY_CYCLE.isDown();
             case ABILITY_ALT -> ABILITY_ALT.isDown();
+            case GUN_PRIMARY -> GUN_PRIMARY.isDown();
+            case GUN_SECONDARY -> GUN_SECONDARY.isDown();
+            case GUN_TERTIARY -> GUN_TERTIARY.isDown();
+            case RELOAD -> RELOAD.isDown();
             default -> false;
         };
     }

@@ -23,6 +23,8 @@ import com.hbm.inventory.NtmMenuTypes;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.inventory.screens.*;
+import com.hbm.items.IEquipReceiver;
+import com.hbm.items.weapon.sedna.factory.GunFactory;
 import com.hbm.network.toclient.InformPlayer;
 import com.hbm.saveddata.satellite.Satellite;
 import com.hbm.uninos.UniNodespace;
@@ -36,9 +38,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -47,6 +51,7 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
+import net.neoforged.neoforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.level.BlockEvent.BreakEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
@@ -80,6 +85,10 @@ public class CommonEvents {
 
         MachineRadarBlockEntity.registerEntityClasses();
         MachineRadarBlockEntity.registerConverters();
+
+        event.enqueueWork(() -> {
+            GunFactory.initCfg();
+        });
     }
 
     @SubscribeEvent
@@ -101,6 +110,23 @@ public class CommonEvents {
         if (entity instanceof LivingEntity livingEntity) {
             HazardSystem.updateLivingInventory(livingEntity);
             EntityEffectHandler.tick(livingEntity);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onEquipmentChange(LivingEquipmentChangeEvent event) {
+        if(event.getSlot() != EquipmentSlot.MAINHAND) return;
+
+        if(!(event.getEntity() instanceof ServerPlayer player)) return;
+
+        ItemStack from = event.getFrom();
+        ItemStack to = event.getTo();
+
+        if(to.isEmpty()) return;
+        if(!from.isEmpty() && from.getItem() == to.getItem()) return;
+
+        if(to.getItem() instanceof IEquipReceiver receiver) {
+            receiver.onEquip(player, to);
         }
     }
 

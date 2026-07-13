@@ -86,10 +86,10 @@ public abstract class MissileTier0 extends MissileBase {
         public MissileBHole(EntityType<? extends MissileBHole> entityType, Level level) { super(entityType, level); }
         @Override
         public void onMissileImpact(BlockHitResult mop) {
-//            ExplosionVNT.createExplosion(level, this, this.position.x, this.position.y, this.position.z, 5.0F, true);
-//            BlackHole bl = new BlackHole(NtmEntityTypes.BLACK_HOLE.get(), this.level);
-//            bl.setPos(this.position);
-//            level.addFreshEntity(bl);
+            ExplosionVNT.createExplosion(level, this, this.position.x, this.position.y, this.position.z, 5.0F, true);
+            BlackHole bl = new BlackHole(NtmEntityTypes.BLACK_HOLE.get(), this.level);
+            bl.setPos(this.position);
+            level.addFreshEntity(bl);
         }
         @Override public ItemStack getDebrisRareDrop() { return new ItemStack(NtmItems.NOTHING.get()); }
         @Override public ItemStack getMissileItemForInfo() { return new ItemStack(NtmItems.MISSILE_BHOLE.get()); }

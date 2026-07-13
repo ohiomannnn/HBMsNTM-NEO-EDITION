@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -41,7 +42,7 @@ public class RadarEntry {
     }
 
     public void decode(RegistryFriendlyByteBuf buf) {
-        this.name = Component.Serializer.fromJson(buf.readUtf(), buf.registryAccess());
+        ComponentSerialization.STREAM_CODEC.decode(buf);
         this.blipLevel = buf.readShort();
         this.pos = buf.readBlockPos();
         this.dim = buf.readResourceKey(Registries.DIMENSION);
@@ -49,7 +50,7 @@ public class RadarEntry {
     }
 
     public void encode(RegistryFriendlyByteBuf buf) {
-        buf.writeUtf(Component.Serializer.toJson(this.name, buf.registryAccess()));
+        ComponentSerialization.STREAM_CODEC.encode(buf, this.name);
         buf.writeShort(this.blipLevel);
         buf.writeBlockPos(this.pos);
         buf.writeResourceKey(this.dim);

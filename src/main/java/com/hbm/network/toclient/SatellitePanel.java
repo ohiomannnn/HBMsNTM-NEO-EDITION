@@ -36,9 +36,7 @@ public record SatellitePanel(int satType, CompoundTag tag) implements CustomPack
         }
     };
 
-    public static void handleCommon(SatellitePanel packet, IPayloadContext context) {
-        handleClient(packet, context);
-    }
+    public static void handleCommon(SatellitePanel packet, IPayloadContext context) { handleClient(packet, context); }
 
     @OnlyIn(Dist.CLIENT)
     public static void handleClient(SatellitePanel packet, IPayloadContext context) {
