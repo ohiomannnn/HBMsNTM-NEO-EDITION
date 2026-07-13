@@ -14,11 +14,11 @@ public class WeightedRandom {
     public static int getTotalWeight(Collection p_76272_0_)
     {
         int i = 0;
-        WeightedRandom.Item item;
+        Item item;
 
         for (Iterator iterator = p_76272_0_.iterator(); iterator.hasNext(); i += item.itemWeight)
         {
-            item = (WeightedRandom.Item)iterator.next();
+            item = (Item)iterator.next();
         }
 
         return i;
@@ -27,7 +27,7 @@ public class WeightedRandom {
     /**
      * Returns a random choice from the input items, with a total weight value.
      */
-    public static WeightedRandom.Item getRandomItem(RandomSource p_76273_0_, Collection p_76273_1_, int p_76273_2_)
+    public static Item getRandomItem(RandomSource p_76273_0_, Collection p_76273_1_, int p_76273_2_)
     {
         if (p_76273_2_ <= 0)
         {
@@ -38,12 +38,12 @@ public class WeightedRandom {
 
     //Forge: Added to allow custom random implementations, Modder is responsible for making sure the
     //'weight' is under the totalWeight of the items.
-    public static WeightedRandom.Item getItem(Collection par1Collection, int weight)
+    public static Item getItem(Collection par1Collection, int weight)
     {
         {
             int j = weight;
             Iterator iterator = par1Collection.iterator();
-            WeightedRandom.Item item;
+            Item item;
 
             do
             {
@@ -52,7 +52,7 @@ public class WeightedRandom {
                     return null;
                 }
 
-                item = (WeightedRandom.Item)iterator.next();
+                item = (Item)iterator.next();
                 j -= item.itemWeight;
             }
             while (j >= 0);
@@ -64,7 +64,7 @@ public class WeightedRandom {
     /**
      * Returns a random choice from the input items.
      */
-    public static WeightedRandom.Item getRandomItem(RandomSource p_76271_0_, Collection p_76271_1_)
+    public static Item getRandomItem(RandomSource p_76271_0_, Collection p_76271_1_)
     {
         /**
          * Returns a random choice from the input items, with a total weight value.

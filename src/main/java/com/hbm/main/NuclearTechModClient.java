@@ -393,7 +393,7 @@ public class NuclearTechModClient {
 
         BlockHitResult bhr = event.getTarget();
 
-        if (bhr.getType() == HitResult.Type.BLOCK) {
+        if (bhr.getType() == Type.BLOCK) {
             Block b = level.getBlockState(bhr.getBlockPos()).getBlock();
             if (b instanceof ICustomBlockHighlight cus) {
                 if (cus.shouldDrawHighlight(level, bhr.getBlockPos())) {

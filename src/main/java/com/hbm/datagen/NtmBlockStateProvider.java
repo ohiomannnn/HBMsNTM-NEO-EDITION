@@ -48,7 +48,35 @@ public class NtmBlockStateProvider extends BlockStateProvider {
 
         this.simpleCubeAllBlock(NtmBlocks.ORE_OIL);
         this.simpleCubeAllBlock(NtmBlocks.ORE_URANIUM);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_URANIUM_DEEPSLATE);
         this.simpleCubeAllBlock(NtmBlocks.ORE_URANIUM_SCORCHED);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_BERYLLIUM);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_BERYLLIUM_DEEPSLATE);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_TUNGSTEN);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_TUNGSTEN_DEEPSLATE);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_TITANIUM);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_TITANIUM_DEEPSLATE);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_LEAD);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_LEAD_DEEPSLATE);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_ALUMINIUM);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_ALUMINIUM_DEEPSLATE);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_ASBESTOS);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_ASBESTOS_DEEPSLATE);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_THORIUM);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_THORIUM_DEEPSLATE);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_NITER);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_NITER_DEEPSLATE);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_COBALT);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_COBALT_DEEPSLATE);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_CINNABAR);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_CINNABAR_DEEPSLATE);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_FLUORITE);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_FLUORITE_DEEPSLATE);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_RARE);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_RARE_DEEPSLATE);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_SULFUR);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_SULFUR_DEEPSLATE);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_LIGNITE);
         this.simpleCubeAllBlock(NtmBlocks.ORE_SCHRABIDIUM);
         this.simpleCubeAllBlock(NtmBlocks.ORE_NETHER_URANIUM);
         this.simpleCubeAllBlock(NtmBlocks.ORE_NETHER_URANIUM_SCORCHED);
@@ -58,6 +86,12 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.simpleCubeAllBlock(NtmBlocks.ORE_GNEISS_URANIUM_SCORCHED);
         this.simpleCubeAllBlock(NtmBlocks.ORE_NETHER_PLUTONIUM);
         this.simpleCubeAllBlock(NtmBlocks.ORE_GNEISS_SCHRABIDIUM);
+        this.simpleCubeAllBlock(NtmBlocks.RESOURCE_LIMESTONE);
+        this.simpleCubeAllBlock(NtmBlocks.RESOURCE_BAUXITE);
+        this.simpleCubeAllBlock(NtmBlocks.RESOURCE_HEMATITE);
+        this.simpleCubeAllBlock(NtmBlocks.RESOURCE_MALACHITE);
+        this.simpleCubeAllBlock(NtmBlocks.RESOURCE_CHRYSOTILE);
+        this.simpleCubeAllBlock(NtmBlocks.RESOURCE_SULFUROUS_STONE);
 
         this.registerOreBasalt();
 

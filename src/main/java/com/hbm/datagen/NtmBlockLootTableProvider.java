@@ -8,15 +8,19 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.AlternativesEntry;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
@@ -37,7 +41,35 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
 
         this.dropSelf(NtmBlocks.ORE_OIL.get());
         this.dropSelf(NtmBlocks.ORE_URANIUM.get());
+        this.dropSelf(NtmBlocks.ORE_URANIUM_DEEPSLATE.get());
         this.dropSelf(NtmBlocks.ORE_URANIUM_SCORCHED.get());
+        this.dropSelf(NtmBlocks.ORE_BERYLLIUM.get());
+        this.dropSelf(NtmBlocks.ORE_BERYLLIUM_DEEPSLATE.get());
+        this.dropSelf(NtmBlocks.ORE_TUNGSTEN.get());
+        this.dropSelf(NtmBlocks.ORE_TUNGSTEN_DEEPSLATE.get());
+        this.dropSelf(NtmBlocks.ORE_TITANIUM.get());
+        this.dropSelf(NtmBlocks.ORE_TITANIUM_DEEPSLATE.get());
+        this.dropSelf(NtmBlocks.ORE_LEAD.get());
+        this.dropSelf(NtmBlocks.ORE_LEAD_DEEPSLATE.get());
+        this.dropSelf(NtmBlocks.ORE_ALUMINIUM.get());
+        this.dropSelf(NtmBlocks.ORE_ALUMINIUM_DEEPSLATE.get());
+        this.dropSelf(NtmBlocks.ORE_ASBESTOS.get());
+        this.dropSelf(NtmBlocks.ORE_ASBESTOS_DEEPSLATE.get());
+        this.dropSelf(NtmBlocks.ORE_THORIUM.get());
+        this.dropSelf(NtmBlocks.ORE_THORIUM_DEEPSLATE.get());
+        this.add(NtmBlocks.ORE_NITER.get(), block -> this.oreDrop(NtmItems.NITER.get()));
+        this.add(NtmBlocks.ORE_NITER_DEEPSLATE.get(), block -> this.oreDrop(NtmItems.NITER.get()));
+        this.add(NtmBlocks.ORE_COBALT.get(), block -> this.oreDrop(NtmItems.FRAGMENT_COBALT.get(), 5, 8));
+        this.add(NtmBlocks.ORE_COBALT_DEEPSLATE.get(), block -> this.oreDrop(NtmItems.FRAGMENT_COBALT.get(), 5, 8));
+        this.add(NtmBlocks.ORE_CINNABAR.get(), block -> this.oreDrop(NtmItems.CINNABAR.get()));
+        this.add(NtmBlocks.ORE_CINNABAR_DEEPSLATE.get(), block -> this.oreDrop(NtmItems.CINNABAR.get()));
+        this.add(NtmBlocks.ORE_FLUORITE.get(), block -> this.oreDrop(NtmItems.FLUORITE.get(), 2, 4));
+        this.add(NtmBlocks.ORE_FLUORITE_DEEPSLATE.get(), block -> this.oreDrop(NtmItems.FLUORITE.get(), 2, 4));
+        this.add(NtmBlocks.ORE_LIGNITE.get(), block -> this.oreDropNoFortune(NtmItems.LIGNITE.get()));
+        this.add(NtmBlocks.ORE_RARE.get(), block -> this.oreDrop(NtmItems.RARE_EARTH_ORE_CHUNK.get()));
+        this.add(NtmBlocks.ORE_RARE_DEEPSLATE.get(), block -> this.oreDrop(NtmItems.RARE_EARTH_ORE_CHUNK.get()));
+        this.add(NtmBlocks.ORE_SULFUR.get(), block -> this.oreDrop(NtmItems.SULFUR.get(), 2, 4));
+        this.add(NtmBlocks.ORE_SULFUR_DEEPSLATE.get(), block -> this.oreDrop(NtmItems.SULFUR.get(), 2, 4));
         this.dropSelf(NtmBlocks.ORE_SCHRABIDIUM.get());
         this.dropSelf(NtmBlocks.ORE_NETHER_URANIUM.get());
         this.dropSelf(NtmBlocks.ORE_NETHER_URANIUM_SCORCHED.get());
@@ -47,6 +79,13 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(NtmBlocks.ORE_GNEISS_URANIUM.get());
         this.dropSelf(NtmBlocks.ORE_GNEISS_URANIUM_SCORCHED.get());
         this.dropSelf(NtmBlocks.ORE_GNEISS_SCHRABIDIUM.get());
+        this.dropSelf(NtmBlocks.RESOURCE_LIMESTONE.get());
+        this.dropSelf(NtmBlocks.RESOURCE_BAUXITE.get());
+        this.dropSelf(NtmBlocks.RESOURCE_HEMATITE.get());
+        this.dropSelf(NtmBlocks.RESOURCE_MALACHITE.get());
+        this.dropSelf(NtmBlocks.RESOURCE_CHRYSOTILE.get());
+        this.dropSelf(NtmBlocks.RESOURCE_SULFUROUS_STONE.get());
+
 
         this.add(NtmBlocks.ORE_BASALT.get(), block -> LootTable.lootTable()
                 .withPool(LootPool.lootPool()
@@ -199,6 +238,29 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
     }
 
     @Override protected Iterable<Block> getKnownBlocks() { return NtmBlocks.BLOCKS.getEntries().stream().map(Holder::value)::iterator; }
+
+    private LootTable.Builder oreDrop(Item item) {
+        return this.oreDrop(item, 1, 1);
+    }
+
+    private LootTable.Builder oreDrop(Item item, int min, int max) {
+        return LootTable.lootTable().withPool(
+                LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1F))
+                        .add(LootItem.lootTableItem(item)
+                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(min, max)))
+                                .apply(ApplyBonusCount.addOreBonusCount(
+                                        this.registries.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE))))
+        );
+    }
+
+    private LootTable.Builder oreDropNoFortune(Item item) {
+        return LootTable.lootTable().withPool(
+                LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1F))
+                        .add(LootItem.lootTableItem(item))
+        );
+    }
 
     public LootItemCondition.Builder propertyEquals(Block block, IntegerProperty property, int equals) {
         return LootItemBlockStatePropertyCondition

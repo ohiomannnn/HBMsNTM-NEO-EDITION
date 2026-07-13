@@ -117,6 +117,14 @@ public class NtmCreativeTabs {
                         output.accept(NtmItems.INGOT_ELECTRONIUM.get());
                         output.accept(NtmItems.INGOT_SMORE.get());
                         output.accept(NtmItems.INGOT_OSMIRIDIUM.get());
+                        output.accept(NtmItems.ASBESTOS_SHEET);
+                        output.accept(NtmItems.SULFUR);
+                        output.accept(NtmItems.CINNABAR);
+                        output.accept(NtmItems.FRAGMENT_COBALT);
+                        output.accept(NtmItems.FLUORITE);
+                        output.accept(NtmItems.LIGNITE);
+                        output.accept(NtmItems.NITER);
+                        output.accept(NtmItems.RARE_EARTH_ORE_CHUNK);
 
                         output.accept(NtmItems.LAUNCH_CODE_PIECE);
                         output.accept(NtmItems.LAUNCH_CODE);
@@ -279,6 +287,41 @@ public class NtmCreativeTabs {
                         output.accept(NtmBlocks.SELLAFIELD_BEDROCK);
                         output.accept(NtmBlocks.ORE_SELLAFIELD_DIAMOND);
                         output.accept(NtmBlocks.ORE_SELLAFIELD_EMERALD);
+                        output.accept(NtmBlocks.ORE_URANIUM);
+                        output.accept(NtmBlocks.ORE_URANIUM_DEEPSLATE);
+                        output.accept(NtmBlocks.ORE_BERYLLIUM);
+                        output.accept(NtmBlocks.ORE_BERYLLIUM_DEEPSLATE);
+                        output.accept(NtmBlocks.ORE_TUNGSTEN);
+                        output.accept(NtmBlocks.ORE_TUNGSTEN_DEEPSLATE);
+                        output.accept(NtmBlocks.ORE_TITANIUM);
+                        output.accept(NtmBlocks.ORE_TITANIUM_DEEPSLATE);
+                        output.accept(NtmBlocks.ORE_LEAD);
+                        output.accept(NtmBlocks.ORE_LEAD_DEEPSLATE);
+                        output.accept(NtmBlocks.ORE_ALUMINIUM);
+                        output.accept(NtmBlocks.ORE_ALUMINIUM_DEEPSLATE);
+                        output.accept(NtmBlocks.ORE_ASBESTOS);
+                        output.accept(NtmBlocks.ORE_ASBESTOS_DEEPSLATE);
+                        output.accept(NtmBlocks.ORE_THORIUM);
+                        output.accept(NtmBlocks.ORE_THORIUM_DEEPSLATE);
+                        output.accept(NtmBlocks.ORE_NITER);
+                        output.accept(NtmBlocks.ORE_NITER_DEEPSLATE);
+                        output.accept(NtmBlocks.ORE_COBALT);
+                        output.accept(NtmBlocks.ORE_COBALT_DEEPSLATE);
+                        output.accept(NtmBlocks.ORE_CINNABAR);
+                        output.accept(NtmBlocks.ORE_CINNABAR_DEEPSLATE);
+                        output.accept(NtmBlocks.ORE_FLUORITE);
+                        output.accept(NtmBlocks.ORE_FLUORITE_DEEPSLATE);
+                        output.accept(NtmBlocks.ORE_RARE);
+                        output.accept(NtmBlocks.ORE_RARE_DEEPSLATE);
+                        output.accept(NtmBlocks.ORE_SULFUR);
+                        output.accept(NtmBlocks.ORE_SULFUR_DEEPSLATE);
+                        output.accept(NtmBlocks.ORE_LIGNITE);
+                        output.accept(NtmBlocks.RESOURCE_LIMESTONE);
+                        output.accept(NtmBlocks.RESOURCE_BAUXITE);
+                        output.accept(NtmBlocks.RESOURCE_HEMATITE);
+                        output.accept(NtmBlocks.RESOURCE_MALACHITE);
+                        output.accept(NtmBlocks.RESOURCE_CHRYSOTILE);
+                        output.accept(NtmBlocks.RESOURCE_SULFUROUS_STONE);
                     }).build());
 
     // machines, structure parts

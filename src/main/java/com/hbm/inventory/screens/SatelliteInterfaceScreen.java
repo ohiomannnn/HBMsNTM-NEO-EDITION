@@ -88,7 +88,7 @@ public class SatelliteInterfaceScreen extends Screen {
     @Override
     @SuppressWarnings("DataFlowIssue")
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if(this.satellite != null && this.satellite.ifaceAcs.contains(Satellite.InterfaceActions.CAN_CLICK)) {
+        if(this.satellite != null && this.satellite.ifaceAcs.contains(InterfaceActions.CAN_CLICK)) {
             if(mouseX >= this.leftPos + 8 && mouseX < this.leftPos + 208 && mouseY >= this.topPos + 8 && mouseY < this.topPos + 208 && player != null) {
                 int x = (int) (this.x - this.leftPos + mouseX - 8 - 100);
                 int z = (int) (this.z - this.topPos + mouseY - 8 - 100);
@@ -145,8 +145,8 @@ public class SatelliteInterfaceScreen extends Screen {
                 return;
             }
 
-            if(this.satellite.ifaceAcs.contains(Satellite.InterfaceActions.HAS_MAP)) this.renderMap(guiGraphics);
-            if(this.satellite.ifaceAcs.contains(Satellite.InterfaceActions.HAS_RADAR)) this.renderRadar(guiGraphics);
+            if(this.satellite.ifaceAcs.contains(InterfaceActions.HAS_MAP)) this.renderMap(guiGraphics);
+            if(this.satellite.ifaceAcs.contains(InterfaceActions.HAS_RADAR)) this.renderRadar(guiGraphics);
         }
     }
 

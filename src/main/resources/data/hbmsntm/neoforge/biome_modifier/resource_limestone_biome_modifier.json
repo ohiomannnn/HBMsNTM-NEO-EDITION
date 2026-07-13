@@ -1,0 +1,8 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": {
+    "type": "neoforge:any"
+  },
+  "features": "hbmsntm:resource_limestone",
+  "step": "underground_ores"
+}

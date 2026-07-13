@@ -59,11 +59,11 @@ public class NtmRenderTypes {
     public static final RenderType GLOW = RenderType.create(
             "glow",
             DefaultVertexFormat.POSITION_COLOR,
-            VertexFormat.Mode.QUADS,
+            Mode.QUADS,
             6543,
             false,
             true,
-            RenderType.CompositeState.builder()
+            CompositeState.builder()
                     .setShaderState(RenderStateShard.POSITION_COLOR_SHADER)
                     .setTransparencyState(ADDITIVE_BLEND)
                     .setWriteMaskState(RenderStateShard.COLOR_WRITE)
@@ -74,7 +74,7 @@ public class NtmRenderTypes {
 
     public static final Function<ResourceLocation, RenderType> ADDITIVE = Util.memoize(
             texture -> {
-                RenderType.CompositeState state = RenderType.CompositeState.builder()
+                CompositeState state = CompositeState.builder()
                         .setShaderState(RenderType.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
                         .setTextureState(new TextureStateShard(texture, false, false))
                         .setTransparencyState(ADDITIVE_BLEND)
@@ -85,13 +85,13 @@ public class NtmRenderTypes {
                         .setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST)
                         .setOutputState(RenderStateShard.TRANSLUCENT_TARGET)
                         .createCompositeState(false);
-                return RenderType.create("additive", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, false, state);
+                return RenderType.create("additive", DefaultVertexFormat.NEW_ENTITY, Mode.QUADS, 256, true, false, state);
             }
     );
 
     public static final Function<ResourceLocation, RenderType> SMOTH = Util.memoize(
             texture -> {
-                RenderType.CompositeState state = RenderType.CompositeState.builder()
+                CompositeState state = CompositeState.builder()
                         .setShaderState(RenderType.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
                         .setTextureState(new TextureStateShard(texture, false, true))
                         .setTransparencyState(SEVEN_SEVEN_ONE_ZERO)
@@ -101,13 +101,13 @@ public class NtmRenderTypes {
                         .setWriteMaskState(RenderType.COLOR_DEPTH_WRITE)
                         .setOutputState(RenderStateShard.TRANSLUCENT_TARGET)
                         .createCompositeState(false);
-                return RenderType.create("smoth", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, state);
+                return RenderType.create("smoth", DefaultVertexFormat.NEW_ENTITY, Mode.QUADS, 256, true, true, state);
             }
     );
 
     public static final Function<ResourceLocation, RenderType> SMOTH_NO_DEPTH = Util.memoize(
             texture -> {
-                RenderType.CompositeState state = RenderType.CompositeState.builder()
+                CompositeState state = CompositeState.builder()
                         .setShaderState(RenderType.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
                         .setTextureState(new TextureStateShard(texture, false, false))
                         .setTransparencyState(SEVEN_SEVEN_ONE_ZERO)
@@ -117,13 +117,13 @@ public class NtmRenderTypes {
                         .setWriteMaskState(RenderType.COLOR_WRITE)
                         .setOutputState(RenderStateShard.TRANSLUCENT_TARGET)
                         .createCompositeState(false);
-                return RenderType.create("smoth", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, false, state);
+                return RenderType.create("smoth", DefaultVertexFormat.NEW_ENTITY, Mode.QUADS, 256, true, false, state);
             }
     );
 
     public static final Function<ResourceLocation, RenderType> NUKE_CLOUDS = Util.memoize(
             texture -> {
-                RenderType.CompositeState state = RenderType.CompositeState.builder()
+                CompositeState state = CompositeState.builder()
                         .setShaderState(RenderType.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
                         .setTextureState(new TextureStateShard(texture, false, false))
                         .setTransparencyState(SEVEN_SEVEN_ONE_ZERO)
@@ -133,13 +133,13 @@ public class NtmRenderTypes {
                         .setWriteMaskState(RenderType.COLOR_WRITE)
                         .setOutputState(RenderStateShard.TRANSLUCENT_TARGET)
                         .createCompositeState(false);
-                return RenderType.create("nuke", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 23912, true, true, state);
+                return RenderType.create("nuke", DefaultVertexFormat.NEW_ENTITY, Mode.QUADS, 23912, true, true, state);
             }
     );
 
     public static final Function<ResourceLocation, RenderType> NUKE_FLASH = Util.memoize(
             texture -> {
-                RenderType.CompositeState state = RenderType.CompositeState.builder()
+                CompositeState state = CompositeState.builder()
                         .setShaderState(RenderType.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
                         .setTextureState(new TextureStateShard(texture, false, false))
                         .setTransparencyState(ADDITIVE_BLEND)
@@ -149,7 +149,7 @@ public class NtmRenderTypes {
                         .setWriteMaskState(RenderType.COLOR_WRITE)
                         .setOutputState(RenderStateShard.TRANSLUCENT_TARGET)
                         .createCompositeState(false);
-                return RenderType.create("nuke_flash", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 2342, true, true, state);
+                return RenderType.create("nuke_flash", DefaultVertexFormat.NEW_ENTITY, Mode.QUADS, 2342, true, true, state);
             }
     );
 
