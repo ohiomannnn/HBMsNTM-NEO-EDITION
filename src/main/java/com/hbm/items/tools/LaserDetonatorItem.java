@@ -52,7 +52,7 @@ public class LaserDetonatorItem extends Item implements IHoldableWeapon {
         if(!level.isClientSide) {
             Block block = level.getBlockState(pos).getBlock();
             if(block instanceof IBomb ib) {
-                IBomb.BombReturnCode ret = ib.explode(level, pos);
+                BombReturnCode ret = ib.explode(level, pos);
 
                 if(NtmConfig.COMMON.ENABLE_EXTENDED_LOGGING.get()) {
                     NuclearTechMod.LOGGER.info("[LASER DETONATOR] {} detonated {} at {} / {} / {}!", player.getName().getString(), block.getName().getString(), pos.getX(), pos.getY(), pos.getZ());

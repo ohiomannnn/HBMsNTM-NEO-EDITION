@@ -105,7 +105,7 @@ public class CommonConfig {
     public final DoubleValue CRATER_WATER_MULT;
 
     // 528
-    public final ModConfigSpec.BooleanValue ENABLE_528;
+    public final BooleanValue ENABLE_528;
 
     CommonConfig(ModConfigSpec.Builder builder) {
 

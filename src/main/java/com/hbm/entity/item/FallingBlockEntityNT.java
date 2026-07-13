@@ -100,7 +100,7 @@ public class FallingBlockEntityNT extends Entity {
         return (BlockPos)this.entityData.get(DATA_START_POS);
     }
 
-    protected Entity.MovementEmission getMovementEmission() {
+    protected MovementEmission getMovementEmission() {
         return MovementEmission.NONE;
     }
 
@@ -132,7 +132,7 @@ public class FallingBlockEntityNT extends Entity {
                 boolean flag1 = flag && this.blockState.canBeHydrated(this.level(), blockpos, this.level().getFluidState(blockpos), blockpos);
                 double d0 = this.getDeltaMovement().lengthSqr();
                 if (flag && d0 > (double)1.0F) {
-                    BlockHitResult blockhitresult = this.level().clip(new ClipContext(new Vec3(this.xo, this.yo, this.zo), this.position(), net.minecraft.world.level.ClipContext.Block.COLLIDER, ClipContext.Fluid.SOURCE_ONLY, this));
+                    BlockHitResult blockhitresult = this.level().clip(new ClipContext(new Vec3(this.xo, this.yo, this.zo), this.position(), ClipContext.Block.COLLIDER, ClipContext.Fluid.SOURCE_ONLY, this));
                     if (blockhitresult.getType() != HitResult.Type.MISS && this.blockState.canBeHydrated(this.level(), blockpos, this.level().getFluidState(blockhitresult.getBlockPos()), blockhitresult.getBlockPos())) {
                         blockpos = blockhitresult.getBlockPos();
                         flag1 = true;

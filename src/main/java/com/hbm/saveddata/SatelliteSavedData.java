@@ -11,8 +11,8 @@ import java.util.Map;
 
 public class SatelliteSavedData extends SavedData {
 
-    public static SavedData.Factory<SatelliteSavedData> factory() {
-        return new SavedData.Factory<>(
+    public static Factory<SatelliteSavedData> factory() {
+        return new Factory<>(
                 SatelliteSavedData::new, SatelliteSavedData::load
         );
     }
