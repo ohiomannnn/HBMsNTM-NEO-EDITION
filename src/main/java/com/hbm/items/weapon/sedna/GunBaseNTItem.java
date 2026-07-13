@@ -7,6 +7,7 @@ import com.hbm.items.IHUDItem;
 import com.hbm.items.IKeybindReceiver;
 import com.hbm.items.weapon.sedna.factory.GunFactory.Ammo;
 import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.network.toclient.HbmAnimation;
 import com.hbm.render.anim.AnimationEnums.GunAnimation;
 import com.hbm.sound.AudioWrapper;
@@ -227,7 +228,7 @@ public class GunBaseNTItem extends Item implements IKeybindReceiver, IHUDItem, I
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
 
         if(!(entity instanceof LivingEntity livingEntity)) return;
-        Player player = entity instanceof Player instancePlayer ? instancePlayer: null;
+        Player player = entity instanceof Player instancePlayer ? instancePlayer : null;
         int confNo = this.configs_DNA.length;
         GunConfig[] configs = new GunConfig[confNo];
         LambdaContext[] ctx = new LambdaContext[confNo];

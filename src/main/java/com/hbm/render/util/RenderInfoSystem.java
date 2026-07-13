@@ -70,7 +70,7 @@ public class RenderInfoSystem {
         int longest = 0;
         for(InfoEntry entry : messages.values()) {
             int length = mc.font.width(entry.component);
-            if (length > longest) longest = length;
+            if(length > longest) longest = length;
         }
 
         int mode = NtmConfig.CLIENT.INFO_POSITION.get();
@@ -109,7 +109,7 @@ public class RenderInfoSystem {
     }
 
     public static void push(InfoEntry entry) {
-        push(entry, nextID++);
+        push(entry, nextID++); //range is so large, collisions are unlikely and if they do occur, not a big deal
     }
 
     public static void push(InfoEntry entry, int id) {

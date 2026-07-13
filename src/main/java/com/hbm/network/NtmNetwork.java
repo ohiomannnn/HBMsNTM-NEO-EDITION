@@ -28,5 +28,6 @@ public class NtmNetwork {
         registrar.playToClient(AuxParticle.TYPE, AuxParticle.STREAM_CODEC, AuxParticle::handleClient);
         registrar.playToClient(SatellitePanel.TYPE, SatellitePanel.STREAM_CODEC, SatellitePanel::handleCommon);
         registrar.playToClient(BufPacket.TYPE, BufPacket.STREAM_CODEC, BufPacket::handleCommon);
+        registrar.playToClient(HbmAnimation.TYPE, HbmAnimation.STREAM_CODEC, HbmAnimation::handleCommon);
     }
 }

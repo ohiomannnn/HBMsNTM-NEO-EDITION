@@ -59,7 +59,7 @@ public abstract class MissileTier1 extends MissileBase {
         public MissileCluster(EntityType<? extends MissileCluster> entityType, Level level) { super(entityType, level); this.isCluster = true; }
         @Override public void onMissileImpact(BlockHitResult mop) {
             ExplosionVNT.createExplosion(level, this, this.position.x, this.position.y, this.position.z, 5F, true);
-            ExplosionChaos.cluster(level, this.position.x, this.position.y, this.position.z, 25);
+            ExplosionChaos.cluster(level, this.position.x, this.position.y, this.position.z, 25, this.yRot, this.xRot, (float) Math.PI * 0.25F, (float) Math.PI * 0.25F, 1F);
         }
         @Override public void cluster() { this.onMissileImpact(null); }
         @Override public ItemStack getDebrisRareDrop() { return new ItemStack(NtmItems.NOTHING.get()); }
@@ -69,8 +69,8 @@ public abstract class MissileTier1 extends MissileBase {
     public static class MissileBunkerBuster extends MissileTier1 {
         public MissileBunkerBuster(EntityType<? extends MissileBunkerBuster> entityType, Level level) { super(entityType, level); }
         @Override public void onMissileImpact(BlockHitResult mop) {
-            for (int i = 0; i < 15; i++) ExplosionVNT.createExplosion(level, this, this.position.x, this.position.y - i, this.position.z, 5F, true);
-            if (level instanceof ServerLevel serverLevel) {
+            for(int i = 0; i < 15; i++) ExplosionVNT.createExplosion(level, this, this.position.x, this.position.y - i, this.position.z, 5F, true);
+            if(level instanceof ServerLevel serverLevel) {
                 ExplosionLarge.spawnParticles(serverLevel, this.position.x, this.position.y, this.position.z, 5);
                 ExplosionLarge.spawnShrapnels(serverLevel, this.position.x, this.position.y, this.position.z, 5);
                 ExplosionLarge.spawnRubble(serverLevel, this.position.x, this.position.y, this.position.z, 5);

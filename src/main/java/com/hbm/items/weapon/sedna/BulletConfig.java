@@ -31,6 +31,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
@@ -135,8 +137,8 @@ public class BulletConfig implements Cloneable {
     public BulletConfig setRenderRotations(boolean rot) {								this.renderRotations = rot; return this; }
     public BulletConfig setCasing(SpentCasing casing) {									this.casing = casing; return this; }
 
-    public BulletConfig setRenderer(BiConsumer<BulletBaseMK4, Float> renderer) {		    this.renderer = renderer; return this; }
-    public BulletConfig setRendererBeam(BiConsumer<BulletBeamBase, Float> renderer) {	    this.rendererBeam = renderer; return this; }
+    public BulletConfig setRenderer(BiConsumer<BulletBaseMK4, Float> renderer) {		this.renderer = renderer; return this; }
+    public BulletConfig setRendererBeam(BiConsumer<BulletBeamBase, Float> renderer) {	this.rendererBeam = renderer; return this; }
 
     public BulletConfig setOnUpdate(Consumer<Entity> lambda) {										this.onUpdate = lambda; return this; }
     public BulletConfig setOnRicochet(BiConsumer<BulletBaseMK4, HitResult> lambda) {		        this.onRicochet = lambda; return this; }
@@ -150,7 +152,7 @@ public class BulletConfig implements Cloneable {
         BEAM
     }
 
-    public static DamageSource getDamage(Level level, @Nullable Entity projectile, @Nullable LivingEntity shooter, DamageClass dmgClass) {
+    public static DamageSource getDamage(Level level, @Nullable Entity projectile, @Nullable Entity shooter, DamageClass dmgClass) {
 
         ResourceKey<DamageType> damageType = switch(dmgClass) {
             case PHYSICAL ->    NtmDamageTypes.PHYSICAL;
@@ -166,75 +168,78 @@ public class BulletConfig implements Cloneable {
         return level.damageSources().source(damageType, shooter, projectile);
     }
 
-    public static BiConsumer<BulletBaseMK4, HitResult> LAMBDA_STANDARD_RICOCHET = (bullet, rtr) -> {
-//        if(rtr.typeOfHit == Type.BLOCK) {
-//            BlockState state = bullet.level.getBlockState(rtr.getBlockPos());
-//            if(state.getBlock() instanceof DetonatableBlock db) db.onShot(bullet.level, rtr.getBlockPos());
-//
-//            Direction dir = rtr.sideHit;
-//            Vec3 face = new Vec3(dir.getStepX(), dir.getStepY(), dir.getStepZ());
-//            Vec3 vel = new Vec3(bullet.deltaMovement.x, bullet.deltaMovement.y, bullet.deltaMovement.z).normalize();
-//
-//            double angle = Math.abs(BobMathUtil.getCrossAngle(vel, face) - 90);
-//
-//            if(angle <= bullet.config.ricochetAngle) {
-//                bullet.ricochets++;
-//                if(bullet.ricochets > bullet.config.maxRicochetCount) {
-//                    bullet.setPos(rtr.hitVec);
-//                    bullet.discard();
-//                }
-//                switch(rtr.sideHit) {
-//                    case DOWN, UP -> bullet.deltaMovement = new Vec3(bullet.deltaMovement.x, bullet.deltaMovement.y * -1, bullet.deltaMovement.z);
-//                    case NORTH, SOUTH -> bullet.deltaMovement = new Vec3(bullet.deltaMovement.x, bullet.deltaMovement.y, bullet.deltaMovement.z * -1);
-//                    case WEST, EAST -> bullet.deltaMovement = new Vec3(bullet.deltaMovement.x * -1, bullet.deltaMovement.y, bullet.deltaMovement.z);
-//                }
-//                SoundUtils.playAtEntity(bullet, NtmSoundEvents.RICOCHET.get(), SoundSource.BLOCKS, 0.25F, 1.0F);
-//                bullet.setPos(rtr.hitVec);
-//                //send a teleport so the ricochet is more accurate instead of the interp smoothing fucking everything up
-//                if(bullet.level instanceof ServerLevel serverLevel) serverLevel.getChunkSource().broadcast(bullet, new ClientboundTeleportEntityPacket(bullet));
-//            } else {
-//                bullet.setPos(rtr.hitVec);
-//                bullet.discard();
-//            }
-//        }
+    public static BiConsumer<BulletBaseMK4, HitResult> LAMBDA_STANDARD_RICOCHET = (bullet, hr) -> {
+
+        if(hr.getType() == HitResult.Type.BLOCK) {
+            BlockHitResult bhr = (BlockHitResult) hr;
+            BlockState state = bullet.level.getBlockState(bhr.getBlockPos());
+            if(state.getBlock() instanceof DetonatableBlock db) db.onShot(bullet.level, bhr.getBlockPos());
+
+            Direction dir = bhr.getDirection();
+            Vec3 face = new Vec3(dir.getStepX(), dir.getStepY(), dir.getStepZ());
+            Vec3 vel = new Vec3(bullet.deltaMovement.x, bullet.deltaMovement.y, bullet.deltaMovement.z).normalize();
+
+            double angle = Math.abs(BobMathUtil.getCrossAngle(vel, face) - 90);
+
+            if(angle <= bullet.config.ricochetAngle) {
+                bullet.ricochets++;
+                if(bullet.ricochets > bullet.config.maxRicochetCount) {
+                    bullet.setPos(bhr.getLocation());
+                    bullet.discard();
+                }
+                switch(bhr.getDirection()) {
+                    case DOWN, UP -> bullet.deltaMovement = new Vec3(bullet.deltaMovement.x, bullet.deltaMovement.y * -1, bullet.deltaMovement.z);
+                    case NORTH, SOUTH -> bullet.deltaMovement = new Vec3(bullet.deltaMovement.x, bullet.deltaMovement.y, bullet.deltaMovement.z * -1);
+                    case WEST, EAST -> bullet.deltaMovement = new Vec3(bullet.deltaMovement.x * -1, bullet.deltaMovement.y, bullet.deltaMovement.z);
+                }
+                SoundUtils.playAtEntity(bullet, NtmSoundEvents.RICOCHET.get(), SoundSource.BLOCKS, 0.25F, 1.0F);
+                bullet.setPos(bhr.getLocation());
+                //send a teleport so the ricochet is more accurate instead of the interp smoothing fucking everything up
+                if(bullet.level instanceof ServerLevel serverLevel) serverLevel.getChunkSource().broadcast(bullet, new ClientboundTeleportEntityPacket(bullet));
+            } else {
+                bullet.setPos(bhr.getLocation());
+                bullet.discard();
+            }
+        }
     };
 
-    public static BiConsumer<BulletBaseMK4, HitResult> LAMBDA_STANDARD_ENTITY_HIT = (bullet, rtr) -> {
+    public static BiConsumer<BulletBaseMK4, HitResult> LAMBDA_STANDARD_ENTITY_HIT = (bullet, hr) -> {
 
-//        if(rtr.typeOfHit == Type.ENTITY) {
-//            Entity entity = rtr.entityHit;
-//
-//            if(entity == bullet.getThrower() && bullet.tickCount < bullet.selfDamageDelay()) return;
-//            if(entity instanceof LivingEntity living && living.isDeadOrDying()) return;
-//
-//            DamageSource source = getDamage(bullet.level, bullet, bullet.getThrower(), bullet.config.dmgClass);
-//            float intendedDamage = bullet.damage;
-//
-//            if(entity instanceof LivingEntity living) {
-//                double head = living.getBbHeight() - living.getEyeHeight();
-//
-//                if(living.isAlive() && rtr.hitVec != null && rtr.hitVec.y > (living.position.y + living.getBbHeight() - head * 2)) {
-//                    intendedDamage *= bullet.config.headshotMult;
-//                }
-//            } else {
-//                EntityDamageUtil.hurtIgnoreIFrame(entity, source, bullet.damage);
-//                return;
-//            }
-//
-//            float prevHealth = living.getHealth();
-//
-//            EntityDamageUtil.hurtNT(living, source, intendedDamage, true, true, bullet.config.knockbackMult, bullet.config.armorThresholdNegation, bullet.config.armorPiercingPercent);
-//
-//            float newHealth = living.getHealth();
-//
-//            if(bullet.config.damageFalloffByPen) bullet.damage -= Math.max(prevHealth - newHealth, 0) * 0.5;
-//            if(!bullet.doesPenetrate() || bullet.damage < 0) {
-//                bullet.setPos(rtr.hitVec);
-//                bullet.discard();
-//            }
-//
-//            if(!living.isAlive()) ConfettiUtil.createConfetti(living, bullet.config.dmgClass);
-//        }
+        if(hr.getType() == HitResult.Type.ENTITY) {
+            EntityHitResult ehr = (EntityHitResult) hr;
+            Entity entity = ehr.getEntity();
+
+            if(entity instanceof LivingEntity living && living.isDeadOrDying()) return;
+
+            DamageSource source = getDamage(bullet.level, bullet, bullet.getOwner(), bullet.config.dmgClass);
+            float intendedDamage = bullet.damage;
+            Vec3 hitLocation = ehr.getLocation();
+
+            if(entity instanceof LivingEntity living) {
+                double head = living.getBbHeight() - living.getEyeHeight();
+
+                if(living.isAlive() && hitLocation.y > (living.position.y + living.getBbHeight() - head * 2)) {
+                    intendedDamage *= bullet.config.headshotMult;
+                }
+            } else {
+                EntityDamageUtil.hurtIgnoreIFrame(entity, source, bullet.damage);
+                return;
+            }
+
+            float prevHealth = living.getHealth();
+
+            EntityDamageUtil.hurtNT(living, source, intendedDamage, true, true, bullet.config.knockbackMult, bullet.config.armorThresholdNegation, bullet.config.armorPiercingPercent);
+
+            float newHealth = living.getHealth();
+
+            if(bullet.config.damageFalloffByPen) bullet.damage -= Math.max(prevHealth - newHealth, 0) * 0.5;
+            if(!bullet.doesPenetrate() || bullet.damage < 0) {
+                bullet.setPos(hitLocation);
+                bullet.discard();
+            }
+
+            if(!living.isAlive()) ConfettiUtil.createConfetti(living, bullet.config.dmgClass);
+        }
     };
 
     @Override

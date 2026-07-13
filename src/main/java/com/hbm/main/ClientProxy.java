@@ -16,6 +16,8 @@ import com.hbm.render.entity.projectile.*;
 import com.hbm.render.entity.rocket.*;
 import com.hbm.render.item.*;
 import com.hbm.render.item.ItemRenderMissileGeneric.RenderMissileType;
+import com.hbm.render.util.RenderInfoSystem.InfoEntry;
+import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.util.InventoryUtil;
 import com.hbm.util.i18n.I18nClient;
 import com.hbm.util.i18n.ITranslate;
@@ -30,6 +32,7 @@ import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
@@ -184,6 +187,7 @@ public class ClientProxy extends ServerProxy {
     @Override
     public void registerEntityRenderers() {
         //projectiles
+        EntityRenderers.register(NtmEntityTypes.BULLET_MK4.get(), RenderBulletMK4::new);
         EntityRenderers.register(NtmEntityTypes.BOMBLET_ZETA.get(), RenderBombletZeta::new);
         EntityRenderers.register(NtmEntityTypes.METEOR.get(), RenderMeteor::new);
         EntityRenderers.register(NtmEntityTypes.BOMBER.get(), RenderBomber::new);
@@ -279,6 +283,17 @@ public class ClientProxy extends ServerProxy {
                 Minecraft.getInstance().setScreen((Screen) igp.provideScreen(player, pos));
                 break;
             }
+        }
+    }
+
+    @Override
+    public void displayTooltip(Component message, int time, int id) {
+
+        InfoEntry entry = new InfoEntry(message, time);
+        if(id != 0) {
+            RenderInfoSystem.push(entry, id);
+        } else {
+            RenderInfoSystem.push(entry);
         }
     }
 

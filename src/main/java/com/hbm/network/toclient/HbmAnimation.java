@@ -37,6 +37,8 @@ public record HbmAnimation(short animType, int rec, int gun) implements CustomPa
         }
     };
 
+    public static void handleCommon(HbmAnimation packet, IPayloadContext context) { handleClient(packet, context); }
+
     @OnlyIn(Dist.CLIENT)
     public static void handleClient(HbmAnimation packet, IPayloadContext context) {
         context.enqueueWork(() -> {
