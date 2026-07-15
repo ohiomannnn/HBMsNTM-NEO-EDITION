@@ -55,8 +55,7 @@ public class NtmCreativeTabs {
                         output.accept(NtmItems.INGOT_PB209.get());
                         output.accept(NtmItems.INGOT_RA226.get());
                         output.accept(NtmItems.INGOT_TITANIUM.get());
-                        output.accept(NtmItems.INGOT_INDUSTRIAL_COPPER.get());
-                        output.accept(NtmItems.INGOT_RED_COPPER.get());
+                        output.accept(NtmItems.INGOT_GRADE_COPPER.get());
                         output.accept(NtmItems.INGOT_TUNGSTEN.get());
                         output.accept(NtmItems.INGOT_ALUMINIUM.get());
                         output.accept(NtmItems.INGOT_STEEL.get());
@@ -80,7 +79,47 @@ public class NtmCreativeTabs {
                         output.accept(NtmItems.INGOT_FIREBRICK.get());
                         output.accept(NtmItems.INGOT_DURA_STEEL.get());
                         output.accept(NtmItems.INGOT_POLYMER.get());
+                        output.accept(NtmItems.INSULATOR.get());
                         output.accept(NtmItems.INGOT_BAKELITE.get());
+                        output.accept(NtmItems.PLATE_IRON.get());
+                        output.accept(NtmItems.PLATE_GOLD.get());
+                        output.accept(NtmItems.PLATE_TITANIUM.get());
+                        output.accept(NtmItems.PLATE_ALUMINIUM.get());
+                        output.accept(NtmItems.PLATE_STEEL.get());
+                        output.accept(NtmItems.PLATE_LEAD.get());
+                        output.accept(NtmItems.PLATE_COPPER.get());
+                        output.accept(NtmItems.PLATE_GUNMETAL.get());
+                        output.accept(NtmItems.PLATE_WEAPON_STEEL.get());
+                        output.accept(NtmItems.PLATE_SATURNITE.get());
+                        output.accept(NtmItems.PLATE_DURA_STEEL.get());
+                        output.accept(NtmItems.PLATE_SCHRABIDIUM.get());
+                        output.accept(NtmItems.PLATE_COMBINE_STEEL.get());
+                        output.accept(NtmItems.PLATE_BISMUTH.get());
+                        output.accept(NtmItems.WIRE_GOLD.get());
+                        output.accept(NtmItems.WIRE_COPPER.get());
+                        output.accept(NtmItems.WIRE_ALUMINIUM.get());
+                        output.accept(NtmItems.WIRE_ZIRCONIUM.get());
+                        output.accept(NtmItems.WIRE_LEAD.get());
+                        output.accept(NtmItems.WIRE_TUNGSTEN.get());
+                        output.accept(NtmItems.WIRE_SCHRABIDIUM.get());
+                        output.accept(NtmItems.WIRE_STEEL.get());
+                        output.accept(NtmItems.WIRE_MAGNETIZED_TUNGSTEN.get());
+                        output.accept(NtmItems.WIRE_CARBON.get());
+                        output.accept(NtmItems.WIRE_GRADE_COPPER.get());
+                        output.accept(NtmItems.SHELL_TITANIUM.get());
+                        output.accept(NtmItems.SHELL_ALUMINIUM.get());
+                        output.accept(NtmItems.SHELL_COPPER.get());
+                        output.accept(NtmItems.SHELL_STEEL.get());
+                        output.accept(NtmItems.SHELL_WEAPON_STEEL.get());
+                        output.accept(NtmItems.SHELL_SATURNITE.get());
+                        output.accept(NtmItems.PIPE_IRON.get());
+                        output.accept(NtmItems.PIPE_COPPER.get());
+                        output.accept(NtmItems.PIPE_ALUMINIUM.get());
+                        output.accept(NtmItems.PIPE_LEAD.get());
+                        output.accept(NtmItems.PIPE_STEEL.get());
+                        output.accept(NtmItems.PIPE_DURA_STEEL.get());
+                        output.accept(NtmItems.PIPE_RUBBER.get());
+
                         output.accept(NtmItems.INGOT_BIORUBBER.get());
                         output.accept(NtmItems.INGOT_RUBBER.get());
                         output.accept(NtmItems.INGOT_PC.get());
@@ -110,13 +149,14 @@ public class NtmCreativeTabs {
                         output.accept(NtmItems.INGOT_FERROURANIUM.get());
                         output.accept(NtmItems.INGOT_STARMETAL.get());
                         output.accept(NtmItems.INGOT_GUNMETAL.get());
-                        output.accept(NtmItems.INGOT_WEAPONSTEEL.get());
+                        output.accept(NtmItems.INGOT_WEAPON_STEEL.get());
                         output.accept(NtmItems.INGOT_SATURNITE.get());
                         output.accept(NtmItems.INGOT_EUPHEMIUM.get());
                         output.accept(NtmItems.INGOT_DINEUTRONIUM.get());
                         output.accept(NtmItems.INGOT_ELECTRONIUM.get());
                         output.accept(NtmItems.INGOT_SMORE.get());
                         output.accept(NtmItems.INGOT_OSMIRIDIUM.get());
+                        output.accept(NtmItems.INGOT_ZIRCONIUM.get());
                         output.accept(NtmItems.ASBESTOS_SHEET);
                         output.accept(NtmItems.SULFUR);
                         output.accept(NtmItems.CINNABAR);
@@ -221,7 +261,7 @@ public class NtmCreativeTabs {
     // templates, siren tracks
     /** SKIP */
 
-    // ore and mineral blocks
+    // ore and blocks
     public static final Supplier<CreativeModeTab> BLOCKS = CREATIVE_MODE_TABS.register(
             "blocks",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(NtmBlocks.ORE_URANIUM.get()))
@@ -282,6 +322,16 @@ public class NtmCreativeTabs {
                         output.accept(NtmBlocks.FROZEN_LOG);
                         output.accept(NtmBlocks.FALLOUT);
                         output.accept(NtmBlocks.LEAVES_LAYER);
+
+                        output.accept(NtmBlocks.DECO_ALUMINIUM);
+                        output.accept(NtmBlocks.DECO_BERYLLIUM);
+                        output.accept(NtmBlocks.DECO_LEAD);
+                        output.accept(NtmBlocks.DECO_GRADE_COPPER);
+                        output.accept(NtmBlocks.DECO_STEEL);
+                        output.accept(NtmBlocks.DECO_RUSTY_STEEL);
+                        output.accept(NtmBlocks.DECO_TITANIUM);
+                        output.accept(NtmBlocks.DECO_TUNGSTEN);
+                        output.accept(NtmBlocks.DECO_ASBESTOS);
 
                         output.accept(NtmBlocks.SELLAFIELD_SLAKED);
                         output.accept(NtmBlocks.SELLAFIELD_BEDROCK);
@@ -352,6 +402,7 @@ public class NtmCreativeTabs {
                         output.accept(NtmBlocks.MACHINE_ASSEMBLY_MACHINE);
                         output.accept(NtmBlocks.MACHINE_FLUID_TANK);
 
+                        addMetaItems(output, NtmBlocks.ANVIL.asItem());
                         output.accept(NtmBlocks.MACHINE_SATLINKER);
                         output.accept(NtmBlocks.DECONTAMINATOR);
 

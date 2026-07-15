@@ -15,6 +15,8 @@ public class NtmMenuTypes {
 
     public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(Registries.MENU, NuclearTechMod.MODID);
 
+    public static final DeferredHolder<MenuType<?>, MenuType<AnvilMenu>> ANVIL = reg("anvil", AnvilMenu::new);
+
     public static final DeferredHolder<MenuType<?>, MenuType<MachineSatLinkerMenu>> SAT_LINKER = reg("sat_linker", MachineSatLinkerMenu::new);
 
     public static final DeferredHolder<MenuType<?>, MenuType<MachineAssemblyMachineMenu>> ASSEMBLY_MACHINE = reg("assembly_machine", MachineAssemblyMachineMenu::new);

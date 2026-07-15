@@ -92,6 +92,15 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.simpleCubeAllBlock(NtmBlocks.RESOURCE_MALACHITE);
         this.simpleCubeAllBlock(NtmBlocks.RESOURCE_CHRYSOTILE);
         this.simpleCubeAllBlock(NtmBlocks.RESOURCE_SULFUROUS_STONE);
+        this.simpleCubeAllBlock(NtmBlocks.DECO_ALUMINIUM);
+        this.simpleCubeAllBlock(NtmBlocks.DECO_BERYLLIUM);
+        this.simpleCubeAllBlock(NtmBlocks.DECO_LEAD);
+        this.simpleCubeAllBlock(NtmBlocks.DECO_GRADE_COPPER);
+        this.simpleCubeAllBlock(NtmBlocks.DECO_STEEL);
+        this.simpleCubeAllBlock(NtmBlocks.DECO_RUSTY_STEEL);
+        this.simpleCubeAllBlock(NtmBlocks.DECO_TITANIUM);
+        this.simpleCubeAllBlock(NtmBlocks.DECO_TUNGSTEN);
+        this.simpleCubeAllBlock(NtmBlocks.DECO_ASBESTOS);
 
         this.registerOreBasalt();
 
@@ -554,7 +563,12 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         }
         @Override public BakedModelType getType() { return BakedModelType.SPIKES; }
     }
-
+    public static class AnvilLoaderBuilder extends BlockModelBuilderBase {
+        public AnvilLoaderBuilder(BlockModelBuilder parent, ExistingFileHelper helper) {
+            super(parent, helper);
+        }
+        @Override public BakedModelType getType() { return BakedModelType.ANVIL; }
+    }
     public static abstract class BlockModelBuilderBase extends CustomLoaderBuilder<BlockModelBuilder> {
 
         private final Map<String, ResourceLocation> textures = new LinkedHashMap<>();
@@ -564,6 +578,36 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         }
 
         public BlockModelBuilderBase texture(String key, ResourceLocation location) {
+            this.textures.put(key, location);
+            return this;
+        }
+
+        @Override
+        public JsonObject toJson(JsonObject json) {
+            super.toJson(json);
+
+            JsonObject texturesObject = new JsonObject();
+            for(Entry<String, ResourceLocation> entry : this.textures.entrySet()) {
+                texturesObject.addProperty(entry.getKey(), entry.getValue().toString());
+            }
+            json.add("textures", texturesObject);
+            json.addProperty("type", this.getType().name().toLowerCase(Locale.US));
+
+            return json;
+        }
+
+        public abstract BakedModelType getType();
+    }
+
+    public static abstract class ItemModelBuilderBase extends CustomLoaderBuilder<ItemModelBuilder> {
+
+        private final Map<String, ResourceLocation> textures = new LinkedHashMap<>();
+
+        protected ItemModelBuilderBase(ItemModelBuilder parent, ExistingFileHelper helper) {
+            super(NuclearTechMod.withDefaultNamespace("ntm_geometry_loader"), parent, helper, false);
+        }
+
+        public ItemModelBuilderBase texture(String key, ResourceLocation location) {
             this.textures.put(key, location);
             return this;
         }
