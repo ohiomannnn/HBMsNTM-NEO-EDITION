@@ -77,6 +77,7 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.simpleCubeAllBlock(NtmBlocks.ORE_SULFUR);
         this.simpleCubeAllBlock(NtmBlocks.ORE_SULFUR_DEEPSLATE);
         this.simpleCubeAllBlock(NtmBlocks.ORE_LIGNITE);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_DEEPSLATE_LIGNITE);
         this.simpleCubeAllBlock(NtmBlocks.ORE_SCHRABIDIUM);
         this.simpleCubeAllBlock(NtmBlocks.ORE_NETHER_URANIUM);
         this.simpleCubeAllBlock(NtmBlocks.ORE_NETHER_URANIUM_SCORCHED);

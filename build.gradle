@@ -114,15 +114,8 @@ repositories {
     maven {
         url "https://maven.caffeinemc.net/releases"
     }
-    exclusiveContent {
-        forRepository {
-            maven {
-                url "https://maven.ryanhcode.dev/releases"
-            }
-        }
-        filter {
-            includeGroup "dev.ryanhcode.sable-companion"
-        }
+    maven {
+        url "https://maven.ryanhcode.dev/releases"
     }
 }
 

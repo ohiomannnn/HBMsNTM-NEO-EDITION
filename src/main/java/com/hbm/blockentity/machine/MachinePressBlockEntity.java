@@ -10,7 +10,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.Nullable;
 
 public class MachinePressBlockEntity extends MachineBaseBlockEntity {
 
@@ -31,11 +30,10 @@ public class MachinePressBlockEntity extends MachineBaseBlockEntity {
     public ItemStack syncStack;
 
     public MachinePressBlockEntity(BlockPos pos, BlockState state) {
-        super(NtmBlockEntityTypes.PRESS.get(), pos, state, 4);
+        super(NtmBlockEntityTypes.PRESS.get(), pos, state, 13);
     }
 
-    @Override
-    public Component getDefaultName() { return Component.translatable("container.press"); }
+    @Override public Component getDefaultName() { return Component.translatable("container.press"); }
 
     @Override
     public void updateEntity() {
@@ -48,7 +46,7 @@ public class MachinePressBlockEntity extends MachineBaseBlockEntity {
         buf.writeInt(this.speed);
         buf.writeInt(this.burnTime);
         buf.writeInt(this.press);
-        //BufferUtil.writeItemStack(buf, this.slots.get(2), registryAccess);
+        ItemStack.OPTIONAL_STREAM_CODEC.encode(buf, this.slots.get(2));
     }
 
     @Override
@@ -57,13 +55,13 @@ public class MachinePressBlockEntity extends MachineBaseBlockEntity {
         this.speed = buf.readInt();
         this.burnTime = buf.readInt();
         this.syncPress = buf.readInt();
-        //this.syncStack = BufferUtil.readItemStack(buf, registryAccess);
+        this.syncStack = ItemStack.OPTIONAL_STREAM_CODEC.decode(buf);
 
         this.turnProgress = 2;
     }
 
     @Override
-    public @Nullable AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
+    public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
         return null;
     }
 }

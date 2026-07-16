@@ -23,7 +23,7 @@ public class Tom extends Entity {
     @Override
     public void tick() {
 
-        this.moveTo(this.position().add(0.0, -0.5, 0.0));
+        this.setPos(this.position().add(0.0, -0.5, 0.0));
 
         if(this.tickCount % 100 == 0) SoundUtils.playAtEntity(this, NtmSoundEvents.CHIME.get(), SoundSource.AMBIENT, 10000F, 1F);
 

@@ -1,5 +1,7 @@
 package com.hbm.blocks.machine;
 
+import com.hbm.blockentity.ProxyComboBlockEntity;
+import com.hbm.blockentity.machine.MachinePressBlockEntity;
 import com.hbm.blocks.DummyBlockType;
 import com.hbm.blocks.DummyableBlock;
 import com.mojang.serialization.MapCodec;
@@ -20,9 +22,9 @@ public class MachinePressBlock extends DummyableBlock {
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         DummyBlockType type = state.getValue(TYPE);
-        return switch (type) {
-//            case CORE -> new BatteryREDDBlockEntity(pos, pressed);
-//            case EXTRA -> new ProxyComboBlockEntity(pos, pressed).inventory();
+        return switch(type) {
+            case CORE -> new MachinePressBlockEntity(pos, state);
+            case EXTRA -> new ProxyComboBlockEntity(pos, state).inventory();
             default -> null;
         };
     }

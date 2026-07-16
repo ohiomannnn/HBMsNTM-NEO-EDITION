@@ -86,7 +86,7 @@ public class NtmEntityTypes {
 
     public static final DeferredHolder<EntityType<?>, EntityType<TNTPrimedBase>> TNT_PRIMED_BASE = ENTITY_TYPES.register(
             "tnt_primed_base",
-            () -> EntityType.Builder.<TNTPrimedBase>of(TNTPrimedBase::new, MobCategory.MONSTER)
+            () -> EntityType.Builder.<TNTPrimedBase>of(TNTPrimedBase::new, MobCategory.MISC)
                     .fireImmune()
                     .sized(0.98F, 0.98F)
                     .eyeHeight(0.15F)

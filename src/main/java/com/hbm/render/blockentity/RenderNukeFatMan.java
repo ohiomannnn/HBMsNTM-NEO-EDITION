@@ -4,6 +4,8 @@ import com.hbm.blockentity.bomb.NukeFatManBlockEntity;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
+import com.hbm.render.test.HFRWavefrontObjectTEST;
+import com.hbm.render.test.Material;
 import com.hbm.render.util.RenderContext;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -18,10 +20,14 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public class RenderNukeFatMan extends BlockEntityRendererNT<NukeFatManBlockEntity> implements IBEWLRProvider {
 
+    private static HFRWavefrontObjectTEST obj;
+
     @Override public BlockEntityRenderer<NukeFatManBlockEntity> create(Context context) { return new RenderNukeFatMan(); }
 
     @Override
     public void render(NukeFatManBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
+        if(obj == null) obj = ResourceManager.nuke_fat_man.asVBTestO(new Material(ResourceManager.NUKE_FAT_MAN_TEX, Material.CutoutMode.HALF, false, false, false, Material.Transparency.OPAQUE, Material.DepthTest.LEQUAL, Material.WriteMask.COLOR_DEPTH, Material.ShadeMode.ENTITY));
+
         RenderContext.setup(poseStack, packedLight, packedOverlay);
         RenderContext.translate(0.5F, 0F, 0.5F);
         RenderSystem.disableCull();
@@ -33,9 +39,7 @@ public class RenderNukeFatMan extends BlockEntityRendererNT<NukeFatManBlockEntit
             case EAST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
             case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
         }
-
-        bindTexture(ResourceManager.NUKE_FAT_MAN_TEX);
-        ResourceManager.nuke_fat_man.renderAll();
+        obj.renderAll();
 
         RenderSystem.enableCull();
         RenderContext.end();
@@ -60,12 +64,11 @@ public class RenderNukeFatMan extends BlockEntityRendererNT<NukeFatManBlockEntit
 
             @Override
             public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
+                if(obj == null) obj = ResourceManager.nuke_fat_man.asVBTestO(new Material(ResourceManager.NUKE_FAT_MAN_TEX, Material.CutoutMode.HALF, false, false, false, Material.Transparency.OPAQUE, Material.DepthTest.LEQUAL, Material.WriteMask.COLOR_DEPTH, Material.ShadeMode.ENTITY));
                 RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
                 RenderContext.translate(-0.75F, 0F, 0F);
 
-                RenderSystem.disableCull();
-                bindTexture(ResourceManager.NUKE_FAT_MAN_TEX); ResourceManager.nuke_fat_man.renderAll();
-                RenderSystem.enableCull();
+                obj.renderAll();
             }
         };
     }

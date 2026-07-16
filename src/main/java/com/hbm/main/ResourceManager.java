@@ -203,7 +203,7 @@ public class ResourceManager {
 
     public static IModelCustom nuke_gadget;
     public static IModelCustom nuke_little_boy;
-    public static IModelCustom nuke_fat_man;
+    public static HFRWavefrontObject nuke_fat_man;
     public static IModelCustom nuke_ivy_mike;
     public static IModelCustom nuke_tsar;
     public static IModelCustom nuke_prototype;
@@ -301,7 +301,7 @@ public class ResourceManager {
 
         nuke_gadget = new HFRWavefrontObject("models/obj/bomb/nuke_gadget.obj").asVBO();
         nuke_little_boy = new HFRWavefrontObject("models/obj/bomb/nuke_little_boy.obj").asVBO();
-        nuke_fat_man = new HFRWavefrontObject("models/obj/bomb/nuke_fatman.obj").asVBO();
+        nuke_fat_man = new HFRWavefrontObject("models/obj/bomb/nuke_fatman.obj");
         nuke_ivy_mike = new HFRWavefrontObject("models/obj/bomb/nuke_ivy_mike.obj").asVBO();
         nuke_tsar = new HFRWavefrontObject("models/obj/bomb/nuke_tsar.obj").asVBO();
         nuke_prototype = new HFRWavefrontObject("models/obj/bomb/nuke_prototype.obj").asVBO();

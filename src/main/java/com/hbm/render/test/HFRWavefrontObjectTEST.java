@@ -1,6 +1,9 @@
-package com.hbm.render.loader;
+package com.hbm.render.test;
 
-import com.hbm.render.NtmRenderTypes;
+import com.hbm.render.loader.HFRWavefrontObject;
+import com.hbm.render.loader.IModelCustomNamed;
+import com.hbm.render.loader.S_Face;
+import com.hbm.render.loader.S_GroupObject;
 import com.hbm.render.loader.old.TextureCoordinate;
 import com.hbm.render.loader.old.Vertex;
 import com.hbm.render.util.NtmShaders.NtmVertexFormat;
@@ -9,16 +12,14 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexBuffer;
-import com.mojang.blaze3d.vertex.VertexBuffer.Usage;
 import net.minecraft.client.renderer.ShaderInstance;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Deprecated
-public class HFRWavefrontObjectVBO implements IModelCustomNamed {
+public class HFRWavefrontObjectTEST implements IModelCustomNamed {
 
-    private static class GroupVBO {
+    public static class GroupVBO {
         final String name;
         final VertexBuffer vertexBuffer;
 
@@ -28,34 +29,31 @@ public class HFRWavefrontObjectVBO implements IModelCustomNamed {
         }
     }
 
+    private final Material material;
     private final List<GroupVBO> groups = new ArrayList<>();
 
-    public HFRWavefrontObjectVBO(HFRWavefrontObject obj) {
+    public HFRWavefrontObjectTEST(HFRWavefrontObject obj, Material material) {
+        this.material = material;
         this.load(obj);
     }
 
     public void load(HFRWavefrontObject obj) {
         for(S_GroupObject g : obj.groupObjects) {
-            Tesselator tess = Tesselator.getInstance();
-            BufferBuilder builder = tess.begin(g.mode, NtmVertexFormat.POSITION_TEX_NORMAL);
+            BufferBuilder builder = Tesselator.getInstance().begin(g.mode, NtmVertexFormat.POSITION_TEX_NORMAL);
 
             for(S_Face face : g.faces) {
                 for(int i = 0; i < face.vertices.length; i++) {
                     Vertex vert = face.vertices[i];
-                    TextureCoordinate tex = new TextureCoordinate(0, 0);
+                    TextureCoordinate tex = face.textureCoordinates != null && face.textureCoordinates.length > 0
+                            ? face.textureCoordinates[i]
+                            : new TextureCoordinate(0, 0);
                     Vertex normal = face.vertexNormals[i];
 
-                    if(face.textureCoordinates != null && face.textureCoordinates.length > 0) {
-                        tex = face.textureCoordinates[i];
-                    }
-
-                    builder.addVertex(vert.x, vert.y, vert.z)
-                            .setUv(tex.u, tex.v)
-                            .setNormal(normal.x, normal.y, normal.z);
+                    builder.addVertex(vert.x, vert.y, vert.z).setUv(tex.u, tex.v).setNormal(normal.x, normal.y, normal.z);
                 }
             }
 
-            VertexBuffer buffer = new VertexBuffer(Usage.STATIC);
+            VertexBuffer buffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
             buffer.bind();
             buffer.upload(builder.buildOrThrow());
             VertexBuffer.unbind();
@@ -65,40 +63,26 @@ public class HFRWavefrontObjectVBO implements IModelCustomNamed {
         }
     }
 
-    // truth be told, i have no fucking idea what i'm doing
-    // i know the VBO sends data to the GPU to be saved there directly which is where the optimization comes from in the first place
-    // so logically, if we want to get rid of this, we need to blow the data up
-    // documentation on GL15 functions seems nonexistant so fuck it we ball i guess
-    public void destroy() {
-        for(GroupVBO group : groups) {
-            group.vertexBuffer.close();
-        }
-        groups.clear();
-    }
-
     private void renderGroup(GroupVBO group) {
 
         RenderContext context = RenderContext.INSTANCE.get();
-
         int packedLight = context.packedLight;
         int packedOverlay = context.packedOverlay;
 
-        NtmRenderTypes.VBO.setupRenderState();
-
-        ShaderInstance shader = RenderSystem.getShader();
-        if(shader == null) return;
+        ShaderInstance shader = MaterialShaderCache.get(material);
 
         shader.safeGetUniform("UV1").set(packedOverlay & '\uffff', packedOverlay >> 16 & '\uffff');
         shader.safeGetUniform("UV2").set(packedLight & '\uffff', packedLight >> 16 & '\uffff');
         shader.safeGetUniform("Color").set(context.color);
-        shader.safeGetUniform("EnableLight").set(context.lightning ? 1 : 0);
         shader.safeGetUniform("PoseMat").set(context.poseStack.last().pose());
+
+        MaterialRenderState.setup(material);
 
         group.vertexBuffer.bind();
         group.vertexBuffer.drawWithShader(RenderSystem.getModelViewMatrix(), RenderSystem.getProjectionMatrix(), shader);
         VertexBuffer.unbind();
 
-        NtmRenderTypes.VBO.clearRenderState();
+        MaterialRenderState.reset();
     }
 
     @Override

@@ -4,6 +4,8 @@ import com.hbm.main.NuclearTechMod;
 import com.hbm.render.loader.old.ModelFormatException;
 import com.hbm.render.loader.old.TextureCoordinate;
 import com.hbm.render.loader.old.Vertex;
+import com.hbm.render.test.HFRWavefrontObjectTEST;
+import com.hbm.render.test.Material;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
@@ -413,5 +415,9 @@ public class HFRWavefrontObject implements IModelCustomNamed {
         HFRWavefrontObjectVBO vbo = new HFRWavefrontObjectVBO(this);
         allVBOs.put(vbo, this);
         return vbo;
+    }
+
+    public HFRWavefrontObjectTEST asVBTestO(Material material) {
+        return new HFRWavefrontObjectTEST(this,material);
     }
 }
