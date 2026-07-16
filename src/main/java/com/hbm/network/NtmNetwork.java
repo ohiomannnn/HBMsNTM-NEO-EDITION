@@ -21,6 +21,7 @@ public class NtmNetwork {
         registrar.playToServer(Ducc.TYPE, Ducc.STREAM_CODEC, Ducc::handleServer);
         registrar.playToServer(CompoundTagControl.TYPE, CompoundTagControl.STREAM_CODEC, CompoundTagControl::handleServer);
         registrar.playToServer(SatelliteLaser.TYPE, SatelliteLaser.STREAM_CODEC, SatelliteLaser::handleServer);
+        registrar.playToServer(AnvilConstructionPacket.TYPE, AnvilConstructionPacket.STREAM_CODEC, AnvilConstructionPacket::handleServer);
 
         registrar.playToClient(VanillaExplosionLike.TYPE, VanillaExplosionLike.STREAM_CODEC, VanillaExplosionLike::handleClient);
         registrar.playToClient(InformPlayer.TYPE, InformPlayer.STREAM_CODEC, InformPlayer::handleClient);

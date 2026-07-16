@@ -10,6 +10,7 @@ import com.hbm.blocks.network.CableBlock;
 import com.hbm.blocks.network.FluidDuctStandardBlock;
 import com.hbm.blocks.network.MachineBatteryREDDBlock;
 import com.hbm.blocks.network.MachineBatterySocketBlock;
+import com.hbm.blocks.machine.NTMAnvilBlock;
 import com.hbm.fluids.NtmFluids;
 import com.hbm.items.NtmItems;
 import com.hbm.items.block.BlastInfoBlockItem;
@@ -203,6 +204,18 @@ public class NtmBlocks {
 
     // Machines
     public static final DeferredBlock<Block> MACHINE_PRESS = register("machine_press", () -> new MachinePressBlock(BlockBehaviour.Properties.of().noOcclusion().strength(5.0F, 10.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> ANVIL = registerNew("anvil", () -> new NTMAnvilBlock(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).sound(SoundType.ANVIL).mapColor(MapColor.METAL).requiresCorrectToolForDrops().noOcclusion()));
+
+    // Anvil construction placeholders
+    public static final DeferredBlock<Block> DECO_ALUMINIUM = register("deco_aluminium", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> DECO_BERYLLIUM = register("deco_beryllium", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> DECO_LEAD = register("deco_lead", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> DECO_GRADE_COPPER = register("deco_grade_copper", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> DECO_STEEL = register("deco_steel", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> DECO_RUSTY_STEEL = register("deco_rusty_steel", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> DECO_TITANIUM = register("deco_titanium", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> DECO_TUNGSTEN = register("deco_tungsten", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> DECO_ASBESTOS = register("deco_asbestos", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
 
     public static final DeferredBlock<Block> RED_CABLE = register("red_cable", () -> new CableBlock(BlockBehaviour.Properties.of().noOcclusion().strength(5.0F, 10.0F).sound(SoundType.METAL).mapColor(MapColor.COLOR_BLACK)));
 

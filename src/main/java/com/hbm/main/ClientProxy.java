@@ -89,7 +89,7 @@ public class ClientProxy extends ServerProxy {
         registerItemRenderer(event, new RenderSpikesItem(),
                 NtmBlocks.SPIKES.asItem()
         );
-
+        registerItemRenderer(event, new RenderAnvilItem(), NtmBlocks.ANVIL.asItem());
         registerItemRenderer(event, new RenderBatteryPackItem(), NtmItems.BATTERY_PACK.get());
 
         ItemRenderMissileGeneric.init();
