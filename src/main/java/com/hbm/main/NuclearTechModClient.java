@@ -1,9 +1,9 @@
 package com.hbm.main;
 
 import com.hbm.blockentity.network.PipeBaseBlockEntity;
-import com.hbm.blocks.EnumMultiBlock;
 import com.hbm.blocks.ICustomBlockHighlight;
 import com.hbm.blocks.ILookOverlay;
+import com.hbm.blocks.IMultiBlock;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.blocks.bomb.BalefireBlock;
 import com.hbm.blocks.generic.SellafieldSlakedBlock;
@@ -148,8 +148,8 @@ public class NuclearTechModClient {
             NtmBlocks.BLOCKS.getEntries().forEach(holder -> {
                 Block block = holder.get();
 
-                if(block instanceof EnumMultiBlock multiBlock) {
-                    if(multiBlock.multiTexture) ItemProperties.register(block.asItem(), NuclearTechMod.withDefaultNamespace("item_meta"), (itemStack, level, livingEntity, seed) -> MetaHelper.getMeta(itemStack));
+                if(block instanceof IMultiBlock) {
+                    ItemProperties.register(block.asItem(), NuclearTechMod.withDefaultNamespace("item_meta"), (itemStack, level, livingEntity, seed) -> MetaHelper.getMeta(itemStack));
                 }
             });
             ItemProperties.register(NtmItems.MISSILE_SOYUZ.get(), NuclearTechMod.withDefaultNamespace("item_meta"), (stack, level, entity, seed) -> MetaHelper.getMeta(stack));

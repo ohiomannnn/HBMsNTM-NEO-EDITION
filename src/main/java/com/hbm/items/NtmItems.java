@@ -58,8 +58,7 @@ public class NtmItems {
     public static final DeferredItem<Item> INGOT_PB209 = ITEMS.register("ingot_pb209", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> INGOT_RA226 = ITEMS.register("ingot_ra226", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> INGOT_TITANIUM = ITEMS.register("ingot_titanium", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> INGOT_INDUSTRIAL_COPPER = ITEMS.register("ingot_industrial_copper", () -> new Item(new Item.Properties())); // minecraft already has copper, but its very cheap, we gotta balance that
-    public static final DeferredItem<Item> INGOT_RED_COPPER = ITEMS.register("ingot_red_copper", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> INGOT_GRADE_COPPER = ITEMS.register("ingot_grade_copper", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> INGOT_TUNGSTEN = ITEMS.register("ingot_tungsten", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> INGOT_ALUMINIUM = ITEMS.register("ingot_aluminium", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> INGOT_STEEL = ITEMS.register("ingot_steel", () -> new Item(new Item.Properties()));
@@ -113,13 +112,54 @@ public class NtmItems {
     public static final DeferredItem<Item> INGOT_FERROURANIUM = ITEMS.register("ingot_ferrouranium", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> INGOT_STARMETAL = ITEMS.register("ingot_starmetal", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> INGOT_GUNMETAL = ITEMS.register("ingot_gunmetal", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> INGOT_WEAPONSTEEL = ITEMS.register("ingot_weaponsteel", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> INGOT_WEAPON_STEEL = ITEMS.register("ingot_weaponsteel", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> INGOT_SATURNITE = ITEMS.register("ingot_saturnite", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> INGOT_EUPHEMIUM = ITEMS.register("ingot_euphemium", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> INGOT_DINEUTRONIUM = ITEMS.register("ingot_dineutronium", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> INGOT_ELECTRONIUM = ITEMS.register("ingot_electronium", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> INGOT_SMORE = ITEMS.register("ingot_smore", () -> new Item(new Item.Properties().food(NtmFoods.SMORE)));
     public static final DeferredItem<Item> INGOT_OSMIRIDIUM = ITEMS.register("ingot_osmiridium", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> INGOT_ZIRCONIUM = ITEMS.register("ingot_zirconium", () -> new Item(new Item.Properties()));
+
+    // Plates & wires
+    public static final DeferredItem<Item> PLATE_IRON = ITEMS.register("plate_iron", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> PLATE_GOLD = ITEMS.register("plate_gold", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> PLATE_TITANIUM = ITEMS.register("plate_titanium", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> PLATE_ALUMINIUM = ITEMS.register("plate_aluminium", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> PLATE_STEEL = ITEMS.register("plate_steel", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> PLATE_LEAD = ITEMS.register("plate_lead", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> PLATE_COPPER = ITEMS.register("plate_copper", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> PLATE_GUNMETAL = ITEMS.register("plate_gunmetal", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> PLATE_WEAPON_STEEL = ITEMS.register("plate_weapon_steel", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> PLATE_SATURNITE = ITEMS.register("plate_saturnite", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> PLATE_DURA_STEEL = ITEMS.register("plate_dura_steel", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> PLATE_SCHRABIDIUM = ITEMS.register("plate_schrabidium", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> PLATE_COMBINE_STEEL = ITEMS.register("plate_combine_steel", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> PLATE_BISMUTH = ITEMS.register("plate_bismuth", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> WIRE_GOLD = ITEMS.register("wire_gold", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> WIRE_COPPER = ITEMS.register("wire_copper", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> WIRE_ALUMINIUM = ITEMS.register("wire_aluminium", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> WIRE_ZIRCONIUM = ITEMS.register("wire_zirconium", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> WIRE_LEAD = ITEMS.register("wire_lead", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> WIRE_TUNGSTEN = ITEMS.register("wire_tungsten", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> WIRE_SCHRABIDIUM = ITEMS.register("wire_schrabidium", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> WIRE_STEEL = ITEMS.register("wire_steel", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> WIRE_MAGNETIZED_TUNGSTEN = ITEMS.register("wire_magnetized_tungsten", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> WIRE_CARBON = ITEMS.register("wire_carbon", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> WIRE_GRADE_COPPER = ITEMS.register("wire_grade_copper", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> SHELL_TITANIUM = ITEMS.register("shell_titanium", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> SHELL_ALUMINIUM = ITEMS.register("shell_aluminium", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> SHELL_COPPER = ITEMS.register("shell_copper", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> SHELL_STEEL = ITEMS.register("shell_steel", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> SHELL_WEAPON_STEEL = ITEMS.register("shell_weapon_steel", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> SHELL_SATURNITE = ITEMS.register("shell_saturnite", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> PIPE_IRON = ITEMS.register("pipe_iron", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> PIPE_COPPER = ITEMS.register("pipe_copper", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> PIPE_ALUMINIUM = ITEMS.register("pipe_aluminium", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> PIPE_LEAD = ITEMS.register("pipe_lead", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> PIPE_STEEL = ITEMS.register("pipe_steel", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> PIPE_DURA_STEEL = ITEMS.register("pipe_dura_steel", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> PIPE_RUBBER = ITEMS.register("pipe_rubber", () -> new Item(new Item.Properties()));
 
     //resources
     public static final DeferredItem<Item> SULFUR = ITEMS.register("sulfur", () -> new Item(new Item.Properties()));
@@ -130,6 +170,7 @@ public class NtmItems {
     public static final DeferredItem<Item> LIGNITE = ITEMS.register("lignite", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> NITER = ITEMS.register("niter", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> RARE_EARTH_ORE_CHUNK = ITEMS.register("rare_earth_ore_chunk", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> INSULATOR = ITEMS.register("insulator", () -> new Item(new Item.Properties()));
 
     // Pellets
     public static final DeferredItem<Item> PELLET_RTG = ITEMS.register("pellet_rtg", () -> new Item(new Item.Properties()));
@@ -354,6 +395,7 @@ public class NtmItems {
     // Wands, Tools, Other Crap
     public static final DeferredItem<Item> POLAROID = ITEMS.register("polaroid", () -> new PolaroidItem(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> BURNT_BARK = ITEMS.register("burnt_bark", () -> new LoreItem(new Item.Properties()));
+    public static final DeferredItem<Item> PLAN_C = ITEMS.register("plan_c", () -> new Item(new Item.Properties()));
 
     // Kits
     public static final DeferredItem<Item> STARTER_KIT = ITEMS.register("starter_kit", () -> new StarterKitItem(new Item.Properties().stacksTo(1)));

@@ -85,6 +85,17 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(NtmBlocks.RESOURCE_MALACHITE.get());
         this.dropSelf(NtmBlocks.RESOURCE_CHRYSOTILE.get());
         this.dropSelf(NtmBlocks.RESOURCE_SULFUROUS_STONE.get());
+        this.dropSelf(NtmBlocks.DECO_ALUMINIUM.get());
+        this.dropSelf(NtmBlocks.DECO_BERYLLIUM.get());
+        this.dropSelf(NtmBlocks.DECO_LEAD.get());
+        this.dropSelf(NtmBlocks.DECO_GRADE_COPPER.get());
+        this.dropSelf(NtmBlocks.DECO_STEEL.get());
+        this.dropSelf(NtmBlocks.DECO_ALUMINIUM.get());
+        this.dropSelf(NtmBlocks.DECO_RUSTY_STEEL.get());
+        this.dropSelf(NtmBlocks.DECO_TITANIUM.get());
+        this.dropSelf(NtmBlocks.DECO_ALUMINIUM.get());
+        this.dropSelf(NtmBlocks.DECO_TUNGSTEN.get());
+        this.dropSelf(NtmBlocks.DECO_ASBESTOS.get());
 
 
         this.add(NtmBlocks.ORE_BASALT.get(), block -> LootTable.lootTable()
@@ -126,6 +137,7 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(NtmBlocks.BRICK_LIGHT.get());
         this.dropSelf(NtmBlocks.BRICK_ASBESTOS.get());
         this.dropSelf(NtmBlocks.BRICK_FIRE.get());
+        this.dropSelf(NtmBlocks.ANVIL.get());
 
         this.add(NtmBlocks.BRICK_CONCRETE_SLAB.get(), this::createSlabItemTable);
         this.add(NtmBlocks.BRICK_CONCRETE_MOSSY_SLAB.get(), this::createSlabItemTable);

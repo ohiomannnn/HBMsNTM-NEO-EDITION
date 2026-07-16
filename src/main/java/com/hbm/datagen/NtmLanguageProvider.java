@@ -4,6 +4,7 @@ import com.hbm.blocks.NtmBlocks;
 import com.hbm.blocks.generic.BarbedWireBlock.BarbedWireType;
 import com.hbm.blocks.generic.OreBasaltBlock.BasaltOreType;
 import com.hbm.blocks.generic.PlushieBlock.PlushieType;
+import com.hbm.blocks.machine.NTMAnvilBlock.Variant;
 import com.hbm.fluids.NtmFluidTypes;
 import com.hbm.items.ItemEnums.CapType;
 import com.hbm.items.NtmItems;
@@ -64,8 +65,7 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmItems.INGOT_PB209, "Lead-209 Ingot");
         this.add(NtmItems.INGOT_RA226, "Radium-226 Ingot");
         this.add(NtmItems.INGOT_TITANIUM, "Titanium Ingot");
-        this.add(NtmItems.INGOT_INDUSTRIAL_COPPER, "Industrial Grade Copper Ingot");
-        this.add(NtmItems.INGOT_RED_COPPER, "Minecraft Grade Copper Ingot");
+        this.add(NtmItems.INGOT_GRADE_COPPER, "Grade Copper Ingot");
         this.add(NtmItems.INGOT_TUNGSTEN, "Tungsten Ingot");
         this.add(NtmItems.INGOT_ALUMINIUM, "Aluminium Ingot");
         this.add(NtmItems.INGOT_STEEL, "Steel Ingot");
@@ -91,6 +91,7 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmItems.INGOT_FIREBRICK, "Firebrick");
         this.add(NtmItems.INGOT_DURA_STEEL, "High-Speed Steel Ingot");
         this.add(NtmItems.INGOT_POLYMER, "Polymer Bar");
+        this.add(NtmItems.INSULATOR, "Insulator");
         this.add(NtmItems.INGOT_BAKELITE, "Bakelite Bar");
         this.add(NtmItems.INGOT_BIORUBBER, "Latex Bar");
         this.add(NtmItems.INGOT_RUBBER, "Rubber Bar");
@@ -126,7 +127,7 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmItems.INGOT_FERROURANIUM, "Ferrouranium Ingot");
         this.add(NtmItems.INGOT_STARMETAL, "§9Starmetal Ingot§r");
         this.add(NtmItems.INGOT_GUNMETAL, "Gunmetal Ingot");
-        this.add(NtmItems.INGOT_WEAPONSTEEL, "Weapon Steel Ingot");
+        this.add(NtmItems.INGOT_WEAPON_STEEL, "Weapon Steel Ingot");
         this.add(NtmItems.INGOT_SATURNITE, "Saturnite Ingot");
         this.add(NtmItems.INGOT_EUPHEMIUM, "Euphemium Ingot");
         this.add(NtmItems.INGOT_EUPHEMIUM, DESC, "A very special and yet strange element.");
@@ -134,6 +135,44 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmItems.INGOT_ELECTRONIUM, "Electronium Ingot");
         this.add(NtmItems.INGOT_SMORE, "S'more Ingot");
         this.add(NtmItems.INGOT_OSMIRIDIUM, "Osmiridium Ingot");
+        this.add(NtmItems.INGOT_ZIRCONIUM, "Zirconium Cube");
+        this.add(NtmItems.PLATE_IRON, "Iron Plate");
+        this.add(NtmItems.PLATE_GOLD, "Gold Plate");
+        this.add(NtmItems.PLATE_TITANIUM, "Titanium Plate");
+        this.add(NtmItems.PLATE_ALUMINIUM, "Aluminium Plate");
+        this.add(NtmItems.PLATE_STEEL, "Steel Plate");
+        this.add(NtmItems.PLATE_LEAD, "Lead Plate");
+        this.add(NtmItems.PLATE_COPPER, "Copper Plate");
+        this.add(NtmItems.PLATE_GUNMETAL, "Gunmetal Plate");
+        this.add(NtmItems.PLATE_WEAPON_STEEL, "Weapon Steel Plate");
+        this.add(NtmItems.PLATE_SATURNITE, "Saturnite Plate");
+        this.add(NtmItems.PLATE_DURA_STEEL, "High-Speed Steel Plate");
+        this.add(NtmItems.PLATE_SCHRABIDIUM, "Schrabidium Plate");
+        this.add(NtmItems.PLATE_COMBINE_STEEL, "CMB Steel Plate");
+        this.add(NtmItems.PLATE_BISMUTH, "Bismuth Plate");
+        this.add(NtmItems.WIRE_GOLD, "Gold Wire");
+        this.add(NtmItems.WIRE_COPPER, "Copper Wire");
+        this.add(NtmItems.WIRE_ALUMINIUM, "Aluminium Wire");
+        this.add(NtmItems.WIRE_ZIRCONIUM, "Zirconium Wire");
+        this.add(NtmItems.WIRE_LEAD, "Lead Wire");
+        this.add(NtmItems.WIRE_TUNGSTEN, "Tungsten Wire");
+        this.add(NtmItems.WIRE_SCHRABIDIUM, "Schrabidium Wire");
+        this.add(NtmItems.WIRE_STEEL, "Steel Wire");
+        this.add(NtmItems.WIRE_MAGNETIZED_TUNGSTEN, "Magnetized Tungsten Wire");
+        this.add(NtmItems.WIRE_CARBON, "Carbon Wire");
+        this.add(NtmItems.WIRE_GRADE_COPPER, "Grade Copper Wire");
+        this.add(NtmItems.SHELL_TITANIUM, "Titanium Shell");
+        this.add(NtmItems.SHELL_ALUMINIUM, "Aluminium Shell");
+        this.add(NtmItems.SHELL_COPPER, "Copper Shell");
+        this.add(NtmItems.SHELL_STEEL, "Steel Shell");
+        this.add(NtmItems.SHELL_WEAPON_STEEL, "Weapon Steel Shell");
+        this.add(NtmItems.SHELL_SATURNITE, "Saturnite Shell");
+        this.add(NtmItems.PIPE_IRON, "Iron Pipe");
+        this.add(NtmItems.PIPE_COPPER, "Copper Pipe");
+        this.add(NtmItems.PIPE_ALUMINIUM, "Aluminium Pipe");
+        this.add(NtmItems.PIPE_LEAD, "Lead Pipe");
+        this.add(NtmItems.PIPE_STEEL, "Steel Pipe");
+        this.add(NtmItems.PIPE_DURA_STEEL, "High Speed Steel Pipe");
 
         this.add(NtmItems.PELLET_RTG, "Plutonium-238 RTG Pellet");
 
@@ -698,6 +737,15 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmBlocks.ORE_SULFUR, "Sulfur Ore");
         this.add(NtmBlocks.ORE_SULFUR_DEEPSLATE, "Deepslate Sulfur Ore");
         this.add(NtmBlocks.ORE_LIGNITE, "Lignite Ore");
+        this.add(NtmBlocks.DECO_ALUMINIUM, "Aluminium Deco Block");
+        this.add(NtmBlocks.DECO_BERYLLIUM, "Beryllium Deco Block");
+        this.add(NtmBlocks.DECO_LEAD, "Lead Deco Block");
+        this.add(NtmBlocks.DECO_GRADE_COPPER, "Grade Copper Deco Block");
+        this.add(NtmBlocks.DECO_STEEL, "Steel Deco Block");
+        this.add(NtmBlocks.DECO_RUSTY_STEEL, "Rusty Steel Deco Block");
+        this.add(NtmBlocks.DECO_TITANIUM, "Titanium Deco Block");
+        this.add(NtmBlocks.DECO_TUNGSTEN, "Tungsten Deco Block");
+        this.add(NtmBlocks.DECO_ASBESTOS, "Asbestos Deco Block");
 
         this.add(NtmBlocks.NUKE_GADGET, "The Gadget");
         this.add(NtmBlocks.NUKE_LITTLE_BOY, "Little Boy");
@@ -737,6 +785,19 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmBlocks.GEIGER, "Geiger Counter");
 
         this.add(NtmBlocks.MACHINE_PRESS, "Burner Press");
+        this.add(NtmBlocks.ANVIL, "Anvil");
+        this.add(NtmBlocks.ANVIL, this.getName(Variant.IRON), "Iron Anvil");
+        this.add(NtmBlocks.ANVIL, this.getName(Variant.LEAD), "Lead Anvil");
+        this.add(NtmBlocks.ANVIL, this.getName(Variant.STEEL), "Steel Anvil");
+        this.add(NtmBlocks.ANVIL, this.getName(Variant.DESH), "Desh Anvil");
+        this.add(NtmBlocks.ANVIL, this.getName(Variant.FERROURANIUM), "Ferrouranium Anvil");
+        this.add(NtmBlocks.ANVIL, this.getName(Variant.SATURNITE), "Saturnite Anvil");
+        this.add(NtmBlocks.ANVIL, this.getName(Variant.BISMUTH_BRONZE), "Bismuth Bronze Anvil");
+        this.add(NtmBlocks.ANVIL, this.getName(Variant.ARSENIC_BRONZE), "Arsenic Bronze Anvil");
+        this.add(NtmBlocks.ANVIL, this.getName(Variant.FERRIC_SCHRABIDATE), "Ferric Schrabidate Anvil");
+        this.add(NtmBlocks.ANVIL, this.getName(Variant.DINEUTRONIUM), "Dineutronium Anvil");
+        this.add(NtmBlocks.ANVIL, this.getName(Variant.OSMIRIDIUM), "Osmiridium Anvil");
+        this.add("block.hbmsntm.anvil.tier", "Tier: %s");
 
         this.add(NtmBlocks.RED_CABLE, "Red Copper Cable");
 
@@ -804,6 +865,7 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add("container.battery_redd", "FEnSU");
         this.add("container.machine_assembly_machine", "Assembly Machine");
         this.add("container.fluidtank", "Tank");
+        this.add("container.anvil", "Anvil");
         this.add("container.sat_linker", "SatLink Device");
         this.add("container.sat_linker.desc.copy", "The first slot will copy the satellite/chip's$frequency and paste it to the second slot.");
         this.add("container.sat_linker.desc.rand", "The third slot will randomize the$satellite/chip's frequency.");

@@ -141,8 +141,11 @@ public class NtmBlockTagProvider extends BlockTagsProvider {
                         NtmBlocks.SOYUZ_LAUNCHER.get(),
                         NtmBlocks.MACHINE_RADAR.get(),
                         NtmBlocks.MACHINE_RADAR_LARGE.get(),
-                        NtmBlocks.MACHINE_SATLINKER.get()
+                        NtmBlocks.MACHINE_SATLINKER.get(),
+                        NtmBlocks.ANVIL.get()
                 );
+
+        this.tag(BlockTags.ANVIL).add(NtmBlocks.ANVIL.get());
 
         this.tag(BlockTags.MINEABLE_WITH_AXE)
                 .add(

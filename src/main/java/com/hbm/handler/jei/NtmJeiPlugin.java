@@ -3,14 +3,19 @@ package com.hbm.handler.jei;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.handler.jei.subtypes.BatterySubtypeInterpreter;
 import com.hbm.handler.jei.subtypes.MetaSubtypeInterpreter;
+import com.hbm.inventory.MetaHelper;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.recipes.anvil.AnvilRecipes;
 import com.hbm.items.NtmItems;
 import com.hbm.items.machine.FluidIconItem;
 import com.hbm.main.NuclearTechMod;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.IExtraIngredientRegistration;
+import mezz.jei.api.registration.IRecipeCategoryRegistration;
+import mezz.jei.api.registration.IRecipeCatalystRegistration;
+import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -24,6 +29,26 @@ import java.util.List;
 public class NtmJeiPlugin implements IModPlugin {
 
     @Override public ResourceLocation getPluginUid() { return NuclearTechMod.withDefaultNamespace("jei_plugin"); }
+
+    @Override
+    public void registerCategories(IRecipeCategoryRegistration registration) {
+        registration.addRecipeCategories(new AnvilRecipeHandler(registration.getJeiHelpers().getGuiHelper()));
+    }
+
+    @Override
+    public void registerRecipes(IRecipeRegistration registration) {
+        registration.addRecipes(AnvilRecipeHandler.RECIPE_TYPE, AnvilRecipes.getSmithing());
+    }
+
+    @Override
+    public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
+        for(com.hbm.blocks.machine.NTMAnvilBlock.Variant variant : com.hbm.blocks.machine.NTMAnvilBlock.Variant.values()) {
+            registration.addRecipeCatalyst(
+                    MetaHelper.newStack(NtmBlocks.ANVIL.asItem(), variant.ordinal()),
+                    AnvilRecipeHandler.RECIPE_TYPE
+            );
+        }
+    }
 
     @Override
     public void registerItemSubtypes(ISubtypeRegistration regs) {
