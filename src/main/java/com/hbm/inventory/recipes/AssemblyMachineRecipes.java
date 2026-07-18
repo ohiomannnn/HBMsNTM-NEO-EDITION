@@ -8,6 +8,7 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.inventory.recipes.loader.GenericRecipes;
+import com.hbm.items.CastPlateItem;
 import com.hbm.items.NtmItems;
 import com.hbm.items.machine.FluidIconItem;
 import net.minecraft.world.item.ItemStack;
@@ -30,13 +31,33 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
         this.register(new GenericRecipe("ass.boytarget").setup(200, 100).outputItems(new ItemStack(NtmItems.LITTLE_BOY_TARGET.get(), 1))
                         .inputItems(new ComparableStack(NtmItems.INGOT_URANIUM.get(), 18)));
 
-        this.register(new GenericRecipe("ass.grass_block").setup(200, 100).outputItems(new ItemStack(Blocks.GRASS_BLOCK, 1))
+        this.register(new GenericRecipe("ass.machine_refinery").setup(200, 100).outputItems(new ItemStack(NtmBlocks.MACHINE_REFINERY, 1))
                 .inputItems(
-                        new ComparableStack(NtmItems.SINGULARITY.get(), 1),
-                        new ComparableStack(NtmItems.SINGULARITY_COUNTER_RESONANT.get(), 1),
-                        new ComparableStack(NtmItems.MISSILE_DOOMSDAY_RUSTED.get(), 1)
+                        new ComparableStack(NtmItems.PLATE_COPPER.get(), 8),
+                        new ComparableStack(NtmItems.SHELL_STEEL.get(), 4),
+                        new ComparableStack(NtmItems.PIPE_STEEL.get(), 12),
+                        new ComparableStack(NtmItems.INSULATOR.get(), 8),
+                        new ComparableStack(NtmItems.CIRCUIT_ANALOG_BOARD.get(), 3),
+                        NtmItems.castPlateWeldedIngredient(CastPlateItem.Type.STEEL, 3)
+
+                        ));
+        this.register(new GenericRecipe("ass.drill_titanium").setup(200, 100).outputItems(new ItemStack(NtmItems.DRILL_TITANIUM.get(), 1))
+                .inputItems(
+                        NtmItems.castPlateIngredient(CastPlateItem.Type.DURA_STEEL, 1),
+                        new ComparableStack(NtmItems.PLATE_TITANIUM.get(), 8)
                 )
         );
+        this.register(new GenericRecipe("ass.machine_oil_derrick").setup(200, 100).outputItems(new ItemStack(NtmBlocks.MACHINE_OIL_DERRICK, 1))
+                .inputItems(
+                        NtmItems.castPlateIngredient(CastPlateItem.Type.COPPER, 1),
+                        new ComparableStack(NtmItems.PLATE_STEEL.get(), 8),
+                        new ComparableStack(NtmItems.PIPE_STEEL.get(), 4),
+                        new ComparableStack(NtmItems.DRILL_TITANIUM.get(), 1),
+                        new ComparableStack(NtmItems.MOTOR.get(), 1)
+
+                )
+        );
+
 
         this.register(new GenericRecipe("ass.man").setup(200, 100).outputItems(new ItemStack(NtmBlocks.NUKE_FAT_MAN.get(), 1))
                 .inputItems(new ComparableStack(NtmItems.PELLET_ANTIMATTER.get(), 1)));

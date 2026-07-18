@@ -69,16 +69,19 @@ public class RecipesCommon {
         public ComparableStack(Item item) {
             this.item = item;
             this.stacksize = 1;
+            this.meta = MetaHelper.WILDCARD_VALUE;
         }
 
         public ComparableStack(Block item) {
             this.item = item.asItem();
             this.stacksize = 1;
+            this.meta = MetaHelper.WILDCARD_VALUE;
         }
 
         public ComparableStack(Block item, int stacksize) {
             this.item = item.asItem();
             this.stacksize = stacksize;
+            this.meta = MetaHelper.WILDCARD_VALUE;
         }
 
         public ComparableStack(Item item, int stacksize) {
@@ -128,7 +131,9 @@ public class RecipesCommon {
                 int thisID = Item.getId(item);
                 int thatID = Item.getId(comp.item);
 
-                return Integer.compare(thisID, thatID);
+                if(thisID != thatID) return Integer.compare(thisID, thatID);
+                if(this.meta != comp.meta) return Integer.compare(this.meta, comp.meta);
+                return Integer.compare(this.stacksize, comp.stacksize);
             }
 
             return 0;
@@ -136,12 +141,12 @@ public class RecipesCommon {
 
         @Override
         public ComparableStack copy() {
-            return new ComparableStack(item, stacksize);
+            return new ComparableStack(item, stacksize, meta);
         }
 
         @Override
         public ComparableStack copy(int stackSize) {
-            return new ComparableStack(item, stackSize);
+            return new ComparableStack(item, stackSize, meta);
         }
 
         @Override
@@ -149,6 +154,7 @@ public class RecipesCommon {
 
             if (stack == null) return false;
             if (stack.getItem() != this.item) return false;
+            if(this.meta != MetaHelper.WILDCARD_VALUE && MetaHelper.getMeta(stack) != this.meta) return false;
             if (!ignoreSize && stack.getCount() < this.stacksize) return false;
 
             return true;

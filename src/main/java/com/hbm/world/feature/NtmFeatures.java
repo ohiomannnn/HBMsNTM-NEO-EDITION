@@ -12,6 +12,7 @@ public class NtmFeatures {
 
     public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(BuiltInRegistries.FEATURE, NuclearTechMod.MODID);
 
+    public static final DeferredHolder<Feature<?>, OilBubbleFeature> OIL_BUBBLE = FEATURES.register("oil_bubble", () -> new OilBubbleFeature(NoneFeatureConfiguration.CODEC));
     public static final DeferredHolder<Feature<?>, LandmineFeature> LANDMINE = FEATURES.register("landmine", () -> new LandmineFeature(NoneFeatureConfiguration.CODEC));
 
     public static final DeferredHolder<Feature<?>, CrashedBombFeature> CRASHED_BOMB = FEATURES.register("crashed_bomb", () -> new CrashedBombFeature(NoneFeatureConfiguration.CODEC));

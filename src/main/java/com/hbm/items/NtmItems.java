@@ -4,6 +4,8 @@ import api.hbm.block.IToolable.ToolType;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.inventory.NtmFoods;
 import com.hbm.inventory.NtmTiers;
+import com.hbm.inventory.MetaHelper;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ItemEnums.CapType;
 import com.hbm.items.ItemEnums.CasingType;
@@ -23,6 +25,7 @@ import com.hbm.main.NuclearTechMod;
 import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -34,7 +37,7 @@ public class NtmItems {
 
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(NuclearTechMod.MODID);
 
-    // Ingots
+    // Ingots, nuggets & fragments
     public static final DeferredItem<Item> INGOT_URANIUM = ITEMS.register("ingot_uranium", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> INGOT_U233 = ITEMS.register("ingot_u233", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> INGOT_U235 = ITEMS.register("ingot_u235", () -> new Item(new Item.Properties()));
@@ -121,7 +124,97 @@ public class NtmItems {
     public static final DeferredItem<Item> INGOT_OSMIRIDIUM = ITEMS.register("ingot_osmiridium", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> INGOT_ZIRCONIUM = ITEMS.register("ingot_zirconium", () -> new Item(new Item.Properties()));
 
-    // Plates & wires
+    public static final DeferredItem<Item> NUGGET_URANIUM = registerNugget("nugget_uranium");
+    public static final DeferredItem<Item> NUGGET_U233 = registerNugget("nugget_u233");
+    public static final DeferredItem<Item> NUGGET_U235 = registerNugget("nugget_u235");
+    public static final DeferredItem<Item> NUGGET_U238 = registerNugget("nugget_u238");
+    public static final DeferredItem<Item> NUGGET_U238M2 = registerNugget("nugget_u238m2");
+    public static final DeferredItem<Item> NUGGET_PLUTONIUM = registerNugget("nugget_plutonium");
+    public static final DeferredItem<Item> NUGGET_PU238 = registerNugget("nugget_pu238");
+    public static final DeferredItem<Item> NUGGET_PU239 = registerNugget("nugget_pu239");
+    public static final DeferredItem<Item> NUGGET_PU240 = registerNugget("nugget_pu240");
+    public static final DeferredItem<Item> NUGGET_PU241 = registerNugget("nugget_pu241");
+    public static final DeferredItem<Item> NUGGET_PU_MIX = registerNugget("nugget_pu_mix");
+    public static final DeferredItem<Item> NUGGET_AM241 = registerNugget("nugget_am241");
+    public static final DeferredItem<Item> NUGGET_AM242 = registerNugget("nugget_am242");
+    public static final DeferredItem<Item> NUGGET_AM_MIX = registerNugget("nugget_am_mix");
+    public static final DeferredItem<Item> NUGGET_TECHNETIUM = registerNugget("nugget_technetium");
+    public static final DeferredItem<Item> NUGGET_NEPTUNIUM = registerNugget("nugget_neptunium");
+    public static final DeferredItem<Item> NUGGET_POLONIUM = registerNugget("nugget_polonium");
+    public static final DeferredItem<Item> NUGGET_THORIUM_FUEL = registerNugget("nugget_thorium_fuel");
+    public static final DeferredItem<Item> NUGGET_URANIUM_FUEL = registerNugget("nugget_uranium_fuel");
+    public static final DeferredItem<Item> NUGGET_MOX_FUEL = registerNugget("nugget_mox_fuel");
+    public static final DeferredItem<Item> NUGGET_PLUTONIUM_FUEL = registerNugget("nugget_plutonium_fuel");
+    public static final DeferredItem<Item> NUGGET_NEPTUNIUM_FUEL = registerNugget("nugget_neptunium_fuel");
+    public static final DeferredItem<Item> NUGGET_AMERICIUM_FUEL = registerNugget("nugget_americium_fuel");
+    public static final DeferredItem<Item> NUGGET_SCHRABIDIUM_FUEL = registerNugget("nugget_schrabidium_fuel");
+    public static final DeferredItem<Item> NUGGET_HES = registerNugget("nugget_hes");
+    public static final DeferredItem<Item> NUGGET_LES = registerNugget("nugget_les");
+    public static final DeferredItem<Item> NUGGET_LEAD = registerNugget("nugget_lead");
+    public static final DeferredItem<Item> NUGGET_BERYLLIUM = registerNugget("nugget_beryllium");
+    public static final DeferredItem<Item> NUGGET_CADMIUM = registerNugget("nugget_cadmium");
+    public static final DeferredItem<Item> NUGGET_BISMUTH = registerNugget("nugget_bismuth");
+    public static final DeferredItem<Item> NUGGET_ARSENIC = registerNugget("nugget_arsenic");
+    public static final DeferredItem<Item> NUGGET_ZIRCONIUM = registerNugget("nugget_zirconium");
+    public static final DeferredItem<Item> NUGGET_TANTALIUM = registerNugget("nugget_tantalium");
+    public static final DeferredItem<Item> NUGGET_DESH = registerNugget("nugget_desh");
+    public static final DeferredItem<Item> NUGGET_OSMIRIDIUM = registerNugget("nugget_osmiridium");
+    public static final DeferredItem<Item> NUGGET_SCHRABIDIUM = registerNugget("nugget_schrabidium");
+    public static final DeferredItem<Item> NUGGET_SOLINIUM = registerNugget("nugget_solinium");
+    public static final DeferredItem<Item> NUGGET_EUPHEMIUM = registerNugget("nugget_euphemium");
+    public static final DeferredItem<Item> NUGGET_DINEUTRONIUM = registerNugget("nugget_dineutronium");
+    public static final DeferredItem<Item> NUGGET_NIOBIUM = registerNugget("nugget_niobium");
+    public static final DeferredItem<Item> NUGGET_SILICON = registerNugget("nugget_silicon");
+    public static final DeferredItem<Item> NUGGET_ACTINIUM = registerNugget("nugget_actinium");
+    public static final DeferredItem<Item> NUGGET_COBALT = registerNugget("nugget_cobalt");
+    public static final DeferredItem<Item> NUGGET_CO60 = registerNugget("nugget_co60");
+    public static final DeferredItem<Item> NUGGET_SR90 = registerNugget("nugget_sr90");
+    public static final DeferredItem<Item> NUGGET_PB209 = registerNugget("nugget_pb209");
+    public static final DeferredItem<Item> NUGGET_GH336 = registerNugget("nugget_gh336");
+    public static final DeferredItem<Item> NUGGET_AU198 = registerNugget("nugget_au198");
+    public static final DeferredItem<Item> NUGGET_RA226 = registerNugget("nugget_ra226");
+    public static final DeferredItem<Item> FRAGMENT_NIOBIUM = ITEMS.register("fragment_niobium", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> FRAGMENT_NEODYMIUM = ITEMS.register("fragment_neodymium", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> FRAGMENT_COBALT = ITEMS.register("fragment_cobalt", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> FRAGMENT_CERIUM = ITEMS.register("fragment_cerium", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> FRAGMENT_BORON = ITEMS.register("fragment_boron", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> FRAGMENT_LANTHANIUM = ITEMS.register("fragment_lanthanium", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> FRAGMENT_ACTINIUM = ITEMS.register("fragment_actinium", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> FRAGMENT_METEORITE = ITEMS.register("fragment_meteorite", () -> new Item(new Item.Properties()));
+
+    // Powders
+    public static final DeferredItem<Item> POWDER_IRON = ITEMS.register("powder_iron", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_GOLD = ITEMS.register("powder_gold", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_DIAMOND = ITEMS.register("powder_diamond", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_EMERALD = ITEMS.register("powder_emerald", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_LAPIS = ITEMS.register("powder_lapis", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_TITANIUM = ITEMS.register("powder_titanium", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_TUNGSTEN = ITEMS.register("powder_tungsten", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_COPPER = ITEMS.register("powder_copper", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_BERYLLIUM = ITEMS.register("powder_beryllium", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_ALUMINIUM = ITEMS.register("powder_aluminium", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_LEAD = ITEMS.register("powder_lead", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_STEEL = ITEMS.register("powder_steel", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_COMBINE_STEEL = ITEMS.register("powder_combine_steel", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_QUARTZ = ITEMS.register("powder_quartz", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_SCHRABIDIUM = ITEMS.register("powder_schrabidium", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_ASBESTOS = ITEMS.register("powder_asbestos", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_GRADE_COPPER = ITEMS.register("powder_grade_copper", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_DURA_STEEL = ITEMS.register("powder_dura_steel", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_POLYMER = ITEMS.register("powder_polymer", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_BAKELITE = ITEMS.register("powder_bakelite", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_DESH = ITEMS.register("powder_desh", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_LITHIUM = ITEMS.register("powder_lithium", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_COBALT = ITEMS.register("powder_cobalt", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_DINEUTRONIUM = ITEMS.register("powder_dineutronium", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_COAL = ITEMS.register("powder_coal", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_BISMUTH = ITEMS.register("powder_bismuth", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_LIGNITE = ITEMS.register("powder_lignite", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_ZIRCONIUM = ITEMS.register("powder_zirconium", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_URANIUM = ITEMS.register("powder_uranium", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> POWDER_NIOBIUM = ITEMS.register("powder_niobium", () -> new Item(new Item.Properties()));
+
+    // Integridients & parts
     public static final DeferredItem<Item> PLATE_IRON = ITEMS.register("plate_iron", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> PLATE_GOLD = ITEMS.register("plate_gold", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> PLATE_TITANIUM = ITEMS.register("plate_titanium", () -> new Item(new Item.Properties()));
@@ -160,17 +253,46 @@ public class NtmItems {
     public static final DeferredItem<Item> PIPE_STEEL = ITEMS.register("pipe_steel", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> PIPE_DURA_STEEL = ITEMS.register("pipe_dura_steel", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> PIPE_RUBBER = ITEMS.register("pipe_rubber", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CIRCUIT_PRINTED_BOARD = ITEMS.register("circuit_printed_board", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CIRCUIT_ANALOG_BOARD = ITEMS.register("circuit_analog_board", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CIRCUIT_INTEGRATED_BOARD = ITEMS.register("circuit_integrated_board", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CIRCUIT_MILITARY_GRADE_BOARD = ITEMS.register("circuit_military_grade_board", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CIRCUIT_VERSATILE_INTEGRATED = ITEMS.register("circuit_versatile_integrated", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CIRCUIT_VERSATILE_BOARD = ITEMS.register("circuit_versatile_board", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CIRCUIT_CAPACITOR = ITEMS.register("circuit_capacitor", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CIRCUIT_TANTALIUM_CAPACITOR = ITEMS.register("circuit_tantalium_capacitor", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CIRCUIT_CAPACITOR_BOARD = ITEMS.register("circuit_capacitor_board", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CIRCUIT_VACUUM_TUBE = ITEMS.register("circuit_vacuum_tube", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CIRCUIT_PRINTED_SILICON_WAFER = ITEMS.register("circuit_printed_silicon_wafer", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CIRCUIT_MICROCHIP = ITEMS.register("circuit_microchip", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CIRCUIT_CONTROL_UNIT_CASING = ITEMS.register("circuit_control_unit_casing", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CIRCUIT_CONTROL_UNIT = ITEMS.register("circuit_control_unit", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CIRCUIT_ADVANCED_CONTROL_UNIT = ITEMS.register("circuit_advanced_control_unit", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CIRCUIT_SOLID_STATE_QUANTUM_PROCESSOR = ITEMS.register("circuit_solid_state_quantum_processor", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CIRCUIT_QUANTUM_PROCESSING_UNIT = ITEMS.register("circuit_quantum_processing_unit", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CIRCUIT_QUANTUM_COMPUTER = ITEMS.register("circuit_quantum_computer", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CIRCUIT_ATOMIC_CLOCK = ITEMS.register("circuit_atomic_clock", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> COIL_COPPER = ITEMS.register("coil_copper", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> COIL_COPPER_RING = ITEMS.register("coil_copper_ring", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> COIL_GOLD = ITEMS.register("coil_gold", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> COIL_GOLD_RING = ITEMS.register("coil_gold_ring", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> MOTOR = ITEMS.register("motor", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> CAST_PLATE_WELDED = ITEMS.register("cast_plate_welded", () -> new CastPlateItem(new Item.Properties(), true));
+    public static final DeferredItem<Item> CAST_PLATE = ITEMS.register("cast_plate", () -> new CastPlateItem(new Item.Properties(), false));
 
     //resources
     public static final DeferredItem<Item> SULFUR = ITEMS.register("sulfur", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> ASBESTOS_SHEET = ITEMS.register("asbestos_sheet", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> CINNABAR = ITEMS.register("cinnabar", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> FRAGMENT_COBALT = ITEMS.register("fragment_cobalt", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> FLUORITE = ITEMS.register("fluorite", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> LIGNITE = ITEMS.register("lignite", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> NITER = ITEMS.register("niter", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> RARE_EARTH_ORE_CHUNK = ITEMS.register("rare_earth_ore_chunk", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> INSULATOR = ITEMS.register("insulator", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> OIL_TAR_CRUDE = ITEMS.register("oil_tar_crude", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> OIL_TAR_CRACK = ITEMS.register("oil_tar_crack", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> OIL_TAR_COAL = ITEMS.register("oil_tar_coal", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> OIL_TAR_PARAFFIN = ITEMS.register("oil_tar_paraffin", () -> new Item(new Item.Properties()));
 
     // Pellets
     public static final DeferredItem<Item> PELLET_RTG = ITEMS.register("pellet_rtg", () -> new Item(new Item.Properties()));
@@ -238,6 +360,29 @@ public class NtmItems {
     public static final DeferredItem<Item> SCREWDRIVER_DESH = ITEMS.register("screwdriver_desh", () -> new Item(new Item.Properties().stacksTo(8)));
     public static final DeferredItem<Item> BLOWTORCH = ITEMS.register("blowtorch", () -> new BlowtorchItem(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> ACETYLENE_TORCH = ITEMS.register("acetylene_torch", () -> new BlowtorchItem(new Item.Properties().stacksTo(1)));
+
+    //Upgrades
+    public static final DeferredItem<Item> UPGRADE_TEMPLATE = ITEMS.register("upgrade_template", () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> UPGRADE_SPEED_1 = ITEMS.register("upgrade_speed_1", () -> new MachineUpgradeItem(new Item.Properties(), MachineUpgradeItem.UpgradeType.SPEED, 1));
+    public static final DeferredItem<Item> UPGRADE_SPEED_2 = ITEMS.register("upgrade_speed_2", () -> new MachineUpgradeItem(new Item.Properties(), MachineUpgradeItem.UpgradeType.SPEED, 2));
+    public static final DeferredItem<Item> UPGRADE_SPEED_3 = ITEMS.register("upgrade_speed_3", () -> new MachineUpgradeItem(new Item.Properties(), MachineUpgradeItem.UpgradeType.SPEED, 3));
+    public static final DeferredItem<Item> UPGRADE_EFFECT_1 = ITEMS.register("upgrade_effect_1", () -> new MachineUpgradeItem(new Item.Properties(), MachineUpgradeItem.UpgradeType.EFFECT, 1));
+    public static final DeferredItem<Item> UPGRADE_EFFECT_2 = ITEMS.register("upgrade_effect_2", () -> new MachineUpgradeItem(new Item.Properties(), MachineUpgradeItem.UpgradeType.EFFECT, 2));
+    public static final DeferredItem<Item> UPGRADE_EFFECT_3 = ITEMS.register("upgrade_effect_3", () -> new MachineUpgradeItem(new Item.Properties(), MachineUpgradeItem.UpgradeType.EFFECT, 3));
+    public static final DeferredItem<Item> UPGRADE_POWER_1 = ITEMS.register("upgrade_power_1", () -> new MachineUpgradeItem(new Item.Properties(), MachineUpgradeItem.UpgradeType.POWER, 1));
+    public static final DeferredItem<Item> UPGRADE_POWER_2 = ITEMS.register("upgrade_power_2", () -> new MachineUpgradeItem(new Item.Properties(), MachineUpgradeItem.UpgradeType.POWER, 2));
+    public static final DeferredItem<Item> UPGRADE_POWER_3 = ITEMS.register("upgrade_power_3", () -> new MachineUpgradeItem(new Item.Properties(), MachineUpgradeItem.UpgradeType.POWER, 3));
+    public static final DeferredItem<Item> UPGRADE_FORTUNE_1 = ITEMS.register("upgrade_fortune_1", () -> new MachineUpgradeItem(new Item.Properties(), MachineUpgradeItem.UpgradeType.FORTUNE, 1));
+    public static final DeferredItem<Item> UPGRADE_FORTUNE_2 = ITEMS.register("upgrade_fortune_2", () -> new MachineUpgradeItem(new Item.Properties(), MachineUpgradeItem.UpgradeType.FORTUNE, 2));
+    public static final DeferredItem<Item> UPGRADE_FORTUNE_3 = ITEMS.register("upgrade_fortune_3", () -> new MachineUpgradeItem(new Item.Properties(), MachineUpgradeItem.UpgradeType.FORTUNE, 3));
+    public static final DeferredItem<Item> UPGRADE_AFTERBURN_1 = ITEMS.register("upgrade_afterburn_1", () -> new MachineUpgradeItem(new Item.Properties(), MachineUpgradeItem.UpgradeType.AFTERBURN, 1));
+    public static final DeferredItem<Item> UPGRADE_AFTERBURN_2 = ITEMS.register("upgrade_afterburn_2", () -> new MachineUpgradeItem(new Item.Properties(), MachineUpgradeItem.UpgradeType.AFTERBURN, 2));
+    public static final DeferredItem<Item> UPGRADE_AFTERBURN_3 = ITEMS.register("upgrade_afterburn_3", () -> new MachineUpgradeItem(new Item.Properties(), MachineUpgradeItem.UpgradeType.AFTERBURN, 3));
+    public static final DeferredItem<Item> UPGRADE_RADIUS = ITEMS.register("upgrade_radius", () -> new Item(new Item.Properties().stacksTo(16)));
+    public static final DeferredItem<Item> UPGRADE_HEALTH = ITEMS.register("upgrade_health", () -> new Item(new Item.Properties().stacksTo(16)));
+    public static final DeferredItem<Item> UPGRADE_OVERDRIVE_1 = ITEMS.register("upgrade_overdrive_1", () -> new MachineUpgradeItem(new Item.Properties(), MachineUpgradeItem.UpgradeType.OVERDRIVE, 1));
+    public static final DeferredItem<Item> UPGRADE_OVERDRIVE_2 = ITEMS.register("upgrade_overdrive_2", () -> new MachineUpgradeItem(new Item.Properties(), MachineUpgradeItem.UpgradeType.OVERDRIVE, 2));
+    public static final DeferredItem<Item> UPGRADE_OVERDRIVE_3 = ITEMS.register("upgrade_overdrive_3", () -> new MachineUpgradeItem(new Item.Properties(), MachineUpgradeItem.UpgradeType.OVERDRIVE, 3));
 
     // Breeding Rods
     public static final DeferredItem<Item> ROD_EMPTY = ITEMS.register("rod_empty", () -> new Item(new Item.Properties()));
@@ -391,6 +536,7 @@ public class NtmItems {
     public static final DeferredItem<Item> BOMB_CALLER = ITEMS.register("bomb_caller", () -> new BombCallerItem(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> DEFUSER = ITEMS.register("defuser", () -> new ToolingItem(ToolType.DEFUSER, new Item.Properties().durability(100)));
     public static final DeferredItem<Item> REACHER = ITEMS.register("reacher", () -> new Item(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> DRILL_TITANIUM = ITEMS.register("drill_titanium", () -> new Item(new Item.Properties()));
 
     // Wands, Tools, Other Crap
     public static final DeferredItem<Item> POLAROID = ITEMS.register("polaroid", () -> new PolaroidItem(new Item.Properties().stacksTo(1)));
@@ -413,6 +559,42 @@ public class NtmItems {
     public static DeferredItem<Item> GUN_DEBUG;
 
     public static final DeferredItem<Item> NO9 = ITEMS.register("no9", () -> new ArmorNo9(ArmorMaterials.IRON));
+
+    private static DeferredItem<Item> registerNugget(String name) {
+        return ITEMS.register(name, () -> new Item(new Item.Properties()));
+    }
+
+    public static ItemStack castPlate(CastPlateItem.Type type) {
+        return MetaHelper.newStack(CAST_PLATE.get(), 1, type.ordinal());
+    }
+
+    public static ItemStack castPlate(CastPlateItem.Type type, int count) {
+        return MetaHelper.newStack(CAST_PLATE.get(), count, type.ordinal());
+    }
+
+    public static ItemStack castPlateWelded(CastPlateItem.Type type) {
+        return MetaHelper.newStack(CAST_PLATE_WELDED.get(), 1, type.ordinal());
+    }
+
+    public static ItemStack castPlateWelded(CastPlateItem.Type type, int count) {
+        return MetaHelper.newStack(CAST_PLATE_WELDED.get(), count, type.ordinal());
+    }
+
+    public static ComparableStack castPlateIngredient(CastPlateItem.Type type) {
+        return new ComparableStack(CAST_PLATE.get(), 1, type.ordinal());
+    }
+
+    public static ComparableStack castPlateIngredient(CastPlateItem.Type type, int count) {
+        return new ComparableStack(CAST_PLATE.get(), count, type.ordinal());
+    }
+
+    public static ComparableStack castPlateWeldedIngredient(CastPlateItem.Type type) {
+        return new ComparableStack(CAST_PLATE_WELDED.get(), 1, type.ordinal());
+    }
+
+    public static ComparableStack castPlateWeldedIngredient(CastPlateItem.Type type, int count) {
+        return new ComparableStack(CAST_PLATE_WELDED.get(), count, type.ordinal());
+    }
 
     public static void registerOther(DeferredRegister.Items itemRegistry) {
         GunFactory.init(itemRegistry);

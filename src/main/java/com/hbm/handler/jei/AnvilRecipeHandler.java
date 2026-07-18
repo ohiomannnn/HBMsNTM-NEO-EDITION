@@ -3,12 +3,15 @@ package com.hbm.handler.jei;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.inventory.recipes.anvil.AnvilSmithingRecipe;
 import com.hbm.main.NuclearTechMod;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
-import mezz.jei.api.gui.drawable.IDrawable;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
 public class AnvilRecipeHandler implements IRecipeCategory<AnvilSmithingRecipe> {
@@ -20,9 +23,9 @@ public class AnvilRecipeHandler implements IRecipeCategory<AnvilSmithingRecipe> 
 
     public AnvilRecipeHandler(IGuiHelper guiHelper) {
         this.background = guiHelper.drawableBuilder(
-                NuclearTechMod.withDefaultNamespace("textures/gui/processing/gui_anvil.png"),
+                NuclearTechMod.withDefaultNamespace("textures/gui/jei/gui_nei_smithing.png"),
                 5, 11, 166, 65
-        ).setTextureSize(176, 222).build();
+        ).setTextureSize(256, 256).build();
         this.icon = guiHelper.createDrawableItemLike(NtmBlocks.ANVIL.asItem());
     }
 
@@ -62,9 +65,13 @@ public class AnvilRecipeHandler implements IRecipeCategory<AnvilSmithingRecipe> 
 
         builder.addOutputSlot(110, 23)
                 .addItemStack(recipe.getSimpleOutput())
-                .setOutputSlotBackground()
-                .addRichTooltipCallback((slotView, tooltip) -> tooltip.add(Component.literal("Tier " + recipe.getTier())));
+                .setOutputSlotBackground();
 
         builder.createFocusLink(left, right);
+    }
+
+    @Override
+    public void draw(AnvilSmithingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+        guiGraphics.drawString(Minecraft.getInstance().font, "Tier " + recipe.getTier(), 52, 43, 0x404040, false);
     }
 }

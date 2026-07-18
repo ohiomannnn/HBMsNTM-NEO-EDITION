@@ -44,6 +44,8 @@ public class NtmBlocks {
 
     // Ores
     public static final DeferredBlock<Block> ORE_OIL = register("ore_oil", () -> new Block(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(10.0F).sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_OIL_EMPTY = register("ore_oil_empty", () -> new Block(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(10.0F).sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> ORE_OIL_SAND = register("ore_oil_sand", () -> new Block(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(10.0F).sound(SoundType.STONE)));
     public static final DeferredBlock<Block> ORE_URANIUM = register("ore_uranium", () -> new Block(BlockBehaviour.Properties.of().strength(0.7F).explosionResistance(6.0F).sound(SoundType.STONE)));
     public static final DeferredBlock<Block> ORE_URANIUM_DEEPSLATE = register("ore_uranium_deepslate", () -> new Block(BlockBehaviour.Properties.of().strength(0.8F).explosionResistance(8.0F).sound(SoundType.DEEPSLATE)));
     public static final DeferredBlock<Block> ORE_URANIUM_SCORCHED = register("ore_uranium_scorched", () -> new Block(BlockBehaviour.Properties.of().strength(5.0F).explosionResistance(10.0F).sound(SoundType.STONE)));
@@ -102,6 +104,12 @@ public class NtmBlocks {
     public static final DeferredBlock<Block> BASALT_BRICK =        register("basalt_brick",    () -> new Block(BlockBehaviour.Properties.of().strength(5F, 10F).sound(SoundType.BASALT).mapColor(MapColor.COLOR_BLACK).instrument(NoteBlockInstrument.BASEDRUM)));
     public static final DeferredBlock<Block> BASALT_POLISHED =     register("basalt_polished", () -> new Block(BlockBehaviour.Properties.of().strength(5F, 10F).sound(SoundType.BASALT).mapColor(MapColor.COLOR_BLACK).instrument(NoteBlockInstrument.BASEDRUM)));
     public static final DeferredBlock<Block> BASALT_TILES =        register("basalt_tiles",    () -> new Block(BlockBehaviour.Properties.of().strength(5F, 10F).sound(SoundType.BASALT).mapColor(MapColor.COLOR_BLACK).instrument(NoteBlockInstrument.BASEDRUM)));
+    public static final DeferredBlock<Block> STONE_CRACKED =       register("stone_cracked",   () -> new Block(BlockBehaviour.Properties.of().strength(0.7F).explosionResistance(5.0F).sound(SoundType.STONE)));
+    public static final DeferredBlock<Block> DIRT_OILY =           register("dirt_oily",       () -> new Block(BlockBehaviour.Properties.of().strength(0.7F).explosionResistance(5.0F).sound(SoundType.GRAVEL)));
+    public static final DeferredBlock<Block> SAND_OILY =           register("sand_oily",       () -> new Block(BlockBehaviour.Properties.of().strength(0.7F).explosionResistance(5.0F).sound(SoundType.SAND)));
+    public static final DeferredBlock<Block> SAND_RED_OILY =       register("sand_oily_red",   () -> new Block(BlockBehaviour.Properties.of().strength(0.7F).explosionResistance(5.0F).sound(SoundType.SAND)));
+    public static final DeferredBlock<Block> DIRT_DEAD =           register("dirt_dead",       () -> new Block(BlockBehaviour.Properties.of().strength(0.7F).explosionResistance(5.0F).sound(SoundType.GRAVEL)));
+    public static final DeferredBlock<Block> OIL_SPILL =           register("oil_spill",       () -> new OilSpillBlock(BlockBehaviour.Properties.of().strength(0.1F).sound(SoundType.SLIME_BLOCK).noOcclusion().isValidSpawn(Blocks::never).isSuffocating(NtmBlocks::never).isViewBlocking(NtmBlocks::never).pushReaction(PushReaction.DESTROY).isRedstoneConductor(NtmBlocks::never)));
 
     // Blocks
     public static final DeferredBlock<Block> BLOCK_SCRAP = register("block_scrap", () -> new ColoredFallingBlock(new ColorRGBA(-8356741), BlockBehaviour.Properties.of().strength(2.5F, 5.0F).sound(SoundType.GRAVEL)));
@@ -190,6 +198,17 @@ public class NtmBlocks {
     public static final DeferredBlock<Block> MINE_FAT =   register("mine_fat",   () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().strength(1.0F, 0.0F).sound(SoundType.METAL).mapColor(MapColor.METAL), 2.5D, 1D));
     public static final DeferredBlock<Block> MINE_NAVAL = register("mine_naval", () -> new LandmineBlock(BlockBehaviour.Properties.of().noOcclusion().strength(1.0F, 0.0F).sound(SoundType.METAL).mapColor(MapColor.METAL), 2.5D, 1D));
 
+    // Anvil construction placeholders
+    public static final DeferredBlock<Block> DECO_ALUMINIUM = register("deco_aluminium", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> DECO_BERYLLIUM = register("deco_beryllium", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> DECO_LEAD = register("deco_lead", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> DECO_GRADE_COPPER = register("deco_grade_copper", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> DECO_STEEL = register("deco_steel", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> DECO_RUSTY_STEEL = register("deco_rusty_steel", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> DECO_TITANIUM = register("deco_titanium", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> DECO_TUNGSTEN = register("deco_tungsten", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> DECO_ASBESTOS = register("deco_asbestos", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+
     // Block Bombs
     public static final DeferredBlock<Block> DET_CHARGE =  register("det_charge",  () -> new ExplosiveChargeBlock(BlockBehaviour.Properties.of().strength(0.1F, 0.0F).sound(SoundType.METAL)));
     public static final DeferredBlock<Block> DET_CORD =    register("det_cord",    () -> new DetCordBlock(BlockBehaviour.Properties.of().strength(0.1F, 0.0F).noOcclusion().isSuffocating(NtmBlocks::never).isViewBlocking(NtmBlocks::never).sound(SoundType.METAL)));
@@ -206,17 +225,9 @@ public class NtmBlocks {
     // Machines
     public static final DeferredBlock<Block> MACHINE_PRESS = register("machine_press", () -> new MachinePressBlock(BlockBehaviour.Properties.of().noOcclusion().strength(5.0F, 10.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
     public static final DeferredBlock<Block> ANVIL = registerNew("anvil", () -> new NTMAnvilBlock(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).sound(SoundType.ANVIL).mapColor(MapColor.METAL).requiresCorrectToolForDrops().noOcclusion()));
-
-    // Anvil construction placeholders
-    public static final DeferredBlock<Block> DECO_ALUMINIUM = register("deco_aluminium", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
-    public static final DeferredBlock<Block> DECO_BERYLLIUM = register("deco_beryllium", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
-    public static final DeferredBlock<Block> DECO_LEAD = register("deco_lead", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
-    public static final DeferredBlock<Block> DECO_GRADE_COPPER = register("deco_grade_copper", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
-    public static final DeferredBlock<Block> DECO_STEEL = register("deco_steel", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
-    public static final DeferredBlock<Block> DECO_RUSTY_STEEL = register("deco_rusty_steel", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
-    public static final DeferredBlock<Block> DECO_TITANIUM = register("deco_titanium", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
-    public static final DeferredBlock<Block> DECO_TUNGSTEN = register("deco_tungsten", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
-    public static final DeferredBlock<Block> DECO_ASBESTOS = register("deco_asbestos", () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> MACHINE_SOLDERING_STATION = register("machine_soldering_station", () -> new MachineSolderingStationBlock(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).sound(SoundType.METAL).mapColor(MapColor.METAL).requiresCorrectToolForDrops().noOcclusion()));
+    public static final DeferredBlock<Block> MACHINE_OIL_DERRICK = register("machine_oil_derrick", () -> new MachineOilDerrick(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).sound(SoundType.METAL).mapColor(MapColor.METAL).requiresCorrectToolForDrops().noOcclusion()));
+    public static final DeferredBlock<Block> MACHINE_REFINERY = register("machine_refinery", () -> new MachineRefinery(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).sound(SoundType.METAL).mapColor(MapColor.METAL).requiresCorrectToolForDrops().noOcclusion()));
 
     public static final DeferredBlock<Block> RED_CABLE = register("red_cable", () -> new CableBlock(BlockBehaviour.Properties.of().noOcclusion().strength(5.0F, 10.0F).sound(SoundType.METAL).mapColor(MapColor.COLOR_BLACK)));
 
@@ -262,6 +273,7 @@ public class NtmBlocks {
     public static final DeferredBlock<Block> GAS_COAL =        register("gas_coal",        () -> new GasCoalBlock(       BlockBehaviour.Properties.of().replaceable().noCollission().noOcclusion().noLootTable()));
     public static final DeferredBlock<Block> GAS_FLAMMABLE =   register("gas_flammable",   () -> new GasFlammableBlock(  BlockBehaviour.Properties.of().replaceable().noCollission().noOcclusion().noLootTable()));
     public static final DeferredBlock<Block> GAS_EXPLOSIVE =   register("gas_explosive",   () -> new GasExplosiveBlock(  BlockBehaviour.Properties.of().replaceable().noCollission().noOcclusion().noLootTable()));
+    public static final DeferredBlock<Block> OIL_PIPE =        register("oil_pipe",        () -> new Block(BlockBehaviour.Properties.of().strength(1.5F).noLootTable().sound(SoundType.METAL).mapColor(MapColor.METAL)));
 
     // ???
     public static final DeferredBlock<Block> TAINT = register("taint", () -> new TaintBlock(BlockBehaviour.Properties.of().randomTicks().strength(15.0F, 10.0F).noLootTable().mapColor(DyeColor.GRAY)));

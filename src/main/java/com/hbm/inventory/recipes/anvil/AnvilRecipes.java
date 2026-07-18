@@ -162,6 +162,23 @@ public class AnvilRecipes {
         addAnvilRecipe(NtmItems.INGOT_MAGNETIZED_TUNGSTEN.get(), 1,NtmItems.WIRE_MAGNETIZED_TUNGSTEN.get(), 8, 4);
         addAnvilRecipe(NtmItems.INGOT_GRAPHITE.get(), 1,NtmItems.WIRE_CARBON.get(), 8, 4);
         addAnvilRecipe(NtmItems.INGOT_GRADE_COPPER.get(), 1,NtmItems.WIRE_GRADE_COPPER.get(), 8, 4);
+        CONSTRUCTION_RECIPES.add(new AnvilConstructionRecipe(
+                new AStack[] {
+                        new ComparableStack(NtmItems.INGOT_STEEL.get(), 8),
+                        new ComparableStack(NtmItems.PLATE_COPPER.get(), 4),
+                        new ComparableStack(NtmItems.MOTOR.get(), 2),
+                        new ComparableStack(NtmItems.CIRCUIT_VACUUM_TUBE.get(), 4)
+                },
+                new AnvilOutput(new ItemStack(NtmBlocks.MACHINE_ASSEMBLY_MACHINE.asItem()))
+        ).setTier(1).setOverlay(OverlayType.CONSTRUCTION));
+        CONSTRUCTION_RECIPES.add(new AnvilConstructionRecipe(
+                new AStack[] {
+                        new ComparableStack(NtmItems.COIL_COPPER.get(), 1),
+                        new ComparableStack(NtmItems.PLATE_IRON.get(), 2),
+                        new ComparableStack(NtmItems.COIL_COPPER_RING.get(), 1),
+                },
+                new AnvilOutput(new ItemStack(NtmItems.MOTOR.asItem()))
+        ).setTier(2).setOverlay(OverlayType.CONSTRUCTION));
         addAnvilRecipe(NtmItems.PLATE_TITANIUM.get(), 4, NtmItems.SHELL_TITANIUM.get(), 1, 1);
         addAnvilRecipe(NtmItems.PLATE_ALUMINIUM.get(), 4, NtmItems.SHELL_ALUMINIUM.get(), 1, 1);
         addAnvilRecipe(NtmItems.PLATE_COPPER.get(), 4, NtmItems.SHELL_COPPER.get(), 1, 1);

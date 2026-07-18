@@ -12,6 +12,7 @@ import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.recipes.SolderingRecipes;
 import com.hbm.inventory.recipes.AssemblyMachineRecipes;
 import com.hbm.inventory.recipes.PressRecipes;
 import com.hbm.main.NuclearTechMod;
@@ -42,6 +43,7 @@ public abstract class SerializableRecipe {
      */
 
     public static void registerAllHandlers() {
+        recipeHandlers.add(new SolderingRecipes());
         recipeHandlers.add(new PressRecipes());
 
         recipeHandlers.add(new AssemblyMachineRecipes());
