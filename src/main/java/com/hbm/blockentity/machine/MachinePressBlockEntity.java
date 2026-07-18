@@ -6,17 +6,21 @@ import com.hbm.blocks.NtmBlocks;
 import com.hbm.inventory.menus.MachinePressMenu;
 import com.hbm.inventory.recipes.PressRecipes;
 import com.hbm.items.machine.StampItem;
+import com.hbm.registry.NtmSoundEvents;
+import com.hbm.util.SoundUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 
 public class MachinePressBlockEntity extends MachineBaseBlockEntity {
 
@@ -26,15 +30,15 @@ public class MachinePressBlockEntity extends MachineBaseBlockEntity {
     public int burnTime = 0; // burn ticks of the loaded fuel, 200 ticks equal one operation
 
     public int press; // extension of the press, operation is completed if maxPress is reached
-    public double renderPress; // client-side version of the press var, a double for smoother rendering
-    public double lastPress; // for interp
+    public float renderPress; // client-side version of the press var, a float for smoother rendering
+    public float lastPress; // for interp
     private int syncPress; // for interp
     private int turnProgress; // for interp 3: revenge of the sith
     public final static int maxPress = 200; // max tick count per operation assuming speed is 1
     boolean isRetracting = false; // direction the press is currently going
     private int delay; // delay between direction changes to look a bit more appealing
 
-    public ItemStack syncStack;
+    public ItemStack syncStack = ItemStack.EMPTY;
 
     public MachinePressBlockEntity(BlockPos pos, BlockState state) {
         super(NtmBlockEntityTypes.PRESS.get(), pos, state, 13);
@@ -87,7 +91,7 @@ public class MachinePressBlockEntity extends MachineBaseBlockEntity {
                     this.press += stampSpeed;
 
                     if(this.press >= maxPress) {
-                        //this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, "hbm:block.pressOperate", this.getVolume(1.5F), 1.0F);
+                        SoundUtils.playAtVec3(this.level, Vec3.atCenterOf(this.getBlockPos()), NtmSoundEvents.PRESS_OPERATE.get(), SoundSource.BLOCKS, this.getVolume(1.5F), 1F);
                         ItemStack output = PressRecipes.getOutput(this.slots.get(2), this.slots.get(1));
                         if(this.slots.get(3).isEmpty()) {
                             this.slots.set(3, output.copy());
@@ -107,13 +111,11 @@ public class MachinePressBlockEntity extends MachineBaseBlockEntity {
 
                         this.isRetracting = true;
                         this.delay = 5;
-                        if(this.burnTime >= 200) {
-                            this.burnTime -= 200; // only subtract fuel if operation was actually successful
-                        }
+                        if(this.burnTime >= 200) this.burnTime -= 200; // only subtract fuel if operation was actually successful
 
                         this.setChanged();
                     }
-                } else if(this.press > 0){
+                } else if(this.press > 0) {
                     this.isRetracting = true;
                 }
             } else {
@@ -122,6 +124,7 @@ public class MachinePressBlockEntity extends MachineBaseBlockEntity {
 
             if(burnTime < 200 && this.slots.get(0).getBurnTime(null) > 0) { // less than one operation stored? burn more fuel!
                 burnTime += this.slots.get(0).getBurnTime(null);
+
                 if(this.slots.get(0).getCount() == 1 && this.slots.get(0).hasCraftingRemainingItem()) {
                     this.slots.set(0, this.slots.get(0).getCraftingRemainingItem().copy());
                 } else {
@@ -138,7 +141,7 @@ public class MachinePressBlockEntity extends MachineBaseBlockEntity {
             this.lastPress = this.renderPress;
 
             if(this.turnProgress > 0) {
-                this.renderPress = this.renderPress + ((this.syncPress - this.renderPress) / (double) this.turnProgress);
+                this.renderPress = this.renderPress + ((this.syncPress - this.renderPress) / (float) this.turnProgress);
                 --this.turnProgress;
             } else {
                 this.renderPress = this.syncPress;
@@ -178,9 +181,7 @@ public class MachinePressBlockEntity extends MachineBaseBlockEntity {
         ItemStack outSlot = slots.get(3);
         if(outSlot.isEmpty()) return true;
 
-        if(outSlot.getCount() + output.getCount() <= outSlot.getMaxStackSize() && ItemStack.isSameItemSameComponents(outSlot, output)) {
-            return true;
-        }
+        if(outSlot.getCount() + output.getCount() <= outSlot.getMaxStackSize() && ItemStack.isSameItemSameComponents(outSlot, output)) return true;
         return false;
     }
 
@@ -213,20 +214,20 @@ public class MachinePressBlockEntity extends MachineBaseBlockEntity {
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
 
-        press = tag.getInt("press");
-        burnTime = tag.getInt("burnTime");
-        speed = tag.getInt("speed");
-        isRetracting = tag.getBoolean("ret");
+        tag.putInt("press", this.press);
+        tag.putInt("burnTime", this.burnTime);
+        tag.putInt("speed", this.speed);
+        tag.putBoolean("ret", this.isRetracting);
     }
 
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
 
-        tag.putInt("press", press);
-        tag.putInt("burnTime", burnTime);
-        tag.putInt("speed", speed);
-        tag.putBoolean("ret", isRetracting);
+        this.press = tag.getInt("press");
+        this.burnTime = tag.getInt("burnTime");
+        this.speed = tag.getInt("speed");
+        this.isRetracting = tag.getBoolean("ret");
     }
 
 }

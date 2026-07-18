@@ -125,6 +125,9 @@ public class NtmSoundDefinitionsProvider extends SoundDefinitionsProvider {
                 )
         );
         // BLOCKS
+        this.add(NtmSoundEvents.PRESS_OPERATE, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("block/press_operate")))
+        );
         this.add(NtmSoundEvents.SONAR_PING, SoundDefinition.definition()
                 .with(sound("hbmsntm:block/sonar_ping"))
         );

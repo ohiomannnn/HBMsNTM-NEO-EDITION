@@ -223,7 +223,7 @@ public class NtmBlocks {
     public static final DeferredBlock<Block> GEIGER = register("geiger", () -> new GeigerCounterBlock(BlockBehaviour.Properties.of().strength(15.0F, 0.25F).sound(SoundType.METAL).mapColor(MapColor.COLOR_YELLOW)));
 
     // Machines
-    public static final DeferredBlock<Block> PRESS_PREHEATER = register("press_preheater", () -> new Block(BlockBehaviour.Properties.of().noOcclusion().strength(5.0F, 10.0F).mapColor(MapColor.FIRE)));
+    public static final DeferredBlock<Block> PRESS_PREHEATER = register("press_preheater", () -> new Block(BlockBehaviour.Properties.of().strength(5.0F, 10.0F).mapColor(MapColor.FIRE)));
     public static final DeferredBlock<Block> MACHINE_PRESS = register("machine_press", () -> new MachinePressBlock(BlockBehaviour.Properties.of().noOcclusion().strength(5.0F, 10.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
     public static final DeferredBlock<Block> ANVIL = registerNew("anvil", () -> new NTMAnvilBlock(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).sound(SoundType.ANVIL).mapColor(MapColor.METAL).requiresCorrectToolForDrops().noOcclusion()));
     public static final DeferredBlock<Block> MACHINE_SOLDERING_STATION = register("machine_soldering_station", () -> new MachineSolderingStationBlock(BlockBehaviour.Properties.of().strength(5.0F, 100.0F).sound(SoundType.METAL).mapColor(MapColor.METAL).requiresCorrectToolForDrops().noOcclusion()));

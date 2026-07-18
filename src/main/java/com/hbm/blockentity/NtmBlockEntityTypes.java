@@ -72,12 +72,7 @@ public class NtmBlockEntityTypes {
                             NtmBlocks.MACHINE_SATLINKER.get())
                     .build(null));
 
-    public static final Supplier<BlockEntityType<MachinePressBlockEntity>> PRESS = BLOCK_ENTITY_TYPES.register(
-            "press",
-            () -> BlockEntityType.Builder.of(
-                            MachinePressBlockEntity::new,
-                            NtmBlocks.MACHINE_PRESS.get())
-                    .build(null));
+    public static final Supplier<BlockEntityType<MachinePressBlockEntity>> PRESS = BLOCK_ENTITY_TYPES.register("press", () -> BlockEntityType.Builder.of(MachinePressBlockEntity::new, NtmBlocks.MACHINE_PRESS.get()).build(null));
 
     public static final Supplier<BlockEntityType<MachineFluidTankBlockEntity>> FLUID_TANK = BLOCK_ENTITY_TYPES.register(
             "fluid_tank",

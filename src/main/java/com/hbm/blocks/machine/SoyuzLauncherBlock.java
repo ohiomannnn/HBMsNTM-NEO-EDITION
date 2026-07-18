@@ -6,6 +6,7 @@ import com.hbm.blockentity.machine.SoyuzLauncherBlockEntity;
 import com.hbm.blocks.DummyBlockType;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.handler.MultiblockHandlerXR;
+import com.hbm.main.NuclearTechMod;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -64,9 +65,9 @@ public class SoyuzLauncherBlock extends DummyableBlock {
 
         Direction dir = Direction.EAST;
 
-        if(!checkRequirement(level, pos, dir, offset)) {
-            level.removeBlock(pos, false);
+        level.removeBlock(pos, false);
 
+        if(!checkRequirement(level, pos, dir, offset)) {
             if(!player.hasInfiniteMaterials()) {
                 ItemStack mainHandStack = player.getMainHandItem();
                 ItemStack offHandStack = player.getOffhandItem();

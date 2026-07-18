@@ -714,7 +714,6 @@ public class NtmCreativeTabs {
                         output.accept(NtmBlocks.LAUNCH_PAD);
                         output.accept(NtmBlocks.LAUNCH_PAD_LARGE);
                         output.accept(NtmBlocks.SOYUZ_LAUNCHER);
-                        output.accept(NtmBlocks.MACHINE_RADAR);
 
                         output.accept(NtmItems.DESIGNATOR);
                         output.accept(NtmItems.DESIGNATOR_RANGE);

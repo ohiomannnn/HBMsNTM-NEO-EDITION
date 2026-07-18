@@ -86,7 +86,6 @@ public class MultiblockHandlerXR {
                     BlockPos dummyPos = new BlockPos(a, b, c);
                     BlockState dummyState = block.createDummyState(facingDir);
 
-                    NuclearTechMod.LOGGER.info("FILLESPACE = {} {}", dummyPos, dummyState);
                     level.setBlock(dummyPos, dummyState, 3);
 
                     count++;

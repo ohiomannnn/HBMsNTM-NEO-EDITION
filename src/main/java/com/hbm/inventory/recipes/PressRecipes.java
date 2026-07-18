@@ -56,6 +56,13 @@ public class PressRecipes extends SerializableRecipe {
         makeRecipe(StampType.PLATE, new ComparableStack(NtmItems.INGOT_WEAPON_STEEL.get()),     	NtmItems.PLATE_WEAPON_STEEL.get());
         makeRecipe(StampType.PLATE, new ComparableStack(NtmItems.INGOT_SATURNITE.get()),		    NtmItems.PLATE_SATURNITE.get());
         makeRecipe(StampType.PLATE, new ComparableStack(NtmItems.INGOT_DURA_STEEL.get()),			NtmItems.PLATE_DURA_STEEL.get());
+
+        makeRecipe(StampType.WIRE, new ComparableStack(Items.GOLD_INGOT),			                new ItemStack(NtmItems.WIRE_GOLD.get(), 8));
+        makeRecipe(StampType.WIRE, new ComparableStack(NtmItems.INGOT_ALUMINIUM.get()),			    new ItemStack(NtmItems.WIRE_ALUMINIUM.get(), 8));
+        makeRecipe(StampType.WIRE, new ComparableStack(NtmItems.INGOT_STEEL.get()),		            new ItemStack(NtmItems.WIRE_STEEL.get(), 8));
+        makeRecipe(StampType.WIRE, new ComparableStack(NtmItems.INGOT_LEAD.get()),			        new ItemStack(NtmItems.WIRE_LEAD.get(), 8));
+        makeRecipe(StampType.WIRE, new ComparableStack(Items.COPPER_INGOT),			                new ItemStack(NtmItems.WIRE_COPPER.get(), 8));
+        makeRecipe(StampType.WIRE, new ComparableStack(NtmItems.INGOT_SCHRABIDIUM.get()),		    new ItemStack(NtmItems.WIRE_SCHRABIDIUM.get(), 8));
     }
 
     public static void makeRecipe(StampType type, AStack in, Item out) {
