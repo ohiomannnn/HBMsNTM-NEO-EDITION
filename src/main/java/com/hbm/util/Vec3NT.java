@@ -9,6 +9,8 @@ public class Vec3NT {
     public double yCoord;
     public double zCoord;
 
+    public Vec3NT() { this(0, 0, 0); }
+
     public Vec3NT(double x, double y, double z) {
         if (x == -0.0D) {
             x = 0.0D;

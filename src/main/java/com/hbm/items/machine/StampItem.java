@@ -1,9 +1,7 @@
 package com.hbm.items.machine;
 
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,16 +28,15 @@ public class StampItem extends Item {
         PRINTING8
     }
 
-    protected StampType type;
-    public StampType getStampType() { return this.type; }
+    public final StampType type;
     public static final HashMap<StampType, List<ItemStack>> stamps = new HashMap<>();
 
-    public StampItem(Properties properties, int dura, StampType type) {
-        super(properties.durability(dura));
+    public StampItem(int dura, StampType type) {
+        super(new Item.Properties().durability(dura));
 
         this.type = type;
 
-        if (type != null) {
+        if(type != null) {
             this.addStampToList(this, type);
         }
     }
@@ -47,18 +44,11 @@ public class StampItem extends Item {
     protected void addStampToList(Item item, StampType type) {
         List<ItemStack> list = stamps.get(type);
 
-        if (list == null) list = new ArrayList<>();
+        if(list == null) list = new ArrayList<>();
 
         ItemStack stack = new ItemStack(item, 1);
 
         list.add(stack);
         stamps.put(type, list);
-    }
-
-    @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
-        if ((this.type == StampType.PLATE || this.type == StampType.WIRE || this.type == StampType.CIRCUIT)) {
-            components.add(Component.translatable("item.hbmsntm.stamp.desc"));
-        }
     }
 }

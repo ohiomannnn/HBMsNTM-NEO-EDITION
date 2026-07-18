@@ -1,10 +1,13 @@
 package com.hbm.blocks;
 
 import com.hbm.blockentity.IPersistentNBT;
+import com.hbm.blocks.machine.MachineRadarBlock;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.interfaces.ICopiable;
+import com.hbm.main.NuclearTechMod;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
@@ -140,6 +143,8 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
 
     private void destroyIfOrphan(Level level, BlockPos pos, BlockState state) {
         if(level.isClientSide) return;
+        // todo figure out????
+        if(isCore(state)) return;
 
         Direction dir = state.getValue(FACING).getOpposite();
         Block b = level.getBlockState(pos.relative(dir)).getBlock();
@@ -229,6 +234,7 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
             BlockPos corePos = adjustedPos.relative(dir, offset);
             BlockState coreState = this.getStateForCore(level, corePos, player, dir);
 
+            NuclearTechMod.LOGGER.info("setBlock core={} {}", corePos, coreState);
             level.setBlock(corePos, coreState, 3);
 
             IPersistentNBT.restoreData(level, corePos, stack);
@@ -260,11 +266,11 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
     }
 
     protected boolean checkRequirement(Level level, BlockPos pos, Direction dir, int offset) {
-        return MultiblockHandlerXR.checkSpace(level, pos.relative(dir, offset), getDimensions(), pos, dir);
+        return MultiblockHandlerXR.checkSpace(level, pos.relative(dir, offset), this.getDimensions(), pos, dir);
     }
 
     protected void fillSpace(Level level, BlockPos pos, Direction dir, int offset) {
-        MultiblockHandlerXR.fillSpace(level, pos.relative(dir, offset), getDimensions(), this, dir);
+        MultiblockHandlerXR.fillSpace(level, pos.relative(dir, offset), this.getDimensions(), this, dir);
     }
 
     /**

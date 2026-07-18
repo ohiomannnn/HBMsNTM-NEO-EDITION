@@ -330,6 +330,31 @@ public class NtmItemModelProvider extends ItemModelProvider {
 
         // todo register BLUEPRINTS
 
+        this.basicItem(NtmItems.STAMP_STONE_FLAT.get());
+        this.basicItem(NtmItems.STAMP_STONE_PLATE.get());
+        this.basicItem(NtmItems.STAMP_STONE_WIRE.get());
+        this.basicItem(NtmItems.STAMP_STONE_CIRCUIT.get());
+        this.basicItem(NtmItems.STAMP_IRON_FLAT.get());
+        this.basicItem(NtmItems.STAMP_IRON_PLATE.get());
+        this.basicItem(NtmItems.STAMP_IRON_WIRE.get());
+        this.basicItem(NtmItems.STAMP_IRON_CIRCUIT.get());
+        this.basicItem(NtmItems.STAMP_STEEL_FLAT.get());
+        this.basicItem(NtmItems.STAMP_STEEL_PLATE.get());
+        this.basicItem(NtmItems.STAMP_STEEL_WIRE.get());
+        this.basicItem(NtmItems.STAMP_STEEL_CIRCUIT.get());
+        this.basicItem(NtmItems.STAMP_TITANIUM_FLAT.get());
+        this.basicItem(NtmItems.STAMP_TITANIUM_PLATE.get());
+        this.basicItem(NtmItems.STAMP_TITANIUM_WIRE.get());
+        this.basicItem(NtmItems.STAMP_TITANIUM_CIRCUIT.get());
+        this.basicItem(NtmItems.STAMP_OBSIDIAN_FLAT.get());
+        this.basicItem(NtmItems.STAMP_OBSIDIAN_PLATE.get());
+        this.basicItem(NtmItems.STAMP_OBSIDIAN_WIRE.get());
+        this.basicItem(NtmItems.STAMP_OBSIDIAN_CIRCUIT.get());
+        this.basicItem(NtmItems.STAMP_DESH_FLAT.get());
+        this.basicItem(NtmItems.STAMP_DESH_PLATE.get());
+        this.basicItem(NtmItems.STAMP_DESH_WIRE.get());
+        this.basicItem(NtmItems.STAMP_DESH_CIRCUIT.get());
+
         this.basicItem(NtmItems.FLUID_ICON.get());
         this.layeredItem(NtmItems.FLUID_IDENTIFIER_MULTI.get(), "fluid_identifier_multi", "fluid_identifier_overlay");
 

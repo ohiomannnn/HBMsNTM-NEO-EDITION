@@ -3,14 +3,17 @@ package com.hbm.inventory.recipes;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
+import com.hbm.inventory.MetaHelper;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.items.NtmItems;
+import com.hbm.items.machine.StampItem;
 import com.hbm.items.machine.StampItem.StampType;
 import com.hbm.util.Tuple.Pair;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
 import java.io.IOException;
@@ -22,9 +25,37 @@ public class PressRecipes extends SerializableRecipe {
 
     public static HashMap<Pair<AStack, StampType>, ItemStack> recipes = new HashMap<>();
 
+    public static ItemStack getOutput(ItemStack ingredient, ItemStack stamp) {
+
+        if(ingredient.isEmpty() || stamp.isEmpty()) return ItemStack.EMPTY;
+        if(!(stamp.getItem() instanceof StampItem stampItem)) return ItemStack.EMPTY;
+
+        StampType type = stampItem.type;
+
+        for(Entry<Pair<AStack, StampType>, ItemStack> recipe : recipes.entrySet()) {
+
+            if(recipe.getKey().getValue() == type && recipe.getKey().getKey().matchesRecipe(ingredient, true)) return recipe.getValue();
+        }
+
+        return ItemStack.EMPTY;
+    }
+
     @Override
     public void registerDefaults() {
-        makeRecipe(StampType.FLAT, new ComparableStack(Blocks.OAK_LOG.asItem(), 1, 4), NtmItems.NOTHING.get());
+
+        makeRecipe(StampType.PLATE, new ComparableStack(Items.IRON_INGOT),			                NtmItems.PLATE_IRON.get());
+        makeRecipe(StampType.PLATE, new ComparableStack(Items.GOLD_INGOT),			                NtmItems.PLATE_GOLD.get());
+        makeRecipe(StampType.PLATE, new ComparableStack(NtmItems.INGOT_TITANIUM.get()),			    NtmItems.PLATE_TITANIUM.get());
+        makeRecipe(StampType.PLATE, new ComparableStack(NtmItems.INGOT_ALUMINIUM.get()),			NtmItems.PLATE_ALUMINIUM.get());
+        makeRecipe(StampType.PLATE, new ComparableStack(NtmItems.INGOT_STEEL.get()),		        NtmItems.PLATE_STEEL.get());
+        makeRecipe(StampType.PLATE, new ComparableStack(NtmItems.INGOT_LEAD.get()),			        NtmItems.PLATE_LEAD.get());
+        makeRecipe(StampType.PLATE, new ComparableStack(Items.COPPER_INGOT),			            NtmItems.PLATE_COPPER.get());
+        makeRecipe(StampType.PLATE, new ComparableStack(NtmItems.INGOT_SCHRABIDIUM.get()),		    NtmItems.PLATE_SCHRABIDIUM.get());
+        makeRecipe(StampType.PLATE, new ComparableStack(NtmItems.INGOT_COMBINE_STEEL.get()),		NtmItems.PLATE_COMBINE_STEEL.get());
+        makeRecipe(StampType.PLATE, new ComparableStack(NtmItems.INGOT_GUNMETAL.get()),		        NtmItems.PLATE_GUNMETAL.get());
+        makeRecipe(StampType.PLATE, new ComparableStack(NtmItems.INGOT_WEAPON_STEEL.get()),     	NtmItems.PLATE_WEAPON_STEEL.get());
+        makeRecipe(StampType.PLATE, new ComparableStack(NtmItems.INGOT_SATURNITE.get()),		    NtmItems.PLATE_SATURNITE.get());
+        makeRecipe(StampType.PLATE, new ComparableStack(NtmItems.INGOT_DURA_STEEL.get()),			NtmItems.PLATE_DURA_STEEL.get());
     }
 
     public static void makeRecipe(StampType type, AStack in, Item out) {

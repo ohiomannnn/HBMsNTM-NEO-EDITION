@@ -511,6 +511,35 @@ public class NuclearTechModClient {
                 NtmItems.CAST_PLATE.get(),
                 NtmItems.CAST_PLATE_WELDED.get()
         );
+        event.register(
+                // todo KILL TS NOW
+                (stack, tintIndex) -> {
+                    int color = 0xFFFFFFFF;
+                    if(stack.is(NtmItems.SHELL_TITANIUM.get())) color = 0xFFA99E79;
+                    if(stack.is(NtmItems.SHELL_ALUMINIUM.get()) || stack.is(NtmItems.PIPE_ALUMINIUM)) color = 0xFFD0B8EB;
+                    if(stack.is(NtmItems.SHELL_COPPER.get()) || stack.is(NtmItems.PIPE_COPPER)) color = 0xFFC18336;
+                    if(stack.is(NtmItems.SHELL_STEEL.get()) || stack.is(NtmItems.PIPE_STEEL)) color = 0xFF4A4A4A;
+                    if(stack.is(NtmItems.SHELL_WEAPON_STEEL.get())) color = 0xFF808080;
+                    if(stack.is(NtmItems.SHELL_SATURNITE.get())) color = 0xFF30A4B7;
+                    if(stack.is(NtmItems.PIPE_IRON.get())) color = 0xFFFFA259;
+                    if(stack.is(NtmItems.PIPE_LEAD.get())) color = 0xFF646470;
+                    if(stack.is(NtmItems.PIPE_STEEL.get())) color = 0xFF4A4A4A;
+                    if(stack.is(NtmItems.PIPE_DURA_STEEL.get())) color = 0xFF42665C;
+                    return color;
+                },
+                NtmItems.SHELL_TITANIUM.get(),
+                NtmItems.SHELL_ALUMINIUM.get(),
+                NtmItems.SHELL_COPPER.get(),
+                NtmItems.SHELL_STEEL.get(),
+                NtmItems.SHELL_WEAPON_STEEL.get(),
+                NtmItems.SHELL_SATURNITE.get(),
+                NtmItems.PIPE_IRON.get(),
+                NtmItems.PIPE_COPPER.get(),
+                NtmItems.PIPE_ALUMINIUM.get(),
+                NtmItems.PIPE_LEAD.get(),
+                NtmItems.PIPE_STEEL.get(),
+                NtmItems.PIPE_DURA_STEEL.get()
+        );
     }
 
     @SubscribeEvent

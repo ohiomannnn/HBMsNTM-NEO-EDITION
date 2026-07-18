@@ -2,6 +2,8 @@ package com.hbm.main;
 
 import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.loader.IModelCustom;
+import com.hbm.render.material.HFRWavefrontObjectTEST;
+import com.hbm.render.material.Material;
 import net.minecraft.resources.ResourceLocation;
 
 public class ResourceManager {
@@ -47,6 +49,10 @@ public class ResourceManager {
     public static final ResourceLocation RADAR_DISH_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/radar_dish.png");
     public static final ResourceLocation RADAR_LARGE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/radar_large.png");
     public static final ResourceLocation RADAR_SCREEN_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/radar_screen.png");
+
+    //Press
+    public static final ResourceLocation PRESS_BODY_TEX = NuclearTechMod.withDefaultNamespace("textures/models/press_body.png");
+    public static final ResourceLocation PRESS_HEAD_TEX = NuclearTechMod.withDefaultNamespace("textures/models/press_head.png");
 
     public static final ResourceLocation GEIGER_TEX = NuclearTechMod.withDefaultNamespace("textures/block/geiger.png");
     public static final ResourceLocation ASSEMBLY_MACHINE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/assembly_machine.png");
@@ -200,6 +206,12 @@ public class ResourceManager {
     public static IModelCustom fluid_tank;
     public static IModelCustom fluid_tank_exploded;
 
+    // Press
+    public static HFRWavefrontObject press_body;
+    public static HFRWavefrontObjectTEST.ObjRendererAll press_body_render;
+    public static HFRWavefrontObject press_head;
+    public static HFRWavefrontObjectTEST.ObjRendererAll press_head_render;
+
     // Assembler
     public static IModelCustom assembly_machine;
     public static IModelCustom assembly_factory;
@@ -207,6 +219,7 @@ public class ResourceManager {
     public static IModelCustom nuke_gadget;
     public static IModelCustom nuke_little_boy;
     public static HFRWavefrontObject nuke_fat_man;
+    public static HFRWavefrontObjectTEST.ObjRendererAll nuke_fat_man_render;
     public static IModelCustom nuke_ivy_mike;
     public static IModelCustom nuke_tsar;
     public static IModelCustom nuke_prototype;
@@ -222,6 +235,7 @@ public class ResourceManager {
 
     public static HFRWavefrontObject barrel;
     public static HFRWavefrontObject barbed_wire;
+    public static HFRWavefrontObject anvil;
     public static HFRWavefrontObject spikes;
     public static HFRWavefrontObject cable_neo;
     public static HFRWavefrontObject pipe_neo;
@@ -302,12 +316,18 @@ public class ResourceManager {
         fluid_tank = new HFRWavefrontObject("models/obj/machines/fluid_tank.obj").asVBO();
         fluid_tank_exploded = new HFRWavefrontObject("models/obj/machines/fluid_tank_exploded.obj").asVBO();
 
+        press_body = new HFRWavefrontObject("models/obj/press_body.obj");
+        press_body_render = press_body.create(new Material.Builder().texture(PRESS_BODY_TEX).build());
+        press_head = new HFRWavefrontObject("models/obj/press_head.obj");
+        press_head_render = press_head.create(new Material.Builder().texture(PRESS_HEAD_TEX).build());
+
         assembly_machine = new HFRWavefrontObject("models/obj/machines/assembly_machine.obj").asVBO();
         assembly_factory = new HFRWavefrontObject("models/obj/machines/assembly_factory.obj").asVBO();
 
         nuke_gadget = new HFRWavefrontObject("models/obj/bomb/nuke_gadget.obj").asVBO();
         nuke_little_boy = new HFRWavefrontObject("models/obj/bomb/nuke_little_boy.obj").asVBO();
         nuke_fat_man = new HFRWavefrontObject("models/obj/bomb/nuke_fatman.obj");
+        nuke_fat_man_render = nuke_fat_man.create(new Material.Builder().texture(NUKE_FAT_MAN_TEX).backfaceCulling(false).build());
         nuke_ivy_mike = new HFRWavefrontObject("models/obj/bomb/nuke_ivy_mike.obj").asVBO();
         nuke_tsar = new HFRWavefrontObject("models/obj/bomb/nuke_tsar.obj").asVBO();
         nuke_prototype = new HFRWavefrontObject("models/obj/bomb/nuke_prototype.obj").asVBO();
@@ -323,6 +343,7 @@ public class ResourceManager {
 
         barrel = new HFRWavefrontObject("models/obj/block/barrel.obj");
         barbed_wire = new HFRWavefrontObject("models/obj/block/barbed_wire.obj");
+        anvil = new HFRWavefrontObject("models/obj/block/anvil.obj");
         spikes = new HFRWavefrontObject("models/obj/block/spikes.obj");
         cable_neo = new HFRWavefrontObject("models/obj/block/cable_neo.obj");
         pipe_neo = new HFRWavefrontObject("models/obj/block/pipe_neo.obj");

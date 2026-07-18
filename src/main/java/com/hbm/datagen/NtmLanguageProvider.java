@@ -282,7 +282,7 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmItems.CIRCUIT_VERSATILE_BOARD, "Versatile Circuit Board");
         this.add(NtmItems.CIRCUIT_CAPACITOR, "Capacitor");
         this.add(NtmItems.CIRCUIT_TANTALIUM_CAPACITOR, "Tantalium Capacitor");
-        this.add(NtmItems.CIRCUIT_CAPACITOR_BOARD , "Capacitor Board");
+        this.add(NtmItems.CIRCUIT_CAPACITOR_BOARD, "Capacitor Board");
         this.add(NtmItems.CIRCUIT_PRINTED_SILICON_WAFER, "Printed Silicon Wafer");
         this.add(NtmItems.CIRCUIT_MICROCHIP, "Microschip");
         this.add(NtmItems.CIRCUIT_VACUUM_TUBE, "Vacuum Tube");
@@ -407,6 +407,31 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmItems.BATTERY_CREATIVE, "Infinite Battery");
 
         this.add(NtmItems.BLUEPRINTS, "Blueprints");
+
+        this.add(NtmItems.STAMP_STONE_FLAT, "Flat Stamp (Stone)");
+        this.add(NtmItems.STAMP_STONE_PLATE, "Plate Stamp (Stone)");
+        this.add(NtmItems.STAMP_STONE_WIRE, "Wire Stamp (Stone)");
+        this.add(NtmItems.STAMP_STONE_CIRCUIT, "Circuit Stamp (Stone)");
+        this.add(NtmItems.STAMP_IRON_FLAT, "Flat Stamp (Iron)");
+        this.add(NtmItems.STAMP_IRON_PLATE, "Plate Stamp (Iron)");
+        this.add(NtmItems.STAMP_IRON_WIRE, "Wire Stamp (Iron)");
+        this.add(NtmItems.STAMP_IRON_CIRCUIT , "Circuit Stamp (Iron)");
+        this.add(NtmItems.STAMP_STEEL_FLAT, "Flat Stamp (Steel)");
+        this.add(NtmItems.STAMP_STEEL_PLATE, "Plate Stamp (Steel)");
+        this.add(NtmItems.STAMP_STEEL_WIRE, "Wire Stamp (Steel)");
+        this.add(NtmItems.STAMP_STEEL_CIRCUIT, "Circuit Stamp (Steel)");
+        this.add(NtmItems.STAMP_TITANIUM_FLAT, "Flat Stamp (Titanium)");
+        this.add(NtmItems.STAMP_TITANIUM_PLATE, "Plate Stamp (Titanium)");
+        this.add(NtmItems.STAMP_TITANIUM_WIRE, "Wire Stamp (Titanium)");
+        this.add(NtmItems.STAMP_TITANIUM_CIRCUIT, "Circuit Stamp (Titanium)");
+        this.add(NtmItems.STAMP_OBSIDIAN_FLAT, "Flat Stamp (Obsidian)");
+        this.add(NtmItems.STAMP_OBSIDIAN_PLATE, "Plate Stamp (Obsidian)");
+        this.add(NtmItems.STAMP_OBSIDIAN_WIRE, "Wire Stamp (Obsidian)");
+        this.add(NtmItems.STAMP_OBSIDIAN_CIRCUIT, "Circuit Stamp (Obsidian)");
+        this.add(NtmItems.STAMP_DESH_FLAT, "Flat Stamp (Desh)");
+        this.add(NtmItems.STAMP_DESH_PLATE, "Plate Stamp (Desh)");
+        this.add(NtmItems.STAMP_DESH_WIRE, "Wire Stamp (Desh)");
+        this.add(NtmItems.STAMP_DESH_CIRCUIT, "Circuit Stamp (Desh)");
 
         //this.add(NtmItems.FLUID_ICON, "");
         this.add("item.hbmsntm.obj_fluid_id_multi.desc0", "Universal fluid identifier for:");
@@ -950,6 +975,7 @@ public class NtmLanguageProvider extends LanguageProvider {
 
         this.add(NtmBlocks.GEIGER, "Geiger Counter");
 
+        this.add(NtmBlocks.PRESS_PREHEATER, "Burner Press Preheater");
         this.add(NtmBlocks.MACHINE_PRESS, "Burner Press");
         this.add(NtmBlocks.ANVIL, "Anvil");
         this.add(NtmBlocks.ANVIL, this.getName(Variant.IRON), "Iron Anvil");
@@ -1033,6 +1059,8 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add("container.nuke_fstbmb", "Balefire Bomb");
         this.add("container.battery_socket", "Battery Socket");
         this.add("container.battery_redd", "FEnSU");
+        this.add("container.press", "Burner Press");
+        this.add("container.press.left", "%s operations left");
         this.add("container.machine_assembly_machine", "Assembly Machine");
         this.add("container.fluidtank", "Tank");
         this.add("container.anvil", "Anvil");

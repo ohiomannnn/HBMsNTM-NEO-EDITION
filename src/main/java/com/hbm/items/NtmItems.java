@@ -2,9 +2,9 @@ package com.hbm.items;
 
 import api.hbm.block.IToolable.ToolType;
 import com.hbm.blocks.NtmBlocks;
+import com.hbm.inventory.MetaHelper;
 import com.hbm.inventory.NtmFoods;
 import com.hbm.inventory.NtmTiers;
-import com.hbm.inventory.MetaHelper;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.ItemEnums.CapType;
@@ -14,6 +14,7 @@ import com.hbm.items.food.ConserveItem;
 import com.hbm.items.food.DrinkItem;
 import com.hbm.items.food.EnergyItem;
 import com.hbm.items.machine.*;
+import com.hbm.items.machine.StampItem.StampType;
 import com.hbm.items.special.*;
 import com.hbm.items.tools.*;
 import com.hbm.items.weapon.MissileItem;
@@ -22,11 +23,7 @@ import com.hbm.items.weapon.MissileItem.MissileFuel;
 import com.hbm.items.weapon.MissileItem.MissileTier;
 import com.hbm.items.weapon.sedna.factory.GunFactory;
 import com.hbm.main.NuclearTechMod;
-import net.minecraft.world.item.ArmorMaterials;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.*;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -348,6 +345,36 @@ public class NtmItems {
 
     // Folders
     public static final DeferredItem<Item> BLUEPRINTS = ITEMS.register("blueprints", () -> new BlueprintsItem(new Item.Properties()));
+
+    // Hydraulic Press Stamps
+    public static final DeferredItem<Item> STAMP_STONE_FLAT = ITEMS.register("stamp_stone_flat", () -> new StampItem(32, StampType.FLAT));
+    public static final DeferredItem<Item> STAMP_STONE_PLATE = ITEMS.register("stamp_stone_plate", () -> new StampItem(32, StampType.PLATE));
+    public static final DeferredItem<Item> STAMP_STONE_WIRE = ITEMS.register("stamp_stone_wire", () -> new StampItem(32, StampType.WIRE));
+    public static final DeferredItem<Item> STAMP_STONE_CIRCUIT = ITEMS.register("stamp_stone_circuit", () -> new StampItem(32, StampType.CIRCUIT));
+    public static final DeferredItem<Item> STAMP_IRON_FLAT = ITEMS.register("stamp_iron_flat", () -> new StampItem(64, StampType.FLAT));
+    public static final DeferredItem<Item> STAMP_IRON_PLATE = ITEMS.register("stamp_iron_plate", () -> new StampItem(64, StampType.PLATE));
+    public static final DeferredItem<Item> STAMP_IRON_WIRE = ITEMS.register("stamp_iron_wire", () -> new StampItem(64, StampType.WIRE));
+    public static final DeferredItem<Item> STAMP_IRON_CIRCUIT = ITEMS.register("stamp_iron_circuit", () -> new StampItem(64, StampType.CIRCUIT));
+    public static final DeferredItem<Item> STAMP_STEEL_FLAT = ITEMS.register("stamp_steel_flat", () -> new StampItem(192, StampType.FLAT));
+    public static final DeferredItem<Item> STAMP_STEEL_PLATE = ITEMS.register("stamp_steel_plate", () -> new StampItem(192, StampType.PLATE));
+    public static final DeferredItem<Item> STAMP_STEEL_WIRE = ITEMS.register("stamp_steel_wire", () -> new StampItem(192, StampType.WIRE));
+    public static final DeferredItem<Item> STAMP_STEEL_CIRCUIT = ITEMS.register("stamp_steel_circuit", () -> new StampItem(192, StampType.CIRCUIT));
+    public static final DeferredItem<Item> STAMP_TITANIUM_FLAT = ITEMS.register("stamp_titanium_flat", () -> new StampItem(256, StampType.FLAT));
+    public static final DeferredItem<Item> STAMP_TITANIUM_PLATE = ITEMS.register("stamp_titanium_plate", () -> new StampItem(256, StampType.PLATE));
+    public static final DeferredItem<Item> STAMP_TITANIUM_WIRE = ITEMS.register("stamp_titanium_wire", () -> new StampItem(256, StampType.WIRE));
+    public static final DeferredItem<Item> STAMP_TITANIUM_CIRCUIT = ITEMS.register("stamp_titanium_circuit", () -> new StampItem(256, StampType.CIRCUIT));
+    public static final DeferredItem<Item> STAMP_OBSIDIAN_FLAT = ITEMS.register("stamp_obsidian_flat", () -> new StampItem(512, StampType.FLAT));
+    public static final DeferredItem<Item> STAMP_OBSIDIAN_PLATE = ITEMS.register("stamp_obsidian_plate", () -> new StampItem(512, StampType.PLATE));
+    public static final DeferredItem<Item> STAMP_OBSIDIAN_WIRE = ITEMS.register("stamp_obsidian_wire", () -> new StampItem(512, StampType.WIRE));
+    public static final DeferredItem<Item> STAMP_OBSIDIAN_CIRCUIT = ITEMS.register("stamp_obsidian_circuit", () -> new StampItem(512, StampType.CIRCUIT));
+    public static final DeferredItem<Item> STAMP_DESH_FLAT = ITEMS.register("stamp_desh_flat", () -> new StampItem(0, StampType.FLAT));
+    public static final DeferredItem<Item> STAMP_DESH_PLATE = ITEMS.register("stamp_desh_plate", () -> new StampItem(0, StampType.PLATE));
+    public static final DeferredItem<Item> STAMP_DESH_WIRE = ITEMS.register("stamp_desh_wire", () -> new StampItem(0, StampType.WIRE));
+    public static final DeferredItem<Item> STAMP_DESH_CIRCUIT = ITEMS.register("stamp_desh_circuit", () -> new StampItem(0, StampType.CIRCUIT));
+//    public static final DeferredItem<Item> stamp_357 = ITEMS.register("stamp_357", () -> new StampItem(1000, StampType.C357));
+//    public static final DeferredItem<Item> stamp_44 = ITEMS.register("stamp_44", () -> new StampItem(1000, StampType.C44));
+//    public static final DeferredItem<Item> stamp_9 = ITEMS.register("stamp_9", () -> new StampItem(1000, StampType.C9));
+//    public static final DeferredItem<Item> stamp_50 = ITEMS.register("stamp_50", () -> new StampItem(1000, StampType.C50));
 
     // Machine Templates
     public static final DeferredItem<FluidIconItem> FLUID_ICON = ITEMS.register("fluid_icon", () -> new FluidIconItem(new Item.Properties()));

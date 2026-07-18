@@ -4,8 +4,10 @@ import com.hbm.main.NuclearTechMod;
 import com.hbm.render.loader.old.ModelFormatException;
 import com.hbm.render.loader.old.TextureCoordinate;
 import com.hbm.render.loader.old.Vertex;
-import com.hbm.render.test.HFRWavefrontObjectTEST;
-import com.hbm.render.test.Material;
+import com.hbm.render.material.HFRWavefrontObjectTEST;
+import com.hbm.render.material.HFRWavefrontObjectTEST.ObjRendererAll;
+import com.hbm.render.material.HFRWavefrontObjectTEST.ObjRendererOnly;
+import com.hbm.render.material.Material;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
@@ -417,7 +419,15 @@ public class HFRWavefrontObject implements IModelCustomNamed {
         return vbo;
     }
 
-    public HFRWavefrontObjectTEST asVBTestO(Material material) {
-        return new HFRWavefrontObjectTEST(this,material);
+    public static final LinkedHashMap<HFRWavefrontObject, HFRWavefrontObjectTEST> vbos = new LinkedHashMap<>();
+
+    public ObjRendererOnly create(String name, Material material) {
+        HFRWavefrontObjectTEST test = vbos.computeIfAbsent(this, HFRWavefrontObjectTEST::new);
+        return new ObjRendererOnly(material, test.buffers.get(name));
+    }
+
+    public ObjRendererAll create(Material material) {
+        HFRWavefrontObjectTEST test = vbos.computeIfAbsent(this, HFRWavefrontObjectTEST::new);
+        return new ObjRendererAll(material, test.buffers);
     }
 }

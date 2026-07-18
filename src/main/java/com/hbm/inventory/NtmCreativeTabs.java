@@ -304,6 +304,32 @@ public class NtmCreativeTabs {
                     .title(Component.translatable("itemGroup.control"))
                     .displayItems((itemDisplayParameters, output) -> {
                         addMetaItems(output, NtmItems.BLUEPRINTS.get());
+
+                        output.accept(NtmItems.STAMP_STONE_FLAT);
+                        output.accept(NtmItems.STAMP_STONE_PLATE);
+                        output.accept(NtmItems.STAMP_STONE_WIRE);
+                        output.accept(NtmItems.STAMP_STONE_CIRCUIT);
+                        output.accept(NtmItems.STAMP_IRON_FLAT);
+                        output.accept(NtmItems.STAMP_IRON_PLATE);
+                        output.accept(NtmItems.STAMP_IRON_WIRE);
+                        output.accept(NtmItems.STAMP_IRON_CIRCUIT);
+                        output.accept(NtmItems.STAMP_STEEL_FLAT);
+                        output.accept(NtmItems.STAMP_STEEL_PLATE);
+                        output.accept(NtmItems.STAMP_STEEL_WIRE);
+                        output.accept(NtmItems.STAMP_STEEL_CIRCUIT);
+                        output.accept(NtmItems.STAMP_TITANIUM_FLAT);
+                        output.accept(NtmItems.STAMP_TITANIUM_PLATE);
+                        output.accept(NtmItems.STAMP_TITANIUM_WIRE);
+                        output.accept(NtmItems.STAMP_TITANIUM_CIRCUIT);
+                        output.accept(NtmItems.STAMP_OBSIDIAN_FLAT);
+                        output.accept(NtmItems.STAMP_OBSIDIAN_PLATE);
+                        output.accept(NtmItems.STAMP_OBSIDIAN_WIRE);
+                        output.accept(NtmItems.STAMP_OBSIDIAN_CIRCUIT);
+                        output.accept(NtmItems.STAMP_DESH_FLAT);
+                        output.accept(NtmItems.STAMP_DESH_PLATE);
+                        output.accept(NtmItems.STAMP_DESH_WIRE);
+                        output.accept(NtmItems.STAMP_DESH_CIRCUIT);
+
                         output.accept(NtmItems.CELL_EMPTY);
                         output.accept(NtmItems.CELL_UF6);
                         output.accept(NtmItems.CELL_PUF6);
@@ -551,6 +577,9 @@ public class NtmCreativeTabs {
                         output.accept(NtmBlocks.RED_CABLE);
 
                         addMetaItems(output, NtmBlocks.FLUID_DUCT_NEO.asItem());
+
+                        output.accept(NtmBlocks.PRESS_PREHEATER);
+                        output.accept(NtmBlocks.MACHINE_PRESS);
 
                         output.accept(NtmBlocks.MACHINE_BATTERY_SOCKET);
                         output.accept(NtmBlocks.MACHINE_BATTERY_REDD);

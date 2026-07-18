@@ -210,11 +210,7 @@ public class NTMAnvilBlock extends FallingBlock implements IMultiBlock, ICustomB
         provider.getVariantBuilder(this).forAllStates(state -> {
             Variant variant = getVariant(state.getValue(SUBTYPE));
             String modelName = variant.modelName;
-            return ConfiguredModel.builder()
-                    .modelFile(new ModelFile.UncheckedModelFile(provider.modLoc("block/" + modelName)))
-                    .rotationY((int) state.getValue(FACING).toYRot())
-                    .uvLock(true)
-                    .build();
+            return ConfiguredModel.builder().modelFile(new ModelFile.UncheckedModelFile(provider.modLoc("block/" + modelName))).build();
         });
 
         provider.itemModels().getBuilder(baseName)

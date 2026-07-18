@@ -52,8 +52,6 @@ public class NtmGeometry implements IUnbakedGeometry<NtmGeometry> {
         if(context.hasMaterial("texture")) textureSprite = spriteGetter.apply(context.getMaterial("texture"));
         if(context.hasMaterial("overlay")) overlaySprite = spriteGetter.apply(context.getMaterial("overlay"));
 
-        final TextureAtlasSprite finalTextureSprite = textureSprite;
-
         return switch(this.type) {
             case BARBED_WIRE -> new BarbedWireBakedModel(new HFRWavefrontObject("models/obj/block/barbed_wire.obj"), textureSprite);
             case SPIKES -> new SimpleWavefrontBakedModel(new HFRWavefrontObject("models/obj/block/spikes.obj"), textureSprite);
@@ -61,62 +59,7 @@ public class NtmGeometry implements IUnbakedGeometry<NtmGeometry> {
             case CABLE -> new CableBakedModel(new HFRWavefrontObject("models/obj/block/cable_neo.obj"), textureSprite);
             case DET_CORD -> new DetCordBakedModel(new HFRWavefrontObject("models/obj/block/cable_neo.obj"), textureSprite);
             case PIPE -> new PipeNeoBakedModel(new HFRWavefrontObject("models/obj/block/pipe_neo.obj"), textureSprite, overlaySprite);
-            case ANVIL -> new SimpleWavefrontBakedModel(new HFRWavefrontObject(resolveAnvilModelPath(context)), textureSprite) {
-                private List<BakedQuad> anvilQuads;
-                private final List<BakedQuad>[] anvilWorldQuads = new List[4];
-
-                @Override
-                public List<BakedQuad> getQuads(@Nullable BlockState blockState, @Nullable Direction direction, RandomSource random, ModelData data, @Nullable RenderType type) {
-                    if(direction != null) {
-                        return Collections.emptyList();
-                    }
-
-                    if(!data.has(IN_LEVEL)) {
-                        if(this.anvilQuads == null) {
-                            this.anvilQuads = bakeSimpleQuads(null, null, finalTextureSprite);
-                        }
-                        return this.anvilQuads;
-                    }
-
-                    Direction dir = Direction.NORTH;
-                    if(blockState != null && blockState.hasProperty(NTMAnvilBlock.FACING)) {
-                        dir = blockState.getValue(NTMAnvilBlock.FACING);
-                    }
-
-                    int index = switch(dir) {
-                        case NORTH -> 0;
-                        case SOUTH -> 1;
-                        case WEST -> 2;
-                        case EAST -> 3;
-                        default -> 0;
-                    };
-
-                    List<BakedQuad> quads = this.anvilWorldQuads[index];
-                    if(quads != null) return quads;
-
-                    Matrix4f matrix = new Matrix4f();
-                    matrix.translate(0.5F, 0.0F, 0.5F);
-                    matrix.rotateY((float) Math.toRadians(dir.toYRot() + 90.0D));
-
-                    quads = bakeSimpleQuads(null, matrix, finalTextureSprite);
-                    this.anvilWorldQuads[index] = quads;
-                    return quads;
-                }
-            };
+            case ANVIL -> new AnvilBakedModel(new HFRWavefrontObject("models/obj/block/anvil.obj"), textureSprite);
         };
-    }
-
-    private static String resolveAnvilModelPath(IGeometryBakingContext context) {
-        String modelName = context.getModelName();
-        int colon = modelName.indexOf(':');
-        String path = colon >= 0 ? modelName.substring(colon + 1) : modelName;
-        int slash = path.lastIndexOf('/');
-        String fileName = slash >= 0 ? path.substring(slash + 1) : path;
-        int hash = fileName.indexOf('#');
-        if(hash >= 0) fileName = fileName.substring(0, hash);
-        int dot = fileName.lastIndexOf('.');
-        if(dot >= 0) fileName = fileName.substring(dot + 1);
-        if(!fileName.startsWith("anvil_")) fileName = "anvil_iron";
-        return "models/obj/machines/" + fileName + ".obj";
     }
 }
