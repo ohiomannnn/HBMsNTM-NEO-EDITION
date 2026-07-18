@@ -46,7 +46,15 @@ public class NtmBlockStateProvider extends BlockStateProvider {
             }
         });
 
+        this.simpleCubeAllBlock(NtmBlocks.STONE_CRACKED);
+        this.simpleCubeAllBlock(NtmBlocks.DIRT_DEAD);
+        this.simpleCubeAllBlock(NtmBlocks.DIRT_OILY);
+        this.simpleCubeAllBlock(NtmBlocks.SAND_OILY);
+        this.simpleCubeAllBlock(NtmBlocks.SAND_RED_OILY);
+        this.layeringBlock(NtmBlocks.OIL_SPILL.get(), modLoc("block/oil_spill"));
         this.simpleCubeAllBlock(NtmBlocks.ORE_OIL);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_OIL_EMPTY);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_OIL_SAND);
         this.simpleCubeAllBlock(NtmBlocks.ORE_URANIUM);
         this.simpleCubeAllBlock(NtmBlocks.ORE_URANIUM_DEEPSLATE);
         this.simpleCubeAllBlock(NtmBlocks.ORE_URANIUM_SCORCHED);
@@ -192,7 +200,7 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         );
         this.logBlock(NtmBlocks.FROZEN_LOG.get());
         this.simpleCubeAllBlock(NtmBlocks.FROZEN_PLANKS);
-        this.layeringBlock(NtmBlocks.LEAVES_LAYER.get());
+        this.layeringBlock(NtmBlocks.LEAVES_LAYER.get(), modLoc("block/waste_leaves"));
         ResourceLocation texture = modLoc("block/ash");
         ModelFile falloutModel = models()
                 .getBuilder("fallout")
@@ -251,6 +259,7 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.particleOnlyBlock(NtmBlocks.GEIGER, blockTexture(NtmBlocks.GEIGER));
 
         this.particleOnlyBlock(NtmBlocks.MACHINE_PRESS, modLoc("block/block_steel"));
+        this.particleOnlyBlock(NtmBlocks.MACHINE_OIL_DERRICK, modLoc("block/block_steel"));
 
         this.registerCable();
 
@@ -260,6 +269,8 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.particleOnlyBlock(NtmBlocks.MACHINE_BATTERY_REDD, modLoc("block/block_steel"));
         this.particleOnlyBlock(NtmBlocks.MACHINE_ASSEMBLY_MACHINE, modLoc("block/block_steel"));
         this.particleOnlyBlock(NtmBlocks.MACHINE_FLUID_TANK, modLoc("block/block_steel"));
+        this.particleOnlyBlock(NtmBlocks.MACHINE_SOLDERING_STATION, modLoc("block/block_steel"));
+        this.particleOnlyBlock(NtmBlocks.MACHINE_REFINERY, modLoc("block/block_steel"));
 
         this.cubeTop(NtmBlocks.MACHINE_SATLINKER);
 
@@ -306,6 +317,7 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.itemModels().basicItem(NtmBlocks.GAS_COAL.asItem());
         this.itemModels().basicItem(NtmBlocks.GAS_FLAMMABLE.asItem());
         this.itemModels().basicItem(NtmBlocks.GAS_EXPLOSIVE.asItem());
+        this.simpleCubeAllBlock(NtmBlocks.OIL_PIPE);
 
         this.simpleCubeAllBlock(NtmBlocks.TAINT);
     }
@@ -407,16 +419,15 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.entityBlockItem(block, false);
     }
 
-    private void layeringBlock(Block block) {
-        ResourceLocation texture = modLoc("block/waste_leaves");
-
+    private void layeringBlock(Block block, ResourceLocation texture) {
+        String blockName = this.key(block).getPath();
         MultiPartBlockStateBuilder builder = getMultipartBuilder(block);
 
         for(int i = 1; i <= 8; i++) {
             float height = i * 2f / 16f;
 
             ModelFile model = models()
-                    .withExistingParent("layering_" + i, mcLoc("block/block"))
+                    .withExistingParent(blockName + "_" + i, mcLoc("block/block"))
                     .texture("all", texture)
                     .texture("particle", texture)
                     .renderType("cutout_mipped")

@@ -36,6 +36,9 @@ public class ResourceManager {
     public static final ResourceLocation TANK_INNER_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/tank_inner.png");
 
     public static final ResourceLocation BATTERY_SOCKET_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/battery_socket.png");
+    public static final ResourceLocation SOLDERING_STATION_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/soldering_station.png");
+    public static final ResourceLocation DERRICK_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/derrick.png");
+    public static final ResourceLocation REFINERY_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/refinery.png");
     public static final ResourceLocation BATTERY_SC_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/battery_sc.png");
     public static final ResourceLocation BATTERY_REDD_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/fensu2.png");
 
@@ -229,6 +232,9 @@ public class ResourceManager {
     // FENSU
     public static IModelCustom battery_socket;
     public static IModelCustom battery_redd;
+    public static IModelCustom soldering_station;
+    public static IModelCustom oil_derrick;
+    public static IModelCustom refinery;
 
     // Radar
     public static IModelCustom radar_body;
@@ -326,6 +332,9 @@ public class ResourceManager {
 
         battery_socket = new HFRWavefrontObject("models/obj/machines/battery.obj").asVBO();
         battery_redd = new HFRWavefrontObject("models/obj/machines/fensu2.obj").asVBO();
+        soldering_station = new HFRWavefrontObject("models/obj/machines/soldering_station.obj").asVBO();
+        oil_derrick = new HFRWavefrontObject("models/obj/machines/oil_derrick.obj").asVBO();
+        refinery = new HFRWavefrontObject("models/obj/machines/refinery.obj").asVBO();
 
         radar_body = new HFRWavefrontObject("models/obj/radar_base.obj").noSmooth().asVBO();
         radar = new HFRWavefrontObject("models/obj/machines/radar.obj").noSmooth().asVBO();

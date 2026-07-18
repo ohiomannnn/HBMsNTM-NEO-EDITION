@@ -44,7 +44,6 @@ public class MachineAssemblyMachineScreen extends InfoScreen<MachineAssemblyMach
             if(this.be.assemblerModule.recipe != null && AssemblyMachineRecipes.INSTANCE.recipeNameMap.containsKey(this.be.assemblerModule.recipe)) {
                 GenericRecipe recipe = AssemblyMachineRecipes.INSTANCE.recipeNameMap.get(this.be.assemblerModule.recipe);
                 guiGraphics.renderComponentTooltip(this.font, recipe.print(), mouseX, mouseY);
-                //GUIElements.drawHoveringTextRecipe(recipe.print(), mouseX, mouseY, this.fontRendererObj, itemRender, this.width, this.height);
             } else {
                 guiGraphics.renderTooltip(this.font, Component.translatable("container.recipe.set_recipe").withStyle(ChatFormatting.YELLOW), mouseX, mouseY);
             }
@@ -55,7 +54,6 @@ public class MachineAssemblyMachineScreen extends InfoScreen<MachineAssemblyMach
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-
         if(this.isHovered(mouseX, mouseY, 7, 125, 18, 18)) RecipeSelectorScreen.openSelector(AssemblyMachineRecipes.INSTANCE, be, be.assemblerModule.recipe, 0, BlueprintsItem.grabPool(be.slots.get(1)), this);
 
         return super.mouseClicked(mouseX, mouseY, button);
@@ -98,7 +96,6 @@ public class MachineAssemblyMachineScreen extends InfoScreen<MachineAssemblyMach
         guiGraphics.renderItem(recipe != null ? recipe.getIcon() : new ItemStack(NtmItems.TEMPLATE_FOLDER.get()), this.leftPos + 8, this.topPos + 126);
 
         if(recipe != null && recipe.inputItem != null) {
-
             RenderSystem.setShaderColor(1F, 1F, 1F, 0.5F);
             for(int i = 0; i < recipe.inputItem.length; i++) {
                 Slot slot = this.menu.slots.get(be.assemblerModule.inputSlots[i]);

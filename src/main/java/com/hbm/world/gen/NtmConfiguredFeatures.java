@@ -12,11 +12,15 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 
 public class NtmConfiguredFeatures {
 
+    public static final ResourceKey<ConfiguredFeature<?, ?>> OIL_BUBBLE = registerKey("oil_bubble");
+
     public static final ResourceKey<ConfiguredFeature<?, ?>> LANDMINE = registerKey("landmine");
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> CRASHED_BOMB = registerKey("crashed_bomb");
 
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
+
+        register(context, OIL_BUBBLE, NtmFeatures.OIL_BUBBLE.get(), NoneFeatureConfiguration.INSTANCE);
 
         register(context, LANDMINE, NtmFeatures.LANDMINE.get(), NoneFeatureConfiguration.INSTANCE);
 

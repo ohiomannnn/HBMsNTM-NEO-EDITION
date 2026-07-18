@@ -1,21 +1,31 @@
 package com.hbm.handler.jei;
 
 import com.hbm.blocks.NtmBlocks;
+import com.hbm.handler.jei.AssemblyMachineRecipeHandler;
+import com.hbm.handler.jei.AssemblyMachineTransferInfo;
 import com.hbm.handler.jei.subtypes.BatterySubtypeInterpreter;
 import com.hbm.handler.jei.subtypes.MetaSubtypeInterpreter;
 import com.hbm.inventory.MetaHelper;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
+import com.hbm.inventory.recipes.loader.GenericRecipe;
+import com.hbm.inventory.recipes.AssemblyMachineRecipes;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes;
+import com.hbm.inventory.recipes.SolderingRecipes;
+import com.hbm.inventory.screens.AnvilMenuScreen;
+import com.hbm.inventory.screens.MachineAssemblyMachineScreen;
+import com.hbm.inventory.screens.MachineSolderingStationScreen;
 import com.hbm.items.NtmItems;
 import com.hbm.items.machine.FluidIconItem;
 import com.hbm.main.NuclearTechMod;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.IExtraIngredientRegistration;
+import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
+import mezz.jei.api.registration.IRecipeTransferRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -32,12 +42,21 @@ public class NtmJeiPlugin implements IModPlugin {
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
-        registration.addRecipeCategories(new AnvilRecipeHandler(registration.getJeiHelpers().getGuiHelper()));
+        var guiHelper = registration.getJeiHelpers().getGuiHelper();
+        registration.addRecipeCategories(
+                new AnvilConstructionRecipeHandler(guiHelper),
+                new AnvilRecipeHandler(guiHelper),
+                new SolderingStationRecipeHandler(guiHelper),
+                new AssemblyMachineRecipeHandler(guiHelper)
+        );
     }
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
+        registration.addRecipes(AnvilConstructionRecipeHandler.RECIPE_TYPE, AnvilRecipes.getConstruction());
         registration.addRecipes(AnvilRecipeHandler.RECIPE_TYPE, AnvilRecipes.getSmithing());
+        registration.addRecipes(SolderingStationRecipeHandler.RECIPE_TYPE, SolderingRecipes.recipes);
+        registration.addRecipes(AssemblyMachineRecipeHandler.RECIPE_TYPE, AssemblyMachineRecipes.INSTANCE.recipeOrderedList);
     }
 
     @Override
@@ -45,9 +64,34 @@ public class NtmJeiPlugin implements IModPlugin {
         for(com.hbm.blocks.machine.NTMAnvilBlock.Variant variant : com.hbm.blocks.machine.NTMAnvilBlock.Variant.values()) {
             registration.addRecipeCatalyst(
                     MetaHelper.newStack(NtmBlocks.ANVIL.asItem(), variant.ordinal()),
+                    AnvilConstructionRecipeHandler.RECIPE_TYPE
+            );
+            registration.addRecipeCatalyst(
+                    MetaHelper.newStack(NtmBlocks.ANVIL.asItem(), variant.ordinal()),
                     AnvilRecipeHandler.RECIPE_TYPE
             );
         }
+
+        registration.addRecipeCatalyst(
+                NtmBlocks.MACHINE_SOLDERING_STATION.asItem(),
+                SolderingStationRecipeHandler.RECIPE_TYPE
+        );
+        registration.addRecipeCatalyst(
+                NtmBlocks.MACHINE_ASSEMBLY_MACHINE.asItem(),
+                AssemblyMachineRecipeHandler.RECIPE_TYPE
+        );
+    }
+
+    @Override
+    public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
+        registration.addRecipeTransferHandler(new SolderingStationTransferInfo());
+        registration.addRecipeTransferHandler(new AssemblyMachineTransferInfo());
+    }
+
+    @Override
+    public void registerGuiHandlers(IGuiHandlerRegistration registration) {
+        registration.addRecipeClickArea(AnvilMenuScreen.class, 12, 50, 36, 16, AnvilConstructionRecipeHandler.RECIPE_TYPE);
+        registration.addRecipeClickArea(MachineSolderingStationScreen.class, 72, 29, 32, 13, SolderingStationRecipeHandler.RECIPE_TYPE);
     }
 
     @Override

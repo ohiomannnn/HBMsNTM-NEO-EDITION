@@ -2,6 +2,8 @@ package com.hbm.blockentity;
 
 import com.hbm.blockentity.bomb.*;
 import com.hbm.blockentity.machine.*;
+import com.hbm.blockentity.machine.oil.MachineOilDerrickBlockEntity;
+import com.hbm.blockentity.machine.oil.MachineRefineryBlockEntity;
 import com.hbm.blockentity.machine.storage.*;
 import com.hbm.blockentity.network.CableBaseBlockEntity;
 import com.hbm.blockentity.network.PipeBaseBlockEntity;
@@ -23,6 +25,27 @@ public class NtmBlockEntityTypes {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, NuclearTechMod.MODID);
 
     // Machines
+    public static final Supplier<BlockEntityType<MachineSolderingStationBlockEntity>> MACHINE_SOLDERING_STATION = BLOCK_ENTITY_TYPES.register(
+            "machine_soldering_station",
+            () -> BlockEntityType.Builder.of(
+                            MachineSolderingStationBlockEntity::new,
+                            NtmBlocks.MACHINE_SOLDERING_STATION.get())
+                    .build(null));
+
+    public static final Supplier<BlockEntityType<MachineOilDerrickBlockEntity>> MACHINE_OIL_DERRICK = BLOCK_ENTITY_TYPES.register(
+            "machine_oil_derrick",
+            () -> BlockEntityType.Builder.of(
+                            MachineOilDerrickBlockEntity::new,
+                            NtmBlocks.MACHINE_OIL_DERRICK.get())
+                    .build(null));
+
+    public static final Supplier<BlockEntityType<MachineRefineryBlockEntity>> MACHINE_REFINERY = BLOCK_ENTITY_TYPES.register(
+            "machine_refinery",
+            () -> BlockEntityType.Builder.of(
+                            MachineRefineryBlockEntity::new,
+                            NtmBlocks.MACHINE_REFINERY.get())
+                    .build(null));
+
     public static final Supplier<BlockEntityType<MachineSatLinkerBlockEntity>> MACHINE_SATLINKER = BLOCK_ENTITY_TYPES.register(
             "machine_satlinker",
             () -> BlockEntityType.Builder.of(

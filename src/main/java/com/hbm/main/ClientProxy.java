@@ -172,6 +172,9 @@ public class ClientProxy extends ServerProxy {
         //mines
         BlockEntityRenderers.register(NtmBlockEntityTypes.LANDMINE.get(), new RenderLandmine());
         //machines
+        BlockEntityRenderers.register(NtmBlockEntityTypes.MACHINE_SOLDERING_STATION.get(), new RenderSolderingStation());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.MACHINE_OIL_DERRICK.get(), new RenderOilDerrick());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.MACHINE_REFINERY.get(), new RenderOilRefinery());
         BlockEntityRenderers.register(NtmBlockEntityTypes.ASSEMBLY_MACHINE.get(), new RenderAssemblyMachine());
         BlockEntityRenderers.register(NtmBlockEntityTypes.FLUID_TANK.get(), new RenderFluidTank());
         BlockEntityRenderers.register(NtmBlockEntityTypes.GEIGER_COUNTER.get(), new RenderGeigerBlock());

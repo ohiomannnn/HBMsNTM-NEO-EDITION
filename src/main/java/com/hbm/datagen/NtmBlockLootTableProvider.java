@@ -39,7 +39,16 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
     @Override
     protected void generate() {
 
+        this.dropSelf(NtmBlocks.STONE_CRACKED.get());
+        this.dropSelf(NtmBlocks.DIRT_OILY.get());
+        this.dropSelf(NtmBlocks.SAND_OILY.get());
+        this.dropSelf(NtmBlocks.SAND_RED_OILY.get());
+        this.dropSelf(NtmBlocks.DIRT_DEAD.get());
+        this.dropSelf(NtmBlocks.OIL_SPILL.get());
         this.dropSelf(NtmBlocks.ORE_OIL.get());
+        this.dropSelf(NtmBlocks.ORE_OIL.get());
+        this.dropSelf(NtmBlocks.ORE_OIL_EMPTY.get());
+        this.dropSelf(NtmBlocks.ORE_OIL_SAND.get());
         this.dropSelf(NtmBlocks.ORE_URANIUM.get());
         this.dropSelf(NtmBlocks.ORE_URANIUM_DEEPSLATE.get());
         this.dropSelf(NtmBlocks.ORE_URANIUM_SCORCHED.get());
@@ -224,6 +233,9 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(NtmBlocks.MACHINE_BATTERY_REDD.get());
         this.dropSelf(NtmBlocks.MACHINE_ASSEMBLY_MACHINE.get());
         this.dropSelf(NtmBlocks.MACHINE_FLUID_TANK.get());
+        this.dropSelf(NtmBlocks.MACHINE_SOLDERING_STATION.get());
+        this.dropSelf(NtmBlocks.MACHINE_OIL_DERRICK.get());
+        this.dropSelf(NtmBlocks.MACHINE_REFINERY.get());
 
         this.dropSelf(NtmBlocks.MACHINE_SATLINKER.get());
 

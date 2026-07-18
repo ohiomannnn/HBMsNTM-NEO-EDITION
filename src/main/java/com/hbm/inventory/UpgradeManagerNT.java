@@ -41,9 +41,10 @@ public class UpgradeManagerNT {
 
         if(areStackListsEqual(upgradeSlots, cachedSlots)) return;
 
-        cachedSlots = NonNullList.copyOf(upgradeSlots);
+        cachedSlots = copyStacks(upgradeSlots);
 
         upgrades.clear();
+        mutexType = null;
 
         for(int i = 0; i <= end - start; i++) {
 
@@ -84,6 +85,16 @@ public class UpgradeManagerNT {
         }
 
         return true;
+    }
+
+    private NonNullList<ItemStack> copyStacks(NonNullList<ItemStack> stacks) {
+        NonNullList<ItemStack> copy = NonNullList.withSize(stacks.size(), ItemStack.EMPTY);
+
+        for(int i = 0; i < stacks.size(); i++) {
+            copy.set(i, stacks.get(i).copy());
+        }
+
+        return copy;
     }
 
     public Integer getLevel(UpgradeType type) {

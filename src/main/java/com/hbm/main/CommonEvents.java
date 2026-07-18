@@ -157,6 +157,9 @@ public class CommonEvents {
 
     @SubscribeEvent
     public static void registerScreens(RegisterMenuScreensEvent event) {
+        event.register(NtmMenuTypes.MACHINE_SOLDERING_STATION.get(), MachineSolderingStationScreen::new);
+        event.register(NtmMenuTypes.MACHINE_OIL_DERRICK.get(), MachineOilDerrickScreen::new);
+        event.register(NtmMenuTypes.MACHINE_REFINERY.get(), MachineRefineryScreen::new);
         event.register(NtmMenuTypes.SAT_LINKER.get(), MachineSatLinkerScreen::new);
         event.register(NtmMenuTypes.ANVIL.get(), AnvilMenuScreen::new);
 

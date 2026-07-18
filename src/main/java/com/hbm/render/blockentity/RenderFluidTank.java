@@ -84,11 +84,38 @@ public class RenderFluidTank extends BlockEntityRendererNT<MachineFluidTankBlock
     }
 
     public static String getTextureFromType(FluidType type) {
-        String s = type.getInternalName().toLowerCase(Locale.US);
-
         if (type.isAntimatter() || (type.hasTrait(FT_Corrosive.class) && type.getTrait(FT_Corrosive.class).isHighlyCorrosive())) {
-            s = "danger";
+            return "textures/models/tank/tank_danger.png";
         }
+
+        String s = switch(type.getInternalName()) {
+            case "OIL_CRUDE" -> "oil";
+            case "OIL_CRUDE_CRACKED" -> "crackoil";
+            case "OIL_CRUDE_DESULFURIZED" -> "oil_ds";
+            case "OIL_CRUDE_DESULFURIZED_CRACKED" -> "crackoil_ds";
+            case "OIL_CRUDE_HOT" -> "hotoil";
+            case "OIL_CRUDE_DESULFURIZED_HOT" -> "hotoil_ds";
+            case "OIL_CRUDE_CRACKED_HOT" -> "hotcrackoil";
+            case "OIL_CRUDE_DESULFURIZED_CRACKED_HOT" -> "hotcrackoil_ds";
+            case "OIL_HEAVY" -> "heavyoil";
+            case "OIL_HEAVY_VACUUM" -> "heavyoil_vacuum";
+            case "OIL_LIGHT" -> "lightoil";
+            case "OIL_LIGHT_DESULFURIZED" -> "lightoil_ds";
+            case "OIL_LIGHT_CRACKED" -> "lightoil_crack";
+            case "OIL_LIGHT_VACUUM" -> "lightoil_vacuum";
+            case "NAPHTHA" -> "naphtha";
+            case "NAPHTHA_DESULFURIZED" -> "naphtha_ds";
+            case "NAPHTHA_CRACKED" -> "naphtha_crack";
+            case "NAPHTHA_COKER" -> "naphtha_coker";
+            case "PETROLEUM_GAS" -> "petroleum";
+            case "OIL_INDUSTRIAL" -> "smear";
+            case "OIL_INDUSTRIAL_RECLAIMED" -> "reclaimed";
+            case "OIL_HEATING" -> "heatingoil";
+            case "OIL_HEATING_HEAVY" -> "heatingoil_vacuum";
+            case "PETROIL" -> "petroil";
+            case "PETROIL_LEADED" -> "petroil_leaded";
+            default -> type.getInternalName().toLowerCase(Locale.US);
+        };
 
         return "textures/models/tank/tank_" + s + ".png";
     }

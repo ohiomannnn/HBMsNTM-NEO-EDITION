@@ -34,13 +34,47 @@ public class Fluids {
     public static FluidType HOTSTEAM;
     public static FluidType SUPERHOTSTEAM;
     public static FluidType ULTRAHOTSTEAM;
+    public static FluidType HELIUM_3;
+    public static FluidType HELIUM_4;
     public static FluidType LAVA;
     public static FluidType KEROSENE;
     public static FluidType GAS;
     public static FluidType AROMATICS;			//anything from benzene to phenol and toluene
     public static FluidType UNSATURATEDS;		//collection of various basic unsaturated compounds like ethylene, acetylene and whatnot
     public static FluidType PEROXIDE;
+    public static FluidType SULFURIC_ACID;
+    public static FluidType NITRIC_ACID;
+    public static FluidType SCHRABIDIC_ACID;
+    public static FluidType SOLVENT;
+    public static FluidType PERFLUOROMETHYL;
+    public static FluidType COLD_PERFLUOROMETHYL;
     public static FluidType OXYGEN;
+    public static FluidType OIL_CRUDE;
+    public static FluidType OIL_CRUDE_CRACKED;
+    public static FluidType OIL_CRUDE_DESULFURIZED;
+    public static FluidType OIL_CRUDE_DESULFURIZED_CRACKED;
+    public static FluidType OIL_CRUDE_HOT;
+    public static FluidType OIL_CRUDE_DESULFURIZED_HOT;
+    public static FluidType OIL_CRUDE_CRACKED_HOT;
+    public static FluidType OIL_CRUDE_DESULFURIZED_CRACKED_HOT;
+    public static FluidType OIL_HEAVY;
+    public static FluidType OIL_HEAVY_VACUUM;
+    public static FluidType OIL_LIGHT;
+    public static FluidType OIL_LIGHT_DESULFURIZED;
+    public static FluidType OIL_LIGHT_CRACKED;
+    public static FluidType OIL_LIGHT_VACUUM;
+    public static FluidType NAPHTHA;
+    public static FluidType NAPHTHA_DESULFURIZED;
+    public static FluidType NAPHTHA_CRACKED;
+    public static FluidType NAPHTHA_COKER;
+    public static FluidType PETROLEUM_GAS;
+    public static FluidType OIL_INDUSTRIAL;
+    public static FluidType OIL_INDUSTRIAL_RECLAIMED;
+    public static FluidType OIL_HEATING;
+    public static FluidType OIL_HEATING_HEAVY;
+    public static FluidType PETROIL;
+    public static FluidType PETROIL_LEADED;
+
     public static FluidType BALEFIRE;
     public static FluidType SPENTSTEAM;
     public static FluidType ETHANOL;
@@ -85,23 +119,57 @@ public class Fluids {
          * You may screw with metaOrder as much as you like, as long as you keep all fluids in the list exactly once.
          */
 
-        NONE =					new FluidType("NONE",				0x888888, 0, 0, 0, EnumSymbol.NONE);
-        AIR =					new FluidType("AIR",				0xE7EAEB, 0, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
-        WATER =					new FluidType("WATER",			0x3333FF, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, UNSIPHONABLE);
-        STEAM =					new FluidType("STEAM",			0xe5e5e5, 3, 0, 0, EnumSymbol.NONE).setTemp(100).addTraits(GASEOUS, UNSIPHONABLE);
-        HOTSTEAM =				new FluidType("HOTSTEAM",			0xE7D6D6, 4, 0, 0, EnumSymbol.NONE).setTemp(300).addTraits(GASEOUS, UNSIPHONABLE);
-        SUPERHOTSTEAM =			new FluidType("SUPERHOTSTEAM",	0xE7B7B7, 4, 0, 0, EnumSymbol.NONE).setTemp(450).addTraits(GASEOUS, UNSIPHONABLE);
-        ULTRAHOTSTEAM =			new FluidType("ULTRAHOTSTEAM",	0xE39393, 4, 0, 0, EnumSymbol.NONE).setTemp(600).addTraits(GASEOUS, UNSIPHONABLE);
-        SPENTSTEAM =			new FluidType("SPENTSTEAM",		0x445772, 2, 0, 0, EnumSymbol.NONE).addTraits(NOCON, GASEOUS);
-        LAVA =					new FluidType("LAVA",				0xFF3300, 4, 0, 0, EnumSymbol.NOWATER).setTemp(1200).addTraits(LIQUID, VISCOUS);
-        KEROSENE =				new FluidType("KEROSENE",			0xffa5d2, 1, 2, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0xFF377D)).addTraits(new FT_Flammable(300_000),/*new FT_Combustible(FuelGrade.AERO, 1_250_000), LIQUID, P_FUEL*/ LIQUID);
-        GAS =					new FluidType("GAS",				0xfffeed, 1, 4, 1, EnumSymbol.NONE).addContainers(new CD_Gastank(0xFF4545, 0xFFE97F)).addTraits(new FT_Flammable(10_000), GASEOUS /*P_GAS*/);
-        AROMATICS =				new FluidType("AROMATICS",		0x68A09A, 1, 4, 1, EnumSymbol.NONE).addContainers(new CD_Gastank(0x68A09A, 0xEDCF27)).addTraits(new FT_Flammable(25_000), LIQUID, VISCOUS /*P_GAS*/);
-        UNSATURATEDS =			new FluidType("UNSATURATEDS",		0x628FAE, 1, 4, 1, EnumSymbol.NONE).addContainers(new CD_Gastank(0x628FAE, 0xEDCF27)).addTraits(new FT_Flammable(1_000_000), GASEOUS /*P_GAS*/); //acetylene burns as hot as satan's asshole
-        PEROXIDE =				new FluidType("PEROXIDE",			0xfff7aa, 3, 0, 3, EnumSymbol.OXIDIZER).addTraits(new FT_Corrosive(40), LIQUID);
-        OXYGEN =				new FluidType("OXYGEN",			0x98bdf9, 3, 0, 0, EnumSymbol.CROYGENIC).setTemp(-100).addContainers(new CD_Gastank(0x98bdf9, 0xffffff)).addTraits(LIQUID, EVAP);
-        ETHANOL =				new FluidType("ETHANOL",			0xe0ffff, 2, 3, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0xEAFFF3)).addTraits(new FT_Flammable(75_000),/*new FT_Combustible(FuelGrade.HIGH, 200_000), LIQUID, P_FUEL*/ LIQUID);
-        KEROSENE_REFORM =		new FluidType("KEROSENE_REFORM",	0xFFA5F3, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID/*, P_FUEL*/).addContainers(new CD_Canister(0xFF377D));
+        NONE =					new FluidType("NONE",				    0x888888, 0, 0, 0, EnumSymbol.NONE);
+        AIR =					new FluidType("AIR",				    0xE7EAEB, 0, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
+        WATER =					new FluidType("WATER",			    0x3333FF, 0, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, UNSIPHONABLE);
+        STEAM =					new FluidType("STEAM",			    0xe5e5e5, 3, 0, 0, EnumSymbol.NONE).setTemp(100).addTraits(GASEOUS, UNSIPHONABLE);
+        HOTSTEAM =				new FluidType("HOTSTEAM",			    0xE7D6D6, 4, 0, 0, EnumSymbol.NONE).setTemp(300).addTraits(GASEOUS, UNSIPHONABLE);
+        SUPERHOTSTEAM =			new FluidType("SUPERHOTSTEAM",	    0xE7B7B7, 4, 0, 0, EnumSymbol.NONE).setTemp(450).addTraits(GASEOUS, UNSIPHONABLE);
+        ULTRAHOTSTEAM =			new FluidType("ULTRAHOTSTEAM",	    0xE39393, 4, 0, 0, EnumSymbol.NONE).setTemp(600).addTraits(GASEOUS, UNSIPHONABLE);
+        SPENTSTEAM =			new FluidType("SPENTSTEAM",		    0x445772, 2, 0, 0, EnumSymbol.NONE).addTraits(NOCON, GASEOUS);
+        HELIUM_3 =		    	new FluidType("HELIUM_3",		        0xFCF0C4, 2, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
+        HELIUM_4 =			    new FluidType("HELIUM_4",		        0xE54B0A, 2, 0, 0, EnumSymbol.NONE).addTraits(GASEOUS);
+        LAVA =					new FluidType("LAVA",				    0xFF3300, 4, 0, 0, EnumSymbol.NOWATER).setTemp(1200).addTraits(LIQUID, VISCOUS);
+        KEROSENE =				new FluidType("KEROSENE",			    0xffa5d2, 1, 2, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0xFF377D)).addTraits(new FT_Flammable(300_000),/*new FT_Combustible(FuelGrade.AERO, 1_250_000), LIQUID, P_FUEL*/ LIQUID);
+        GAS =					new FluidType("GAS",				    0xfffeed, 1, 4, 1, EnumSymbol.NONE).addContainers(new CD_Gastank(0xFF4545, 0xFFE97F)).addTraits(new FT_Flammable(10_000), GASEOUS /*P_GAS*/);
+        AROMATICS =				new FluidType("AROMATICS",		    0x68A09A, 1, 4, 1, EnumSymbol.NONE).addContainers(new CD_Gastank(0x68A09A, 0xEDCF27)).addTraits(new FT_Flammable(25_000), LIQUID, VISCOUS /*P_GAS*/);
+        UNSATURATEDS =			new FluidType("UNSATURATEDS",		    0x628FAE, 1, 4, 1, EnumSymbol.NONE).addContainers(new CD_Gastank(0x628FAE, 0xEDCF27)).addTraits(new FT_Flammable(1_000_000), GASEOUS /*P_GAS*/); //acetylene burns as hot as satan's asshole
+        PEROXIDE =				new FluidType("PEROXIDE",			    0xfff7aa, 3, 0, 3, EnumSymbol.OXIDIZER).addTraits(new FT_Corrosive(40), LIQUID);
+        SULFURIC_ACID =			new FluidType("SULFURIC_ACID",	    0xB0AA64, 3, 0, 3, EnumSymbol.OXIDIZER).addTraits(new FT_Corrosive(50), LIQUID);
+        NITRIC_ACID =			new FluidType("NITRIC_ACID",		    0xBB7A1E, 3, 0, 3, EnumSymbol.OXIDIZER).addTraits(new FT_Corrosive(60), LIQUID);
+        SCHRABIDIC_ACID =		new FluidType("SCHRABIDIC_ACID",	    0x006B6B, 3, 0, 3, EnumSymbol.OXIDIZER).addTraits(new FT_Corrosive(75), LIQUID);
+        SOLVENT =				new FluidType("SOLVENT",			    0xE4E3EF, 3, 0, 3, EnumSymbol.OXIDIZER).addTraits(new FT_Corrosive(30), LIQUID);
+        OXYGEN =				new FluidType("OXYGEN",			    0x98bdf9, 3, 0, 0, EnumSymbol.CROYGENIC).setTemp(-100).addContainers(new CD_Gastank(0x98bdf9, 0xffffff)).addTraits(LIQUID, EVAP);
+        OIL_CRUDE =				new FluidType("OIL_CRUDE",		    0x020202, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+        OIL_CRUDE_CRACKED =		new FluidType("OIL_CRUDE_CRACKED",    0x020202, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+        OIL_CRUDE_DESULFURIZED = new FluidType("OIL_CRUDE_DESULFURIZED",	0x121212, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+        OIL_CRUDE_DESULFURIZED_CRACKED = new FluidType("OIL_CRUDE_DESULFURIZED_CRACKED",	0x2A1C11, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+        OIL_CRUDE_HOT =				new FluidType("OIL_CRUDE_HOT",		    0x300900, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+        OIL_CRUDE_DESULFURIZED_HOT = new FluidType("OIL_CRUDE_DESULFURIZED_HOT",	0x3F180F, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+        OIL_CRUDE_CRACKED_HOT =		new FluidType("OIL_CRUDE_CRACKED_HOT",    0x300900, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+        OIL_CRUDE_DESULFURIZED_CRACKED_HOT = new FluidType("OIL_CRUDE_DESULFURIZED_CRACKED_HOT",	0x3A1A28, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+        OIL_HEAVY =				new FluidType("OIL_HEAVY",		    0x141312, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+        OIL_HEAVY_VACUUM =		new FluidType("OIL_HEAVY_VACUUM",		0x131214, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+        OIL_LIGHT =				new FluidType("OIL_LIGHT",		    0x8c7451, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+        OIL_LIGHT_DESULFURIZED =    new FluidType("OIL_LIGHT_DESULFURIZED",	0x63543E, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+        OIL_LIGHT_CRACKED =		new FluidType("OIL_LIGHT_CRACKED",	0x8c7451, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+        OIL_LIGHT_VACUUM =		new FluidType("OIL_LIGHT_VACUUM",		0x8C8851, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+        NAPHTHA =				new FluidType("NAPHTHA",		        0x595744, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+        NAPHTHA_DESULFURIZED =	new FluidType("NAPHTHA_DESULFURIZED", 0x63614E, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+        NAPHTHA_CRACKED =		new FluidType("NAPHTHA_CRACKED",		0x595744, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+        NAPHTHA_COKER =			new FluidType("NAPHTHA_COKER",		0x495944, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+        PETROLEUM_GAS =			new FluidType("PETROLEUM_GAS",		0x7cb7c9, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+        OIL_INDUSTRIAL =		new FluidType("OIL_INDUSTRIAL",	    0x020202, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+        OIL_INDUSTRIAL_RECLAIMED =	new FluidType("OIL_INDUSTRIAL_RECLAIMED",	0x332b22, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+        OIL_HEATING =		    new FluidType("OIL_HEATING",	        0x332b22, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+        OIL_HEATING_HEAVY =		new FluidType("OIL_HEATING_HEAVY",	0x211D06, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+        PETROIL =		        new FluidType("PETROIL",	            0x44413d, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+        PETROIL_LEADED =		new FluidType("PETROIL_LEADED",	    0x44413d, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
+
+        PERFLUOROMETHYL =		new FluidType("PERFLUOROMETHYL",	    0xBDC8DC, 4, 0, 0, EnumSymbol.NONE).setTemp(15).addTraits(LIQUID, VISCOUS);
+        COLD_PERFLUOROMETHYL =	new FluidType("COLD_PERFLUOROMETHYL",	0x99DADE, 4, 0, 0, EnumSymbol.NONE).setTemp(-150).addTraits(LIQUID, VISCOUS);
+        ETHANOL =				new FluidType("ETHANOL",			    0xe0ffff, 2, 3, 0, EnumSymbol.NONE).addContainers(new CD_Canister(0xEAFFF3)).addTraits(new FT_Flammable(75_000),/*new FT_Combustible(FuelGrade.HIGH, 200_000), LIQUID, P_FUEL*/ LIQUID);
+        KEROSENE_REFORM =		new FluidType("KEROSENE_REFORM",	    0xFFA5F3, 1, 2, 0, EnumSymbol.NONE).addTraits(LIQUID/*, P_FUEL*/).addContainers(new CD_Canister(0xFF377D));
 
         // ^ ^ ^ ^ ^ ^ ^ ^
         //ADD NEW FLUIDS HERE
@@ -128,9 +196,36 @@ public class Fluids {
         metaOrder.add(SUPERHOTSTEAM);
         metaOrder.add(ULTRAHOTSTEAM);
         metaOrder.add(SPENTSTEAM);
-        //pure elements, cyogenic gasses
+        //pure elements, cryogenic gasses
         metaOrder.add(OXYGEN);
+        metaOrder.add(HELIUM_3);
+        metaOrder.add(HELIUM_4);
         //oils, fuels
+        metaOrder.add(OIL_CRUDE);
+        metaOrder.add(OIL_CRUDE_CRACKED);
+        metaOrder.add(OIL_CRUDE_DESULFURIZED);
+        metaOrder.add(OIL_CRUDE_DESULFURIZED_CRACKED);
+        metaOrder.add(OIL_CRUDE_HOT);
+        metaOrder.add(OIL_CRUDE_DESULFURIZED_HOT);
+        metaOrder.add(OIL_CRUDE_CRACKED_HOT);
+        metaOrder.add(OIL_CRUDE_DESULFURIZED_CRACKED_HOT);
+        metaOrder.add(OIL_HEAVY);
+        metaOrder.add(OIL_HEAVY_VACUUM);
+        metaOrder.add(OIL_LIGHT);
+        metaOrder.add(OIL_LIGHT_DESULFURIZED);
+        metaOrder.add(OIL_LIGHT_CRACKED);
+        metaOrder.add(OIL_LIGHT_VACUUM);
+        metaOrder.add(NAPHTHA);
+        metaOrder.add(NAPHTHA_DESULFURIZED);
+        metaOrder.add(NAPHTHA_CRACKED);
+        metaOrder.add(NAPHTHA_COKER);
+        metaOrder.add(PETROLEUM_GAS);
+        metaOrder.add(OIL_INDUSTRIAL);
+        metaOrder.add(OIL_INDUSTRIAL_RECLAIMED);
+        metaOrder.add(OIL_HEATING);
+        metaOrder.add(OIL_HEATING_HEAVY);
+        metaOrder.add(PETROIL);
+        metaOrder.add(PETROIL_LEADED);
         metaOrder.add(GAS);
         metaOrder.add(AROMATICS);
         metaOrder.add(UNSATURATEDS);
@@ -139,10 +234,17 @@ public class Fluids {
         metaOrder.add(ETHANOL);
         //processing fluids
         metaOrder.add(PEROXIDE);
+        metaOrder.add(SULFURIC_ACID);
+        metaOrder.add(NITRIC_ACID);
+        metaOrder.add(SCHRABIDIC_ACID);
+        metaOrder.add(SOLVENT);
+        metaOrder.add(PERFLUOROMETHYL);
+        metaOrder.add(COLD_PERFLUOROMETHYL);
 
         //do not forget about this thingy
-        metaOrder.addAll(customFluids);
-        metaOrder.addAll(foreignFluids);
+        addMetaOrderIfAbsent(customFluids);
+        addMetaOrderIfAbsent(foreignFluids);
+        syncMetaOrderWithMappings();
 
         if(idMapping.size() != metaOrder.size()) {
             throw new IllegalStateException("A severe error has occurred during NTM's fluid registering process! The MetaOrder and Mappings are inconsistent! Mapping stacksize: " + idMapping.size()+ " / MetaOrder stacksize: " + metaOrder.size());
@@ -288,7 +390,7 @@ public class Fluids {
         foreignFluids.clear();
 
         readCustomFluids(customTypes);
-        metaOrder.addAll(customFluids);
+        addMetaOrderIfAbsent(customFluids);
         File config = new File(NuclearTechMod.configHbmDir.getAbsolutePath() + File.separatorChar + "hbmFluidTraits.json");
         File template = new File(NuclearTechMod.configHbmDir.getAbsolutePath() + File.separatorChar + "_hbmFluidTraits.json");
 
@@ -299,6 +401,23 @@ public class Fluids {
         }
 
         for (IFluidRegisterListener listener : additionalListeners) listener.onFluidsLoad();
+        syncMetaOrderWithMappings();
+    }
+
+    private static void addMetaOrderIfAbsent(List<FluidType> fluids) {
+        for(FluidType fluid : fluids) {
+            if(!metaOrder.contains(fluid)) {
+                metaOrder.add(fluid);
+            }
+        }
+    }
+
+    private static void syncMetaOrderWithMappings() {
+        for(FluidType fluid : registerOrder) {
+            if(!metaOrder.contains(fluid)) {
+                metaOrder.add(fluid);
+            }
+        }
     }
 
     protected static int registerSelf(FluidType fluid) {

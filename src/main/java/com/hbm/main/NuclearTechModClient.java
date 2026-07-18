@@ -18,6 +18,7 @@ import com.hbm.inventory.MetaHelper;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.screens.LoadingScreenRendererNT;
+import com.hbm.items.CastPlateItem;
 import com.hbm.items.EnumMultiItem;
 import com.hbm.items.IHUDItem;
 import com.hbm.items.NtmItems;
@@ -504,6 +505,11 @@ public class NuclearTechModClient {
                 NtmItems.FLUID_TANK_LEAD_FULL.get(),
                 NtmItems.FLUID_BARREL_FULL.get(),
                 NtmItems.FLUID_PACK_FULL.get()
+        );
+        event.register(
+                (stack, tintIndex) -> tintIndex == 0 ? 0xFF000000 | ((CastPlateItem) stack.getItem()).getColor(stack) : 0xFFFFFFFF,
+                NtmItems.CAST_PLATE.get(),
+                NtmItems.CAST_PLATE_WELDED.get()
         );
     }
 
