@@ -65,7 +65,7 @@ public class MachineRefineryBlockEntity extends MachineBaseBlockEntity implement
                 new FluidTank(Fluids.OIL_HEAVY, 24_000),
                 new FluidTank(Fluids.NAPHTHA, 24_000),
                 new FluidTank(Fluids.OIL_LIGHT, 24_000),
-                new FluidTank(Fluids.PETROLEUM_GAS, 24_000)
+                new FluidTank(Fluids.PETROLEUM, 24_000)
         };
     }
 

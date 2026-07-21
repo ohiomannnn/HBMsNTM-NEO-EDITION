@@ -4,6 +4,7 @@ import com.google.common.collect.HashBiMap;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonWriter;
 import com.hbm.inventory.fluid.tank.FluidTank;
+import com.hbm.inventory.fluid.trait.FT_Heatable;
 import com.hbm.inventory.fluid.trait.FluidTraitSimple.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -21,6 +22,8 @@ public class FluidTrait {
         //complex traits with values
         registerTrait("corrosive", FT_Corrosive.class);
         registerTrait("flammable", FT_Flammable.class);
+        registerTrait("heatable", FT_Heatable.class);
+        registerTrait("coolable", FT_Coolable.class);
 //        registerTrait("combustible", FT_Combustible.class);
 //        registerTrait("polluting", FT_Polluting.class);
 //        registerTrait("heatable", FT_Heatable.class);

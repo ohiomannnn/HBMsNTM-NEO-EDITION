@@ -27,6 +27,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCon
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 public class NtmBlockLootTableProvider extends BlockLootSubProvider {
@@ -97,7 +98,7 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(NtmBlocks.DECO_ALUMINIUM.get());
         this.dropSelf(NtmBlocks.DECO_BERYLLIUM.get());
         this.dropSelf(NtmBlocks.DECO_LEAD.get());
-        this.dropSelf(NtmBlocks.DECO_GRADE_COPPER.get());
+        this.dropSelf(NtmBlocks.DECO_RED_COPPER.get());
         this.dropSelf(NtmBlocks.DECO_STEEL.get());
         this.dropSelf(NtmBlocks.DECO_ALUMINIUM.get());
         this.dropSelf(NtmBlocks.DECO_RUSTY_STEEL.get());
@@ -220,6 +221,15 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(NtmBlocks.BARREL_PINK.get());
         this.dropSelf(NtmBlocks.BARREL_LOX.get());
         this.dropSelf(NtmBlocks.BARREL_TAINT.get());
+        this.dropSelf(NtmBlocks.BARREL_PLASTIC.get());
+        this.dropSelf(NtmBlocks.BARREL_STEEL.get());
+        this.dropSelf(NtmBlocks.BARREL_CORRODED.get());
+        this.dropSelf(NtmBlocks.BARREL_TCALLOY.get());
+        this.dropSelf(NtmBlocks.CRATE_IRON.get());
+        this.dropSelf(NtmBlocks.CRATE_TUNGSTEN.get());
+        this.dropSelf(NtmBlocks.CRATE_STEEL.get());
+        this.dropSelf(NtmBlocks.CRATE_DESH.get());
+        this.dropSelf(NtmBlocks.CRATE_TEMPLATE.get());
 
         this.dropSelf(NtmBlocks.GEIGER.get());
 
@@ -235,8 +245,19 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(NtmBlocks.MACHINE_ASSEMBLY_MACHINE.get());
         this.dropSelf(NtmBlocks.MACHINE_FLUID_TANK.get());
         this.dropSelf(NtmBlocks.MACHINE_SOLDERING_STATION.get());
+        this.dropSelf(NtmBlocks.HEATER_FIREBOX.get());
+        this.dropSelf(NtmBlocks.HEATER_OVEN.get());
+        this.dropSelf(NtmBlocks.HEATER_OILBURNER.get());
+        this.dropSelf(NtmBlocks.HEATER_ELECTRIC.get());
+        this.dropSelf(NtmBlocks.HEATER_HEATEX.get());
         this.dropSelf(NtmBlocks.MACHINE_OIL_DERRICK.get());
         this.dropSelf(NtmBlocks.MACHINE_REFINERY.get());
+        this.dropSelf(NtmBlocks.MACHINE_BLAST_FURNACE.get());
+        this.dropSelf(NtmBlocks.MACHINE_WOOD_BURNER.get());
+        this.dropSelf(NtmBlocks.MACHINE_CENTRIFUGE.get());
+        this.dropSelf(NtmBlocks.MACHINE_SHREDDER.get());
+        this.dropSelf(NtmBlocks.HEAT_BOILER.get());
+        this.dropSelf(NtmBlocks.MACHINE_INDUSTRIAL_BOILER.get());
 
         this.dropSelf(NtmBlocks.MACHINE_SATLINKER.get());
 
@@ -260,9 +281,76 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
         // gas blocks has no drops
 
         // ??? blocks has no drops
+
+        this.dropSelf(NtmBlocks.BLOCK_ACTINIUM.get());
+        this.dropSelf(NtmBlocks.BLOCK_STEEL.get());
+        this.dropSelf(NtmBlocks.BLOCK_ALUMINIUM.get());
+        this.dropSelf(NtmBlocks.BLOCK_ASBESTOS.get());
+        this.dropSelf(NtmBlocks.BLOCK_AUSTRALIUM.get());
+        this.dropSelf(NtmBlocks.BLOCK_BERYLLIUM.get());
+        this.dropSelf(NtmBlocks.BLOCK_BISMUTH.get());
+        this.dropSelf(NtmBlocks.BLOCK_CADMIUM.get());
+        this.dropSelf(NtmBlocks.BLOCK_CDALLOY.get());
+        this.dropSelf(NtmBlocks.BLOCK_COLTAN.get());
+        this.dropSelf(NtmBlocks.BLOCK_COMBINE_STEEL.get());
+        this.dropSelf(NtmBlocks.BLOCK_COPPER.get());
+        this.dropSelf(NtmBlocks.BLOCK_DESH.get());
+        this.dropSelf(NtmBlocks.BLOCK_DINEUTRONIUM.get());
+        this.dropSelf(NtmBlocks.BLOCK_DURA_STEEL.get());
+        this.dropSelf(NtmBlocks.BLOCK_EUPHEMIUM.get());
+        this.dropSelf(NtmBlocks.BLOCK_FOAM.get());
+        this.dropSelf(NtmBlocks.BLOCK_LANTHANIUM.get());
+        this.dropSelf(NtmBlocks.BLOCK_LEAD.get());
+        this.dropSelf(NtmBlocks.BLOCK_LITHIUM.get());
+        this.dropSelf(NtmBlocks.BLOCK_MAGNETIZED_TUNGSTEN.get());
+        this.dropSelf(NtmBlocks.BLOCK_METEOR_MOLTEN.get());
+        this.dropSelf(NtmBlocks.BLOCK_MOX_FUEL.get());
+        this.dropSelf(NtmBlocks.BLOCK_NEPTUNIUM.get());
+        this.dropSelf(NtmBlocks.BLOCK_NIOBIUM.get());
+        this.dropSelf(NtmBlocks.BLOCK_NITER.get());
+        this.dropSelf(NtmBlocks.BLOCK_PLUTONIUM.get());
+        this.dropSelf(NtmBlocks.BLOCK_PLUTONIUM_FUEL.get());
+        this.dropSelf(NtmBlocks.BLOCK_POLONIUM.get());
+        this.dropSelf(NtmBlocks.BLOCK_PU238.get());
+        this.dropSelf(NtmBlocks.BLOCK_PU239.get());
+        this.dropSelf(NtmBlocks.BLOCK_PU240.get());
+        this.dropSelf(NtmBlocks.BLOCK_PU_MIX.get());
+        this.dropSelf(NtmBlocks.BLOCK_RA226.get());
+        this.dropSelf(NtmBlocks.BLOCK_RED_COPPER.get());
+        this.dropSelf(NtmBlocks.BLOCK_SATURNITE.get());
+        this.dropSelf(NtmBlocks.BLOCK_SCHRABIDATE.get());
+        this.dropSelf(NtmBlocks.BLOCK_SCHRABIDIUM.get());
+        this.dropSelf(NtmBlocks.BLOCK_SCHRABIDIUM_FUEL.get());
+        this.dropSelf(NtmBlocks.BLOCK_SCHRARANIUM.get());
+        this.dropSelf(NtmBlocks.BLOCK_SMORE.get());
+        this.dropSelf(NtmBlocks.BLOCK_SOLINIUM.get());
+        this.dropSelf(NtmBlocks.BLOCK_SULFUR.get());
+        this.dropSelf(NtmBlocks.BLOCK_TANTALIUM.get());
+        this.dropSelf(NtmBlocks.BLOCK_TCALLOY.get());
+        this.dropSelf(NtmBlocks.BLOCK_THORIUM.get());
+        this.dropSelf(NtmBlocks.BLOCK_THORIUM_FUEL.get());
+        this.dropSelf(NtmBlocks.BLOCK_TITANIUM.get());
+        this.dropSelf(NtmBlocks.BLOCK_TUNGSTEN.get());
+        this.dropSelf(NtmBlocks.BLOCK_U233.get());
+        this.dropSelf(NtmBlocks.BLOCK_U235.get());
+        this.dropSelf(NtmBlocks.BLOCK_U238.get());
+        this.dropSelf(NtmBlocks.BLOCK_URANIUM.get());
+        this.dropSelf(NtmBlocks.BLOCK_URANIUM_FUEL.get());
+        this.dropSelf(NtmBlocks.BLOCK_WASTE.get());
+        this.dropSelf(NtmBlocks.BLOCK_WASTE_PAINTED.get());
+        this.dropSelf(NtmBlocks.BLOCK_WASTE_VITRIFIED.get());
+        this.dropSelf(NtmBlocks.BLOCK_YELLOWCAKE.get());
+        this.dropSelf(NtmBlocks.BLOCK_FIBERGLASS.get());
+        this.dropSelf(NtmBlocks.BLOCK_INSULATOR.get());
+        this.dropSelf(NtmBlocks.BLOCK_SLAG.get());
     }
 
-    @Override protected Iterable<Block> getKnownBlocks() { return NtmBlocks.BLOCKS.getEntries().stream().map(Holder::value)::iterator; }
+    @Override
+    protected Iterable<Block> getKnownBlocks() {
+        ArrayList<Block> blocks = new ArrayList<>();
+        NtmBlocks.BLOCKS.getEntries().stream().map(Holder::value).forEach(blocks::add);
+        return blocks;
+    }
 
     private LootTable.Builder oreDrop(Item item) {
         return this.oreDrop(item, 1, 1);

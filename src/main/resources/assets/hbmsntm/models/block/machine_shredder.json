@@ -1,0 +1,12 @@
+{
+	"parent": "block/cube",
+	"textures": {
+		"down": "hbmsntm:block/machine_shredder_bottom_alt",
+		"up": "hbmsntm:block/machine_shredder_top_alt",
+		"north": "hbmsntm:block/machine_shredder_front_alt",
+		"south": "hbmsntm:block/machine_shredder_front_alt",
+		"west": "hbmsntm:block/machine_shredder_side_alt",
+		"east": "hbmsntm:block/machine_shredder_side_alt",
+		"particle": "hbmsntm:block/machine_shredder_front_alt"
+	}
+}

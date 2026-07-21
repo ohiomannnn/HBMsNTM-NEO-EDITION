@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "hbmsntm:machine_shredder" },
+    "facing=east":  { "model": "hbmsntm:machine_shredder", "y": 90 },
+    "facing=south": { "model": "hbmsntm:machine_shredder", "y": 180 },
+    "facing=west":  { "model": "hbmsntm:machine_shredder", "y": 270 }
+  }
+}

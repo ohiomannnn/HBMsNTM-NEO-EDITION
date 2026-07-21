@@ -28,6 +28,10 @@ public class RenderBarrelItem extends ItemRenderBaseStandard {
         if(stack.is(NtmBlocks.BARREL_PINK.asItem()))  return 1;
         if(stack.is(NtmBlocks.BARREL_LOX.asItem()))   return 2;
         if(stack.is(NtmBlocks.BARREL_TAINT.asItem())) return 3;
+        if(stack.is(NtmBlocks.BARREL_PLASTIC.asItem())) return 4;
+        if(stack.is(NtmBlocks.BARREL_STEEL.asItem()))   return 5;
+        if(stack.is(NtmBlocks.BARREL_CORRODED.asItem())) return 6;
+        if(stack.is(NtmBlocks.BARREL_TCALLOY.asItem())) return 7;
         return 0;
     }
 
@@ -37,13 +41,21 @@ public class RenderBarrelItem extends ItemRenderBaseStandard {
                 this.getSprite("block/barrel_red"),
                 this.getSprite("block/barrel_pink"),
                 this.getSprite("block/barrel_lox"),
-                this.getSprite("block/barrel_taint")
+                this.getSprite("block/barrel_taint"),
+                this.getSprite("block/barrel_plastic"),
+                this.getSprite("block/barrel_steel"),
+                this.getSprite("block/barrel_corroded"),
+                this.getSprite("block/barrel_tcalloy")
         };
         this.models = new SimpleWavefrontBakedModel[] {
                 new SimpleWavefrontBakedModel(ResourceManager.barrel, sprites[0]),
                 new SimpleWavefrontBakedModel(ResourceManager.barrel, sprites[1]),
                 new SimpleWavefrontBakedModel(ResourceManager.barrel, sprites[2]),
                 new SimpleWavefrontBakedModel(ResourceManager.barrel, sprites[3]),
+                new SimpleWavefrontBakedModel(ResourceManager.barrel, sprites[4]),
+                new SimpleWavefrontBakedModel(ResourceManager.barrel, sprites[5]),
+                new SimpleWavefrontBakedModel(ResourceManager.barrel, sprites[6]),
+                new SimpleWavefrontBakedModel(ResourceManager.barrel, sprites[7]),
         };
     }
 }

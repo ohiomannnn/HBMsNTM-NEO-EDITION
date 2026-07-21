@@ -120,27 +120,25 @@ public class RenderFluidTank extends BlockEntityRendererNT<MachineFluidTankBlock
         return "textures/models/tank/tank_" + s + ".png";
     }
 
-    private AABB bb = null;
-
     @Override
     public AABB getRenderBoundingBox(MachineFluidTankBlockEntity be) {
+        int x = be.getBlockPos().getX();
+        int y = be.getBlockPos().getY();
+        int z = be.getBlockPos().getZ();
 
-        if (bb == null) {
-            int x = be.getBlockPos().getX();
-            int y = be.getBlockPos().getY();
-            int z = be.getBlockPos().getZ();
+        return new AABB(
+                x - 6,
+                y - 1,
+                z - 6,
+                x + 7,
+                y + 5,
+                z + 7
+        );
+    }
 
-            bb = new AABB(
-                    x - 2,
-                    y - 0,
-                    z - 2,
-                    x + 3,
-                    y + 3,
-                    z + 3
-            );
-        }
-
-        return bb;
+    @Override
+    public boolean shouldRenderOffScreen(MachineFluidTankBlockEntity be) {
+        return true;
     }
 
 

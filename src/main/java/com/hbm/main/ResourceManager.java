@@ -41,6 +41,16 @@ public class ResourceManager {
     public static final ResourceLocation SOLDERING_STATION_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/soldering_station.png");
     public static final ResourceLocation DERRICK_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/derrick.png");
     public static final ResourceLocation REFINERY_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/refinery.png");
+    public static final ResourceLocation BLAST_FURNACE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/blast_furnace.png");
+    public static final ResourceLocation WOOD_BURNER_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/wood_burner.png");
+    public static final ResourceLocation CENTRIFUGE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/centrifuge_new.png");
+    public static final ResourceLocation BOILER_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/boiler.png");
+    public static final ResourceLocation INDUSTRIAL_BOILER_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/industrial_boiler.png");
+    public static final ResourceLocation HEATER_FIREBOX_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/firebox.png");
+    public static final ResourceLocation HEATER_OVEN_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/heating_oven.png");
+    public static final ResourceLocation HEATER_OILBURNER_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/oilburner.png");
+    public static final ResourceLocation HEATER_ELECTRIC_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/electric_heater.png");
+    public static final ResourceLocation HEATER_HEATEX_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/heater_heatex.png");
     public static final ResourceLocation BATTERY_SC_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/battery_sc.png");
     public static final ResourceLocation BATTERY_REDD_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/fensu2.png");
 
@@ -249,6 +259,17 @@ public class ResourceManager {
     public static IModelCustom soldering_station;
     public static IModelCustom oil_derrick;
     public static IModelCustom refinery;
+    public static IModelCustom blast_furnace;
+    public static IModelCustom wood_burner;
+    public static IModelCustom centrifuge;
+    public static IModelCustom boiler;
+    public static IModelCustom boiler_burst;
+    public static IModelCustom industrial_boiler;
+    public static IModelCustom heater_firebox;
+    public static IModelCustom heater_oven;
+    public static IModelCustom heater_oilburner;
+    public static IModelCustom heater_electric;
+    public static IModelCustom heater_heatex;
 
     // Radar
     public static IModelCustom radar_body;
@@ -356,6 +377,17 @@ public class ResourceManager {
         soldering_station = new HFRWavefrontObject("models/obj/machines/soldering_station.obj").asVBO();
         oil_derrick = new HFRWavefrontObject("models/obj/machines/oil_derrick.obj").asVBO();
         refinery = new HFRWavefrontObject("models/obj/machines/refinery.obj").asVBO();
+        blast_furnace = new HFRWavefrontObject("models/obj/machines/blast_furnace.obj").asVBO();
+        wood_burner = new HFRWavefrontObject("models/obj/machines/wood_burner.obj").asVBO();
+        centrifuge = new HFRWavefrontObject("models/obj/machines/centrifuge.obj").asVBO();
+        boiler = new HFRWavefrontObject("models/obj/machines/boiler.obj").asVBO();
+        boiler_burst = new HFRWavefrontObject("models/obj/machines/boiler_burst.obj").asVBO();
+        industrial_boiler = new HFRWavefrontObject("models/obj/machines/industrial_boiler.obj").asVBO();
+        heater_firebox = new HFRWavefrontObject("models/obj/machines/firebox.obj").asVBO();
+        heater_oven = new HFRWavefrontObject("models/obj/machines/heating_oven.obj").asVBO();
+        heater_oilburner = new HFRWavefrontObject("models/obj/machines/oilburner.obj").asVBO();
+        heater_electric = new HFRWavefrontObject("models/obj/machines/electric_heater.obj").asVBO();
+        heater_heatex = new HFRWavefrontObject("models/obj/machines/heatex.obj").asVBO();
 
         radar_body = new HFRWavefrontObject("models/obj/radar_base.obj").noSmooth().asVBO();
         radar = new HFRWavefrontObject("models/obj/machines/radar.obj").noSmooth().asVBO();

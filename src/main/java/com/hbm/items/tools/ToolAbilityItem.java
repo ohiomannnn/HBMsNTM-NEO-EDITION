@@ -28,6 +28,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
@@ -35,6 +36,7 @@ import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
@@ -53,6 +55,7 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItem
     protected AvailableAbilities availableAbilities = new AvailableAbilities().addToolAbilities();
     private boolean rockBreaker;
     private boolean isShears;
+    private final ToolRole toolRole;
 
     public ToolAbilityItem setShears() {
         this.isShears = true;
@@ -61,7 +64,12 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItem
 
 
     public ToolAbilityItem(Properties properties, Tier tier) {
+        this(properties, tier, ToolRole.PICKAXE);
+    }
+
+    public ToolAbilityItem(Properties properties, Tier tier, ToolRole toolRole) {
         super(tier, properties);
+        this.toolRole = toolRole;
     }
 
     public ToolAbilityItem addAbility(IBaseAbility ability, int level) {
@@ -87,18 +95,41 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItem
 
     @Override
     public boolean canPerformAction(ItemStack stack, ItemAbility itemAbility) {
-        return ItemAbilities.DEFAULT_PICKAXE_ACTIONS.contains(itemAbility);
+        return switch (this.toolRole) {
+            case PICKAXE -> ItemAbilities.DEFAULT_PICKAXE_ACTIONS.contains(itemAbility);
+            case AXE -> ItemAbilities.DEFAULT_AXE_ACTIONS.contains(itemAbility);
+            case SHOVEL -> ItemAbilities.DEFAULT_SHOVEL_ACTIONS.contains(itemAbility);
+            case HOE -> ItemAbilities.DEFAULT_HOE_ACTIONS.contains(itemAbility);
+            case MINER -> ItemAbilities.DEFAULT_PICKAXE_ACTIONS.contains(itemAbility) || ItemAbilities.DEFAULT_SHOVEL_ACTIONS.contains(itemAbility);
+        };
     }
 
     @Override
     public boolean mineBlock(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity miningEntity) {
-        if (!level.isClientSide && miningEntity instanceof Player player && (canHarvest(stack, state, player, level, pos) || canShearBlock(state, stack, level, pos)) && canOperate(stack)) {
+        if (!level.isClientSide && miningEntity instanceof Player player && canOperate(stack)) {
             Configuration config = this.getConfiguration(stack);
             ToolPreset preset = config.getActivePreset();
-            boolean areaAllowed = preset.areaAbility.isAllowed();
+            boolean canProcess = canHarvest(stack, state, player, level, pos) || canShearBlock(state, stack, level, pos);
+            boolean usedHarvestAbility = false;
 
-            if (areaAllowed) {
-                preset.areaAbility.onDig(preset.areaAbilityLevel, level, pos, player, this);
+            if (canProcess) {
+                preset.harvestAbility.preHarvestAll(preset.harvestAbilityLevel, level, player, stack);
+                try {
+                    if (preset.areaAbility.isAllowed()) {
+                        preset.areaAbility.onDig(preset.areaAbilityLevel, level, pos, player, this);
+                    }
+
+                    if (preset.harvestAbility != IToolHarvestAbility.NONE) {
+                        preset.harvestAbility.onHarvestBlock(level, pos, player, pos);
+                        usedHarvestAbility = true;
+                    }
+                } finally {
+                    preset.harvestAbility.postHarvestAll(preset.harvestAbilityLevel, level, player, stack);
+                }
+            }
+
+            if (!usedHarvestAbility && (isEffectiveForState(state) || canShearBlock(state, stack, level, pos))) {
+                damageTool(stack, player, 1);
             }
         }
 
@@ -110,7 +141,35 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItem
         if (!canOperate(stack))
             return 1.0F;
 
-        return super.getDestroySpeed(stack, state);
+        return isEffectiveForState(state) ? this.getTier().getSpeed() : 1.0F;
+    }
+
+    public boolean isCorrectToolForDrops(BlockState state) {
+        return isEffectiveForState(state);
+    }
+
+    public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
+        return isEffectiveForState(state);
+    }
+
+    private boolean isEffectiveForState(BlockState state) {
+        return switch (this.toolRole) {
+            case PICKAXE -> state.is(BlockTags.MINEABLE_WITH_PICKAXE);
+            case AXE -> state.is(BlockTags.MINEABLE_WITH_AXE);
+            case SHOVEL -> state.is(BlockTags.MINEABLE_WITH_SHOVEL);
+            case HOE -> state.is(BlockTags.MINEABLE_WITH_HOE);
+            case MINER -> state.is(BlockTags.MINEABLE_WITH_PICKAXE) || state.is(BlockTags.MINEABLE_WITH_SHOVEL);
+        };
+    }
+
+    public static boolean canTakeDamage(ItemStack stack) {
+        return !stack.isEmpty() && stack.isDamageableItem() && stack.getMaxDamage() > 0;
+    }
+
+    public static void damageTool(ItemStack stack, Player player, int amount) {
+        if (canTakeDamage(stack)) {
+            stack.hurtAndBreak(amount, player, EquipmentSlot.MAINHAND);
+        }
     }
 
     public boolean canOperate(ItemStack stack) {
@@ -363,6 +422,14 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItem
 
         RenderSystem.defaultBlendFunc();
         RenderSystem.disableBlend();
+    }
+
+    public enum ToolRole {
+        PICKAXE,
+        AXE,
+        SHOVEL,
+        HOE,
+        MINER
     }
 }
 

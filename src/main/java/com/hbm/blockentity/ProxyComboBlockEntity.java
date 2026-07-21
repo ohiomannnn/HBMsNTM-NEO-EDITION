@@ -6,6 +6,7 @@ import api.hbm.fluidmk2.IFluidReceiverMK2;
 import api.hbm.redstoneoverradio.IRORInfo;
 import api.hbm.redstoneoverradio.IRORInteractive;
 import api.hbm.redstoneoverradio.IRORValueProvider;
+import api.hbm.tile.IHeatSource;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import net.minecraft.core.BlockPos;
@@ -19,7 +20,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class ProxyComboBlockEntity extends ProxyBaseBlockEntity implements IEnergyReceiverMK2, IEnergyConductorMK2, WorldlyContainer, IFluidReceiverMK2, IRORValueProvider, IRORInteractive {
+public class ProxyComboBlockEntity extends ProxyBaseBlockEntity implements IEnergyReceiverMK2, IEnergyConductorMK2, WorldlyContainer, IFluidReceiverMK2, IHeatSource, IRORValueProvider, IRORInteractive {
 
     private BlockEntity be;
     private boolean inventory;
@@ -141,6 +142,26 @@ public class ProxyComboBlockEntity extends ProxyBaseBlockEntity implements IEner
     public String runRORFunction(String name, String[] params) {
         if (this.getCoreObject() instanceof IRORInteractive interactive) return interactive.runRORFunction(name, params);
         return null;
+    }
+
+    @Override
+    public int getHeatStored() {
+        if (!this.heat) return 0;
+
+        if (getCoreObject() instanceof IHeatSource source) {
+            return source.getHeatStored();
+        }
+
+        return 0;
+    }
+
+    @Override
+    public void useUpHeat(int heat) {
+        if (!this.heat) return;
+
+        if (getCoreObject() instanceof IHeatSource source) {
+            source.useUpHeat(heat);
+        }
     }
 
     public static final FluidTank[] EMPTY_TANKS = FluidTank.EMPTY_ARRAY;

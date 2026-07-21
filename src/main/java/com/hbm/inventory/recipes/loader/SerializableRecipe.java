@@ -14,7 +14,10 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.SolderingRecipes;
 import com.hbm.inventory.recipes.AssemblyMachineRecipes;
+import com.hbm.inventory.recipes.BlastFurnaceRecipes;
+import com.hbm.inventory.recipes.CentrifugeRecipes;
 import com.hbm.inventory.recipes.PressRecipes;
+import com.hbm.inventory.recipes.ShredderRecipes;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.util.ItemStackUtil;
 import com.hbm.util.TagsUtil;
@@ -45,11 +48,14 @@ public abstract class SerializableRecipe {
     public static void registerAllHandlers() {
         recipeHandlers.add(new SolderingRecipes());
         recipeHandlers.add(new PressRecipes());
+        recipeHandlers.add(new ShredderRecipes());
+        recipeHandlers.add(new CentrifugeRecipes());
 
         recipeHandlers.add(new AssemblyMachineRecipes());
 
         //GENERIC
         recipeHandlers.add(AssemblyMachineRecipes.INSTANCE);
+        recipeHandlers.add(BlastFurnaceRecipes.INSTANCE);
     }
 
     public static void initialize() {

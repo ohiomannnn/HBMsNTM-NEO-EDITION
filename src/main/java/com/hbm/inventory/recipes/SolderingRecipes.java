@@ -258,7 +258,7 @@ public class SolderingRecipes extends SerializableRecipe {
                 ),
                 ingredients(
                         stack(NtmItems.UPGRADE_TEMPLATE, 1),
-                        stack(NtmItems.POWDER_GRADE_COPPER, 4)
+                        stack(NtmItems.POWDER_RED_COPPER, 4)
                 ),
                 ingredients()
         );
