@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class CrateIronBlockEntity extends CrateBaseBlockEntity {
 
     public CrateIronBlockEntity(BlockPos pos, BlockState state) {
-        super(NtmBlockEntityTypes.CRATE_IRON.get(), pos, state, 36);
+        super(NtmBlockEntityTypes.CRATE_IRON.get(), pos, state, 36, "gui_crate_iron", 9, 4, 8, 18, 8, 104, 176, 186, 8, 4210752, 4210752);
     }
 
     @Override public Component getName() { return Component.translatable("container.crateIron"); }

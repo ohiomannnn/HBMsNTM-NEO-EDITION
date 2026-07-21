@@ -80,7 +80,11 @@ public class ClientProxy extends ServerProxy {
                 NtmBlocks.BARREL_RED.asItem(),
                 NtmBlocks.BARREL_PINK.asItem(),
                 NtmBlocks.BARREL_LOX.asItem(),
-                NtmBlocks.BARREL_TAINT.asItem()
+                NtmBlocks.BARREL_TAINT.asItem(),
+                NtmBlocks.BARREL_PLASTIC.asItem(),
+                NtmBlocks.BARREL_STEEL.asItem(),
+                NtmBlocks.BARREL_CORRODED.asItem(),
+                NtmBlocks.BARREL_TCALLOY.asItem()
         );
 
         registerItemRenderer(event, new RenderBarbedWireItem(),
@@ -173,8 +177,18 @@ public class ClientProxy extends ServerProxy {
         BlockEntityRenderers.register(NtmBlockEntityTypes.LANDMINE.get(), new RenderLandmine());
         //machines
         BlockEntityRenderers.register(NtmBlockEntityTypes.MACHINE_SOLDERING_STATION.get(), new RenderSolderingStation());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.HEAT_BOILER.get(), new RenderHeatBoiler());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.MACHINE_INDUSTRIAL_BOILER.get(), new RenderIndustrialBoiler());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.HEATER_FIREBOX.get(), new RenderHeaterFirebox());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.HEATER_OVEN.get(), new RenderHeaterOven());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.HEATER_OILBURNER.get(), new RenderHeaterOilburner());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.HEATER_ELECTRIC.get(), new RenderHeaterElectric());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.HEATER_HEATEX.get(), new RenderHeaterHeatex());
         BlockEntityRenderers.register(NtmBlockEntityTypes.MACHINE_OIL_DERRICK.get(), new RenderOilDerrick());
         BlockEntityRenderers.register(NtmBlockEntityTypes.MACHINE_REFINERY.get(), new RenderOilRefinery());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.MACHINE_BLAST_FURNACE.get(), new RenderBlastFurnace());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.MACHINE_WOOD_BURNER.get(), new RenderWoodBurner());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.MACHINE_CENTRIFUGE.get(), new RenderCentrifuge());
         BlockEntityRenderers.register(NtmBlockEntityTypes.ASSEMBLY_MACHINE.get(), new RenderAssemblyMachine());
         BlockEntityRenderers.register(NtmBlockEntityTypes.FLUID_TANK.get(), new RenderFluidTank());
         BlockEntityRenderers.register(NtmBlockEntityTypes.PRESS.get(), new RenderPress());

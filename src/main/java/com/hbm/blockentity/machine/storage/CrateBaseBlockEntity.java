@@ -1,6 +1,8 @@
 package com.hbm.blockentity.machine.storage;
 
+import com.hbm.blockentity.IPersistentNBT;
 import com.hbm.blockentity.machine.LockableBaseBlockEntity;
+import com.hbm.inventory.menus.CrateMenu;
 import com.hbm.registry.NtmSoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -9,6 +11,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.Connection;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -20,14 +23,17 @@ import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.CaveSpider;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 
-public abstract class CrateBaseBlockEntity extends LockableBaseBlockEntity implements WorldlyContainer, Nameable {
+public abstract class CrateBaseBlockEntity extends LockableBaseBlockEntity implements WorldlyContainer, Nameable, MenuProvider, IPersistentNBT {
 
     public NonNullList<ItemStack> slots;
 
@@ -35,9 +41,34 @@ public abstract class CrateBaseBlockEntity extends LockableBaseBlockEntity imple
 
     public boolean hasSpiders = false;
 
-    public CrateBaseBlockEntity(BlockEntityType<? extends CrateBaseBlockEntity> type, BlockPos pos, BlockState blockState, int size) {
+    private final int columns;
+    private final int rows;
+    private final int slotX;
+    private final int slotY;
+    private final int playerInvX;
+    private final int playerInvY;
+    private final int guiWidth;
+    private final int guiHeight;
+    private final int inventoryLabelX;
+    private final int titleColor;
+    private final int inventoryLabelColor;
+    private final String texture;
+
+    public CrateBaseBlockEntity(BlockEntityType<? extends CrateBaseBlockEntity> type, BlockPos pos, BlockState blockState, int size, String texture, int columns, int rows, int slotX, int slotY, int playerInvX, int playerInvY, int guiWidth, int guiHeight, int inventoryLabelX, int titleColor, int inventoryLabelColor) {
         super(type, pos, blockState);
         this.slots = NonNullList.withSize(size, ItemStack.EMPTY);
+        this.texture = texture;
+        this.columns = columns;
+        this.rows = rows;
+        this.slotX = slotX;
+        this.slotY = slotY;
+        this.playerInvX = playerInvX;
+        this.playerInvY = playerInvY;
+        this.guiWidth = guiWidth;
+        this.guiHeight = guiHeight;
+        this.inventoryLabelX = inventoryLabelX;
+        this.titleColor = titleColor;
+        this.inventoryLabelColor = inventoryLabelColor;
     }
 
     @Override
@@ -83,6 +114,7 @@ public abstract class CrateBaseBlockEntity extends LockableBaseBlockEntity imple
     public void setItem(int index, ItemStack itemStack) {
         this.slots.set(index, itemStack);
         itemStack.limitSize(this.getMaxStackSize(itemStack));
+        this.setChanged();
     }
 
     @Override
@@ -144,6 +176,7 @@ public abstract class CrateBaseBlockEntity extends LockableBaseBlockEntity imple
         if (stack.isEmpty()) {
             slots.set(slot, ItemStack.EMPTY);
         }
+        this.setChanged();
         return split;
     }
 
@@ -209,6 +242,50 @@ public abstract class CrateBaseBlockEntity extends LockableBaseBlockEntity imple
     }
 
     @Override
+    public void writeNBT(CompoundTag savedTag) {
+        CompoundTag tag = new CompoundTag();
+        this.saveAdditional(tag, this.getLevel().registryAccess());
+        savedTag.put(IPersistentNBT.NBT_PERSISTENT_KEY, tag);
+    }
+
+    @Override
+    public void readNBT(CompoundTag savedTag) {
+        if(savedTag.contains(IPersistentNBT.NBT_PERSISTENT_KEY)) {
+            this.loadAdditional(savedTag.getCompound(IPersistentNBT.NBT_PERSISTENT_KEY), this.getLevel().registryAccess());
+        }
+    }
+
+    @Override
+    public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
+        return new CrateMenu(id, inventory, this);
+    }
+
+    @Override
+    public void serialize(RegistryFriendlyByteBuf buf) {
+        super.serialize(buf);
+        buf.writeBoolean(this.hasSpiders);
+    }
+
+    @Override
+    public void deserialize(RegistryFriendlyByteBuf buf) {
+        super.deserialize(buf);
+        this.hasSpiders = buf.readBoolean();
+    }
+
+    public int getColumns() { return columns; }
+    public int getRows() { return rows; }
+    public int getSlotX() { return slotX; }
+    public int getSlotY() { return slotY; }
+    public int getPlayerInvX() { return playerInvX; }
+    public int getPlayerInvY() { return playerInvY; }
+    public int getGuiWidth() { return guiWidth; }
+    public int getGuiHeight() { return guiHeight; }
+    public int getInventoryLabelX() { return inventoryLabelX; }
+    public int getTitleColor() { return titleColor; }
+    public int getInventoryLabelColor() { return inventoryLabelColor; }
+    public String getTexture() { return texture; }
+
+    @Override
     public boolean isEmpty() {
         for (ItemStack stack : slots) {
             if (!stack.isEmpty()) {
@@ -220,7 +297,10 @@ public abstract class CrateBaseBlockEntity extends LockableBaseBlockEntity imple
 
     @Override
     public void clearContent() {
-        slots.clear();
+        for(int i = 0; i < slots.size(); i++) {
+            slots.set(i, ItemStack.EMPTY);
+        }
+        this.setChanged();
     }
 
     // Spiders!!!

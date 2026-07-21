@@ -2,6 +2,13 @@ package com.hbm.blockentity;
 
 import com.hbm.blockentity.bomb.*;
 import com.hbm.blockentity.machine.*;
+import com.hbm.blockentity.machine.heater.HeaterElectricBlockEntity;
+import com.hbm.blockentity.machine.heater.HeaterFireboxBlockEntity;
+import com.hbm.blockentity.machine.heater.HeaterHeatexBlockEntity;
+import com.hbm.blockentity.machine.heater.HeaterOilburnerBlockEntity;
+import com.hbm.blockentity.machine.heater.HeaterOvenBlockEntity;
+import com.hbm.blockentity.machine.boiler.MachineHeatBoilerBlockEntity;
+import com.hbm.blockentity.machine.boiler.MachineIndustrialBoilerBlockEntity;
 import com.hbm.blockentity.machine.oil.MachineOilDerrickBlockEntity;
 import com.hbm.blockentity.machine.oil.MachineRefineryBlockEntity;
 import com.hbm.blockentity.machine.storage.*;
@@ -32,6 +39,62 @@ public class NtmBlockEntityTypes {
                             NtmBlocks.MACHINE_SOLDERING_STATION.get())
                     .build(null));
 
+    public static final Supplier<BlockEntityType<MachineHeatBoilerBlockEntity>> HEAT_BOILER = BLOCK_ENTITY_TYPES.register(
+            "heat_boiler",
+            () -> BlockEntityType.Builder.of(
+                            MachineHeatBoilerBlockEntity::new,
+                            NtmBlocks.HEAT_BOILER.get())
+                    .build(null));
+
+    public static final Supplier<BlockEntityType<MachineIndustrialBoilerBlockEntity>> MACHINE_INDUSTRIAL_BOILER = BLOCK_ENTITY_TYPES.register(
+            "machine_industrial_boiler",
+            () -> BlockEntityType.Builder.of(
+                            MachineIndustrialBoilerBlockEntity::new,
+                            NtmBlocks.MACHINE_INDUSTRIAL_BOILER.get())
+                    .build(null));
+
+    public static final Supplier<BlockEntityType<HeaterFireboxBlockEntity>> HEATER_FIREBOX = BLOCK_ENTITY_TYPES.register(
+            "heater_firebox",
+            () -> BlockEntityType.Builder.of(
+                            HeaterFireboxBlockEntity::new,
+                            NtmBlocks.HEATER_FIREBOX.get())
+                    .build(null));
+
+    public static final Supplier<BlockEntityType<HeaterOvenBlockEntity>> HEATER_OVEN = BLOCK_ENTITY_TYPES.register(
+            "heater_oven",
+            () -> BlockEntityType.Builder.of(
+                            HeaterOvenBlockEntity::new,
+                            NtmBlocks.HEATER_OVEN.get())
+                    .build(null));
+
+    public static final Supplier<BlockEntityType<HeaterOilburnerBlockEntity>> HEATER_OILBURNER = BLOCK_ENTITY_TYPES.register(
+            "heater_oilburner",
+            () -> BlockEntityType.Builder.of(
+                            HeaterOilburnerBlockEntity::new,
+                            NtmBlocks.HEATER_OILBURNER.get())
+                    .build(null));
+
+    public static final Supplier<BlockEntityType<HeaterElectricBlockEntity>> HEATER_ELECTRIC = BLOCK_ENTITY_TYPES.register(
+            "heater_electric",
+            () -> BlockEntityType.Builder.of(
+                            HeaterElectricBlockEntity::new,
+                            NtmBlocks.HEATER_ELECTRIC.get())
+                    .build(null));
+
+    public static final Supplier<BlockEntityType<HeaterHeatexBlockEntity>> HEATER_HEATEX = BLOCK_ENTITY_TYPES.register(
+            "heater_heatex",
+            () -> BlockEntityType.Builder.of(
+                            HeaterHeatexBlockEntity::new,
+                            NtmBlocks.HEATER_HEATEX.get())
+                    .build(null));
+
+    public static final Supplier<BlockEntityType<MachineShredderBlockEntity>> MACHINE_SHREDDER = BLOCK_ENTITY_TYPES.register(
+            "machine_shredder",
+            () -> BlockEntityType.Builder.of(
+                            MachineShredderBlockEntity::new,
+                            NtmBlocks.MACHINE_SHREDDER.get())
+                    .build(null));
+
     public static final Supplier<BlockEntityType<MachineOilDerrickBlockEntity>> MACHINE_OIL_DERRICK = BLOCK_ENTITY_TYPES.register(
             "machine_oil_derrick",
             () -> BlockEntityType.Builder.of(
@@ -46,6 +109,36 @@ public class NtmBlockEntityTypes {
                             NtmBlocks.MACHINE_REFINERY.get())
                     .build(null));
 
+    public static final Supplier<BlockEntityType<MachineBlastFurnaceBlockEntity>> MACHINE_BLAST_FURNACE = BLOCK_ENTITY_TYPES.register(
+            "machine_blast_furnace",
+            () -> BlockEntityType.Builder.of(
+                            MachineBlastFurnaceBlockEntity::new,
+                            NtmBlocks.MACHINE_BLAST_FURNACE.get())
+                    .build(null));
+
+    public static final Supplier<BlockEntityType<MachineWoodBurnerBlockEntity>> MACHINE_WOOD_BURNER = BLOCK_ENTITY_TYPES.register(
+            "machine_wood_burner",
+            () -> BlockEntityType.Builder.of(
+                            MachineWoodBurnerBlockEntity::new,
+                            NtmBlocks.MACHINE_WOOD_BURNER.get())
+                    .build(null));
+
+    public static final Supplier<BlockEntityType<MachineCentrifugeBlockEntity>> MACHINE_CENTRIFUGE = BLOCK_ENTITY_TYPES.register(
+            "machine_centrifuge",
+            () -> BlockEntityType.Builder.of(
+                            MachineCentrifugeBlockEntity::new,
+                            NtmBlocks.MACHINE_CENTRIFUGE.get())
+                    .build(null));
+
+    public static final Supplier<BlockEntityType<BarrelBlockEntity>> BARREL = BLOCK_ENTITY_TYPES.register(
+            "barrel",
+            () -> BlockEntityType.Builder.of(
+                            BarrelBlockEntity::new,
+                            NtmBlocks.BARREL_PLASTIC.get(),
+                            NtmBlocks.BARREL_STEEL.get(),
+                            NtmBlocks.BARREL_TCALLOY.get())
+                    .build(null));
+
     public static final Supplier<BlockEntityType<MachineSatLinkerBlockEntity>> MACHINE_SATLINKER = BLOCK_ENTITY_TYPES.register(
             "machine_satlinker",
             () -> BlockEntityType.Builder.of(
@@ -57,19 +150,31 @@ public class NtmBlockEntityTypes {
             "crate_iron",
             () -> BlockEntityType.Builder.of(
                             CrateIronBlockEntity::new,
-                            NtmBlocks.MACHINE_SATLINKER.get())
+                            NtmBlocks.CRATE_IRON.get())
+                    .build(null));
+    public static final Supplier<BlockEntityType<CrateTungstenBlockEntity>> CRATE_TUNGSTEN = BLOCK_ENTITY_TYPES.register(
+            "crate_tungsten",
+            () -> BlockEntityType.Builder.of(
+                            CrateTungstenBlockEntity::new,
+                            NtmBlocks.CRATE_TUNGSTEN.get())
                     .build(null));
     public static final Supplier<BlockEntityType<CrateSteelBlockEntity>> CRATE_STEEL = BLOCK_ENTITY_TYPES.register(
             "crate_steel",
             () -> BlockEntityType.Builder.of(
                             CrateSteelBlockEntity::new,
-                            NtmBlocks.MACHINE_SATLINKER.get())
+                            NtmBlocks.CRATE_STEEL.get())
                     .build(null));
     public static final Supplier<BlockEntityType<CrateDeshBlockEntity>> CRATE_DESH = BLOCK_ENTITY_TYPES.register(
             "crate_desh",
             () -> BlockEntityType.Builder.of(
                             CrateDeshBlockEntity::new,
-                            NtmBlocks.MACHINE_SATLINKER.get())
+                            NtmBlocks.CRATE_DESH.get())
+                    .build(null));
+    public static final Supplier<BlockEntityType<CrateTemplateBlockEntity>> CRATE_TEMPLATE = BLOCK_ENTITY_TYPES.register(
+            "crate_template",
+            () -> BlockEntityType.Builder.of(
+                            CrateTemplateBlockEntity::new,
+                            NtmBlocks.CRATE_TEMPLATE.get())
                     .build(null));
 
     public static final Supplier<BlockEntityType<MachinePressBlockEntity>> PRESS = BLOCK_ENTITY_TYPES.register("press", () -> BlockEntityType.Builder.of(MachinePressBlockEntity::new, NtmBlocks.MACHINE_PRESS.get()).build(null));

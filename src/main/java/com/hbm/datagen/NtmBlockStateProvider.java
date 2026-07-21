@@ -104,11 +104,11 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.simpleCubeAllBlock(NtmBlocks.DECO_ALUMINIUM);
         this.simpleCubeAllBlock(NtmBlocks.DECO_BERYLLIUM);
         this.simpleCubeAllBlock(NtmBlocks.DECO_LEAD);
-        this.simpleCubeAllBlock(NtmBlocks.DECO_GRADE_COPPER);
         this.simpleCubeAllBlock(NtmBlocks.DECO_STEEL);
         this.simpleCubeAllBlock(NtmBlocks.DECO_RUSTY_STEEL);
         this.simpleCubeAllBlock(NtmBlocks.DECO_TITANIUM);
         this.simpleCubeAllBlock(NtmBlocks.DECO_TUNGSTEN);
+        this.simpleCubeAllBlock(NtmBlocks.DECO_RED_COPPER);
         this.simpleCubeAllBlock(NtmBlocks.DECO_ASBESTOS);
 
         this.registerOreBasalt();
@@ -256,6 +256,15 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.barrelLoaderBlockItem(NtmBlocks.BARREL_PINK.get(), blockTexture(NtmBlocks.BARREL_PINK));
         this.barrelLoaderBlockItem(NtmBlocks.BARREL_LOX.get(), blockTexture(NtmBlocks.BARREL_LOX));
         this.barrelLoaderBlockItem(NtmBlocks.BARREL_TAINT.get(), blockTexture(NtmBlocks.BARREL_TAINT));
+        this.barrelLoaderBlockItem(NtmBlocks.BARREL_PLASTIC.get(), blockTexture(NtmBlocks.BARREL_PLASTIC));
+        this.barrelLoaderBlockItem(NtmBlocks.BARREL_STEEL.get(), blockTexture(NtmBlocks.BARREL_STEEL));
+        this.barrelLoaderBlockItem(NtmBlocks.BARREL_CORRODED.get(), blockTexture(NtmBlocks.BARREL_CORRODED));
+        this.barrelLoaderBlockItem(NtmBlocks.BARREL_TCALLOY.get(), blockTexture(NtmBlocks.BARREL_TCALLOY));
+        this.crateBlock(NtmBlocks.CRATE_IRON.get(), "crate_iron_side", "crate_iron_top");
+        this.crateBlock(NtmBlocks.CRATE_TUNGSTEN.get(), "crate_tungsten_side", "crate_tungsten_top");
+        this.crateBlock(NtmBlocks.CRATE_STEEL.get(), "crate_steel_side", "crate_steel_top");
+        this.crateBlock(NtmBlocks.CRATE_DESH.get(), "crate_desh_side", "crate_desh_top");
+        this.crateBlock(NtmBlocks.CRATE_TEMPLATE.get(), "crate_template", "crate_template");
 
         this.particleOnlyBlock(NtmBlocks.GEIGER, blockTexture(NtmBlocks.GEIGER));
 
@@ -270,9 +279,20 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.particleOnlyBlock(NtmBlocks.MACHINE_BATTERY_SOCKET, modLoc("block/block_steel"));
         this.particleOnlyBlock(NtmBlocks.MACHINE_BATTERY_REDD, modLoc("block/block_steel"));
         this.particleOnlyBlock(NtmBlocks.MACHINE_ASSEMBLY_MACHINE, modLoc("block/block_steel"));
+        this.particleOnlyBlock(NtmBlocks.HEAT_BOILER, modLoc("block/block_steel"));
+        this.particleOnlyBlock(NtmBlocks.MACHINE_INDUSTRIAL_BOILER, modLoc("block/block_steel"));
+        this.particleOnlyBlock(NtmBlocks.HEATER_FIREBOX, modLoc("block/block_steel"));
+        this.particleOnlyBlock(NtmBlocks.HEATER_OVEN, modLoc("block/block_steel"));
+        this.particleOnlyBlock(NtmBlocks.HEATER_OILBURNER, modLoc("block/block_steel"));
+        this.particleOnlyBlock(NtmBlocks.HEATER_ELECTRIC, modLoc("block/block_steel"));
+        this.particleOnlyBlock(NtmBlocks.HEATER_HEATEX, modLoc("block/block_steel"));
+        this.registerMachineShredder();
         this.particleOnlyBlock(NtmBlocks.MACHINE_FLUID_TANK, modLoc("block/block_steel"));
         this.particleOnlyBlock(NtmBlocks.MACHINE_SOLDERING_STATION, modLoc("block/block_steel"));
         this.particleOnlyBlock(NtmBlocks.MACHINE_REFINERY, modLoc("block/block_steel"));
+        this.particleOnlyBlock(NtmBlocks.MACHINE_BLAST_FURNACE, modLoc("block/block_steel"));
+        this.particleOnlyBlock(NtmBlocks.MACHINE_WOOD_BURNER, modLoc("block/block_steel"));
+        this.particleOnlyBlock(NtmBlocks.MACHINE_CENTRIFUGE, modLoc("block/machine_centrifuge"));
 
         this.cubeTop(NtmBlocks.MACHINE_SATLINKER);
 
@@ -322,6 +342,7 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.simpleCubeAllBlock(NtmBlocks.OIL_PIPE);
 
         this.simpleCubeAllBlock(NtmBlocks.TAINT);
+        this.registerMaterialBlocks();
     }
 
     private void registerOreBasalt() {
@@ -385,6 +406,70 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.entityBlockItem(block, false);
     }
 
+    private void registerMaterialBlocks() {
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_ACTINIUM);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_STEEL);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_ALUMINIUM);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_ASBESTOS);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_AUSTRALIUM);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_BERYLLIUM);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_BISMUTH);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_CADMIUM);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_CDALLOY);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_COLTAN);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_COMBINE_STEEL);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_COPPER);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_DESH);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_DINEUTRONIUM);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_DURA_STEEL);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_EUPHEMIUM);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_FOAM);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_LANTHANIUM);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_LEAD);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_LITHIUM);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_MAGNETIZED_TUNGSTEN);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_METEOR_MOLTEN);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_MOX_FUEL);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_NEPTUNIUM);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_NIOBIUM);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_NITER);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_PLUTONIUM);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_PLUTONIUM_FUEL);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_POLONIUM);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_PU238);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_PU239);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_PU240);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_PU_MIX);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_RA226);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_RED_COPPER);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_SATURNITE);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_SCHRABIDATE);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_SCHRABIDIUM);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_SCHRABIDIUM_FUEL);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_SCHRARANIUM);
+        this.simpleBlockWithItem(NtmBlocks.BLOCK_SMORE.get(), this.models().cubeBottomTop("block_smore", modLoc("block/block_smore_side"), modLoc("block/block_smore_side"), modLoc("block/block_smore_top")));
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_SOLINIUM);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_SULFUR);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_TANTALIUM);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_TCALLOY);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_THORIUM);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_THORIUM_FUEL);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_TITANIUM);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_TUNGSTEN);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_U233);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_U235);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_U238);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_URANIUM);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_URANIUM_FUEL);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_WASTE);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_WASTE_PAINTED);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_WASTE_VITRIFIED);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_YELLOWCAKE);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_SLAG);
+        this.simpleBlockWithItem(NtmBlocks.BLOCK_FIBERGLASS.get(), this.models().cubeBottomTop("block_fiberglass", modLoc("block/block_fiberglass_side"), modLoc("block/block_fiberglass_side"), modLoc("block/block_fiberglass_top")));
+        this.simpleBlockWithItem(NtmBlocks.BLOCK_INSULATOR.get(), this.models().cubeBottomTop("block_insulator", modLoc("block/block_insulator_side"), modLoc("block/block_insulator_side"), modLoc("block/block_insulator_top")));
+    }
+
     private void registerBarbedWire() {
         Block block = NtmBlocks.BARBED_WIRE.get();
 
@@ -419,6 +504,32 @@ public class NtmBlockStateProvider extends BlockStateProvider {
     private void barrelLoaderBlockItem(Block block, ResourceLocation texture) {
         this.simpleBlock(block, this.models().getBuilder(this.key(block).getPath()).customLoader(BarrelBlockModelBuilder::new).texture("texture", texture).end());
         this.entityBlockItem(block, false);
+    }
+
+    private void registerMachineShredder() {
+        Block block = NtmBlocks.MACHINE_SHREDDER.get();
+
+        ModelFile model = this.models().cube(
+                this.name(block),
+                modLoc("block/machine_shredder_bottom_alt"),
+                modLoc("block/machine_shredder_top_alt"),
+                modLoc("block/machine_shredder_front_alt"),
+                modLoc("block/machine_shredder_front_alt"),
+                modLoc("block/machine_shredder_side_alt"),
+                modLoc("block/machine_shredder_side_alt")
+        );
+
+        this.getVariantBuilder(block).forAllStates(state -> {
+            int y = switch(state.getValue(com.hbm.blocks.machine.MachineShredderBlock.FACING)) {
+                case EAST -> 90;
+                case SOUTH -> 180;
+                case WEST -> 270;
+                default -> 0;
+            };
+            return ConfiguredModel.builder().modelFile(model).rotationY(y).build();
+        });
+
+        this.simpleBlockItem(block, model);
     }
 
     private void layeringBlock(Block block, ResourceLocation texture) {
@@ -519,6 +630,21 @@ public class NtmBlockStateProvider extends BlockStateProvider {
 
     private void entityBlockItem(Block block, boolean frontLight) {
         this.itemModels().getBuilder(this.key(block).getPath()).parent(new ModelFile.UncheckedModelFile("builtin/entity")).guiLight(frontLight ? BlockModel.GuiLight.FRONT : BlockModel.GuiLight.SIDE);
+    }
+
+    private void crateBlock(Block block, String sideTexture, String topTexture) {
+        String blockName = this.key(block).getPath();
+        ModelFile model = this.models().cubeBottomTop(blockName, modLoc("block/" + sideTexture), modLoc("block/" + topTexture), modLoc("block/" + topTexture));
+        this.getVariantBuilder(block).forAllStates(state -> {
+            int y = switch(state.getValue(com.hbm.blocks.machine.CrateBlock.FACING)) {
+                case EAST -> 90;
+                case SOUTH -> 180;
+                case WEST -> 270;
+                default -> 0;
+            };
+            return ConfiguredModel.builder().modelFile(model).rotationY(y).build();
+        });
+        this.simpleBlockItem(block, model);
     }
 
     public void simpleCubeBottomTopBlock(DeferredBlock<? extends Block> block) {

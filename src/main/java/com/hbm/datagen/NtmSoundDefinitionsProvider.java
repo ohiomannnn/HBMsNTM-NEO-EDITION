@@ -168,6 +168,16 @@ public class NtmSoundDefinitionsProvider extends SoundDefinitionsProvider {
         this.add(NtmSoundEvents.ELECTRIC_MOTOR_LOOP, SoundDefinition.definition()
                 .with(sound("hbmsntm:block/motor"))
         );
+        this.add(NtmSoundEvents.BOILER, SoundDefinition.definition()
+                .with(sound("hbmsntm:block/boiler"))
+        );
+        this.add(NtmSoundEvents.BOILER_GROAN, SoundDefinition.definition()
+                .with(
+                        sound("hbmsntm:block/boilergroan0"),
+                        sound("hbmsntm:block/boilergroan1"),
+                        sound("hbmsntm:block/boilergroan2")
+                )
+        );
         this.add(NtmSoundEvents.ASSEMBLER_STRIKE, SoundDefinition.definition()
                 .with(
                         sound("hbmsntm:block/assembler_strike1"),
@@ -182,6 +192,9 @@ public class NtmSoundDefinitionsProvider extends SoundDefinitionsProvider {
         );
         this.add(NtmSoundEvents.ASSEMBLER_STOP, SoundDefinition.definition()
                 .with(sound("hbmsntm:block/assembler_stop"))
+        );
+        this.add(NtmSoundEvents.CENTRIFUGE_OPERATE, SoundDefinition.definition()
+                .with(sound("hbmsntm:block/centrifugeoperate"))
         );
         this.add(NtmSoundEvents.METAL_IMPACT, SoundDefinition.definition()
                 .with(

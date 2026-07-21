@@ -42,7 +42,7 @@ public class RefineryRecipes {
                 new FluidStack(Fluids.OIL_HEAVY, oil_frac_heavy),
                 new FluidStack(Fluids.NAPHTHA, oil_frac_naph),
                 new FluidStack(Fluids.OIL_LIGHT, oil_frac_light),
-                new FluidStack(Fluids.PETROLEUM_GAS, oil_frac_petro),
+                new FluidStack(Fluids.PETROLEUM, oil_frac_petro),
                 new ItemStack(NtmItems.SULFUR.get())
         );
 

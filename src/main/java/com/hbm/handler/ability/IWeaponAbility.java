@@ -1,5 +1,6 @@
 package com.hbm.handler.ability;
 
+import com.hbm.lib.ModEffect;
 import com.hbm.util.ContaminationUtil;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
@@ -141,6 +142,70 @@ public interface IWeaponAbility extends IBaseAbility {
         }
     };
 
+    IWeaponAbility PHOSPHORUS = new IWeaponAbility() {
+        @Override
+        public String getName() {
+            return "weapon.ability.phosphorus";
+        }
+
+        public final int[] durationAtLevel = { 60, 90 };
+
+        @Override
+        public int levels() {
+            return durationAtLevel.length;
+        }
+
+        @Override
+        public String getExtension(int level) {
+            return " (" + durationAtLevel[level] + ")";
+        }
+
+        @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 4;
+        }
+
+        @Override
+        public void onHit(int lvl, Level level, Player player, Entity victim, Item tool) {
+            int duration = durationAtLevel[lvl];
+
+            if (victim instanceof LivingEntity livingVictim) {
+                livingVictim.addEffect(new MobEffectInstance(ModEffect.PHOSPHORUS, duration * 20, 4));
+            }
+        }
+    };
+
+    IWeaponAbility FIRE = new IWeaponAbility() {
+        @Override
+        public String getName() {
+            return "weapon.ability.fire";
+        }
+
+        public final int[] durationAtLevel = { 5, 10 };
+
+        @Override
+        public int levels() {
+            return durationAtLevel.length;
+        }
+
+        @Override
+        public String getExtension(int level) {
+            return " (" + durationAtLevel[level] + ")";
+        }
+
+        @Override
+        public int sortOrder() {
+            return SORT_ORDER_BASE + 6;
+        }
+
+        @Override
+        public void onHit(int lvl, Level level, Player player, Entity victim, Item tool) {
+            if (victim instanceof LivingEntity) {
+                victim.setRemainingFireTicks(durationAtLevel[lvl] * 20);
+            }
+        }
+    };
+
     IWeaponAbility BEHEADER = new IWeaponAbility() {
         @Override
         public String getName() {
@@ -182,7 +247,7 @@ public interface IWeaponAbility extends IBaseAbility {
         }
     };
 
-    IWeaponAbility[] abilities = { NONE, RADIATION, VAMPIRE, STUN, /*PHOSPHORUS, FIRE, CHAINSAW,*/ BEHEADER, /*BOBBLE*/ };
+    IWeaponAbility[] abilities = { NONE, RADIATION, VAMPIRE, STUN, PHOSPHORUS, FIRE, /*CHAINSAW,*/ BEHEADER, /*BOBBLE*/ };
 
     static IWeaponAbility getByName(String name) {
         for(IWeaponAbility ability : abilities) {

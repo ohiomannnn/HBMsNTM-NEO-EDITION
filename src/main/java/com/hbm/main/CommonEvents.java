@@ -158,10 +158,20 @@ public class CommonEvents {
     @SubscribeEvent
     public static void registerScreens(RegisterMenuScreensEvent event) {
         event.register(NtmMenuTypes.MACHINE_SOLDERING_STATION.get(), MachineSolderingStationScreen::new);
+        event.register(NtmMenuTypes.MACHINE_SHREDDER.get(), MachineShredderScreen::new);
         event.register(NtmMenuTypes.MACHINE_OIL_DERRICK.get(), MachineOilDerrickScreen::new);
         event.register(NtmMenuTypes.MACHINE_REFINERY.get(), MachineRefineryScreen::new);
+        event.register(NtmMenuTypes.MACHINE_BLAST_FURNACE.get(), MachineBlastFurnaceScreen::new);
+        event.register(NtmMenuTypes.MACHINE_WOOD_BURNER.get(), MachineWoodBurnerScreen::new);
+        event.register(NtmMenuTypes.MACHINE_CENTRIFUGE.get(), MachineCentrifugeScreen::new);
         event.register(NtmMenuTypes.SAT_LINKER.get(), MachineSatLinkerScreen::new);
+        event.register(NtmMenuTypes.BARREL.get(), BarrelScreen::new);
+        event.register(NtmMenuTypes.CRATE.get(), CrateScreen::new);
         event.register(NtmMenuTypes.ANVIL.get(), AnvilMenuScreen::new);
+        event.register(NtmMenuTypes.HEATER_FIREBOX.get(), HeaterFireboxScreen::new);
+        event.register(NtmMenuTypes.HEATER_OVEN.get(), HeaterOvenScreen::new);
+        event.register(NtmMenuTypes.HEATER_OILBURNER.get(), HeaterOilburnerScreen::new);
+        event.register(NtmMenuTypes.HEATER_HEATEX.get(), HeaterHeatexScreen::new);
 
         event.register(NtmMenuTypes.FLUID_TANK.get(), MachineFluidTankScreen::new);
 

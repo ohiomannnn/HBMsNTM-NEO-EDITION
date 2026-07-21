@@ -18,10 +18,12 @@ import com.hbm.inventory.MetaHelper;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.screens.LoadingScreenRendererNT;
+import com.hbm.items.BoltItem;
 import com.hbm.items.CastPlateItem;
 import com.hbm.items.EnumMultiItem;
 import com.hbm.items.IHUDItem;
 import com.hbm.items.NtmItems;
+import com.hbm.items.RawIngotItem;
 import com.hbm.items.special.PolaroidItem;
 import com.hbm.items.tools.GeigerCounterItem;
 import com.hbm.network.toserver.Ducc;
@@ -510,6 +512,18 @@ public class NuclearTechModClient {
                 (stack, tintIndex) -> tintIndex == 0 ? 0xFF000000 | ((CastPlateItem) stack.getItem()).getColor(stack) : 0xFFFFFFFF,
                 NtmItems.CAST_PLATE.get(),
                 NtmItems.CAST_PLATE_WELDED.get()
+        );
+        event.register(
+                (stack, tintIndex) -> tintIndex == 0 ? 0xFF000000 | ((RawIngotItem) stack.getItem()).getColor(stack) : 0xFFFFFFFF,
+                NtmItems.INGOT_RAW.get()
+        );
+        event.register(
+                (stack, tintIndex) -> switch(tintIndex) {
+                    case 0 -> 0xFF000000 | ((BoltItem) stack.getItem()).getDarkColor(stack);
+                    case 1 -> 0xFF000000 | ((BoltItem) stack.getItem()).getLightColor(stack);
+                    default -> 0xFFFFFFFF;
+                },
+                NtmItems.BOLT.get()
         );
         event.register(
                 // todo KILL TS NOW

@@ -3,6 +3,8 @@ package com.hbm.handler.jei;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.handler.jei.AssemblyMachineRecipeHandler;
 import com.hbm.handler.jei.AssemblyMachineTransferInfo;
+import com.hbm.handler.jei.BoilerRecipeHandler;
+import com.hbm.handler.jei.ShredderRecipeHandler;
 import com.hbm.handler.jei.subtypes.BatterySubtypeInterpreter;
 import com.hbm.handler.jei.subtypes.MetaSubtypeInterpreter;
 import com.hbm.inventory.MetaHelper;
@@ -10,8 +12,11 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.inventory.recipes.AssemblyMachineRecipes;
+import com.hbm.inventory.recipes.BlastFurnaceRecipes;
+import com.hbm.inventory.recipes.CentrifugeRecipes;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes;
 import com.hbm.inventory.recipes.SolderingRecipes;
+import com.hbm.inventory.recipes.ShredderRecipes;
 import com.hbm.inventory.screens.AnvilMenuScreen;
 import com.hbm.inventory.screens.MachineAssemblyMachineScreen;
 import com.hbm.inventory.screens.MachineSolderingStationScreen;
@@ -47,7 +52,12 @@ public class NtmJeiPlugin implements IModPlugin {
                 new AnvilConstructionRecipeHandler(guiHelper),
                 new AnvilRecipeHandler(guiHelper),
                 new SolderingStationRecipeHandler(guiHelper),
-                new AssemblyMachineRecipeHandler(guiHelper)
+                new AssemblyMachineRecipeHandler(guiHelper),
+                new BlastFurnaceRecipeHandler(guiHelper),
+                new CentrifugeRecipeHandler(guiHelper),
+                new ShredderRecipeHandler(guiHelper),
+                new RefineryRecipeHandler(guiHelper),
+                new BoilerRecipeHandler(guiHelper)
         );
     }
 
@@ -57,6 +67,11 @@ public class NtmJeiPlugin implements IModPlugin {
         registration.addRecipes(AnvilRecipeHandler.RECIPE_TYPE, AnvilRecipes.getSmithing());
         registration.addRecipes(SolderingStationRecipeHandler.RECIPE_TYPE, SolderingRecipes.recipes);
         registration.addRecipes(AssemblyMachineRecipeHandler.RECIPE_TYPE, AssemblyMachineRecipes.INSTANCE.recipeOrderedList);
+        registration.addRecipes(BlastFurnaceRecipeHandler.RECIPE_TYPE, BlastFurnaceRecipes.INSTANCE.recipeOrderedList);
+        registration.addRecipes(CentrifugeRecipeHandler.RECIPE_TYPE, CentrifugeRecipes.getJeiRecipes());
+        registration.addRecipes(ShredderRecipeHandler.RECIPE_TYPE, ShredderRecipes.getJeiRecipes());
+        registration.addRecipes(RefineryRecipeHandler.RECIPE_TYPE, RefineryRecipeHandler.getRecipes());
+        registration.addRecipes(BoilerRecipeHandler.RECIPE_TYPE, BoilerRecipeHandler.getRecipes());
     }
 
     @Override
@@ -79,6 +94,30 @@ public class NtmJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(
                 NtmBlocks.MACHINE_ASSEMBLY_MACHINE.asItem(),
                 AssemblyMachineRecipeHandler.RECIPE_TYPE
+        );
+        registration.addRecipeCatalyst(
+                NtmBlocks.MACHINE_BLAST_FURNACE.asItem(),
+                BlastFurnaceRecipeHandler.RECIPE_TYPE
+        );
+        registration.addRecipeCatalyst(
+                NtmBlocks.MACHINE_SHREDDER.asItem(),
+                ShredderRecipeHandler.RECIPE_TYPE
+        );
+        registration.addRecipeCatalyst(
+                NtmBlocks.MACHINE_CENTRIFUGE.asItem(),
+                CentrifugeRecipeHandler.RECIPE_TYPE
+        );
+        registration.addRecipeCatalyst(
+                NtmBlocks.MACHINE_REFINERY.asItem(),
+                RefineryRecipeHandler.RECIPE_TYPE
+        );
+        registration.addRecipeCatalyst(
+                NtmBlocks.HEAT_BOILER.asItem(),
+                BoilerRecipeHandler.RECIPE_TYPE
+        );
+        registration.addRecipeCatalyst(
+                NtmBlocks.MACHINE_INDUSTRIAL_BOILER.asItem(),
+                BoilerRecipeHandler.RECIPE_TYPE
         );
     }
 
@@ -108,6 +147,7 @@ public class NtmJeiPlugin implements IModPlugin {
                 NtmItems.MISSILE_SOYUZ.get(),
 
                 NtmItems.BATTERY_SC.get(),
+                NtmItems.BOLT.get(),
 
                 NtmItems.FLUID_TANK_FULL.get(),
                 NtmItems.FLUID_TANK_LEAD_FULL.get(),
@@ -116,6 +156,7 @@ public class NtmJeiPlugin implements IModPlugin {
 
                 NtmItems.FLUID_ICON.get(),
                 NtmItems.FLUID_IDENTIFIER_MULTI.get(),
+                NtmItems.INGOT_RAW.get(),
 
                 NtmItems.DRINK.get(),
                 NtmItems.CANNED_CONSERVE.get(),

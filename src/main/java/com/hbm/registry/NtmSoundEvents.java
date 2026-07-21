@@ -54,10 +54,13 @@ public class NtmSoundEvents {
     public static final DeferredHolder<SoundEvent, SoundEvent> SQUEAKY_TOY = reg("block.squeaky_toy"); // BLOCKS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> HUNDUNS_MAGNIFICENT_HOWL = reg("block.hunduns_magnificent_howl"); // BLOCKS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> ELECTRIC_MOTOR_LOOP = reg("block.motor"); // BLOCKS CATEGORY
+    public static final DeferredHolder<SoundEvent, SoundEvent> BOILER = reg("block.boiler"); // BLOCKS CATEGORY
+    public static final DeferredHolder<SoundEvent, SoundEvent> BOILER_GROAN = reg("block.boilergroan"); // BLOCKS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> ASSEMBLER_STRIKE = reg("block.assembler_strike"); // BLOCKS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> ASSEMBLER_CUT = reg("block.assembler_cut"); // BLOCKS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> ASSEMBLER_START = reg("block.assembler_start"); // BLOCKS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> ASSEMBLER_STOP = reg("block.assembler_stop"); // BLOCKS CATEGORY
+    public static final DeferredHolder<SoundEvent, SoundEvent> CENTRIFUGE_OPERATE = reg("block.centrifuge_operate"); // BLOCKS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> METAL_IMPACT = reg("block.metal_impact"); // BLOCKS CATEGORY
     // DOORS
     public static final DeferredHolder<SoundEvent, SoundEvent> TRANSITION_SEAL_OPEN = reg("door.transition_seal_open");
