@@ -207,8 +207,13 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmItems.INGOT_METEORITE_FORGED, "Forged Meteorite Ingot");
         this.add(NtmItems.INGOT_PHOSPHORUS, "Bar of White Phosphorus");
         this.add(NtmItems.INGOT_RAW, "%s Ingot");
+        this.add(NtmItems.COKE_COAL, "Coal Coke");
+        this.add(NtmItems.COKE_LIGNITE, "Lignite Coke");
+        this.add(NtmItems.COKE_PETROLEUM, "Petroleum Coke");
+        this.add(NtmItems.BRIQUETTE_COAL, "Coal Briquette");
+        this.add(NtmItems.BRIQUETTE_LIGNITE, "Lignite Briquette");
+        this.add(NtmItems.BRIQUETTE_WOOD, "Sawdust Briquette");
         this.add("hbmmat.redstone", "Redstone");
-        this.add("hbmmat.neodymium", "Neodymium");
         this.add("hbmmat.borax", "Borax");
         this.add("hbmmat.sodium", "Sodium");
         this.add("hbmmat.strontium", "Strontium");
@@ -256,7 +261,6 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmItems.PLATE_KEVLAR, "Kevlar Sheet");
         this.add(NtmItems.PLATE_MIXED, "Mixed Plate");
         this.add(NtmItems.PLATE_PAA, "PaA Alloy Plate");
-        this.add(NtmItems.PLATE_WEAPONSTEEL, "Weapon Steel Plate");
         this.add(NtmItems.POWDER_ACTINIUM, "Actinium Powder");
         this.add(NtmItems.POWDER_ACTINIUM_TINY, "Tiny Pile of Actinium Powder");
         this.add(NtmItems.POWDER_ASTATINE, "Astatine Powder");
@@ -378,7 +382,6 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmBlocks.BLOCK_LEAD, "Block of Lead");
         this.add(NtmBlocks.BLOCK_LITHIUM, "Block of Lithium");
         this.add(NtmBlocks.BLOCK_MAGNETIZED_TUNGSTEN, "Block of Magnetized Tungsten");
-        this.add(NtmBlocks.BLOCK_METEOR_MOLTEN, "Hot Meteorite Cobblestone");
         this.add(NtmBlocks.BLOCK_MOX_FUEL, "Block of MOX Fuel");
         this.add(NtmBlocks.BLOCK_NEPTUNIUM, "Block of Neptunium");
         this.add(NtmBlocks.BLOCK_NIOBIUM, "Block of Niobium");
@@ -597,6 +600,8 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmItems.OIL_TAR_CRACK, "Crack Oil Tar");
         this.add(NtmItems.OIL_TAR_COAL, "Coal Tar");
         this.add(NtmItems.OIL_TAR_PARAFFIN, "Paraffin Wax");
+        this.add(NtmItems.OIL_TAR_WOOD, "Wood Tar");
+        this.add(NtmItems.OIL_TAR_WAX, "Chlorinated Petroleum Wax");
         this.add(NtmItems.DUST, "Dust");
         this.add(NtmItems.NUCLEAR_WASTE, "Nuclear Waste");
         this.add(NtmItems.NUCLEAR_WASTE_VITRIFIED, "Vitrified Nuclear Waste");
@@ -668,7 +673,6 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmItems.PIPE_DURA_STEEL, "High Speed Steel Pipe");
         this.add(NtmItems.PIPE_RUBBER, "Rubber Pipe");
         this.add(NtmItems.BOLT, "%s Bolt");
-        this.add("hbmmat.tungsten", "Tungsten");
         this.add("hbmmat.lead", "Lead");
         this.add("hbmmat.steel", "Steel");
         this.add("hbmmat.durasteel", "High-Speed Steel");
@@ -696,10 +700,59 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmItems.COIL_COPPER_RING, "Copper Coil Ring");
         this.add(NtmItems.COIL_GOLD, "Gold Coil");
         this.add(NtmItems.COIL_GOLD_RING, "Gold Coil Ring");
+        this.add(NtmItems.COIL_MAGNETIZED_TUNGSTEN, "4000K High Temperature Super Conducting Coil");
+        this.add(NtmItems.COIL_TUNGSTEN, "Heating Coil");
         this.add(NtmItems.MOTOR, "Motor");
         this.add(NtmItems.CAST_PLATE_WELDED, "Welded Plate");
         this.add(NtmItems.CAST_PLATE, "Cast Plate");
         this.add(NtmItems.PIPES_STEEL, "Steel Pipes");
+        this.add(NtmItems.CRT_DISPLAY, "Cathode Ray Tube");
+        this.add(NtmItems.RING_STARMETAL, "Starmetal Ring");
+        this.add(NtmItems.TANK_STEEL, "Steel Tank");
+        this.add(NtmItems.CATALYST_CLAY, "Clay Catalyst");
+        this.add(NtmItems.DEUTERIUM_FILTER, "Deuterium Filter");
+        this.add(NtmItems.FINS_FLAT, "Flat Steel Casing");
+        this.add(NtmItems.FINS_SMALL_STEEL, "Small Steel Grid Fins");
+        this.add(NtmItems.FINS_BIG_STEEL, "Big Steel Grid Fins");
+        this.add(NtmItems.FINS_TRI_STEEL, "Large Steel Fins");
+        this.add(NtmItems.FINS_QUAD_TITANIUM, "Small Titanium Fins");
+        this.add(NtmItems.SPHERE_STEEL, "Steel Sphere");
+        this.add(NtmItems.PEDESTAL_STEEL, "Steel Pedestal");
+        this.add(NtmItems.BLADE_TITANIUM, "Titanium Blade");
+        this.add(NtmItems.BLADE_TUNGSTEN, "Tungsten Reinforced Blade");
+        this.add(NtmItems.TURBINE_TITANIUM, "Titanium Steam Turbine");
+        this.add(NtmItems.TURBINE_TUNGSTEN, "Reinforced Turbofan Blades");
+        this.add(NtmItems.FLYWHEEL_BERYLLIUM, "Beryllium Flywheel");
+        this.add(NtmItems.TOOTHPICKS, "Toothpicks");
+        this.add(NtmItems.DUCTTAPE, "Duct Tape");
+        this.add(NtmItems.PLANT_ITEM, "Rope");
+        this.add(NtmBlocks.PLANT_FLOWER, "Hemp");
+        this.add(NtmItems.PART_GENERIC, "Polarized Lens");
+        this.add(NtmItems.BIOMASS, "Biomass");
+        this.add(NtmItems.GLYPHID_MEAT, "Glyphid Meat");
+        this.add(NtmItems.PELLET_CHARGED, "Ionized Particles");
+        this.add(NtmItems.SOLID_FUEL, "Solid Fuel");
+        this.add(NtmItems.ROCKET_FUEL, "Solid Fuel (Rocket Propellant)");
+        this.add(NtmItems.CORDITE, "Cordite");
+        this.add(NtmItems.CHOCOLATE, "Ithis-Brand Radium Chocolate");
+        this.add(NtmItems.BALL_DYNAMITE, "Dynamite");
+        this.add(NtmItems.BALL_TNT, "TNT");
+        this.add(NtmItems.BALL_TATB, "TATB");
+
+        this.add(NtmItems.WIRE_DENSE, "Dense %s Wire");
+        this.add("hbmmat.gold", "Gold");
+        this.add("hbmmat.schrabidium", "Schrabidium");
+        this.add("hbmmat.schrabidate", "Ferric Schrabidate");
+        this.add("hbmmat.titanium", "Titanium");
+        this.add("hbmmat.copper", "Copper");
+        this.add("hbmmat.tungsten", "Tungsten");
+        this.add("hbmmat.neodymium", "Neodymium");
+        this.add("hbmmat.niobium", "Niobium");
+        this.add("hbmmat.red_copper", "Red Copper");
+        this.add("hbmmat.starmetal", "Starmetal");
+        this.add("hbmmat.bscco", "BSCCO");
+        this.add("hbmmat.magnetized_tungsten", "Magnetized Tungsten");
+        this.add("hbmmat.dineutronium", "Dineutronium");
 
 
         for(CastPlateItem.Type type : CastPlateItem.Type.values()) {
@@ -912,12 +965,25 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmItems.DESIGNATOR_RANGE, "Long Range Target Designator");
         this.add("geiger.title.dosimeter", "===== ☢ DOSIMETER ☢ =====");
         this.add(NtmItems.DOSIMETER, "Dosimeter");
+        this.add(NtmItems.OIL_DETECTOR, "Oil Reservoir Detector");
+        this.add(NtmItems.METEOR_REMOTE, "Meteorite Remote");
+        this.add(NtmItems.METEOR_CHARM, "Meteor Charm");
+        this.add(NtmItems.PROTECTION_CHARM, "Charm of Protection");
         this.add("geiger.title", "===== ☢ GEIGER COUNTER ☢ =====");
         this.add("geiger.chunkRad", "Current chunk radiation: %s");
         this.add("geiger.envRad", "Total environmental radiation: %s");
         this.add("geiger.playerRad", "Player contamination: %s");
         this.add("geiger.playerRes", "Player resistance: %s");
         this.add(NtmItems.GEIGER_COUNTER, "Handheld Geiger Counter");
+        this.add("item.meteor_remote.desc", "Right click to summon a meteorite!");
+        this.add("chat.meteorremote.watchhead", "Watch your head!");
+        this.add("item.hbmsntm.oil_detector.desc1", "Right-click to scan for oil.");
+        this.add("item.hbmsntm.oil_detector.desc2", "Detector will only find larger deposits.");
+        this.add("item.hbmsntm.oil_detector.bullseye", "Oil deposit directly below!");
+        this.add("item.hbmsntm.oil_detector.bullseyeBedrock", "Bedrock Oil deposit directly below");
+        this.add("item.hbmsntm.oil_detector.detected", "Oil detected nearby.");
+        this.add("item.hbmsntm.oil_detector.detectedBedrock", "Bedrock Oil detected nearby");
+        this.add("item.hbmsntm.oil_detector.noOil", "No oil detected.");
         this.add("digamma.title", "===== Ϝ DIGAMMA DIAGNOSTIC Ϝ =====");
         this.add("digamma.playerDigamma", "Digamma exposure: %s");
         this.add("digamma.playerHealth", "Digamma influence: %s");
@@ -1245,6 +1311,7 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmBlocks.PLUSHIE, this.getName(PlushieType.DERG) + DESC, "Squeeze him.");
 
         this.add(NtmBlocks.GRAVEL_OBSIDIAN, "Crushed Obsidian");
+        this.add(NtmBlocks.MOON_TURF, "Moon Turf");
         this.add(NtmBlocks.GRAVEL_DIAMOND, "Diamond Gravel");
         this.add(NtmBlocks.GRAVEL_DIAMOND, DESC, "There is some kind of joke here,$but I can't quite tell what it is.$$Update, 2020-07-04:$We deny any implications of a joke on$the basis that it was so severely unfunny$that people started stabbing their eyes out.$$Update, 2020-17-04:$As it turns out, \"Diamond Gravel\" was$never really a thing, rendering what might$have been a joke as totally nonsensical.$We apologize for getting your hopes up with$this non-joke that hasn't been made.$$i added an item for a joke that isn't even here, what am i, stupid? can't even tell the difference between gravel and a gavel, how did i not forget how to breathe yet?");
 
@@ -1263,6 +1330,13 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmBlocks.BRICK_LIGHT, "Light Bricks");
         this.add(NtmBlocks.BRICK_ASBESTOS, "Asbestos Bricks");
         this.add(NtmBlocks.BRICK_FIRE, "Firebricks");
+        this.add(NtmBlocks.CONCRETE, "Concrete Tile");
+        this.add(NtmBlocks.CONCRETE_SMOOTH, "Concrete");
+        this.add(NtmBlocks.CONCRETE_ASBESTOS, "Asbestos Concrete");
+        this.add(NtmBlocks.DUCRETE, "Ducrete");
+        this.add(NtmBlocks.DUCRETE_SMOOTH, "Ducrete Tile");
+        this.add(NtmBlocks.DUCRETE_REINFORCED, "Reinforced Ducrete");
+        this.add(NtmBlocks.DUCRETE_BRICK, "Ducrete Brick");
 
         this.add(NtmBlocks.BRICK_CONCRETE_SLAB, "Concrete Brick Slab");
         this.add(NtmBlocks.BRICK_CONCRETE_MOSSY_SLAB, "Mossy Concrete Brick Slab");
@@ -1302,6 +1376,7 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmBlocks.ORE_OIL, "Oil Deposit");
         this.add(NtmBlocks.ORE_OIL_EMPTY, "Empty Oil Deposit");
         this.add(NtmBlocks.ORE_OIL_SAND, "Tar Sand");
+        this.add(NtmBlocks.ORE_BEDROCK_OIL, "Bedrock Oil Deposit");
         this.add(NtmBlocks.ORE_URANIUM, "Uranium Ore");
         this.add(NtmBlocks.ORE_URANIUM_DEEPSLATE, "Deepslate Uranium Ore");
         this.add(NtmBlocks.ORE_URANIUM_SCORCHED, "Scorched Uranium Ore");
@@ -1466,6 +1541,16 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add("tile.machine_centrifuge.name", "Centrifuge");
         this.add(NtmBlocks.MACHINE_OIL_DERRICK, "Oil Derrick");
         this.add(NtmBlocks.MACHINE_REFINERY, "Oil Refinery");
+        this.add(NtmBlocks.ORE_METEOR_IRON, "Meteor Iron Ore");
+        this.add(NtmBlocks.ORE_METEOR_COBALT, "Meteor Cobalt Ore");
+        this.add(NtmBlocks.ORE_METEOR_ALUMINIUM, "Meteor Aluminium Ore");
+        this.add(NtmBlocks.ORE_METEOR_COPPER, "Meteor Copper Ore");
+        this.add(NtmBlocks.ORE_METEOR_RARE, "Rare Earth Meteor Ore");
+        this.add(NtmBlocks.BLOCK_METEOR, "Meteorite Block");
+        this.add(NtmBlocks.BLOCK_METEOR_COBBLE, "Meteorite Cobblestone");
+        this.add(NtmBlocks.BLOCK_METEOR_BROKEN, "Broken Meteorite Block");
+        this.add(NtmBlocks.BLOCK_METEOR_MOLTEN, "Hot Meteorite Cobblestone");
+        this.add(NtmBlocks.BLOCK_METEOR_TREASURE, "Treasure Meteorite Block");
 
         this.add(NtmBlocks.MACHINE_SATLINKER, "SatLink Device");
 
@@ -1534,6 +1619,7 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add("container.machine_shredder.blades_missing", "Error: Shredder blades are broken or missing!");
         this.add("container.oil_derrick", "Oil Derrick");
         this.add("container.machine_refinery", "Oil Refinery");
+        this.add("container.furnace_combination", "Combination Oven");
         this.add("container.machine_blast_furnace", "Blast Furnace");
         this.add("container.machine_centrifuge", "Centrifuge");
         this.add("container.machineWoodBurner", "Wood-Burner");
@@ -1562,6 +1648,8 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add("container.recipe.set_recipe", "Click to set recipe");
         this.add("block.hbmsntm.machine_fluid_tank.changed_type_to", "Changed type to %s");
         this.add("block.hbmsntm.machine_boiler.changed_type_to", "Changed type to %s");
+        this.add(NtmBlocks.FURNACE_COMBINATION, "Combination Oven");
+        this.add(NtmBlocks.FURNACE_COMBINATION, DESC, "A large furnace that can produce charcoal and coal coke.$Produces fluid byproducts.$Heat transfer rate: ΔT*0.25 TU/t");
 
         // COMMANDS //
         this.add("commands.props.get", "Living property %s of %s is %s");
@@ -1574,6 +1662,7 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add("commands.satellite.satellite_orbited", "Satellite launched.");
         this.add("commands.satellite.should_be_run_as_player", "This command should be run by a player!");
         this.add("commands.chunkrad.setrad", "Chunk radiation set to %s");
+        this.add("death.attack.meteorite", "%1$s was hit by a falling rock from outer space");
 
         // FLUIDS //
         this.add(NtmFluidTypes.VOLCANIC_LAVA_TYPE, "Volcanic Lava");

@@ -1,7 +1,11 @@
 package com.hbm.datagen;
 
 import com.hbm.blocks.NtmBlocks;
+import com.hbm.blocks.generic.BarbedWireBlock;
+import com.hbm.inventory.MetaHelper;
+import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.BoltItem;
+import com.hbm.items.CastPlateItem;
 import com.hbm.items.NtmItems;
 import com.hbm.items.component.NtmDataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -40,7 +44,11 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .requires(NtmItems.EGG_BALEFIRE.get())
                 .unlockedBy("has_balefire_egg", has(NtmItems.EGG_BALEFIRE.get()))
                 .save(recipeOutput);
-        // this one below, to delete
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.STRING, 3)
+                .requires(NtmBlocks.PLANT_FLOWER.get())
+                .unlockedBy("has_plant_flower", has(NtmBlocks.PLANT_FLOWER.get()))
+                .save(recipeOutput);
+        // this 2 below, to delete later
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, Blocks.GOLD_BLOCK, 1)
                 .pattern(" B ")
                 .pattern("BGB")
@@ -49,6 +57,34 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('G', Items.GOLD_INGOT)
                 .unlockedBy("has_bolt", has(NtmItems.BOLT.get()))
                 .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "example_gold_block_from_dura_steel_bolts"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, Blocks.GOLD_BLOCK, 1)
+                .pattern("###")
+                .pattern("###")
+                .pattern("###")
+                .define('#', DataComponentIngredient.of(false, NtmDataComponents.META, CastPlateItem.Type.IRON.ordinal(), NtmItems.CAST_PLATE.get()))
+                .unlockedBy("has_iron_cast_plate", has(NtmItems.CAST_PLATE.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "gold_block_from_iron_cast_plates"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.CAST_PLATE.get(), 1)
+                .pattern("###")
+                .pattern("###")
+                .pattern("###")
+                .define('#', Items.IRON_INGOT)
+                .unlockedBy("has_iron_ingot", has(Items.IRON_INGOT))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "iron_cast_plate_from_iron_ingots"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MetaHelper.newStack(NtmBlocks.BARBED_WIRE.asItem(), 1, BarbedWireBlock.BarbedWireType.FIRE.ordinal()))
+                .pattern("###")
+                .pattern("###")
+                .pattern("###")
+                .define('#', DataComponentIngredient.of(false, NtmDataComponents.META, BoltItem.Type.TUNGSTEN.meta, NtmItems.BOLT.get()))
+                .unlockedBy("has_tungsten_bolt", has(NtmItems.BOLT.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "flaming_barbed_wire_from_tungsten_bolts"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MetaHelper.newStack(NtmItems.BOLT.get(), 1, BoltItem.Type.TUNGSTEN.meta))
+                .pattern("###")
+                .pattern("###")
+                .pattern("###")
+                .define('#', DataComponentIngredient.of(false, NtmDataComponents.META, BarbedWireBlock.BarbedWireType.FIRE.ordinal(), NtmBlocks.BARBED_WIRE.asItem()))
+                .unlockedBy("has_flaming_barbed_wire", has(NtmBlocks.BARBED_WIRE.asItem()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "tungsten_bolt_from_flaming_barbed_wire"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.UPGRADE_TEMPLATE.get(), 1)
                 .pattern("ACA")
                 .pattern("BDB")
@@ -240,8 +276,632 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .pattern(" A ")
                 .define('A', NtmBlocks.BLOCK_STEEL.get())
                 .unlockedBy("has_ingot_steel", has(NtmItems.INGOT_STEEL.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", ""));
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "1"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.CIRCUIT_TANTALIUM_CAPACITOR.get(), 1)
+                .pattern(" A ")
+                .pattern(" B ")
+                .pattern(" C ")
+                .define('A', NtmItems.PLATE_POLYMER.get())
+                .define('B', NtmItems.NUGGET_TANTALIUM.get())
+                .define('C', NtmItems.WIRE_COPPER.get())
+                .unlockedBy("has_nugget_tantalium", has(NtmItems.NUGGET_TANTALIUM.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "2"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.CIRCUIT_TANTALIUM_CAPACITOR.get(), 1)
+                .pattern(" A ")
+                .pattern(" B ")
+                .pattern(" C ")
+                .define('A', NtmItems.PLATE_POLYMER.get())
+                .define('B', NtmItems.NUGGET_TANTALIUM.get())
+                .define('C', NtmItems.WIRE_ALUMINIUM.get())
+                .unlockedBy("has_nugget_tantalium", has(NtmItems.NUGGET_TANTALIUM.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "3"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.CIRCUIT_CONTROL_UNIT_CASING.get(), 1)
+                .pattern("AAA")
+                .pattern("BCC")
+                .pattern("AAA")
+                .define('A', NtmItems.INGOT_POLYMER.get())
+                .define('B', NtmItems.CRT_DISPLAY.get())
+                .define('C', NtmItems.CIRCUIT_PRINTED_BOARD.get())
+                .unlockedBy("has_crt_display", has(NtmItems.CRT_DISPLAY.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "4"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.CIRCUIT_CONTROL_UNIT_CASING.get(), 1)
+                .pattern("AAA")
+                .pattern("BCC")
+                .pattern("AAA")
+                .define('A', NtmItems.INGOT_BAKELITE.get())
+                .define('B', NtmItems.CRT_DISPLAY.get())
+                .define('C', NtmItems.CIRCUIT_PRINTED_BOARD.get())
+                .unlockedBy("has_crt_display", has(NtmItems.CRT_DISPLAY.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "5"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.CRT_DISPLAY.get(), 4)
+                .pattern(" C ")
+                .pattern("ADA")
+                .pattern(" B ")
+                .define('A', NtmItems.PLATE_STEEL.get())
+                .define('B', NtmItems.CIRCUIT_VACUUM_TUBE.get())
+                .define('C', NtmItems.POWDER_ALUMINIUM.get())
+                .define('D', Items.GLASS_PANE)
+                .unlockedBy("has_vacuum_tube", has(NtmItems.CIRCUIT_VACUUM_TUBE.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "6"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.CELL_EMPTY.get(), 6)
+                .pattern(" A ")
+                .pattern("D D")
+                .pattern(" A ")
+                .define('A', NtmItems.PLATE_STEEL.get())
+                .define('D', Items.GLASS_PANE)
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "7"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmBlocks.MACHINE_WOOD_BURNER.get(), 1)
+                .pattern("AAA")
+                .pattern("BDB")
+                .pattern("C C")
+                .define('A', NtmItems.PLATE_STEEL.get())
+                .define('B', NtmItems.COIL_COPPER.get())
+                .define('C', Items.IRON_INGOT)
+                .define('D', Items.FURNACE)
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "8"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmBlocks.MACHINE_BATTERY_SOCKET.get(), 1)
+                .pattern("A A")
+                .pattern("A A")
+                .pattern("ABA")
+                .define('A', NtmItems.PLATE_POLYMER.get())
+                .define('B', NtmItems.COIL_COPPER.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "9"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmBlocks.MACHINE_BATTERY_SOCKET.get(), 1)
+                .pattern("   ")
+                .pattern("ABA")
+                .pattern("   ")
+                .define('A', NtmItems.PLATE_STEEL.get())
+                .define('B', NtmItems.INGOT_RED_COPPER.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "10"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.RING_STARMETAL.get(), 1)
+                .pattern(" A ")
+                .pattern("A A")
+                .pattern(" A ")
+                .define('A', NtmItems.INGOT_STARMETAL.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "11"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.INGOT_COPPER.get(), 1)
+                .pattern("AAA")
+                .pattern("AAA")
+                .pattern("AAA")
+                .define('A', NtmItems.WIRE_COPPER.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "12"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.INGOT_GRAPHITE.get(), 1)
+                .pattern("AAA")
+                .pattern("AAA")
+                .pattern("AAA")
+                .define('A', NtmItems.WIRE_CARBON.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "13"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Items.GOLD_INGOT, 1)
+                .pattern("AAA")
+                .pattern("AAA")
+                .pattern("AAA")
+                .define('A', NtmItems.WIRE_GOLD.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "14"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.INGOT_SCHRABIDIUM.get(), 1)
+                .pattern("AAA")
+                .pattern("AAA")
+                .pattern("AAA")
+                .define('A', NtmItems.WIRE_SCHRABIDIUM.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "15"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.INGOT_TUNGSTEN.get(), 1)
+                .pattern("AAA")
+                .pattern("AAA")
+                .pattern("AAA")
+                .define('A', NtmItems.WIRE_TUNGSTEN.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "16"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.INGOT_ALUMINIUM.get(), 1)
+                .pattern("AAA")
+                .pattern("AAA")
+                .pattern("AAA")
+                .define('A', NtmItems.WIRE_ALUMINIUM.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "17"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.INGOT_RED_COPPER.get(), 1)
+                .pattern("AAA")
+                .pattern("AAA")
+                .pattern("AAA")
+                .define('A', NtmItems.WIRE_RED_COPPER.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "18"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.INGOT_MAGNETIZED_TUNGSTEN.get(), 1)
+                .pattern("AAA")
+                .pattern("AAA")
+                .pattern("AAA")
+                .define('A', NtmItems.WIRE_MAGNETIZED_TUNGSTEN.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "19"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.COIL_MAGNETIZED_TUNGSTEN.get(), 1)
+                .pattern("AAA")
+                .pattern("ABA")
+                .pattern("AAA")
+                .define('A', NtmItems.WIRE_MAGNETIZED_TUNGSTEN.get())
+                .define('B', NtmItems.INGOT_STEEL.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "20"));
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.COIL_MAGNETIZED_TUNGSTEN.get(), 1)
+                .pattern("AAA")
+                .pattern("ABA")
+                .pattern("AAA")
+                .define('A', NtmItems.WIRE_MAGNETIZED_TUNGSTEN.get())
+                .define('B', Items.IRON_INGOT)
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "21"));
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.COIL_COPPER.get(), 1)
+                .pattern("AAA")
+                .pattern("ABA")
+                .pattern("AAA")
+                .define('A', NtmItems.WIRE_RED_COPPER.get())
+                .define('B', Items.IRON_INGOT)
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "22"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.COIL_COPPER.get(), 1)
+                .pattern("AAA")
+                .pattern("ABA")
+                .pattern("AAA")
+                .define('A', NtmItems.WIRE_RED_COPPER.get())
+                .define('B', NtmItems.INGOT_STEEL.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "23"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.COIL_GOLD.get(), 1)
+                .pattern("AAA")
+                .pattern("ABA")
+                .pattern("AAA")
+                .define('A', NtmItems.WIRE_GOLD.get())
+                .define('B', NtmItems.INGOT_STEEL.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "24"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.COIL_GOLD.get(), 1)
+                .pattern("AAA")
+                .pattern("ABA")
+                .pattern("AAA")
+                .define('A', NtmItems.WIRE_GOLD.get())
+                .define('B', Items.IRON_INGOT)
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "25"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.COIL_GOLD_RING.get(), 2)
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern(" A ")
+                .define('A', NtmItems.COIL_GOLD.get())
+                .define('B', NtmItems.PLATE_IRON.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "26"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.COIL_GOLD_RING.get(), 2)
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern(" A ")
+                .define('A', NtmItems.COIL_GOLD.get())
+                .define('B', NtmItems.PLATE_STEEL.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "27"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.COIL_COPPER_RING.get(), 2)
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern(" A ")
+                .define('A', NtmItems.COIL_COPPER.get())
+                .define('B', NtmItems.PLATE_STEEL.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "28"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.COIL_COPPER_RING.get(), 2)
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern(" A ")
+                .define('A', NtmItems.COIL_COPPER.get())
+                .define('B', NtmItems.PLATE_IRON.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "29"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.COIL_TUNGSTEN.get(), 1)
+                .pattern("AAA")
+                .pattern("ABA")
+                .pattern("AAA")
+                .define('A', NtmItems.WIRE_TUNGSTEN.get())
+                .define('B', NtmItems.INGOT_STEEL.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "30"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.COIL_TUNGSTEN.get(), 1)
+                .pattern("AAA")
+                .pattern("ABA")
+                .pattern("AAA")
+                .define('A', NtmItems.WIRE_TUNGSTEN.get())
+                .define('B', Items.IRON_INGOT)
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "31"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.TANK_STEEL.get(), 2)
+                .pattern("ABA")
+                .pattern("A A")
+                .pattern("ABA")
+                .define('A', NtmItems.PLATE_STEEL.get())
+                .define('B', NtmItems.PLATE_TITANIUM.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "32"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.CATALYST_CLAY.get(), 1)
+                .pattern("   ")
+                .pattern("AB ")
+                .pattern("   ")
+                .define('A', NtmItems.POWDER_IRON.get())
+                .define('B', Items.CLAY)
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "33"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.DEUTERIUM_FILTER.get(), 1)
+                .pattern("ABA")
+                .pattern("BCB")
+                .pattern("ABA")
+                .define('A', NtmItems.INGOT_TCALLOY.get())
+                .define('B', NtmItems.SULFUR.get())
+                .define('C', NtmItems.CATALYST_CLAY.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "34"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.DEUTERIUM_FILTER.get(), 1)
+                .pattern("ABA")
+                .pattern("BCB")
+                .pattern("ABA")
+                .define('A', NtmItems.INGOT_CDALLOY.get())
+                .define('B', NtmItems.SULFUR.get())
+                .define('C', NtmItems.CATALYST_CLAY.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "35"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.FINS_FLAT.get(), 1)
+                .pattern("BA ")
+                .pattern("AA ")
+                .pattern("BA ")
+                .define('A', NtmItems.PLATE_STEEL.get())
+                .define('B', NtmItems.INGOT_STEEL.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "36"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.FINS_SMALL_STEEL.get(), 1)
+                .pattern(" AA")
+                .pattern("ABB")
+                .pattern(" AA")
+                .define('A', NtmItems.PLATE_STEEL.get())
+                .define('B', NtmItems.INGOT_STEEL.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "37"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.FINS_BIG_STEEL.get(), 1)
+                .pattern(" AB")
+                .pattern("BBB")
+                .pattern(" AB")
+                .define('A', NtmItems.PLATE_STEEL.get())
+                .define('B', NtmItems.INGOT_STEEL.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "38"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.FINS_TRI_STEEL.get(), 1)
+                .pattern(" AB")
+                .pattern("BBC")
+                .pattern(" AB")
+                .define('A', NtmItems.PLATE_STEEL.get())
+                .define('B', NtmItems.INGOT_STEEL.get())
+                .define('C', NtmBlocks.BLOCK_STEEL.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "39"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.FINS_QUAD_TITANIUM.get(), 1)
+                .pattern(" AA")
+                .pattern("BBB")
+                .pattern(" AA")
+                .define('A', NtmItems.PLATE_TITANIUM.get())
+                .define('B', NtmItems.INGOT_TITANIUM.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "40"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.SPHERE_STEEL.get(), 1)
+                .pattern("ABA")
+                .pattern("B B")
+                .pattern("ABA")
+                .define('A', NtmItems.PLATE_STEEL.get())
+                .define('B', NtmItems.INGOT_STEEL.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "41"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.PEDESTAL_STEEL.get(), 1)
+                .pattern("A A")
+                .pattern("A A")
+                .pattern("BBB")
+                .define('A', NtmItems.PLATE_STEEL.get())
+                .define('B', NtmItems.INGOT_STEEL.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "42"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.BLADE_TITANIUM.get(), 2)
+                .pattern("BA ")
+                .pattern("BA ")
+                .pattern("BB ")
+                .define('A', NtmItems.PLATE_TITANIUM.get())
+                .define('B', NtmItems.INGOT_TITANIUM.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "43"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.TURBINE_TITANIUM.get(), 1)
+                .pattern("AAA")
+                .pattern("ABA")
+                .pattern("AAA")
+                .define('A', NtmItems.BLADE_TITANIUM.get())
+                .define('B', NtmItems.INGOT_STEEL.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "44"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.TURBINE_TUNGSTEN.get(), 1)
+                .pattern("AAA")
+                .pattern("ABA")
+                .pattern("AAA")
+                .define('A', NtmItems.BLADE_TUNGSTEN.get())
+                .define('B', NtmItems.INGOT_DURA_STEEL.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "45"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.FLYWHEEL_BERYLLIUM.get(), 1)
+                .pattern("ABA")
+                .pattern("BCB")
+                .pattern("ABA")
+                .define('A', DataComponentIngredient.of(false, NtmDataComponents.META, CastPlateItem.Type.IRON.ordinal(), NtmItems.CAST_PLATE.get()))
+                .define('B', NtmBlocks.BLOCK_BERYLLIUM.get())
+                .define('C', NtmItems.PIPE_DURA_STEEL.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "46"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.BLADES_STEEL.get(), 1)
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern(" A ")
+                .define('A', NtmItems.PLATE_STEEL.get())
+                .define('B', NtmItems.INGOT_STEEL.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "47"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.BLADES_TITANIUM.get(), 1)
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern(" A ")
+                .define('A', NtmItems.PLATE_TITANIUM.get())
+                .define('B', NtmItems.INGOT_TITANIUM.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "48"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.BLADES_DESH.get(), 1)
+                .pattern(" A ")
+                .pattern("ABA")
+                .pattern(" A ")
+                .define('A', NtmItems.PLATE_DESH.get())
+                .define('B', NtmItems.BLADES_TITANIUM.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "49"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.DUCTTAPE.get(), 4)
+                .pattern(" C ")
+                .pattern(" B ")
+                .pattern(" A ")
+                .define('A', Items.SLIME_BALL)
+                .define('B', Items.PAPER)
+                .define('C', Items.STRING)
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "50"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.TOOTHPICKS.get(), 3)
+                .pattern("A  ")
+                .pattern("AA ")
+                .pattern("   ")
+                .define('A', Items.STICK)
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "51"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.PLANT_ITEM.get(), 1)
+                .pattern("AA ")
+                .pattern("A  ")
+                .pattern("   ")
+                .define('A', Items.STRING)
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "52"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.PLANT_ITEM.get(), 4)
+                .pattern(" A ")
+                .pattern(" A ")
+                .pattern(" A ")
+                .define('A', NtmBlocks.PLANT_FLOWER.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "53"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MetaHelper.newStack(NtmBlocks.BARBED_WIRE.asItem(), 16, BarbedWireBlock.BarbedWireType.STANDARD.ordinal()))
+                .pattern("ABA")
+                .pattern("B B")
+                .pattern("ABA")
+                .define('A', NtmItems.WIRE_STEEL.get())
+                .define('B', Items.IRON_INGOT)
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "54"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MetaHelper.newStack(NtmBlocks.BARBED_WIRE.asItem(), 8, BarbedWireBlock.BarbedWireType.FIRE.ordinal()))
+                .pattern("AAA")
+                .pattern("ABA")
+                .pattern("AAA")
+                .define('A', DataComponentIngredient.of(false, NtmDataComponents.META, BarbedWireBlock.BarbedWireType.STANDARD.ordinal(), NtmBlocks.BARBED_WIRE.asItem()))
+                .define('B', NtmItems.POWDER_FIRE)
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "55"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MetaHelper.newStack(NtmBlocks.BARBED_WIRE.asItem(), 8, BarbedWireBlock.BarbedWireType.POISON.ordinal()))
+                .pattern("AAA")
+                .pattern("ABA")
+                .pattern("AAA")
+                .define('A', DataComponentIngredient.of(false, NtmDataComponents.META, BarbedWireBlock.BarbedWireType.STANDARD.ordinal(), NtmBlocks.BARBED_WIRE.asItem()))
+                .define('B', NtmItems.POWDER_POISON)
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "56"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MetaHelper.newStack(NtmBlocks.BARBED_WIRE.asItem(), 8, BarbedWireBlock.BarbedWireType.ACID.ordinal()))
+                .pattern("AAA")
+                .pattern("ABA")
+                .pattern("AAA")
+                .define('A', DataComponentIngredient.of(false, NtmDataComponents.META, BarbedWireBlock.BarbedWireType.STANDARD.ordinal(), NtmBlocks.BARBED_WIRE.asItem()))
+                .define('B', DataComponentIngredient.of(false, NtmDataComponents.META, Fluids.PEROXIDE.getID(), NtmItems.FLUID_TANK_FULL.get()))
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "57"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MetaHelper.newStack(NtmBlocks.BARBED_WIRE.asItem(), 8, BarbedWireBlock.BarbedWireType.WITHER.ordinal()))
+                .pattern("AAA")
+                .pattern("ABA")
+                .pattern("AAA")
+                .define('A', DataComponentIngredient.of(false, NtmDataComponents.META, BarbedWireBlock.BarbedWireType.STANDARD.ordinal(), NtmBlocks.BARBED_WIRE.asItem()))
+                .define('B', Items.WITHER_SKELETON_SKULL)
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "58"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MetaHelper.newStack(NtmBlocks.BARBED_WIRE.asItem(), 4, BarbedWireBlock.BarbedWireType.ULTRADEATH.ordinal()))
+                .pattern("ACA")
+                .pattern("CBC")
+                .pattern("ACA")
+                .define('A', DataComponentIngredient.of(false, NtmDataComponents.META, BarbedWireBlock.BarbedWireType.STANDARD.ordinal(), NtmBlocks.BARBED_WIRE.asItem()))
+                .define('B', NtmItems.NUCLEAR_WASTE)
+                .define('C', NtmItems.POWDER_YELLOWCAKE.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "59"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MetaHelper.newStack(NtmItems.BOLT.get(), 16, BoltItem.Type.TUNGSTEN.meta))
+                .pattern(" A ")
+                .pattern(" A ")
+                .pattern("   ")
+                .define('A', NtmItems.INGOT_TUNGSTEN.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "60"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MetaHelper.newStack(NtmItems.BOLT.get(), 16, BoltItem.Type.LEAD.meta))
+                .pattern(" A ")
+                .pattern(" A ")
+                .pattern("   ")
+                .define('A', NtmItems.INGOT_LEAD.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "61"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MetaHelper.newStack(NtmItems.BOLT.get(), 16, BoltItem.Type.STEEL.meta))
+                .pattern(" A ")
+                .pattern(" A ")
+                .pattern("   ")
+                .define('A', NtmItems.INGOT_STEEL.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "62"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MetaHelper.newStack(NtmItems.BOLT.get(), 16, BoltItem.Type.DURA_STEEL.meta))
+                .pattern(" A ")
+                .pattern(" A ")
+                .pattern("   ")
+                .define('A', NtmItems.INGOT_DURA_STEEL.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "63"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.REACHER.get(), 1)
+                .pattern("CAC")
+                .pattern("B B")
+                .pattern("C C")
+                .define('A', NtmItems.INGOT_TUNGSTEN.get())
+                .define('B', NtmItems.INGOT_RUBBER.get())
+                .define('C', DataComponentIngredient.of(false, NtmDataComponents.META, BoltItem.Type.TUNGSTEN.meta, NtmItems.BOLT.get()))
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "64"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.OIL_DETECTOR.get(), 1)
+                .pattern("A B")
+                .pattern("ADB")
+                .pattern("CCC")
+                .define('A', NtmItems.WIRE_GOLD.get())
+                .define('B', NtmItems.INGOT_COPPER.get())
+                .define('C', NtmItems.PLATE_STEEL.get())
+                .define('D', NtmItems.CIRCUIT_ANALOG_BOARD.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "65"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmBlocks.MACHINE_PRESS.get(), 1)
+                .pattern("ADA")
+                .pattern("ACA")
+                .pattern("ABA")
+                .define('A', Items.IRON_INGOT)
+                .define('B', Items.IRON_BLOCK)
+                .define('C', Items.PISTON)
+                .define('D', Items.FURNACE)
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "66"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.STAMP_STONE_FLAT.get(), 1)
+                .pattern("   ")
+                .pattern("AAA")
+                .pattern("BBB")
+                .define('A', Items.BRICK)
+                .define('B', Items.STONE)
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "67"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.STAMP_IRON_FLAT.get(), 1)
+                .pattern("   ")
+                .pattern("AAA")
+                .pattern("BBB")
+                .define('A', Items.BRICK)
+                .define('B', Items.IRON_INGOT)
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "68"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.STAMP_STEEL_FLAT.get(), 1)
+                .pattern("   ")
+                .pattern("AAA")
+                .pattern("BBB")
+                .define('A', Items.BRICK)
+                .define('B', NtmItems.INGOT_STEEL.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "69"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.STAMP_TITANIUM_FLAT.get(), 1)
+                .pattern("   ")
+                .pattern("AAA")
+                .pattern("BBB")
+                .define('A', Items.BRICK)
+                .define('B', NtmItems.INGOT_TITANIUM.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "70"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.STAMP_OBSIDIAN_FLAT.get(), 1)
+                .pattern("   ")
+                .pattern("AAA")
+                .pattern("BBB")
+                .define('A', Items.BRICK)
+                .define('B', Items.OBSIDIAN)
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "71"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.STAMP_DESH_FLAT.get(), 1)
+                .pattern("ABA")
+                .pattern("BCB")
+                .pattern("ABA")
+                .define('A', Items.BRICK)
+                .define('B', NtmItems.INGOT_DESH.get())
+                .define('C', NtmItems.INGOT_FERROURANIUM.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "72"));
+
+        //
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, NtmBlocks.BRICK_CONCRETE_MOSSY.get(), 8)
                 .pattern("BBB")
                 .pattern("BVB")

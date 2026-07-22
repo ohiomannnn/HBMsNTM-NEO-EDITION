@@ -3,16 +3,19 @@ package com.hbm.inventory.recipes.anvil;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.blocks.machine.NTMAnvilBlock;
 import com.hbm.inventory.MetaHelper;
+import com.hbm.inventory.RecipesCommon;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.items.BoltItem;
+import com.hbm.items.CastPlateItem;
 import com.hbm.items.NtmItems;
 import com.hbm.util.InventoryUtil;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -172,6 +175,7 @@ public class AnvilRecipes {
                 },
                 new AnvilOutput(new ItemStack(NtmBlocks.MACHINE_ASSEMBLY_MACHINE.asItem()))
         ).setTier(1).setOverlay(OverlayType.CONSTRUCTION));
+
         CONSTRUCTION_RECIPES.add(new AnvilConstructionRecipe(
                 new AStack[] {
                         new ComparableStack(Blocks.STONE_BRICKS, 4),
@@ -180,13 +184,36 @@ public class AnvilRecipes {
                 },
                 new AnvilOutput(new ItemStack(NtmBlocks.MACHINE_BLAST_FURNACE.asItem()))
         ).setTier(1).setOverlay(OverlayType.CONSTRUCTION));
+
+        CONSTRUCTION_RECIPES.add(new AnvilConstructionRecipe(
+                new AStack[] {
+                        new ComparableStack(Blocks.STONE_BRICKS, 8),
+                        new ComparableStack(Items.BRICK, 16),
+                        NtmItems.castPlateIngredient(CastPlateItem.Type.COPPER, 2),
+                        new RecipesCommon.TagStack(ItemTags.LOGS, 16),
+                },
+                new AnvilOutput(new ItemStack(NtmBlocks.FURNACE_COMBINATION.asItem()))
+        ).setTier(2).setOverlay(OverlayType.CONSTRUCTION));
+
+        CONSTRUCTION_RECIPES.add(new AnvilConstructionRecipe(
+                new AStack[] {
+                        new ComparableStack(NtmItems.CIRCUIT_VACUUM_TUBE.get(), 2),
+                        new ComparableStack(NtmItems.COIL_COPPER.get(), 4),
+                        NtmItems.castPlateIngredient(CastPlateItem.Type.STEEL, 2),
+                        new ComparableStack(NtmItems.BOLT.get(), 1, BoltItem.Type.TUNGSTEN.meta)
+                },
+                new AnvilOutput(new ItemStack(NtmBlocks.MACHINE_SOLDERING_STATION.asItem()))
+        ).setTier(2).setOverlay(OverlayType.CONSTRUCTION));
+
         CONSTRUCTION_RECIPES.add(new AnvilConstructionRecipe(
                 new AStack[] {
                         new ComparableStack(NtmItems.COIL_COPPER.get(), 1),
                         new ComparableStack(NtmItems.PLATE_IRON.get(), 2),
-                        new ComparableStack(NtmItems.COIL_COPPER_RING.get(), 1),
+                        NtmItems.castPlateIngredient(CastPlateItem.Type.STEEL, 2),
+                        NtmItems.castPlateIngredient(CastPlateItem.Type.DURA_STEEL, 1),
                 },
                 new AnvilOutput(new ItemStack(NtmItems.MOTOR.asItem()))
+
         ).setTier(2).setOverlay(OverlayType.CONSTRUCTION));
         addAnvilRecipe(NtmItems.PLATE_TITANIUM.get(), 4, NtmItems.SHELL_TITANIUM.get(), 1, 1);
         addAnvilRecipe(NtmItems.PLATE_ALUMINIUM.get(), 4, NtmItems.SHELL_ALUMINIUM.get(), 1, 1);
@@ -201,16 +228,38 @@ public class AnvilRecipes {
         addAnvilRecipe(NtmItems.PLATE_STEEL.get(), 3, NtmItems.PIPE_STEEL.get(), 1, 1);
         addAnvilRecipe(NtmItems.PLATE_DURA_STEEL.get(), 3, NtmItems.PIPE_DURA_STEEL.get(), 1, 1);
         addAnvilRecipe(NtmItems.INGOT_RUBBER.get(), 3, NtmItems.PIPE_RUBBER.get(), 1, 1);
+        addAnvilRecipe(NtmItems.COIL_COPPER.get(), 2, NtmItems.COIL_COPPER_RING.get(), 1, 1);
+        addAnvilRecipe(NtmItems.COIL_GOLD.get(), 2, NtmItems.COIL_GOLD_RING.get(), 1, 1);
+        addAnvilRecipe(NtmItems.STAMP_STONE_FLAT.get(), 1, NtmItems.STAMP_STONE_PLATE.get(), 1, 1);
+        addAnvilRecipe(NtmItems.STAMP_IRON_FLAT.get(), 1, NtmItems.STAMP_IRON_PLATE.get(), 1, 1);
+        addAnvilRecipe(NtmItems.STAMP_TITANIUM_FLAT.get(), 1, NtmItems.STAMP_STEEL_PLATE.get(), 1, 2);
+        addAnvilRecipe(NtmItems.STAMP_STEEL_FLAT.get(), 1, NtmItems.STAMP_TITANIUM_PLATE.get(), 1, 2);
+        addAnvilRecipe(NtmItems.STAMP_OBSIDIAN_FLAT.get(), 1, NtmItems.STAMP_OBSIDIAN_PLATE.get(), 1, 2);
+        addAnvilRecipe(NtmItems.STAMP_DESH_FLAT.get(), 1, NtmItems.STAMP_DESH_PLATE.get(), 1, 3);
+        addAnvilRecipe(NtmItems.STAMP_STONE_FLAT.get(), 1, NtmItems.STAMP_STONE_WIRE.get(), 1, 1);
+        addAnvilRecipe(NtmItems.STAMP_IRON_FLAT.get(), 1, NtmItems.STAMP_IRON_WIRE.get(), 1, 1);
+        addAnvilRecipe(NtmItems.STAMP_TITANIUM_FLAT.get(), 1, NtmItems.STAMP_STEEL_WIRE.get(), 1, 2);
+        addAnvilRecipe(NtmItems.STAMP_STEEL_FLAT.get(), 1, NtmItems.STAMP_TITANIUM_WIRE.get(), 1, 2);
+        addAnvilRecipe(NtmItems.STAMP_OBSIDIAN_FLAT.get(), 1, NtmItems.STAMP_OBSIDIAN_WIRE.get(), 1, 2);
+        addAnvilRecipe(NtmItems.STAMP_DESH_FLAT.get(), 1, NtmItems.STAMP_DESH_WIRE.get(), 1, 3);
+        addAnvilRecipe(NtmItems.STAMP_STONE_FLAT.get(), 1, NtmItems.STAMP_STONE_CIRCUIT.get(), 1, 1);
+        addAnvilRecipe(NtmItems.STAMP_IRON_FLAT.get(), 1, NtmItems.STAMP_IRON_CIRCUIT.get(), 1, 1);
+        addAnvilRecipe(NtmItems.STAMP_TITANIUM_FLAT.get(), 1, NtmItems.STAMP_STEEL_CIRCUIT.get(), 1, 2);
+        addAnvilRecipe(NtmItems.STAMP_STEEL_FLAT.get(), 1, NtmItems.STAMP_TITANIUM_CIRCUIT.get(), 1, 2);
+        addAnvilRecipe(NtmItems.STAMP_OBSIDIAN_FLAT.get(), 1, NtmItems.STAMP_OBSIDIAN_CIRCUIT.get(), 1, 2);
+        addAnvilRecipe(NtmItems.STAMP_DESH_FLAT.get(), 1, NtmItems.STAMP_DESH_CIRCUIT.get(), 1, 3);
+
 
         addRecycleRecipe(NtmBlocks.DECO_ALUMINIUM.get(), NtmItems.INGOT_ALUMINIUM.get(), 4, 1);
         addRecycleRecipe(NtmBlocks.DECO_BERYLLIUM.get(), NtmItems.INGOT_BERYLLIUM.get(), 4, 1);
         addRecycleRecipe(NtmBlocks.DECO_LEAD.get(), NtmItems.INGOT_LEAD.get(), 4, 1);
-        addRecycleRecipe(NtmBlocks.BLOCK_RED_COPPER.get(), NtmItems.INGOT_RED_COPPER.get(), 4, 1);
+        addRecycleRecipe(NtmBlocks.DECO_RED_COPPER.get(), NtmItems.INGOT_RED_COPPER.get(), 4, 1);
         addRecycleRecipe(NtmBlocks.DECO_STEEL.get(), NtmItems.INGOT_STEEL.get(), 4, 1);
         addRecycleRecipe(NtmBlocks.DECO_RUSTY_STEEL.get(), NtmItems.INGOT_STEEL.get(), 8, 1);
         addRecycleRecipe(NtmBlocks.DECO_TITANIUM.get(), NtmItems.INGOT_TITANIUM.get(), 4, 1);
         addRecycleRecipe(NtmBlocks.DECO_TUNGSTEN.get(), NtmItems.INGOT_TUNGSTEN.get(), 4, 1);
         addRecycleRecipe(NtmBlocks.DECO_ASBESTOS.get(), NtmItems.INGOT_ASBESTOS.get(), 4, 1);
+
     }
 
     private static void addAnvilRecipe(ItemLike input, int inputCount, ItemLike output, int outputCount, int tier) {

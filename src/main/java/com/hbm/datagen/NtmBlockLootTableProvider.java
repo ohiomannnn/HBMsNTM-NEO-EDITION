@@ -49,6 +49,7 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(NtmBlocks.ORE_OIL.get());
         this.dropSelf(NtmBlocks.ORE_OIL_EMPTY.get());
         this.dropSelf(NtmBlocks.ORE_OIL_SAND.get());
+        this.dropSelf(NtmBlocks.ORE_BEDROCK_OIL.get());
         this.dropSelf(NtmBlocks.ORE_URANIUM.get());
         this.dropSelf(NtmBlocks.ORE_URANIUM_DEEPSLATE.get());
         this.dropSelf(NtmBlocks.ORE_URANIUM_SCORCHED.get());
@@ -66,20 +67,25 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(NtmBlocks.ORE_ASBESTOS_DEEPSLATE.get());
         this.dropSelf(NtmBlocks.ORE_THORIUM.get());
         this.dropSelf(NtmBlocks.ORE_THORIUM_DEEPSLATE.get());
-        this.add(NtmBlocks.ORE_NITER.get(), block -> this.oreDrop(NtmItems.NITER.get()));
-        this.add(NtmBlocks.ORE_NITER_DEEPSLATE.get(), block -> this.oreDrop(NtmItems.NITER.get()));
-        this.add(NtmBlocks.ORE_COBALT.get(), block -> this.oreDrop(NtmItems.FRAGMENT_COBALT.get(), 5, 8));
-        this.add(NtmBlocks.ORE_COBALT_DEEPSLATE.get(), block -> this.oreDrop(NtmItems.FRAGMENT_COBALT.get(), 5, 8));
-        this.add(NtmBlocks.ORE_CINNABAR.get(), block -> this.oreDrop(NtmItems.CINNABAR.get()));
-        this.add(NtmBlocks.ORE_CINNABAR_DEEPSLATE.get(), block -> this.oreDrop(NtmItems.CINNABAR.get()));
-        this.add(NtmBlocks.ORE_FLUORITE.get(), block -> this.oreDrop(NtmItems.FLUORITE.get(), 2, 4));
-        this.add(NtmBlocks.ORE_FLUORITE_DEEPSLATE.get(), block -> this.oreDrop(NtmItems.FLUORITE.get(), 2, 4));
-        this.add(NtmBlocks.ORE_LIGNITE.get(), block -> this.oreDropNoFortune(NtmItems.LIGNITE.get()));
-        this.add(NtmBlocks.ORE_DEEPSLATE_LIGNITE.get(), block -> this.oreDropNoFortune(NtmItems.LIGNITE.get()));
-        this.add(NtmBlocks.ORE_RARE.get(), block -> this.oreDrop(NtmItems.RARE_EARTH_ORE_CHUNK.get()));
-        this.add(NtmBlocks.ORE_RARE_DEEPSLATE.get(), block -> this.oreDrop(NtmItems.RARE_EARTH_ORE_CHUNK.get()));
-        this.add(NtmBlocks.ORE_SULFUR.get(), block -> this.oreDrop(NtmItems.SULFUR.get(), 2, 4));
-        this.add(NtmBlocks.ORE_SULFUR_DEEPSLATE.get(), block -> this.oreDrop(NtmItems.SULFUR.get(), 2, 4));
+        this.add(NtmBlocks.ORE_NITER.get(), block -> this.oreDrop(block, NtmItems.NITER.get()));
+        this.add(NtmBlocks.ORE_NITER_DEEPSLATE.get(), block -> this.oreDrop(block, NtmItems.NITER.get()));
+        this.add(NtmBlocks.ORE_COBALT.get(), block -> this.oreDrop(block, NtmItems.FRAGMENT_COBALT.get(), 5, 8));
+        this.add(NtmBlocks.ORE_COBALT_DEEPSLATE.get(), block -> this.oreDrop(block, NtmItems.FRAGMENT_COBALT.get(), 5, 8));
+        this.add(NtmBlocks.ORE_CINNABAR.get(), block -> this.oreDrop(block, NtmItems.CINNABAR.get()));
+        this.add(NtmBlocks.ORE_CINNABAR_DEEPSLATE.get(), block -> this.oreDrop(block, NtmItems.CINNABAR.get()));
+        this.add(NtmBlocks.ORE_FLUORITE.get(), block -> this.oreDrop(block, NtmItems.FLUORITE.get(), 2, 4));
+        this.add(NtmBlocks.ORE_FLUORITE_DEEPSLATE.get(), block -> this.oreDrop(block, NtmItems.FLUORITE.get(), 2, 4));
+        this.dropSelf(NtmBlocks.ORE_METEOR_IRON.get());
+        this.dropSelf(NtmBlocks.ORE_METEOR_COBALT.get());
+        this.dropSelf(NtmBlocks.ORE_METEOR_ALUMINIUM.get());
+        this.dropSelf(NtmBlocks.ORE_METEOR_COPPER.get());
+        this.dropSelf(NtmBlocks.ORE_METEOR_RARE.get());
+        this.add(NtmBlocks.ORE_LIGNITE.get(), block -> this.oreDropNoFortune(block, NtmItems.LIGNITE.get()));
+        this.add(NtmBlocks.ORE_DEEPSLATE_LIGNITE.get(), block -> this.oreDropNoFortune(block, NtmItems.LIGNITE.get()));
+        this.add(NtmBlocks.ORE_RARE.get(), block -> this.oreDrop(block, NtmItems.RARE_EARTH_ORE_CHUNK.get()));
+        this.add(NtmBlocks.ORE_RARE_DEEPSLATE.get(), block -> this.oreDrop(block, NtmItems.RARE_EARTH_ORE_CHUNK.get()));
+        this.add(NtmBlocks.ORE_SULFUR.get(), block -> this.oreDrop(block, NtmItems.SULFUR.get(), 2, 4));
+        this.add(NtmBlocks.ORE_SULFUR_DEEPSLATE.get(), block -> this.oreDrop(block, NtmItems.SULFUR.get(), 2, 4));
         this.dropSelf(NtmBlocks.ORE_SCHRABIDIUM.get());
         this.dropSelf(NtmBlocks.ORE_NETHER_URANIUM.get());
         this.dropSelf(NtmBlocks.ORE_NETHER_URANIUM_SCORCHED.get());
@@ -131,9 +137,11 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
 
         this.dropSelf(NtmBlocks.BOBBLEHEAD.get());
         this.dropSelf(NtmBlocks.PLUSHIE.get());
+        this.dropSelf(NtmBlocks.PLANT_FLOWER.get());
 
         this.dropSelf(NtmBlocks.GRAVEL_OBSIDIAN.get());
         this.dropSelf(NtmBlocks.GRAVEL_DIAMOND.get());
+        this.dropSelf(NtmBlocks.MOON_TURF.get());
 
         this.dropSelf(NtmBlocks.ASPHALT.get());
         this.dropSelf(NtmBlocks.ASPHALT_LIGHT.get());
@@ -147,6 +155,14 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(NtmBlocks.BRICK_LIGHT.get());
         this.dropSelf(NtmBlocks.BRICK_ASBESTOS.get());
         this.dropSelf(NtmBlocks.BRICK_FIRE.get());
+        this.dropSelf(NtmBlocks.CONCRETE.get());
+        this.dropSelf(NtmBlocks.CONCRETE_SMOOTH.get());
+        this.dropSelf(NtmBlocks.CONCRETE_ASBESTOS.get());
+        this.dropSelf(NtmBlocks.DUCRETE.get());
+        this.dropSelf(NtmBlocks.DUCRETE_SMOOTH.get());
+        this.dropSelf(NtmBlocks.DUCRETE_REINFORCED.get());
+        this.dropSelf(NtmBlocks.DUCRETE_BRICK.get());
+
         this.dropSelf(NtmBlocks.ANVIL.get());
 
         this.add(NtmBlocks.BRICK_CONCRETE_SLAB.get(), this::createSlabItemTable);
@@ -258,6 +274,7 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(NtmBlocks.MACHINE_SHREDDER.get());
         this.dropSelf(NtmBlocks.HEAT_BOILER.get());
         this.dropSelf(NtmBlocks.MACHINE_INDUSTRIAL_BOILER.get());
+        this.dropSelf(NtmBlocks.FURNACE_COMBINATION.get());
 
         this.dropSelf(NtmBlocks.MACHINE_SATLINKER.get());
 
@@ -303,7 +320,11 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
         this.dropSelf(NtmBlocks.BLOCK_LEAD.get());
         this.dropSelf(NtmBlocks.BLOCK_LITHIUM.get());
         this.dropSelf(NtmBlocks.BLOCK_MAGNETIZED_TUNGSTEN.get());
+        this.dropSelf(NtmBlocks.BLOCK_METEOR.get());
+        this.add(NtmBlocks.BLOCK_METEOR_COBBLE.get(), block -> this.oreDrop(block, NtmItems.FRAGMENT_METEORITE.get(), 1, 3));
+        this.add(NtmBlocks.BLOCK_METEOR_BROKEN.get(), block -> this.oreDrop(block, NtmItems.FRAGMENT_METEORITE.get(), 1, 3));
         this.dropSelf(NtmBlocks.BLOCK_METEOR_MOLTEN.get());
+        this.add(NtmBlocks.BLOCK_METEOR_TREASURE.get(), this::meteorTreasureDrop);
         this.dropSelf(NtmBlocks.BLOCK_MOX_FUEL.get());
         this.dropSelf(NtmBlocks.BLOCK_NEPTUNIUM.get());
         this.dropSelf(NtmBlocks.BLOCK_NIOBIUM.get());
@@ -352,27 +373,37 @@ public class NtmBlockLootTableProvider extends BlockLootSubProvider {
         return blocks;
     }
 
-    private LootTable.Builder oreDrop(Item item) {
-        return this.oreDrop(item, 1, 1);
+    private LootTable.Builder oreDrop(Block block, Item item) {
+        return this.oreDrop(block, item, 1, 1);
     }
 
-    private LootTable.Builder oreDrop(Item item, int min, int max) {
-        return LootTable.lootTable().withPool(
-                LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1F))
-                        .add(LootItem.lootTableItem(item)
-                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(min, max)))
-                                .apply(ApplyBonusCount.addOreBonusCount(
-                                        this.registries.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE))))
-        );
+    private LootTable.Builder oreDrop(Block block, Item item, int min, int max) {
+        return this.createSilkTouchDispatchTable(block, LootItem.lootTableItem(item)
+                .apply(SetItemCountFunction.setCount(UniformGenerator.between(min, max)))
+                .apply(ApplyBonusCount.addOreBonusCount(
+                        this.registries.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE))));
     }
 
-    private LootTable.Builder oreDropNoFortune(Item item) {
-        return LootTable.lootTable().withPool(
-                LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1F))
-                        .add(LootItem.lootTableItem(item))
-        );
+    private LootTable.Builder oreDropNoFortune(Block block, Item item) {
+        return this.createSilkTouchDispatchTable(block, LootItem.lootTableItem(item));
+    }
+
+    private LootTable.Builder meteorTreasureDrop(Block block) {
+        return LootTable.lootTable()
+                .withPool(LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1))
+                        .add(LootItem.lootTableItem(NtmItems.COBALT_PICKAXE.get()).setWeight(10))
+                        .add(LootItem.lootTableItem(NtmItems.INGOT_ZIRCONIUM.get()).setWeight(10).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 16))))
+                        .add(LootItem.lootTableItem(NtmItems.INGOT_NIOBIUM.get()).setWeight(10).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 16))))
+                        .add(LootItem.lootTableItem(NtmItems.INGOT_COBALT.get()).setWeight(10).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 16))))
+                        .add(LootItem.lootTableItem(NtmItems.INGOT_BORON.get()).setWeight(10).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 16))))
+                        .add(LootItem.lootTableItem(NtmItems.INGOT_STARMETAL.get()).setWeight(5))
+                        .add(LootItem.lootTableItem(NtmItems.CRYSTAL_GOLD.get()).setWeight(10).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 4))))
+                        .add(LootItem.lootTableItem(NtmItems.CIRCUIT_VACUUM_TUBE.get()).setWeight(10).apply(SetItemCountFunction.setCount(UniformGenerator.between(4, 8))))
+                        .add(LootItem.lootTableItem(NtmItems.CIRCUIT_MICROCHIP.get()).setWeight(10).apply(SetItemCountFunction.setCount(UniformGenerator.between(2, 4))))
+                        .add(LootItem.lootTableItem(NtmItems.LAUNCH_CODE_PIECE.get()).setWeight(5))
+                        .add(LootItem.lootTableItem(NtmItems.GEM_ALEXANDRITE.get()).setWeight(1))
+                );
     }
 
     public LootItemCondition.Builder propertyEquals(Block block, IntegerProperty property, int equals) {

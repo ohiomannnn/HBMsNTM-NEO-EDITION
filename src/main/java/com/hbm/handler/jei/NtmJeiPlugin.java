@@ -14,10 +14,12 @@ import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.inventory.recipes.AssemblyMachineRecipes;
 import com.hbm.inventory.recipes.BlastFurnaceRecipes;
 import com.hbm.inventory.recipes.CentrifugeRecipes;
+import com.hbm.inventory.recipes.CombinationRecipes;
 import com.hbm.inventory.recipes.anvil.AnvilRecipes;
 import com.hbm.inventory.recipes.SolderingRecipes;
 import com.hbm.inventory.recipes.ShredderRecipes;
 import com.hbm.inventory.screens.AnvilMenuScreen;
+import com.hbm.inventory.screens.MachineFurnaceCombinationScreen;
 import com.hbm.inventory.screens.MachineAssemblyMachineScreen;
 import com.hbm.inventory.screens.MachineSolderingStationScreen;
 import com.hbm.items.NtmItems;
@@ -55,6 +57,8 @@ public class NtmJeiPlugin implements IModPlugin {
                 new AssemblyMachineRecipeHandler(guiHelper),
                 new BlastFurnaceRecipeHandler(guiHelper),
                 new CentrifugeRecipeHandler(guiHelper),
+                new FurnaceCombinationRecipeHandler(guiHelper),
+                new PressRecipeHandler(guiHelper),
                 new ShredderRecipeHandler(guiHelper),
                 new RefineryRecipeHandler(guiHelper),
                 new BoilerRecipeHandler(guiHelper)
@@ -69,6 +73,8 @@ public class NtmJeiPlugin implements IModPlugin {
         registration.addRecipes(AssemblyMachineRecipeHandler.RECIPE_TYPE, AssemblyMachineRecipes.INSTANCE.recipeOrderedList);
         registration.addRecipes(BlastFurnaceRecipeHandler.RECIPE_TYPE, BlastFurnaceRecipes.INSTANCE.recipeOrderedList);
         registration.addRecipes(CentrifugeRecipeHandler.RECIPE_TYPE, CentrifugeRecipes.getJeiRecipes());
+        registration.addRecipes(FurnaceCombinationRecipeHandler.RECIPE_TYPE, CombinationRecipes.getJeiRecipes());
+        registration.addRecipes(PressRecipeHandler.RECIPE_TYPE, PressRecipeHandler.getRecipes());
         registration.addRecipes(ShredderRecipeHandler.RECIPE_TYPE, ShredderRecipes.getJeiRecipes());
         registration.addRecipes(RefineryRecipeHandler.RECIPE_TYPE, RefineryRecipeHandler.getRecipes());
         registration.addRecipes(BoilerRecipeHandler.RECIPE_TYPE, BoilerRecipeHandler.getRecipes());
@@ -108,6 +114,14 @@ public class NtmJeiPlugin implements IModPlugin {
                 CentrifugeRecipeHandler.RECIPE_TYPE
         );
         registration.addRecipeCatalyst(
+                NtmBlocks.FURNACE_COMBINATION.asItem(),
+                FurnaceCombinationRecipeHandler.RECIPE_TYPE
+        );
+        registration.addRecipeCatalyst(
+                NtmBlocks.MACHINE_PRESS.asItem(),
+                PressRecipeHandler.RECIPE_TYPE
+        );
+        registration.addRecipeCatalyst(
                 NtmBlocks.MACHINE_REFINERY.asItem(),
                 RefineryRecipeHandler.RECIPE_TYPE
         );
@@ -131,6 +145,8 @@ public class NtmJeiPlugin implements IModPlugin {
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
         registration.addRecipeClickArea(AnvilMenuScreen.class, 12, 50, 36, 16, AnvilConstructionRecipeHandler.RECIPE_TYPE);
         registration.addRecipeClickArea(MachineSolderingStationScreen.class, 72, 29, 32, 13, SolderingStationRecipeHandler.RECIPE_TYPE);
+        registration.addRecipeClickArea(MachineFurnaceCombinationScreen.class, 54, 61, 18, 18, FurnaceCombinationRecipeHandler.RECIPE_TYPE);
+        registration.addRecipeClickArea(com.hbm.inventory.screens.MachinePressScreen.class, 79, 35, 18, 18, PressRecipeHandler.RECIPE_TYPE);
     }
 
     @Override
@@ -147,7 +163,10 @@ public class NtmJeiPlugin implements IModPlugin {
                 NtmItems.MISSILE_SOYUZ.get(),
 
                 NtmItems.BATTERY_SC.get(),
+                NtmItems.WIRE_DENSE.get(),
                 NtmItems.BOLT.get(),
+                NtmItems.CAST_PLATE.get(),
+                NtmItems.CAST_PLATE_WELDED.get(),
 
                 NtmItems.FLUID_TANK_FULL.get(),
                 NtmItems.FLUID_TANK_LEAD_FULL.get(),

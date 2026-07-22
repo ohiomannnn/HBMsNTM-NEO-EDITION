@@ -24,6 +24,7 @@ import com.hbm.items.EnumMultiItem;
 import com.hbm.items.IHUDItem;
 import com.hbm.items.NtmItems;
 import com.hbm.items.RawIngotItem;
+import com.hbm.items.WireDenseItem;
 import com.hbm.items.special.PolaroidItem;
 import com.hbm.items.tools.GeigerCounterItem;
 import com.hbm.network.toserver.Ducc;
@@ -516,6 +517,10 @@ public class NuclearTechModClient {
         event.register(
                 (stack, tintIndex) -> tintIndex == 0 ? 0xFF000000 | ((RawIngotItem) stack.getItem()).getColor(stack) : 0xFFFFFFFF,
                 NtmItems.INGOT_RAW.get()
+        );
+        event.register(
+                (stack, tintIndex) -> tintIndex == 0 ? 0xFF000000 | ((WireDenseItem) stack.getItem()).getColor(stack) : 0xFFFFFFFF,
+                NtmItems.WIRE_DENSE.get()
         );
         event.register(
                 (stack, tintIndex) -> switch(tintIndex) {

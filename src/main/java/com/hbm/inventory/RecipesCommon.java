@@ -224,10 +224,7 @@ public class RecipesCommon {
 
             for (Holder<Item> itemHolder : BuiltInRegistries.ITEM.getTagOrEmpty(this.tag)) {
                 Item item = itemHolder.value();
-
-                if(item instanceof IMetaItem) {
-                    itemStacks.add(new ItemStack(item, 1));
-                }
+                itemStacks.add(new ItemStack(item, this.stacksize));
             }
 
             return itemStacks;

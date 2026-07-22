@@ -7,6 +7,7 @@ import com.hbm.particle.vanilla.NbtParticleOptions;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.sound.AudioWrapper;
 import com.hbm.util.particle.ParticleUtil;
+import com.hbm.world.MeteoriteStructure;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -30,6 +31,7 @@ public class Meteor extends Entity {
 
     public boolean safe = false;
     private AudioWrapper audioFly;
+    private final MeteoriteStructure meteorite = new MeteoriteStructure();
 
     public Meteor(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -55,33 +57,26 @@ public class Meteor extends Entity {
     public void damageOrDestroyBlock(Level level, BlockPos pos) {
         if (safe) return;
 
-        // Get current block info
         BlockState state = level.getBlockState(pos);
+        if (state.isAir()) return;
+
         float hardness = state.getDestroySpeed(level, pos);
 
-        // Check if the block is weak and can be destroyed
-        if (hardness >= 0 && hardness <= 0.3F) {
-            // Destroy the block
+        if (state.is(net.minecraft.tags.BlockTags.LEAVES) || state.is(net.minecraft.tags.BlockTags.LOGS) || (hardness >= 0 && hardness <= 0.3F)) {
             level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
         } else {
-            // Found solid block
             if (hardness < 0 || hardness > 5F) return;
 
             if (random.nextInt(6) == 1) {
-                // Turn blocks into damaged variants
-//                if (pressed.is(Blocks.DIRT)) {
-//                    world.setBlock(blockX, blockY, blockZ, ModBlocks.dirt_dead);
-//                } else if (block == Blocks.sand) {
-//                    if (random.nextInt(2) == 1) {
-//                        world.setBlock(blockX, blockY, blockZ, Blocks.sandstone);
-//                    } else {
-//                        world.setBlock(blockX, blockY, blockZ, Blocks.glass);
-//                    }
-//                } else if(block == Blocks.stone) {
-//                    world.setBlock(blockX, blockY, blockZ, Blocks.cobblestone);
-//                } else if(block == Blocks.grass) {
-//                    world.setBlock(blockX, blockY, blockZ, ModBlocks.waste_earth);
-//                }
+                if (state.is(Blocks.DIRT)) {
+                    level.setBlock(pos, com.hbm.blocks.NtmBlocks.DIRT_DEAD.get().defaultBlockState(), 3);
+                } else if (state.is(Blocks.SAND) || state.is(Blocks.RED_SAND)) {
+                    level.setBlock(pos, random.nextInt(2) == 1 ? Blocks.SANDSTONE.defaultBlockState() : Blocks.GLASS.defaultBlockState(), 3);
+                } else if (state.is(Blocks.STONE)) {
+                    level.setBlock(pos, Blocks.COBBLESTONE.defaultBlockState(), 3);
+                } else if (state.is(Blocks.GRASS_BLOCK)) {
+                    level.setBlock(pos, com.hbm.blocks.NtmBlocks.WASTE_EARTH.get().defaultBlockState(), 3);
+                }
             }
         }
     }
@@ -125,8 +120,13 @@ public class Meteor extends Entity {
                     }
 
                     // Bury the meteor into the ground
-                    BlockPos spawnPos = new BlockPos((int) (Math.round(this.getX() - 0.5D) + (safe ? 0 : (this.getDeltaMovement().z * 4))), (int) Math.round(this.getY() - (safe ? 0 : 4)), (int) (Math.round(this.getZ() - 0.5D) + (safe ? 0 : (this.getDeltaMovement().z * 4))));
+                    BlockPos spawnPos = new BlockPos(
+                            (int) (Math.round(this.getX() - 0.5D) + (safe ? 0 : (this.getDeltaMovement().x * 4))),
+                            (int) Math.round(this.getY() - (safe ? 0 : 4)),
+                            (int) (Math.round(this.getZ() - 0.5D) + (safe ? 0 : (this.getDeltaMovement().z * 4)))
+                    );
 
+                    meteorite.generate(level(), random, spawnPos.getX(), spawnPos.getY(), spawnPos.getZ(), safe, true, true);
                     clearMeteorPath(level(), spawnPos);
 
                     this.level().playSound(null, this.getX(), this.getY(), this.getZ(), NtmSoundEvents.OLD_EXPLOSION, SoundSource.AMBIENT, 10000.0F, 0.5F + this.random.nextFloat() * 0.1F);

@@ -105,6 +105,16 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItem
     }
 
     @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return stack.isDamageableItem();
+    }
+
+    @Override
+    public int getEnchantmentValue() {
+        return this.getTier().getEnchantmentValue();
+    }
+
+    @Override
     public boolean mineBlock(ItemStack stack, Level level, BlockState state, BlockPos pos, LivingEntity miningEntity) {
         if (!level.isClientSide && miningEntity instanceof Player player && canOperate(stack)) {
             Configuration config = this.getConfiguration(stack);

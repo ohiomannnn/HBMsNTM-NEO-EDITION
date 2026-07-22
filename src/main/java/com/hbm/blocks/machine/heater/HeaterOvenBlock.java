@@ -68,11 +68,12 @@ public class HeaterOvenBlock extends AbstractHeaterBlock implements ITooltipProv
 
     @Override
     public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+        BlockState result = super.playerWillDestroy(level, pos, state, player);
         if(!level.isClientSide && !safeRem) {
             this.destroyHeater(level, pos);
         }
 
-        return super.playerWillDestroy(level, pos, state, player);
+        return result;
     }
 
     @Override

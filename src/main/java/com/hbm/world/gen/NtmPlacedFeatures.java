@@ -17,6 +17,8 @@ public class NtmPlacedFeatures {
 
     public static final ResourceKey<PlacedFeature> OIL_BUBBLE_PLACED = registerKey("oil_bubble_placed");
 
+    public static final ResourceKey<PlacedFeature> BEDROCK_OIL_PLACED = registerKey("bedrock_oil_placed");
+
     public static final ResourceKey<PlacedFeature> LANDMINE_PLACED = registerKey("landmine_placed");
 
     public static final ResourceKey<PlacedFeature> CRASHED_BOMB_PLACED = registerKey("crashed_bomb_placed");
@@ -25,6 +27,7 @@ public class NtmPlacedFeatures {
         HolderGetter<ConfiguredFeature<?, ?>> configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
 
         register(context, OIL_BUBBLE_PLACED, configuredFeatures.getOrThrow(NtmConfiguredFeatures.OIL_BUBBLE), List.of(InSquarePlacement.spread(), HeightRangePlacement.uniform(VerticalAnchor.absolute(0), VerticalAnchor.absolute(24))));
+        register(context, BEDROCK_OIL_PLACED, configuredFeatures.getOrThrow(NtmConfiguredFeatures.BEDROCK_OIL), List.of(RarityFilter.onAverageOnceEvery(64), InSquarePlacement.spread(), HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE_WG)));
         register(context, LANDMINE_PLACED, configuredFeatures.getOrThrow(NtmConfiguredFeatures.LANDMINE), List.of(RarityFilter.onAverageOnceEvery(64), InSquarePlacement.spread(), HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE_WG)));
         register(context, CRASHED_BOMB_PLACED, configuredFeatures.getOrThrow(NtmConfiguredFeatures.CRASHED_BOMB), List.of(RarityFilter.onAverageOnceEvery(500), InSquarePlacement.spread(), HeightmapPlacement.onHeightmap(Heightmap.Types.WORLD_SURFACE_WG)));
     }
