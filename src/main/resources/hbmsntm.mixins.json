@@ -12,6 +12,8 @@
   "client": [
     "invokers.RegisterClientExtensionsEventInvoker",
     "LevelRendererMixin",
-    "ParticleEngineMixin"
+    "ParticleEngineMixin",
+    "ItemInHandRendererMixin",
+    "GameRendererMixin"
   ]
 }

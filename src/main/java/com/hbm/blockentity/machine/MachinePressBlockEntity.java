@@ -20,7 +20,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 
 public class MachinePressBlockEntity extends MachineBaseBlockEntity {
 
@@ -91,7 +90,7 @@ public class MachinePressBlockEntity extends MachineBaseBlockEntity {
                     this.press += stampSpeed;
 
                     if(this.press >= maxPress) {
-                        SoundUtils.playAtVec3(this.level, Vec3.atCenterOf(this.getBlockPos()), NtmSoundEvents.PRESS_OPERATE.get(), SoundSource.BLOCKS, this.getVolume(1.5F), 1F);
+                        SoundUtils.playAtVec3(this.level, this.getBlockPos().getCenter(), NtmSoundEvents.PRESS_OPERATE.get(), SoundSource.BLOCKS, this.getVolume(1.5F), 1F);
                         ItemStack output = PressRecipes.getOutput(this.slots.get(2), this.slots.get(1));
                         if(this.slots.get(3).isEmpty()) {
                             this.slots.set(3, output.copy());

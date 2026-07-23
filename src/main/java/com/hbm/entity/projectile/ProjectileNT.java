@@ -33,6 +33,17 @@ public abstract class ProjectileNT extends Projectile {
     @Override public boolean canUsePortal(boolean allowPassengers) { return true; }
 
     @Override
+    public Vec3 getMovementToShoot(double x, double y, double z, float velocity, float inaccuracy) {
+        return new Vec3(x, y, z)
+                .add(
+                        this.random.nextGaussian() * this.getHeadingForceMult() * (double) inaccuracy,
+                        this.random.nextGaussian() * this.getHeadingForceMult() * (double) inaccuracy,
+                        this.random.nextGaussian() * this.getHeadingForceMult() * (double) inaccuracy
+                )
+                .scale(velocity);
+    }
+
+    @Override
     public void tick() {
         super.tick();
 
@@ -44,9 +55,9 @@ public abstract class ProjectileNT extends Projectile {
         this.checkInsideBlocks();
 
         Vec3 delta = this.getDeltaMovement();
-        double dX = this.getX() + delta.x * this.getMotionMultiplier();
-        double dY = this.getY() + delta.y * this.getMotionMultiplier();
-        double dZ = this.getZ() + delta.z * this.getMotionMultiplier();
+        double dX = this.getX() + delta.x * this.getMotionMult();
+        double dY = this.getY() + delta.y * this.getMotionMult();
+        double dZ = this.getZ() + delta.z * this.getMotionMult();
 
         this.rotation();
 
@@ -66,7 +77,7 @@ public abstract class ProjectileNT extends Projectile {
     private HitResult getHitResult(Predicate<Entity> filter) {
 
         Vec3 pos = this.position();
-        Vec3 delta = this.getDeltaMovement();
+        Vec3 delta = this.getDeltaMovement().scale(this.getMotionMult());;
         Vec3 added = pos.add(delta);
 
         HitResult hr = BlockHitResult.miss(Vec3.ZERO, Direction.DOWN, BlockPos.ZERO);
@@ -125,28 +136,11 @@ public abstract class ProjectileNT extends Projectile {
         this.yRot = Mth.lerp(0.2F, this.yRotO, this.yRot);
     }
 
-    @Override
-    protected double getDefaultGravity() {
-        return 0.03;
-    }
-
-    protected double getMotionMultiplier() {
-        return 1.0;
-    }
-
-    protected float getAirDrag() {
-        return 0.99F;
-    }
-
-    protected float getWaterDrag() {
-        return 0.8F;
-    }
-
-    public boolean doesPenetrate() {
-        return false;
-    }
-
-    public boolean isSpectral() {
-        return false;
-    }
+    @Override protected double getDefaultGravity() { return 0.03; }
+    protected double getMotionMult() { return 1.0; }
+    protected double getHeadingForceMult() { return 0.0172275; }
+    protected float getAirDrag() { return 0.99F; }
+    protected float getWaterDrag() { return 0.8F; }
+    public boolean doesPenetrate() { return false; }
+    public boolean isSpectral() { return false; }
 }

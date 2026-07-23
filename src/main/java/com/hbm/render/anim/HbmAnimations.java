@@ -70,8 +70,8 @@ public class HbmAnimations {
         return null;
     }
 
-    public static double[] getRelevantTransformation(String bus) { return getRelevantTransformation(bus, 0); }
-    public static double[] getRelevantTransformation(String bus, int index) {
+    public static float[] getRelevantTransformation(String bus) { return getRelevantTransformation(bus, 0); }
+    public static float[] getRelevantTransformation(String bus, int index) {
 
         Animation anim = HbmAnimations.getRelevantAnim(index);
 
@@ -83,36 +83,35 @@ public class HbmAnimations {
             BusAnimationSequence seq = buses.getBus(bus);
 
             if(seq != null) {
-                double[] trans = seq.getTransformation(millis);
+                float[] trans = seq.getTransformation(millis);
 
-                if(trans != null)
-                    return trans;
+                if(trans != null) return trans;
             }
         }
 
-        return new double[] {
-                0, 0, 0, // position
-                0, 0, 0, // rotation
-                1, 1, 1, // scale
-                0, 0, 0, // offset
-                0, 1, 2, // XYZ order
+        return new float[] {
+                0F, 0F, 0F, // position
+                0F, 0F, 0F, // rotation
+                1F, 1F, 1F, // scale
+                0F, 0F, 0F, // offset
+                0F, 1F, 2F, // XYZ order
         };
     }
 
     public static void applyRelevantTransformation(PoseStack poseStack, String bus) { applyRelevantTransformation(poseStack, bus, 0); }
     public static void applyRelevantTransformation(PoseStack poseStack, String bus, int index) {
-        double[] transform = getRelevantTransformation(bus, index);
+        float[] transform = getRelevantTransformation(bus, index);
         int[] rot = new int[] { (int)transform[12], (int)transform[13], (int)transform[14] };
 
         poseStack.translate(transform[0], transform[1], transform[2]);
 
         for (int i = 0; i < 3; i++) {
             Axis axis = rot[i] == 0 ? Axis.XP : (rot[i] == 1 ? Axis.YP : Axis.ZP);
-            poseStack.mulPose(axis.rotationDegrees((float) transform[3 + rot[i]]));
+            poseStack.mulPose(axis.rotationDegrees(transform[3 + rot[i]]));
         }
 
         poseStack.translate(-transform[9], -transform[10], -transform[11]);
-        poseStack.scale((float) transform[6], (float) transform[7], (float) transform[8]);
+        poseStack.scale(transform[6], transform[7], transform[8]);
     }
 
 }

@@ -4,6 +4,7 @@ import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.loader.IModelCustom;
 import com.hbm.render.material.HFRWavefrontObjectTEST;
 import com.hbm.render.material.Material;
+import com.hbm.render.material.Material.CutoutMode;
 import net.minecraft.resources.ResourceLocation;
 
 public class ResourceManager {
@@ -192,6 +193,7 @@ public class ResourceManager {
     public static final ResourceLocation SHIMMER_SLEDGE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/shimmer_sledge.png");
     public static final ResourceLocation SHIMMER_AXE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/shimmer_axe.png");
 
+    public static final ResourceLocation DEBUG_GUN_TEX = NuclearTechMod.withDefaultNamespace("textures/models/weapon/debug_gun.png");
     public static final ResourceLocation FATMAN_TEX = NuclearTechMod.withDefaultNamespace("textures/models/weapon/fatman.png");
     public static final ResourceLocation FATMAN_MININUKE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/weapon/fatman_mininuke.png");
     public static final ResourceLocation FATMAN_BALEFIRE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/weapon/fatman_balefire.png");
@@ -324,6 +326,7 @@ public class ResourceManager {
     public static IModelCustom shimmer_sledge;
     public static IModelCustom shimmer_axe;
 
+    public static IModelCustom lilmac;
     public static IModelCustom fatman;
     public static IModelCustom double_barrel;
     public static IModelCustom n_i_4_n_i;
@@ -355,7 +358,7 @@ public class ResourceManager {
         nuke_gadget = new HFRWavefrontObject("models/obj/bomb/nuke_gadget.obj").asVBO();
         nuke_little_boy = new HFRWavefrontObject("models/obj/bomb/nuke_little_boy.obj").asVBO();
         nuke_fat_man = new HFRWavefrontObject("models/obj/bomb/nuke_fatman.obj");
-        nuke_fat_man_render = nuke_fat_man.create(new Material.Builder().texture(NUKE_FAT_MAN_TEX).backfaceCulling(false).build());
+        nuke_fat_man_render = nuke_fat_man.create(new Material.Builder().texture(NUKE_FAT_MAN_TEX).backfaceCulling(false).cutout(CutoutMode.HALF).build());
         nuke_ivy_mike = new HFRWavefrontObject("models/obj/bomb/nuke_ivy_mike.obj").asVBO();
         nuke_tsar = new HFRWavefrontObject("models/obj/bomb/nuke_tsar.obj").asVBO();
         nuke_prototype = new HFRWavefrontObject("models/obj/bomb/nuke_prototype.obj").asVBO();
@@ -439,6 +442,7 @@ public class ResourceManager {
         //shimmer_sledge = new HFRWavefrontObject("models/obj/shimmer_sledge.obj").asVBO();
         shimmer_axe = new HFRWavefrontObject("models/obj/shimmer_axe.obj").asVBO();
 
+        lilmac = new HFRWavefrontObject("models/obj/weapons/lilmac.obj").asVBO();
         fatman = new HFRWavefrontObject("models/obj/weapons/fatman.obj").asVBO();
         double_barrel = new HFRWavefrontObject("models/obj/weapons/sacred_dragon.obj").asVBO();
         n_i_4_n_i = new HFRWavefrontObject("models/obj/weapons/n_i_4_n_i.obj").asVBO();

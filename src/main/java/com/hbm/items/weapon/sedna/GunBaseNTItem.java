@@ -1,6 +1,7 @@
 package com.hbm.items.weapon.sedna;
 
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
+import com.hbm.interfaces.IHoldableWeapon;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.IHUDItem;
@@ -39,7 +40,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-public class GunBaseNTItem extends Item implements IKeybindReceiver, IHUDItem, IEquipReceiver {
+public class GunBaseNTItem extends Item implements IKeybindReceiver, IHUDItem, IEquipReceiver, IHoldableWeapon {
 
     /** Timestamp for rendering smoke nodes and muzzle flashes */
     public long[] lastShot;
@@ -356,7 +357,6 @@ public class GunBaseNTItem extends Item implements IKeybindReceiver, IHUDItem, I
     public static boolean getIsEquipped(ItemStack stack) { return getValueBool(stack, KEY_EQUIPPED); }
     public static void setIsEquipped(ItemStack stack, boolean value) { setValueBool(stack, KEY_EQUIPPED, value); }
 
-
     /// UTIL ///
     public static int getValueInt(ItemStack stack, String name) { return TagsUtil.getCustomData(stack).getInt(name); }
     public static void setValueInt(ItemStack stack, String name, int value) { CompoundTag tag = TagsUtil.getCustomData(stack); tag.putInt(name, value); TagsUtil.putCustomData(stack, tag); }
@@ -393,6 +393,11 @@ public class GunBaseNTItem extends Item implements IKeybindReceiver, IHUDItem, I
     @Override
     public void renderHUD(Pre event, Player player, ItemStack stack) {
 
+    }
+
+    @Override
+    public boolean shouldChangeOffhand() {
+        return false;
     }
 
     public static class SmokeNode {

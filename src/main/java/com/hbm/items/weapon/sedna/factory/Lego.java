@@ -10,9 +10,11 @@ import com.hbm.items.weapon.sedna.GunBaseNTItem.LambdaContext;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.Receiver;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
-import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.AnimationEnums.GunAnimation;
+import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.anim.BusAnimationSequence;
+import com.hbm.util.SoundUtils;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -84,8 +86,9 @@ public class Lego {
             if(rec.getCanFire(stack).apply(stack, ctx)) {
                 rec.getOnFire(stack).accept(stack, ctx);
 
-                //if(rec.getFireSound(stack) != null)
-                //    entity.worldObj.playSoundEffect(entity.posX, entity.posY, entity.posZ, rec.getFireSound(stack), rec.getFireVolume(stack), rec.getFirePitch(stack));
+                if(rec.getFireSound(stack) != null) {
+                    SoundUtils.playAtVec3(entity.level, entity.position(), rec.getFireSound(stack).value(), SoundSource.BLOCKS, rec.getFireVolume(stack), rec.getFirePitch(stack));
+                }
 
                 int remaining = rec.getRoundsPerCycle(stack) - 1;
                 for(int i = 0; i < remaining; i++) if(rec.getCanFire(stack).apply(stack, ctx)) rec.getOnFire(stack).accept(stack, ctx);

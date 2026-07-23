@@ -12,6 +12,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -43,7 +44,8 @@ public class Rubble extends ProjectileNT {
     @Override
     protected void onHitEntity(EntityHitResult ehr) {
 
-        ehr.getEntity().hurt(level.damageSources().source(NtmDamageTypes.RUBBLE), 15);
+        Entity entityToHurt = ehr.getEntity();
+        entityToHurt.hurt(entityToHurt.damageSources().source(NtmDamageTypes.RUBBLE), 15);
         this.impact();
     }
 

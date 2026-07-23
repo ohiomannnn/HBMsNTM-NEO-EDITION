@@ -4,6 +4,7 @@ import com.hbm.items.weapon.sedna.GunBaseNTItem.LambdaContext;
 import com.hbm.items.weapon.sedna.factory.Lego;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
+import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
@@ -73,7 +74,7 @@ public class Receiver {
     protected int reloadCockOnEmptyPre_DNA;
     protected int reloadCockOnEmptyPost_DNA;
     protected int jamDuration_DNA = 0;
-    protected SoundEvent fireSound_DNA;
+    protected Holder<SoundEvent> fireSound_DNA;
     protected float fireVolume_DNA = 1.0F;
     protected float firePitch_DNA = 1.0F;
     protected IMagazine<?> magazine_DNA;
@@ -109,7 +110,7 @@ public class Receiver {
     public int getReloadCockOnEmptyPre(ItemStack stack) {		return XWeaponModManager.eval(this.reloadCockOnEmptyPre_DNA, stack, I_RELOADCOCKONEMPTYPRE, this, parent.index); }
     public int getReloadCockOnEmptyPost(ItemStack stack) {		return XWeaponModManager.eval(this.reloadCockOnEmptyPost_DNA, stack, I_RELOADCOCKONEMPTYPOST, this, parent.index); }
     public int getJamDuration(ItemStack stack) {				return XWeaponModManager.eval(this.jamDuration_DNA, stack, I_JAMDURATION, this, parent.index); }
-    public SoundEvent getFireSound(ItemStack stack) {			return XWeaponModManager.eval(this.fireSound_DNA, stack, S_FIRESOUND, this, parent.index); }
+    public Holder<SoundEvent> getFireSound(ItemStack stack) {   return XWeaponModManager.eval(this.fireSound_DNA, stack, S_FIRESOUND, this, parent.index); }
     public float getFireVolume(ItemStack stack) {				return XWeaponModManager.eval(this.fireVolume_DNA, stack, F_FIREVOLUME, this, parent.index); }
     public float getFirePitch(ItemStack stack) {				return XWeaponModManager.eval(this.firePitch_DNA, stack, F_FIREPITCH, this, parent.index); }
     public IMagazine getMagazine(ItemStack stack) {				return XWeaponModManager.eval(this.magazine_DNA, stack, O_MAGAZINE, this, parent.index); }
@@ -156,7 +157,7 @@ public class Receiver {
     public Receiver fire(BiConsumer<ItemStack, LambdaContext> lambda) {				this.onFire_DNA = lambda;	return this; }
     public Receiver recoil(BiConsumer<ItemStack, LambdaContext> lambda) {			this.onRecoil_DNA = lambda;	return this; }
 
-    public Receiver sound(SoundEvent sound, float volume, float pitch) {
+    public Receiver sound(Holder<SoundEvent> sound, float volume, float pitch) {
         this.fireSound_DNA = sound;
         this.fireVolume_DNA = volume;
         this.firePitch_DNA = pitch;

@@ -62,7 +62,7 @@ public class BusAnimation {
      * Multiplies all keyframe durations by the supplied double. Numbers below 1 make the animation play faster.
      * @param mult
      */
-    public void setTimeMult(double mult) {
+    public void setTimeMult(float mult) {
         for(Entry<String, BusAnimationSequence> sequence : animationBuses.entrySet()) {
             sequence.getValue().multiplyTime(mult);
         }
@@ -74,7 +74,7 @@ public class BusAnimation {
      * @param millis the elapsed time since the animation started in milliseconds
      * @return
      */
-    public double[] getTimedTransformation(String name, int millis) {
+    public float[] getTimedTransformation(String name, int millis) {
         if(this.animationBuses.containsKey(name)) return animationBuses.get(name).getTransformation(millis);
         return null;
     }

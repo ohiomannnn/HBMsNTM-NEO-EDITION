@@ -234,7 +234,7 @@ public abstract class MissileBase extends ProjectileLerping implements IRadarDet
     }
 
     @Override
-    protected double getMotionMultiplier() {
+    protected double getMotionMult() {
         return velocity;
     }
 

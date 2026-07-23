@@ -11,7 +11,14 @@ public class NtmSoundEvents {
 
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS = DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, NuclearTechMod.MODID);
 
-    // WEAPONS
+    public static final DeferredHolder<SoundEvent, SoundEvent> GUN_REVOLVER_COCK = reg("weapon.reload.revolver_cock");
+    public static final DeferredHolder<SoundEvent, SoundEvent> GUN_REVOLVER_CLOSE = reg("weapon.reload.revolver_close");
+    public static final DeferredHolder<SoundEvent, SoundEvent> GUN_REVOLVER_SPIN = reg("weapon.reload.revolver_spin");
+    public static final DeferredHolder<SoundEvent, SoundEvent> GUN_PISTOL_COCK = reg("weapon.reload.pistol_cock");
+    public static final DeferredHolder<SoundEvent, SoundEvent> GUN_MAG_SMALL_REMOVE = reg("weapon.reload.mag_small_remove");
+    public static final DeferredHolder<SoundEvent, SoundEvent> GUN_MAG_SMALL_INSERT = reg("weapon.reload.mag_small_insert");
+    public static final DeferredHolder<SoundEvent, SoundEvent> GUN_DRY_FIRE = reg("weapon.reload.dry_fire_click");
+    public static final DeferredHolder<SoundEvent, SoundEvent> GUN_HEAVY_REVOLVER_FIRE = reg("weapon.fire.44_shoot");
     public static final DeferredHolder<SoundEvent, SoundEvent> RICOCHET = reg("weapon.ricochet"); // BLOCKS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> MISSILE_TAKEOFF = reg("weapon.missile_takeoff"); // PLAYERS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> MUKE_EXPLOSION = reg("weapon.muke_explosion"); // BLOCKS CATEGORY

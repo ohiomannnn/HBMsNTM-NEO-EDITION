@@ -9,6 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /** Base class for typical magazines, i.e. ones that hold bullets, shells, grenades, etc, any ammo item. Stores a single type of BulletConfigs */
@@ -31,7 +32,7 @@ public abstract class MagazineSingleTypeBase implements IMagazine<BulletConfig> 
         this.capacity = capacity;
     }
 
-    public MagazineSingleTypeBase addConfigs(BulletConfig... cfgs) { for(BulletConfig cfg : cfgs) acceptedBullets.add(cfg); return this; }
+    public MagazineSingleTypeBase addConfigs(BulletConfig... cfgs) { acceptedBullets.addAll(Arrays.asList(cfgs)); return this; }
 
     @Override
     public BulletConfig getType(ItemStack stack, Container container) {
@@ -53,7 +54,7 @@ public abstract class MagazineSingleTypeBase implements IMagazine<BulletConfig> 
     @Override
     public ItemStack getIconForHUD(ItemStack stack, Player player) {
         BulletConfig config = this.getType(stack, player.inventory);
-        if(config != null) return config.ammo.toStack();
+        if(config != null) return new ItemStack(config.ammo);
         return null;
     }
 
@@ -103,7 +104,7 @@ public abstract class MagazineSingleTypeBase implements IMagazine<BulletConfig> 
                 if(this.getAmount(stack, null) == 0) {
 
                     for(BulletConfig config : this.acceptedBullets) {
-                        if(config.ammo.matchesRecipe(slot, true)) {
+                        if(ItemStack.isSameItem(new ItemStack(config.ammo), slot)) {
                             this.setType(stack, config);
                             int wantsToLoad = (int) Math.ceil((double) this.getCapacity(stack) / (double) config.ammoReloadCount);
                             int toLoad = BobMathUtil.min(wantsToLoad, slot.getCount(), loadLimit);
@@ -118,7 +119,7 @@ public abstract class MagazineSingleTypeBase implements IMagazine<BulletConfig> 
                     BulletConfig config = this.getType(stack, null);
                     if(config == null) { config = this.acceptedBullets.get(0); this.setType(stack, config); } //fixing broken NBT
 
-                    if(config.ammo.matchesRecipe(slot, true)) {
+                    if(ItemStack.isSameItem(new ItemStack(config.ammo), slot)) {
                         int alreadyLoaded = this.getAmount(stack, null);
                         int wantsToLoad = (int) Math.ceil((double) (this.getCapacity(stack) - alreadyLoaded) / (double) config.ammoReloadCount);
                         int toLoad = BobMathUtil.min(wantsToLoad, slot.getCount(), loadLimit);
@@ -182,12 +183,12 @@ public abstract class MagazineSingleTypeBase implements IMagazine<BulletConfig> 
             if(!slot.isEmpty()) {
                 if(this.getAmount(stack, null) == 0) {
                     for(BulletConfig config : this.acceptedBullets) {
-                        if(config.ammo.matchesRecipe(slot, true)) return config;
+                        if(ItemStack.isSameItem(new ItemStack(config.ammo), slot)) return config;
                     }
                 } else {
                     BulletConfig config = this.getType(stack, null);
                     if(config == null) { config = this.acceptedBullets.get(0); this.setType(stack, config); }
-                    if(config.ammo.matchesRecipe(slot, true)) return config;
+                    if(ItemStack.isSameItem(new ItemStack(config.ammo), slot)) return config;
                 }
 
 //                if(slot.getItem() == ModItems.ammo_bag || slot.getItem() == ModItems.ammo_bag_infinite) {

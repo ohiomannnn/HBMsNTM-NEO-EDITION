@@ -130,6 +130,10 @@ dependencies {
 
     // Sable companion
     implementation "dev.ryanhcode.sable-companion:sable-companion-common-1.21.1:[${sable_companion_version},)"
+
+    // Sable itself
+    compileOnly "dev.ryanhcode.sable:sable-neoforge-1.21.1:2.0.3"
+    compileOnly "dev.ryanhcode.sable:sable-sable_rapier-1.21.1:2.0.3"
 }
 
 tasks.withType(ProcessResources).configureEach {

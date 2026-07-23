@@ -899,6 +899,8 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.basicItem(NtmItems.TEMPLATE_FOLDER.get());
         this.basicItem(NtmItems.NOTHING.get());
 
+        this.entityItem(NtmItems.GUN_DEBUG.get(), false);
+
         // welp
         this.getBuilder(NtmBlocks.BASALT.getId().getPath()).parent(new ModelFile.UncheckedModelFile(modLoc("block/basalt")));
         this.getBuilder(NtmBlocks.LEAVES_LAYER.getId().getPath()).parent(new ModelFile.UncheckedModelFile(modLoc("block/leaves_layer_1")));

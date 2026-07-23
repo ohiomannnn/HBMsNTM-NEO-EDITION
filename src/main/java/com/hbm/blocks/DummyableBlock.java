@@ -169,9 +169,10 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
 
     @Nullable
     private BlockPos findCoreRecursive(BlockGetter level, BlockPos pos) {
-        BlockState state = level.getBlockState(pos);
 
-        if(state.getBlock() != this) return null;
+        // todo kill sable devs for making BlockGetter.getBlockState return null!!!
+        BlockState state = level.getBlockState(pos);
+        if(state == null || state.getBlock() != this) return null;
 
         if(isCore(state)) return pos;
 
@@ -182,7 +183,8 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
         Direction pointingDir = getPointingDirection(state).getOpposite();
         BlockPos nextPos = pos.relative(pointingDir);
 
-        if(level.getBlockState(nextPos).getBlock() != this) return null;
+        BlockState nextState = level.getBlockState(nextPos);
+        if(nextState == null || nextState.getBlock() != this) return null;
 
         return findCoreRecursive(level, nextPos);
     }
@@ -234,7 +236,6 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
             BlockPos corePos = adjustedPos.relative(dir, offset);
             BlockState coreState = this.getStateForCore(level, corePos, player, dir);
 
-            NuclearTechMod.LOGGER.info("setBlock core={} {}", corePos, coreState);
             level.setBlock(corePos, coreState, 3);
 
             IPersistentNBT.restoreData(level, corePos, stack);
