@@ -22,12 +22,12 @@ public class BusAnimationSequence {
 
 
     // Storing a matrix of keyframe data, each keyframe stores a SINGLE dimension, so we can stagger frames over each parameter
-    private List<List<BusAnimationKeyframe>> transformKeyframes = new ArrayList<>(9);
+    private final List<List<BusAnimationKeyframe>> transformKeyframes = new ArrayList<>(9);
 
-    public double[] offset = new double[3];
+    public float[] offset = new float[3];
 
     // swizzle me timbers
-    public double[] rotMode = new double[] { 0, 1, 2 };
+    public float[] rotMode = new float[] { 0, 1, 2 };
 
     public BusAnimationSequence() {
         // Initialise our keyframe storage, since it's multidimensional
@@ -42,29 +42,29 @@ public class BusAnimationSequence {
         return this;
     }
 
-    public BusAnimationSequence addKeyframe(Dimension dimension, double value, int duration) {
+    public BusAnimationSequence addKeyframe(Dimension dimension, float value, int duration) {
         return addKeyframe(dimension, new BusAnimationKeyframe(value, duration));
     }
 
     /** Adds a position with a duration of 0 */
-    public BusAnimationSequence setPos(double x, double y, double z) {
+    public BusAnimationSequence setPos(float x, float y, float z) {
         return addPos(x, y, z, 0, IType.LINEAR);
     }
 
     /** Adds a position with the desired duration and lininterp */
-    public BusAnimationSequence addPos(double x, double y, double z, int duration) {
+    public BusAnimationSequence addPos(float x, float y, float z, int duration) {
         return addPos(x, y, z, duration, IType.LINEAR);
     }
 
     /** Adds a position with the desired duration and interpolation type */
-    public BusAnimationSequence addPos(double x, double y, double z, int duration, IType type) {
+    public BusAnimationSequence addPos(float x, float y, float z, int duration, IType type) {
         addKeyframe(Dimension.TX, new BusAnimationKeyframe(x, duration, type));
         addKeyframe(Dimension.TY, new BusAnimationKeyframe(y, duration, type));
         addKeyframe(Dimension.TZ, new BusAnimationKeyframe(z, duration, type));
         return this;
     }
 
-    public BusAnimationSequence addRot(double x, double y, double z, int duration) {
+    public BusAnimationSequence addRot(float x, float y, float z, int duration) {
         addKeyframe(Dimension.RX, new BusAnimationKeyframe(x, duration));
         addKeyframe(Dimension.RY, new BusAnimationKeyframe(y, duration));
         addKeyframe(Dimension.RZ, new BusAnimationKeyframe(z, duration));
@@ -86,7 +86,7 @@ public class BusAnimationSequence {
         return hold(duration);
     }
 
-    public BusAnimationSequence multiplyTime(double mult) {
+    public BusAnimationSequence multiplyTime(float mult) {
 
         for(Dimension dim : Dimension.values()) {
             List<BusAnimationKeyframe> keyframes = transformKeyframes.get(dim.ordinal());
@@ -98,9 +98,9 @@ public class BusAnimationSequence {
     }
 
     /** Grabs the numerical value for the most recent keyframe on the given dimension */
-    private double getLast(Dimension dim) {
+    private float getLast(Dimension dim) {
         BusAnimationKeyframe frame = getLastFrame(dim);
-        return frame != null ? frame.value : 0D;
+        return frame != null ? frame.value : 0F;
     }
 
     private BusAnimationKeyframe getLastFrame(Dimension dim) {
@@ -110,8 +110,8 @@ public class BusAnimationSequence {
     }
 
     //all transformation data is absolute, additive transformations have not yet been implemented
-    public double[] getTransformation(int millis) {
-        double[] transform = new double[15];
+    public float[] getTransformation(int millis) {
+        float[] transform = new float[15];
 
         for(int i = 0; i < 9; i++) {
             List<BusAnimationKeyframe> keyframes = transformKeyframes.get(i);

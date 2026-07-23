@@ -19,19 +19,19 @@ public class RenderBulletMK4 extends EntityRenderer<BulletBaseMK4> {
     }
 
     @Override
-    public void render(BulletBaseMK4 bullet, float yRot, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+    public void render(BulletBaseMK4 bullet, float yRot, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
         if(bullet.config == null) bullet.config = bullet.getBulletConfig();
         if(bullet.config == null) return;
 
         RenderContext.setup(poseStack, packedLight, OverlayTexture.NO_OVERLAY);
 
         if(bullet.config.renderRotations) {
-            RenderContext.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTicks, bullet.yRotO, bullet.yRot) - 90.0F));
-            RenderContext.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTicks, bullet.xRotO, bullet.xRot) + 180));
+            RenderContext.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTick, bullet.yRotO, bullet.yRot) - 90.0F));
+            RenderContext.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTick, bullet.xRotO, bullet.xRot) + 180));
         }
 
         if(bullet.config.renderer != null) {
-            bullet.config.renderer.accept(bullet, partialTicks);
+            bullet.config.renderer.accept(bullet, partialTick);
         }
 
         RenderContext.end();

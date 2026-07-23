@@ -17,6 +17,30 @@ public class NtmSoundDefinitionsProvider extends SoundDefinitionsProvider {
     public void registerSounds() {
 
         // WEAPONS
+        this.add(NtmSoundEvents.GUN_REVOLVER_COCK, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("weapon/reload/revolver_cock")))
+        );
+        this.add(NtmSoundEvents.GUN_REVOLVER_CLOSE, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("weapon/reload/revolver_close")))
+        );
+        this.add(NtmSoundEvents.GUN_REVOLVER_SPIN, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("weapon/reload/revolver_spin")))
+        );
+        this.add(NtmSoundEvents.GUN_PISTOL_COCK, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("weapon/reload/pistol_cock")))
+        );
+        this.add(NtmSoundEvents.GUN_MAG_SMALL_REMOVE, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("weapon/reload/mag_small_remove")))
+        );
+        this.add(NtmSoundEvents.GUN_MAG_SMALL_INSERT, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("weapon/reload/mag_small_insert")))
+        );
+        this.add(NtmSoundEvents.GUN_DRY_FIRE, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("weapon/reload/dry_fire_click")))
+        );
+        this.add(NtmSoundEvents.GUN_HEAVY_REVOLVER_FIRE, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("weapon/fire/44_shoot")))
+        );
         this.add(NtmSoundEvents.RICOCHET, SoundDefinition.definition()
                 .with(
                         sound("hbmsntm:weapon/ric1"),

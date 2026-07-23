@@ -2,7 +2,6 @@ package com.hbm.entity.projectile;
 
 import com.hbm.entity.NtmEntityTypes;
 import com.hbm.items.weapon.sedna.BulletConfig;
-import com.hbm.util.Vec3NT;
 import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -13,6 +12,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
@@ -22,8 +22,8 @@ public class BulletBaseMK4 extends ProjectileLerping {
 
     public BulletConfig config;
     //used for rendering tracers
-    public double velocity;
-    public double prevVelocity;
+    public float velocity;
+    public float prevVelocity;
     public double accel;
     public float damage;
     public int ricochets = 0;
@@ -51,7 +51,7 @@ public class BulletBaseMK4 extends ProjectileLerping {
 
         this.setDeltaMovement(delta);
 
-        this.shoot(delta.x, delta.y, delta.z, 1.0F, this.config.spread + gunSpread);
+        this.shoot(delta.x, delta.y, delta.z, 1F, this.config.spread + gunSpread);
     }
 
     /** For standard guns */
@@ -148,7 +148,7 @@ public class BulletBaseMK4 extends ProjectileLerping {
         }
 
         this.prevVelocity = this.velocity;
-        this.velocity = Math.sqrt(dX * dX + dY * dY + dZ * dZ);
+        this.velocity = (float) Math.sqrt(dX * dX + dY * dY + dZ * dZ);
 
         if(!level.isClientSide && this.tickCount > config.expires) this.discard();
 
@@ -164,14 +164,23 @@ public class BulletBaseMK4 extends ProjectileLerping {
             if(this.config.onImpact != null) this.config.onImpact.accept(this, hr);
             if(!this.isAlive()) return;
             if(this.config.onRicochet != null) this.config.onRicochet.accept(this, hr);
-            if(this.config.onEntityHit != null) this.config.onEntityHit.accept(this, hr);
         }
     }
 
+    @Override
+    protected void onHitEntity(EntityHitResult ehr) {
+
+        if(!this.isAlive()) return;
+        if(this.config.onEntityHit != null) this.config.onEntityHit.accept(this, ehr);
+    }
+
+    @Override protected double getHeadingForceMult() { return 1.0; }
     @Override protected double getDefaultGravity() { return this.config.gravity; }
-    @Override protected double getMotionMultiplier() { return this.config.velocity + this.accel; }
+    @Override protected double getMotionMult() { return this.config.velocity + this.accel; }
     @Override protected float getAirDrag() { return 1F; }
     @Override protected float getWaterDrag() { return 1F; }
+    @Override public boolean doesPenetrate() { return this.config.doesPenetrate; }
+    @Override public boolean isSpectral() { return this.config.isSpectral; }
 
     @Override
     protected boolean canHitEntity(Entity target) {
@@ -181,7 +190,4 @@ public class BulletBaseMK4 extends ProjectileLerping {
             return this.config.impactsEntities;
         }
     }
-
-    @Override public boolean doesPenetrate() { return this.config.doesPenetrate; }
-    @Override public boolean isSpectral() { return this.config.isSpectral; }
 }

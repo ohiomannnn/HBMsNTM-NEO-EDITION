@@ -27,6 +27,8 @@ import com.hbm.items.RawIngotItem;
 import com.hbm.items.WireDenseItem;
 import com.hbm.items.special.PolaroidItem;
 import com.hbm.items.tools.GeigerCounterItem;
+import com.hbm.items.weapon.sedna.factory.GunFactory;
+import com.hbm.items.weapon.sedna.factory.LegoClient;
 import com.hbm.network.toserver.Ducc;
 import com.hbm.particle.*;
 import com.hbm.particle.ContrailParticle.ABMContrailProvider;
@@ -136,6 +138,10 @@ public class NuclearTechModClient {
 
             // CIRCLES IN MINECRAFT
             ResourceManager.init();
+
+            //PROJECTILES
+            GunFactory.ammo_debug.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
+            GunFactory.ammo_debug_shot.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 
             NuclearTechMod.proxy.registerBlockEntityRenderers();
             NuclearTechMod.proxy.registerClientExtensions(RegisterClientExtensionsEventInvoker.create());

@@ -62,13 +62,13 @@ public class AnimationLoader {
         // Load our model offsets, we'll place these into all the sequences that share the name of the offset
         // The offsets are only required when sequences are played for an object, which is why we don't globally offset! The obj rendering handles the non-animated case fine
         // Effectively, this removes double translation AND ensures that rotations occur around the individual object origin, rather than the weapon origin
-        HashMap<String, double[]> offsets = new HashMap<>();
+        HashMap<String, float[]> offsets = new HashMap<>();
         for(Map.Entry<String, JsonElement> root : json.getAsJsonObject("offset").entrySet()) {
             JsonArray array = root.getValue().getAsJsonArray();
 
-            double[] offset = new double[3];
+            float[] offset = new float[3];
             for(int i = 0; i < 3; i++) {
-                offset[i] = array.get(i).getAsDouble();
+                offset[i] = array.get(i).getAsFloat();
             }
 
             offsets.put(root.getKey(), offset);
@@ -77,12 +77,12 @@ public class AnimationLoader {
         // Rotation modes, swizzled into our local space. YZX in blender becomes XYZ due to:
         //  * rotation order reversed in blender (XYZ -> ZYX)
         //  * dimensions Y and Z are swapped in blender (ZYX -> YZX)
-        HashMap<String, double[]> rotModes = new HashMap<>();
+        HashMap<String, float[]> rotModes = new HashMap<>();
         if(json.has("rotmode")) {
             for(Map.Entry<String, JsonElement> root : json.getAsJsonObject("rotmode").entrySet()) {
                 String mode = root.getValue().getAsString();
 
-                double[] rotMode = new double[3];
+                float[] rotMode = new float[3];
                 rotMode[0] = getRot(mode.charAt(2));
                 rotMode[1] = getRot(mode.charAt(0));
                 rotMode[2] = getRot(mode.charAt(1));
@@ -98,8 +98,8 @@ public class AnimationLoader {
             JsonObject entryObject = root.getValue().getAsJsonObject();
             for(Map.Entry<String, JsonElement> model : entryObject.entrySet()) {
                 String modelName = model.getKey();
-                double[] offset = new double[3];
-                double[] rotMode = new double[] { 0, 1, 2 };
+                float[] offset = new float[3];
+                float[] rotMode = new float[] { 0, 1, 2 };
                 if(offsets.containsKey(modelName)) offset = offsets.get(modelName);
                 if(rotModes.containsKey(modelName)) rotMode = rotModes.get(modelName);
                 animation.addBus(modelName, loadSequence(model.getValue().getAsJsonObject(), offset, rotMode));
@@ -111,8 +111,8 @@ public class AnimationLoader {
         return animations;
     }
 
-    private static double getRot(char value) {
-        return switch (value) {
+    private static float getRot(char value) {
+        return switch(value) {
             case 'X' -> 0;
             case 'Y' -> 1;
             case 'Z' -> 2;
@@ -120,7 +120,7 @@ public class AnimationLoader {
         };
     }
 
-    private static BusAnimationSequence loadSequence(JsonObject json, double[] offset, double[] rotMode) {
+    private static BusAnimationSequence loadSequence(JsonObject json, float[] offset, float[] rotMode) {
         BusAnimationSequence sequence = new BusAnimationSequence();
 
         // Location fcurves
@@ -168,7 +168,7 @@ public class AnimationLoader {
     private static BusAnimationKeyframe loadKeyframe(JsonElement element, IType prevInterp) {
         JsonArray array = element.getAsJsonArray();
 
-        double value = array.get(0).getAsDouble();
+        float value = array.get(0).getAsFloat();
         int duration = array.get(1).getAsInt();
         IType interpolation = array.size() >= 3 ? IType.valueOf(array.get(2).getAsString()) : IType.LINEAR;
         EType easing = array.size() >= 4 ? EType.valueOf(array.get(3).getAsString()) : EType.AUTO;
@@ -178,8 +178,8 @@ public class AnimationLoader {
         int i = 4;
 
         if(prevInterp == IType.BEZIER) {
-            keyframe.leftX = array.get(i++).getAsDouble();
-            keyframe.leftY = array.get(i++).getAsDouble();
+            keyframe.leftX = array.get(i++).getAsFloat();
+            keyframe.leftY = array.get(i++).getAsFloat();
             keyframe.leftType = HType.valueOf(array.get(i++).getAsString());
         }
 
@@ -187,16 +187,16 @@ public class AnimationLoader {
             return keyframe;
 
         if(interpolation == IType.BEZIER) {
-            keyframe.rightX = array.get(i++).getAsDouble();
-            keyframe.rightY = array.get(i++).getAsDouble();
+            keyframe.rightX = array.get(i++).getAsFloat();
+            keyframe.rightY = array.get(i++).getAsFloat();
             keyframe.rightType = HType.valueOf(array.get(i++).getAsString());
         }
 
         if(interpolation == IType.ELASTIC) {
-            keyframe.amplitude = array.get(i++).getAsDouble();
-            keyframe.period = array.get(i++).getAsDouble();
+            keyframe.amplitude = array.get(i++).getAsFloat();
+            keyframe.period = array.get(i++).getAsFloat();
         } else if(interpolation == IType.BACK) {
-            keyframe.back = array.get(i++).getAsDouble();
+            keyframe.back = array.get(i++).getAsFloat();
         }
 
         return keyframe;

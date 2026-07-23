@@ -37,7 +37,7 @@ public class SpentCasing implements Cloneable {
     private float scaleY = 1F;
     private float scaleZ = 1F;
     private int[] colors;
-    private CasingType type;
+    private final CasingType type;
     private String bounceSound;
     private float bounceYaw = 1F;
     private float bouncePitch = 1F;

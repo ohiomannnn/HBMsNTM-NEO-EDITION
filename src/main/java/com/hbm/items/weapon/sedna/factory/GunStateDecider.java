@@ -92,7 +92,7 @@ public class GunStateDecider {
     }
 
     public static float getStandardJamChance(ItemStack stack, GunConfig config, int index) {
-        float percent = (float) GunBaseNTItem.getWear(stack, index) / config.getDurability(stack);
+        float percent = GunBaseNTItem.getWear(stack, index) / config.getDurability(stack);
         if(percent < 0.66F) return 0F;
         return Math.min((percent - 0.66F) * 4F, 1F);
     }

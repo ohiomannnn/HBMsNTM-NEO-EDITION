@@ -16,6 +16,8 @@ import com.hbm.render.entity.projectile.*;
 import com.hbm.render.entity.rocket.*;
 import com.hbm.render.item.*;
 import com.hbm.render.item.ItemRenderMissileGeneric.RenderMissileType;
+import com.hbm.render.item.weapon.sedna.ItemRenderDebug;
+import com.hbm.render.item.weapon.sedna.ItemRenderWeaponBase;
 import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.render.util.RenderInfoSystem.InfoEntry;
 import com.hbm.util.InventoryUtil;
@@ -23,8 +25,10 @@ import com.hbm.util.i18n.I18nClient;
 import com.hbm.util.i18n.ITranslate;
 import com.hbm.util.particle.IParticleCreator;
 import com.hbm.util.particle.ParticleCreatorClient;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
@@ -37,6 +41,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -140,6 +145,9 @@ public class ClientProxy extends ServerProxy {
                 NtmItems.MISSILE_DOOMSDAY.get(),
                 NtmItems.MISSILE_DOOMSDAY_RUSTED.get()
         );
+
+        /// GUNS TEST ///
+        registerGunItemRenderer(event, new ItemRenderDebug(), NtmItems.GUN_DEBUG.asItem());
     }
 
     public static void registerItemRenderer(RegisterClientExtensionsEvent event, BlockEntityWithoutLevelRenderer bewlr, Item... items) {
@@ -150,6 +158,26 @@ public class ClientProxy extends ServerProxy {
             public BlockEntityWithoutLevelRenderer getCustomRenderer() {
                 if(renderer == null) this.renderer = bewlr;
 
+                return renderer;
+            }
+        }, items);
+    }
+
+    public static void registerGunItemRenderer(RegisterClientExtensionsEvent event, ItemRenderWeaponBase weaponRenderer, Item... items) {
+        event.registerItem(new IClientItemExtensions() {
+
+            private ItemRenderWeaponBase renderer;
+
+            @Override
+            public boolean applyForgeHandTransform(PoseStack poseStack, LocalPlayer player, HumanoidArm arm, ItemStack itemInHand, float partialTick, float equipProcess, float swingProcess) {
+                if(renderer == null) this.renderer = weaponRenderer;
+                renderer.setup(itemInHand, poseStack, partialTick);
+                return true;
+            }
+
+            @Override
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                if(renderer == null) this.renderer = weaponRenderer;
                 return renderer;
             }
         }, items);

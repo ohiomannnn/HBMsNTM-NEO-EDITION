@@ -12,7 +12,7 @@ public interface IRenderDoors {
 
     void render(DoorGenericBlockEntity door, DoubleBuffer buf);
 
-    static double[] getRelevantTransformation(String bus, Animation anim) {
+    static float[] getRelevantTransformation(String bus, Animation anim) {
 
         if(anim != null) {
 
@@ -22,18 +22,17 @@ public interface IRenderDoors {
             BusAnimationSequence seq = buses.getBus(bus);
 
             if (seq != null) {
-                double[] trans = seq.getTransformation(millis);
-
-                if (trans != null) return trans;
+                float[] trans = seq.getTransformation(millis);
+                if(trans != null) return trans;
             }
         }
 
-        return new double[] {
-                0, 0, 0, // position
-                0, 0, 0, // rotation
-                1, 1, 1, // scale
-                0, 0, 0, // offset
-                0, 1, 2, // XYZ order
+        return new float[] {
+                0F, 0F, 0F, // position
+                0F, 0F, 0F, // rotation
+                1F, 1F, 1F, // scale
+                0F, 0F, 0F, // offset
+                0F, 1F, 2F, // XYZ order
         };
     }
 }
