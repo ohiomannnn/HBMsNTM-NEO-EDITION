@@ -228,7 +228,7 @@ public class CommonConfig {
         METEOR_STRIKE_CHACE = builder
                 .comment("The probability of a meteor spawning (an average of once every nTH ticks).")
                 .translation("hbmsntm.configuration.meteorStrikeChance")
-                .defineInRange("meteorStrikeChance", 360000, 1, Integer.MAX_VALUE);
+                .defineInRange("meteorStrikeChance", 120000, 1, Integer.MAX_VALUE);
         METEOR_SHOWER_CHACE = builder
                 .comment("The probability of a meteor spawning during meteor shower (an average of once every nTH ticks).")
                 .translation("hbmsntm.configuration.meteorStrikeChance")

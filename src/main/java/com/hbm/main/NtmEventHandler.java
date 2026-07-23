@@ -7,6 +7,7 @@ import com.hbm.extprop.HbmPlayerAttachments;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.network.toclient.InformPlayer;
 import com.hbm.uninos.UniNodespace;
+import com.hbm.world.MeteorStrikeSystem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
@@ -68,6 +69,8 @@ public class NtmEventHandler {
         UniNodespace.updateNodespace(event.getServer());
         // Radar entry handling
         MachineRadarBlockEntity.updateSystem(event.getServer());
+        // Meteor strike handling
+        MeteorStrikeSystem.update(event.getServer());
     }
 
 }

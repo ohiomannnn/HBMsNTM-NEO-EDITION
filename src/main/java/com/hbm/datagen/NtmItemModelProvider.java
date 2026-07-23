@@ -211,11 +211,19 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.basicItem(NtmItems.FRAGMENT_LANTHANIUM.get());
         this.basicItem(NtmItems.FRAGMENT_ACTINIUM.get());
         this.basicItem(NtmItems.FRAGMENT_METEORITE.get());
+        this.basicItem(NtmItems.COKE_COAL.get());
+        this.basicItem(NtmItems.COKE_LIGNITE.get());
+        this.basicItem(NtmItems.COKE_PETROLEUM.get());
+        this.basicItem(NtmItems.BRIQUETTE_COAL.get());
+        this.basicItem(NtmItems.BRIQUETTE_LIGNITE.get());
+        this.basicItem(NtmItems.BRIQUETTE_WOOD.get());
 
         this.basicItem(NtmItems.OIL_TAR_CRUDE.get());
         this.basicItem(NtmItems.OIL_TAR_CRACK.get());
         this.basicItem(NtmItems.OIL_TAR_COAL.get());
         this.basicItem(NtmItems.OIL_TAR_PARAFFIN.get());
+        this.basicItem(NtmItems.OIL_TAR_WOOD.get());
+        this.basicItem(NtmItems.OIL_TAR_WAX.get());
         this.basicItem(NtmItems.SULFUR.get());
         this.basicItem(NtmItems.CINNABAR.get());
         this.basicItem(NtmItems.FRAGMENT_COBALT.get());
@@ -266,6 +274,7 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.basicItem(NtmItems.PIPE_STEEL.get());
         this.basicItem(NtmItems.PIPE_DURA_STEEL.get());
         this.basicItem(NtmItems.PIPE_RUBBER.get());
+        this.basicItem(NtmItems.WIRE_DENSE.get());
         this.layeredItem(NtmItems.BOLT.get(), "bolt_dark", "bolt_light");
 
         this.basicItem(NtmItems.CIRCUIT_PRINTED_BOARD.get());
@@ -291,10 +300,44 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.basicItem(NtmItems.COIL_COPPER_RING.get());
         this.basicItem(NtmItems.COIL_GOLD.get());
         this.basicItem(NtmItems.COIL_GOLD_RING.get());
+        this.basicItem(NtmItems.COIL_MAGNETIZED_TUNGSTEN.get());
+        this.basicItem(NtmItems.COIL_TUNGSTEN.get());
+        this.basicItem(NtmItems.TANK_STEEL.get());
+        this.basicItem(NtmItems.CATALYST_CLAY.get());
+        this.basicItem(NtmItems.DEUTERIUM_FILTER.get());
+        this.basicItem(NtmItems.FINS_FLAT.get());
+        this.basicItem(NtmItems.FINS_SMALL_STEEL.get());
+        this.basicItem(NtmItems.FINS_BIG_STEEL.get());
+        this.basicItem(NtmItems.FINS_TRI_STEEL.get());
+        this.basicItem(NtmItems.FINS_QUAD_TITANIUM.get());
+        this.basicItem(NtmItems.SPHERE_STEEL.get());
+        this.basicItem(NtmItems.PEDESTAL_STEEL.get());
+        this.basicItem(NtmItems.BLADE_TITANIUM.get());
+        this.basicItem(NtmItems.BLADE_TUNGSTEN.get());
+        this.basicItem(NtmItems.TURBINE_TITANIUM.get());
+        this.basicItem(NtmItems.TURBINE_TUNGSTEN.get());
+        this.basicItem(NtmItems.FLYWHEEL_BERYLLIUM.get());
+        this.basicItem(NtmItems.TOOTHPICKS.get());
+        this.basicItem(NtmItems.DUCTTAPE.get());
+        this.basicItem(NtmItems.PLANT_ITEM.get());
+        this.basicItem(NtmItems.PART_GENERIC.get());
+        this.basicItem(NtmItems.BIOMASS.get());
+        this.basicItem(NtmItems.PELLET_CHARGED.get());
+        this.basicItem(NtmItems.GLYPHID_MEAT.get());
+        this.basicItem(NtmItems.SOLID_FUEL.get());
+        this.basicItem(NtmItems.ROCKET_FUEL.get());
+        this.basicItem(NtmItems.CORDITE.get());
+        this.basicItem(NtmItems.CHOCOLATE.get());
+        this.basicItem(NtmItems.BALL_DYNAMITE.get());
+        this.basicItem(NtmItems.BALL_TNT.get());
+        this.basicItem(NtmItems.BALL_TATB.get());
+
         this.basicItem(NtmItems.MOTOR.get());
         this.basicItem(NtmItems.CAST_PLATE_WELDED.get());
         this.basicItem(NtmItems.CAST_PLATE.get());
         this.basicItem(NtmItems.PIPES_STEEL.get());
+        this.basicItem(NtmItems.CRT_DISPLAY.get());
+        this.basicItem(NtmItems.RING_STARMETAL.get());
 
         this.basicItem(NtmItems.CRYSTAL_IRON.get());
         this.basicItem(NtmItems.CRYSTAL_GOLD.get());
@@ -437,7 +480,7 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.basicItem(NtmItems.PLATE_KEVLAR.get());
         this.basicItem(NtmItems.PLATE_MIXED.get());
         this.basicItem(NtmItems.PLATE_PAA.get());
-        this.basicItem(NtmItems.PLATE_WEAPONSTEEL.get());
+        this.basicItem(NtmItems.PLATE_WEAPON_STEEL.get());
         this.basicItem(NtmItems.POWDER_ACTINIUM.get());
         this.basicItem(NtmItems.POWDER_ACTINIUM_TINY.get());
         this.basicItem(NtmItems.POWDER_ASTATINE.get());
@@ -629,7 +672,11 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.handheldItem(NtmItems.DESIGNATOR_RANGE.get());
         this.basicItem(NtmItems.DOSIMETER.get());
         this.basicItem(NtmItems.GEIGER_COUNTER.get());
+        this.basicCustomLayerItem(NtmItems.OIL_DETECTOR.get(), "oil_detector");
         this.basicItem(NtmItems.DIGAMMA_DIAGNOSTIC.get());
+        this.basicItem(NtmItems.METEOR_REMOTE.get());
+        this.basicItem(NtmItems.METEOR_CHARM.get());
+        this.basicItem(NtmItems.PROTECTION_CHARM.get());
 
         this.basicItem(NtmItems.PIN.get());
         this.basicItem(NtmItems.KEY.get());

@@ -111,11 +111,12 @@ public class MachineIndustrialBoiler extends DummyableBlock implements ILookOver
 
     @Override
     public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+        BlockState result = super.playerWillDestroy(level, pos, state, player);
         if(!level.isClientSide && !safeRem) {
             this.destroyBoiler(level, pos);
         }
 
-        return super.playerWillDestroy(level, pos, state, player);
+        return result;
     }
 
     @Override

@@ -29,6 +29,7 @@ public interface NtmDamageTypes {
     ResourceKey<DamageType> SHRAPNEL = key("shrapnel");
     ResourceKey<DamageType> RUBBLE = key("rubble");
     ResourceKey<DamageType> MONOXIDE = key("monoxide");
+    ResourceKey<DamageType> METEORITE = key("meteorite");
 
     /// SEDNA DAMAGE TYPES ///
     ResourceKey<DamageType> PHYSICAL = key("physical");
@@ -56,6 +57,7 @@ public interface NtmDamageTypes {
         context.register(SHRAPNEL, defaultType(pathOf(SHRAPNEL)));
         context.register(RUBBLE, defaultType(pathOf(RUBBLE)));
         context.register(MONOXIDE, defaultType(pathOf(MONOXIDE)));
+        context.register(METEORITE, defaultType(pathOf(METEORITE)));
 
         context.register(PHYSICAL, new DamageType("sednaPhysical", 0.1F));
         context.register(FIRE, new DamageType("sednaFire", 0.1F));

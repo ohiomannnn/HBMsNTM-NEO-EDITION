@@ -55,6 +55,7 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.simpleCubeAllBlock(NtmBlocks.ORE_OIL);
         this.simpleCubeAllBlock(NtmBlocks.ORE_OIL_EMPTY);
         this.simpleCubeAllBlock(NtmBlocks.ORE_OIL_SAND);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_BEDROCK_OIL);
         this.simpleCubeAllBlock(NtmBlocks.ORE_URANIUM);
         this.simpleCubeAllBlock(NtmBlocks.ORE_URANIUM_DEEPSLATE);
         this.simpleCubeAllBlock(NtmBlocks.ORE_URANIUM_SCORCHED);
@@ -80,6 +81,11 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.simpleCubeAllBlock(NtmBlocks.ORE_CINNABAR_DEEPSLATE);
         this.simpleCubeAllBlock(NtmBlocks.ORE_FLUORITE);
         this.simpleCubeAllBlock(NtmBlocks.ORE_FLUORITE_DEEPSLATE);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_METEOR_IRON);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_METEOR_COBALT);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_METEOR_ALUMINIUM);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_METEOR_COPPER);
+        this.simpleCubeAllBlock(NtmBlocks.ORE_METEOR_RARE);
         this.simpleCubeAllBlock(NtmBlocks.ORE_RARE);
         this.simpleCubeAllBlock(NtmBlocks.ORE_RARE_DEEPSLATE);
         this.simpleCubeAllBlock(NtmBlocks.ORE_SULFUR);
@@ -123,9 +129,11 @@ public class NtmBlockStateProvider extends BlockStateProvider {
 
         this.particleOnlyBlock(NtmBlocks.BOBBLEHEAD, modLoc("block/block_steel"));
         this.particleOnlyBlock(NtmBlocks.PLUSHIE, modLoc("block/block_fiberglass_side"));
+        this.simpleCubeAllBlock(NtmBlocks.PLANT_FLOWER);
 
         this.simpleCubeAllBlock(NtmBlocks.GRAVEL_OBSIDIAN);
         this.simpleCubeAllBlock(NtmBlocks.GRAVEL_DIAMOND);
+        this.simpleCubeAllBlock(NtmBlocks.MOON_TURF);
 
         this.simpleCubeAllBlock(NtmBlocks.ASPHALT);
         this.simpleCubeAllBlock(NtmBlocks.ASPHALT_LIGHT);
@@ -146,6 +154,13 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.simpleCubeAllBlock(NtmBlocks.BRICK_LIGHT);
         this.simpleCubeAllBlock(NtmBlocks.BRICK_ASBESTOS);
         this.simpleCubeAllBlock(NtmBlocks.BRICK_FIRE);
+        this.simpleCubeAllBlock(NtmBlocks.CONCRETE);
+        this.simpleCubeAllBlock(NtmBlocks.CONCRETE_SMOOTH);
+        this.simpleCubeAllBlock(NtmBlocks.CONCRETE_ASBESTOS);
+        this.simpleCubeAllBlock(NtmBlocks.DUCRETE);
+        this.simpleCubeAllBlock(NtmBlocks.DUCRETE_SMOOTH);
+        this.simpleCubeAllBlock(NtmBlocks.DUCRETE_REINFORCED);
+        this.simpleCubeAllBlock(NtmBlocks.DUCRETE_BRICK);
 
         this.slabBlock(NtmBlocks.BRICK_CONCRETE_SLAB.get(), blockTexture(NtmBlocks.BRICK_CONCRETE), blockTexture(NtmBlocks.BRICK_CONCRETE));
         this.slabBlock(NtmBlocks.BRICK_CONCRETE_MOSSY_SLAB.get(), blockTexture(NtmBlocks.BRICK_CONCRETE_MOSSY), blockTexture(NtmBlocks.BRICK_CONCRETE_MOSSY));
@@ -290,6 +305,7 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.particleOnlyBlock(NtmBlocks.MACHINE_FLUID_TANK, modLoc("block/block_steel"));
         this.particleOnlyBlock(NtmBlocks.MACHINE_SOLDERING_STATION, modLoc("block/block_steel"));
         this.particleOnlyBlock(NtmBlocks.MACHINE_REFINERY, modLoc("block/block_steel"));
+        this.particleOnlyBlock(NtmBlocks.FURNACE_COMBINATION, modLoc("block/block_steel"));
         this.particleOnlyBlock(NtmBlocks.MACHINE_BLAST_FURNACE, modLoc("block/block_steel"));
         this.particleOnlyBlock(NtmBlocks.MACHINE_WOOD_BURNER, modLoc("block/block_steel"));
         this.particleOnlyBlock(NtmBlocks.MACHINE_CENTRIFUGE, modLoc("block/machine_centrifuge"));
@@ -428,7 +444,11 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.simpleCubeAllBlock(NtmBlocks.BLOCK_LEAD);
         this.simpleCubeAllBlock(NtmBlocks.BLOCK_LITHIUM);
         this.simpleCubeAllBlock(NtmBlocks.BLOCK_MAGNETIZED_TUNGSTEN);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_METEOR);
         this.simpleCubeAllBlock(NtmBlocks.BLOCK_METEOR_MOLTEN);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_METEOR_COBBLE);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_METEOR_BROKEN);
+        this.simpleCubeAllBlock(NtmBlocks.BLOCK_METEOR_TREASURE);
         this.simpleCubeAllBlock(NtmBlocks.BLOCK_MOX_FUEL);
         this.simpleCubeAllBlock(NtmBlocks.BLOCK_NEPTUNIUM);
         this.simpleCubeAllBlock(NtmBlocks.BLOCK_NIOBIUM);

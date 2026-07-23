@@ -109,6 +109,13 @@ public class NtmBlockEntityTypes {
                             NtmBlocks.MACHINE_REFINERY.get())
                     .build(null));
 
+    public static final Supplier<BlockEntityType<MachineFurnaceCombinationBlockEntity>> FURNACE_COMBINATION = BLOCK_ENTITY_TYPES.register(
+            "furnace_combination",
+            () -> BlockEntityType.Builder.of(
+                            MachineFurnaceCombinationBlockEntity::new,
+                            NtmBlocks.FURNACE_COMBINATION.get())
+                    .build(null));
+
     public static final Supplier<BlockEntityType<MachineBlastFurnaceBlockEntity>> MACHINE_BLAST_FURNACE = BLOCK_ENTITY_TYPES.register(
             "machine_blast_furnace",
             () -> BlockEntityType.Builder.of(
