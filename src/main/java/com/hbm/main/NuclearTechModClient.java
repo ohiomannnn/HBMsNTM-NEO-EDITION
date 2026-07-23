@@ -72,6 +72,8 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.BlockPos;
@@ -133,6 +135,8 @@ public class NuclearTechModClient {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
+            ItemBlockRenderTypes.setRenderLayer(NtmBlocks.REINFORCED_LAMINATE.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(NtmBlocks.GLASS_QUARTZ.get(), RenderType.cutout());
 
             // CIRCLES IN MINECRAFT
             ResourceManager.init();
@@ -544,6 +548,7 @@ public class NuclearTechModClient {
                     if(stack.is(NtmItems.PIPE_LEAD.get())) color = 0xFF646470;
                     if(stack.is(NtmItems.PIPE_STEEL.get())) color = 0xFF4A4A4A;
                     if(stack.is(NtmItems.PIPE_DURA_STEEL.get())) color = 0xFF42665C;
+                    if(stack.is(NtmItems.PIPE_RUBBER.get())) color = 0xFF808080;
                     return color;
                 },
                 NtmItems.SHELL_TITANIUM.get(),
@@ -557,7 +562,8 @@ public class NuclearTechModClient {
                 NtmItems.PIPE_ALUMINIUM.get(),
                 NtmItems.PIPE_LEAD.get(),
                 NtmItems.PIPE_STEEL.get(),
-                NtmItems.PIPE_DURA_STEEL.get()
+                NtmItems.PIPE_DURA_STEEL.get(),
+                NtmItems.PIPE_RUBBER.get()
         );
     }
 

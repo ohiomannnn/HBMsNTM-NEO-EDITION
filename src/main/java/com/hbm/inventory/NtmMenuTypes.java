@@ -18,6 +18,7 @@ public class NtmMenuTypes {
     public static final DeferredHolder<MenuType<?>, MenuType<AnvilMenu>> ANVIL = reg("anvil", AnvilMenu::new);
 
     public static final DeferredHolder<MenuType<?>, MenuType<MachineSolderingStationMenu>> MACHINE_SOLDERING_STATION = reg("machine_soldering_station", MachineSolderingStationMenu::new);
+    public static final DeferredHolder<MenuType<?>, MenuType<MachineArcWelderMenu>> MACHINE_ARC_WELDER = reg("machine_arc_welder", MachineArcWelderMenu::new);
     public static final DeferredHolder<MenuType<?>, MenuType<MachineShredderMenu>> MACHINE_SHREDDER = reg("machine_shredder", MachineShredderMenu::new);
     public static final DeferredHolder<MenuType<?>, MenuType<MachineOilDerrickMenu>> MACHINE_OIL_DERRICK = reg("machine_oil_derrick", MachineOilDerrickMenu::new);
     public static final DeferredHolder<MenuType<?>, MenuType<MachineRefineryMenu>> MACHINE_REFINERY = reg("machine_refinery", MachineRefineryMenu::new);
@@ -25,6 +26,7 @@ public class NtmMenuTypes {
     public static final DeferredHolder<MenuType<?>, MenuType<MachineBlastFurnaceMenu>> MACHINE_BLAST_FURNACE = reg("machine_blast_furnace", MachineBlastFurnaceMenu::new);
     public static final DeferredHolder<MenuType<?>, MenuType<MachineWoodBurnerMenu>> MACHINE_WOOD_BURNER = reg("machine_wood_burner", MachineWoodBurnerMenu::new);
     public static final DeferredHolder<MenuType<?>, MenuType<MachineCentrifugeMenu>> MACHINE_CENTRIFUGE = reg("machine_centrifuge", MachineCentrifugeMenu::new);
+    public static final DeferredHolder<MenuType<?>, MenuType<MachineChemicalPlantMenu>> MACHINE_CHEMICAL_PLANT = reg("machine_chemical_plant", MachineChemicalPlantMenu::new);
     public static final DeferredHolder<MenuType<?>, MenuType<MachineSatLinkerMenu>> SAT_LINKER = reg("sat_linker", MachineSatLinkerMenu::new);
     public static final DeferredHolder<MenuType<?>, MenuType<BarrelMenu>> BARREL = reg("barrel", BarrelMenu::new);
     public static final DeferredHolder<MenuType<?>, MenuType<CrateMenu>> CRATE = reg("crate", CrateMenu::new);

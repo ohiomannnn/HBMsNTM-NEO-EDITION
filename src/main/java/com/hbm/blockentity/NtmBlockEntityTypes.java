@@ -38,6 +38,12 @@ public class NtmBlockEntityTypes {
                             MachineSolderingStationBlockEntity::new,
                             NtmBlocks.MACHINE_SOLDERING_STATION.get())
                     .build(null));
+    public static final Supplier<BlockEntityType<MachineArcWelderBlockEntity>> MACHINE_ARC_WELDER = BLOCK_ENTITY_TYPES.register(
+            "machine_arc_welder",
+            () -> BlockEntityType.Builder.of(
+                            MachineArcWelderBlockEntity::new,
+                            NtmBlocks.MACHINE_ARC_WELDER.get())
+                    .build(null));
 
     public static final Supplier<BlockEntityType<MachineHeatBoilerBlockEntity>> HEAT_BOILER = BLOCK_ENTITY_TYPES.register(
             "heat_boiler",
@@ -135,6 +141,12 @@ public class NtmBlockEntityTypes {
             () -> BlockEntityType.Builder.of(
                             MachineCentrifugeBlockEntity::new,
                             NtmBlocks.MACHINE_CENTRIFUGE.get())
+                    .build(null));
+    public static final Supplier<BlockEntityType<MachineChemicalPlantBlockEntity>> MACHINE_CHEMICAL_PLANT = BLOCK_ENTITY_TYPES.register(
+            "machine_chemical_plant",
+            () -> BlockEntityType.Builder.of(
+                            MachineChemicalPlantBlockEntity::new,
+                            NtmBlocks.MACHINE_CHEMICAL_PLANT.get())
                     .build(null));
 
     public static final Supplier<BlockEntityType<BarrelBlockEntity>> BARREL = BLOCK_ENTITY_TYPES.register(

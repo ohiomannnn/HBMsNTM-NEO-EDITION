@@ -10,6 +10,7 @@ import com.hbm.items.BoltItem;
 import com.hbm.items.CastPlateItem;
 import com.hbm.items.NtmItems;
 import com.hbm.util.InventoryUtil;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -154,7 +155,6 @@ public class AnvilRecipes {
         addAnvilRecipe(NtmItems.INGOT_DURA_STEEL.get(), 1,NtmItems.PLATE_DURA_STEEL.get(), 1,3);
         addAnvilRecipe(NtmItems.INGOT_SCHRABIDIUM.get(), 1,NtmItems.PLATE_SCHRABIDIUM.get(), 1,3);
         addAnvilRecipe(NtmItems.INGOT_COMBINE_STEEL.get(), 1,NtmItems.PLATE_COMBINE_STEEL.get(), 1, 3);
-        addAnvilRecipe(NtmItems.INGOT_BISMUTH.get(), 1,NtmItems.PLATE_BISMUTH.get(), 1,3);
         addAnvilRecipe(Items.GOLD_INGOT, 1,NtmItems.WIRE_GOLD.get(), 8, 4);
         addAnvilRecipe(Items.COPPER_INGOT, 1,NtmItems.WIRE_COPPER.get(), 8, 4);
         addAnvilRecipe(NtmItems.INGOT_ALUMINIUM.get(), 1,NtmItems.WIRE_ALUMINIUM.get(), 8, 4);
@@ -207,12 +207,76 @@ public class AnvilRecipes {
 
         CONSTRUCTION_RECIPES.add(new AnvilConstructionRecipe(
                 new AStack[] {
+                        new ComparableStack(NtmItems.INGOT_DESH.get(), 4),
+                        new ComparableStack(NtmItems.INGOT_DURA_STEEL.get(), 1),
+                        new RecipesCommon.TagStack(ItemTags.create(ResourceLocation.fromNamespaceAndPath("ntm", "powders_plastic")), 2),
+                },
+                new AnvilOutput(new ItemStack(NtmItems.PLATE_DESH.asItem(), 4))
+        ).setTier(3).setOverlay(OverlayType.CONSTRUCTION));
+
+        CONSTRUCTION_RECIPES.add(new AnvilConstructionRecipe(
+                new AStack[] {
+                        new ComparableStack(NtmItems.NUGGET_BISMUTH.get(), 2),
+                        new ComparableStack(NtmItems.BILLET_U238.get(), 2),
+                        new ComparableStack(NtmItems.POWDER_NIOBIUM.get(), 1),
+                },
+                new AnvilOutput(new ItemStack(NtmItems.PLATE_BISMUTH.asItem(), 1))
+        ).setTier(4).setOverlay(OverlayType.CONSTRUCTION));
+
+        CONSTRUCTION_RECIPES.add(new AnvilConstructionRecipe(
+                new AStack[] {
+                        new ComparableStack(NtmItems.PLATE_TITANIUM.get(), 2),
+                        new ComparableStack(NtmItems.INGOT_STEEL.get(), 1),
+                        new ComparableStack(NtmItems.BOLT.get(), 4, BoltItem.Type.STEEL.meta)
+                },
+                new AnvilOutput(new ItemStack(NtmItems.PLATE_ARMOR_TITANIUM.asItem(), 1))
+        ).setTier(2).setOverlay(OverlayType.CONSTRUCTION));
+
+        CONSTRUCTION_RECIPES.add(new AnvilConstructionRecipe(
+                new AStack[] {
+                        new ComparableStack(NtmItems.PLATE_IRON.get(), 6),
+                        new ComparableStack(NtmItems.INGOT_NIOBIUM.get(), 1),
+                        new ComparableStack(NtmItems.PLATE_ARMOR_TITANIUM.get(), 1),
+                },
+                new AnvilOutput(new ItemStack(NtmItems.PLATE_ARMOR_AJR.asItem(), 2))
+        ).setTier(3).setOverlay(OverlayType.CONSTRUCTION));
+
+        CONSTRUCTION_RECIPES.add(new AnvilConstructionRecipe(
+                new AStack[] {
+                        new ComparableStack(NtmItems.PLATE_DURA_STEEL.get(), 4),
+                        new ComparableStack(NtmItems.WIRE_TUNGSTEN.get(), 8),
+                        new ComparableStack(NtmItems.PLATE_ARMOR_TITANIUM.get(), 1),
+                },
+                new AnvilOutput(new ItemStack(NtmItems.PLATE_ARMOR_HEV.asItem(), 1))
+        ).setTier(4).setOverlay(OverlayType.CONSTRUCTION));
+
+        CONSTRUCTION_RECIPES.add(new AnvilConstructionRecipe(
+                new AStack[] {
+                        NtmItems.castPlateIngredient(CastPlateItem.Type.STEEL, 4),
+                        new ComparableStack(NtmItems.INGOT_TUNGSTEN.get(), 8),
+                        new ComparableStack(NtmItems.ARC_ELECTRODE_GRAPHITE.get(), 2),
+                        new ComparableStack(NtmBlocks.TRANSFORMER.get(), 1),
+                },
+                new AnvilOutput(new ItemStack(NtmBlocks.MACHINE_ARC_WELDER.asItem(), 1))
+        ).setTier(2).setOverlay(OverlayType.CONSTRUCTION));
+
+        CONSTRUCTION_RECIPES.add(new AnvilConstructionRecipe(
+                new AStack[] {
+                        new ComparableStack(NtmItems.NEUTRON_REFLECTOR.get(), 4),
+                        new ComparableStack(NtmItems.INGOT_STARMETAL.get(), 1),
+                        new ComparableStack(NtmItems.WIRE_MAGNETIZED_TUNGSTEN.get(), 8),
+                },
+                new AnvilOutput(new ItemStack(NtmItems.PLATE_ARMOR_LUNAR.asItem(), 1))
+        ).setTier(4).setOverlay(OverlayType.CONSTRUCTION));
+
+        CONSTRUCTION_RECIPES.add(new AnvilConstructionRecipe(
+                new AStack[] {
                         new ComparableStack(NtmItems.COIL_COPPER.get(), 1),
                         new ComparableStack(NtmItems.PLATE_IRON.get(), 2),
                         NtmItems.castPlateIngredient(CastPlateItem.Type.STEEL, 2),
                         NtmItems.castPlateIngredient(CastPlateItem.Type.DURA_STEEL, 1),
                 },
-                new AnvilOutput(new ItemStack(NtmItems.MOTOR.asItem()))
+                new AnvilOutput(new ItemStack(NtmItems.MOTOR.asItem(), 2))
 
         ).setTier(2).setOverlay(OverlayType.CONSTRUCTION));
         addAnvilRecipe(NtmItems.PLATE_TITANIUM.get(), 4, NtmItems.SHELL_TITANIUM.get(), 1, 1);

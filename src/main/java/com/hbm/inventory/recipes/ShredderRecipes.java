@@ -215,6 +215,8 @@ public class ShredderRecipes extends SerializableRecipe {
         registerIfAbsent(new ItemStack(NtmBlocks.BLOCK_TITANIUM.get()), new ItemStack(NtmItems.POWDER_TITANIUM.get(), 9));
         registerIfAbsent(new ItemStack(NtmBlocks.BLOCK_TUNGSTEN.get()), new ItemStack(NtmItems.POWDER_TUNGSTEN.get(), 9));
         registerIfAbsent(new ItemStack(NtmBlocks.BLOCK_URANIUM.get()), new ItemStack(NtmItems.POWDER_URANIUM.get(), 9));
+        registerIfAbsent(new ItemStack(NtmBlocks.BLOCK_METEOR.get()), new ItemStack(NtmItems.POWDER_METEORITE.get(), 10));
+        registerIfAbsent(new ItemStack(NtmBlocks.GRAVEL_DIAMOND.get()), new ItemStack(NtmItems.POWDER_DIAMOND.get(), 2));
         registerIfAbsent(new ItemStack(NtmItems.CRYSTAL_ALUMINIUM.get()), new ItemStack(NtmItems.POWDER_ALUMINIUM.get(), 3));
         registerIfAbsent(new ItemStack(NtmItems.CRYSTAL_ASBESTOS.get()), new ItemStack(NtmItems.POWDER_ASBESTOS.get(), 3));
         registerIfAbsent(new ItemStack(NtmItems.CRYSTAL_BERYLLIUM.get()), new ItemStack(NtmItems.POWDER_BERYLLIUM.get(), 3));

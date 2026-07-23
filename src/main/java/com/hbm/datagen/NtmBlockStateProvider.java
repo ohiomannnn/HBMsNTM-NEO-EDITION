@@ -161,6 +161,11 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.simpleCubeAllBlock(NtmBlocks.DUCRETE_SMOOTH);
         this.simpleCubeAllBlock(NtmBlocks.DUCRETE_REINFORCED);
         this.simpleCubeAllBlock(NtmBlocks.DUCRETE_BRICK);
+        this.simpleCubeAllBlock(NtmBlocks.REINFORCED_LAMINATE);
+        this.simpleCubeAllBlock(NtmBlocks.STEEL_SCAFFOLD);
+        this.simpleCubeAllBlock(NtmBlocks.SAND_QUARTZ);
+        this.simpleCubeAllBlock(NtmBlocks.GLASS_QUARTZ);
+        this.simpleCubeAllBlock(NtmBlocks.TRANSFORMER);
 
         this.slabBlock(NtmBlocks.BRICK_CONCRETE_SLAB.get(), blockTexture(NtmBlocks.BRICK_CONCRETE), blockTexture(NtmBlocks.BRICK_CONCRETE));
         this.slabBlock(NtmBlocks.BRICK_CONCRETE_MOSSY_SLAB.get(), blockTexture(NtmBlocks.BRICK_CONCRETE_MOSSY), blockTexture(NtmBlocks.BRICK_CONCRETE_MOSSY));
@@ -309,6 +314,16 @@ public class NtmBlockStateProvider extends BlockStateProvider {
         this.particleOnlyBlock(NtmBlocks.MACHINE_BLAST_FURNACE, modLoc("block/block_steel"));
         this.particleOnlyBlock(NtmBlocks.MACHINE_WOOD_BURNER, modLoc("block/block_steel"));
         this.particleOnlyBlock(NtmBlocks.MACHINE_CENTRIFUGE, modLoc("block/machine_centrifuge"));
+        this.particleOnlyBlock(NtmBlocks.MACHINE_CHEMICAL_PLANT, modLoc("block/block_steel"));
+        this.particleOnlyBlock(NtmBlocks.MACHINE_ARC_WELDER, modLoc("block/block_steel"));
+        this.simpleBlockWithItem(
+                NtmBlocks.EMP_BOMB,
+                this.models().cubeColumn(
+                        name(NtmBlocks.EMP_BOMB),
+                        modLoc("block/bomb_emp_side"),
+                        modLoc("block/bomb_emp_top")
+                )
+        );
 
         this.cubeTop(NtmBlocks.MACHINE_SATLINKER);
 

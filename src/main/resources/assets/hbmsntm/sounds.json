@@ -26,6 +26,12 @@
       "hbmsntm:block/pipe_placed"
     ]
   },
+  "block.chemical_plant_operate": {
+    "subtitle": "subtitles.block.chemplantOperate",
+    "sounds": [
+      "hbmsntm:block/chemicalplant"
+    ]
+  },
   "block.squeaky_toy": {
     "sounds": [
       "hbmsntm:block/squeaky_toy"
