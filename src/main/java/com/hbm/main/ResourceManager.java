@@ -40,12 +40,15 @@ public class ResourceManager {
 
     public static final ResourceLocation BATTERY_SOCKET_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/battery_socket.png");
     public static final ResourceLocation SOLDERING_STATION_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/soldering_station.png");
+    public static final ResourceLocation ARC_WELDER_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/arc_welder.png");
     public static final ResourceLocation DERRICK_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/derrick.png");
     public static final ResourceLocation REFINERY_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/refinery.png");
     public static final ResourceLocation FURNACE_COMBINATION_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/combination_oven.png");
     public static final ResourceLocation BLAST_FURNACE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/blast_furnace.png");
     public static final ResourceLocation WOOD_BURNER_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/wood_burner.png");
     public static final ResourceLocation CENTRIFUGE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/centrifuge_new.png");
+    public static final ResourceLocation CHEMICAL_PLANT_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/chemical_plant.png");
+    public static final ResourceLocation CHEMICAL_PLANT_FLUID_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/chemical_plant_fluid.png");
     public static final ResourceLocation BOILER_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/boiler.png");
     public static final ResourceLocation INDUSTRIAL_BOILER_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/industrial_boiler.png");
     public static final ResourceLocation HEATER_FIREBOX_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/firebox.png");
@@ -260,12 +263,14 @@ public class ResourceManager {
     public static IModelCustom battery_socket;
     public static IModelCustom battery_redd;
     public static IModelCustom soldering_station;
+    public static IModelCustom arc_welder;
     public static IModelCustom oil_derrick;
     public static IModelCustom refinery;
     public static IModelCustom furnace_combination;
     public static IModelCustom blast_furnace;
     public static IModelCustom wood_burner;
     public static IModelCustom centrifuge;
+    public static IModelCustom chemical_plant;
     public static IModelCustom boiler;
     public static IModelCustom boiler_burst;
     public static IModelCustom industrial_boiler;
@@ -380,12 +385,14 @@ public class ResourceManager {
         battery_socket = new HFRWavefrontObject("models/obj/machines/battery.obj").asVBO();
         battery_redd = new HFRWavefrontObject("models/obj/machines/fensu2.obj").asVBO();
         soldering_station = new HFRWavefrontObject("models/obj/machines/soldering_station.obj").asVBO();
+        arc_welder = new HFRWavefrontObject("models/obj/machines/arc_welder.obj").asVBO();
         oil_derrick = new HFRWavefrontObject("models/obj/machines/oil_derrick.obj").asVBO();
         refinery = new HFRWavefrontObject("models/obj/machines/refinery.obj").asVBO();
         furnace_combination = new HFRWavefrontObject("models/obj/machines/combination_oven.obj").asVBO();
         blast_furnace = new HFRWavefrontObject("models/obj/machines/blast_furnace.obj").asVBO();
         wood_burner = new HFRWavefrontObject("models/obj/machines/wood_burner.obj").asVBO();
         centrifuge = new HFRWavefrontObject("models/obj/machines/centrifuge.obj").asVBO();
+        chemical_plant = new HFRWavefrontObject("models/obj/machines/chemical_plant.obj").asVBO();
         boiler = new HFRWavefrontObject("models/obj/machines/boiler.obj").asVBO();
         boiler_burst = new HFRWavefrontObject("models/obj/machines/boiler_burst.obj").asVBO();
         industrial_boiler = new HFRWavefrontObject("models/obj/machines/industrial_boiler.obj").asVBO();

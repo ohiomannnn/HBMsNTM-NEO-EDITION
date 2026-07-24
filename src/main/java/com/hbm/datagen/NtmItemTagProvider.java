@@ -29,6 +29,11 @@ public class NtmItemTagProvider extends ItemTagsProvider {
     private static final TagKey<Item> HOES = ItemTags.create(ResourceLocation.fromNamespaceAndPath("minecraft", "hoes"));
     private static final TagKey<Item> ENCHANTABLE_MINING = ItemTags.create(ResourceLocation.fromNamespaceAndPath("minecraft", "enchantable/mining"));
     private static final TagKey<Item> ENCHANTABLE_MINING_LOOT = ItemTags.create(ResourceLocation.fromNamespaceAndPath("minecraft", "enchantable/mining_loot"));
+    private static final TagKey<Item> BALLS_HE = ItemTags.create(ResourceLocation.fromNamespaceAndPath("ntm", "balls_he"));
+    private static final TagKey<Item> BARS_HARD_PLASTIC = ItemTags.create(ResourceLocation.fromNamespaceAndPath("ntm", "bars_hard_plastic"));
+    private static final TagKey<Item> POWDERS_PLASTIC = ItemTags.create(ResourceLocation.fromNamespaceAndPath("ntm", "powders_plastic"));
+    private static final TagKey<Item> ANY_RUBBERS = ItemTags.create(ResourceLocation.fromNamespaceAndPath("ntm", "any_rubbers"));
+    private static final TagKey<Item> ANY_TARS = ItemTags.create(ResourceLocation.fromNamespaceAndPath("ntm", "any_tars"));
 
     public NtmItemTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> provider, CompletableFuture<TagLookup<Block>> blockTags, ExistingFileHelper helper) {
         super(output, provider, blockTags, NuclearTechMod.MODID, helper);
@@ -196,5 +201,33 @@ public class NtmItemTagProvider extends ItemTagsProvider {
                 NtmItems.STARMETAL_HOE.get(),
                 NtmItems.SCHRABIDIUM_HOE.get()
         );
+
+        this.tag(BALLS_HE).add(
+                NtmItems.BALL_TNT.get(),
+                NtmItems.BALL_TATB.get()
+        );
+
+        this.tag(BARS_HARD_PLASTIC).add(
+                NtmItems.INGOT_PC.get(),
+                NtmItems.INGOT_PVC.get()
+        );
+
+        this.tag(POWDERS_PLASTIC).add(
+                NtmItems.POWDER_POLYMER.get(),
+                NtmItems.POWDER_BAKELITE.get()
+        );
+
+        this.tag(ANY_RUBBERS).add(
+                NtmItems.INGOT_RUBBER.get(),
+                NtmItems.INGOT_BIORUBBER.get()
+        );
+
+        this.tag(ANY_TARS).add(
+                NtmItems.OIL_TAR_CRUDE.get(),
+                NtmItems.OIL_TAR_CRACK.get(),
+                NtmItems.OIL_TAR_WOOD.get(),
+                NtmItems.OIL_TAR_COAL.get()
+                );
+
     }
 }

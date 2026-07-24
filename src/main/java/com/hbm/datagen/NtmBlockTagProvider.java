@@ -236,6 +236,7 @@ public class NtmBlockTagProvider extends BlockTagsProvider {
                         NtmBlocks.BRICK_LIGHT.get(),
                         NtmBlocks.BRICK_ASBESTOS.get(),
                         NtmBlocks.BRICK_FIRE.get(),
+                        NtmBlocks.REINFORCED_LAMINATE.get(),
                         NtmBlocks.CONCRETE.get(),
                         NtmBlocks.CONCRETE_SMOOTH.get(),
                         NtmBlocks.CONCRETE_ASBESTOS.get(),
@@ -243,6 +244,9 @@ public class NtmBlockTagProvider extends BlockTagsProvider {
                         NtmBlocks.DUCRETE_SMOOTH.get(),
                         NtmBlocks.DUCRETE_REINFORCED.get(),
                         NtmBlocks.DUCRETE_BRICK.get(),
+                        NtmBlocks.STEEL_SCAFFOLD.get(),
+                        NtmBlocks.GLASS_QUARTZ.get(),
+                        NtmBlocks.STEEL_SCAFFOLD.get(),
 
                         NtmBlocks.BARBED_WIRE.get(),
                         NtmBlocks.SPIKES.get(),
@@ -289,11 +293,13 @@ public class NtmBlockTagProvider extends BlockTagsProvider {
                         NtmBlocks.MACHINE_WOOD_BURNER.get(),
                         NtmBlocks.FURNACE_COMBINATION.get(),
                         NtmBlocks.MACHINE_CENTRIFUGE.get(),
+                        NtmBlocks.MACHINE_CHEMICAL_PLANT.get(),
                         NtmBlocks.CRATE_IRON.get(),
                         NtmBlocks.CRATE_TUNGSTEN.get(),
                         NtmBlocks.CRATE_STEEL.get(),
                         NtmBlocks.CRATE_DESH.get(),
                         NtmBlocks.CRATE_TEMPLATE.get(),
+                        NtmBlocks.TRANSFORMER.get(),
 
                         NtmBlocks.MACHINE_FLUID_TANK.get(),
                         NtmBlocks.MACHINE_BATTERY_REDD.get(),
@@ -327,7 +333,8 @@ public class NtmBlockTagProvider extends BlockTagsProvider {
                         NtmBlocks.FROZEN_DIRT.get(),
                         NtmBlocks.FROZEN_GRASS.get(),
                         NtmBlocks.FALLOUT.get(),
-                        NtmBlocks.MOON_TURF.get()
+                        NtmBlocks.MOON_TURF.get(),
+                        NtmBlocks.SAND_QUARTZ.get()
 
                 );
 

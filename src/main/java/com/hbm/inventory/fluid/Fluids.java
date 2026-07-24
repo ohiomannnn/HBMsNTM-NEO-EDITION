@@ -173,6 +173,8 @@ public class Fluids {
     public static FluidType PETROLEUM;
     public static FluidType OIL_INDUSTRIAL;
     public static FluidType OIL_INDUSTRIAL_RECLAIMED;
+    public static FluidType BITUMEN;
+    public static FluidType LUBRICANT;
     public static FluidType OIL_HEATING;
     public static FluidType OIL_HEATING_HEAVY;
     public static FluidType WOODOIL;
@@ -266,6 +268,8 @@ public class Fluids {
         PETROLEUM =			    new FluidType("PETROLEUM",	    	0x7cb7c9, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID);
         OIL_INDUSTRIAL =		new FluidType("OIL_INDUSTRIAL",	    0x020202, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
         OIL_INDUSTRIAL_RECLAIMED =	new FluidType("OIL_INDUSTRIAL_RECLAIMED",	0x332b22, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+        BITUMEN =               new FluidType("BITUMEN",               0x141312, 4, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
+        LUBRICANT =             new FluidType("LUBRICANT",             0xB48B39, 2, 0, 0, EnumSymbol.NONE).addTraits(LIQUID, VISCOUS);
         OIL_HEATING =		    new FluidType("OIL_HEATING",	        0x332b22, 4, 0, 0, EnumSymbol.NONE).addTraits(new FT_Flammable(150_000), LIQUID, VISCOUS);
         OIL_HEATING_HEAVY =		new FluidType("OIL_HEATING_HEAVY",	0x211D06, 4, 0, 0, EnumSymbol.NONE).addTraits(new FT_Flammable(50_000), LIQUID, VISCOUS);
         WOODOIL =               new FluidType("WOODOIL",              0x7D4A1F, 1, 3, 0, EnumSymbol.NONE).addTraits(new FT_Flammable(100_000), LIQUID, VISCOUS);
@@ -517,6 +521,8 @@ public class Fluids {
         metaOrder.add(PETROLEUM);
         metaOrder.add(OIL_INDUSTRIAL);
         metaOrder.add(OIL_INDUSTRIAL_RECLAIMED);
+        metaOrder.add(BITUMEN);
+        metaOrder.add(LUBRICANT);
         metaOrder.add(OIL_HEATING);
         metaOrder.add(OIL_HEATING_HEAVY);
         metaOrder.add(WOODOIL);

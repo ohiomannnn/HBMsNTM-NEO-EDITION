@@ -13,6 +13,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ItemStack;
@@ -901,6 +902,109 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
                 .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "72"));
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.PHOTO_PANEL.get(), 1)
+                .pattern(" B ")
+                .pattern("ACA")
+                .pattern(" D ")
+                .define('A', NtmItems.PLATE_POLYMER.get())
+                .define('B', Items.GLASS_PANE)
+                .define('C', NtmItems.POWDER_QUARTZ.get())
+                .define('D', NtmItems.CIRCUIT_PRINTED_BOARD.get())
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "73"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.ARC_ELECTRODE_GRAPHITE.get(), 1)
+                .pattern(" A ")
+                .pattern(" B ")
+                .pattern(" A ")
+                .define('A', NtmItems.INGOT_GRAPHITE.get())
+                .define('B', DataComponentIngredient.of(false, NtmDataComponents.META, BoltItem.Type.STEEL.meta, NtmItems.BOLT.get()))
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "74"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.ARC_ELECTRODE_GRAPHITE.get(), 1)
+                .pattern(" A ")
+                .pattern(" B ")
+                .pattern(" A ")
+                .define('A', NtmItems.COKE_PETROLEUM.get())
+                .define('B', ItemTags.create(ResourceLocation.fromNamespaceAndPath("ntm", "any_tars")))
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "75"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.ARC_ELECTRODE_LANTHANIUM.get(), 1)
+                .pattern(" A ")
+                .pattern(" B ")
+                .pattern(" A ")
+                .define('A', NtmItems.INGOT_LANTHANIUM.get())
+                .define('B', Items.BRICK)
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "76"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.ARC_ELECTRODE_DESH.get(), 1)
+                .pattern(" A ")
+                .pattern(" B ")
+                .pattern(" A ")
+                .define('A', NtmItems.INGOT_DESH.get())
+                .define('B', NtmItems.INGOT_TITANIUM)
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "77"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.ARC_ELECTRODE_DESH.get(), 1)
+                .pattern(" A ")
+                .pattern(" B ")
+                .pattern(" A ")
+                .define('A', NtmItems.INGOT_SATURNITE.get())
+                .define('B', NtmItems.INGOT_NIOBIUM)
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "78"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.ARC_ELECTRODE_SATURNITE.get(), 1)
+                .pattern(" A ")
+                .pattern(" B ")
+                .pattern(" A ")
+                .define('A', NtmItems.INGOT_DESH.get())
+                .define('B', NtmItems.INGOT_TUNGSTEN)
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "79"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmBlocks.TRANSFORMER.get(), 1)
+                .pattern("ABA")
+                .pattern("CDC")
+                .pattern("ABA")
+                .define('A', Items.IRON_INGOT)
+                .define('B', NtmItems.CIRCUIT_CAPACITOR)
+                .define('C', NtmItems.COIL_COPPER)
+                .define('D', NtmItems.INGOT_RED_COPPER)
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "80"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmBlocks.CRATE_IRON.get(), 1)
+                .pattern("AAA")
+                .pattern("B B")
+                .pattern("BBB")
+                .define('A', NtmItems.PLATE_IRON)
+                .define('B', Items.IRON_INGOT)
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "81"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmBlocks.CRATE_STEEL.get(), 1)
+                .pattern("AAA")
+                .pattern("B B")
+                .pattern("BBB")
+                .define('A', NtmItems.PLATE_STEEL)
+                .define('B', NtmItems.INGOT_STEEL)
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "82"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmBlocks.CRATE_DESH.get(), 1)
+                .pattern(" B ")
+                .pattern("BAB")
+                .pattern(" B ")
+                .define('A', NtmBlocks.CRATE_STEEL)
+                .define('B', NtmItems.PLATE_DESH)
+                .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "83"));
+
         //
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, NtmBlocks.BRICK_CONCRETE_MOSSY.get(), 8)
                 .pattern("BBB")
@@ -957,6 +1061,7 @@ public class NtmRecipeProvider extends RecipeProvider {
         addOreSmelting(recipeOutput, NtmBlocks.ORE_RARE.get(), NtmBlocks.ORE_RARE_DEEPSLATE.get(), NtmItems.RARE_EARTH_ORE_CHUNK.get(), 0.7F);
         addOreSmelting(recipeOutput, NtmBlocks.ORE_SULFUR.get(), NtmBlocks.ORE_SULFUR_DEEPSLATE.get(), NtmItems.SULFUR.get(), 0.7F);
         addOreSmelting(recipeOutput, NtmBlocks.ORE_LIGNITE.get(), NtmItems.LIGNITE.get(), 0.1F);
+        addOreSmelting(recipeOutput, NtmBlocks.GRAVEL_DIAMOND.get(), Items.DIAMOND, 0.1F);
 
         addNuggetCrafting(recipeOutput, NtmItems.INGOT_URANIUM.get(), NtmItems.NUGGET_URANIUM.get());
         addNuggetCrafting(recipeOutput, NtmItems.INGOT_U233.get(), NtmItems.NUGGET_U233.get());

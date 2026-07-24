@@ -158,6 +158,7 @@ public class CommonEvents {
     @SubscribeEvent
     public static void registerScreens(RegisterMenuScreensEvent event) {
         event.register(NtmMenuTypes.MACHINE_SOLDERING_STATION.get(), MachineSolderingStationScreen::new);
+        event.register(NtmMenuTypes.MACHINE_ARC_WELDER.get(), MachineArcWelderScreen::new);
         event.register(NtmMenuTypes.MACHINE_SHREDDER.get(), MachineShredderScreen::new);
         event.register(NtmMenuTypes.MACHINE_OIL_DERRICK.get(), MachineOilDerrickScreen::new);
         event.register(NtmMenuTypes.MACHINE_REFINERY.get(), MachineRefineryScreen::new);
@@ -165,6 +166,7 @@ public class CommonEvents {
         event.register(NtmMenuTypes.MACHINE_BLAST_FURNACE.get(), MachineBlastFurnaceScreen::new);
         event.register(NtmMenuTypes.MACHINE_WOOD_BURNER.get(), MachineWoodBurnerScreen::new);
         event.register(NtmMenuTypes.MACHINE_CENTRIFUGE.get(), MachineCentrifugeScreen::new);
+        event.register(NtmMenuTypes.MACHINE_CHEMICAL_PLANT.get(), MachineChemicalPlantScreen::new);
         event.register(NtmMenuTypes.SAT_LINKER.get(), MachineSatLinkerScreen::new);
         event.register(NtmMenuTypes.BARREL.get(), BarrelScreen::new);
         event.register(NtmMenuTypes.CRATE.get(), CrateScreen::new);

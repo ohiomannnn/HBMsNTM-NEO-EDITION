@@ -125,6 +125,7 @@ public class CentrifugeRecipes extends SerializableRecipe {
         setRecipe(NtmBlocks.ORE_GNEISS_SCHRABIDIUM.get(), stack(NtmItems.POWDER_SCHRABIDIUM.get(), 1), stack(NtmItems.POWDER_SCHRABIDIUM.get(), 1), stack(NtmItems.NUGGET_SOLINIUM.get(), 1), stack(Blocks.STONE, 1));
         setRecipe(NtmBlocks.ORE_NETHER_PLUTONIUM.get(), stack(NtmItems.POWDER_PLUTONIUM.get(), 1), stack(NtmItems.POWDER_PLUTONIUM.get(), 1), stack(NtmItems.NUGGET_POLONIUM.get(), 3), stack(Blocks.NETHERRACK, 1));
         setRecipe(NtmBlocks.ORE_TIKITE.get(), stack(NtmItems.POWDER_PLUTONIUM.get(), 1), stack(NtmItems.POWDER_COBALT.get(), 2), stack(NtmItems.POWDER_NIOBIUM.get(), 2), stack(Blocks.NETHERRACK, 1));
+        setRecipe(NtmBlocks.GRAVEL_DIAMOND.get(), stack(NtmItems.POWDER_DIAMOND.get(), 3), stack(Blocks.GRAVEL, 1));
 
         setRecipe(stack(Items.BLAZE_ROD, 1), stack(Items.BLAZE_POWDER, 1), stack(Items.BLAZE_POWDER, 1), stack(NtmItems.POWDER_FIRE.get(), 1), stack(NtmItems.POWDER_FIRE.get(), 1));
     }

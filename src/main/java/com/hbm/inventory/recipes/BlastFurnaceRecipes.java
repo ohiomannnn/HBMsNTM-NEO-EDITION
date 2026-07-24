@@ -86,6 +86,10 @@ public class BlastFurnaceRecipes extends GenericRecipes<BlastFurnaceRecipe> {
         this.register(new BlastFurnaceRecipe("blast.firebrickLimestone").setDuration(800)
                 .inputItems(new ComparableStack(NtmBlocks.RESOURCE_LIMESTONE.get()), new ComparableStack(Items.CLAY_BALL, 6))
                 .outputItems(new ItemStack(NtmItems.INGOT_FIREBRICK.get(), 8)));
+
+        this.register(new BlastFurnaceRecipe("blast.reflector").setDuration(600)
+                .inputItems(new ComparableStack(NtmItems.INGOT_TUNGSTEN.get()), new ComparableStack(Items.COAL))
+                .outputItems(new ItemStack(NtmItems.NEUTRON_REFLECTOR.get(), 2)));
     }
 
     public BlastFurnaceRecipe getRecipe(ItemStack first, ItemStack second) {

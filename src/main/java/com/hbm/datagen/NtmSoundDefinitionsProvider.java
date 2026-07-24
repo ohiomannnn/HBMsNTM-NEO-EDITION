@@ -220,6 +220,9 @@ public class NtmSoundDefinitionsProvider extends SoundDefinitionsProvider {
         this.add(NtmSoundEvents.CENTRIFUGE_OPERATE, SoundDefinition.definition()
                 .with(sound("hbmsntm:block/centrifugeoperate"))
         );
+        this.add(NtmSoundEvents.CHEMICAL_PLANT_OPERATE, SoundDefinition.definition()
+                .with(sound("hbmsntm:block/chemicalplant"))
+        );
         this.add(NtmSoundEvents.METAL_IMPACT, SoundDefinition.definition()
                 .with(
                         sound(NuclearTechMod.withDefaultNamespace("block/metal_impact1")),
