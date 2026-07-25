@@ -990,8 +990,8 @@ public class NuclearTechModClient {
                 }
             }
 
-            if ("tau".equals(type)) {
-                for (int i = 0; i < data.getByte("count"); i++)
+            if("tau".equals(type)) {
+                for(int i = 0; i < data.getByte("count"); i++)
                     innerMc.particleEngine.add(new SparkParticle(level, x, y, z, rand.nextGaussian() * 0.05, 0.05, rand.nextGaussian() * 0.05));
                 ParticleEngineNT.INSTANCE.add(new HadronParticle(level, x, y, z));
             }

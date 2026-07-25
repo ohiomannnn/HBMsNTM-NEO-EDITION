@@ -32,7 +32,7 @@ public class RenderPress extends BlockEntityRendererNT<MachinePressBlockEntity> 
         RenderContext.pushPose(); {
             RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
 
-            ResourceManager.press_body_render.render();
+            ResourceManager.press_body_render.renderAll();
         } RenderContext.popPose();
 
         RenderContext.pushPose(); {
@@ -41,7 +41,7 @@ public class RenderPress extends BlockEntityRendererNT<MachinePressBlockEntity> 
             float lerp = (Mth.lerp(partialTicks, be.lastPress, be.renderPress) / (float) MachinePressBlockEntity.maxPress);
             RenderContext.translate(0F, Mth.clamp((1F - lerp), 0F, 1F) * 0.875F, 0);
 
-            ResourceManager.press_head_render.render();
+            ResourceManager.press_head_render.renderAll();
         } RenderContext.popPose();
 
         RenderContext.pushPose(); {
@@ -100,9 +100,9 @@ public class RenderPress extends BlockEntityRendererNT<MachinePressBlockEntity> 
 
             @Override
             public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
-                ResourceManager.press_body_render.render();
+                ResourceManager.press_body_render.renderAll();
                 RenderContext.translate(0F, 0.5F, 0F);
-                ResourceManager.press_head_render.render();
+                ResourceManager.press_head_render.renderAll();
             }
         };
     }

@@ -55,12 +55,13 @@ public class RenderIndustrialBoiler extends BlockEntityRendererNT<MachineIndustr
         return new ItemRenderBase() {
             @Override
             public void renderInventory(ItemStack stack, MultiBufferSource buffer) {
-                RenderContext.translate(0.0F, -2.55F, 0.0F);
-                RenderContext.scale(3.05F, 3.05F, 3.05F);
+                RenderContext.translate(0F, -3F, 0F);
+                RenderContext.scale(2.5F, 2.5F, 2.5F);
             }
 
             @Override
             public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
+                RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
                 bindTexture(ResourceManager.INDUSTRIAL_BOILER_TEX);
                 ResourceManager.industrial_boiler.renderAll();
             }

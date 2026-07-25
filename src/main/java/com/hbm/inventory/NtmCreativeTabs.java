@@ -15,7 +15,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
@@ -789,7 +788,7 @@ public class NtmCreativeTabs {
                         output.accept(NtmBlocks.MACHINE_SHREDDER);
                         output.accept(NtmBlocks.MACHINE_FLUID_TANK);
                         output.accept(NtmBlocks.MACHINE_SOLDERING_STATION);
-                        output.accept(NtmBlocks.MACHINE_OIL_DERRICK);
+                        output.accept(NtmBlocks.MACHINE_WELL);
                         output.accept(NtmBlocks.MACHINE_REFINERY);
                         output.accept(NtmBlocks.FURNACE_COMBINATION);
                         output.accept(NtmBlocks.MACHINE_BLAST_FURNACE);

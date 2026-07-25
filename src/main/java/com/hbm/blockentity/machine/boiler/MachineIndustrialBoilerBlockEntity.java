@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class MachineIndustrialBoilerBlockEntity extends AbstractBoilerBlockEntity {
 
     public MachineIndustrialBoilerBlockEntity(BlockPos pos, BlockState state) {
-        super((net.minecraft.world.level.block.entity.BlockEntityType<? extends AbstractBoilerBlockEntity>) NtmBlockEntityTypes.MACHINE_INDUSTRIAL_BOILER.get(), pos, state, 64_000, 6_400_000);
+        super(NtmBlockEntityTypes.MACHINE_INDUSTRIAL_BOILER.get(), pos, state, 64_000, 6_400_000);
     }
 
     @Override

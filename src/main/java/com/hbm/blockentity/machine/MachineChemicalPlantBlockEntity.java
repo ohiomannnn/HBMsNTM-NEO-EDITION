@@ -307,7 +307,7 @@ public class MachineChemicalPlantBlockEntity extends MachineBaseBlockEntity impl
     }
 
     @Override
-    public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
+    public void provideInfo(UpgradeType type, int level, List<Component> components, boolean extendedInfo) {
     }
 
     @Override

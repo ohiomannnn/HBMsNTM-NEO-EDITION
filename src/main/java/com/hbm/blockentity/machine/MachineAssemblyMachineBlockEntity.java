@@ -321,7 +321,7 @@ public class MachineAssemblyMachineBlockEntity extends MachineBaseBlockEntity im
     }
 
     @Override
-    public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
+    public void provideInfo(UpgradeType type, int level, List<Component> components, boolean extendedInfo) {
         //info.add(IUpgradeInfoProvider.getStandardLabel(ModBlocks.machine_assembly_machine));
         //
         // if(type == UpgradeType.SPEED) {

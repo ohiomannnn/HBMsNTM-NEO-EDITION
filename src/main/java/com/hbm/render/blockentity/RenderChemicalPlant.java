@@ -20,6 +20,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
+import org.joml.Matrix4f;
 
 import java.awt.Color;
 
@@ -32,6 +33,7 @@ public class RenderChemicalPlant extends BlockEntityRendererNT<MachineChemicalPl
 
     @Override
     public void render(MachineChemicalPlantBlockEntity be, MultiBufferSource buffer, float partialTicks) {
+
         RenderContext.translate(0.5F, 0F, 0.5F);
         RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
 
@@ -93,13 +95,16 @@ public class RenderChemicalPlant extends BlockEntityRendererNT<MachineChemicalPl
                 RenderContext.pushPose();
                 RenderSystem.disableCull();
                 RenderSystem.enableBlend();
+                RenderSystem.blendFuncSeparate(770, 771, 1, 0);
                 RenderSystem.depthMask(false);
                 RenderContext.setColor((float) r / 255F / colors, (float) g / 255F / colors, (float) b / 255F / colors, 0.5F);
-                RenderContext.translate(0F, (float) (BobMathUtil.sps(anim * 0.1D) * 0.05D), 0F);
+                RenderSystem.setTextureMatrix(new Matrix4f().translate(0F, (float) (BobMathUtil.sps(anim * 0.1D) * 0.05D), 0F));
                 ResourceManager.chemical_plant.renderPart("Fluid");
+                RenderSystem.resetTextureMatrix();
                 RenderContext.setColor(1F, 1F, 1F, 1F);
                 RenderSystem.depthMask(true);
                 RenderSystem.disableBlend();
+                RenderSystem.defaultBlendFunc();
                 RenderSystem.enableCull();
                 RenderContext.popPose();
             }
@@ -138,7 +143,10 @@ public class RenderChemicalPlant extends BlockEntityRendererNT<MachineChemicalPl
                 RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
                 RenderContext.scale(0.75F, 0.75F, 0.75F);
                 bindTexture(ResourceManager.CHEMICAL_PLANT_TEX);
-                ResourceManager.chemical_plant.renderAll();
+                ResourceManager.chemical_plant.renderPart("Base");
+                ResourceManager.chemical_plant.renderPart("Slider");
+                ResourceManager.chemical_plant.renderPart("Spinner");
+                ResourceManager.chemical_plant.renderPart("Frame");
             }
         };
     }

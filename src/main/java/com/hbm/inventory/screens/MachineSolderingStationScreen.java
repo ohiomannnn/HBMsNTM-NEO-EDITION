@@ -108,7 +108,7 @@ public class MachineSolderingStationScreen extends InfoScreen<MachineSolderingSt
             if(level == null || level <= 0) continue;
 
             List<String> raw = new ArrayList<>();
-            this.be.provideInfo(type, level, raw, false);
+            //this.be.provideInfo(type, level, raw, false);
 
             for(String line : raw) {
                 lines.add(Component.literal(line));

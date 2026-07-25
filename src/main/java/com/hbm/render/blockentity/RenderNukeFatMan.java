@@ -35,7 +35,7 @@ public class RenderNukeFatMan extends BlockEntityRendererNT<NukeFatManBlockEntit
             case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
         }
 
-        ResourceManager.nuke_fat_man_render.render();
+        ResourceManager.nuke_fat_man_render.renderAll();
 
         RenderContext.end();
     }
@@ -62,7 +62,7 @@ public class RenderNukeFatMan extends BlockEntityRendererNT<NukeFatManBlockEntit
                 RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
                 RenderContext.translate(-0.75F, 0F, 0F);
 
-                ResourceManager.nuke_fat_man_render.render();
+                ResourceManager.nuke_fat_man_render.renderAll();
             }
         };
     }

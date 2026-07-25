@@ -4,7 +4,6 @@ import com.hbm.items.armor.ItemArmorMod;
 import com.hbm.util.TagsUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorItem.Type;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
@@ -35,13 +34,16 @@ public class ArmorModHandler {
      */
     public static boolean isApplicable(ItemStack armor, ItemStack mod) {
 
-        if (armor.isEmpty() || mod.isEmpty()) return false;
-        if (!(armor.getItem() instanceof ArmorItem aItem)) return false;
-        if (!(mod.getItem() instanceof ItemArmorMod aMod)) return false;
+        if(armor.isEmpty() || mod.isEmpty()) return false;
+        if(!(armor.getItem() instanceof ArmorItem aItem)) return false;
+        if(!(mod.getItem() instanceof ItemArmorMod aMod)) return false;
 
-        Type type = aItem.getType();
+        ArmorItem.Type type = aItem.getType();
 
-        return (type == Type.HELMET && aMod.helmet) || (type == Type.CHESTPLATE && aMod.chestplate) || (type == Type.LEGGINGS && aMod.leggings) || (type == Type.BOOTS && aMod.boots);
+        return (type == ArmorItem.Type.HELMET && aMod.helmet) ||
+                (type == ArmorItem.Type.CHESTPLATE && aMod.chestplate) ||
+                (type == ArmorItem.Type.LEGGINGS && aMod.leggings) ||
+                (type == ArmorItem.Type.BOOTS && aMod.boots);
     }
 
     /**
@@ -52,7 +54,7 @@ public class ArmorModHandler {
     public static void applyMod(Level level, ItemStack armor, ItemStack mod) {
         CompoundTag tag = TagsUtil.getCustomData(armor);
 
-        if (!tag.contains(MOD_COMPOUND_KEY)) tag.put(MOD_COMPOUND_KEY, new CompoundTag());
+        if(!tag.contains(MOD_COMPOUND_KEY)) tag.put(MOD_COMPOUND_KEY, new CompoundTag());
 
         CompoundTag mods = tag.getCompound(MOD_COMPOUND_KEY);
 
@@ -71,16 +73,16 @@ public class ArmorModHandler {
      * Removes the mod from the given slot
      */
     public static void removeMod(ItemStack armor, int slot) {
-        if (armor.isEmpty()) return;
+        if(armor.isEmpty()) return;
 
         CompoundTag tag = TagsUtil.getCustomData(armor);
 
-        if (!tag.contains(MOD_COMPOUND_KEY)) tag.put(MOD_COMPOUND_KEY, new CompoundTag());
+        if(!tag.contains(MOD_COMPOUND_KEY)) tag.put(MOD_COMPOUND_KEY, new CompoundTag());
 
         CompoundTag mods = tag.getCompound(MOD_COMPOUND_KEY);
         mods.remove(MOD_SLOT_KEY + slot);
 
-        if (mods.isEmpty()) clearMods(armor);
+        if(mods.isEmpty()) clearMods(armor);
 
         TagsUtil.putCustomData(armor, mods);
     }
@@ -91,7 +93,7 @@ public class ArmorModHandler {
      */
     public static void clearMods(ItemStack armor) {
 
-        if (!TagsUtil.hasCustomData(armor)) return;
+        if(!TagsUtil.hasCustomData(armor)) return;
 
         CompoundTag tag = TagsUtil.getCustomData(armor);
         tag.remove(MOD_COMPOUND_KEY);
@@ -103,7 +105,7 @@ public class ArmorModHandler {
      */
     public static boolean hasMods(ItemStack armor) {
 
-        if (!TagsUtil.hasCustomData(armor)) return false;
+        if(!TagsUtil.hasCustomData(armor)) return false;
 
         CompoundTag tag = TagsUtil.getCustomData(armor);
         return tag.contains(MOD_COMPOUND_KEY);
@@ -116,18 +118,18 @@ public class ArmorModHandler {
 
         ItemStack[] slots = new ItemStack[MOD_SLOTS];
 
-        if (!hasMods(armor)) return slots;
+        if(!hasMods(armor)) return slots;
 
         CompoundTag tag = TagsUtil.getCustomData(armor);
         CompoundTag mods = tag.getCompound(MOD_COMPOUND_KEY);
 
-        for (int i = 0; i < MOD_SLOTS; i++) {
+        for(int i = 0; i < MOD_SLOTS; i++) {
 
             CompoundTag cmp = mods.getCompound(MOD_SLOT_KEY + i);
 
             Optional<ItemStack> stack = ItemStack.parse(level.registryAccess(), cmp);
 
-            if (stack.isPresent() && !stack.get().isEmpty()) {
+            if(stack.isPresent() && !stack.get().isEmpty()) {
                 slots[i] = stack.get();
             } else {
                 // Any non-existing armor mods will be sorted out automatically
@@ -140,14 +142,14 @@ public class ArmorModHandler {
 
     public static ItemStack pryMod(Level level, ItemStack armor, int slot) {
 
-        if (!hasMods(armor)) return ItemStack.EMPTY;
+        if(!hasMods(armor)) return ItemStack.EMPTY;
 
-        CompoundTag nbt = TagsUtil.getCustomData(armor);
-        CompoundTag mods = nbt.getCompound(MOD_COMPOUND_KEY);
+        CompoundTag tag = TagsUtil.getCustomData(armor);
+        CompoundTag mods = tag.getCompound(MOD_COMPOUND_KEY);
         CompoundTag cmp = mods.getCompound(MOD_SLOT_KEY + slot);
         Optional<ItemStack> stack = ItemStack.parse(level.registryAccess(), cmp);
 
-        if (stack.isPresent() && !stack.get().isEmpty()) return stack.get();
+        if(stack.isPresent() && !stack.get().isEmpty()) return stack.get();
 
         removeMod(armor, slot);
 

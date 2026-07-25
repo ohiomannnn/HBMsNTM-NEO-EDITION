@@ -4,12 +4,18 @@ import com.hbm.main.NuclearTechMod;
 import com.hbm.render.loader.old.ModelFormatException;
 import com.hbm.render.loader.old.TextureCoordinate;
 import com.hbm.render.loader.old.Vertex;
-import com.hbm.render.material.HFRWavefrontObjectTEST;
-import com.hbm.render.material.HFRWavefrontObjectTEST.ObjRendererAll;
-import com.hbm.render.material.HFRWavefrontObjectTEST.ObjRendererOnly;
 import com.hbm.render.material.Material;
+import com.hbm.render.material.MaterialRenderState;
+import com.hbm.render.material.MaterialShaderCache;
+import com.hbm.render.util.NtmShaders;
+import com.hbm.render.util.RenderContext;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 
@@ -18,10 +24,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class HFRWavefrontObject implements IModelCustomNamed {
+public class HFRWavefrontObject {
 
     /** For resource reloading */
     public static final Set<HFRWavefrontObject> allModels = Collections.synchronizedSet(new LinkedHashSet<>());
@@ -174,26 +181,6 @@ public class HFRWavefrontObject implements IModelCustomNamed {
                 // hush
             }
         }
-    }
-
-    @Override
-    public void renderAll() {
-        throw new RuntimeException("You cant render models with just HFRWavefrontObject, render with vbo!");
-    }
-
-    @Override
-    public void renderPart(String partName) {
-        throw new RuntimeException("You cant render models with just HFRWavefrontObject, render with vbo!");
-    }
-
-    @Override
-    public void renderOnly(String... groupNames) {
-        throw new RuntimeException("You cant render models with just HFRWavefrontObject, render with vbo!");
-    }
-
-    @Override
-    public void renderAllExcept(String... excludedGroupNames) {
-        throw new RuntimeException("You cant render models with just HFRWavefrontObject, render with vbo!");
     }
 
     private Vertex parseVertex(String line, int lineCount) throws ModelFormatException {
@@ -404,30 +391,111 @@ public class HFRWavefrontObject implements IModelCustomNamed {
         return groupObjectMatcher.get().reset(line).matches();
     }
 
-    @Override
-    public List<String> getPartNames() {
-        List<String> names = new ArrayList<>();
-        for(S_GroupObject data : groupObjects) {
-            names.add(data.name);
-        }
-        return names;
-    }
-
     public HFRWavefrontObjectVBO asVBO() {
         HFRWavefrontObjectVBO vbo = new HFRWavefrontObjectVBO(this);
         allVBOs.put(vbo, this);
         return vbo;
     }
 
-    public static final LinkedHashMap<HFRWavefrontObject, HFRWavefrontObjectTEST> vbos = new LinkedHashMap<>();
+    public static final HashMap<HFRWavefrontObject, Map<String, VertexBuffer>> vbos = new LinkedHashMap<>();
 
-    public ObjRendererOnly create(String name, Material material) {
-        HFRWavefrontObjectTEST test = vbos.computeIfAbsent(this, HFRWavefrontObjectTEST::new);
-        return new ObjRendererOnly(material, test.buffers.get(name));
+    public Map<String, VertexBuffer> getUploadedBuffer() {
+        return vbos.computeIfAbsent(this, HFRWavefrontObject::upload);
     }
 
-    public ObjRendererAll create(Material material) {
-        HFRWavefrontObjectTEST test = vbos.computeIfAbsent(this, HFRWavefrontObjectTEST::new);
-        return new ObjRendererAll(material, test.buffers);
+    /** Uploads this model to the GPU */
+    public static Map<String, VertexBuffer> upload(HFRWavefrontObject obj) {
+        Map<String, VertexBuffer> buffers = new HashMap<>();
+
+        for(S_GroupObject g : obj.groupObjects) {
+            BufferBuilder builder = Tesselator.getInstance().begin(g.mode, NtmShaders.NtmVertexFormat.POSITION_TEX_NORMAL);
+
+            for(S_Face face : g.faces) {
+                for(int i = 0; i < face.vertices.length; i++) {
+                    Vertex vert = face.vertices[i];
+                    TextureCoordinate tex = face.textureCoordinates != null && face.textureCoordinates.length > 0
+                            ? face.textureCoordinates[i]
+                            : new TextureCoordinate(0, 0);
+                    Vertex normal = face.vertexNormals[i];
+
+                    builder.addVertex(vert.x, vert.y, vert.z).setUv(tex.u, tex.v).setNormal(normal.x, normal.y, normal.z);
+                }
+            }
+
+            VertexBuffer buffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
+            buffer.bind();
+            buffer.upload(builder.buildOrThrow());
+            VertexBuffer.unbind();
+
+            buffers.put(g.name, buffer);
+        }
+        return buffers;
+    }
+
+    public record Renderer(Material material, Map<String, VertexBuffer> buffers) implements IWavefrontObjectRenderer {
+
+        public void renderGroup(VertexBuffer data) {
+
+            RenderContext context = RenderContext.INSTANCE.get();
+            int packedLight = context.packedLight;
+            int packedOverlay = context.packedOverlay;
+
+            ShaderInstance shader = MaterialShaderCache.get(material);
+
+            shader.safeGetUniform("UV1").set(packedOverlay & '\uffff', packedOverlay >> 16 & '\uffff');
+            shader.safeGetUniform("UV2").set(packedLight & '\uffff', packedLight >> 16 & '\uffff');
+            shader.safeGetUniform("Color").set(context.color);
+            shader.safeGetUniform("PoseMat").set(context.poseStack.last().pose());
+
+            MaterialRenderState.setup(material);
+
+            data.bind();
+            data.drawWithShader(RenderSystem.getModelViewMatrix(), RenderSystem.getProjectionMatrix(), shader);
+            VertexBuffer.unbind();
+
+            MaterialRenderState.reset();
+        }
+
+        @Override
+        public void renderAll() {
+            for(Entry<String, VertexBuffer> entry : buffers.entrySet()) {
+                this.renderGroup(entry.getValue());
+            }
+        }
+
+        @Override
+        public void renderPart(String partName) {
+            for(Entry<String, VertexBuffer> entry : buffers.entrySet()) {
+                if(entry.getKey().equalsIgnoreCase(partName)) {
+                    this.renderGroup(entry.getValue());
+                }
+            }
+        }
+
+
+        @Override
+        public void renderOnly(String... groupNames) {
+            for(Entry<String, VertexBuffer> entry : buffers.entrySet()) {
+                for(String name : groupNames) {
+                    if(entry.getKey().equalsIgnoreCase(name)) {
+                        this.renderGroup(entry.getValue());
+                    }
+                }
+            }
+        }
+
+        @Override
+        public void renderAllExcept(String... excludedGroupNames) {
+            for(Entry<String, VertexBuffer> entry : buffers.entrySet()) {
+                boolean skip = false;
+                for(String name : excludedGroupNames) {
+                    if(entry.getKey().equalsIgnoreCase(name)) {
+                        skip = true;
+                        break;
+                    }
+                }
+                if(!skip) renderGroup(entry.getValue());
+            }
+        }
     }
 }
