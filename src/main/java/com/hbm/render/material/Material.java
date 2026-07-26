@@ -16,9 +16,9 @@ public record Material(
 ) {
 
     public enum CutoutMode {
-        OFF(-1f),
-        HALF(0.5f),
-        ONE_TENTH(0.1f);
+        OFF(-1F),
+        HALF(0.5F),
+        ONE_TENTH(0.1F);
 
         public final float threshold;
         CutoutMode(float threshold) { this.threshold = threshold; }
@@ -58,6 +58,10 @@ public record Material(
     public enum ShadeMode {
         OFF,
         ENTITY
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder {

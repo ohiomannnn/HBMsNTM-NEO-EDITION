@@ -306,6 +306,9 @@ public class NtmSoundDefinitionsProvider extends SoundDefinitionsProvider {
                         sound("hbmsntm:tool/extract2")
                 )
         );
+        this.add(NtmSoundEvents.UPGRADE_PLUG, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("tool/upgrade_plug")))
+        );
         // ALARMS
         this.add(NtmSoundEvents.ALARM_HATCH, SoundDefinition.definition()
                 .with(sound(NuclearTechMod.withDefaultNamespace("alarm/lpfhaiwg")))

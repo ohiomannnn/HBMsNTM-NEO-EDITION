@@ -9,9 +9,10 @@ import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.fluid.trait.FT_Flammable;
+import com.hbm.inventory.menus.HeaterOilburnerMenu;
+import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.items.machine.InfiniteFluidItem;
 import com.hbm.util.fauxpointtwelve.DirPos;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -106,13 +107,13 @@ public class HeaterOilburnerBlockEntity extends AbstractHeaterMachineBlockEntity
 
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
-        return new com.hbm.inventory.menus.HeaterOilburnerMenu(id, inventory, this);
+        return new HeaterOilburnerMenu(id, inventory, this);
     }
 
     @Override
     public boolean canPlaceItem(int slot, ItemStack stack) {
         if(slot == 2) {
-            return stack.getItem() instanceof com.hbm.items.machine.IItemFluidIdentifier;
+            return stack.getItem() instanceof IItemFluidIdentifier;
         }
 
         if(slot == 0) {
@@ -154,7 +155,7 @@ public class HeaterOilburnerBlockEntity extends AbstractHeaterMachineBlockEntity
             this.isOn = !this.isOn;
         }
         if(tag.contains("setting")) {
-            this.setting = Math.max(1, Math.min(tag.getInt("setting"), 100));
+            this.setting = Math.clamp(tag.getInt("setting"), 1, 100);
         }
         this.setChanged();
     }
@@ -170,7 +171,7 @@ public class HeaterOilburnerBlockEntity extends AbstractHeaterMachineBlockEntity
     @Override
     public void pasteSettings(CompoundTag tag, int index, net.minecraft.world.level.Level level, Player player, BlockPos pos) {
         IFluidCopiable.super.pasteSettings(tag, index, level, player, pos);
-        if(tag.contains("setting")) this.setting = Math.max(1, Math.min(tag.getInt("setting"), 100));
+        if(tag.contains("setting")) this.setting = Math.clamp(tag.getInt("setting"), 1, 100);
         if(tag.contains("isOn")) this.isOn = tag.getBoolean("isOn");
     }
 

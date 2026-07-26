@@ -7,6 +7,7 @@ import com.hbm.blockentity.IFluidCopiable;
 import com.hbm.blockentity.IUpgradeInfoProvider;
 import com.hbm.blockentity.MachineBaseBlockEntity;
 import com.hbm.blockentity.NtmBlockEntityTypes;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.UpgradeManagerNT;
@@ -19,10 +20,9 @@ import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.items.machine.MachineUpgradeItem;
 import com.hbm.items.machine.MachineUpgradeItem.UpgradeType;
 import com.hbm.lib.Library;
-import com.hbm.blocks.NtmBlocks;
-import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.i18n.I18nUtil;
+import com.hbm.util.fauxpointtwelve.DirPos;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -377,18 +377,18 @@ public class MachineSolderingStationBlockEntity extends MachineBaseBlockEntity i
     }
 
     @Override
-    public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
-        info.add(IUpgradeInfoProvider.getStandardLabel(NtmBlocks.MACHINE_SOLDERING_STATION.get()).getString());
+    public void provideInfo(UpgradeType type, int level, List<Component> components, boolean extendedInfo) {
+        components.add(IUpgradeInfoProvider.getStandardLabel(NtmBlocks.MACHINE_SOLDERING_STATION.get()));
         if(type == UpgradeType.SPEED) {
-            info.add("+" + (level * 100 / 6) + "% " + I18nUtil.resolveKey(KEY_DELAY));
-            info.add("+" + (level * 100) + "% " + I18nUtil.resolveKey(KEY_CONSUMPTION));
+            components.add(Component.translatable(KEY_DELAY, "-" + (level * 100 / 6) + "%").withStyle(ChatFormatting.GREEN));
+            components.add(Component.translatable(KEY_CONSUMPTION, "+" + (level * 100) + "%").withStyle(ChatFormatting.RED));
         }
         if(type == UpgradeType.POWER) {
-            info.add("-" + (level * 100 / 6) + "% " + I18nUtil.resolveKey(KEY_CONSUMPTION));
-            info.add("+" + (level * 100 / 3) + "% " + I18nUtil.resolveKey(KEY_DELAY));
+            components.add(Component.translatable(KEY_CONSUMPTION, "-" + (level * 100 / 6) + "%").withStyle(ChatFormatting.GREEN));
+            components.add(Component.translatable(KEY_DELAY, "+" + (level * 100 / 3) + "%").withStyle(ChatFormatting.RED));
         }
         if(type == UpgradeType.OVERDRIVE) {
-            info.add(BobMathUtil.getBlink() ? "YES" : "YES");
+            components.add(Component.translatable(KEY_YES).withStyle(BobMathUtil.getBlink() ? ChatFormatting.RED : ChatFormatting.DARK_GRAY));
         }
     }
 

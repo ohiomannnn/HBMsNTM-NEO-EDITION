@@ -105,6 +105,8 @@ public class MachineArcWelderBlockEntity extends MachineBaseBlockEntity implemen
                     }
                     this.setChanged();
                 }
+
+
             } else {
                 this.progress = 0;
             }
@@ -218,13 +220,13 @@ public class MachineArcWelderBlockEntity extends MachineBaseBlockEntity implemen
     }
 
     @Override
-    public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
-        switch(type) {
-            case SPEED -> info.add("Speed level: " + level);
-            case POWER -> info.add("Power level: " + level);
-            case OVERDRIVE -> info.add("+" + level + " parallel progress");
-            default -> { }
-        }
+    public void provideInfo(UpgradeType type, int level, List<Component> info, boolean extendedInfo) {
+//        switch(type) {
+//            case SPEED -> info.add("Speed level: " + level);
+//            case POWER -> info.add("Power level: " + level);
+//            case OVERDRIVE -> info.add("+" + level + " parallel progress");
+//            default -> { }
+//        }
     }
 
     @Override

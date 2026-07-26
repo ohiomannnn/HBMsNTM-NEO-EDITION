@@ -17,7 +17,6 @@ import com.hbm.items.machine.FluidIconItem;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Blocks;
 
 public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
 
@@ -54,7 +53,7 @@ public class AssemblyMachineRecipes extends GenericRecipes<GenericRecipe> {
                 )
         );
 
-        this.register(new GenericRecipe("ass.machine_oil_derrick").setup(200, 100).outputItems(new ItemStack(NtmBlocks.MACHINE_OIL_DERRICK, 1))
+        this.register(new GenericRecipe("ass.machine_oil_derrick").setup(200, 100).outputItems(new ItemStack(NtmBlocks.MACHINE_WELL, 1))
                 .inputItems(
                         NtmItems.castPlateIngredient(CastPlateItem.Type.COPPER, 1),
                         new ComparableStack(NtmItems.PLATE_STEEL.get(), 8),

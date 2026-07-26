@@ -6,7 +6,6 @@ import com.hbm.blocks.NtmBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.util.RenderContext;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -24,27 +23,20 @@ public class RenderWoodBurner extends BlockEntityRendererNT<MachineWoodBurnerBlo
 
     @Override
     public void render(MachineWoodBurnerBlockEntity be, MultiBufferSource buffer, float partialTicks) {
-        Direction facing = be.getBlockState().getValue(DummyableBlock.FACING);
-        Direction side = facing.getClockWise();
 
-        RenderContext.translate(
-                0.5F + facing.getOpposite().getStepX() * 0.5F + side.getStepX() * 0.5F,
-                0.0F,
-                0.5F + facing.getOpposite().getStepZ() * 0.5F + side.getStepZ() * 0.5F
-        );
+        RenderContext.translate(0.5F, 0F, 0.5F);
+
+        Direction facing = be.getBlockState().getValue(DummyableBlock.FACING);
         switch(facing) {
-            case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
-            case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
-            case WEST -> RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
-            case EAST -> RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
-            default -> { }
+            case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
+            case WEST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
+            case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
+            case EAST ->  RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
         }
 
-        renderModel();
-    }
+        RenderContext.translate(-0.5F, 0F, -0.5F);
 
-    private static void renderModel() {
-        RenderSystem.setShaderTexture(0, ResourceManager.WOOD_BURNER_TEX);
+        bindTexture(ResourceManager.WOOD_BURNER_TEX);
         ResourceManager.wood_burner.renderAll();
     }
 
@@ -58,13 +50,15 @@ public class RenderWoodBurner extends BlockEntityRendererNT<MachineWoodBurnerBlo
         return new ItemRenderBase() {
             @Override
             public void renderInventory(ItemStack stack, MultiBufferSource buffer) {
-                RenderContext.translate(0.0F, -0.75F, 0.0F);
+                RenderContext.translate(0F, -4F, 0F);
                 RenderContext.scale(3.5F, 3.5F, 3.5F);
             }
 
             @Override
             public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
-                renderModel();
+                RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
+                bindTexture(ResourceManager.WOOD_BURNER_TEX);
+                ResourceManager.wood_burner.renderAll();
             }
         };
     }

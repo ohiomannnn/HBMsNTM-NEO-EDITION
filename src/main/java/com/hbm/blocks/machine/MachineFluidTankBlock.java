@@ -90,7 +90,7 @@ public class MachineFluidTankBlock extends DummyableBlock implements IToolable, 
         FluidTank tank = new FluidTank(Fluids.NONE, 0);
         if(persistent.contains("Tank")) {
             tank.readFromNBT(persistent, "Tank");
-            components.add(Component.translatable("fluid.info.mb.name", tank.getFill(), tank.getMaxFill(), tank.getTankType().getName()).withStyle(ChatFormatting.YELLOW));
+            components.add(Component.literal(tank.getFill() + "/" + tank.getMaxFill() + "mB ").append(tank.getTankType().getName()).withStyle(ChatFormatting.YELLOW));
         }
     }
 

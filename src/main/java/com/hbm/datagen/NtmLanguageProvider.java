@@ -1676,7 +1676,7 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add("tile.machine_wood_burner.desc", "Generates 100HE/t when burning items$Collects ashes$Can burn fluids at 50%% efficiency at 40mB/s");
         this.add("tile.machine_wood_burner.name", "Wood-Burning Generator");
         this.add("tile.machine_centrifuge.name", "Centrifuge");
-        this.add(NtmBlocks.MACHINE_OIL_DERRICK, "Oil Derrick");
+        this.add(NtmBlocks.MACHINE_WELL, "Oil Derrick");
         this.add(NtmBlocks.MACHINE_REFINERY, "Oil Refinery");
         this.add(NtmBlocks.ORE_METEOR_IRON, "Meteor Iron Ore");
         this.add(NtmBlocks.ORE_METEOR_COBALT, "Meteor Cobalt Ore");
@@ -1755,7 +1755,7 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add("container.machine_industrial_boiler", "Industrial Boiler");
         this.add("container.machine_shredder", "Shredder");
         this.add("container.machine_shredder.blades_missing", "Error: Shredder blades are broken or missing!");
-        this.add("container.oil_derrick", "Oil Derrick");
+        this.add("container.oil_well", "Oil Derrick");
         this.add("container.machine_refinery", "Oil Refinery");
         this.add("container.furnace_combination", "Combination Oven");
         this.add("container.machine_blast_furnace", "Blast Furnace");

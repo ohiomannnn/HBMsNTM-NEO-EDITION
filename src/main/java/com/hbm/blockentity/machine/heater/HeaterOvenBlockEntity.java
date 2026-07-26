@@ -2,6 +2,7 @@ package com.hbm.blockentity.machine.heater;
 
 import api.hbm.tile.IHeatSource;
 import com.hbm.blockentity.NtmBlockEntityTypes;
+import com.hbm.inventory.menus.HeaterOvenMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -64,6 +65,6 @@ public class HeaterOvenBlockEntity extends HeaterFireboxBlockEntity {
 
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
-        return new com.hbm.inventory.menus.HeaterOvenMenu(id, inventory, this);
+        return new HeaterOvenMenu(id, inventory, this);
     }
 }

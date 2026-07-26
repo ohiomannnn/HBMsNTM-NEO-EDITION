@@ -209,12 +209,12 @@ public class ClientProxy extends ServerProxy {
         BlockEntityRenderers.register(NtmBlockEntityTypes.HEAT_BOILER.get(), new RenderHeatBoiler());
         BlockEntityRenderers.register(NtmBlockEntityTypes.MACHINE_INDUSTRIAL_BOILER.get(), new RenderIndustrialBoiler());
         BlockEntityRenderers.register(NtmBlockEntityTypes.HEATER_FIREBOX.get(), new RenderHeaterFirebox());
-        BlockEntityRenderers.register(NtmBlockEntityTypes.HEATER_OVEN.get(), new RenderHeaterOven());
-        BlockEntityRenderers.register(NtmBlockEntityTypes.HEATER_OILBURNER.get(), new RenderHeaterOilburner());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.HEATER_OVEN.get(), new RenderHeatingOven());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.HEATER_OILBURNER.get(), new RenderOilburner());
         BlockEntityRenderers.register(NtmBlockEntityTypes.HEATER_ELECTRIC.get(), new RenderHeaterElectric());
         BlockEntityRenderers.register(NtmBlockEntityTypes.HEATER_HEATEX.get(), new RenderHeaterHeatex());
-        BlockEntityRenderers.register(NtmBlockEntityTypes.MACHINE_OIL_DERRICK.get(), new RenderOilDerrick());
-        BlockEntityRenderers.register(NtmBlockEntityTypes.MACHINE_REFINERY.get(), new RenderOilRefinery());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.MACHINE_OIL_WELL.get(), new RenderDerrick());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.MACHINE_REFINERY.get(), new RenderRefinery());
         BlockEntityRenderers.register(NtmBlockEntityTypes.FURNACE_COMBINATION.get(), new RenderFurnaceCombination());
         BlockEntityRenderers.register(NtmBlockEntityTypes.MACHINE_BLAST_FURNACE.get(), new RenderBlastFurnace());
         BlockEntityRenderers.register(NtmBlockEntityTypes.MACHINE_WOOD_BURNER.get(), new RenderWoodBurner());

@@ -89,17 +89,18 @@ public class NtmSoundEvents {
     public static final DeferredHolder<SoundEvent, SoundEvent> SLIDING_SEAL_OPEN = reg("door.sliding_seal_open");
     public static final DeferredHolder<SoundEvent, SoundEvent> SLIDING_SEAL_STOP = reg("door.sliding_seal_stop");
     // ITEMS
-    public static final DeferredHolder<SoundEvent, SoundEvent> TECH_BLEEP = reg("item.tech_bleep"); // PLAYERS CATEGORY
-    public static final DeferredHolder<SoundEvent, SoundEvent> TECH_BOOP = reg("item.tech_boop"); // PLAYERS CATEGORY
-    public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER1 = reg("item.geiger1"); // PLAYERS CATEGORY
-    public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER2 = reg("item.geiger2"); // PLAYERS CATEGORY
-    public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER3 = reg("item.geiger3"); // PLAYERS CATEGORY
-    public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER4 = reg("item.geiger4"); // PLAYERS CATEGORY
-    public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER5 = reg("item.geiger5"); // PLAYERS CATEGORY
-    public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER6 = reg("item.geiger6"); // PLAYERS CATEGORY
-    public static final DeferredHolder<SoundEvent, SoundEvent> PIN_UNLOCK = reg("item.pin_unlock"); // PLAYERS CATEGORY
-    public static final DeferredHolder<SoundEvent, SoundEvent> PIN_BREAK = reg("item.pin_break"); // PLAYERS CATEGORY
-    public static final DeferredHolder<SoundEvent, SoundEvent> UNPACK = reg("item.unpack"); // PLAYERS CATEGORY
+    public static final DeferredHolder<SoundEvent, SoundEvent> TECH_BLEEP = reg("item.tech_bleep"); // blee-boo-bee-boop
+    public static final DeferredHolder<SoundEvent, SoundEvent> TECH_BOOP = reg("item.tech_boop"); // boop
+    public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER1 = reg("item.geiger1");
+    public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER2 = reg("item.geiger2");
+    public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER3 = reg("item.geiger3");
+    public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER4 = reg("item.geiger4");
+    public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER5 = reg("item.geiger5");
+    public static final DeferredHolder<SoundEvent, SoundEvent> GEIGER6 = reg("item.geiger6");
+    public static final DeferredHolder<SoundEvent, SoundEvent> PIN_UNLOCK = reg("item.pin_unlock");
+    public static final DeferredHolder<SoundEvent, SoundEvent> PIN_BREAK = reg("item.pin_break");
+    public static final DeferredHolder<SoundEvent, SoundEvent> UNPACK = reg("item.unpack");
+    public static final DeferredHolder<SoundEvent, SoundEvent> UPGRADE_PLUG = reg("item.upgrade_plug"); // plok
     // ALARMS
     public static final DeferredHolder<SoundEvent, SoundEvent> ALARM_HATCH = reg("alarm.hatch"); // RECORDS CATEGORY
     public static final DeferredHolder<SoundEvent, SoundEvent> ALARM_SOYUZED = reg("alarm.soyuzed"); // RECORDS CATEGORY

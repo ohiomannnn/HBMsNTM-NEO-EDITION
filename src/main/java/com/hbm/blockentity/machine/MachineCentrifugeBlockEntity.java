@@ -351,16 +351,16 @@ public class MachineCentrifugeBlockEntity extends MachineBaseBlockEntity impleme
     }
 
     @Override
-    public void provideInfo(UpgradeType type, int level, List<String> info, boolean extendedInfo) {
+    public void provideInfo(UpgradeType type, int level, List<Component> components, boolean extendedInfo) {
         if(type == UpgradeType.SPEED) {
-            info.add("&a+" + level + " processing speed");
+            components.add(Component.literal("&a+" + level + " processing speed"));
         }
         if(type == UpgradeType.POWER) {
-            info.add("&a-" + (100 - 100 / (1 + level)) + "% power consumption");
+            components.add(Component.literal("&a-" + (100 - 100 / (1 + level)) + "% power consumption"));
         }
         if(type == UpgradeType.OVERDRIVE) {
-            info.add("&a+" + (level * 500) + "% processing speed");
-            info.add("&c+" + (level * 10_000) + " HE/t consumption");
+            components.add(Component.literal("&a+" + (level * 500) + "% processing speed"));
+            components.add(Component.literal("&c+" + (level * 10_000) + " HE/t consumption"));
         }
     }
 

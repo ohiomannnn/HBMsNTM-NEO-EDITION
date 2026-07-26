@@ -47,6 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EntityEffectHandler {
+
     public static void tick(LivingEntity entity) {
         if(entity.tickCount % 20 == 0) {
             HbmLivingAttachments.setRadBuf(entity, HbmLivingAttachments.getRadEnv(entity));
@@ -80,7 +81,7 @@ public class EntityEffectHandler {
 
         HbmPlayerAttachments props = HbmPlayerAttachments.getData(player);
 
-        if (props.isOnLadder) {
+        if(props.isOnLadder) {
             double climbSpeed = 0.15;
 
             Vec3 motion = player.getDeltaMovement();
@@ -88,16 +89,16 @@ public class EntityEffectHandler {
             double motionY = motion.y;
             double motionZ = motion.z;
 
-            if (motionX < -climbSpeed) motionX = -climbSpeed;
-            if (motionX > climbSpeed) motionX = climbSpeed;
-            if (motionZ < -climbSpeed) motionZ = -climbSpeed;
-            if (motionZ > climbSpeed) motionZ = climbSpeed;
+            if(motionX < -climbSpeed) motionX = -climbSpeed;
+            if(motionX > climbSpeed) motionX = climbSpeed;
+            if(motionZ < -climbSpeed) motionZ = -climbSpeed;
+            if(motionZ > climbSpeed) motionZ = climbSpeed;
 
             player.resetFallDistance();
 
-            if (motionY < -climbSpeed) motionY = -climbSpeed;
-            if (player.isCrouching() && motionY < 0.0D) motionY = 0.0D;
-            if (player.horizontalCollision) motionY = 0.2D;
+            if(motionY < -climbSpeed) motionY = -climbSpeed;
+            if(player.isCrouching() && motionY < 0.0D) motionY = 0.0D;
+            if(player.horizontalCollision) motionY = 0.2D;
 
             player.setDeltaMovement(motionX, motionY, motionZ);
 

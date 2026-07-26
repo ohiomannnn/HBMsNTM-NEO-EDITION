@@ -24,28 +24,27 @@ public class RenderBlastFurnace extends BlockEntityRendererNT<MachineBlastFurnac
 
     @Override
     public void render(MachineBlastFurnaceBlockEntity be, MultiBufferSource buffer, float partialTicks) {
-        Direction facing = be.getBlockState().getValue(DummyableBlock.FACING);
 
         RenderContext.translate(0.5F, 0.0F, 0.5F);
+
+        Direction facing = be.getBlockState().getValue(DummyableBlock.FACING);
         switch(facing) {
             case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
             case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
             case WEST -> RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
             case EAST -> RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
-            default -> { }
         }
 
-        renderModel();
-    }
+        if(be.tilted) {
+            RenderContext.translate(0F, -0.25F, 0F);
+            RenderContext.mulPose(Axis.ZP.rotationDegrees(10F));
+            RenderContext.mulPose(Axis.YP.rotationDegrees(5F));
+        }
 
-    private static void renderModel() {
-        bindModelTexture();
-        RenderSystem.enableCull();
+        RenderSystem.disableCull();
+        bindTexture(ResourceManager.BLAST_FURNACE_TEX);
         ResourceManager.blast_furnace.renderAll();
-    }
-
-    private static void bindModelTexture() {
-        RenderSystem.setShaderTexture(0, ResourceManager.BLAST_FURNACE_TEX);
+        RenderSystem.enableCull();
     }
 
     @Override
@@ -58,13 +57,16 @@ public class RenderBlastFurnace extends BlockEntityRendererNT<MachineBlastFurnac
         return new ItemRenderBase() {
             @Override
             public void renderInventory(ItemStack stack, MultiBufferSource buffer) {
-                RenderContext.translate(0.0F, -2.75F, 0.0F);
-                RenderContext.scale(2.35F, 2.35F, 2.35F);
+                RenderContext.translate(0F, -4.5F, 0F);
+                RenderContext.scale(4F, 4F, 4F);
             }
 
             @Override
             public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
-                renderModel();
+                RenderContext.scale(0.5F, 0.5F, 0.5F);
+
+                bindTexture(ResourceManager.BLAST_FURNACE_TEX);
+                ResourceManager.blast_furnace.renderAll();
             }
         };
     }

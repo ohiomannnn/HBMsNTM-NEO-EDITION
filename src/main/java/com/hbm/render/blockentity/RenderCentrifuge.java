@@ -24,23 +24,21 @@ public class RenderCentrifuge extends BlockEntityRendererNT<MachineCentrifugeBlo
 
     @Override
     public void render(MachineCentrifugeBlockEntity be, MultiBufferSource buffer, float partialTicks) {
-        Direction facing = be.getBlockState().getValue(DummyableBlock.FACING);
 
         RenderContext.translate(0.5F, 0.0F, 0.5F);
+
+        Direction facing = be.getBlockState().getValue(DummyableBlock.FACING);
         switch(facing) {
             case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
             case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
             case WEST -> RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
             case EAST -> RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
-            default -> { }
         }
 
-        renderModel();
-    }
-
-    private static void renderModel() {
-        RenderSystem.setShaderTexture(0, ResourceManager.CENTRIFUGE_TEX);
+        RenderSystem.disableCull();
+        bindTexture(ResourceManager.CENTRIFUGE_TEX);
         ResourceManager.centrifuge.renderAll();
+        RenderSystem.enableCull();
     }
 
     @Override
@@ -53,13 +51,14 @@ public class RenderCentrifuge extends BlockEntityRendererNT<MachineCentrifugeBlo
         return new ItemRenderBase() {
             @Override
             public void renderInventory(ItemStack stack, MultiBufferSource buffer) {
-                RenderContext.translate(0.0F, -1.85F, 0.0F);
-                RenderContext.scale(3.2F, 3.2F, 3.2F);
+                RenderContext.translate(0, -4F, 0);
+                RenderContext.scale(3.5F, 3.5F, 3.5F);
             }
 
             @Override
             public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
-                renderModel();
+                bindTexture(ResourceManager.CENTRIFUGE_TEX);
+                ResourceManager.centrifuge.renderAll();
             }
         };
     }

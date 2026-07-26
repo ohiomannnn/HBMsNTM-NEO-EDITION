@@ -63,7 +63,7 @@ public abstract class AbstractWavefrontBakedModel extends AbstractBakedModel {
                 int vertexCount = face.vertices.length;
                 if(vertexCount < 3) continue;
 
-                int[] indices = vertexCount >= 4 ? new int[]{0, 1, 2, 3} : new int[]{0, 1, 2, 2};
+                int[] indices = vertexCount >= 4 ? new int[]{ 0, 1, 2, 3 } : new int[]{ 0, 1, 2, 2 };
 
                 float[] px = new float[4];
                 float[] py = new float[4];
