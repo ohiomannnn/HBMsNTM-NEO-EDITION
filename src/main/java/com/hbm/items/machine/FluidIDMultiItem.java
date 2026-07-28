@@ -61,7 +61,7 @@ public class FluidIDMultiItem extends Item implements IScreenProvider, IItemCont
     }
 
     @Override
-    public void receiveControl(ItemStack stack, CompoundTag tag) {
+    public void receiveControl(Player player, ItemStack stack, CompoundTag tag) {
         if (tag.contains("Primary")) setType(stack, Fluids.fromID(tag.getInt("Primary")), true);
         if (tag.contains("Secondary")) setType(stack, Fluids.fromID(tag.getInt("Secondary")), false);
 

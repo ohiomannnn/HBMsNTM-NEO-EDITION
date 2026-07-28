@@ -4,10 +4,9 @@ import com.hbm.blockentity.bomb.NukeFatManBlockEntity;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.main.ResourceManager;
 import com.hbm.render.item.ItemRenderBase;
-import com.hbm.render.material.HFRWavefrontObjectTEST;
 import com.hbm.render.material.Material;
+import com.hbm.render.material.Material.CutoutMode;
 import com.hbm.render.util.RenderContext;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -19,7 +18,18 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public class RenderNukeFatMan extends BlockEntityRendererNT<NukeFatManBlockEntity> implements IBEWLRProvider {
-    @Override public BlockEntityRenderer<NukeFatManBlockEntity> create(Context context) { return new RenderNukeFatMan(); }
+
+    private static Material material;
+
+    @Override
+    public BlockEntityRenderer<NukeFatManBlockEntity> create(Context context) {
+
+        if(material == null) {
+            material = Material.builder().texture(ResourceManager.NUKE_FAT_MAN_TEX).cutout(CutoutMode.HALF).backfaceCulling(false).build();
+        }
+
+        return new RenderNukeFatMan();
+    }
 
     @Override
     public void render(NukeFatManBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
@@ -35,7 +45,7 @@ public class RenderNukeFatMan extends BlockEntityRendererNT<NukeFatManBlockEntit
             case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
         }
 
-        ResourceManager.nuke_fat_man_render.renderAll();
+        ResourceManager.nuke_fat_man.renderAll(material);
 
         RenderContext.end();
     }
@@ -62,7 +72,7 @@ public class RenderNukeFatMan extends BlockEntityRendererNT<NukeFatManBlockEntit
                 RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
                 RenderContext.translate(-0.75F, 0F, 0F);
 
-                ResourceManager.nuke_fat_man_render.renderAll();
+                ResourceManager.nuke_fat_man.renderAll(material);
             }
         };
     }

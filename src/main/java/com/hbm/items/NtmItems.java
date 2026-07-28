@@ -2,12 +2,14 @@ package com.hbm.items;
 
 import api.hbm.block.IToolable.ToolType;
 import com.hbm.blocks.NtmBlocks;
+import com.hbm.handler.ability.IToolAreaAbility;
+import com.hbm.handler.ability.IToolHarvestAbility;
+import com.hbm.handler.ability.IWeaponAbility;
 import com.hbm.inventory.MetaHelper;
 import com.hbm.inventory.NtmFoods;
 import com.hbm.inventory.NtmTiers;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.inventory.fluid.Fluids;
-import com.hbm.handler.ability.*;
 import com.hbm.items.ItemEnums.CapType;
 import com.hbm.items.ItemEnums.CasingType;
 import com.hbm.items.armor.ArmorNo9;
@@ -674,9 +676,11 @@ public class NtmItems {
     public static final DeferredItem<Item> MISSILE_SOYUZ = ITEMS.register("missile_soyuz", () -> new SoyuzItem(new Item.Properties()));
 
     // Satellites
-    public static final DeferredItem<Item> SATELLITE_RADAR = ITEMS.register("satellite_radar", () -> new SatChipItem(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> SATELLITE_LASER = ITEMS.register("satellite_laser", () -> new SatChipItem(new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> SATELLITE_INTERFACE = ITEMS.register("satellite_interface", () -> new SatelliteInterfaceItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> SATELLITE = ITEMS.register("satellite", () -> new SatelliteItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> SAT_GERALD = ITEMS.register("sat_gerald", () -> new SatChipItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> SAT_CHIP = ITEMS.register("sat_chip", () -> new SatChipItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> SAT_COORD = ITEMS.register("sat_coord", () -> new SatInterfaceItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> SAT_DESIGNATOR = ITEMS.register("sat_designator", () -> new SatDesignatorItem(new Item.Properties().stacksTo(1)));
 
     // Tools
     public static final DeferredItem<Item> BALEFIRE_AND_STEEL = ITEMS.register("balefire_and_steel", () -> new BalefireAndSteelItem(new Item.Properties().stacksTo(1).durability(256)));

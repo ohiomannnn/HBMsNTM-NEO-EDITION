@@ -4,18 +4,12 @@ import com.hbm.main.NuclearTechMod;
 import com.hbm.render.loader.old.ModelFormatException;
 import com.hbm.render.loader.old.TextureCoordinate;
 import com.hbm.render.loader.old.Vertex;
-import com.hbm.render.material.Material;
-import com.hbm.render.material.MaterialRenderState;
-import com.hbm.render.material.MaterialShaderCache;
 import com.hbm.render.util.NtmShaders;
-import com.hbm.render.util.RenderContext;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 
@@ -24,7 +18,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
-import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -403,7 +396,11 @@ public class HFRWavefrontObject {
         return vbos.computeIfAbsent(this, HFRWavefrontObject::upload);
     }
 
-    /** Uploads this model to the GPU */
+    public IObjRenderer asRenderer() {
+        return new ObjRenderer(this.getUploadedBuffer());
+    }
+
+    /** Uploads the model to the GPU */
     public static Map<String, VertexBuffer> upload(HFRWavefrontObject obj) {
         Map<String, VertexBuffer> buffers = new HashMap<>();
 
@@ -430,72 +427,5 @@ public class HFRWavefrontObject {
             buffers.put(g.name, buffer);
         }
         return buffers;
-    }
-
-    public record Renderer(Material material, Map<String, VertexBuffer> buffers) implements IWavefrontObjectRenderer {
-
-        public void renderGroup(VertexBuffer data) {
-
-            RenderContext context = RenderContext.INSTANCE.get();
-            int packedLight = context.packedLight;
-            int packedOverlay = context.packedOverlay;
-
-            ShaderInstance shader = MaterialShaderCache.get(material);
-
-            shader.safeGetUniform("UV1").set(packedOverlay & '\uffff', packedOverlay >> 16 & '\uffff');
-            shader.safeGetUniform("UV2").set(packedLight & '\uffff', packedLight >> 16 & '\uffff');
-            shader.safeGetUniform("Color").set(context.color);
-            shader.safeGetUniform("PoseMat").set(context.poseStack.last().pose());
-
-            MaterialRenderState.setup(material);
-
-            data.bind();
-            data.drawWithShader(RenderSystem.getModelViewMatrix(), RenderSystem.getProjectionMatrix(), shader);
-            VertexBuffer.unbind();
-
-            MaterialRenderState.reset();
-        }
-
-        @Override
-        public void renderAll() {
-            for(Entry<String, VertexBuffer> entry : buffers.entrySet()) {
-                this.renderGroup(entry.getValue());
-            }
-        }
-
-        @Override
-        public void renderPart(String partName) {
-            for(Entry<String, VertexBuffer> entry : buffers.entrySet()) {
-                if(entry.getKey().equalsIgnoreCase(partName)) {
-                    this.renderGroup(entry.getValue());
-                }
-            }
-        }
-
-
-        @Override
-        public void renderOnly(String... groupNames) {
-            for(Entry<String, VertexBuffer> entry : buffers.entrySet()) {
-                for(String name : groupNames) {
-                    if(entry.getKey().equalsIgnoreCase(name)) {
-                        this.renderGroup(entry.getValue());
-                    }
-                }
-            }
-        }
-
-        @Override
-        public void renderAllExcept(String... excludedGroupNames) {
-            for(Entry<String, VertexBuffer> entry : buffers.entrySet()) {
-                boolean skip = false;
-                for(String name : excludedGroupNames) {
-                    if(entry.getKey().equalsIgnoreCase(name)) {
-                        skip = true;
-                        break;
-                    }
-                }
-                if(!skip) renderGroup(entry.getValue());
-            }
-        }
     }
 }

@@ -2,7 +2,7 @@ package com.hbm.main;
 
 import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.loader.IModelCustom;
-import com.hbm.render.loader.IWavefrontObjectRenderer;
+import com.hbm.render.loader.IObjRenderer;
 import com.hbm.render.material.Material;
 import com.hbm.render.material.Material.CutoutMode;
 import net.minecraft.resources.ResourceLocation;
@@ -223,10 +223,8 @@ public class ResourceManager {
     public static IModelCustom fluid_tank_exploded;
 
     // Press
-    public static HFRWavefrontObject press_body;
-    public static IWavefrontObjectRenderer press_body_render;
-    public static HFRWavefrontObject press_head;
-    public static IWavefrontObjectRenderer press_head_render;
+    public static IObjRenderer press_body;
+    public static IObjRenderer press_head;
 
     // Assembler
     public static IModelCustom assembly_machine;
@@ -234,8 +232,7 @@ public class ResourceManager {
 
     public static IModelCustom nuke_gadget;
     public static IModelCustom nuke_little_boy;
-    public static HFRWavefrontObject nuke_fat_man;
-    public static IWavefrontObjectRenderer nuke_fat_man_render;
+    public static IObjRenderer nuke_fat_man;
     public static IModelCustom nuke_ivy_mike;
     public static IModelCustom nuke_tsar;
     public static IModelCustom nuke_prototype;
@@ -335,6 +332,7 @@ public class ResourceManager {
     public static IModelCustom armor_hat;
     public static IModelCustom armor_no9;
 
+    public static IObjRenderer sphere;
     public static IModelCustom sphere_new;
 
     public static void init() {
@@ -347,18 +345,15 @@ public class ResourceManager {
         fluid_tank = new HFRWavefrontObject("models/obj/machines/fluid_tank.obj").asVBO();
         fluid_tank_exploded = new HFRWavefrontObject("models/obj/machines/fluid_tank_exploded.obj").asVBO();
 
-        press_body = new HFRWavefrontObject("models/obj/press_body.obj");
-        press_body_render = new HFRWavefrontObject.Renderer(Material.builder().texture(PRESS_BODY_TEX).build(), press_body.getUploadedBuffer());
-        press_head = new HFRWavefrontObject("models/obj/press_head.obj");
-        press_head_render = new HFRWavefrontObject.Renderer(Material.builder().texture(PRESS_HEAD_TEX).build(), press_head.getUploadedBuffer());
+        press_body = new HFRWavefrontObject("models/obj/press_body.obj").asRenderer();
+        press_head = new HFRWavefrontObject("models/obj/press_head.obj").asRenderer();
 
         assembly_machine = new HFRWavefrontObject("models/obj/machines/assembly_machine.obj").asVBO();
         assembly_factory = new HFRWavefrontObject("models/obj/machines/assembly_factory.obj").asVBO();
 
         nuke_gadget = new HFRWavefrontObject("models/obj/bomb/nuke_gadget.obj").asVBO();
         nuke_little_boy = new HFRWavefrontObject("models/obj/bomb/nuke_little_boy.obj").asVBO();
-        nuke_fat_man = new HFRWavefrontObject("models/obj/bomb/nuke_fatman.obj");
-        nuke_fat_man_render = new HFRWavefrontObject.Renderer(Material.builder().texture(NUKE_FAT_MAN_TEX).backfaceCulling(false).cutout(CutoutMode.HALF).build(), nuke_fat_man.getUploadedBuffer());
+        nuke_fat_man = new HFRWavefrontObject("models/obj/bomb/nuke_fatman.obj").asRenderer();
         nuke_ivy_mike = new HFRWavefrontObject("models/obj/bomb/nuke_ivy_mike.obj").asVBO();
         nuke_tsar = new HFRWavefrontObject("models/obj/bomb/nuke_tsar.obj").asVBO();
         nuke_prototype = new HFRWavefrontObject("models/obj/bomb/nuke_prototype.obj").asVBO();
@@ -451,6 +446,7 @@ public class ResourceManager {
         armor_hat = new HFRWavefrontObject("models/obj/armor/hat.obj").asVBO();
         armor_no9 = new HFRWavefrontObject("models/obj/armor/no9.obj").asVBO();
 
+        sphere = new HFRWavefrontObject("models/obj/sphere.obj").asRenderer();
         sphere_new = new HFRWavefrontObject("models/obj/sphere_new.obj").asVBO();
     }
 }

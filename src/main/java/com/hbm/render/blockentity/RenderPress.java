@@ -4,7 +4,9 @@ import com.hbm.blockentity.machine.MachinePressBlockEntity;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.NtmRenderTypes;
 import com.hbm.render.item.ItemRenderBase;
+import com.hbm.render.material.Material;
 import com.hbm.render.util.RenderContext;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
@@ -22,7 +24,19 @@ import net.minecraft.world.phys.AABB;
 
 public class RenderPress extends BlockEntityRendererNT<MachinePressBlockEntity> implements IBEWLRProvider {
 
-    @Override public BlockEntityRenderer<MachinePressBlockEntity> create(Context context) { return new RenderPress(); }
+    private static Material material_body;
+    private static Material material_head;
+
+    @Override
+    public BlockEntityRenderer<MachinePressBlockEntity> create(Context context) {
+
+        if(material_body == null || material_head == null) {
+            material_body = Material.builder().texture(ResourceManager.PRESS_BODY_TEX).build();
+            material_head = Material.builder().texture(ResourceManager.PRESS_HEAD_TEX).build();
+        }
+
+        return new RenderPress();
+    }
 
     @Override
     public void render(MachinePressBlockEntity be, MultiBufferSource buffer, float partialTicks) {
@@ -32,7 +46,7 @@ public class RenderPress extends BlockEntityRendererNT<MachinePressBlockEntity> 
         RenderContext.pushPose(); {
             RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
 
-            ResourceManager.press_body_render.renderAll();
+            ResourceManager.press_body.renderAll(material_body);
         } RenderContext.popPose();
 
         RenderContext.pushPose(); {
@@ -41,7 +55,7 @@ public class RenderPress extends BlockEntityRendererNT<MachinePressBlockEntity> 
             float lerp = (Mth.lerp(partialTicks, be.lastPress, be.renderPress) / (float) MachinePressBlockEntity.maxPress);
             RenderContext.translate(0F, Mth.clamp((1F - lerp), 0F, 1F) * 0.875F, 0);
 
-            ResourceManager.press_head_render.renderAll();
+            ResourceManager.press_head.renderAll(material_head);
         } RenderContext.popPose();
 
         RenderContext.pushPose(); {
@@ -100,9 +114,9 @@ public class RenderPress extends BlockEntityRendererNT<MachinePressBlockEntity> 
 
             @Override
             public void renderCommon(ItemStack stack, MultiBufferSource buffer) {
-                ResourceManager.press_body_render.renderAll();
+                ResourceManager.press_body.renderAll(material_body);
                 RenderContext.translate(0F, 0.5F, 0F);
-                ResourceManager.press_head_render.renderAll();
+                ResourceManager.press_head.renderAll(material_head);
             }
         };
     }

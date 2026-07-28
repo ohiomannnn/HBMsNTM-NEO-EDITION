@@ -1,7 +1,7 @@
 package com.hbm.network.toserver;
 
-import com.hbm.main.NuclearTechMod;
 import com.hbm.items.IItemControlReceiver;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.util.InventoryUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -33,16 +33,15 @@ public record CompoundTagItemControl(CompoundTag tag) implements CustomPacketPay
         context.enqueueWork(() -> {
             Player player = context.player();
 
-            CompoundTag nbt = packet.tag();
+            CompoundTag tag = packet.tag();
             List<ItemStack> heldStacks = InventoryUtil.getItemsFromBothHands(player);
-            for (ItemStack held : heldStacks) {
-                if (held.getItem() instanceof IItemControlReceiver receiver) {
-                    receiver.receiveControl(held, nbt);
+            for(ItemStack held : heldStacks) {
+                if(held.getItem() instanceof IItemControlReceiver receiver) {
+                    receiver.receiveControl(player, held, tag);
                 }
             }
         });
     }
 
-    @Override
-    public Type<? extends CustomPacketPayload> type() { return TYPE; }
+    @Override public Type<? extends CustomPacketPayload> type() { return TYPE; }
 }

@@ -2,10 +2,10 @@ package com.hbm.main;
 
 import com.hbm.blockentity.machine.MachineRadarBlockEntity;
 import com.hbm.config.NtmConfig;
-import com.hbm.entity.missile.MissileAntiBallistic;
 import com.hbm.extprop.HbmPlayerAttachments;
 import com.hbm.handler.HTTPHandler;
 import com.hbm.network.toclient.InformPlayer;
+import com.hbm.saveddata.satellite.SatelliteDetector;
 import com.hbm.uninos.UniNodespace;
 import com.hbm.world.MeteorStrikeSystem;
 import net.minecraft.ChatFormatting;
@@ -18,6 +18,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 
@@ -73,4 +74,9 @@ public class NtmEventHandler {
         MeteorStrikeSystem.update(event.getServer());
     }
 
+    @SubscribeEvent
+    public static void levelTick(LevelTickEvent.Pre event) {
+
+        SatelliteDetector.updateSystem(event.getLevel());
+    }
 }

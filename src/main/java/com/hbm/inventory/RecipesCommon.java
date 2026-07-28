@@ -94,6 +94,11 @@ public class RecipesCommon {
             this.meta = meta;
         }
 
+        public ComparableStack(Item item, int stacksize, Enum<?> meta) {
+            this(item, stacksize);
+            this.meta = meta.ordinal();
+        }
+
         public ItemStack toStack() {
             return MetaHelper.newStack(item, stacksize, meta);
         }

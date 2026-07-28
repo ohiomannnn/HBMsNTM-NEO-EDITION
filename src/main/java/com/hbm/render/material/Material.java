@@ -3,6 +3,8 @@ package com.hbm.render.material;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.Objects;
+
 public record Material(
         ResourceLocation texture,
         CutoutMode cutout,
@@ -15,10 +17,23 @@ public record Material(
         ShadeMode lightingMode
 ) {
 
+    @Override
+    public boolean equals(Object o) {
+        if(this == o) return true;
+        if(!(o instanceof Material other)) return false;
+        return cutout == other.cutout && lightingMode == other.lightingMode;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cutout, lightingMode);
+    }
+
     public enum CutoutMode {
         OFF(-1F),
         HALF(0.5F),
-        ONE_TENTH(0.1F);
+        ONE_TENTH(0.1F),
+        ZERO(0F);
 
         public final float threshold;
         CutoutMode(float threshold) { this.threshold = threshold; }
@@ -31,6 +46,7 @@ public record Material(
         GLINT,
         CRUMBLING,
         TRANSLUCENT,
+        S7710,
         ORDER_INDEPENDENT
     }
 

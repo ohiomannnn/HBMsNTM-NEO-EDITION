@@ -86,6 +86,10 @@ public class CommonConfig {
     public final BooleanValue ENABLE_CONTAMINATION;
     public final BooleanValue ENABLE_CHUNK_RADS;
 
+    public final BooleanValue ENABLE_SOOT_FOG;
+    public final DoubleValue SOOT_FOG_THRESHOLD;
+    public final DoubleValue SOOT_FOG_DIVISOR;
+
     // HAZARDS (14)
     public final BooleanValue DISABLE_ASBESTOS;
     public final BooleanValue DISABLE_COAL;
@@ -393,6 +397,19 @@ public class CommonConfig {
                 .comment("Toggles the world radiation system (chunk radiation only, some blocks use an AoE!).")
                 .translation("hbmsntm.configuration.enableChunkRads")
                 .define("enableChunkRads", true);
+
+        ENABLE_SOOT_FOG = builder
+                .comment("Whether smog should be visible")
+                .translation("hbmsntm.configuration.enableSootFog")
+                .define("enableSootFog", true);
+        SOOT_FOG_THRESHOLD = builder
+                .comment("How much soot is required for smog to become visible")
+                .translation("hbmsntm.configuration.sootFogThreshold")
+                .defineInRange("sootFogThreshold", 35.0, 0, Double.MAX_VALUE);
+        SOOT_FOG_DIVISOR = builder
+                .comment("The divisor for smog, higher numbers will require more soot for the same smog density")
+                .translation("hbmsntm.configuration.sootFogDivisor")
+                .defineInRange("sootFogDivisor", 120.0, 1.0, Double.MAX_VALUE);
 
         builder.pop();
 

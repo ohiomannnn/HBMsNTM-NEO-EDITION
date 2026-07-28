@@ -5,7 +5,7 @@ import com.hbm.items.ISatChip;
 import com.hbm.particle.NtmParticles;
 import com.hbm.particle.vanilla.NbtParticleOptions;
 import com.hbm.registry.NtmSoundEvents;
-import com.hbm.saveddata.satellite.Satellite;
+import com.hbm.saveddata.satellite.XSatelliteRegistry;
 import com.hbm.util.SoundUtils;
 import com.hbm.util.particle.ParticleUtil;
 import net.minecraft.core.NonNullList;
@@ -100,7 +100,7 @@ public class Soyuz extends Entity {
             if(stack.getItem() instanceof ISatChip) {
                 int freq = ISatChip.getFreqS(stack);
                 if(this.level instanceof ServerLevel serverLevel) {
-                    Satellite.orbit(serverLevel, Satellite.getIDFromItem(stack.getItem()), freq, this.position);
+                    XSatelliteRegistry.orbit(serverLevel, stack, freq, this.getX(), this.getY(), this.getZ());
                 }
             }
         }

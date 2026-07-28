@@ -697,6 +697,7 @@ public class NuclearTechModClient {
         event.registerSpecial(NtmParticles.TOM_BLAST.get(), new CloudTomParticle.Provider());
     }
 
+    @Deprecated
     public static void effectNT(CompoundTag data) {
         Minecraft mc = Minecraft.getInstance();
 

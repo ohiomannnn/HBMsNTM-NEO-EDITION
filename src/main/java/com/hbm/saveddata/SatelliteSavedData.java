@@ -1,6 +1,7 @@
 package com.hbm.saveddata;
 
-import com.hbm.saveddata.satellite.Satellite;
+import com.hbm.saveddata.satellite.SatelliteBase;
+import com.hbm.saveddata.satellite.XSatelliteRegistry;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -8,6 +9,7 @@ import net.minecraft.world.level.saveddata.SavedData;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class SatelliteSavedData extends SavedData {
 
@@ -17,7 +19,7 @@ public class SatelliteSavedData extends SavedData {
         );
     }
 
-    public final Map<Integer, Satellite> satellites = new HashMap<>();
+    public final Map<Integer, SatelliteBase> sats = new HashMap<>();
     
     public SatelliteSavedData() {
         this.setDirty();
@@ -27,25 +29,21 @@ public class SatelliteSavedData extends SavedData {
         return getSatFromFreq(freq) != null;
     }
 
-    public Satellite getSatFromFreq(int freq) {
-        return satellites.get(freq);
+    public SatelliteBase getSatFromFreq(int freq) {
+        return sats.get(freq);
     }
 
     public static SatelliteSavedData load(CompoundTag tag, HolderLookup.Provider registries) {
         SatelliteSavedData data = new SatelliteSavedData();
 
-        int satCount = tag.getInt("SatellitesCount");
+        int satCount = tag.getInt("satCount");
 
         for(int i = 0; i < satCount; i++) {
-            int id = tag.getInt("SatId_" + i);
-            int freq = tag.getInt("SatData_" + i);
+            SatelliteBase sat = XSatelliteRegistry.createFromId(tag.getInt("sat_id_" + i));
+            sat.readFromNBT((CompoundTag) tag.get("sat_data_" + i));
 
-            CompoundTag satTag = tag.getCompound("SatFreq_" + i);
-
-            Satellite sat = Satellite.create(id);
-            sat.readAdditional(satTag);
-
-            data.satellites.put(freq, sat);
+            int freq = tag.getInt("sat_freq_" + i);
+            data.sats.put(freq, sat);
         }
 
         return data;
@@ -53,18 +51,17 @@ public class SatelliteSavedData extends SavedData {
 
     @Override
     public CompoundTag save(CompoundTag tag, HolderLookup.Provider registries) {
-        tag.putInt("SatellitesCount", satellites.size());
+        tag.putInt("satCount", sats.size());
 
         int i = 0;
-        for(Map.Entry<Integer, Satellite> entry : satellites.entrySet()) {
-            Satellite sat = entry.getValue();
 
-            CompoundTag satTag = new CompoundTag();
-            sat.saveAdditional(satTag);
+        for(Entry<Integer, SatelliteBase> struct : sats.entrySet()) {
+            CompoundTag data = new CompoundTag();
+            struct.getValue().writeToNBT(data);
 
-            tag.putInt("SatId_" + i, sat.getID());
-            tag.put("SatData_" + i, satTag);
-            tag.putInt("SatFreq_" + i, entry.getKey());
+            tag.putInt("sat_id_" + i, struct.getValue().getID());
+            tag.put("sat_data_" + i, data);
+            tag.putInt("sat_freq_" + i, struct.getKey());
             i++;
         }
 

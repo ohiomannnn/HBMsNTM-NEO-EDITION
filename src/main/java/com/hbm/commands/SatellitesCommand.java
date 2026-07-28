@@ -2,7 +2,7 @@ package com.hbm.commands;
 
 import com.hbm.items.ISatChip;
 import com.hbm.saveddata.SatelliteSavedData;
-import com.hbm.saveddata.satellite.Satellite;
+import com.hbm.saveddata.satellite.XSatelliteRegistry;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -19,7 +19,7 @@ public class SatellitesCommand {
     private static final SuggestionProvider<CommandSourceStack> FREQ_SUGGESTIONS =
             (context, builder) -> {
                 SatelliteSavedData data = SatelliteSavedData.getData(context.getSource().getLevel());
-                data.satellites.keySet().forEach(freq -> builder.suggest(String.valueOf(freq)));
+                data.sats.keySet().forEach(freq -> builder.suggest(String.valueOf(freq)));
                 return builder.buildFuture();
             };
 
@@ -52,11 +52,10 @@ public class SatellitesCommand {
 
         if(stack.getItem() instanceof ISatChip) {
 
-            int id = Satellite.getIDFromItem(stack.getItem());
             int freq = ISatChip.getFreqS(stack);
             ServerLevel level = player.serverLevel();
 
-            Satellite.orbit(level, id, freq, player.position());
+            XSatelliteRegistry.orbit(level, stack, freq, player.getX(), player.getY(), player.getZ());
             stack.shrink(1);
             context.getSource().sendSuccess(() -> Component.translatable("commands.satellite.satellite_orbited"), false);
 
@@ -76,8 +75,8 @@ public class SatellitesCommand {
 
         SatelliteSavedData data = SatelliteSavedData.getData(level);
 
-        if(data.satellites.containsKey(freq)) {
-            data.satellites.remove(freq);
+        if(data.sats.containsKey(freq)) {
+            data.sats.remove(freq);
             data.setDirty();
 
             source.sendSuccess(() -> Component.translatable("commands.satellite.satellite_descended"), true);
@@ -96,12 +95,12 @@ public class SatellitesCommand {
 
         SatelliteSavedData data = SatelliteSavedData.getData(level);
 
-        if(data.satellites.isEmpty()) {
+        if(data.sats.isEmpty()) {
             source.sendFailure(Component.translatable("commands.satellite.no_active_satellites"));
             return 0;
         }
 
-        data.satellites.forEach(
+        data.sats.forEach(
                 (freq, sat) ->
                 source.sendSuccess(() -> Component.literal(freq + " - " + sat.getClass().getSimpleName()), false)
         );

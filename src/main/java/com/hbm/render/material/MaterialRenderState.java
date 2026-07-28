@@ -87,6 +87,10 @@ public class MaterialRenderState {
                 RenderSystem.enableBlend();
                 RenderSystem.blendFuncSeparate(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA, SourceFactor.ONE, DestFactor.ONE_MINUS_SRC_ALPHA);
             }
+            case S7710 -> {
+                RenderSystem.enableBlend();
+                RenderSystem.blendFuncSeparate(770, 771, 1, 0);
+            }
         }
     }
 

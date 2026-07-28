@@ -390,7 +390,7 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItem
     }
 
     @Override
-    public void receiveControl(ItemStack stack, CompoundTag tag) {
+    public void receiveControl(Player player, ItemStack stack, CompoundTag tag) {
         Configuration config = new Configuration();
         config.readFromNBT(tag);
         config.restrictTo(availableAbilities);

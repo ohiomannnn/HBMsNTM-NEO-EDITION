@@ -20,15 +20,14 @@ public class NtmNetwork {
         registrar.playToServer(CompoundTagItemControl.TYPE, CompoundTagItemControl.STREAM_CODEC, CompoundTagItemControl::handleServer);
         registrar.playToServer(Ducc.TYPE, Ducc.STREAM_CODEC, Ducc::handleServer);
         registrar.playToServer(CompoundTagControl.TYPE, CompoundTagControl.STREAM_CODEC, CompoundTagControl::handleServer);
-        registrar.playToServer(SatelliteLaser.TYPE, SatelliteLaser.STREAM_CODEC, SatelliteLaser::handleServer);
         registrar.playToServer(AnvilConstructionPacket.TYPE, AnvilConstructionPacket.STREAM_CODEC, AnvilConstructionPacket::handleServer);
 
         registrar.playToClient(VanillaExplosionLike.TYPE, VanillaExplosionLike.STREAM_CODEC, VanillaExplosionLike::handleClient);
         registrar.playToClient(InformPlayer.TYPE, InformPlayer.STREAM_CODEC, InformPlayer::handleClient);
         registrar.playToClient(ParticleBurst.TYPE, ParticleBurst.STREAM_CODEC, ParticleBurst::handleClient);
         registrar.playToClient(AuxParticle.TYPE, AuxParticle.STREAM_CODEC, AuxParticle::handleClient);
-        registrar.playToClient(SatellitePanel.TYPE, SatellitePanel.STREAM_CODEC, SatellitePanel::handleCommon);
         registrar.playToClient(BufPacket.TYPE, BufPacket.STREAM_CODEC, BufPacket::handleCommon);
         registrar.playToClient(HbmAnimation.TYPE, HbmAnimation.STREAM_CODEC, HbmAnimation::handleCommon);
+        registrar.playToClient(PermaSyncPacket.TYPE, PermaSyncPacket.STREAM_CODEC, PermaSyncPacket::handleCommon);
     }
 }

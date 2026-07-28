@@ -721,7 +721,7 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.basicItem(NtmItems.GEIGER_COUNTER.get());
         this.basicCustomLayerItem(NtmItems.OIL_DETECTOR.get(), "oil_detector");
         this.basicItem(NtmItems.DIGAMMA_DIAGNOSTIC.get());
-        this.basicItem(NtmItems.METEOR_REMOTE.get());
+        this.handheldItem(NtmItems.METEOR_REMOTE.get());
         this.basicItem(NtmItems.METEOR_CHARM.get());
         this.basicItem(NtmItems.PROTECTION_CHARM.get());
 
@@ -765,9 +765,11 @@ public class NtmItemModelProvider extends ItemModelProvider {
 
         // MISSILE_SOYUZ uses ICustomItemModelRegister
 
-        this.basicItem(NtmItems.SATELLITE_RADAR.get());
-        this.basicItem(NtmItems.SATELLITE_LASER.get());
-        this.basicItem(NtmItems.SATELLITE_INTERFACE.get());
+        // SATELLITE uses ICustomItemModelRegister
+        this.basicItem(NtmItems.SAT_GERALD.get());
+        this.basicItem(NtmItems.SAT_CHIP.get());
+        this.basicItem(NtmItems.SAT_COORD.get());
+        this.handheldItem(NtmItems.SAT_DESIGNATOR.get());
 
         this.basicItem(NtmItems.BALEFIRE_AND_STEEL.get());
 

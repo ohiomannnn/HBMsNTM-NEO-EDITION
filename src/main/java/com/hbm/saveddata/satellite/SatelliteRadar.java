@@ -1,10 +1,108 @@
 package com.hbm.saveddata.satellite;
 
-public class SatelliteRadar extends Satellite {
+import api.hbm.entity.IRadarDetectableNT.RadarScanParams;
+import api.hbm.redstoneoverradio.IRORInteractive;
+import com.hbm.blockentity.machine.MachineRadarBlockEntity;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
 
-    public SatelliteRadar() {
-        this.ifaceAcs.add(InterfaceActions.HAS_MAP);
-        this.ifaceAcs.add(InterfaceActions.HAS_RADAR);
-        this.satIface = Interfaces.SAT_PANEL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+/**
+ * Basically the AUTOCAL is now mandatory lol lmao
+ */
+public class SatelliteRadar extends SatelliteBase {
+
+    public static final int MAX_SCAN_RANGE = 1_000;
+    public static RadarScanParams scanParams = new RadarScanParams(true, true, true, false);
+
+    public static final String CMD_SURVEY = "survey";
+    public static final String CMD_FILTER = "filter";
+    public static final String CMD_COUNT = "count";
+    public static final String CMD_GETTARGETID = "gettargetid";
+    public static final String CMD_GETPOSITION = "getposition";
+    public static final String CMD_GETNAME = "getname";
+
+    public List<Entity> cachedRadarResults = new ArrayList<>();
+    public List<Entity> filteredRadarResults = new ArrayList<>();
+
+    public SatelliteRadar() { }
+
+    @Override public String getType() { return "LEO_RADAR"; }
+
+    @Override
+    public void onCommandImpl(Level level, String... cmd) {
+        if(cmd.length <= 0) return;
+
+        if(cmd[0].equals(CMD_SURVEY)) {
+
+            cachedRadarResults.clear();
+
+            for(Entity entity : MachineRadarBlockEntity.matchingEntities) {
+                if(entity.level.dimension() != level.dimension()) continue;
+
+                int x = (int) Math.floor(entity.getX());
+                int z = (int) Math.floor(entity.getZ());
+
+                double dX = x - targetX;
+                double dZ = z - targetZ;
+
+                if(dX * dX + dZ * dZ <= MAX_SCAN_RANGE * MAX_SCAN_RANGE) cachedRadarResults.add(entity);
+            }
+
+            filteredRadarResults = new ArrayList<>(cachedRadarResults);
+            return;
+        }
+
+        if(cmd[0].equals(CMD_FILTER) && cmd.length == 2) {
+
+            filteredRadarResults.clear();
+            String filter = cmd[1].toLowerCase(Locale.US);
+
+            for(Entity entity : cachedRadarResults) {
+                if(entity.isRemoved()) continue;
+                String classname = entity.getClass().getSimpleName().toLowerCase(Locale.US);
+                if(classname.contains(filter)) {
+                    filteredRadarResults.add(entity);
+                }
+            }
+            return;
+        }
+
+        if(cmd[0].equals(CMD_COUNT)) {
+            this.tx = "" + filteredRadarResults.size();
+            return;
+        }
+
+        if(cmd[0].equals(CMD_GETTARGETID) && cmd.length == 2) {
+            Entity target = getTargetFromIndex(cmd[1]);
+            if(target == null) { this.tx = ""; return; }
+            this.tx = "" + target.getId();
+            return;
+        }
+
+        if(cmd[0].equals(CMD_GETPOSITION) && cmd.length == 2) {
+            Entity target = getTargetFromIndex(cmd[1]);
+            if(target == null) { this.tx = ""; return; }
+            this.tx = (int) Math.floor(target.getX()) + ";" + (int) Math.floor(target.getY()) + ";" + (int) Math.floor(target.getZ());
+            return;
+        }
+
+        if(cmd[0].equals(CMD_GETNAME) && cmd.length == 2) {
+            Entity target = getTargetFromIndex(cmd[1]);
+            if(target == null) { this.tx = ""; return; }
+            this.tx = target.getClass().getSimpleName().toLowerCase(Locale.US);
+            return;
+        }
+    }
+
+    public Entity getTargetFromIndex(String cmd) {
+        if(filteredRadarResults.size() <= 0) return null;
+        int index = IRORInteractive.parseInt(cmd, 0, filteredRadarResults.size()) - 1;
+        Entity target = filteredRadarResults.get(index);
+        if(target.isRemoved()) return null;
+        return target;
     }
 }

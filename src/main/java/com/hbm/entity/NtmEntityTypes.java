@@ -99,13 +99,10 @@ public class NtmEntityTypes {
 
     public static final DeferredHolder<EntityType<?>, EntityType<Rocket>> ROCKET = ENTITY_TYPES.register("rocket", () -> EntityType.Builder.of(Rocket::new, MobCategory.MISC).sized(0.5F, 0.5F).build("rocket"));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<Tom>> TOM = ENTITY_TYPES.register("tom", () -> EntityType.Builder.of(Tom::new, MobCategory.MISC).setTrackingRange(1000).build("tom"));
+    public static final DeferredHolder<EntityType<?>, EntityType<Tom>> TOM = ENTITY_TYPES.register("tom", () -> EntityType.Builder.<Tom>of(Tom::new, MobCategory.MISC).setTrackingRange(1000).build("tom"));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<DeathBlast>> DEATH_BLAST = ENTITY_TYPES.register(
-            "death_blast",
-            () -> EntityType.Builder.of(DeathBlast::new, MobCategory.MISC)
-                    .setTrackingRange(1000)
-                    .build("death_blast"));
+    public static final DeferredHolder<EntityType<?>, EntityType<DeathBlast>> DEATH_BLAST = ENTITY_TYPES.register("death_blast", () -> EntityType.Builder.<DeathBlast>of(DeathBlast::new, MobCategory.MISC).setTrackingRange(1000).build("death_blast"));
+    public static final DeferredHolder<EntityType<?>, EntityType<OrbitalLaser>> ORBITAL_LASER = ENTITY_TYPES.register("orbital_laser", () -> EntityType.Builder.<OrbitalLaser>of(OrbitalLaser::new, MobCategory.MISC).setTrackingRange(1000).build("orbital_laser"));
 
     public static final DeferredHolder<EntityType<?>, EntityType<Bomber>> BOMBER = ENTITY_TYPES.register(
             "bomber",

@@ -5,6 +5,7 @@ import com.hbm.blockentity.machine.MachineRadarBlockEntity;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.commands.ChunkRadCommand;
 import com.hbm.commands.LivingPropsCommand;
+import com.hbm.commands.PollutionCommand;
 import com.hbm.commands.SatellitesCommand;
 import com.hbm.config.FalloutConfigJSON;
 import com.hbm.entity.NtmEntityTypes;
@@ -22,7 +23,7 @@ import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.inventory.screens.*;
 import com.hbm.items.IEquipReceiver;
 import com.hbm.items.weapon.sedna.factory.GunFactory;
-import com.hbm.saveddata.satellite.Satellite;
+import com.hbm.saveddata.satellite.XSatelliteRegistry;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.DamageResistanceHandler;
 import net.minecraft.core.BlockPos;
@@ -68,7 +69,7 @@ public class CommonEvents {
         HazardRegistry.registerItems();
         HazmatRegistry.registerHazmats();
         ArmorUtil.register();
-        Satellite.register();
+        XSatelliteRegistry.register();
         LaunchPadBaseBlockEntity.registerLaunchables();
 
         MachineRadarBlockEntity.registerEntityClasses();
@@ -141,6 +142,7 @@ public class CommonEvents {
         LivingPropsCommand.register(event.getDispatcher());
         SatellitesCommand.register(event.getDispatcher());
         ChunkRadCommand.register(event.getDispatcher());
+        PollutionCommand.register(event.getDispatcher());
     }
 
     @SubscribeEvent

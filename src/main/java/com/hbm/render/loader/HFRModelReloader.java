@@ -1,5 +1,6 @@
 package com.hbm.render.loader;
 
+import com.mojang.blaze3d.vertex.VertexBuffer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -8,6 +9,7 @@ import net.minecraft.util.profiling.ProfilerFiller;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 import java.util.Map.Entry;
 
 public class HFRModelReloader extends SimplePreparableReloadListener<Void> {
@@ -36,6 +38,19 @@ public class HFRModelReloader extends SimplePreparableReloadListener<Void> {
 
             vbo.destroy();
             vbo.load(obj);
+        }
+
+        for(Entry<HFRWavefrontObject, Map<String, VertexBuffer>> entry : HFRWavefrontObject.vbos.entrySet()) {
+            HFRWavefrontObject obj = entry.getKey();
+            Map<String, VertexBuffer> oldBuffers = entry.getValue();
+
+            for(VertexBuffer buffer : oldBuffers.values()) {
+                buffer.close();
+            }
+
+            Map<String, VertexBuffer> newBuffers = HFRWavefrontObject.upload(obj);
+            oldBuffers.clear();
+            oldBuffers.putAll(newBuffers);
         }
     }
 }

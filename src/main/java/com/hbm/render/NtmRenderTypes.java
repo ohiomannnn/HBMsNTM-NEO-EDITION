@@ -5,7 +5,6 @@ import com.hbm.render.util.NtmShaders.NtmVertexFormat;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import net.minecraft.Util;
 import net.minecraft.client.renderer.RenderStateShard;
@@ -45,8 +44,10 @@ public class NtmRenderTypes {
     // original NO_TRANSPARENCY disabled blending... why mojang???
     public static final TransparencyStateShard NO_TRANSPARENCY = new TransparencyStateShard("no_transparency", () -> {}, () -> {});
 
+    @Deprecated
     public static final ShaderStateShard VBO_SHADER = new ShaderStateShard(NtmShaders::getVboShader);
 
+    @Deprecated
     public static final RenderType VBO = RenderType.create("vbo", NtmVertexFormat.POSITION_TEX_NORMAL, Mode.QUADS, 1024,
             CompositeState.builder()
                     .setShaderState(VBO_SHADER)
@@ -56,6 +57,7 @@ public class NtmRenderTypes {
                     .createCompositeState(false)
     );
 
+    @Deprecated
     public static final RenderType GLOW = RenderType.create(
             "glow",
             DefaultVertexFormat.POSITION_COLOR,
@@ -72,6 +74,7 @@ public class NtmRenderTypes {
                     .createCompositeState(false)
     );
 
+    @Deprecated
     public static final Function<ResourceLocation, RenderType> ADDITIVE = Util.memoize(
             texture -> {
                 CompositeState state = CompositeState.builder()
@@ -89,6 +92,7 @@ public class NtmRenderTypes {
             }
     );
 
+    @Deprecated
     public static final Function<ResourceLocation, RenderType> SMOTH = Util.memoize(
             texture -> {
                 CompositeState state = CompositeState.builder()
@@ -105,6 +109,7 @@ public class NtmRenderTypes {
             }
     );
 
+    @Deprecated
     public static final Function<ResourceLocation, RenderType> SMOTH_NO_DEPTH = Util.memoize(
             texture -> {
                 CompositeState state = CompositeState.builder()
@@ -121,6 +126,7 @@ public class NtmRenderTypes {
             }
     );
 
+    @Deprecated
     public static final Function<ResourceLocation, RenderType> NUKE_CLOUDS = Util.memoize(
             texture -> {
                 CompositeState state = CompositeState.builder()
@@ -137,6 +143,7 @@ public class NtmRenderTypes {
             }
     );
 
+    @Deprecated
     public static final Function<ResourceLocation, RenderType> NUKE_FLASH = Util.memoize(
             texture -> {
                 CompositeState state = CompositeState.builder()
@@ -153,15 +160,7 @@ public class NtmRenderTypes {
             }
     );
 
-    public static RenderType entitySmoth(ResourceLocation location) {
-        return SMOTH.apply(location);
-    }
-
-    public static RenderType entitySmothNoDepth(ResourceLocation location) {
-        return SMOTH_NO_DEPTH.apply(location);
-    }
-
-    public static RenderType entityAdditive(ResourceLocation location) {
-        return ADDITIVE.apply(location);
-    }
+    @Deprecated public static RenderType entitySmoth(ResourceLocation location) { return SMOTH.apply(location); }
+    @Deprecated public static RenderType entitySmothNoDepth(ResourceLocation location) { return SMOTH_NO_DEPTH.apply(location); }
+    @Deprecated public static RenderType entityAdditive(ResourceLocation location) { return ADDITIVE.apply(location); }
 }

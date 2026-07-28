@@ -1005,9 +1005,12 @@ public class NtmCreativeTabs {
                         output.accept(NtmItems.MISSILE_DOOMSDAY_RUSTED);
                         addMetaItems(output, NtmItems.MISSILE_SOYUZ.get());
 
-                        output.accept(NtmItems.SATELLITE_RADAR);
-                        output.accept(NtmItems.SATELLITE_LASER);
-                        output.accept(NtmItems.SATELLITE_INTERFACE);
+                        addMetaItems(output, NtmItems.SATELLITE.get());
+                        output.accept(NtmItems.SAT_GERALD);
+                        output.accept(NtmItems.SAT_CHIP);
+                        output.accept(NtmItems.SAT_COORD);
+                        output.accept(NtmItems.SAT_DESIGNATOR);
+
                     }).build());
 
     // turrets, weapons, ammo

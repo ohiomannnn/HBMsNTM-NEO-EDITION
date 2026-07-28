@@ -6,14 +6,15 @@ import com.hbm.blocks.generic.OreBasaltBlock.BasaltOreType;
 import com.hbm.blocks.generic.PlushieBlock.PlushieType;
 import com.hbm.blocks.machine.NTMAnvilBlock.Variant;
 import com.hbm.fluids.NtmFluidTypes;
-import com.hbm.items.ItemEnums.CapType;
 import com.hbm.items.CastPlateItem;
+import com.hbm.items.ItemEnums.CapType;
 import com.hbm.items.NtmItems;
 import com.hbm.items.food.ConserveItem.ConserveType;
 import com.hbm.items.food.DrinkItem.DrinkType;
 import com.hbm.items.machine.BatteryPackItem.BatteryPackType;
 import com.hbm.items.machine.BatterySCItem.BatterySCType;
 import com.hbm.items.machine.BreedingRodItem.BreedingRodType;
+import com.hbm.items.special.SatelliteItem.SatType;
 import com.hbm.items.special.StarterKitItem.KitType;
 import com.hbm.main.NuclearTechMod;
 import net.minecraft.data.PackOutput;
@@ -1193,11 +1194,21 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmItems.MISSILE_SOYUZ, "Soyuz-FG");
 
         this.add("item.hbmsntm.obj_sat_chip.frequency", "Satellite frequency: %s");
-        this.add(NtmItems.SATELLITE_RADAR, "Radar Survey Satellite");
-        this.add(NtmItems.SATELLITE_RADAR, DESC, "Shows a map of active entities.");
-        this.add(NtmItems.SATELLITE_LASER, "Orbital Death Ray");
-        this.add(NtmItems.SATELLITE_LASER, DESC, "Allows to summon lasers with a 15 second cooldown.");
-        this.add(NtmItems.SATELLITE_INTERFACE, "Satellite Control Interface");
+        this.add(NtmItems.SATELLITE, this.getName(SatType.SPY), "Spy Satellite");
+        this.add(NtmItems.SATELLITE, this.getName(SatType.SCANNER), "Depth Scanning Satellite");
+        this.add(NtmItems.SATELLITE, this.getName(SatType.RADAR), "Radar Satellite");
+        this.add(NtmItems.SATELLITE, this.getName(SatType.MINER_ASTRO), "Asteroid Mining Ship");
+        this.add(NtmItems.SATELLITE, this.getName(SatType.MINER_LUNAR), "Lunar Mining Ship");
+        this.add(NtmItems.SATELLITE, this.getName(SatType.PRECISION_LASER), "Orbital Precision Laser");
+        this.add(NtmItems.SATELLITE, this.getName(SatType.DEATH_RAY), "Orbital Death Ray");
+        this.add(NtmItems.SATELLITE, this.getName(SatType.XENIUM_RESONATOR), "Xenium Resonator Satellite");
+        this.add(NtmItems.SATELLITE, this.getName(SatType.RELAY), "Relay Satellite");
+        this.add(NtmItems.SATELLITE, this.getName(SatType.DETECTOR), "Wideband Radio Emission Detector Satellite");
+        this.add(NtmItems.SAT_GERALD, "Gerald The Construction Android");
+        this.add(NtmItems.SAT_GERALD, DESC, "Single use.$Requires orbital module.$Melter of CPUs, bane of every server owner.");
+        this.add(NtmItems.SAT_CHIP, "Satellite ID-Chip");
+        this.add(NtmItems.SAT_COORD, "Satellite Laser Designator");
+        this.add(NtmItems.SAT_DESIGNATOR, "Satellite Designator");
 
         this.add(NtmItems.BALEFIRE_AND_STEEL, "Balefire and Steel");
 

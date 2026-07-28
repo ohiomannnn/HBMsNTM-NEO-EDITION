@@ -1,32 +1,39 @@
-package com.hbm.handler;
+package com.hbm.handler.pollution;
 
 import com.hbm.config.NtmConfig;
 import com.hbm.inventory.NtmTags;
+import com.hbm.main.NuclearTechMod;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.*;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
+import net.minecraft.world.level.storage.LevelResource;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map.Entry;
 
-// todo add save data
 @EventBusSubscriber
 public class PollutionHandler {
 
-    public static HashMap<Level, PollutionPerLevel> perLevel = new HashMap<>();
+    public static final String fileName = "hbmpollution.dat";
+
+    public static final HashMap<Level, PollutionPerLevel> perLevel = new HashMap<>();
 
     /** Baserate of soot generation for a furnace-equivalent machine per second */
     public static final float SOOT_PER_SECOND = 1F / 25F;
@@ -85,15 +92,78 @@ public class PollutionHandler {
         return data.pollution[type.ordinal()];
     }
 
-    public static PollutionData getPollutionData(Level level, BlockPos toChange) {
+    public static PollutionData getPollutionData(Level level, BlockPos at) {
 
         if(!NtmConfig.COMMON.ENABLE_POLLUTION.get()) return null;
 
         PollutionPerLevel ppw = perLevel.get(level);
         if(ppw == null) return null;
-        ChunkPos pos = new ChunkPos(toChange);
+        ChunkPos pos = new ChunkPos(at);
         return ppw.pollution.get(pos);
     }
+
+    //////////////////////
+    /// EVENT HANDLING ///
+    //////////////////////
+    @SubscribeEvent
+    public static void onLevelLoad(LevelEvent.Load event) {
+        if(!event.getLevel().isClientSide() && NtmConfig.COMMON.ENABLE_POLLUTION.get() && event.getLevel() instanceof ServerLevel level) {
+
+            String dirPath = getDataDir(level);
+
+            try {
+                File pollutionFile = new File(dirPath, fileName);
+
+                if(pollutionFile.exists()) {
+                    try(FileInputStream io = new FileInputStream(pollutionFile)) {
+                        CompoundTag data = NbtIo.readCompressed(io, NbtAccounter.unlimitedHeap());
+                        perLevel.put(level, new PollutionPerLevel(data));
+                    }
+                } else {
+                    perLevel.put(level, new PollutionPerLevel());
+                }
+            } catch(Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLevelUnload(LevelEvent.Unload event) {
+        if(!event.getLevel().isClientSide() && event.getLevel() instanceof ServerLevel level) perLevel.remove(level);
+    }
+
+    @SubscribeEvent
+    public static void onLevelSave(LevelEvent.Save event) {
+        if(!event.getLevel().isClientSide() && event.getLevel() instanceof ServerLevel level) {
+            String dirPath = getDataDir(level);
+            File pollutionFile = new File(dirPath, fileName);
+
+            try {
+                if(!pollutionFile.getParentFile().exists()) pollutionFile.getParentFile().mkdirs();
+                if(!pollutionFile.exists()) pollutionFile.createNewFile();
+
+                PollutionPerLevel ppw = perLevel.get(level);
+                if(ppw != null) {
+                    CompoundTag data = ppw.writeToNBT();
+                    try(FileOutputStream out = new FileOutputStream(pollutionFile)) {
+                        NbtIo.writeCompressed(data, out);
+                    }
+                }
+            } catch(Exception ex) {
+                NuclearTechMod.LOGGER.info("Failed to write {}", pollutionFile.getAbsolutePath());
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public static String getDataDir(ServerLevel level) {
+        Path rootDir = level.getServer().getWorldPath(LevelResource.ROOT);
+        Path dimDir = DimensionType.getStorageFolder(level.dimension(), rootDir);
+
+        return dimDir.resolve("data").toAbsolutePath().toString();
+    }
+
 
     //////////////////////////
     /// SYSTEM UPDATE LOOP ///
@@ -266,7 +336,7 @@ public class PollutionHandler {
     }
 
     public enum PollutionType {
-        SOOT, POISON, HEAVYMETAL, FALLOUT;
+        SOOT, POISON, HEAVYMETAL, FALLOUT
     }
 
 }

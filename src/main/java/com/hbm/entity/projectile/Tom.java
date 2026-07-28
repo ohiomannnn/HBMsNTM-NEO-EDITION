@@ -1,5 +1,6 @@
 package com.hbm.entity.projectile;
 
+import com.hbm.entity.NtmEntityTypes;
 import com.hbm.particle.NtmParticles;
 import com.hbm.particle.helper.IParticleCreator;
 import com.hbm.registry.NtmSoundEvents;
@@ -19,6 +20,8 @@ public class Tom extends Entity {
 
         this.noCulling = true;
     }
+
+    public Tom(Level level) { this(NtmEntityTypes.TOM.get(), level); }
 
     @Override
     public void tick() {
