@@ -5,17 +5,14 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 
 public class OilSpot {
 
-    private OilSpot() {
-    }
-
-    public static void generateOilSpot(WorldGenLevel level, int x, int z, int width, int count, boolean addWillows) {
+    public static void generateOilSpot(LevelAccessor level, int x, int z, int width, int count, boolean addWillows) {
         RandomSource random = level.getRandom();
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 
@@ -61,10 +58,11 @@ public class OilSpot {
                     break;
                 }
 
-                if(!groundState.canOcclude() && !groundState.isAir()) {
-                    level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
-                    break;
-                }
+                // todo machine blocks cant occlude
+//                if(!groundState.canOcclude() && !groundState.isAir()) {
+//                    level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+//                    break;
+//                }
             }
         }
     }

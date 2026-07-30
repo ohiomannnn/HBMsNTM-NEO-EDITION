@@ -28,7 +28,7 @@ public abstract class InfoScreen<T extends AbstractContainerMenu> extends Abstra
     }
 
     public void drawCustomInfoStat(GuiGraphics guiGraphics, int mouseX, int mouseY, int x, int y, int width, int height, int tPosX, int tPosY, Component... text) {
-        drawCustomInfoStat(guiGraphics, mouseX, mouseY, x, y, width, height, tPosX, tPosY, Arrays.asList(text));
+        this.drawCustomInfoStat(guiGraphics, mouseX, mouseY, x, y, width, height, tPosX, tPosY, Arrays.asList(text));
     }
 
     public void drawCustomInfoStat(GuiGraphics guiGraphics, int mouseX, int mouseY, int x, int y, int width, int height, int tPosX, int tPosY, List<Component> text) {

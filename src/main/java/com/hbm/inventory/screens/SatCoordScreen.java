@@ -70,16 +70,11 @@ public class SatCoordScreen extends Screen {
         this.addRenderableWidget(this.zField);
     }
 
-    // todo ts is not working todo
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
 
-        if(TagsUtil.getCustomData(device[0]).getBoolean(SatInterfaceItem.KEY_NBT_CONNECTED) ||
-                TagsUtil.getCustomData(device[1]).getBoolean(SatInterfaceItem.KEY_NBT_CONNECTED)) return super.mouseClicked(mouseX, mouseY, button);
-
-        this.xField.mouseClicked(mouseX, mouseY, button);
-        this.yField.mouseClicked(mouseX, mouseY, button);
-        this.zField.mouseClicked(mouseX, mouseY, button);
+        if(!TagsUtil.getCustomData(device[0]).getBoolean(SatInterfaceItem.KEY_NBT_CONNECTED) &&
+                !TagsUtil.getCustomData(device[1]).getBoolean(SatInterfaceItem.KEY_NBT_CONNECTED)) return super.mouseClicked(mouseX, mouseY, button);
 
         if(this.isHovered(mouseX, mouseY, 133, 52, 18, 18)) {
 

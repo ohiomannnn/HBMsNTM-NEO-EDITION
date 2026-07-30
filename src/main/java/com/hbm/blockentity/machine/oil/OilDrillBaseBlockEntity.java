@@ -23,6 +23,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -67,23 +68,26 @@ public abstract class OilDrillBaseBlockEntity extends MachineBaseBlockEntity imp
 
     @Override
     public void writeNBT(CompoundTag tag) {
+        CompoundTag persistentTag = new CompoundTag();
 
         boolean empty = power == 0;
         for(FluidTank tank : tanks) if(tank.getFill() > 0) empty = false;
 
         if(!empty) {
-            tag.putLong("power", power);
+            persistentTag.putLong("power", power);
             for(int i = 0; i < this.tanks.length; i++) {
-                this.tanks[i].writeToNBT(tag, "t" + i);
+                this.tanks[i].writeToNBT(persistentTag, "t" + i);
             }
+            tag.put(NBT_PERSISTENT_KEY, persistentTag);
         }
     }
 
     @Override
     public void readNBT(CompoundTag tag) {
-        this.power = tag.getLong("power");
+        CompoundTag persistentTag = tag.getCompound(NBT_PERSISTENT_KEY);
+        this.power = persistentTag.getLong("power");
         for(int i = 0; i < this.tanks.length; i++) {
-            this.tanks[i].readFromNBT(tag, "t" + i);
+            this.tanks[i].readFromNBT(persistentTag, "t" + i);
         }
     }
 
@@ -293,7 +297,7 @@ public abstract class OilDrillBaseBlockEntity extends MachineBaseBlockEntity imp
     }
 
     @Override
-    public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
+    public boolean canProvideInfo(UpgradeType type, int lvl, TooltipFlag flag) {
         return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.OVERDRIVE || type == UpgradeType.AFTERBURN;
     }
 

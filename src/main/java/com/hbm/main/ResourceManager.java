@@ -42,6 +42,8 @@ public class ResourceManager {
     public static final ResourceLocation SOLDERING_STATION_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/soldering_station.png");
     public static final ResourceLocation ARC_WELDER_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/arc_welder.png");
     public static final ResourceLocation DERRICK_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/derrick.png");
+    public static final ResourceLocation PUMPJACK_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/pumpjack.png");
+    public static final ResourceLocation FRACKING_TOWER_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/fracking_tower.png");
     public static final ResourceLocation REFINERY_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/refinery.png");
     public static final ResourceLocation FURNACE_COMBINATION_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/combination_oven.png");
     public static final ResourceLocation BLAST_FURNACE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/blast_furnace.png");
@@ -261,7 +263,10 @@ public class ResourceManager {
     public static IModelCustom battery_redd;
     public static IModelCustom soldering_station;
     public static IModelCustom arc_welder;
+    //Oil Pumps
     public static IModelCustom oil_derrick;
+    public static IModelCustom pumpjack;
+    public static IModelCustom fracking_tower;
     public static IModelCustom refinery;
     public static IModelCustom furnace_combination;
     public static IModelCustom blast_furnace;
@@ -382,6 +387,8 @@ public class ResourceManager {
         soldering_station = new HFRWavefrontObject("models/obj/machines/soldering_station.obj").asVBO();
         arc_welder = new HFRWavefrontObject("models/obj/machines/arc_welder.obj").asVBO();
         oil_derrick = new HFRWavefrontObject("models/obj/machines/oil_derrick.obj").asVBO();
+        pumpjack = new HFRWavefrontObject("models/obj/machines/pumpjack.obj").asVBO();
+        fracking_tower = new HFRWavefrontObject("models/obj/machines/fracking_tower.obj").asVBO();
         refinery = new HFRWavefrontObject("models/obj/machines/refinery.obj").asVBO();
         furnace_combination = new HFRWavefrontObject("models/obj/machines/combination_oven.obj").asVBO();
         blast_furnace = new HFRWavefrontObject("models/obj/machines/blast_furnace.obj").asVBO();

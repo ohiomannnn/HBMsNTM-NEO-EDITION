@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface IPersistentInfoProvider {
 
-    void appendHoverText(ItemStack stack, CompoundTag tag, List<Component> components, TooltipContext context, TooltipFlag flag);
+    void appendHoverText(ItemStack stack, CompoundTag persistentTag, List<Component> components, TooltipContext context, TooltipFlag flag);
 }

@@ -443,17 +443,6 @@ public class NtmItems {
     public static final DeferredItem<Item> WARHEAD_NUCLEAR = ITEMS.register("warhead_nuclear", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> WARHEAD_MIRV = ITEMS.register("warhead_mirv", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> WARHEAD_VOLCANO = ITEMS.register("warhead_volcano", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> SAT_BASE = ITEMS.register("sat_base", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> SAT_HEAD_MAPPER = ITEMS.register("sat_head_mapper", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> SAT_HEAD_SCANNER = ITEMS.register("sat_head_scanner", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> SAT_HEAD_RADAR = ITEMS.register("sat_head_radar", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> SAT_HEAD_LASER = ITEMS.register("sat_head_laser", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> SAT_HEAD_RESONATOR = ITEMS.register("sat_head_resonator", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> SAT_MAPPER = ITEMS.register("sat_mapper", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> SAT_SCANNER = ITEMS.register("sat_scanner", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> SAT_RADAR = ITEMS.register("sat_radar", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> SAT_LASER = ITEMS.register("sat_laser", () -> new Item(new Item.Properties()));
-    public static final DeferredItem<Item> SAT_RESONATOR = ITEMS.register("sat_resonator", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> NEUTRON_REFLECTOR = ITEMS.register("neutron_reflector", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> ARC_ELECTRODE_GRAPHITE = ITEMS.register("arc_electrode_graphite", () -> new Item(new Item.Properties()));
     public static final DeferredItem<Item> ARC_ELECTRODE_LANTHANIUM = ITEMS.register("arc_electrode_lanthanium", () -> new Item(new Item.Properties()));
@@ -583,7 +572,7 @@ public class NtmItems {
     public static final DeferredItem<Item> BLADES_TITANIUM = ITEMS.register("blades_titanium", () -> new Item(new Item.Properties().stacksTo(1).durability(512)));
     public static final DeferredItem<Item> BLADES_DESH = ITEMS.register("blades_desh", () -> new Item(new Item.Properties().stacksTo(1)));
 
-    //Upgrades
+    // Upgrades
     public static final DeferredItem<Item> UPGRADE_TEMPLATE = ITEMS.register("upgrade_template", () -> new Item(new Item.Properties().stacksTo(1)));
     public static final DeferredItem<Item> UPGRADE_SPEED_1 = ITEMS.register("upgrade_speed_1", () -> new MachineUpgradeItem(new Item.Properties(), MachineUpgradeItem.UpgradeType.SPEED, 1));
     public static final DeferredItem<Item> UPGRADE_SPEED_2 = ITEMS.register("upgrade_speed_2", () -> new MachineUpgradeItem(new Item.Properties(), MachineUpgradeItem.UpgradeType.SPEED, 2));

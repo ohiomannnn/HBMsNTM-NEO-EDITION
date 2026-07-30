@@ -5,6 +5,7 @@ import com.hbm.blockentity.ITickable;
 import com.hbm.blockentity.machine.oil.MachineOilWellBlockEntity;
 import com.hbm.blocks.DummyBlockType;
 import com.hbm.blocks.DummyableBlock;
+import com.hbm.blocks.IPersistentInfoProvider;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.BlockAllocatorStandard;
 import com.hbm.explosion.vanillant.standard.BlockProcessorStandard;
@@ -14,7 +15,6 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.particle.helper.ExplosionCreator;
 import com.hbm.util.BobMathUtil;
-import com.hbm.util.TagsUtil;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -38,7 +38,7 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.List;
 
-public class MachineOilWellBlock extends DummyableBlock {
+public class MachineOilWellBlock extends DummyableBlock implements IPersistentInfoProvider {
 
     public MachineOilWellBlock(Properties properties) {
         super(properties);
@@ -94,8 +94,7 @@ public class MachineOilWellBlock extends DummyableBlock {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> components, TooltipFlag flag) {
-        CompoundTag persistentTag = TagsUtil.getCustomData(stack).getCompound("persistent");
+    public void appendHoverText(ItemStack stack, CompoundTag persistentTag, List<Component> components, Item.TooltipContext context, TooltipFlag flag) {
 
         components.add(Component.literal(BobMathUtil.getShortNumber(persistentTag.getLong("power")) + "HE").withStyle(ChatFormatting.GREEN));
         for(int i = 0; i < 2; i++) {

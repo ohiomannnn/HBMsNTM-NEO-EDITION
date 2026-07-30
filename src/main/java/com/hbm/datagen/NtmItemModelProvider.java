@@ -359,17 +359,6 @@ public class NtmItemModelProvider extends ItemModelProvider {
         this.basicItem(NtmItems.WARHEAD_NUCLEAR.get());
         this.basicItem(NtmItems.WARHEAD_MIRV.get());
         this.basicItem(NtmItems.WARHEAD_VOLCANO.get());
-        this.basicItem(NtmItems.SAT_BASE.get());
-        this.basicItem(NtmItems.SAT_HEAD_MAPPER.get());
-        this.basicItem(NtmItems.SAT_HEAD_SCANNER.get());
-        this.basicItem(NtmItems.SAT_HEAD_RADAR.get());
-        this.basicItem(NtmItems.SAT_HEAD_LASER.get());
-        this.basicItem(NtmItems.SAT_HEAD_RESONATOR.get());
-        this.basicItem(NtmItems.SAT_MAPPER.get());
-        this.basicItem(NtmItems.SAT_SCANNER.get());
-        this.basicItem(NtmItems.SAT_RADAR.get());
-        this.basicItem(NtmItems.SAT_LASER.get());
-        this.basicItem(NtmItems.SAT_RESONATOR.get());
         this.basicItem(NtmItems.NEUTRON_REFLECTOR.get());
         this.basicItem(NtmItems.ARC_ELECTRODE_GRAPHITE.get());
         this.basicItem(NtmItems.ARC_ELECTRODE_LANTHANIUM.get());

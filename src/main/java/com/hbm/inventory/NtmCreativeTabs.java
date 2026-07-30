@@ -353,17 +353,6 @@ public class NtmCreativeTabs {
                         output.accept(NtmItems.WARHEAD_NUCLEAR.get());
                         output.accept(NtmItems.WARHEAD_MIRV.get());
                         output.accept(NtmItems.WARHEAD_VOLCANO.get());
-                        output.accept(NtmItems.SAT_BASE.get());
-                        output.accept(NtmItems.SAT_HEAD_MAPPER.get());
-                        output.accept(NtmItems.SAT_HEAD_SCANNER.get());
-                        output.accept(NtmItems.SAT_HEAD_RADAR.get());
-                        output.accept(NtmItems.SAT_HEAD_LASER.get());
-                        output.accept(NtmItems.SAT_HEAD_RESONATOR.get());
-                        output.accept(NtmItems.SAT_MAPPER.get());
-                        output.accept(NtmItems.SAT_SCANNER.get());
-                        output.accept(NtmItems.SAT_RADAR.get());
-                        output.accept(NtmItems.SAT_LASER.get());
-                        output.accept(NtmItems.SAT_RESONATOR.get());
                         output.accept(NtmItems.NEUTRON_REFLECTOR.get());
                         output.accept(NtmItems.ARC_ELECTRODE_GRAPHITE.get());
                         output.accept(NtmItems.ARC_ELECTRODE_LANTHANIUM.get());
@@ -789,6 +778,8 @@ public class NtmCreativeTabs {
                         output.accept(NtmBlocks.MACHINE_FLUID_TANK);
                         output.accept(NtmBlocks.MACHINE_SOLDERING_STATION);
                         output.accept(NtmBlocks.MACHINE_WELL);
+                        output.accept(NtmBlocks.MACHINE_PUMPJACK);
+                        output.accept(NtmBlocks.MACHINE_FRACKING_TOWER);
                         output.accept(NtmBlocks.MACHINE_REFINERY);
                         output.accept(NtmBlocks.FURNACE_COMBINATION);
                         output.accept(NtmBlocks.MACHINE_BLAST_FURNACE);
@@ -964,17 +955,6 @@ public class NtmCreativeTabs {
                         output.accept(NtmItems.WARHEAD_NUCLEAR);
                         output.accept(NtmItems.WARHEAD_MIRV);
                         output.accept(NtmItems.WARHEAD_VOLCANO);
-                        output.accept(NtmItems.SAT_BASE);
-                        output.accept(NtmItems.SAT_HEAD_MAPPER);
-                        output.accept(NtmItems.SAT_HEAD_SCANNER);
-                        output.accept(NtmItems.SAT_HEAD_RADAR);
-                        output.accept(NtmItems.SAT_HEAD_LASER);
-                        output.accept(NtmItems.SAT_HEAD_RESONATOR);
-                        output.accept(NtmItems.SAT_MAPPER);
-                        output.accept(NtmItems.SAT_SCANNER);
-                        output.accept(NtmItems.SAT_RADAR);
-                        output.accept(NtmItems.SAT_LASER);
-                        output.accept(NtmItems.SAT_RESONATOR);
 
                         output.accept(NtmItems.MISSILE_TAINT);
                         output.accept(NtmItems.MISSILE_MICRO);

@@ -852,17 +852,6 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmItems.WARHEAD_NUCLEAR, "Nuclear Warhead");
         this.add(NtmItems.WARHEAD_MIRV, "Thermonuclear Warhead");
         this.add(NtmItems.WARHEAD_VOLCANO, "Tectonic Warhead");
-        this.add(NtmItems.SAT_BASE, "Satellite Base");
-        this.add(NtmItems.SAT_HEAD_MAPPER, "High-Gain Optical Camera");
-        this.add(NtmItems.SAT_HEAD_SCANNER, "M700 Survey Scanner");
-        this.add(NtmItems.SAT_HEAD_RADAR, "Radar Dish");
-        this.add(NtmItems.SAT_HEAD_LASER, "Death Ray");
-        this.add(NtmItems.SAT_HEAD_RESONATOR, "Xenium Resonator");
-        this.add(NtmItems.SAT_MAPPER, "Surface Mapping Satellite");
-        this.add(NtmItems.SAT_SCANNER, "Satellite with Depth-Resource Scanning Module");
-        this.add(NtmItems.SAT_RADAR, "Radar Survey Satellite");
-        this.add(NtmItems.SAT_LASER, "Orbital Death Ray");
-        this.add(NtmItems.SAT_RESONATOR, "Xenium Resonator Satellite");
         this.add(NtmItems.NEUTRON_REFLECTOR, "Neutron Reflector");
         this.add(NtmItems.ARC_ELECTRODE_GRAPHITE, "Graphite Electrode");
         this.add(NtmItems.ARC_ELECTRODE_LANTHANIUM, "Lanthanium Electrode");
@@ -896,6 +885,17 @@ public class NtmLanguageProvider extends LanguageProvider {
             }
         }
 
+        this.add("upgrade.acid", "Acid required %s");
+        this.add("upgrade.burn", "Burn %smb/t for %sHE");
+        this.add("upgrade.consumption", "Consumption %s");
+        this.add("upgrade.coolant_consumption", "Coolant Consumption %s");
+        this.add("upgrade.delay", "Process time %s");
+        this.add("upgrade.speed", "Process speed %s");
+        this.add("upgrade.efficiency", "Efficiency %s");
+        this.add("upgrade.productivity", "Productivity %s");
+        this.add("upgrade.fortune", "Fortune %s");
+        this.add("upgrade.range", "Range %s");
+        this.add("upgrade.yes", "YES");
         this.add(NtmItems.UPGRADE_TEMPLATE, "Machine Upgrade Template");
         this.add(NtmItems.UPGRADE_SPEED_1, "Speed Upgrade Mk.I");
         this.add(NtmItems.UPGRADE_SPEED_2, "Speed Upgrade Mk.II");
@@ -1688,6 +1688,8 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add("tile.machine_wood_burner.name", "Wood-Burning Generator");
         this.add("tile.machine_centrifuge.name", "Centrifuge");
         this.add(NtmBlocks.MACHINE_WELL, "Oil Derrick");
+        this.add(NtmBlocks.MACHINE_PUMPJACK, "Pumpjack");
+        this.add(NtmBlocks.MACHINE_FRACKING_TOWER, "Hydraulic Fracking Tower");
         this.add(NtmBlocks.MACHINE_REFINERY, "Oil Refinery");
         this.add(NtmBlocks.ORE_METEOR_IRON, "Meteor Iron Ore");
         this.add(NtmBlocks.ORE_METEOR_COBALT, "Meteor Cobalt Ore");
@@ -1767,25 +1769,24 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add("container.machine_shredder", "Shredder");
         this.add("container.machine_shredder.blades_missing", "Error: Shredder blades are broken or missing!");
         this.add("container.oil_well", "Oil Derrick");
+        this.add("container.pumpjack", "Pumpjack");
+        this.add("container.fracking_tower", "H.F.T.");
         this.add("container.machine_refinery", "Oil Refinery");
         this.add("container.furnace_combination", "Combination Oven");
         this.add("container.machine_blast_furnace", "Blast Furnace");
         this.add("container.machine_centrifuge", "Centrifuge");
         this.add("container.machineWoodBurner", "Wood-Burner");
         this.add("container.sat_linker", "SatLink Device");
-        this.add("container.sat_linker.desc.copy", "The first slot will copy the satellite/chip's$frequency and paste it to the second slot.");
-        this.add("container.sat_linker.desc.rand", "The third slot will randomize the$satellite/chip's frequency.");
+        this.add("container.sat_linker.chip", "The first slot will copy the satellite/chip's$frequency and paste it to the second slot.");
+        this.add("container.sat_linker.random", "The third slot will randomize the$satellite/chip's frequency.");
         this.add("container.launch_pad", "Launch Pad");
         this.add("container.launch_pad.not_ready", "Not ready");
         this.add("container.launch_pad.loading", "Loading...");
         this.add("container.launch_pad.ready", "Ready");
         this.add("container.soyuz_launcher", "Soyuz Launch Platform");
-        this.add("container.soyuz_launcher.soyuz_here", "The Soyuz goes here");
-        this.add("container.soyuz_launcher.designator_here", "Designator only for CARGO MODE");
-        this.add("container.soyuz_launcher.payload_here", "The payload for SATELLITE MODE");
-        this.add("container.soyuz_launcher.module_here", "The orbital module for special payloads");
-        this.add("container.soyuz_launcher.sat_mode", "SATELLITE MODE");
-        this.add("container.soyuz_launcher.cargo_mode", "CARGO MODE");
+        this.add("container.soyuz_launcher.desc", "Designator only for CARGO MODE$The payload for SATELLITE MODE");
+        this.add("container.soyuz_launcher.satellite", "SATELLITE MODE");
+        this.add("container.soyuz_launcher.cargo", "CARGO MODE");
         this.add("container.recipe_selector.close", "Close");
         this.add("container.recipe_selector.close_search", "Clear search");
         this.add("container.recipe_selector.toggle_focus", "Press ENTER to toggle focus");

@@ -15,10 +15,10 @@ public class MachineSatLinkerMenu extends MenuBase<MachineSatLinkerBlockEntity> 
     public MachineSatLinkerMenu(int id, Inventory inventory, MachineSatLinkerBlockEntity be) {
         super(NtmMenuTypes.SAT_LINKER.get(), id, be);
 
-        this.addSlot(new SlotNonRetarded(be, 0, 44, 35));
-        this.addSlot(new SlotNonRetarded(be, 1, 80, 35));
-        this.addSlot(new SlotNonRetarded(be, 2, 116, 35));
+        this.addSlot(new SlotNonRetarded(be, 0, 44, 36));
+        this.addSlot(new SlotNonRetarded(be, 1, 80, 36));
+        this.addSlot(new SlotNonRetarded(be, 2, 116, 36));
 
-        this.playerInv(inventory, 8, 84);
+        this.playerInv(inventory, 8, 104);
     }
 }

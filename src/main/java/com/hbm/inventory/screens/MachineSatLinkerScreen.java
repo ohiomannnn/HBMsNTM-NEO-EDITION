@@ -13,13 +13,13 @@ import java.util.List;
 
 public class MachineSatLinkerScreen extends InfoScreen<MachineSatLinkerMenu> {
 
-    private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/gui/gui_linker.png");
+    private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/gui/gui_sat_linker.png");
 
     public MachineSatLinkerScreen(MachineSatLinkerMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
 
         this.imageWidth = 176;
-        this.imageHeight = 166;
+        this.imageHeight = 186;
     }
 
     @Override
@@ -36,13 +36,11 @@ public class MachineSatLinkerScreen extends InfoScreen<MachineSatLinkerMenu> {
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
         super.render(guiGraphics, mouseX, mouseY, partialTicks);
 
-        List<Component> descCopy = new ArrayList<>();
-        for(String s : I18nUtil.resolveKeyArray("container.sat_linker.desc.copy")) descCopy.add(Component.literal(s));
-        this.drawCustomInfoStat(guiGraphics, mouseX, mouseY, this.leftPos - 16, this.topPos + 36, 16, 16, this.leftPos - 8, this.topPos + 36 + 16, descCopy);
+        List<Component> chipText = new ArrayList<>(); for(String s : I18nUtil.resolveKeyArray("container.sat_linker.chip")) chipText.add(Component.literal(s));
+        this.drawCustomInfoStat(guiGraphics, mouseX, mouseY, this.leftPos + 12, this.topPos + 28, 16, 16, this.leftPos + 20, this.topPos + 28 + 16, chipText);
 
-        List<Component> descRand = new ArrayList<>();
-        for(String s : I18nUtil.resolveKeyArray("container.sat_linker.desc.rand")) descRand.add(Component.literal(s));
-        this.drawCustomInfoStat(guiGraphics, mouseX, mouseY, this.leftPos - 16, this.topPos + 36 + 16, 16, 16, this.leftPos - 8, this.topPos + 36 + 16, descRand);
+        List<Component> randomText = new ArrayList<>(); for(String s : I18nUtil.resolveKeyArray("container.sat_linker.random")) randomText.add(Component.literal(s));
+        this.drawCustomInfoStat(guiGraphics, mouseX, mouseY, this.leftPos + 12, this.topPos + 28 + 16, 16, 16, this.leftPos + 20, this.topPos + 28 + 32, randomText);
 
         this.renderTooltip(guiGraphics, mouseX, mouseY);
     }
@@ -51,7 +49,7 @@ public class MachineSatLinkerScreen extends InfoScreen<MachineSatLinkerMenu> {
     protected void renderBg(GuiGraphics guiGraphics, float v, int i, int partialTicks) {
         guiGraphics.blit(TEXTURE, this.leftPos, this.topPos, 0, 0, imageWidth, imageHeight);
 
-        this.drawInfoPanel(guiGraphics, this.leftPos - 16, this.topPos + 36, 2);
-        this.drawInfoPanel(guiGraphics, this.leftPos - 16, this.topPos + 36 + 16, 3);
+        this.drawInfoPanel(guiGraphics, this.leftPos + 12, this.topPos + 28, 2);
+        this.drawInfoPanel(guiGraphics, this.leftPos + 12, this.topPos + 28 + 16, 3);
     }
 }

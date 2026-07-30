@@ -10,9 +10,11 @@ import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.AABB;
 
 public class RenderDerrick extends BlockEntityRendererNT<MachineOilWellBlockEntity> implements IBEWLRProvider {
 
@@ -36,6 +38,28 @@ public class RenderDerrick extends BlockEntityRendererNT<MachineOilWellBlockEnti
 
         bindTexture(ResourceManager.DERRICK_TEX);
         ResourceManager.oil_derrick.renderAll();
+    }
+
+    private AABB bb = null;
+
+    @Override
+    public AABB getRenderBoundingBox(MachineOilWellBlockEntity be) {
+        if(bb == null) {
+            BlockPos pos = be.getBlockPos();
+            int x = pos.getX();
+            int y = pos.getY();
+            int z = pos.getZ();
+            bb = new AABB(
+                    x - 1,
+                    y - 0,
+                    z - 1,
+                    x + 2,
+                    y + 10,
+                    z + 2
+            );
+        }
+
+        return bb;
     }
 
     @Override

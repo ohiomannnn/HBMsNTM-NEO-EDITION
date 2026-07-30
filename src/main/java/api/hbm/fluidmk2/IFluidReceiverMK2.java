@@ -25,7 +25,7 @@ public interface IFluidReceiverMK2 extends IFluidUserMK2 {
 
     default void trySubscribe(FluidType type, Level level, DirPos pos) { trySubscribe(type, level, pos.makeCompat(), pos.getDir()); }
 
-    default void trySubscribe(FluidType type,Level level, BlockPos pos, Direction dir) {
+    default void trySubscribe(FluidType type, Level level, BlockPos pos, Direction dir) {
 
         BlockEntity be = BlockEntityAccessCache.getBEOrCache(level, pos);
         boolean red = false;

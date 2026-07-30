@@ -33,6 +33,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.HashMap;
@@ -372,20 +373,20 @@ public class MachineSolderingStationBlockEntity extends MachineBaseBlockEntity i
     }
 
     @Override
-    public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
+    public boolean canProvideInfo(UpgradeType type, int lvl, TooltipFlag flag) {
         return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.OVERDRIVE;
     }
 
     @Override
-    public void provideInfo(UpgradeType type, int level, List<Component> components, boolean extendedInfo) {
+    public void provideInfo(UpgradeType type, int lvl, List<Component> components, TooltipFlag flag) {
         components.add(IUpgradeInfoProvider.getStandardLabel(NtmBlocks.MACHINE_SOLDERING_STATION.get()));
         if(type == UpgradeType.SPEED) {
-            components.add(Component.translatable(KEY_DELAY, "-" + (level * 100 / 6) + "%").withStyle(ChatFormatting.GREEN));
-            components.add(Component.translatable(KEY_CONSUMPTION, "+" + (level * 100) + "%").withStyle(ChatFormatting.RED));
+            components.add(Component.translatable(KEY_DELAY, "-" + (lvl * 100 / 6) + "%").withStyle(ChatFormatting.GREEN));
+            components.add(Component.translatable(KEY_CONSUMPTION, "+" + (lvl * 100) + "%").withStyle(ChatFormatting.RED));
         }
         if(type == UpgradeType.POWER) {
-            components.add(Component.translatable(KEY_CONSUMPTION, "-" + (level * 100 / 6) + "%").withStyle(ChatFormatting.GREEN));
-            components.add(Component.translatable(KEY_DELAY, "+" + (level * 100 / 3) + "%").withStyle(ChatFormatting.RED));
+            components.add(Component.translatable(KEY_CONSUMPTION, "-" + (lvl * 100 / 6) + "%").withStyle(ChatFormatting.GREEN));
+            components.add(Component.translatable(KEY_DELAY, "+" + (lvl * 100 / 3) + "%").withStyle(ChatFormatting.RED));
         }
         if(type == UpgradeType.OVERDRIVE) {
             components.add(Component.translatable(KEY_YES).withStyle(BobMathUtil.getBlink() ? ChatFormatting.RED : ChatFormatting.DARK_GRAY));

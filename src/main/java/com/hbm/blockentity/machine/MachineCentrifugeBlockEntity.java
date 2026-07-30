@@ -5,6 +5,7 @@ import api.hbm.energymk2.IEnergyReceiverMK2;
 import com.hbm.blockentity.IUpgradeInfoProvider;
 import com.hbm.blockentity.MachineBaseBlockEntity;
 import com.hbm.blockentity.NtmBlockEntityTypes;
+import com.hbm.blocks.NtmBlocks;
 import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.menus.MachineCentrifugeMenu;
 import com.hbm.inventory.recipes.CentrifugeRecipes;
@@ -13,7 +14,9 @@ import com.hbm.items.machine.MachineUpgradeItem.UpgradeType;
 import com.hbm.lib.Library;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -25,6 +28,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
@@ -346,21 +350,22 @@ public class MachineCentrifugeBlockEntity extends MachineBaseBlockEntity impleme
     }
 
     @Override
-    public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
+    public boolean canProvideInfo(UpgradeType type, int lvl, TooltipFlag flag) {
         return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.OVERDRIVE;
     }
 
     @Override
-    public void provideInfo(UpgradeType type, int level, List<Component> components, boolean extendedInfo) {
+    public void provideInfo(UpgradeType type, int lvl, List<Component> components, TooltipFlag flag) {
+        components.add(IUpgradeInfoProvider.getStandardLabel(NtmBlocks.MACHINE_CENTRIFUGE.get()));
         if(type == UpgradeType.SPEED) {
-            components.add(Component.literal("&a+" + level + " processing speed"));
+            components.add(Component.translatable(KEY_DELAY, "-" + (100 - 100 / (lvl + 1)) + "%").withStyle(ChatFormatting.GREEN));
+            components.add(Component.translatable(KEY_CONSUMPTION, "+" + (lvl * 100) + "%").withStyle(ChatFormatting.RED));
         }
         if(type == UpgradeType.POWER) {
-            components.add(Component.literal("&a-" + (100 - 100 / (1 + level)) + "% power consumption"));
+            components.add(Component.translatable(KEY_CONSUMPTION, "-" + (100 - 100 / (lvl + 1)) + "%").withStyle(ChatFormatting.GREEN));
         }
         if(type == UpgradeType.OVERDRIVE) {
-            components.add(Component.literal("&a+" + (level * 500) + "% processing speed"));
-            components.add(Component.literal("&c+" + (level * 10_000) + " HE/t consumption"));
+            components.add(Component.translatable(KEY_YES).withStyle(BobMathUtil.getBlink() ? ChatFormatting.RED : ChatFormatting.DARK_GRAY));
         }
     }
 

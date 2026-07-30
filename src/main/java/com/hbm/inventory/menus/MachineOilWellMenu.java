@@ -1,6 +1,6 @@
 package com.hbm.inventory.menus;
 
-import com.hbm.blockentity.machine.oil.MachineOilWellBlockEntity;
+import com.hbm.blockentity.machine.oil.OilDrillBaseBlockEntity;
 import com.hbm.inventory.NtmMenuTypes;
 import com.hbm.inventory.SlotTakeOnly;
 import com.hbm.items.machine.MachineUpgradeItem;
@@ -11,13 +11,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
-public class MachineOilWellMenu extends MenuBase<MachineOilWellBlockEntity> {
+public class MachineOilWellMenu<T extends OilDrillBaseBlockEntity> extends MenuBase<T> {
 
+    @SuppressWarnings("unchecked")
     public MachineOilWellMenu(int id, Inventory inventory, FriendlyByteBuf extraData) {
-        this(id, inventory, (MachineOilWellBlockEntity) CompatExternal.getCoreFromPos(inventory.player.level(), extraData.readBlockPos()));
+        this(id, inventory, (T) CompatExternal.getCoreFromPos(inventory.player.level(), extraData.readBlockPos()));
     }
 
-    public MachineOilWellMenu(int id, Inventory inventory, MachineOilWellBlockEntity be) {
+    public MachineOilWellMenu(int id, Inventory inventory, T be) {
         super(NtmMenuTypes.MACHINE_OIL_WELL.get(), id, be);
 
         // Battery

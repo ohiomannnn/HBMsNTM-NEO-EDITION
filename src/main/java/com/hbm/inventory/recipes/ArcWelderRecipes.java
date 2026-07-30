@@ -206,22 +206,6 @@ public class ArcWelderRecipes extends SerializableRecipe {
                 new ComparableStack(NtmItems.WARHEAD_VOLCANO.get(), 1),
                 new ComparableStack(NtmItems.FUEL_TANK_LARGE.get(), 1),
                 new ComparableStack(NtmItems.THRUSTER_LARGE.get(), 3));
-
-        addRecipe(new ItemStack(NtmItems.SAT_MAPPER.get()), 600, 10_000, null,
-                new ComparableStack(NtmItems.SAT_BASE.get(), 1),
-                new ComparableStack(NtmItems.SAT_HEAD_MAPPER.get(), 1));
-        addRecipe(new ItemStack(NtmItems.SAT_SCANNER.get()), 600, 10_000, null,
-                new ComparableStack(NtmItems.SAT_BASE.get(), 1),
-                new ComparableStack(NtmItems.SAT_HEAD_SCANNER.get(), 1));
-        addRecipe(new ItemStack(NtmItems.SAT_RADAR.get()), 600, 10_000, null,
-                new ComparableStack(NtmItems.SAT_BASE.get(), 1),
-                new ComparableStack(NtmItems.SAT_HEAD_RADAR.get(), 1));
-        addRecipe(new ItemStack(NtmItems.SAT_LASER.get()), 600, 50_000, null,
-                new ComparableStack(NtmItems.SAT_BASE.get(), 1),
-                new ComparableStack(NtmItems.SAT_HEAD_LASER.get(), 1));
-        addRecipe(new ItemStack(NtmItems.SAT_RESONATOR.get()), 600, 50_000, null,
-                new ComparableStack(NtmItems.SAT_BASE.get(), 1),
-                new ComparableStack(NtmItems.SAT_HEAD_RESONATOR.get(), 1));
     }
 
     @Override

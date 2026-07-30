@@ -8,7 +8,8 @@ import com.hbm.blockentity.IUpgradeInfoProvider;
 import com.hbm.blockentity.MachineBaseBlockEntity;
 import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.blocks.DummyableBlock;
-import com.hbm.inventory.FluidStack;
+import com.hbm.blocks.NtmBlocks;
+import com.hbm.interfaces.IControlReceiver;
 import com.hbm.inventory.RecipesCommon.AStack;
 import com.hbm.inventory.UpgradeManagerNT;
 import com.hbm.inventory.fluid.Fluids;
@@ -16,12 +17,13 @@ import com.hbm.inventory.fluid.tank.FluidTank;
 import com.hbm.inventory.menus.MachineArcWelderMenu;
 import com.hbm.inventory.recipes.ArcWelderRecipes;
 import com.hbm.inventory.recipes.ArcWelderRecipes.ArcWelderRecipe;
-import com.hbm.interfaces.IControlReceiver;
 import com.hbm.items.machine.IItemFluidIdentifier;
 import com.hbm.items.machine.MachineUpgradeItem;
 import com.hbm.items.machine.MachineUpgradeItem.UpgradeType;
 import com.hbm.lib.Library;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.fauxpointtwelve.DirPos;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -32,6 +34,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.HashMap;
@@ -215,18 +218,24 @@ public class MachineArcWelderBlockEntity extends MachineBaseBlockEntity implemen
     }
 
     @Override
-    public boolean canProvideInfo(UpgradeType type, int level, boolean extendedInfo) {
-        return this.getValidUpgrades().containsKey(type);
+    public boolean canProvideInfo(UpgradeType type, int lvl, TooltipFlag flag) {
+        return type == UpgradeType.SPEED || type == UpgradeType.POWER || type == UpgradeType.OVERDRIVE;
     }
 
     @Override
-    public void provideInfo(UpgradeType type, int level, List<Component> info, boolean extendedInfo) {
-//        switch(type) {
-//            case SPEED -> info.add("Speed level: " + level);
-//            case POWER -> info.add("Power level: " + level);
-//            case OVERDRIVE -> info.add("+" + level + " parallel progress");
-//            default -> { }
-//        }
+    public void provideInfo(UpgradeType type, int lvl, List<Component> components, TooltipFlag flag) {
+        components.add(IUpgradeInfoProvider.getStandardLabel(NtmBlocks.MACHINE_ARC_WELDER.get()));
+        if(type == UpgradeType.SPEED) {
+            components.add(Component.translatable(KEY_DELAY, "-" + (lvl * 100 / 6) + "%").withStyle(ChatFormatting.RED));
+            components.add(Component.translatable(KEY_CONSUMPTION, "+" + (lvl * 100) + "%").withStyle(ChatFormatting.GREEN));
+        }
+        if(type == UpgradeType.POWER) {
+            components.add(Component.translatable(KEY_CONSUMPTION, "-" + (lvl * 100 / 6) + "%").withStyle(ChatFormatting.GREEN));
+            components.add(Component.translatable(KEY_DELAY, "+" + (lvl * 100 / 3) + "%").withStyle(ChatFormatting.RED));
+        }
+        if(type == UpgradeType.OVERDRIVE) {
+            components.add(Component.translatable(KEY_YES).withStyle(BobMathUtil.getBlink() ? ChatFormatting.RED : ChatFormatting.DARK_GRAY));
+        }
     }
 
     @Override
