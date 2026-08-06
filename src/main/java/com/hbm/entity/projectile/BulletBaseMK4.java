@@ -155,6 +155,8 @@ public class BulletBaseMK4 extends ProjectileLerping {
         if(this.config.onUpdate != null) this.config.onUpdate.accept(this);
     }
 
+    @Override protected void rotation() { }
+
     @Override
     protected void onHit(HitResult hr) {
         super.onHit(hr);

@@ -4,7 +4,7 @@ import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.blocks.DummyableBlock;
 import com.hbm.entity.missile.MissileBase;
 import com.hbm.lib.Library;
-import com.hbm.particle.NtmParticles;
+import com.hbm.particle.NtmParticleTypes;
 import com.hbm.util.fauxpointtwelve.DirPos;
 import com.hbm.util.particle.ParticleUtil;
 import net.minecraft.core.BlockPos;
@@ -65,7 +65,7 @@ public class LaunchPadBlockEntity extends LaunchPadBaseBlockEntity {
                     float xd = (float) (level.random.nextGaussian() * 0.15F + 0.75) * dir.getStepX();
                     float zd = (float) (level.random.nextGaussian() * 0.15F + 0.75) * dir.getStepZ();
 
-                    ParticleUtil.addParticle(this.level, NtmParticles.LAUNCH_SMOKE.get(), x + 0.5, y + 0.25, z + 0.5, xd, 0, zd);
+                    ParticleUtil.addParticle(this.level, NtmParticleTypes.LAUNCH_SMOKE.get(), x + 0.5, y + 0.25, z + 0.5, xd, 0, zd);
                 }
             }
         }

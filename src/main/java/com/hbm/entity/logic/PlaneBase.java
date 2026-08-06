@@ -1,7 +1,7 @@
 package com.hbm.entity.logic;
 
 import com.hbm.explosion.vanillant.ExplosionVNT;
-import com.hbm.particle.NtmParticles;
+import com.hbm.particle.NtmParticleTypes;
 import com.hbm.particle.helper.ExplosionSmallCreator;
 import com.hbm.particle.vanilla.NbtParticleOptions;
 import com.hbm.registry.NtmDamageTypes;
@@ -131,7 +131,7 @@ public abstract class PlaneBase extends Entity {
                 this.setDeltaMovement(this.getDeltaMovement().x, this.getDeltaMovement().y - 0.025, this.getDeltaMovement().z);
 
                 for (int i = 0; i < 10; i++) {
-                    ParticleUtil.addParticle(this.level, new NbtParticleOptions(NtmParticles.GAS_FLAME.get(), new CompoundTag()), this.getX() + random.nextGaussian() * 0.5 - this.deltaMovement.x * 2, this.getY() + random.nextGaussian() * 0.5 - this.deltaMovement.y * 2, this.getZ() + random.nextGaussian() * 0.5 - this.deltaMovement.z * 2, 0.0F, 0.1F, 0.0F, 150.0);
+                    ParticleUtil.addParticle(this.level, new NbtParticleOptions(NtmParticleTypes.GAS_FLAME.get(), new CompoundTag()), this.getX() + random.nextGaussian() * 0.5 - this.deltaMovement.x * 2, this.getY() + random.nextGaussian() * 0.5 - this.deltaMovement.y * 2, this.getZ() + random.nextGaussian() * 0.5 - this.deltaMovement.z * 2, 0.0F, 0.1F, 0.0F, 150.0);
                 }
 
                 if ((!level().getBlockState(this.blockPosition()).isAir()) || this.getY() < this.level().getMinBuildHeight()) {

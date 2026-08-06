@@ -22,13 +22,14 @@ import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.recipes.loader.SerializableRecipe;
 import com.hbm.inventory.screens.*;
 import com.hbm.items.IEquipReceiver;
-import com.hbm.items.weapon.sedna.factory.GunFactory;
+import com.hbm.items.weapon.sedna.GunBaseNTItem;
 import com.hbm.saveddata.satellite.XSatelliteRegistry;
 import com.hbm.util.ArmorUtil;
 import com.hbm.util.DamageResistanceHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -44,6 +45,7 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEquipmentChangeEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.BlockEvent.BreakEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 
@@ -74,10 +76,12 @@ public class CommonEvents {
 
         MachineRadarBlockEntity.registerEntityClasses();
         MachineRadarBlockEntity.registerConverters();
+    }
 
-        event.enqueueWork(() -> {
-            GunFactory.initCfg();
-        });
+    @SubscribeEvent
+    public static void onLeftClickBlock(PlayerInteractEvent.LeftClickBlock event) {
+        ItemStack itemInHand = event.getEntity().getItemInHand(InteractionHand.MAIN_HAND);
+        if(itemInHand.getItem() instanceof GunBaseNTItem) event.setCanceled(true);
     }
 
     @SubscribeEvent

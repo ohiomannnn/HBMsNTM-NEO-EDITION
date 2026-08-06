@@ -8,6 +8,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
+import java.util.List;
+
 public class MachineOilWellScreen extends InfoScreen<MachineOilWellMenu<?>> {
 
     private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/gui/machine/gui_well.png");
@@ -44,8 +46,14 @@ public class MachineOilWellScreen extends InfoScreen<MachineOilWellMenu<?>> {
             this.be.tanks[2].renderTankTooltip(guiGraphics, mouseX, mouseY, this.leftPos + 54, this.topPos + 45, 6, 32);
         }
 
-        // todo
-        //this.drawCustomInfoStat(guiGraphics, mouseX, mouseY, this.leftPos + 160, this.topPos + 21, 8, 8, mouseX, mouseY, this.getUpgradeInfo());
+        List<Component> upgradeInfo = List.of(
+                Component.translatable("container.upgrade"),
+                Component.translatable("container.upgrade.speed"),
+                Component.translatable("container.upgrade.power"),
+                Component.translatable("container.upgrade.afterburner"),
+                Component.translatable("container.upgrade.overdrive")
+        );
+        this.drawCustomInfoStat(guiGraphics, mouseX, mouseY, this.leftPos + 160, this.topPos + 21, 8, 8, mouseX, mouseY, upgradeInfo);
 
         this.drawElectricityInfo(guiGraphics, mouseX, mouseY, this.leftPos + 8, this.topPos + 22, 16, 34, this.be.power, this.be.getMaxPower());
 

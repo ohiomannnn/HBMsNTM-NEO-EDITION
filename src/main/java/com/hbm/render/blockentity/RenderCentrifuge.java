@@ -9,6 +9,7 @@ import com.hbm.render.util.RenderContext;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.core.Direction;
@@ -39,6 +40,14 @@ public class RenderCentrifuge extends BlockEntityRendererNT<MachineCentrifugeBlo
         bindTexture(ResourceManager.CENTRIFUGE_TEX);
         ResourceManager.centrifuge.renderAll();
         RenderSystem.enableCull();
+    }
+
+    @Override
+    public int getPacketLight(int packedLight, MachineCentrifugeBlockEntity be) {
+        if(be.getLevel() != null && be.getBlockState().getBlock() instanceof DummyableBlock dummy) {
+            return LevelRenderer.getLightColor(be.getLevel(), be.getBlockPos().above(dummy.getDimensions()[0]));
+        }
+        return packedLight;
     }
 
     @Override

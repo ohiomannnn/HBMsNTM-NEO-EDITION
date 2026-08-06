@@ -6,15 +6,43 @@ import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.util.RenderContext;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.math.Axis;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
-
-// todo make aiming
 public class ItemRenderDebug extends ItemRenderWeaponBase {
 
+    @Override protected float getTurnMagnitude(ItemStack stack) { return GunBaseNTItem.getIsAiming(stack) ? 2.5F : -0.25F; }
+
     @Override
-    public void renderFirstPerson(ItemStack stack) {
+    public void setupFirstPerson(ItemStack stack) {
+        super.setupFirstPerson(stack);
+
+        float offset = 0.8F;
+        standardAimingTransform(stack,
+                -1.0F * offset, -0.75F * offset, 1F * offset,
+                0F, -3.875F / 8F, 0F);
+    }
+
+    @Override
+    public void setupThirdPerson(ItemStack stack) {
+        super.setupThirdPerson(stack);
+        RenderContext.scale(0.75F, 0.75F, 0.75F);
+        RenderContext.translate(0F, 1F, 3F);
+    }
+
+    @Override
+    public void setupInv(ItemStack stack) {
+        super.setupInv(stack);
+        float scale = 1.25F;
+        RenderContext.scale(scale, scale, scale);
+        RenderContext.mulPose(Axis.XP.rotationDegrees(25F));
+        RenderContext.mulPose(Axis.YP.rotationDegrees(45F));
+    }
+
+    @Override
+    public void renderFirstPerson(ItemStack stack, MultiBufferSource buffer) {
 
         GunBaseNTItem gun = (GunBaseNTItem) stack.getItem();
 
@@ -32,7 +60,14 @@ public class ItemRenderDebug extends ItemRenderWeaponBase {
 
         RenderContext.mulPose(Axis.ZP.rotationDegrees(equipSpin[0]));
 
+        standardAimingTransform(stack, 0, 0, recoil[2], -recoil[2], 0, 0);
         RenderContext.mulPose(Axis.ZP.rotationDegrees(recoil[2] * 10));
+
+        RenderContext.pushPose();
+        RenderContext.translate(-9F, 2.5F, 0F);
+        RenderContext.mulPose(Axis.ZP.rotationDegrees(recoil[2] * -10));
+        renderSmokeNodes(buffer, gun.getConfig(stack, 0).smokeNodes, 0.5F);
+        RenderContext.popPose();
 
         RenderContext.mulPose(Axis.ZP.rotationDegrees(reloadLift[0]));
         RenderContext.translate(reloadJolt[0], 0F, 0F);
@@ -59,10 +94,15 @@ public class ItemRenderDebug extends ItemRenderWeaponBase {
         RenderContext.translate(-4F, -1.25F, 0F);
         ResourceManager.lilmac.renderPart("Hammer");
         RenderContext.popPose();
+
+        RenderContext.pushPose();
+        RenderContext.translate(0.125F, 2.5F, 0F);
+        renderGapFlash(buffer, gun.lastShot[0]);
+        RenderContext.popPose();
     }
 
     @Override
-    public void renderStatic(ItemStack stack, ItemDisplayContext displayContext) {
+    public void renderStatic(ItemStack stack, MultiBufferSource buffer, ItemDisplayContext displayContext) {
 
         RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
 
@@ -73,5 +113,21 @@ public class ItemRenderDebug extends ItemRenderWeaponBase {
         ResourceManager.lilmac.renderPart("Casings");
         ResourceManager.lilmac.renderPart("Pivot");
         ResourceManager.lilmac.renderPart("Hammer");
+
+        if(living != null && (displayContext == ItemDisplayContext.THIRD_PERSON_LEFT_HAND || displayContext == ItemDisplayContext.THIRD_PERSON_RIGHT_HAND)) {
+            long shot;
+            if(living == Minecraft.getInstance().player) {
+                GunBaseNTItem gun = (GunBaseNTItem) stack.getItem();
+                shot = gun.lastShot[0];
+            } else {
+                shot = ItemRenderWeaponBase.flashMap.getOrDefault(living, (long) -1);
+                if(shot < 0) return;
+            }
+
+            RenderContext.pushPose();
+            RenderContext.translate(0.125F, 2.5F, 0F);
+            renderGapFlash(buffer, shot);
+            RenderContext.popPose();
+        }
     }
 }

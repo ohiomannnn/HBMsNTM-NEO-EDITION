@@ -1,7 +1,5 @@
 package com.hbm.render.anim;
 
-import com.hbm.config.ClientConfig;
-
 //"pieces" that make up a bus
 public class BusAnimationKeyframe {
 

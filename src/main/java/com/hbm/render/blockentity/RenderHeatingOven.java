@@ -23,15 +23,15 @@ public class RenderHeatingOven extends BlockEntityRendererNT<HeaterOvenBlockEnti
 
     @Override
     public void render(HeaterOvenBlockEntity be, MultiBufferSource buffer, float partialTicks) {
-        Direction facing = be.getBlockState().getValue(DummyableBlock.FACING);
 
         RenderContext.translate(0.5F, 0.0F, 0.5F);
+
+        Direction facing = be.getBlockState().getValue(DummyableBlock.FACING);
         switch(facing) {
-            case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
-            case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
-            case WEST -> RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
-            case EAST -> RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
-            default -> { }
+            case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
+            case EAST -> RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
+            case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
+            case WEST -> RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
         }
         RenderContext.mulPose(Axis.YP.rotationDegrees(-90F));
 

@@ -1,8 +1,8 @@
 package com.hbm.render.anim;
 
 import com.hbm.interfaces.NotableComments;
+import com.hbm.render.util.RenderContext;
 import com.hbm.util.Clock;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
@@ -98,20 +98,18 @@ public class HbmAnimations {
         };
     }
 
-    public static void applyRelevantTransformation(PoseStack poseStack, String bus) { applyRelevantTransformation(poseStack, bus, 0); }
-    public static void applyRelevantTransformation(PoseStack poseStack, String bus, int index) {
+    public static void applyRelevantTransformation(String bus) { applyRelevantTransformation(bus, 0); }
+    public static void applyRelevantTransformation(String bus, int index) {
         float[] transform = getRelevantTransformation(bus, index);
         int[] rot = new int[] { (int)transform[12], (int)transform[13], (int)transform[14] };
 
-        poseStack.translate(transform[0], transform[1], transform[2]);
-
-        for (int i = 0; i < 3; i++) {
+        RenderContext.translate(transform[0], transform[1], transform[2]);
+        for(int i = 0; i < 3; i++) {
             Axis axis = rot[i] == 0 ? Axis.XP : (rot[i] == 1 ? Axis.YP : Axis.ZP);
-            poseStack.mulPose(axis.rotationDegrees(transform[3 + rot[i]]));
+            RenderContext.mulPose(axis.rotationDegrees(transform[3 + rot[i]]));
         }
-
-        poseStack.translate(-transform[9], -transform[10], -transform[11]);
-        poseStack.scale(transform[6], transform[7], transform[8]);
+        RenderContext.translate(-transform[9], -transform[10], -transform[11]);
+        RenderContext.scale(transform[6], transform[7], transform[8]);
     }
 
 }

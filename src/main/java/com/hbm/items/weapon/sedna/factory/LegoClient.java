@@ -1,6 +1,8 @@
 package com.hbm.items.weapon.sedna.factory;
 
 import com.hbm.entity.projectile.BulletBaseMK4;
+import com.hbm.items.weapon.sedna.hud.HUDComponentAmmoCounter;
+import com.hbm.items.weapon.sedna.hud.HUDComponentDurabilityBar;
 import com.hbm.render.util.RenderContext;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -19,12 +21,19 @@ public class LegoClient {
     private static final RenderType BULLET = RenderType.create(
             "bullet_render_type", DefaultVertexFormat.POSITION_COLOR_LIGHTMAP, VertexFormat.Mode.QUADS, 1024,
             RenderType.CompositeState.builder()
-                    .setShaderState(RenderType.POSITION_COLOR_LIGHTMAP_SHADER)
+                    .setShaderState(RenderType.RENDERTYPE_TEXT_BACKGROUND_SHADER)
                     .setLightmapState(RenderType.LIGHTMAP)
                     .setOverlayState(RenderType.OVERLAY)
                     .setCullState(RenderStateShard.NO_CULL)
                     .createCompositeState(true)
     );
+
+    public static HUDComponentDurabilityBar HUD_COMPONENT_DURABILITY = new HUDComponentDurabilityBar();
+    public static HUDComponentDurabilityBar HUD_COMPONENT_DURABILITY_MIRROR = new HUDComponentDurabilityBar(true);
+    public static HUDComponentAmmoCounter HUD_COMPONENT_AMMO = new HUDComponentAmmoCounter(0);
+    public static HUDComponentAmmoCounter HUD_COMPONENT_AMMO_MIRROR = new HUDComponentAmmoCounter(0).mirror();
+    public static HUDComponentAmmoCounter HUD_COMPONENT_AMMO_NOCOUNTER = new HUDComponentAmmoCounter(0).noCounter();
+    public static HUDComponentAmmoCounter HUD_COMPONENT_AMMO_SECOND = new HUDComponentAmmoCounter(1);
 
     public static BiConsumer<BulletBaseMK4, Float> RENDER_STANDARD_BULLET = (bullet, partialTick) -> {
         float length = Mth.lerp(partialTick, bullet.prevVelocity, bullet.velocity);

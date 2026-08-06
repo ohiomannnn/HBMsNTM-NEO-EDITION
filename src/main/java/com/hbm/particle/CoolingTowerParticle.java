@@ -3,11 +3,12 @@ package com.hbm.particle;
 import com.hbm.particle.vanilla.NbtParticleOptions;
 import com.hbm.particle.vanilla.ParticleProviderBase;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.ParticleStatus;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.RandomSource;
 
 public class CoolingTowerParticle extends TextureSheetParticle {
 
@@ -23,7 +24,7 @@ public class CoolingTowerParticle extends TextureSheetParticle {
 
         this.rCol = this.gCol = this.bCol = 0.9F + level.random.nextFloat() * 0.05F;
         this.hasPhysics = false;
-        this.setSpriteFromAge(NtmParticles.BASE_PARTICLE_SPRITES);
+        this.setSpriteFromAge(NtmParticleTypes.BASE_PARTICLE_SPRITES);
     }
 
     public void setBaseScale(float f) { this.baseScale = f; }
@@ -74,16 +75,16 @@ public class CoolingTowerParticle extends TextureSheetParticle {
     public static class CoolingTowerProvider extends ParticleProviderBase<NbtParticleOptions> {
 
         @Override
-        public void createParticle(NbtParticleOptions options, double x, double y, double z, double xd, double yd, double zd, ClientLevel level, LocalPlayer player, int particleSetting) {
+        public void createParticle(NbtParticleOptions options, double x, double y, double z, double xd, double yd, double zd, ClientLevel level, RandomSource random, ParticleStatus particleStatus) {
             CompoundTag tag = options.tag;
 
-            if(particleSetting == 0 || (particleSetting == 1 && level.random.nextBoolean())) {
+            if(particleStatus == ParticleStatus.ALL || (particleStatus == ParticleStatus.DECREASED && level.random.nextBoolean())) {
                 CoolingTowerParticle particle = new CoolingTowerParticle(level, x, y, z);
 
                 particle.setLift(tag.getFloat("lift"));
                 particle.setBaseScale(tag.getFloat("base"));
                 particle.setMaxScale(tag.getFloat("max"));
-                particle.setLife(tag.getInt("life") / (particleSetting + 1));
+                particle.setLife(tag.getInt("life") / (particleStatus.ordinal() + 1));
                 if(tag.contains("noWind")) particle.noWind();
                 if(tag.contains("strafe")) particle.setStrafe(tag.getFloat("strafe"));
                 if(tag.contains("alpha")) particle.alphaMod(tag.getFloat("alpha"));

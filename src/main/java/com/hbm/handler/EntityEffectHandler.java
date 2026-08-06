@@ -8,7 +8,7 @@ import com.hbm.handler.radiation.ChunkRadiationManager;
 import com.hbm.items.weapon.sedna.factory.ConfettiUtil;
 import com.hbm.lib.ModAttachments;
 import com.hbm.main.NuclearTechModClient;
-import com.hbm.particle.NtmParticles;
+import com.hbm.particle.NtmParticleTypes;
 import com.hbm.particle.helper.FlameCreator;
 import com.hbm.particle.vanilla.NbtParticleOptions;
 import com.hbm.registry.NtmBiomes;
@@ -207,7 +207,7 @@ public class EntityEffectHandler {
                     CompoundTag tag = new CompoundTag();
                     tag.putInt("count", 25);
                     tag.putInt("entity", entity.getId());
-                    ParticleUtil.addParticle(level, new NbtParticleOptions(NtmParticles.VOMIT_BLOOD.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
+                    ParticleUtil.addParticle(level, new NbtParticleOptions(NtmParticleTypes.VOMIT_BLOOD.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
 
                     if((level.getGameTime() + r600) % 600 == 1) {
                         level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), NtmSoundEvents.VOMIT, SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -220,7 +220,7 @@ public class EntityEffectHandler {
                 CompoundTag tag = new CompoundTag();
                 tag.putInt("count", 15);
                 tag.putInt("entity", entity.getId());
-                ParticleUtil.addParticle(level, new NbtParticleOptions(NtmParticles.VOMIT_NORMAL.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
+                ParticleUtil.addParticle(level, new NbtParticleOptions(NtmParticleTypes.VOMIT_NORMAL.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
 
                 if((level.getGameTime() + r1200) % 1200 == 1) {
                     level.playSound(null, entity.getX(), entity.getY(), entity.getZ(), NtmSoundEvents.VOMIT, SoundSource.PLAYERS, 1.0F, 1.0F);
@@ -233,7 +233,7 @@ public class EntityEffectHandler {
                 tag.putInt("count", 1);
                 tag.put("state", NbtUtils.writeBlockState(Blocks.REDSTONE_BLOCK.defaultBlockState()));
                 tag.putInt("entity", entity.getId());
-                ParticleUtil.addParticle(level, new NbtParticleOptions(NtmParticles.SWEAT.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
+                ParticleUtil.addParticle(level, new NbtParticleOptions(NtmParticleTypes.SWEAT.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
             }
         } else {
             float radiation = HbmLivingAttachments.getRadiation(entity);
@@ -261,7 +261,7 @@ public class EntityEffectHandler {
                 tag.putInt("count", 1);
                 tag.put("state", NbtUtils.writeBlockState(Blocks.SOUL_SAND.defaultBlockState()));
                 tag.putInt("entity", entity.getId());
-                ParticleUtil.addParticle(level, new NbtParticleOptions(NtmParticles.SWEAT.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
+                ParticleUtil.addParticle(level, new NbtParticleOptions(NtmParticleTypes.SWEAT.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
             }
         }
     }
@@ -321,14 +321,14 @@ public class EntityEffectHandler {
                     CompoundTag tag = new CompoundTag();
                     tag.putInt("count", 5);
                     tag.putInt("entity", entity.getId());
-                    ParticleUtil.addParticle(level, new NbtParticleOptions(NtmParticles.VOMIT_BLOOD.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
+                    ParticleUtil.addParticle(level, new NbtParticleOptions(NtmParticleTypes.VOMIT_BLOOD.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
                 }
 
                 if(coughsCoal) {
                     CompoundTag tag = new CompoundTag();
                     tag.putInt("count", coughsALotOfCoal ? 50 : 10);
                     tag.putInt("entity", entity.getId());
-                    ParticleUtil.addParticle(level, new NbtParticleOptions(NtmParticles.VOMIT_SMOKE.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
+                    ParticleUtil.addParticle(level, new NbtParticleOptions(NtmParticleTypes.VOMIT_SMOKE.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
                 }
             }
         }
@@ -352,7 +352,7 @@ public class EntityEffectHandler {
                 tag.putInt("count", 1);
                 tag.put("state", NbtUtils.writeBlockState(Blocks.COAL_BLOCK.defaultBlockState()));
                 tag.putInt("entity", entity.getId());
-                ParticleUtil.addParticle(entity.level, new NbtParticleOptions(NtmParticles.SWEAT.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
+                ParticleUtil.addParticle(entity.level, new NbtParticleOptions(NtmParticleTypes.SWEAT.get(), tag), entity.getX(), entity.getY(), entity.getZ(), 25.0);
             }
         }
     }

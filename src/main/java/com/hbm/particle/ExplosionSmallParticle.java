@@ -6,20 +6,14 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 import java.awt.*;
 
-@OnlyIn(Dist.CLIENT)
 public class ExplosionSmallParticle extends RotatingParticleNT {
-
-    private final float hue;
 
     private static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/particle/base_particle.png");
     private static final RenderType EXP_SMALL = RenderType.create(
@@ -34,6 +28,8 @@ public class ExplosionSmallParticle extends RotatingParticleNT {
                     .setOutputState(RenderStateShard.TRANSLUCENT_TARGET)
                     .createCompositeState(false)
     );
+
+    private final float hue;
 
     public ExplosionSmallParticle(ClientLevel level, double x, double y, double z, float scale, float speedMultiplier) {
         super(level, x, y, z);
@@ -92,7 +88,7 @@ public class ExplosionSmallParticle extends RotatingParticleNT {
 
         float scale = (float) ((0.25 + 1 - Math.pow(1 - ageScaled, 4) + (this.age + partialTicks) * 0.02) * this.quadSize);
 
-        this.renderParticleRotated(consumer, camera, this.rCol, this.gCol, this.bCol, this.alpha * 0.5F, scale, partialTicks, LightTexture.FULL_BRIGHT);
+        this.renderParticleRotated(consumer, camera, this.rCol, this.gCol, this.bCol, this.alpha * 0.5F, scale, partialTicks, this.getLightColor());
     }
 
     @Override public RenderType getRenderType() { return EXP_SMALL; }

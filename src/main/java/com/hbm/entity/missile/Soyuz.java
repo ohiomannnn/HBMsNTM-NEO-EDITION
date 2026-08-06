@@ -2,7 +2,7 @@ package com.hbm.entity.missile;
 
 import com.hbm.entity.NtmEntityTypes;
 import com.hbm.items.ISatChip;
-import com.hbm.particle.NtmParticles;
+import com.hbm.particle.NtmParticleTypes;
 import com.hbm.particle.vanilla.NbtParticleOptions;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.saveddata.satellite.XSatelliteRegistry;
@@ -89,7 +89,7 @@ public class Soyuz extends Entity {
         tag.putInt("count", 1);
         tag.putDouble("width", this.level.random.nextDouble() * 0.25 - 0.5);
 
-        ParticleUtil.addParticle(this.level, new NbtParticleOptions(NtmParticles.EXHAUST_SOYUZ.get(), tag), position.x, position.y, position.z, 350.0);
+        ParticleUtil.addParticle(this.level, new NbtParticleOptions(NtmParticleTypes.EXHAUST_SOYUZ.get(), tag), position.x, position.y, position.z, 350.0);
     }
 
     private void deployPayload() {

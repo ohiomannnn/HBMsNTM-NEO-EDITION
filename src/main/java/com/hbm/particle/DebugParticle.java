@@ -78,13 +78,13 @@ public class DebugParticle extends TextureSheetParticle {
     public static class PowerProvider implements ParticleProvider<SimpleParticleType> {
 
         public PowerProvider(SpriteSet sprites) {
-            NtmParticles.POWER_SPRITES = sprites;
+            NtmParticleTypes.POWER_SPRITES = sprites;
         }
 
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
             DebugParticle particle = new DebugParticle(level, x, y, z, dx, dy, dz);
-            particle.setSpriteFromAge(NtmParticles.POWER_SPRITES);
+            particle.setSpriteFromAge(NtmParticleTypes.POWER_SPRITES);
             return particle;
         }
     }
@@ -93,13 +93,13 @@ public class DebugParticle extends TextureSheetParticle {
     public static class FluidProvider implements ParticleProvider<SimpleParticleType> {
 
         public FluidProvider(SpriteSet sprites) {
-            NtmParticles.FLUID_SPRITES = sprites;
+            NtmParticleTypes.FLUID_SPRITES = sprites;
         }
 
         @Override
         public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z, double dx, double dy, double dz) {
             DebugParticle particle = new DebugParticle(level, x, y, z, dx, dy, dz, 0x344feb);
-            particle.setSpriteFromAge(NtmParticles.FLUID_SPRITES);
+            particle.setSpriteFromAge(NtmParticleTypes.FLUID_SPRITES);
             return particle;
         }
     }

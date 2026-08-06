@@ -1,10 +1,10 @@
 package com.hbm.inventory.screens;
 
-import com.hbm.main.NuclearTechMod;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.NtmItems;
 import com.hbm.items.machine.FluidIDMultiItem;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.network.toserver.CompoundTagItemControl;
 import com.hbm.util.InventoryUtil;
 import net.minecraft.client.gui.GuiGraphics;
@@ -43,10 +43,19 @@ public class FluidScreen extends Screen {
         this.player = player;
     }
 
+    @Override public boolean isPauseScreen() { return false; }
+
     @Override
     public void tick() {
-        boolean close = InventoryUtil.getItemSteamFromBothHands(player).noneMatch(stack -> stack.is(NtmItems.FLUID_IDENTIFIER_MULTI.get()));
-        if (close) this.onClose();
+        boolean close = false;
+        List<ItemStack> stacks = InventoryUtil.getItemsFromBothHands(player);
+        for(ItemStack stack : stacks) {
+            if(!stack.is(NtmItems.FLUID_IDENTIFIER_MULTI.get())) {
+                close = true;
+                break;
+            }
+        }
+        if(close) this.onClose();
     }
 
     @Override
@@ -173,10 +182,5 @@ public class FluidScreen extends Screen {
                 if (next >= 9) return;
             }
         }
-    }
-
-    @Override
-    public boolean isPauseScreen() {
-        return false;
     }
 }

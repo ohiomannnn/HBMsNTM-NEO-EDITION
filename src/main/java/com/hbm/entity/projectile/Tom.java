@@ -1,8 +1,7 @@
 package com.hbm.entity.projectile;
 
 import com.hbm.entity.NtmEntityTypes;
-import com.hbm.particle.NtmParticles;
-import com.hbm.particle.helper.IParticleCreator;
+import com.hbm.particle.NtmParticleTypes;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.SoundUtils;
 import com.hbm.util.particle.ParticleUtil;
@@ -31,7 +30,7 @@ public class Tom extends Entity {
         if(this.tickCount % 100 == 0) SoundUtils.playAtEntity(this, NtmSoundEvents.CHIME.get(), SoundSource.AMBIENT, 10000F, 1F);
 
         if(!this.level.getBlockState(this.blockPosition()).isAir() || this.position().y < -50) {
-            ParticleUtil.addParticle(this.level, NtmParticles.TOM_BLAST.get(), this.position.x, this.position.y, this.position.z);
+            ParticleUtil.addParticle(this.level, NtmParticleTypes.TOM_BLAST.get(), this.position.x, this.position.y, this.position.z);
             this.discard();
         }
     }

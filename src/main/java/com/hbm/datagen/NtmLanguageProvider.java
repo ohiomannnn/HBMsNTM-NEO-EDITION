@@ -1617,7 +1617,7 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add("desc.cannotam", "Cannot contain antimatter");
         this.add("desc.canam", "Can contain antimatter");
         this.add("desc.leaky", "Leaky");
-        this.add(NtmBlocks.BARREL_PLASTIC, "Safe Barrel\u2122");
+        this.add(NtmBlocks.BARREL_PLASTIC, "Safe Barrel");
         this.add(NtmBlocks.BARREL_CORRODED, "Corroded Barrel");
         this.add(NtmBlocks.BARREL_STEEL, "Steel Barrel");
         this.add(NtmBlocks.BARREL_TCALLOY, "Technetium Steel Barrel");
@@ -1740,6 +1740,12 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmBlocks.TAINT, DESC,"DO NOT TOUCH, BREATHE OR STARE AT.");
 
         // CONTAINERS //
+        this.add("container.upgrade", "§lAcceptable Upgrades:§r");
+        this.add("container.upgrade.afterburner", " * §dAfterburner§r: Stacks to level 3");
+        this.add("container.upgrade.effectiveness", " * §aEffectiveness§r: Stacks to level 3");
+        this.add("container.upgrade.overdrive", " * §7Overdrive§r: Stacks to level 3");
+        this.add("container.upgrade.power", " * §1Power-Saving§r: Stacks to level 3");
+        this.add("container.upgrade.speed", " * §4Speed§r: Stacks to level 3");
         this.add("container.nuke_gadget", "The Gadget");
         this.add("container.nuke_gadget.desc", "§1Requires:§r$ * 4 Arrays of First-Generation$   High-Explosive Lenses$ * Large Plutonium Core$ * Wiring");
         this.add("container.nuke_fat_man", "Fat Man");
@@ -2039,6 +2045,20 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add("bomb.missing_component", "Component missing!");
         this.add("bomb.incompatible", "Device can not be triggered!");
         this.add("bomb.nobomb", "Linked position incompatible or unloaded!");
+
+        this.add("battery.mode.buffer", "Input/Output Mode");
+        this.add("battery.mode.input", "Input Mode");
+        this.add("battery.mode.off", "OffW");
+        this.add("battery.mode.output", "Output Mode");
+        this.add("battery.priority.high", "Charge Priority: High");
+        this.add("battery.priority.high.desc", "Emergency buffers that$always need to be full");
+        this.add("battery.priority.low", "Charge Priority: Low");
+        this.add("battery.priority.low.desc", "Most use-cases where surplus$energy needs to be stored without$affecting machine performance");
+        this.add("battery.priority.normal", "Charge Priority: Normal");
+        this.add("battery.priority.normal.desc", "Smaller power grids where$priority doesn't matter");
+        this.add("battery.priority.recommended", "Recommended for:");
+        this.add("battery.redstone.off", "Redstone OFF");
+        this.add("battery.redstone.on", "Redstone ON");
 
         this.add("he", "HE"); // hbm energy
         this.add("mb", "mB"); // milibuckets

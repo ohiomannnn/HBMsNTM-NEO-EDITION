@@ -2,7 +2,7 @@ package com.hbm.items.special;
 
 import com.hbm.extprop.HbmLivingAttachments;
 import com.hbm.items.NtmItems;
-import com.hbm.particle.NtmParticles;
+import com.hbm.particle.NtmParticleTypes;
 import com.hbm.particle.vanilla.NbtParticleOptions;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.i18n.I18nUtil;
@@ -65,7 +65,7 @@ public class CigaretteItem extends Item {
             CompoundTag tag = new CompoundTag();
             tag.putInt("count", 30);
             tag.putInt("entity", living.getId());
-            ParticleUtil.addParticle(level, new NbtParticleOptions(NtmParticles.VOMIT_SMOKE.get(), tag), living.getX(), living.getY(), living.getZ(), 25.0);
+            ParticleUtil.addParticle(level, new NbtParticleOptions(NtmParticleTypes.VOMIT_SMOKE.get(), tag), living.getX(), living.getY(), living.getZ(), 25.0);
         }
 
         if(player != null) {

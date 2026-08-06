@@ -22,7 +22,7 @@ public class DigammaSmokeParticle extends TextureSheetParticle {
 
     public DigammaSmokeParticle(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);
-        this.setSpriteFromAge(NtmParticles.BASE_PARTICLE_SPRITES);
+        this.setSpriteFromAge(NtmParticleTypes.BASE_PARTICLE_SPRITES);
         this.lifetime = 100 + random.nextInt(40);
         this.hasPhysics = false;
 

@@ -5,8 +5,11 @@ import com.hbm.entity.projectile.BulletBaseMK4;
 import com.hbm.entity.projectile.BulletBeamBase;
 import com.hbm.interfaces.NotableComments;
 import com.hbm.inventory.MetaHelper;
+import com.hbm.inventory.RecipesCommon.ComparableStack;
 import com.hbm.items.NtmItems;
 import com.hbm.items.weapon.sedna.factory.ConfettiUtil;
+import com.hbm.items.weapon.sedna.factory.GunFactory.Ammo;
+import com.hbm.items.weapon.sedna.factory.GunFactory.AmmoSecret;
 import com.hbm.particle.SpentCasing;
 import com.hbm.particle.SpentCasing.CasingType;
 import com.hbm.registry.NtmDamageTypes;
@@ -16,6 +19,7 @@ import com.hbm.util.DamageResistanceHandler.DamageClass;
 import com.hbm.util.EntityDamageUtil;
 import com.hbm.util.SoundUtils;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -24,8 +28,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -38,6 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 @NotableComments
 public class BulletConfig implements Cloneable {
@@ -45,8 +50,10 @@ public class BulletConfig implements Cloneable {
 
     public int id;
 
-    public ItemLike ammo;
-    public ItemStack casingItem;
+    private Supplier<ComparableStack> ammoSupplier;
+    private Supplier<ItemStack> casingItemSupplier;
+    private @Nullable ComparableStack ammo;
+    private @Nullable ItemStack casingItem;
     public int casingAmount;
     /** How much ammo is added to a standard mag when loading one item */
     public int ammoReloadCount = 1;
@@ -103,9 +110,12 @@ public class BulletConfig implements Cloneable {
 
     public BulletConfig setBeam() {														this.pType = ProjectileType.BEAM; return this; }
     public BulletConfig setChunkloading() {												this.pType = ProjectileType.BULLET_CHUNKLOADING; return this; }
-    public BulletConfig setItem(ItemLike ammo) {									    this.ammo = ammo; return this; }
-    public BulletConfig setCasing(ItemStack item, int amount) {							this.casingItem = item; this.casingAmount = amount; return this; }
-    public BulletConfig setCasing(CasingType item, int amount) {					    this.casingItem = MetaHelper.newStack(NtmItems.CASING, item); this.casingAmount = amount; return this; }
+    public BulletConfig setItem(Supplier<ComparableStack> supplier) {					this.ammoSupplier = supplier; return this; }
+    public BulletConfig setItem(Holder<Item> ammo) {									return this.setItem(() -> new ComparableStack(ammo.value())); }
+    public BulletConfig setItem(Ammo ammo) {										    return this.setItem(() -> new ComparableStack(NtmItems.AMMO_STANDARD.get(), 1, ammo)); }
+    public BulletConfig setItem(AmmoSecret ammo) {									    return this.setItem(() -> new ComparableStack(NtmItems.AMMO_SECRET.get(), 1, ammo)); }
+    public BulletConfig setCasing(Supplier<ItemStack> supplier, int amount) {		    this.casingItemSupplier = supplier; this.casingAmount = amount; return this; }
+    public BulletConfig setCasing(CasingType type, int amount) {		                return this.setCasing(() -> MetaHelper.newStack(NtmItems.CASING, type), amount); }
     public BulletConfig setReloadCount(int ammoReloadCount) {							this.ammoReloadCount = ammoReloadCount; return this; }
     public BulletConfig setVel(float velocity) {										this.velocity = velocity; return this; }
     public BulletConfig setSpread(float spread) {										this.spread = spread; return this; }
@@ -138,6 +148,17 @@ public class BulletConfig implements Cloneable {
     public BulletConfig setOnImpact(BiConsumer<BulletBaseMK4, HitResult> lambda) {			        this.onImpact = lambda; return this; }
     public BulletConfig setOnBeamImpact(BiConsumer<BulletBeamBase, HitResult> lambda) {	            this.onImpactBeam = lambda; return this; }
     public BulletConfig setOnEntityHit(BiConsumer<BulletBaseMK4, EntityHitResult> lambda) {		    this.onEntityHit = lambda; return this; }
+
+    public ComparableStack getAmmo() {
+        if(this.ammoSupplier == null) return null;
+        if(this.ammo == null) this.ammo = this.ammoSupplier.get();
+        return ammo;
+    }
+    public ItemStack getCasingItem() {
+        if(this.casingItemSupplier == null) return null;
+        if(this.casingItem == null) this.casingItem = this.casingItemSupplier.get();
+        return casingItem;
+    }
 
     public enum ProjectileType {
         BULLET,

@@ -17,7 +17,7 @@ import java.util.List;
 
 public abstract class ParticleNT {
     private static final AABB INITIAL_AABB = new AABB(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-    private static final double MAXIMUM_COLLISION_VELOCITY_SQUARED = Mth.square(100.0D);
+    public static final double MAXIMUM_COLLISION_VELOCITY_SQUARED = Mth.square(100.0D);
     protected final ClientLevel level;
     public double xo;
     public double yo;
@@ -193,5 +193,17 @@ public abstract class ParticleNT {
 
     public void remove() {
         this.dead = true;
+    }
+
+    protected void setSize(float width, float height) {
+        if (width != this.bbWidth || height != this.bbHeight) {
+            this.bbWidth = width;
+            this.bbHeight = height;
+            AABB aabb = this.getBoundingBox();
+            double d0 = (aabb.minX + aabb.maxX - (double)width) / (double)2.0F;
+            double d1 = (aabb.minZ + aabb.maxZ - (double)width) / (double)2.0F;
+            this.setBoundingBox(new AABB(d0, aabb.minY, d1, d0 + (double)this.bbWidth, aabb.minY + (double)this.bbHeight, d1 + (double)this.bbWidth));
+        }
+
     }
 }

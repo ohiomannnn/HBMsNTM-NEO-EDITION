@@ -2,6 +2,7 @@ package com.hbm.items.weapon.sedna;
 
 import com.hbm.items.weapon.sedna.GunBaseNTItem.LambdaContext;
 import com.hbm.items.weapon.sedna.GunBaseNTItem.SmokeNode;
+import com.hbm.items.weapon.sedna.factory.GunStateDecider;
 import com.hbm.items.weapon.sedna.factory.Lego;
 import com.hbm.items.weapon.sedna.hud.IHUDComponent;
 import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
@@ -152,13 +153,13 @@ public class GunConfig {
     public GunConfig anim(BiFunction<ItemStack, GunAnimation, BusAnimation> lambda) {	this.animations_DNA = lambda;			return this; }
     public GunConfig hud(IHUDComponent... components) {									this.hudComponents_DNA = components;	return this; }
 
-//    /** Standard package for keybind handling and decider using LEGO prefabs: Primary fire on LMB,
-//     * reload on R, aiming on MMB and the standard decider which includes jamming and auto fire handling*/
-//    public GunConfig setupStandardConfiguration() {
-//        this.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY);
-//        this.pr(Lego.LAMBDA_STANDARD_RELOAD);
-//        this.pt(Lego.LAMBDA_TOGGLE_AIM);
-//        this.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER);
-//        return this;
-//    }
+   /** Standard package for keybind handling and decider using LEGO prefabs: Primary fire on LMB,
+    * reload on R, aiming on MMB and the standard decider which includes jamming and auto fire handling*/
+   public GunConfig setupStandardConfiguration() {
+       this.pp(Lego.LAMBDA_STANDARD_CLICK_PRIMARY);
+       this.pr(Lego.LAMBDA_STANDARD_RELOAD);
+       this.pt(Lego.LAMBDA_TOGGLE_AIM);
+       this.decider(GunStateDecider.LAMBDA_STANDARD_DECIDER);
+       return this;
+   }
 }

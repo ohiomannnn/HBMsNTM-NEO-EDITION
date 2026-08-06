@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Lightweight 1.12-style burn helper for heater machines.
- * Keeps the old fuel category tuning while working with modern item tags and registry names.
+ * A simple module for determining the burn time of a stack with added options to define bonuses
+ * @author hbm
  */
 public class ModuleBurnTime {
 

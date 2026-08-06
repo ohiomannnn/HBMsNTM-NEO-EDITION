@@ -53,7 +53,7 @@ public class RenderChemicalPlant extends BlockEntityRendererNT<MachineChemicalPl
         if(be.frame) ResourceManager.chemical_plant.renderPart("Frame");
 
         RenderContext.pushPose();
-        RenderContext.translate((float) (BobMathUtil.sps(anim * 0.125D) * 0.375D), 0F, 0F);
+        RenderContext.translate((float) (BobMathUtil.sps(anim * 0.125F) * 0.375F), 0F, 0F);
         ResourceManager.chemical_plant.renderPart("Slider");
         RenderContext.popPose();
 
@@ -69,25 +69,20 @@ public class RenderChemicalPlant extends BlockEntityRendererNT<MachineChemicalPl
             int r = 0;
             int g = 0;
             int b = 0;
-
-            if(recipe.outputFluid != null) {
-                for(FluidStack stack : recipe.outputFluid) {
-                    Color color = new Color(stack.type.getTint());
-                    r += color.getRed();
-                    g += color.getGreen();
-                    b += color.getBlue();
-                    colors++;
-                }
+            if(recipe.outputFluid != null) for(FluidStack stack : recipe.outputFluid) {
+                Color color = new Color(stack.type.getColor());
+                r += color.getRed();
+                g += color.getGreen();
+                b += color.getBlue();
+                colors++;
             }
 
-            if(colors == 0 && recipe.inputFluid != null) {
-                for(FluidStack stack : recipe.inputFluid) {
-                    Color color = new Color(stack.type.getTint());
-                    r += color.getRed();
-                    g += color.getGreen();
-                    b += color.getBlue();
-                    colors++;
-                }
+            if(colors == 0 && recipe.inputFluid != null) for(FluidStack stack : recipe.inputFluid) {
+                Color color = new Color(stack.type.getColor());
+                r += color.getRed();
+                g += color.getGreen();
+                b += color.getBlue();
+                colors++;
             }
 
             if(colors > 0) {
@@ -97,11 +92,15 @@ public class RenderChemicalPlant extends BlockEntityRendererNT<MachineChemicalPl
                 RenderSystem.enableBlend();
                 RenderSystem.blendFuncSeparate(770, 771, 1, 0);
                 RenderSystem.depthMask(false);
-                RenderContext.setColor((float) r / 255F / colors, (float) g / 255F / colors, (float) b / 255F / colors, 0.5F);
-                RenderSystem.setTextureMatrix(new Matrix4f().translate(0F, (float) (BobMathUtil.sps(anim * 0.1D) * 0.05D), 0F));
+                RenderContext.setLightning(false);
+                RenderContext.setColor(r / 255F / colors, g / 255F / colors, b / 255F / colors, 0.5F);
+
+                RenderSystem.setTextureMatrix(new Matrix4f().translate(-anim / 100F, (float) (BobMathUtil.sps(anim * 0.1F) * 0.1F - 0.25F), 0F));
                 ResourceManager.chemical_plant.renderPart("Fluid");
                 RenderSystem.resetTextureMatrix();
+
                 RenderContext.setColor(1F, 1F, 1F, 1F);
+                RenderContext.setLightning(true);
                 RenderSystem.depthMask(true);
                 RenderSystem.disableBlend();
                 RenderSystem.defaultBlendFunc();

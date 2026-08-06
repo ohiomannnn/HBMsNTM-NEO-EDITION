@@ -1,6 +1,7 @@
 package com.hbm.main;
 
 import com.hbm.blockentity.machine.MachineRadarBlockEntity;
+import com.hbm.blockentity.network.RTTYSystem;
 import com.hbm.config.NtmConfig;
 import com.hbm.extprop.HbmPlayerAttachments;
 import com.hbm.handler.HTTPHandler;
@@ -66,6 +67,8 @@ public class NtmEventHandler {
     @SubscribeEvent
     public static void onServerTick(ServerTickEvent.Pre event) {
 
+        // Redstone over Radio
+        RTTYSystem.updateBroadcastQueue(event.getServer());
         // Networks! All of them!
         UniNodespace.updateNodespace(event.getServer());
         // Radar entry handling

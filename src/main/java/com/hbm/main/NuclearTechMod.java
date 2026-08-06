@@ -11,10 +11,9 @@ import com.hbm.inventory.NtmMenuTypes;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.items.NtmItems;
 import com.hbm.items.component.NtmDataComponents;
-import com.hbm.items.weapon.sedna.factory.GunFactory;
 import com.hbm.lib.ModAttachments;
 import com.hbm.lib.ModEffect;
-import com.hbm.particle.NtmParticles;
+import com.hbm.particle.NtmParticleTypes;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.world.feature.NtmFeatures;
 import net.minecraft.resources.ResourceLocation;
@@ -63,7 +62,7 @@ public class NuclearTechMod {
         ModEffect.register(eventBus);
         NtmBlockEntityTypes.register(eventBus);
         NtmMenuTypes.register(eventBus);
-        NtmParticles.register(eventBus);
+        NtmParticleTypes.register(eventBus);
         NtmFeatures.register(eventBus);
     }
 }

@@ -69,7 +69,7 @@ public record HbmAnimation(short animType, int rec, int gun) implements CustomPa
 
         if(type == GunAnimation.CYCLE) {
             if(gunIndex < gun.lastShot.length) gun.lastShot[gunIndex] = System.currentTimeMillis();
-            gun.shotRand = player.level.random.nextDouble();
+            gun.shotRand = player.level.random.nextFloat();
 
             Receiver[] receivers = config.getReceivers(stack);
             if(receiverIndex >= 0 && receiverIndex < receivers.length) {

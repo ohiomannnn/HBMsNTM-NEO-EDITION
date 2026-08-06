@@ -35,11 +35,64 @@ public class NtmSoundDefinitionsProvider extends SoundDefinitionsProvider {
         this.add(NtmSoundEvents.GUN_MAG_SMALL_INSERT, SoundDefinition.definition()
                 .with(sound(NuclearTechMod.withDefaultNamespace("weapon/reload/mag_small_insert")))
         );
+        this.add(NtmSoundEvents.GUN_LEVER_COCK, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("weapon/reload/lever_cock")))
+        );
+        this.add(NtmSoundEvents.GUN_SHOTGUN_LOAD, SoundDefinition.definition()
+                .with(
+                        sound(NuclearTechMod.withDefaultNamespace("weapon/reload/shotgun_reload1")),
+                        sound(NuclearTechMod.withDefaultNamespace("weapon/reload/shotgun_reload2")),
+                        sound(NuclearTechMod.withDefaultNamespace("weapon/reload/shotgun_reload3"))
+                )
+        );
+        this.add(NtmSoundEvents.GUN_SHOTGUN_OPEN, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("weapon/reload/shotgun_cock_open")))
+        );
+        this.add(NtmSoundEvents.GUN_SHOTGUN_CLOSE, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("weapon/reload/shotgun_cock_close")))
+        );
+        this.add(NtmSoundEvents.GUN_SHOTGUN_COCK, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("weapon/reload/shotgun_cock")))
+        );
         this.add(NtmSoundEvents.GUN_DRY_FIRE, SoundDefinition.definition()
                 .with(sound(NuclearTechMod.withDefaultNamespace("weapon/reload/dry_fire_click")))
         );
         this.add(NtmSoundEvents.GUN_HEAVY_REVOLVER_FIRE, SoundDefinition.definition()
                 .with(sound(NuclearTechMod.withDefaultNamespace("weapon/fire/44_shoot")))
+        );
+        this.add(NtmSoundEvents.GUN_SHOTGUN_FIRE, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("weapon/fire/shotgun")))
+        );
+        this.add(NtmSoundEvents.GUN_SPAS_FIRE, SoundDefinition.definition()
+                .with(sound(NuclearTechMod.withDefaultNamespace("weapon/shotgun_shoot")))
+        );
+        this.add(NtmSoundEvents.PLINK_SHELL, SoundDefinition.definition()
+                .with(
+                        sound(NuclearTechMod.withDefaultNamespace("weapon/casing/shell1")),
+                        sound(NuclearTechMod.withDefaultNamespace("weapon/casing/shell2")),
+                        sound(NuclearTechMod.withDefaultNamespace("weapon/casing/shell3"))
+                )
+        );
+        this.add(NtmSoundEvents.PLINK_SMALL, SoundDefinition.definition()
+                .with(
+                        sound(NuclearTechMod.withDefaultNamespace("weapon/casing/small1")),
+                        sound(NuclearTechMod.withDefaultNamespace("weapon/casing/small2")),
+                        sound(NuclearTechMod.withDefaultNamespace("weapon/casing/small3"))
+                )
+        );
+        this.add(NtmSoundEvents.PLINK_MEDIUM, SoundDefinition.definition()
+                .with(
+                        sound(NuclearTechMod.withDefaultNamespace("weapon/casing/medium1")),
+                        sound(NuclearTechMod.withDefaultNamespace("weapon/casing/medium2")),
+                        sound(NuclearTechMod.withDefaultNamespace("weapon/casing/medium3"))
+                )
+        );
+        this.add(NtmSoundEvents.PLINK_LARGE, SoundDefinition.definition()
+                .with(
+                        sound(NuclearTechMod.withDefaultNamespace("weapon/casing/large1")),
+                        sound(NuclearTechMod.withDefaultNamespace("weapon/casing/large2")),
+                        sound(NuclearTechMod.withDefaultNamespace("weapon/casing/large3"))
+                )
         );
         this.add(NtmSoundEvents.RICOCHET, SoundDefinition.definition()
                 .with(

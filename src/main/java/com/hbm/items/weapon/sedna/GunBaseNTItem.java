@@ -7,17 +7,23 @@ import com.hbm.items.IEquipReceiver;
 import com.hbm.items.IHUDItem;
 import com.hbm.items.IKeybindReceiver;
 import com.hbm.items.weapon.sedna.factory.GunFactory.Ammo;
+import com.hbm.items.weapon.sedna.hud.IHUDComponent;
+import com.hbm.items.weapon.sedna.mags.IMagazine;
 import com.hbm.items.weapon.sedna.mods.XWeaponModManager;
-import com.hbm.main.NuclearTechMod;
 import com.hbm.network.toclient.HbmAnimation;
 import com.hbm.render.anim.AnimationEnums.GunAnimation;
+import com.hbm.render.util.RenderScreenOverlay;
 import com.hbm.sound.AudioWrapper;
+import com.hbm.util.BobMathUtil;
 import com.hbm.util.EnumUtil;
 import com.hbm.util.TagsUtil;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -25,10 +31,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.client.event.RenderGuiEvent.Pre;
+import net.neoforged.neoforge.client.event.RenderGuiLayerEvent.Pre;
+import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.text.DecimalFormat;
@@ -45,7 +53,7 @@ public class GunBaseNTItem extends Item implements IKeybindReceiver, IHUDItem, I
     /** Timestamp for rendering smoke nodes and muzzle flashes */
     public long[] lastShot;
     /** [0;1] randomized every shot for various rendering applications */
-    public double shotRand = 0D;
+    public float shotRand = 0F;
 
     public static List<Item> secrets = new ArrayList<>();
     public List<ComparableStack> recognizedMods = new ArrayList<>();
@@ -120,9 +128,7 @@ public class GunBaseNTItem extends Item implements IKeybindReceiver, IHUDItem, I
         this.quality = quality;
         this.lastShot = new long[cfg.length];
         for(int i = 0; i < cfg.length; i++) cfg[i].index = i;
-        //if(quality == WeaponQuality.A_SIDE || quality == WeaponQuality.SPECIAL || quality == WeaponQuality.UTILITY) this.setCreativeTab(MainRegistry.weaponTab);
-        //if(quality == WeaponQuality.LEGENDARY || quality == WeaponQuality.SECRET) this.secrets.add(this);
-        //this.setTextureName(RefStrings.MODID + ":gun_darter");
+        if(quality == WeaponQuality.LEGENDARY || quality == WeaponQuality.SECRET) secrets.add(this);
     }
 
     public enum WeaponQuality {
@@ -144,7 +150,7 @@ public class GunBaseNTItem extends Item implements IKeybindReceiver, IHUDItem, I
     }
 
     public GunBaseNTItem setDefaultAmmo(Ammo ammo, int amount) {
-       // this.defaultAmmo = new ItemStack(ModItems.ammo_standard, amount, ammo.ordinal());
+        //this.defaultAmmo = new ItemStack(ModItems.ammo_standard, amount, ammo.ordinal());
         return this;
     }
 
@@ -172,6 +178,52 @@ public class GunBaseNTItem extends Item implements IKeybindReceiver, IHUDItem, I
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> components, TooltipFlag flag) {
 
+        Player player = Minecraft.getInstance().player;
+        if(player == null) return;
+
+        int configs = this.configs_DNA.length;
+        for(int i = 0; i < configs; i++) {
+            GunConfig config = getConfig(stack, i);
+            for(Receiver rec : config.getReceivers(stack)) {
+                IMagazine mag = rec.getMagazine(stack);
+//                if(!(mag instanceof MagazineInfinite)) {
+//                    list.add(I18nUtil.resolveKey("gui.weapon.ammo") + ": " + mag.getIconForHUD(stack, player).getDisplayName() + " " + mag.reportAmmoStateForHUD(stack, player));
+//                }
+                float dmg = rec.getBaseDamage(stack);
+                components.add(Component.translatable("gui.weapon.baseDamage").append(": " + FORMAT_DMG.format(dmg)).withStyle(ChatFormatting.GRAY));
+                if(mag.getType(stack, player.inventory) instanceof BulletConfig) {
+                    BulletConfig bullet = (BulletConfig) mag.getType(stack, player.inventory);
+                    int min = (int) (bullet.projectilesMin * rec.getSplitProjectiles(stack));
+                    int max = (int) (bullet.projectilesMax * rec.getSplitProjectiles(stack));
+                    components.add(Component.translatable("gui.weapon.damageWithAmmo").append(": " + FORMAT_DMG.format(dmg * bullet.damageMult) + (min > 1 ? (" x" + (min != max ? (min + "-" + max) : min)) : "")));
+                }
+            }
+
+            float maxDura = config.getDurability(stack);
+            if(maxDura > 0) {
+                int dura = Mth.clamp((int) ((maxDura - getWear(stack, i)) * 100 / maxDura), 0, 100);
+                components.add(Component.translatable("gui.weapon.condition").append(": " + dura + "%").withStyle(ChatFormatting.GRAY));
+            }
+
+//            for(ItemStack upgrade : XWeaponModManager.getUpgradeItems(stack, i)) {
+//                list.add(EnumChatFormatting.YELLOW + upgrade.getDisplayName());
+//            }
+        }
+
+        switch(this.quality) {
+            case A_SIDE -> components.add(Component.translatable("gui.weapon.quality.aside").withStyle(ChatFormatting.YELLOW));
+            case B_SIDE -> components.add(Component.translatable("gui.weapon.quality.bside").withStyle(ChatFormatting.GOLD));
+            case LEGENDARY -> components.add(Component.translatable("gui.weapon.quality.legendary").withStyle(ChatFormatting.RED));
+            case SPECIAL -> components.add(Component.translatable("gui.weapon.quality.special").withStyle(ChatFormatting.AQUA));
+            case UTILITY -> components.add(Component.translatable("gui.weapon.quality.utility").withStyle(ChatFormatting.GREEN));
+            case SECRET -> components.add(Component.translatable("gui.weapon.quality.secret").withStyle(BobMathUtil.getBlink() ? ChatFormatting.DARK_RED : ChatFormatting.RED));
+            case DEBUG -> components.add(Component.translatable("gui.weapon.quality.debug").withStyle(BobMathUtil.getBlink() ? ChatFormatting.YELLOW : ChatFormatting.GOLD));
+        }
+
+//        if(Minecraft.getMinecraft().currentScreen instanceof GUIWeaponTable && !this.recognizedMods.isEmpty()) {
+//            list.add(EnumChatFormatting.RED + I18nUtil.resolveKey("gui.weapon.accepts") + ":");
+//            for(ComparableStack comp : this.recognizedMods) list.add(EnumChatFormatting.RED + "  " + comp.toStack().getDisplayName());
+//        }
     }
 
     @Override
@@ -238,7 +290,7 @@ public class GunBaseNTItem extends Item implements IKeybindReceiver, IHUDItem, I
             ctx[i] = new LambdaContext(configs[i], livingEntity, player != null ? player.inventory : null, i);
         }
 
-        if(level.isClientSide) {
+        if(!(level instanceof ServerLevel)) {
             this.tickClient(stack, confNo, configs, ctx, isSelected, player);
             return;
         }
@@ -269,7 +321,7 @@ public class GunBaseNTItem extends Item implements IKeybindReceiver, IHUDItem, I
             return;
         }
 
-        for(int i = 0; i < confNo; i++) for(int k = 0; k == 0 || (k < 2 /*ArmorTrenchmaster.isTrenchMaster(player)*/ && getState(stack, i) == GunState.RELOADING); k++) {
+        for(int i = 0; i < confNo; i++) for(int k = 0; k == 0 /*|| (k < 2 ArmorTrenchmaster.isTrenchMaster(player) && getState(stack, i) == GunState.RELOADING);*/; k++) {
             BiConsumer<ItemStack, LambdaContext> orchestra = configs[i].getOrchestra(stack);
             if(orchestra != null) orchestra.accept(stack, ctx[i]);
 
@@ -391,8 +443,34 @@ public class GunBaseNTItem extends Item implements IKeybindReceiver, IHUDItem, I
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public void renderHUD(Pre event, Player player, ItemStack stack) {
 
+        Minecraft mc = Minecraft.getInstance();
+        if(mc.options.hideGui) return;
+        if(mc.gameMode.getPlayerMode() == GameType.SPECTATOR) return;
+
+        GunBaseNTItem gun = (GunBaseNTItem) stack.getItem();
+
+        if(event.getName().equals(VanillaGuiLayers.CROSSHAIR)) {
+            if(!mc.options.getCameraType().isFirstPerson()) return;
+            event.setCanceled(true);
+            GunConfig config = gun.getConfig(stack, 0);
+            if(config.getHideCrosshair(stack) && aimingProgress >= 1F) return;
+            RenderScreenOverlay.renderCustomCrosshairs(event.getGuiGraphics(), config.getCrosshair(stack));
+        }
+
+        int confNo = this.configs_DNA.length;
+
+        for(int i = 0; i < confNo; i++) {
+            IHUDComponent[] components = gun.getConfig(stack, i).getHUDComponents(stack);
+            int bottomOffset = 0;
+
+            if(components != null) for(IHUDComponent component : components) {
+                component.renderHUDComponent(event, player, stack, bottomOffset, i);
+                bottomOffset += component.getComponentHeight(player, stack);
+            }
+        }
     }
 
     @Override
@@ -402,12 +480,12 @@ public class GunBaseNTItem extends Item implements IKeybindReceiver, IHUDItem, I
 
     public static class SmokeNode {
 
-        public double forward = 0D;
-        public double side = 0D;
-        public double lift = 0D;
-        public double alpha;
-        public double width = 1D;
+        public float forward = 0F;
+        public float side = 0F;
+        public float lift = 0F;
+        public float alpha;
+        public float width = 1F;
 
-        public SmokeNode(double alpha) { this.alpha = alpha; }
+        public SmokeNode(float alpha) { this.alpha = alpha; }
     }
 }

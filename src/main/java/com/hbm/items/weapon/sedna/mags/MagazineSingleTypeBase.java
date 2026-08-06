@@ -54,7 +54,7 @@ public abstract class MagazineSingleTypeBase implements IMagazine<BulletConfig> 
     @Override
     public ItemStack getIconForHUD(ItemStack stack, Player player) {
         BulletConfig config = this.getType(stack, player.inventory);
-        if(config != null) return new ItemStack(config.ammo);
+        if(config != null) return config.getAmmo().toStack();
         return null;
     }
 
@@ -104,7 +104,7 @@ public abstract class MagazineSingleTypeBase implements IMagazine<BulletConfig> 
                 if(this.getAmount(stack, null) == 0) {
 
                     for(BulletConfig config : this.acceptedBullets) {
-                        if(ItemStack.isSameItem(new ItemStack(config.ammo), slot)) {
+                        if(config.getAmmo().matchesRecipe(slot, true)) {
                             this.setType(stack, config);
                             int wantsToLoad = (int) Math.ceil((double) this.getCapacity(stack) / (double) config.ammoReloadCount);
                             int toLoad = BobMathUtil.min(wantsToLoad, slot.getCount(), loadLimit);
@@ -119,7 +119,7 @@ public abstract class MagazineSingleTypeBase implements IMagazine<BulletConfig> 
                     BulletConfig config = this.getType(stack, null);
                     if(config == null) { config = this.acceptedBullets.get(0); this.setType(stack, config); } //fixing broken NBT
 
-                    if(ItemStack.isSameItem(new ItemStack(config.ammo), slot)) {
+                    if(config.getAmmo().matchesRecipe(slot, true)) {
                         int alreadyLoaded = this.getAmount(stack, null);
                         int wantsToLoad = (int) Math.ceil((double) (this.getCapacity(stack) - alreadyLoaded) / (double) config.ammoReloadCount);
                         int toLoad = BobMathUtil.min(wantsToLoad, slot.getCount(), loadLimit);
@@ -183,12 +183,12 @@ public abstract class MagazineSingleTypeBase implements IMagazine<BulletConfig> 
             if(!slot.isEmpty()) {
                 if(this.getAmount(stack, null) == 0) {
                     for(BulletConfig config : this.acceptedBullets) {
-                        if(ItemStack.isSameItem(new ItemStack(config.ammo), slot)) return config;
+                        if(config.getAmmo().matchesRecipe(slot, true)) return config;
                     }
                 } else {
                     BulletConfig config = this.getType(stack, null);
                     if(config == null) { config = this.acceptedBullets.get(0); this.setType(stack, config); }
-                    if(ItemStack.isSameItem(new ItemStack(config.ammo), slot)) return config;
+                    if(config.getAmmo().matchesRecipe(slot, true)) return config;
                 }
 
 //                if(slot.getItem() == ModItems.ammo_bag || slot.getItem() == ModItems.ammo_bag_infinite) {

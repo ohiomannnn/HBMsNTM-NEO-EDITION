@@ -1,6 +1,7 @@
 package com.hbm.saveddata.satellite;
 
 import api.hbm.redstoneoverradio.IRORInteractive;
+import com.hbm.blockentity.network.RTTYSystem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
@@ -44,8 +45,7 @@ public abstract class SatelliteBase {
     public void onOrbit(Level level, double x, double y, double z) {
         this.setTarget((int) Math.floor(x), (int) Math.floor(z));
 
-        // todo rtty
-        //RTTYSystem.broadcast(world, CHAN_SATLINK, "Established connection to " + getType() + " at " + targetX + " / " + targetZ);
+        RTTYSystem.broadcast(level, CHAN_SATLINK, "Established connection to " + getType() + " at " + targetX + " / " + targetZ);
     }
 
     /** For subsequent items sent under the same frequency as an existing satellite */

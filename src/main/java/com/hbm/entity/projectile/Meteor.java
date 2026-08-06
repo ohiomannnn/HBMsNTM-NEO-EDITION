@@ -2,7 +2,7 @@ package com.hbm.entity.projectile;
 
 import com.hbm.config.NtmConfig;
 import com.hbm.explosion.ExplosionLarge;
-import com.hbm.particle.NtmParticles;
+import com.hbm.particle.NtmParticleTypes;
 import com.hbm.particle.vanilla.NbtParticleOptions;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.sound.AudioWrapper;
@@ -156,7 +156,7 @@ public class Meteor extends Entity {
                 tag.putInt("count", 10);
                 tag.putDouble("width", 1);
 
-                ParticleUtil.addParticle(this.level, new NbtParticleOptions(NtmParticles.EXHAUST_METEOR.get(), tag), this.getX() - this.getDeltaMovement().z, this.getY() - this.getDeltaMovement().y, this.getZ() - this.getDeltaMovement().z, 350.0);
+                ParticleUtil.addParticle(this.level, new NbtParticleOptions(NtmParticleTypes.EXHAUST_METEOR.get(), tag), this.getX() - this.getDeltaMovement().z, this.getY() - this.getDeltaMovement().y, this.getZ() - this.getDeltaMovement().z, 350.0);
             }
         }
     }

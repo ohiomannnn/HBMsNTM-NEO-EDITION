@@ -1,11 +1,12 @@
 package com.hbm.particle.vanilla;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.ParticleStatus;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.util.RandomSource;
 
 import javax.annotation.Nullable;
 
@@ -14,9 +15,9 @@ public abstract class ParticleProviderBase<T extends ParticleOptions> implements
     @Override
     public @Nullable Particle createParticle(T options, ClientLevel level, double x, double y, double z, double xd, double yd, double zd) {
         Minecraft mc = Minecraft.getInstance();
-        this.createParticle(options, x, y, z, xd, yd, zd, level, mc.player, mc.options.particles().get().getId());
+        this.createParticle(options, x, y, z, xd, yd, zd, level, level.random, mc.options.particles().get());
         return null;
     }
 
-    public abstract void createParticle(T options, double x, double y, double z, double xd, double yd, double zd, ClientLevel level, LocalPlayer player, int particleSetting);
+    public abstract void createParticle(T options, double x, double y, double z, double xd, double yd, double zd, ClientLevel level, RandomSource random, ParticleStatus particleStatus);
 }

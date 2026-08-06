@@ -1,6 +1,6 @@
 package com.hbm.particle.vanilla;
 
-import com.hbm.particle.NtmParticles;
+import com.hbm.particle.NtmParticleTypes;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -32,7 +32,7 @@ public class PlayerCloudParticle extends TextureSheetParticle {
         int i = (int) ((double) 8.0F / (Math.random() * 0.8 + 0.3));
         this.lifetime = (int) Math.max((float) i * 2.5F, 1.0F);
         this.hasPhysics = false;
-        this.setSpriteFromAge(NtmParticles.VANILLA_CLOUD_SPRITES);
+        this.setSpriteFromAge(NtmParticleTypes.VANILLA_CLOUD_SPRITES);
     }
 
     public ParticleRenderType getRenderType() {
@@ -47,7 +47,7 @@ public class PlayerCloudParticle extends TextureSheetParticle {
         super.tick();
 
         if (!this.removed) {
-            this.setSpriteFromAge(NtmParticles.VANILLA_CLOUD_SPRITES);
+            this.setSpriteFromAge(NtmParticleTypes.VANILLA_CLOUD_SPRITES);
             Player player = this.level.getNearestPlayer(this.x, this.y, this.z, 2.0, false);
             if (player != null) {
                 double d0 = player.getY();

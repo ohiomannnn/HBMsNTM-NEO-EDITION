@@ -1,11 +1,13 @@
 package com.hbm.main;
 
+import com.hbm.render.anim.AnimationLoader;
+import com.hbm.render.anim.BusAnimation;
 import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.loader.IModelCustom;
 import com.hbm.render.loader.IObjRenderer;
-import com.hbm.render.material.Material;
-import com.hbm.render.material.Material.CutoutMode;
 import net.minecraft.resources.ResourceLocation;
+
+import java.util.HashMap;
 
 public class ResourceManager {
     public static final ResourceLocation EMPTY = ResourceLocation.withDefaultNamespace("missingno");
@@ -84,6 +86,9 @@ public class ResourceManager {
     // Boxcar
     public static final ResourceLocation TOM_MAIN_TEX = NuclearTechMod.withDefaultNamespace("textures/models/weapon/tom_main.png");
     public static final ResourceLocation TOM_FLAME_TEX = NuclearTechMod.withDefaultNamespace("textures/models/weapon/tom_flame.png");
+
+    // Projectiles
+    public static final ResourceLocation CASINGS_TEX = NuclearTechMod.withDefaultNamespace("textures/particle/casings.png");
 
     // Bomber
     public static final ResourceLocation DORNIER_1_TEX = NuclearTechMod.withDefaultNamespace("textures/models/dornier_1.png");
@@ -195,7 +200,10 @@ public class ResourceManager {
     public static final ResourceLocation SHIMMER_SLEDGE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/shimmer_sledge.png");
     public static final ResourceLocation SHIMMER_AXE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/shimmer_axe.png");
 
+    public static final ResourceLocation MARESLEG_TEX =  NuclearTechMod.withDefaultNamespace("textures/models/weapon/maresleg.png");
+    public static final ResourceLocation MARESLEG_BROKEN_TEX = NuclearTechMod.withDefaultNamespace("textures/models/weapon/maresleg_broken.png");
     public static final ResourceLocation DEBUG_GUN_TEX = NuclearTechMod.withDefaultNamespace("textures/models/weapon/debug_gun.png");
+    public static final ResourceLocation SPAS_12_TEX = NuclearTechMod.withDefaultNamespace("textures/models/weapon/spas-12.png");
     public static final ResourceLocation FATMAN_TEX = NuclearTechMod.withDefaultNamespace("textures/models/weapon/fatman.png");
     public static final ResourceLocation FATMAN_MININUKE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/weapon/fatman_mininuke.png");
     public static final ResourceLocation FATMAN_BALEFIRE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/weapon/fatman_balefire.png");
@@ -292,6 +300,8 @@ public class ResourceManager {
     public static IModelCustom tom_main;
     public static IModelCustom tom_flame;
 
+    public static IModelCustom casings;
+
     // Bomber
     public static IModelCustom dornier;
     public static IModelCustom b29;
@@ -328,10 +338,14 @@ public class ResourceManager {
     public static IModelCustom shimmer_sledge;
     public static IModelCustom shimmer_axe;
 
+    public static IModelCustom maresleg;
     public static IModelCustom lilmac;
+    public static IModelCustom spas_12;
     public static IModelCustom fatman;
     public static IModelCustom double_barrel;
     public static IModelCustom n_i_4_n_i;
+
+    public static HashMap<String, BusAnimation> spas_12_anim;
 
     public static IModelCustom armor_hev;
     public static IModelCustom armor_hat;
@@ -412,6 +426,8 @@ public class ResourceManager {
         tom_main = new HFRWavefrontObject("models/obj/weapons/tom_main.obj").asVBO();
         tom_flame = new HFRWavefrontObject("models/obj/weapons/tom_flame.obj").asVBO();
 
+        casings = new HFRWavefrontObject("models/obj/effect/casings.obj").asVBO();
+
         dornier = new HFRWavefrontObject("models/obj/dornier.obj").asVBO();
         b29 = new HFRWavefrontObject("models/obj/b29.obj").asVBO();
         c130 = new HFRWavefrontObject("models/obj/weapons/c130.obj").asVBO();
@@ -444,10 +460,14 @@ public class ResourceManager {
         //shimmer_sledge = new HFRWavefrontObject("models/obj/shimmer_sledge.obj").asVBO();
         shimmer_axe = new HFRWavefrontObject("models/obj/shimmer_axe.obj").asVBO();
 
+        maresleg = new HFRWavefrontObject("models/obj/weapons/maresleg.obj").asVBO();
         lilmac = new HFRWavefrontObject("models/obj/weapons/lilmac.obj").asVBO();
+        spas_12 = new HFRWavefrontObject("models/obj/weapons/spas-12.obj").asVBO();
         fatman = new HFRWavefrontObject("models/obj/weapons/fatman.obj").asVBO();
         double_barrel = new HFRWavefrontObject("models/obj/weapons/sacred_dragon.obj").asVBO();
         n_i_4_n_i = new HFRWavefrontObject("models/obj/weapons/n_i_4_n_i.obj").asVBO();
+
+        spas_12_anim = AnimationLoader.load(NuclearTechMod.withDefaultNamespace("models/animations/spas12.json"));
 
         armor_hev = new HFRWavefrontObject("models/obj/armor/hev.obj").asVBO();
         armor_hat = new HFRWavefrontObject("models/obj/armor/hat.obj").asVBO();

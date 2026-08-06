@@ -18,17 +18,13 @@ import com.hbm.inventory.MetaHelper;
 import com.hbm.inventory.fluid.FluidType;
 import com.hbm.inventory.fluid.Fluids;
 import com.hbm.inventory.screens.LoadingScreenRendererNT;
-import com.hbm.items.BoltItem;
-import com.hbm.items.CastPlateItem;
-import com.hbm.items.EnumMultiItem;
-import com.hbm.items.IHUDItem;
-import com.hbm.items.NtmItems;
-import com.hbm.items.RawIngotItem;
-import com.hbm.items.WireDenseItem;
+import com.hbm.items.*;
 import com.hbm.items.special.PolaroidItem;
 import com.hbm.items.tools.GeigerCounterItem;
+import com.hbm.items.weapon.sedna.GunBaseNTItem;
 import com.hbm.items.weapon.sedna.factory.GunFactory;
 import com.hbm.items.weapon.sedna.factory.LegoClient;
+import com.hbm.items.weapon.sedna.factory.XFactory12ga;
 import com.hbm.network.toserver.Ducc;
 import com.hbm.particle.*;
 import com.hbm.particle.ContrailParticle.ABMContrailProvider;
@@ -50,6 +46,7 @@ import com.hbm.registry.NtmBiomes;
 import com.hbm.render.entity.effect.SkeletonModel;
 import com.hbm.render.entity.projectile.ModelRubble;
 import com.hbm.render.entity.projectile.ModelShrapnel;
+import com.hbm.render.item.weapon.sedna.ItemRenderWeaponBase;
 import com.hbm.render.loader.HFRModelReloader;
 import com.hbm.render.model.loader.NtmGeometryLoader;
 import com.hbm.render.util.RenderInfoSystem;
@@ -87,9 +84,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -103,6 +102,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
@@ -146,6 +146,8 @@ public class NuclearTechModClient {
             //PROJECTILES
             GunFactory.ammo_debug.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
             GunFactory.ammo_debug_shot.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
+
+            XFactory12ga.g12.setRenderer(LegoClient.RENDER_STANDARD_BULLET);
 
             NuclearTechMod.proxy.registerBlockEntityRenderers();
             NuclearTechMod.proxy.registerClientExtensions(RegisterClientExtensionsEventInvoker.create());
@@ -263,6 +265,16 @@ public class NuclearTechModClient {
     public static final int shakeDuration = 1_500;
     public static long shakeTimestamp;
 
+    @SubscribeEvent(receiveCanceled = true)
+    public static void onRenderGuiPre(RenderGuiLayerEvent.Pre event) {
+        Player player = NuclearTechMod.proxy.me();
+        if(player == null) return;
+
+        for(ItemStack stack : InventoryUtil.getItemsFromBothHands(player)) {
+            if(stack.getItem() instanceof IHUDItem hudItem) hudItem.renderHUD(event, player, stack);
+        }
+    }
+
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onRenderGuiPre(RenderGuiEvent.Pre event) {
         Minecraft mc = Minecraft.getInstance();
@@ -276,10 +288,6 @@ public class NuclearTechModClient {
             double horizontal = Mth.clamp(Math.sin(System.currentTimeMillis() * 0.02), -0.7, 0.7) * 15;
             double vertical = Mth.clamp(Math.sin(System.currentTimeMillis() * 0.01 + 2), -0.7, 0.7) * 3;
             event.getGuiGraphics().pose().translate(horizontal * mult, vertical * mult, 0);
-        }
-
-        for(ItemStack stack : InventoryUtil.getItemsFromBothHands(player)) {
-            if(stack.getItem() instanceof IHUDItem hudItem) hudItem.renderHUD(event, player, stack);
         }
 
         HitResult hr = mc.hitResult;
@@ -358,17 +366,37 @@ public class NuclearTechModClient {
         return false;
     }
 
+    @SubscribeEvent
+    public static void onClickInput(InputEvent.InteractionKeyMappingTriggered event) {
+        LocalPlayer player = Minecraft.getInstance().player;
+        if(player == null) return;
+        ItemStack itemInHand = player.getItemInHand(InteractionHand.MAIN_HAND);
+        if(itemInHand.getItem() instanceof GunBaseNTItem) {
+            HitResult hitResult = Minecraft.getInstance().hitResult;
+            if(hitResult instanceof EntityHitResult entityHitResult && entityHitResult.getEntity() instanceof ItemFrame) return;
+            event.setSwingHand(false);
+            event.setCanceled(true);
+        }
+    }
+
     public static boolean renderLodeStar = false;
     public static long lastStarCheck = 0L;
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onClientTickLast(ClientTickEvent.Pre event) {
-        Player player = Minecraft.getInstance().player;
+        Minecraft mc = Minecraft.getInstance();
+        Player player = mc.player;
         if (player == null) return;
+
+        //prune other entities' muzzle flashes
+        if(mc.level.getGameTime() % 30 == 0) {
+            long millis = System.currentTimeMillis();
+            //dead entities may have later insertion order than actively firing ones, so we be safe
+            ItemRenderWeaponBase.flashMap.values().removeIf(entry -> millis - entry.longValue() >= 150);
+        }
 
         long millis = Clock.get_ms();
         if (millis == 0) millis = System.currentTimeMillis();
-
 
         Holder<Biome> biome = player.level.getBiome(player.blockPosition);
         if (biome.is(NtmBiomes.CRATER) || biome.is(NtmBiomes.CRATER)) {
@@ -398,6 +426,29 @@ public class NuclearTechModClient {
                 }
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void onClientTickPost(ClientTickEvent.Post event) {
+        Player player = Minecraft.getInstance().player;
+        if(player == null) return;
+
+        float partialTick = Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(false);
+
+        GunBaseNTItem.offsetVertical += GunBaseNTItem.recoilVertical;
+        GunBaseNTItem.offsetHorizontal += GunBaseNTItem.recoilHorizontal;
+        player.xRot -= GunBaseNTItem.recoilVertical + partialTick;
+        player.yRot -= GunBaseNTItem.recoilHorizontal + partialTick;
+
+        GunBaseNTItem.recoilVertical *= GunBaseNTItem.recoilDecay;
+        GunBaseNTItem.recoilHorizontal *= GunBaseNTItem.recoilDecay;
+        float dV = GunBaseNTItem.offsetVertical * GunBaseNTItem.recoilRebound;
+        float dH = GunBaseNTItem.offsetHorizontal * GunBaseNTItem.recoilRebound;
+
+        GunBaseNTItem.offsetVertical -= dV;
+        GunBaseNTItem.offsetHorizontal -= dH;
+        player.xRot += dV + partialTick;
+        player.yRot += dH + partialTick;
     }
 
     @SubscribeEvent
@@ -652,9 +703,9 @@ public class NuclearTechModClient {
     @SubscribeEvent
     public static void onTextureAtlasStitched(TextureAtlasStitchedEvent event) {
         if (event.getAtlas().location().equals(TextureAtlas.LOCATION_PARTICLES)) {
-            NtmParticles.BASE_PARTICLE_SPRITES = new SpriteSetNT(event.getAtlas(), NuclearTechMod.withDefaultNamespace("base_particle"));
+            NtmParticleTypes.BASE_PARTICLE_SPRITES = new SpriteSetNT(event.getAtlas(), NuclearTechMod.withDefaultNamespace("base_particle"));
 
-            NtmParticles.VANILLA_CLOUD_SPRITES = new SpriteSetNT(event.getAtlas(), new ResourceLocation[] {
+            NtmParticleTypes.VANILLA_CLOUD_SPRITES = new SpriteSetNT(event.getAtlas(), new ResourceLocation[] {
                     ResourceLocation.withDefaultNamespace("generic_7"),
                     ResourceLocation.withDefaultNamespace("generic_6"),
                     ResourceLocation.withDefaultNamespace("generic_5"),
@@ -669,32 +720,32 @@ public class NuclearTechModClient {
 
     @SubscribeEvent
     public static void registerParticles(RegisterParticleProvidersEvent event) {
-        event.registerSpecial(NtmParticles.DIGAMMA_SMOKE.get(), new DigammaSmokeParticle.Provider());
-        event.registerSpecial(NtmParticles.DEBRIS.get(), new ParticleDebris.Provider());
-        event.registerSpecial(NtmParticles.FOAM.get(), new ParticleFoam.Provider());
-        event.registerSpecial(NtmParticles.ASHES.get(), new AshesParticle.Provider());
-        event.registerSpecial(NtmParticles.AMAT_FLASH.get(), new AmatFlashParticle.Provider());
-        event.registerSpriteSet(NtmParticles.DEAD_LEAF.get(), DeadLeafParticle.Provider::new);
-        event.registerSpriteSet(NtmParticles.AURA.get(), ParticleAura.Provider::new);
-        event.registerSpecial(NtmParticles.SKELETON.get(), new SkeletonParticle.Provider());
-        event.registerSpriteSet(NtmParticles.POWER_DEBUG.get(), DebugParticle.PowerProvider::new);
-        event.registerSpriteSet(NtmParticles.FLUID_DEBUG.get(), DebugParticle.FluidProvider::new);
-        event.registerSpecial(NtmParticles.SPARK.get(), new SparkParticle.Provider());
+        event.registerSpecial(NtmParticleTypes.DIGAMMA_SMOKE.get(), new DigammaSmokeParticle.Provider());
+        event.registerSpecial(NtmParticleTypes.DEBRIS.get(), new ParticleDebris.Provider());
+        event.registerSpecial(NtmParticleTypes.FOAM.get(), new ParticleFoam.Provider());
+        event.registerSpecial(NtmParticleTypes.ASHES.get(), new AshesParticle.Provider());
+        event.registerSpriteSet(NtmParticleTypes.DEAD_LEAF.get(), DeadLeafParticle.Provider::new);
+        event.registerSpriteSet(NtmParticleTypes.AURA.get(), ParticleAura.Provider::new);
+        event.registerSpecial(NtmParticleTypes.SKELETON.get(), new SkeletonParticle.Provider());
+        event.registerSpriteSet(NtmParticleTypes.POWER_DEBUG.get(), DebugParticle.PowerProvider::new);
+        event.registerSpriteSet(NtmParticleTypes.FLUID_DEBUG.get(), DebugParticle.FluidProvider::new);
+        event.registerSpecial(NtmParticleTypes.SPARK.get(), new SparkParticle.Provider());
 
-        event.registerSpecial(NtmParticles.VANILLA_CLOUD.get(), new PlayerCloudParticle.Provider());
+        event.registerSpecial(NtmParticleTypes.VANILLA_CLOUD.get(), new PlayerCloudParticle.Provider());
 
-        event.registerSpecial(NtmParticles.ABM_CONTRAIL.get(), new ABMContrailProvider());
-        event.registerSpecial(NtmParticles.LAUNCH_SMOKE.get(), new LaunchSmokeProvider());
-        event.registerSpecial(NtmParticles.RADIATION_FOG.get(), new RadiationFogProvider());
-        event.registerSpecial(NtmParticles.EXHAUST_SOYUZ.get(), new ExhaustSoyuzProvider());
-        event.registerSpecial(NtmParticles.EXHAUST_METEOR.get(), new ExhaustMeteorProvider());
-        event.registerSpecial(NtmParticles.SWEAT.get(), new SweatProvider());
-        event.registerSpecial(NtmParticles.VOMIT_NORMAL.get(), new VomitNormalProvider());
-        event.registerSpecial(NtmParticles.VOMIT_BLOOD.get(), new VomitBloodProvider());
-        event.registerSpecial(NtmParticles.VOMIT_SMOKE.get(), new VomitSmokeProvider());
-        event.registerSpecial(NtmParticles.COOLING_TOWER.get(), new CoolingTowerProvider());
-        event.registerSpriteSet(NtmParticles.GAS_FLAME.get(), ParticleGasFlame.Provider::new);
-        event.registerSpecial(NtmParticles.TOM_BLAST.get(), new CloudTomParticle.Provider());
+        event.registerSpecial(NtmParticleTypes.ABM_CONTRAIL.get(), new ABMContrailProvider());
+        event.registerSpecial(NtmParticleTypes.LAUNCH_SMOKE.get(), new LaunchSmokeProvider());
+        event.registerSpecial(NtmParticleTypes.RADIATION_FOG.get(), new RadiationFogProvider());
+        event.registerSpecial(NtmParticleTypes.EXHAUST_SOYUZ.get(), new ExhaustSoyuzProvider());
+        event.registerSpecial(NtmParticleTypes.EXHAUST_METEOR.get(), new ExhaustMeteorProvider());
+        event.registerSpecial(NtmParticleTypes.SWEAT.get(), new SweatProvider());
+        event.registerSpecial(NtmParticleTypes.VOMIT_NORMAL.get(), new VomitNormalProvider());
+        event.registerSpecial(NtmParticleTypes.VOMIT_BLOOD.get(), new VomitBloodProvider());
+        event.registerSpecial(NtmParticleTypes.VOMIT_SMOKE.get(), new VomitSmokeProvider());
+        event.registerSpecial(NtmParticleTypes.AMAT.get(), new AmatFlashParticle.Provider());
+        event.registerSpecial(NtmParticleTypes.COOLING_TOWER.get(), new CoolingTowerProvider());
+        event.registerSpriteSet(NtmParticleTypes.GAS_FLAME.get(), ParticleGasFlame.Provider::new);
+        event.registerSpecial(NtmParticleTypes.TOM_BLAST.get(), new CloudTomParticle.Provider());
     }
 
     @Deprecated
@@ -932,10 +983,6 @@ public class NuclearTechModClient {
                 if (particleSetting == 0 || (particleSetting == 1 && rand.nextBoolean())) {
                     innerMc.particleEngine.add(new DeadLeafParticle(level, x, y, z));
                 }
-            }
-
-            if ("amat".equals(type)) {
-                innerMc.particleEngine.add(new AmatFlashParticle(level, x, y, z, data.getFloat("scale")));
             }
 
             if ("radiation".equals(type)) {

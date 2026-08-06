@@ -5,6 +5,8 @@ import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.entity.NtmEntityTypes;
 import com.hbm.items.NtmItems;
+import com.hbm.items.weapon.sedna.GunBaseNTItem;
+import com.hbm.items.weapon.sedna.factory.LegoClient;
 import com.hbm.render.blockentity.*;
 import com.hbm.render.entity.EmptyEntityRenderer;
 import com.hbm.render.entity.effect.*;
@@ -17,6 +19,8 @@ import com.hbm.render.entity.rocket.*;
 import com.hbm.render.item.*;
 import com.hbm.render.item.ItemRenderMissileGeneric.RenderMissileType;
 import com.hbm.render.item.weapon.sedna.ItemRenderDebug;
+import com.hbm.render.item.weapon.sedna.ItemRenderMaresleg;
+import com.hbm.render.item.weapon.sedna.ItemRenderSPAS12;
 import com.hbm.render.item.weapon.sedna.ItemRenderWeaponBase;
 import com.hbm.render.util.RenderInfoSystem;
 import com.hbm.render.util.RenderInfoSystem.InfoEntry;
@@ -28,6 +32,7 @@ import com.hbm.util.particle.ParticleCreatorClient;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
@@ -40,8 +45,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -147,7 +154,14 @@ public class ClientProxy extends ServerProxy {
         );
 
         /// GUNS TEST ///
-        registerGunItemRenderer(event, new ItemRenderDebug(), NtmItems.GUN_DEBUG.asItem());
+        registerGunItemRenderer(event, new ItemRenderDebug(), NtmItems.GUN_DEBUG.get());
+        registerGunItemRenderer(event, new ItemRenderMaresleg(ResourceManager.MARESLEG_TEX), NtmItems.GUN_MARESLEG.get());
+        registerGunItemRenderer(event, new ItemRenderSPAS12(), NtmItems.GUN_SPAS12.get());
+
+        //HUDS
+        ((GunBaseNTItem) NtmItems.GUN_DEBUG.get())						.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO, LegoClient.HUD_COMPONENT_AMMO_SECOND);
+        ((GunBaseNTItem) NtmItems.GUN_MARESLEG.get())					.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
+        ((GunBaseNTItem) NtmItems.GUN_SPAS12.get())						.getConfig(null, 0).hud(LegoClient.HUD_COMPONENT_DURABILITY, LegoClient.HUD_COMPONENT_AMMO);
     }
 
     public static void registerItemRenderer(RegisterClientExtensionsEvent event, BlockEntityWithoutLevelRenderer bewlr, Item... items) {
@@ -179,6 +193,14 @@ public class ClientProxy extends ServerProxy {
             public BlockEntityWithoutLevelRenderer getCustomRenderer() {
                 if(renderer == null) this.renderer = weaponRenderer;
                 return renderer;
+            }
+
+            @Override
+            public HumanoidModel.ArmPose getArmPose(LivingEntity living, InteractionHand hand, ItemStack itemStack) {
+                if(renderer == null) this.renderer = weaponRenderer;
+                renderer.setEntity(living);
+
+                return IClientItemExtensions.super.getArmPose(living, hand, itemStack);
             }
         }, items);
     }
@@ -326,13 +348,19 @@ public class ClientProxy extends ServerProxy {
     public void openScreen(Player player, BlockPos pos) {
         if(player != this.me()) return;
 
+        Minecraft minecraft = Minecraft.getInstance();
+
         Block block = player.level.getBlockState(pos).getBlock();
-        if(block instanceof IScreenProvider igp) Minecraft.getInstance().setScreen((Screen) igp.provideScreen(player, pos));
+        if(block instanceof IScreenProvider igp) {
+            Screen screen = (Screen) igp.provideScreen(player, pos);
+            if(screen != null) minecraft.setScreen(screen);
+        }
 
         List<ItemStack> stacks = InventoryUtil.getItemsFromBothHands(player);
         for(ItemStack stack : stacks) {
             if(stack.getItem() instanceof IScreenProvider igp) {
-                Minecraft.getInstance().setScreen((Screen) igp.provideScreen(player, pos));
+                Screen screen = (Screen) igp.provideScreen(player, pos);
+                if(screen != null) minecraft.setScreen(screen);
                 break;
             }
         }

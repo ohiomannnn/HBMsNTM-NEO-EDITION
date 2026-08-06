@@ -9,11 +9,9 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -71,16 +69,17 @@ public class SatCoordScreen extends Screen {
     }
 
     @Override
+    @SuppressWarnings("DataFlowIssue")
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
 
         if(!TagsUtil.getCustomData(device[0]).getBoolean(SatInterfaceItem.KEY_NBT_CONNECTED) &&
                 !TagsUtil.getCustomData(device[1]).getBoolean(SatInterfaceItem.KEY_NBT_CONNECTED)) return super.mouseClicked(mouseX, mouseY, button);
 
-        if(this.isHovered(mouseX, mouseY, 133, 52, 18, 18)) {
+        if(ScreenUtils.isHovered(this.leftPos, this.topPos, mouseX, mouseY, 133, 52, 18, 18)) {
 
             if(NumberUtils.isNumber(xField.getValue()) && NumberUtils.isNumber(zField.getValue())) {
 
-                this.click();
+                ScreenUtils.click(this.minecraft.getSoundManager());
                 CompoundTag tag = new CompoundTag();
                 tag.putInt("x", (int) Double.parseDouble(xField.getValue()));
                 tag.putInt("z", (int) Double.parseDouble(zField.getValue()));
@@ -142,14 +141,5 @@ public class SatCoordScreen extends Screen {
         }
 
         return super.keyPressed(keyCode, scanCode, modifiers);
-    }
-
-    protected boolean isHovered(double mouseX, double mouseY, int left, int top, int sizeX, int sizeY) {
-        return leftPos + left <= mouseX && leftPos + left + sizeX > mouseX && topPos + top < mouseY && topPos + top + sizeY >= mouseY;
-    }
-
-    @SuppressWarnings("DataFlowIssue")
-    public void click() {
-        this.minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1F));
     }
 }

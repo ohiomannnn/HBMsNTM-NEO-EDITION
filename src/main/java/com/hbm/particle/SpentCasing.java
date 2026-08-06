@@ -1,6 +1,10 @@
 package com.hbm.particle;
 
+import com.hbm.registry.NtmSoundEvents;
+import net.minecraft.sounds.SoundEvent;
+
 import java.util.HashMap;
+import java.util.function.Supplier;
 
 /**
  * Definition for spent casing particles, what style and color they should use
@@ -38,23 +42,18 @@ public class SpentCasing implements Cloneable {
     private float scaleZ = 1F;
     private int[] colors;
     private final CasingType type;
-    private String bounceSound;
+    private Supplier<SoundEvent> bounceSound;
     private float bounceYaw = 1F;
     private float bouncePitch = 1F;
     private int maxAge = 240;
-
-    public static final String PLINK_SHELL = "hbm:weapon.casing.shell";
-    public static final String PLINK_SMALL = "hbm:weapon.casing.small";
-    public static final String PLINK_MEDIUM = "hbm:weapon.casing.medium";
-    public static final String PLINK_LARGE = "hbm:weapon.casing.large";
 
     public SpentCasing(CasingType type) {
         this.type = type;
 
         if(type == CasingType.SHOTGUN) {
-            this.setSound(PLINK_SHELL);
+            this.setSound(NtmSoundEvents.PLINK_SHELL);
         } else {
-            this.setSound(PLINK_SMALL);
+            this.setSound(NtmSoundEvents.PLINK_SMALL);
         }
     }
 
@@ -73,8 +72,8 @@ public class SpentCasing implements Cloneable {
         this.scaleX = x;
         this.scaleY = y;
         this.scaleZ = z;
-        if(x * y * z >= 3 && this.type != CasingType.SHOTGUN) this.setSound(PLINK_MEDIUM);
-        if(x * y * z >= 100 && this.type != CasingType.SHOTGUN) this.setSound(PLINK_LARGE);
+        if(x * y * z >= 3 && this.type != CasingType.SHOTGUN) this.setSound(NtmSoundEvents.PLINK_MEDIUM);
+        if(x * y * z >= 100 && this.type != CasingType.SHOTGUN) this.setSound(NtmSoundEvents.PLINK_LARGE);
         return this;
     }
 
@@ -84,7 +83,7 @@ public class SpentCasing implements Cloneable {
         return this;
     }
 
-    public SpentCasing setSound(String bounce) {
+    public SpentCasing setSound(Supplier<SoundEvent> bounce) {
         this.bounceSound = bounce;
         return this;
     }
@@ -113,7 +112,7 @@ public class SpentCasing implements Cloneable {
     public float getScaleZ() { return this.scaleZ; }
     public int[] getColors() { return this.colors; }
     public CasingType getType() { return this.type; }
-    public String getSound() { return this.bounceSound; }
+    public Supplier<SoundEvent> getSound() { return this.bounceSound; }
     public float getBounceYaw() { return this.bounceYaw; }
     public float getBouncePitch() { return this.bouncePitch; }
     public int getMaxAge() { return this.maxAge; }

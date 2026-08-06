@@ -5,6 +5,7 @@ import com.hbm.interfaces.NotableComments;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.BulletConfig.ProjectileType;
 import com.hbm.items.weapon.sedna.GunBaseNTItem;
+import com.hbm.items.weapon.sedna.GunBaseNTItem.SmokeNode;
 import com.hbm.items.weapon.sedna.GunBaseNTItem.GunState;
 import com.hbm.items.weapon.sedna.GunBaseNTItem.LambdaContext;
 import com.hbm.items.weapon.sedna.GunConfig;
@@ -21,6 +22,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
@@ -107,6 +109,42 @@ public class Lego {
 
         if(state == GunState.RELOADING) {
             GunBaseNTItem.setReloadCancel(stack, true);
+        }
+    }
+
+    /** Default smoke. */
+    public static BiConsumer<ItemStack, LambdaContext> LAMBDA_STANDARD_SMOKE = (stack, ctx) -> {
+        handleStandardSmoke(ctx.entity, stack, 2000, 0.025D, 1.15D, ctx.configIndex);
+    };
+
+    public static void handleStandardSmoke(LivingEntity entity, ItemStack stack, int smokeDuration, double alphaDecay, double widthGrowth, int index) {
+        GunBaseNTItem gun = (GunBaseNTItem) stack.getItem();
+        long lastShot = gun.lastShot[index];
+        List<SmokeNode> smokeNodes = gun.getConfig(stack, index).smokeNodes;
+
+        boolean smoking = lastShot + smokeDuration > System.currentTimeMillis();
+        if(!smoking && !smokeNodes.isEmpty()) smokeNodes.clear();
+
+        if(smoking) {
+            Vec3 prev = entity.getDeltaMovement().scale(-1.0);
+            prev = prev.yRot((float) (entity.yRot * Math.PI / 180D));
+            double accel = 15D;
+            double side = (entity.yRot - entity.yHeadRotO) * 0.1D;
+            double waggle = 0.025D;
+
+            for(SmokeNode node : smokeNodes) {
+                node.forward += -prev.z * accel + entity.level.random.nextGaussian() * waggle;
+                node.lift += prev.y + 1.5D;
+                node.side += prev.x * accel + entity.level.random.nextGaussian() * waggle + side;
+                if(node.alpha > 0) node.alpha -= alphaDecay;
+                node.width *= widthGrowth;
+            }
+
+            float alpha = (System.currentTimeMillis() - lastShot) / (float) smokeDuration;
+            alpha = (1 - alpha) * 0.5F;
+
+            if(gun.getState(stack, index) == GunState.RELOADING || smokeNodes.size() == 0) alpha = 0;
+            smokeNodes.add(new SmokeNode(alpha));
         }
     }
 

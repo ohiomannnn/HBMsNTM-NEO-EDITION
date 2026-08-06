@@ -36,7 +36,7 @@ public class GunFactory {
 
         NtmItems.GUN_DEBUG = itemRegistry.register("gun_debug",
                 () -> new GunBaseNTItem(WeaponQuality.DEBUG, new GunConfig()
-                        .dura(600F).draw(15).inspect(23).crosshair(Crosshair.L_CLASSIC).orchestra(Orchestras.DEBUG_ORCHESTRA)
+                        .dura(600F).draw(15).inspect(23).crosshair(Crosshair.L_CLASSIC).smoke(Lego.LAMBDA_STANDARD_SMOKE).orchestra(Orchestras.DEBUG_ORCHESTRA)
                         .rec(new Receiver(0)
                                         .dmg(10F).delay(14).reload(46).jam(23).sound(NtmSoundEvents.GUN_HEAVY_REVOLVER_FIRE, 1.0F, 1.0F)
                                         .mag(new MagazineFullReload(0, 12).addConfigs(ammo_debug))
@@ -53,14 +53,9 @@ public class GunFactory {
                         .anim(Lego.LAMBDA_DEBUG_ANIMS)
                 ));
 
-    }
-
-    public static void initCfg() {
-        /// BULLLET CFGS ///
-
+        XFactory12ga.init(itemRegistry);
         XFactoryCatapult.init();
     }
-
 
     public static BiConsumer<ItemStack, LambdaContext> LAMBDA_DEBUG_DECIDER = (stack, ctx) -> {
         int index = ctx.configIndex;

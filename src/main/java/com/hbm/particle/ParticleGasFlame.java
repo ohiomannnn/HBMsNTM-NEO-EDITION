@@ -3,11 +3,11 @@ package com.hbm.particle;
 import com.hbm.particle.vanilla.NbtParticleOptions;
 import com.hbm.particle.vanilla.ParticleProviderBase;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.ParticleStatus;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.particle.TextureSheetParticle;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.RandomSource;
 
@@ -19,7 +19,7 @@ public class ParticleGasFlame extends TextureSheetParticle {
 
     public ParticleGasFlame(ClientLevel level, double x, double y, double z, double vx, double vy, double vz, float scale) {
         super(level, x, y, z, vx, vy * 1.5, vz);
-        this.setSpriteFromAge(NtmParticles.GAS_FLAME_PARTICLES);
+        this.setSpriteFromAge(NtmParticleTypes.GAS_FLAME_PARTICLES);
         this.colorMod = 0.8F + RandomSource.create().nextFloat() * 0.2F;
         this.hasPhysics = false;
         this.lifetime = 30 + RandomSource.create().nextInt(13);
@@ -37,7 +37,7 @@ public class ParticleGasFlame extends TextureSheetParticle {
         this.xd *= 0.75;
         this.yd += 0.005;
         this.zd *= 0.75;
-        this.setSpriteFromAge(NtmParticles.GAS_FLAME_PARTICLES);
+        this.setSpriteFromAge(NtmParticleTypes.GAS_FLAME_PARTICLES);
     }
 
     @Override
@@ -62,11 +62,11 @@ public class ParticleGasFlame extends TextureSheetParticle {
     public static class Provider extends ParticleProviderBase<NbtParticleOptions> {
 
         public Provider(SpriteSet sprites) {
-            NtmParticles.GAS_FLAME_PARTICLES = sprites;
+            NtmParticleTypes.GAS_FLAME_PARTICLES = sprites;
         }
 
         @Override
-        public void createParticle(NbtParticleOptions options, double x, double y, double z, double xd, double yd, double zd, ClientLevel level, LocalPlayer player, int particleSetting) {
+        public void createParticle(NbtParticleOptions options, double x, double y, double z, double xd, double yd, double zd, ClientLevel level, RandomSource random, ParticleStatus particleStatus) {
             CompoundTag tag = options.tag;
 
             float scale = tag.getFloat("scale");

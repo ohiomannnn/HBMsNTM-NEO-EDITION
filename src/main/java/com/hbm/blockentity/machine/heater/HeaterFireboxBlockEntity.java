@@ -1,15 +1,18 @@
 package com.hbm.blockentity.machine.heater;
 
 import com.hbm.blockentity.NtmBlockEntityTypes;
+import com.hbm.inventory.menus.HeaterFireboxMenu;
 import com.hbm.modules.ModuleBurnTime;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class HeaterFireboxBlockEntity extends AbstractHeaterMachineBlockEntity {
@@ -44,14 +47,11 @@ public class HeaterFireboxBlockEntity extends AbstractHeaterMachineBlockEntity {
         this(NtmBlockEntityTypes.HEATER_FIREBOX.get(), pos, state);
     }
 
-    protected HeaterFireboxBlockEntity(net.minecraft.world.level.block.entity.BlockEntityType<? extends HeaterFireboxBlockEntity> type, BlockPos pos, BlockState state) {
+    protected HeaterFireboxBlockEntity(BlockEntityType<? extends HeaterFireboxBlockEntity> type, BlockPos pos, BlockState state) {
         super(type, pos, state, 2);
     }
 
-    @Override
-    protected Component getDefaultName() {
-        return Component.translatable("container.heaterFirebox");
-    }
+    @Override protected Component getDefaultName() { return Component.translatable("container.heaterFirebox"); }
 
     protected int getBaseHeat() {
         return baseHeat;
@@ -122,20 +122,20 @@ public class HeaterFireboxBlockEntity extends AbstractHeaterMachineBlockEntity {
     }
 
     @Override
-    public AbstractContainerMenu createMenu(int id, net.minecraft.world.entity.player.Inventory inventory, Player player) {
-        return new com.hbm.inventory.menus.HeaterFireboxMenu(id, inventory, this);
+    public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
+        return new HeaterFireboxMenu(id, inventory, this);
     }
 
     @Override
     public void startOpen(Player player) {
-        this.playersUsing++;
-        this.setChanged();
+        if(this.level == null) return;
+        if(!this.level.isClientSide) this.playersUsing++;
     }
 
     @Override
     public void stopOpen(Player player) {
-        this.playersUsing = Math.max(0, this.playersUsing - 1);
-        this.setChanged();
+        if(this.level == null) return;
+        if(!this.level.isClientSide) this.playersUsing--;
     }
 
     @Override

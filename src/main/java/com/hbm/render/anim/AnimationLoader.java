@@ -1,25 +1,23 @@
 package com.hbm.render.anim;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.hbm.render.anim.BusAnimationKeyframe.EType;
+import com.hbm.render.anim.BusAnimationKeyframe.HType;
+import com.hbm.render.anim.BusAnimationKeyframe.IType;
+import com.hbm.render.anim.BusAnimationSequence.Dimension;
+import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonArray;
-
-import net.minecraft.client.Minecraft;
-
-import com.hbm.render.anim.BusAnimationKeyframe.IType;
-import com.hbm.render.anim.BusAnimationKeyframe.EType;
-import com.hbm.render.anim.BusAnimationKeyframe.HType;
-import com.hbm.render.anim.BusAnimationSequence.Dimension;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.Resource;
 
 public class AnimationLoader {
 
@@ -37,27 +35,21 @@ public class AnimationLoader {
 
 
     public static HashMap<String, BusAnimation> load(ResourceLocation file) {
-        HashMap<String, BusAnimation> animations = new HashMap<String, BusAnimation>();
+        HashMap<String, BusAnimation> animations = new HashMap<>();
 
-        InputStream in;
+        JsonObject json;
         try {
-            Optional<Resource> resourceOpt = Minecraft.getInstance()
-                    .getResourceManager()
-                    .getResource(file);
+            Optional<Resource> resourceOpt = Minecraft.getInstance().getResourceManager().getResource(file);
 
-            if (resourceOpt.isEmpty()) {
-                return null;
-            }
+            if(resourceOpt.isEmpty()) return null;
 
-            try (InputStream stream = resourceOpt.get().open()) {
-                in = stream;
+            try(InputStream in = resourceOpt.get().open();
+                 InputStreamReader reader = new InputStreamReader(in)) {
+                json = gson.fromJson(reader, JsonObject.class);
             }
-        } catch (IOException e) {
+        } catch(IOException e) {
             return null;
         }
-
-        InputStreamReader reader = new InputStreamReader(in);
-        JsonObject json = gson.fromJson(reader, JsonObject.class);
 
         // Load our model offsets, we'll place these into all the sequences that share the name of the offset
         // The offsets are only required when sequences are played for an object, which is why we don't globally offset! The obj rendering handles the non-animated case fine

@@ -1,7 +1,11 @@
 package com.hbm.render.util;
 
+import com.hbm.items.weapon.sedna.Crosshair;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.util.Clock;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.platform.Window;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -9,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.GameType;
 
 public class RenderScreenOverlay {
+
     public static final ResourceLocation MISC_TEXTURE = NuclearTechMod.withDefaultNamespace("textures/misc/overlay_misc.png");
 
     private static long lastSurvey;
@@ -64,5 +69,23 @@ public class RenderScreenOverlay {
 
     private static int getScaled(double cur, double max, double scale) {
         return (int) Math.min(cur / max * scale, scale);
+    }
+
+    public static void renderCustomCrosshairs(GuiGraphics guiGraphics, Crosshair cross) {
+
+        if(cross == Crosshair.NONE) return;
+        Window window = Minecraft.getInstance().getWindow();
+
+        int size = cross.size;
+
+        guiGraphics.pose().pushPose();
+        RenderSystem.enableBlend();
+        RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+
+        guiGraphics.blit(MISC_TEXTURE, window.getGuiScaledWidth() / 2 - (size / 2), window.getGuiScaledHeight() / 2 - (size / 2), cross.x, cross.y, size, size);
+
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.disableBlend();
+        guiGraphics.pose().popPose();
     }
 }

@@ -1,8 +1,8 @@
 package com.hbm.inventory.screens;
 
-import com.hbm.main.NuclearTechMod;
 import com.hbm.blockentity.machine.storage.BatteryREDDBlockEntity;
 import com.hbm.inventory.menus.BatteryREDDMenu;
+import com.hbm.main.NuclearTechMod;
 import com.hbm.network.toserver.CompoundTagControl;
 import com.hbm.util.i18n.I18nUtil;
 import net.minecraft.ChatFormatting;
@@ -34,10 +34,20 @@ public class BatteryREDDScreen extends InfoScreen<BatteryREDDMenu> {
     }
 
     @Override
+    protected void init() {
+        super.init();
+
+        this.titleLabelX = this.imageWidth / 2 - this.font.width(this.title) / 2;
+        this.titleLabelY = 6;
+        this.inventoryLabelX = 8;
+        this.inventoryLabelY = this.imageHeight - 96 + 2;
+    }
+
+    @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
 
-        String lang = switch (be.priority) {
+        String lang = switch(be.priority) {
             case LOW -> "low";
             case HIGH -> "high";
             default -> "normal";
@@ -47,7 +57,7 @@ public class BatteryREDDScreen extends InfoScreen<BatteryREDDMenu> {
         priority.add(Component.translatable("battery.priority." + lang).withStyle(ChatFormatting.GRAY));
         priority.add(Component.translatable("battery.priority.recommended").withStyle(ChatFormatting.GRAY));
         String[] desc = I18nUtil.resolveKeyArray("battery.priority." + lang + ".desc");
-        for (String s : desc) priority.add(Component.literal(s).withStyle(ChatFormatting.GRAY));
+        for(String s : desc) priority.add(Component.literal(s).withStyle(ChatFormatting.GRAY));
 
         this.drawCustomInfoStat(guiGraphics, mouseX, mouseY, leftPos + 152, topPos + 35, 16, 16, mouseX, mouseY, priority);
 
@@ -63,7 +73,7 @@ public class BatteryREDDScreen extends InfoScreen<BatteryREDDMenu> {
         if(this.isHovered(x, y, 133, 52, 18, 18)) { this.click(); tag.putBoolean("high", true); }
         if(this.isHovered(x, y, 152, 35, 16, 16)) { this.click(); tag.putBoolean("priority", true); }
 
-        if (!tag.isEmpty()) PacketDistributor.sendToServer(new CompoundTagControl(tag, be.getBlockPos()));
+        if(!tag.isEmpty()) PacketDistributor.sendToServer(new CompoundTagControl(tag, be.getBlockPos()));
 
         return super.mouseClicked(x, y, button);
     }
@@ -79,8 +89,7 @@ public class BatteryREDDScreen extends InfoScreen<BatteryREDDMenu> {
 
     @Override
     protected void renderLabels(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        guiGraphics.drawString(this.font, this.title, this.imageWidth / 2 - font.width(this.title) / 2, 6, 4210752, false);
-        guiGraphics.drawString(this.font, this.playerInventoryTitle, this.inventoryLabelX, this.imageHeight - 96 + 2, 4210752, false);
+        super.renderLabels(guiGraphics, mouseX, mouseY);
 
         guiGraphics.pose().pushPose();
         guiGraphics.pose().scale(0.5F, 0.5F, 1.0F);
@@ -91,8 +100,8 @@ public class BatteryREDDScreen extends InfoScreen<BatteryREDDMenu> {
         String deltaText = String.format(Locale.US, "%,d", be.delta) + " HE/s";
 
         int comp = be.delta.compareTo(BigInteger.ZERO);
-        if (comp > 0) deltaText = ChatFormatting.GREEN + "+" + deltaText;
-        else if (comp < 0) deltaText = ChatFormatting.RED + deltaText;
+        if(comp > 0) deltaText = ChatFormatting.GREEN + "+" + deltaText;
+        else if(comp < 0) deltaText = ChatFormatting.RED + deltaText;
         else deltaText = ChatFormatting.YELLOW + "+" + deltaText;
 
         guiGraphics.drawString(this.font, deltaText, 242 - this.font.width(deltaText), 65, 0x00ff00);

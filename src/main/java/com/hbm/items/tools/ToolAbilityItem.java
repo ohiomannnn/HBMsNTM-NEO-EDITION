@@ -1,14 +1,14 @@
 package com.hbm.items.tools;
 
 import api.hbm.item.IDepthRockTool;
-import com.hbm.main.NuclearTechModClient;
 import com.hbm.config.NtmConfig;
 import com.hbm.handler.HbmKeybinds.EnumKeybind;
 import com.hbm.handler.ability.*;
 import com.hbm.inventory.screens.ToolAbilityScreen;
-import com.hbm.items.IItemControlReceiver;
 import com.hbm.items.IHUDItem;
+import com.hbm.items.IItemControlReceiver;
 import com.hbm.items.IKeybindReceiver;
+import com.hbm.main.NuclearTechModClient;
 import com.hbm.network.toclient.InformPlayer;
 import com.hbm.util.TagsUtil;
 import com.hbm.util.Tuple.Pair;
@@ -27,8 +27,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
@@ -36,12 +37,11 @@ import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.neoforge.client.event.RenderGuiEvent;
+import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.common.IShearable;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
@@ -407,7 +407,7 @@ public class ToolAbilityItem extends TieredItem implements IDepthRockTool, IItem
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void renderHUD(RenderGuiEvent.Pre event, Player player, ItemStack stack) {
+    public void renderHUD(RenderGuiLayerEvent.Pre event, Player player, ItemStack stack) {
         Minecraft mc = Minecraft.getInstance();
 
         Options options = mc.options;

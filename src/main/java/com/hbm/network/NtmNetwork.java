@@ -29,5 +29,6 @@ public class NtmNetwork {
         registrar.playToClient(BufPacket.TYPE, BufPacket.STREAM_CODEC, BufPacket::handleCommon);
         registrar.playToClient(HbmAnimation.TYPE, HbmAnimation.STREAM_CODEC, HbmAnimation::handleCommon);
         registrar.playToClient(PermaSyncPacket.TYPE, PermaSyncPacket.STREAM_CODEC, PermaSyncPacket::handleCommon);
+        registrar.playToClient(MuzzleFlashPacket.TYPE, MuzzleFlashPacket.STREAM_CODEC, MuzzleFlashPacket::handleCommon);
     }
 }

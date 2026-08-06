@@ -2,7 +2,7 @@ package com.hbm.handler.radiation;
 
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.config.NtmConfig;
-import com.hbm.particle.NtmParticles;
+import com.hbm.particle.NtmParticleTypes;
 import com.hbm.util.particle.ParticleUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -109,7 +109,7 @@ public class ChunkRadiationHandlerSimple extends ChunkRadiationHandler {
                             int z = newCoord.getMinBlockZ() + level.random.nextInt(16);
                             int y = level.getHeight(Heightmap.Types.WORLD_SURFACE, x, z) + level.random.nextInt(5);
 
-                            ParticleUtil.addParticle(level, NtmParticles.RADIATION_FOG.get(), x, y, z, 100.0);
+                            ParticleUtil.addParticle(level, NtmParticleTypes.RADIATION_FOG.get(), x, y, z, 100.0);
                         }
                     }
                 }

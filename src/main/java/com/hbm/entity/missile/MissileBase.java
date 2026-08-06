@@ -168,7 +168,7 @@ public abstract class MissileBase extends ProjectileLerping implements IRadarDet
         thrust.rotateAroundZRad(this.xRot * (float) Math.PI / 180F);
         thrust.rotateAroundYRad((this.yRot + 90) * (float) Math.PI / 180F);
 
-        for (int i = 0; i < Math.max(Math.min(len, 10), 1); i++) {
+        for(int i = 0; i < Math.clamp(len, 1, 10); i++) {
             double j = i - len;
             CompoundTag tag = new CompoundTag();
             tag.putDouble("posX", this.position.x - vec.x * j + offsetX);

@@ -7,7 +7,7 @@ import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.explosion.vanillant.standard.EntityProcessorCross;
 import com.hbm.explosion.vanillant.standard.ExplosionEffectWeapon;
-import com.hbm.particle.NtmParticles;
+import com.hbm.particle.NtmParticleTypes;
 import com.hbm.util.particle.ParticleUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -79,7 +79,7 @@ public class MissileAntiBallistic extends ProjectileLerping implements IRadarDet
             double x = this.position().x - motion.x;
             double y = this.position().y - motion.y;
             double z = this.position().z - motion.z;
-            ParticleUtil.addParticle(this.level, NtmParticles.ABM_CONTRAIL.get(), x, y, z);
+            ParticleUtil.addParticle(this.level, NtmParticleTypes.ABM_CONTRAIL.get(), x, y, z);
         }
     }
 

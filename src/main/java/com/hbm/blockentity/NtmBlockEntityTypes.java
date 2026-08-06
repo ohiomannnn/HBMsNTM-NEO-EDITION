@@ -2,13 +2,9 @@ package com.hbm.blockentity;
 
 import com.hbm.blockentity.bomb.*;
 import com.hbm.blockentity.machine.*;
-import com.hbm.blockentity.machine.heater.HeaterElectricBlockEntity;
-import com.hbm.blockentity.machine.heater.HeaterFireboxBlockEntity;
-import com.hbm.blockentity.machine.heater.HeaterHeatexBlockEntity;
-import com.hbm.blockentity.machine.heater.HeaterOilburnerBlockEntity;
-import com.hbm.blockentity.machine.heater.HeaterOvenBlockEntity;
 import com.hbm.blockentity.machine.boiler.MachineHeatBoilerBlockEntity;
 import com.hbm.blockentity.machine.boiler.MachineIndustrialBoilerBlockEntity;
+import com.hbm.blockentity.machine.heater.*;
 import com.hbm.blockentity.machine.oil.MachineFrackingTowerBlockEntity;
 import com.hbm.blockentity.machine.oil.MachineOilWellBlockEntity;
 import com.hbm.blockentity.machine.oil.MachinePumpjackBlockEntity;
@@ -16,6 +12,8 @@ import com.hbm.blockentity.machine.oil.MachineRefineryBlockEntity;
 import com.hbm.blockentity.machine.storage.*;
 import com.hbm.blockentity.network.CableBaseBlockEntity;
 import com.hbm.blockentity.network.PipeBaseBlockEntity;
+import com.hbm.blockentity.network.RadioTorchReceiverBlockEntity;
+import com.hbm.blockentity.network.RadioTorchSenderBlockEntity;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.blocks.bomb.VolcanoBlock.VolcanoCoreBlockEntity;
 import com.hbm.blocks.generic.BobbleBlock.BobbleBlockEntity;
@@ -102,6 +100,9 @@ public class NtmBlockEntityTypes {
                             MachineShredderBlockEntity::new,
                             NtmBlocks.MACHINE_SHREDDER.get())
                     .build(null));
+
+    public static final Supplier<BlockEntityType<RadioTorchReceiverBlockEntity>> RADIO_TORCH_RECEIVER = BLOCK_ENTITY_TYPES.register("radio_torch_receiver", () -> BlockEntityType.Builder.of(RadioTorchReceiverBlockEntity::new, NtmBlocks.RADIO_TORCH_RECEIVER.get()).build(null));
+    public static final Supplier<BlockEntityType<RadioTorchSenderBlockEntity>> RADIO_TORCH_SENDER = BLOCK_ENTITY_TYPES.register("radio_torch_sender", () -> BlockEntityType.Builder.of(RadioTorchSenderBlockEntity::new, NtmBlocks.RADIO_TORCH_SENDER.get()).build(null));
 
     public static final Supplier<BlockEntityType<MachineOilWellBlockEntity>> MACHINE_OIL_WELL = BLOCK_ENTITY_TYPES.register("machine_oil_well", () -> BlockEntityType.Builder.of(MachineOilWellBlockEntity::new, NtmBlocks.MACHINE_WELL.get()).build(null));
     public static final Supplier<BlockEntityType<MachinePumpjackBlockEntity>> MACHINE_PUMPJACK = BLOCK_ENTITY_TYPES.register("machine_pumpjack", () -> BlockEntityType.Builder.of(MachinePumpjackBlockEntity::new, NtmBlocks.MACHINE_PUMPJACK.get()).build(null));

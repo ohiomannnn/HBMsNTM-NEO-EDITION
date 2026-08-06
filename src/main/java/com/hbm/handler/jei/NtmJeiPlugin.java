@@ -166,7 +166,7 @@ public class NtmJeiPlugin implements IModPlugin {
     }
 
     @Override
-    public void registerItemSubtypes(ISubtypeRegistration regs) {
+    public void registerItemSubtypes(ISubtypeRegistration registration) {
 
         List<Item> ignoreMeta = List.of(
 
@@ -190,6 +190,8 @@ public class NtmJeiPlugin implements IModPlugin {
                 NtmItems.FLUID_BARREL_FULL.get(),
                 NtmItems.FLUID_PACK_FULL.get(),
 
+                NtmItems.SATELLITE.get(),
+
                 NtmItems.FLUID_ICON.get(),
                 NtmItems.FLUID_IDENTIFIER_MULTI.get(),
                 NtmItems.INGOT_RAW.get(),
@@ -209,14 +211,14 @@ public class NtmJeiPlugin implements IModPlugin {
         );
 
         for(Item item : ignoreMeta) {
-            regs.registerSubtypeInterpreter(item, MetaSubtypeInterpreter.INSTANCE);
+            registration.registerSubtypeInterpreter(item, MetaSubtypeInterpreter.INSTANCE);
         }
 
-        regs.registerSubtypeInterpreter(NtmItems.BATTERY_PACK.get(), BatterySubtypeInterpreter.INSTANCE);
+        registration.registerSubtypeInterpreter(NtmItems.BATTERY_PACK.get(), BatterySubtypeInterpreter.INSTANCE);
     }
 
     @Override
-    public void registerExtraIngredients(IExtraIngredientRegistration regs) {
+    public void registerExtraIngredients(IExtraIngredientRegistration registration) {
         List<ItemStack> extra = new ArrayList<>();
 
         FluidType[] types = Fluids.getInNiceOrder();
@@ -226,6 +228,6 @@ public class NtmJeiPlugin implements IModPlugin {
             extra.add(FluidIconItem.make(type, 1000));
         }
 
-        regs.addExtraItemStacks(extra);
+        registration.addExtraItemStacks(extra);
     }
 }

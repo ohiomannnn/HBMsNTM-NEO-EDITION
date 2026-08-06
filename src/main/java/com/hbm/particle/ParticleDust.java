@@ -3,11 +3,11 @@ package com.hbm.particle;
 import com.hbm.particle.vanilla.NbtParticleOptions;
 import com.hbm.particle.vanilla.ParticleProviderBase;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.ParticleStatus;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -15,6 +15,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.Blocks;
@@ -120,12 +121,12 @@ public class ParticleDust extends TextureSheetParticle {
 
     public static abstract class VomitBaseProvider extends ParticleProviderBase<NbtParticleOptions> {
         @Override
-        public void createParticle(NbtParticleOptions options, double x, double y, double z, double xd, double yd, double zd, ClientLevel level, LocalPlayer player, int particleSetting) {
+        public void createParticle(NbtParticleOptions options, double x, double y, double z, double xd, double yd, double zd, ClientLevel level, RandomSource random, ParticleStatus particleStatus) {
             CompoundTag tag = options.tag;
 
             Entity e = level.getEntity(tag.getInt("entity"));
             if(e == null) return;
-            int count = tag.getInt("count") / (particleSetting + 1);
+            int count = tag.getInt("count") / (particleStatus.ordinal() + 1);
 
             if(e instanceof LivingEntity living) {
                 double ix = living.getX();
@@ -135,42 +136,42 @@ public class ParticleDust extends TextureSheetParticle {
                 Vec3 lookAngle = living.getLookAngle();
 
                 for(int i = 0; i < count; i++) {
-                    this.createVomit(level, Minecraft.getInstance().particleEngine, lookAngle, ix, iy, iz);
+                    this.createVomit(level, random, Minecraft.getInstance().particleEngine, lookAngle, ix, iy, iz);
                 }
             }
         }
 
-        public abstract void createVomit(ClientLevel level, ParticleEngine engine, Vec3 lookAngle, double ix, double iy, double iz);
+        public abstract void createVomit(ClientLevel level, RandomSource random, ParticleEngine engine, Vec3 lookAngle, double ix, double iy, double iz);
     }
 
     public static class VomitNormalProvider extends VomitBaseProvider {
         @Override
-        public void createVomit(ClientLevel level, ParticleEngine engine, Vec3 lookAngle, double ix, double iy, double iz) {
-            ParticleDust particle = new ParticleDust(level, ix, iy, iz, (lookAngle.x + level.random.nextGaussian() * 0.2) * 0.2, (lookAngle.y + level.random.nextGaussian() * 0.2) * 0.2, (lookAngle.z + level.random.nextGaussian() * 0.2) * 0.2, level.random.nextBoolean() ? Blocks.GREEN_TERRACOTTA.defaultBlockState() : Blocks.LIME_TERRACOTTA.defaultBlockState());
-            particle.setLifetime(150 + level.random.nextInt(50));
+        public void createVomit(ClientLevel level, RandomSource random, ParticleEngine engine, Vec3 lookAngle, double ix, double iy, double iz) {
+            ParticleDust particle = new ParticleDust(level, ix, iy, iz, (lookAngle.x + random.nextGaussian() * 0.2) * 0.2, (lookAngle.y + random.nextGaussian() * 0.2) * 0.2, (lookAngle.z + random.nextGaussian() * 0.2) * 0.2, random.nextBoolean() ? Blocks.GREEN_TERRACOTTA.defaultBlockState() : Blocks.LIME_TERRACOTTA.defaultBlockState());
+            particle.setLifetime(150 + random.nextInt(50));
             particle.setOriginalSize();
             engine.add(particle);
         }
     }
     public static class VomitBloodProvider extends VomitBaseProvider {
         @Override
-        public void createVomit(ClientLevel level, ParticleEngine engine, Vec3 lookAngle, double ix, double iy, double iz) {
-            ParticleDust particle = new ParticleDust(level, ix, iy, iz, (lookAngle.x + level.random.nextGaussian() * 0.2) * 0.2, (lookAngle.y + level.random.nextGaussian() * 0.2) * 0.2, (lookAngle.z + level.random.nextGaussian() * 0.2) * 0.2, Blocks.REDSTONE_BLOCK.defaultBlockState());
-            particle.setLifetime(150 + level.random.nextInt(50));
+        public void createVomit(ClientLevel level, RandomSource random, ParticleEngine engine, Vec3 lookAngle, double ix, double iy, double iz) {
+            ParticleDust particle = new ParticleDust(level, ix, iy, iz, (lookAngle.x + random.nextGaussian() * 0.2) * 0.2, (lookAngle.y + random.nextGaussian() * 0.2) * 0.2, (lookAngle.z + random.nextGaussian() * 0.2) * 0.2, Blocks.REDSTONE_BLOCK.defaultBlockState());
+            particle.setLifetime(150 + random.nextInt(50));
             particle.setOriginalSize();
             engine.add(particle);
         }
     }
     public static class VomitSmokeProvider extends VomitBaseProvider {
         @Override
-        public void createVomit(ClientLevel level, ParticleEngine engine, Vec3 lookAngle, double ix, double iy, double iz) {
-            engine.createParticle(ParticleTypes.SMOKE, ix, iy, iz, (lookAngle.x + level.random.nextGaussian() * 0.1) * 0.05, (lookAngle.y + level.random.nextGaussian() * 0.1) * 0.05, (lookAngle.z + level.random.nextGaussian() * 0.1) * 0.05);
+        public void createVomit(ClientLevel level, RandomSource random, ParticleEngine engine, Vec3 lookAngle, double ix, double iy, double iz) {
+            engine.createParticle(ParticleTypes.SMOKE, ix, iy, iz, (lookAngle.x + random.nextGaussian() * 0.1) * 0.05, (lookAngle.y + random.nextGaussian() * 0.1) * 0.05, (lookAngle.z + random.nextGaussian() * 0.1) * 0.05);
         }
     }
 
     public static class SweatProvider extends ParticleProviderBase<NbtParticleOptions> {
         @Override
-        public void createParticle(NbtParticleOptions options, double x, double y, double z, double xd, double yd, double zd, ClientLevel level, LocalPlayer player, int particleSetting) {
+        public void createParticle(NbtParticleOptions options, double x, double y, double z, double xd, double yd, double zd, ClientLevel level, RandomSource random, ParticleStatus particleStatus) {
             CompoundTag tag = options.tag;
 
             Entity e = level.getEntity(tag.getInt("entity"));
@@ -181,12 +182,12 @@ public class ParticleDust extends TextureSheetParticle {
             if(e instanceof LivingEntity living) {
                 for(int i = 0; i < count; i++) {
                     AABB bounding = living.getBoundingBox();
-                    double ix = bounding.minX - 0.2 + (bounding.maxX - bounding.minX + 0.4) * level.random.nextDouble();
-                    double iy = bounding.minY +       (bounding.maxY - bounding.minY + 0.2) * level.random.nextDouble();
-                    double iz = bounding.minZ - 0.2 + (bounding.maxZ - bounding.minZ + 0.4) * level.random.nextDouble();
+                    double ix = bounding.minX - 0.2 + (bounding.maxX - bounding.minX + 0.4) * random.nextDouble();
+                    double iy = bounding.minY +       (bounding.maxY - bounding.minY + 0.2) * random.nextDouble();
+                    double iz = bounding.minZ - 0.2 + (bounding.maxZ - bounding.minZ + 0.4) * random.nextDouble();
 
                     ParticleDust particle = new ParticleDust(level, ix, iy, iz, 0, 0, 0, state);
-                    particle.setLifetime(150 + level.random.nextInt(50));
+                    particle.setLifetime(150 + random.nextInt(50));
                     particle.setOriginalSize();
 
                     Minecraft.getInstance().particleEngine.add(particle);

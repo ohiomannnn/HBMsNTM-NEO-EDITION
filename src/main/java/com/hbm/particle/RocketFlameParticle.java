@@ -8,8 +8,8 @@ import com.hbm.particle.vanilla.ParticleProviderBase;
 import com.hbm.render.NtmRenderTypes;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
+import net.minecraft.client.ParticleStatus;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.nbt.CompoundTag;
@@ -109,9 +109,8 @@ public class RocketFlameParticle extends ParticleNT {
     public static class ExhaustSoyuzProvider extends ParticleProviderBase<NbtParticleOptions> {
 
         @Override
-        public void createParticle(NbtParticleOptions options, double x, double y, double z, double xd, double yd, double zd, ClientLevel level, LocalPlayer player, int particleSetting) {
+        public void createParticle(NbtParticleOptions options, double x, double y, double z, double xd, double yd, double zd, ClientLevel level, RandomSource random, ParticleStatus particleStatus) {
             CompoundTag tag = options.tag;
-            RandomSource random = level.random;
 
             int count = Math.max(1, tag.getInt("count"));
             double width = tag.getDouble("width");
@@ -127,9 +126,8 @@ public class RocketFlameParticle extends ParticleNT {
     public static class ExhaustMeteorProvider extends ParticleProviderBase<NbtParticleOptions> {
 
         @Override
-        public void createParticle(NbtParticleOptions options, double x, double y, double z, double xd, double yd, double zd, ClientLevel level, LocalPlayer player, int particleSetting) {
+        public void createParticle(NbtParticleOptions options, double x, double y, double z, double xd, double yd, double zd, ClientLevel level, RandomSource random, ParticleStatus particleStatus) {
             CompoundTag tag = options.tag;
-            RandomSource random = level.random;
 
             int count = Math.max(1, tag.getInt("count"));
             double width = tag.getDouble("width");

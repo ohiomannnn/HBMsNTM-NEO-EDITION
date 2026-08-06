@@ -38,7 +38,7 @@ public class RecipesCommon {
             List<ItemStack> list = extractForJEI();
             cycle *= 50;
 
-            if (list.isEmpty()) return new ItemStack(NtmItems.NOTHING.get());
+            if(list.isEmpty()) return new ItemStack(NtmItems.NOTHING.get());
             return list.get((int)(System.currentTimeMillis() % (cycle * list.size()) / cycle));
         }
 

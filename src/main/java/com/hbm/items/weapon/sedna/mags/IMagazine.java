@@ -50,11 +50,11 @@ public interface IMagazine<T> {
     int getAmountAfterReload(ItemStack stack);
 
     static void handleAmmoBag(Container container, BulletConfig config, int shotsFired) {
-        if(config.casingItem != null && config.casingAmount > 0 && container instanceof Inventory inv) {
-            for(ItemStack stack : inv.items) {
-                //if(stack != null && stack.getItem() == NtmItems.casing_bag && ItemCasingBag.pushCasing(stack, config.casingItem, 1F / config.casingAmount * 0.5F * shotsFired)) return;
-            }
-        }
+//        if(config.getCasingItem() != null && config.casingAmount > 0 && container instanceof Inventory inv) {
+//            for(ItemStack stack : inv.items) {
+//                if(stack != null && stack.getItem() == NtmItems.casing_bag && ItemCasingBag.pushCasing(stack, config.casingItem, 1F / config.casingAmount * 0.5F * shotsFired)) return;
+//            }
+//        }
     }
 
     static boolean shouldUseUpTrenchie(Container container) {
