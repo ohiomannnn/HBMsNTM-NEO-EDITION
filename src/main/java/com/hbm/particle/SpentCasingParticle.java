@@ -111,7 +111,7 @@ public class SpentCasingParticle extends ParticleNT {
             for(Pair<Vector3f, Double> pair : smokeNodes) {
                 Vector3f node = pair.getKey();
 
-                node.add((float) (random.nextGaussian() * SMOKE_JITTER), (float) (smokeLift * SMOKE_JITTER), (float) (random.nextGaussian() * SMOKE_JITTER));
+                node.add((float) (random.nextGaussian() * SMOKE_JITTER), (float) (smokeLift * D_SCALE), (float) (random.nextGaussian() * SMOKE_JITTER));
 
                 pair.value = Math.max(0, pair.value - (1D / (double) nodeLife));
             }
@@ -146,7 +146,7 @@ public class SpentCasingParticle extends ParticleNT {
         double d1 = y;
         double d2 = z;
 
-        if(!this.noClip && (x != 0.0 || y != 0.0 || z != 0.0) && x * x + y * y + z * z < MAXIMUM_COLLISION_VELOCITY_SQUARED) {
+        if(!this.noClip) {
             Vec3 pos = new Vec3(x, y, z);
             Vec3 vec3 = Entity.collideBoundingBox(null, pos, this.getBoundingBox(), this.level, List.of());
             boolean xEqual = Mth.equal(pos.x, vec3.x);
@@ -167,12 +167,15 @@ public class SpentCasingParticle extends ParticleNT {
 
         // Handles bounces
         if(d0 != x) {
+            double delta = Math.abs(d0 - x);
             this.xd *= -0.25D;
 
-            if(Math.abs(momentumYaw) > 1e-7) {
-                momentumYaw *= -0.75F;
-            } else {
-                momentumYaw = (float) random.nextGaussian() * 10F * this.config.getBounceYaw();
+            if(delta > 1.0E-4) {
+                if(Math.abs(momentumYaw) > 1e-7) {
+                    momentumYaw *= -0.75F;
+                } else {
+                    momentumYaw = (float) random.nextGaussian() * 10F * this.config.getBounceYaw();
+                }
             }
         }
 
@@ -191,12 +194,15 @@ public class SpentCasingParticle extends ParticleNT {
         }
 
         if(d2 != z) {
+            double delta = Math.abs(d0 - z);
             this.zd *= -0.25D;
 
-            if(Math.abs(momentumYaw) > 1e-7) {
-                momentumYaw *= -0.75F;
-            } else {
-                momentumYaw = (float) random.nextGaussian() * 10F * this.config.getBounceYaw();
+            if(delta > 1.0E-4) {
+                if(Math.abs(momentumYaw) > 1e-7) {
+                    momentumYaw *= -0.75F;
+                } else {
+                    momentumYaw = (float) random.nextGaussian() * 10F * this.config.getBounceYaw();
+                }
             }
         }
 
@@ -244,7 +250,7 @@ public class SpentCasingParticle extends ParticleNT {
         PoseStack poseStack = new PoseStack();
         RenderContext.setup(poseStack, this.getLightColor(), OverlayTexture.NO_OVERLAY);
 
-        RenderContext.translate(pX, pY + config.getScaleY() * 0.01F, pZ);
+        RenderContext.translate(pX, pY - this.bbHeight / 4 + config.getScaleY() * 0.01F, pZ);
 
         RenderContext.scale(D_SCALE, D_SCALE, D_SCALE);
 
@@ -266,7 +272,7 @@ public class SpentCasingParticle extends ParticleNT {
         RenderContext.end();
 
         poseStack.pushPose();
-        poseStack.translate(pX, pY, pZ);
+        poseStack.translate(pX, pY - this.bbHeight / 4, pZ);
 
         Matrix4f matrix = poseStack.last().pose();
 

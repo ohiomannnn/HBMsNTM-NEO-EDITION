@@ -9,7 +9,7 @@ import com.hbm.items.weapon.sedna.GunBaseNTItem.LambdaContext;
 import com.hbm.items.weapon.sedna.GunBaseNTItem.WeaponQuality;
 import com.hbm.items.weapon.sedna.mags.MagazineFullReload;
 import com.hbm.particle.SpentCasing;
-import com.hbm.particle.SpentCasing.CasingType;
+import com.hbm.particle.SpentCasing.SpentCasingType;
 import com.hbm.registry.NtmSoundEvents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
@@ -23,7 +23,7 @@ public class GunFactory {
     public static BulletConfig ammo_debug;
     public static BulletConfig ammo_debug_shot;
 
-    public static SpentCasing CASING44 = new SpentCasing(CasingType.STRAIGHT).setScale(1.5F, 1.0F, 1.5F).setColor(SpentCasing.COLOR_CASE_44);
+    public static SpentCasing CASING44 = new SpentCasing(SpentCasingType.STRAIGHT).setScale(1.5F, 1.0F, 1.5F).setColor(SpentCasing.COLOR_CASE_44);
 
     public static void init(DeferredRegister.Items itemRegistry) {
 

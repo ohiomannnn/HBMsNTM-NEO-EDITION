@@ -24,14 +24,14 @@ public class SpentCasing implements Cloneable {
 
     public static final HashMap<String, SpentCasing> casingMap = new HashMap<>();
 
-    public enum CasingType {
+    public enum SpentCasingType {
         STRAIGHT("Straight"),
         BOTTLENECK("Bottleneck"),
         SHOTGUN("Shotgun", "ShotgunCase"); //plastic shell, brass case
 
         public final String[] partNames;
 
-        CasingType(String... names) {
+        SpentCasingType(String... names) {
             this.partNames = names;
         }
     }
@@ -41,16 +41,16 @@ public class SpentCasing implements Cloneable {
     private float scaleY = 1F;
     private float scaleZ = 1F;
     private int[] colors;
-    private final CasingType type;
+    private final SpentCasingType type;
     private Supplier<SoundEvent> bounceSound;
     private float bounceYaw = 1F;
     private float bouncePitch = 1F;
     private int maxAge = 240;
 
-    public SpentCasing(CasingType type) {
+    public SpentCasing(SpentCasingType type) {
         this.type = type;
 
-        if(type == CasingType.SHOTGUN) {
+        if(type == SpentCasingType.SHOTGUN) {
             this.setSound(NtmSoundEvents.PLINK_SHELL);
         } else {
             this.setSound(NtmSoundEvents.PLINK_SMALL);
@@ -72,8 +72,8 @@ public class SpentCasing implements Cloneable {
         this.scaleX = x;
         this.scaleY = y;
         this.scaleZ = z;
-        if(x * y * z >= 3 && this.type != CasingType.SHOTGUN) this.setSound(NtmSoundEvents.PLINK_MEDIUM);
-        if(x * y * z >= 100 && this.type != CasingType.SHOTGUN) this.setSound(NtmSoundEvents.PLINK_LARGE);
+        if(x * y * z >= 3 && this.type != SpentCasingType.SHOTGUN) this.setSound(NtmSoundEvents.PLINK_MEDIUM);
+        if(x * y * z >= 100 && this.type != SpentCasingType.SHOTGUN) this.setSound(NtmSoundEvents.PLINK_LARGE);
         return this;
     }
 
@@ -111,7 +111,7 @@ public class SpentCasing implements Cloneable {
     public float getScaleY() { return this.scaleY; }
     public float getScaleZ() { return this.scaleZ; }
     public int[] getColors() { return this.colors; }
-    public CasingType getType() { return this.type; }
+    public SpentCasingType getType() { return this.type; }
     public Supplier<SoundEvent> getSound() { return this.bounceSound; }
     public float getBounceYaw() { return this.bounceYaw; }
     public float getBouncePitch() { return this.bouncePitch; }

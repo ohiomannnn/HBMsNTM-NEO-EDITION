@@ -1,13 +1,16 @@
 package com.hbm.items.weapon.sedna.factory;
 
 import com.hbm.entity.projectile.BulletBaseMK4;
+import com.hbm.explosion.vanillant.ExplosionVNT;
+import com.hbm.explosion.vanillant.standard.EntityProcessorCrossSmooth;
+import com.hbm.explosion.vanillant.standard.ExplosionEffectWeapon;
 import com.hbm.interfaces.NotableComments;
 import com.hbm.items.weapon.sedna.BulletConfig;
 import com.hbm.items.weapon.sedna.BulletConfig.ProjectileType;
 import com.hbm.items.weapon.sedna.GunBaseNTItem;
-import com.hbm.items.weapon.sedna.GunBaseNTItem.SmokeNode;
 import com.hbm.items.weapon.sedna.GunBaseNTItem.GunState;
 import com.hbm.items.weapon.sedna.GunBaseNTItem.LambdaContext;
+import com.hbm.items.weapon.sedna.GunBaseNTItem.SmokeNode;
 import com.hbm.items.weapon.sedna.GunConfig;
 import com.hbm.items.weapon.sedna.Receiver;
 import com.hbm.items.weapon.sedna.mags.IMagazine;
@@ -20,6 +23,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
@@ -247,6 +251,15 @@ public class Lego {
         float spreadWear = !calcWear ? 0F : (getStandardWearSpread(stack, ctx.config, index) * primary.getDurabilitySpread(stack));
 
         return spreadInnate + spreadAmmo + spreadHipfire + spreadWear;
+    }
+
+    public static void standardExplode(BulletBaseMK4 bullet, HitResult hr, float range) { standardExplode(bullet, hr, range, 1F); }
+    public static void standardExplode(BulletBaseMK4 bullet, HitResult hr, float range, float damageMod) {
+        Vec3 position = hr.getLocation();
+        ExplosionVNT vnt = new ExplosionVNT(bullet.level, position.x, position.y, position.z, range, bullet.getOwner())
+                .setEntityProcessor(new EntityProcessorCrossSmooth(1, bullet.damage * damageMod).setupPiercing(bullet.config.armorThresholdNegation, bullet.config.armorPiercingPercent))
+                .setSFX(new ExplosionEffectWeapon(10, 2.5F, 1F));
+        vnt.explode();
     }
 
     /** anims for the DEBUG revolver, mostly a copy of the li'lpip but with some fixes regarding the cylinder movement */

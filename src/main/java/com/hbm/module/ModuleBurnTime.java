@@ -87,24 +87,6 @@ public class ModuleBurnTime {
         return def;
     }
 
-    public ModuleBurnTime setLogTimeMod(double mod) { this.modTime[MOD_LOG] = mod; return this; }
-    public ModuleBurnTime setWoodTimeMod(double mod) { this.modTime[MOD_WOOD] = mod; return this; }
-    public ModuleBurnTime setCoalTimeMod(double mod) { this.modTime[MOD_COAL] = mod; return this; }
-    public ModuleBurnTime setLigniteTimeMod(double mod) { this.modTime[MOD_LIGNITE] = mod; return this; }
-    public ModuleBurnTime setCokeTimeMod(double mod) { this.modTime[MOD_COKE] = mod; return this; }
-    public ModuleBurnTime setSolidTimeMod(double mod) { this.modTime[MOD_SOLID] = mod; return this; }
-    public ModuleBurnTime setRocketTimeMod(double mod) { this.modTime[MOD_ROCKET] = mod; return this; }
-    public ModuleBurnTime setBalefireTimeMod(double mod) { this.modTime[MOD_BALEFIRE] = mod; return this; }
-
-    public ModuleBurnTime setLogHeatMod(double mod) { this.modHeat[MOD_LOG] = mod; return this; }
-    public ModuleBurnTime setWoodHeatMod(double mod) { this.modHeat[MOD_WOOD] = mod; return this; }
-    public ModuleBurnTime setCoalHeatMod(double mod) { this.modHeat[MOD_COAL] = mod; return this; }
-    public ModuleBurnTime setLigniteHeatMod(double mod) { this.modHeat[MOD_LIGNITE] = mod; return this; }
-    public ModuleBurnTime setCokeHeatMod(double mod) { this.modHeat[MOD_COKE] = mod; return this; }
-    public ModuleBurnTime setSolidHeatMod(double mod) { this.modHeat[MOD_SOLID] = mod; return this; }
-    public ModuleBurnTime setRocketHeatMod(double mod) { this.modHeat[MOD_ROCKET] = mod; return this; }
-    public ModuleBurnTime setBalefireHeatMod(double mod) { this.modHeat[MOD_BALEFIRE] = mod; return this; }
-
     public double getMod(ItemStack stack, double[] mod) {
         return getMod(stack, mod, 1.0);
     }
@@ -171,4 +153,22 @@ public class ModuleBurnTime {
     public double[] getModTime() {
         return modTime;
     }
+
+    public ModuleBurnTime setLogTimeMod(double mod) { this.modTime[MOD_LOG] = mod; return this; }
+    public ModuleBurnTime setWoodTimeMod(double mod) { this.modTime[MOD_WOOD] = mod; return this; }
+    public ModuleBurnTime setCoalTimeMod(double mod) { this.modTime[MOD_COAL] = mod; return this; }
+    public ModuleBurnTime setLigniteTimeMod(double mod) { this.modTime[MOD_LIGNITE] = mod; return this; }
+    public ModuleBurnTime setCokeTimeMod(double mod) { this.modTime[MOD_COKE] = mod; return this; }
+    public ModuleBurnTime setSolidTimeMod(double mod) { this.modTime[MOD_SOLID] = mod; return this; }
+    public ModuleBurnTime setRocketTimeMod(double mod) { this.modTime[MOD_ROCKET] = mod; return this; }
+    public ModuleBurnTime setBalefireTimeMod(double mod) { this.modTime[MOD_BALEFIRE] = mod; return this; }
+
+    public ModuleBurnTime setLogHeatMod(double mod) { this.modHeat[MOD_LOG] = mod; return this; }
+    public ModuleBurnTime setWoodHeatMod(double mod) { this.modHeat[MOD_WOOD] = mod; return this; }
+    public ModuleBurnTime setCoalHeatMod(double mod) { this.modHeat[MOD_COAL] = mod; return this; }
+    public ModuleBurnTime setLigniteHeatMod(double mod) { this.modHeat[MOD_LIGNITE] = mod; return this; }
+    public ModuleBurnTime setCokeHeatMod(double mod) { this.modHeat[MOD_COKE] = mod; return this; }
+    public ModuleBurnTime setSolidHeatMod(double mod) { this.modHeat[MOD_SOLID] = mod; return this; }
+    public ModuleBurnTime setRocketHeatMod(double mod) { this.modHeat[MOD_ROCKET] = mod; return this; }
+    public ModuleBurnTime setBalefireHeatMod(double mod) { this.modHeat[MOD_BALEFIRE] = mod; return this; }
 }

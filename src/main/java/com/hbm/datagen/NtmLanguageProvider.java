@@ -1740,6 +1740,16 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmBlocks.TAINT, DESC,"DO NOT TOUCH, BREATHE OR STARE AT.");
 
         // CONTAINERS //
+        this.add("container.burntime.time_bonuses", "Burn time bonuses:");
+        this.add("container.burntime.heat_bonuses", "Burn heat bonuses:");
+        this.add("container.burntime.log", "Logs");
+        this.add("container.burntime.wood", "Wood");
+        this.add("container.burntime.coal", "Coal");
+        this.add("container.burntime.lignite", "Lignite");
+        this.add("container.burntime.coke", "Coke");
+        this.add("container.burntime.solid", "Solid Fuel");
+        this.add("container.burntime.rocket", "Rocket Fuel");
+        this.add("container.burntime.balefire", "Balefire");
         this.add("container.upgrade", "§lAcceptable Upgrades:§r");
         this.add("container.upgrade.afterburner", " * §dAfterburner§r: Stacks to level 3");
         this.add("container.upgrade.effectiveness", " * §aEffectiveness§r: Stacks to level 3");
