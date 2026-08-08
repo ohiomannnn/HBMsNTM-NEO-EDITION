@@ -95,6 +95,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -430,25 +431,32 @@ public class NuclearTechModClient {
 
     @SubscribeEvent
     public static void onClientTickPost(ClientTickEvent.Post event) {
-        Player player = Minecraft.getInstance().player;
-        if(player == null) return;
-
-        float partialTick = Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(false);
+        GunBaseNTItem.prevOffsetVertical = GunBaseNTItem.offsetVertical;
+        GunBaseNTItem.prevOffsetHorizontal = GunBaseNTItem.offsetHorizontal;
 
         GunBaseNTItem.offsetVertical += GunBaseNTItem.recoilVertical;
         GunBaseNTItem.offsetHorizontal += GunBaseNTItem.recoilHorizontal;
-        player.xRot -= GunBaseNTItem.recoilVertical + partialTick;
-        player.yRot -= GunBaseNTItem.recoilHorizontal + partialTick;
 
         GunBaseNTItem.recoilVertical *= GunBaseNTItem.recoilDecay;
         GunBaseNTItem.recoilHorizontal *= GunBaseNTItem.recoilDecay;
+
         float dV = GunBaseNTItem.offsetVertical * GunBaseNTItem.recoilRebound;
         float dH = GunBaseNTItem.offsetHorizontal * GunBaseNTItem.recoilRebound;
 
         GunBaseNTItem.offsetVertical -= dV;
         GunBaseNTItem.offsetHorizontal -= dH;
-        player.xRot += dV + partialTick;
-        player.yRot += dH + partialTick;
+    }
+
+    @SubscribeEvent
+    public static void onCameraRender(ViewportEvent.ComputeCameraAngles event) {
+
+        float partialTick = (float) event.getPartialTick();
+
+        float smoothV = Mth.lerp(partialTick, GunBaseNTItem.prevOffsetVertical, GunBaseNTItem.offsetVertical);
+        float smoothH = Mth.lerp(partialTick, GunBaseNTItem.prevOffsetHorizontal, GunBaseNTItem.offsetHorizontal);
+
+        event.setPitch(event.getPitch() - smoothV);
+        event.setYaw(event.getYaw() - smoothH);
     }
 
     @SubscribeEvent

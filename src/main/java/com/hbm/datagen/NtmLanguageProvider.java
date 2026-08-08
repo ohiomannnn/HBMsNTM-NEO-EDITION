@@ -1818,7 +1818,6 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add("commands.satellite.satellite_orbited", "Satellite launched.");
         this.add("commands.satellite.should_be_run_as_player", "This command should be run by a player!");
         this.add("commands.chunkrad.setrad", "Chunk radiation set to %s");
-        this.add("death.attack.meteorite", "%1$s was hit by a falling rock from outer space");
 
         // FLUIDS //
         this.add(NtmFluidTypes.VOLCANIC_LAVA_TYPE, "Volcanic Lava");
@@ -2004,6 +2003,38 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add("trait.htype.icf", "ICF Coolant");
         this.add("trait.htype.pa", "PA Coolant");
 
+        // DAMAGE TYPES //
+        this.addDamage("nuclearBlast", "%1$s was blown away by a nuclear explosion");
+        this.addDamage("digamma", "%1$s stepped into the abyss");
+        this.addDamage("radiation", "%1$s died from radiation poisoning");
+        this.addDamage("asbestos", "%1$s is now entitled to financial compensation");
+        this.addDamage("blacklung", "%1$s died from black lung disease");
+        this.addDamage("blackhole", "%1$s was spaghettified");
+        this.addDamage("taint", "%1$s died from flux tumors");
+        this.addDamage("bang", "%1$s was blasted into bite-sized pieces");
+        this.addDamage("lead", "%1$s died from lead poisoning");
+        this.addDamage("shrapnel", "%1$s was ragged by a shrapnel");
+        this.addDamage("rubble", "%1$s was squashed by debris");
+        this.addDamage("monoxide", "%1$s forgot to change the batteries in their carbon monoxide detector");
+        this.addDamage("meteorite", "%1$s was hit by a falling rock from outer space");
+
+        this.addDamage("sednaPhysical", "%1$s was shot");
+        this.addDamagePlayer("sednaPhysical", "%1$s was shot by %2$s");
+        this.addDamage("sednaFire", "%1$s was incinerated");
+        this.addDamagePlayer("sednaFire", "%1$s was incinerated by %2$s");
+        this.addDamage("sednaExplosion", "%1$s was blown up.");
+        this.addDamagePlayer("sednaExplosion", "%1$s was blown up by %2$s.");
+        this.addDamage("sednaElectric", "%1$s was fried");
+        this.addDamagePlayer("sednaElectric", "%1$s was fried by %2$s");
+        this.addDamage("sednaLaser", "%1$s was pulverized");
+        this.addDamagePlayer("sednaLaser", "%1$s was pulverized by %2$s");
+        this.addDamage("sednaMicrowave", "%1$s was microwaved");
+        this.addDamagePlayer("sednaMicrowave", "%1$s was microwaved by %2$s");
+        this.addDamage("sednaSubatomic", "%1$s was atomized");
+        this.addDamagePlayer("sednaSubatomic", "%1$s was atomized by %2$s");
+        this.addDamage("sednaOther", "%1$s was killed");
+        this.addDamagePlayer("sednaOther", "%1$s was killed by %2$s.");
+
         // MISC //
         this.add("message.hbmsntm.loaded", "Loaded world with Hbm's Nuclear Tech Mod: %s for Minecraft 1.21.1!");
         this.add("message.hbmsntm.neo", "Neo Edition");
@@ -2082,6 +2113,9 @@ public class NtmLanguageProvider extends LanguageProvider {
 
     public void add(DeferredBlock<? extends Block> key, String toAppend, String name) { this.add(key.get().getDescriptionId() + toAppend, name); }
     public void add(DeferredItem<? extends Item> key, String toAppend, String name) { this.add(key.get().getDescriptionId() + toAppend, name); }
+
+    public void addDamage(String msgId, String message) { this.add("death.attack." + msgId, message); }
+    public void addDamagePlayer(String msgId, String message) { this.add("death.attack." + msgId + ".player", message); }
 
     public String getName(Enum<?> theEnum) { return "." + theEnum.name().toLowerCase(Locale.US); }
 }

@@ -24,15 +24,15 @@ public class FluidTrait {
         registerTrait("flammable", FT_Flammable.class);
         registerTrait("heatable", FT_Heatable.class);
         registerTrait("coolable", FT_Coolable.class);
-//        registerTrait("combustible", FT_Combustible.class);
-//        registerTrait("polluting", FT_Polluting.class);
-//        registerTrait("heatable", FT_Heatable.class);
-//        registerTrait("coolable", FT_Coolable.class);
-//        registerTrait("pwrmoderator", FT_PWRModerator.class);
-//        registerTrait("poison", FT_Poison.class);
-//        registerTrait("toxin", FT_Toxin.class);
-//        registerTrait("ventradiation", FT_VentRadiation.class);
-//        registerTrait("pheromone", FT_Pheromone.class);
+        registerTrait("combustible", FT_Combustible.class);
+        registerTrait("polluting", FT_Polluting.class);
+        registerTrait("heatable", FT_Heatable.class);
+        registerTrait("coolable", FT_Coolable.class);
+        //registerTrait("pwrmoderator", FT_PWRModerator.class);
+        registerTrait("poison", FT_Poison.class);
+        //registerTrait("toxin", FT_Toxin.class);
+        registerTrait("ventradiation", FT_VentRadiation.class);
+        registerTrait("pheromone", FT_Pheromone.class);
         //simple traits, "tags"
         registerTrait("gaseous", FT_Gaseous.class);
         registerTrait("gaseous_art", FT_Gaseous_ART.class);

@@ -143,7 +143,7 @@ public class Lego {
             float alpha = (System.currentTimeMillis() - lastShot) / (float) smokeDuration;
             alpha = (1 - alpha) * 0.5F;
 
-            if(gun.getState(stack, index) == GunState.RELOADING || smokeNodes.size() == 0) alpha = 0;
+            if(GunBaseNTItem.getState(stack, index) == GunState.RELOADING || smokeNodes.isEmpty()) alpha = 0;
             smokeNodes.add(new SmokeNode(alpha));
         }
     }

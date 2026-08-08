@@ -80,7 +80,7 @@ public class BulletConfig implements Cloneable {
     public Consumer<Entity> onUpdate;
     public BiConsumer<BulletBaseMK4, HitResult> onImpact;
     public BiConsumer<BulletBeamBase, HitResult> onImpactBeam; //fuck fuck fuck fuck i should have used a better base class here god dammit
-    public BiConsumer<BulletBaseMK4, HitResult> onRicochet = LAMBDA_STANDARD_RICOCHET;
+    public BiConsumer<BulletBaseMK4, BlockHitResult> onRicochet = LAMBDA_STANDARD_RICOCHET;
     public BiConsumer<BulletBaseMK4, EntityHitResult> onEntityHit = LAMBDA_STANDARD_ENTITY_HIT;
 
     public double gravity = 0;
@@ -144,7 +144,7 @@ public class BulletConfig implements Cloneable {
     public BulletConfig setRendererBeam(BiConsumer<BulletBeamBase, Float> renderer) {	this.rendererBeam = renderer; return this; }
 
     public BulletConfig setOnUpdate(Consumer<Entity> lambda) {										this.onUpdate = lambda; return this; }
-    public BulletConfig setOnRicochet(BiConsumer<BulletBaseMK4, HitResult> lambda) {		        this.onRicochet = lambda; return this; }
+    public BulletConfig setOnRicochet(BiConsumer<BulletBaseMK4, BlockHitResult> lambda) {		    this.onRicochet = lambda; return this; }
     public BulletConfig setOnImpact(BiConsumer<BulletBaseMK4, HitResult> lambda) {			        this.onImpact = lambda; return this; }
     public BulletConfig setOnBeamImpact(BiConsumer<BulletBeamBase, HitResult> lambda) {	            this.onImpactBeam = lambda; return this; }
     public BulletConfig setOnEntityHit(BiConsumer<BulletBaseMK4, EntityHitResult> lambda) {		    this.onEntityHit = lambda; return this; }
@@ -166,7 +166,7 @@ public class BulletConfig implements Cloneable {
         BEAM
     }
 
-    public static DamageSource getDamage(Level level, @Nullable Entity projectile, @Nullable Entity shooter, DamageClass dmgClass) {
+    public static DamageSource getDamage(Level level, @Nullable Entity entity, @Nullable Entity shooter, DamageClass dmgClass) {
 
         ResourceKey<DamageType> damageType = switch(dmgClass) {
             case PHYSICAL ->    NtmDamageTypes.PHYSICAL;
@@ -179,41 +179,38 @@ public class BulletConfig implements Cloneable {
             case OTHER ->       NtmDamageTypes.OTHER;
         };
 
-        return level.damageSources().source(damageType, shooter, projectile);
+        return level.damageSources().source(damageType, shooter, entity);
     }
 
-    public static BiConsumer<BulletBaseMK4, HitResult> LAMBDA_STANDARD_RICOCHET = (bullet, hr) -> {
+    public static BiConsumer<BulletBaseMK4, BlockHitResult> LAMBDA_STANDARD_RICOCHET = (bullet, bhr) -> {
 
-        if(hr.getType() == HitResult.Type.BLOCK) {
-            BlockHitResult bhr = (BlockHitResult) hr;
-            BlockState state = bullet.level.getBlockState(bhr.getBlockPos());
-            if(state.getBlock() instanceof DetonatableBlock db) db.onShot(bullet.level, bhr.getBlockPos());
+        BlockState state = bullet.level.getBlockState(bhr.getBlockPos());
+        if(state.getBlock() instanceof DetonatableBlock db) db.onShot(bullet.level, bhr.getBlockPos());
 
-            Direction dir = bhr.getDirection();
-            Vec3 face = new Vec3(dir.getStepX(), dir.getStepY(), dir.getStepZ());
-            Vec3 vel = new Vec3(bullet.deltaMovement.x, bullet.deltaMovement.y, bullet.deltaMovement.z).normalize();
+        Direction dir = bhr.getDirection();
+        Vec3 face = new Vec3(dir.getStepX(), dir.getStepY(), dir.getStepZ());
+        Vec3 vel = new Vec3(bullet.deltaMovement.x, bullet.deltaMovement.y, bullet.deltaMovement.z).normalize();
 
-            double angle = Math.abs(BobMathUtil.getCrossAngle(vel, face) - 90);
+        double angle = Math.abs(BobMathUtil.getCrossAngle(vel, face) - 90);
 
-            if(angle <= bullet.config.ricochetAngle) {
-                bullet.ricochets++;
-                if(bullet.ricochets > bullet.config.maxRicochetCount) {
-                    bullet.setPos(bhr.getLocation());
-                    bullet.discard();
-                }
-                switch(bhr.getDirection()) {
-                    case DOWN, UP -> bullet.deltaMovement = new Vec3(bullet.deltaMovement.x, bullet.deltaMovement.y * -1, bullet.deltaMovement.z);
-                    case NORTH, SOUTH -> bullet.deltaMovement = new Vec3(bullet.deltaMovement.x, bullet.deltaMovement.y, bullet.deltaMovement.z * -1);
-                    case WEST, EAST -> bullet.deltaMovement = new Vec3(bullet.deltaMovement.x * -1, bullet.deltaMovement.y, bullet.deltaMovement.z);
-                }
-                SoundUtils.playAtEntity(bullet, NtmSoundEvents.RICOCHET.get(), SoundSource.BLOCKS, 0.25F, 1.0F);
-                bullet.setPos(bhr.getLocation());
-                //send a teleport so the ricochet is more accurate instead of the interp smoothing fucking everything up
-                if(bullet.level instanceof ServerLevel serverLevel) serverLevel.getChunkSource().broadcast(bullet, new ClientboundTeleportEntityPacket(bullet));
-            } else {
+        if(angle <= bullet.config.ricochetAngle) {
+            bullet.ricochets++;
+            if(bullet.ricochets > bullet.config.maxRicochetCount) {
                 bullet.setPos(bhr.getLocation());
                 bullet.discard();
             }
+            switch(bhr.getDirection()) {
+                case DOWN, UP -> bullet.deltaMovement = new Vec3(bullet.deltaMovement.x, bullet.deltaMovement.y * -1, bullet.deltaMovement.z);
+                case NORTH, SOUTH -> bullet.deltaMovement = new Vec3(bullet.deltaMovement.x, bullet.deltaMovement.y, bullet.deltaMovement.z * -1);
+                case WEST, EAST -> bullet.deltaMovement = new Vec3(bullet.deltaMovement.x * -1, bullet.deltaMovement.y, bullet.deltaMovement.z);
+            }
+            SoundUtils.playAtEntity(bullet, NtmSoundEvents.RICOCHET.get(), SoundSource.BLOCKS, 0.25F, 1.0F);
+            bullet.setPos(bhr.getLocation());
+            //send a teleport so the ricochet is more accurate instead of the interp smoothing fucking everything up
+            if(bullet.level instanceof ServerLevel serverLevel) serverLevel.getChunkSource().broadcast(bullet, new ClientboundTeleportEntityPacket(bullet));
+        } else {
+            bullet.setPos(bhr.getLocation());
+            bullet.discard();
         }
     };
 
@@ -223,7 +220,7 @@ public class BulletConfig implements Cloneable {
 
         if(entity instanceof LivingEntity living && living.isDeadOrDying()) return;
 
-        DamageSource source = getDamage(bullet.level, bullet, bullet.getOwner(), bullet.config.dmgClass);
+        DamageSource source = getDamage(bullet.level, entity, bullet.getOwner(), bullet.config.dmgClass);
         float intendedDamage = bullet.damage;
         Vec3 hitLocation = ehr.getLocation();
 

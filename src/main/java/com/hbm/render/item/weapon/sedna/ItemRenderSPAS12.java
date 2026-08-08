@@ -8,6 +8,7 @@ import com.hbm.render.anim.HbmAnimations;
 import com.hbm.render.util.RenderContext;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.math.Axis;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -89,6 +90,22 @@ public class ItemRenderSPAS12 extends ItemRenderWeaponBase {
         ResourceManager.spas_12.renderPart("ShellFore");
 
         RenderContext.setColor(1F, 1F, 1F, 1F);
+
+        float smokeScale = 0.25F;
+
+        RenderContext.pushPose();
+        RenderContext.translate(0F, 1.5F, -11F);
+        RenderContext.mulPose(Axis.YP.rotationDegrees(-90F));
+        RenderContext.scale(smokeScale, smokeScale, smokeScale);
+        renderSmokeNodes(buffer, gun.getConfig(stack, 0).smokeNodes, 0.75F);
+        RenderContext.popPose();
+
+        RenderContext.pushPose();
+        RenderContext.translate(0F, 1.5F, -11F);
+        RenderContext.mulPose(Axis.YP.rotationDegrees(-90F));
+        RenderContext.mulPose(Axis.XP.rotationDegrees(90F * gun.shotRand));
+        renderMuzzleFlash(buffer, gun.lastShot[0], 75, 7.5F);
+        RenderContext.popPose();
     }
 
     @Override
@@ -100,20 +117,24 @@ public class ItemRenderSPAS12 extends ItemRenderWeaponBase {
         ResourceManager.spas_12.renderPart("MainBody");
         ResourceManager.spas_12.renderPart("PumpGrip");
 
-//        if(living != null && (displayContext == ItemDisplayContext.THIRD_PERSON_LEFT_HAND || displayContext == ItemDisplayContext.THIRD_PERSON_RIGHT_HAND)) {
-//            long shot;
-//            if(living == Minecraft.getInstance().player) {
-//                GunBaseNTItem gun = (GunBaseNTItem) stack.getItem();
-//                shot = gun.lastShot[0];
-//            } else {
-//                shot = ItemRenderWeaponBase.flashMap.getOrDefault(living, (long) -1);
-//                if(shot < 0) return;
-//            }
-//
-//            RenderContext.pushPose();
-//            RenderContext.translate(0.125F, 2.5F, 0F);
-//            renderGapFlash(buffer, shot);
-//            RenderContext.popPose();
-//        }
+        if(living != null && (displayContext == ItemDisplayContext.THIRD_PERSON_LEFT_HAND || displayContext == ItemDisplayContext.THIRD_PERSON_RIGHT_HAND)) {
+            long shot;
+            float shotRand = 0F;
+            if(living == Minecraft.getInstance().player) {
+                GunBaseNTItem gun = (GunBaseNTItem) stack.getItem();
+                shot = gun.lastShot[0];
+                shotRand = gun.shotRand;
+            } else {
+                shot = ItemRenderWeaponBase.flashMap.getOrDefault(living, (long) -1);
+                if(shot < 0) return;
+            }
+
+            RenderContext.pushPose();
+            RenderContext.translate(0F, 1.5F, -11F);
+            RenderContext.mulPose(Axis.YP.rotationDegrees(-90F));
+            RenderContext.mulPose(Axis.XP.rotationDegrees(90F * shotRand));
+            renderMuzzleFlash(buffer, shot, 75, 7.5F);
+            RenderContext.popPose();
+        }
     }
 }

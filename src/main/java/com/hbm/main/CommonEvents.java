@@ -55,27 +55,29 @@ public class CommonEvents {
     @SubscribeEvent
     public static void commonSetup(FMLCommonSetupEvent event) {
 
-        // to make sure that foreign registered fluids are accounted for,
-        // even when the reload listener is registered too late due to load order
-        // IMPORTANT: fluids have to load before recipes. weird shit happens if not.
-        Fluids.reloadFluids();
-        FluidContainerRegistry.register();
+        event.enqueueWork(() -> {
+            // to make sure that foreign registered fluids are accounted for,
+            // even when the reload listener is registered too late due to load order
+            // IMPORTANT: fluids have to load before recipes. weird shit happens if not.
+            Fluids.reloadFluids();
+            FluidContainerRegistry.register();
 
-        //the good stuff
-        SerializableRecipe.registerAllHandlers();
-        SerializableRecipe.initialize();
+            //the good stuff
+            SerializableRecipe.registerAllHandlers();
+            SerializableRecipe.initialize();
 
-        HTTPHandler.loadStats();
-        FalloutConfigJSON.initialize();
-        DamageResistanceHandler.init();
-        HazardRegistry.registerItems();
-        HazmatRegistry.registerHazmats();
-        ArmorUtil.register();
-        XSatelliteRegistry.register();
-        LaunchPadBaseBlockEntity.registerLaunchables();
+            HTTPHandler.loadStats();
+            FalloutConfigJSON.initialize();
+            DamageResistanceHandler.init();
+            HazardRegistry.registerItems();
+            HazmatRegistry.registerHazmats();
+            ArmorUtil.register();
+            XSatelliteRegistry.register();
+            LaunchPadBaseBlockEntity.registerLaunchables();
 
-        MachineRadarBlockEntity.registerEntityClasses();
-        MachineRadarBlockEntity.registerConverters();
+            MachineRadarBlockEntity.registerEntityClasses();
+            MachineRadarBlockEntity.registerConverters();
+        });
     }
 
     @SubscribeEvent

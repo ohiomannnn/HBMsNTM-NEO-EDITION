@@ -212,8 +212,8 @@ public class RecipeSelectorScreen extends Screen {
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
 
-        if(scrollY < 0 && this.pageIndex > 0) this.pageIndex--;
-        if(scrollY > 0 && this.pageIndex < this.size) this.pageIndex++;
+        if(scrollY > 0 && this.pageIndex > 0) this.pageIndex--;
+        if(scrollY < 0 && this.pageIndex < this.size) this.pageIndex++;
 
         return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
     }

@@ -1,6 +1,7 @@
 package com.hbm.inventory.screens;
 
 import com.hbm.blockentity.machine.MachineWoodBurnerBlockEntity;
+import com.hbm.blockentity.machine.heater.HeaterFireboxBlockEntity;
 import com.hbm.inventory.menus.MachineWoodBurnerMenu;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.network.toserver.CompoundTagControl;
@@ -35,8 +36,8 @@ public class MachineWoodBurnerScreen extends InfoScreen<MachineWoodBurnerMenu> {
 
         if(this.menu.getCarried().isEmpty()) {
             if(this.isHovering(26, 18, 16, 16, mouseX, mouseY) && !this.menu.slots.get(0).hasItem()) {
-                List<Component> lines = MachineWoodBurnerBlockEntity.BURN_MODULE.getDesc().stream().<Component>map(Component::literal).toList();
-                if(!lines.isEmpty()) guiGraphics.renderComponentTooltip(this.font, lines, mouseX, mouseY);
+                List<Component> components = MachineWoodBurnerBlockEntity.BURN_MODULE.getDesc();
+                if(!components.isEmpty()) guiGraphics.renderComponentTooltip(this.font, components, mouseX, mouseY);
             }
         }
 

@@ -396,7 +396,7 @@ public class HFRWavefrontObject {
         return vbos.computeIfAbsent(this, HFRWavefrontObject::upload);
     }
 
-    public IObjRenderer asRenderer() {
+    public IObjRenderer getRenderer() {
         return new ObjRenderer(this.getUploadedBuffer());
     }
 

@@ -28,7 +28,7 @@ public class HeaterOilburnerBlockEntity extends AbstractHeaterMachineBlockEntity
 
     public static final int maxHeatEnergy = 100_000;
 
-    public final FluidTank tank = new FluidTank(Fluids.OIL_HEATING, 16_000);
+    public final FluidTank tank = new FluidTank(Fluids.HEATINGOIL, 16_000);
     public boolean isOn = true;
     public int setting = 1;
 

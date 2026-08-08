@@ -79,7 +79,7 @@ public class SatCoordScreen extends Screen {
 
             if(NumberUtils.isNumber(xField.getValue()) && NumberUtils.isNumber(zField.getValue())) {
 
-                ScreenUtils.click(this.minecraft.getSoundManager());
+                ScreenUtils.click(this.minecraft);
                 CompoundTag tag = new CompoundTag();
                 tag.putInt("x", (int) Double.parseDouble(xField.getValue()));
                 tag.putInt("z", (int) Double.parseDouble(zField.getValue()));

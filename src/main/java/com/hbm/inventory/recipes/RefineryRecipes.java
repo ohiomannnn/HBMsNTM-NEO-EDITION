@@ -38,38 +38,38 @@ public class RefineryRecipes {
         if(!refinery.isEmpty()) return;
 
         register(
-                Fluids.OIL_CRUDE_HOT,
-                new FluidStack(Fluids.OIL_HEAVY, oil_frac_heavy),
-                new FluidStack(Fluids.NAPHTHA, oil_frac_naph),
-                new FluidStack(Fluids.OIL_LIGHT, oil_frac_light),
-                new FluidStack(Fluids.PETROLEUM, oil_frac_petro),
+                Fluids.HOTOIL,
+                new FluidStack(Fluids.HEAVYOIL,		oil_frac_heavy),
+                new FluidStack(Fluids.NAPHTHA,		oil_frac_naph),
+                new FluidStack(Fluids.LIGHTOIL,		oil_frac_light),
+                new FluidStack(Fluids.PETROLEUM,	oil_frac_petro),
                 new ItemStack(NtmItems.SULFUR.get())
         );
 
         register(
-                Fluids.OIL_CRUDE_CRACKED_HOT,
-                new FluidStack(Fluids.NAPHTHA_CRACKED, crack_frac_naph),
-                new FluidStack(Fluids.OIL_LIGHT_CRACKED, crack_frac_light),
-                new FluidStack(Fluids.AROMATICS, crack_frac_aroma),
-                new FluidStack(Fluids.UNSATURATEDS, crack_frac_unsat),
+                Fluids.HOTCRACKOIL,
+                new FluidStack(Fluids.NAPHTHA_CRACK,	crack_frac_naph),
+                new FluidStack(Fluids.LIGHTOIL_CRACK,	crack_frac_light),
+                new FluidStack(Fluids.AROMATICS,		crack_frac_aroma),
+                new FluidStack(Fluids.UNSATURATEDS,		crack_frac_unsat),
                 new ItemStack(NtmItems.OIL_TAR_CRACK.get())
         );
 
         register(
-                Fluids.OIL_CRUDE_DESULFURIZED_HOT,
-                new FluidStack(Fluids.OIL_HEAVY, oilds_frac_heavy),
-                new FluidStack(Fluids.NAPHTHA_DESULFURIZED, oilds_frac_naph),
-                new FluidStack(Fluids.OIL_LIGHT_DESULFURIZED, oilds_frac_light),
-                new FluidStack(Fluids.UNSATURATEDS, oilds_frac_unsat),
+                Fluids.HOTOIL_DS,
+                new FluidStack(Fluids.HEAVYOIL,		oilds_frac_heavy),
+                new FluidStack(Fluids.NAPHTHA_DS,	oilds_frac_naph),
+                new FluidStack(Fluids.LIGHTOIL_DS,	oilds_frac_light),
+                new FluidStack(Fluids.UNSATURATEDS,	oilds_frac_unsat),
                 new ItemStack(NtmItems.OIL_TAR_PARAFFIN.get())
         );
 
         register(
-                Fluids.OIL_CRUDE_DESULFURIZED_CRACKED_HOT,
-                new FluidStack(Fluids.NAPHTHA_DESULFURIZED, crackds_frac_naph),
-                new FluidStack(Fluids.OIL_LIGHT_DESULFURIZED, crackds_frac_light),
-                new FluidStack(Fluids.AROMATICS, crackds_frac_aroma),
-                new FluidStack(Fluids.UNSATURATEDS, crackds_frac_unsat),
+                Fluids.HOTCRACKOIL,
+                new FluidStack(Fluids.NAPHTHA_DS,		crackds_frac_naph),
+                new FluidStack(Fluids.LIGHTOIL_DS,		crackds_frac_light),
+                new FluidStack(Fluids.AROMATICS,		crackds_frac_aroma),
+                new FluidStack(Fluids.UNSATURATEDS,		crackds_frac_unsat),
                 new ItemStack(NtmItems.OIL_TAR_PARAFFIN.get())
         );
     }

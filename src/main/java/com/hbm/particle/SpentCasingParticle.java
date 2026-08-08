@@ -4,22 +4,28 @@ import com.hbm.main.NuclearTechMod;
 import com.hbm.main.ResourceManager;
 import com.hbm.particle.engine.ParticleNT;
 import com.hbm.registry.NtmSoundEvents;
+import com.hbm.render.item.weapon.sedna.ItemRenderWeaponBase;
+import com.hbm.render.material.Material;
 import com.hbm.render.util.RenderContext;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.Tuple.Pair;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.joml.Vector3d;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -27,13 +33,15 @@ import java.util.List;
 
 public class SpentCasingParticle extends ParticleNT {
 
-    private static float dScale = 0.05F, smokeJitter = 0.001F;
+    private static final float D_SCALE = 0.05F, SMOKE_JITTER = 0.001F;
+
+    private static Material material;
 
     private final int maxSmokeGen;
     private final double smokeLift;
     private final int nodeLife;
 
-    private final List<Pair<Vector3d, Double>> smokeNodes = new ArrayList<>();
+    private final List<Pair<Vector3f, Double>> smokeNodes = new ArrayList<>();
 
     private final SpentCasing config;
     private final boolean isSmoking;
@@ -44,13 +52,14 @@ public class SpentCasingParticle extends ParticleNT {
 
     public SpentCasingParticle(ClientLevel level, double x, double y, double z, double mx, double my, double mz, float momentumPitch, float momentumYaw, SpentCasing config, boolean smoking, int smokeLife, double smokeLift, int nodeLife) {
         super(level, x, y, z);
+        if(material == null) material = Material.builder().texture(ResourceManager.CASINGS_TEX).build();
 
         this.momentumPitch = momentumPitch;
         this.momentumYaw = momentumYaw;
         this.config = config;
 
         this.lifetime = config.getMaxAge();
-        this.setSize(2 * dScale * Math.max(config.getScaleX(), config.getScaleZ()), dScale * config.getScaleY());
+        this.setSize(2 * D_SCALE * Math.max(config.getScaleX(), config.getScaleZ()), D_SCALE * config.getScaleY());
 
         this.isSmoking = smoking;
         this.maxSmokeGen = smokeLife;
@@ -99,16 +108,16 @@ public class SpentCasingParticle extends ParticleNT {
 
         if(isSmoking && age <= maxSmokeGen) {
 
-            for(Pair<Vector3d, Double> pair : smokeNodes) {
-                Vector3d node = pair.getKey();
+            for(Pair<Vector3f, Double> pair : smokeNodes) {
+                Vector3f node = pair.getKey();
 
-                node.add(random.nextGaussian() * smokeJitter, random.nextGaussian() * smokeJitter, smokeLift * dScale);
+                node.add((float) (random.nextGaussian() * SMOKE_JITTER), (float) (smokeLift * SMOKE_JITTER), (float) (random.nextGaussian() * SMOKE_JITTER));
 
                 pair.value = Math.max(0, pair.value - (1D / (double) nodeLife));
             }
 
             if(age < maxSmokeGen) {
-                smokeNodes.add(new Pair<>(new Vector3d(0, 0, 0), smokeNodes.isEmpty() ? 0.0D : 1D));
+                smokeNodes.add(new Pair<>(new Vector3f(0, 0, 0), smokeNodes.isEmpty() ? 0.0D : 1D));
             }
         }
 
@@ -132,7 +141,7 @@ public class SpentCasingParticle extends ParticleNT {
     @Override
     public void move(double x, double y, double z) {
 
-        //Handle block collision
+        // Handle block collision
         double d0 = x;
         double d1 = y;
         double d2 = z;
@@ -156,17 +165,18 @@ public class SpentCasingParticle extends ParticleNT {
 
         this.onGround = d1 != y && d1 < 0.0;
 
-        //Handles bounces
-        if (d0 != x) {
+        // Handles bounces
+        if(d0 != x) {
             this.xd *= -0.25D;
 
-            if(Math.abs(momentumYaw) > 1e-7)
+            if(Math.abs(momentumYaw) > 1e-7) {
                 momentumYaw *= -0.75F;
-            else
+            } else {
                 momentumYaw = (float) random.nextGaussian() * 10F * this.config.getBounceYaw();
+            }
         }
 
-        if (d1 != y) {
+        if(d1 != y) {
             this.yd *= -0.5D;
 
             boolean rotFromSpeed = Math.abs(this.yd) > 0.04;
@@ -180,53 +190,66 @@ public class SpentCasingParticle extends ParticleNT {
             }
         }
 
-        if (d2 != z) {
+        if(d2 != z) {
             this.zd *= -0.25D;
 
-            if(Math.abs(momentumYaw) > 1e-7)
+            if(Math.abs(momentumYaw) > 1e-7) {
                 momentumYaw *= -0.75F;
-            else
+            } else {
                 momentumYaw = (float) random.nextGaussian() * 10F * this.config.getBounceYaw();
+            }
         }
 
         if(this.config.getSound() != null && verticalCollision && Math.abs(d1) >= 0.2) {
-            this.level.playLocalSound(x, y, z, this.config.getSound().get(), SoundSource.AMBIENT, NtmSoundEvents.PLINK_LARGE.equals(this.config.getSound()) ? 1F : 0.5F, 1F + this.random.nextFloat() * 0.2F, true);
+            NuclearTechMod.proxy.playLocalSound(this.x, this.y, this.z, this.config.getSound().get(), SoundSource.AMBIENT, NtmSoundEvents.PLINK_LARGE.equals(this.config.getSound()) ? 1F : 0.5F, 1F + this.random.nextFloat() * 0.2F);
         }
+    }
 
+    @Override
+    protected void setLocationFromBoundingbox() {
+        AABB aabb = this.getBoundingBox();
+        this.x = (aabb.minX + aabb.maxX) / (double)2.0F;
+        this.y = aabb.minY + this.bbHeight / 2;
+        this.z = (aabb.minZ + aabb.maxZ) / (double)2.0F;
     }
 
     /** Used for frame-perfect translation of smoke */
     private boolean setupDeltas = false;
-    private double prevRenderX;
-    private double prevRenderY;
-    private double prevRenderZ;
+    private float prevRenderX;
+    private float prevRenderY;
+    private float prevRenderZ;
 
     @Override
-    public void render(VertexConsumer consumer, Camera camera, float partialTicks) {
+    public void render(VertexConsumer ignored, Camera camera, float partialTicks) {
+
+        Player player = Minecraft.getInstance().player;
+        if(player == null) return;
 
         Vec3 camPos = camera.getPosition();
-        float pX = (float)(Mth.lerp(partialTicks, this.xo, this.x) - camPos.x);
-        float pY = (float)(Mth.lerp(partialTicks, this.yo, this.y) - camPos.y);
-        float pZ = (float)(Mth.lerp(partialTicks, this.zo, this.z) - camPos.z);
+        float worldX = (float) Mth.lerp(partialTicks, this.xo, this.x);
+        float worldY = (float) Mth.lerp(partialTicks, this.yo, this.y);
+        float worldZ = (float) Mth.lerp(partialTicks, this.zo, this.z);
+
+        float pX = worldX - (float) camPos.x;
+        float pY = worldY - (float) camPos.y;
+        float pZ = worldZ - (float) camPos.z;
 
         if(!setupDeltas) {
-            prevRenderX = pX;
-            prevRenderY = pY;
-            prevRenderZ = pZ;
+            prevRenderX = worldX;
+            prevRenderY = worldY;
+            prevRenderZ = worldZ;
             setupDeltas = true;
         }
 
         PoseStack poseStack = new PoseStack();
-        poseStack.translate(pX, pY, pZ);
         RenderContext.setup(poseStack, this.getLightColor(), OverlayTexture.NO_OVERLAY);
-        RenderSystem.setShaderTexture(0, ResourceManager.CASINGS_TEX);
 
-        RenderContext.translate(pX, pY - this.bbHeight / 4 + config.getScaleY() * 0.01F, pZ);
+        RenderContext.translate(pX, pY + config.getScaleY() * 0.01F, pZ);
 
-        RenderContext.scale(dScale, dScale, dScale);
+        RenderContext.scale(D_SCALE, D_SCALE, D_SCALE);
 
         RenderContext.mulPose(Axis.YP.rotationDegrees(180 - Mth.lerp(partialTicks, yRotO, yRot)));
-        RenderContext.mulPose(Axis.XP.rotationDegrees(-Mth.lerp(partialTicks, xRotO, xRotO)));
+        RenderContext.mulPose(Axis.XP.rotationDegrees(-Mth.lerp(partialTicks, xRotO, xRot)));
 
         RenderContext.scale(config.getScaleX(), config.getScaleY(), config.getScaleZ());
 
@@ -235,16 +258,70 @@ public class SpentCasingParticle extends ParticleNT {
             int col = this.config.getColors()[index]; //unsafe on purpose, set your colors properly or else...!
             Color color = new Color(col);
             RenderContext.setColor(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, 1F);
-            ResourceManager.casings.renderPart(name);
+            ResourceManager.casings.renderPart(material, name);
             index++;
         }
 
         RenderContext.setColor(1F, 1F, 1F, 1F);
         RenderContext.end();
 
-        prevRenderX = pX;
-        prevRenderY = pY;
-        prevRenderZ = pZ;
+        poseStack.pushPose();
+        poseStack.translate(pX, pY, pZ);
+
+        Matrix4f matrix = poseStack.last().pose();
+
+        if(!smokeNodes.isEmpty()) {
+            MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
+            VertexConsumer consumer = buffer.getBuffer(ItemRenderWeaponBase.SMOKE);
+
+            float scale = config.getScaleX() * 0.5F * D_SCALE;
+            Vector3f vec = new Vector3f(scale, 0, 0);
+            float yaw = Mth.lerp(partialTicks, player.yRotO, player.yRot);
+            vec.rotateY((float) Math.toRadians(-yaw));
+
+            float deltaX = prevRenderX - worldX;
+            float deltaY = prevRenderY - worldY;
+            float deltaZ = prevRenderZ - worldZ;
+
+            for(Pair<Vector3f, Double> pair : smokeNodes) {
+                Vector3f pos = pair.getKey();
+                pos.x += deltaX;
+                pos.y += deltaY;
+                pos.z += deltaZ;
+            }
+
+            for(int i = 0; i < smokeNodes.size() - 1; i++) {
+                final Pair<Vector3f, Double> node = smokeNodes.get(i), past = smokeNodes.get(i + 1);
+                final Vector3f nodeLoc = node.getKey(), pastLoc = past.getKey();
+                float nodeAlpha = node.getValue().floatValue();
+                float pastAlpha = past.getValue().floatValue();
+
+                float timeAlpha = 1F - (float) age / (float) maxSmokeGen;
+                nodeAlpha *= timeAlpha;
+                pastAlpha *= timeAlpha;
+
+                float clamped = Math.clamp(nodeAlpha, 0F, 1F);
+                float clampedPast = Math.clamp(pastAlpha, 0F, 1F);
+                int packedLight = this.getLightColor();
+
+                consumer.addVertex(matrix, nodeLoc.x, nodeLoc.y, nodeLoc.z).setColor(1F, 1F, 1F, clamped).setLight(packedLight);
+                consumer.addVertex(matrix, nodeLoc.x + vec.x, nodeLoc.y, nodeLoc.z + vec.z).setColor(1F, 1F, 1F, 0F).setLight(packedLight);
+                consumer.addVertex(matrix, pastLoc.x + vec.x, pastLoc.y, pastLoc.z + vec.z).setColor(1F, 1F, 1F, 0F).setLight(packedLight);
+                consumer.addVertex(matrix, pastLoc.x, pastLoc.y, pastLoc.z).setColor(1F, 1F, 1F, clampedPast).setLight(packedLight);
+
+                consumer.addVertex(matrix, nodeLoc.x, nodeLoc.y, nodeLoc.z).setColor(1F, 1F, 1F, clamped).setLight(packedLight);
+                consumer.addVertex(matrix, nodeLoc.x - vec.x, nodeLoc.y, nodeLoc.z - vec.z).setColor(1F, 1F, 1F, 0F).setLight(packedLight);
+                consumer.addVertex(matrix, pastLoc.x - vec.x, pastLoc.y, pastLoc.z - vec.z).setColor(1F, 1F, 1F, 0F).setLight(packedLight);
+                consumer.addVertex(matrix, pastLoc.x, pastLoc.y, pastLoc.z).setColor(1F, 1F, 1F, clampedPast).setLight(packedLight);
+            }
+            buffer.endLastBatch();
+        }
+
+        poseStack.popPose();
+
+        prevRenderX = worldX;
+        prevRenderY = worldY;
+        prevRenderZ = worldZ;
     }
 
     @Override public RenderType getRenderType() { return null; }

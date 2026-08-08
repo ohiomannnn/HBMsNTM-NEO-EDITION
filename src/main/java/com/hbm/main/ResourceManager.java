@@ -300,7 +300,7 @@ public class ResourceManager {
     public static IModelCustom tom_main;
     public static IModelCustom tom_flame;
 
-    public static IModelCustom casings;
+    public static IObjRenderer casings;
 
     // Bomber
     public static IModelCustom dornier;
@@ -364,15 +364,15 @@ public class ResourceManager {
         fluid_tank = new HFRWavefrontObject("models/obj/machines/fluid_tank.obj").asVBO();
         fluid_tank_exploded = new HFRWavefrontObject("models/obj/machines/fluid_tank_exploded.obj").asVBO();
 
-        press_body = new HFRWavefrontObject("models/obj/press_body.obj").asRenderer();
-        press_head = new HFRWavefrontObject("models/obj/press_head.obj").asRenderer();
+        press_body = new HFRWavefrontObject("models/obj/press_body.obj").getRenderer();
+        press_head = new HFRWavefrontObject("models/obj/press_head.obj").getRenderer();
 
         assembly_machine = new HFRWavefrontObject("models/obj/machines/assembly_machine.obj").asVBO();
         assembly_factory = new HFRWavefrontObject("models/obj/machines/assembly_factory.obj").asVBO();
 
         nuke_gadget = new HFRWavefrontObject("models/obj/bomb/nuke_gadget.obj").asVBO();
         nuke_little_boy = new HFRWavefrontObject("models/obj/bomb/nuke_little_boy.obj").asVBO();
-        nuke_fat_man = new HFRWavefrontObject("models/obj/bomb/nuke_fatman.obj").asRenderer();
+        nuke_fat_man = new HFRWavefrontObject("models/obj/bomb/nuke_fatman.obj").getRenderer();
         nuke_ivy_mike = new HFRWavefrontObject("models/obj/bomb/nuke_ivy_mike.obj").asVBO();
         nuke_tsar = new HFRWavefrontObject("models/obj/bomb/nuke_tsar.obj").asVBO();
         nuke_prototype = new HFRWavefrontObject("models/obj/bomb/nuke_prototype.obj").asVBO();
@@ -426,7 +426,7 @@ public class ResourceManager {
         tom_main = new HFRWavefrontObject("models/obj/weapons/tom_main.obj").asVBO();
         tom_flame = new HFRWavefrontObject("models/obj/weapons/tom_flame.obj").asVBO();
 
-        casings = new HFRWavefrontObject("models/obj/effect/casings.obj").asVBO();
+        casings = new HFRWavefrontObject("models/obj/effect/casings.obj").getRenderer();
 
         dornier = new HFRWavefrontObject("models/obj/dornier.obj").asVBO();
         b29 = new HFRWavefrontObject("models/obj/b29.obj").asVBO();
@@ -473,7 +473,7 @@ public class ResourceManager {
         armor_hat = new HFRWavefrontObject("models/obj/armor/hat.obj").asVBO();
         armor_no9 = new HFRWavefrontObject("models/obj/armor/no9.obj").asVBO();
 
-        sphere = new HFRWavefrontObject("models/obj/sphere.obj").asRenderer();
+        sphere = new HFRWavefrontObject("models/obj/sphere.obj").getRenderer();
         sphere_new = new HFRWavefrontObject("models/obj/sphere_new.obj").asVBO();
     }
 }

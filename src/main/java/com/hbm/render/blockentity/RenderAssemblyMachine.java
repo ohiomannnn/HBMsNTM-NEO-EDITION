@@ -29,7 +29,6 @@ public class RenderAssemblyMachine extends BlockEntityRendererNT<MachineAssembly
     @Override public BlockEntityRenderer<MachineAssemblyMachineBlockEntity> create(Context context) { return new RenderAssemblyMachine(); }
 
     @Override
-    @SuppressWarnings("DataFlowIssue")
     public void render(MachineAssemblyMachineBlockEntity be, MultiBufferSource buffer, float partialTicks) {
         RenderContext.translate(0.5F, 0F, 0.5F);
         RenderContext.mulPose(Axis.YP.rotationDegrees(90F));

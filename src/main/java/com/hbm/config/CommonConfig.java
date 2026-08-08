@@ -15,6 +15,8 @@ public class CommonConfig {
     public final BooleanValue ENABLE_BOMBER_SHORT_MODE;
     public final BooleanValue ENABLE_SILENT_COMPSTACK_ERRORS;
     public final BooleanValue ENABLE_KEYBIND_OVERLAP;
+    public final BooleanValue ENABLE_EXPLOSION_EFFECTS;
+    public final BooleanValue ENABLE_MACHINE_GRAVITY;
 
     public final BooleanValue ENABLE_EXPENSIVE_MODE;
 
@@ -110,6 +112,10 @@ public class CommonConfig {
 
     // 528
     public final BooleanValue ENABLE_528;
+    public final BooleanValue ENABLE_528_MACHINE_GRAVITY;
+
+    // LESS BULLSHIT MODE
+    public final BooleanValue ENABLE_LBSM;
 
     CommonConfig(ModConfigSpec.Builder builder) {
 
@@ -140,6 +146,14 @@ public class CommonConfig {
                 .comment("If enabled, will handle keybinds that would otherwise be ignored due to overlapping.")
                 .translation("hbmsntm.configuration.enableKeybindOverlap")
                 .define("enableKeybindOverlap", true);
+        ENABLE_EXPLOSION_EFFECTS = builder
+                .comment("Toggles spawn of the old (new???) cloud particle when vanilla explosion effect occurs")
+                .translation("hbmsntm.configuration.enableExplosionEffects")
+                .define("enableExplosionEffects", true);
+        ENABLE_MACHINE_GRAVITY = builder
+                .comment("Requires large large machines to have a proper foundation, or else they tilt and break. Independent from the 528 version of this config, which does the same, but only works with 528 enabled")
+                .translation("hbmsntm.configuration.enableMachineGravity ")
+                .define("enableMachineGravity ", false);
 
         ENABLE_EXPENSIVE_MODE = builder
                 .comment("It does what the name implies.")
@@ -487,9 +501,26 @@ public class CommonConfig {
         builder.push("528");
 
         ENABLE_528 = builder
-                .comment("The central toggle for 528 mode.")
+                .comment("The central toggle for 528 mode")
                 .translation("hbmsntm.configuration.enable528")
                 .define("enable528", false);
+        ENABLE_528_MACHINE_GRAVITY = builder
+                .comment("Requires most large machines to have a proper foundation, or else they tilt and break")
+                .translation("hbmsntm.configuration.enable528MachineGravity")
+                .define("enable528MachineGravity", true);
+
+        builder.pop();
+
+        /// LESS BULLSHIT MODE ///
+        builder.comment("Will most likely break standard progression!");
+        builder.comment("However, the game gets generally easier and more enjoyable for casual players.");
+        builder.comment("Progression-braking recipes are usually not too severe, so the mode is generally server-friendly!");
+        builder.push("LESS BULLSHIT MODE");
+
+        ENABLE_LBSM = builder
+                .comment("The central toggle for LBS mode. Forced OFF when 528 is enabled!")
+                .translation("hbmsntm.configuration.enableLBSM")
+                .define("enableLBSM", false);
 
         builder.pop();
     }

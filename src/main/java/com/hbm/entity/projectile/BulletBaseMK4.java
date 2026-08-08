@@ -2,6 +2,7 @@ package com.hbm.entity.projectile;
 
 import com.hbm.entity.NtmEntityTypes;
 import com.hbm.items.weapon.sedna.BulletConfig;
+import com.hbm.main.NuclearTechMod;
 import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -12,6 +13,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -162,10 +164,7 @@ public class BulletBaseMK4 extends ProjectileLerping {
         super.onHit(hr);
 
         if(!level.isClientSide) {
-
             if(this.config.onImpact != null) this.config.onImpact.accept(this, hr);
-            if(!this.isAlive()) return;
-            if(this.config.onRicochet != null) this.config.onRicochet.accept(this, hr);
         }
     }
 
@@ -174,6 +173,13 @@ public class BulletBaseMK4 extends ProjectileLerping {
 
         if(!this.isAlive()) return;
         if(this.config.onEntityHit != null) this.config.onEntityHit.accept(this, ehr);
+    }
+
+    @Override
+    protected void onHitBlock(BlockHitResult bhr) {
+        super.onHitBlock(bhr);
+
+        if(this.config.onRicochet != null) this.config.onRicochet.accept(this, bhr);
     }
 
     @Override protected double getHeadingForceMult() { return 1.0; }

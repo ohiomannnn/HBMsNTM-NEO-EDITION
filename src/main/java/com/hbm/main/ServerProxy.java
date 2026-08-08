@@ -60,7 +60,6 @@ public class ServerProxy {
 
     public void displayTooltip(Component message, int time, int id) { }
 
-    @Nullable
     public Player me() {
         return null;
     }

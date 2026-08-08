@@ -24,9 +24,7 @@ public class RenderNukeFatMan extends BlockEntityRendererNT<NukeFatManBlockEntit
     @Override
     public BlockEntityRenderer<NukeFatManBlockEntity> create(Context context) {
 
-        if(material == null) {
-            material = Material.builder().texture(ResourceManager.NUKE_FAT_MAN_TEX).cutout(CutoutMode.HALF).backfaceCulling(false).build();
-        }
+        if(material == null) material = Material.builder().texture(ResourceManager.NUKE_FAT_MAN_TEX).cutout(CutoutMode.ONE_TENTH).backfaceCulling(false).build();
 
         return new RenderNukeFatMan();
     }

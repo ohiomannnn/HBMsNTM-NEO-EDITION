@@ -62,9 +62,9 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
                 .outputFluids(new FluidStack(Fluids.XENON, 50))
                 .setPools("alt..xenonoxy"));
         this.register(new GenericRecipe("chem.helium3").setupNamed(200, 2000L)
-                .setIcon(NtmItems.FLUID_ICON.get(), Fluids.HELIUM_3.getID())
+                .setIcon(NtmItems.FLUID_ICON.get(), Fluids.HELIUM3.getID())
                 .inputItems(new ComparableStack(NtmBlocks.MOON_TURF.get(), 8))
-                .outputFluids(new FluidStack(Fluids.HELIUM_3, 1000)));
+                .outputFluids(new FluidStack(Fluids.HELIUM3, 1000)));
         this.register(new GenericRecipe("chem.co2").setupNamed(60, 100L)
                 .inputFluids(new FluidStack(Fluids.GAS, 1000))
                 .outputFluids(new FluidStack(Fluids.CARBONDIOXIDE, 1000)));
@@ -89,9 +89,9 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
                 .inputFluids(new FluidStack(Fluids.BIOGAS, 1500), new FluidStack(Fluids.ETHANOL, 250))
                 .outputFluids(new FluidStack(Fluids.BIOFUEL, 1000)));
         this.register(new GenericRecipe("chem.reoil").setupNamed(40, 100L)
-                .setIcon(NtmItems.FLUID_ICON.get(), Fluids.OIL_INDUSTRIAL_RECLAIMED.getID())
-                .inputFluids(new FluidStack(Fluids.OIL_INDUSTRIAL, 1000))
-                .outputFluids(new FluidStack(Fluids.OIL_INDUSTRIAL_RECLAIMED, 800)));
+                .setIcon(NtmItems.FLUID_ICON.get(), Fluids.RECLAIMED.getID())
+                .inputFluids(new FluidStack(Fluids.SMEAR, 1000))
+                .outputFluids(new FluidStack(Fluids.RECLAIMED, 800)));
         this.register(new GenericRecipe("chem.gasoline").setupNamed(40, 100L)
                 .setIcon(NtmItems.FLUID_ICON.get(), Fluids.GASOLINE.getID())
                 .inputFluids(new FluidStack(Fluids.NAPHTHA, 1000))
@@ -156,20 +156,20 @@ public class ChemicalPlantRecipes extends GenericRecipes<GenericRecipe> {
                 .outputItems(MetaHelper.newStack(NtmItems.BATTERY_PACK.get(), 1, BatteryPackType.BATTERY_SODIUM.ordinal())));
         this.register(new GenericRecipe("chem.batteryschrabidium").setupNamed(100, 25000L)
                 .inputItems(new ComparableStack(NtmItems.POWDER_SCHRABIDIUM.get(), 24), new ComparableStack(NtmItems.CAST_PLATE.get(), 8, CastPlateItem.Type.IRON.ordinal()))
-                .inputFluids(new FluidStack(Fluids.HELIUM_4, 8000))
+                .inputFluids(new FluidStack(Fluids.HELIUM4, 8000))
                 .outputItems(MetaHelper.newStack(NtmItems.BATTERY_PACK.get(), 1, BatteryPackType.BATTERY_SCHRABIDIUM.ordinal())));
         this.register(new GenericRecipe("chem.batteryquantum").setupNamed(100, 100000L)
                 .inputItems(new ComparableStack(NtmItems.WIRE_DENSE.get(), 24, WireDenseItem.Type.GOLD.meta), new ComparableStack(NtmItems.PELLET_CHARGED.get(), 32), new ComparableStack(NtmItems.INGOT_CTF.get(), 16))
-                .inputFluids(new FluidStack(Fluids.COLD_PERFLUOROMETHYL, 8000))
+                .inputFluids(new FluidStack(Fluids.PERFLUOROMETHYL, 8000))
                 .outputItems(MetaHelper.newStack(NtmItems.BATTERY_PACK.get(), 1, BatteryPackType.BATTERY_QUANTUM.ordinal()))
                 .outputFluids(new FluidStack(Fluids.PERFLUOROMETHYL, 8000)));
         this.register(new GenericRecipe("chem.desh").setupNamed(100, 100L)
                 .inputItems(new ComparableStack(NtmItems.POWDER_DESH_MIX.get()))
-                .inputFluids(new FluidStack(Fluids.OIL_LIGHT, 200), new FluidStack(Fluids.MERCURY, 200))
+                .inputFluids(new FluidStack(Fluids.LIGHTOIL, 200), new FluidStack(Fluids.MERCURY, 200))
                 .outputItems(new ItemStack(NtmItems.INGOT_DESH.get())));
         this.register(new GenericRecipe("chem.deshcracked").setupNamed(100, 100L)
                 .inputItems(new ComparableStack(NtmItems.POWDER_DESH_MIX.get()))
-                .inputFluids(new FluidStack(Fluids.OIL_LIGHT_CRACKED, 500, 1), new FluidStack(Fluids.MERCURY, 100))
+                .inputFluids(new FluidStack(Fluids.LIGHTOIL_CRACK, 500, 1), new FluidStack(Fluids.MERCURY, 100))
                 .outputItems(new ItemStack(NtmItems.INGOT_DESH.get())));
         this.register(new GenericRecipe("chem.polymer").setupNamed(100, 100L)
                 .inputItems(new ComparableStack(NtmItems.POWDER_COAL.get(), 2), new ComparableStack(NtmItems.FLUORITE.get()))

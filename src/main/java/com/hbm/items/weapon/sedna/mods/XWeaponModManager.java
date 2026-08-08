@@ -2,6 +2,7 @@ package com.hbm.items.weapon.sedna.mods;
 
 import com.google.common.collect.HashBiMap;
 import com.hbm.inventory.RecipesCommon.ComparableStack;
+import com.hbm.items.weapon.sedna.GunBaseNTItem;
 import com.hbm.util.TagsUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
@@ -39,7 +40,7 @@ public class XWeaponModManager {
     public static class WeaponModDefinition {
 
         /** Holds the weapon mod handlers for each given gun. Key null refers to mods that apply to ALL guns that are otherwise not included. */
-        public HashMap<ComparableStack, IWeaponMod> modByGun = new HashMap();
+        public HashMap<ComparableStack, IWeaponMod> modByGun = new HashMap<>();
         public ItemStack stack;
 
         public WeaponModDefinition(ItemStack stack) {
@@ -65,11 +66,11 @@ public class XWeaponModManager {
         public WeaponModDefinition addMod(ComparableStack gun, IWeaponMod mod) {
             modByGun.put(gun, mod);
             modToStack.put(mod, stack);
-//            if(gun != null) {
-//                ItemGunBaseNT nt = (ItemGunBaseNT) gun.item;
-//                ComparableStack comp = new ComparableStack(stack);
-//                if(!nt.recognizedMods.contains(comp)) nt.recognizedMods.add(comp);
-//            }
+            if(gun != null) {
+                GunBaseNTItem nt = (GunBaseNTItem) gun.item;
+                ComparableStack comp = new ComparableStack(stack);
+                if(!nt.recognizedMods.contains(comp)) nt.recognizedMods.add(comp);
+            }
             return this;
         }
 

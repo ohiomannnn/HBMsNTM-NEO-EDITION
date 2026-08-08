@@ -121,21 +121,21 @@ public class RadioTorchScreen extends Screen {
         if(radio.customMap) for(int j = 0; j < 16; j++) this.remap[j].mouseClicked(mouseX, mouseY, button);
 
         if(ScreenUtils.isHovered(this.leftPos, this.topPos, mouseX, mouseY, 137, 17, 18, 18)) {
-            ScreenUtils.click(this.minecraft.getSoundManager());
+            ScreenUtils.click(this.minecraft);
             CompoundTag tag = new CompoundTag();
             tag.putBoolean("m", !radio.customMap);
             PacketDistributor.sendToServer(new CompoundTagControl(tag, radio.getBlockPos()));
         }
 
         if(ScreenUtils.isHovered(this.leftPos, this.topPos, mouseX, mouseY, 173, 17, 18, 18)) {
-            ScreenUtils.click(this.minecraft.getSoundManager());
+            ScreenUtils.click(this.minecraft);
             CompoundTag tag = new CompoundTag();
             tag.putBoolean("p", !radio.polling);
             PacketDistributor.sendToServer(new CompoundTagControl(tag, radio.getBlockPos()));
         }
 
         if(ScreenUtils.isHovered(this.leftPos, this.topPos, mouseX, mouseY, 209, 17, 18, 18)) {
-            ScreenUtils.click(this.minecraft.getSoundManager());
+            ScreenUtils.click(this.minecraft);
             CompoundTag tag = new CompoundTag();
             tag.putString("c", this.frequency.getValue());
             for(int j = 0; j < 16; j++) tag.putString("m" + j, this.remap[j].getValue());
@@ -160,7 +160,6 @@ public class RadioTorchScreen extends Screen {
         if(radio.customMap) for(int j = 0; j < 16; j++) if(this.remap[j].keyPressed(keyCode, scanCode, modifiers)) return true;
 
         InputConstants.Key key = InputConstants.getKey(keyCode, scanCode);
-
         if(keyCode == GLFW.GLFW_KEY_ESCAPE || this.minecraft.options.keyInventory.isActiveAndMatches(key)) {
             this.onClose();
             return true;

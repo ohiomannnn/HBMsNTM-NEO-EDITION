@@ -38,7 +38,7 @@ public class Orchestras {
 
            if(timer == 16) {
                Receiver rec = ctx.config.getReceivers(stack)[0];
-               IMagazine mag = rec.getMagazine(stack);
+               IMagazine<?> mag = rec.getMagazine(stack);
                SpentCasing casing = mag.getCasing(stack, ctx.container);
                if(casing != null) for(int i = 0; i < mag.getCapacity(stack); i++) CasingCreator.composeEffect(entity.level, entity, 0.25, -0.125, -0.125, -0.05, 0, 0, 0.01, casing.getName());
            }
@@ -91,6 +91,48 @@ public class Orchestras {
         if(type == GunAnimation.CYCLE_DRY) {
             if(timer == 2) SoundUtils.playAtVec3(level, entity.position(), NtmSoundEvents.GUN_DRY_FIRE.get(), entity.getSoundSource(), 1F, 1F);
             if(timer == 8) SoundUtils.playAtVec3(level, entity.position(), NtmSoundEvents.GUN_LEVER_COCK.get(), entity.getSoundSource(), 1F, 0.8F);
+        }
+    };
+
+    public static BiConsumer<ItemStack, LambdaContext> ORCHESTRA_SPAS = (stack, ctx) -> {
+        LivingEntity entity = ctx.entity;
+        Level level = entity.level;
+        if(!(level instanceof ServerLevel serverLevel)) return;
+        GunAnimation type = GunBaseNTItem.getLastAnim(stack, ctx.configIndex);
+        int timer = GunBaseNTItem.getAnimTimer(stack, ctx.configIndex);
+        boolean aiming = GunBaseNTItem.getIsAiming(stack);
+
+        if(type == GunAnimation.CYCLE || type == GunAnimation.ALT_CYCLE) {
+            if(timer == 0) PacketDistributor.sendToPlayersNear(serverLevel, null, entity.getX(), entity.getY(), entity.getZ(), 100, new MuzzleFlashPacket(entity.getId()));
+            if(timer == 8) SoundUtils.playAtVec3(level, entity.position(), NtmSoundEvents.GUN_SHOTGUN_COCK.get(), entity.getSoundSource());
+            if(timer == 10) {
+                SpentCasing casing = ctx.config.getReceivers(stack)[0].getMagazine(stack).getCasing(stack, ctx.container); //turns out there's a reason why stovepipes look like that
+                if(casing != null) CasingCreator.composeEffect(level, entity, 0.375, aiming ? 0 : -0.125, aiming ? 0 : -0.25D, 0, 0.18, -0.12, 0.01, -3F + (float)entity.random.nextGaussian() * 2.5F, -15F + entity.random.nextFloat() * -5F, casing.getName());
+            }
+        }
+        if(type == GunAnimation.CYCLE_DRY) {
+            if(timer == 0) SoundUtils.playAtVec3(level, entity.position(), NtmSoundEvents.GUN_DRY_FIRE.get(), entity.getSoundSource());
+            if(timer == 8) SoundUtils.playAtVec3(level, entity.position(), NtmSoundEvents.GUN_SHOTGUN_COCK.get(), entity.getSoundSource());
+        }
+        if(type == GunAnimation.RELOAD) {
+            IMagazine<?> mag = ctx.config.getReceivers(stack)[0].getMagazine(stack);
+            if(mag.getAmount(stack, ctx.container) == 0) {
+                if(timer == 0) SoundUtils.playAtVec3(level, entity.position(), NtmSoundEvents.GUN_REVOLVER_COCK.get(), entity.getSoundSource());
+                if(timer == 7) SoundUtils.playAtVec3(level, entity.position(), NtmSoundEvents.GUN_REVOLVER_CLOSE.get(), entity.getSoundSource());
+            }
+            if(timer == 5) SoundUtils.playAtVec3(level, entity.position(), NtmSoundEvents.GUN_SHOTGUN_LOAD.get(), entity.getSoundSource());
+        }
+        if(type == GunAnimation.RELOAD_CYCLE) {
+            if(timer == 5) SoundUtils.playAtVec3(level, entity.position(), NtmSoundEvents.GUN_SHOTGUN_LOAD.get(), entity.getSoundSource());
+        }
+        if(type == GunAnimation.INSPECT) {
+            if(timer == 5) SoundUtils.playAtVec3(level, entity.position(), NtmSoundEvents.GUN_SHOTGUN_OPEN.get(), entity.getSoundSource());
+            if(timer == 18) SoundUtils.playAtVec3(level, entity.position(), NtmSoundEvents.GUN_SHOTGUN_CLOSE.get(), entity.getSoundSource());
+        }
+        if(type == GunAnimation.JAMMED) {
+            if(timer == 18) SoundUtils.playAtVec3(level, entity.position(), NtmSoundEvents.GUN_WHACK.get(), entity.getSoundSource());
+            if(timer == 25) SoundUtils.playAtVec3(level, entity.position(), NtmSoundEvents.GUN_WHACK.get(), entity.getSoundSource());
+            if(timer == 29) SoundUtils.playAtVec3(level, entity.position(), NtmSoundEvents.GUN_SHOTGUN_CLOSE.get(), entity.getSoundSource());
         }
     };
 }

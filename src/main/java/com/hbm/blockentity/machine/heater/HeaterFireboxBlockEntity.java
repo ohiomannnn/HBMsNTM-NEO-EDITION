@@ -2,7 +2,7 @@ package com.hbm.blockentity.machine.heater;
 
 import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.inventory.menus.HeaterFireboxMenu;
-import com.hbm.modules.ModuleBurnTime;
+import com.hbm.module.ModuleBurnTime;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;

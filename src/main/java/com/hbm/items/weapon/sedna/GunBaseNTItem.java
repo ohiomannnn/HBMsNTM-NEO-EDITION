@@ -64,12 +64,14 @@ public class GunBaseNTItem extends Item implements IKeybindReceiver, IHUDItem, I
     public static final DecimalFormatSymbols SYMBOLS_US = new DecimalFormatSymbols(Locale.US);
     public static final DecimalFormat FORMAT_DMG = new DecimalFormat("#.##", SYMBOLS_US);
 
-    public static float recoilVertical = 0;
-    public static float recoilHorizontal = 0;
+    public static float recoilVertical = 0F;
+    public static float recoilHorizontal = 0F;
     public static float recoilDecay = 0.75F;
     public static float recoilRebound = 0.25F;
-    public static float offsetVertical = 0;
-    public static float offsetHorizontal = 0;
+    public static float offsetVertical = 0F;
+    public static float offsetHorizontal = 0F;
+    public static float prevOffsetVertical = 0F;
+    public static float prevOffsetHorizontal = 0F;
 
     public static void setupRecoil(float vertical, float horizontal, float decay, float rebound) {
         recoilVertical += vertical;
@@ -191,11 +193,10 @@ public class GunBaseNTItem extends Item implements IKeybindReceiver, IHUDItem, I
 //                }
                 float dmg = rec.getBaseDamage(stack);
                 components.add(Component.translatable("gui.weapon.baseDamage").append(": " + FORMAT_DMG.format(dmg)).withStyle(ChatFormatting.GRAY));
-                if(mag.getType(stack, player.inventory) instanceof BulletConfig) {
-                    BulletConfig bullet = (BulletConfig) mag.getType(stack, player.inventory);
+                if(mag.getType(stack, player.inventory) instanceof BulletConfig bullet) {
                     int min = (int) (bullet.projectilesMin * rec.getSplitProjectiles(stack));
                     int max = (int) (bullet.projectilesMax * rec.getSplitProjectiles(stack));
-                    components.add(Component.translatable("gui.weapon.damageWithAmmo").append(": " + FORMAT_DMG.format(dmg * bullet.damageMult) + (min > 1 ? (" x" + (min != max ? (min + "-" + max) : min)) : "")));
+                    components.add(Component.translatable("gui.weapon.damageWithAmmo").append(": " + FORMAT_DMG.format(dmg * bullet.damageMult) + (min > 1 ? (" x" + (min != max ? (min + "-" + max) : min)) : "")).withStyle(ChatFormatting.GRAY));
                 }
             }
 
@@ -211,13 +212,13 @@ public class GunBaseNTItem extends Item implements IKeybindReceiver, IHUDItem, I
         }
 
         switch(this.quality) {
-            case A_SIDE -> components.add(Component.translatable("gui.weapon.quality.aside").withStyle(ChatFormatting.YELLOW));
-            case B_SIDE -> components.add(Component.translatable("gui.weapon.quality.bside").withStyle(ChatFormatting.GOLD));
-            case LEGENDARY -> components.add(Component.translatable("gui.weapon.quality.legendary").withStyle(ChatFormatting.RED));
-            case SPECIAL -> components.add(Component.translatable("gui.weapon.quality.special").withStyle(ChatFormatting.AQUA));
-            case UTILITY -> components.add(Component.translatable("gui.weapon.quality.utility").withStyle(ChatFormatting.GREEN));
-            case SECRET -> components.add(Component.translatable("gui.weapon.quality.secret").withStyle(BobMathUtil.getBlink() ? ChatFormatting.DARK_RED : ChatFormatting.RED));
-            case DEBUG -> components.add(Component.translatable("gui.weapon.quality.debug").withStyle(BobMathUtil.getBlink() ? ChatFormatting.YELLOW : ChatFormatting.GOLD));
+            case A_SIDE ->      components.add(Component.translatable("gui.weapon.quality.aside").withStyle(ChatFormatting.YELLOW));
+            case B_SIDE ->      components.add(Component.translatable("gui.weapon.quality.bside").withStyle(ChatFormatting.GOLD));
+            case LEGENDARY ->   components.add(Component.translatable("gui.weapon.quality.legendary").withStyle(ChatFormatting.RED));
+            case SPECIAL ->     components.add(Component.translatable("gui.weapon.quality.special").withStyle(ChatFormatting.AQUA));
+            case UTILITY ->     components.add(Component.translatable("gui.weapon.quality.utility").withStyle(ChatFormatting.GREEN));
+            case SECRET ->      components.add(Component.translatable("gui.weapon.quality.secret").withStyle(BobMathUtil.getBlink() ? ChatFormatting.DARK_RED : ChatFormatting.RED));
+            case DEBUG ->       components.add(Component.translatable("gui.weapon.quality.debug").withStyle(BobMathUtil.getBlink() ? ChatFormatting.YELLOW : ChatFormatting.GOLD));
         }
 
 //        if(Minecraft.getMinecraft().currentScreen instanceof GUIWeaponTable && !this.recognizedMods.isEmpty()) {

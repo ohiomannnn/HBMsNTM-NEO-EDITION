@@ -3,7 +3,6 @@ package com.hbm.render.util;
 import com.hbm.main.NuclearTechMod;
 import com.hbm.render.loader.HFRWavefrontObject;
 import com.hbm.render.loader.IModelCustom;
-import com.hbm.util.Vec3NT;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.math.Axis;
 import net.minecraft.resources.ResourceLocation;

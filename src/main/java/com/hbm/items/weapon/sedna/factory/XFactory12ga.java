@@ -45,16 +45,16 @@ public class XFactory12ga {
                         .setupStandardFire().recoil(LAMBDA_RECOIL_MARESLEG))
                 .setupStandardConfiguration()
                 .anim(LAMBDA_MARESLEG_ANIMS).orchestra(Orchestras.ORCHESTRA_MARESLEG)
-        ).setDefaultAmmo(Ammo.G12, 12));//.setNameMutator(LAMBDA_NAME_MARESLEG);
+        ).setDefaultAmmo(Ammo.G12_BP, 12));//.setNameMutator(LAMBDA_NAME_MARESLEG);
         NtmItems.GUN_SPAS12 = registery.register("gun_spas12", () -> new GunBaseNTItem(WeaponQuality.A_SIDE, new GunConfig()
                 .dura(600).draw(20).inspect(39).reloadSequential(true).reloadChangeType(true).crosshair(Crosshair.L_CIRCLE).smoke(Lego.LAMBDA_STANDARD_SMOKE)
                 .rec(new Receiver(0)
-                        .dmg(32F).spreadHipfire(0F).delay(20).reload(5, 10, 10, 10, 0).jam(36)//.sound(NTMSounds.GUN_SPAS_FIRE, 1.0F, 1.0F)
+                        .dmg(32F).spreadHipfire(0F).delay(20).reload(5, 10, 10, 10, 0).jam(36).sound(NtmSoundEvents.GUN_SPAS_FIRE, 1.0F, 1.0F)
                         .mag(new MagazineSingleReload(0, 8).addConfigs(g12))
                         .offset(0.75, -0.0625, -0.1875)
                         .setupStandardFire().recoil(LAMBDA_RECOIL_MARESLEG))
                 .setupStandardConfiguration().ps(LAMBDA_SPAS_SECONDARY).pt(null)
-                .anim(LAMBDA_SPAS_ANIMS)//.orchestra(Orchestras.ORCHESTRA_SPAS)
+                .anim(LAMBDA_SPAS_ANIMS).orchestra(Orchestras.ORCHESTRA_SPAS)
         ).setDefaultAmmo(Ammo.G12, 16));
     }
 
@@ -115,47 +115,47 @@ public class XFactory12ga {
 
     };
 
-
-    @SuppressWarnings("incomplete-switch") public static BiFunction<ItemStack, GunAnimation, BusAnimation> LAMBDA_MARESLEG_ANIMS = (stack, type) -> {
-        switch(type) {
-            case EQUIP: return new BusAnimation()
+    public static BiFunction<ItemStack, GunAnimation, BusAnimation> LAMBDA_MARESLEG_ANIMS = (stack, type) -> {
+        return switch (type) {
+            case EQUIP -> new BusAnimation()
                     .addBus("EQUIP", new BusAnimationSequence().addPos(-60, 0, 0, 0).addPos(0, 0, -3, 500, IType.SIN_DOWN));
-            case CYCLE: return new BusAnimation()
+            case CYCLE -> new BusAnimation()
                     .addBus("RECOIL", new BusAnimationSequence().addPos(0, 0, 0, 50).addPos(0, 0, -1, 50).addPos(0, 0, 0, 250))
                     .addBus("SIGHT", new BusAnimationSequence().addPos(35, 0, 0, 100, IType.SIN_DOWN).addPos(0, 0, 0, 100, IType.SIN_FULL))
                     .addBus("LEVER", new BusAnimationSequence().addPos(0, 0, 0, 600).addPos(-85, 0, 0, 200).addPos(0, 0, 0, 200))
                     .addBus("TURN", new BusAnimationSequence().addPos(0, 0, 0, 600).addPos(0, 0, 45, 200, IType.SIN_DOWN).addPos(0, 0, 0, 200, IType.SIN_UP))
                     .addBus("HAMMER", new BusAnimationSequence().addPos(30, 0, 0, 50).addPos(30, 0, 0, 550).addPos(0, 0, 0, 200));
-            case CYCLE_DRY: return new BusAnimation()
+            case CYCLE_DRY -> new BusAnimation()
                     .addBus("LEVER", new BusAnimationSequence().addPos(0, 0, 0, 600).addPos(-90, 0, 0, 200).addPos(0, 0, 0, 200))
                     .addBus("TURN", new BusAnimationSequence().addPos(0, 0, 0, 600).addPos(0, 0, 45, 200, IType.SIN_DOWN).addPos(0, 0, 0, 200, IType.SIN_UP))
                     .addBus("HAMMER", new BusAnimationSequence().addPos(30, 0, 0, 50).addPos(30, 0, 0, 550).addPos(0, 0, 0, 200));
-            case RELOAD:
+            case RELOAD -> {
                 boolean empty = ((GunBaseNTItem) stack.getItem()).getConfig(stack, 0).getReceivers(stack)[0].getMagazine(stack).getAmount(stack, NuclearTechMod.proxy.me().inventory) <= 0;
-                return new BusAnimation()
+                yield new BusAnimation()
                         .addBus("LIFT", new BusAnimationSequence().addPos(30, 0, 0, 400, IType.SIN_FULL))
                         .addBus("LEVER", new BusAnimationSequence().addPos(0, 0, 0, 400).addPos(-85, 0, 0, 200))
                         .addBus("SHELL", new BusAnimationSequence().addPos(0, 0, 0, 600).addPos(0, 0.25F, -3, 0).addPos(0, empty ? 0.25F : 0.125F, -1.5F, 150, IType.SIN_UP).addPos(0, empty ? 0.25F : -0.25F, 0, 150, IType.SIN_DOWN))
                         .addBus("FLAG", new BusAnimationSequence().addPos(0, 0, 0, empty ? 900 : 0).addPos(1, 1, 1, 0));
-            case RELOAD_CYCLE: return new BusAnimation()
+            }
+            case RELOAD_CYCLE -> new BusAnimation()
                     .addBus("LIFT", new BusAnimationSequence().addPos(30, 0, 0, 0))
                     .addBus("LEVER", new BusAnimationSequence().addPos(-85, 0, 0, 0))
                     .addBus("SHELL", new BusAnimationSequence().addPos(0, 0.25F, -3, 0).addPos(0, 0.125F, -1.5F, 150, IType.SIN_UP).addPos(0, -0.125F, 0, 150, IType.SIN_DOWN))
                     .addBus("FLAG", new BusAnimationSequence().addPos(1, 1, 1, 0));
-            case RELOAD_END: return new BusAnimation()
+            case RELOAD_END -> new BusAnimation()
                     .addBus("LIFT", new BusAnimationSequence().addPos(30, 0, 0, 0).addPos(30, 0, 0, 250).addPos(0, 0, 0, 400, IType.SIN_FULL))
                     .addBus("LEVER", new BusAnimationSequence().addPos(-85, 0, 0, 0).addPos(0, 0, 0, 200))
                     .addBus("FLAG", new BusAnimationSequence().addPos(1, 1, 1, 0));
-            case JAMMED: return new BusAnimation()
+            case JAMMED -> new BusAnimation()
                     .addBus("LIFT", new BusAnimationSequence().addPos(30, 0, 0, 0).addPos(30, 0, 0, 250).addPos(0, 0, 0, 400, IType.SIN_FULL))
                     .addBus("LEVER", new BusAnimationSequence().addPos(-85, 0, 0, 0).addPos(-15, 0, 0, 200).addPos(-15, 0, 0, 650).addPos(-85, 0, 0, 200).addPos(-15, 0, 0, 200).addPos(-15, 0, 0, 200).addPos(-85, 0, 0, 200).addPos(0, 0, 0, 200))
                     .addBus("TURN", new BusAnimationSequence().addPos(0, 0, 0, 850).addPos(0, 0, 45, 200, IType.SIN_DOWN).addPos(0, 0, 45, 800).addPos(0, 0, 0, 200, IType.SIN_UP))
                     .addBus("FLAG", new BusAnimationSequence().addPos(1, 1, 1, 0));
-            case INSPECT: return new BusAnimation()
+            case INSPECT -> new BusAnimation()
                     .addBus("LIFT", new BusAnimationSequence().addPos(-35, 0, 0, 300, IType.SIN_FULL).addPos(-35, 0, 0, 1150).addPos(0, 0, 0, 500, IType.SIN_FULL))
                     .addBus("TURN", new BusAnimationSequence().addPos(0, 0, 0, 450).addPos(0, 0, -90, 500, IType.SIN_FULL).addPos(0, 0, -90, 500).addPos(0, 0, 0, 500, IType.SIN_FULL));
-        }
+            default -> null;
+        };
 
-        return null;
     };
 }

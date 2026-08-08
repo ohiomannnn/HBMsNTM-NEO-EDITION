@@ -13,7 +13,7 @@ public class Compat {
     public static BlockEntity getBlockEntityStandard(Level level, BlockPos pos) {
         int x = pos.getX();
         int z = pos.getZ();
-        if (!level.hasChunk(x >> 4, z >> 4)) return null;
+        if(!level.hasChunk(x >> 4, z >> 4)) return null;
         return level.getBlockEntity(pos);
     }
 }

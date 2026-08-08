@@ -1,5 +1,6 @@
 package com.hbm.util.mixins;
 
+import com.hbm.config.NtmConfig;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -26,6 +27,7 @@ public abstract class ExplosionMixin {
 
     @Inject(method = "finalizeExplosion", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;addParticle(Lnet/minecraft/core/particles/ParticleOptions;DDDDDD)V", shift = At.Shift.AFTER))
     private void redirectExplosionParticle(boolean spawnParticles, CallbackInfo ci) {
+        if(!NtmConfig.COMMON.ENABLE_EXPLOSION_EFFECTS.get()) return;
 
         for(BlockPos pos : this.toBlow) {
 

@@ -58,7 +58,6 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 
-import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -378,7 +377,7 @@ public class ClientProxy extends ServerProxy {
     }
 
     @Override
-    public @Nullable Player me() {
+    public Player me() {
         return Minecraft.getInstance().player;
     }
 }

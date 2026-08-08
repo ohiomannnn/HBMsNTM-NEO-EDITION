@@ -156,7 +156,7 @@ public class SolderingRecipes extends SerializableRecipe {
                 out(NtmItems.CIRCUIT_QUANTUM_PROCESSING_UNIT),
                 400,
                 100_000,
-                new FluidStack(Fluids.HELIUM_4, 1_000),
+                new FluidStack(Fluids.HELIUM4, 1_000),
                 ingredients(
                         stack(NtmItems.CIRCUIT_SOLID_STATE_QUANTUM_PROCESSOR, 4),
                         stack(NtmItems.CIRCUIT_VERSATILE_INTEGRATED, 16),
@@ -175,7 +175,7 @@ public class SolderingRecipes extends SerializableRecipe {
                 out(NtmItems.CIRCUIT_QUANTUM_PROCESSING_UNIT),
                 400,
                 100_000,
-                new FluidStack(Fluids.HELIUM_4, 1_000),
+                new FluidStack(Fluids.HELIUM4, 1_000),
                 ingredients(
                         stack(NtmItems.CIRCUIT_SOLID_STATE_QUANTUM_PROCESSOR, 4),
                         stack(NtmItems.CIRCUIT_VERSATILE_INTEGRATED, 16),
@@ -232,7 +232,7 @@ public class SolderingRecipes extends SerializableRecipe {
                 out(NtmItems.CIRCUIT_QUANTUM_COMPUTER),
                 600,
                 250_000,
-                new FluidStack(Fluids.COLD_PERFLUOROMETHYL, 6_000),
+                new FluidStack(Fluids.PERFLUOROMETHYL, 6_000),
                 ingredients(
                         stack(NtmItems.CIRCUIT_SOLID_STATE_QUANTUM_PROCESSOR, 16),
                         stack(NtmItems.CIRCUIT_VERSATILE_INTEGRATED, 48),

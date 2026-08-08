@@ -9,6 +9,7 @@ import com.hbm.render.util.RenderContext;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.core.Direction;
@@ -30,9 +31,9 @@ public class RenderBlastFurnace extends BlockEntityRendererNT<MachineBlastFurnac
         Direction facing = be.getBlockState().getValue(DummyableBlock.FACING);
         switch(facing) {
             case NORTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(90F));
+            case EAST -> RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
             case SOUTH -> RenderContext.mulPose(Axis.YP.rotationDegrees(270F));
-            case WEST -> RenderContext.mulPose(Axis.YP.rotationDegrees(180F));
-            case EAST -> RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
+            case WEST -> RenderContext.mulPose(Axis.YP.rotationDegrees(0F));
         }
 
         if(be.tilted) {
@@ -45,6 +46,14 @@ public class RenderBlastFurnace extends BlockEntityRendererNT<MachineBlastFurnac
         bindTexture(ResourceManager.BLAST_FURNACE_TEX);
         ResourceManager.blast_furnace.renderAll();
         RenderSystem.enableCull();
+    }
+
+    @Override
+    public int getPacketLight(int packedLight, MachineBlastFurnaceBlockEntity be) {
+        if(be.getLevel() != null && be.getBlockState().getBlock() instanceof DummyableBlock dummy) {
+            return LevelRenderer.getLightColor(be.getLevel(), be.getBlockPos().above(dummy.getDimensions()[0]));
+        }
+        return packedLight;
     }
 
     @Override

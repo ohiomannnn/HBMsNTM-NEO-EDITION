@@ -3,15 +3,12 @@ package com.hbm.inventory.screens;
 import com.hbm.blockentity.machine.heater.HeaterFireboxBlockEntity;
 import com.hbm.inventory.menus.HeaterFireboxMenu;
 import com.hbm.main.NuclearTechMod;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemStack;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HeaterFireboxScreen extends InfoScreen<HeaterFireboxMenu> {
@@ -36,10 +33,8 @@ public class HeaterFireboxScreen extends InfoScreen<HeaterFireboxMenu> {
 
         Slot hoveredSlot = this.hoveredSlot;
         if(hoveredSlot != null && hoveredSlot.index < 2 && this.menu.getCarried().isEmpty() && !hoveredSlot.hasItem()) {
-            List<Component> tooltip = this.buildBurnTooltip(HeaterFireboxBlockEntity.burnModule.getDesc());
-            if(!tooltip.isEmpty()) {
-                guiGraphics.renderComponentTooltip(this.font, tooltip, mouseX, mouseY);
-            }
+            List<Component> components = HeaterFireboxBlockEntity.burnModule.getDesc();
+            if(!components.isEmpty()) guiGraphics.renderComponentTooltip(this.font, components, mouseX, mouseY);
         }
 
         this.drawCustomInfoStat(
@@ -88,39 +83,5 @@ public class HeaterFireboxScreen extends InfoScreen<HeaterFireboxMenu> {
         if(this.be.wasOn) {
             guiGraphics.blit(TEXTURE, this.leftPos + 25, this.topPos + 26, 176, 10, 18, 18);
         }
-    }
-
-    private List<Component> buildBurnTooltip(List<String> lines) {
-        List<Component> tooltip = new ArrayList<>();
-        for(String line : lines) {
-            tooltip.add(this.colorBurnLine(line));
-        }
-        return tooltip;
-    }
-
-    private Component colorBurnLine(String line) {
-        if("Burn time bonuses:".equals(line)) {
-            return Component.literal(line).withStyle(ChatFormatting.GOLD);
-        }
-
-        if("Burn heat bonuses:".equals(line)) {
-            return Component.literal(line).withStyle(ChatFormatting.RED);
-        }
-
-        if(line.startsWith("- ")) {
-            int separator = line.indexOf(": ");
-            if(separator > 0 && separator + 2 < line.length()) {
-                String name = line.substring(2, separator);
-                String value = line.substring(separator + 2);
-                ChatFormatting valueColor = value.startsWith("-") ? ChatFormatting.RED : ChatFormatting.GREEN;
-
-                return Component.literal("- ").withStyle(ChatFormatting.YELLOW)
-                        .append(Component.literal(name).withStyle(ChatFormatting.YELLOW))
-                        .append(Component.literal(": ").withStyle(ChatFormatting.YELLOW))
-                        .append(Component.literal(value).withStyle(valueColor));
-            }
-        }
-
-        return Component.literal(line).withStyle(ChatFormatting.GRAY);
     }
 }

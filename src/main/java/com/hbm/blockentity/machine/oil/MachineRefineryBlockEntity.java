@@ -61,10 +61,10 @@ public class MachineRefineryBlockEntity extends MachineBaseBlockEntity implement
         RefineryRecipes.registerDefaults();
 
         this.tanks = new FluidTank[] {
-                new FluidTank(Fluids.OIL_CRUDE_HOT, 64_000),
-                new FluidTank(Fluids.OIL_HEAVY, 24_000),
+                new FluidTank(Fluids.HOTOIL, 64_000),
+                new FluidTank(Fluids.HEAVYOIL, 24_000),
                 new FluidTank(Fluids.NAPHTHA, 24_000),
-                new FluidTank(Fluids.OIL_LIGHT, 24_000),
+                new FluidTank(Fluids.LIGHTOIL, 24_000),
                 new FluidTank(Fluids.PETROLEUM, 24_000)
         };
     }

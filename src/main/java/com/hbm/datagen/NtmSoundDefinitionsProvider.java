@@ -66,6 +66,12 @@ public class NtmSoundDefinitionsProvider extends SoundDefinitionsProvider {
         this.add(NtmSoundEvents.GUN_SPAS_FIRE, SoundDefinition.definition()
                 .with(sound(NuclearTechMod.withDefaultNamespace("weapon/shotgun_shoot")))
         );
+        this.add(NtmSoundEvents.GUN_WHACK, SoundDefinition.definition()
+                .with(
+                        sound(NuclearTechMod.withDefaultNamespace("weapon/foley/gun_whack1")),
+                        sound(NuclearTechMod.withDefaultNamespace("weapon/foley/gun_whack2"))
+                )
+        );
         this.add(NtmSoundEvents.PLINK_SHELL, SoundDefinition.definition()
                 .with(
                         sound(NuclearTechMod.withDefaultNamespace("weapon/casing/shell1")),

@@ -28,7 +28,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
@@ -261,7 +260,7 @@ public abstract class MissileBase extends ProjectileLerping implements IRadarDet
         super.onHitBlock(result);
 
         this.discard();
-        this.onMissileImpact(result);
+        if(!this.level.isClientSide) this.onMissileImpact(result);
     }
 
     public abstract void onMissileImpact(BlockHitResult bhr);

@@ -1,6 +1,7 @@
 package com.hbm.blockentity;
 
 import api.hbm.blockentity.ILoadedBE;
+import com.hbm.config.NtmConfig;
 import com.hbm.network.toclient.BufPacket;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.sound.AudioWrapper;
@@ -124,8 +125,8 @@ public class LoadedBaseBlockEntity extends BlockEntity implements ILoadedBE, IBu
         if(this.level == null) return;
         boolean doesTilt = false;
         if(type == TiltType.UNAVOIDABLE) doesTilt = true;
-//        if(cfg == TiltType.CONFIG && GeneralConfig.enableMachineGravity) doesTilt = true;
-//        if(cfg == TiltType.CONFIG && GeneralConfig.enable528MachineGravity) doesTilt = true;
+        if(type == TiltType.CONFIG && NtmConfig.COMMON.ENABLE_MACHINE_GRAVITY.get()) doesTilt = true;
+        if(type == TiltType.CONFIG && NtmConfig.enable528MachineGravity()) doesTilt = true;
 
         if(!doesTilt) { this.tilted = false; return; }
         if(this.getFloorCount() <= 0) { this.tilted = false; return; }

@@ -45,7 +45,7 @@ public abstract class OilDrillBaseBlockEntity extends MachineBaseBlockEntity imp
         super(type, pos, state, 8);
 
         tanks = new FluidTank[2];
-        tanks[0] = new FluidTank(Fluids.OIL_CRUDE, 64_000);
+        tanks[0] = new FluidTank(Fluids.OIL, 64_000);
         tanks[1] = new FluidTank(Fluids.GAS, 64_000);
     }
 

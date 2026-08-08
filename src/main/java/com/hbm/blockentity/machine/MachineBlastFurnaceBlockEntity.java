@@ -1,7 +1,6 @@
 package com.hbm.blockentity.machine;
 
 import api.hbm.fluidmk2.IFluidStandardTransceiverMK2;
-import com.hbm.blockentity.LoadedBaseBlockEntity;
 import com.hbm.blockentity.MachineBaseBlockEntity;
 import com.hbm.blockentity.NtmBlockEntityTypes;
 import com.hbm.inventory.fluid.FluidType;
@@ -25,7 +24,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -56,17 +54,14 @@ public class MachineBlastFurnaceBlockEntity extends MachineBaseBlockEntity imple
         };
     }
 
-    @Override
-    protected Component getDefaultName() {
-        return Component.translatable("container.machine_blast_furnace");
-    }
+    @Override protected Component getDefaultName() { return Component.translatable("container.machine_blast_furnace"); }
 
     @Override
     public void updateEntity() {
         if(this.level == null) return;
         if(this.level.isClientSide) return;
 
-        this.checkTilt(LoadedBaseBlockEntity.TiltType.CONFIG, false);
+        this.checkTilt(TiltType.CONFIG, false);
 
         for(DirPos pos : this.getConPos()) {
             this.trySubscribe(this.tanks[0].getTankType(), this.level, pos);

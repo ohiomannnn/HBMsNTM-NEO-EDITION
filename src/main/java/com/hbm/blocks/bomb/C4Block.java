@@ -1,8 +1,8 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.entity.item.TNTPrimedBase;
-import com.hbm.explosion.vanillant.ExplosionVNT;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.Level.ExplosionInteraction;
 
 public class C4Block extends TNTBaseBlock {
 
@@ -10,6 +10,6 @@ public class C4Block extends TNTBaseBlock {
 
     @Override
     public void explodeEntity(Level level, double x, double y, double z, TNTPrimedBase entity) {
-        ExplosionVNT.createExplosion(level, entity, x, y, z, 15F, true);
+        level.explode(null, x, y, z, 15F, ExplosionInteraction.TNT);
     }
 }

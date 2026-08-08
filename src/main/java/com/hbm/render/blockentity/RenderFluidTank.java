@@ -15,7 +15,6 @@ import com.hbm.render.util.DiamondPronter;
 import com.hbm.render.util.RenderContext;
 import com.hbm.util.TagsUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -23,20 +22,41 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class RenderFluidTank extends BlockEntityRendererNT<MachineFluidTankBlockEntity> implements IBEWLRProvider {
+
+    public static final Map<String, ResourceLocation> textureByName = new HashMap<>();
+
+    public static ResourceLocation getTextureFromType(FluidType type) {
+
+        if(type.renderWithTint) {
+            int color = type.getTint();
+            float r = ((color & 0xff0000) >> 16) / 255F;
+            float g = ((color & 0x00ff00) >> 8) / 255F;
+            float b = ((color & 0x0000ff) >> 0) / 255F;
+            RenderContext.setColor(r, g, b, 1F);
+            return textureByName.computeIfAbsent("textures/models/tank/tank_none.png", NuclearTechMod::withDefaultNamespace);
+        }
+
+        String s = type.getInternalName().toLowerCase(Locale.US);
+        if(type.isAntimatter() || (type.hasTrait(FT_Corrosive.class) && type.getTrait(FT_Corrosive.class).isHighlyCorrosive())) s = "danger";
+
+        return textureByName.computeIfAbsent("textures/models/tank/tank_" + s + ".png", NuclearTechMod::withDefaultNamespace);
+    }
 
     @Override public BlockEntityRenderer<MachineFluidTankBlockEntity> create(Context context) { return new RenderFluidTank(); }
 
     @Override
-    public void render(MachineFluidTankBlockEntity be, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, int packedOverlay) {
-        int tPackedLight = LevelRenderer.getLightColor(be.getLevel(), be.getBlockPos().above(2));
-        RenderContext.setup(poseStack, tPackedLight, packedOverlay);
+    public void render(MachineFluidTankBlockEntity be, MultiBufferSource buffer, float partialTicks) {
+
         RenderContext.translate(0.5F, 0F, 0.5F);
         RenderSystem.disableCull();
 
@@ -53,13 +73,13 @@ public class RenderFluidTank extends BlockEntityRendererNT<MachineFluidTankBlock
         bindTexture(ResourceManager.TANK_TEX);
         if(!be.hasExploded) {
             ResourceManager.fluid_tank.renderPart("Frame");
-            bindTexture(NuclearTechMod.withDefaultNamespace(getTextureFromType(type)));
+            bindTexture(getTextureFromType(type));
             ResourceManager.fluid_tank.renderPart("Tank");
         } else {
             ResourceManager.fluid_tank_exploded.renderPart("Frame");
             bindTexture(ResourceManager.TANK_INNER_TEX);
             ResourceManager.fluid_tank_exploded.renderPart("TankInner");
-            bindTexture(NuclearTechMod.withDefaultNamespace(getTextureFromType(type)));
+            bindTexture(getTextureFromType(type));
             ResourceManager.fluid_tank_exploded.renderPart("Tank");
         }
 
@@ -80,67 +100,38 @@ public class RenderFluidTank extends BlockEntityRendererNT<MachineFluidTankBlock
         }
 
         RenderSystem.enableCull();
-        RenderContext.end();
     }
 
-    public static String getTextureFromType(FluidType type) {
-        if (type.isAntimatter() || (type.hasTrait(FT_Corrosive.class) && type.getTrait(FT_Corrosive.class).isHighlyCorrosive())) {
-            return "textures/models/tank/tank_danger.png";
+    @Override
+    public int getPacketLight(int packedLight, MachineFluidTankBlockEntity be) {
+        if(be.getLevel() != null && be.getBlockState().getBlock() instanceof DummyableBlock dummy) {
+            return LevelRenderer.getLightColor(be.getLevel(), be.getBlockPos().above(dummy.getDimensions()[0]));
         }
-
-        String s = switch(type.getInternalName()) {
-            case "OIL_CRUDE" -> "oil";
-            case "OIL_CRUDE_CRACKED" -> "crackoil";
-            case "OIL_CRUDE_DESULFURIZED" -> "oil_ds";
-            case "OIL_CRUDE_DESULFURIZED_CRACKED" -> "crackoil_ds";
-            case "OIL_CRUDE_HOT" -> "hotoil";
-            case "OIL_CRUDE_DESULFURIZED_HOT" -> "hotoil_ds";
-            case "OIL_CRUDE_CRACKED_HOT" -> "hotcrackoil";
-            case "OIL_CRUDE_DESULFURIZED_CRACKED_HOT" -> "hotcrackoil_ds";
-            case "OIL_HEAVY" -> "heavyoil";
-            case "OIL_HEAVY_VACUUM" -> "heavyoil_vacuum";
-            case "OIL_LIGHT" -> "lightoil";
-            case "OIL_LIGHT_DESULFURIZED" -> "lightoil_ds";
-            case "OIL_LIGHT_CRACKED" -> "lightoil_crack";
-            case "OIL_LIGHT_VACUUM" -> "lightoil_vacuum";
-            case "NAPHTHA" -> "naphtha";
-            case "NAPHTHA_DESULFURIZED" -> "naphtha_ds";
-            case "NAPHTHA_CRACKED" -> "naphtha_crack";
-            case "NAPHTHA_COKER" -> "naphtha_coker";
-            case "PETROLEUM_GAS" -> "petroleum";
-            case "OIL_INDUSTRIAL" -> "smear";
-            case "OIL_INDUSTRIAL_RECLAIMED" -> "reclaimed";
-            case "OIL_HEATING" -> "heatingoil";
-            case "OIL_HEATING_HEAVY" -> "heatingoil_vacuum";
-            case "PETROIL" -> "petroil";
-            case "PETROIL_LEADED" -> "petroil_leaded";
-            default -> type.getInternalName().toLowerCase(Locale.US);
-        };
-
-        return "textures/models/tank/tank_" + s + ".png";
+        return packedLight;
     }
+
+    private AABB bb = null;
 
     @Override
     public AABB getRenderBoundingBox(MachineFluidTankBlockEntity be) {
-        int x = be.getBlockPos().getX();
-        int y = be.getBlockPos().getY();
-        int z = be.getBlockPos().getZ();
 
-        return new AABB(
-                x - 6,
-                y - 1,
-                z - 6,
-                x + 7,
-                y + 5,
-                z + 7
-        );
+        if(bb == null) {
+            int x = be.getBlockPos().getX();
+            int y = be.getBlockPos().getY();
+            int z = be.getBlockPos().getZ();
+
+            bb = new AABB(
+                    x - 2,
+                    y - 0,
+                    z - 2,
+                    x + 3,
+                    y + 3,
+                    z + 3
+            );
+        }
+
+        return bb;
     }
-
-    @Override
-    public boolean shouldRenderOffScreen(MachineFluidTankBlockEntity be) {
-        return true;
-    }
-
 
     @Override
     public Item getItemForRenderer() {
@@ -163,7 +154,7 @@ public class RenderFluidTank extends BlockEntityRendererNT<MachineFluidTankBlock
 
                 FluidTank tank = new FluidTank(Fluids.NONE, 0);
                 boolean exploded = false;
-                if (TagsUtil.getCustomData(stack).contains(IPersistentNBT.NBT_PERSISTENT_KEY)) {
+                if(TagsUtil.getCustomData(stack).contains(IPersistentNBT.NBT_PERSISTENT_KEY)) {
                     CompoundTag persistentTag = TagsUtil.getCustomData(stack).getCompound(IPersistentNBT.NBT_PERSISTENT_KEY);
                     tank.readFromNBT(persistentTag, "Tank");
                     exploded = persistentTag.getBoolean("HasExploded");
@@ -174,13 +165,13 @@ public class RenderFluidTank extends BlockEntityRendererNT<MachineFluidTankBlock
                 bindTexture(ResourceManager.TANK_TEX);
                 if(!exploded) {
                     ResourceManager.fluid_tank.renderPart("Frame");
-                    bindTexture(NuclearTechMod.withDefaultNamespace(getTextureFromType(type)));
+                    bindTexture(getTextureFromType(type));
                     ResourceManager.fluid_tank.renderPart("Tank");
                 } else {
                     ResourceManager.fluid_tank_exploded.renderPart("Frame");
                     bindTexture(ResourceManager.TANK_INNER_TEX);
                     ResourceManager.fluid_tank_exploded.renderPart("TankInner");
-                    bindTexture(NuclearTechMod.withDefaultNamespace(getTextureFromType(type)));
+                    bindTexture(getTextureFromType(type));
                     ResourceManager.fluid_tank_exploded.renderPart("Tank");
                 }
             }

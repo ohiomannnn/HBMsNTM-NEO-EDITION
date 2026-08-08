@@ -5,7 +5,6 @@ import com.hbm.entity.NtmEntityTypes;
 import com.hbm.entity.projectile.Meteor;
 import com.hbm.handler.ArmorModHandler;
 import com.hbm.items.NtmItems;
-import com.hbm.util.Vec3NT;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -14,6 +13,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.HashMap;
 import java.util.List;
@@ -90,19 +90,18 @@ public final class MeteorStrikeSystem {
         double spawnZ = player.getZ() + METEOR_RANDOM.nextInt(201) - 100;
         meteor.setPos(spawnX, 384.0D, spawnZ);
 
-        Vec3NT vector;
-        if (safe) {
-            vector = new Vec3NT(meteor.getX() - player.getX(), 0.0D, meteor.getZ() - player.getZ()).normalizeSelf();
+        Vec3 vector;
+        if(safe) {
+            vector = new Vec3(meteor.getX() - player.getX(), 0.0D, meteor.getZ() - player.getZ()).normalize();
             double speed = METEOR_RANDOM.nextDouble();
-            vector.xCoord *= speed;
-            vector.zCoord *= speed;
+            vector = vector.multiply(speed, 1, speed);
             meteor.safe = true;
         } else {
-            vector = new Vec3NT(METEOR_RANDOM.nextDouble() - 0.5D, 0.0D, 0.0D);
-            vector.rotateAroundYRad(Math.PI * METEOR_RANDOM.nextDouble());
+            vector = new Vec3(METEOR_RANDOM.nextDouble() - 0.5D, 0.0D, 0.0D);
+            vector = vector.yRot((float) (Math.PI * METEOR_RANDOM.nextDouble()));
         }
 
-        meteor.setDeltaMovement(vector.xCoord, -2.5D, vector.zCoord);
-        player.level().addFreshEntity(meteor);
+        meteor.setDeltaMovement(vector.x, -2.5D, vector.z);
+        player.level.addFreshEntity(meteor);
     }
 }

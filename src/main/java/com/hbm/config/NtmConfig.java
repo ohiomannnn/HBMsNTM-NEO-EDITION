@@ -40,4 +40,12 @@ public class NtmConfig {
         container.registerConfig(ModConfig.Type.SERVER, SERVER_SPEC);
         container.registerConfig(ModConfig.Type.CLIENT, CLIENT_SPEC);
     }
+
+    // the funny
+    public static boolean enable528() { return NtmConfig.COMMON.ENABLE_528.get(); }
+    public static boolean true528() { return NtmConfig.COMMON.ENABLE_528.get() && NtmConfig.COMMON.ENABLE_528_MACHINE_GRAVITY.get(); }
+
+    public static boolean enable528MachineGravity() { return NtmConfig.COMMON.ENABLE_528.get() && NtmConfig.COMMON.ENABLE_528_MACHINE_GRAVITY.get(); }
+
+    public static boolean enableLBSM() { return !NtmConfig.COMMON.ENABLE_528.get() && NtmConfig.COMMON.ENABLE_LBSM.get(); }
 }

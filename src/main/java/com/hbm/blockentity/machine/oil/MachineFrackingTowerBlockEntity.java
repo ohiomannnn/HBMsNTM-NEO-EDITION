@@ -42,7 +42,7 @@ public class MachineFrackingTowerBlockEntity extends OilDrillBaseBlockEntity {
         super(NtmBlockEntityTypes.MACHINE_FRACKING_TOWER.get(), pos, state);
 
         this.tanks = new FluidTank[3];
-        this.tanks[0] = new FluidTank(Fluids.OIL_CRUDE, 64_000);
+        this.tanks[0] = new FluidTank(Fluids.OIL, 64_000);
         this.tanks[1] = new FluidTank(Fluids.GAS, 64_000);
         this.tanks[2] = new FluidTank(Fluids.FRACKSOL, 64_000);
     }

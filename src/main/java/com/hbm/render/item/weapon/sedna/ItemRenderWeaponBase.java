@@ -32,7 +32,7 @@ import java.util.function.Function;
 
 public abstract class ItemRenderWeaponBase extends BlockEntityWithoutLevelRenderer {
 
-    private static final RenderType SMOKE = RenderType.create(
+    public static final RenderType SMOKE = RenderType.create(
             "smoke_render_type", DefaultVertexFormat.POSITION_COLOR_LIGHTMAP, VertexFormat.Mode.QUADS, 1024,
             RenderType.CompositeState.builder()
                     .setShaderState(RenderType.RENDERTYPE_TEXT_BACKGROUND_SHADER)
@@ -150,9 +150,9 @@ public abstract class ItemRenderWeaponBase extends BlockEntityWithoutLevelRender
     }
 
     public void setupThirdPerson(ItemStack stack) {
-        float scale = 0.079F;
+        float scale = 0.07F;
         RenderContext.scale(scale, scale, scale);
-        RenderContext.translate(0F, 5.65F, -1.2F);
+        RenderContext.translate(0F, 6.47F, -1.5F);
     }
 
     public void setupInv(ItemStack stack) {

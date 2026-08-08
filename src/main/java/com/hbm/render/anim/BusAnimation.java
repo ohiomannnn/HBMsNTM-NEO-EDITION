@@ -25,6 +25,7 @@ public class BusAnimation {
      * Unless you use one bus for several things because the animation is identical, that's ok too
      * @param name of the bus being added
      * @param bus the bus in question
+     * @return
      */
     public BusAnimation addBus(String name, BusAnimationSequence bus) {
 
@@ -32,7 +33,8 @@ public class BusAnimation {
 
         int duration = bus.getTotalTime();
 
-        if(duration > totalTime) totalTime = duration;
+        if(duration > totalTime)
+            totalTime = duration;
 
         return this;
     }
@@ -61,21 +63,25 @@ public class BusAnimation {
     /**
      * Multiplies all keyframe durations by the supplied double. Numbers below 1 make the animation play faster.
      */
-    public void setTimeMult(float mult) {
+    public void setTimeMult(double mult) {
         for(Entry<String, BusAnimationSequence> sequence : animationBuses.entrySet()) {
             sequence.getValue().multiplyTime(mult);
         }
     }
 
     /**
-     * Gets the pressed of a bus at a specified time
+     * Gets the state of a bus at a specified time
      * @param name the name of the bus in question
      * @param millis the elapsed time since the animation started in milliseconds
      */
     public float[] getTimedTransformation(String name, int millis) {
+
         if(this.animationBuses.containsKey(name)) return animationBuses.get(name).getTransformation(millis);
         return null;
     }
 
-    public int getDuration() { return totalTime; }
+    public int getDuration() {
+        return totalTime;
+    }
+
 }

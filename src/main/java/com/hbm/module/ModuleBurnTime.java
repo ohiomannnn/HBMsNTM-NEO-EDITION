@@ -1,7 +1,9 @@
-package com.hbm.modules;
+package com.hbm.module;
 
 import com.hbm.items.NtmItems;
 import com.hbm.util.ItemStackUtil;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
@@ -24,39 +26,37 @@ public class ModuleBurnTime {
     private static final int MOD_BALEFIRE = 7;
 
     private final double[] modTime = new double[8];
+
     private final double[] modHeat = new double[8];
 
     public ModuleBurnTime() {
-        for(int i = 0; i < this.modTime.length; i++) {
-            this.modTime[i] = 1.0D;
-            this.modHeat[i] = 1.0D;
+        for(int i = 0; i < modTime.length; i++) {
+            modTime[i] = 1.0;
+            modHeat[i] = 1.0;
         }
     }
 
-    public int getBurnTime(ItemStack stack) {
-        return this.getBurnTime(stack, 1.0D);
-    }
-
     public int getBurnTime(ItemStack stack, double def) {
-        if(stack == null || stack.isEmpty()) return 0;
-
         int fuel = stack.getBurnTime(null);
-        if(fuel <= 0) return 0;
-
-        return (int) (fuel * this.getMod(stack, this.modTime, def));
+        if(fuel == 0) return 0;
+        return (int) (fuel * getMod(stack, modTime, def));
     }
 
-    public int getBurnHeat(int base, ItemStack stack) {
-        return this.getBurnHeat(base, stack, 1.0D);
+    public int getBurnTime(ItemStack stack) {
+        return getBurnTime(stack, 1.0);
     }
 
     public int getBurnHeat(int base, ItemStack stack, double def) {
-        if(base <= 0 || stack == null || stack.isEmpty()) return 0;
-        return (int) (base * this.getMod(stack, this.modHeat, def));
+        if(base <= 0) return 0;
+        return (int) (base * getMod(stack, modHeat));
+    }
+
+    public int getBurnHeat(int base, ItemStack stack) {
+        return getBurnHeat(base, stack, 1.0);
     }
 
     public double getMod(ItemStack stack, double[] mod, double def) {
-        if(stack == null || stack.isEmpty()) return 0.0D;
+        if(stack == null || stack.isEmpty()) return 0.0;
 
         if(stack.is(NtmItems.BALEFIRE_AND_STEEL.get())) {
             return mod[MOD_BALEFIRE];
@@ -105,65 +105,70 @@ public class ModuleBurnTime {
     public ModuleBurnTime setRocketHeatMod(double mod) { this.modHeat[MOD_ROCKET] = mod; return this; }
     public ModuleBurnTime setBalefireHeatMod(double mod) { this.modHeat[MOD_BALEFIRE] = mod; return this; }
 
-    public List<String> getDesc() {
-        List<String> desc = new ArrayList<>();
+    public double getMod(ItemStack stack, double[] mod) {
+        return getMod(stack, mod, 1.0);
+    }
+
+    public List<Component> getDesc() {
+        List<Component> desc = new ArrayList<>();
         desc.addAll(this.getTimeDesc());
         desc.addAll(this.getHeatDesc());
         return desc;
     }
 
-    public List<String> getTimeDesc() {
-        List<String> list = new ArrayList<>();
-        list.add("Burn time bonuses:");
+    public List<Component> getTimeDesc() {
+        List<Component> components = new ArrayList<>();
 
-        this.addIf(list, "Logs", this.modTime[MOD_LOG]);
-        this.addIf(list, "Wood", this.modTime[MOD_WOOD]);
-        this.addIf(list, "Coal", this.modTime[MOD_COAL]);
-        this.addIf(list, "Lignite", this.modTime[MOD_LIGNITE]);
-        this.addIf(list, "Coke", this.modTime[MOD_COKE]);
-        this.addIf(list, "Solid Fuel", this.modTime[MOD_SOLID]);
-        this.addIf(list, "Rocket Fuel", this.modTime[MOD_ROCKET]);
-        this.addIf(list, "Balefire", this.modTime[MOD_BALEFIRE]);
+        components.add(Component.translatable("container.burntime.time_bonuses").withStyle(ChatFormatting.GOLD));
 
-        if(list.size() == 1) {
-            list.clear();
-        }
+        this.addIf(components, Component.translatable("container.burntime.log"), this.modTime[MOD_LOG]);
+        this.addIf(components, Component.translatable("container.burntime.wood"), this.modTime[MOD_WOOD]);
+        this.addIf(components, Component.translatable("container.burntime.coal"), this.modTime[MOD_COAL]);
+        this.addIf(components, Component.translatable("container.burntime.lignite"), this.modTime[MOD_LIGNITE]);
+        this.addIf(components, Component.translatable("container.burntime.coke"), this.modTime[MOD_COKE]);
+        this.addIf(components, Component.translatable("container.burntime.solid"), this.modTime[MOD_SOLID]);
+        this.addIf(components, Component.translatable("container.burntime.rocket"), this.modTime[MOD_ROCKET]);
+        this.addIf(components, Component.translatable("container.burntime.balefire"), this.modTime[MOD_BALEFIRE]);
 
-        return list;
+        if(components.size() == 1) components.clear();
+        return components;
     }
 
-    public List<String> getHeatDesc() {
-        List<String> list = new ArrayList<>();
-        list.add("Burn heat bonuses:");
+    public List<Component> getHeatDesc() {
+        List<Component> components = new ArrayList<>();
 
-        this.addIf(list, "Logs", this.modHeat[MOD_LOG]);
-        this.addIf(list, "Wood", this.modHeat[MOD_WOOD]);
-        this.addIf(list, "Coal", this.modHeat[MOD_COAL]);
-        this.addIf(list, "Lignite", this.modHeat[MOD_LIGNITE]);
-        this.addIf(list, "Coke", this.modHeat[MOD_COKE]);
-        this.addIf(list, "Solid Fuel", this.modHeat[MOD_SOLID]);
-        this.addIf(list, "Rocket Fuel", this.modHeat[MOD_ROCKET]);
-        this.addIf(list, "Balefire", this.modHeat[MOD_BALEFIRE]);
+        components.add(Component.translatable("container.burntime.heat_bonuses").withStyle(ChatFormatting.RED));
 
-        if(list.size() == 1) {
-            list.clear();
-        }
+        this.addIf(components, Component.translatable("container.burntime.log"), this.modHeat[MOD_LOG]);
+        this.addIf(components, Component.translatable("container.burntime.wood"), this.modHeat[MOD_WOOD]);
+        this.addIf(components, Component.translatable("container.burntime.coal"), this.modHeat[MOD_COAL]);
+        this.addIf(components, Component.translatable("container.burntime.lignite"), this.modHeat[MOD_LIGNITE]);
+        this.addIf(components, Component.translatable("container.burntime.coke"), this.modHeat[MOD_COKE]);
+        this.addIf(components, Component.translatable("container.burntime.solid"), this.modHeat[MOD_SOLID]);
+        this.addIf(components, Component.translatable("container.burntime.rocket"), this.modHeat[MOD_ROCKET]);
+        this.addIf(components, Component.translatable("container.burntime.balefire"), this.modHeat[MOD_BALEFIRE]);
 
-        return list;
+        if(components.size() == 1) components.clear();
+        return components;
     }
 
-    private void addIf(List<String> list, String name, double mod) {
-        if(mod != 1.0D) {
-            list.add("- " + name + ": " + this.getPercent(mod));
-        }
+    private void addIf(List<Component> components, Component name, double mod) {
+        if(mod != 1.0) components.add(Component.literal("- ").append(name).append(": ").withStyle(ChatFormatting.YELLOW).append(this.getPercent(mod)));
     }
 
     private String getPercent(double mod) {
         mod -= 1D;
         String num = ((int) (mod * 100)) + "%";
-        if(mod < 0) {
-            return num;
-        }
-        return "+" + num;
+
+        num = mod < 0 ? ChatFormatting.RED + num : ChatFormatting.GREEN + "+" + num;
+        return num;
+    }
+
+    public double[] getModHeat() {
+        return modHeat;
+    }
+
+    public double[] getModTime() {
+        return modTime;
     }
 }
