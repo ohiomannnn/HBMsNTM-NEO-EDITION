@@ -3,7 +3,7 @@ package com.hbm.blocks.generic;
 import com.hbm.blocks.NtmBlocks;
 import com.hbm.blocks.bomb.DetonatableBlock;
 import com.hbm.blocks.bomb.TaintBlock;
-import com.hbm.entity.item.TNTPrimedBase;
+import com.hbm.entity.item.PrimedTntExploded;
 import com.hbm.explosion.ExplosionThermo;
 import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.util.i18n.I18nUtil;
@@ -73,7 +73,7 @@ public class RedBarrelBlock extends DetonatableBlock implements SimpleWaterlogge
     @Override protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) { return SHAPE; }
 
     @Override
-    public void explodeEntity(Level level, double x, double y, double z, TNTPrimedBase entity) {
+    public void explodeEntity(Level level, double x, double y, double z, PrimedTntExploded entity) {
 
         if(this == NtmBlocks.BARREL_RED.get() || this == NtmBlocks.BARREL_PINK.get()) {
             ExplosionVNT.newExplosion(level, entity, x, y, z, 2.5F, true, true);

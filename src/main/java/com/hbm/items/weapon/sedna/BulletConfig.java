@@ -184,9 +184,6 @@ public class BulletConfig implements Cloneable {
 
     public static BiConsumer<BulletBaseMK4, BlockHitResult> LAMBDA_STANDARD_RICOCHET = (bullet, bhr) -> {
 
-        BlockState state = bullet.level.getBlockState(bhr.getBlockPos());
-        if(state.getBlock() instanceof DetonatableBlock db) db.onShot(bullet.level, bhr.getBlockPos());
-
         Direction dir = bhr.getDirection();
         Vec3 face = new Vec3(dir.getStepX(), dir.getStepY(), dir.getStepZ());
         Vec3 vel = new Vec3(bullet.deltaMovement.x, bullet.deltaMovement.y, bullet.deltaMovement.z).normalize();

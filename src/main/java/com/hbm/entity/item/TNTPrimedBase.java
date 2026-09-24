@@ -69,7 +69,7 @@ public class TNTPrimedBase extends Entity {
     }
 
     private void explode() {
-        this.getBomb().explodeEntity(this.level(), this.getX(), this.getY(), this.getZ(), this);
+        //this.getBomb().explodeEntity(this.level(), this.getX(), this.getY(), this.getZ(), this);
     }
 
     public IFuckingExplode getBomb() {

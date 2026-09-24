@@ -32,6 +32,8 @@ public record CompoundTagItemControl(CompoundTag tag) implements CustomPacketPay
     public static void handleServer(CompoundTagItemControl packet, IPayloadContext context) {
         context.enqueueWork(() -> {
             Player player = context.player();
+            // player cant use item as spectator, but just to be sure
+            if(player.isSpectator()) return;
 
             CompoundTag tag = packet.tag();
             List<ItemStack> heldStacks = InventoryUtil.getItemsFromBothHands(player);
@@ -43,5 +45,5 @@ public record CompoundTagItemControl(CompoundTag tag) implements CustomPacketPay
         });
     }
 
-    @Override public Type<? extends CustomPacketPayload> type() { return TYPE; }
+    @Override public Type<CompoundTagItemControl> type() { return TYPE; }
 }

@@ -1,16 +1,19 @@
 package com.hbm.main;
 
+import com.hbm.blocks.DummyableBlock;
 import com.hbm.config.NtmConfig;
 import com.hbm.handler.pollution.PollutionHandler.PollutionType;
 import com.hbm.network.PermaSyncHandler;
 import com.hbm.render.item.weapon.sedna.ItemRenderWeaponBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.RenderHighlightEvent;
 import net.neoforged.neoforge.client.event.ViewportEvent;
 import net.neoforged.neoforge.client.event.ViewportEvent.RenderFog;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
@@ -19,7 +22,7 @@ import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 public class NtmEventHandlerRenderer {
 
     @SubscribeEvent
-    public static void thickenFov(ViewportEvent.ComputeFov event) {
+    public static void computeFov(ViewportEvent.ComputeFov event) {
 
         Player player = Minecraft.getInstance().player;
         if(player == null) return;
@@ -62,4 +65,16 @@ public class NtmEventHandlerRenderer {
         }
     }
 
+    @SubscribeEvent
+    public static void renderBlockHighlight(RenderHighlightEvent.Block event) {
+
+        Player player = NuclearTechMod.proxy.me();
+
+        if(player.getMainHandItem().getItem() instanceof BlockItem blockItem) {
+            if(blockItem.getBlock() instanceof DummyableBlock dummy) {
+                dummy.drawPlacementHighlight(event.getMultiBufferSource(), event.getCamera().getPosition(), event.getPoseStack(), player);
+                event.setCanceled(true);
+            }
+        }
+    }
 }

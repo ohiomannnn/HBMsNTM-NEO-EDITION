@@ -1,6 +1,7 @@
 package com.hbm.registry;
 
 import com.hbm.main.NuclearTechMod;
+import com.hbm.particle.NtmParticleTypes;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -61,6 +62,7 @@ public class NtmBiomes {
                 .skyColor(skyColor)
                 .fogColor(skyColor)
                 .ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS)
+                .ambientParticle(new AmbientParticleSettings(NtmParticleTypes.AURA.get(), 0.01F))
                 .build();
     }
 

@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record AuxParticle(CompoundTag nbt, double x, double y, double z) implements CustomPacketPayload {
-    public static final Type<AuxParticle> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "aux_particle"));
+    public static final Type<AuxParticle> TYPE = new Type<>(NuclearTechMod.withDefaultNamespace("aux_particle"));
 
     public static final StreamCodec<FriendlyByteBuf, AuxParticle> STREAM_CODEC =
             new StreamCodec<>() {

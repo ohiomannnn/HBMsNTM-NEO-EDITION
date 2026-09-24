@@ -1,9 +1,8 @@
 package com.hbm.blocks.bomb;
 
 import com.hbm.blocks.states.NtmBlockStateProperties;
-import com.hbm.entity.item.TNTPrimedBase;
+import com.hbm.entity.item.PrimedTntExploded;
 import com.hbm.explosion.vanillant.ExplosionVNT;
-import com.hbm.lib.Library;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
@@ -13,7 +12,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
 public class DetCordBlock extends DetonatableBlock implements IDetConnectible {
@@ -67,7 +65,7 @@ public class DetCordBlock extends DetonatableBlock implements IDetConnectible {
     }
 
     @Override
-    public void explodeEntity(Level level, double x, double y, double z, TNTPrimedBase entity) {
+    public void explodeEntity(Level level, double x, double y, double z, PrimedTntExploded entity) {
         this.explode(level, BlockPos.containing(x, y, z));
     }
 

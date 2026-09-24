@@ -26,7 +26,7 @@ import java.util.List;
 
 public class ToolAbilityScreen extends Screen {
 
-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "textures/gui/tool/gui_tool_ability.png");
+    public static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/gui/tool/gui_tool_ability.png");
 
     protected int guiLeft;
     protected int guiTop;

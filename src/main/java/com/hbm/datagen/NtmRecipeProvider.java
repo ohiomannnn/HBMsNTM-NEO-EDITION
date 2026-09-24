@@ -8,6 +8,7 @@ import com.hbm.items.BoltItem;
 import com.hbm.items.CastPlateItem;
 import com.hbm.items.NtmItems;
 import com.hbm.items.component.NtmDataComponents;
+import com.hbm.main.NuclearTechMod;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -57,35 +58,35 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('B', DataComponentIngredient.of(false, NtmDataComponents.META, BoltItem.Type.DURA_STEEL.meta, NtmItems.BOLT.get()))
                 .define('G', Items.GOLD_INGOT)
                 .unlockedBy("has_bolt", has(NtmItems.BOLT.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "example_gold_block_from_dura_steel_bolts"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("example_gold_block_from_dura_steel_bolts"));
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, Blocks.GOLD_BLOCK, 1)
                 .pattern("###")
                 .pattern("###")
                 .pattern("###")
                 .define('#', DataComponentIngredient.of(false, NtmDataComponents.META, CastPlateItem.Type.IRON.ordinal(), NtmItems.CAST_PLATE.get()))
                 .unlockedBy("has_iron_cast_plate", has(NtmItems.CAST_PLATE.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "gold_block_from_iron_cast_plates"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("gold_block_from_iron_cast_plates"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.CAST_PLATE.get(), 1)
                 .pattern("###")
                 .pattern("###")
                 .pattern("###")
                 .define('#', Items.IRON_INGOT)
                 .unlockedBy("has_iron_ingot", has(Items.IRON_INGOT))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "iron_cast_plate_from_iron_ingots"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("iron_cast_plate_from_iron_ingots"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MetaHelper.newStack(NtmBlocks.BARBED_WIRE.asItem(), 1, BarbedWireBlock.BarbedWireType.FIRE.ordinal()))
                 .pattern("###")
                 .pattern("###")
                 .pattern("###")
                 .define('#', DataComponentIngredient.of(false, NtmDataComponents.META, BoltItem.Type.TUNGSTEN.meta, NtmItems.BOLT.get()))
                 .unlockedBy("has_tungsten_bolt", has(NtmItems.BOLT.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "flaming_barbed_wire_from_tungsten_bolts"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("flaming_barbed_wire_from_tungsten_bolts"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MetaHelper.newStack(NtmItems.BOLT.get(), 1, BoltItem.Type.TUNGSTEN.meta))
                 .pattern("###")
                 .pattern("###")
                 .pattern("###")
                 .define('#', DataComponentIngredient.of(false, NtmDataComponents.META, BarbedWireBlock.BarbedWireType.FIRE.ordinal(), NtmBlocks.BARBED_WIRE.asItem()))
                 .unlockedBy("has_flaming_barbed_wire", has(NtmBlocks.BARBED_WIRE.asItem()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "tungsten_bolt_from_flaming_barbed_wire"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("tungsten_bolt_from_flaming_barbed_wire"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.UPGRADE_TEMPLATE.get(), 1)
                 .pattern("ACA")
                 .pattern("BDB")
@@ -95,7 +96,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('C', NtmItems.PLATE_IRON.get())
                 .define('D', NtmItems.CIRCUIT_ANALOG_BOARD.get())
                 .unlockedBy("has_plate_iron", has(NtmItems.PLATE_IRON.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "upgrade_template_from_iron"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("upgrade_template_from_iron"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.UPGRADE_TEMPLATE.get(), 1)
                 .pattern("ACA")
                 .pattern("BDB")
@@ -105,7 +106,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('C', NtmItems.INGOT_POLYMER.get())
                 .define('D', NtmItems.CIRCUIT_INTEGRATED_BOARD.get())
                 .unlockedBy("has_polymer", has(NtmItems.INGOT_POLYMER.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "upgrade_template_from_polymer"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("upgrade_template_from_polymer"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.CIRCUIT_PRINTED_BOARD.get(), 1)
                 .pattern(" A ")
                 .pattern(" B ")
@@ -113,7 +114,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('B', NtmItems.PLATE_COPPER.get())
                 .define('A', NtmItems.PLATE_POLYMER.get())
                 .unlockedBy("has_insulator", has(NtmItems.PLATE_POLYMER.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "circuit_printed_board_from_copper_plate"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("circuit_printed_board_from_copper_plate"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.CIRCUIT_PRINTED_BOARD.get(), 4)
                 .pattern(" A ")
                 .pattern(" B ")
@@ -121,7 +122,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('B', NtmItems.PLATE_GOLD.get())
                 .define('A', NtmItems.PLATE_POLYMER.get())
                 .unlockedBy("has_insulator", has(NtmItems.PLATE_POLYMER.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "circuit_printed_board_from_gold_plate"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("circuit_printed_board_from_gold_plate"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.CIRCUIT_CAPACITOR.get(), 2)
                 .pattern("   ")
                 .pattern("ABA")
@@ -130,7 +131,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.PLATE_POLYMER.get())
                 .define('C', NtmItems.WIRE_COPPER.get())
                 .unlockedBy("has_insulator", has(NtmItems.PLATE_POLYMER.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "circuit_capacitor_from_aluminium_powder_and_copper_wire"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("circuit_capacitor_from_aluminium_powder_and_copper_wire"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.CIRCUIT_CAPACITOR.get(), 2)
                 .pattern("   ")
                 .pattern("ABA")
@@ -139,7 +140,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.PLATE_POLYMER.get())
                 .define('C', NtmItems.WIRE_ALUMINIUM.get())
                 .unlockedBy("has_insulator", has(NtmItems.PLATE_POLYMER.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "circuit_capacitor_from_aluminium_powder_and_aluminium_wire"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("circuit_capacitor_from_aluminium_powder_and_aluminium_wire"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.CIRCUIT_CAPACITOR.get(), 1)
                 .pattern(" A ")
                 .pattern(" B ")
@@ -148,7 +149,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.PLATE_POLYMER.get())
                 .define('C', NtmItems.WIRE_COPPER.get())
                 .unlockedBy("has_insulator", has(NtmItems.PLATE_POLYMER.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "circuit_capacitor_from_niobium_nugget_and_copper_wire"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("circuit_capacitor_from_niobium_nugget_and_copper_wire"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.CIRCUIT_CAPACITOR.get(), 1)
                 .pattern(" A ")
                 .pattern(" B ")
@@ -157,7 +158,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.PLATE_POLYMER.get())
                 .define('C', NtmItems.WIRE_COPPER.get())
                 .unlockedBy("has_insulator", has(NtmItems.PLATE_POLYMER.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "circuit_capacitor_from_niobium_fragment_and_copper_wire"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("circuit_capacitor_from_niobium_fragment_and_copper_wire"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.CIRCUIT_CAPACITOR.get(), 1)
                 .pattern(" A ")
                 .pattern(" B ")
@@ -166,7 +167,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.PLATE_POLYMER.get())
                 .define('C', NtmItems.WIRE_ALUMINIUM.get())
                 .unlockedBy("has_insulator", has(NtmItems.PLATE_POLYMER.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "circuit_capacitor_from_niobium_nugget_and_aluminium_wire"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("circuit_capacitor_from_niobium_nugget_and_aluminium_wire"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.CIRCUIT_CAPACITOR.get(), 1)
                 .pattern(" A ")
                 .pattern(" B ")
@@ -175,7 +176,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.PLATE_POLYMER.get())
                 .define('C', NtmItems.WIRE_ALUMINIUM.get())
                 .unlockedBy("has_insulator", has(NtmItems.PLATE_POLYMER.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "circuit_capacitor_from_niobium_fragment_and_aluminium_wire"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("circuit_capacitor_from_niobium_fragment_and_aluminium_wire"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.CIRCUIT_VACUUM_TUBE.get(), 1)
                 .pattern(" A ")
                 .pattern(" B ")
@@ -184,7 +185,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', Items.GLASS_PANE)
                 .define('C', NtmItems.PLATE_POLYMER.get())
                 .unlockedBy("has_insulator", has(NtmItems.PLATE_POLYMER.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "circuit_vacuum_tube_from_tungsten_wire"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("circuit_vacuum_tube_from_tungsten_wire"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.CIRCUIT_VACUUM_TUBE.get(), 1)
                 .pattern(" A ")
                 .pattern(" B ")
@@ -193,7 +194,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', Items.GLASS_PANE)
                 .define('C', NtmItems.PLATE_POLYMER.get())
                 .unlockedBy("has_insulator", has(NtmItems.PLATE_POLYMER.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "circuit_vacuum_tube_from_carbon_wire"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("circuit_vacuum_tube_from_carbon_wire"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.MOTOR.get(), 2)
                 .pattern(" A ")
                 .pattern("BCB")
@@ -203,7 +204,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('C', NtmItems.COIL_COPPER.get())
                 .define('D', NtmItems.COIL_COPPER_RING.get())
                 .unlockedBy("has_insulator", has(NtmItems.PLATE_POLYMER.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "motor_from_iron_plates"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("motor_from_iron_plates"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.MOTOR.get(), 2)
                 .pattern(" A ")
                 .pattern("BCB")
@@ -213,28 +214,28 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('C', NtmItems.COIL_COPPER.get())
                 .define('D', NtmItems.COIL_COPPER_RING.get())
                 .unlockedBy("has_insulator", has(NtmItems.PLATE_POLYMER.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "motor_from_steel_plates"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("motor_from_steel_plates"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.PLATE_POLYMER.get(), 16)
                 .pattern("   ")
                 .pattern("AA ")
                 .pattern("   ")
                 .define('A', NtmItems.INGOT_FIBERGLASS.get())
                 .unlockedBy("has_ingot_fiberglass", has(NtmItems.INGOT_FIBERGLASS.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "plate_polymer_from_fiberglass"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("plate_polymer_from_fiberglass"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.PLATE_POLYMER.get(), 16)
                 .pattern("   ")
                 .pattern("AA ")
                 .pattern("   ")
                 .define('A', NtmItems.INGOT_ASBESTOS.get())
                 .unlockedBy("has_ingot_asbestos", has(NtmItems.INGOT_ASBESTOS.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "plate_polymer_from_asbestos"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("plate_polymer_from_asbestos"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.PLATE_POLYMER.get(), 4)
                 .pattern("   ")
                 .pattern("AA ")
                 .pattern("   ")
                 .define('A', Items.BRICK)
                 .unlockedBy("has_brick", has(Items.BRICK))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "plate_polymer_from_bricks"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("plate_polymer_from_bricks"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.PLATE_POLYMER.get(), 4)
                 .pattern("   ")
                 .pattern("ABA")
@@ -242,42 +243,42 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', Items.STRING)
                 .define('B', Items.WHITE_WOOL)
                 .unlockedBy("has_string", has(Items.STRING))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "plate_polymer_from_string_and_wool"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("plate_polymer_from_string_and_wool"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.PLATE_POLYMER.get(), 8)
                 .pattern("   ")
                 .pattern("AA ")
                 .pattern("   ")
                 .define('A', NtmItems.INGOT_POLYMER.get())
                 .unlockedBy("has_ingot_polymer", has(NtmItems.INGOT_POLYMER.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "plate_polymer_from_polymer"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("plate_polymer_from_polymer"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.PLATE_POLYMER.get(), 8)
                 .pattern("   ")
                 .pattern("AA ")
                 .pattern("   ")
                 .define('A', NtmItems.INGOT_BAKELITE.get())
                 .unlockedBy("has_ingot_bakelite", has(NtmItems.INGOT_BAKELITE.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "plate_polymer_from_bakelite"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("plate_polymer_from_bakelite"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.PLATE_POLYMER.get(), 8)
                 .pattern("   ")
                 .pattern("AA ")
                 .pattern("   ")
                 .define('A', NtmItems.INGOT_RUBBER.get())
                 .unlockedBy("has_ingot_rubber", has(NtmItems.INGOT_RUBBER.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "plate_polymer_from_rubber"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("plate_polymer_from_rubber"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.PLATE_POLYMER.get(), 8)
                 .pattern("   ")
                 .pattern("AA ")
                 .pattern("   ")
                 .define('A', NtmItems.INGOT_BIORUBBER.get())
                 .unlockedBy("has_ingot_biorubber", has(NtmItems.INGOT_BIORUBBER.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "plate_polymer_from_biorubber"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("plate_polymer_from_biorubber"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.PIPES_STEEL.get(), 1)
                 .pattern(" A ")
                 .pattern(" A ")
                 .pattern(" A ")
                 .define('A', NtmBlocks.BLOCK_STEEL.get())
                 .unlockedBy("has_ingot_steel", has(NtmItems.INGOT_STEEL.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "1"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("1"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.CIRCUIT_TANTALIUM_CAPACITOR.get(), 1)
                 .pattern(" A ")
                 .pattern(" B ")
@@ -286,7 +287,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('B', NtmItems.NUGGET_TANTALIUM.get())
                 .define('C', NtmItems.WIRE_COPPER.get())
                 .unlockedBy("has_nugget_tantalium", has(NtmItems.NUGGET_TANTALIUM.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "2"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("2"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.CIRCUIT_TANTALIUM_CAPACITOR.get(), 1)
                 .pattern(" A ")
                 .pattern(" B ")
@@ -295,7 +296,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('B', NtmItems.NUGGET_TANTALIUM.get())
                 .define('C', NtmItems.WIRE_ALUMINIUM.get())
                 .unlockedBy("has_nugget_tantalium", has(NtmItems.NUGGET_TANTALIUM.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "3"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("3"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.CIRCUIT_CONTROL_UNIT_CASING.get(), 1)
                 .pattern("AAA")
                 .pattern("BCC")
@@ -304,7 +305,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('B', NtmItems.CRT_DISPLAY.get())
                 .define('C', NtmItems.CIRCUIT_PRINTED_BOARD.get())
                 .unlockedBy("has_crt_display", has(NtmItems.CRT_DISPLAY.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "4"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("4"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.CIRCUIT_CONTROL_UNIT_CASING.get(), 1)
                 .pattern("AAA")
                 .pattern("BCC")
@@ -313,7 +314,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('B', NtmItems.CRT_DISPLAY.get())
                 .define('C', NtmItems.CIRCUIT_PRINTED_BOARD.get())
                 .unlockedBy("has_crt_display", has(NtmItems.CRT_DISPLAY.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "5"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("5"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.CRT_DISPLAY.get(), 4)
                 .pattern(" C ")
                 .pattern("ADA")
@@ -323,7 +324,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('C', NtmItems.POWDER_ALUMINIUM.get())
                 .define('D', Items.GLASS_PANE)
                 .unlockedBy("has_vacuum_tube", has(NtmItems.CIRCUIT_VACUUM_TUBE.get()))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "6"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("6"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.CELL_EMPTY.get(), 6)
                 .pattern(" A ")
                 .pattern("D D")
@@ -331,7 +332,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.PLATE_STEEL.get())
                 .define('D', Items.GLASS_PANE)
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "7"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("7"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmBlocks.MACHINE_WOOD_BURNER.get(), 1)
                 .pattern("AAA")
                 .pattern("BDB")
@@ -341,7 +342,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('C', Items.IRON_INGOT)
                 .define('D', Items.FURNACE)
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "8"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("8"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmBlocks.MACHINE_BATTERY_SOCKET.get(), 1)
                 .pattern("A A")
                 .pattern("A A")
@@ -349,7 +350,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.PLATE_POLYMER.get())
                 .define('B', NtmItems.COIL_COPPER.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "9"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("9"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmBlocks.MACHINE_BATTERY_SOCKET.get(), 1)
                 .pattern("   ")
                 .pattern("ABA")
@@ -357,70 +358,70 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.PLATE_STEEL.get())
                 .define('B', NtmItems.INGOT_RED_COPPER.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "10"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("10"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.RING_STARMETAL.get(), 1)
                 .pattern(" A ")
                 .pattern("A A")
                 .pattern(" A ")
                 .define('A', NtmItems.INGOT_STARMETAL.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "11"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("11"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.INGOT_COPPER.get(), 1)
                 .pattern("AAA")
                 .pattern("AAA")
                 .pattern("AAA")
                 .define('A', NtmItems.WIRE_COPPER.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "12"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("12"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.INGOT_GRAPHITE.get(), 1)
                 .pattern("AAA")
                 .pattern("AAA")
                 .pattern("AAA")
                 .define('A', NtmItems.WIRE_CARBON.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "13"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("13"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Items.GOLD_INGOT, 1)
                 .pattern("AAA")
                 .pattern("AAA")
                 .pattern("AAA")
                 .define('A', NtmItems.WIRE_GOLD.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "14"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("14"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.INGOT_SCHRABIDIUM.get(), 1)
                 .pattern("AAA")
                 .pattern("AAA")
                 .pattern("AAA")
                 .define('A', NtmItems.WIRE_SCHRABIDIUM.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "15"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("15"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.INGOT_TUNGSTEN.get(), 1)
                 .pattern("AAA")
                 .pattern("AAA")
                 .pattern("AAA")
                 .define('A', NtmItems.WIRE_TUNGSTEN.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "16"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("16"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.INGOT_ALUMINIUM.get(), 1)
                 .pattern("AAA")
                 .pattern("AAA")
                 .pattern("AAA")
                 .define('A', NtmItems.WIRE_ALUMINIUM.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "17"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("17"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.INGOT_RED_COPPER.get(), 1)
                 .pattern("AAA")
                 .pattern("AAA")
                 .pattern("AAA")
                 .define('A', NtmItems.WIRE_RED_COPPER.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "18"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("18"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.INGOT_MAGNETIZED_TUNGSTEN.get(), 1)
                 .pattern("AAA")
                 .pattern("AAA")
                 .pattern("AAA")
                 .define('A', NtmItems.WIRE_MAGNETIZED_TUNGSTEN.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "19"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("19"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.COIL_MAGNETIZED_TUNGSTEN.get(), 1)
                 .pattern("AAA")
                 .pattern("ABA")
@@ -428,7 +429,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.WIRE_MAGNETIZED_TUNGSTEN.get())
                 .define('B', NtmItems.INGOT_STEEL.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "20"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("20"));
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.COIL_MAGNETIZED_TUNGSTEN.get(), 1)
                 .pattern("AAA")
                 .pattern("ABA")
@@ -436,7 +437,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.WIRE_MAGNETIZED_TUNGSTEN.get())
                 .define('B', Items.IRON_INGOT)
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "21"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("21"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.COIL_COPPER.get(), 1)
                 .pattern("AAA")
@@ -445,7 +446,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.WIRE_RED_COPPER.get())
                 .define('B', Items.IRON_INGOT)
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "22"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("22"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.COIL_COPPER.get(), 1)
                 .pattern("AAA")
@@ -454,7 +455,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.WIRE_RED_COPPER.get())
                 .define('B', NtmItems.INGOT_STEEL.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "23"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("23"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.COIL_GOLD.get(), 1)
                 .pattern("AAA")
@@ -463,7 +464,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.WIRE_GOLD.get())
                 .define('B', NtmItems.INGOT_STEEL.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "24"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("24"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.COIL_GOLD.get(), 1)
                 .pattern("AAA")
@@ -472,7 +473,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.WIRE_GOLD.get())
                 .define('B', Items.IRON_INGOT)
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "25"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("25"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.COIL_GOLD_RING.get(), 2)
                 .pattern(" A ")
@@ -481,7 +482,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.COIL_GOLD.get())
                 .define('B', NtmItems.PLATE_IRON.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "26"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("26"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.COIL_GOLD_RING.get(), 2)
                 .pattern(" A ")
@@ -490,7 +491,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.COIL_GOLD.get())
                 .define('B', NtmItems.PLATE_STEEL.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "27"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("27"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.COIL_COPPER_RING.get(), 2)
                 .pattern(" A ")
@@ -499,7 +500,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.COIL_COPPER.get())
                 .define('B', NtmItems.PLATE_STEEL.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "28"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("28"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.COIL_COPPER_RING.get(), 2)
                 .pattern(" A ")
@@ -508,7 +509,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.COIL_COPPER.get())
                 .define('B', NtmItems.PLATE_IRON.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "29"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("29"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.COIL_TUNGSTEN.get(), 1)
                 .pattern("AAA")
@@ -517,7 +518,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.WIRE_TUNGSTEN.get())
                 .define('B', NtmItems.INGOT_STEEL.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "30"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("30"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.COIL_TUNGSTEN.get(), 1)
                 .pattern("AAA")
@@ -526,7 +527,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.WIRE_TUNGSTEN.get())
                 .define('B', Items.IRON_INGOT)
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "31"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("31"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.TANK_STEEL.get(), 2)
                 .pattern("ABA")
@@ -535,7 +536,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.PLATE_STEEL.get())
                 .define('B', NtmItems.PLATE_TITANIUM.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "32"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("32"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.CATALYST_CLAY.get(), 1)
                 .pattern("   ")
@@ -544,7 +545,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.POWDER_IRON.get())
                 .define('B', Items.CLAY)
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "33"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("33"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.DEUTERIUM_FILTER.get(), 1)
                 .pattern("ABA")
@@ -554,7 +555,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('B', NtmItems.SULFUR.get())
                 .define('C', NtmItems.CATALYST_CLAY.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "34"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("34"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.DEUTERIUM_FILTER.get(), 1)
                 .pattern("ABA")
@@ -564,7 +565,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('B', NtmItems.SULFUR.get())
                 .define('C', NtmItems.CATALYST_CLAY.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "35"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("35"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.FINS_FLAT.get(), 1)
                 .pattern("BA ")
@@ -573,7 +574,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.PLATE_STEEL.get())
                 .define('B', NtmItems.INGOT_STEEL.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "36"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("36"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.FINS_SMALL_STEEL.get(), 1)
                 .pattern(" AA")
@@ -582,7 +583,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.PLATE_STEEL.get())
                 .define('B', NtmItems.INGOT_STEEL.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "37"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("37"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.FINS_BIG_STEEL.get(), 1)
                 .pattern(" AB")
@@ -591,7 +592,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.PLATE_STEEL.get())
                 .define('B', NtmItems.INGOT_STEEL.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "38"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("38"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.FINS_TRI_STEEL.get(), 1)
                 .pattern(" AB")
@@ -601,7 +602,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('B', NtmItems.INGOT_STEEL.get())
                 .define('C', NtmBlocks.BLOCK_STEEL.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "39"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("39"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.FINS_QUAD_TITANIUM.get(), 1)
                 .pattern(" AA")
@@ -610,7 +611,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.PLATE_TITANIUM.get())
                 .define('B', NtmItems.INGOT_TITANIUM.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "40"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("40"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.SPHERE_STEEL.get(), 1)
                 .pattern("ABA")
@@ -619,7 +620,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.PLATE_STEEL.get())
                 .define('B', NtmItems.INGOT_STEEL.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "41"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("41"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.PEDESTAL_STEEL.get(), 1)
                 .pattern("A A")
@@ -628,7 +629,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.PLATE_STEEL.get())
                 .define('B', NtmItems.INGOT_STEEL.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "42"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("42"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.BLADE_TITANIUM.get(), 2)
                 .pattern("BA ")
@@ -637,7 +638,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.PLATE_TITANIUM.get())
                 .define('B', NtmItems.INGOT_TITANIUM.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "43"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("43"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.TURBINE_TITANIUM.get(), 1)
                 .pattern("AAA")
@@ -646,7 +647,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.BLADE_TITANIUM.get())
                 .define('B', NtmItems.INGOT_STEEL.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "44"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("44"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.TURBINE_TUNGSTEN.get(), 1)
                 .pattern("AAA")
@@ -655,7 +656,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.BLADE_TUNGSTEN.get())
                 .define('B', NtmItems.INGOT_DURA_STEEL.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "45"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("45"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.FLYWHEEL_BERYLLIUM.get(), 1)
                 .pattern("ABA")
@@ -665,7 +666,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('B', NtmBlocks.BLOCK_BERYLLIUM.get())
                 .define('C', NtmItems.PIPE_DURA_STEEL.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "46"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("46"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.BLADES_STEEL.get(), 1)
                 .pattern(" A ")
@@ -674,7 +675,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.PLATE_STEEL.get())
                 .define('B', NtmItems.INGOT_STEEL.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "47"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("47"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.BLADES_TITANIUM.get(), 1)
                 .pattern(" A ")
@@ -683,7 +684,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.PLATE_TITANIUM.get())
                 .define('B', NtmItems.INGOT_TITANIUM.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "48"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("48"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.BLADES_DESH.get(), 1)
                 .pattern(" A ")
@@ -692,7 +693,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.PLATE_DESH.get())
                 .define('B', NtmItems.BLADES_TITANIUM.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "49"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("49"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.DUCTTAPE.get(), 4)
                 .pattern(" C ")
@@ -702,7 +703,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('B', Items.PAPER)
                 .define('C', Items.STRING)
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "50"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("50"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.TOOTHPICKS.get(), 3)
                 .pattern("A  ")
@@ -710,7 +711,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .pattern("   ")
                 .define('A', Items.STICK)
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "51"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("51"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.PLANT_ITEM.get(), 1)
                 .pattern("AA ")
@@ -718,7 +719,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .pattern("   ")
                 .define('A', Items.STRING)
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "52"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("52"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.PLANT_ITEM.get(), 4)
                 .pattern(" A ")
@@ -726,7 +727,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .pattern(" A ")
                 .define('A', NtmBlocks.PLANT_FLOWER.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "53"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("53"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MetaHelper.newStack(NtmBlocks.BARBED_WIRE.asItem(), 16, BarbedWireBlock.BarbedWireType.STANDARD.ordinal()))
                 .pattern("ABA")
@@ -735,7 +736,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.WIRE_STEEL.get())
                 .define('B', Items.IRON_INGOT)
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "54"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("54"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MetaHelper.newStack(NtmBlocks.BARBED_WIRE.asItem(), 8, BarbedWireBlock.BarbedWireType.FIRE.ordinal()))
                 .pattern("AAA")
@@ -744,7 +745,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', DataComponentIngredient.of(false, NtmDataComponents.META, BarbedWireBlock.BarbedWireType.STANDARD.ordinal(), NtmBlocks.BARBED_WIRE.asItem()))
                 .define('B', NtmItems.POWDER_FIRE)
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "55"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("55"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MetaHelper.newStack(NtmBlocks.BARBED_WIRE.asItem(), 8, BarbedWireBlock.BarbedWireType.POISON.ordinal()))
                 .pattern("AAA")
@@ -753,7 +754,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', DataComponentIngredient.of(false, NtmDataComponents.META, BarbedWireBlock.BarbedWireType.STANDARD.ordinal(), NtmBlocks.BARBED_WIRE.asItem()))
                 .define('B', NtmItems.POWDER_POISON)
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "56"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("56"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MetaHelper.newStack(NtmBlocks.BARBED_WIRE.asItem(), 8, BarbedWireBlock.BarbedWireType.ACID.ordinal()))
                 .pattern("AAA")
@@ -762,7 +763,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', DataComponentIngredient.of(false, NtmDataComponents.META, BarbedWireBlock.BarbedWireType.STANDARD.ordinal(), NtmBlocks.BARBED_WIRE.asItem()))
                 .define('B', DataComponentIngredient.of(false, NtmDataComponents.META, Fluids.PEROXIDE.getID(), NtmItems.FLUID_TANK_FULL.get()))
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "57"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("57"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MetaHelper.newStack(NtmBlocks.BARBED_WIRE.asItem(), 8, BarbedWireBlock.BarbedWireType.WITHER.ordinal()))
                 .pattern("AAA")
@@ -771,7 +772,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', DataComponentIngredient.of(false, NtmDataComponents.META, BarbedWireBlock.BarbedWireType.STANDARD.ordinal(), NtmBlocks.BARBED_WIRE.asItem()))
                 .define('B', Items.WITHER_SKELETON_SKULL)
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "58"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("58"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MetaHelper.newStack(NtmBlocks.BARBED_WIRE.asItem(), 4, BarbedWireBlock.BarbedWireType.ULTRADEATH.ordinal()))
                 .pattern("ACA")
@@ -781,7 +782,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('B', NtmItems.NUCLEAR_WASTE)
                 .define('C', NtmItems.POWDER_YELLOWCAKE.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "59"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("59"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MetaHelper.newStack(NtmItems.BOLT.get(), 16, BoltItem.Type.TUNGSTEN.meta))
                 .pattern(" A ")
@@ -789,7 +790,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .pattern("   ")
                 .define('A', NtmItems.INGOT_TUNGSTEN.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "60"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("60"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MetaHelper.newStack(NtmItems.BOLT.get(), 16, BoltItem.Type.LEAD.meta))
                 .pattern(" A ")
@@ -797,7 +798,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .pattern("   ")
                 .define('A', NtmItems.INGOT_LEAD.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "61"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("61"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MetaHelper.newStack(NtmItems.BOLT.get(), 16, BoltItem.Type.STEEL.meta))
                 .pattern(" A ")
@@ -805,7 +806,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .pattern("   ")
                 .define('A', NtmItems.INGOT_STEEL.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "62"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("62"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MetaHelper.newStack(NtmItems.BOLT.get(), 16, BoltItem.Type.DURA_STEEL.meta))
                 .pattern(" A ")
@@ -813,7 +814,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .pattern("   ")
                 .define('A', NtmItems.INGOT_DURA_STEEL.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "63"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("63"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.REACHER.get(), 1)
                 .pattern("CAC")
@@ -823,7 +824,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('B', NtmItems.INGOT_RUBBER.get())
                 .define('C', DataComponentIngredient.of(false, NtmDataComponents.META, BoltItem.Type.TUNGSTEN.meta, NtmItems.BOLT.get()))
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "64"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("64"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.OIL_DETECTOR.get(), 1)
                 .pattern("A B")
@@ -834,7 +835,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('C', NtmItems.PLATE_STEEL.get())
                 .define('D', NtmItems.CIRCUIT_ANALOG_BOARD.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "65"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("65"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmBlocks.MACHINE_PRESS.get(), 1)
                 .pattern("ADA")
@@ -845,7 +846,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('C', Items.PISTON)
                 .define('D', Items.FURNACE)
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "66"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("66"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.STAMP_STONE_FLAT.get(), 1)
                 .pattern("   ")
@@ -854,7 +855,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', Items.BRICK)
                 .define('B', Items.STONE)
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "67"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("67"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.STAMP_IRON_FLAT.get(), 1)
                 .pattern("   ")
@@ -863,7 +864,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', Items.BRICK)
                 .define('B', Items.IRON_INGOT)
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "68"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("68"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.STAMP_STEEL_FLAT.get(), 1)
                 .pattern("   ")
@@ -872,7 +873,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', Items.BRICK)
                 .define('B', NtmItems.INGOT_STEEL.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "69"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("69"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.STAMP_TITANIUM_FLAT.get(), 1)
                 .pattern("   ")
@@ -881,7 +882,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', Items.BRICK)
                 .define('B', NtmItems.INGOT_TITANIUM.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "70"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("70"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.STAMP_OBSIDIAN_FLAT.get(), 1)
                 .pattern("   ")
@@ -890,7 +891,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', Items.BRICK)
                 .define('B', Items.OBSIDIAN)
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "71"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("71"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.STAMP_DESH_FLAT.get(), 1)
                 .pattern("ABA")
@@ -900,7 +901,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('B', NtmItems.INGOT_DESH.get())
                 .define('C', NtmItems.INGOT_FERROURANIUM.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "72"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("72"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.PHOTO_PANEL.get(), 1)
                 .pattern(" B ")
@@ -911,7 +912,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('C', NtmItems.POWDER_QUARTZ.get())
                 .define('D', NtmItems.CIRCUIT_PRINTED_BOARD.get())
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "73"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("73"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.ARC_ELECTRODE_GRAPHITE.get(), 1)
                 .pattern(" A ")
@@ -920,7 +921,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.INGOT_GRAPHITE.get())
                 .define('B', DataComponentIngredient.of(false, NtmDataComponents.META, BoltItem.Type.STEEL.meta, NtmItems.BOLT.get()))
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "74"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("74"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.ARC_ELECTRODE_GRAPHITE.get(), 1)
                 .pattern(" A ")
@@ -929,7 +930,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.COKE_PETROLEUM.get())
                 .define('B', ItemTags.create(ResourceLocation.fromNamespaceAndPath("ntm", "any_tars")))
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "75"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("75"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.ARC_ELECTRODE_LANTHANIUM.get(), 1)
                 .pattern(" A ")
@@ -938,7 +939,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.INGOT_LANTHANIUM.get())
                 .define('B', Items.BRICK)
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "76"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("76"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.ARC_ELECTRODE_DESH.get(), 1)
                 .pattern(" A ")
@@ -947,7 +948,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.INGOT_DESH.get())
                 .define('B', NtmItems.INGOT_TITANIUM)
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "77"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("77"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.ARC_ELECTRODE_DESH.get(), 1)
                 .pattern(" A ")
@@ -956,7 +957,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.INGOT_SATURNITE.get())
                 .define('B', NtmItems.INGOT_NIOBIUM)
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "78"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("78"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmItems.ARC_ELECTRODE_SATURNITE.get(), 1)
                 .pattern(" A ")
@@ -965,7 +966,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.INGOT_DESH.get())
                 .define('B', NtmItems.INGOT_TUNGSTEN)
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "79"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("79"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmBlocks.TRANSFORMER.get(), 1)
                 .pattern("ABA")
@@ -976,7 +977,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('C', NtmItems.COIL_COPPER)
                 .define('D', NtmItems.INGOT_RED_COPPER)
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "80"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("80"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmBlocks.CRATE_IRON.get(), 1)
                 .pattern("AAA")
@@ -985,7 +986,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.PLATE_IRON)
                 .define('B', Items.IRON_INGOT)
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "81"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("81"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmBlocks.CRATE_STEEL.get(), 1)
                 .pattern("AAA")
@@ -994,7 +995,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmItems.PLATE_STEEL)
                 .define('B', NtmItems.INGOT_STEEL)
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "82"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("82"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, NtmBlocks.CRATE_DESH.get(), 1)
                 .pattern(" B ")
@@ -1003,7 +1004,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('A', NtmBlocks.CRATE_STEEL)
                 .define('B', NtmItems.PLATE_DESH)
                 .unlockedBy("has_crafting_table", has(Items.CRAFTING_TABLE))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", "83"));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace("83"));
 
         //
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, NtmBlocks.BRICK_CONCRETE_MOSSY.get(), 8)
@@ -1207,7 +1208,7 @@ public class NtmRecipeProvider extends RecipeProvider {
     private void addNuggetCrafting(RecipeOutput recipeOutput, Item result, Item nugget) {
         String resultName = BuiltInRegistries.ITEM.getKey(result).getPath();
         String nuggetName = BuiltInRegistries.ITEM.getKey(nugget).getPath();
-        ResourceLocation recipeId = ResourceLocation.fromNamespaceAndPath("hbmsntm", resultName + "_from_" + nuggetName);
+        ResourceLocation recipeId = NuclearTechMod.withDefaultNamespace(resultName + "_from_" + nuggetName);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, result, 1)
                 .pattern("nnn")
@@ -1221,7 +1222,7 @@ public class NtmRecipeProvider extends RecipeProvider {
     private void addNuggetDeCrafting(RecipeOutput recipeOutput, Item nugget, Item result) {
         String nuggetName = BuiltInRegistries.ITEM.getKey(nugget).getPath();
         String resultName = BuiltInRegistries.ITEM.getKey(result).getPath();
-        ResourceLocation recipeId = ResourceLocation.fromNamespaceAndPath("hbmsntm", nuggetName + "_from_" + resultName);
+        ResourceLocation recipeId = NuclearTechMod.withDefaultNamespace(nuggetName + "_from_" + resultName);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, nugget, 9)
                 .requires(result)
@@ -1237,7 +1238,7 @@ public class NtmRecipeProvider extends RecipeProvider {
     private void addOreSmelting(RecipeOutput recipeOutput, Block input, Item result, float experience) {
         String inputName = BuiltInRegistries.BLOCK.getKey(input).getPath();
         String resultName = BuiltInRegistries.ITEM.getKey(result).getPath();
-        ResourceLocation recipeId = ResourceLocation.fromNamespaceAndPath("hbmsntm", resultName + "_from_smelting_" + inputName);
+        ResourceLocation recipeId = NuclearTechMod.withDefaultNamespace(resultName + "_from_smelting_" + inputName);
 
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(input), RecipeCategory.MISC, result, experience, 200)
                 .unlockedBy("has_" + inputName, has(input))
@@ -1252,7 +1253,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('X', ingredient)
                 .define('#', Items.STICK)
                 .unlockedBy("has_" + BuiltInRegistries.ITEM.getKey(ingredient).getPath(), has(ingredient))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", baseName));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace(baseName));
     }
 
     private void addAxeRecipe(RecipeOutput recipeOutput, Item result, Item ingredient, String baseName) {
@@ -1263,7 +1264,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('X', ingredient)
                 .define('#', Items.STICK)
                 .unlockedBy("has_" + BuiltInRegistries.ITEM.getKey(ingredient).getPath(), has(ingredient))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", baseName));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace(baseName));
     }
 
     private void addShovelRecipe(RecipeOutput recipeOutput, Item result, Item ingredient, String baseName) {
@@ -1274,7 +1275,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('X', ingredient)
                 .define('#', Items.STICK)
                 .unlockedBy("has_" + BuiltInRegistries.ITEM.getKey(ingredient).getPath(), has(ingredient))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", baseName));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace(baseName));
     }
 
     private void addHoeRecipe(RecipeOutput recipeOutput, Item result, Item ingredient, String baseName) {
@@ -1285,7 +1286,7 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .define('X', ingredient)
                 .define('#', Items.STICK)
                 .unlockedBy("has_" + BuiltInRegistries.ITEM.getKey(ingredient).getPath(), has(ingredient))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", baseName));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace(baseName));
     }
 
     private void registerMaterialConversionRecipes(RecipeOutput recipeOutput) {
@@ -1526,12 +1527,12 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .pattern("XXX")
                 .define('X', input)
                 .unlockedBy("has_" + inputName, has(input))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", resultName + "_from_9_" + inputName));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace(resultName + "_from_9_" + inputName));
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, input, 9)
                 .requires(result)
                 .unlockedBy("has_" + resultName, has(result))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", inputName + "_from_" + resultName));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace(inputName + "_from_" + resultName));
     }
 
     private void addBilletRecipe(RecipeOutput recipeOutput, ItemLike billetItem, ItemLike nuggetItem, ItemLike ingotItem) {
@@ -1547,25 +1548,25 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .pattern("nnn")
                 .define('n', nugget)
                 .unlockedBy("has_" + nuggetName, has(nugget))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", billetName + "_from_6_" + nuggetName));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace(billetName + "_from_6_" + nuggetName));
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, nugget, 6)
                 .requires(billet)
                 .unlockedBy("has_" + billetName, has(billet))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", nuggetName + "_from_" + billetName));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace(nuggetName + "_from_" + billetName));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, billet, 3)
                 .pattern("XX")
                 .define('X', ingot)
                 .unlockedBy("has_" + ingotName, has(ingot))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", billetName + "_from_2_" + ingotName));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace(billetName + "_from_2_" + ingotName));
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ingot, 2)
                 .requires(billet)
                 .requires(billet)
                 .requires(billet)
                 .unlockedBy("has_" + billetName, has(billet))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", ingotName + "_from_3_" + billetName));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace(ingotName + "_from_3_" + billetName));
     }
 
     private void addMaterialSmelting(RecipeOutput recipeOutput, ItemLike inputItem, ItemLike outputItem) {
@@ -1576,7 +1577,7 @@ public class NtmRecipeProvider extends RecipeProvider {
 
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(input), RecipeCategory.MISC, output, 0.7F, 200)
                 .unlockedBy("has_" + inputName, has(input))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", inputName + "_to_" + outputName));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace(inputName + "_to_" + outputName));
     }
 
     private void addTinyPowderRecipe(RecipeOutput recipeOutput, ItemLike tinyPowderItem, ItemLike powderItem) {
@@ -1591,12 +1592,12 @@ public class NtmRecipeProvider extends RecipeProvider {
                 .pattern("TTT")
                 .define('T', tinyPowder)
                 .unlockedBy("has_" + tinyName, has(tinyPowder))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", powderName + "_from_9_" + tinyName));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace(powderName + "_from_9_" + tinyName));
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, tinyPowder, 9)
                 .requires(powder)
                 .unlockedBy("has_" + powderName, has(powder))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", tinyName + "_from_" + powderName));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace(tinyName + "_from_" + powderName));
     }
 
     private void addCrystalSmelting(RecipeOutput recipeOutput, ItemLike inputItem, ItemLike outputItem) {
@@ -1607,6 +1608,6 @@ public class NtmRecipeProvider extends RecipeProvider {
 
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(input), RecipeCategory.MISC, new ItemStack(output, 2), 0.7F, 200)
                 .unlockedBy("has_" + inputName, has(input))
-                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath("hbmsntm", outputName + "_from_" + inputName));
+                .save(recipeOutput, NuclearTechMod.withDefaultNamespace(outputName + "_from_" + inputName));
     }
 }

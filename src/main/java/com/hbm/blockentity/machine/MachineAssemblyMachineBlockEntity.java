@@ -65,8 +65,8 @@ public class MachineAssemblyMachineBlockEntity extends MachineBaseBlockEntity im
 
     public UpgradeManagerNT upgradeManager = new UpgradeManagerNT(this);
 
-    public MachineAssemblyMachineBlockEntity(BlockPos pos, BlockState blockState) {
-        super(NtmBlockEntityTypes.ASSEMBLY_MACHINE.get(), pos, blockState, 17);
+    public MachineAssemblyMachineBlockEntity(BlockPos pos, BlockState state) {
+        super(NtmBlockEntityTypes.ASSEMBLY_MACHINE.get(), pos, state, 17);
 
         this.inputTank = new FluidTank(Fluids.NONE, 4_000);
         this.outputTank = new FluidTank(Fluids.NONE, 4_000);

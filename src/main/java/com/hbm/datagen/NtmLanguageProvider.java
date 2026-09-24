@@ -1670,7 +1670,10 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add(NtmBlocks.MACHINE_INDUSTRIAL_BOILER, "Industrial Boiler");
         this.add(NtmBlocks.MACHINE_SHREDDER, "Machine Shredder");
         this.add(NtmBlocks.MACHINE_FLUID_TANK, "Tank");
+        this.add(NtmBlocks.MACHINE_INDUSTRIAL_TURBINE, "Industrial Steam Turbine");
+        this.add(NtmBlocks.MACHINE_INDUSTRIAL_TURBINE, DESC, "Efficiency: 100%%");
         this.add(NtmBlocks.MACHINE_CHUNGUS, "Leviathan Steam Turbine");
+        this.add(NtmBlocks.MACHINE_CHUNGUS, DESC, "Efficiency: 85%%");
         this.add(NtmBlocks.MACHINE_SOLDERING_STATION, "Soldering Station");
         this.add(NtmBlocks.HEATER_FIREBOX, "Firebox");
         this.add(NtmBlocks.HEATER_OVEN, "Heating Oven");
@@ -2025,12 +2028,12 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.add("trait.htype.pa", "PA Coolant");
 
         // DAMAGE TYPES //
-        this.addDamage("nuclearBlast", "%1$s was blown away by a nuclear explosion");
+        this.addDamage("nuclear_blast", "%1$s was blown away by a nuclear explosion");
         this.addDamage("digamma", "%1$s stepped into the abyss");
         this.addDamage("radiation", "%1$s died from radiation poisoning");
         this.addDamage("asbestos", "%1$s is now entitled to financial compensation");
         this.addDamage("blacklung", "%1$s died from black lung disease");
-        this.addDamage("blackhole", "%1$s was spaghettified");
+        this.addDamage("black_hole", "%1$s was spaghettified");
         this.addDamage("taint", "%1$s died from flux tumors");
         this.addDamage("bang", "%1$s was blasted into bite-sized pieces");
         this.addDamage("lead", "%1$s died from lead poisoning");
@@ -2039,22 +2042,22 @@ public class NtmLanguageProvider extends LanguageProvider {
         this.addDamage("monoxide", "%1$s forgot to change the batteries in their carbon monoxide detector");
         this.addDamage("meteorite", "%1$s was hit by a falling rock from outer space");
 
-        this.addDamage("sednaPhysical", "%1$s was shot");
-        this.addDamagePlayer("sednaPhysical", "%1$s was shot by %2$s");
-        this.addDamage("sednaFire", "%1$s was incinerated");
-        this.addDamagePlayer("sednaFire", "%1$s was incinerated by %2$s");
-        this.addDamage("sednaExplosion", "%1$s was blown up.");
-        this.addDamagePlayer("sednaExplosion", "%1$s was blown up by %2$s.");
-        this.addDamage("sednaElectric", "%1$s was fried");
-        this.addDamagePlayer("sednaElectric", "%1$s was fried by %2$s");
-        this.addDamage("sednaLaser", "%1$s was pulverized");
-        this.addDamagePlayer("sednaLaser", "%1$s was pulverized by %2$s");
-        this.addDamage("sednaMicrowave", "%1$s was microwaved");
-        this.addDamagePlayer("sednaMicrowave", "%1$s was microwaved by %2$s");
-        this.addDamage("sednaSubatomic", "%1$s was atomized");
-        this.addDamagePlayer("sednaSubatomic", "%1$s was atomized by %2$s");
-        this.addDamage("sednaOther", "%1$s was killed");
-        this.addDamagePlayer("sednaOther", "%1$s was killed by %2$s.");
+        this.addDamage("physical", "%1$s was shot");
+        this.addDamagePlayer("physical", "%1$s was shot by %2$s");
+        this.addDamage("fire", "%1$s was incinerated");
+        this.addDamagePlayer("fire", "%1$s was incinerated by %2$s");
+        this.addDamage("explosion", "%1$s was blown up.");
+        this.addDamagePlayer("explosion", "%1$s was blown up by %2$s.");
+        this.addDamage("electric", "%1$s was fried");
+        this.addDamagePlayer("electric", "%1$s was fried by %2$s");
+        this.addDamage("laser", "%1$s was pulverized");
+        this.addDamagePlayer("laser", "%1$s was pulverized by %2$s");
+        this.addDamage("microwave", "%1$s was microwaved");
+        this.addDamagePlayer("microwave", "%1$s was microwaved by %2$s");
+        this.addDamage("subatomic", "%1$s was atomized");
+        this.addDamagePlayer("subatomic", "%1$s was atomized by %2$s");
+        this.addDamage("other", "%1$s was killed");
+        this.addDamagePlayer("other", "%1$s was killed by %2$s.");
 
         // MISC //
         this.add("message.hbmsntm.loaded", "Loaded world with Hbm's Nuclear Tech Mod: %s for Minecraft 1.21.1!");

@@ -203,6 +203,7 @@ public class ClientProxy extends ServerProxy {
         BlockEntityRenderers.register(NtmBlockEntityTypes.MACHINE_CHEMICAL_PLANT.get(), new RenderChemicalPlant());
         BlockEntityRenderers.register(NtmBlockEntityTypes.ASSEMBLY_MACHINE.get(), new RenderAssemblyMachine());
         BlockEntityRenderers.register(NtmBlockEntityTypes.FLUID_TANK.get(), new RenderFluidTank());
+        BlockEntityRenderers.register(NtmBlockEntityTypes.MACHINE_INDUSTRIAL_TURBINE.get(), new RenderIndustrialTurbine());
         BlockEntityRenderers.register(NtmBlockEntityTypes.MACHINE_CHUNGUS.get(), new RenderChungus());
         BlockEntityRenderers.register(NtmBlockEntityTypes.PRESS.get(), new RenderPress());
         BlockEntityRenderers.register(NtmBlockEntityTypes.GEIGER_COUNTER.get(), new RenderGeigerBlock());
@@ -299,7 +300,7 @@ public class ClientProxy extends ServerProxy {
         SimpleSoundInstance instance = new SimpleSoundInstance(soundEvent, source, volume, pitch, RandomSource.create(minecraft.level.random.nextLong()), x, y, z);
         if(distSqr > 100.0) {
             double dist = Math.sqrt(distSqr) / 40.0;
-            minecraft.getSoundManager().playDelayed(instance, (int)(dist * 20.0));
+            minecraft.getSoundManager().playDelayed(instance, (int) (dist * 20.0));
         } else {
             minecraft.getSoundManager().play(instance);
         }

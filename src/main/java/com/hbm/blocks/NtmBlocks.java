@@ -355,6 +355,7 @@ public class NtmBlocks {
     public static final DeferredBlock<Block> MACHINE_ASSEMBLY_MACHINE = register("machine_assembly_machine", () -> new MachineAssemblyMachineBlock(BlockBehaviour.Properties.of().noOcclusion().strength(5.0F, 30.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
     public static final DeferredBlock<Block> MACHINE_FLUID_TANK = register("machine_fluid_tank", () -> new MachineFluidTankBlock(BlockBehaviour.Properties.of().noOcclusion().strength(5.0F, 20.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
     public static final DeferredBlock<Block> MACHINE_CHUNGUS = register("machine_chungus", () -> new MachineChungusBlock(BlockBehaviour.Properties.of().noOcclusion().strength(5.0F, 20.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
+    public static final DeferredBlock<Block> MACHINE_INDUSTRIAL_TURBINE = register("machine_industrial_turbine", () -> new MachineIndustrialTurbineBlock(BlockBehaviour.Properties.of().noOcclusion().strength(5.0F, 20.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
 
     public static final DeferredBlock<Block> MACHINE_SATLINKER = register("machine_satlinker", () -> new MachineSatLinkerBlock(BlockBehaviour.Properties.of().strength(5.0F, 10.0F).sound(SoundType.METAL).mapColor(MapColor.METAL)));
 

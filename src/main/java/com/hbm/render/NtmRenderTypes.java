@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderType.CompositeState;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.OptionalDouble;
 import java.util.function.Function;
 
 public class NtmRenderTypes {
@@ -49,6 +50,20 @@ public class NtmRenderTypes {
     public static final ShaderStateShard VBO_SHADER = new ShaderStateShard(NtmShaders::getVboShader);
 
     public static final ShaderStateShard POSITION_TEX_COLOR = new ShaderStateShard(GameRenderer::getPositionTexColorShader);
+
+    public static final Function<Double, RenderType> DEBUG_LINE_STRIP = Util.memoize(
+            (var) -> RenderType.create(
+                    "lines",
+                    DefaultVertexFormat.POSITION_COLOR,
+                    Mode.LINES,
+                    1536,
+                    RenderType.CompositeState.builder()
+                            .setShaderState(RenderType.POSITION_COLOR_SHADER)
+                            .setLineState(new RenderStateShard.LineStateShard(OptionalDouble.of(var)))
+                            .setWriteMaskState(RenderType.COLOR_WRITE)
+                            .createCompositeState(false)
+            )
+    );
 
     @Deprecated
     public static final RenderType VBO = RenderType.create("vbo", NtmVertexFormat.POSITION_TEX_NORMAL, Mode.QUADS, 1024,

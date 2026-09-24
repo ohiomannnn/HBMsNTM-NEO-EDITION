@@ -49,7 +49,7 @@ public record BufPacket(BlockPos pos, byte[] data) implements CustomPacketPayloa
                 try {
                     receiver.deserialize(buf);
                 } catch(Exception e) {
-                    NuclearTechMod.LOGGER.warn("A ByteBuf packet failed to be read and has thrown an error. This normally means that there was a buffer underflow and more data was read than was actually in the packet.\")");
+                    NuclearTechMod.LOGGER.warn("A ByteBuf packet failed to be read and has thrown an error. This normally means that there was a buffer underflow and more data was read than was actually in the packet.");
                     NuclearTechMod.LOGGER.warn("Block: {}", be.getBlockState().getBlock().getDescriptionId());
                     NuclearTechMod.LOGGER.warn(e.getMessage());
                 } finally {

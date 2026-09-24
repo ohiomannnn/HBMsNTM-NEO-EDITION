@@ -13,6 +13,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -175,7 +176,7 @@ public class FluidType {
     }
 
     /** Returns the localized override name if present, or otherwise the I18n converted name */
-    public Component getName() {
+    public MutableComponent getName() {
         return this.localizedOverride != null ? Component.literal(localizedOverride) : Component.translatable(this.unlocalized);
     }
 

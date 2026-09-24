@@ -18,7 +18,7 @@ import org.joml.Vector3f;
 
 public class DigammaSmokeParticle extends TextureSheetParticle {
 
-    public static final ResourceLocation BASE = ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "textures/particle/base_particle.png");
+    public static final ResourceLocation BASE = NuclearTechMod.withDefaultNamespace("textures/particle/base_particle.png");
 
     public DigammaSmokeParticle(ClientLevel level, double x, double y, double z) {
         super(level, x, y, z);

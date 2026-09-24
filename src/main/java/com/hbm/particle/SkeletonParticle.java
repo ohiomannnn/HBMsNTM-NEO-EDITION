@@ -28,10 +28,10 @@ import java.util.List;
 
 public class SkeletonParticle extends TextureSheetParticle {
 
-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "textures/particle/skeleton.png");
-    public static final ResourceLocation TEXTURE_EXT = ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "textures/particle/skoilet.png");
-    public static final ResourceLocation TEXTURE_BLOOD = ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "textures/particle/skeleton_blood.png");
-    public static final ResourceLocation TEXTURE_BLOOD_EXT = ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "textures/particle/skoilet_blood.png");
+    public static final ResourceLocation TEXTURE = NuclearTechMod.withDefaultNamespace("textures/particle/skeleton.png");
+    public static final ResourceLocation TEXTURE_EXT = NuclearTechMod.withDefaultNamespace("textures/particle/skoilet.png");
+    public static final ResourceLocation TEXTURE_BLOOD = NuclearTechMod.withDefaultNamespace("textures/particle/skeleton_blood.png");
+    public static final ResourceLocation TEXTURE_BLOOD_EXT = NuclearTechMod.withDefaultNamespace("textures/particle/skoilet_blood.png");
     protected EnumSkeletonType type;
 
     public ResourceLocation useTexture;

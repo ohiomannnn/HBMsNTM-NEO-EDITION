@@ -1,6 +1,5 @@
 package com.hbm.entity.logic;
 
-import com.hbm.explosion.vanillant.ExplosionVNT;
 import com.hbm.particle.NtmParticleTypes;
 import com.hbm.particle.helper.ExplosionSmallCreator;
 import com.hbm.particle.vanilla.NbtParticleOptions;
@@ -8,6 +7,7 @@ import com.hbm.registry.NtmDamageTypes;
 import com.hbm.registry.NtmSoundEvents;
 import com.hbm.util.BobMathUtil;
 import com.hbm.util.SoundUtils;
+import com.hbm.util.Vec3NT;
 import com.hbm.util.particle.ParticleUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -15,11 +15,13 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 public abstract class PlaneBase extends Entity {
 
@@ -67,38 +69,15 @@ public abstract class PlaneBase extends Entity {
         this.lerpZ = z;
         this.lerpYRot = yRot;
         this.lerpXRot = xRot;
-        this.lerpSteps = 10;
+        this.lerpSteps = steps;
     }
 
-    @Override
-    public void lerpMotion(double x, double y, double z) {
-        this.setDeltaMovement(x, y, z);
-    }
-
-    @Override
-    public double lerpTargetX() {
-        return this.lerpSteps > 0 ? this.lerpX : this.getX();
-    }
-
-    @Override
-    public double lerpTargetY() {
-        return this.lerpSteps > 0 ? this.lerpY : this.getY();
-    }
-
-    @Override
-    public double lerpTargetZ() {
-        return this.lerpSteps > 0 ? this.lerpZ : this.getZ();
-    }
-
-    @Override
-    public float lerpTargetXRot() {
-        return this.lerpSteps > 0 ? this.lerpXRot : this.xRot;
-    }
-
-    @Override
-    public float lerpTargetYRot() {
-        return this.lerpSteps > 0 ? this.lerpYRot : this.yRot;
-    }
+    @Override public void lerpMotion(double x, double y, double z) { this.setDeltaMovement(x, y, z); }
+    @Override public double lerpTargetX() { return this.lerpSteps > 0 ? this.lerpX : this.getX(); }
+    @Override public double lerpTargetY() { return this.lerpSteps > 0 ? this.lerpY : this.getY(); }
+    @Override public double lerpTargetZ() { return this.lerpSteps > 0 ? this.lerpZ : this.getZ(); }
+    @Override public float lerpTargetXRot() { return this.lerpSteps > 0 ? this.lerpXRot : this.getXRot(); }
+    @Override public float lerpTargetYRot() { return this.lerpSteps > 0 ? this.lerpYRot : this.getYRot(); }
 
     @Override
     public void tick() {
@@ -127,39 +106,51 @@ public abstract class PlaneBase extends Entity {
 
             this.rotation();
 
-            if (this.getHealth() <= 0) {
-                this.setDeltaMovement(this.getDeltaMovement().x, this.getDeltaMovement().y - 0.025, this.getDeltaMovement().z);
+            if(this.getHealth() <= 0) {
+                this.setDeltaMovement(this.getDeltaMovement().subtract(0.0, 0.025, 0.0));
 
-                for (int i = 0; i < 10; i++) {
-                    ParticleUtil.addParticle(this.level, new NbtParticleOptions(NtmParticleTypes.GAS_FLAME.get(), new CompoundTag()), this.getX() + random.nextGaussian() * 0.5 - this.deltaMovement.x * 2, this.getY() + random.nextGaussian() * 0.5 - this.deltaMovement.y * 2, this.getZ() + random.nextGaussian() * 0.5 - this.deltaMovement.z * 2, 0.0F, 0.1F, 0.0F, 150.0);
+                for(int i = 0; i < 10; i++) {
+                    Vec3 delta = this.getDeltaMovement();
+                    ParticleUtil.addParticle(
+                            this.level,
+                            new NbtParticleOptions(NtmParticleTypes.GAS_FLAME.get(), new CompoundTag()),
+                            this.getX() + random.nextGaussian() * 0.5 - delta.x * 2,
+                            this.getY() + random.nextGaussian() * 0.5 - delta.y * 2,
+                            this.getZ() + random.nextGaussian() * 0.5 - delta.z * 2,
+                            0F, 0.1F, 0F,
+                            150.0
+                    );
                 }
 
-                if ((!level().getBlockState(this.blockPosition()).isAir()) || this.getY() < this.level().getMinBuildHeight()) {
+                if((!this.level.getBlockState(this.blockPosition()).isAir()) || this.getY() < this.level.getMinBuildHeight()) {
                     this.discard();
-                    new ExplosionVNT(this.level(), this.getX(), this.getY(), this.getZ(), 15F).makeStandard().explode();
-                    level().playSound(null, this.getX(), this.getY(), this.getZ(), NtmSoundEvents.PLANE_CRASH, SoundSource.HOSTILE, 25.0F, 1.0F);
+                    this.level.explode(null, this.getX(), this.getY(), this.getZ(), 15F, Level.ExplosionInteraction.MOB);
+                    SoundUtils.playAtVec3(this.level, this.position(), NtmSoundEvents.PLANE_CRASH.get(), SoundSource.AMBIENT, 25F, 1F);
                 }
             } else {
                 this.setDeltaMovement(this.getDeltaMovement().x, 0, this.getDeltaMovement().z);
             }
 
-            if (this.tickCount > timer) {
-                this.discard();
-            }
+            if(this.tickCount > timer) this.discard();
         }
     }
 
     protected void rotation() {
-        float motionHorizontal = BobMathUtil.sqrt(this.deltaMovement.x * this.deltaMovement.x + this.deltaMovement.z * this.deltaMovement.z);
-        this.yRot = BobMathUtil.atan2(this.deltaMovement.x, this.deltaMovement.z) * 180.0F / BobMathUtil.PI;
+        Vec3 delta = this.getDeltaMovement();
+        double distance = delta.horizontalDistance();
+        this.yRot = (float) (Math.atan2(delta.x, delta.z) * 180.0 / Math.PI);
         for(
-                this.xRot = (BobMathUtil.atan2(this.deltaMovement.y, motionHorizontal) * 180.0F / BobMathUtil.PI) - 90F;
+                this.xRot = (float) (Math.atan2(delta.y, distance) * 180.0 / Math.PI) - 90F;
                 this.xRot - this.xRotO < -180.0F;
                 this.xRotO -= 360.0F
         );
+
         while(this.xRot - this.xRotO >= 180.0F) this.xRotO += 360.0F;
         while(this.yRot - this.yRotO < -180.0F) this.yRotO -= 360.0F;
         while(this.yRot - this.yRotO >= 180.0F) this.yRotO += 360.0F;
+
+        this.xRot = Mth.lerp(0.2F, this.xRotO, this.xRot);
+        this.yRot = Mth.lerp(0.2F, this.yRotO, this.yRot);
     }
 
     @Override

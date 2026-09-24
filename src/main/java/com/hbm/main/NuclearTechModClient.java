@@ -40,7 +40,6 @@ import com.hbm.particle.engine.util.SpriteSetNT;
 import com.hbm.particle.helper.ParticleCreators;
 import com.hbm.particle.vanilla.PlayerCloudParticle;
 import com.hbm.particle.vanilla.SmokeParticle;
-import com.hbm.registry.NtmBiomes;
 import com.hbm.render.entity.effect.SkeletonModel;
 import com.hbm.render.entity.projectile.ModelRubble;
 import com.hbm.render.entity.projectile.ModelShrapnel;
@@ -74,8 +73,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -94,7 +91,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -388,14 +384,6 @@ public class NuclearTechModClient {
 
         long millis = Clock.get_ms();
         if (millis == 0) millis = System.currentTimeMillis();
-
-        Holder<Biome> biome = player.level.getBiome(player.blockPosition);
-        if (biome.is(NtmBiomes.CRATER) || biome.is(NtmBiomes.CRATER)) {
-            RandomSource rand = player.random;
-            for(int i = 0; i < 3; i++) {
-                Minecraft.getInstance().particleEngine.createParticle(ParticleTypes.MYCELIUM, player.position.x + rand.nextGaussian() * 3, player.position.y + rand.nextGaussian() * 2, player.position.z + rand.nextGaussian() * 3, 0, 0, 0);
-            }
-        }
 
         if (lastStarCheck + 100 < millis) {
             renderLodeStar = false;
@@ -700,9 +688,12 @@ public class NuclearTechModClient {
 
     @SubscribeEvent
     public static void onTextureAtlasStitched(TextureAtlasStitchedEvent event) {
-        if (event.getAtlas().location().equals(TextureAtlas.LOCATION_PARTICLES)) {
+        if(event.getAtlas().location().equals(TextureAtlas.LOCATION_PARTICLES)) {
             NtmParticleTypes.BASE_PARTICLE_SPRITES = new SpriteSetNT(event.getAtlas(), NuclearTechMod.withDefaultNamespace("base_particle"));
-
+            NtmParticleTypes.DEAD_LEAVES_SPRITES = new SpriteSetNT(event.getAtlas(), NuclearTechMod.withDefaultNamespace("dead_leaf"));
+            NtmParticleTypes.AURA_SPITES = new SpriteSetNT(event.getAtlas(), NuclearTechMod.withDefaultNamespace("aura"));
+            NtmParticleTypes.POWER_SPRITES = new SpriteSetNT(event.getAtlas(), NuclearTechMod.withDefaultNamespace("power_debug"));
+            NtmParticleTypes.FLUID_SPRITES = new SpriteSetNT(event.getAtlas(), NuclearTechMod.withDefaultNamespace("fluid_debug"));
             NtmParticleTypes.VANILLA_CLOUD_SPRITES = new SpriteSetNT(event.getAtlas(), new ResourceLocation[] {
                     ResourceLocation.withDefaultNamespace("generic_7"),
                     ResourceLocation.withDefaultNamespace("generic_6"),
@@ -743,7 +734,7 @@ public class NuclearTechModClient {
         event.registerSpecial(NtmParticleTypes.AMAT.get(), new AmatFlashParticle.Provider());
         event.registerSpecial(NtmParticleTypes.RBMK_FLAME.get(), new RBMKFlameParticle.Provider());
         event.registerSpecial(NtmParticleTypes.COOLING_TOWER.get(), new CoolingTowerProvider());
-        event.registerSpriteSet(NtmParticleTypes.GAS_FLAME.get(), ParticleGasFlame.Provider::new);
+        event.registerSpecial(NtmParticleTypes.GAS_FLAME.get(), new GasFlameParticle.Provider());
         event.registerSpecial(NtmParticleTypes.TOM_BLAST.get(), new CloudTomParticle.Provider());
     }
 

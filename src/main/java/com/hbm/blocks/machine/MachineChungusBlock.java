@@ -51,7 +51,7 @@ public class MachineChungusBlock extends DummyableBlock implements ITooltipProvi
         DummyBlockType type = state.getValue(TYPE);
         return switch(type) {
             case CORE -> new ChungusBlockEntity(pos, state);
-            case EXTRA -> new ProxyComboBlockEntity(pos, state).inventory().power().fluid();
+            case EXTRA -> new ProxyComboBlockEntity(pos, state).power().fluid();
             default -> null;
         };
     }
@@ -78,7 +78,7 @@ public class MachineChungusBlock extends DummyableBlock implements ITooltipProvi
             BlockEntity blockEntity = level.getBlockEntity(corePos);
             if(blockEntity instanceof ChungusBlockEntity be) {
 
-                Direction dir = state.getValue(FACING);
+                Direction dir = be.getBlockState().getValue(FACING);
                 Direction turn = dir.getCounterClockWise(Axis.Y);
 
                 BlockPos bePos = be.getBlockPos();

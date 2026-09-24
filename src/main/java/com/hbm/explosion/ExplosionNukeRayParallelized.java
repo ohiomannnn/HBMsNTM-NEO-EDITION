@@ -17,6 +17,7 @@ import java.util.concurrent.atomic.AtomicLongArray;
  *
  * @author mlbv
  */
+@Deprecated // this one is bs too, i need to make something before update
 public class ExplosionNukeRayParallelized implements IExplosionRay {
 
     private static final AtomicInteger THREAD_COUNTER = new AtomicInteger();

@@ -44,7 +44,7 @@ public abstract class ItemRenderWeaponBase extends BlockEntityWithoutLevelRender
                     .setOverlayState(RenderType.OVERLAY)
                     .setCullState(RenderStateShard.NO_CULL)
                     .setWriteMaskState(RenderStateShard.COLOR_WRITE)
-                    .createCompositeState(false)
+                    .createCompositeState(true)
     );
 
     public static final Function<ResourceLocation, RenderType> FLASH = Util.memoize(

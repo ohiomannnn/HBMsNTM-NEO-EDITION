@@ -1,22 +1,23 @@
 package com.hbm.blocks;
 
 import com.hbm.blockentity.IPersistentNBT;
-import com.hbm.blocks.machine.MachineRadarBlock;
 import com.hbm.handler.MultiblockHandlerXR;
 import com.hbm.interfaces.ICopiable;
-import com.hbm.main.NuclearTechMod;
+import com.hbm.render.NtmRenderTypes;
+import com.hbm.util.Clock;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.serialization.MapCodec;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.RandomSource;
+import net.minecraft.util.FastColor;
+import net.minecraft.util.Mth;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -34,6 +35,8 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -41,10 +44,13 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.client.event.RenderHighlightEvent;
+import org.joml.Matrix4f;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public abstract class DummyableBlock extends BaseEntityBlock implements ICustomBlockHighlight, ICopiable {
 
@@ -460,5 +466,250 @@ public abstract class DummyableBlock extends BaseEntityBlock implements ICustomB
         }
 
         return InteractionResult.SUCCESS;
+    }
+
+    /**
+     * Allows six int arrays with standard format (up, down, forward, backward, left, right)
+     * or nine int arrays with extra offset info (backward, up, left)
+     */
+    public int[][] getAllDimensions() { return new int[][] { this.getDimensions() }; }
+    public double[][] getAABBExtras() { return new double[0][0]; }
+
+    @OnlyIn(Dist.CLIENT)
+    public void drawPlacementHighlight(MultiBufferSource buffer, Vec3 camPos, PoseStack poseStack, Player player) {
+        HitResult hr = Minecraft.getInstance().hitResult;
+        if(hr == null) return;
+
+        if(hr.getType() == HitResult.Type.BLOCK) {
+            BlockHitResult bhr = (BlockHitResult) hr;
+
+            BlockPos bhrBlockPos = bhr.getBlockPos();
+            int offset = -this.getOffset();
+            int pY = bhrBlockPos.getY() + this.getHeightOffset();
+
+            // Orientation
+            Direction facing = player.getDirection().getOpposite();
+            Direction sideHit = bhr.getDirection();
+            facing = getDirModified(facing);
+
+            double originX = bhrBlockPos.getX() + facing.getStepX() * offset + sideHit.getStepX();
+            double originY = pY + sideHit.getStepY();
+            double originZ = bhrBlockPos.getZ() + facing.getStepZ() * offset + sideHit.getStepZ();
+
+            BlockPos checkOrigin = new BlockPos(bhrBlockPos.getX(), pY, bhrBlockPos.getZ());
+            boolean canPlace = this.checkRequirement(player.level, checkOrigin.relative(sideHit), facing, offset);
+
+            VertexConsumer consumer = buffer.getBuffer(NtmRenderTypes.DEBUG_LINE_STRIP.apply(2.0));
+            Matrix4f matrix = poseStack.last().pose();
+
+            double timer = (Clock.get_ms() % (1000D * Math.PI)) / 250D;
+            double sine = Math.sin(timer);
+            int sineColor = (int) (255 * (sine * 0.25 + 0.75));
+
+            int color = canPlace ? FastColor.ARGB32.color(255, 0, sineColor, 0) : FastColor.ARGB32.color(255, sineColor, 0, 0);
+
+            // Gets the list of different dimensions that each XLmultiblock has,
+            // and generates the list of blocks that needs to be highlighted.
+            // Each XL multiblock has the getAllDimensions overridden in its own
+            // class. Each NEEDS it or it will show the incorect shape.
+            List<BlockPos> blocks = new ArrayList<>();
+            Set<BlockPos> set = new HashSet<>();
+
+            for(int[] dims : this.getAllDimensions()) {
+
+                // Some of the multiblocks have offsets for the placements, so
+                // this allows for the ones that dont need it to have a bunch of
+                // 0s at the end.
+                int offBkwd = dims.length > 6 ? dims[6] : 0;
+                int offUp = dims.length > 7 ? dims[7] : 0;
+                int offLeft = dims.length > 8 ? dims[8] : 0;
+                int worldOffX;
+                int worldOffY;
+                int worldOffZ;
+
+                worldOffY = offUp;
+                worldOffX = facing.getStepX() * offBkwd + facing.getClockWise(Axis.Y).getStepX() * offLeft;
+                worldOffZ = facing.getStepZ() * offBkwd + facing.getClockWise(Axis.Y).getStepZ() * offLeft;
+
+                int[] rot = MultiblockHandlerXR.rotate(dims, facing);
+                for(int bx = -rot[4] + worldOffX; bx <= rot[5] + worldOffX; bx++) {
+                    for(int by = -rot[1] + worldOffY; by <= rot[0] + worldOffY; by++) {
+                        for(int bz = -rot[2] + worldOffZ; bz <= rot[3] + worldOffZ; bz++) {
+                            BlockPos bp = new BlockPos(Mth.floor(originX) + bx, Mth.floor(originY) + by, Mth.floor(originZ) + bz);
+                            blocks.add(bp);
+                            set.add(bp);
+                        }
+                    }
+                }
+            }
+
+            // This looks for the blocks nearby and draws lines between the
+            // vertexes to make different shaped boxes.
+            // Most of this was taken from Mellow (Thanks mellow) -Wolf
+            for(BlockPos pos : blocks) {
+                boolean px = set.contains(pos.offset(1, 0, 0));
+                boolean nx = set.contains(pos.offset(-1, 0, 0));
+                boolean ppy = set.contains(pos.offset(0, 1, 0));
+                boolean ny = set.contains(pos.offset(0, -1, 0));
+                boolean ppz = set.contains(pos.offset(0, 0, 1));
+                boolean nz = set.contains(pos.offset(0, 0, -1));
+
+                float minX = (float)(pos.getX() - camPos.x);
+                float maxX = (float)(pos.getX() + 1 - camPos.x);
+                float minY = (float)(pos.getY() - camPos.y);
+                float maxY = (float)(pos.getY() + 1 - camPos.y);
+                float minZ = (float)(pos.getZ() - camPos.z);
+                float maxZ = (float)(pos.getZ() + 1 - camPos.z);
+
+                if(!ppy) {
+                    if(!nx) {
+                        consumer.addVertex(matrix, minX, maxY, minZ).setColor(color);
+                        consumer.addVertex(matrix, minX, maxY, maxZ).setColor(color);
+                    }
+                    if(!ppz) {
+                        consumer.addVertex(matrix, minX, maxY, maxZ).setColor(color);
+                        consumer.addVertex(matrix, maxX, maxY, maxZ).setColor(color);
+                    }
+                    if(!px) {
+                        consumer.addVertex(matrix, maxX, maxY, maxZ).setColor(color);
+                        consumer.addVertex(matrix, maxX, maxY, minZ).setColor(color);
+                    }
+                    if(!nz) {
+                        consumer.addVertex(matrix, maxX, maxY, minZ).setColor(color);
+                        consumer.addVertex(matrix, minX, maxY, minZ).setColor(color);
+                    }
+                }
+                if(!ny) {
+                    if(!nx) {
+                        consumer.addVertex(matrix, minX, minY, minZ).setColor(color);
+                        consumer.addVertex(matrix, minX, minY, maxZ).setColor(color);
+                    }
+                    if(!ppz) {
+                        consumer.addVertex(matrix, minX, minY, maxZ).setColor(color);
+                        consumer.addVertex(matrix, maxX, minY, maxZ).setColor(color);
+                    }
+                    if(!px) {
+                        consumer.addVertex(matrix, maxX, minY, maxZ).setColor(color);
+                        consumer.addVertex(matrix, maxX, minY, minZ).setColor(color);
+                    }
+                    if(!nz) {
+                        consumer.addVertex(matrix, maxX, minY, minZ).setColor(color);
+                        consumer.addVertex(matrix, minX, minY, minZ).setColor(color);
+                    }
+                }
+                if(!nz) {
+                    if(!nx) {
+                        consumer.addVertex(matrix, minX, minY, minZ).setColor(color);
+                        consumer.addVertex(matrix, minX, maxY, minZ).setColor(color);
+                    }
+                    if(!ppy) {
+                        consumer.addVertex(matrix, minX, maxY, minZ).setColor(color);
+                        consumer.addVertex(matrix, maxX, maxY, minZ).setColor(color);
+                    }
+                    if(!px) {
+                        consumer.addVertex(matrix, maxX, maxY, minZ).setColor(color);
+                        consumer.addVertex(matrix, maxX, minY, minZ).setColor(color);
+                    }
+                    if(!ny) {
+                        consumer.addVertex(matrix, maxX, minY, minZ).setColor(color);
+                        consumer.addVertex(matrix, minX, minY, minZ).setColor(color);
+                    }
+                }
+                if(!ppz) {
+                    if(!nx) {
+                        consumer.addVertex(matrix, minX, minY, maxZ).setColor(color);
+                        consumer.addVertex(matrix, minX, maxY, maxZ).setColor(color);
+                    }
+                    if(!ppy) {
+                        consumer.addVertex(matrix, minX, maxY, maxZ).setColor(color);
+                        consumer.addVertex(matrix, maxX, maxY, maxZ).setColor(color);
+                    }
+                    if(!px) {
+                        consumer.addVertex(matrix, maxX, maxY, maxZ).setColor(color);
+                        consumer.addVertex(matrix, maxX, minY, maxZ).setColor(color);
+                    }
+                    if(!ny) {
+                        consumer.addVertex(matrix, maxX, minY, maxZ).setColor(color);
+                        consumer.addVertex(matrix, minX, minY, maxZ).setColor(color);
+                    }
+                }
+                if(!nx) {
+                    if(!nz) {
+                        consumer.addVertex(matrix, minX, minY, minZ).setColor(color);
+                        consumer.addVertex(matrix, minX, maxY, minZ).setColor(color);
+                    }
+                    if(!ppy) {
+                        consumer.addVertex(matrix, minX, maxY, minZ).setColor(color);
+                        consumer.addVertex(matrix, minX, maxY, maxZ).setColor(color);
+                    }
+                    if(!ppz) {
+                        consumer.addVertex(matrix, minX, maxY, maxZ).setColor(color);
+                        consumer.addVertex(matrix, minX, minY, maxZ).setColor(color);
+                    }
+                    if(!ny) {
+                        consumer.addVertex(matrix, minX, minY, maxZ).setColor(color);
+                        consumer.addVertex(matrix, minX, minY, minZ).setColor(color);
+                    }
+                }
+                if(!px) {
+                    if(!nz) {
+                        consumer.addVertex(matrix, maxX, minY, minZ).setColor(color);
+                        consumer.addVertex(matrix, maxX, maxY, minZ).setColor(color);
+                    }
+                    if(!ppy) {
+                        consumer.addVertex(matrix, maxX, maxY, minZ).setColor(color);
+                        consumer.addVertex(matrix, maxX, maxY, maxZ).setColor(color);
+                    }
+                    if(!ppz) {
+                        consumer.addVertex(matrix, maxX, maxY, maxZ).setColor(color);
+                        consumer.addVertex(matrix, maxX, minY, maxZ).setColor(color);
+                    }
+                    if(!ny) {
+                        consumer.addVertex(matrix, maxX, minY, maxZ).setColor(color);
+                        consumer.addVertex(matrix, maxX, minY, minZ).setColor(color);
+                    }
+                }
+            }
+
+            color = FastColor.ARGB32.color(255, 0, 0, sineColor);
+
+            // boo-yeah
+            for(double[] extra : this.getAABBExtras()) {
+
+                Direction rot = facing.getClockWise(Axis.Y);
+                float cX = (float)(Mth.floor(originX) - camPos.x) + 0.5F;
+                float cY = (float)(Mth.floor(originY) - camPos.y);
+                float cZ = (float)(Mth.floor(originZ) - camPos.z) + 0.5F;
+
+                float upr = (float) extra[0];
+                float lwr = (float) extra[1];
+                float fwd = (float) extra[2];
+                float bwd = (float) extra[3];
+                float lft = (float) extra[4];
+                float rgt = (float) extra[5];
+
+                float x0 = cX + fwd * facing.getStepX() + lft * rot.getStepX();
+                float x1 = cX + bwd * facing.getStepX() + rgt * rot.getStepX();
+                float y0 = cY + lwr;
+                float y1 = cY + upr;
+                float z0 = cZ + fwd * facing.getStepZ() + lft * rot.getStepZ();
+                float z1 = cZ + bwd * facing.getStepZ() + rgt * rot.getStepZ();
+
+                consumer.addVertex(matrix, x0, y0, z0).setColor(color); consumer.addVertex(matrix, x0, y0, z1).setColor(color);
+                consumer.addVertex(matrix, x1, y0, z0).setColor(color); consumer.addVertex(matrix, x1, y0, z1).setColor(color);
+                consumer.addVertex(matrix, x0, y0, z0).setColor(color); consumer.addVertex(matrix, x1, y0, z0).setColor(color);
+                consumer.addVertex(matrix, x0, y0, z1).setColor(color); consumer.addVertex(matrix, x1, y0, z1).setColor(color);
+
+                consumer.addVertex(matrix, x0, y1, z0).setColor(color); consumer.addVertex(matrix, x0, y1, z1).setColor(color);
+                consumer.addVertex(matrix, x1, y1, z0).setColor(color); consumer.addVertex(matrix, x1, y1, z1).setColor(color);
+                consumer.addVertex(matrix, x0, y1, z0).setColor(color); consumer.addVertex(matrix, x1, y1, z0).setColor(color);
+                consumer.addVertex(matrix, x0, y1, z1).setColor(color); consumer.addVertex(matrix, x1, y1, z1).setColor(color);
+
+                consumer.addVertex(matrix, x0, y0, z0).setColor(color); consumer.addVertex(matrix, x0, y1, z0).setColor(color);
+                consumer.addVertex(matrix, x1, y0, z0).setColor(color); consumer.addVertex(matrix, x1, y1, z0).setColor(color);
+                consumer.addVertex(matrix, x0, y0, z1).setColor(color); consumer.addVertex(matrix, x0, y1, z1).setColor(color);
+                consumer.addVertex(matrix, x1, y0, z1).setColor(color); consumer.addVertex(matrix, x1, y1, z1).setColor(color);
+            }
+        }
     }
 }

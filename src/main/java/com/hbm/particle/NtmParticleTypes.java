@@ -74,7 +74,6 @@ public class NtmParticleTypes {
     public static SpriteSet BASE_PARTICLE_SPRITES;
     public static SpriteSet DEAD_LEAVES_SPRITES;
     public static SpriteSet AURA_SPITES;
-    public static SpriteSet GAS_FLAME_PARTICLES;
     public static SpriteSet POWER_SPRITES;
     public static SpriteSet FLUID_SPRITES;
     public static SpriteSet VANILLA_CLOUD_SPRITES;

@@ -1,8 +1,8 @@
 package com.hbm.datagen;
 
 import com.hbm.main.NuclearTechMod;
-import com.hbm.registry.NtmDamageTypes;
 import com.hbm.registry.NtmBiomes;
+import com.hbm.registry.NtmDamageTypes;
 import com.hbm.world.gen.NtmBiomeModifiers;
 import com.hbm.world.gen.NtmConfiguredFeatures;
 import com.hbm.world.gen.NtmPlacedFeatures;
@@ -52,6 +52,8 @@ public class NtmDataGenerators {
         generator.addProvider(event.includeClient(), new NtmBlockStateProvider(output, helper));
         generator.addProvider(event.includeClient(), new NtmSoundDefinitionsProvider(output, helper));
         generator.addProvider(event.includeClient(), new NtmLanguageProvider(output));
+
+        lookup = datapackProvider.getRegistryProvider();
 
         // Server things
         LootTableProvider.SubProviderEntry blockLootTableSubProvider = new LootTableProvider.SubProviderEntry(NtmBlockLootTableProvider::new, LootContextParamSets.BLOCK);

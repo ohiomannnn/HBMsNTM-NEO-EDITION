@@ -1,21 +1,18 @@
 package com.hbm.network.toserver;
 
-import com.hbm.main.NuclearTechMod;
 import com.hbm.interfaces.IControlReceiver;
-import com.hbm.util.InventoryUtil;
+import com.hbm.main.NuclearTechMod;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-import java.util.List;
-
 public record CompoundTagControl(CompoundTag tag, BlockPos pos) implements CustomPacketPayload {
+
     public static final Type<CompoundTagControl> TYPE = new Type<>(NuclearTechMod.withDefaultNamespace("compound_tag_control"));
 
     public static final StreamCodec<FriendlyByteBuf, CompoundTagControl> STREAM_CODEC = new StreamCodec<>() {
@@ -34,6 +31,7 @@ public record CompoundTagControl(CompoundTag tag, BlockPos pos) implements Custo
     public static void handleServer(CompoundTagControl packet, IPayloadContext context) {
         context.enqueueWork(() -> {
             Player player = context.player();
+            if(player.isSpectator()) return;
 
             BlockEntity be = player.level.getBlockEntity(packet.pos);
 
@@ -41,23 +39,10 @@ public record CompoundTagControl(CompoundTag tag, BlockPos pos) implements Custo
                 if(icr.hasPermission(player)) {
                     icr.receiveControl(player, packet.tag);
                     icr.receiveControl(packet.tag);
-                    return;
-                }
-            }
-
-            List<ItemStack> stacks = InventoryUtil.getItemsFromBothHands(player);
-            for(ItemStack stack : stacks) {
-                if(stack.getItem() instanceof IControlReceiver icr) {
-                    if(icr.hasPermission(player)) {
-                        icr.receiveControl(player, packet.tag);
-                        icr.receiveControl(packet.tag);
-                        break;
-                    }
                 }
             }
         });
     }
 
-    @Override
-    public Type<? extends CustomPacketPayload> type() { return TYPE; }
+    @Override public Type<CompoundTagControl> type() { return TYPE; }
 }

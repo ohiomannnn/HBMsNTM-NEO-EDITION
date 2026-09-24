@@ -17,23 +17,26 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+/**
+ * Time to over-engineer this into fucking oblivion so that I never have to write a vanilla-esque explosion class ever again
+ * @author hbm
+ */
 public class ExplosionVNT {
 
-    //explosions only need one of these, in the unlikely event that we do need to combine different types we can just write a wrapper that acts as a chainloader
+    // explosions only need one of these, in the unlikely event that we do need to combine different types we can just write a wrapper that acts as a chainloader
     private IBlockAllocator blockAllocator;
     private IEntityProcessor entityProcessor;
     private IBlockProcessor blockProcessor;
-    //since we want to reduce each effect to the bare minimum (sound, particles, etc. being separate) we definitely need multiple most of the time
+    // since we want to reduce each effect to the bare minimum (sound, particles, etc. being separate) we definitely need multiple most of the time
     private IExplosionSFX[] sfx;
 
-    public Level level;
-    public double x;
-    public double y;
-    public double z;
-    public float size;
-    @Nullable public Entity exploder;
+    public final Level level;
+    public final double x;
+    public final double y;
+    public final double z;
+    public final float size;
+    @Nullable public final Entity exploder;
 
-    // things for compatibility with vanilla
     private final Map<Player, Vec3> compatPlayers = new HashMap<>();
     public Explosion compat;
 
@@ -77,17 +80,16 @@ public class ExplosionVNT {
         HashSet<BlockPos> affectedBlocks = null;
         HashMap<Player, Vec3> affectedPlayers = null;
 
-        //allocation
+        // allocation
         if(processBlocks) affectedBlocks = blockAllocator.allocate(this, level, x, y, z, size);
         if(processBlocks) this.compat.getToBlow().addAll(affectedBlocks);
         if(processEntities) affectedPlayers = entityProcessor.process(this, level, x, y, z, size);
         // technically not necessary, as the affected entity list is a separate parameter during the Detonate event
         if(processEntities) this.compat.getHitPlayers().putAll(affectedPlayers);
 
-        //serverside processing
+        // serverside processing
         if(processBlocks) blockProcessor.process(this, level, x, y, z, affectedBlocks);
 
-        //from server to client
         if(sfx != null) {
             for(IExplosionSFX fx : sfx) {
                 fx.doEffect(this, level, x, y, z, size);
@@ -100,17 +102,14 @@ public class ExplosionVNT {
         this.blockAllocator = blockAllocator;
         return this;
     }
-
     public ExplosionVNT setEntityProcessor(IEntityProcessor entityProcessor) {
         this.entityProcessor = entityProcessor;
         return this;
     }
-
     public ExplosionVNT setBlockProcessor(IBlockProcessor blockProcessor) {
         this.blockProcessor = blockProcessor;
         return this;
     }
-
     public ExplosionVNT setSFX(IExplosionSFX... sfx) {
         this.sfx = sfx;
         return this;
@@ -134,10 +133,12 @@ public class ExplosionVNT {
 
     // old 1.7.10 methods for explosions
 
+    @Deprecated
     public static void createExplosion(Level level, @Nullable Entity exploder, double x, double y, double z, float strength, boolean isSmoking) {
         newExplosion(level, exploder, x, y, z, strength, false, isSmoking);
     }
 
+    @Deprecated
     public static void newExplosion(Level level, @Nullable Entity exploder, double x, double y, double z, float strength, boolean fire, boolean isSmoking) {
         ExplosionVNT vnt = new ExplosionVNT(level, x, y, z, strength, exploder)
                 .setBlockAllocator(isSmoking ? new BlockAllocatorStandard() : null)

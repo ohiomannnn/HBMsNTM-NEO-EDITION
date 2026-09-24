@@ -779,6 +779,7 @@ public class NtmCreativeTabs {
                         output.accept(NtmBlocks.MACHINE_SHREDDER);
                         output.accept(NtmBlocks.MACHINE_FLUID_TANK);
                         output.accept(NtmBlocks.MACHINE_CHUNGUS);
+                        output.accept(NtmBlocks.MACHINE_INDUSTRIAL_TURBINE);
                         output.accept(NtmBlocks.MACHINE_SOLDERING_STATION);
                         output.accept(NtmBlocks.MACHINE_WELL);
                         output.accept(NtmBlocks.MACHINE_PUMPJACK);

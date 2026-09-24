@@ -40,7 +40,8 @@ public class ResourceManager {
     public static final ResourceLocation TANK_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/tank.png");
     public static final ResourceLocation TANK_INNER_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/tank_inner.png");
 
-    //Large Turbine
+    // Large Turbine
+    public static final ResourceLocation INDUSTRIAL_TURBINE_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/industrial_turbine.png");
     public static final ResourceLocation CHUNGUS_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/chungus.png");
 
     public static final ResourceLocation BATTERY_SOCKET_TEX = NuclearTechMod.withDefaultNamespace("textures/models/machines/battery_socket.png");
@@ -242,6 +243,7 @@ public class ResourceManager {
     public static IModelCustom fluid_tank_exploded;
 
     // Large Turbine
+    public static IModelCustom industrial_turbine;
     public static IModelCustom chungus;
 
     // Press
@@ -381,6 +383,7 @@ public class ResourceManager {
         fluid_tank = new HFRWavefrontObject("models/obj/machines/fluid_tank.obj").asVBO();
         fluid_tank_exploded = new HFRWavefrontObject("models/obj/machines/fluid_tank_exploded.obj").asVBO();
 
+        industrial_turbine = new HFRWavefrontObject("models/obj/machines/industrial_turbine.obj").asVBO();
         chungus = new HFRWavefrontObject("models/obj/machines/chungus.obj").asVBO();
 
         press_body = new HFRWavefrontObject("models/obj/press_body.obj").getRenderer();

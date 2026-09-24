@@ -25,7 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HbmLivingAttachments {
-    private static final ResourceLocation DIGAMMA_MOD = ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "digamma");
+
+    private static final ResourceLocation DIGAMMA_MOD = NuclearTechMod.withDefaultNamespace("digamma");
 
     public static final StreamCodec<RegistryFriendlyByteBuf, HbmLivingAttachments> STREAM_CODEC = StreamCodec.of(
             (buf, props) -> buf.writeNbt(props.saveNBTData()),

@@ -15,7 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class SkeletonModel {
 
-    public static ModelLayerLocation SKELETON_PART_LAYER = new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "particle_skeleton_part"), "main");
+    public static ModelLayerLocation SKELETON_PART_LAYER = new ModelLayerLocation(NuclearTechMod.withDefaultNamespace("particle_skeleton_part"), "main");
 
     private final ModelPart root;
 

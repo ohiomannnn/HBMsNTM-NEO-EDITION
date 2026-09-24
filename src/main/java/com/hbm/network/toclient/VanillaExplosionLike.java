@@ -14,7 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public record VanillaExplosionLike(double x, double y, double z, float size, List<BlockPos> affectedBlocks) implements CustomPacketPayload {
-    public static final Type<VanillaExplosionLike> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(NuclearTechMod.MODID, "vanilla_explosion"));
+
+    public static final Type<VanillaExplosionLike> TYPE = new Type<>(NuclearTechMod.withDefaultNamespace("vanilla_explosion"));
 
     public static final StreamCodec<FriendlyByteBuf, VanillaExplosionLike> STREAM_CODEC = new StreamCodec<>() {
 

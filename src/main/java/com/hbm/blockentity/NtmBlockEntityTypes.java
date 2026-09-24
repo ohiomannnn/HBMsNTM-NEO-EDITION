@@ -202,6 +202,7 @@ public class NtmBlockEntityTypes {
     public static final Supplier<BlockEntityType<MachinePressBlockEntity>> PRESS = BLOCK_ENTITY_TYPES.register("press", () -> BlockEntityType.Builder.of(MachinePressBlockEntity::new, NtmBlocks.MACHINE_PRESS.get()).build(null));
 
     public static final Supplier<BlockEntityType<MachineFluidTankBlockEntity>> FLUID_TANK = BLOCK_ENTITY_TYPES.register("fluid_tank", () -> BlockEntityType.Builder.of(MachineFluidTankBlockEntity::new, NtmBlocks.MACHINE_FLUID_TANK.get()).build(null));
+    public static final Supplier<BlockEntityType<MachineIndustrialTurbineBlockEntity>> MACHINE_INDUSTRIAL_TURBINE = BLOCK_ENTITY_TYPES.register("machine_industrial_turbine", () -> BlockEntityType.Builder.of(MachineIndustrialTurbineBlockEntity::new, NtmBlocks.MACHINE_INDUSTRIAL_TURBINE.get()).build(null));
     public static final Supplier<BlockEntityType<ChungusBlockEntity>> MACHINE_CHUNGUS = BLOCK_ENTITY_TYPES.register("machine_chungus", () -> BlockEntityType.Builder.of(ChungusBlockEntity::new, NtmBlocks.MACHINE_CHUNGUS.get()).build(null));
 
     public static final Supplier<BlockEntityType<BatterySocketBlockEntity>> BATTERY_SOCKET = BLOCK_ENTITY_TYPES.register(

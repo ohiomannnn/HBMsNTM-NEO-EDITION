@@ -1,6 +1,6 @@
 package com.hbm.blocks.bomb;
 
-import com.hbm.entity.item.TNTPrimedBase;
+import com.hbm.entity.item.PrimedTntExploded;
 import com.hbm.explosion.ExplosionLarge;
 import com.hbm.explosion.ExplosionNukeGeneric;
 import com.hbm.explosion.vanillant.ExplosionVNT;
@@ -21,7 +21,7 @@ public class FissureBombBlock extends TNTBaseBlock {
     public FissureBombBlock(Properties properties) { super(properties); }
 
     @Override
-    public void explodeEntity(Level level, double x, double y, double z, TNTPrimedBase entity) {
+    public void explodeEntity(Level level, double x, double y, double z, PrimedTntExploded entity) {
 
         // this has to be the single worst solution ever
         level.playSound(null, x, y, z, NtmSoundEvents.MUKE_EXPLOSION.get(), SoundSource.BLOCKS, 25.0F, 1F);

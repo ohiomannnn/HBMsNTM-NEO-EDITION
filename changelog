@@ -1,1 +1,4 @@
-...
+
+
+## FIXES
+* Players in spectator mode now can't control machines using GUI elements

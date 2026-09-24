@@ -41,14 +41,14 @@ public class FluidIDMultiItem extends Item implements IScreenProvider, IItemCont
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
         ItemStack stack = player.getItemInHand(usedHand);
 
-        if (!level.isClientSide && !player.isShiftKeyDown()) {
+        if(!level.isClientSide && !player.isShiftKeyDown()) {
             FluidType primary = getType(stack, true);
             FluidType secondary = getType(stack, false);
             setType(stack, secondary, true);
             setType(stack, primary, false);
             this.update(stack);
             level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.AMBIENT, 0.25F, 1.25F);
-            if (player instanceof ServerPlayer serverPlayer) {
+            if(player instanceof ServerPlayer serverPlayer) {
                 PacketDistributor.sendToPlayer(serverPlayer, new InformPlayer(secondary.getName(), 7, 3000));
             }
         }
@@ -62,8 +62,8 @@ public class FluidIDMultiItem extends Item implements IScreenProvider, IItemCont
 
     @Override
     public void receiveControl(Player player, ItemStack stack, CompoundTag tag) {
-        if (tag.contains("Primary")) setType(stack, Fluids.fromID(tag.getInt("Primary")), true);
-        if (tag.contains("Secondary")) setType(stack, Fluids.fromID(tag.getInt("Secondary")), false);
+        if(tag.contains("Primary")) setType(stack, Fluids.fromID(tag.getInt("Primary")), true);
+        if(tag.contains("Secondary")) setType(stack, Fluids.fromID(tag.getInt("Secondary")), false);
 
         this.update(stack);
     }
