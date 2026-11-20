@@ -1,5 +1,5 @@
 
-### THIS PORT IS NOT COMPLETE PLEASE USE https://github.com/SecretAgent12/NTM-Decentralized-Edition FOR FULL EXPERIENCE
+### THIS PORT IS NOT COMPLETE PLEASE USE https://github.com/Warfactory-Official/NTM-Continuum FOR FULL EXPERIENCE
 This is a port of the minecraft <a href="https://github.com/HbmMods/Hbm-s-Nuclear-Tech-GIT/">Hbm's Nuclear Tech Mod</a> to minecraft 1.21.1!
 <br>As the name implies, this mod brings advanced technology, nuclear weapons, hazards and more!
 
